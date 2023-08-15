@@ -10,7 +10,8 @@ Register-ArgumentCompleter -CommandName ([environment]::GetEnvironmentvariable("
 
     #region : Parse json data
     $json_completion = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
-    $json_content = (Get-Content -Raw -Path  $json_completion -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties
+    $json = Get-Content -Raw -Path  $json_completion -Encoding UTF8 | ConvertFrom-Json
+    $json_content = $json.PSObject.Properties
     # #endregion
     #region : Store all tab-completion
     foreach ($_ in $json_content) {
@@ -35,12 +36,9 @@ Register-ArgumentCompleter -CommandName ([environment]::GetEnvironmentvariable("
     foreach ($_ in $_psc.installed.BaseName) {
         $completions[$root_cmd + ' rm ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.rm @{'completion' = $_ }))
         $completions[$root_cmd + ' which ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.which @{'completion' = $_ }))
-        if ($_ -ne 'ps-completion') {
-            $completions[$root_cmd + ' alias ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.alias @{'completion' = $_ }))
-        }
     }
-    foreach ($_ in @('root_cmd', 'github', 'gitee', 'language')) {
-        $completions[$root_cmd + ' config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.config @{'config' = $_; 'value' = $_psc.config.$_ }))
+    foreach ($_ in @('root_cmd', 'github', 'gitee', 'language','update')) {
+        $completions[$root_cmd + ' config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace ($_psc.json.config + $json.('config '+ $_)  ) @{'config' = $_; 'value' = $_psc.config.$_ }))
     }
     #endregion
 

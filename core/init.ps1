@@ -87,16 +87,9 @@ function psc_init() {
 
     if ($is_init_first -and (Test-Path($_psc.list_path))) {
         Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan
-        if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
-            $pattern = 'Set-PSReadLineKeyHandler.+Tab.+MenuComplete'
-            $lines = _psc_get_content $PROFILE
-            $match = $lines | Select-String -Pattern $pattern
-            if ($match) {
-                $lines = $lines | Where-Object { $_ -notmatch $pattern }
-            }
-            $lines += [Environment]::NewLine + 'Set-PSReadLineKeyHandler "Tab" MenuComplete'
-            $lines | Set-Content $PROFILE -Encoding utf8
-        }
+    }
+    if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
+        Set-PSReadLineKeyHandler 'Tab' MenuComplete
     }
     foreach ($_ in $_psc.installed) {
         . $_.FullName
