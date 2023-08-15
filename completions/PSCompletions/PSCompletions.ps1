@@ -1,10 +1,8 @@
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-Register-ArgumentCompleter -CommandName ([environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';')[0] -ScriptBlock {
+Register-ArgumentCompleter -CommandName $_psc.root_cmd -ScriptBlock {
     param($wordToComplete, $commandAst)
-
-    $root_cmd = ([environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';')[0]
 
     $completions = [System.Collections.Specialized.OrderedDictionary]::new()
 
@@ -17,7 +15,7 @@ Register-ArgumentCompleter -CommandName ([environment]::GetEnvironmentvariable("
     foreach ($_ in $json_content) {
         $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
         if ($_.Name -ne 'PSCompletions_core_info') {
-            $completions[ $root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value @{'completion' = $_ }))
+            $completions[ $_psc.root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value))
         }
     }
     #endregion
@@ -25,20 +23,20 @@ Register-ArgumentCompleter -CommandName ([environment]::GetEnvironmentvariable("
     #region Special point
     foreach ($_ in $_psc.list) {
         if ($_psc.installed.BaseName -inotcontains $_ ) {
-            $completions[ $root_cmd + ' add ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.add @{'completion' = $_ }) )
+            $completions[ $_psc.root_cmd + ' add ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.add) )
         }
     }
-    if($_psc.update){
+    if ($_psc.update) {
         foreach ($_ in $_psc.update) {
-            $completions[ $root_cmd + ' update ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.update @{'completion' = $_ }))
+            $completions[ $_psc.root_cmd + ' update ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.update))
         }
     }
     foreach ($_ in $_psc.installed.BaseName) {
-        $completions[$root_cmd + ' rm ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.rm @{'completion' = $_ }))
-        $completions[$root_cmd + ' which ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.which @{'completion' = $_ }))
+        $completions[$_psc.root_cmd + ' rm ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.rm))
+        $completions[$_psc.root_cmd + ' which ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.which))
     }
-    foreach ($_ in @('root_cmd', 'github', 'gitee', 'language','update')) {
-        $completions[$root_cmd + ' config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace ($_psc.json.config + $json.('config '+ $_)  ) @{'config' = $_; 'value' = $_psc.config.$_ }))
+    foreach ($_ in @('root_cmd', 'github', 'gitee', 'language', 'update')) {
+        $completions[$_psc.root_cmd + ' config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace ($_psc.json.config + $json.('config ' + $_))))
     }
     #endregion
 

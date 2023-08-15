@@ -1,41 +1,69 @@
 . $PSScriptRoot\function.ps1
 $_psc = @{}
-function psc_init() {
-    $is_init_first = $false
-    $_psc.test = $is_init_first
-    $_psc.list = ''
-    $_psc.config = _psc_get_config
-    $p_c = $_psc.config
+$_psc.version = '1.1.3'
+$_psc.root_dir = Split-Path $PSScriptRoot -Parent
+$_psc.completions = $_psc.root_dir + '\completions'
+$_psc.core = $_psc.root_dir + '\core'
+$_psc.list_path = $_psc.core + '\.list'
+$_psc.old_list_path = $_psc.core + '\.old_list'
+$_psc.update_path = $_psc.core + '\.update'
+$_psc.lang = (Get-WinSystemLocale).name
+$_psc.langs = @('zh-CN', 'en-US')
+$_psc.alias_path = $_psc.completions + '\PSCompletions\.alias'
+$_psc.init = $false
 
-    # 模块目录
-    $_psc.root_dir = Split-Path $PSScriptRoot -Parent
-    $_psc.completions = $_psc.root_dir + '\completions'
-    $_psc.core = $_psc.root_dir + '\core'
-    if (!(Test-Path($_psc.core + '\.list'))) {
-        $root_cmd = 'psc'
-        $github = 'https://github.com/abgox/PSCompletions'
-        $gitee = 'https://gitee.com/abgox/PSCompletions'
-        $language = ''
-        $update = 7
-        $guid = ''
-        $time = [math]::Round((Get-Date -UFormat %s))
-        [environment]::SetEnvironmentvariable('abgox_PSCompletions', ($root_cmd + ';' + $github + ';' + $gitee + ';' + $language + ';' + $update + ';' + $guid + ';' + $time), 'User')
-        $is_init_first = $true
+if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
+    Set-PSReadLineKeyHandler 'Tab' MenuComplete
+}
+
+if (!(Test-Path($_psc.list_path)) -or ([environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';')[0] -ne $_psc.version) {
+    if (!(Test-Path($_psc.completions))) {
+        mkdir $_psc.completions > $null
+    }
+    $_psc.versions_dir = (Get-ChildItem (Split-Path $_psc.root_dir -Parent)).Name | Sort-Object { [Version] $_ }
+    if ($_psc.versions_dir -is [array]) {
+        $_psc.versions_dir = $_psc.versions_dir[-2]
+    }
+    $_psc.old=(Get-ChildItem ((Split-Path $_psc.root_dir -Parent) + '\' + $_psc.versions_dir + '\' + 'completions') | Where-Object { $_.BaseName -ne 'PSCompletions' }).FullName
+    if($_psc.old){
+        Copy-Item $_psc.old $_psc.completions -Recurse -Force -ErrorAction SilentlyContinue
     }
 
-    $_psc.lang = (Get-WinSystemLocale).name
-    $_psc.langs = @('zh-CN', 'en-US')
-    if ($p_c.language) {
-        $_psc.lang = $p_c.language
+    $config = _psc_get_config
+    if ($config.root_cmd) {
+        $module_version = $_psc.version
+        $root_cmd = $config.root_cmd
+        $github = $config.github
+        $gitee = $config.gitee
+        $language = $config.language
+        if ($config.update -eq 0) { $update = 0 }else { $update = 1 }
+    }
+    else {
+        $module_version = $_psc.version
+        $root_cmd = _psc_get_cmd ($_psc.completions + '\PSCompletions') 'psc'
+        $github = 'https://github.com/abgox/PSCompletions'
+        $gitee = 'https://gitee.com/abgox/PSCompletions'
+        $language = $_psc.lang
+        $update = 1
+    }
+    [environment]::SetEnvironmentvariable('abgox_PSCompletions', ($module_version + ';' + $root_cmd + ';' + $github + ';' + $gitee + ';' + $language + ';' + $update), 'User')
+    $_psc.init = $true
+}
+function psc_init() {
+    $_psc.config = _psc_get_config
+    $_psc.root_cmd = $_psc.config.root_cmd
+
+    if ($_psc.config.language) {
+        $_psc.lang = $_psc.config.language
     }
     if (!( $_psc.lang -in $_psc.langs)) {
         $_psc.lang = 'en-US'
     }
 
-    $_psc.github = $p_c.github.Replace('github.com', 'raw.githubusercontent.com') + '/main'
-    $_psc.gitee = $p_c.gitee + '/raw/main'
+    $_psc.github = $_psc.config.github.Replace('github.com', 'raw.githubusercontent.com') + '/main'
+    $_psc.gitee = $_psc.config.gitee + '/raw/main'
     function _do($var, $var2) {
-        return $(if ($p_c.$var) { $_psc.$var } elseif ($p_c.$var2) { $_psc.$var2 })
+        return $(if ($_psc.config.$var) { $_psc.$var } elseif ($_psc.config.$var2) { $_psc.$var2 })
     }
     if ($_psc.lang -eq 'zh-CN') {
         $_psc.url = _do 'gitee' 'github'
@@ -43,75 +71,137 @@ function psc_init() {
     else {
         $_psc.url = _do 'github' 'gitee'
     }
+    $psc_json_path = $_psc.completions + '\PSCompletions\json\' + $_psc.lang + '.json'
 
-    if (!(Test-Path($_psc.completions + '\PSCompletions\json\' + $_psc.lang + '.json'))) {
-        _psc_add_completion 'PSCompletions' $false
-    }
-    $psc_alias_path = $_psc.completions + '\PSCompletions\.alias'
-    if (!(Test-Path($psc_alias_path))) {
-        echo $_psc.config.root_cmd > $psc_alias_path
-    }
-    $psc_alias = _psc_get_cmd ($_psc.completions + '\PSCompletions') 'psc'
-    if ($psc_alias -ne ([environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';')[0]) {
-        _psc_set_config 'root_cmd' $psc_alias
-    }
+    try {
+        if ($_psc.init) {
+            $psc_temp = $env:TEMP + '\PSCompletion.json'
+            Invoke-WebRequest -Uri ($_psc.url + '/completions/PSCompletions/json/' + $_psc.lang + '.json') -OutFile $psc_temp
+            $_psc.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
+        }
 
-    $_psc.json = (Get-Content -Path  ($_psc.completions + '\PSCompletions\json\' + $_psc.lang + '.json') -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
+        if (!(Test-Path($psc_json_path))) {
+            _psc_add_completion 'PSCompletions'
+        }
+        if (!(Test-Path($_psc.alias_path))) {
+            echo $_psc.config.root_cmd > $_psc.alias_path
+        }
+        $psc_alias = _psc_get_cmd ($_psc.completions + '\PSCompletions') 'psc'
+        if ($psc_alias -ne $_psc.root_cmd) {
+            _psc_set_config 'root_cmd' $psc_alias
+            $_psc.root_cmd = $_psc.config.root_cmd = $psc_alias
+        }
+        $_psc.json = (Get-Content -Path $psc_json_path -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction Continue).PSCompletions_core_info
 
-    $_psc.list_path = $_psc.core + '\.list'
+        if (!(Test-Path($_psc.update_path))) {
+            New-Item $_psc.update_path > $null
+        }
+        if (!(Test-Path($_psc.list_path))) {
+            New-Item $_psc.list_path > $null
+            _psc_download_list
+        }
+        if (!(Test-Path($_psc.old_list_path))) {
+            Copy-Item $_psc.list_path $_psc.old_list_path -Force -ErrorAction Continue
+        }
+        $_psc.list = _psc_get_content $_psc.list_path
+        $_psc.update = (_psc_get_content $_psc.update_path)
+    }
+    catch {
+        if ($_psc.json.init_error) {
+            throw (_psc_replace $_psc.json.init_error)
+        }
+        else {
+            throw 'Init error due to possible network issues.'
+        }
+    }
     $_psc.installed = Get-ChildItem -Path $_psc.completions -Filter "*.ps1" -Recurse
-
-    if (!(Test-Path(($_psc.core + '\.update')))) {
-        New-Item ($_psc.core + '\.update') > $null
-    }
-
-    if (!(Test-Path($_psc.list_path))) {
-        _psc_download_list
-    }
-    function _do([scriptblock]$do) {
-        try { & $do }catch {}
-    }
-    _do {
-        if (!(Test-Path($_psc.core + '\.old_list'))) {
-            Copy-Item $_psc.list_path ($_psc.core + '\.old_list') -Force
-        }
-    }
-    _do { $_psc.list = _psc_get_content $_psc.list_path }
-
-    if ($_psc.config.update -ne 0) {
-        if ([math]::Round((Get-Date -UFormat %s)) - $_psc.config.time -gt [int]$_psc.config.update * 86400) {
-            _psc_check_update > $null
-        }
-    }
-    $_psc.update = (_psc_get_content ($_psc.core + '\.update')) -split ','
-
-    if ($is_init_first -and (Test-Path($_psc.list_path))) {
-        Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan
-    }
-    if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
-        Set-PSReadLineKeyHandler 'Tab' MenuComplete
-    }
-    foreach ($_ in $_psc.installed) {
-        . $_.FullName
-    }
-    return $is_init_first
+    $_psc.installed | ForEach-Object { . $_.FullName }
 }
 
-$_psc_init_first = psc_init
+psc_init
 
-if ($_psc.config.update -ne 0 -and !$_psc_init_first) {
-    $compare = (Compare-Object -ReferenceObject $_psc.list -DifferenceObject (_psc_get_content ($_psc.core + '\.old_list')) -PassThru)
+if ($_psc.init -and (Test-Path($_psc.list_path))) {
+    Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan
+}
 
-    if ($_psc.update -or $compare) {
+if ($_psc.config.update -notin @(1, 0)) {
+    Write-Host (_psc_replace $_psc.json.module_update) -f Yellow
+    $choice = $host.UI.RawUI.ReadKey("NoEcho, IncludeKeyDown")
+    if ($choice.Character -eq 13) {
+        Write-Host (_psc_replace $_psc.json.module_updating) -f Cyan
+        Update-Module 'PSCompletions'
+        Write-Host (_psc_replace $_psc.json.module_updated) -f Green
+    }
+    else {
+        Write-Host (_psc_replace $_psc.json.module_cancel) -f Green
+    }
+}
+if ($_psc.config.update -ne 0) {
+    $add = _psc_get_content ($_psc.core + '\.add')
+    if ($_psc.update -or $add) {
         Write-Host (_psc_replace $_psc.json.update_has ) -f Cyan
-        if ($compare) {
-            Write-Host (_psc_replace $_psc.json.update_has1 @{'add_list' = $compare } ) -f Cyan
+        if ($add) {
+            Write-Host (_psc_replace $_psc.json.update_has1) -f Cyan
         }
         if ($_psc.update) {
-            Write-Host (_psc_replace $_psc.json.update_has2 @{'update_list' = $_psc.update } ) -f Cyan
+            Write-Host (_psc_replace $_psc.json.update_has2) -f Cyan
         }
         Write-Host (_psc_replace $_psc.json.update_tip) -f Cyan
     }
-
 }
-New-Alias $_psc.config.root_cmd 'PSCompletions'
+
+New-Alias $_psc.root_cmd 'PSCompletions'
+
+$null = Start-Job -ScriptBlock {
+    param(
+        $_psc,
+        $get_config
+    )
+    $get_config = Get-Command $_psc_get_config -CommandType Function
+    $_psc.config = &$get_config
+    function set_config($key, $value) {
+        $config = $_psc.config
+        $config.$key = $value
+        $res = $config.module_version + ';' + $config.root_cmd + ';' + $config.github + ';' + $config.gitee + ';' + $config.language + ';' + $config.update
+        [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
+    }
+    function get_content($path) {
+        try {
+            return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue)
+        }
+        catch { return "" }
+    }
+
+    function _do($do) { try { & $do }catch {} }
+    _do {
+        $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.version')
+        if ($response.StatusCode -eq 200) {
+            $content = ($response.Content).Trim()
+            $versions = @($_psc.version, $content) | Sort-Object { [Version] $_ }
+            if ($versions[-1] -ne $_psc.version) {
+                set_config 'update' $versions[-1]
+            }
+        }
+    }
+    echo (Compare-Object -ReferenceObject (get_content $_psc.list_path) -DifferenceObject (get_content $_psc.old_list_path) -PassThru) > ($_psc.core + '\.add')
+    _do {
+        $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
+        if ($response.StatusCode -eq 200) {
+            $content = ($response.Content).Trim()
+            Move-Item  $_psc.list_path  $_psc.old_list_path -Force
+            echo $content > $_psc.list_path
+        }
+    }
+    $res = New-Object System.Collections.ArrayList
+    $installed = (Get-ChildItem -Path $_psc.completions -Filter "*.ps1" -Recurse).BaseName
+    foreach ($_ in $installed) {
+        $url = $_psc.url + '/completions/' + $_ + '/.guid'
+        $response = Invoke-WebRequest -Uri  $url
+        if ($response.StatusCode -eq 200) {
+            $content = ($response.Content).Trim()
+            $guid = (get_content ($_psc.completions + '\' + $_ + '\.guid')).Trim()
+            if ($guid -ne $content) { $res.Add($_) > $null }
+        }
+        echo $res > $_psc.update_path
+    }
+} -ArgumentList $_psc, '_psc_get_config'

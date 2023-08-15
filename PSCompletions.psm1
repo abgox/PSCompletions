@@ -2,24 +2,24 @@
 # @Author      : abgox
 # @Github      : https://github.com/abgox/PSCompletions
 #>
+
+. $PSScriptRoot\core\replace.ps1
 function PSCompletions {
     $arg = $args
-    function _templete {
-        $arg = $args
-        $list = $arg[1..($arg.Length - 1)]
+    function _templete($list) {
         foreach ($_ in $list) {
             $res += ' ' + $_
         }
         return ("`n" + '      ' + $_psc.config.root_cmd + ' ' + $arg[0] + $res)
     }
-    function param_error($err, $completion = 'scoop', $example2 = (_templete ' scoop volta ...')) {
+    function param_error($err, $completion = 'scoop', $example2 = (_templete @('scoop volta ...'))) {
         if ($err -eq 'min') {
             $res = $_psc.json.param_min
         }
         else {
             $res = $_psc.json.param_max
         }
-        Write-Host (_psc_replace $res  @{'sub_cmd' = $arg[0]; 'completion' = $completion; 'example2' = $example2 }) -f Red
+        Write-Host (_psc_replace $res) -f Red
     }
 
     function _list {
@@ -51,7 +51,7 @@ function PSCompletions {
                 _psc_add_completion $_
             }
             else {
-                Write-Host (_psc_replace $_psc.json.add_error @{'completion' = $_ }) -f Red
+                Write-Host (_psc_replace $_psc.json.add_error) -f Red
             }
         }
     }
@@ -66,37 +66,58 @@ function PSCompletions {
                 $dir = $PSScriptRoot + '\completions\' + $_
                 rmdir $dir -Recurse -Force
                 if (!(Test-Path($dir))) {
-                    Write-Host (_psc_replace $_psc.json.rm_completed @{'completion' = $_ }) -f Green
+                    Write-Host (_psc_replace $_psc.json.rm_completed) -f Green
                 }
             }
             else {
-                Write-Host (_psc_replace $_psc.json.rm_error @{'completion' = $_ }) -f Red
+                Write-Host (_psc_replace $_psc.json.rm_error) -f Red
             }
         }
     }
     function _Update {
-        if ($arg.Length -eq 1) {
-            Write-Host (_psc_replace $_psc.json.check_update) -f Yellow
-            Read-Host (_psc_replace $_psc.json.confirm)
-            $res = _psc_check_update
+        function _do {
+            $res = New-Object System.Collections.ArrayList
+            foreach ($_ in $_psc.installed.BaseName) {
+                $url = $_psc.url + '/completions/' + $_ + '/.guid'
+                $response = Invoke-WebRequest -Uri  $url
+                if ($response.StatusCode -eq 200) {
+                    $content = ($response.Content).Trim()
+                    $guid = (_psc_get_content ($_psc.completions + '\' + $_ + '\.guid')).Trim()
+                    if ($guid -ne $content) { $res.Add($_) > $null }
+                }
+            }
+            echo $res > $_psc.update_path
+            $_psc.update = _psc_get_content $_psc.update_path
+            Write-Host '----------' -f Cyan
             if ($res) {
-                Write-Host $_psc.json.update_can -f Yellow
-                Write-Host $res -f Green
+                Write-Host (_psc_replace $_psc.json.update_can) -f Yellow
+                Write-Host (_psc_replace $_psc.update) -f Green
             }
             else {
-                Write-Host $_psc.json.update_no -f Green
+                Write-Host (_psc_replace $_psc.json.update_no) -f Green
             }
         }
+        if ($arg.Length -eq 1) {
+            _do
+        }
         else {
-            $list = $arg[1..($arg.Length - 1)]
-            foreach ($_ in $list) {
-                if ($_ -in $_psc.installed.BaseName) {
+            if ($arg[1] -eq '*') {
+                foreach ($_ in $_psc.update) {
                     _psc_add_completion $_ $true $true
                 }
-                else {
-                    Write-Host (_psc_replace $_psc.json.update_error @{'completion' = $_ }) -f Red
+            }
+            else {
+                $list = $arg[1..($arg.Length - 1)]
+                foreach ($_ in $list) {
+                    if ($_ -in $_psc.installed.BaseName) {
+                        _psc_add_completion $_ $true $true
+                    }
+                    else {
+                        Write-Host (_psc_replace $_psc.json.update_error) -f Red
+                    }
                 }
             }
+            _do
         }
     }
 
@@ -109,10 +130,11 @@ function PSCompletions {
             param_error 'max' 'scoop' ''
             return
         }
-        Write-Host ($_psc.json.search + $arg[1] + ' ...') -f Yellow
+        Write-Host (_psc_replace ($_psc.json.search + $arg[1] + ' ...')) -f Yellow
         _psc_download_list
+
         foreach ( $_ in $_psc.list) {
-            if ( $_ -like ('*' + $arg[1] + '*')) {
+            if ( $_ -like ($arg[1])) {
                 Write-Host $_ -f green
             }
         }
@@ -129,25 +151,25 @@ function PSCompletions {
                 echo ($_psc.completions + '\' + $_)
             }
             else {
-                Write-Host (_psc_replace $_psc.json.which_error @{'completion' = $_ }) -f Red
+                Write-Host (_psc_replace $_psc.json.which_error) -f Red
             }
         }
     }
 
     function _alias {
-        $cmds = @('add', 'rm', 'list', 'reset')
+        $cmd_list = @('add', 'rm', 'list', 'reset')
         if ($arg.Length -eq 1) {
-            param_error 'min' '<list|add|rm|reset> [Compleiton...]' ((_templete $arg[0] 'add' 'scoop'  'volta' '...') + (_templete $arg[0] 'rm' 'scoop'  'volta' '...') + (_templete $arg[0] 'list') + (_templete $arg 'reset'))
+            param_error 'min' '<list|add|rm|reset> [Compleiton...]' ((_templete @($arg[0], 'add', 'scoop', 'volta', '...')) + (_templete @($arg[0], 'rm', 'scoop', 'volta', '...')) + (_templete @($arg[0], 'list')) + (_templete @($arg, 'reset')))
             return
         }
-        if ($arg[1] -notin $cmds) {
-            Write-Host (_psc_replace $_psc.json.param_error  @{'error_cmd' = $arg[1]; 'cmds' = '(' + ($cmds -join ',') + ')' }) -f Red
+        if ($arg[1] -notin $cmd_list) {
+            Write-Host (_psc_replace $_psc.json.param_error) -f Red
             return
         }
         function check_add_cm($value, $num, $num2) {
             if ($arg[1] -eq $value) {
                 function _do($v) {
-                    param_error $v ($value + ' <Completion> <Alias>') (_templete $arg[0] $value 'scoop' 'sco')
+                    param_error $v ($value + ' <Completion> <Alias>') (_templete @($arg[0], $value, 'scoop', 'sco'))
                 }
                 if ($arg.Length -lt $num) {
                     _do 'min'
@@ -190,59 +212,50 @@ function PSCompletions {
         elseif ($arg[1] -eq 'add') {
             if ($arg[2] -in $_psc.installed.baseName) {
                 echo $arg[3] > ($_psc.completions + '\' + $arg[2] + '\.alias')
-                Write-Host (_psc_replace $_psc.json.alias_add  @{
-                        'old' = $arg[2]
-                        'new' = $arg[3]
-                    }) -f Green
+                Write-Host (_psc_replace $_psc.json.alias_add) -f Green
             }
             else {
-                Write-Host (_psc_replace $_psc.json.alias_error  @{'completion' = $arg[2] }) -f Red
+                Write-Host (_psc_replace $_psc.json.alias_error) -f Red
             }
         }
         elseif ($arg[1] -eq 'rm') {
             $rm_list = $arg[2..($arg.Length - 1)]
-            $info = ''
+            $del_list = ''
             foreach ($_ in $list) {
                 $cmd = Split-Path (Split-Path $_.FullName -Parent) -Leaf
                 $alias = _psc_get_content $_.FullName
                 if ($alias -in $rm_list) {
-                    $info += $alias + '(' + $cmd + ')' + ' '
+                    $del_list += $alias + '(' + $cmd + ')' + ' '
                     rm $_.FullName -Force
                 }
             }
-            if ($info) {
-                Write-Host (_psc_replace ($_psc.json.alias_del)  @{
-                        'list' = $info
-                    }) -f Green
+            if ($del_list) {
+                Write-Host (_psc_replace $_psc.json.alias_del) -f Green
             }
             else {
-                Write-Host (_psc_replace ($_psc.json.alias_rm_error)  @{
-                        'list' = '(' + ($rm_list -split ',') + ')'
-                    }) -f Red
+                Write-Host (_psc_replace ($_psc.json.alias_rm_error)) -f Red
             }
-
         }
         else {
             Write-Host (_psc_replace $_psc.json.reset_confirm) -f Yellow
             Read-Host (_psc_replace $_psc.json.confirm)
-            $info = ($_psc.json.alias_del).Replace('${{list}}', '')
+            $del_list = ''
             foreach ($_ in $list) {
                 $cmd_old = Split-Path (Split-Path $_.FullName -Parent) -Leaf
                 $alias = _psc_get_content $_.FullName
-                $info += $alias + '(' + $cmd_old + ')' + ' '
+                $del_list += $alias + '(' + $cmd_old + ')' + ' '
                 rm $_.FullName -Force
             }
-            if ($list) {
-                Write-Host (_psc_replace $_psc.json.alias_reset  @{
-                        'list' = "`n" + $info + "`n"
-                    }) -f Green
+            _psc_set_config 'root_cmd' 'psc'
+            if ($del_list) {
+                Write-Host (_psc_replace (_psc_replace $_psc.json.alias_reset)) -f Green
             }
         }
     }
 
     function _Config {
         function _do($value) {
-            param_error $value 'language en-US' (_templete $arg[0] 'root_cmd' 'p')
+            param_error $value 'language en-US' (_templete @($arg[0], 'root_cmd', 'p'))
         }
         if ($arg.Length -lt 2) {
             _do 'min'
@@ -257,22 +270,30 @@ function PSCompletions {
                 echo ($_psc.config[$arg[1]])
             }
             else {
-                Write-Host (_psc_replace $_psc.json.config_error @{'config' = $arg[1] }) -f Red
+                if ($arg[1] -eq 'reset') {
+                    $module_version = $_psc.version
+                    $root_cmd = 'psc'
+                    echo $root_cmd > $_psc.alias_path
+                    $github = 'https://github.com/abgox/PSCompletions'
+                    $gitee = 'https://gitee.com/abgox/PSCompletions'
+                    $language = (Get-WinSystemLocale).name
+                    $update = 1
+                    [environment]::SetEnvironmentvariable('abgox_PSCompletions', ($module_version + ';' + $root_cmd + ';' + $github + ';' + $gitee + ';' + $language + ';' + $update), 'User')
+                    return
+                }
+                Write-Host (_psc_replace $_psc.json.config_error) -f Red
             }
         }
         else {
             if ($arg[1] -in $_psc.config.Keys) {
                 if ($arg[1] -eq 'root_cmd') {
-                    echo $arg[2] > ($_psc.completions + '\PSCompletions\.alias')
+                    echo $arg[2] > $_psc.alias_path
                 }
                 _psc_set_config $arg[1] $arg[2]
-                Write-Host (_psc_replace $_psc.json.config_completed  @{
-                        'config' = $arg[1]
-                        'value'  = $arg[2]
-                    }) -f Green
+                Write-Host (_psc_replace $_psc.json.config_completed) -f Green
             }
             else {
-                Write-Host (_psc_replace $_psc.json.config_error @{'config' = $arg[1] }) -f Red
+                Write-Host (_psc_replace $_psc.json.config_error) -f Red
             }
         }
     }
@@ -308,12 +329,10 @@ function PSCompletions {
         }
         default {
             if ($arg.Length -eq 1) {
-                Write-Host (_psc_replace $_psc.json.cmd_error @{
-                        'sub_cmd' = $arg[0]
-                    }) -f Red
+                Write-Host (_psc_replace $_psc.json.cmd_error) -f Red
             }
             else { _Help }
         }
     }
-    psc_init > $null
+    psc_init
 }

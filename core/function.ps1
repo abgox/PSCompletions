@@ -1,24 +1,16 @@
-function _psc_download_file($url, $outPath, $log = $true, $is_update = $false) {
-    if ($is_update) {
-        $flag = $_psc.json.update_start
-    }
-    else {
-        $flag = $_psc.json.download_start
-    }
-    $webClient = New-Object System.Net.WebClient
-    if ($log) {
-        $fileName = Split-Path $url -Leaf
-        $completion = Split-Path (Split-Path $url -Parent) -Leaf
-        try {
-            Write-Host ($flag + $url) -f Yellow -NoNewline
-            $webClient.DownloadFile($url, $outPath)
-            Write-Host $_psc.json.download_end -f Green
-        }
-        catch {
-            throw ($_psc.json.download_fail + '@@' + $completion + '@@' + $fileName)
+. $PSScriptRoot\replace.ps1
+
+function _psc_download_list {
+    try {
+        $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
+        if ($response.StatusCode -eq 200) {
+            $content = ($response.Content).Trim()
+            Move-Item  $_psc.list_path  $_psc.old_list_path -Force
+            echo $content > $_psc.list_path
+            $_psc.list = _psc_get_content $_psc.list_path
         }
     }
-    else { try { $webClient.DownloadFile($url, $outPath) }catch {} }
+    catch {  }
 }
 
 function _psc_add_completion($completion, $log = $true, $is_update = $false) {
@@ -31,7 +23,6 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
         $add_completed = $_psc.json.add_completed
     }
     $url = $_psc.url + '/completions/' + $completion
-    $url_ps1 = $url + '/' + $completion + '.ps1'
     function _mkdir($path) {
         if (!(Test-Path($path))) { mkdir $path > $null }
     }
@@ -39,43 +30,70 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
     _mkdir $_psc.completions
     _mkdir $completion_dir
     _mkdir ($completion_dir + '\json')
-    try {
-        _psc_download_file ($url + '/.guid') ($completion_dir + '\.guid') $log $is_update
-        _psc_download_file $url_ps1 ($completion_dir + '\' + $completion + '.ps1') $log $is_update
-        foreach ($_ in $_psc.langs) {
-            _psc_download_file ($url + '/json/' + $_ + '.json') ($completion_dir + '\json\' + $_ + '.json') $log $is_update
+
+    $files = @(
+        @{
+            Uri     = $url + '/' + $completion + '.ps1'
+            OutFile = $completion_dir + '\' + $completion + '.ps1'
+        },
+        @{
+            Uri     = $url + '/json/zh-CN.json'
+            OutFile = $completion_dir + '\json\zh-CN.json'
+        },
+        @{
+            Uri     = $url + '/json/en-US.json'
+            OutFile = $completion_dir + '\json\en-US.json'
+        },
+        @{
+            Uri     = $url + "/.guid"
+            OutFile = $completion_dir + '\.guid'
+        }
+    )
+    $jobs = @()
+    foreach ($file in $files) {
+        $jobs += Start-Job -Name $file.OutFile -ScriptBlock {
+            $params = $using:file
+            Invoke-WebRequest @params
         }
     }
-    catch {
-        if ($log) {
-            $err = $_.Exception.Message -split '@@'
-            $completion = $err[1]
-            $file = $err[2]
-            Write-Host $err[0] -f Red
-            Write-Host  (_psc_replace $add_error  @{'completion' = $completion; 'file' = $file }) -f Red
-        }
-        if (Test-Path($completion_dir)) {
-            rmdir $completion_dir -Force -Recurse > $null
+    if ($is_update) {
+        $flag = $_psc.json.updating
+    }
+    else {
+        $flag = $_psc.json.adding
+    }
+    Write-Host (_psc_replace $flag) -f Yellow
+    Wait-Job -Job $jobs > $null
+
+    $all_exist = $true
+    foreach ($file in $files) {
+        if (-not (Test-Path $file.OutFile)) {
+            $all_exist = $false
+            $fail_file = $file.OutFile
         }
     }
-    if (Test-Path($completion_dir)) {
+
+    if ($all_exist) {
         if ($log) {
-            Write-Host  (_psc_replace $add_completed @{'completion' = $completion }) -f Green
-            Write-Host ($_psc.json.download_dir + $completion_dir) -f Green
+            Write-Host  (_psc_replace $add_completed) -f Green
+            Write-Host (_psc_replace ($_psc.json.download_dir + $completion_dir)) -f Green
         }
+    }
+    else {
+        Write-Host  (_psc_replace $add_error) -f Red
+        rmdir $completion_dir -Force -Recurse > $null
     }
 }
 
 function _psc_get_config {
     $config = [environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';'
     $config = @{
-        'root_cmd' = $config[0]
-        'github'   = $config[1]
-        'gitee'    = $config[2]
-        'language' = $config[3]
-        'update'   = $config[4]
-        'guid'     = $config[5]
-        'time'     = $config[6]
+        'module_version' = $config[0]
+        'root_cmd'       = $config[1]
+        'github'         = $config[2]
+        'gitee'          = $config[3]
+        'language'       = $config[4]
+        'update'         = $config[5]
     }
     return $config
 }
@@ -83,62 +101,15 @@ function _psc_get_config {
 function _psc_set_config($key, $value) {
     $config = _psc_get_config
     $config.$key = $value
-    $res = $config.root_cmd + ';' + $config.github + ';' + $config.gitee + ';' + $config.language + ';' + $config.update + ';' + $config.guid + ';' + $config.time
+    $res = $config.module_version + ';' + $config.root_cmd + ';' + $config.github + ';' + $config.gitee + ';' + $config.language + ';' + $config.update
     [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
 }
 
 function _psc_get_content($path) {
     try {
-        return (Get-Content $path -Encoding utf8).Trim()
+        return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue)
     }
-    catch {
-        return ""
-    }
-}
-
-function _psc_replace($content, $var_list = @{}) {
-    $var_list.'root_cmd' = $_psc.config.root_cmd
-    $list = @{}
-    $result = $content
-    function _do($var, $value) {
-        $var = $var -replace "'", ""
-        $variables = @{}
-        $list[$var] = $value
-    }
-    foreach ($_ in $var_list.keys) {
-        _do $_ $var_list.$_
-    }
-    $match = [regex]::Match($content, '@\{\{([^}]+)\}\}')
-    if ($match.Success) {
-        $replace_list = Invoke-Expression ('@{' + $match.Groups[1].Value + '}')
-        $list += $replace_list
-        $res = [System.Text.RegularExpressions.Regex]::Replace(
-            $result,
-            $pattern,
-            {
-                param ($match)
-                $key = $match.Groups[1].Value
-                if ($list.ContainsKey($key)) { $list[$key] }
-                else { $match.Value }
-            }
-        )
-        $result = $res.Replace($match.Value, '')
-    }
-    $pattern = '\$\{\{([^}]+)\}\}'
-    return [System.Text.RegularExpressions.Regex]::Replace(
-        $result,
-        $pattern,
-        {
-            param ($match)
-            $key = $match.Groups[1].Value
-            if ($list.ContainsKey($key)) {
-                $list[$key]
-            }
-            else {
-                $match.Value
-            }
-        }
-    )
+    catch { return "" }
 }
 
 function _psc_get_cmd($path, $cmd) {
@@ -156,40 +127,4 @@ function _psc_get_cmd($path, $cmd) {
         }
     }
     return $cmd
-}
-
-function _psc_download_list {
-    $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.guid')
-
-    if ($response.StatusCode -eq 200) {
-        $content = ($response.Content).Trim()
-        if ($_psc.config.guid -ne $content) {
-            if (Test-Path($_psc.list_path)) {
-                Copy-Item $_psc.list_path ($_psc.core + '\.old_list') -Force
-            }
-            _psc_download_file ($_psc.url + '/core/.list') $_psc.list_path $false
-            _psc_set_config 'guid' $content
-        }
-    }
-    if(!(Test-Path($_psc.list_path))){
-        $file = Split-Path $_psc.list_path -Leaf
-        throw (_psc_replace $_psc.json.init_error @{'file'= $file})
-    }
-    $_psc.list = _psc_get_content $_psc.list_path
-}
-
-function _psc_check_update {
-    _psc_download_list
-    $res = New-Object System.Collections.ArrayList
-    foreach ($_ in $_psc.installed.BaseName) {
-        $url = $_psc.url + '/completions/' + $_ + '/.guid'
-        $response = Invoke-WebRequest -Uri  $url
-        if ($response.StatusCode -eq 200) {
-            $content = ($response.Content).Trim()
-            $guid = (_psc_get_content ($_psc.completions + '\' + $_ + '\.guid')).Trim()
-            if ($guid -ne $content) { $res.Add($_) > $null }
-        }
-        echo ($res -join ',') > ($_psc.core + '\.update')
-    }
-    return $res
 }
