@@ -162,7 +162,7 @@ function _psc_get_cmd($path, $cmd) {
 function _psc_download_list {
     $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.guid')
     if ($response.StatusCode -eq 200) {
-        $content = ([System.Text.Encoding]::UTF8.GetString($response.Content)).Trim()
+        $content = ($response.Content).Trim()
         if ($_psc.config.guid -ne $content) {
             if (Test-Path($_psc.list_path)) {
                 Copy-Item $_psc.list_path ($_psc.core + '\.old_list') -Force
@@ -181,7 +181,7 @@ function _psc_check_update {
         $url = $_psc.url + '/completions/' + $_ + '/.guid'
         $response = Invoke-WebRequest -Uri  $url
         if ($response.StatusCode -eq 200) {
-            $content = ([System.Text.Encoding]::UTF8.GetString($response.Content)).Trim()
+            $content = ($response.Content).Trim()
             $guid = (_psc_get_content ($_psc.completions + '\' + $_ + '\.guid')).Trim()
             if ($guid -ne $content) { $res.Add($_) > $null }
         }

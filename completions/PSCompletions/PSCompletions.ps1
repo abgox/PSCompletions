@@ -1,3 +1,6 @@
+using namespace System.Globalization
+using namespace System.Management.Automation
+using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName ([environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';')[0] -ScriptBlock {
     param($wordToComplete, $commandAst)
 
