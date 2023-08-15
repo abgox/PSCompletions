@@ -94,7 +94,6 @@ function _psc_get_content($path) {
     catch {
         return ""
     }
-
 }
 
 function _psc_replace($content, $var_list = @{}) {
@@ -161,6 +160,7 @@ function _psc_get_cmd($path, $cmd) {
 
 function _psc_download_list {
     $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.guid')
+
     if ($response.StatusCode -eq 200) {
         $content = ($response.Content).Trim()
         if ($_psc.config.guid -ne $content) {
@@ -170,6 +170,10 @@ function _psc_download_list {
             _psc_download_file ($_psc.url + '/core/.list') $_psc.list_path $false
             _psc_set_config 'guid' $content
         }
+    }
+    if(!(Test-Path($_psc.list_path))){
+        $file = Split-Path $_psc.list_path -Leaf
+        throw (_psc_replace $_psc.json.init_error @{'file'= $file})
     }
     $_psc.list = _psc_get_content $_psc.list_path
 }

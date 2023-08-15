@@ -2,7 +2,16 @@
 $_psc = @{}
 function psc_init() {
     $is_init_first = $false
-    if (!([environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User'))) {
+    $_psc.test = $is_init_first
+    $_psc.list = ''
+    $_psc.config = _psc_get_config
+    $p_c = $_psc.config
+
+    # 模块目录
+    $_psc.root_dir = Split-Path $PSScriptRoot -Parent
+    $_psc.completions = $_psc.root_dir + '\completions'
+    $_psc.core = $_psc.root_dir + '\core'
+    if (!(Test-Path($_psc.core + '\.list'))) {
         $root_cmd = 'psc'
         $github = 'https://github.com/abgox/PSCompletions'
         $gitee = 'https://gitee.com/abgox/PSCompletions'
@@ -13,14 +22,7 @@ function psc_init() {
         [environment]::SetEnvironmentvariable('abgox_PSCompletions', ($root_cmd + ';' + $github + ';' + $gitee + ';' + $language + ';' + $update + ';' + $guid + ';' + $time), 'User')
         $is_init_first = $true
     }
-    $_psc.list = ''
-    $_psc.config = _psc_get_config
-    $p_c = $_psc.config
 
-    # 模块目录
-    $_psc.root_dir = Split-Path $PSScriptRoot -Parent
-    $_psc.completions = $_psc.root_dir + '\completions'
-    $_psc.core = $_psc.root_dir + '\core'
     $_psc.lang = (Get-WinSystemLocale).name
     $_psc.langs = @('zh-CN', 'en-US')
     if ($p_c.language) {
@@ -55,24 +57,9 @@ function psc_init() {
     }
 
     $_psc.json = (Get-Content -Path  ($_psc.completions + '\PSCompletions\json\' + $_psc.lang + '.json') -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
-    if ($is_init_first) {
-        Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan
-        if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
-            $pattern = 'Set-PSReadLineKeyHandler.+Tab.+MenuComplete'
-            $lines = _psc_get_content $PROFILE
-            $match = $lines | Select-String -Pattern $pattern
-            if ($match) {
-                $lines = $lines | Where-Object { $_ -notmatch $pattern }
-            }
-            $lines += [Environment]::NewLine + 'Set-PSReadLineKeyHandler "Tab" MenuComplete'
-            $lines | Set-Content $PROFILE -Encoding utf8
-        }
-    }
 
     $_psc.list_path = $_psc.core + '\.list'
     $_psc.installed = Get-ChildItem -Path $_psc.completions -Filter "*.ps1" -Recurse
-
-
 
     if (!(Test-Path(($_psc.core + '\.update')))) {
         New-Item ($_psc.core + '\.update') > $null
@@ -98,6 +85,19 @@ function psc_init() {
     }
     $_psc.update = (_psc_get_content ($_psc.core + '\.update')) -split ','
 
+    if ($is_init_first -and (Test-Path($_psc.list_path))) {
+        Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan
+        if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
+            $pattern = 'Set-PSReadLineKeyHandler.+Tab.+MenuComplete'
+            $lines = _psc_get_content $PROFILE
+            $match = $lines | Select-String -Pattern $pattern
+            if ($match) {
+                $lines = $lines | Where-Object { $_ -notmatch $pattern }
+            }
+            $lines += [Environment]::NewLine + 'Set-PSReadLineKeyHandler "Tab" MenuComplete'
+            $lines | Set-Content $PROFILE -Encoding utf8
+        }
+    }
     foreach ($_ in $_psc.installed) {
         . $_.FullName
     }
