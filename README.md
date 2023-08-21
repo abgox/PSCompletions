@@ -1,4 +1,4 @@
-# ✨ PSCompletions(psc) ✨
+# ✨✨✨ PSCompletions(psc) ✨✨✨
 
 [![license](https://img.shields.io/github/license/abgox/PSCompletions)](https://github.com/abgox/PSCompletions/blob/main/LICENSE)
 [![code size](https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg)](https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg)
@@ -17,12 +17,12 @@
     - `echo "Import-Module PSCompletions" >> $PROFILE`
     - So you don't have to import the module every time you open PowerShell.
 
-### How to use(eg. scoop)
+### How to use(eg. git)
 
 -   [completion list](./core/.list)
 
-1. `psc add scoop`
-2. Then you can type `scoop ` and press `Tab` to get command completion
+1. `psc add git`
+2. Then you can type `git ` and press `Tab` to get command completion
 3. For more commands on `psc`, you can learn by typing `psc` and then pressing `Tab`
 
 ### How to uninstall
@@ -31,4 +31,4 @@
 
 ### Demo
 
-![PSCompletions.gif](https://img1.imgtp.com/2023/08/17/8WbXfNUf.gif)
+![PSCompletions.gif](https://img1.imgtp.com/2023/08/21/OsAW6QcU.gif)

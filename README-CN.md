@@ -1,4 +1,4 @@
-# ✨ PSCompletions(psc) ✨
+# ✨✨✨ PSCompletions(psc) ✨✨✨
 
 [![license](https://img.shields.io/github/license/abgox/PSCompletions)](https://github.com/abgox/PSCompletions/blob/main/LICENSE)
 [![code size](https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg)](https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg)
@@ -16,12 +16,12 @@
 2. `Import-Module PSCompletions`
     - 如果不想每次启动终端都导入一次，就执行 `echo "Import-Module PSCompletions" >> $PROFILE`
 
-### 使用(以 scoop 补全为例)
+### 使用(以 git 补全为例)
 
 -   [补全列表](./core/.list)
 
-1. `psc add scoop`
-2. 然后你就可以输入`scoop`按下`Tab` 来获得命令补全
+1. `psc add git`
+2. 然后你就可以输入`git ` 按下`Tab` 来获得命令补全
 3. 关于`psc`的更多命令，你可以通过输入`psc`然后按下`Tab`来了解
 
 ### 卸载
@@ -30,4 +30,4 @@
 
 ### Demo
 
-![PSCompletions.gif](https://img1.imgtp.com/2023/08/17/8WbXfNUf.gif)
+![PSCompletions.gif](https://img1.imgtp.com/2023/08/21/OsAW6QcU.gif)
