@@ -1,8 +1,3 @@
-<#
-# @Author      : abgox
-# @Github      : https://github.com/abgox/PS-completions
-#>
-
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
@@ -11,44 +6,40 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'volta') -Sc
 
     $completions = [System.Collections.Specialized.OrderedDictionary]::new()
 
-    # language
-    $language_list = Get-ChildItem -Path "$PSScriptRoot\json" | ForEach-Object { $_.BaseName }
-    # If $tab_completion_language is set, use it.
-    if ($tab_completion_language -in $language_list) {
-        $language = $tab_completion_language
-    }
-    else {
-        $system_language = (Get-WinSystemLocale).name
-        if ($system_language -in $language_list) {
-            $language = $system_language
-        }
-        else {
-            $language = 'en-US'
-        }
-    }
-
     #region : Parse json data
-    $json_file_name = 'C:\Users\abgox\Documents\Powershell\Modules\PSCompletion\core\test\Gitee\raw\main\completions\volta\json\' + $language + '.json'
-    $jsonContent = (Get-Content -Raw -Path  $json_file_name -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties
+    $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
+    $_json = (Get-Content -Raw -Path  $_name -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties
     #endregion
 
-    #region : Store all tab-completion
-    foreach ($_ in $jsonContent) {
+    #region : Store
+    $max_len = 0
+    foreach ($_ in $_json) {
         $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
+        if ($max_len -lt $subCmd.length) {
+            $max_len = $subCmd.length
+        }
         $completions[(_psc_get_cmd $PSScriptRoot 'volta') + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
     }
     #endregion
 
     #region : Carry out
-    $commandElements = $commandAst.CommandElements
-    function completion($num) {
-        # Space($num=0)/input($num=-1) and then tab
-        $completions.Keys | Where-Object { $_ -like "$commandElements*" } | ForEach-Object {
-            $input_space_count = ($commandElements -split ' ').Count - 1
+    $comp_num = ([System.Console]::WindowHeight - 2) * ([math]::Floor([System.Console]::WindowWidth / ($max_len + 2)))
+    $_input = $commandAst.CommandElements
+    function _do($num) {
+        $i = 0
+        $completions.Keys | Where-Object { $_ -like "$_input*" } | ForEach-Object {
+            $input_space_count = ($_input -split ' ').Count - 1
             $cmd_space_count = ($_ -split ' ').Count - 1
-            if ($input_space_count -eq $cmd_space_count + $num) { $completions[$_] }
+            if ($input_space_count -eq $cmd_space_count + $num ) {
+                $i++
+                if ($comp_num -gt $i) { $completions[$_] }
+                else {
+                    [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
+                    return
+                }
+            }
         }
     }
-    completion $(if ($wordToComplete.length) { 0 }else { -1 })
+    _do $(if ($wordToComplete.length) { 0 }else { -1 })
     #endregion
 }

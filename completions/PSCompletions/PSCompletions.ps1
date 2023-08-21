@@ -7,13 +7,18 @@ Register-ArgumentCompleter -CommandName $_psc.root_cmd -ScriptBlock {
     $completions = [System.Collections.Specialized.OrderedDictionary]::new()
 
     #region : Parse json data
-    $json_completion = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
-    $json = Get-Content -Raw -Path  $json_completion -Encoding UTF8 | ConvertFrom-Json
-    $json_content = $json.PSObject.Properties
+    $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
+    $json = Get-Content -Raw -Path  $_name -Encoding UTF8 | ConvertFrom-Json
+    $_json = $json.PSObject.Properties
     # #endregion
-    #region : Store all tab-completion
-    foreach ($_ in $json_content) {
+
+    #region : Store
+    $max_len = 0
+    foreach ($_ in $_json) {
         $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
+        if ($max_len -lt $subCmd.length) {
+            $max_len = $subCmd.length
+        }
         if ($_.Name -ne 'PSCompletions_core_info') {
             $completions[ $_psc.root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value))
         }
@@ -40,16 +45,24 @@ Register-ArgumentCompleter -CommandName $_psc.root_cmd -ScriptBlock {
     }
     #endregion
 
-
-    #region : Carry out
-    $commandElements = $commandAst.CommandElements
-    function completion($num) {
-        # Space($num=0)/input($num=-1) and then tab
-        $completions.Keys | Where-Object { $_ -like "$commandElements*" } | ForEach-Object {
-            $input_space_count = ($commandElements -split ' ').Count - 1
-            $cmd_space_count = ($_ -split ' ').Count - 1
-            if ($input_space_count -eq $cmd_space_count + $num) { $completions[$_] }
-        }
-    }
-    completion $(if ($wordToComplete.length) { 0 }else { -1 })
+     #region : Carry out
+     $comp_num = ([System.Console]::WindowHeight - 2) * ([math]::Floor([System.Console]::WindowWidth / ($max_len + 2)))
+     $_input = $commandAst.CommandElements
+     function _do($num) {
+         $i = 0
+         $completions.Keys | Where-Object { $_ -like "$_input*" } | ForEach-Object {
+             $input_space_count = ($_input -split ' ').Count - 1
+             $cmd_space_count = ($_ -split ' ').Count - 1
+             if ($input_space_count -eq $cmd_space_count + $num ) {
+                 $i++
+                 if ($comp_num -gt $i) { $completions[$_] }
+                 else {
+                     [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
+                     return
+                 }
+             }
+         }
+     }
+     _do $(if ($wordToComplete.length) { 0 }else { -1 })
+     #endregion
 }

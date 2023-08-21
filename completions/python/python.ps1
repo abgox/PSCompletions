@@ -1,8 +1,3 @@
-<#
-# @Author      : abgox
-# @Github      : https://github.com/abgox/PS-completions
-#>
-
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
