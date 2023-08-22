@@ -185,16 +185,6 @@ function PSCompletions {
                 return
             }
         }
-        if ($arg[1] -eq 'rm') {
-            if ($arg.Length -lt 4) {
-                param_error 'min' 'rm <alias...>'  ((_templete @('rm', 'sco'))+ (_templete @('rm', 'sco','...')))
-                return
-            }
-            elseif ($arg.Length -gt 4) {
-                param_error 'max' 'rm <alias...>' ((_templete @('rm', 'sco'))+ (_templete @('rm', 'sco','...')))
-                return
-            }
-        }
         if ($arg.Length -gt 2) {
             if ($arg[1] -eq 'list') {
                 param_error 'max' 'list' ''
