@@ -69,10 +69,10 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
     foreach ($file in $files) {
         if (-not (Test-Path $file.OutFile)) {
             $all_exist = $false
-            $fail_file = $file.OutFile
+            $fail_file = Split-Path $file.OutFile  -Leaf
+            $fail_file_url= $file.Uri
         }
     }
-
     if ($all_exist) {
         if ($log) {
             Write-Host  (_psc_replace $add_completed) -f Green

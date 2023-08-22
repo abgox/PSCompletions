@@ -10,21 +10,23 @@ function PSCompletions {
         foreach ($_ in $list) {
             $res += ' ' + $_
         }
-        return ("`n" + '      ' + $_psc.config.root_cmd + ' ' + $arg[0] + $res)
+        return ("`n" + '    ' + $_psc.config.root_cmd + ' ' + $arg[0] + $res)
     }
-    function param_error($err, $completion = 'scoop', $example2 = (_templete @('scoop volta ...'))) {
-        if ($err -eq 'min') {
+    function param_error {
+        if ($args[0] -eq 'min') {
             $res = $_psc.json.param_min
         }
         else {
             $res = $_psc.json.param_max
         }
-        Write-Host (_psc_replace $res) -f Red
+        $completion = $args[1]
+        $example = $args[2]
+        Write-Host (_psc_replace ($res + $_psc.json.example)) -f Red
     }
 
     function _list {
         if ($arg.Length -gt 1) {
-            param_error 'max' '' ''
+            param_error 'max'
             return
         }
         $data = New-Object System.Collections.ArrayList
@@ -41,7 +43,7 @@ function PSCompletions {
     }
     function _Add {
         if ($arg.Length -lt 2) {
-            param_error 'min'
+            param_error 'min' 'git' (_templete @('git', 'scoop', '...'))
             return
         }
         _psc_download_list
@@ -57,7 +59,7 @@ function PSCompletions {
     }
     function _Remove {
         if ($arg.Length -lt 2) {
-            param_error 'min'
+            param_error 'min' 'git' (_templete @('git', 'scoop', '...'))
             return
         }
         $list = $arg[1..($arg.Length - 1)]
@@ -76,7 +78,8 @@ function PSCompletions {
     }
     function _Update {
         function _do {
-            $res = New-Object System.Collections.ArrayList
+            try {
+                $res = New-Object System.Collections.ArrayList
             foreach ($_ in $_psc.installed.BaseName) {
                 $url = $_psc.url + '/completions/' + $_ + '/.guid'
                 $response = Invoke-WebRequest -Uri  $url
@@ -96,38 +99,43 @@ function PSCompletions {
             else {
                 Write-Host (_psc_replace $_psc.json.update_no) -f Green
             }
+            }
+            catch {
+                Write-Host (_psc_replace $_psc.json.error) -f Red
+            }
+
         }
-        if ($arg.Length -eq 1) {
-            _do
-        }
-        else {
-            if ($arg[1] -eq '*') {
-                foreach ($_ in $_psc.update) {
-                    _psc_add_completion $_ $true $true
-                }
+            if ($arg.Length -eq 1) {
+                _do
             }
             else {
-                $list = $arg[1..($arg.Length - 1)]
-                foreach ($_ in $list) {
-                    if ($_ -in $_psc.installed.BaseName) {
+                if ($arg[1] -eq '*') {
+                    foreach ($_ in $_psc.update) {
                         _psc_add_completion $_ $true $true
                     }
-                    else {
-                        Write-Host (_psc_replace $_psc.json.update_error) -f Red
+                }
+                else {
+                    $list = $arg[1..($arg.Length - 1)]
+                    foreach ($_ in $list) {
+                        if ($_ -in $_psc.installed.BaseName) {
+                            _psc_add_completion $_ $true $true
+                        }
+                        else {
+                            Write-Host (_psc_replace $_psc.json.update_error) -f Red
+                        }
                     }
                 }
+                _do
             }
-            _do
-        }
     }
 
     function _Search {
         if ($arg.Length -lt 2) {
-            param_error 'min' 'scoop' ''
+            param_error 'min' '*' ((_templete @('*n*')) + (_templete @('git')))
             return
         }
         elseif ($arg.Length -gt 2) {
-            param_error 'max' 'scoop' ''
+            param_error 'max' '*' ((_templete @('*n*')) + (_templete @('git')))
             return
         }
         Write-Host (_psc_replace ($_psc.json.search + $arg[1] + ' ...')) -f Yellow
@@ -142,7 +150,7 @@ function PSCompletions {
 
     function _Which {
         if ($arg.Length -lt 2) {
-            param_error 'min'
+            param_error 'min' 'git' (_templete @('git', 'scoop', '...'))
             return
         }
         $list = $arg[1..($arg.Length - 1)]
@@ -159,32 +167,34 @@ function PSCompletions {
     function _alias {
         $cmd_list = @('add', 'rm', 'list', 'reset')
         if ($arg.Length -eq 1) {
-            param_error 'min' '<list|add|rm|reset> [Compleiton...]' ((_templete @($arg[0], 'add', 'scoop', 'volta', '...')) + (_templete @($arg[0], 'rm', 'scoop', 'volta', '...')) + (_templete @($arg[0], 'list')) + (_templete @($arg, 'reset')))
+            param_error 'min' 'add scoop sco' ((_templete @('rm', 'sco')) + (_templete @('list')) + (_templete @( 'reset')))
             return
         }
         if ($arg[1] -notin $cmd_list) {
             Write-Host (_psc_replace $_psc.json.param_error) -f Red
             return
         }
-        function check_add_cm($value, $num, $num2) {
-            if ($arg[1] -eq $value) {
-                function _do($v) {
-                    param_error $v ($value + ' <Completion> <Alias>') (_templete @($arg[0], $value, 'scoop', 'sco'))
-                }
-                if ($arg.Length -lt $num) {
-                    _do 'min'
-                    return $true
-                }
-                elseif ($arg.Length -gt $num2) {
-                    _do 'max'
-                    return $true
-                }
-            }
-            return $false
-        }
-        if (check_add_cm 'add' 4 4) { return }
-        if (check_add_cm 'rm' 3 999) { return }
 
+        if ($arg[1] -eq 'add') {
+            if ($arg.Length -lt 4) {
+                param_error 'min' 'add <completion> <alias>'  (_templete @('add', 'scoop', 'sco'))
+                return
+            }
+            elseif ($arg.Length -gt 4) {
+                param_error 'max' 'add <completion> <alias>' (_templete @('add', 'scoop', 'sco'))
+                return
+            }
+        }
+        if ($arg[1] -eq 'rm') {
+            if ($arg.Length -lt 4) {
+                param_error 'min' 'rm <alias...>'  ((_templete @('rm', 'sco'))+ (_templete @('rm', 'sco','...')))
+                return
+            }
+            elseif ($arg.Length -gt 4) {
+                param_error 'max' 'rm <alias...>' ((_templete @('rm', 'sco'))+ (_templete @('rm', 'sco','...')))
+                return
+            }
+        }
         if ($arg.Length -gt 2) {
             if ($arg[1] -eq 'list') {
                 param_error 'max' 'list' ''
@@ -220,19 +230,25 @@ function PSCompletions {
         }
         elseif ($arg[1] -eq 'rm') {
             $rm_list = $arg[2..($arg.Length - 1)]
-            $del_list = ''
+            $del_list = @()
+            $error_list = @()
             foreach ($_ in $list) {
                 $cmd = Split-Path (Split-Path $_.FullName -Parent) -Leaf
                 $alias = _psc_get_content $_.FullName
-                if ($alias -in $rm_list) {
-                    $del_list += $alias + '(' + $cmd + ')' + ' '
-                    rm $_.FullName -Force
+                foreach ($item in $rm_list) {
+                    if ($alias -eq $item) {
+                        $del_list += $alias + '(' + $cmd + ')' + ' '
+                        rm $_.FullName -Force
+                    }
+                    else {
+                        $error_list += $item
+                    }
                 }
             }
             if ($del_list) {
                 Write-Host (_psc_replace $_psc.json.alias_del) -f Green
             }
-            else {
+            if ($error_list) {
                 Write-Host (_psc_replace ($_psc.json.alias_rm_error)) -f Red
             }
         }
@@ -255,7 +271,7 @@ function PSCompletions {
 
     function _Config {
         function _do($value) {
-            param_error $value 'language en-US' (_templete @($arg[0], 'root_cmd', 'p'))
+            param_error $value 'language en-US' (_templete @('root_cmd', 'p'))
         }
         if ($arg.Length -lt 2) {
             _do 'min'

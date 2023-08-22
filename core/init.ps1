@@ -1,6 +1,6 @@
 . $PSScriptRoot\function.ps1
 $_psc = @{}
-$_psc.version = '1.1.3'
+$_psc.version = '1.1.4'
 $_psc.root_dir = Split-Path $PSScriptRoot -Parent
 $_psc.completions = $_psc.root_dir + '\completions'
 $_psc.core = $_psc.root_dir + '\core'
