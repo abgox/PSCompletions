@@ -5,7 +5,7 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'git') -Scri
     param($wordToComplete, $commandAst)
 
     $completions = [System.Collections.Specialized.OrderedDictionary]::new()
-    $root_cmd=_psc_get_cmd $PSScriptRoot 'git'
+    $root_cmd = _psc_get_cmd $PSScriptRoot 'git'
 
     #region : Parse json data
     $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
@@ -28,30 +28,18 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'git') -Scri
     #region : Special point
     function format_time($time) {
         $givenDate = [DateTime]::ParseExact($time, "ddd MMM dd HH:mm:ss yyyy zzz", [CultureInfo]::InvariantCulture)
-        $relativeTime = (Get-Date) - $givenDate
-        if ($relativeTime.Days -gt 0) {
-            $relativeValue = "$($relativeTime.Days)d ago"
-        }
-        elseif ($relativeTime.Hours -gt 0) {
-            $relativeValue = "$($relativeTime.Hours)h ago"
-        }
-        elseif ($relativeTime.Minutes -gt 0) {
-            $relativeValue = "$($relativeTime.Minutes)m ago"
-        }
-        else {
-            $relativeValue = "just now"
-        }
-        return $relativeValue
+        $res = (Get-Date) - $givenDate
+        return ("" + $res.Days + "d " + $res.Hours + "h " + $res.Minutes + "m " + $res.Seconds + "s ago")
     }
 
     $commit_info = @()
     $commit_arr = (((git log ) -join '') -split "(?=commit \w{20,})") | Where-Object { $_ -ne '' }
     foreach ($item in $commit_arr) {
-        $pattern = "commit (.*)Author:(.*).*Date:(.*)   (.*)"
+        $pattern = "commit (.*)Author:(.*).*Date:(.*\d)   (.*)"
         $matches = [regex]::Matches($item, $pattern)
         foreach ($m in $matches) {
             $commit_info += @{
-                'hash'   = (($m.Groups[1].Value).Trim()).Substring(0, 6)
+                'hash'   = (($m.Groups[1].Value).Trim()).Substring(0, 7)
                 'author' = ($m.Groups[2].Value).Trim()
                 'date'   = format_time ($m.Groups[3].Value).Trim()
                 'info'   = ($m.Groups[4].Value).Trim()
@@ -59,31 +47,60 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'git') -Scri
         }
     }
 
+    $flag = 0
     foreach ($_ in $commit_info) {
-        $completions[ $root_cmd + ' checkout ' + $_.hash] = [CompletionResult]::new($_.hash, $_.hash, 'ParameterValue', (_psc_replace ($_.info + '(' + $_.date + ')')) )
-        $completions[ $root_cmd + ' switch ' + $_.hash] = [CompletionResult]::new($_.hash, $_.hash, 'ParameterValue', (_psc_replace ($_.info + '(' + $_.date + ')')) )
+        if ($flag -eq 0) {
+            $res = 'HEAD'
+        }
+        elseif ($flag -eq 1) {
+            $res = 'HEAD^'
+        }
+        elseif ($flag -eq 2) {
+            $res = 'HEAD^^'
+        }
+        else {
+            $res = 'HEAD~' + $flag
+        }
+        $flag++
+        $completions[ $root_cmd + ' checkout ' + $_.hash] = [CompletionResult]::new($_.hash, $_.hash, 'ParameterValue', ($res + '  --  (' + $_.date + ')' + "`n" + $_.info))
+        $completions[ $root_cmd + ' switch ' + $_.hash] = [CompletionResult]::new($_.hash, $_.hash, 'ParameterValue', ($res + '  --  (' + $_.date + ')' + "`n" + $_.info))
     }
 
+    $branch = git branch 2>$null
 
-    $branch_list = git branch 2>$null
-    if ($branch_list) {
-        ($branch_list -replace '\*', '').Trim() | ForEach-Object {
-            $completions[ $root_cmd + ' branch ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
+    $branch_info = @()
+
+    if ($branch) {
+        $branch_list = (($branch -replace '\*', '').Trim() | Where-Object { $_ -notlike "(*)" }) -split ' '
+        $branch_list | ForEach-Object {
+            $completions[ $root_cmd + ' branch ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', 'a branch')
+            $branch_info += @{
+                'Name' = $_
+                'Desc' = 'a branch'
+            }
         }
-        ($branch_list -replace '\*', '').Trim() + @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD') | ForEach-Object {
-            $completions[ $root_cmd + ' checkout ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' cherry ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' cherry-pick ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' diff ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' difftool ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' log ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' merge ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' mergetool ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' rebase ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' reset ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' revert ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' show ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' switch ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
+        @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD') | ForEach-Object {
+            $branch_info += @{
+                'Name' = $_
+                'Desc' = 'a HEAD'
+            }
+        }
+        $branch_info | ForEach-Object {
+            $name = $_.Name
+            $desc = $_.Desc
+            $completions[ $root_cmd + ' checkout ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' cherry ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' cherry-pick ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' diff ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' difftool ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' log ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' merge ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' mergetool ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' rebase ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' reset ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' revert ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' show ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
+            $completions[ $root_cmd + ' switch ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $desc)
         }
     }
     #endregion
