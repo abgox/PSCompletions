@@ -24,11 +24,11 @@
 ## Introduce
 
 -   A completion manager for better and simpler use and Manage completions.
--   [Manage the completion together.](./core/.list "Click it to view the completion list that can be added !")
+-   [Manage the completion together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
 -   Complete content can be customized.
     -   By modifying the `json` file to achieve.
-        -   if you do it, Please do not use `psc update` to avoid overwriting your customizations.
+        -   If you do it, don't use `psc update` to avoid overwriting your customizations.
     -   Get the completion file path. `psc which <completion>`
 
 ## How to install
@@ -40,7 +40,7 @@
 
 ## How to use(eg. `git`)
 
-### [Completion List](./core/.list "All completions that can be added at present. More completions are adding!")
+### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
 1. `psc add git`
 2. Then you can type `git ` and press `Tab` to get command completion.
@@ -59,3 +59,21 @@
 -   ✨: You can continue to press `Tab` to get command completion. (except for special cases)
 -   `...`: The description here will be filled in in the future.
     -   If `...` is the last completion, it means that the display area is too small to display all completions.
+
+## Available Completions List
+
+|                 Completions                 |                                  Source                                   |
+| :-----------------------------------------: | :-----------------------------------------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) | [PSCompletions](https://www.powershellgallery.com/packages/PSCompletions) |
+|           [git](/completions/git)           |                      [Git](https://git-scm.com/docs)                      |
+|         [scoop](/completions/scoop)         |             [Scoop](https://github.com/ScoopInstaller/Scoop)              |
+|         [volta](/completions/volta)         |                        [volta](https://volta.sh/)                         |
+|          [pnpm](/completions/pnpm)          |                         [pnpm](https://pnpm.io/)                          |
+|           [nvm](/completions/nvm)           |             [nvm](https://github.com/coreybutler/nvm-windows)             |
+|           [npm](/completions/npm)           |                       [npm](https://www.npmjs.com/)                       |
+|        [python](/completions/python)        |                     [python](https://www.python.org/)                     |
+|          [chfs](/completions/chfs)          |             [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)             |
+|         [choco](/completions/choco)         |               [choco(chocolatey)](https://chocolatey.org/)                |
+|        [docker](/completions/docker)        |                     [docker](https://www.docker.com/)                     |
+|          [yarn](/completions/yarn)          |                     [yarn](https://yarnpkg.com/cli/)                      |
+|                     ...                     |                                    ...                                    |

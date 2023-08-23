@@ -24,7 +24,7 @@
 ## 介绍
 
 -   一个补全管理模块，更好、更简单、更方便的使用和管理补全
--   [集中管理补全](./core/.list "点击查看可添加补全列表！")
+-   [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 -   `zh-CN`,`en-US` 多语言随意切换
 -   补全内容可自定义
     -   通过修改补全`json`文件来实现
@@ -39,7 +39,7 @@
 
 ## 使用(以 `git` 补全为例)
 
-### [补全列表](./core/.list "当前可添加的所有补全，更多的补全正在添加中！")
+### [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
 
 1. `psc add git`
 2. 然后你就可以输入`git ` 按下`Tab` 来获得命令补全
@@ -58,3 +58,21 @@
 -   ✨：还可以按下 `Tab` 获得补全候选(特殊情况除外)
 -   `...`：补全描述等待后续填充
     -   如果 `...` 是最后一个补全候选，则表示可显示区域过小，无法显示所有候选项
+
+## 补全列表
+
+|                  命令补全                   |                                 命令来源                                  |
+| :-----------------------------------------: | :-----------------------------------------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) | [PSCompletions](https://www.powershellgallery.com/packages/PSCompletions) |
+|           [git](/completions/git)           |                      [Git](https://git-scm.com/docs)                      |
+|         [scoop](/completions/scoop)         |             [Scoop](https://github.com/ScoopInstaller/Scoop)              |
+|         [volta](/completions/volta)         |                        [volta](https://volta.sh/)                         |
+|          [pnpm](/completions/pnpm)          |                         [pnpm](https://pnpm.io/)                          |
+|           [nvm](/completions/nvm)           |             [nvm](https://github.com/coreybutler/nvm-windows)             |
+|           [npm](/completions/npm)           |                       [npm](https://www.npmjs.com/)                       |
+|        [python](/completions/python)        |                     [python](https://www.python.org/)                     |
+|          [chfs](/completions/chfs)          |             [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)             |
+|         [choco](/completions/choco)         |               [choco(chocolatey)](https://chocolatey.org/)                |
+|        [docker](/completions/docker)        |                     [docker](https://www.docker.com/)                     |
+|          [yarn](/completions/yarn)          |                     [yarn](https://yarnpkg.com/cli/)                      |
+|                     ...                     |                                    ...                                    |
