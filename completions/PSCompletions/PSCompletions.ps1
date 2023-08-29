@@ -27,7 +27,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
 
     #region Special point
     foreach ($_ in $_psc.list) {
-        if ($_ -notin $_psc.installed.BaseName) {
+        if ($_ -notin $_psc.comp_cmd.keys) {
             $completions[ $root_cmd + ' add ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.add) )
         }
     }
@@ -36,11 +36,16 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             $completions[ $root_cmd + ' update ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.update))
         }
     }
-    foreach ($_ in $_psc.installed.BaseName) {
+    foreach ($_ in $_psc.comp_cmd.keys) {
         $completions[$root_cmd + ' rm ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.remove))
         $completions[$root_cmd + ' which ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.which))
+        $completions[$root_cmd + ' alias add ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace $_psc.json.alias_add))
+        $alias = $_psc.comp_cmd.$_
+        if (!($_ -eq 'PSCompletions' -and $alias -eq 'psc')) {
+            $completions[$root_cmd + ' alias rm ' + $alias] = [CompletionResult]::new($alias, $alias, 'ParameterValue', (_psc_replace $_psc.json.alias_rm))
+        }
     }
-    foreach ($_ in @('root_cmd', 'github', 'gitee', 'language', 'update')) {
+    foreach ($_ in @('language', 'root_cmd', 'github', 'gitee', 'update')) {
         $completions[$root_cmd + ' config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', (_psc_replace ($_psc.json.config + $json.('config ' + $_))))
     }
     #endregion
@@ -67,56 +72,47 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     _do $(if ($wordToComplete.length) { 0 }else { -1 })
     #endregion
 
-    #region
-    try {
-        $history = (Get-History)[-1].CommandLine
-    }
-    catch {
-        $history = ''
-    }
+    #region Reorder completion
+    $history = try { (Get-History)[-1].CommandLine }catch { '' }
     $null = Start-Job -ScriptBlock {
         param( $_psc, $history, $root)
-        function _do($flag, $path) {
+        function _do($flag, $path, $res = [ordered]@{}) {
             $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
             $res = [ordered]@{}
-            $max = 0
-            $cmd_len = 0
-            $res_flag = $null
+            $res_flag = @()
             foreach ($_ in $json.PSObject.Properties) {
                 $type = ($_.value).GetType().Name
                 if ($type -eq 'String') {
-                    $cmd = $_.Name -split ' '
-                    $count = (Compare-Object $cmd $flag -IncludeEqual -ExcludeDifferent -PassThru).Count
-                    if ($count -gt $max) {
-                        $cmd_len = $cmd.Count
-                        $max = $count
-                        $res_flag = $_.Name
-                    }
-                    elseif ($count -eq $max) {
-                        if ($cmd_len -gt $cmd.Count) {
-                            $max = $count
-                            $res_flag = $_.Name
-                        }
+                    $i = $flag
+                    while ($i) {
+                        if ($_.Name -eq $i) { $res_flag += $_.Name }
+                        if ( $i.lastIndexOf(' ') -eq -1) { break }
+                        $i = $i.Substring(0, $i.lastIndexOf(' '))
                     }
                 }
             }
+            $res_arr = @()
             foreach ($_ in $json.PSObject.Properties) {
                 $type = ($_.value).GetType().Name
                 if ($type -eq 'String') {
-                    if ($_.Name -eq $res_flag) {
-                        $res.Insert(0, $_.Name, $_.value)
+                    if ($_.Name -in $res_flag) {
+                        $res_arr += @{cmd = $_.Name; value = $_.value; len = ($_.Name).Length }
                     }
                     else { $res.($_.Name) = $_.value }
                 }
                 else { $res.($_.Name) = $_.value }
             }
-            $res  | ConvertTo-Json | Out-File $path
+
+            $res_arr | Sort-Object { $_.len } -Descending | ForEach-Object {
+                $res.Insert(0, $_.cmd, $_.value)
+            }
+            $res | ConvertTo-Json | Out-File $path
         }
         if ($history -ne '') {
             $cmd = $history -split ' '
             $alias = $_psc.comp_cmd.keys | foreach-Object { $_psc.comp_cmd.$_ }
             if ($cmd[0] -in $alias) {
-                _do $cmd[1..($cmd.Length - 1)] ($root + '\json\' + $_psc.lang + '.json')
+                _do $history.Substring($history.IndexOf(' ') + 1) ($root + '\json\' + $_psc.lang + '.json')
             }
         }
     } -ArgumentList $_psc, $history, $PSScriptRoot

@@ -45,19 +45,42 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     }
 
     $commit_info = @()
-    $commit_arr = (((git log ) -join '') -split "(?=commit \w{20,})") | Where-Object { $_ -ne '' }
-    foreach ($item in $commit_arr) {
-        $pattern = "commit (.*)Author:(.*).*Date:(.*)   (.*)"
-        $matches = [regex]::Matches($item, $pattern)
-        foreach ($m in $matches) {
-            $commit_info += @{
-                'hash'   = (($m.Groups[1].Value).Trim()).Substring(0, 6)
-                'author' = ($m.Groups[2].Value).Trim()
-                'date'   = format_time ($m.Groups[3].Value).Trim()
-                'info'   = ($m.Groups[4].Value).Trim()
+    #region get commit info
+    $commit = $null
+    $flag = 1
+    git log | ForEach-Object {
+        $line = $_
+        if ($line -match '^\s*commit\s*(\w+)') {
+            if ($commit) {
+                $commit.info = ($commit.info | Where-Object { $_ -ne '' }) -join "`n"
+                $commit_info += $commit
+                $flag = 1
+            }
+            $commit = @{
+                hash = ($Matches[1]).Substring(0, 6)
+                info = @()
+            }
+        }
+        elseif ($commit) {
+            if ($line -match '^Author:\s*(.+)') {
+                $commit.author = $Matches[1].Trim()
+            }
+            elseif ($line -match '^Date:\s*(.+)') {
+                $commit.Date = $Matches[1].Trim()
+            }
+            else {
+                if ($line) {
+                    if ($flag) {
+                        $commit.space = ([regex]::Matches($line, "(\s*)\S"))[0].Length - 1
+                        $flag = $null
+                    }
+                    $commit.info += $line.Substring($commit.space)
+                }
             }
         }
     }
+    $commit_info += $commit
+    #endregion
 
     foreach ($_ in $commit_info) {
         $completions[ $root_cmd + ' checkout ' + $_.hash] = [CompletionResult]::new($_.hash, $_.hash, 'ParameterValue', (_psc_replace ($_.info + '(' + $_.date + ')')) )
@@ -108,56 +131,47 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     _do $(if ($wordToComplete.length) { 0 }else { -1 })
     #endregion
 
-    #region
-    try {
-        $history = (Get-History)[-1].CommandLine
-    }
-    catch {
-        $history = ''
-    }
+    #region Reorder completion
+    $history = try { (Get-History)[-1].CommandLine }catch { '' }
     $null = Start-Job -ScriptBlock {
         param( $_psc, $history, $root)
-        function _do($flag, $path) {
+        function _do($flag, $path, $res = [ordered]@{}) {
             $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
             $res = [ordered]@{}
-            $max = 0
-            $cmd_len = 0
-            $res_flag = $null
+            $res_flag = @()
             foreach ($_ in $json.PSObject.Properties) {
                 $type = ($_.value).GetType().Name
                 if ($type -eq 'String') {
-                    $cmd = $_.Name -split ' '
-                    $count = (Compare-Object $cmd $flag -IncludeEqual -ExcludeDifferent -PassThru).Count
-                    if ($count -gt $max) {
-                        $cmd_len = $cmd.Count
-                        $max = $count
-                        $res_flag = $_.Name
-                    }
-                    elseif ($count -eq $max) {
-                        if ($cmd_len -gt $cmd.Count) {
-                            $max = $count
-                            $res_flag = $_.Name
-                        }
+                    $i = $flag
+                    while ($i) {
+                        if ($_.Name -eq $i) { $res_flag += $_.Name }
+                        if ( $i.lastIndexOf(' ') -eq -1) { break }
+                        $i = $i.Substring(0, $i.lastIndexOf(' '))
                     }
                 }
             }
+            $res_arr = @()
             foreach ($_ in $json.PSObject.Properties) {
                 $type = ($_.value).GetType().Name
                 if ($type -eq 'String') {
-                    if ($_.Name -eq $res_flag) {
-                        $res.Insert(0, $_.Name, $_.value)
+                    if ($_.Name -in $res_flag) {
+                        $res_arr += @{cmd = $_.Name; value = $_.value; len = ($_.Name).Length }
                     }
                     else { $res.($_.Name) = $_.value }
                 }
                 else { $res.($_.Name) = $_.value }
             }
-            $res  | ConvertTo-Json | Out-File $path
+
+            $res_arr | Sort-Object { $_.len } -Descending | ForEach-Object {
+                $res.Insert(0, $_.cmd, $_.value)
+            }
+            $res | ConvertTo-Json | Out-File $path
         }
         if ($history -ne '') {
             $cmd = $history -split ' '
             $alias = $_psc.comp_cmd.keys | foreach-Object { $_psc.comp_cmd.$_ }
             if ($cmd[0] -in $alias) {
-                _do $cmd[1..($cmd.Length - 1)] ($root + '\json\' + $_psc.lang + '.json')
+                _do $history.Substring($history.IndexOf(' ') + 1) ($root + '\json\' + $_psc.lang + '.json')
             }
         }
     } -ArgumentList $_psc, $history, $PSScriptRoot
