@@ -1,6 +1,6 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.0.1'
+$_psc.version = '2.0.2'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -10,7 +10,7 @@ $_psc.path.old_list = $_psc.path.core + '\.old_list'
 $_psc.path.update = $_psc.path.core + '\.update'
 $_psc.lang = (Get-WinSystemLocale).name
 $_psc.langs = @('zh-CN', 'en-US')
-$_psc.comp_cmd = @{}
+$_psc.comp_cmd = [ordered]@{}
 
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
     Set-PSReadLineKeyHandler 'Tab' MenuComplete
