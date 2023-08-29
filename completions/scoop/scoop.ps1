@@ -1,15 +1,16 @@
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'scoop') -ScriptBlock {
+Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [System.Collections.Specialized.OrderedDictionary]::new()
+    $completions = [ordered]@{}
+    $root_cmd = $_psc.comp_cmd.scoop
 
     #region : Parse json data
     $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
     $json = Get-Content -Raw -Path  $_name -Encoding UTF8 | ConvertFrom-Json
-    $json_info =$json.scoop_core_info
+    $json_info = $json.scoop_core_info
     $_json = $json.PSObject.Properties
     #endregion
 
@@ -21,7 +22,7 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'scoop') -Sc
             $max_len = $subCmd.length
         }
         if ($_.Name -ne 'scoop_core_info') {
-            $completions[(_psc_get_cmd $PSScriptRoot 'scoop') + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
+            $completions[$root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
         }
     }
     #endregion
@@ -31,15 +32,15 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'scoop') -Sc
     foreach ($_ in $jsonData.PSObject.Properties) {
         $name = "'" + $_.name + "'"
         $value = "'" + $_.Value + "'"
-        $completions['scoop config ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $json_info.has_value + $value)
+        $completions[$root_cmd + ' config ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $json_info.has_value + $value)
     }
     @("'use_external_7zip'", "'use_lessmsi'", "'no_junction'", "'scoop_repo'", "'scoop_branch'", "
 	'proxy'", "'autostash_on_conflict'", "'default_architecture'", "'debug'", "
 	'force_update'", "'show_update_log'", "'show_manifest'", "'shim'", "'root_path'", "
     'global_path'", "'cache_path'", "'gh_token'", "'virustotal_api_key'", "'cat_style'", "'ignore_running_processes'", "
 	'private_hosts'", "'hold_update_until'", "'aria2-enabled'", "'aria2-warning-enabled'", "'aria2-retry-wait'", "'aria2-split'", "'aria2-max-connection-per-server'", "'aria2-min-split-size'", "'aria2-options'") | Where-Object {
-        if (!$completions['scoop config ' + $_]) {
-            $completions['scoop config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', $json_info.no_value)
+        if (!$completions[$root_cmd + ' config ' + $_]) {
+            $completions[$root_cmd + ' config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', $json_info.no_value)
         }
     }
     #endregion

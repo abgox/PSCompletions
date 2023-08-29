@@ -1,10 +1,11 @@
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'npm') -ScriptBlock {
+Register-ArgumentCompleter -CommandName $_psc.comp_cmd.npm -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [System.Collections.Specialized.OrderedDictionary]::new()
+    $completions = [ordered]@{}
+    $root_cmd = $_psc.comp_cmd.npm
 
     #region : Parse json data
     $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
@@ -18,7 +19,7 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'npm') -Scri
         if ($max_len -lt $subCmd.length) {
             $max_len = $subCmd.length
         }
-        $completions[(_psc_get_cmd $PSScriptRoot 'npm') + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
+        $completions[$root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
     }
     #endregion
 

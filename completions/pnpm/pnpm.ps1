@@ -1,10 +1,11 @@
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'pnpm') -ScriptBlock {
+Register-ArgumentCompleter -CommandName $_psc.comp_cmd.pnpm -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [System.Collections.Specialized.OrderedDictionary]::new()
+    $completions = [ordered]@{}
+    $root_cmd = $_psc.comp_cmd.pnpm
 
     #region : Parse json data
     $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
@@ -18,28 +19,28 @@ Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'pnpm') -Scr
         if ($max_len -lt $subCmd.length) {
             $max_len = $subCmd.length
         }
-        $completions[(_psc_get_cmd $PSScriptRoot 'pnpm') + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
+        $completions[$root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
     }
     #endregion
 
-     #region : Carry out
-     $comp_num = ([System.Console]::WindowHeight - 2) * ([math]::Floor([System.Console]::WindowWidth / ($max_len + 2)))
-     $_input = $commandAst.CommandElements
-     function _do($num) {
-         $i = 0
-         $completions.Keys | Where-Object { $_ -like "$_input*" } | ForEach-Object {
-             $input_space_count = ($_input -split ' ').Count - 1
-             $cmd_space_count = ($_ -split ' ').Count - 1
-             if ($input_space_count -eq $cmd_space_count + $num ) {
-                 $i++
-                 if ($comp_num -gt $i) { $completions[$_] }
-                 else {
-                     [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
-                     return
-                 }
-             }
-         }
-     }
-     _do $(if ($wordToComplete.length) { 0 }else { -1 })
-     #endregion
+    #region : Carry out
+    $comp_num = ([System.Console]::WindowHeight - 2) * ([math]::Floor([System.Console]::WindowWidth / ($max_len + 2)))
+    $_input = $commandAst.CommandElements
+    function _do($num) {
+        $i = 0
+        $completions.Keys | Where-Object { $_ -like "$_input*" } | ForEach-Object {
+            $input_space_count = ($_input -split ' ').Count - 1
+            $cmd_space_count = ($_ -split ' ').Count - 1
+            if ($input_space_count -eq $cmd_space_count + $num ) {
+                $i++
+                if ($comp_num -gt $i) { $completions[$_] }
+                else {
+                    [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
+                    return
+                }
+            }
+        }
+    }
+    _do $(if ($wordToComplete.length) { 0 }else { -1 })
+    #endregion
 }

@@ -1,11 +1,11 @@
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot 'choco') -ScriptBlock {
+Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [System.Collections.Specialized.OrderedDictionary]::new()
-    $root_cmd = (_psc_get_cmd $PSScriptRoot 'choco')
+    $completions = [ordered]@{}
+    $root_cmd = $_psc.comp_cmd.choco
 
     #region : Parse json data
     $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
