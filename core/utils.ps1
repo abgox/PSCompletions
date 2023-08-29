@@ -19,7 +19,7 @@ function _psc_set_config($k, $v) {
     [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
 }
 
-function _psc_confirm($tip,$confirm_event) {
+function _psc_confirm($tip, $confirm_event) {
     Write-Host (_psc_replace $tip) -f Yellow
     $choice = $host.UI.RawUI.ReadKey("NoEcho, IncludeKeyDown")
     if ($choice.Character -eq 13) {
@@ -29,7 +29,7 @@ function _psc_confirm($tip,$confirm_event) {
 }
 
 function _psc_get_content($path) {
-    return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue)
+    return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
 }
 
 function _psc_download_list {
@@ -38,7 +38,7 @@ function _psc_download_list {
         if ($res.StatusCode -eq 200) {
             $content = ($res.Content).Trim()
             Move-Item  $_psc.path.list $_psc.path.old_list -Force
-            $content | Set-Content $_psc.path.list -Force
+            $content | Out-File $_psc.path.list -Force
             $_psc.list = $content
         }
     }

@@ -10,7 +10,7 @@
 
     RootModule        = 'PSCompletions.psm1'
 
-    ModuleVersion     = '2.0.0'
+    ModuleVersion     = '2.0.1'
 
     GUID              = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -27,7 +27,7 @@
 
         PSData = @{
 
-            Tags       = @('PowerShell', 'Tab', 'Completions', 'PSCompletions', 'Completion-Manager', 'Multi-language', 'Dynamic-Completion')
+            Tags       = @('PowerShell', 'Tab', 'Completions', 'Dynamic-Completion', 'Multi-language', 'Completion-Manager')
 
             LicenseUri = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 

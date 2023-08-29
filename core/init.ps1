@@ -1,6 +1,6 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.0.0'
+$_psc.version = '2.0.1'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -84,7 +84,7 @@ function PSCompletions_init() {
             _psc_add_completion 'PSCompletions'
         }
         if (!(Test-Path($psc_alias_path))) {
-            $_psc.root_cmd | Set-Content $psc_alias_path -Force
+            $_psc.root_cmd | Out-File $psc_alias_path -Force
         }
 
         $psc_alias = (Get-Content $psc_alias_path -Raw -Encoding utf8).Trim()
@@ -104,8 +104,8 @@ function PSCompletions_init() {
         if (!(Test-Path($_psc.path.old_list))) {
             Copy-Item $_psc.path.list $_psc.path.old_list -Force -ErrorAction SilentlyContinue
         }
-        $_psc.list = _psc_get_content $_psc.path.list | Where-Object { $_ -ne '' }
-        $_psc.update = _psc_get_content $_psc.path.update | Where-Object { $_ -ne '' }
+        $_psc.list = _psc_get_content $_psc.path.list
+        $_psc.update = _psc_get_content $_psc.path.update
     }
     catch {
         if ($_psc.json.init_err) {
@@ -183,13 +183,13 @@ $null = Start-Job -ScriptBlock {
             }
         }
     }
-    (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Set-Content ($_psc.path.core + '\.add') -Force
+    (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Out-File ($_psc.path.core + '\.add')
 
     _do {
         $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
         if ($response.StatusCode -eq 200) {
             Move-Item  $_psc.path.list  $_psc.path.old_list -Force
-            $response.Content | Set-Content $_psc.path.list -Force
+            $response.Content | Out-File $_psc.path.list -Force
         }
     }
 
@@ -204,5 +204,5 @@ $null = Start-Job -ScriptBlock {
             if ($guid -ne $content) { $update_list += $_ }
         }
     }
-    $update_list | Set-Content $_psc.path.update -Force
+    $update_list | Out-File $_psc.path.update -Force
 } -ArgumentList $_psc
