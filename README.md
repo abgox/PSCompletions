@@ -2,7 +2,6 @@
     <h1 align="center">✨PSCompletions(psc) ✨</h1>
 </p>
 
-</p>
 <p align="center">
     <a href="README.md">English</a> |
     <a href="README-CN.md">简体中文</a> |
@@ -10,22 +9,26 @@
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
 </p>
 
----
-
-<p align="left">
+<p align="center">
     <a href="https://github.com/abgox/PSCompletions/blob/main/LICENSE">
         <img src="https://img.shields.io/github/license/abgox/PSCompletions" alt="license" />
     </a>
     <a href="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg">
         <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
     </a>
+        <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
+        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="code size" />
+    </a>
 </p>
 
+---
 ## Introduce
 
 -   A completion manager for better and simpler use and Manage completions.
 -   [Manage the completion together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
+-   Completion of dynamic sorting
+    - Sort by frequency of use
 -   Complete content can be customized.
     -   By modifying the `json` file to achieve.
         -   If you do it, don't use `psc update` to avoid overwriting your customizations.

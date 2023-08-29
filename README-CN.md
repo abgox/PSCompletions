@@ -2,7 +2,6 @@
     <h1 align="center">✨PSCompletions(psc) ✨</h1>
 </p>
 
-</p>
 <p align="center">
     <a href="README.md">English</a> |
     <a href="README-CN.md">简体中文</a> |
@@ -10,22 +9,27 @@
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
 </p>
 
----
-
-<p align="left">
+<p align="center">
     <a href="https://github.com/abgox/PSCompletions/blob/main/LICENSE">
         <img src="https://img.shields.io/github/license/abgox/PSCompletions" alt="license" />
     </a>
     <a href="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg">
         <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
     </a>
+        <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
+        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="code size" />
+    </a>
 </p>
+
+---
 
 ## 介绍
 
 -   一个补全管理模块，更好、更简单、更方便的使用和管理补全
 -   [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 -   `zh-CN`,`en-US` 多语言随意切换
+-   补全动态排序
+    -   根据使用频次对补全候选菜单进行合理排序
 -   补全内容可自定义
     -   通过修改补全`json`文件来实现
     -   `psc which <completion>` 获取补全文件路径
