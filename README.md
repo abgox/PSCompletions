@@ -16,8 +16,11 @@
     <a href="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg">
         <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
     </a>
-        <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
+    <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
         <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="code size" />
+    </a>
+    <a href="https://github.com/abgox/PSCompletions">
+        <img src="https://img.shields.io/badge/created-2023--8--15-blue" alt="created" />
     </a>
 </p>
 
@@ -61,7 +64,7 @@
 
 -   ✨: You can continue to press `Tab` to get command completion. (except for special cases)
 -   `...`: The description here will be filled in in the future.
-    -   If `...` is the last completion, it means that the display area is too small to display all completions.
+    -   If `...` is the last one in the completion, it means that the display area is too small to display all completions.
 
 ## Available Completions List
 

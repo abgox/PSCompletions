@@ -16,8 +16,11 @@
     <a href="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg">
         <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
     </a>
-        <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
+    <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
         <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="code size" />
+    </a>
+    <a href="https://github.com/abgox/PSCompletions">
+        <img src="https://img.shields.io/badge/created-2023--8--15-blue" alt="created" />
     </a>
 </p>
 
@@ -31,7 +34,7 @@
 -   补全动态排序
     -   根据使用频次对补全候选菜单进行合理排序
 -   补全内容可自定义
-    -   通过修改补全`json`文件来实现
+    -   通过修改补全`json`文件实现
     -   `psc which <completion>` 获取补全文件路径
     -   如果你已修改，请不要使用`psc update`，避免你的自定义被覆盖
 
