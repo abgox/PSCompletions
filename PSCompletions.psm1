@@ -288,6 +288,7 @@ function PSCompletions {
                         $update = 1
                         [environment]::SetEnvironmentvariable('abgox_PSCompletions', (@($_psc.version, $root_cmd, $github, $gitee, $language, $update) -join ';'), 'User')
                     }
+                    Write-Host (_psc_replace $_psc.json.config_reset_done) -f Green
                     return
                 }
                 Write-Host (_psc_replace $_psc.json.config_err) -f Red

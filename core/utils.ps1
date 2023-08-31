@@ -34,21 +34,22 @@ function _psc_get_content($path) {
 
 function _psc_download_list {
     try {
-        if($_psc.url){
+        if ($_psc.url) {
             $res = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
             if ($res.StatusCode -eq 200) {
                 $content = ($res.Content).Trim()
                 Move-Item  $_psc.path.list $_psc.path.old_list -Force
                 $content | Out-File $_psc.path.list -Force
-                $_psc.list = $content
+                $_psc.list = _psc_get_content $_psc.path.list
+                return $true
             }
-        }else{
+        }
+        else {
             Write-Host (_psc_replace $_psc.json.repo_add) -f Red
             return $false
         }
     }
-    catch {}
-    return $true
+    catch { return $false }
 }
 
 function _psc_add_completion($completion, $log = $true, $is_update = $false) {
@@ -102,6 +103,7 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
         $flag = $_psc.json.adding
     }
     Write-Host (_psc_replace $flag) -f Yellow
+    Write-Host (_psc_replace $_psc.json.repo_using) -f Cyan
     Wait-Job -Job $jobs > $null
 
     $all_exist = $true
