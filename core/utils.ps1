@@ -34,15 +34,21 @@ function _psc_get_content($path) {
 
 function _psc_download_list {
     try {
-        $res = Invoke-WebRequest -Url ($_psc.url + '/core/.list')
-        if ($res.StatusCode -eq 200) {
-            $content = ($res.Content).Trim()
-            Move-Item  $_psc.path.list $_psc.path.old_list -Force
-            $content | Out-File $_psc.path.list -Force
-            $_psc.list = $content
+        if($_psc.url){
+            $res = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
+            if ($res.StatusCode -eq 200) {
+                $content = ($res.Content).Trim()
+                Move-Item  $_psc.path.list $_psc.path.old_list -Force
+                $content | Out-File $_psc.path.list -Force
+                $_psc.list = $content
+            }
+        }else{
+            Write-Host (_psc_replace $_psc.json.repo_add) -f Red
+            return $false
         }
     }
-    catch {  }
+    catch {}
+    return $true
 }
 
 function _psc_add_completion($completion, $log = $true, $is_update = $false) {

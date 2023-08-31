@@ -1,6 +1,6 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.0.2'
+$_psc.version = '2.0.3'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -60,10 +60,12 @@ function PSCompletions_init() {
     if (!( $_psc.lang -in $_psc.langs)) {
         $_psc.lang = 'en-US'
     }
-
-    $_psc.github = $_psc.config.github.Replace('github.com', 'raw.githubusercontent.com') + '/main'
-    $_psc.gitee = $_psc.config.gitee + '/raw/main'
-
+    if ($_psc.config.github) {
+        $_psc.github = $_psc.config.github.Replace('github.com', 'raw.githubusercontent.com') + '/main'
+    }
+    if ($_psc.config.gitee) {
+        $_psc.gitee = $_psc.config.gitee + '/raw/main'
+    }
     function _do($i, $k) {
         return $(if ($_psc.config.$i) { $_psc.$i } else { $_psc.$k })
     }
@@ -99,7 +101,7 @@ function PSCompletions_init() {
         }
         if (!(Test-Path($_psc.path.list))) {
             New-Item $_psc.path.list > $null
-            _psc_download_list
+            if (!(_psc_download_list)) { return }
         }
         if (!(Test-Path($_psc.path.old_list))) {
             Copy-Item $_psc.path.list $_psc.path.old_list -Force -ErrorAction SilentlyContinue
@@ -133,6 +135,10 @@ function PSCompletions_init() {
 PSCompletions_init
 
 $_psc.comp_cmd.keys | Where-Object { $_psc.comp_cmd.$_ -ne $_ } | ForEach-Object { Set-Alias $_psc.comp_cmd.$_ $_ }
+
+if (!$_psc.config.github -and !$_psc.config.gitee) {
+    Write-Host (_psc_replace $_psc.json.repo_err) -ForegroundColor Yellow
+}
 
 #region init and update
 if ($_psc.init) { Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan }
@@ -180,10 +186,15 @@ $null = Start-Job -ScriptBlock {
             $versions = @($_psc.version, $content) | Sort-Object { [Version] $_ }
             if ($versions[-1] -ne $_psc.version) {
                 set_config 'update' $versions[-1]
+                $res = Invoke-WebRequest -Uri ($_psc.url + '/core/module_log.json')
+                if ($res.StatusCode -eq 200) {
+                    $res.Content | Out-File ($_psc.path.core + '\module_log.json') -Force
+                }
             }
         }
     }
-    (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Out-File ($_psc.path.core + '\.add')
+
+    (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Out-File ($_psc.path.core + '\.add') -Force
 
     _do {
         $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')

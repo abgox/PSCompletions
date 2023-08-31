@@ -1,4 +1,5 @@
 function _psc_replace($data) {
+    $data = $data -join ''
     $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
     $matches = [regex]::Matches($data, $pattern)
     foreach ($match in $matches) {

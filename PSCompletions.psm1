@@ -25,7 +25,7 @@ function PSCompletions {
 
         $data = @()
         if ($arg[1] -eq '--remote') {
-            _psc_download_list
+            if (!(_psc_download_list)) { return }
             foreach ($_ in  $_psc.list) {
                 $status = if ($_psc.comp_cmd.$_) { $_psc.json.list_add_done }else { $_psc.json.list_add }
                 $data += [PSCustomObject]@{
@@ -53,7 +53,7 @@ function PSCompletions {
             param_error 'min' 'add'
             return
         }
-        _psc_download_list
+        if (!(_psc_download_list)) { return }
         $list = $arg[1..($arg.Length - 1)]
         foreach ($_ in $list) {
             if ($_ -in $_psc.list) {
@@ -147,7 +147,7 @@ function PSCompletions {
             return
         }
         Write-Host (_psc_replace $_psc.json.search) -f Yellow
-        _psc_download_list
+        if (!(_psc_download_list)) { return }
 
         foreach ( $_ in $_psc.list) {
             if ( $_ -like ($arg[1])) {
