@@ -107,6 +107,7 @@
     "list_add": "🔴",
     "list_add_done": "🟢",
     "list_add_tip": "🟢：补全已在本地添加\n🔴：补全还未在本地添加",
+    "repo_using":"当前使用的远程仓库: {{$_psc.repo}}",
     "add": "添加补全 -- {{$_}}",
     "adding": "正在添加补全 -- {{$completion}}",
     "add_done": "补全({{$completion}})添加成功",
@@ -134,12 +135,18 @@
     "alias_add_done": "补全触发命令由{{$arg[2]}}更改为{{$arg[3]}}，请重启终端使更改生效,并以后使用{{$arg[3]}}触发补全",
     "alias_del": "删除别名列表：{{$del_list -join ','}}",
     "alias_rm_done": "{{$_psc.json.alias_del}}\n请重启终端应用更改",
-    "alias_reset_done": "重置为默认补全命令,删除所有补全别名\n{{$_psc.json.alias_del}}\n请重启终端应用更改",
     "alias_rm_err": "不存在别名({{$error_list -join ','}})",
     "alias_reset_confirm": "确定要重置所有补全别名？\n{{$_psc.json.confirm}}",
+    "alias_reset_done": "重置为默认补全命令,删除所有补全别名\n{{$_psc.json.alias_del}}\n请重启终端应用更改",
     "config_done": "PSCompletions的配置({{$arg[1]}})成功设置为{{$arg[2]}}！(如果未生效，重启终端即可)",
     "config_err": "子命令({{$arg[1]}})错误\n它应该是({{$_psc.config.Keys;'reset'}})其中一个",
     "config_reset": "确定重置所有配置吗\n{{$_psc.json.confirm}}",
+    "config_reset_done": [
+      "配置重置完成,当前配置如下:\n",
+      "{{",
+      "$_psc.config.keys | Foreach-Object { \"`n\" + $_ + ': ' + $_psc.config.$_}",
+      "}}"
+    ],
     "which": "定位补全存储位置 -- {{$_}}",
     "which_err": "定位补全({{$_}})失败，你还未添加{{$_}}补全。\n推荐输入 {{$_psc.root_cmd}} which 后按下 Tab 键补全选择可定位的补全进行定位补全位置。",
     "example": {

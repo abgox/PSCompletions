@@ -103,6 +103,7 @@
         "list_add": "🔴",
         "list_add_done": "🟢",
         "list_add_tip": "🟢: You have added it.\n🔴:You haven't added it yet.",
+        "repo_using":"Current remote repository: {{$_psc.repo}}",
         "add": "Add completion -- {{$_}}",
         "adding": "Adding completion -- {{$completion}}",
         "add_done": "Completion({{$completion}}) add completed",
@@ -129,13 +130,19 @@
         "alias_err": "You haven't added {{$arg[2]}} yet.",
         "alias_add_done": "The completion trigger command has been changed from {{$arg[2]}} to {{$arg[3]}}.\nPlease restart the terminal to take effect.",
         "alias_del": "Alias delete list：{{$del_list -join ','}}",
-        "alias_reset_done": "Reset all alias\n{{$_psc.json.alias_del}}\nPlease restart the terminal to take effect.",
         "alias_rm_err": "alias no exist -- ({{$error_list -join ','}})",
         "alias_reset_confirm": "Reset all completion aliases\n{{$_psc.json.confirm}}",
+        "alias_reset_done": "Reset all alias!\n{{$_psc.json.alias_del}}\nPlease restart the terminal to take effect.",
         "config": "Current value -- {{$_psc.config.$_}}",
         "config_done": "{{$arg[1]}} => {{$arg[2]}} (If doesn't take effect, restart the terminal)",
         "config_err": "Subcommand({{$arg[1]}}) error\nIt should be one of ({{$_psc.config.Keys;'reset'}}).",
         "config_reset": "Reset all config?\n{{$_psc.json.confirm}}",
+        "config_reset_done": [
+            "Reset all config!\nThe current config is as follows:\n",
+            "{{",
+            "$_psc.config.keys | Foreach-Object { \"`n\" + $_ + ': ' + $_psc.config.$_}",
+            "}}"
+        ],
         "which": "Locate completion storage location -- {{$_}}",
         "which_err": "Locate completion({{$_}}) failed. You haven't added {{$_}} yet.\nIt's recommended to type \"{{$_psc.root_cmd}} which\" and press \"Tab\" to complete.",
         "example": {
