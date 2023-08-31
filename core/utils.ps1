@@ -123,3 +123,46 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
         Remove-Item $completion_dir -Force -Recurse > $null
     }
 }
+
+function _psc_reorder_tab($history, $PSScriptRoots) {
+    $null = Start-Job -ScriptBlock {
+        param( $_psc, $history, $root)
+        if ($history -ne '') {
+            $cmd = $history -split ' '
+            $alias = $_psc.comp_cmd.keys | foreach-Object { $_psc.comp_cmd.$_ }
+            if ($cmd[0] -in $alias) {
+                $flag = $history.Substring($history.IndexOf(' ') + 1)
+                $path = ($root + '\json\' + $_psc.lang + '.json')
+                $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
+                $res = [ordered]@{}
+                $res_flag = @()
+                foreach ($_ in $json.PSObject.Properties) {
+                    $type = ($_.value).GetType().Name
+                    if ($type -ne 'PSCustomObject') {
+                        $i = $flag
+                        while ($i) {
+                            if ($_.Name -eq $i) { $res_flag += $_.Name }
+                            if ( $i.lastIndexOf(' ') -eq -1) { break }
+                            $i = $i.Substring(0, $i.lastIndexOf(' '))
+                        }
+                    }
+                }
+                $res_arr = @()
+                foreach ($_ in $json.PSObject.Properties) {
+                    $type = ($_.value).GetType().Name
+                    if ($type -ne 'PSCustomObject') {
+                        if ($_.Name -in $res_flag) {
+                            $res_arr += @{cmd = $_.Name; value = $_.value; len = ($_.Name).Length }
+                        }
+                        else { $res.($_.Name) = $_.value }
+                    }
+                    else { $res.($_.Name) = $_.value }
+                }
+                $res_arr | Sort-Object { $_.len } -Descending | ForEach-Object {
+                    $res.Insert(0, $_.cmd, $_.value)
+                }
+                $res | ConvertTo-Json | Out-File $path
+            }
+        }
+    } -ArgumentList $_psc, $history, $PSScriptRoots
+}

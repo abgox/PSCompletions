@@ -2,15 +2,9 @@
 function PSCompletions {
     $arg = $args
     function param_error {
-        $res = if ($args[0] -eq 'min') {
-            $_psc.json.param_min
-        }
-        elseif ($args[0] -eq 'max') {
-            $_psc.json.param_max
-        }
-        else {
-            $_psc.json.param_err
-        }
+        $res = if ($args[0] -eq 'min') { $_psc.json.param_min }
+        elseif ($args[0] -eq 'max') { $_psc.json.param_max }
+        else { $_psc.json.param_err }
         Write-Host (_psc_replace ($res + $_psc.json.example.($args[1])) ) -f Red
     }
     function _list {
@@ -78,9 +72,7 @@ function PSCompletions {
                     Write-Host (_psc_replace $_psc.json.remove_done) -f Green
                 }
             }
-            else {
-                Write-Host (_psc_replace $_psc.json.remove_err) -f Red
-            }
+            else { Write-Host (_psc_replace $_psc.json.remove_err) -f Red }
         }
     }
     function _Update {
@@ -150,9 +142,7 @@ function PSCompletions {
         if (!(_psc_download_list)) { return }
 
         foreach ( $_ in $_psc.list) {
-            if ( $_ -like ($arg[1])) {
-                Write-Host $_ -f green
-            }
+            if ( $_ -like ($arg[1])) { Write-Host $_ -f green }
         }
     }
     function _Which {
