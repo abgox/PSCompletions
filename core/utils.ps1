@@ -1,0 +1,166 @@
+. $PSScriptRoot\replace.ps1
+
+function _psc_get_config {
+    $c = [environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';'
+    return @{
+        module_version = $c[0]
+        root_cmd       = $c[1]
+        github         = $c[2]
+        gitee          = $c[3]
+        language       = $c[4]
+        update         = $c[5]
+    }
+}
+
+function _psc_set_config($k, $v) {
+    $c = _psc_get_config
+    $c.$k = $v
+    $res = @($c.module_version, $c.root_cmd, $c.github, $c.gitee, $c.language, $c.update) -join ';'
+    [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
+}
+
+function _psc_confirm($tip, $confirm_event) {
+    Write-Host (_psc_replace $tip) -f Yellow
+    $choice = $host.UI.RawUI.ReadKey("NoEcho, IncludeKeyDown")
+    if ($choice.Character -eq 13) {
+        & $confirm_event
+    }
+    else { Write-Host (_psc_replace $_psc.json.cancel) -f Green }
+}
+
+function _psc_get_content($path) {
+    return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
+}
+
+function _psc_download_list {
+    try {
+        if ($_psc.url) {
+            $res = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
+            if ($res.StatusCode -eq 200) {
+                $content = ($res.Content).Trim()
+                Move-Item  $_psc.path.list $_psc.path.old_list -Force
+                $content | Out-File $_psc.path.list -Force -Encoding utf8
+                $_psc.list = _psc_get_content $_psc.path.list
+                return $true
+            }
+        }
+        else {
+            Write-Host (_psc_replace $_psc.json.repo_add) -f Red
+            return $false
+        }
+    }
+    catch { return $false }
+}
+
+function _psc_add_completion($completion, $log = $true, $is_update = $false) {
+    if ($is_update) {
+        $err = $_psc.json.update_download_err
+        $done = $_psc.json.update_done
+    }
+    else {
+        $err = $_psc.json.add_download_err
+        $done = $_psc.json.add_done
+    }
+    $url = $_psc.url + '/completions/' + $completion
+    function _mkdir($path) {
+        if (!(Test-Path($path))) { mkdir $path > $null }
+    }
+    $completion_dir = $_psc.path.completions + '\' + $completion
+    _mkdir $_psc.path.completions
+    _mkdir $completion_dir
+    _mkdir ($completion_dir + '\json')
+
+    $files = @(
+        @{
+            Uri     = $url + '/' + $completion + '.ps1'
+            OutFile = $completion_dir + '\' + $completion + '.ps1'
+        },
+        @{
+            Uri     = $url + '/json/zh-CN.json'
+            OutFile = $completion_dir + '\json\zh-CN.json'
+        },
+        @{
+            Uri     = $url + '/json/en-US.json'
+            OutFile = $completion_dir + '\json\en-US.json'
+        },
+        @{
+            Uri     = $url + "/.guid"
+            OutFile = $completion_dir + '\.guid'
+        }
+    )
+    $jobs = @()
+    foreach ($file in $files) {
+        $params = $file
+        $jobs += Start-Job -Name $file.OutFile -ScriptBlock {
+            $params = $using:file
+            Invoke-WebRequest @params
+        }
+    }
+    $flag = if ($is_update) { $_psc.json.updating }else { $_psc.json.adding }
+
+    Write-Host (_psc_replace $flag) -f Yellow
+    Write-Host (_psc_replace $_psc.json.repo_using) -f Cyan
+    Wait-Job -Job $jobs > $null
+
+    $all_exist = $true
+    foreach ($file in $files) {
+        if (!(Test-Path $file.OutFile)) {
+            $all_exist = $false
+            $fail_file = Split-Path $file.OutFile -Leaf
+            $fail_file_url = $file.Uri
+        }
+    }
+    if ($all_exist) {
+        if ($log) {
+            Write-Host  (_psc_replace $done) -f Green
+            Write-Host (_psc_replace ($_psc.json.download_dir + $completion_dir)) -f Green
+        }
+    }
+    else {
+        Write-Host  (_psc_replace $err) -f Red
+        Remove-Item $completion_dir -Force -Recurse > $null
+    }
+}
+
+function _psc_reorder_tab($history, $PSScriptRoots) {
+    $null = Start-Job -ScriptBlock {
+        param( $_psc, $history, $root)
+        if ($history -ne '') {
+            $cmd = $history -split ' '
+            $alias = $_psc.comp_cmd.keys | foreach-Object { $_psc.comp_cmd.$_ }
+            if ($cmd[0] -in $alias) {
+                $flag = $history.Substring($history.IndexOf(' ') + 1)
+                $path = ($root + '\json\' + $_psc.lang + '.json')
+                $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
+                $res_flag = @()
+                foreach ($_ in $json.PSObject.Properties) {
+                    $type = ($_.value).GetType().Name
+                    if ($type -ne 'PSCustomObject') {
+                        $i = $flag
+                        while ($i) {
+                            if ($_.Name -eq $i) { $res_flag += $_.Name }
+                            if ( $i.lastIndexOf(' ') -eq -1) { break }
+                            $i = $i.Substring(0, $i.lastIndexOf(' '))
+                        }
+                    }
+                }
+                $res_arr = @()
+                $res = [ordered]@{}
+                foreach ($_ in $json.PSObject.Properties) {
+                    $type = ($_.value).GetType().Name
+                    if ($type -ne 'PSCustomObject') {
+                        if ($_.Name -in $res_flag) {
+                            $res_arr += @{cmd = $_.Name; value = $_.value; len = ($_.Name).Length }
+                        }
+                        else { $res.($_.Name) = $_.value }
+                    }
+                    else { $res.($_.Name) = $_.value }
+                }
+                $res_arr | Sort-Object { $_.len } -Descending | ForEach-Object {
+                    $res.Insert(0, $_.cmd, $_.value)
+                }
+                $res | ConvertTo-Json | Out-File $path -Encoding utf8
+            }
+        }
+    } -ArgumentList $_psc, $history, $PSScriptRoots
+}
