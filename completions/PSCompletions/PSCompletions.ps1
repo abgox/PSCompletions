@@ -20,10 +20,10 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             $cmd_arr = $cmd -split ' '
             $position = @()
             for ($i = 0; $i -lt $cmd_arr.Count; $i++) {
-                if ($cmd_arr[$i] -match "<.+>") { $position += $i }
+                if ($cmd_arr[$i] -match "\[.+\]") { $position += $i }
             }
             if ($position) {
-                $cmd = ($cmd -replace "<[^>]+>", "") -replace "\s{1,}", ' '
+                $cmd = ($cmd -replace "\[[^\]]+\]", '') -replace "\s{1,}", ' '
                 $completions[$cmd] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), @($subCmd.length, ($_.Value -split "`n").Count)) + $position
             }
             $completions[$cmd] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), $subCmd.length, ($_.Value -split "`n").Count) + $position
@@ -88,20 +88,18 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
         }
         else { $cmd.Count -eq ($_input.Count + 1) -and ($temp -join ' ') -eq $_input }
     }
-
     if (!$filter_list) {
         $filter_list = $completions.Keys | Where-Object {
             if ($completions[$_].Count -gt 3) {
                 $cmd = $_ -split '\s+'
                 $info = $completions[$_]
                 $res_input = format_input $_input $info[4..($info.Length - 1)]
-                $flag = ($_ -replace "<[^>]+>", "") -split "\s+"
+                $flag = ($_ -replace "\[[^\]]+\]", '') -split "\s+"
                 $res = $flag[0..($flag.Length - 2)]
                     ($res -join ' ') -eq ($res_input -join ' ') -and $cmd[-1] -ne $_input[-1]
             }
         }
     }
-
     $filter_list | ForEach-Object {
         if ($completions[$_][1] -ge $limit_value) { $limit_value = $completions[$_][1] }
         if ($completions[$_][2] -ge $limit_line) { $limit_line = $completions[$_][2] }
@@ -111,7 +109,6 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     if ($comp_count -le [math]::Floor($filter_list.Count * 2 / 3)) {
         $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
     }
-
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) { $display_count++; $completions[$_][0] }
         else {
