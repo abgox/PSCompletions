@@ -4,7 +4,6 @@ using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [ordered]@{}
     $root_cmd = $_psc.comp_cmd.PSCompletions
 
     #region : Parse json data
@@ -13,10 +12,21 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     # #endregion
 
     #region : Store
+    $completions = [ordered]@{}
     foreach ($_ in $_json) {
         if ($_.Name -ne 'PSCompletions_core_info') {
             $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-            $completions[ $root_cmd + ' ' + $_.Name] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), $subCmd.length, ($_.Value -split "`n").Count)
+            $cmd = $root_cmd + ' ' + $_.Name
+            $cmd_arr = $cmd -split ' '
+            $position = @()
+            for ($i = 0; $i -lt $cmd_arr.Count; $i++) {
+                if ($cmd_arr[$i] -match "<.+>") { $position += $i }
+            }
+            if ($position) {
+                $cmd = ($cmd -replace "<[^>]+>", "") -replace "\s{1,}", ' '
+                $completions[$cmd] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), @($subCmd.length, ($_.Value -split "`n").Count)) + $position
+            }
+            $completions[$cmd] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), $subCmd.length, ($_.Value -split "`n").Count) + $position
         }
     }
     #endregion
@@ -57,35 +67,53 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     #endregion
 
     #region : Carry out
+    function format_input($cmd_input, $position_list) {
+        $result = @()
+        for ($i = 0; $i -lt $cmd_input.Count; $i++) {
+            if ($i -notin $position_list) { $result += $cmd_input[$i] }
+        }
+        return $result
+    }
     $_input = $commandAst.CommandElements
-    $cmd_line = [System.Console]::WindowHeight - 4
-    $limit_max = @(0, 0)
-    $count = 0
+    $limit_value = 0
+    $limit_line = 0
     $display_count = 0
+    $cmd_line = [System.Console]::WindowHeight - 4
     $input_tab = if ($wordToComplete.length) { $true }else { $false }
-    $input_count = $_input.Count
-    $all = $completions.Keys | Where-Object {
+    $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split '\s+'
-        $temp = $cmd[0..($input_count - 1)]
+        $temp = $cmd[0..($_input.Count - 1)]
         if ($input_tab) {
-            $cmd.Count -eq $input_count -and $temp -join ' ' -like ($_input -join ' ') + '*'
+            $cmd.Count -eq $_input.Count -and $temp -join ' ' -like ($_input -join ' ') + '*'
         }
-        else {
-            $cmd.Count -eq ($input_count + 1) -and ($temp -join ' ') -eq $_input
+        else { $cmd.Count -eq ($_input.Count + 1) -and ($temp -join ' ') -eq $_input }
+    }
+
+    if (!$filter_list) {
+        $filter_list = $completions.Keys | Where-Object {
+            if ($completions[$_].Count -gt 3) {
+                $cmd = $_ -split '\s+'
+                $info = $completions[$_]
+                $res_input = format_input $_input $info[4..($info.Length - 1)]
+                $flag = ($_ -replace "<[^>]+>", "") -split "\s+"
+                $res = $flag[0..($flag.Length - 2)]
+                    ($res -join ' ') -eq ($res_input -join ' ') -and $cmd[-1] -ne $_input[-1]
+            }
         }
-    } | foreach-Object {
-        if ($completions[$_][1] -ge $limit_max[0]) { $limit_max[0] = $completions[$_][1] }
-        if ($completions[$_][2] -ge $limit_max[1]) { $limit_max[1] = $completions[$_][2] }
-        $count++
-        $_
     }
-    $comp_count = ($cmd_line - $limit_max[1] ) * [math]::Floor([System.Console]::WindowWidth / ($limit_max[0] + 2))
-    if ($comp_count -le [math]::Floor($count * 2 / 3)) {
-        $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_max[0] + 2))
+
+    $filter_list | ForEach-Object {
+        if ($completions[$_][1] -ge $limit_value) { $limit_value = $completions[$_][1] }
+        if ($completions[$_][2] -ge $limit_line) { $limit_line = $completions[$_][2] }
     }
-    $all | ForEach-Object {
-        $display_count++;
-        if ($comp_count -gt $display_count) { $completions[$_][0] }
+    $comp_count = ($cmd_line - $limit_line ) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+
+    if ($comp_count -le [math]::Floor($filter_list.Count * 2 / 3)) {
+        $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+    }
+
+    $filter_list | ForEach-Object {
+        if ($comp_count -gt $display_count) { $display_count++; $completions[$_][0] }
         else {
             [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
             return
