@@ -31,11 +31,13 @@
 -   A completion manager for better and simpler use and Manage completions.
 -   [Manage the completion together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
--   Completion of dynamic sorting
-    -   Sort by frequency of use
+-   Completion of dynamic sorting.
+    -   Sort by frequency of use.
 -   Complete content can be customized.
     -   By modifying the `json` file to achieve.
+        -   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
         -   If you do it, don't use `psc update` to avoid overwriting your customizations.
+        -   If there are problems, please use `psc update<completion>` to Overwrite completion
     -   Get the completion file path. `psc which <completion>`
 
 **If you find this project helpful, please consider giving it a star ⭐.**
@@ -51,7 +53,7 @@
 
 ### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
--   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue") and I will consider adding it
+-   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue") and I will consider adding it.
 
 1. `psc add git`
 2. Then you can type `git ` and press `Tab` to get command completion.
