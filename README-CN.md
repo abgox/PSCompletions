@@ -38,6 +38,8 @@
     -   `psc which <completion>` 获取补全文件路径
     -   如果你已修改，请不要使用`psc update`，避免你的自定义被覆盖
 
+**如果 PSCompletions 对你有所帮助，请在页面右上角点个 Star ⭐ 支持一下，谢谢！**
+
 ## 安装
 
 1. `Install-Module PSCompletions`
@@ -47,6 +49,8 @@
 ## 使用(以 `git` 补全为例)
 
 ### [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
+
+-   如果补全列表里没有你想要的补全，你可以[提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues"), 我会逐步添加
 
 1. `psc add git`
 2. 然后你就可以输入`git ` 按下`Tab` 来获得命令补全
@@ -68,18 +72,19 @@
 
 ## 补全列表
 
-|                  命令补全                   |                                 命令来源                                  |
-| :-----------------------------------------: | :-----------------------------------------------------------------------: |
-| [PSCompletions](/completions/PSCompletions) | [PSCompletions](https://www.powershellgallery.com/packages/PSCompletions) |
-|           [git](/completions/git)           |                      [Git](https://git-scm.com/docs)                      |
-|         [scoop](/completions/scoop)         |             [Scoop](https://github.com/ScoopInstaller/Scoop)              |
-|         [volta](/completions/volta)         |                        [volta](https://volta.sh/)                         |
-|          [pnpm](/completions/pnpm)          |                         [pnpm](https://pnpm.io/)                          |
-|           [nvm](/completions/nvm)           |             [nvm](https://github.com/coreybutler/nvm-windows)             |
-|           [npm](/completions/npm)           |                       [npm](https://www.npmjs.com/)                       |
-|        [python](/completions/python)        |                     [python](https://www.python.org/)                     |
-|          [chfs](/completions/chfs)          |             [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)             |
-|         [choco](/completions/choco)         |               [choco(chocolatey)](https://chocolatey.org/)                |
-|        [docker](/completions/docker)        |                     [docker](https://www.docker.com/)                     |
-|          [yarn](/completions/yarn)          |                     [yarn](https://yarnpkg.com/cli/)                      |
-|                     ...                     |                                    ...                                    |
+|                  命令补全                   |                                         命令来源                                         |
+| :-----------------------------------------: | :--------------------------------------------------------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) | [PSCompletions 本模块自用补全](https://www.powershellgallery.com/packages/PSCompletions) |
+|           [wsl](/completions/wsl)           |  [WSL - 适用于 Linux 的 Windows 子系统](https://learn.microsoft.com/zh-cn/windows/wsl/)  |
+|           [git](/completions/git)           |                      [Git - 版本控制系统](https://git-scm.com/docs)                      |
+|        [docker](/completions/docker)        |                     [docker - 容器应用开发](https://www.docker.com/)                     |
+|         [scoop](/completions/scoop)         |               [Scoop - 软件管理](https://github.com/ScoopInstaller/Scoop)                |
+|         [choco](/completions/choco)         |                 [choco(chocolatey) - 软件管理](https://chocolatey.org/)                  |
+|         [volta](/completions/volta)         |                [volta - 无障碍 JavaScript 工具管理器](https://volta.sh/)                 |
+|           [nvm](/completions/nvm)           |           [nvm - node 版本管理器](https://github.com/coreybutler/nvm-windows)            |
+|          [pnpm](/completions/pnpm)          |                         [pnpm - 软件包管理器](https://pnpm.io/)                          |
+|           [npm](/completions/npm)           |                       [npm - 软件包管理器](https://www.npmjs.com/)                       |
+|          [yarn](/completions/yarn)          |                     [yarn - 软件包管理器](https://yarnpkg.com/cli/)                      |
+|          [chfs](/completions/chfs)          |        [chfs(CuteHttpFileServer) - 跨平台的文件共享服务器](http://iscute.cn/chfs)        |
+|        [python](/completions/python)        |                       [python - 编程语言](https://www.python.org/)                       |
+|                     ...                     |                                           ...                                            |
