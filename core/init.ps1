@@ -1,6 +1,6 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.0.5'
+$_psc.version = '2.0.6'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -86,7 +86,7 @@ function PSCompletions_init() {
             _psc_add_completion 'PSCompletions'
         }
         if (!(Test-Path($psc_alias_path))) {
-            $_psc.root_cmd | Out-File $psc_alias_path -Force
+            $_psc.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
         }
 
         $psc_alias = (Get-Content $psc_alias_path -Raw -Encoding utf8).Trim()
@@ -188,19 +188,19 @@ $null = Start-Job -ScriptBlock {
                 set_config 'update' $versions[-1]
                 $res = Invoke-WebRequest -Uri ($_psc.url + '/core/module_log.json')
                 if ($res.StatusCode -eq 200) {
-                    $res.Content | Out-File ($_psc.path.core + '\module_log.json') -Force
+                    $res.Content | Out-File ($_psc.path.core + '\module_log.json') -Force -Encoding utf8
                 }
             }
         }
     }
 
-    (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Out-File ($_psc.path.core + '\.add') -Force
+    (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Out-File ($_psc.path.core + '\.add') -Force -Encoding utf8
 
     _do {
         $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
         if ($response.StatusCode -eq 200) {
             Move-Item  $_psc.path.list  $_psc.path.old_list -Force
-            $response.Content | Out-File $_psc.path.list -Force
+            $response.Content | Out-File $_psc.path.list -Force -Encoding utf8
         }
     }
 
@@ -215,5 +215,5 @@ $null = Start-Job -ScriptBlock {
             if ($guid -ne $content) { $update_list += $_ }
         }
     }
-    $update_list | Out-File $_psc.path.update -Force
+    $update_list | Out-File $_psc.path.update -Force -Encoding utf8
 } -ArgumentList $_psc

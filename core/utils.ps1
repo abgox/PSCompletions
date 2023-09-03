@@ -39,7 +39,7 @@ function _psc_download_list {
             if ($res.StatusCode -eq 200) {
                 $content = ($res.Content).Trim()
                 Move-Item  $_psc.path.list $_psc.path.old_list -Force
-                $content | Out-File $_psc.path.list -Force
+                $content | Out-File $_psc.path.list -Force -Encoding utf8
                 $_psc.list = _psc_get_content $_psc.path.list
                 return $true
             }
@@ -96,12 +96,8 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
             Invoke-WebRequest @params
         }
     }
-    if ($is_update) {
-        $flag = $_psc.json.updating
-    }
-    else {
-        $flag = $_psc.json.adding
-    }
+    $flag = if ($is_update) { $_psc.json.updating }else { $_psc.json.adding }
+
     Write-Host (_psc_replace $flag) -f Yellow
     Write-Host (_psc_replace $_psc.json.repo_using) -f Cyan
     Wait-Job -Job $jobs > $null
@@ -136,7 +132,6 @@ function _psc_reorder_tab($history, $PSScriptRoots) {
                 $flag = $history.Substring($history.IndexOf(' ') + 1)
                 $path = ($root + '\json\' + $_psc.lang + '.json')
                 $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
-                $res = [ordered]@{}
                 $res_flag = @()
                 foreach ($_ in $json.PSObject.Properties) {
                     $type = ($_.value).GetType().Name
@@ -150,6 +145,7 @@ function _psc_reorder_tab($history, $PSScriptRoots) {
                     }
                 }
                 $res_arr = @()
+                $res = [ordered]@{}
                 foreach ($_ in $json.PSObject.Properties) {
                     $type = ($_.value).GetType().Name
                     if ($type -ne 'PSCustomObject') {
@@ -163,7 +159,7 @@ function _psc_reorder_tab($history, $PSScriptRoots) {
                 $res_arr | Sort-Object { $_.len } -Descending | ForEach-Object {
                     $res.Insert(0, $_.cmd, $_.value)
                 }
-                $res | ConvertTo-Json | Out-File $path
+                $res | ConvertTo-Json | Out-File $path -Encoding utf8
             }
         }
     } -ArgumentList $_psc, $history, $PSScriptRoots

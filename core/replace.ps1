@@ -8,7 +8,5 @@ function _psc_replace($data) {
     if ($data -match $pattern) {
         _psc_replace $data
     }
-    else {
-        return $data
-    }
+    else { return $data }
 }

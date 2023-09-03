@@ -88,7 +88,7 @@ function PSCompletions {
                         if ($guid -ne $content) { $update_list += $_ }
                     }
                 }
-                $update_list | Out-File $_psc.path.update -Force
+                $update_list | Out-File $_psc.path.update -Force -Encoding utf8
                 $_psc.update = $update_list
                 if ($arg.Length -gt 1) {
                     Write-Host '----------' -f Cyan
@@ -220,7 +220,7 @@ function PSCompletions {
                     param_error 'err' 'alias_add_err'
                     return
                 }
-                $arg[3] | Out-File ($_psc.path.completions + '\' + $arg[2] + '\.alias') -Force
+                $arg[3] | Out-File ($_psc.path.completions + '\' + $arg[2] + '\.alias') -Force -Encoding utf8
                 Write-Host (_psc_replace $_psc.json.alias_add_done) -f Green
             }
             else {
@@ -303,7 +303,7 @@ function PSCompletions {
                         param_error 'err' 'alias_add_err'
                         return
                     }
-                    $arg[2] | Out-File ($_psc.path.completions + '\PSCompletions\.alias') -Force
+                    $arg[2] | Out-File ($_psc.path.completions + '\PSCompletions\.alias') -Force -Encoding utf8
                 }
                 _psc_set_config $arg[1] $arg[2]
                 Write-Host (_psc_replace $_psc.json.config_done) -f Green
