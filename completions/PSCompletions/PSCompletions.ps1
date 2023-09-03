@@ -20,11 +20,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             $cmd_arr = $cmd -split ' '
             $position = @()
             for ($i = 0; $i -lt $cmd_arr.Count; $i++) {
-                if ($cmd_arr[$i] -match "\[.+\]") { $position += $i }
-            }
-            if ($position) {
-                $cmd = ($cmd -replace "\[[^\]]+\]", '') -replace "\s{1,}", ' '
-                $completions[$cmd] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), @($subCmd.length, ($_.Value -split "`n").Count)) + $position
+                if ($cmd_arr[$i] -match "<.+>") { $position += $i }
             }
             $completions[$cmd] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), $subCmd.length, ($_.Value -split "`n").Count) + $position
         }
@@ -67,13 +63,6 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     #endregion
 
     #region : Carry out
-    function format_input($cmd_input, $position_list) {
-        $result = @()
-        for ($i = 0; $i -lt $cmd_input.Count; $i++) {
-            if ($i -notin $position_list) { $result += $cmd_input[$i] }
-        }
-        return $result
-    }
     $_input = $commandAst.CommandElements
     $limit_value = 0
     $limit_line = 0
@@ -86,20 +75,18 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
         if ($input_tab) {
             $cmd.Count -eq $_input.Count -and $temp -join ' ' -like ($_input -join ' ') + '*'
         }
-        else { $cmd.Count -eq ($_input.Count + 1) -and ($temp -join ' ') -eq $_input }
-    }
-    if (!$filter_list) {
-        $filter_list = $completions.Keys | Where-Object {
+        else {
             if ($completions[$_].Count -gt 3) {
-                $cmd = $_ -split '\s+'
                 $info = $completions[$_]
-                $res_input = format_input $_input $info[4..($info.Length - 1)]
-                $flag = ($_ -replace "\[[^\]]+\]", '') -split "\s+"
-                $res = $flag[0..($flag.Length - 2)]
-                    ($res -join ' ') -eq ($res_input -join ' ') -and $cmd[-1] -ne $_input[-1]
+                $first=($info[4..($info.Length - 1)])[0]
+                $result= $cmd.Count -eq ($_input.Count + 1) -and $cmd[$first - 1] -eq $_input[$first - 1]
+            } else{
+               $result= $cmd.Count -eq ($_input.Count + 1) -and ($temp -join ' ') -eq $_input
             }
+             $result
         }
     }
+
     $filter_list | ForEach-Object {
         if ($completions[$_][1] -ge $limit_value) { $limit_value = $completions[$_][1] }
         if ($completions[$_][2] -ge $limit_line) { $limit_line = $completions[$_][2] }
