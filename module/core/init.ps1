@@ -1,11 +1,11 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.0.7'
+$_psc.version = '2.0.8'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
 $_psc.path.core = $_psc.path.root + '\core'
-$_psc.path.list = $_psc.path.core + '\.list'
+$_psc.path.list = $_psc.path.root + '\list.txt'
 $_psc.path.old_list = $_psc.path.core + '\.old_list'
 $_psc.path.update = $_psc.path.core + '\.update'
 $_psc.lang = (Get-WinSystemLocale).name
@@ -57,7 +57,7 @@ function PSCompletions_init() {
     if ($_psc.config.language) {
         $_psc.lang = $_psc.config.language
     }
-    if (!( $_psc.lang -in $_psc.langs)) {
+    if ($_psc.lang -ne 'zh-CN') {
         $_psc.lang = 'en-US'
     }
     if ($_psc.config.github) {
@@ -67,20 +67,22 @@ function PSCompletions_init() {
         $_psc.gitee = $_psc.config.gitee + '/raw/main'
     }
     function _do($i, $k) {
-        if($_psc.config.$i){
-            return @($_psc.$i,$_psc.config.$i)
-        }else{
-            return @($_psc.$k,$_psc.config.$k)
+        if ($_psc.config.$i) {
+            return @($_psc.$i, $_psc.config.$i)
+        }
+        else {
+            return @($_psc.$k, $_psc.config.$k)
         }
     }
-    if($_psc.lang -eq 'zh-CN'){
+    if ($_psc.lang -eq 'zh-CN') {
         $info = _do 'gitee' 'github'
         $_psc.url = $info[0]
-        $_psc.repo= $info[1]
-    }else{
+        $_psc.repo = $info[1]
+    }
+    else {
         $info = _do 'github' 'gitee'
         $_psc.url = $info[0]
-        $_psc.repo= $info[1]
+        $_psc.repo = $info[1]
     }
 
     $psc_json_path = $_psc.path.completions + '\PSCompletions\json\' + $_psc.lang + '.json'
@@ -92,21 +94,18 @@ function PSCompletions_init() {
             Invoke-WebRequest -Uri ($_psc.url + '/completions/PSCompletions/json/' + $_psc.lang + '.json') -OutFile $psc_temp
             $_psc.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
         }
-
         if (!(Test-Path($psc_json_path))) {
             _psc_add_completion 'PSCompletions'
         }
         if (!(Test-Path($psc_alias_path))) {
             $_psc.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
         }
-
         $psc_alias = (Get-Content $psc_alias_path -Raw -Encoding utf8).Trim()
         if ($psc_alias -ne $_psc.root_cmd) {
             _psc_set_config 'root_cmd' $psc_alias
             $_psc.root_cmd = $_psc.config.root_cmd = $psc_alias
         }
         $_psc.json = (Get-Content -Path $psc_json_path -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
-
         if (!(Test-Path($_psc.path.update))) {
             New-Item $_psc.path.update > $null
         }
@@ -130,7 +129,7 @@ function PSCompletions_init() {
     }
 
     $res = @()
-    $_psc.installed = Get-ChildItem -Path $_psc.path.completions -Filter "*.ps1" -Recurse -Depth 1
+    $_psc.installed = Get-ChildItem -Path $_psc.path.completions -Filter "*.ps1" -Recurse -Depth 1 | Sort-Object CreationTime
     $_psc.installed | ForEach-Object {
         $cmd = Split-Path (Split-Path $_.FullName -Parent) -Leaf
         $_psc.comp_cmd.$cmd = $cmd
@@ -148,7 +147,7 @@ PSCompletions_init
 $_psc.comp_cmd.keys | Where-Object { $_psc.comp_cmd.$_ -ne $_ } | ForEach-Object { Set-Alias $_psc.comp_cmd.$_ $_ }
 
 if (!$_psc.config.github -and !$_psc.config.gitee) {
-    Write-Host (_psc_replace $_psc.json.repo_err) -ForegroundColor Yellow
+    Write-Host (_psc_replace $_psc.json.repo_err) -f Yellow
 }
 
 #region init and update
@@ -191,15 +190,15 @@ $null = Start-Job -ScriptBlock {
 
     function _do($do) { try { & $do }catch {} }
     _do {
-        $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.version')
+        $response = Invoke-WebRequest -Uri ($_psc.url + '/module/.version')
         if ($response.StatusCode -eq 200) {
             $content = ($response.Content).Trim()
             $versions = @($_psc.version, $content) | Sort-Object { [Version] $_ }
             if ($versions[-1] -ne $_psc.version) {
                 set_config 'update' $versions[-1]
-                $res = Invoke-WebRequest -Uri ($_psc.url + '/core/module_log.json')
+                $res = Invoke-WebRequest -Uri ($_psc.url + '/module/log.json')
                 if ($res.StatusCode -eq 200) {
-                    $res.Content | Out-File ($_psc.path.core + '\module_log.json') -Force -Encoding utf8
+                    $res.Content | Out-File ($_psc.path.core + '\log.json') -Force -Encoding utf8
                 }
             }
         }
@@ -208,7 +207,7 @@ $null = Start-Job -ScriptBlock {
     (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Out-File ($_psc.path.core + '\.add') -Force -Encoding utf8
 
     _do {
-        $response = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
+        $response = Invoke-WebRequest -Uri ($_psc.url + '/list.txt')
         if ($response.StatusCode -eq 200) {
             Move-Item  $_psc.path.list  $_psc.path.old_list -Force
             $response.Content | Out-File $_psc.path.list -Force -Encoding utf8

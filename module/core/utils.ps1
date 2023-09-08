@@ -35,7 +35,7 @@ function _psc_get_content($path) {
 function _psc_download_list {
     try {
         if ($_psc.url) {
-            $res = Invoke-WebRequest -Uri ($_psc.url + '/core/.list')
+            $res = Invoke-WebRequest -Uri ($_psc.url + '/list.txt')
             if ($res.StatusCode -eq 200) {
                 $content = ($res.Content).Trim()
                 Move-Item  $_psc.path.list $_psc.path.old_list -Force
@@ -163,4 +163,69 @@ function _psc_reorder_tab($history, $PSScriptRoots) {
             }
         }
     } -ArgumentList $_psc, $history, $PSScriptRoots
+}
+
+function _psc_less($str_list, $header, $do = {}, $show_line) {
+    if ($header) {
+        $str_list = @(
+            @{
+                content = "`n{0,-$($header[2] + 3)} {1}" -f $header[0], $header[1]
+                color   = 'Cyan'
+            },
+            @{
+                content = "{0,-$($header[2] + 3)} {1}" -f ('-' * $header[0].Length), ('-' * $header[1].Length)
+                color   = 'Cyan'
+            }
+        ) + $str_list
+    }
+    $i = 0
+    $need_less = [System.Console]::WindowHeight -lt ($str_list.Count + 2)
+    if ($need_less) {
+        $init_line = if ($show_line) { $show_line }else { [System.Console]::WindowHeight - 5 }
+        $lines = $str_list.Count - $init_line
+        Write-Host '>>> ' -f Yellow -NoNewline
+        Write-Host (_psc_replace $_psc.json.less_tip) -f Cyan -NoNewline
+        Write-Host ' <<<' -f Yellow
+        & $do
+        while ($i -lt $init_line -and $i -lt $str_list.Count) {
+            if ($str_list[$i].bgColor) {
+                Write-Host $str_list[$i].content -f $str_list[$i].color -b $str_list[$i].bgColor
+            }
+            else {
+                Write-Host $str_list[$i].content -f $str_list[$i].color
+            }
+            $i++
+        }
+        while ($i -lt $str_list.Count) {
+            $keyCode = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
+            if ($keyCode -ne 13) {
+                break
+            }
+            if ($str_list[$i].bgColor) {
+                Write-Host $str_list[$i].content -f $str_list[$i].color -b $str_list[$i].bgColor
+            }
+            else { Write-Host $str_list[$i].content -f $str_list[$i].color }
+            $i++
+        }
+        $end = if ($i -lt $str_list.Count) { $false }else { $true }
+        if ($end) {
+            Write-Host ' '
+            Write-Host "(End)" -f Black -b White -NoNewline
+            while ($end) {
+                $keyCode = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
+                if ($keyCode -ne 13) { break }
+            }
+        }
+    }
+    else {
+        & $do
+        $str_list | ForEach-Object {
+            if ($_.bgColor) {
+                Write-Host $_.content -f $_.color -b $_.bgColor[2]
+            }
+            else {
+                Write-Host $_.content -f $_.color
+            }
+        }
+    }
 }

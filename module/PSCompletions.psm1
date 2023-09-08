@@ -16,30 +16,31 @@ function PSCompletions {
             param_error 'err' 'list'
             return
         }
-
         $data = @()
         if ($arg[1] -eq '--remote') {
             if (!(_psc_download_list)) { return }
-            foreach ($_ in  $_psc.list) {
+            $max_len = ($_psc.list  | Measure-Object -Maximum Length).Maximum
+            $_psc.list | ForEach-Object {
                 $status = if ($_psc.comp_cmd.$_) { $_psc.json.list_add_done }else { $_psc.json.list_add }
-                $data += [PSCustomObject]@{
-                    $_psc.json.list_comp   = $_
-                    $_psc.json.list_status = $status
+                $data += @{
+                    content = "{0,-$($max_len + 3)} {1}" -f $_, $status
+                    color   = 'Green'
                 }
             }
-            $data | Format-Table -AutoSize -Wrap
-            Write-Host (_psc_replace $_psc.json.list_add_tip) -f Yellow
+            _psc_less $data ('Completion', 'Status', $max_len) {
+                Write-Host (_psc_replace $_psc.json.list_add_tip) -f Yellow
+            }
         }
         else {
-            foreach ($_ in $_psc.comp_cmd.keys) {
+            $max_len = ($_psc.comp_cmd.keys | Measure-Object -Maximum Length).Maximum
+            $_psc.comp_cmd.keys | ForEach-Object {
                 $alias = if ($_psc.comp_cmd.$_ -eq $_) { '' }else { $_psc.comp_cmd.$_ }
-                $data += [PSCustomObject]@{
-                    $_psc.json.list_comp  = $_
-                    $_psc.json.list_alias = $alias
+                $data += @{
+                    content = "{0,-$($max_len + 3)} {1}" -f $_, $alias
+                    color   = 'Green'
                 }
             }
-            $data | Format-Table -AutoSize -Wrap
-            Write-Host (_psc_replace $_psc.json.alias_tip) -f Yellow
+            _psc_less $data ('Completion', 'Alias', $max_len)
         }
     }
     function _Add {
@@ -138,11 +139,16 @@ function PSCompletions {
             param_error 'max' 'search'
             return
         }
-        Write-Host (_psc_replace $_psc.json.search) -f Yellow
         if (!(_psc_download_list)) { return }
-
-        foreach ( $_ in $_psc.list) {
-            if ( $_ -like ($arg[1])) { Write-Host $_ -f green }
+        $result = @()
+        $_psc.list | Where-Object { $_ -like $arg[1] } | ForEach-Object {
+            $result += @{
+                content = $_
+                color   = 'Green'
+            }
+        }
+        _psc_less $result '' {
+            Write-Host (_psc_replace $_psc.json.search) -f Yellow
         }
     }
     function _Which {
@@ -198,19 +204,16 @@ function PSCompletions {
                 return
             }
         }
-
         if ($arg[1] -eq 'list') {
             $data = @()
-            $_psc.comp_cmd.Keys | ForEach-Object {
-                if ($_ -ne $_psc.comp_cmd.$_) {
-                    $data += [PSCustomObject]@{
-                        $_psc.json.list_comp  = $_
-                        $_psc.json.list_alias = $_psc.comp_cmd.$_
-                    }
+            $max_len = ($_psc.comp_cmd.keys | Measure-Object -Maximum Length).Maximum
+            $_psc.comp_cmd.keys | Where-Object { $_ -ne $_psc.comp_cmd.$_ } | ForEach-Object {
+                $data += @{
+                    content = "{0,-$($max_len + 3)} {1}" -f $_, $_psc.comp_cmd.$_
+                    color   = 'Green'
                 }
             }
-            $data | Format-Table -AutoSize -Wrap
-            Write-Host (_psc_replace $_psc.json.alias_tip) -f Yellow
+            _psc_less $data ('Completion', 'Alias', $max_len)
         }
         elseif ($arg[1] -eq 'add') {
             if ($arg[2] -in $_psc.comp_cmd.Keys) {
