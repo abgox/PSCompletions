@@ -51,9 +51,12 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
         $tip_alias_add = _psc_replace $_psc.json.alias_add
         $completions[$root_cmd + ' alias add ' + $_] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip_alias_add), $_.Length, ($tip_alias_add -split "`n").Count)
 
-        if (!($_ -eq 'PSCompletions' -and $alias -eq 'psc')) {
+        $default= $_ -eq $alias
+        $default_psc= $_ -eq 'PSCompletions' -and $alias -eq 'psc'
+
+        if (!($default -or $default_psc)) {
             $tip_alias_rm = _psc_replace $_psc.json.alias_rm
-            $completions[$root_cmd + ' alias rm ' + $alias] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip_alias_rm), $_.Length, ($tip_alias_rm -split "`n").Count)
+            $completions[$root_cmd + ' alias rm ' + $alias] = @([CompletionResult]::new($alias, $alias, 'ParameterValue', $tip_alias_rm), $_.Length, ($tip_alias_rm -split "`n").Count)
         }
     }
     foreach ($_ in @('language', 'root_cmd', 'github', 'gitee', 'update')) {

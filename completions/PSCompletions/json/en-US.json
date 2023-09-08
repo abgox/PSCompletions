@@ -64,7 +64,7 @@
     "config reset": "Reset all configs to default.\nInclude(language,root_cmd,github,gitee,update)",
     "PSCompletions_core_info": {
         "description": "PSCompletions({{$_psc.root_cmd}}) -- Command completion manager\nFor more information, please visit the following project\n    Github: https://github.com/abgox/PSCompletions\n    Gitee: https://gitee.com/abgox/PSCompletions",
-        "init_info": "✨✨✨PSCompletions({{$_psc.root_cmd}}) -- Init successfully!✨✨✨\n(The following content is only displayed for the first time)\nYou just need to type \"{{$_psc.root_cmd}}\" and only \"Tab\", and you will quickly understand all commands.\nUse \"{{$_psc.root_cmd}} add <completion>\" to add the first completion!\nFor more information, please visit the project:\n    Github: https://github.com/abgox/PSCompletions\n    Gitee: https://gitee.com/abgox/PSCompletions",
+        "init_info": "✨✨✨PSCompletions({{$_psc.root_cmd}}) -- Init successfully!✨✨✨\n(The following content is only displayed for the first time)\nYou just need to type \"{{$_psc.root_cmd}}\" and only \"Tab\", and you will quickly understand all commands.\nUse \"{{$_psc.root_cmd}} add <completion>\" to add the first completion!\nFor more information, please visit the project:\n    Github: https://github.com/abgox/PSCompletions\n    Gitee:  https://gitee.com/abgox/PSCompletions\nIf you find the project helpful, please consider giving it a star.",
         "error": "Please check your network.",
         "module_warn": "Module Warning(PSCompletions):",
         "repo_add": [
@@ -83,7 +83,7 @@
             "The powershell module(PSCompletions) can be updated now!Update?(The added completion will be automatically migrated)",
             "\n({{$_psc.version}} => {{$_psc.config.update}})\n",
             "{{",
-            "$log=(Get-Content -Raw  ($_psc.path.core +'\\module_log.json') -Encoding UTF8 -ErrorAction SilentlyContinue | ConvertFrom-Json).PSObject.Properties;",
+            "$log=(Get-Content -Raw  ($_psc.path.core +'\\log.json') -Encoding UTF8 -ErrorAction SilentlyContinue | ConvertFrom-Json).PSObject.Properties;",
             "$num=1;",
             "$log | Foreach-Object {",
             "   if($_.Name -gt $_psc.version){if($num){$_.Name + ':' + $_.Value;$num=0}else{\"`n\" + $_.Name + ':' + $_.Value} }",
@@ -102,7 +102,7 @@
         "list_status": "Status",
         "list_add": "🔴",
         "list_add_done": "🟢",
-        "list_add_tip": "🟢: You have added it.\n🔴:You haven't added it yet.",
+        "list_add_tip": "🟢: You have added it.   🔴:You haven't added it yet.",
         "repo_using":"Current remote repository: {{$_psc.repo}}",
         "add": "Add completion -- {{$_}}",
         "adding": "Adding completion -- {{$completion}}",
@@ -112,7 +112,7 @@
         "remove": "Remove completion -- {{$_}}",
         "remove_done": "Completion({{$_}}) has been removed",
         "remove_err": "Remove completion({{$_}}) failed. You haven't added {{$_}} yet.\nIt's recommended to type \"{{$_psc.root_cmd}} rm\" and press \"Tab\" to complete.",
-        "search": "Search for {{$arg[1]}} ...",
+        "search": "{{if($result){'The search results are as follows:'}else{'No completion found!'}}}",
         "update": "Update completion -- {{$_}}",
         "updating": "Updating completion -- {{$completion}}",
         "update_done": "Completion({{$completion}}) update completed",
@@ -145,6 +145,7 @@
         ],
         "which": "Locate completion storage location -- {{$_}}",
         "which_err": "Locate completion({{$_}}) failed. You haven't added {{$_}} yet.\nIt's recommended to type \"{{$_psc.root_cmd}} which\" and press \"Tab\" to complete.",
+        "less_tip":"Press Enter to view more, or any other key to exit!({{$lines}} lines remaining)",
         "example": {
             "list": [
                 "\neg. {{$_psc.root_cmd}} list",
@@ -161,7 +162,7 @@
             "search": [
                 "\neg. {{$_psc.root_cmd}} search *    Show all",
                 "\n    {{$_psc.root_cmd}} search p*   Search for completion starting with p",
-                "\n    {{$_psc.root_cmd}} search *p*  Search for completion ending with p"
+                "\n    {{$_psc.root_cmd}} search *p*  Search for completion with p in the name"
             ],
             "alias": "\neg. {{$_psc.root_cmd}} alias <list|add|rm|reset> [...]",
             "alias_list": "\neg. {{$_psc.root_cmd}} alias list",
