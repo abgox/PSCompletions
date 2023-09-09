@@ -15,14 +15,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     $completions = [ordered]@{}
     foreach ($_ in $_json) {
         if ($_.Name -ne 'PSCompletions_core_info') {
-            $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-            $cmd = $root_cmd + ' ' + $_.Name
-            $cmd_arr = $cmd -split ' '
-            $position = @()
-            for ($i = 0; $i -lt $cmd_arr.Count; $i++) {
-                if ($cmd_arr[$i] -match "<.+>") { $position += $i }
-            }
-            $completions[$cmd] = @([CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value)), $subCmd.length, ($_.Value -split "`n").Count) + $position
+            $last_cmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
+            $completions[$root_cmd + ' ' + $_.Name] = @($last_cmd, $_.Value)
         }
     }
     #endregion
@@ -31,37 +25,38 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     foreach ($_ in $_psc.list) {
         if ($_ -notin $_psc.comp_cmd.keys) {
             $tip = _psc_replace $_psc.json.add
-            $completions[ $root_cmd + ' add ' + $_] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip), $_.Length, ($tip -split "`n").Count)
+            $completions[ $root_cmd + ' add ' + $_] = @($_, $tip)
         }
     }
     if ($_psc.update) {
         foreach ($_ in $_psc.update) {
             $tip = _psc_replace $_psc.json.update
-            $completions[ $root_cmd + ' update ' + $_] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip), $_.Length, ($tip -split "`n").Count)
+            $completions[ $root_cmd + ' update ' + $_] = @($_, $tip)
         }
     }
     foreach ($_ in $_psc.comp_cmd.keys) {
         $alias = $_psc.comp_cmd.$_
         $tip_rm = _psc_replace $_psc.json.remove
-        $completions[$root_cmd + ' rm ' + $_] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip_rm), $_.Length, ($tip_rm -split "`n").Count)
+        if ($_ -ne 'PSCompletions') {
+            $completions[$root_cmd + ' rm ' + $_] = @($_, $tip_rm)
+        }
 
         $tip_which = _psc_replace $_psc.json.which
-        $completions[$root_cmd + ' which ' + $_] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip_which), $_.Length, ($tip_which -split "`n").Count)
+        $completions[$root_cmd + ' which ' + $_] = @($_, $tip_which)
 
         $tip_alias_add = _psc_replace $_psc.json.alias_add
-        $completions[$root_cmd + ' alias add ' + $_] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip_alias_add), $_.Length, ($tip_alias_add -split "`n").Count)
+        $completions[$root_cmd + ' alias add ' + $_] = @($_, $tip_alias_add)
 
-        $default= $_ -eq $alias
-        $default_psc= $_ -eq 'PSCompletions' -and $alias -eq 'psc'
-
+        $default = $_ -eq $alias
+        $default_psc = $_ -eq 'PSCompletions' -and $alias -eq 'psc'
         if (!($default -or $default_psc)) {
             $tip_alias_rm = _psc_replace $_psc.json.alias_rm
-            $completions[$root_cmd + ' alias rm ' + $alias] = @([CompletionResult]::new($alias, $alias, 'ParameterValue', $tip_alias_rm), $_.Length, ($tip_alias_rm -split "`n").Count)
+            $completions[$root_cmd + ' alias rm ' + $alias] = @($alias, $tip_alias_rm)
         }
     }
     foreach ($_ in @('language', 'root_cmd', 'github', 'gitee', 'update')) {
         $tip = _psc_replace $json.('config ' + $_)
-        $completions[$root_cmd + ' config ' + $_] = @([CompletionResult]::new($_, $_, 'ParameterValue', $tip), $_.Length, ($tip -split "`n").Count)
+        $completions[$root_cmd + ' config ' + $_] = @($_, $tip)
     }
     #endregion
 
@@ -79,20 +74,15 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             $cmd.Count -eq $_input.Count -and $temp -join ' ' -like ($_input -join ' ') + '*'
         }
         else {
-            if ($completions[$_].Count -gt 3) {
-                $info = $completions[$_]
-                $first=($info[4..($info.Length - 1)])[0]
-                $result= $cmd.Count -eq ($_input.Count + 1) -and $cmd[$first - 1] -eq $_input[$first - 1]
-            } else{
-               $result= $cmd.Count -eq ($_input.Count + 1) -and ($temp -join ' ') -eq $_input
-            }
-             $result
+            $cmd.Count -eq ($_input.Count + 1) -and $temp -join ' ' -eq $_input
         }
     }
 
     $filter_list | ForEach-Object {
-        if ($completions[$_][1] -ge $limit_value) { $limit_value = $completions[$_][1] }
-        if ($completions[$_][2] -ge $limit_line) { $limit_line = $completions[$_][2] }
+        $len = $completions[$_][0].Length
+        if ($len -ge $limit_value) { $limit_value = $len }
+        $line = ($completions[$_][1] -split "`n").Count
+        if ($line -ge $limit_line) { $limit_line = $line }
     }
     $comp_count = ($cmd_line - $limit_line ) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
 
@@ -100,7 +90,10 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
         $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
     }
     $filter_list | ForEach-Object {
-        if ($comp_count -gt $display_count) { $display_count++; $completions[$_][0] }
+        if ($comp_count -gt $display_count) {
+            $display_count++;
+            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+        }
         else {
             [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
             return
