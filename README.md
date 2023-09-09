@@ -28,24 +28,25 @@
 
 ## Introduce
 
--   A completion manager for better and simpler use and Manage completions.
+-   A completion manager in `PowerShell` for better and simpler use and Manage completions.
+     >   It can also be used in `Windows PowerShell`
 -   [Manage the completion together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
--   Completion of dynamic sorting.
-    -   Sort by frequency of use.
+-   Sort completion tab dynamically by frequency of use.
 -   Complete content can be customized.
     -   By modifying the `json` file to achieve.
-        -   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
-        -   If you do it, don't use `psc update` to avoid overwriting your customizations.
-        -   If there are problems, please use `psc update<completion>` to Overwrite completion
+        >-   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
+        >-   If you do it, don't use `psc update` to avoid overwriting your customizations.
+        >-   If there are problems, please use `psc update<completion>` to Overwrite completion
     -   Get the completion file path. `psc which <completion>`
 
 **If you find this project helpful, please consider giving it a star ⭐.**
 
 ## How to install
 
-1. `Install-Module PSCompletions`
-2. `Import-Module PSCompletions`
+1. Start `PowerShell`
+2. `Install-Module PSCompletions`
+3. `Import-Module PSCompletions`
     - `echo "Import-Module PSCompletions" >> $PROFILE`
     - So you don't have to import the module every time you open PowerShell.
 

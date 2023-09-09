@@ -28,24 +28,25 @@
 
 ## 介绍
 
--   一个补全管理模块，更好、更简单、更方便的使用和管理补全
+-   一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
+    >  `WindowsPowerShell` 也可以使用此模块
 -   [集中管理补全](#补全列表 "点击查看可添加补全列表！")
--   `zh-CN`,`en-US` 多语言随意切换
--   补全动态排序
-    -   根据使用频次对补全候选菜单进行合理排序
+-   `zh-CN`，`en-US` 多语言切换
+-   动态排序补全候选(根据使用频次)
 -   补全内容可自定义
     -   通过修改补全`json`文件实现
+    >-   建议只修改补全提示信息，避免出现不小心的修改导致整个补全失败
+    >-   如果你已修改，请不要使用`psc update`，避免有更新时，你的自定义被覆盖
+    >-   如果出现问题,请使用 `psc update <completion>` 更新覆盖
     -   `psc which <completion>` 获取补全文件路径
-    -   建议只修改补全提示信息，避免出现不小心的修改导致整个补全失败
-    -   如果你已修改，请不要使用`psc update`，避免有更新时，你的自定义被覆盖
-    -   如果出现问题,请使用 `psc update <completion>` 更新覆盖
 
-**如果 PSCompletions 对你有所帮助，请在页面右上角点个 Star ⭐ 支持一下，谢谢！**
+**如果 PSCompletions 对你有所帮助，请在右上角点个 Star ⭐ 支持一下**
 
 ## 安装
 
-1. `Install-Module PSCompletions`
-2. `Import-Module PSCompletions`
+1. 打开 `PowerShell`
+2. `Install-Module PSCompletions`
+3. `Import-Module PSCompletions`
     - 如果不想每次启动终端都导入一次，就执行 `echo "Import-Module PSCompletions" >> $PROFILE`
 
 ## 使用(以 `git` 补全为例)
