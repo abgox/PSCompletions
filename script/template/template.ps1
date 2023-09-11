@@ -1,45 +1,81 @@
 using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-Register-ArgumentCompleter -CommandName (_psc_get_cmd $PSScriptRoot $template_comp) -ScriptBlock {
+Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [System.Collections.Specialized.OrderedDictionary]::new()
+    $root_cmd = $_psc.comp_cmd.$template_comp
 
     #region : Parse json data
-    $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
-    $_json = (Get-Content -Raw -Path  $_name -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties
+    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+    $_json = $json.PSObject.Properties
     #endregion
 
     #region : Store
-    $max_len = 0
-    foreach ($_ in $_json) {
-        $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-        if ($max_len -lt $subCmd.length) {
-            $max_len = $subCmd.length
+    $completions = [ordered]@{}
+    $_json | ForEach-Object {
+        if ($_.Name -ne '$template_comp_core_info') {
+            $last_cmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
+            $completions[$root_cmd + ' ' + $_.Name] = @($last_cmd, $_.Value)
         }
-        $completions[(_psc_get_cmd $PSScriptRoot $template_comp) + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value))
     }
     #endregion
 
+    #region Special point
+    #endregion
+
     #region : Carry out
-    $comp_num = ([System.Console]::WindowHeight - 2) * ([math]::Floor([System.Console]::WindowWidth / ($max_len + 2)))
     $_input = $commandAst.CommandElements
-    function _do($num) {
-        $i = 0
-        $completions.Keys | Where-Object { $_ -like "$_input*" } | ForEach-Object {
-            $input_space_count = ($_input -split ' ').Count - 1
-            $cmd_space_count = ($_ -split ' ').Count - 1
-            if ($input_space_count -eq $cmd_space_count + $num ) {
-                $i++
-                if ($comp_num -gt $i) { $completions[$_] }
-                else {
-                    [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
-                    return
-                }
+    $_input_str = $_input -join ' '
+    $_input_arr = $_input_str -split '\s+'
+    $limit_value = 0
+    $limit_line = 0
+    $display_count = 0
+    $cmd_line = [System.Console]::WindowHeight - 4
+    $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
+    $filter_list = $completions.Keys | Where-Object {
+        $cmd = $_ -split '\s+'
+        $position = [System.Collections.Generic.List[int]]@()
+        for ($i = 0; $i -lt $cmd.Count; $i++) {
+            if ($cmd[$i] -match "<.+>") { $position.Add($i) }
+        }
+        $_inputs = [System.Collections.Generic.List[string]]$_input_arr
+        $flag = [System.Collections.Generic.List[string]]$cmd
+        $position | ForEach-Object {
+            if ($_inputs.Count -gt $_) {
+                $flag.RemoveAt($_)
+                $_inputs.RemoveAt($_)
             }
         }
+        $cmd.Count -eq ($_input.Count + $input_tab) -and ($flag -join ' ') -like ($_inputs -join ' ') + '*'
     }
-    _do $(if ($wordToComplete.length) { 0 }else { -1 })
+    $filter_list | ForEach-Object {
+        $len = $completions[$_][0].Length
+        if ($len -ge $limit_value) { $limit_value = $len }
+        $line = ($completions[$_][1] -split "`n").Count
+        if ($line -ge $limit_line) { $limit_line = $line }
+    }
+    $comp_count = ($cmd_line - $limit_line) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+
+    if ($comp_count -le [math]::Floor($filter_list.Count * 2 / 3)) {
+        $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+    }
+
+    $filter_list | ForEach-Object {
+        if ($comp_count -gt $display_count) {
+            $display_count++
+            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+        }
+        else {
+            [CompletionResult]::new(" ", "...", 'ParameterValue', $_psc.json.comp_hide)
+            return
+        }
+    }
+    if ($display_count -eq 1) { echo ' ' }
+    #endregion
+
+    #region Reorder completion
+    $history = try { (Get-History)[-1].CommandLine }catch { '' }
+    _psc_reorder_tab $history $PSScriptRoot
     #endregion
 }

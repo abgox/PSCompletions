@@ -44,7 +44,7 @@ if ($comp_name.Trim()) {
     else {
         mkdir $comp_dir > $null
         Copy-Item ".\template\json" $comp_dir -Recurse
-        (Get-Content -Raw ".\template\template.ps1").Replace('$template_comp', "'$comp_name'") | Out-File "$comp_dir\$comp_name.ps1"
+        (Get-Content -Raw ".\template\template.ps1").Replace('$template_comp', "$comp_name") | Out-File "$comp_dir\$comp_name.ps1" -Encoding utf8
         Write-Host "`n$comp_dir\$comp_name.ps1" -f Green
     }
 }
