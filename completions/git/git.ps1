@@ -4,7 +4,6 @@ using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [System.Collections.Specialized.OrderedDictionary]::new()
     $root_cmd = $_psc.comp_cmd.git
 
     #region : Parse json data
@@ -13,51 +12,76 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     #endregion
 
     #region : Store
-    $max_len = 0
-    foreach ($_ in $_json) {
-        $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-        if ($max_len -lt $subCmd.length) {
-            $max_len = $subCmd.length
+    $completions = [ordered]@{}
+    $_json | ForEach-Object {
+        if ($_.Name -ne 'git_core_info') {
+            $last_cmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
+            $completions[$root_cmd + ' ' + $_.Name] = @($last_cmd, $_.Value)
+            $completions[$root_cmd + ' help ' + $_.Name] = @($last_cmd, ('Show help -- ' + $last_cmd))
         }
-        $completions[$root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', (_psc_replace $_.value))
-        $completions[$root_cmd + ' help ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', '...')
-
     }
     #endregion
 
-    #region : Special point
-    function format_time($time) {
-        $givenDate = [DateTime]::ParseExact($time, "ddd MMM dd HH:mm:ss yyyy zzz", [CultureInfo]::InvariantCulture)
-        $relativeTime = (Get-Date) - $givenDate
-        if ($relativeTime.Days -gt 0) {
-            $relativeValue = "$($relativeTime.Days)d ago"
+    #region Special point
+    $branch_list = git branch 2>$null
+    $head_list = [System.Collections.Generic.List[string]]@('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD')
+    $head_lists = $head_list
+    if ($branch_list) {
+        ($branch_list -replace '\*', '').Trim() | ForEach-Object {
+            $completions[ $root_cmd + ' branch ' + $_] = @($_, ('branch -- ' + $_) )
         }
-        elseif ($relativeTime.Hours -gt 0) {
-            $relativeValue = "$($relativeTime.Hours)h ago"
-        }
-        elseif ($relativeTime.Minutes -gt 0) {
-            $relativeValue = "$($relativeTime.Minutes)m ago"
-        }
-        else {
-            $relativeValue = "just now"
-        }
-        return $relativeValue
+        $head_lists = ($branch_list -replace '\*', '').Trim() + $head_list
+    }
+    $head_lists | ForEach-Object {
+        $completions[ $root_cmd + ' checkout ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' cherry ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' cherry-pick ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' archive ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' diff ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' difftool ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' log ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' merge ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' mergetool ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' rebase ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' reset ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' revert ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' show ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' switch ' + $_] = @($_, '...')
+
+
+        $completions[ $root_cmd + ' bisect good ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' bisect bad ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' bisect new ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' bisect old ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' bisect skip ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' bisect start ' + $_] = @($_, '...')
+
+        $completions[ $root_cmd + ' bisect reset ' + $_] = @($_, '...')
+
+        $completions[ $root_cmd + ' blame ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' check-ref-format ' + $_] = @($_, '...')
+        $completions[ $root_cmd + ' cherry ' + $_] = @($_, '...')
     }
 
-    $commit_info = @()
     #region get commit info
+    $commit_info = [System.Collections.Generic.List[System.Object]]@()
     $commit = $null
     $flag = 1
     git log | ForEach-Object {
         $line = $_
         if ($line -match '^\s*commit\s*(\w+)') {
             if ($commit) {
-                $commit.info = ($commit.info | Where-Object { $_ -ne '' }) -join "`n"
-                $commit_info += $commit
+                $info = $commit.info | Where-Object { $_ -ne '' }
+                if ($info.Count -gt 10) {
+                    $info = $info[0..9]
+                    $info += '...'
+                }
+                $commit.info = $info -join "`n"
+                $commit_info.Add($commit)
                 $flag = 1
             }
             $commit = @{
-                hash = ($Matches[1]).Substring(0, 6)
+                hash = ($Matches[1]).Substring(0, 7)
                 info = @()
             }
         }
@@ -79,102 +103,81 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
             }
         }
     }
-    $commit_info += $commit
+    $commit_info.Add($commit)
+    $_psc.test = $commit_info
     #endregion
+
     if ($commit_info) {
         $commit_info | ForEach-Object {
-            $completions[ $root_cmd + ' checkout ' + $_.hash] = [CompletionResult]::new($_.hash, $_.hash, 'ParameterValue', (_psc_replace ($_.info + '(' + $_.date + ')')) )
-            $completions[ $root_cmd + ' switch ' + $_.hash] = [CompletionResult]::new($_.hash, $_.hash, 'ParameterValue', (_psc_replace ($_.info + '(' + $_.date + ')')) )
-        }
-    }
+            $content = _psc_replace ('Date: ' + $_.date + "`n" + $_.info)
+            $completions[ $root_cmd + ' checkout ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' switch ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' archive ' + $_.hash] = @($_.hash, $content)
 
-    $branch_list = git branch 2>$null
-    if ($branch_list) {
-        ($branch_list -replace '\*', '').Trim() | ForEach-Object {
-            $completions[ $root_cmd + ' branch ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-        }
-        ($branch_list -replace '\*', '').Trim() + @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD') | ForEach-Object {
-            $completions[ $root_cmd + ' checkout ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' cherry ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' cherry-pick ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' diff ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' difftool ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' log ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' merge ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' mergetool ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' rebase ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' reset ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' revert ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' show ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
-            $completions[ $root_cmd + ' switch ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', '...')
+            $completions[ $root_cmd + ' bisect good ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' bisect bad ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' bisect new ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' bisect old ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' bisect skip ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' bisect start ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' blame ' + $_.hash] = @($_.hash, $content)
+            $completions[ $root_cmd + ' cherry ' + $_.hash] = @($_.hash, $content)
         }
     }
     #endregion
 
     #region : Carry out
-    $comp_num = ([System.Console]::WindowHeight - 2) * ([math]::Floor([System.Console]::WindowWidth / ($max_len + 2)))
     $_input = $commandAst.CommandElements
-    function _do($num) {
-        $i = 0
-        $completions.Keys | Where-Object { $_ -like "$_input*" } | ForEach-Object {
-            $input_space_count = ($_input -split ' ').Count - 1
-            $cmd_space_count = ($_ -split ' ').Count - 1
-            if ($input_space_count -eq $cmd_space_count + $num ) {
-                $i++
-                if ($comp_num -gt $i) { $completions[$_] }
-                else {
-                    [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
-                    return
-                }
+    $_input_str = $_input -join ' '
+    $_input_arr = $_input_str -split '\s+'
+    $limit_value = 0
+    $limit_line = 0
+    $display_count = 0
+    $cmd_line = [System.Console]::WindowHeight - 4
+    $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
+    $filter_list = $completions.Keys | Where-Object {
+        $cmd = $_ -split '\s+'
+        $position = [System.Collections.Generic.List[int]]@()
+        for ($i = 0; $i -lt $cmd.Count; $i++) {
+            if ($cmd[$i] -match "<.+>") { $position.Add($i) }
+        }
+        $_inputs = [System.Collections.Generic.List[string]]$_input_arr
+        $flag = [System.Collections.Generic.List[string]]$cmd
+        $position | ForEach-Object {
+            if ($_inputs.Count -gt $_) {
+                $flag.RemoveAt($_)
+                $_inputs.RemoveAt($_)
             }
         }
+        $cmd.Count -eq ($_input.Count + $input_tab) -and ($flag -join ' ') -like ($_inputs -join ' ') + '*'
     }
-    _do $(if ($wordToComplete.length) { 0 }else { -1 })
+    $filter_list | ForEach-Object {
+        $len = $completions[$_][0].Length
+        if ($len -ge $limit_value) { $limit_value = $len }
+        $line = ($completions[$_][1] -split "`n").Count
+        if ($line -ge $limit_line) { $limit_line = $line }
+    }
+    $comp_count = ($cmd_line - $limit_line) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+
+    if ($comp_count -le [math]::Floor($filter_list.Count / 3)) {
+        $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+    }
+
+    $filter_list | ForEach-Object {
+        if ($comp_count -gt $display_count) {
+            $display_count++
+            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+        }
+        else {
+            [CompletionResult]::new(" ", "...", 'ParameterValue', $_psc.json.comp_hide)
+            return
+        }
+    }
+    if ($display_count -eq 1) { echo ' ' }
     #endregion
 
     #region Reorder completion
     $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    $null = Start-Job -ScriptBlock {
-        param( $_psc, $history, $root)
-        function _do($flag, $path, $res = [ordered]@{}) {
-            $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
-            $res = [ordered]@{}
-            $res_flag = @()
-            foreach ($_ in $json.PSObject.Properties) {
-                $type = ($_.value).GetType().Name
-                if ($type -eq 'String') {
-                    $i = $flag
-                    while ($i) {
-                        if ($_.Name -eq $i) { $res_flag += $_.Name }
-                        if ( $i.lastIndexOf(' ') -eq -1) { break }
-                        $i = $i.Substring(0, $i.lastIndexOf(' '))
-                    }
-                }
-            }
-            $res_arr = @()
-            foreach ($_ in $json.PSObject.Properties) {
-                $type = ($_.value).GetType().Name
-                if ($type -eq 'String') {
-                    if ($_.Name -in $res_flag) {
-                        $res_arr += @{cmd = $_.Name; value = $_.value; len = ($_.Name).Length }
-                    }
-                    else { $res.($_.Name) = $_.value }
-                }
-                else { $res.($_.Name) = $_.value }
-            }
-
-            $res_arr | Sort-Object { $_.len } -Descending | ForEach-Object {
-                $res.Insert(0, $_.cmd, $_.value)
-            }
-            $res | ConvertTo-Json | Out-File $path
-        }
-        if ($history -ne '') {
-            $cmd = $history -split ' '
-            $alias = $_psc.comp_cmd.keys | foreach-Object { $_psc.comp_cmd.$_ }
-            if ($cmd[0] -in $alias) {
-                _do $history.Substring($history.IndexOf(' ') + 1) ($root + '\json\' + $_psc.lang + '.json')
-            }
-        }
-    } -ArgumentList $_psc, $history, $PSScriptRoot
+    _psc_reorder_tab $history $PSScriptRoot
     #endregion
 }
