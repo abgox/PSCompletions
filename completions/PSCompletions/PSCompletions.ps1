@@ -13,7 +13,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
 
     #region : Store
     $completions = [ordered]@{}
-    foreach ($_ in $_json) {
+    $_json | ForEach-Object {
         if ($_.Name -ne 'PSCompletions_core_info') {
             $last_cmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
             $completions[$root_cmd + ' ' + $_.Name] = @($last_cmd, $_.Value)
@@ -22,19 +22,23 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     #endregion
 
     #region Special point
-    foreach ($_ in $_psc.list) {
+    $_psc.list | ForEach-Object {
         if ($_ -notin $_psc.comp_cmd.keys) {
             $tip = _psc_replace $_psc.json.add
             $completions[ $root_cmd + ' add ' + $_] = @($_, $tip)
         }
     }
     if ($_psc.update) {
-        foreach ($_ in $_psc.update) {
+        $_psc.update | ForEach-Object {
             $tip = _psc_replace $_psc.json.update
             $completions[ $root_cmd + ' update ' + $_] = @($_, $tip)
         }
     }
-    foreach ($_ in $_psc.comp_cmd.keys) {
+    else {
+        $completions.Remove($root_cmd + ' update *' )
+    }
+
+    $_psc.comp_cmd.keys | ForEach-Object {
         $alias = $_psc.comp_cmd.$_
         $tip_rm = _psc_replace $_psc.json.remove
         if ($_ -ne 'PSCompletions') {
@@ -54,7 +58,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             $completions[$root_cmd + ' alias rm ' + $alias] = @($alias, $tip_alias_rm)
         }
     }
-    foreach ($_ in @('language', 'root_cmd', 'github', 'gitee', 'update')) {
+    @('language', 'root_cmd', 'github', 'gitee', 'update') | ForEach-Object{
         $tip = _psc_replace $json.('config ' + $_)
         $completions[$root_cmd + ' config ' + $_] = @($_, $tip)
     }
@@ -95,7 +99,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
         else {
-            [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
+            [CompletionResult]::new(" ", "...", 'ParameterValue', $_psc.json.comp_hide)
             return
         }
     }
