@@ -126,40 +126,75 @@ function _psc_reorder_tab($history, $PSScriptRoots) {
     $null = Start-Job -ScriptBlock {
         param( $_psc, $history, $root)
         if ($history -ne '') {
-            $cmd = $history -split ' '
+            $cmd = $history -split '\s+'
+            $short_history = $cmd[1..($cmd.Length - 1)] -join ' '
             $alias = $_psc.comp_cmd.keys | foreach-Object { $_psc.comp_cmd.$_ }
             if ($cmd[0] -in $alias) {
-                $flag = $history.Substring($history.IndexOf(' ') + 1)
-                $path = ($root + '\json\' + $_psc.lang + '.json')
+                $path = $root + '\json\' + $_psc.lang + '.json'
                 $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
-                $res_flag = @()
-                foreach ($_ in $json.PSObject.Properties) {
+                $json_obj = $json.PSObject.Properties
+                $_json = [ordered]@{}
+                $res_flag = [System.Collections.Generic.List[string]]@()
+                foreach ($_ in $json_obj) {
+                    $h = $short_history
                     $type = ($_.value).GetType().Name
+                    $_json.Add($_.Name, $_.Value)
                     if ($type -ne 'PSCustomObject') {
-                        $i = $flag
-                        while ($i) {
-                            if ($_.Name -eq $i) { $res_flag += $_.Name }
-                            if ( $i.lastIndexOf(' ') -eq -1) { break }
-                            $i = $i.Substring(0, $i.lastIndexOf(' '))
+                        $cmd_arr = $_.Name -split '\s+'
+                        $position = [System.Collections.Generic.List[int]]@()
+                        for ($i = 0; $i -lt $cmd_arr.Count; $i++) {
+                            if ($cmd_arr[$i] -match "<.+>") { $position.Add($i) }
                         }
+
+                        if ($position) {
+                            $temp = [System.Collections.Generic.List[string]]$cmd_arr
+                            $h = [System.Collections.Generic.List[string]]($cmd[1..($cmd.Length - 1)])
+                            $position | ForEach-Object {
+                                if ($h.Count -gt $_) {
+                                    $temp.RemoveAt($_)
+                                    $h.RemoveAt($_)
+                                }
+                            }
+                            if ($temp -join ' ' -eq ($h -join ' ')) {
+                                $res_flag.Add($_.Name)
+                            }
+                        }
+                        else {
+                            while ($h) {
+                                $name = $_.Name
+                                if ($name -eq $h) { $res_flag.Add($_.Name) }
+                                if ( $h.lastIndexOf(' ') -eq -1) { break }
+                                $h = $h.Substring(0, $h.lastIndexOf(' '))
+                            }
+                        }
+
                     }
                 }
-                $res_arr = @()
-                $res = [ordered]@{}
-                foreach ($_ in $json.PSObject.Properties) {
-                    $type = ($_.value).GetType().Name
-                    if ($type -ne 'PSCustomObject') {
-                        if ($_.Name -in $res_flag) {
-                            $res_arr += @{cmd = $_.Name; value = $_.value; len = ($_.Name).Length }
-                        }
-                        else { $res.($_.Name) = $_.value }
+
+                function get_json_order($json) {
+                    $i = 0
+                    $res = [System.Collections.Generic.List[System.Object]]@()
+                    $_json.Keys | Foreach-Object {
+                        $res.Add("$_ $i")
+                        $i++
                     }
-                    else { $res.($_.Name) = $_.value }
+                    return $res
                 }
-                $res_arr | Sort-Object { $_.len } -Descending | ForEach-Object {
-                    $res.Insert(0, $_.cmd, $_.value)
+
+                $old_json_order = get_json_order $_json
+
+                $res_flag | Sort-Object { $_.Length } -Descending  | ForEach-Object {
+                    $temp = $_json.$_
+                    $_json.Remove($_)
+                    $_json.Insert(0, $_, $temp)
                 }
-                $res | ConvertTo-Json | Out-File $path -Encoding utf8
+                $new_json_order = get_json_order $_json
+
+                $is_diffrent = Compare-Object $old_json_order $new_json_order -PassThru
+
+                if ($is_diffrent) {
+                    $_json | ConvertTo-Json | Out-File $path -Encoding utf8
+                }
             }
         }
     } -ArgumentList $_psc, $history, $PSScriptRoots
@@ -183,9 +218,7 @@ function _psc_less($str_list, $header, $do = {}, $show_line) {
     if ($need_less) {
         $init_line = if ($show_line) { $show_line }else { [System.Console]::WindowHeight - 5 }
         $lines = $str_list.Count - $init_line
-        Write-Host '>>> ' -f Yellow -NoNewline
-        Write-Host (_psc_replace $_psc.json.less_tip) -f Cyan -NoNewline
-        Write-Host ' <<<' -f Yellow
+        Write-Host (_psc_replace $_psc.json.less_tip) -f Cyan
         & $do
         while ($i -lt $init_line -and $i -lt $str_list.Count) {
             if ($str_list[$i].bgColor) {

@@ -5,7 +5,7 @@ function PSCompletions {
         $res = if ($args[0] -eq 'min') { $_psc.json.param_min }
         elseif ($args[0] -eq 'max') { $_psc.json.param_max }
         else { $_psc.json.param_err }
-        Write-Host (_psc_replace ($res + $_psc.json.example.($args[1])) ) -f Red
+        Write-Host (_psc_replace ($res + "`n" + $_psc.json.example.($args[1])) ) -f Red
     }
     function _list {
         if ($arg.Length -gt 2) {
@@ -16,16 +16,16 @@ function PSCompletions {
             param_error 'err' 'list'
             return
         }
-        $data = @()
+        $data = [System.Collections.Generic.List[System.Object]]@()
         if ($arg[1] -eq '--remote') {
             if (!(_psc_download_list)) { return }
             $max_len = ($_psc.list  | Measure-Object -Maximum Length).Maximum
             $_psc.list | ForEach-Object {
                 $status = if ($_psc.comp_cmd.$_) { $_psc.json.list_add_done }else { $_psc.json.list_add }
-                $data += @{
-                    content = "{0,-$($max_len + 3)} {1}" -f $_, $status
+                $data.Add(@{
+                    content = "{0,-$($max_len + 3)} {1}" -f ($_, $status)
                     color   = 'Green'
-                }
+                })
             }
             _psc_less $data ('Completion', 'Status', $max_len) {
                 Write-Host (_psc_replace $_psc.json.list_add_tip) -f Yellow
@@ -35,10 +35,10 @@ function PSCompletions {
             $max_len = ($_psc.comp_cmd.keys | Measure-Object -Maximum Length).Maximum
             $_psc.comp_cmd.keys | ForEach-Object {
                 $alias = if ($_psc.comp_cmd.$_ -eq $_) { '' }else { $_psc.comp_cmd.$_ }
-                $data += @{
-                    content = "{0,-$($max_len + 3)} {1}" -f $_, $alias
+                $data.Add(@{
+                    content = "{0,-$($max_len + 3)} {1}" -f ($_, $alias)
                     color   = 'Green'
-                }
+                })
             }
             _psc_less $data ('Completion', 'Alias', $max_len)
         }
@@ -79,14 +79,14 @@ function PSCompletions {
     function _Update {
         function _do {
             try {
-                $update_list = @()
+                $update_list = [System.Collections.Generic.List[string]]@()
                 foreach ($_ in $_psc.comp_cmd.keys) {
                     $url = $_psc.url + '/completions/' + $_ + '/.guid'
                     $response = Invoke-WebRequest -Uri  $url
                     if ($response.StatusCode -eq 200) {
                         $content = ($response.Content).Trim()
                         $guid = (Get-Content ($_psc.path.completions + '\' + $_ + '\.guid') -Raw).Trim()
-                        if ($guid -ne $content) { $update_list += $_ }
+                        if ($guid -ne $content) { $update_list.Add($_) }
                     }
                 }
                 $update_list | Out-File $_psc.path.update -Force -Encoding utf8
@@ -140,12 +140,12 @@ function PSCompletions {
             return
         }
         if (!(_psc_download_list)) { return }
-        $result = @()
+        $result = [System.Collections.Generic.List[System.Object]]@()
         $_psc.list | Where-Object { $_ -like $arg[1] } | ForEach-Object {
-            $result += @{
+            $result.Add(@{
                 content = $_
                 color   = 'Green'
-            }
+            })
         }
         _psc_less $result '' {
             Write-Host (_psc_replace $_psc.json.search) -f Yellow
@@ -205,13 +205,13 @@ function PSCompletions {
             }
         }
         if ($arg[1] -eq 'list') {
-            $data = @()
+            $data = [System.Collections.Generic.List[System.Object]]@()
             $max_len = ($_psc.comp_cmd.keys | Measure-Object -Maximum Length).Maximum
             $_psc.comp_cmd.keys | Where-Object { $_ -ne $_psc.comp_cmd.$_ } | ForEach-Object {
-                $data += @{
-                    content = "{0,-$($max_len + 3)} {1}" -f $_, $_psc.comp_cmd.$_
+                $data.Add(@{
+                    content = "{0,-$($max_len + 3)} {1}" -f ($_, $_psc.comp_cmd.$_)
                     color   = 'Green'
-                }
+                })
             }
             _psc_less $data ('Completion', 'Alias', $max_len)
         }
@@ -232,8 +232,8 @@ function PSCompletions {
         }
         elseif ($arg[1] -eq 'rm') {
             $rm_list = $arg[2..($arg.Length - 1)]
-            $del_list = @()
-            $error_list = @()
+            $del_list = [System.Collections.Generic.List[string]]@()
+            $error_list = [System.Collections.Generic.List[string]]@()
             $alias_list = @{}
             $_psc.comp_cmd.Keys | ForEach-Object {
                 $alias = $_psc.comp_cmd.$_
@@ -241,10 +241,10 @@ function PSCompletions {
             }
             foreach ($_ in $rm_list) {
                 if ($_ -in $alias_list.Keys) {
-                    $del_list += $_ + '(' + $alias_list.$_ + ')' + ' '
+                    $del_list.Add($_ + '(' + $alias_list.$_ + ')' + ' ')
                     Remove-Item ($_psc.path.completions + '\' + $alias_list.$_ + '\.alias') -Force
                 }
-                else { $error_list += $_ }
+                else { $error_list.Add($_) }
             }
             if ($error_list) {
                 Write-Host (_psc_replace ($_psc.json.alias_rm_err)) -f Red
@@ -258,7 +258,7 @@ function PSCompletions {
                 $del_list = @()
                 $alias_list = $_psc.comp_cmd.keys | Where-Object { $_psc.comp_cmd.$_ -ne $_ }
                 foreach ($_ in $alias_list) {
-                    $del_list += $_psc.comp_cmd.$_ + '(' + $_ + ')'
+                    $del_list.Add($_psc.comp_cmd.$_ + '(' + $_ + ')')
                     Remove-Item ($_psc.path.completions + '\' + $_ + '\.alias') -Force
                 }
                 _psc_set_config 'root_cmd' 'psc'

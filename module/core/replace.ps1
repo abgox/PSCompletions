@@ -5,8 +5,6 @@ function _psc_replace($data) {
     foreach ($match in $matches) {
         $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value))
     }
-    if ($data -match $pattern) {
-        _psc_replace $data
-    }
+    if ($data -match $pattern) { _psc_replace $data }
     else { return $data }
 }
