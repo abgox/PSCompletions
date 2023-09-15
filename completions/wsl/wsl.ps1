@@ -14,19 +14,16 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
 
     #region : Store
     $completions = [ordered]@{}
-    function map_word($word) {
-        $map_word = @(
-            'a', 'b', 'c', 'd', 'e', 'f', 'g',
-            'h', 'i', 'j', 'k', 'l', 'm', 'n',
-            'o', 'p', 'q', 'r', 's', 't',
-            'u', 'v', 'w', 'x', 'y', 'z',
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 0
-            '-', '_'
-        )
-        $res = $word -split '' | Where-Object { $_ -in $map_word }
-        return ($res -join '')
+    function clean_nul($data) {
+        $res=[System.Collections.Generic.List[byte]]::new()
+        [System.Text.Encoding]::UTF8.GetBytes($data) | ForEach-Object {
+            # Remove NUL(0x00) characters from binary data
+            if ($_ -ne 0x00) { $res.add($_) }
+        }
+        return ([System.Text.Encoding]::UTF8.GetString($res))
     }
-    $Distro_list = wsl -l -q | Where-Object { $_ -ne '' } | ForEach-Object { map_word $_ }
+
+    $Distro_list = wsl -l -q | ForEach-Object { clean_nul $_ } | Where-Object { $_ -ne '' }
 
     $_json | ForEach-Object {
         if ($_.Name -ne 'wsl_core_info') {
