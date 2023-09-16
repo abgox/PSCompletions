@@ -7,8 +7,9 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     $root_cmd = $_psc.comp_cmd.git
 
     #region : Parse json data
-    $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
-    $_json = (Get-Content -Raw -Path  $_name -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties
+    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+    $_json = $json.PSObject.Properties
+    $json_info = $json.git_core_info
     #endregion
 
     #region : Store
@@ -23,106 +24,97 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     #endregion
 
     #region Special point
-    $branch_list = git branch 2>$null
-    $head_list = [System.Collections.Generic.List[string]]@('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD')
-    $head_lists = $head_list
-    if ($branch_list) {
-        ($branch_list -replace '\*', '').Trim() | ForEach-Object {
-            $completions[ $root_cmd + ' branch ' + $_] = @($_, ('branch -- ' + $_) )
-        }
-        $head_lists = ($branch_list -replace '\*', '').Trim() + $head_list
+    $symbol = $json_info.symbol
+    $branch_list = git branch --format="%(refname:lstrip=2)" 2>$null
+    $head_list = @{
+        HEAD       = (git show HEAD --relative-date -q 2>$null) -join "`n"
+        FETCH_HEAD = (git show FETCH_HEAD --relative-date -q 2>$null) -join "`n"
+        ORIG_HEAD  = (git show ORIG_HEAD --relative-date -q 2>$null) -join "`n"
+        MERGE_HEAD = (git show MERGE_HEAD --relative-date -q 2>$null) -join "`n"
     }
-    $head_lists | ForEach-Object {
-        $completions[ $root_cmd + ' checkout ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' cherry ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' cherry-pick ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' archive ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' diff ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' difftool ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' log ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' merge ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' mergetool ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' rebase ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' reset ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' revert ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' show ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' switch ' + $_] = @($_, '...')
-
-
-        $completions[ $root_cmd + ' bisect good ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' bisect bad ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' bisect new ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' bisect old ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' bisect skip ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' bisect start ' + $_] = @($_, '...')
-
-        $completions[ $root_cmd + ' bisect reset ' + $_] = @($_, '...')
-
-        $completions[ $root_cmd + ' blame ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' check-ref-format ' + $_] = @($_, '...')
-        $completions[ $root_cmd + ' cherry ' + $_] = @($_, '...')
-    }
-
-    #region get commit info
-    $commit_info = [System.Collections.Generic.List[System.Object]]@()
-    $commit = $null
-    $flag = 1
-    git log | ForEach-Object {
-        $line = $_
-        if ($line -match '^\s*commit\s*(\w+)') {
-            if ($commit) {
-                $info = $commit.info | Where-Object { $_ -ne '' }
-                if ($info.Count -gt 10) {
-                    $info = $info[0..9]
-                    $info += '...'
-                }
-                $commit.info = $info -join "`n"
-                $commit_info.Add($commit)
-                $flag = 1
-            }
-            $commit = @{
-                hash = ($Matches[1]).Substring(0, 7)
-                info = @()
-            }
-        }
-        elseif ($commit) {
-            if ($line -match '^Author:\s*(.+)') {
-                $commit.author = $Matches[1].Trim()
-            }
-            elseif ($line -match '^Date:\s*(.+)') {
-                $commit.Date = $Matches[1].Trim()
-            }
-            else {
-                if ($line) {
-                    if ($flag) {
-                        $commit.space = ([regex]::Matches($line, "(\s*)\S"))[0].Length - 1
-                        $flag = $null
-                    }
-                    $commit.info += $line.Substring($commit.space)
-                }
-            }
+    @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD') | ForEach-Object {
+        if (!$head_list.$_) {
+            $head_list.Remove($_)
         }
     }
-    $commit_info.Add($commit)
-    $_psc.test = $commit_info
-    #endregion
-
-    if ($commit_info) {
-        $commit_info | ForEach-Object {
-            $content = _psc_replace ('Date: ' + $_.date + "`n" + $_.info)
-            $completions[ $root_cmd + ' checkout ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' switch ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' archive ' + $_.hash] = @($_.hash, $content)
-
-            $completions[ $root_cmd + ' bisect good ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' bisect bad ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' bisect new ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' bisect old ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' bisect skip ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' bisect start ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' blame ' + $_.hash] = @($_.hash, $content)
-            $completions[ $root_cmd + ' cherry ' + $_.hash] = @($_.hash, $content)
+    $branch_head_list = $branch_list + $head_list.Keys
+    $remote_list = git remote 2>$null
+    $commit_info = [System.Collections.Generic.List[array]]::new()
+    $current_commit = [System.Collections.Generic.List[string]]::new()
+    git log --pretty='format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n@@@--------------------@@@'  -n 30 --encoding=GBK 2>$null | ForEach-Object {
+        if ($_ -ne '@@@--------------------@@@') {
+            $current_commit.Add($_)
         }
+        else {
+            $commit_info.add($current_commit)
+            $current_commit = [System.Collections.Generic.List[string]]::new()
+        }
+    }
+    $current_commit = $null
+    $tag_list = git tag 2>$null
+
+    $branch_list | ForEach-Object {
+        $info = 'branch --- ' + $_
+        $info_s = $symbol + $info
+        $completions[ $root_cmd + ' push <remote> ' + $_ ] = @($_, $info)
+        $completions[ $root_cmd + ' pull <remote> ' + $_ ] = @($_, $info)
+        $completions[ $root_cmd + ' fetch <remote> ' + $_ ] = @($_, $info)
+        $completions[ $root_cmd + ' switch ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' merge ' + $_] = @($_, $info_s)
+        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info_s)
+        $completions[ $root_cmd + ' diff <branch> ' + $_] = @($_, $info)
+    }
+
+    $head_list.Keys | ForEach-Object {
+        $info = $head_list.$_
+        $completions[ $root_cmd + ' rebase -i ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' rebase --interactive ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' reset ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' reset --soft ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' reset --hard ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' reset --mixed ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' show ' + $_] = @($_, $info)
+    }
+
+    $branch_head_list | ForEach-Object {
+        $info = if ($head_list.$_) { $head_list.$_ }else { 'branch --- ' + $_ }
+        $completions[ $root_cmd + ' checkout ' + $_] = @($_, $info)
+    }
+
+    $remote_list | ForEach-Object {
+        $info = 'remote --- ' + $_
+        $info_s = $symbol + $info
+        $completions[ $root_cmd + ' push ' + $_] = @($_, $info_s)
+        $completions[ $root_cmd + ' pull ' + $_] = @($_, $info_s)
+        $completions[ $root_cmd + ' fetch ' + $_] = @($_, $info_s)
+        $completions[ $root_cmd + ' remote rename ' + $_] = @($_, $info)
+        $completions[ $root_cmd + ' remote rm ' + $_] = @($_, $info)
+    }
+
+    $commit_info | ForEach-Object {
+        $hash = $_[0]
+        $date = $_[1]
+        $author = $_[2]
+        $commit = $_[3..($_.Length - 1)]
+        $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
+        $completions[ $root_cmd + ' commit -C ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' rebase -i ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' rebase --interactive ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' checkout ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' diff ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' diff <commit> ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' reset ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' reset --soft ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' reset --hard ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' reset --mixed ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' show ' + $hash] = @($hash, $content)
+        $completions[ $root_cmd + ' revert ' + $hash] = @($hash, $content)
+    }
+
+    $tag_list | ForEach-Object {
+        $completions[ $root_cmd + ' tag -d ' + $_] = @($_, "tag --- " + $_)
+        $completions[ $root_cmd + ' tag -v ' + $_] = @($_, "tag --- " + $_)
     }
     #endregion
 
@@ -152,21 +144,22 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
         $cmd.Count -eq ($_input.Count + $input_tab) -and ($flag -join ' ') -like ($_inputs -join ' ') + '*'
     }
     $filter_list | ForEach-Object {
-        $len = $completions[$_][0].Length
+        $len = ($completions[$_][0].Replace('^up', ' ')).Length
         if ($len -ge $limit_value) { $limit_value = $len }
         $line = ($completions[$_][1] -split "`n").Count
         if ($line -ge $limit_line) { $limit_line = $line }
     }
-    $comp_count = ($cmd_line - $limit_line) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+    $comp_count = ($cmd_line - $limit_line ) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
 
-    if ($comp_count -le [math]::Floor($filter_list.Count / 3)) {
+    if ($comp_count -le [math]::Floor($filter_list.Count * 2 / 3)) {
         $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
     }
 
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
             $display_count++
-            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+            $display = $completions[$_][0].Replace('^up', ' ')
+            [CompletionResult]::new($display, $display, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
         else {
             [CompletionResult]::new(" ", "...", 'ParameterValue', $_psc.json.comp_hide)
