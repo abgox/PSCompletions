@@ -67,9 +67,10 @@
 
 [![PSCompletions-demo.gif](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)
 
-## 关于补全描述
+### 关于补全描述中的特殊符号
 
--   ✨：还可以按下 `Tab` 获得补全候选(特殊情况除外)
+-   ✨：当此补全被选中后，可以按下 `空格键` 和 `Tab` 键继续获得补全候选(特殊情况除外)
+-   ✨✨：你需要输入一个不带空格的内容后按下 `空格键` 和 `Tab` 键继续获得补全候选
 -   `...`：补全描述等待后续填充
     -   如果 `...` 是最后一个补全候选，则表示可显示区域过小，无法显示所有候选项
 
@@ -78,8 +79,8 @@
 |                  命令补全                   |                                         命令来源                                         |
 | :-----------------------------------------: | :--------------------------------------------------------------------------------------: |
 | [PSCompletions](/completions/PSCompletions) | [PSCompletions 本模块自用补全](https://www.powershellgallery.com/packages/PSCompletions) |
-|           [wsl](/completions/wsl)           |  [WSL - 适用于 Linux 的 Windows 子系统](https://learn.microsoft.com/zh-cn/windows/wsl/)  |
 |           [git](/completions/git)           |                      [Git - 版本控制系统](https://git-scm.com/docs)                      |
+|           [wsl](/completions/wsl)           |  [WSL - 适用于 Linux 的 Windows 子系统](https://learn.microsoft.com/zh-cn/windows/wsl/)  |
 |        [docker](/completions/docker)        |                     [docker - 容器应用开发](https://www.docker.com/)                     |
 |         [scoop](/completions/scoop)         |               [Scoop - 软件管理](https://github.com/ScoopInstaller/Scoop)                |
 |         [choco](/completions/choco)         |                 [choco(chocolatey) - 软件管理](https://chocolatey.org/)                  |

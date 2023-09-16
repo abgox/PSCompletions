@@ -37,7 +37,7 @@
     -   By modifying the `json` file to achieve.
         >-   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
         >-   If you do it, don't use `psc update` to avoid overwriting your customizations.
-        >-   If there are problems, please use `psc update<completion>` to Overwrite completion
+        >-   If there are problems, please use `psc update <completion>` to Overwrite completion
     -   Get the completion file path. `psc which <completion>`
 
 **If you find this project helpful, please consider giving it a star ⭐.**
@@ -50,7 +50,7 @@
     - `echo "Import-Module PSCompletions" >> $PROFILE`
     - So you don't have to import the module every time you open PowerShell.
 
-## How to use(eg. `git`)
+## How to use(e.g. `git`)
 
 ### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
@@ -68,9 +68,9 @@
 
 [![PSCompletions-demo.gif](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)
 
-## About Completion Description
-
--   ✨: You can continue to press `Tab` to get command completion. (except for special cases)
+### About special symbols in Completion Description
+-   ✨: Press `Space` and `Tab` to get command completion When it's selected. (except for special cases)
+-   ✨✨：Type a string without spaces, then press `Space` and `Tab` to get command completion.
 -   `...`: The description here will be filled in in the future.
     -   If `...` is the last one in the completion, it means that the display area is too small to display all completions.
 
@@ -79,8 +79,8 @@
 |                 Completions                 |                                            Source                                             |
 | :-----------------------------------------: | :-------------------------------------------------------------------------------------------: |
 | [PSCompletions](/completions/PSCompletions) | [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions) |
-|           [wsl](/completions/wsl)           |      [WSL - Windows Subsystem for Linux](https://learn.microsoft.com/zh-cn/windows/wsl/)      |
 |           [git](/completions/git)           |                   [Git - Version control system](https://git-scm.com/docs)                    |
+|           [wsl](/completions/wsl)           |      [WSL - Windows Subsystem for Linux](https://learn.microsoft.com/zh-cn/windows/wsl/)      |
 |        [docker](/completions/docker)        |             [docker - Container Application Development](https://www.docker.com/)             |
 |         [scoop](/completions/scoop)         |              [Scoop - Software Manager](https://github.com/ScoopInstaller/Scoop)              |
 |         [choco](/completions/choco)         |                [choco(chocolatey) - Software Manager](https://chocolatey.org/)                |
