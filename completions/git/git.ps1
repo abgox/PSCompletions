@@ -1,4 +1,3 @@
-using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
@@ -16,16 +15,16 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     $completions = [ordered]@{}
     $_json | ForEach-Object {
         if ($_.Name -ne 'git_core_info') {
-            $last_cmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-            $completions[$root_cmd + ' ' + $_.Name] = @($last_cmd, $_.Value)
-            $completions[$root_cmd + ' help ' + $_.Name] = @($last_cmd, ('Show help -- ' + $last_cmd))
+            $cmd = $_.Name -split ' '
+            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
+            $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help -- ' + $cmd[0]))
         }
     }
     #endregion
 
     #region Special point
     $symbol = $json_info.symbol
-    $branch_list = git branch --format="%(refname:lstrip=2)" 2>$null
+    $branch_list = git branch --format='%(refname:lstrip=2)' 2>$null
     $head_list = @{
         HEAD       = (git show HEAD --relative-date -q 2>$null) -join "`n"
         FETCH_HEAD = (git show FETCH_HEAD --relative-date -q 2>$null) -join "`n"
@@ -98,23 +97,27 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
         $author = $_[2]
         $commit = $_[3..($_.Length - 1)]
         $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-        $completions[ $root_cmd + ' commit -C ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' rebase -i ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' rebase --interactive ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' checkout ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' diff ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' diff <commit> ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' reset ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' reset --soft ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' reset --hard ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' reset --mixed ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' show ' + $hash] = @($hash, $content)
-        $completions[ $root_cmd + ' revert ' + $hash] = @($hash, $content)
+        function _do($cmd, $tip) {
+            $completions[$root_cmd + ' ' + $cmd + ' ' + $hash] = @($hash, $tip)
+        }
+        _do 'commit -C' $content
+        _do 'rebase -i' $content
+        _do 'rebase --interactive' $content
+        _do 'checkout' $content
+        _do 'diff' $content
+        _do 'diff <commit>' $content
+        _do 'reset' $content
+        _do 'reset --soft' $content
+        _do 'reset --hard' $content
+        _do 'reset --mixed' $content
+        _do 'show' $content
+        _do 'revert' $content
+        _do 'commit' $content
     }
 
     $tag_list | ForEach-Object {
-        $completions[ $root_cmd + ' tag -d ' + $_] = @($_, "tag --- " + $_)
-        $completions[ $root_cmd + ' tag -v ' + $_] = @($_, "tag --- " + $_)
+        $completions[ $root_cmd + ' tag -d ' + $_] = @($_, 'tag --- ' + $_)
+        $completions[ $root_cmd + ' tag -v ' + $_] = @($_, 'tag --- ' + $_)
     }
     #endregion
 
@@ -122,16 +125,15 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     $_input = $commandAst.CommandElements
     $_input_str = $_input -join ' '
     $_input_arr = $_input_str -split '\s+'
-    $limit_value = 0
-    $limit_line = 0
+    $max_len = 0
     $display_count = 0
-    $cmd_line = [System.Console]::WindowHeight - 4
+    $cmd_line = [System.Console]::WindowHeight - 5
     $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split '\s+'
         $position = [System.Collections.Generic.List[int]]@()
         for ($i = 0; $i -lt $cmd.Count; $i++) {
-            if ($cmd[$i] -match "<.+>") { $position.Add($i) }
+            if ($cmd[$i] -match '<.+>') { $position.Add($i) }
         }
         $_inputs = [System.Collections.Generic.List[string]]$_input_arr
         $flag = [System.Collections.Generic.List[string]]$cmd
@@ -145,15 +147,10 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     }
     $filter_list | ForEach-Object {
         $len = ($completions[$_][0].Replace('^up', ' ')).Length
-        if ($len -ge $limit_value) { $limit_value = $len }
-        $line = ($completions[$_][1] -split "`n").Count
-        if ($line -ge $limit_line) { $limit_line = $line }
+        if ($len -ge $max_len) { $max_len = $len }
     }
-    $comp_count = ($cmd_line - $limit_line ) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
 
-    if ($comp_count -le [math]::Floor($filter_list.Count * 2 / 3)) {
-        $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
-    }
+    $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
 
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
@@ -162,7 +159,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
             [CompletionResult]::new($display, $display, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
         else {
-            [CompletionResult]::new(" ", "...", 'ParameterValue', $_psc.json.comp_hide)
+            [CompletionResult]::new(' ', '...', 'ParameterValue', $_psc.json.comp_hide)
             return
         }
     }

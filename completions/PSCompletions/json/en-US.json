@@ -98,7 +98,7 @@
     "config reset": "Reset all configs to default.\nInclude(language,root_cmd,github,gitee,update)",
     "PSCompletions_core_info": {
         "description": [
-            "PSCompletions({{$_psc.root_cmd}}) -- Command completion manager\n",
+            "PSCompletions({{$_psc.root_cmd}}) --- Command completion manager\n",
             "For more information, please visit the following project\n",
             "  Github: https://github.com/abgox/PSCompletions\n",
             "  Gitee: https://gitee.com/abgox/PSCompletions"
@@ -108,6 +108,13 @@
             "(The following content is only displayed for the first time)\n",
             "You just need to type \"{{$_psc.root_cmd}}\" and only \"Tab\", and you will quickly understand all commands.\n",
             "Use \"{{$_psc.root_cmd}} add <completion>\" to add the first completion!\n",
+            "\n",
+            "About special symbols in Completion Description\n",
+            "- ✨: Press Space and Tab to get command completion When it's selected. (except for special cases)\n",
+            "- ✨✨：Type a string without spaces, then press Space and Tab to get command completion.\n",
+            "- ...: The description here will be filled in in the future.\n",
+            "   - If ... is the last one in the completion, it means that the display area is too small to display all completions.\n",
+            "\n",
             "For more information, please visit the project:\n",
             "  Github: https://github.com/abgox/PSCompletions\n",
             "  Gitee:  https://gitee.com/abgox/PSCompletions\n",
@@ -162,8 +169,8 @@
         "list_add_done": "🟢",
         "list_add_tip": "🟢: You have added it.   🔴:You haven't added it yet.",
         "repo_using": "Current remote repository: {{$_psc.repo}}",
-        "add": "Add completion -- {{$_}}",
-        "adding": "Adding completion -- {{$completion}}",
+        "add": "Add completion --- {{$_}}",
+        "adding": "Adding completion --- {{$completion}}",
         "add_done": "Completion({{$completion}}) add completed",
         "add_error": [
             "Completion({{$_}}) isn't exist.\n",
@@ -175,15 +182,15 @@
             "{{$completion}} completion's file({{$fail_file}}) download error.\n",
             "Please ensure that you can access {{$fail_file_url}}"
         ],
-        "remove": "Remove completion -- {{$_}}",
+        "remove": "Remove completion --- {{$_}}",
         "remove_done": "Completion({{$_}}) has been removed",
         "remove_err": [
             "Remove completion({{$_}}) failed. You haven't added {{$_}} yet.\n",
             "It's recommended to type \"{{$_psc.root_cmd}} rm\" and press \"Tab\" to complete."
         ],
         "search": "{{if($result){'The search results are as follows:'}else{'No completion found!'}}}",
-        "update": "Update completion -- {{$_}}",
-        "updating": "Updating completion -- {{$completion}}",
+        "update": "Update completion --- {{$_}}",
+        "updating": "Updating completion --- {{$completion}}",
         "update_done": "Completion({{$completion}}) update completed",
         "update_error": "Completion({{$_}}) update failed, You haven't added {{$_}} yet.",
         "update_download_err": [
@@ -203,14 +210,14 @@
         ],
         "alias_add_done": "The completion trigger command has been changed from {{$arg[2]}} to {{$arg[3]}}.\nPlease restart the terminal to take effect.",
         "alias_del": "Alias delete list：{{$del_list -join ','}}",
-        "alias_rm": "Remove alias({{$_psc.comp_cmd.$_}}) -- {{$_}}",
+        "alias_rm": "Remove alias({{$_psc.comp_cmd.$_}}) --- {{$_}}",
         "alias_err": "You haven't added {{$arg[2]}} yet.",
         "alias_rm_done": [
             "{{$_psc.json.alias_del}}\n",
             "Please restart the terminal to take effect.\n",
             "{{if('psc(PSCompletions) -in $del_list'){('(\"psc\" is the default alias for the PSCompletes module, which can only be modified and cannot be removed)')} }}"
         ],
-        "alias_rm_err": "alias no exist -- ({{$error_list -join ','}})",
+        "alias_rm_err": "alias no exist --- ({{$error_list -join ','}})",
         "alias_reset_confirm": "Remove all completion aliases\n{{$_psc.json.confirm}}",
         "alias_reset_done": [
             "Remove all alias!\n",
@@ -231,7 +238,7 @@
             "$_psc.config.keys | Foreach-Object { \"`n\" + $_ + ': ' + $_psc.config.$_}",
             "}}"
         ],
-        "which": "Locate completion storage location -- {{$_}}",
+        "which": "Locate completion storage location --- {{$_}}",
         "which_err": [
             "Locate completion({{$_}}) failed. You haven't added {{$_}} yet.\n",
             "It's recommended to type \"{{$_psc.root_cmd}} which\" and press \"Tab\" to complete."
@@ -270,7 +277,7 @@
             "alias_add": "e.g. {{$_psc.root_cmd}} alias add git g",
             "alias_add_err": "The alias ({{$arg[-1]}}) isn't available, because {{$arg[-1]}} is an existing command. Please set a different alias",
             "alias_rm": [
-                "e.g. {{$_psc.root_cmd}} alias rm  <alias1 alias2 ...>\n",
+                "e.g. {{$_psc.root_cmd}} alias rm  <alias> [<alias2> ...]\n",
                 "    {{$_psc.root_cmd}} alias rm  g"
             ],
             "alias_reset": "e.g. {{$_psc.root_cmd}} alias reset",

@@ -1,142 +1,465 @@
 {
-    "bucket": "✨Manage Scoop buckets",
-    "bucket list": "Lists the buckets that have been added",
-    "bucket add": "Command: scoop bucket add <bucket_name> <bucket_url>\nAdd Scoop bucket\neg: scoop bucket add extras",
-    "bucket rm": "Command: scoop bucket rm <bucket_name>\nRemove Scoop bucket\neg : scoop bucket rm extras",
-    "bucket known": "list all known buckets",
-    "bucket -h": "Alias: --help \nShow official help -- bucket",
-    "search": "Command: scoop search <app>\nSearch available apps\neg: scoop search main\\sudo",
-    "search -h": "Alias: --help \nShow official help -- search",
-    "install": "✨Command: scoop install [-g|-u|-k|-i|-s|-a] <app>\nInstall apps\neg : scoop install -u main\\sudo",
-    "install -g": "Alias: --global\nInstall the app globally",
-    "install -u": "Alias: --no-update-scoop\nDon't update Scoop before installing if it's outdated",
-    "install -k": "Alias: --no-cache\nDon't use the download cache",
-    "install -i": "Alias: --independent\nDon't install dependencies automatically",
-    "install -s": "Alias: --skip\nSkip hash validation (use with caution!)",
-    "install -a": "Alias: --arch <32bit|64bit|arm64>\nUse the specified architecture <32bit|64bit|arm64>, if the app supports it",
-    "install -h": "Alias : --help \nShow official help -- install",
-    "uninstall": "✨Command: scoop uninstall [-g|-p] <app>\nUninstall apps\neg : scoop uninstall sudo",
-    "uninstall -g": "Alias: --global\nUninstall the app globally",
-    "uninstall -p": "Alias: --purge\nRemove all persistent data",
-    "uninstall -h": "Alias: --help \nShow official help -- uninstall",
-    "update": "✨Command: scoop update [-f|-g|-i|-k|-s|-q|-a] <app>\nUpdate apps, or Scoop itself\neg : scoop update 7zip",
-    "update -f": "Alias: --force\nForce update even when there isn't a newer version",
-    "update -g": "Alias: --global\nUpdate a globally installed app",
-    "update -i": "Alias: --independent\nDon't install dependencies automatically",
-    "update -k": "Alias: --no-cache\nDon't use the download cache",
-    "update -s": "Alias: --skip\nSkip hash validation (use with caution!)",
-    "update -q": "Alias: --quiet\nHide extraneous messages",
-    "update -a": "Alias: --all\nUpdate all apps (alternative to '*')",
-    "update -h": "Alias: --help \nShow official help -- update",
-    "list": "Command: scoop list [pattern]\nList installed apps\neg : scoop list 7  -- List all installed apps with names of 7",
-    "list -h": "Alias: --help \nShow official help -- list",
-    "info": "✨Command: scoop info [--verbose] <app>\nDisplay information about an app\neg : scoop info 7zip",
-    "info --verbose": "Display More detailed information",
-    "info -h": "Alias: --help \nShow official help -- info",
-    "cache": "✨Command: scoop cache <show|rm> <app>\nShow or clear the download cache\neg : scoop cache <show/rm> <app>",
-    "cache show": "See what's in the cache\neg : scoop cache show *\n     scoop cache show 7zip",
-    "cache rm": "Remove the cache of app\neg : scoop cache rm *\n     scoop cache rm 7zip",
-    "cache -h": "Alias: --help \nShow official help -- cache",
-    "reset": "✨Reset an app to resolve conflicts\neg : scoop reset python\n     scoop reset python27",
-    "reset *": "Reset All apps",
-    "reset -h": "Alias: --help \nShow official help -- reset",
-    "cleanup": "✨Command: scoop cleanup [-a|-g|-k|-h] <app|*>\nCleanup apps by removing old versions\neg : scoop cleanup 7zip",
-    "cleanup -a": "Alias: --all\nCleanup all apps (alternative to '*')",
-    "cleanup -g": "Alias: --global\nCleanup a globally installed app",
-    "cleanup -k": "Alias: --cache\nRemove outdated download cache",
-    "cleanup -h": "Alias: --help \nShow official help -- cleanup",
-    "prefix": "Returns the path to the specified app\neg : scoop prefix 7zip",
-    "prefix -h": "Alias: --help \nShow official help -- prefix",
-    "cat": "Show content of specified manifest\neg : scoop cat 7zip",
-    "cat -h": "Alias : --help \nShow official help -- cat",
-    "checkup": "Check for potential problems with Scoop",
-    "checkup -h": "Alias : --help \nShow official help -- checkup",
-    "alias": "✨Manage scoop aliases\neg : scoop alias add <alias_name> <command> <description>\n     scoop alias rm <alias_name>\n     scoop alias list",
-    "alias add": "Command: scoop alias add <alias_name> <command> <description>\nAdd an Alias\neg : scoop alias add upgrade 'scoop update * Updates all apps'\n     Then type 'scoop upgrade' to run 'scoop update *",
-    "alias rm": "Command: scoop alias rm <alias_name>\nRemove an Alias\neg : scoop alias rm upgrade \n",
-    "alias list": "List all alias",
-    "alias -h": "Alias: --help \nShow official help -- alias",
-    "shim": "✨Command: scoop shim [-g] <add/rm/list/info/alter> <shim_name>...\nManipulate Scoop shims",
-    "shim add": "Command: scoop shim add <shim_name> <command_path> [<args>...]\nAdd a custom shim",
-    "shim rm": "Command: scoop shim rm <shim_name> [<shim_name>...]\nRemove shims(This could remove shims added by an app manifest)",
-    "shim list": "Command: scoop shim list [<shim_name>|<pattern>...]\nList all shims or matching shims",
-    "shim info": "Command: scoop shim info <shim_name>\nShow a shim's information",
-    "shim alter": "Command: scoop shim alter <shim_name>\nAlternate a shim's target source",
-    "shim -g": "Alias: --global\nManipulate global shim(s)",
-    "shim -h": "Alias: --help \nShow official help -- shim",
-    "config": "Command: scoop config <key> [value]\nGet or set configuration values",
-    "config -h": "Alias: --help \nShow official help -- config",
-    "which": "Locate a shim/executable (similar to 'which' on Linux)\neg : scoop which sudo",
-    "which -h": "Alias: --help \nShow official help -- which",
-    "hold": "✨Command: scoop hold [-g] <app>\nHold an app to disable updates\neg : scoop hold <app>",
-    "hold -g": "Command: scoop hold [-g] <app>\nHold an global app to disable updates\neg : scoop hold -g <app>",
-    "hold -h": "Alias: --help \nShow official help -- hold",
-    "unhold": "✨Command: scoop unhold [-g] <app>\nUnhold an app to enable updates\neg : scoop unhold <app>",
-    "unhold -g": "Command: scoop unhold [-g] <app>\nUnhold an global app to enable updates\neg : scoop unhold -g <app>",
-    "unhold -h": "Alias: --help \nShow official help -- unhold",
-    "export": "✨Command: scoop export [-c]\nExports installed apps, buckets (and optionally configs) in JSON format\neg : scoop export -c > ~\\Desktop\\scoopfile.json\n and you can see it in your Desktop",
-    "export -c": "Alias: --config\nExport the Scoop configuration file too",
-    "export -h": "Alias: --help \nShow official help -- export",
-    "import": "Imports apps, buckets and configs from a Scoopfile in JSON format\neg : scoop import ~\\Desktop\\scoopfile.json\n scoop import <url to scoopfile.json>",
-    "import -h": "Alias: --help \nShow official help -- import",
-    "depends": "Command: scoop depends <app>\nList dependencies for an app, in the order they'll be installed\neg : scoop depends python",
-    "depends -h": "Alias: --help \nShow official help -- depends",
-    "status": "✨Show status and check for new app versions\neg : scoop status -l",
-    "status -l": "Alias: --local\nChecks the status for only the locally installed apps,and disables remote fetching/checking for Scoop and buckets",
-    "status -h": "Alias: --help \nShow official help -- status",
-    "create": "Create a custom app manifest\neg : scoop create <app_url>",
-    "create -h": "Alias: --help \nShow official help -- create",
-    "download": "✨Download apps in the cache folder and verify hashes\neg : \nThe usual way to download an app, without installing it:\n scoop download git\nTo download a different version of the app:\n scoop download gh@2.7.0\nTo download an app from a manifest at a URL:\n scoop download https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/sudo.json\nTo download an app from a manifest on your computer:\n scoop download path\\to\\app.json",
-    "download -u": "Alias: --no-update-scoop\nDon't update Scoop before downloading if it's outdated",
-    "download -f": "Alias: --force\nForce download (overwrite cache)",
-    "download -a": "Alias: --arch <32bit|64bit|arm64>\nUse the specified architecture, if the app supports it",
-    "download --no-hash-check": "Skip hash verification (use with caution!)",
-    "download -h": "Alias: --help \nShow official help -- download",
-    "virustotal": "✨Command: scoop virustotal [* | app1 app2 ...] [options]\nLook for app's hash or url on virustotal.com",
-    "virustotal -a": "Alias: --all\nCheck for all installed apps",
-    "virustotal -u": "Alias: --no-update-scoop\nDon't update Scoop before checking if it's outdated",
-    "virustotal -s": "Alias: --scan\nFor packages where VirusTotal has no information, send download URL for analysis (and future retrieval). \nThis requires you to configure your virustotal_api_key.",
-    "virustotal -n": "Alias: --no-depends\nBy default, all dependencies are checked too. This flag avoids it.",
-    "virustotal -p": "Alias: --passthru\nReturn reports as objects",
-    "virustotal -h": "Alias: --help \nShow official help -- virustotal",
-    "home": "Command: scoop home <app>\nOpens the app homepage\neg: scoop home sudo",
-    "home -h": "Alias: --help \nShow official help -- home",
-    "-v": "Alias: --version\nPrint the current version of scoop",
-    "help": "✨Show official help",
-    "help bucket": "Show official help -- bucket",
-    "help search": "Show official help -- search",
-    "help install": "Show official help -- install",
-    "help uninstall": "Show official help -- uninstall",
-    "help update": "Show official help -- update",
-    "help list": "Show official help -- list",
-    "help info": "Show official help -- info",
-    "help cache": "Show official help -- cache",
-    "help reset": "Show official help -- reset",
-    "help cleanup": "Show official help -- cleanup",
-    "help prefix": "Show official help -- prefix",
-    "help cat": "Show official help -- cat",
-    "help checkup": "Show official help -- checkup",
-    "help alias": "Show official help -- alias",
-    "help shim": "Show official help -- shim",
-    "help config": "Show official help -- config",
-    "help which": "Show official help -- which",
-    "help hold": "Show official help -- hold",
-    "help unhold": "Show official help -- unhold",
-    "help export": "Show official help -- export",
-    "help import": "Show official help -- import",
-    "help depends": "Show official help -- depends",
-    "help status": "Show official help -- status",
-    "help download": "Show official help -- download",
-    "help virustotal": "Show official help -- virustotal",
-    "help home": "Show official help -- home",
-    "help setup": "Show official help -- setup",
-    "help completions": "Show official help -- completions",
-    "setup": "Enable scoop for the current user / shell",
-    "setup -h": "Alias: --help \nShow official help -- setup",
-    "completions": "Generate scoop completions\nYou already have scoop-tab-completion. You don't need it",
-    "completions -h": "Alias: --help \nShow official help -- completions",
-    "scoop_core_info":{
-        "has_value":"Current value --  ",
-        "no_value":"It has not been set"
+    "bucket": [
+        "Usage: scoop bucket <add|list|known|rm> [<args>]\n",
+        "✨Manage Scoop bucket"
+    ],
+    "bucket list": "List added bucket",
+    "bucket add": [
+        "Usage: scoop bucket add <bucket_name> [<repo>]\n",
+        "Add Scoop bucket\n",
+        "e.g.   scoop bucket add extras"
+    ],
+    "bucket rm": [
+        "Usage: scoop bucket rm <bucket_name>\n",
+        "✨Remove Scoop bucket\n",
+        "e.g.   scoop bucket rm extras"
+    ],
+    "bucket known": [
+        "List all official known buckets\n",
+        "When adding these buckets, you can add repo remote address\n",
+        "e.g.   scoop bucket add extras"
+    ],
+    "search": [
+        "Usage: scoop search <query>\n",
+        "Search installable applications\n",
+        "e.g.   scoop search sudo         --- Search sudo in each bucket (order follows scoop bucket list)\n",
+        "       scoop search main/sudo    --- Search sudo only in main"
+    ],
+    "install": [
+        "Usage: scoop install <app> [options]\n",
+        "✨✨Install application\n",
+        "e.g.   scoop install sudo         --- Search sudo in each bucket and install if found\n",
+        "       scoop install main/sudo    --- Search sudo only in main and install if found\n",
+        "       scoop install main/sudo -u --- Install application without updating Scoop"
+    ],
+    "install <app> -g": [
+        "Alias: --global\n",
+        "Global install application"
+    ],
+    "install <app> -u": [
+        "Alias: --no-update-scoop\n",
+        "Install application without updating Scoop"
+    ],
+    "install <app> -k": [
+        "Alias: --no-cache\n",
+        "Don't use download cache"
+    ],
+    "install <app> -i": [
+        "Alias: --independent\n",
+        "Don't auto install dependencies"
+    ],
+    "install <app> -s": [
+        "Alias: --skip\n",
+        "Skip hash verification"
+    ],
+    "install <app> -a": [
+        "Alias: --arch\n",
+        "✨Use specified architecture if supported <32bit|64bit|arm64>"
+    ],
+    "install <app> -a 32bit": "Use 32bit",
+    "install <app> -a 64bit": "Use 64bit",
+    "install <app> -a arm64": "Use arm64",
+    "uninstall": [
+        "Usage: scoop uninstall <app> [options]\n",
+        "✨Uninstall application\n",
+        "e.g.   scoop uninstall sudo"
+    ],
+    "uninstall <app> -g": [
+        "Alias: --global\n",
+        "Global uninstall application"
+    ],
+    "uninstall <app> -p": [
+        "Alias: --purge\n",
+        "Remove persistent data"
+    ],
+    "update": [
+        "Usage: scoop update [<app>] [options]\n",
+        "✨Update application or Scoop itself\n",
+        "e.g.   scoop update       --- Update Scoop itself\n",
+        "       scoop update 7zip  --- Update 7zip"
+    ],
+    "update *": "Update all applications",
+    "update -a": [
+        "Alias: --all\n",
+        "Update all applications (alternative to *)"
+    ],
+    "update <app> -f": [
+        "Alias: --force\n",
+        "Force update even if no new versions"
+    ],
+    "update <app> -g": [
+        "Alias: --global\n",
+        "Update globally installed applications"
+    ],
+    "update <app> -i": [
+        "Alias: --independent\n",
+        "Don't auto install dependencies"
+    ],
+    "update <app> -k": [
+        "Alias: --no-cache\n",
+        "Don't use download cache"
+    ],
+    "update <app> -s": [
+        "Alias: --skip\n",
+        "Skip hash verification"
+    ],
+    "update <app> -q": [
+        "Alias: --quiet\n",
+        "Hide irrelevant messages"
+    ],
+    "list": [
+        "Usage: scoop list [query]\n",
+        "List installed applications\n",
+        "e.g.   scoop list     --- List all installed applications\n",
+        "       scoop list i   --- List applications with names containing 'i'\n",
+        "       scoop list ^i  --- List applications starting with 'i'\n",
+        "       scoop list i$  --- List applications ending with 'i'"
+    ],
+    "info": [
+        "Usage: scoop info <app> [--verbose]\n",
+        "✨✨Display information about a specific application\n",
+        "e.g.   scoop info 7zip"
+    ],
+    "info <app> --verbose": "Display detailed information",
+    "cache": [
+        "Usage: scoop cache [<show>|<rm>] [<app>] [<app>...]\n",
+        "✨Manage download cache\n",
+        "e.g.   scoop cache                --- Show all download caches\n",
+        "       scoop cache show 7zip      --- Show 7zip download cache\n",
+        "       scoop cache rm 7zip sudo   --- Remove 7zip sudo download cache"
+    ],
+    "cache show": [
+        "Show download cache\n",
+        "e.g. scoop cache show 7zip"
+    ],
+    "cache rm": [
+        "Remove download cache for specified applications\n",
+        "e.g.   scoop cache rm *     --- Remove all download caches\n",
+        "       scoop cache rm 7zip  --- Remove 7zip download cache"
+    ],
+    "reset": [
+        "Usage: scoop reset <app|*>\n",
+        "✨Reset applications to resolve conflicts\n",
+        "e.g.   scoop reset python\n",
+        "       scoop reset python27"
+    ],
+    "reset *": "Reset all applications",
+    "cleanup": [
+        "Usage: scoop cleanup <app|*> [options]\n",
+        "✨Clean up applications (Remove old versions)\n",
+        "e.g.   scoop cleanup 7zip"
+    ],
+    "cleanup *": "Clean up all applications",
+    "cleanup -a": [
+        "Alias: --all\n",
+        "Clean up all applications (alternative to *)"
+    ],
+    "cleanup <app> -g": [
+        "Alias: --global\n",
+        "Clean up globally installed applications"
+    ],
+    "cleanup <app> -k": [
+        "Alias: --cache\n",
+        "Remove outdated download cache"
+    ],
+    "prefix": [
+        "Usage: scoop prefix <app>\n",
+        "Return the path for a specified application\n",
+        "e.g.   scoop prefix 7zip"
+    ],
+    "cat": [
+        "Usage: scoop cat <app>\n",
+        "Display the content of a specified application's manifest\n",
+        "e.g.   scoop cat 7zip"
+    ],
+    "checkup": "Check if Scoop has potential issues",
+    "alias": [
+        "Usage: scoop alias <add|list|rm> [<args>]\n",
+        "✨Manage Scoop aliases"
+    ],
+    "alias add": [
+        "Usage: scoop alias add <alias_name> <command> <description>\n",
+        "Add command aliases\n",
+        "e.g.   scoop alias add upgrade 'scoop update *' 'Updates all apps'\n",
+        "       Type 'scoop upgrade' to run 'scoop update *'"
+    ],
+    "alias rm": [
+        "Usage: scoop alias rm <alias_name>\n",
+        "Remove command aliases\n",
+        "e.g.   scoop alias rm upgrade"
+    ],
+    "alias list": "List all command aliases",
+    "shim": [
+        "Usage: scoop shim <add|rm|list|info|alter> [<shim_name>...] [-g] [other_args]\n",
+        "✨Manage Scoop shims"
+    ],
+    "shim add": [
+        "Usage: scoop shim add <shim_name> <command_path> [<args>...]\n",
+        "Add custom shims"
+    ],
+    "shim rm": [
+        "Usage: scoop shim rm <shim_name> [<shim_name>...]\n",
+        "Remove shims (this may remove shims added by application manifests, be cautious)"
+    ],
+    "shim list": [
+        "Usage: scoop shim list [<shim_name>|<pattern>...]\n",
+        "List all shims or matching shims"
+    ],
+    "shim info": [
+        "Usage: scoop shim info <shim_name>\n",
+        "Display information about a shim"
+    ],
+    "shim alter": [
+        "Usage: scoop shim alter <shim_name>\n",
+        "Replace the target source of a shim"
+    ],
+    "config": [
+        "Usage: scoop config [rm] name [value]\n",
+        "✨Manage Scoop configuration\n",
+        "e.g.   scoop config                 --- Get all configurations\n",
+        "       scoop config <name>          --- Get configuration\n",
+        "       scoop config <name> <value>  --- Set configuration\n",
+        "       scoop config rm <name>       --- Remove configuration"
+    ],
+    "config use_external_7zip": "✨External 7zip (from path) will be used for archive extraction",
+    "config use_external_7zip true": "Set to true",
+    "config use_external_7zip false": "Set to false",
+    "config use_lessmsi": "✨Prioritize using the lessmsi utility over native msiexec",
+    "config use_lessmsi true": "Set to true",
+    "config use_lessmsi false": "Set to false",
+    "config no_junction": "✨'current' version aliases will not be used. Shims and shortcuts will point to specific versions",
+    "config no_junction true": "Set to true",
+    "config no_junction false": "Set to false",
+    "config scoop_repo": "✨Git repository containing Scoop source code. This configuration is for custom forks",
+    "config scoop_repo http://github.com/ScoopInstaller/Scoop": "Default value",
+    "config scoop_branch": [
+        "✨Allows using branches other than master, useful for testing specific features before being released to all users\n",
+        "If you want to receive updates in advance to test new features, use develop (Ref: https://github.com/ScoopInstaller/Scoop/issues/2939)"
+    ],
+    "config scoop_branch master": "Set to master",
+    "config scoop_branch develop": "Set to develop",
+    "config proxy": [
+        "Usage: git config proxy [username:password@]host:port\n",
+        "By default, Scoop uses proxy settings from Internet Options but with anonymous authentication\n",
+        "To use the credentials of the current logged-in user, use 'currentuser' in place of username:password\n",
+        "To use the system's configured system proxy settings from Internet Options, use 'default' in place of host:port\n",
+        "An empty or unset value is equivalent to 'default' (no username or password)\n",
+        "To bypass the system proxy and connect directly, use 'none' (no username or password)"
+    ],
+    "config autostash_on_conflict": "✨Scoop will automatically stash uncommitted changes when conflicts are detected during updates (default is false, which will abort the update)",
+    "config autostash_on_conflict true": "Set to true",
+    "config autostash_on_conflict false": "Set to false",
+    "config default_architecture": [
+        "✨Allows configuring the preferred application installation architecture.\n",
+        "If not specified, the system will automatically determine the architecture"
+    ],
+    "config default_architecture 32bit": "Set to 32bit",
+    "config default_architecture 64bit": "Set to 64bit",
+    "config default_architecture arm64": "Set to arm64",
+    "config debug": "✨Displays additional and verbose output",
+    "config debug true": "Set to true",
+    "config debug false": "Set to false",
+    "config force_update": "✨Forces updating applications to the version in the bucket",
+    "config force_update true": "Set to true",
+    "config force_update false": "Set to false",
+    "config show_update_log": "✨Does not display 'scoop update' on change commits",
+    "config show_update_log true": "Set to true",
+    "config show_update_log false": "Set to false",
+    "config show_manifest": "✨Displays the manifest for each application about to be installed and asks the user whether to proceed",
+    "config show_manifest true": "Set to true",
+    "config show_manifest false": "Set to false",
+    "config shim": "✨Choose scoop shim build",
+    "config shim kiennq": "Set to kiennq",
+    "config shim scoopcs": "Set to scoopcs",
+    "config shim 71": "Set to 71",
+    "config root_path": "Path to Scoop's root directory",
+    "config global_path": "Path to the root directory of global applications in Scoop",
+    "config cache_path": "For downloads, defaults to the 'cache' folder under Scoop's root directory",
+    "config gh_token": [
+        "GitHub API token used for authentication requests\n",
+        "Essential for running checkver and downloading from private repositories without hitting rate limits"
+    ],
+    "config virustotal_api_key": [
+        "API key for uploading/scanning files using virustotal\n",
+        "Ref: https://support.virustotal.com/hc/en-us/articles/115002088769-Please-give-me-an-API-key"
+    ],
+    "config cat_style": [
+        "When set to a non-empty string, Scoop will use 'bat' to display 'scoop cat' commands and manifests during manifest inspection\n",
+        "This requires installing 'bat' (run 'scoop install bat' to install it), otherwise, it will throw an error\n",
+        "Accepts values identical to those passed to the --style flag of 'bat'"
+    ],
+    "config ignore_running_processes": [
+        "✨When set to false (default), Scoop will immediately stop its process if any target application processes are detected to be running\n",
+        "Processes here refer to reset/uninstall/update\n",
+        "When set to true, Scoop will only display a warning message and continue the process"
+    ],
+    "config ignore_running_processes true": "Set to true",
+    "config ignore_running_processes false": "Set to false",
+    "config private_hosts": [
+        "Array of private hosts requiring additional authentication\n",
+        "For e.g.   if you need to access a private GitHub repository, add the host to this list and provide matching and header strings"
+    ],
+    "config hold_update_until": [
+        "Disable/hold Scoop self-updates until the specified date\n",
+        "'scoop hold scoop' sets the value to one day ahead\n",
+        "Should be provided in 'YYYY-MM-DD', 'YYYY/MM/DD', or any other format acceptable to '[System.DateTime]::Parse()'\n",
+        "Ref: https://docs.microsoft.com/dotnet/api/system.datetime.parse?view=netframework-4.5#StringToParse"
+    ],
+    "config update_nightly": [
+        "✨Nightly versions are formatted as 'nightly-yyyyMMdd', if set to true, they will update one day ahead\n",
+        "Otherwise, nightly versions won't update unless --force is used"
+    ],
+    "config update_nightly true": "Set to true",
+    "config update_nightly false": "Set to false",
+    "config aria2-enabled": "✨Whether to enable Aria2c for downloading artifacts",
+    "config aria2-enabled true": "Set to true",
+    "config aria2-enabled false": "Set to false",
+    "config aria2-warning-enabled": "✨Whether to disable warning messages displayed during Aria2c downloads",
+    "config aria2-warning-enabled true": "Set to true",
+    "config aria2-warning-enabled false": "Set to false",
+    "config aria2-retry-wait": [
+        "Seconds to wait between retries\n",
+        "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-retry-wait"
+    ],
+    "config aria2-split": [
+        "Number of connections to use for downloading\n",
+        "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-s"
+    ],
+    "config aria2-max-connection-per-server": [
+        "Maximum connections per single server for each download\n",
+        "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-x"
+    ],
+    "config aria2-min-split-size": [
+        "Files to be split and downloaded using multiple connections based on the configured size\n",
+        "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-k"
+    ],
+    "config aria2-options": [
+        "Array of additional aria2 options\n",
+        "Ref: https://aria2.github.io/manual/en/html/aria2c.html#options"
+    ],
+    "which": [
+        "Usage: scoop which <command>\n",
+        "Locate a shim/executable (similar to the 'which' command on Linux)\n",
+        "e.g.   scoop which scoop"
+    ],
+    "hold": [
+        "Usage: scoop hold <app> [-g]\n",
+        "✨Disable updates for a specified app\n",
+        "e.g.   scoop hold 7zip"
+    ],
+    "hold <app> -g": [
+        "Alias: --global\n",
+        "Disable updates for a specified global app"
+    ],
+    "unhold": [
+        "Usage: scoop unhold <app> [-g]\n",
+        "✨Enable updates for a specified app\n",
+        "e.g.   scoop unhold 7zip"
+    ],
+    "unhold <app> -g": [
+        "Alias: --global\n",
+        "Enable updates for a specified global app"
+    ],
+    "export": [
+        "Usage: scoop export [-c] > scoop_file.json\n",
+        "✨Export installed apps, buckets (and optional config) in JSON format\n",
+        "e.g.   scoop export -c > ~/Desktop/scoop_file.json   --- Export to scoop_file.json under the Desktop directory"
+    ],
+    "export -c": [
+        "Alias: --config\n",
+        "Include Scoop's configuration in the export"
+    ],
+    "import": [
+        "Usage: scoop import <path|url>\n",
+        "Import installed apps, buckets (and config) from a specified file in JSON format\n",
+        "e.g.   scoop import ~/Desktop/scoop_file.json"
+    ],
+    "depends": [
+        "Usage: scoop depends <app>\n",
+        "List dependencies for an app, ordered by installation sequence\n",
+        "e.g.   scoop depends python"
+    ],
+    "status": [
+        "Usage: scoop status [-l]\n",
+        "✨Display status and check for new app versions\n",
+        "e.g.   scoop status"
+    ],
+    "status -l": [
+        "Alias: --local\n",
+        "Check the status of locally installed apps only and disable remote fetching/checking of Scoop and buckets"
+    ],
+    "create": [
+        "Usage: scoop create <url>\n",
+        "Create a custom app manifest"
+    ],
+    "download": [
+        "Usage: scoop download <app> [options]\n",
+        "✨✨Download apps in the cache folder and verify hashes\n",
+        "e.g.   scoop download git                    --- Download an app without installing it\n",
+        "       scoop download gh@2.7.0               --- Download a different version of an app\n",
+        "       scoop download https://xxx/sudo.json  --- Download an app from a manifest via URL\n",
+        "       scoop download path/to/app.json       --- Download an app from a local manifest on the computer"
+    ],
+    "download <app> -u": [
+        "Alias: --no-update-scoop\n",
+        "Only download without updating Scoop if there's an update available"
+    ],
+    "download <app> -f": [
+        "Alias: --force\n",
+        "Force the download and overwrite the download cache"
+    ],
+    "download <app> -h": [
+        "Alias: --no-hash-check\n",
+        "Skip hash validation during download"
+    ],
+    "download <app> -a": [
+        "Alias: --arch\n",
+        "✨Use the specified architecture if supported <32bit|64bit|arm64>"
+    ],
+    "download <app> -a 32bit": "Use 32bit",
+    "download <app> -a 64bit": "Use 64bit",
+    "download <app> -a arm64": "Use arm64",
+    "virustotal": [
+        "Usage: scoop virustotal [options] [*|<app1> <app2> ...]\n",
+        "✨Look up the hash or URL of an app on virustotal.com"
+    ],
+    "virustotal *": "Check all installed apps",
+    "virustotal -a": [
+        "Alias: --all\n",
+        "Check all installed apps"
+    ],
+    "virustotal -u": [
+        "Alias: --no-update-scoop\n",
+        "Only check without updating Scoop if there's an update available"
+    ],
+    "virustotal -s": [
+        "Alias: --scan\n",
+        "Submit download URLs for analysis (and future retrieval) for packages without VirusTotal information\n",
+        "This requires configuring virustotal_api_key"
+    ],
+    "virustotal -n": [
+        "Alias: --no-depends\n",
+        "By default, it also checks all dependencies. This option bypasses it"
+    ],
+    "virustotal -p": [
+        "Alias: --passthru\n",
+        "Return the reports as objects"
+    ],
+    "home": [
+        "Usage: scoop home <app>\n",
+        "Open the homepage of an app\n",
+        "e.g.   scoop home sudo"
+    ],
+    "-v": [
+        "Alias: --version\n",
+        "Show Scoop version and the latest commit information of the buckets"
+    ],
+    "--version": [
+        "Alias: -v\n",
+        "Show Scoop version and the latest commit information of the buckets"
+    ],
+    "help": "✨Display command help",
+    "scoop_core_info": {
+        "symbol": "✨"
     }
 }

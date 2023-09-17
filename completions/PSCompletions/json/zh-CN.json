@@ -82,10 +82,10 @@
   ],
   "config root_cmd": "读取/设置 PSCompletions 模块的补全别名，默认为 psc",
   "config root_cmd psc": "设置为 psc(默认值)",
-  "config github": "✨获取或更改远程库地址 --Github",
+  "config github": "✨获取或更改远程库地址 --- Github",
   "config github \"\"": "将Github仓库设置为空",
   "config github https://github.com/abgox/PSCompletions": "github仓库",
-  "config gitee": "✨获取或更改远程库地址 -- Gitee",
+  "config gitee": "✨获取或更改远程库地址 --- Gitee",
   "config gitee \"\"": "将Gitee仓库设置为空",
   "config gitee https://gitee.com/abgox/PSCompletions": "gitee仓库",
   "config update": [
@@ -96,10 +96,10 @@
   ],
   "config update 1": "首次加载模块时显示更新",
   "config update 0": "首次加载不显示更新",
-  "config reset": "重置所有config 为默认值\n包括(language,root_cmd,github,gitee,update)",
+  "config reset": "重置所有 config 为默认值\n包括(language,root_cmd,github,gitee,update)",
   "PSCompletions_core_info": {
     "description": [
-      "PSCompletions({{$_psc.root_cmd}}) -- 命令行补全管理\n",
+      "PSCompletions({{$_psc.root_cmd}}) --- 命令行补全管理\n",
       "更多详情请前往项目主页查看\n",
       "  Github: https://github.com/abgox/PSCompletions\n",
       "  Gitee:  https://gitee.com/abgox/PSCompletions"
@@ -110,6 +110,13 @@
       "当前系统语言为{{$_psc.config.language}}\n",
       "本模块命令简单，你只需要输入{{$_psc.root_cmd}}并尝试按下Tab，你会快速了解所有命令。\n",
       "使用 {{$_psc.root_cmd}} add  <completion> 去添加第一个补全吧！\n",
+      "\n",
+      "关于补全描述中的特殊符号\n",
+      "- ✨：当此补全被选中后，可以按下 空格键 和 Tab 键继续获得补全候选(特殊情况除外)\n",
+      "- ✨✨：你需要输入一个不带空格的内容后按下 空格键 和 Tab 键继续获得补全候选\n",
+      "- ...：补全描述等待后续填充\n",
+      "   - 如果 ... 是最后一个补全候选，则表示可显示区域过小，无法显示所有候选项\n",
+      "\n",
       "如需了解更多信息和说明，请访问项目:\n",
       "  Github: https://github.com/abgox/PSCompletions\n",
       "  Gitee:  https://gitee.com/abgox/PSCompletions\n",
@@ -164,8 +171,8 @@
     "list_add_done": "🟢",
     "list_add_tip": "🟢：补全已经添加   🔴：补全还未添加",
     "repo_using": "当前使用的远程仓库: {{$_psc.repo}}",
-    "add": "添加补全 -- {{$_}}",
-    "adding": "正在添加补全 -- {{$completion}}",
+    "add": "添加补全 --- {{$_}}",
+    "adding": "正在添加补全 --- {{$completion}}",
     "add_done": "补全({{$completion}})添加成功",
     "add_error": [
       "补全({{$_}})不存在。\n",
@@ -177,15 +184,15 @@
       "原因:{{$completion}}补全中的文件({{$fail_file}})下载失败\n",
       "请确保你的网络能正常访问 {{$fail_file_url}}"
     ],
-    "remove": "移除补全 -- {{$_}}",
+    "remove": "移除补全 --- {{$_}}",
     "remove_done": "补全({{$_}})成功被移除",
     "remove_err": [
       "移除补全({{$_}})失败，{{$_}}不存在于已添加的补全中。\n",
       "推荐输入 {{$_psc.root_cmd}} rm 后按下 Tab 键补全选择可移除的补全进行移除。"
     ],
     "search": "{{if($result){'搜索结果如下：'}else{'没有搜索到相关补全！'}}}",
-    "update": "更新补全 -- {{$_}}",
-    "updating": "正在更新补全 -- {{$completion}}",
+    "update": "更新补全 --- {{$_}}",
+    "updating": "正在更新补全 --- {{$completion}}",
     "update_done": "补全({{$completion}})更新成功",
     "update_error": "补全({{$_}})更新失败，你还未添加{{$_}}补全。",
     "update_download_err": [
@@ -236,7 +243,7 @@
       "$_psc.config.keys | Foreach-Object { \"`n\" + $_ + ': ' + $_psc.config.$_}",
       "}}"
     ],
-    "which": "定位补全存储位置 -- {{$_}}",
+    "which": "定位补全存储位置 --- {{$_}}",
     "which_err": [
       "定位补全({{$_}})失败，你还未添加{{$_}}补全。\n",
       "推荐输入 {{$_psc.root_cmd}} which 后按下 Tab 键补全选择可定位的补全进行定位补全位置。"
@@ -275,7 +282,7 @@
       "alias_add": "如: {{$_psc.root_cmd}} alias add git g",
       "alias_add_err": "别名({{$arg[-1]}})不可用，因为 {{$arg[-1]}} 是已存在的命令，请设置其他别名",
       "alias_rm": [
-        "如: {{$_psc.root_cmd}} alias rm <alias1 alias2 ...>\n",
+        "如: {{$_psc.root_cmd}} alias rm <alias> [<alias2> ...]\n",
         "   {{$_psc.root_cmd}} alias rm g"
       ],
       "alias_reset": "如: {{$_psc.root_cmd}} alias reset",

@@ -1,4 +1,3 @@
-using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBlock {
@@ -15,8 +14,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     $completions = [ordered]@{}
     $_json | ForEach-Object {
         if ($_.Name -ne 'PSCompletions_core_info') {
-            $last_cmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-            $completions[$root_cmd + ' ' + $_.Name] = @($last_cmd, $_.Value)
+            $cmd= $_.Name -split ' '
+            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
         }
     }
     #endregion
@@ -66,10 +65,9 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
 
     #region : Carry out
     $_input = $commandAst.CommandElements
-    $limit_value = 0
-    $limit_line = 0
+    $max_len = 0
     $display_count = 0
-    $cmd_line = [System.Console]::WindowHeight - 4
+    $cmd_line = [System.Console]::WindowHeight - 5
     $input_tab = if ($wordToComplete.length) { $true }else { $false }
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split '\s+'
@@ -81,25 +79,20 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             $cmd.Count -eq ($_input.Count + 1) -and $temp -join ' ' -eq $_input
         }
     }
-
     $filter_list | ForEach-Object {
         $len = $completions[$_][0].Length
-        if ($len -ge $limit_value) { $limit_value = $len }
-        $line = ($completions[$_][1] -split "`n").Count
-        if ($line -ge $limit_line) { $limit_line = $line }
+        if ($len -ge $max_len) { $max_len = $len }
     }
-    $comp_count = ($cmd_line - $limit_line ) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
 
-    if ($comp_count -le [math]::Floor($filter_list.Count * 2 / 3)) {
-        $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
-    }
+    $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
+
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
             $display_count++;
             [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
         else {
-            [CompletionResult]::new(" ", "...", 'ParameterValue', $_psc.json.comp_hide)
+            [CompletionResult]::new(' ', '...', 'ParameterValue', $_psc.json.comp_hide)
             return
         }
     }

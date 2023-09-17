@@ -1,4 +1,3 @@
-using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
@@ -14,45 +13,50 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
 
     #region : Store
     $completions = [ordered]@{}
+    $_json | ForEach-Object {
+        if ($_.Name -ne 'wsl_core_info') {
+            $cmd = $_.Name -split ' '
+            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
+        }
+    }
     function clean_nul($data) {
-        $res=[System.Collections.Generic.List[byte]]::new()
+        $res = [System.Collections.Generic.List[byte]]::new()
         [System.Text.Encoding]::UTF8.GetBytes($data) | ForEach-Object {
             # Remove NUL(0x00) characters from binary data
             if ($_ -ne 0x00) { $res.add($_) }
         }
-        return ([System.Text.Encoding]::UTF8.GetString($res))
+        return [System.Text.Encoding]::UTF8.GetString($res)
     }
 
     $Distro_list = wsl -l -q | ForEach-Object { clean_nul $_ } | Where-Object { $_ -ne '' }
-
-    $_json | ForEach-Object {
-        if ($_.Name -ne 'wsl_core_info') {
-            $last_cmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-            $completions[$root_cmd + ' ' + $_.Name] = @($last_cmd, $_.Value)
-        }
-    }
     #endregion
 
     #region Special point
     $Distro_list | ForEach-Object {
         $Distro = $_
+        function _do($cmd, $tip) {
+            $completions[$root_cmd + ' ' + $cmd + ' ' + $Distro] = @($Distro, $tip)
+        }
         $temp = _psc_replace ($json_info.symbol + $json_info.Distro)
-        $completions[$root_cmd + ' -d ' + $Distro] = @($Distro, $temp)
-        $completions[$root_cmd + ' ~ -d ' + $Distro] = @($Distro, $temp)
-        $completions[$root_cmd + ' --distribution ' + $Distro] = @($Distro, $temp)
-        $completions[$root_cmd + ' ~ --distribution ' + $Distro] = @($Distro, $temp)
-        $completions[$root_cmd + ' -u <user> -d ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' ~ -u <user> -d ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' -u <user> --distribution ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' ~ -u <user> --distribution ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' --user <user> -d ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' ~ --user <user> -d ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' --user <user> --distribution ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' ~ --user <user> --distribution ' + $Distro] = @($Distro, $json_info.Distro)
-        $completions[$root_cmd + ' -t ' + $Distro] = @($Distro, (_psc_replace $json_info.'Distro-t'))
-        $completions[$root_cmd + ' --terminate ' + $Distro] = @($Distro, (_psc_replace $json_info.'Distro-t'))
-        $completions[$root_cmd + ' --unregister ' + $Distro] = @($Distro, (_psc_replace $json_info.'Distro-u'))
-        $completions[$root_cmd + ' --export ' + $Distro] = @($Distro, (_psc_replace $json_info.'Distro-e'))
+        _do '-d' $temp
+        _do '~ -d' $temp
+        _do '--distribution' $temp
+        _do '~ --distribution' $temp
+        $temp = _psc_replace $json_info.Distro
+        _do '-u <user> -d' $temp
+        _do '~ -u <user> -d' $temp
+        _do '-u <user> --distribution' $temp
+        _do '~ -u <user> --distribution' $temp
+        _do '--user <user> -d' $temp
+        _do '~ --user <user> -d' $temp
+        _do '--user <user> --distribution' $temp
+        _do '~ --user <user> --distribution' $temp
+        _do '-s' ($json_info.s + $Distro)
+        _do '--set-default' ($json_info.s + $Distro)
+        _do '-t' (_psc_replace $json_info.Distro_t)
+        _do '--terminate' (_psc_replace $json_info.Distro_t)
+        _do '--unregister' (_psc_replace $json_info.Distro_u)
+        _do '--export' (_psc_replace $json_info.Distro_e)
     }
     #endregion
 
@@ -60,16 +64,15 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     $_input = $commandAst.CommandElements
     $_input_str = $_input -join ' '
     $_input_arr = $_input_str -split '\s+'
-    $limit_value = 0
-    $limit_line = 0
+    $max_len = 0
     $display_count = 0
-    $cmd_line = [System.Console]::WindowHeight - 4
+    $cmd_line = [System.Console]::WindowHeight - 5
     $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split '\s+'
         $position = [System.Collections.Generic.List[int]]@()
         for ($i = 0; $i -lt $cmd.Count; $i++) {
-            if ($cmd[$i] -match "<.+>") { $position.Add($i) }
+            if ($cmd[$i] -match '<.+>') { $position.Add($i) }
         }
         $_inputs = [System.Collections.Generic.List[string]]$_input_arr
         $flag = [System.Collections.Generic.List[string]]$cmd
@@ -83,11 +86,10 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     }
     $filter_list | ForEach-Object {
         $len = $completions[$_][0].Length
-        if ($len -ge $limit_value) { $limit_value = $len }
-        $line = ($completions[$_][1] -split "`n").Count
-        if ($line -ge $limit_line) { $limit_line = $line }
+        if ($len -ge $max_len) { $max_len = $len }
     }
-    $comp_count = ($cmd_line - $limit_line ) * [math]::Floor([System.Console]::WindowWidth / ($limit_value + 2))
+
+    $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
 
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
@@ -95,7 +97,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
             [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
         else {
-            [CompletionResult]::new(" ", "...", 'ParameterValue', $_psc.json.comp_hide)
+            [CompletionResult]::new(' ', '...', 'ParameterValue', $_psc.json.comp_hide)
             return
         }
     }

@@ -1,68 +1,130 @@
-using namespace System.Globalization
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $completions = [ordered]@{}
     $root_cmd = $_psc.comp_cmd.scoop
 
     #region : Parse json data
-    $_name = $PSScriptRoot + '\json\' + $_psc.lang + '.json'
-    $json = Get-Content -Raw -Path  $_name -Encoding UTF8 | ConvertFrom-Json
+    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
     $json_info = $json.scoop_core_info
     $_json = $json.PSObject.Properties
     #endregion
 
     #region : Store
-    $max_len = 0
-    foreach ($_ in $_json) {
-        $subCmd = $_.Name.substring($_.Name.lastIndexOf(' ') + 1)
-        if ($max_len -lt $subCmd.length) {
-            $max_len = $subCmd.length
-        }
+    $completions = [ordered]@{}
+    $_json | ForEach-Object {
         if ($_.Name -ne 'scoop_core_info') {
-            $completions[$root_cmd + ' ' + $_.Name] = [CompletionResult]::new($subcmd, $subcmd, 'ParameterValue', $_.Value)
+            $cmd = $_.Name -split ' '
+            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
+            $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help --- ' + $cmd[0]))
         }
     }
     #endregion
 
     #region Special point
-    $jsonData = Get-Content -Raw -Path "$env:userProfile\.config\scoop\config.json" | ConvertFrom-Json
-    foreach ($_ in $jsonData.PSObject.Properties) {
-        $name = "'" + $_.name + "'"
-        $value = "'" + $_.Value + "'"
-        $completions[$root_cmd + ' config ' + $name] = [CompletionResult]::new($name, $name, 'ParameterValue', $json_info.has_value + $value)
+    $symbol = $json_info.symbol
+    if ($env:SCOOP) {
+        $scoop_path = $env:SCOOP
     }
-    @("'use_external_7zip'", "'use_lessmsi'", "'no_junction'", "'scoop_repo'", "'scoop_branch'", "
-	'proxy'", "'autostash_on_conflict'", "'default_architecture'", "'debug'", "
-	'force_update'", "'show_update_log'", "'show_manifest'", "'shim'", "'root_path'", "
-    'global_path'", "'cache_path'", "'gh_token'", "'virustotal_api_key'", "'cat_style'", "'ignore_running_processes'", "
-	'private_hosts'", "'hold_update_until'", "'aria2-enabled'", "'aria2-warning-enabled'", "'aria2-retry-wait'", "'aria2-split'", "'aria2-max-connection-per-server'", "'aria2-min-split-size'", "'aria2-options'") | Where-Object {
-        if (!$completions[$root_cmd + ' config ' + $_]) {
-            $completions[$root_cmd + ' config ' + $_] = [CompletionResult]::new($_, $_, 'ParameterValue', $json_info.no_value)
+    else {
+        $path = (Get-Content -Raw "$env:UserProfile\.config\scoop\config.json" | ConvertFrom-Json).root_path
+        if ($path) { [environment]::SetEnvironmentvariable('SCOOP', $path, 'User') }
+        $scoop_path = $path
+    }
+
+    if ($env:SCOOP_GLOBAL) {
+        $scoop_global_path = $env:SCOOP_GLOBAL
+    }
+    else {
+        $path = (Get-Content -Raw "$env:UserProfile\.config\scoop\config.json" | ConvertFrom-Json).global_path
+        if ($path) { [environment]::SetEnvironmentvariable('SCOOP_GLOBAL', $path, 'User') }
+        $scoop_global_path = $path
+    }
+
+    Get-ChildItem "$scoop_path\buckets" 2>$null | ForEach-Object {
+        $completions[$root_cmd + ' bucket rm ' + $_.Name] = @($_.Name, ('Remove bucket --- ' + $_.Name))
+    }
+
+    function return_str($str) {
+        return ($symbol + $str + ' app --- ' + $_.Name + "`n" + $_.FullName)
+    }
+    Get-ChildItem "$scoop_path\apps" 2>$null | ForEach-Object {
+        function _do($cmd, $tip) {
+            $completions[$root_cmd + ' ' + $cmd + ' ' + $_.Name] = @($_.Name, $tip)
         }
+        _do 'uninstall' (return_str 'Uninstall')
+        _do 'update' (return_str 'Update')
+        _do 'cleanup' (return_str 'Cleanup')
+        _do 'hold' (return_str 'Hold')
+        _do 'unhold' (return_str 'Unhold')
+        _do 'prefix' $_.FullName
+    }
+    Get-ChildItem "$scoop_global_path\apps" 2>$null | ForEach-Object {
+        function _do($cmd, $tip) {
+            $cmd = $root_cmd + ' ' + $cmd + ' ' + $_.Name
+            if ($completions[$cmd]) {
+                $completions[$cmd] = @($_.Name, ($completions[$cmd][1] + "`n" + $_.FullName))
+            }
+            else {
+                $completions[$cmd] = @($_.Name, $tip)
+            }
+        }
+        _do 'uninstall' (return_str 'Uninstall')
+        _do 'update' (return_str 'Update')
+        _do 'cleanup' (return_str 'Cleanup')
+        _do 'hold' (return_str 'Hold')
+        _do 'unhold' (return_str 'Unhold')
+        _do 'prefix' $_.FullName
     }
     #endregion
 
     #region : Carry out
-    $comp_num = ([System.Console]::WindowHeight - 2) * ([math]::Floor([System.Console]::WindowWidth / ($max_len + 2)))
     $_input = $commandAst.CommandElements
-    function _do($num) {
-        $i = 0
-        $completions.Keys | Where-Object { $_ -like "$_input*" } | ForEach-Object {
-            $input_space_count = ($_input -split ' ').Count - 1
-            $cmd_space_count = ($_ -split ' ').Count - 1
-            if ($input_space_count -eq $cmd_space_count + $num ) {
-                $i++
-                if ($comp_num -gt $i) { $completions[$_] }
-                else {
-                    [CompletionResult]::new(" ", "...", 'ParameterValue', "...")
-                    return
-                }
+    $_input_str = $_input -join ' '
+    $_input_arr = $_input_str -split '\s+'
+    $max_len = 0
+    $display_count = 0
+    $cmd_line = [System.Console]::WindowHeight - 5
+    $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
+    $filter_list = $completions.Keys | Where-Object {
+        $cmd = $_ -split '\s+'
+        $position = [System.Collections.Generic.List[int]]@()
+        for ($i = 0; $i -lt $cmd.Count; $i++) {
+            if ($cmd[$i] -match '<.+>') { $position.Add($i) }
+        }
+        $_inputs = [System.Collections.Generic.List[string]]$_input_arr
+        $flag = [System.Collections.Generic.List[string]]$cmd
+        $position | ForEach-Object {
+            if ($_inputs.Count -gt $_) {
+                $flag.RemoveAt($_)
+                $_inputs.RemoveAt($_)
             }
         }
+        $cmd.Count -eq ($_input.Count + $input_tab) -and ($flag -join ' ') -like ($_inputs -join ' ') + '*'
     }
-    _do $(if ($wordToComplete.length) { 0 }else { -1 })
+    $filter_list | ForEach-Object {
+        $len = $completions[$_][0].Length
+        if ($len -ge $max_len) { $max_len = $len }
+    }
+
+    $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
+
+    $filter_list | ForEach-Object {
+        if ($comp_count -gt $display_count) {
+            $display_count++
+            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+        }
+        else {
+            [CompletionResult]::new(' ', '...', 'ParameterValue', $_psc.json.comp_hide)
+            return
+        }
+    }
+    if ($display_count -eq 1) { echo ' ' }
+    #endregion
+
+    #region Reorder completion
+    $history = try { (Get-History)[-1].CommandLine }catch { '' }
+    _psc_reorder_tab $history $PSScriptRoot
     #endregion
 }
