@@ -66,7 +66,7 @@
 
 ## Demo
 
-[![PSCompletions-demo.gif](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)
+![PSCompletions-demo.gif](demo.gif)
 
 ### About special symbols in Completion Description
 -   ✨: Press `Space` and `Tab` to get command completion When it's selected. (except for special cases)

@@ -65,7 +65,7 @@
 
 ## Demo
 
-[![PSCompletions-demo.gif](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)](https://img1.imgtp.com/2023/08/23/tthYsMaR.gif)
+![PSCompletions-demo.gif](demo.gif)
 
 ### 关于补全描述中的特殊符号
 
