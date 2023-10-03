@@ -65,7 +65,7 @@
 
 ## Demo
 
-![PSCompletions-demo.gif](demo.gif)
+![PSCompletions-demo.gif](https://abgop.netlify.app/pscompletions/demo.gif)
 
 ### 关于补全描述中的特殊符号
 

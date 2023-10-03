@@ -66,7 +66,8 @@
 
 ## Demo
 
-![PSCompletions-demo.gif](demo.gif)
+![PSCompletions-demo.gif](https://abgop.netlify.app/pscompletions/demo.gif)
+
 
 ### About special symbols in Completion Description
 -   ✨: Press `Space` and `Tab` to get command completion When it's selected. (except for special cases)
