@@ -28,16 +28,16 @@
 
 ## Introduce
 
--   A completion manager in `PowerShell` for better and simpler use and Manage completions.
-     >   It can also be used in `Windows PowerShell`
+-   A completion manager in `PowerShell` for better and simpler use and manage completions.
+    > It can also be used in `Windows PowerShell`
 -   [Manage the completion together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
 -   Sort completion tab dynamically by frequency of use.
 -   Complete content can be customized.
     -   By modifying the `json` file to achieve.
-        >-   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
-        >-   If you do it, don't use `psc update` to avoid overwriting your customizations.
-        >-   If there are problems, please use `psc update <completion>` to Overwrite completion
+        > -   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
+        > -   If you do it, don't use `psc update` to avoid overwriting your customizations.
+        > -   If there are problems, please use `psc update <completion>` to overwrite completion
     -   Get the completion file path. `psc which <completion>`
 
 **If you find this project helpful, please consider giving it a star ⭐.**
@@ -50,6 +50,10 @@
     - `echo "Import-Module PSCompletions" >> $PROFILE`
     - So you don't have to import the module every time you open PowerShell.
 
+## How to uninstall
+
+-   `Uninstall-Module PSCompletions`
+
 ## How to use(e.g. `git`)
 
 ### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
@@ -57,39 +61,36 @@
 -   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue") and I will consider adding it.
 
 1. `psc add git`
-2. Then you can type `git ` and press `Tab` to get command completion.
+2. Then you can type `git`,`Space` and press `Tab` to get command completion.
 3. For more commands on `psc`, you can learn by typing `psc` and then pressing `Tab`.
-
-## How to uninstall
-
--   `Uninstall-Module PSCompletions`
 
 ## Demo
 
 ![PSCompletions-demo.gif](https://abgop.netlify.app/pscompletions/demo.gif)
 
-
 ### About special symbols in Completion Description
--   ✨: Press `Space` and `Tab` to get command completion When it's selected. (except for special cases)
+
+-   ✨: Press `Space` and `Tab` to get command completion when it's selected. (except for special cases)
 -   ✨✨：Type a string without spaces, then press `Space` and `Tab` to get command completion.
 -   `...`: The description here will be filled in in the future.
     -   If `...` is the last one in the completion, it means that the display area is too small to display all completions.
 
 ## Available Completions List
 
-|                 Completions                 |                                            Source                                             |
-| :-----------------------------------------: | :-------------------------------------------------------------------------------------------: |
-| [PSCompletions](/completions/PSCompletions) | [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions) |
-|           [git](/completions/git)           |                   [Git - Version control system](https://git-scm.com/docs)                    |
-|           [wsl](/completions/wsl)           |      [WSL - Windows Subsystem for Linux](https://learn.microsoft.com/zh-cn/windows/wsl/)      |
-|        [docker](/completions/docker)        |             [docker - Container Application Development](https://www.docker.com/)             |
-|         [scoop](/completions/scoop)         |              [Scoop - Software Manager](https://github.com/ScoopInstaller/Scoop)              |
-|         [choco](/completions/choco)         |                [choco(chocolatey) - Software Manager](https://chocolatey.org/)                |
-|         [volta](/completions/volta)         |                [volta - Accessible JavaScript Tool Manager](https://volta.sh/)                |
-|           [nvm](/completions/nvm)           |           [nvm - Node Version Manager](https://github.com/coreybutler/nvm-windows)            |
-|          [pnpm](/completions/pnpm)          |                          [pnpm - Package Manager](https://pnpm.io/)                           |
-|           [npm](/completions/npm)           |                        [npm - package manager](https://www.npmjs.com/)                        |
-|          [yarn](/completions/yarn)          |                      [yarn - package manager](https://yarnpkg.com/cli/)                       |
-|          [chfs](/completions/chfs)          |                       [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                       |
-|        [python](/completions/python)        |                  [python - A programming language](https://www.python.org/)                   |
-|                     ...                     |                                              ...                                              |
+|                 Completions                 |                                                         Source                                                          |
+| :-----------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) |              [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions)              |
+|           [git](/completions/git)           |                                [Git - Version control system](https://git-scm.com/docs)                                 |
+|           [wsl](/completions/wsl)           |                   [WSL - Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/)                   |
+|            [wt](/completions/wt)            | [windows terminal command line](https://learn.microsoft.com/en-us/windows/terminal/command-line-arguments?tabs=windows) |
+|        [docker](/completions/docker)        |                          [docker - Container Application Development](https://www.docker.com/)                          |
+|         [scoop](/completions/scoop)         |                           [Scoop - Software Manager](https://github.com/ScoopInstaller/Scoop)                           |
+|         [choco](/completions/choco)         |                             [choco(chocolatey) - Software Manager](https://chocolatey.org/)                             |
+|         [volta](/completions/volta)         |                             [volta - Accessible JavaScript Tool Manager](https://volta.sh/)                             |
+|           [nvm](/completions/nvm)           |                        [nvm - Node Version Manager](https://github.com/coreybutler/nvm-windows)                         |
+|          [pnpm](/completions/pnpm)          |                                       [pnpm - Package Manager](https://pnpm.io/)                                        |
+|           [npm](/completions/npm)           |                                     [npm - package manager](https://www.npmjs.com/)                                     |
+|          [yarn](/completions/yarn)          |                                   [yarn - package manager](https://yarnpkg.com/cli/)                                    |
+|          [chfs](/completions/chfs)          |                                    [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                                    |
+|        [python](/completions/python)        |                               [python - A programming language](https://www.python.org/)                                |
+|                     ...                     |                                                           ...                                                           |
