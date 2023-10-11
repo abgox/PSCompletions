@@ -21,8 +21,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.chfs -ScriptBlock {
     #region : Carry out
     $_input = $commandAst.CommandElements
     $_input_str = $_input -join ' '
-    $_input_arr = $_input_str -split '\s+'
     $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
+    if ($_input[-1] -match "^[./\\]*$") { return }
     if ($input_tab) {
         $completions.Keys | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {
             [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))

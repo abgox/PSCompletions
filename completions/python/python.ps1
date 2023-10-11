@@ -22,6 +22,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.python -ScriptBlock {
     $_input = $commandAst.CommandElements
     $_input_str = $_input -join ' '
     $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
+    if ($_input[-1] -match "^[./\\]*$") { return }
     if ($input_tab) {
         $completions.Keys | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {
             $display = $completions[$_][0].Replace('^up', ' ')
