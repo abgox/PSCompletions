@@ -68,12 +68,19 @@
 
 ![PSCompletions-demo.gif](https://abgop.netlify.app/pscompletions/demo.gif)
 
+## Tips
+
 ### About special symbols in Completion Description
 
 -   ✨: Press `Space` and `Tab` to get command completion when it's selected. (except for special cases)
 -   ✨✨：Type a string without spaces, then press `Space` and `Tab` to get command completion.
 -   `...`: The description here will be filled in in the future.
     -   If `...` is the last one in the completion, it means that the display area is too small to display all completions.
+
+### About path completion
+
+-   Please type `./` or `.\` and press `Tab` to get path completion for the **subdirectory** or **file**.
+-   Please type `/` or `\` and press `Tab` to get path completion for the **sibling directory**.
 
 ## Available Completions List
 
