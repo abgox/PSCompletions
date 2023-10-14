@@ -1,6 +1,6 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.0.9'
+$_psc.version = '2.1.0'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -11,6 +11,7 @@ $_psc.path.update = $_psc.path.core + '\.update'
 $_psc.path.psc_alias = $_psc.path.completions + '\PSCompletions\.alias'
 $_psc.lang = (Get-WinSystemLocale).name
 $_psc.langs = @('zh-CN', 'en-US')
+$_psc.comp_data = [ordered]@{}
 
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
     Set-PSReadLineKeyHandler 'Tab' MenuComplete
@@ -36,6 +37,7 @@ if (!(Test-Path($_psc.path.list)) -or ([environment]::GetEnvironmentvariable("ab
         $gitee = $config.gitee
         $language = $config.language
         $update = if ($config.update -eq 0) { 0 } else { 1 }
+        $LRU = if ($config.LRU) { $config.LRU } else { 5 }
     }
     else {
         $root_cmd = 'psc'
@@ -43,8 +45,9 @@ if (!(Test-Path($_psc.path.list)) -or ([environment]::GetEnvironmentvariable("ab
         $gitee = 'https://gitee.com/abgox/PSCompletions'
         $language = $_psc.lang
         $update = 1
+        $LRU = 5
     }
-    [environment]::SetEnvironmentvariable('abgox_PSCompletions', (@($_psc.version, $root_cmd, $github, $gitee, $language, $update) -join ';'), 'User')
+    [environment]::SetEnvironmentvariable('abgox_PSCompletions', (@($_psc.version, $root_cmd, $github, $gitee, $language, $update, $LRU) -join ';'), 'User')
     #endregion
 
     $_psc.init = $true
@@ -89,12 +92,10 @@ function PSCompletions_init() {
     $psc_json_path = $_psc.path.completions + '\PSCompletions\json\' + $_psc.lang + '.json'
 
     try {
-        if ($_psc.init) {
+        if (!(Test-Path($psc_json_path))) {
             $psc_temp = $env:TEMP + '\PSCompletion.json'
             Invoke-WebRequest -Uri ($_psc.url + '/completions/PSCompletions/json/' + $_psc.lang + '.json') -OutFile $psc_temp
             $_psc.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
-        }
-        if (!(Test-Path($psc_json_path))) {
             _psc_add_completion 'PSCompletions'
         }
         if (!(Test-Path($_psc.path.psc_alias))) {
@@ -190,9 +191,9 @@ if ($_psc.config.update -ne 0) {
 $null = Start-Job -ScriptBlock {
     param( $_psc )
     function set_config($k, $v) {
-        $config = $_psc.config
-        $config.$k = $v
-        $res = @($config.module_version, $config.root_cmd, $config.github, $config.gitee, $config.language, $config.update) -join ';'
+        $c = $_psc.config
+        $c.$k = $v
+        $res = @($c.module_version, $c.root_cmd, $c.github, $c.gitee, $c.language, $c.update, $c.LRU) -join ';'
         [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
     }
     function get_content($path) {
@@ -234,6 +235,40 @@ $null = Start-Job -ScriptBlock {
             $content = ($response.Content).Trim()
             $guid = (Get-Content ($_psc.path.completions + '\' + $_ + '\.guid') -Raw).Trim()
             if ($guid -ne $content) { $update_list.Add($_) }
+        }
+        $_path_json = $_psc.path.completions + '\' + $_ + '\json\' + $_psc.lang + '.json'
+        $_path_order = $_psc.path.completions + '\' + $_ + '\.order'
+        $json_content = Get-Content -Raw -Path $_path_json -Encoding UTF8 | ConvertFrom-Json
+
+        $_json = $json_content.PSObject.Properties
+
+        $new_order = $_json | ForEach-Object { $_.Name } | Where-Object { $_ -ne '' }
+
+        $old_order = if (Test-Path($_path_order)) {
+            Get-Content $_path_order | Where-Object { $_ -ne '' }
+        }
+        else { @() }
+
+        $should_rm = @()
+        $should_add = @()
+
+        $is_different = Compare-Object $new_order $old_order
+        if ($is_different) {
+            $is_different | ForEach-Object {
+                if ($_.SideIndicator -eq '=>') {
+                    $should_rm += $_.InputObject
+                }
+                elseif ($_.SideIndicator -eq '<=') {
+                    $should_add += $_.InputObject
+                }
+            }
+            $old_order += $should_add
+            $old_order | Where-Object {
+                $_ -notin $should_rm
+            } | Out-File $_path_order
+        }
+        if (!$old_order) {
+            $new_order | Out-File $_path_order
         }
     }
     $update_list | Out-File $_psc.path.update -Force -Encoding utf8

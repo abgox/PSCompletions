@@ -9,13 +9,14 @@ function _psc_get_config {
         gitee          = $c[3]
         language       = $c[4]
         update         = $c[5]
+        LRU            = $c[6]
     }
 }
 
 function _psc_set_config($k, $v) {
     $c = _psc_get_config
     $c.$k = $v
-    $res = @($c.module_version, $c.root_cmd, $c.github, $c.gitee, $c.language, $c.update) -join ';'
+    $res = @($c.module_version, $c.root_cmd, $c.github, $c.gitee, $c.language, $c.update, $c.LRU) -join ';'
     [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
 }
 
@@ -124,79 +125,55 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
 
 function _psc_reorder_tab($history, $PSScriptRoots) {
     $null = Start-Job -ScriptBlock {
-        param( $_psc, $history, $root)
-        if ($history -ne '') {
-            $cmd = $history -split '\s+'
-            $short_history = $cmd[1..($cmd.Length - 1)] -join ' '
-            $alias = $_psc.comp_cmd.keys | foreach-Object { $_psc.comp_cmd.$_ }
-            if ($cmd[0] -in $alias) {
-                $path = $root + '\json\' + $_psc.lang + '.json'
-                $json = Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json
-                $json_obj = $json.PSObject.Properties
-                $_json = [ordered]@{}
-                $res_flag = [System.Collections.Generic.List[string]]@()
-                foreach ($_ in $json_obj) {
-                    $h = $short_history
-                    $type = ($_.value).GetType().Name
-                    $_json.Add($_.Name, $_.Value)
-                    if ($type -ne 'PSCustomObject') {
-                        $cmd_arr = $_.Name -split '\s+'
-                        $position = [System.Collections.Generic.List[int]]@()
-                        for ($i = 0; $i -lt $cmd_arr.Count; $i++) {
-                            if ($cmd_arr[$i] -match "<.+>") { $position.Add($i) }
-                        }
+        param( $_psc, $history, $PSScriptRoots)
+        if (!$history) { return }
+        $comp_alias = $_psc.comp_cmd.keys | % { $_psc.comp_cmd.$_ }
+        $his_arr = $history -split '\s+'
+        if ($his_arr[0] -notin $comp_alias) { return }
 
-                        if ($position) {
-                            $temp = [System.Collections.Generic.List[string]]$cmd_arr
-                            $h = [System.Collections.Generic.List[string]]($cmd[1..($cmd.Length - 1)])
-                            $position | ForEach-Object {
-                                if ($h.Count -gt $_) {
-                                    $temp.RemoveAt($_)
-                                    $h.RemoveAt($_)
-                                }
-                            }
-                            if ($temp -join ' ' -eq ($h -join ' ')) {
-                                $res_flag.Add($_.Name)
-                            }
-                        }
-                        else {
-                            while ($h) {
-                                $name = $_.Name
-                                if ($name -eq $h) { $res_flag.Add($_.Name) }
-                                if ( $h.lastIndexOf(' ') -eq -1) { break }
-                                $h = $h.Substring(0, $h.lastIndexOf(' '))
-                            }
-                        }
+        $json_path = $PSScriptRoots + '\json\' + $_psc.lang + '.json'
+        $json_content = Get-Content $json_path -Raw -Encoding UTF8 | ConvertFrom-Json
+        $all_cmd = $json_content.PSObject.Properties | ForEach-Object { $_.Name }
 
+        $res = [System.Collections.Generic.List[string]]@()
+
+        $all_cmd | ForEach-Object {
+            $his = [System.Collections.Generic.List[string]]$his_arr[1..($his_arr.Count - 1)]
+            $cmd = [System.Collections.Generic.List[string]]$($_ -split '\s+')
+            $position = [System.Collections.Generic.List[int]]@()
+            for ($i = 0; $i -lt $cmd.Count; $i++) {
+                if ($cmd[$i] -match "<.+>") { $position.Add($i) }
+            }
+            if ($position) {
+                foreach ($i in $position) {
+                    if ($his.Count -gt $i) {
+                        $cmd.RemoveAt($i)
+                        $his.RemoveAt($i)
                     }
-                }
-
-                function get_json_order($json) {
-                    $i = 0
-                    $res = [System.Collections.Generic.List[System.Object]]@()
-                    $_json.Keys | Foreach-Object {
-                        $res.Add("$_ $i")
-                        $i++
-                    }
-                    return $res
-                }
-
-                $old_json_order = get_json_order $_json
-
-                $res_flag | Sort-Object { $_.Length } -Descending  | ForEach-Object {
-                    $temp = $_json.$_
-                    $_json.Remove($_)
-                    $_json.Insert(0, $_, $temp)
-                }
-                $new_json_order = get_json_order $_json
-
-                $is_diffrent = Compare-Object $old_json_order $new_json_order -PassThru
-
-                if ($is_diffrent) {
-                    $_json | ConvertTo-Json | Out-File $path -Encoding utf8
                 }
             }
+            while ($his) {
+                $diff = Compare-Object $cmd $his -PassThru
+                if (!$diff) { $res.Add($_) }
+                if ($his.Count -eq 1) { break }
+                $his = $his[0..($his.Count - 2)]
+            }
         }
+        $result_cmd = [System.Collections.Generic.List[string]]$all_cmd
+        $res | Sort-Object { $_.Length } -Descending | ForEach-Object {
+            $result_cmd.Remove($_) > $null
+            $result_cmd.Insert(0, $_)
+        }
+        for ($i = 0; $i -lt $all_cmd.Count; $i++) {
+            if ($result_cmd[$i] -ne $all_cmd[$i]) {
+                $diff = $true
+                break
+            }
+        }
+        if ($diff) {
+            $result_cmd | Out-File "$PSScriptRoots\.order"
+        }
+
     } -ArgumentList $_psc, $history, $PSScriptRoots
 }
 
@@ -261,4 +238,33 @@ function _psc_less($str_list, $header, $do = {}, $show_line) {
             }
         }
     }
+}
+
+function _psc_parse_json_with_LRU($PSScriptRoots) {
+    if ($_psc.comp_data.$root_cmd) {
+        $json = $_psc.comp_data.$root_cmd
+    }
+    else {
+        if ($_psc.comp_data.Count -eq $_psc.config.LRU) {
+            $_psc.comp_data.RemoveAt(0)
+        }
+        $json = Get-Content -Raw -Path  ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+        $_psc.comp_data.$root_cmd = $json
+    }
+    return $json
+}
+
+function _psc_generate_order($PSScriptRoots) {
+    $order = $PSScriptRoots + '\.order'
+    try {
+        $res = Get-Content $order -ErrorAction Stop
+    }
+    catch {
+        $_path_json = $PSScriptRoots + '\json\' + $_psc.lang + '.json'
+        $json = Get-Content -Raw -Path $_path_json -Encoding UTF8 | ConvertFrom-Json
+        $_json = $json.PSObject.Properties
+        $_json | ForEach-Object { $_.Name } | Where-Object { $_ -ne '' } | Out-File $order
+        $res = Get-Content $order -ErrorAction Continue
+    }
+    return $res
 }

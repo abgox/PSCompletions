@@ -23,9 +23,9 @@ function PSCompletions {
             $_psc.list | ForEach-Object {
                 $status = if ($_psc.comp_cmd.$_) { $_psc.json.list_add_done }else { $_psc.json.list_add }
                 $data.Add(@{
-                    content = "{0,-$($max_len + 3)} {1}" -f ($_, $status)
-                    color   = 'Green'
-                })
+                        content = "{0,-$($max_len + 3)} {1}" -f ($_, $status)
+                        color   = 'Green'
+                    })
             }
             _psc_less $data ('Completion', 'Status', $max_len) {
                 Write-Host (_psc_replace $_psc.json.list_add_tip) -f Yellow
@@ -36,9 +36,9 @@ function PSCompletions {
             $_psc.comp_cmd.keys | ForEach-Object {
                 $alias = if ($_psc.comp_cmd.$_ -eq $_) { '' }else { $_psc.comp_cmd.$_ }
                 $data.Add(@{
-                    content = "{0,-$($max_len + 3)} {1}" -f ($_, $alias)
-                    color   = 'Green'
-                })
+                        content = "{0,-$($max_len + 3)} {1}" -f ($_, $alias)
+                        color   = 'Green'
+                    })
             }
             _psc_less $data ('Completion', 'Alias', $max_len)
         }
@@ -143,9 +143,9 @@ function PSCompletions {
         $result = [System.Collections.Generic.List[System.Object]]@()
         $_psc.list | Where-Object { $_ -like $arg[1] } | ForEach-Object {
             $result.Add(@{
-                content = $_
-                color   = 'Green'
-            })
+                    content = $_
+                    color   = 'Green'
+                })
         }
         _psc_less $result '' {
             Write-Host (_psc_replace $_psc.json.search) -f Yellow
@@ -209,9 +209,9 @@ function PSCompletions {
             $max_len = ($_psc.comp_cmd.keys | Measure-Object -Maximum Length).Maximum
             $_psc.comp_cmd.keys | Where-Object { $_ -ne $_psc.comp_cmd.$_ } | ForEach-Object {
                 $data.Add(@{
-                    content = "{0,-$($max_len + 3)} {1}" -f ($_, $_psc.comp_cmd.$_)
-                    color   = 'Green'
-                })
+                        content = "{0,-$($max_len + 3)} {1}" -f ($_, $_psc.comp_cmd.$_)
+                        color   = 'Green'
+                    })
             }
             _psc_less $data ('Completion', 'Alias', $max_len)
         }
@@ -307,6 +307,9 @@ function PSCompletions {
                         return
                     }
                     $arg[2] | Out-File ($_psc.path.completions + '\PSCompletions\.alias') -Force -Encoding utf8
+                }
+                elseif ($arg[1] -eq 'language') {
+                    $_psc.comp_data = [ordered]@{}
                 }
                 _psc_set_config $arg[1] $arg[2]
                 Write-Host (_psc_replace $_psc.json.config_done) -f Green
