@@ -5,18 +5,14 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
 
     $root_cmd = $_psc.comp_cmd.scoop
 
-    #region : Parse json data
-    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-    $json_info = $json.scoop_core_info
-    $_json = $json.PSObject.Properties
-    #endregion
-
     #region : Store
+    $json = _psc_parse_json_with_LRU $PSScriptRoot
+    $json_info = $json.scoop_core_info
     $completions = [ordered]@{}
-    $_json | ForEach-Object {
-        if ($_.Name -ne 'scoop_core_info') {
-            $cmd = $_.Name -split ' '
-            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
+    _psc_generate_order $PSScriptRoot | ForEach-Object {
+        if ($_ -ne 'scoop_core_info') {
+            $cmd = $_ -split ' '
+            $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
             $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help --- ' + $cmd[0]))
         }
     }

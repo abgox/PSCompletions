@@ -5,18 +5,13 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.yarn -ScriptBlock {
 
     $root_cmd = $_psc.comp_cmd.yarn
 
-    #region : Parse json data
-    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-    $_json = $json.PSObject.Properties
-    $json_info = $json.yarn_core_info
-    #endregion
-
     #region : Store
+    $json = _psc_parse_json_with_LRU $PSScriptRoot
     $completions = [ordered]@{}
-    $_json | ForEach-Object {
-        if ($_.Name -ne 'yarn_core_info') {
-            $cmd = $_.Name -split ' '
-            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
+    _psc_generate_order $PSScriptRoot | ForEach-Object {
+        if ($_ -ne 'yarn_core_info') {
+            $cmd = $_ -split ' '
+            $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
         }
     }
     #endregion

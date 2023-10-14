@@ -5,19 +5,12 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.pnpm -ScriptBlock {
 
     $root_cmd = $_psc.comp_cmd.pnpm
 
-    #region : Parse json data
-    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-    $_json = $json.PSObject.Properties
-    $json_info = $json.pnpm_core_info
-    #endregion
-
     #region : Store
+    $json = _psc_parse_json_with_LRU $PSScriptRoot
     $completions = [ordered]@{}
-    $_json | ForEach-Object {
-        if ($_.Name -ne 'pnpm_core_info') {
-            $cmd = $_.Name -split ' '
-            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
-        }
+    _psc_generate_order $PSScriptRoot | ForEach-Object {
+        $cmd = $_ -split ' '
+        $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
     }
     #endregion
 

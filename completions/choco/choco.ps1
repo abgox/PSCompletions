@@ -5,20 +5,13 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
 
     $root_cmd = $_psc.comp_cmd.choco
 
-    #region : Parse json data
-    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-    $_json = $json.PSObject.Properties
-    $json_info = $json.choco_core_info
-    #endregion
-
     #region : Store
+    $json = _psc_parse_json_with_LRU $PSScriptRoot
     $completions = [ordered]@{}
-    $_json | ForEach-Object {
-        if ($_.Name -ne 'choco_core_info') {
-            $cmd = $_.Name -split ' '
-            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
-            $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help -- ' + $cmd[0]))
-        }
+    _psc_generate_order $PSScriptRoot | ForEach-Object {
+        $cmd = $_ -split ' '
+        $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
+        $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help -- ' + $cmd[0]))
     }
     #endregion
 

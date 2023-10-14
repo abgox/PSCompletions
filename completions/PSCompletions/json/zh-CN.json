@@ -96,7 +96,15 @@
   ],
   "config update 1": "首次加载模块时显示更新",
   "config update 0": "首次加载不显示更新",
-  "config reset": "重置所有 config 为默认值\n包括(language,root_cmd,github,gitee,update)",
+  "config LRU": [
+    "设置补全数据缓存上限,默认值为 5\n",
+    "说明：\n",
+    " 1. 当首次使用补全时，会读取 json 文件中的补全数据结构，并将其存储在缓存中\n",
+    " 2. 再次使用时，直接使用缓存以提升加载速度\n",
+    " 3. 当缓存个数达到设置的上限后，会移除最先缓存的补全数据\n",
+    " 4. 缓存随终端的关闭清空"
+  ],
+  "config reset": "重置所有 config 为默认值\n包括(language,root_cmd,github,gitee,update,LRU)",
   "PSCompletions_core_info": {
     "description": [
       "PSCompletions({{$_psc.root_cmd}}) --- 命令行补全管理\n",
@@ -107,8 +115,7 @@
     "init_info": [
       "✨✨✨PSCompletions({{$_psc.root_cmd}}) -- 初始化成功！✨✨✨\n",
       "(以下内容仅首次导入模块显示)\n",
-      "当前系统语言为{{$_psc.config.language}}\n",
-      "本模块命令简单，你只需要输入{{$_psc.root_cmd}}并尝试按下Tab，你会快速了解所有命令。\n",
+      "本模块命令简单，你只需要输入 {{$_psc.root_cmd}} 并尝试按下 Tab 键 ，你会快速了解所有命令。\n",
       "使用 {{$_psc.root_cmd}} add  <completion> 去添加第一个补全吧！\n",
       "\n",
       "关于补全描述中的特殊符号\n",
