@@ -9,10 +9,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     $json = _psc_parse_json_with_LRU $PSScriptRoot
     $completions = [ordered]@{}
     _psc_generate_order $PSScriptRoot | ForEach-Object {
-        if ($_ -ne 'PSCompletions_core_info') {
-            $cmd= $_ -split ' '
-            $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
-        }
+        $cmd = $_ -split ' '
+        $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
     }
     #endregion
 
@@ -53,7 +51,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
             $completions[$root_cmd + ' alias rm ' + $alias] = @($alias, $tip_alias_rm)
         }
     }
-    @('language', 'root_cmd', 'github', 'gitee', 'update') | ForEach-Object{
+    @('language', 'root_cmd', 'github', 'gitee', 'update') | ForEach-Object {
         $tip = _psc_replace $json.('config ' + $_)
         $completions[$root_cmd + ' config ' + $_] = @($_, $tip)
     }
@@ -95,8 +93,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     if ($display_count -eq 1) { echo ' ' }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
-    #endregion
+    _psc_reorder_tab  $PSScriptRoot
 }

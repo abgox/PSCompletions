@@ -103,7 +103,10 @@
         " 3. When the cache limit is reached, the first cached completion data data is removed.\n",
         " 4. Cache cleared with terminal shutdown"
     ],
-    "config reset": "Reset all configs to default.\nInclude(language,root_cmd,github,gitee,update)",
+    "config reset": [
+        "Reset all configs to default.\n",
+        "Include(language,root_cmd,github,gitee,update,LRU)"
+    ],
     "PSCompletions_core_info": {
         "description": [
             "PSCompletions({{$_psc.root_cmd}}) --- Command completion manager\n",
@@ -119,7 +122,7 @@
             "\n",
             "About special symbols in Completion Description\n",
             "- ✨: Press Space and Tab to get command completion When it's selected. (except for special cases)\n",
-            "- ✨✨：Type a string without spaces, then press Space and Tab to get command completion.\n",
+            "- ✨✨: Type a string without spaces, then press Space and Tab to get command completion.\n",
             "- ...: The description here will be filled in in the future.\n",
             "   - If ... is the last one in the completion, it means that the display area is too small to display all completions.\n",
             "\n",
@@ -137,7 +140,7 @@
             "{{$_psc.root_cmd}} config gitee https://gitee.com/abgox/PSCompletions"
         ],
         "repo_err": "{{$_psc.json.module_warn + \"`n\" + $_psc.json.repo_add}}",
-        "confirm": "Press Enter to continue，or press any other key to abort",
+        "confirm": "Press Enter to continue,or press any other key to abort",
         "cancel": "The operation has been canceled",
         "init_err": "Init failed.Please check your network.",
         "download_dir": "Completion's directory: ",
@@ -206,10 +209,10 @@
             "{{$completion}} completion's file({{$fail_file}}) download error.\n",
             "Please ensure that you can access {{$fail_file_url}}"
         ],
-        "update_info": "PSCompletions remote repo's update：",
-        "update_info_add": "Add：{{$add}}",
-        "update_info_modify": "Update：{{$_psc.update}}",
-        "update_tip": "If you don't want to see it，please type \"{{$_psc.root_cmd}} config update 0\"",
+        "update_info": "PSCompletions remote repo's update: ",
+        "update_info_add": "Add: {{$add}}",
+        "update_info_modify": "Update: {{$_psc.update}}",
+        "update_tip": "If you don't want to see it,please type \"{{$_psc.root_cmd}} config update 0\"",
         "update_info_can": "Available completion update",
         "update_info_no": "The added completions are all the latest!",
         "alias_add": [
@@ -217,7 +220,7 @@
             "Add a completion alias for {{$_}}"
         ],
         "alias_add_done": "The completion trigger command has been changed from {{$arg[2]}} to {{$arg[3]}}.\nPlease restart the terminal to take effect.",
-        "alias_del": "Alias delete list：{{$del_list -join ','}}",
+        "alias_del": "Alias delete list: {{$del_list -join ','}}",
         "alias_rm": "Remove alias({{$_psc.comp_cmd.$_}}) --- {{$_}}",
         "alias_err": "You haven't added {{$arg[2]}} yet.",
         "alias_rm_done": [

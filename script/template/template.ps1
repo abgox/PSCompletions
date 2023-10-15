@@ -5,20 +5,14 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
 
     $root_cmd = $_psc.comp_cmd.$template_comp
 
-    #region : Parse json data
-    $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-    $_json = $json.PSObject.Properties
-    $json_info = $json.$template_comp_core_info
-    #endregion
-
     #region : Store
+    $json = _psc_parse_json_with_LRU $PSScriptRoot
+    $json_info = $json.$template_comp_core_info
     $completions = [ordered]@{}
-    $_json | ForEach-Object {
-        if ($_.Name -ne '$template_comp_core_info') {
-            $cmd = $_.Name -split ' '
-            $completions[$root_cmd + ' ' + $_.Name] = @($cmd[-1], $_.Value)
-            $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help -- ' + $cmd[0]))
-        }
+    _psc_generate_order $PSScriptRoot | ForEach-Object {
+        $cmd = $_ -split ' '
+        $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
+        $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help -- ' + $cmd[0]))
     }
     #endregion
 
@@ -67,8 +61,6 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
     if ($display_count -eq 1) { echo ' ' }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
+    _psc_reorder_tab $PSScriptRoot
     #endregion
 }

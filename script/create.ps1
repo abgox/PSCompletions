@@ -22,7 +22,7 @@ function info($comp = $comp_name) {
     }
     if ($lang -eq 'zh-CN') {
         return @{
-            "input" = "输入补全名称："
+            "input" = "输入补全名称: "
             "exist" = "$comp 补全文件已经存在!"
         }
     }

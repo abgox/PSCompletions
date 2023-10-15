@@ -10,10 +10,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     $json_info = $json.wsl_core_info
     $completions = [ordered]@{}
     _psc_generate_order $PSScriptRoot | ForEach-Object {
-        if ($_ -ne 'wsl_core_info') {
-            $cmd = $_ -split ' '
-            $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
-        }
+        $cmd = $_ -split ' '
+        $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
     }
     function clean_nul($data) {
         $res = [System.Collections.Generic.List[byte]]::new()
@@ -100,8 +98,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     if ($display_count -eq 1) { echo ' ' }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
-    #endregion
+    _psc_reorder_tab  $PSScriptRoot
 }

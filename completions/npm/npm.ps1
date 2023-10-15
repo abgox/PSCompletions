@@ -7,10 +7,12 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.npm -ScriptBlock {
 
     #region : Store
     $json = _psc_parse_json_with_LRU $PSScriptRoot
+    $json_info = $json.npm_core_info
     $completions = [ordered]@{}
     _psc_generate_order $PSScriptRoot | ForEach-Object {
         $cmd = $_ -split ' '
         $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
+        $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ($json_info.help + ' --- ' + $cmd[0]))
     }
     #endregion
 
@@ -58,8 +60,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.npm -ScriptBlock {
     if ($display_count -eq 1) { echo ' ' }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
-    #endregion
+    _psc_reorder_tab  $PSScriptRoot
 }

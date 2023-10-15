@@ -23,9 +23,7 @@ function _psc_set_config($k, $v) {
 function _psc_confirm($tip, $confirm_event) {
     Write-Host (_psc_replace $tip) -f Yellow
     $choice = $host.UI.RawUI.ReadKey("NoEcho, IncludeKeyDown")
-    if ($choice.Character -eq 13) {
-        & $confirm_event
-    }
+    if ($choice.Character -eq 13) { & $confirm_event }
     else { Write-Host (_psc_replace $_psc.json.cancel) -f Green }
 }
 
@@ -123,22 +121,69 @@ function _psc_add_completion($completion, $log = $true, $is_update = $false) {
     }
 }
 
-function _psc_reorder_tab($history, $PSScriptRoots) {
-    $null = Start-Job -ScriptBlock {
-        param( $_psc, $history, $PSScriptRoots)
-        if (!$history) { return }
-        $comp_alias = $_psc.comp_cmd.keys | % { $_psc.comp_cmd.$_ }
-        $his_arr = $history -split '\s+'
-        if ($his_arr[0] -notin $comp_alias) { return }
+function _psc_generate_order($PSScriptRoots) {
+    $order = $PSScriptRoots + '\.order'
+    try {
+        $res = Get-Content $order -ErrorAction Stop
+    }
+    catch {
+        $_path_json = $PSScriptRoots + '\json\' + $_psc.lang + '.json'
+        $json = Get-Content -Raw -Path $_path_json -Encoding UTF8 | ConvertFrom-Json
+        $core_info = $(Split-Path $PSScriptRoots -Leaf) + '_core_info'
+        $json.PSObject.Properties.Name | Where-Object {
+            $_ -ne $core_info
+        } | Out-File $order
+        $res = Get-Content $order -ErrorAction Continue
+    }
+    return $res
+}
 
+function _psc_reorder_tab($PSScriptRoots) {
+    $null = Start-Job -ScriptBlock {
+        param( $_psc, $history_path, $PSScriptRoots)
+        $comp_name = Split-Path $PSScriptRoots -Leaf
+        $comp_alias = $_psc.comp_cmd.$comp_name
+        $core_info = "$($comp_name)_core_info"
+        try {
+            $history = [array](Get-Content $history_path | Where-Object { ($_ -split '\s+')[0] -in $comp_alias })
+            $history = $history[-1] -split '\s+'
+        }
+        catch { return }
+
+        $path_order = "$PSScriptRoots\.order"
         $json_path = $PSScriptRoots + '\json\' + $_psc.lang + '.json'
         $json_content = Get-Content $json_path -Raw -Encoding UTF8 | ConvertFrom-Json
-        $all_cmd = $json_content.PSObject.Properties | ForEach-Object { $_.Name }
+        $new_order = $json_content.PSObject.Properties.Name | Where-Object { $_ -ne $core_info }
+        if (Test-Path($path_order)) {
+            $old_order = Get-Content $path_order -Encoding utf8 | Where-Object { $_ -ne '' }
+        }
+        else { $old_order = @() }
+
+        $should_rm = @()
+        $should_add = @()
+        $is_different = Compare-Object $new_order $old_order
+        if ($is_different) {
+            $is_different | ForEach-Object {
+                if ($_.SideIndicator -eq '=>') {
+                    $should_rm += $_.InputObject
+                }
+                elseif ($_.SideIndicator -eq '<=') {
+                    $should_add += $_.InputObject
+                }
+            }
+            $old_order += $should_add
+            $old_order | Where-Object {
+                $_ -notin $should_rm
+            } | Out-File $path_order
+        }
+
+        $old_order = Get-Content $path_order -Encoding utf8 | Where-Object { $_ -ne '' }
+
 
         $res = [System.Collections.Generic.List[string]]@()
 
-        $all_cmd | ForEach-Object {
-            $his = [System.Collections.Generic.List[string]]$his_arr[1..($his_arr.Count - 1)]
+        $old_order | ForEach-Object {
+            $his = [System.Collections.Generic.List[string]]$history[1..($history.Count - 1)]
             $cmd = [System.Collections.Generic.List[string]]$($_ -split '\s+')
             $position = [System.Collections.Generic.List[int]]@()
             for ($i = 0; $i -lt $cmd.Count; $i++) {
@@ -159,22 +204,21 @@ function _psc_reorder_tab($history, $PSScriptRoots) {
                 $his = $his[0..($his.Count - 2)]
             }
         }
-        $result_cmd = [System.Collections.Generic.List[string]]$all_cmd
+
+        $result_cmd = [System.Collections.Generic.List[string]]$old_order
         $res | Sort-Object { $_.Length } -Descending | ForEach-Object {
             $result_cmd.Remove($_) > $null
             $result_cmd.Insert(0, $_)
         }
-        for ($i = 0; $i -lt $all_cmd.Count; $i++) {
-            if ($result_cmd[$i] -ne $all_cmd[$i]) {
-                $diff = $true
+        for ($i = 0; $i -lt $old_order.Count; $i++) {
+            if ($result_cmd[$i] -ne $old_order[$i]) {
+                $is_diff = $true
                 break
             }
         }
-        if ($diff) {
-            $result_cmd | Out-File "$PSScriptRoots\.order"
-        }
+        if ($is_diff) { $result_cmd | Out-File $path_order }
 
-    } -ArgumentList $_psc, $history, $PSScriptRoots
+    } -ArgumentList $_psc, (Get-PSReadLineOption).HistorySavePath, $PSScriptRoots
 }
 
 function _psc_less($str_list, $header, $do = {}, $show_line) {
@@ -252,19 +296,4 @@ function _psc_parse_json_with_LRU($PSScriptRoots) {
         $_psc.comp_data.$root_cmd = $json
     }
     return $json
-}
-
-function _psc_generate_order($PSScriptRoots) {
-    $order = $PSScriptRoots + '\.order'
-    try {
-        $res = Get-Content $order -ErrorAction Stop
-    }
-    catch {
-        $_path_json = $PSScriptRoots + '\json\' + $_psc.lang + '.json'
-        $json = Get-Content -Raw -Path $_path_json -Encoding UTF8 | ConvertFrom-Json
-        $_json = $json.PSObject.Properties
-        $_json | ForEach-Object { $_.Name } | Where-Object { $_ -ne '' } | Out-File $order
-        $res = Get-Content $order -ErrorAction Continue
-    }
-    return $res
 }

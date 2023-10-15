@@ -77,10 +77,11 @@ function PSCompletions {
         }
     }
     function _Update {
+        $comp_cmd = $_psc.comp_cmd.keys | Where-Object { $_ -in $_psc.list }
         function _do {
             try {
                 $update_list = [System.Collections.Generic.List[string]]@()
-                foreach ($_ in $_psc.comp_cmd.keys) {
+                foreach ($_ in $comp_cmd) {
                     $url = $_psc.url + '/completions/' + $_ + '/.guid'
                     $response = Invoke-WebRequest -Uri  $url
                     if ($response.StatusCode -eq 200) {
@@ -119,7 +120,7 @@ function PSCompletions {
             else {
                 $list = $arg[1..($arg.Length - 1)]
                 foreach ($_ in $list) {
-                    if ($_ -in $_psc.comp_cmd.keys) {
+                    if ($_ -in $comp_cmd) {
                         _psc_add_completion $_ $true $true
                     }
                     else {

@@ -10,11 +10,9 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     $json_info = $json.scoop_core_info
     $completions = [ordered]@{}
     _psc_generate_order $PSScriptRoot | ForEach-Object {
-        if ($_ -ne 'scoop_core_info') {
-            $cmd = $_ -split ' '
-            $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
-            $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help --- ' + $cmd[0]))
-        }
+        $cmd = $_ -split ' '
+        $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
+        $completions[$root_cmd + ' help ' + $cmd[0]] = @($cmd[0], ('Show help --- ' + $cmd[0]))
     }
     #endregion
 
@@ -119,8 +117,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     if ($display_count -eq 1) { echo ' ' }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
-    #endregion
+    _psc_reorder_tab  $PSScriptRoot
 }

@@ -30,8 +30,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.chfs -ScriptBlock {
     }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
-    #endregion
+    _psc_reorder_tab  $PSScriptRoot
 }

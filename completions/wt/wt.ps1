@@ -10,18 +10,20 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wt -ScriptBlock {
     $json_info = $json.wt_core_info
     $completions = [ordered]@{}
     _psc_generate_order $PSScriptRoot | ForEach-Object {
-        if ($_ -ne 'wt_core_info') {
-            $cmd = $_ -split ' '
-            $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
-        }
+        $cmd = $_ -split ' '
+        $completions[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_)
+
     }
     #endregion
 
-    $terminal_config=Get-Content "$env:userprofile\Appdata\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" | ConvertFrom-Json
-    $terminal_config.profiles.list.name | ForEach-Object {
-        $name= $_ -replace ' ','_'
-        $completions[$root_cmd + ' -p ' + $name ] = @(('"' + $_ + '"'), ($json_info.p + ' -- ' + $_))
+    try {
+        $terminal_config = Get-Content "$env:userprofile\Appdata\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -ErrorAction Stop | ConvertFrom-Json
+        $terminal_config.profiles.list.name | ForEach-Object {
+            $name = $_ -replace ' ', '_'
+            $completions[$root_cmd + ' -p ' + $name ] = @(('"' + $_ + '"'), ($json_info.p + ' -- ' + $_))
+        }
     }
+    catch {}
 
     #region : Carry out
     $_input = $commandAst.CommandElements
@@ -68,9 +70,6 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wt -ScriptBlock {
     if ($display_count -eq 1) { echo ' ' }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
-    #endregion
+    _psc_reorder_tab  $PSScriptRoot
 }
 

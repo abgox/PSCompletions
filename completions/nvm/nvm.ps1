@@ -58,8 +58,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.nvm -ScriptBlock {
     if ($display_count -eq 1) { echo ' ' }
     #endregion
 
-    #region Reorder completion
-    $history = try { (Get-History)[-1].CommandLine }catch { '' }
-    _psc_reorder_tab $history $PSScriptRoot
-    #endregion
+    _psc_reorder_tab  $PSScriptRoot
 }

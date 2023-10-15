@@ -1,6 +1,6 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.1.0'
+$_psc.version = '2.2.0'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -8,7 +8,6 @@ $_psc.path.core = $_psc.path.root + '\core'
 $_psc.path.list = $_psc.path.root + '\list.txt'
 $_psc.path.old_list = $_psc.path.core + '\.old_list'
 $_psc.path.update = $_psc.path.core + '\.update'
-$_psc.path.psc_alias = $_psc.path.completions + '\PSCompletions\.alias'
 $_psc.lang = (Get-WinSystemLocale).name
 $_psc.langs = @('zh-CN', 'en-US')
 $_psc.comp_data = [ordered]@{}
@@ -61,9 +60,6 @@ function PSCompletions_init() {
     if ($_psc.config.language) {
         $_psc.lang = $_psc.config.language
     }
-    if ($_psc.lang -ne 'zh-CN') {
-        $_psc.lang = 'en-US'
-    }
     if ($_psc.config.github) {
         $_psc.github = $_psc.config.github.Replace('github.com', 'raw.githubusercontent.com') + '/main'
     }
@@ -71,12 +67,8 @@ function PSCompletions_init() {
         $_psc.gitee = $_psc.config.gitee + '/raw/main'
     }
     function _do($i, $k) {
-        if ($_psc.config.$i) {
-            return @($_psc.$i, $_psc.config.$i)
-        }
-        else {
-            return @($_psc.$k, $_psc.config.$k)
-        }
+        if ($_psc.config.$i) { return @($_psc.$i, $_psc.config.$i) }
+        else { return @($_psc.$k, $_psc.config.$k) }
     }
     if ($_psc.lang -eq 'zh-CN') {
         $info = _do 'gitee' 'github'
@@ -87,8 +79,10 @@ function PSCompletions_init() {
         $info = _do 'github' 'gitee'
         $_psc.url = $info[0]
         $_psc.repo = $info[1]
+        $_psc.lang = 'en-US'
     }
 
+    $psc_alias_path = $_psc.path.completions + '\PSCompletions\.alias'
     $psc_json_path = $_psc.path.completions + '\PSCompletions\json\' + $_psc.lang + '.json'
 
     try {
@@ -98,10 +92,10 @@ function PSCompletions_init() {
             $_psc.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
             _psc_add_completion 'PSCompletions'
         }
-        if (!(Test-Path($_psc.path.psc_alias))) {
-            $_psc.root_cmd | Out-File $_psc.path.psc_alias -Force -Encoding utf8
+        if (!(Test-Path($psc_alias_path))) {
+            $_psc.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
         }
-        $psc_alias = (Get-Content $_psc.path.psc_alias -Raw -Encoding utf8).Trim()
+        $psc_alias = (Get-Content $psc_alias_path -Raw -Encoding utf8).Trim()
         if ($psc_alias -ne $_psc.root_cmd) {
             _psc_set_config 'root_cmd' $psc_alias
             $_psc.root_cmd = $_psc.config.root_cmd = $psc_alias
@@ -120,14 +114,7 @@ function PSCompletions_init() {
         $_psc.list = _psc_get_content $_psc.path.list
         $_psc.update = _psc_get_content $_psc.path.update
     }
-    catch {
-        if ($_psc.json.init_err) {
-            throw (_psc_replace $_psc.json.init_err)
-        }
-        else {
-            throw 'Init error due to possible network issues.'
-        }
-    }
+    catch { throw (_psc_replace $_psc.json.init_err) }
 
     $res = [System.Collections.Generic.List[string]]@()
     $_psc.installed = Get-ChildItem -Path $_psc.path.completions -Filter "*.ps1" -Recurse -Depth 1 | Sort-Object CreationTime
@@ -153,12 +140,13 @@ if (!$_psc.config.github -and !$_psc.config.gitee) {
 
 #region init and update
 if ($_psc.init) { Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan }
+
 if ($_psc.config.update -ne 0) {
     if ($_psc.config.update -ne 1) {
         _psc_confirm $_psc.json.module_update {
             try {
                 Write-Host (_psc_replace $_psc.json.module_updating) -f Cyan
-                Update-Module 'PSCompletions'
+                Update-Module PSCompletions
                 $version_list = (Get-ChildItem (Split-Path $_psc.path.root -Parent)).BaseName
                 if ($_psc.config.update -in $version_list) {
                     Write-Host (_psc_replace $_psc.json.module_update_done) -f Green
@@ -207,10 +195,10 @@ $null = Start-Job -ScriptBlock {
             $content = ($response.Content).Trim()
             $versions = @($_psc.version, $content) | Sort-Object { [Version] $_ }
             if ($versions[-1] -ne $_psc.version) {
-                set_config 'update' $versions[-1]
                 $res = Invoke-WebRequest -Uri ($_psc.url + '/module/log.json')
                 if ($res.StatusCode -eq 200) {
                     $res.Content | Out-File ($_psc.path.core + '\log.json') -Force -Encoding utf8
+                    set_config 'update' $versions[-1]
                 }
             }
         }
@@ -227,7 +215,7 @@ $null = Start-Job -ScriptBlock {
     }
 
     $update_list = [System.Collections.Generic.List[string]]@()
-    $installed = (Get-ChildItem -Path $_psc.path.completions -Filter "*.ps1" -Recurse -Depth 1).BaseName
+    $installed = (Get-ChildItem -Path $_psc.path.completions -Filter "*.ps1" -Recurse -Depth 1).BaseName | Where-Object { $_ -in $_psc.list }
     foreach ($_ in $installed) {
         $url = $_psc.url + '/completions/' + $_ + '/.guid'
         $response = Invoke-WebRequest -Uri  $url
@@ -235,40 +223,6 @@ $null = Start-Job -ScriptBlock {
             $content = ($response.Content).Trim()
             $guid = (Get-Content ($_psc.path.completions + '\' + $_ + '\.guid') -Raw).Trim()
             if ($guid -ne $content) { $update_list.Add($_) }
-        }
-        $_path_json = $_psc.path.completions + '\' + $_ + '\json\' + $_psc.lang + '.json'
-        $_path_order = $_psc.path.completions + '\' + $_ + '\.order'
-        $json_content = Get-Content -Raw -Path $_path_json -Encoding UTF8 | ConvertFrom-Json
-
-        $_json = $json_content.PSObject.Properties
-
-        $new_order = $_json | ForEach-Object { $_.Name } | Where-Object { $_ -ne '' }
-
-        $old_order = if (Test-Path($_path_order)) {
-            Get-Content $_path_order | Where-Object { $_ -ne '' }
-        }
-        else { @() }
-
-        $should_rm = @()
-        $should_add = @()
-
-        $is_different = Compare-Object $new_order $old_order
-        if ($is_different) {
-            $is_different | ForEach-Object {
-                if ($_.SideIndicator -eq '=>') {
-                    $should_rm += $_.InputObject
-                }
-                elseif ($_.SideIndicator -eq '<=') {
-                    $should_add += $_.InputObject
-                }
-            }
-            $old_order += $should_add
-            $old_order | Where-Object {
-                $_ -notin $should_rm
-            } | Out-File $_path_order
-        }
-        if (!$old_order) {
-            $new_order | Out-File $_path_order
         }
     }
     $update_list | Out-File $_psc.path.update -Force -Encoding utf8
