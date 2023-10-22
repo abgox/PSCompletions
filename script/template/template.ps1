@@ -61,5 +61,4 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
     #endregion
 
     _psc_reorder_tab $PSScriptRoot
-    #endregion
 }

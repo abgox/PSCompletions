@@ -54,6 +54,7 @@ if ($comp_name.Trim()) {
         _replace "template\template.ps1" "$comp_dir\$comp_name.ps1"
         _replace "template\json\zh-CN.json" "$comp_dir\json\zh-CN.json"
         _replace "template\json\en-US.json" "$comp_dir\json\en-US.json"
+        (New-Guid).Guid | Out-File "$comp_dir\.guid"
 
         Write-Host "`n$comp_dir\$comp_name.ps1" -f Green
     }
