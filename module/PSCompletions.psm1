@@ -97,7 +97,8 @@ function PSCompletions {
                 }
                 if ($update_list) {
                     Write-Host (_psc_replace $_psc.json.update_info_can) -f Yellow
-                    Write-Host (_psc_replace $_psc.update) -f Green
+                    Write-Host $_psc.update -f Green
+                    Write-Host (_psc_replace $_psc.json.update_info_tip) -f Cyan
                 }
                 else {
                     Write-Host (_psc_replace $_psc.json.update_info_no) -f Green

@@ -1,6 +1,6 @@
 . $PSScriptRoot\utils.ps1
 $_psc = @{}
-$_psc.version = '2.2.0'
+$_psc.version = '2.2.1'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
