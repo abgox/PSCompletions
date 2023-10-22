@@ -19,7 +19,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wt -ScriptBlock {
     try {
         $terminal_config = Get-Content "$env:userprofile\Appdata\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" -ErrorAction Stop | ConvertFrom-Json
         $terminal_config.profiles.list.name | ForEach-Object {
-            $name = $_ -replace ' ', '_'
+            $name = $_.Replace(' ', '_')
             $completions[$root_cmd + ' -p ' + $name ] = @(('"' + $_ + '"'), ($json_info.p + ' -- ' + $_))
         }
     }
@@ -27,30 +27,17 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wt -ScriptBlock {
 
     #region : Carry out
     $_input = $commandAst.CommandElements
-    $_input_str = $_input -join ' '
-    $_input_arr = $_input_str -split '\s+'
     $max_len = 0
     $display_count = 0
     $cmd_line = [System.Console]::WindowHeight - 5
     $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
     $filter_list = $completions.Keys | Where-Object {
-        $cmd = $_ -split '\s+'
-        $position = [System.Collections.Generic.List[int]]@()
-        for ($i = 0; $i -lt $cmd.Count; $i++) {
-            if ($cmd[$i] -match '<.+>') { $position.Add($i) }
-        }
-        $_inputs = [System.Collections.Generic.List[string]]$_input_arr
-        $flag = [System.Collections.Generic.List[string]]$cmd
-        $position | ForEach-Object {
-            if ($_inputs.Count -gt $_) {
-                $flag.RemoveAt($_)
-                $_inputs.RemoveAt($_)
-            }
-        }
-        $cmd.Count -eq ($_input.Count + $input_tab) -and ($flag -join ' ') -like ($_inputs -join ' ') + '*'
+        $cmd = $_ -split ' '
+        $cmd.Count -eq ($_input.Count + $input_tab) -and ($cmd -join ' ') -like ($_input -join ' ') + '*'
     }
     $filter_list | ForEach-Object {
-        $len = ($completions[$_][0].Replace('^up', ' ')).Length
+        $completions[$_][0] = $completions[$_][0].Replace('^up', ' ')
+        $len = ($completions[$_][0]).Length
         if ($len -ge $max_len) { $max_len = $len }
     }
 
@@ -59,15 +46,15 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wt -ScriptBlock {
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
             $display_count++
-            $display = $completions[$_][0].Replace('^up', ' ')
-            [CompletionResult]::new($display, $display, 'ParameterValue', (_psc_replace $completions[$_][1]))
+            $item = $completions[$_][0]
+            [CompletionResult]::new($item, $item, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
         else {
             [CompletionResult]::new(' ', '...', 'ParameterValue', $_psc.json.comp_hide)
             return
         }
     }
-    if ($display_count -eq 1) { echo ' ' }
+    if ($display_count -eq 1) { ' ' }
     #endregion
 
     _psc_reorder_tab  $PSScriptRoot

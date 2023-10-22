@@ -20,14 +20,14 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.python -ScriptBlock {
     if ($_input[-1] -match "^[./\\]*$") { return }
     if ($input_tab) {
         $completions.Keys | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {
-            $display = $completions[$_][0].Replace('^up', ' ')
-            [CompletionResult]::new($display, $display, 'ParameterValue', (_psc_replace $completions[$_][1]))
+            $item = $completions[$_][0].Replace('^up', ' ')
+            [CompletionResult]::new($item, $item, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
     }
     else {
         $completions.Keys | Where-Object { $commandElements_str -notlike "*$_*" } | ForEach-Object {
-            $display = $completions[$_][0].Replace('^up', ' ')
-            [CompletionResult]::new($display, $display, 'ParameterValue', (_psc_replace $completions[$_][1]))
+            $item = $completions[$_][0].Replace('^up', ' ')
+            [CompletionResult]::new($item, $item, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
     }
     #endregion

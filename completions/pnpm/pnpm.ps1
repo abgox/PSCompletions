@@ -16,27 +16,13 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.pnpm -ScriptBlock {
 
     #region : Carry out
     $_input = $commandAst.CommandElements
-    $_input_str = $_input -join ' '
-    $_input_arr = $_input_str -split '\s+'
     $max_len = 0
     $display_count = 0
     $cmd_line = [System.Console]::WindowHeight - 5
     $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
     $filter_list = $completions.Keys | Where-Object {
-        $cmd = $_ -split '\s+'
-        $position = [System.Collections.Generic.List[int]]@()
-        for ($i = 0; $i -lt $cmd.Count; $i++) {
-            if ($cmd[$i] -match '<.+>') { $position.Add($i) }
-        }
-        $_inputs = [System.Collections.Generic.List[string]]$_input_arr
-        $flag = [System.Collections.Generic.List[string]]$cmd
-        $position | ForEach-Object {
-            if ($_inputs.Count -gt $_) {
-                $flag.RemoveAt($_)
-                $_inputs.RemoveAt($_)
-            }
-        }
-        $cmd.Count -eq ($_input.Count + $input_tab) -and ($flag -join ' ') -like ($_inputs -join ' ') + '*'
+        $cmd = $_ -split ' '
+        $cmd.Count -eq ($_input.Count + $input_tab) -and ($cmd -join ' ') -like ($_input -join ' ') + '*'
     }
     $filter_list | ForEach-Object {
         $len = $completions[$_][0].Length
@@ -48,14 +34,15 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.pnpm -ScriptBlock {
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
             $display_count++
-            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+            $item = $completions[$_][0]
+            [CompletionResult]::new($item, $item, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
         else {
             [CompletionResult]::new(' ', '...', 'ParameterValue', $_psc.json.comp_hide)
             return
         }
     }
-    if ($display_count -eq 1) { echo ' ' }
+    if ($display_count -eq 1) { ' ' }
     #endregion
 
     _psc_reorder_tab  $PSScriptRoot

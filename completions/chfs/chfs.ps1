@@ -20,12 +20,14 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.chfs -ScriptBlock {
     if ($_input[-1] -match "^[./\\]*$") { return }
     if ($input_tab) {
         $completions.Keys | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {
-            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+            $item = $completions[$_][0]
+            [CompletionResult]::new($item, $item, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
     }
     else {
         $completions.Keys | Where-Object { $commandElements_str -notlike "*$_*" } | ForEach-Object {
-            [CompletionResult]::new($completions[$_][0], $completions[$_][0], 'ParameterValue', (_psc_replace $completions[$_][1]))
+            $item = $completions[$_][0]
+            [CompletionResult]::new($item, $item, 'ParameterValue', (_psc_replace $completions[$_][1]))
         }
     }
     #endregion
