@@ -97,6 +97,7 @@
 |           [nvm](/completions/nvm)           |                        [nvm - Node Version Manager](https://github.com/coreybutler/nvm-windows)                         |
 |          [pnpm](/completions/pnpm)          |                                       [pnpm - Package Manager](https://pnpm.io/)                                        |
 |           [npm](/completions/npm)           |                                     [npm - package manager](https://www.npmjs.com/)                                     |
+|           [nrm](/completions/nrm)           |                             [nrm - npm registry manager](https://www.npmjs.com/package/nrm)                             |
 |          [yarn](/completions/yarn)          |                                   [yarn - package manager](https://yarnpkg.com/cli/)                                    |
 |          [chfs](/completions/chfs)          |                                    [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                                    |
 |        [python](/completions/python)        |                               [python - A programming language](https://www.python.org/)                                |

@@ -96,6 +96,7 @@
 |           [nvm](/completions/nvm)           |                          [nvm - node 版本管理器](https://github.com/coreybutler/nvm-windows)                          |
 |          [pnpm](/completions/pnpm)          |                                        [pnpm - 软件包管理器](https://pnpm.io/)                                        |
 |           [npm](/completions/npm)           |                                     [npm - 软件包管理器](https://www.npmjs.com/)                                      |
+|           [nrm](/completions/nrm)           |                               [nrm - npm 镜像源管理](https://www.npmjs.com/package/nrm)                               |
 |          [yarn](/completions/yarn)          |                                    [yarn - 软件包管理器](https://yarnpkg.com/cli/)                                    |
 |          [chfs](/completions/chfs)          |                      [chfs(CuteHttpFileServer) - 跨平台的文件共享服务器](http://iscute.cn/chfs)                       |
 |        [python](/completions/python)        |                                     [python - 编程语言](https://www.python.org/)                                      |
