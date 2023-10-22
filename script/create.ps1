@@ -34,8 +34,8 @@ function info($comp = $comp_name) {
     }
 }
 $comp_name = get_input (info).input
-$comps_dir = Split-Path $PSScriptRoot -Parent
-$comp_dir = $comps_dir + '\completions\' + $comp_name
+$root_dir = Split-Path $PSScriptRoot -Parent
+$comp_dir = $root_dir + '\completions\' + $comp_name
 
 if ($comp_name.Trim()) {
     if (Test-Path($comp_dir)) {
@@ -43,8 +43,18 @@ if ($comp_name.Trim()) {
     }
     else {
         mkdir $comp_dir > $null
-        Copy-Item ".\template\json" $comp_dir -Recurse
-        (Get-Content -Raw ".\template\template.ps1").Replace('$template_comp', "$comp_name") | Out-File "$comp_dir\$comp_name.ps1" -Encoding utf8
+
+        function _replace($in, $out) {
+            $parent = Split-Path $out -Parent
+            if (!(Test-Path($parent))) {
+                mkdir $parent > $null
+            }
+            (Get-Content -Raw "$PSScriptRoot\$in").Replace('$template_comp', "$comp_name") | Out-File $out -Encoding utf8
+        }
+        _replace "template\template.ps1" "$comp_dir\$comp_name.ps1"
+        _replace "template\json\zh-CN.json" "$comp_dir\json\zh-CN.json"
+        _replace "template\json\en-US.json" "$comp_dir\json\en-US.json"
+
         Write-Host "`n$comp_dir\$comp_name.ps1" -f Green
     }
 }
