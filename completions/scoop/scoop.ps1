@@ -3,9 +3,10 @@ using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $root_cmd = $_psc.comp_cmd.scoop
+    _psc_reorder_tab $PSScriptRoot
 
     #region : Store
+    $root_cmd = $_psc.comp_cmd.scoop
     $json = _psc_parse_json_with_LRU $PSScriptRoot
     $json_info = $json.scoop_core_info
     $completions = [ordered]@{}
@@ -16,7 +17,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     }
     #endregion
 
-    #region Special point
+    #region : Special
     $symbol = $json_info.symbol
     if ($env:SCOOP) {
         $scoop_path = $env:SCOOP
@@ -73,7 +74,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     }
     #endregion
 
-    #region : Carry out
+    #region : Running
     $_input = $commandAst.CommandElements
     $max_len = 0
     $display_count = 0
@@ -115,6 +116,4 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     }
     if ($display_count -eq 1) { ' ' }
     #endregion
-
-    _psc_reorder_tab  $PSScriptRoot
 }

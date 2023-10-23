@@ -3,9 +3,10 @@ using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $root_cmd = $_psc.comp_cmd.wsl
+    _psc_reorder_tab $PSScriptRoot
 
     #region : Store
+    $root_cmd = $_psc.comp_cmd.wsl
     $json = _psc_parse_json_with_LRU $PSScriptRoot
     $json_info = $json.wsl_core_info
     $completions = [ordered]@{}
@@ -25,7 +26,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     $Distro_list = wsl -l -q | ForEach-Object { clean_nul $_ } | Where-Object { $_ -ne '' }
     #endregion
 
-    #region Special point
+    #region : Special
     $Distro_list | ForEach-Object {
         $Distro = $_
         function _do($cmd, $tip) {
@@ -54,7 +55,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     }
     #endregion
 
-    #region : Carry out
+    #region : Running
     $_input = $commandAst.CommandElements
     $max_len = 0
     $display_count = 0
@@ -96,6 +97,4 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     }
     if ($display_count -eq 1) { ' ' }
     #endregion
-
-    _psc_reorder_tab  $PSScriptRoot
 }

@@ -3,9 +3,10 @@ using namespace System.Management.Automation.Language
 Register-ArgumentCompleter -CommandName $_psc.comp_cmd.chfs -ScriptBlock {
     param($wordToComplete, $commandAst)
 
-    $root_cmd = $_psc.comp_cmd.chfs
+    _psc_reorder_tab $PSScriptRoot
 
     #region : Store
+    $root_cmd = $_psc.comp_cmd.chfs
     $json = _psc_parse_json_with_LRU $PSScriptRoot
     $completions = [ordered]@{}
     _psc_generate_order $PSScriptRoot | ForEach-Object {
@@ -13,7 +14,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.chfs -ScriptBlock {
     }
     #endregion
 
-    #region : Carry out
+    #region : Running
     $_input = $commandAst.CommandElements
     $_input_str = $_input -join ' '
     $input_tab = if (!$wordToComplete.length) { 1 }else { 0 }
@@ -31,6 +32,4 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.chfs -ScriptBlock {
         }
     }
     #endregion
-
-    _psc_reorder_tab  $PSScriptRoot
 }
