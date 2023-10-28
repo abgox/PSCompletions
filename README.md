@@ -17,7 +17,7 @@
         <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
     </a>
     <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
-        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="code size" />
+        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="repo size" />
     </a>
     <a href="https://github.com/abgox/PSCompletions">
         <img src="https://img.shields.io/badge/created-2023--8--15-blue" alt="created" />
@@ -84,21 +84,21 @@
 
 ## Available Completions List
 
-|                 Completions                 |                                                         Source                                                          |
-| :-----------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
-| [PSCompletions](/completions/PSCompletions) |              [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions)              |
-|           [git](/completions/git)           |                                [Git - Version control system](https://git-scm.com/docs)                                 |
-|           [wsl](/completions/wsl)           |                   [WSL - Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/)                   |
-|            [wt](/completions/wt)            | [windows terminal command line](https://learn.microsoft.com/en-us/windows/terminal/command-line-arguments?tabs=windows) |
-|        [docker](/completions/docker)        |                          [docker - Container Application Development](https://www.docker.com/)                          |
-|         [scoop](/completions/scoop)         |                           [Scoop - Software Manager](https://github.com/ScoopInstaller/Scoop)                           |
-|         [choco](/completions/choco)         |                             [choco(chocolatey) - Software Manager](https://chocolatey.org/)                             |
-|         [volta](/completions/volta)         |                             [volta - Accessible JavaScript Tool Manager](https://volta.sh/)                             |
-|           [nvm](/completions/nvm)           |                        [nvm - Node Version Manager](https://github.com/coreybutler/nvm-windows)                         |
-|          [pnpm](/completions/pnpm)          |                                       [pnpm - Package Manager](https://pnpm.io/)                                        |
-|           [npm](/completions/npm)           |                                     [npm - package manager](https://www.npmjs.com/)                                     |
-|           [nrm](/completions/nrm)           |                             [nrm - npm registry manager](https://www.npmjs.com/package/nrm)                             |
-|          [yarn](/completions/yarn)          |                                   [yarn - package manager](https://yarnpkg.com/cli/)                                    |
-|          [chfs](/completions/chfs)          |                                    [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                                    |
-|        [python](/completions/python)        |                               [python - A programming language](https://www.python.org/)                                |
-|                     ...                     |                                                           ...                                                           |
+|                 Completions                 |                   Source                   |
+| :-----------------------------------------: | :----------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) |     PSCompletions - Module completion      |
+|          [chfs](/completions/chfs)          |          chfs(CuteHttpFileServer)          |
+|         [choco](/completions/choco)         |    choco(chocolatey) - Software Manager    |
+|        [docker](/completions/docker)        | docker - Container Application Development |
+|           [git](/completions/git)           |        Git - Version control system        |
+|           [npm](/completions/npm)           |           npm - package manager            |
+|           [nrm](/completions/nrm)           |         nrm - npm registry manager         |
+|           [nvm](/completions/nvm)           |         nvm - Node Version Manager         |
+|          [pnpm](/completions/pnpm)          |           pnpm - Package Manager           |
+|        [python](/completions/python)        |      python - A programming language       |
+|         [scoop](/completions/scoop)         |          Scoop - Software Manager          |
+|         [volta](/completions/volta)         | volta - Accessible JavaScript Tool Manager |
+|           [wsl](/completions/wsl)           |     WSL - Windows Subsystem for Linux      |
+|            [wt](/completions/wt)            |       windows terminal command line        |
+|          [yarn](/completions/yarn)          |           yarn - package manager           |
+|                     ...                     |                    ...                     |

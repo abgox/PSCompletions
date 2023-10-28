@@ -17,7 +17,7 @@
         <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
     </a>
     <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
-        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="code size" />
+        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="repo size" />
     </a>
     <a href="https://github.com/abgox/PSCompletions">
         <img src="https://img.shields.io/badge/created-2023--8--15-blue" alt="created" />
@@ -78,26 +78,26 @@
 
 ### 关于路径补全
 
--   输入 `./` 或 `.\` 后按下 `Tab` 以获取**子目录**或**文件**的路径补全
--   输入 `/` 或 `\` 后按下 `Tab` 以获取**同级目录**的路径补全
+-   输入 `./` 或 `.\` 后按下 `Tab` 以获取 **子目录** 或 **文件** 的路径补全
+-   输入 `/` 或 `\` 后按下 `Tab` 以获取 **同级目录** 的路径补全
 
 ## 补全列表
 
-|                  命令补全                   |                                                       命令来源                                                        |
-| :-----------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-| [PSCompletions](/completions/PSCompletions) |               [PSCompletions 本模块自用补全](https://www.powershellgallery.com/packages/PSCompletions)                |
-|           [git](/completions/git)           |                                    [Git - 版本控制系统](https://git-scm.com/docs)                                     |
-|           [wsl](/completions/wsl)           |                [WSL - 适用于 Linux 的 Windows 子系统](https://learn.microsoft.com/zh-cn/windows/wsl/)                 |
-|            [wt](/completions/wt)            | [windows terminal 命令行终端](https://learn.microsoft.com/zh-cn/windows/terminal/command-line-arguments?tabs=windows) |
-|        [docker](/completions/docker)        |                                   [docker - 容器应用开发](https://www.docker.com/)                                    |
-|         [scoop](/completions/scoop)         |                              [Scoop - 软件管理](https://github.com/ScoopInstaller/Scoop)                              |
-|         [choco](/completions/choco)         |                                [choco(chocolatey) - 软件管理](https://chocolatey.org/)                                |
-|         [volta](/completions/volta)         |                               [volta - 无障碍 JavaScript 工具管理器](https://volta.sh/)                               |
-|           [nvm](/completions/nvm)           |                          [nvm - node 版本管理器](https://github.com/coreybutler/nvm-windows)                          |
-|          [pnpm](/completions/pnpm)          |                                        [pnpm - 软件包管理器](https://pnpm.io/)                                        |
-|           [npm](/completions/npm)           |                                     [npm - 软件包管理器](https://www.npmjs.com/)                                      |
-|           [nrm](/completions/nrm)           |                               [nrm - npm 镜像源管理](https://www.npmjs.com/package/nrm)                               |
-|          [yarn](/completions/yarn)          |                                    [yarn - 软件包管理器](https://yarnpkg.com/cli/)                                    |
-|          [chfs](/completions/chfs)          |                      [chfs(CuteHttpFileServer) - 跨平台的文件共享服务器](http://iscute.cn/chfs)                       |
-|        [python](/completions/python)        |                                     [python - 编程语言](https://www.python.org/)                                      |
-|                     ...                     |                                                          ...                                                          |
+|                  命令补全                   |                 命令来源                  |
+| :-----------------------------------------: | :---------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) |       PSCompletions 本模块自用补全        |
+|          [chfs](/completions/chfs)          | CuteHttpFileServer - 跨平台文件共享服务器 |
+|         [choco](/completions/choco)         |       choco(chocolatey) - 软件管理        |
+|        [docker](/completions/docker)        |           docker - 容器应用开发           |
+|           [git](/completions/git)           |            Git - 版本控制系统             |
+|           [npm](/completions/npm)           |            npm - 软件包管理器             |
+|           [nrm](/completions/nrm)           |           nrm - npm 镜像源管理            |
+|           [nvm](/completions/nvm)           |           nvm - node 版本管理器           |
+|          [pnpm](/completions/pnpm)          |            pnpm - 软件包管理器            |
+|        [python](/completions/python)        |             python - 编程语言             |
+|         [scoop](/completions/scoop)         |             Scoop - 软件管理              |
+|         [volta](/completions/volta)         |   volta - 无障碍 JavaScript 工具管理器    |
+|           [wsl](/completions/wsl)           |   WSL - 适用于 Linux 的 Windows 子系统    |
+|            [wt](/completions/wt)            |        windows terminal 命令行终端        |
+|          [yarn](/completions/yarn)          |            yarn - 软件包管理器            |
+|                     ...                     |                    ...                    |
