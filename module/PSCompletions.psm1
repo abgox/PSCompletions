@@ -18,7 +18,7 @@ function PSCompletions {
         }
         $data = [System.Collections.Generic.List[System.Object]]@()
         if ($arg[1] -eq '--remote') {
-            if (!(_psc_download_list)) { return }
+            if (!($_psc.fn_download_list())) { throw 'Please check your network!' }
             $max_len = ($_psc.list  | Measure-Object -Maximum Length).Maximum
             $_psc.list | ForEach-Object {
                 $status = if ($_psc.comp_cmd.$_) { $_psc.json.list_add_done }else { $_psc.json.list_add }
@@ -27,9 +27,9 @@ function PSCompletions {
                         color   = 'Green'
                     })
             }
-            _psc_less $data ('Completion', 'Status', $max_len) {
-                Write-Host (_psc_replace $_psc.json.list_add_tip) -f Yellow
-            }
+            $_psc.fn_less_table($data, ('Completion', 'Status', $max_len), {
+                    Write-Host (_psc_replace $_psc.json.list_add_tip) -f Yellow
+                })
         }
         else {
             $max_len = ($_psc.comp_cmd.keys | Measure-Object -Maximum Length).Maximum
@@ -40,7 +40,7 @@ function PSCompletions {
                         color   = 'Green'
                     })
             }
-            _psc_less $data ('Completion', 'Alias', $max_len)
+            $_psc.fn_less_table($data, ('Completion', 'Alias', $max_len))
         }
     }
     function _Add {
@@ -48,11 +48,11 @@ function PSCompletions {
             param_error 'min' 'add'
             return
         }
-        if (!(_psc_download_list)) { return }
+        if (!($_psc.fn_download_list())) { return }
         $list = $arg[1..($arg.Length - 1)]
         foreach ($_ in $list) {
             if ($_ -in $_psc.list) {
-                _psc_add_completion $_
+                $_psc.fn_add_completion($_)
             }
             else {
                 Write-Host (_psc_replace $_psc.json.add_error) -f Red
@@ -115,14 +115,14 @@ function PSCompletions {
         else {
             if ($arg[1] -eq '*') {
                 foreach ($_ in $_psc.update) {
-                    _psc_add_completion $_ $true $true
+                    $_psc.fn_add_completion($_, $true, $true)
                 }
             }
             else {
                 $list = $arg[1..($arg.Length - 1)]
                 foreach ($_ in $list) {
                     if ($_ -in $comp_cmd) {
-                        _psc_add_completion $_ $true $true
+                        $_psc.fn_add_completion($_, $true, $true)
                     }
                     else {
                         Write-Host (_psc_replace $_psc.json.update_error) -f Red
@@ -141,7 +141,7 @@ function PSCompletions {
             param_error 'max' 'search'
             return
         }
-        if (!(_psc_download_list)) { return }
+        if (!(($_psc.fn_download_list()))) { return }
         $result = [System.Collections.Generic.List[System.Object]]@()
         $_psc.list | Where-Object { $_ -like $arg[1] } | ForEach-Object {
             $result.Add(@{
@@ -149,9 +149,9 @@ function PSCompletions {
                     color   = 'Green'
                 })
         }
-        _psc_less $result '' {
-            Write-Host (_psc_replace $_psc.json.search) -f Yellow
-        }
+        $_psc.fn_less_table($result, '', {
+                Write-Host (_psc_replace $_psc.json.search) -f Yellow
+            })
     }
     function _Which {
         if ($arg.Length -lt 2) {
@@ -215,7 +215,7 @@ function PSCompletions {
                         color   = 'Green'
                     })
             }
-            _psc_less $data ('Completion', 'Alias', $max_len)
+            $_psc.fn_less_table($data, ('Completion', 'Alias', $max_len))
         }
         elseif ($arg[1] -eq 'add') {
             if ($arg[2] -in $_psc.comp_cmd.Keys) {
@@ -256,18 +256,18 @@ function PSCompletions {
             }
         }
         else {
-            _psc_confirm $_psc.json.alias_reset_confirm {
-                $del_list = @()
-                $alias_list = $_psc.comp_cmd.keys | Where-Object { $_psc.comp_cmd.$_ -ne $_ }
-                foreach ($_ in $alias_list) {
-                    $del_list.Add($_psc.comp_cmd.$_ + '(' + $_ + ')')
-                    Remove-Item ($_psc.path.completions + '\' + $_ + '\.alias') -Force
-                }
-                _psc_set_config 'root_cmd' 'psc'
-                if ($del_list) {
-                    Write-Host (_psc_replace $_psc.json.alias_reset_done) -f Green
-                }
-            }
+            $_psc.fn_confirm($_psc.json.alias_reset_confirm, {
+                    $del_list = @()
+                    $alias_list = $_psc.comp_cmd.keys | Where-Object { $_psc.comp_cmd.$_ -ne $_ }
+                    foreach ($_ in $alias_list) {
+                        $del_list.Add($_psc.comp_cmd.$_ + '(' + $_ + ')')
+                        Remove-Item ($_psc.path.completions + '\' + $_ + '\.alias') -Force
+                    }
+                    $_psc.fn_set_config('root_cmd', 'psc')
+                    if ($del_list) {
+                        Write-Host (_psc_replace $_psc.json.alias_reset_done) -f Green
+                    }
+                })
         }
     }
     function _Config {
@@ -285,14 +285,15 @@ function PSCompletions {
             }
             else {
                 if ($arg[1] -eq 'reset') {
-                    _psc_confirm $_psc.json.config_reset {
-                        $root_cmd = 'psc'
-                        $github = 'https://github.com/abgox/PSCompletions'
-                        $gitee = 'https://gitee.com/abgox/PSCompletions'
-                        $language = (Get-WinSystemLocale).name
-                        $update = 1
-                        [environment]::SetEnvironmentvariable('abgox_PSCompletions', (@($_psc.version, $root_cmd, $github, $gitee, $language, $update) -join ';'), 'User')
-                    }
+                    $_psc.fn_confirm($_psc.json.config_reset, {
+                            $root_cmd = 'psc'
+                            $github = 'https://github.com/abgox/PSCompletions'
+                            $gitee = 'https://gitee.com/abgox/PSCompletions'
+                            $language = (Get-WinSystemLocale).name
+                            $update = 1
+                            $LRU = 5
+                            [environment]::SetEnvironmentvariable('abgox_PSCompletions', (@($_psc.version, $root_cmd, $github, $gitee, $language, $update, $LRU) -join ';'), 'User')
+                        })
                     Write-Host (_psc_replace $_psc.json.config_reset_done) -f Green
                     return
                 }
@@ -313,7 +314,7 @@ function PSCompletions {
                 elseif ($arg[1] -eq 'language') {
                     $_psc.comp_data = [ordered]@{}
                 }
-                _psc_set_config $arg[1] $arg[2]
+                $_psc.fn_set_config($arg[1], $arg[2])
                 Write-Host (_psc_replace $_psc.json.config_done) -f Green
             }
             else {
