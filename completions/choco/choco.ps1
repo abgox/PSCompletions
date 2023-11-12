@@ -74,7 +74,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
     $timer.AutoReset = $false
     $timerAction = {
         # LRU
-        if ($_psc.comp_data.Count -gt $_psc.config.LRU * 2) {
+        if ($_psc.comp_data.Count -gt [int]$_psc.config.LRU * 2) {
             $_psc.comp_data.RemoveAt(0)
             $_psc.comp_data.RemoveAt(0)
         }
