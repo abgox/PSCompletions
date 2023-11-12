@@ -155,7 +155,7 @@
             "$log=(Get-Content -Raw  ($_psc.path.core +'\\log.json') -Encoding UTF8 -ErrorAction SilentlyContinue | ConvertFrom-Json).PSObject.Properties;",
             "$num=1;",
             "$log | Foreach-Object {",
-            "   if($_.Name -gt $_psc.version){if($num){$_.Name + ':' + $_.Value;$num=0}else{\"`n\" + $_.Name + ':' + $_.Value} }",
+            "   if($_.Name -gt $_psc.version){if($num){$_.Name + ':' + $_.Value.$($_psc.lang);$num=0}else{\"`n\" + $_.Name + ':' + $_.Value.$($_psc.lang)} }",
             " }",
             "}}\n",
             "{{$_psc.json.confirm}}"
