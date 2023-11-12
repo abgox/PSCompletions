@@ -88,6 +88,7 @@
 | [PSCompletions](/completions/PSCompletions) |       PSCompletions 本模块自用补全        |
 |          [chfs](/completions/chfs)          | CuteHttpFileServer - 跨平台文件共享服务器 |
 |         [choco](/completions/choco)         |       choco(chocolatey) - 软件管理        |
+|          [deno](/completions/deno)          |       deno - 安全的 JS 和 TS 运行时       |
 |        [docker](/completions/docker)        |           docker - 容器应用开发           |
 |           [git](/completions/git)           |            Git - 版本控制系统             |
 |           [npm](/completions/npm)           |            npm - 软件包管理器             |

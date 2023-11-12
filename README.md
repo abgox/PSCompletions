@@ -89,6 +89,7 @@
 | [PSCompletions](/completions/PSCompletions) |     PSCompletions - Module completion      |
 |          [chfs](/completions/chfs)          |          chfs(CuteHttpFileServer)          |
 |         [choco](/completions/choco)         |    choco(chocolatey) - Software Manager    |
+|          [deno](/completions/deno)          |   deno - A secure runtime for JS and TS    |
 |        [docker](/completions/docker)        | docker - Container Application Development |
 |           [git](/completions/git)           |        Git - Version control system        |
 |           [npm](/completions/npm)           |           npm - package manager            |
