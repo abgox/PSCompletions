@@ -1,28 +1,19 @@
 {
   "commit": "✨记录对存储库的更改",
   "commit -m": "✨✨{{$json_info.commit_m}}",
-  "commit -m <message> -e": "{{$json_info.commit_e}}",
-  "commit -m <message> -a": "{{$json_info.commit_a}}",
-  "commit -m <message> -a -e": "{{$json_info.commit_e}}",
-  "commit -a": "✨{{$json_info.commit_a}}",
-  "commit -a -m": "✨✨{{$json_info.commit_m}}",
-  "commit -a -m <message> -e": "{{$json_info.commit_e}}",
-  "commit -a -t": "{{$json_info.commit_t}}",
-  "commit -a -F": "✨✨{{$json_info.commit_f}}",
-  "commit -a -F <file> -e": "{{$json_info.commit_e}}",
+  "commit -a": "{{$json_info.commit_a}}",
+  "commit -e": "{{$json_info.commit_e}}",
   "commit --amend": "修改最后一次 commit 的内容消息(生成新的 commit ,替代最后一次 commit)",
   "commit -p": [
     "别名: --patch\n",
     "使用交互式补丁选择界面可以选择要 commit 的更改"
   ],
-  "commit -t": "{{$json_info.commit_t}}",
+  "commit -t": "✨✨{{$json_info.commit_t}}",
   "commit -F": "✨✨{{$json_info.commit_f}}",
-  "commit -F <file> -e": "{{$json_info.commit_e}}",
   "commit -C": [
     "别名: --reedit-message=\n",
     "✨✨取一个现有的 commit 对象,在创建 commit 时重用日志消息和作者信息(包括时间戳)"
   ],
-  "commit -C <commit> -e": "{{$json_info.commit_e}}",
   "add": "✨将指定文件的修改添加到索引(暂存区)",
   "add .": "添加当前目录及其子目录下的所有更改(包括新文件、修改过的文件和删除的文件)都添加到索引(暂存区)",
   "add -A": [
@@ -66,10 +57,8 @@
     "显示前 n 条 commit 信息\n",
     "例如: git log -n 1 显示一个日志(也可以简写 git log -1)"
   ],
-  "log --graph": "✨在日志旁以 ASCII 图形显示分支与合并历史",
-  "log --graph --oneline": "每个提交信息以一行显示",
-  "log --oneline": "✨每个提交信息以一行显示",
-  "log --oneline --graph": "在日志旁以 ASCII 图形显示分支与合并历史",
+  "log --graph": "在日志旁以 ASCII 图形显示分支与合并历史",
+  "log --oneline": "每个提交信息以一行显示",
   "log --stat": [
     "显示每次 commit 修改文件的统计信息\n",
     "每个 commit 都列出了修改过的文件,以及其中添加和移除的行数,并在最后列出所有增减行数小计"
@@ -92,7 +81,7 @@
   ],
   "rebase -i": [
     "别名: --interactive\n",
-    "允许进行交互式的 rebase,可以对每个 commit 进行编辑、合并、删除等操作"
+    "✨✨允许进行交互式的 rebase,可以对每个 commit 进行编辑、合并、删除等操作"
   ],
   "rebase --onto": [
     "用法: --onto <newbase>\n",
@@ -123,13 +112,13 @@
   ],
   "clone -b": [
     "别名: --branch=\n",
-    "用于指定要克隆的分支。默认情况下,git clone 会克隆远程仓库的主分支"
+    "✨✨用于指定要克隆的分支。默认情况下,git clone 会克隆远程仓库的主分支"
   ],
   "clone --depth": "✨指定要克隆的 commit 历史深度",
   "clone --depth 1": "仅克隆最后一次的 commit ,没有历史 commit 记录",
   "clone -j": [
     "别名: --jobs=\n",
-    "用于指定并行克隆的线程数,加快克隆速度"
+    "✨✨用于指定并行克隆的线程数,加快克隆速度"
   ],
   "push": [
     "用法: push [-f] [<remote>] [<branch>]\n",
@@ -155,10 +144,8 @@
     "强制重命名指定的分支\n",
     "如: git branch -M <旧分支名> <新分支名>"
   ],
-  "branch -v": "✨查看本地分支 + 最后一次 commit 信息",
-  "branch -v -a": "查看本地分支 + 最后一次 commit 信息 + 远程分支",
-  "branch -vv": "✨查看本地分支 + 最后一次 commit 信息 + 分支和远程分支的关系",
-  "branch -vv -a": "查看本地分支 + 最后一次 commit 信息 + 分支和远程分支的关系 + 远程分支",
+  "branch -v": "查看本地分支 + 最后一次 commit 信息",
+  "branch -vv": "查看本地分支 + 最后一次 commit 信息 + 分支和远程分支的关系",
   "checkout": [
     "✨检出分支或路径到工作树。\n",
     "例如: git checkout <分支名>       --- 切换分支\n ",
@@ -190,10 +177,6 @@
   "merge --continue": "继续当前正在进行的合并",
   "merge --abort": "放弃合并,回归原始状态",
   "merge --quit": "保留当前的冲突,退出合并",
-  "merge <branch> -m": [
-    "别名: --message=\n",
-    "指定合并提交的提交消息"
-  ],
   "diff": [
     "✨显示提交之间的更改、提交和工作树之间的更改等\n",
     "例如: git diff <file>               --- 显示指定文件在工作区和索引(暂存区)之间的差异\n ",
@@ -238,7 +221,6 @@
     "制作一个无符号、带注释的标记对象\n",
     "例如: git tag -a v1.0.0"
   ],
-  "tag -a <tag> -m": "为标签指定一个描述性消息",
   "tag -d": [
     "别名: --delete\n",
     "{{if($tag_list){'✨'} }}删除标签"
@@ -248,7 +230,7 @@
     "{{if($tag_list){'✨'} }}校验标签"
   ],
   "config": "✨获取并配置存储库或全局选项",
-  "config --global": "✨进行全局设置",
+  "config --global": "进行全局设置",
   "config -e": [
     "别名: --edit\n",
     "配置当前仓库的 config"
@@ -292,49 +274,6 @@
   "config color.interactive auto": "{{$json_info.color_auto}}",
   "config color.interactive always": "{{$json_info.color_always}}",
   "config color.interactive never": "{{$json_info.color_never}}",
-  "config --global -e": [
-    "别名: --edit\n",
-    "打开全局配置文件"
-  ],
-  "config --global user.name": [
-    "配置全局用户名\n",
-    "例如: git config --global user.name xxx"
-  ],
-  "config --global user.email": [
-    "配置全局邮箱\n",
-    "例如: git config --global user.email xxx@outlook.com"
-  ],
-  "config --global core.editor": [
-    "✨配置全局默认编辑器\n",
-    "如果你想要修改为 VS Code ,请务必手动复制并运行以下命令\n",
-    "git config --global --replace-all core.editor 'code --wait'"
-  ],
-  "config --global core.editor vim": "配置全局默认编辑器为 vim",
-  "config --global core.editor nvim": "配置全局默认编辑器为 nvim",
-  "config --global core.editor notepad": "配置全局默认编辑器为 Notepad(微软记事本)",
-  "config --global commit.template": [
-    "配置全局 commit 默认模板\n",
-    "例如: config --global commit.template ~/.gitmessage"
-  ],
-  "config --global color.ui": "✨配置全局命令自动着色",
-  "config --global color.ui true": "启动全局命令自动着色配置",
-  "config --global color.ui false": "禁用全局命令自动着色配置",
-  "config --global color.status": "✨配置全局 status 命令自动着色",
-  "config --global color.status auto": "{{$json_info.color_auto}}",
-  "config --global color.status always": "{{$json_info.color_always}}",
-  "config --global color.status never": "{{$json_info.color_never}}",
-  "config --global color.diff": "✨配置全局 diff 命令自动着色",
-  "config --global color.diff auto": "{{$json_info.color_auto}}",
-  "config --global color.diff always": "{{$json_info.color_always}}",
-  "config --global color.diff never": "{{$json_info.color_never}}",
-  "config --global color.branch": "✨配置全局 branch 命令自动着色",
-  "config --global color.branch auto": "{{$json_info.color_auto}}",
-  "config --global color.branch always": "{{$json_info.color_always}}",
-  "config --global color.branch never": "{{$json_info.color_never}}",
-  "config --global color.interactive": "✨配置全局 -i(interactive) 命令自动着色",
-  "config --global color.interactive auto": "{{$json_info.color_auto}}",
-  "config --global color.interactive always": "{{$json_info.color_always}}",
-  "config --global color.interactive never": "{{$json_info.color_never}}",
   "stash": [
     "✨将更改暂存到 stash 中\n",
     "需要注意,有多个 stash 时从新到老进行排序,索引从0开始"
@@ -350,7 +289,6 @@
     "index: 代表 stash 的索引,从0开始\n",
     "例如: git stash show 1    查看第二个 stash"
   ],
-  "stash show <index> -v": "显示文件内容修改",
   "stash pop": [
     "应用并移除 stash 中的更改\n",
     "与 apply 的区别: pop 在应用后会从 stash 中移除,但 apply 不会"
