@@ -66,7 +66,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
             return
         }
     }
-    if ($display_count -eq 1) { ' ' }
+    if ($display_count -ge 1 -and $display_count -le 3) { ' ' }
     #endregion
 
     #region : Back
