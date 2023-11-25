@@ -27,6 +27,12 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
             $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
         }
     }
+    else {
+        if ($_psc.jobs.State -eq 'Completed') {
+            $_psc.comp_data = Receive-Job $_psc.jobs
+        }
+        try { Remove-Job $_psc.jobs }catch {}
+    }
 
     $completions = $_psc.comp_data.$root_cmd
 
@@ -70,19 +76,21 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
     #endregion
 
     #region : Back
-    $timer = New-Object Timers.Timer
-    $timer.AutoReset = $false
-    $timerAction = {
+    $_psc.jobs = Start-Job -ScriptBlock {
+        param(
+            $_psc,
+            $cmd,
+            $PSScriptRoots,
+            $path_history
+        )
         # LRU
         if ($_psc.comp_data.Count -gt [int]$_psc.config.LRU * 2) {
             $_psc.comp_data.RemoveAt(0)
             $_psc.comp_data.RemoveAt(0)
         }
 
-        $cmd = $_psc.comp_cmd.choco
-
         try {
-            $history = [array](Get-Content (Get-PSReadLineOption).HistorySavePath | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
+            $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
             $history = $history[-1] -split ' '
             while ($history.Count -gt 1) {
                 try {
@@ -94,10 +102,10 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
         }
         catch {}
 
-        $json_order = (Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
+        $json_order = (Get-Content -Raw -Path  ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
             $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1]
         }
-        $path_order = $PSScriptRoot + '\order.json'
+        $path_order = $PSScriptRoots + '\order.json'
         $order_old = (Get-Content -Raw -Path $path_order | ConvertFrom-Json).PSObject.Properties.Name
 
         if (($json_order -join ' ') -ne ($order_old -join ' ')) {
@@ -108,10 +116,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.choco -ScriptBlock {
             }
             $order | ConvertTo-Json | Out-File $path_order -Force
         }
-    }
 
-    $null = Register-ObjectEvent -InputObject $timer -EventName Elapsed -Action $timerAction
-
-    $timer.Start()
+        return $_psc.comp_data
+    }  -ArgumentList $_psc, $root_cmd, $PSScriptRoot, (Get-PSReadLineOption).HistorySavePath
     #endregion
 }
