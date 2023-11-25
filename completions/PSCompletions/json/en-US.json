@@ -220,24 +220,24 @@
             "{{$alias=$_psc.comp_cmd.$_;if($_ -ne $alias){'Current value: '+ $alias }else{\"It hasn't been set\"}}}\n",
             "Add a completion alias for {{$_}}"
         ],
-        "alias_add_done": "The completion trigger command has been changed from {{$arg[2]}} to {{$arg[3]}}.\nPlease restart the terminal to take effect.",
+        "alias_add_done": "The completion trigger command has been changed from {{$arg[2]}} to {{$arg[3]}}.\n(Please restart the terminal if it doesn't take effect.)",
         "alias_del": "Alias delete list: {{$del_list -join ','}}",
         "alias_rm": "Remove alias({{$_psc.comp_cmd.$_}}) --- {{$_}}",
         "alias_err": "You haven't added {{$arg[2]}} yet.",
         "alias_rm_done": [
             "{{$_psc.json.alias_del}}\n",
-            "Please restart the terminal to take effect.\n",
-            "{{if('psc(PSCompletions) -in $del_list'){('(\"psc\" is the default alias for the PSCompletes module, which can only be modified and cannot be removed)')} }}"
+            "Please restart the terminal if it doesn't take effect.",
+            "{{ if($_psc.root_cmd -in $del_list){(\"`n(\" + $_psc.root_cmd + 'is the alias for the PSCompletes module,which can only be modified and cannot be removed)')} }}"
         ],
         "alias_rm_err": "alias no exist --- ({{$error_list -join ','}})",
         "alias_reset_confirm": "Remove all completion aliases\n{{$_psc.json.confirm}}",
         "alias_reset_done": [
             "Remove all alias!\n",
             "{{$_psc.json.alias_del}}\n",
-            "Please restart the terminal to take effect.\n",
-            "{{if('psc(PSCompletions) -in $del_list'){('(\"psc\" is the default alias for the PSCompletes module, which can only be modified and cannot be removed)')} }}"
+            "Please restart the terminal if it doesn't take effect.",
+            "{{ if($_psc.root_cmd -in $del_list){(\"`n(\" + $_psc.root_cmd + 'is the alias for the PSCompletes module,which can only be modified and cannot be removed)')} }}"
         ],
-        "config_done": "{{$arg[1]}} => {{$arg[2]}} (If doesn't take effect, restart the terminal)",
+        "config_done": "{{$arg[1]}} => {{$arg[2]}} (If it doesn't take effect, restart the terminal)",
         "config_err": [
             "Subcommand({{$arg[1]}}) error\n",
             "It should be one of ({{$_psc.config.Keys;'reset'}})."

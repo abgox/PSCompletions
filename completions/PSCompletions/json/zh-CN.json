@@ -222,7 +222,7 @@
       "if($_ -ne $alias){'当前值: '+ $alias }else{'未设置别名'} }}\n",
       "为 {{$_}} 添加补全别名"
     ],
-    "alias_add_done": "补全触发命令由{{$arg[2]}}更改为{{$arg[3]}},请重启终端使更改生效,并使用{{$arg[3]}}触发补全",
+    "alias_add_done": "补全触发命令由{{$arg[2]}}更改为{{$arg[3]}},现在可以使用{{$arg[3]}}触发补全了(若未生效,请重启终端应用)",
     "alias_err": "你还没有添加{{$arg[2]}}补全",
     "alias_del": "删除别名列表: {{$del_list -join ','}}",
     "alias_rm": [
@@ -231,16 +231,16 @@
     ],
     "alias_rm_done": [
       "{{$_psc.json.alias_del}}\n",
-      "请重启终端应用更改\n",
-      "{{if('psc(PSCompletions) -in $del_list'){('(psc为PSCompletions模块默认别名,只能修改,不能移除)')} }}"
+      "(若未生效,请重启终端应用)",
+      "{{ if($_psc.root_cmd -in $del_list){(\"`n(\" + $_psc.root_cmd + '为PSCompletions模块别名,只能修改,不能移除)')} }}"
     ],
     "alias_rm_err": "不存在别名({{$error_list -join ','}})",
     "alias_reset_confirm": "确定要删除所有补全别名？\n{{$_psc.json.confirm}}",
     "alias_reset_done": [
       "重置为默认补全命令,删除所有补全别名\n",
       "{{$_psc.json.alias_del}}\n",
-      "请重启终端应用更改\n",
-      "{{if('psc(PSCompletions) -in $del_list'){('(psc为PSCompletions模块默认别名,只能修改,不能移除)')} }}"
+      "(若未生效,请重启终端应用)",
+      "{{ if($_psc.root_cmd -in $del_list){(\"`n(\" + $_psc.root_cmd + '为PSCompletions模块别名,只能修改,不能移除)')} }}"
     ],
     "config_done": "PSCompletions的配置({{$arg[1]}})成功设置为{{$arg[2]}}！(如果未生效,重启终端即可)",
     "config_err": [
