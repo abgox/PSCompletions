@@ -1,5 +1,5 @@
 New-Variable -Name _psc -Value @{}  -Option Constant
-$_psc.version = '2.2.4'
+$_psc.version = '2.2.5'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -92,6 +92,7 @@ $_psc | Add-Member -MemberType ScriptMethod fn_download_list {
                 if ($old_list -ne $list) {
                     Copy-Item $_psc.path.list $_psc.path.old_list -Force
                 }
+                if (!$list) { $list = '' }
                 if ($content -ne $list.Trim()) {
                     $content | Out-File $_psc.path.list -Force -Encoding utf8
                     $_psc.list = $_psc.fn_get_content($_psc.path.list)
