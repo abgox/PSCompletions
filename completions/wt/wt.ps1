@@ -6,8 +6,15 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wt -ScriptBlock {
     #region : Store
     $root_cmd = $_psc.comp_cmd.wt
     $_i = 9999
+
+    if ($_psc.jobs.State -eq 'Completed') {
+        $_psc.comp_data = Receive-Job $_psc.jobs
+    }
+    try { Remove-Job $_psc.jobs }catch {}
+
     if (!$_psc.comp_data.$root_cmd) {
-        $_psc.comp_data.$root_cmd = [ordered]@{}
+        $_psc.comp_data.$root_cmd = @{}
+
         $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
 
         $_psc.comp_data.$($root_cmd + '_info') = @{
@@ -26,14 +33,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wt -ScriptBlock {
             $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
         }
     }
-    else {
-        if ($_psc.jobs.State -eq 'Completed') {
-            $_psc.comp_data = Receive-Job $_psc.jobs
-        }
-        try { Remove-Job $_psc.jobs }catch {}
-    }
 
-    $completions = $_psc.comp_data.$root_cmd
+    $completions = $_psc.comp_data.$root_cmd.Clone()
     $_info = $_psc.comp_data.$($root_cmd + '_info').core_info
     $need_skip = @('-p', '-d', '-h', '-v')
     #endregion

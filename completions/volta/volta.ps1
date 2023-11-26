@@ -6,8 +6,15 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.volta -ScriptBlock {
     #region : Store
     $root_cmd = $_psc.comp_cmd.volta
     $_i = 9999
+
+    if ($_psc.jobs.State -eq 'Completed') {
+        $_psc.comp_data = Receive-Job $_psc.jobs
+    }
+    try { Remove-Job $_psc.jobs }catch {}
+
     if (!$_psc.comp_data.$root_cmd) {
-        $_psc.comp_data.$root_cmd = [ordered]@{}
+        $_psc.comp_data.$root_cmd = @{}
+
         $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
 
         $_psc.comp_data.$($root_cmd + '_info') = @{
@@ -28,12 +35,6 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.volta -ScriptBlock {
             $_psc.comp_data.$root_cmd[$root_cmd + ' help ' + $cmd[0] ] = @($cmd[0], ($json.volta_core_info.help + ' --- ' + $cmd[0]), $_o)
 
         }
-    }
-    else {
-        if ($_psc.jobs.State -eq 'Completed') {
-            $_psc.comp_data = Receive-Job $_psc.jobs
-        }
-        try { Remove-Job $_psc.jobs }catch {}
     }
 
     $completions = $_psc.comp_data.$root_cmd

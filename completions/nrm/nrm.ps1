@@ -6,16 +6,22 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.nrm -ScriptBlock {
     #region : Store
     $root_cmd = $_psc.comp_cmd.nrm
     $_i = 9999
+
+    if ($_psc.jobs.State -eq 'Completed') {
+        $_psc.comp_data = Receive-Job $_psc.jobs
+    }
+    try { Remove-Job $_psc.jobs }catch {}
+
     if (!$_psc.comp_data.$root_cmd) {
-        $_psc.comp_data.$root_cmd = [ordered]@{}
+        $_psc.comp_data.$root_cmd = @{}
+
+        $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
 
         $_psc.comp_data.$($root_cmd + '_info') = @{
             core_info = $json.nrm_core_info
             exclude   = @('nrm_core_info')
             num       = -1
         }
-
-        $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
 
         $order = $_psc.fn_get_order($PSScriptRoot, $_psc.comp_data.$($root_cmd + '_info').exclude)
 
@@ -25,14 +31,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.nrm -ScriptBlock {
             $cmd = $_ -split ' '
             $_o = if ($order.$_) { $order.$_ }else { $_i++ }
             $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
-            $_psc.comp_data.$root_cmd[$root_cmd + ' help ' + $_[0]] = @($cmd[0], ($json.nrm_core_info.help + ' --- ' + $cmd[0]), $_o)
         }
-    }
-    else {
-        if ($_psc.jobs.State -eq 'Completed') {
-            $_psc.comp_data = Receive-Job $_psc.jobs
-        }
-        try { Remove-Job $_psc.jobs }catch {}
     }
 
     $completions = $_psc.comp_data.$root_cmd
