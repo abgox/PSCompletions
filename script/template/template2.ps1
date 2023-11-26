@@ -19,8 +19,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
 
         $_psc.comp_data.$($root_cmd + '_info') = @{
             core_info = $json.$template_comp_core_info
-            exclude = @('$template_comp_core_info')
-            num     = -1
+            exclude   = @('$template_comp_core_info')
+            num       = -1
         }
 
         $order = $_psc.fn_get_order($PSScriptRoot, $_psc.comp_data.$($root_cmd + '_info').exclude)
@@ -35,23 +35,61 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
     }
 
     $completions = $_psc.comp_data.$root_cmd.Clone()
-
-    $_info = $_psc.comp_data.$($root_cmd + '_info').core_info
+    $need_skip = @()
     #endregion
 
     #region : Special
     #endregion
 
     #region : Running
-    $input_arr = $commandAst.CommandElements
+    $input_str = $commandAst.CommandElements -join ' '
+    $input_arr = $input_str -split ' '
     $space_tab = if (!$wordToComplete.length) { 1 }else { 0 }
+
+    $flag = $input_arr[-1] -notin $need_skip -and $input_arr[-1] -like '-*'
+    if (!$space_tab -and $flag) {
+        $space_tab++
+        $complete = ' ' + $wordToComplete
+    }
+    else { $complete = '' }
+
+    function format_input([array]$input_arr, [array]$need_skip = @()) {
+        if ($input_arr.Count -eq 1) {
+            return $input_arr[0]
+        }
+        $res = @()
+        $skip = 0
+        for ($i = 0; $i -lt $input_arr.Count; $i++) {
+            if ($i -eq 1 -and $input_arr[$i] -in $need_skip) {
+                $res += $input_arr[$i]
+                continue
+            }
+            if ($skip -and ($i -ne $input_arr.Count - 1 -or $input_arr[$i] -notin $need_skip)) {
+                if ($input_arr[$i] -notlike '-*') { $skip = 0 }
+                continue
+            }
+            if ($input_arr[$i] -like '-*') {
+                if ($input_arr[$i] -in $need_skip -and $i -eq $input_arr.Count - 1) {
+                    $res += $input_arr[$i]
+                    return $res
+                }
+                else {
+                    $skip = 1
+                }
+            }
+            else { $res += $input_arr[$i] }
+        }
+        return $res
+    }
+
+    $input_arr = format_input $input_arr $need_skip
 
     $max_len = 0
     $display_count = 0
     $cmd_line = [System.Console]::WindowHeight - 5
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split ' '
-        $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like (($input_arr -join ' ') + '*')
+        $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
     }
 
     $filter_list = $filter_list | Sort-Object { $completions.$_[-1] }
@@ -64,6 +102,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
 
     $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
 
+    $json_info = $_psc.comp_data.$($root_cmd + '_info').core_info
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
             $display_count++
@@ -91,25 +130,52 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
             $_psc.comp_data.RemoveAt(0)
             $_psc.comp_data.RemoveAt(0)
         }
-
         try {
             $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
             $history = $history[-1] -split ' '
-            while ($history.Count -gt 1) {
+
+            function fn([array]$history) {
+                $_i = 0
+                $res = @()
+                $history | ForEach-Object {
+                    if ($_ -like '-*') {
+                        $res += $_i
+                    }
+                    $_i++
+                }
+                return $res[0]
+            }
+
+            $i = fn $history
+            if ($i) {
+                $prefix = $history[0..($i - 1)] -join ' '
+                $history[$i..($history.Count - 1)] | ForEach-Object {
+                    try {
+                        $_psc.comp_data.$cmd.$($prefix + ' ' + $_)[-1] = $_psc.comp_data.$($cmd + '_info').num--
+                    }
+                    catch {}
+                }
+                $base = $prefix -split ' '
+            }
+            else {
+                $base = $history
+            }
+
+            while ($base.Count -gt 1) {
                 try {
-                    $_psc.comp_data.$cmd.$($history -join ' ')[-1] = $_psc.comp_data.$($cmd + '_info').num--
+                    $_psc.comp_data.$cmd.$($base -join ' ')[-1] = $_psc.comp_data.$($cmd + '_info').num--
                 }
                 catch {}
-                $history = $history[0..($history.Count - 2)]
+                $base = $base[0..($base.Count - 2)]
             }
         }
         catch {}
 
-        $json_order = (Get-Content -Raw -Path  ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
+        $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
             $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1]
         }
         $path_order = $PSScriptRoots + '\order.json'
-        $order_old = (Get-Content -Raw -Path $path_order | ConvertFrom-Json).PSObject.Properties.Name
+        $order_old = (Get-Content -Raw -Path ($path_order) | ConvertFrom-Json).PSObject.Properties.Name
 
         if (($json_order -join ' ') -ne ($order_old -join ' ')) {
             $i = 1
@@ -119,7 +185,6 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
             }
             $order | ConvertTo-Json | Out-File $path_order -Force
         }
-
         return $_psc.comp_data
     }  -ArgumentList $_psc, $root_cmd, $PSScriptRoot, (Get-PSReadLineOption).HistorySavePath
     #endregion
