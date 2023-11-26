@@ -1,6 +1,5 @@
-. $PSScriptRoot\utils.ps1
-$_psc = @{}
-$_psc.version = '2.2.3'
+New-Variable -Name _psc -Value @{}  -Option Constant
+$_psc.version = '2.2.4'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -14,17 +13,14 @@ $_psc.comp_data = [ordered]@{}
 
 #region : Add function
 $_psc | Add-Member -MemberType ScriptMethod fn_replace {
-    param (
-        [array]$data
-    )
+    param ([array]$data)
     $data = $data -join ''
     $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
     $matches = [regex]::Matches($data, $pattern)
     foreach ($match in $matches) {
         $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value))
     }
-    if ($data -match $pattern) { $_psc.fn_replace($data) }
-    else { return $data }
+    if ($data -match $pattern) { $_psc.fn_replace($data) }else { return $data }
 }
 $_psc | Add-Member -MemberType ScriptMethod fn_get_order {
     param (
@@ -35,7 +31,7 @@ $_psc | Add-Member -MemberType ScriptMethod fn_get_order {
     $path_order = $PSScriptRoots + '\' + $file
 
     if (!(Test-Path($path_order))) {
-        $json = Get-Content -Raw -Path  ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+        $json = Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
         $i = 1
         $res = [ordered]@{}
         $json.PSObject.Properties.Name | Where-Object {
@@ -48,10 +44,7 @@ $_psc | Add-Member -MemberType ScriptMethod fn_get_order {
     return (Get-Content -Raw $path_order -Encoding utf8 | ConvertFrom-Json)
 }
 $_psc | Add-Member -MemberType ScriptMethod fn_get_config {
-    param (
-        [string]$var = "abgox_PSCompletions"
-    )
-    $c = [environment]::GetEnvironmentvariable($var, "User") -split ';'
+    $c = [environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User') -split ';'
     return @{
         module_version = $c[0]
         root_cmd       = $c[1]
@@ -65,45 +58,49 @@ $_psc | Add-Member -MemberType ScriptMethod fn_get_config {
 $_psc | Add-Member -MemberType ScriptMethod fn_set_config {
     param (
         [string]$k,
-        [string]$v,
-        [string]$var = "abgox_PSCompletions"
+        [string]$v
     )
     $c = $_psc.fn_get_config()
     $c.$k = $v
     $res = @($c.module_version, $c.root_cmd, $c.github, $c.gitee, $c.language, $c.update, $c.LRU) -join ';'
-    [environment]::SetEnvironmentvariable($var, $res, 'User')
+    [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
 }
 $_psc | Add-Member -MemberType ScriptMethod fn_get_content {
-    param (
-        [string]$path
-    )
+    param ([string]$path)
     return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
 }
 $_psc | Add-Member -MemberType ScriptMethod fn_confirm {
     param (
         [string]$tip,
-        [scriptblock]$confirm_event
-
+        [scriptblock]$confirm_event,
+        [string]$tip_color = 'Yellow',
+        [string]$cancel_color = 'Green'
     )
-    Write-Host (_psc_replace $tip) -f Yellow
-    $choice = $host.UI.RawUI.ReadKey("NoEcho, IncludeKeyDown")
+    Write-Host $_psc.fn_replace($tip) -f $tip_color
+    $choice = $host.UI.RawUI.ReadKey('NoEcho, IncludeKeyDown')
     if ($choice.Character -eq 13) { & $confirm_event }
-    else { Write-Host (_psc_replace $_psc.json.cancel) -f Green }
+    else { Write-Host $_psc.fn_replace($_psc.json.cancel) -f $cancel_color }
 }
 $_psc | Add-Member -MemberType ScriptMethod fn_download_list {
     try {
         if ($_psc.url) {
             $res = Invoke-WebRequest -Uri ($_psc.url + '/list.txt')
             if ($res.StatusCode -eq 200) {
-                $content = ($res.Content).Trim()
-                Move-Item  $_psc.path.list $_psc.path.old_list -Force
-                $content | Out-File $_psc.path.list -Force -Encoding utf8
-                $_psc.list = _psc_get_content $_psc.path.list
-                return $true
+                $content = $res.Content.Trim()
+                $old_list = Get-Content $_psc.path.old_list -Raw -Encoding utf8
+                $list = Get-Content $_psc.path.list -Raw -Encoding utf8
+                if ($old_list -ne $list) {
+                    Copy-Item $_psc.path.list $_psc.path.old_list -Force
+                }
+                if ($content -ne $list.Trim()) {
+                    $content | Out-File $_psc.path.list -Force -Encoding utf8
+                    $_psc.list = $_psc.fn_get_content($_psc.path.list)
+                }
+                return $content
             }
         }
         else {
-            Write-Host (_psc_replace $_psc.json.repo_add) -f Red
+            Write-Host $_psc.fn_replace($_psc.json.repo_add) -f Red
             return $false
         }
     }
@@ -111,9 +108,9 @@ $_psc | Add-Member -MemberType ScriptMethod fn_download_list {
 }
 $_psc | Add-Member -MemberType ScriptMethod fn_add_completion {
     param (
-        $completion,
-        $log = $true,
-        $is_update = $false
+        [string]$completion,
+        [bool]$log = $true,
+        [bool]$is_update = $false
     )
     if ($is_update) {
         $err = $_psc.json.update_download_err
@@ -125,7 +122,7 @@ $_psc | Add-Member -MemberType ScriptMethod fn_add_completion {
     }
     $url = $_psc.url + '/completions/' + $completion
     function _mkdir($path) {
-        if (!(Test-Path($path))) { mkdir $path > $null }
+        if (!(Test-Path($path))) { New-Item -ItemType Directory $path > $null }
     }
     $completion_dir = $_psc.path.completions + '\' + $completion
     _mkdir $_psc.path.completions
@@ -146,7 +143,7 @@ $_psc | Add-Member -MemberType ScriptMethod fn_add_completion {
             OutFile = $completion_dir + '\json\en-US.json'
         },
         @{
-            Uri     = $url + "/.guid"
+            Uri     = $url + '/.guid'
             OutFile = $completion_dir + '\.guid'
         }
     )
@@ -160,8 +157,8 @@ $_psc | Add-Member -MemberType ScriptMethod fn_add_completion {
     }
     $flag = if ($is_update) { $_psc.json.updating }else { $_psc.json.adding }
 
-    Write-Host (_psc_replace $flag) -f Yellow
-    Write-Host (_psc_replace $_psc.json.repo_using) -f Cyan
+    Write-Host $_psc.fn_replace($flag) -f Yellow
+    Write-Host $_psc.fn_replace($_psc.json.repo_using) -f Cyan
     Wait-Job -Job $jobs > $null
 
     $all_exist = $true
@@ -174,42 +171,83 @@ $_psc | Add-Member -MemberType ScriptMethod fn_add_completion {
     }
     if ($all_exist) {
         if ($log) {
-            Write-Host  (_psc_replace $done) -f Green
-            Write-Host (_psc_replace ($_psc.json.download_dir + $completion_dir)) -f Green
+            Write-Host  $_psc.fn_replace($done) -f Green
+            Write-Host $_psc.fn_replace($_psc.json.download_dir + $completion_dir) -f Green
         }
     }
     else {
-        Write-Host  (_psc_replace $err) -f Red
+        Write-Host  $_psc.fn_replace($err) -f Red
         Remove-Item $completion_dir -Force -Recurse > $null
     }
 }
-$_psc | Add-Member -MemberType ScriptMethod fn_less_table {
+$_psc | Add-Member -MemberType ScriptMethod fn_less {
     param (
         $str_list,
-        $header,
-        $do = {},
-        $show_line
+        [string]$color = 'Green',
+        [int]$show_line = [System.Console]::WindowHeight - 5
     )
-    if ($header) {
-        $str_list = @(
-            @{
-                content = "`n{0,-$($header[2] + 3)} {1}" -f $header[0], $header[1]
-                color   = 'Cyan'
-            },
-            @{
-                content = "{0,-$($header[2] + 3)} {1}" -f ('-' * $header[0].Length), ('-' * $header[1].Length)
-                color   = 'Cyan'
-            }
-        ) + $str_list
+    if ($str_list -is [string]) {
+        $str_list = $str_list -split "`n"
     }
     $i = 0
     $need_less = [System.Console]::WindowHeight -lt ($str_list.Count + 2)
     if ($need_less) {
-        $init_line = if ($show_line) { $show_line }else { [System.Console]::WindowHeight - 5 }
-        $lines = $str_list.Count - $init_line
-        Write-Host (_psc_replace $_psc.json.less_tip) -f Cyan
+        $lines = $str_list.Count - $show_line
+        Write-Host $_psc.fn_replace($_psc.json.less_tip) -f Cyan
+        Write-Host '--------------------' -f Yellow
+        while ($i -lt $str_list.Count -and $i -lt $show_line) {
+            Write-Host $str_list[$i] -f $color
+            $i++
+        }
+        while ($i -lt $str_list.Count) {
+            $keyCode = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').VirtualKeyCode
+            if ($keyCode -ne 13) {
+                break
+            }
+            Write-Host $str_list[$i] -f $color
+            $i++
+        }
+        $end = if ($i -lt $str_list.Count) { $false }else { $true }
+        if ($end) {
+            Write-Host ' '
+            Write-Host '(End)' -f Black -b White -NoNewline
+            while ($end) {
+                $keyCode = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').VirtualKeyCode
+                if ($keyCode -ne 13) {
+                    Write-Host ' '
+                    break
+                }
+            }
+        }
+    }
+    else {
+        $str_list | ForEach-Object { Write-Host $_ -f $color }
+    }
+}
+$_psc | Add-Member -MemberType ScriptMethod fn_less_table {
+    param (
+        [array]$str_list,
+        [array]$header = @('key', 'value', 5),
+        [scriptblock]$do = {},
+        [int]$show_line = [System.Console]::WindowHeight - 5
+    )
+    $str_list = @(
+        @{
+            content = "`n{0,-$($header[2] + 3)} {1}" -f $header[0], $header[1]
+            color   = 'Cyan'
+        },
+        @{
+            content = "{0,-$($header[2] + 3)} {1}" -f ('-' * $header[0].Length), ('-' * $header[1].Length)
+            color   = 'Cyan'
+        }
+    ) + $str_list
+    $i = 0
+    $need_less = [System.Console]::WindowHeight -lt ($str_list.Count + 2)
+    if ($need_less) {
+        $lines = $str_list.Count - $show_line
+        Write-Host $_psc.fn_replace($_psc.json.less_tip) -f Cyan
         & $do
-        while ($i -lt $init_line -and $i -lt $str_list.Count) {
+        while ($i -lt $str_list.Count -and $i -lt $show_line) {
             if ($str_list[$i].bgColor) {
                 Write-Host $str_list[$i].content -f $str_list[$i].color -b $str_list[$i].bgColor
             }
@@ -219,7 +257,7 @@ $_psc | Add-Member -MemberType ScriptMethod fn_less_table {
             $i++
         }
         while ($i -lt $str_list.Count) {
-            $keyCode = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
+            $keyCode = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').VirtualKeyCode
             if ($keyCode -ne 13) {
                 break
             }
@@ -232,10 +270,13 @@ $_psc | Add-Member -MemberType ScriptMethod fn_less_table {
         $end = if ($i -lt $str_list.Count) { $false }else { $true }
         if ($end) {
             Write-Host ' '
-            Write-Host "(End)" -f Black -b White -NoNewline
+            Write-Host '(End)' -f Black -b White -NoNewline
             while ($end) {
-                $keyCode = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
-                if ($keyCode -ne 13) { break }
+                $keyCode = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').VirtualKeyCode
+                if ($keyCode -ne 13) {
+                    Write-Host ' '
+                    break
+                }
             }
         }
     }
@@ -251,7 +292,6 @@ $_psc | Add-Member -MemberType ScriptMethod fn_less_table {
         }
     }
 }
-
 #endregion
 
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
@@ -260,7 +300,7 @@ if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
 if (!(Test-Path($_psc.path.completions))) {
     mkdir $_psc.path.completions > $null
 }
-if (!(Test-Path($_psc.path.list)) -or ([environment]::GetEnvironmentvariable("abgox_PSCompletions", "User") -split ';')[0] -ne $_psc.version) {
+if (!(Test-Path($_psc.path.list)) -or ([environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User') -split ';')[0] -ne $_psc.version) {
     #region move old completions
     $version = (Get-ChildItem (Split-Path $_psc.path.root -Parent)).Name | Sort-Object { [Version] $_ } -ErrorAction SilentlyContinue
     if ($version -is [array]) { $version = $version[-2] }
@@ -276,7 +316,7 @@ if (!(Test-Path($_psc.path.list)) -or ([environment]::GetEnvironmentvariable("ab
         $gitee = $config.gitee
         $language = $config.language
         $update = if ($config.update -eq 0) { 0 } else { 1 }
-        $LRU = if ($config.LRU) { $config.LRU } else { 5 }
+        $LRU = $config.LRU
     }
     else {
         $root_cmd = 'psc'
@@ -292,7 +332,7 @@ if (!(Test-Path($_psc.path.list)) -or ([environment]::GetEnvironmentvariable("ab
     $_psc.init = $true
 }
 
-function PSCompletions_init() {
+$_psc | Add-Member -MemberType ScriptMethod fn_init {
     $_psc.comp_cmd = [ordered]@{}
     $_psc.config = $_psc.fn_get_config()
     $_psc.root_cmd = $_psc.config.root_cmd
@@ -329,8 +369,9 @@ function PSCompletions_init() {
         if (!(Test-Path($psc_json_path))) {
             $psc_temp = $env:TEMP + '\PSCompletion.json'
             Invoke-WebRequest -Uri ($_psc.url + '/completions/PSCompletions/json/' + $_psc.lang + '.json') -OutFile $psc_temp
-            $_psc.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
+            $_psc.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
             $_psc.fn_add_completion('PSCompletions')
+            Remove-Item -Force $psc_temp -ErrorAction SilentlyContinue
         }
         if (!(Test-Path($psc_alias_path))) {
             $_psc.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
@@ -346,93 +387,212 @@ function PSCompletions_init() {
         }
         if (!(Test-Path($_psc.path.list))) {
             New-Item $_psc.path.list > $null
-            if (!($_psc.fn_download_list())) { return }
+            if (!($_psc.fn_download_list())) { throw }
         }
         if (!(Test-Path($_psc.path.old_list))) {
-            Copy-Item $_psc.path.list $_psc.path.old_list -Force -ErrorAction SilentlyContinue
+            Copy-Item $_psc.path.list $_psc.path.old_list -Force
         }
         $_psc.list = $_psc.fn_get_content($_psc.path.list)
         $_psc.update = $_psc.fn_get_content($_psc.path.update)
     }
-    catch { throw (_psc_replace $_psc.json.init_err) }
+    catch { throw $_psc.fn_replace($_psc.json.init_err) }
 
     $res = [System.Collections.Generic.List[string]]@()
-    $_psc.installed = Get-ChildItem -Path $_psc.path.completions -Filter "*.ps1" -Recurse -Depth 1 | Sort-Object CreationTime
+    $_psc.installed = Get-ChildItem -Path $_psc.path.completions -Filter '*.ps1' -Recurse -Depth 1 | Sort-Object CreationTime
     $_psc.installed | ForEach-Object {
         $cmd = Split-Path (Split-Path $_.FullName -Parent) -Leaf
         $_psc.comp_cmd.$cmd = $cmd
         $res.Add($_.FullName)
     }
-    Get-ChildItem -Path $_psc.path.completions -Filter ".alias" -Recurse -Depth 1 | ForEach-Object {
+    Get-ChildItem -Path $_psc.path.completions -Filter '.alias' -Recurse -Depth 1 | ForEach-Object {
         $cmd = Split-Path (Split-Path $_.FullName -Parent)  -Leaf
         $_psc.comp_cmd.$cmd = (Get-Content $_.FullName -Raw).Trim()
     }
     $res | ForEach-Object { . $_ }
 }
 
-PSCompletions_init
+$_psc.fn_init()
 
 $_psc.comp_cmd.keys | Where-Object { $_psc.comp_cmd.$_ -ne $_ } | ForEach-Object { Set-Alias $_psc.comp_cmd.$_ $_ }
 
 if (!$_psc.config.github -and !$_psc.config.gitee) {
-    Write-Host (_psc_replace $_psc.json.repo_err) -f Yellow
+    Write-Host $_psc.fn_replace($_psc.json.repo_err) -f Yellow
 }
 
 #region init and update
-if ($_psc.init) { Write-Host (_psc_replace $_psc.json.init_info) -f DarkCyan }
+if ($_psc.init) { $_psc.fn_less($_psc.fn_replace($_psc.json.init_info), 'Cyan') }
 
 if ($_psc.config.update -ne 0) {
     if ($_psc.config.update -ne 1) {
         $_psc.fn_confirm($_psc.json.module_update, {
                 try {
-                    Write-Host (_psc_replace $_psc.json.module_updating) -f Cyan
+                    Write-Host $_psc.fn_replace($_psc.json.module_updating) -f Cyan
                     Update-Module PSCompletions
                     $version_list = (Get-ChildItem (Split-Path $_psc.path.root -Parent)).BaseName
                     if ($_psc.config.update -in $version_list) {
-                        Write-Host (_psc_replace $_psc.json.module_update_done) -f Green
+                        Write-Host $_psc.fn_replace($_psc.json.module_update_done) -f Green
                     }
                     else {
-                        Write-Host (_psc_replace $_psc.json.module_update_err) -f Red
+                        Write-Host $_psc.fn_replace($_psc.json.module_update_err) -f Red
                     }
                 }
                 catch {
-                    Write-Host (_psc_replace $_psc.json.module_update_err) -f Red
+                    Write-Host $_psc.fn_replace($_psc.json.module_update_err) -f Red
                 }
             })
     }
     else {
         $add = $_psc.fn_get_content($_psc.path.core + '\.add')
         if ($_psc.update -or $add) {
-            Write-Host (_psc_replace $_psc.json.update_info ) -f Cyan
+            Write-Host $_psc.fn_replace($_psc.json.update_info ) -f Cyan
             if ($add) {
-                Write-Host (_psc_replace $_psc.json.update_info_add) -f Cyan
+                Write-Host $_psc.fn_replace($_psc.json.update_info_add) -f Cyan
+                Clear-Content ($_psc.path.core + '\.add')
             }
             if ($_psc.update) {
-                Write-Host (_psc_replace $_psc.json.update_info_modify) -f Cyan
+                Write-Host $_psc.fn_replace($_psc.json.update_info_modify) -f Cyan
+                Clear-Content $_psc.path.update
             }
-            Write-Host (_psc_replace $_psc.json.update_tip) -f Cyan
+            Write-Host $_psc.fn_replace($_psc.json.update_tip) -f Cyan
         }
     }
 }
 #endregion
 
+$_psc.jobs = Start-Job -ScriptBlock {
+    param( $_psc, $path_history )
+    function get_content([string]$path) {
+        return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
+    }
+    function get_order {
+        param (
+            [string]$PSScriptRoots,
+            [array]$exclude = @(),
+            [string]$file = 'order.json'
+        )
+        $path_order = $PSScriptRoots + '\' + $file
+
+        if (!(Test-Path($path_order))) {
+            $json = Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+            $i = 1
+            $res = [ordered]@{}
+            $json.PSObject.Properties.Name | Where-Object {
+                $_ -notin $exclude
+            } | ForEach-Object {
+                $res.$_ = $i++
+            }
+            $res | ConvertTo-Json | Out-File $path_order -Force
+        }
+        return (Get-Content -Raw $path_order -Encoding utf8 | ConvertFrom-Json)
+    }
+
+    $alias_list = $_psc.comp_cmd.Keys | ForEach-Object { $_psc.comp_cmd.$_ }
+    $history = [System.Collections.Generic.List[string]]@()
+
+    [array](get_content $path_history) | ForEach-Object {
+        $cmd = ($_ -split '\s+')[0]
+        if ($cmd -in $alias_list) {
+            if ($cmd -in $history) {
+                $null = $history.Remove($cmd)
+            }
+            $null = $history.Add($cmd)
+        }
+    }
+    $cache = @()
+    $history | ForEach-Object {
+        if ($_ -notin $cache) { $cache += $_ }
+    }
+    $cmd_list = @{}
+    $_psc.comp_cmd.Keys | ForEach-Object {
+        $alias = $_psc.comp_cmd.$_
+        $cmd_list.$alias = $_
+    }
+
+    $cache[ - ([int]$_psc.config.LRU)..-1] | ForEach-Object {
+        $cmd_list.$_
+    } | ForEach-Object {
+        $alias = $_psc.comp_cmd.$_
+        $_psc.comp_data.$alias = @{}
+        $json = Get-Content -Raw -Path  "$($_psc.path.completions)\$($_)\json\$($_psc.lang).json" -Encoding UTF8 | ConvertFrom-Json
+
+        $info = $_ + '_core_info'
+        $_psc.comp_data.$($alias + '_info') = @{
+            core_info = $json.$info
+            exclude   = @($info)
+            num       = -1
+        }
+
+        $order = get_order ($_psc.path.completions + '\' + $_) $_psc.comp_data.$($alias + '_info').exclude
+
+        $json.PSObject.Properties.Name | Where-Object {
+            $_ -notin $_psc.comp_data.$($alias + '_info').exclude
+        } | ForEach-Object {
+            $cmd = $_ -split ' '
+            $_o = if ($order.$_) { $order.$_ }else { $_i++ }
+            $_psc.comp_data.$alias[$alias + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
+        }
+    }
+    return $_psc.comp_data
+} -ArgumentList $_psc, (Get-PSReadLineOption).HistorySavePath
+
 $null = Start-Job -ScriptBlock {
     param( $_psc )
-    function set_config($k, $v) {
-        $c = $_psc.config
+    function _do($do) { try { & $do }catch {} }
+    function _replace([array]$data) {
+        $data = $data -join ''
+        $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
+        $matches = [regex]::Matches($data, $pattern)
+        foreach ($match in $matches) {
+            $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value))
+        }
+        if ($data -match $pattern) { _replace $data }else { return $data }
+
+    }
+    function download_list() {
+        try {
+            if ($_psc.url) {
+                $res = Invoke-WebRequest -Uri ($_psc.url + '/list.txt')
+                if ($res.StatusCode -eq 200) {
+                    $content = $res.Content.Trim()
+                    $old_list = Get-Content $_psc.path.old_list -Raw -Encoding utf8
+                    $list = Get-Content $_psc.path.list -Raw -Encoding utf8
+                    if ($old_list -ne $list) {
+                        Copy-Item $_psc.path.list $_psc.path.old_list -Force
+                    }
+                    if ($content -ne $list.Trim()) {
+                        $content | Out-File $_psc.path.list -Force -Encoding utf8
+                    }
+                    return $content
+                }
+            }
+            else {
+                return $false
+            }
+        }
+        catch { return $false }
+    }
+    function get_config() {
+        $c = [environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User') -split ';'
+        return @{
+            module_version = $c[0]
+            root_cmd       = $c[1]
+            github         = $c[2]
+            gitee          = $c[3]
+            language       = $c[4]
+            update         = $c[5]
+            LRU            = $c[6]
+        }
+    }
+    function set_config([string]$k, [string]$v) {
+        $c = get_config
         $c.$k = $v
         $res = @($c.module_version, $c.root_cmd, $c.github, $c.gitee, $c.language, $c.update, $c.LRU) -join ';'
         [environment]::SetEnvironmentvariable('abgox_PSCompletions', $res, 'User')
     }
-    function get_content($path) {
-        return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue)
-    }
-
-    function _do($do) { try { & $do }catch {} }
     _do {
         $response = Invoke-WebRequest -Uri ($_psc.url + '/module/.version')
         if ($response.StatusCode -eq 200) {
-            $content = ($response.Content).Trim()
+            $content = $response.Content.Trim()
             $versions = @($_psc.version, $content) | Sort-Object { [Version] $_ }
             if ($versions[-1] -ne $_psc.version) {
                 $res = Invoke-WebRequest -Uri ($_psc.url + '/module/log.json')
@@ -444,26 +604,42 @@ $null = Start-Job -ScriptBlock {
         }
     }
 
-    (Compare-Object -ReferenceObject (get_content $_psc.path.list) -DifferenceObject (get_content $_psc.path.old_list) -PassThru) | Out-File ($_psc.path.core + '\.add') -Force -Encoding utf8
-
-    _do {
-        $response = Invoke-WebRequest -Uri ($_psc.url + '/list.txt')
-        if ($response.StatusCode -eq 200) {
-            Move-Item  $_psc.path.list  $_psc.path.old_list -Force
-            $response.Content | Out-File $_psc.path.list -Force -Encoding utf8
-        }
+    $old_list = Get-Content $_psc.path.old_list -Encoding utf8
+    $new_list = Get-Content $_psc.path.list -Encoding utf8
+    $diff = Compare-Object $new_list $old_list -PassThru
+    if ($diff) {
+        $diff | Out-File ($_psc.path.core + '\.add') -Force -Encoding utf8
     }
 
+    download_list
+
     $update_list = [System.Collections.Generic.List[string]]@()
-    $installed = (Get-ChildItem -Path $_psc.path.completions -Filter "*.ps1" -Recurse -Depth 1).BaseName | Where-Object { $_ -in $_psc.list }
-    foreach ($_ in $installed) {
+    $installed = (Get-ChildItem -Path $_psc.path.completions -Filter '*.ps1' -Recurse -Depth 1).BaseName | Where-Object { $_ -in $_psc.list }
+
+    $installed | ForEach-Object {
         $url = $_psc.url + '/completions/' + $_ + '/.guid'
         $response = Invoke-WebRequest -Uri  $url
         if ($response.StatusCode -eq 200) {
-            $content = ($response.Content).Trim()
+            $content = $response.Content.Trim()
             $guid = (Get-Content ($_psc.path.completions + '\' + $_ + '\.guid') -Raw).Trim()
             if ($guid -ne $content) { $update_list.Add($_) }
         }
     }
-    $update_list | Out-File $_psc.path.update -Force -Encoding utf8
+    $old_update_list = Get-Content $_psc.path.update -Encoding utf8
+
+    if ($old_update_list) {
+        if ($update_list) {
+            $is_write = Compare-Object $update_list $old_update_list -PassThru
+        }
+        else {
+            $is_write = $true
+        }
+    }
+    elseif ($update_list) {
+        $is_write = $true
+    }
+
+    if ($is_write) {
+        $update_list | Out-File $_psc.path.update -Force -Encoding utf8
+    }
 } -ArgumentList $_psc

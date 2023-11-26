@@ -1,11 +1,20 @@
-. $PSScriptRoot\core\replace.ps1
 function PSCompletions {
     $arg = $args
-    function param_error {
-        $res = if ($args[0] -eq 'min') { $_psc.json.param_min }
-        elseif ($args[0] -eq 'max') { $_psc.json.param_max }
+    function _replace($data) {
+        $data = $data -join ''
+        $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
+        $matches = [regex]::Matches($data, $pattern)
+        foreach ($match in $matches) {
+            $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value))
+        }
+        if ($data -match $pattern) { _replace $data }
+        else { return $data }
+    }
+    function param_error($flag,$cmd) {
+        $res = if ($flag -eq 'min') { $_psc.json.param_min }
+        elseif ($flag -eq 'max') { $_psc.json.param_max }
         else { $_psc.json.param_err }
-        Write-Host (_psc_replace ($res + "`n" + $_psc.json.example.($args[1])) ) -f Red
+        Write-Host (_replace ($res + "`n" + $_psc.json.example.$cmd) ) -f Red
     }
     function _list {
         if ($arg.Length -gt 2) {
@@ -18,7 +27,7 @@ function PSCompletions {
         }
         $data = [System.Collections.Generic.List[System.Object]]@()
         if ($arg[1] -eq '--remote') {
-            if (!($_psc.fn_download_list())) { throw 'Please check your network!' }
+            if (!($_psc.fn_download_list())) { throw (_replace $_psc.json.error) }
             $max_len = ($_psc.list  | Measure-Object -Maximum Length).Maximum
             $_psc.list | ForEach-Object {
                 $status = if ($_psc.comp_cmd.$_) { $_psc.json.list_add_done }else { $_psc.json.list_add }
@@ -28,7 +37,7 @@ function PSCompletions {
                     })
             }
             $_psc.fn_less_table($data, ('Completion', 'Status', $max_len), {
-                    Write-Host (_psc_replace $_psc.json.list_add_tip) -f Yellow
+                    Write-Host (_replace $_psc.json.list_add_tip) -f Yellow
                 })
         }
         else {
@@ -55,7 +64,7 @@ function PSCompletions {
                 $_psc.fn_add_completion($_)
             }
             else {
-                Write-Host (_psc_replace $_psc.json.add_error) -f Red
+                Write-Host (_replace $_psc.json.add_error) -f Red
             }
         }
     }
@@ -70,10 +79,10 @@ function PSCompletions {
                 $dir = $PSScriptRoot + '\completions\' + $_
                 Remove-Item $dir -Recurse -Force
                 if (!(Test-Path($dir))) {
-                    Write-Host (_psc_replace $_psc.json.remove_done) -f Green
+                    Write-Host (_replace $_psc.json.remove_done) -f Green
                 }
             }
-            else { Write-Host (_psc_replace $_psc.json.remove_err) -f Red }
+            else { Write-Host (_replace $_psc.json.remove_err) -f Red }
         }
     }
     function _Update {
@@ -96,16 +105,16 @@ function PSCompletions {
                     Write-Host '----------' -f Cyan
                 }
                 if ($update_list) {
-                    Write-Host (_psc_replace $_psc.json.update_info_can) -f Yellow
+                    Write-Host (_replace $_psc.json.update_info_can) -f Yellow
                     Write-Host $_psc.update -f Green
-                    Write-Host (_psc_replace $_psc.json.update_info_tip) -f Cyan
+                    Write-Host (_replace $_psc.json.update_info_tip) -f Cyan
                 }
                 else {
-                    Write-Host (_psc_replace $_psc.json.update_info_no) -f Green
+                    Write-Host (_replace $_psc.json.update_info_no) -f Green
                 }
             }
             catch {
-                Write-Host (_psc_replace $_psc.json.error) -f Red
+                Write-Host (_replace $_psc.json.error) -f Red
             }
 
         }
@@ -125,7 +134,7 @@ function PSCompletions {
                         $_psc.fn_add_completion($_, $true, $true)
                     }
                     else {
-                        Write-Host (_psc_replace $_psc.json.update_error) -f Red
+                        Write-Host (_replace $_psc.json.update_error) -f Red
                     }
                 }
             }
@@ -150,7 +159,7 @@ function PSCompletions {
                 })
         }
         $_psc.fn_less_table($result, '', {
-                Write-Host (_psc_replace $_psc.json.search) -f Yellow
+                Write-Host (_replace $_psc.json.search) -f Yellow
             })
     }
     function _Which {
@@ -164,7 +173,7 @@ function PSCompletions {
                 Write-Output ($_psc.path.completions + '\' + $_)
             }
             else {
-                Write-Host (_psc_replace $_psc.json.which_err) -f Red
+                Write-Host (_replace $_psc.json.which_err) -f Red
             }
         }
     }
@@ -175,7 +184,7 @@ function PSCompletions {
             return
         }
         if ($arg[1] -notin $cmd_list) {
-            Write-Host (_psc_replace $_psc.json.param_errs) -f Red
+            Write-Host (_replace $_psc.json.param_errs) -f Red
             return
         }
 
@@ -226,10 +235,10 @@ function PSCompletions {
                     return
                 }
                 $arg[3] | Out-File ($_psc.path.completions + '\' + $arg[2] + '\.alias') -Force -Encoding utf8
-                Write-Host (_psc_replace $_psc.json.alias_add_done) -f Green
+                Write-Host (_replace $_psc.json.alias_add_done) -f Green
             }
             else {
-                Write-Host (_psc_replace $_psc.json.alias_err) -f Red
+                Write-Host (_replace $_psc.json.alias_err) -f Red
             }
         }
         elseif ($arg[1] -eq 'rm') {
@@ -249,10 +258,10 @@ function PSCompletions {
                 else { $error_list.Add($_) }
             }
             if ($error_list) {
-                Write-Host (_psc_replace ($_psc.json.alias_rm_err)) -f Red
+                Write-Host (_replace ($_psc.json.alias_rm_err)) -f Red
             }
             if ($del_list) {
-                Write-Host (_psc_replace $_psc.json.alias_rm_done) -f Green
+                Write-Host (_replace $_psc.json.alias_rm_done) -f Green
             }
         }
         else {
@@ -265,7 +274,7 @@ function PSCompletions {
                     }
                     $_psc.fn_set_config('root_cmd', 'psc')
                     if ($del_list) {
-                        Write-Host (_psc_replace $_psc.json.alias_reset_done) -f Green
+                        Write-Host (_replace $_psc.json.alias_reset_done) -f Green
                     }
                 })
         }
@@ -294,10 +303,10 @@ function PSCompletions {
                             $LRU = 5
                             [environment]::SetEnvironmentvariable('abgox_PSCompletions', (@($_psc.version, $root_cmd, $github, $gitee, $language, $update, $LRU) -join ';'), 'User')
                         })
-                    Write-Host (_psc_replace $_psc.json.config_reset_done) -f Green
+                    Write-Host (_replace $_psc.json.config_reset_done) -f Green
                     return
                 }
-                Write-Host (_psc_replace $_psc.json.config_err) -f Red
+                Write-Host (_replace $_psc.json.config_err) -f Red
             }
         }
         else {
@@ -315,15 +324,15 @@ function PSCompletions {
                     $_psc.comp_data = [ordered]@{}
                 }
                 $_psc.fn_set_config($arg[1], $arg[2])
-                Write-Host (_psc_replace $_psc.json.config_done) -f Green
+                Write-Host (_replace $_psc.json.config_done) -f Green
             }
             else {
-                Write-Host (_psc_replace $_psc.json.config_err) -f Red
+                Write-Host (_replace $_psc.json.config_err) -f Red
             }
         }
     }
     function _Help {
-        Write-Host (_psc_replace $_psc.json.description) -f DarkCyan
+        Write-Host (_replace $_psc.json.description) -f DarkCyan
     }
 
     $need_init = $true
@@ -357,13 +366,13 @@ function PSCompletions {
         }
         default {
             if ($arg.Length -eq 1) {
-                Write-Host (_psc_replace $_psc.json.cmd_error) -f Red
+                Write-Host (_replace $_psc.json.cmd_error) -f Red
             }
             else { _Help }
             $need_init = $null
         }
     }
     if ($need_init) {
-        PSCompletions_init
+        $_psc.fn_init()
     }
 }
