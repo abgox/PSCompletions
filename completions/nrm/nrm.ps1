@@ -51,7 +51,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.nrm -ScriptBlock {
         $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like (($input_arr -join ' ') + '*')
     }
 
-    $filter_list = $filter_list | Sort-Object { $_psc.comp_data.$root_cmd.$_[-1] }
+    $filter_list = $filter_list | Sort-Object { $completions.$_[-1] }
 
     $filter_list | ForEach-Object {
         # $completions[$_][0] = $completions[$_][0].Replace('^up', ' ')
