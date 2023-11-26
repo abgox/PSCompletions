@@ -169,7 +169,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.npm -ScriptBlock {
         catch {}
 
         $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
-            $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1]
+            try { $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1] }catch { 99999 }
         }
         $path_order = $PSScriptRoots + '\order.json'
         $order_old = (Get-Content -Raw -Path ($path_order) | ConvertFrom-Json).PSObject.Properties.Name
