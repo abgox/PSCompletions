@@ -92,6 +92,7 @@
 |          [deno](/completions/deno)          |   deno - A secure runtime for JS and TS    |
 |        [docker](/completions/docker)        | docker - Container Application Development |
 |           [git](/completions/git)           |        Git - Version control system        |
+|       [kubectl](/completions/kubectl)       |     Kubernetes(k8s) command-line tool      |
 |           [npm](/completions/npm)           |           npm - package manager            |
 |           [nrm](/completions/nrm)           |         nrm - npm registry manager         |
 |           [nvm](/completions/nvm)           |         nvm - Node Version Manager         |

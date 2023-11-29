@@ -91,6 +91,7 @@
 |          [deno](/completions/deno)          |       deno - 安全的 JS 和 TS 运行时       |
 |        [docker](/completions/docker)        |           docker - 容器应用开发           |
 |           [git](/completions/git)           |            Git - 版本控制系统             |
+|       [kubectl](/completions/kubectl)       |        Kubernetes(k8s) 命令行工具         |
 |           [npm](/completions/npm)           |            npm - 软件包管理器             |
 |           [nrm](/completions/nrm)           |           nrm - npm 镜像源管理            |
 |           [nvm](/completions/nvm)           |           nvm - node 版本管理器           |
