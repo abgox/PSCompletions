@@ -1,5 +1,5 @@
 New-Variable -Name _psc -Value @{}  -Option Constant
-$_psc.version = '2.2.5'
+$_psc.version = '2.2.7'
 $_psc.path = @{}
 $_psc.path.root = Split-Path $PSScriptRoot -Parent
 $_psc.path.completions = $_psc.path.root + '\completions'
@@ -37,7 +37,8 @@ $_psc | Add-Member -MemberType ScriptMethod fn_get_order {
         $json.PSObject.Properties.Name | Where-Object {
             $_ -notin $exclude
         } | ForEach-Object {
-            $res.$_ = $i++
+            $res.$_ = $i
+            $i++
         }
         $res | ConvertTo-Json | Out-File $path_order -Force
     }
@@ -180,6 +181,116 @@ $_psc | Add-Member -MemberType ScriptMethod fn_add_completion {
         Write-Host  $_psc.fn_replace($err) -f Red
         Remove-Item $completion_dir -Force -Recurse > $null
     }
+}
+$_psc | Add-Member -MemberType ScriptMethod fn_cache {
+    param (
+        [string]$PSScriptRoots,
+        [array]$exclude = @((Split-Path $PSScriptRoots -Leaf) + '_core_info')
+    )
+    $root_cmd = $_psc.comp_cmd.$(Split-Path $PSScriptRoots -Leaf)
+    if ($_psc.jobs.State -eq 'Completed') {
+        $_psc.comp_data = Receive-Job $_psc.jobs
+    }
+    try { Remove-Job $_psc.jobs }catch {}
+
+    if (!$_psc.comp_data.$root_cmd) {
+        $_psc.comp_data.$root_cmd = @{}
+
+        $json = Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+
+        $_psc.comp_data.$($root_cmd + '_info') = @{
+            core_info = $json.$($exclude[0])
+            exclude   = $exclude
+            num       = -1
+        }
+
+        $order = $_psc.fn_get_order($PSScriptRoots, $_psc.comp_data.$($root_cmd + '_info').exclude)
+
+        $_i = 9999
+        $json.PSObject.Properties.Name | Where-Object {
+            $_ -notin $_psc.comp_data.$($root_cmd + '_info').exclude
+        } | ForEach-Object {
+            $cmd = $_ -split ' '
+            $_o = if ($order.$_) { $order.$_ }else { $_i++; $_i }
+            $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
+        }
+    }
+}
+$_psc | Add-Member -MemberType ScriptMethod fn_order_job {
+    param (
+        [string]$PSScriptRoots,
+        [string]$root_cmd
+    )
+    $_psc.jobs = Start-Job -ScriptBlock {
+        param(
+            $_psc,
+            $cmd,
+            $PSScriptRoots,
+            $path_history
+        )
+        # LRU
+        if ($_psc.comp_data.Count -gt [int]$_psc.config.LRU * 2) {
+            $_psc.comp_data.RemoveAt(0)
+            $_psc.comp_data.RemoveAt(0)
+        }
+        try {
+            $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
+            $history = $history[-1] -split ' '
+
+            function fn([array]$history) {
+                $_i = 0
+                $res = @()
+                $history | ForEach-Object {
+                    if ($_ -like '-*') {
+                        $res += $_i
+                    }
+                    $_i++
+                }
+                return $res[0]
+            }
+
+            $i = fn $history
+            if ($i) {
+                $prefix = $history[0..($i - 1)] -join ' '
+                $history[$i..($history.Count - 1)] | ForEach-Object {
+                    try {
+                        $_psc.comp_data.$cmd.$($prefix + ' ' + $_)[-1] = $_psc.comp_data.$($cmd + '_info').num--
+                    }
+                    catch {}
+                }
+                $base = $prefix -split ' '
+            }
+            else {
+                $base = $history
+            }
+
+            while ($base.Count -gt 1) {
+                try {
+                    $_psc.comp_data.$cmd.$($base -join ' ')[-1] = $_psc.comp_data.$($cmd + '_info').num--
+                }
+                catch {}
+                $base = $base[0..($base.Count - 2)]
+            }
+        }
+        catch {}
+
+        $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
+            try { $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1] }catch { 999999 }
+        }
+        $path_order = $PSScriptRoots + '\order.json'
+        $order_old = (Get-Content -Raw -Path ($path_order) | ConvertFrom-Json).PSObject.Properties.Name
+
+        if (($json_order -join ' ') -ne ($order_old -join ' ')) {
+            $i = 1
+            $order = [ordered]@{}
+            $json_order | ForEach-Object {
+                $order.$_ = $i
+                $i++
+            }
+            $order | ConvertTo-Json | Out-File $path_order -Force
+        }
+        return $_psc.comp_data
+    }  -ArgumentList $_psc, $root_cmd, $PSScriptRoots, (Get-PSReadLineOption).HistorySavePath
 }
 $_psc | Add-Member -MemberType ScriptMethod fn_less {
     param (
@@ -480,7 +591,8 @@ $_psc.jobs = Start-Job -ScriptBlock {
             $json.PSObject.Properties.Name | Where-Object {
                 $_ -notin $exclude
             } | ForEach-Object {
-                $res.$_ = $i++
+                $res.$_ = $i
+                $i++
             }
             $res | ConvertTo-Json | Out-File $path_order -Force
         }
@@ -529,7 +641,7 @@ $_psc.jobs = Start-Job -ScriptBlock {
             $_ -notin $_psc.comp_data.$($alias + '_info').exclude
         } | ForEach-Object {
             $cmd = $_ -split ' '
-            $_o = if ($order.$_) { $order.$_ }else { $_i++ }
+            $_o = if ($order.$_) { $order.$_ }else { $_i++; $_i }
             $_psc.comp_data.$alias[$alias + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
         }
     }
