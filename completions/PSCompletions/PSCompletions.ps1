@@ -5,34 +5,8 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
 
     #region : Store
     $root_cmd = $_psc.comp_cmd.PSCompletions
-    $_i = 9999
 
-    if ($_psc.jobs.State -eq 'Completed') {
-        $_psc.comp_data = Receive-Job $_psc.jobs
-    }
-    try { Remove-Job $_psc.jobs }catch {}
-
-    if (!$_psc.comp_data.$root_cmd) {
-        $_psc.comp_data.$root_cmd = @{}
-
-        $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-
-        $_psc.comp_data.$($root_cmd + '_info') = @{
-            # core_info = $json.PSCompletions_core_info
-            exclude = @('PSCompletions_core_info')
-            num     = -1
-        }
-
-        $order = $_psc.fn_get_order($PSScriptRoot, $_psc.comp_data.$($root_cmd + '_info').exclude)
-
-        $json.PSObject.Properties.Name | Where-Object {
-            $_ -notin $_psc.comp_data.$($root_cmd + '_info').exclude
-        } | ForEach-Object {
-            $cmd = $_ -split ' '
-            $_o = if ($order.$_) { $order.$_ }else { $_i++ }
-            $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
-        }
-    }
+    $_psc.fn_cache($PSScriptRoot, @('PSCompletions_core_info'))
 
     $completions = $_psc.comp_data.$root_cmd.Clone()
 
@@ -40,40 +14,42 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     #endregion
 
     #region : Special
-    $_psc.list | ForEach-Object {
-        if ($_ -notin $_psc.comp_cmd.keys) {
-            $tip = $_psc.fn_replace($_psc.json.add)
-            $completions[ $root_cmd + ' add ' + $_] = @($_, $tip, $_i++)
-        }
-    }
+    $_i = 99999
     if ($_psc.update) {
+        $_psc.list | ForEach-Object {
+            if ($_ -notin $_psc.comp_cmd.keys) {
+                $tip = $_psc.fn_replace($_psc.json.add)
+                $completions[ $root_cmd + ' add ' + $_] = @($_, $tip, $_i)
+                $_i++
+            }
+        }
         $_psc.update | ForEach-Object {
             $tip = $_psc.fn_replace($_psc.json.update)
-            $completions[ $root_cmd + ' update ' + $_] = @($_, $tip, $_i++)
+            $completions[ $root_cmd + ' update ' + $_] = @($_, $tip, $_i)
+            $_i++
         }
     }
-    else {
-        $completions.Remove($root_cmd + ' update *' )
-    }
+
     $_psc.comp_cmd.keys | ForEach-Object {
         $alias = $_psc.comp_cmd.$_
         $tip_rm = $_psc.fn_replace($_psc.json.remove)
         if ($_ -ne 'PSCompletions') {
-            $completions[$root_cmd + ' rm ' + $_] = @($_, $tip_rm, $_i++)
+            $completions[$root_cmd + ' rm ' + $_] = @($_, $tip_rm, $_i)
         }
 
         $tip_which = $_psc.fn_replace($_psc.json.which)
-        $completions[$root_cmd + ' which ' + $_] = @($_, $tip_which, $_i++)
+        $completions[$root_cmd + ' which ' + $_] = @($_, $tip_which, $_i)
 
         $tip_alias_add = $_psc.fn_replace($_psc.json.alias_add)
-        $completions[$root_cmd + ' alias add ' + $_] = @($_, $tip_alias_add, $_i++)
+        $completions[$root_cmd + ' alias add ' + $_] = @($_, $tip_alias_add, $_i)
 
         $default = $_ -eq $alias
         $default_psc = $_ -eq 'PSCompletions' -and $alias -eq 'psc'
         if (!($default -or $default_psc)) {
             $tip_alias_rm = $_psc.fn_replace($_psc.json.alias_rm)
-            $completions[$root_cmd + ' alias rm ' + $alias] = @($alias, $tip_alias_rm, $_i++)
+            $completions[$root_cmd + ' alias rm ' + $alias] = @($alias, $tip_alias_rm, $_i)
         }
+        $_i++
     }
     #endregion
 
@@ -113,49 +89,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.PSCompletions -ScriptBloc
     if ($display_count -eq 1) { ' ' }
     #endregion
 
-    #region : Back
-    $_psc.jobs = Start-Job -ScriptBlock {
-        param(
-            $_psc,
-            $cmd,
-            $PSScriptRoots,
-            $path_history
-        )
-        # LRU
-        if ($_psc.comp_data.Count -gt [int]$_psc.config.LRU * 2) {
-            $_psc.comp_data.RemoveAt(0)
-            $_psc.comp_data.RemoveAt(0)
-        }
-
-        try {
-            $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
-            $history = $history[-1] -split ' '
-            while ($history.Count -gt 1) {
-                try {
-                    $_psc.comp_data.$cmd.$($history -join ' ')[-1] = $_psc.comp_data.$($cmd + '_info').num--
-                }
-                catch {}
-                $history = $history[0..($history.Count - 2)]
-            }
-        }
-        catch {}
-
-        $json_order = (Get-Content -Raw -Path  ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
-            try { $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1] }catch { 99999 }
-        }
-        $path_order = $PSScriptRoots + '\order.json'
-        $order_old = (Get-Content -Raw -Path $path_order | ConvertFrom-Json).PSObject.Properties.Name
-
-        if (($json_order -join ' ') -ne ($order_old -join ' ')) {
-            $i = 1
-            $order = [ordered]@{}
-            $json_order | ForEach-Object {
-                $order.$_ = $i++
-            }
-            $order | ConvertTo-Json | Out-File $path_order -Force
-        }
-
-        return $_psc.comp_data
-    }  -ArgumentList $_psc, $root_cmd, $PSScriptRoot, (Get-PSReadLineOption).HistorySavePath
-    #endregion
+    $_psc.fn_order_job($PSScriptRoot, $root_cmd)
 }

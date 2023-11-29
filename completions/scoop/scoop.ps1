@@ -5,44 +5,18 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
 
     #region : Store
     $root_cmd = $_psc.comp_cmd.scoop
-    $_i = 9999
 
-    if ($_psc.jobs.State -eq 'Completed') {
-        $_psc.comp_data = Receive-Job $_psc.jobs
-    }
-    try { Remove-Job $_psc.jobs }catch {}
-
-    if (!$_psc.comp_data.$root_cmd) {
-        $_psc.comp_data.$root_cmd = @{}
-
-        $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-
-        $_psc.comp_data.$($root_cmd + '_info') = @{
-            core_info = $json.scoop_core_info
-            exclude   = @('scoop_core_info')
-            num       = -1
-        }
-
-        $order = $_psc.fn_get_order($PSScriptRoot, $_psc.comp_data.$($root_cmd + '_info').exclude)
-
-        $json.PSObject.Properties.Name | Where-Object {
-            $_ -notin $_psc.comp_data.$($root_cmd + '_info').exclude
-        } | ForEach-Object {
-            $cmd = $_ -split ' '
-            $_o = if ($order.$_) { $order.$_ }else { $_i++ }
-            $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
-
-            $_psc.comp_data.$root_cmd[$root_cmd + ' help ' + $cmd[0] ] = @($cmd[0], ($json.scoop_core_info.help + ' --- ' + $cmd[0]), $_o)
-
-        }
-    }
+    $_psc.fn_cache($PSScriptRoot)
 
     $completions = $_psc.comp_data.$root_cmd.Clone()
+
     $_info = $_psc.comp_data.$($root_cmd + '_info').core_info
+
     $need_skip = @('-a', '-v', '--version')
     #endregion
 
     #region : Special
+    $_i = 99999
     $symbol = $json_info.symbol
     if ($env:SCOOP) {
         $scoop_path = $env:SCOOP
@@ -63,39 +37,27 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     }
 
     Get-ChildItem "$scoop_path\buckets" 2>$null | ForEach-Object {
-        $completions[$root_cmd + ' bucket rm ' + $_.Name] = @($_.Name, ('Remove bucket --- ' + $_.Name), $_i++)
+        $completions[$root_cmd + ' bucket rm ' + $_.Name] = @($_.Name, ('Remove bucket --- ' + $_.Name), $_i)
+        $_i++
     }
 
     function return_str($str) {
         return ($symbol + $str + ' app --- ' + $_.Name + "`n" + $_.FullName)
     }
-    Get-ChildItem "$scoop_path\apps" 2>$null | ForEach-Object {
-        function _do($cmd, $tip) {
-
-        }
-        $completions[$root_cmd + ' ' + 'uninstall' + ' ' + $_.Name] = @($_.Name, (return_str 'Uninstall'), $_i++)
-        $completions[$root_cmd + ' ' + 'update' + ' ' + $_.Name] = @($_.Name, (return_str 'Update'), $_i++)
-        $completions[$root_cmd + ' ' + 'cleanup' + ' ' + $_.Name] = @($_.Name, (return_str 'Cleanup'), $_i++)
-        $completions[$root_cmd + ' ' + 'hold' + ' ' + $_.Name] = @($_.Name, (return_str 'Hold'), $_i++)
-        $completions[$root_cmd + ' ' + 'unhold' + ' ' + $_.Name] = @($_.Name, (return_str 'Unhold'), $_i++)
-        $completions[$root_cmd + ' ' + 'prefix' + ' ' + $_.Name] = @($_.Name, $_.FullName, $_i++)
+    function _do($cmd, $tip) {
+        $completions[$root_cmd + ' ' + $cmd + ' ' + $_.Name] = @($_.Name, $tip, $_i)
     }
-    Get-ChildItem "$scoop_global_path\apps" 2>$null | ForEach-Object {
-        function _do($cmd, $tip) {
-            $cmd = $root_cmd + ' ' + $cmd + ' ' + $_.Name
-            if ($completions[$cmd]) {
-                $completions[$cmd] = @($_.Name, ($completions[$cmd][1] + "`n" + $_.FullName))
-            }
-            else {
-                $completions[$cmd] = @($_.Name, $tip)
-            }
+
+    @("$scoop_path\apps","$scoop_global_path\apps") | ForEach-Object {
+        Get-ChildItem $_ 2>$null | ForEach-Object {
+            _do 'uninstall'  (return_str 'Uninstall')
+            _do 'update' (return_str 'Update')
+            _do 'cleanup' (return_str 'Cleanup')
+            _do 'hold' (return_str 'Hold')
+            _do 'unhold' (return_str 'Unhold')
+            _do 'prefix' $_.FullName
+            $_i++
         }
-        _do 'uninstall' (return_str 'Uninstall')
-        _do 'update' (return_str 'Update')
-        _do 'cleanup' (return_str 'Cleanup')
-        _do 'hold' (return_str 'Hold')
-        _do 'unhold' (return_str 'Unhold')
-        _do 'prefix' $_.FullName
     }
     #endregion
 
@@ -174,75 +136,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.scoop -ScriptBlock {
     if ($display_count -eq 1) { ' ' }
     #endregion
 
-    #region : Back
-    $_psc.jobs = Start-Job -ScriptBlock {
-        param(
-            $_psc,
-            $cmd,
-            $PSScriptRoots,
-            $path_history
-        )
-        # LRU
-        if ($_psc.comp_data.Count -gt [int]$_psc.config.LRU * 2) {
-            $_psc.comp_data.RemoveAt(0)
-            $_psc.comp_data.RemoveAt(0)
-        }
-        try {
-            $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
-            $history = $history[-1] -split ' '
-
-            function fn([array]$history) {
-                $_i = 0
-                $res = @()
-                $history | ForEach-Object {
-                    if ($_ -like '-*') {
-                        $res += $_i
-                    }
-                    $_i++
-                }
-                return $res[0]
-            }
-
-            $i = fn $history
-            if ($i) {
-                $prefix = $history[0..($i - 1)] -join ' '
-                $history[$i..($history.Count - 1)] | ForEach-Object {
-                    try {
-                        $_psc.comp_data.$cmd.$($prefix + ' ' + $_)[-1] = $_psc.comp_data.$($cmd + '_info').num--
-                    }
-                    catch {}
-                }
-                $base = $prefix -split ' '
-            }
-            else {
-                $base = $history
-            }
-
-            while ($base.Count -gt 1) {
-                try {
-                    $_psc.comp_data.$cmd.$($base -join ' ')[-1] = $_psc.comp_data.$($cmd + '_info').num--
-                }
-                catch {}
-                $base = $base[0..($base.Count - 2)]
-            }
-        }
-        catch {}
-
-        $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
-            try { $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1] }catch { 99999 }
-        }
-        $path_order = $PSScriptRoots + '\order.json'
-        $order_old = (Get-Content -Raw -Path ($path_order) | ConvertFrom-Json).PSObject.Properties.Name
-
-        if (($json_order -join ' ') -ne ($order_old -join ' ')) {
-            $i = 1
-            $order = [ordered]@{}
-            $json_order | ForEach-Object {
-                $order.$_ = $i++
-            }
-            $order | ConvertTo-Json | Out-File $path_order -Force
-        }
-        return $_psc.comp_data
-    }  -ArgumentList $_psc, $root_cmd, $PSScriptRoot, (Get-PSReadLineOption).HistorySavePath
-    #endregion
+    $_psc.fn_order_job($PSScriptRoot, $root_cmd)
 }

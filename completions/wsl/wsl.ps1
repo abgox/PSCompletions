@@ -5,37 +5,13 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
 
     #region : Store
     $root_cmd = $_psc.comp_cmd.wsl
-    $_i = 9999
 
-    if ($_psc.jobs.State -eq 'Completed') {
-        $_psc.comp_data = Receive-Job $_psc.jobs
-    }
-    try { Remove-Job $_psc.jobs }catch {}
-
-    if (!$_psc.comp_data.$root_cmd) {
-        $_psc.comp_data.$root_cmd = @{}
-
-        $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-
-        $_psc.comp_data.$($root_cmd + '_info') = @{
-            core_info = $json.wsl_core_info
-            exclude   = @('wsl_core_info')
-            num       = -1
-        }
-
-        $order = $_psc.fn_get_order($PSScriptRoot, $_psc.comp_data.$($root_cmd + '_info').exclude)
-
-        $json.PSObject.Properties.Name | Where-Object {
-            $_ -notin $_psc.comp_data.$($root_cmd + '_info').exclude
-        } | ForEach-Object {
-            $cmd = $_ -split ' '
-            $_o = if ($order.$_) { $order.$_ }else { $_i++ }
-            $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
-        }
-    }
+    $_psc.fn_cache($PSScriptRoot)
 
     $completions = $_psc.comp_data.$root_cmd.Clone()
+
     $_info = $_psc.comp_data.$($root_cmd + '_info').core_info
+
     $need_skip = @(
         '-u', '--user'
         '-d', '--distribution',
@@ -48,6 +24,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     #endregion
 
     #region : Special
+    $_i = 99999
     function clean_nul($data) {
         $res = [System.Collections.Generic.List[byte]]::new()
         [System.Text.Encoding]::UTF8.GetBytes($data) | ForEach-Object {
@@ -61,20 +38,10 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     $Distro_list | ForEach-Object {
         $Distro = $_
         function _do($cmd, $tip) {
-            $completions[$root_cmd + ' ' + $cmd + ' ' + $Distro] = @($Distro, $tip, $_i++)
+            $completions[$root_cmd + ' ' + $cmd + ' ' + $Distro] = @($Distro, $tip, $_i)
         }
         $temp = $_psc.fn_replace($_info.symbol + $_info.Distro)
 
-        $completions[$root_cmd + ' ~ -d ' + $Distro] = @($Distro, $temp, $_i++)
-        $completions[$root_cmd + ' ~ --distribution ' + $Distro] = @($Distro, $temp, $_i++)
-        $completions[$root_cmd + ' -d ' + $Distro] = @($Distro, $temp, $_i++)
-        $completions[$root_cmd + ' --distribution ' + $Distro] = @($Distro, $temp, $_i++)
-        $completions[$root_cmd + ' -s ' + $Distro] = @($Distro, ($_info.s + $Distro), $_i++)
-        $completions[$root_cmd + ' --set-default ' + $Distro] = @($Distro, ($_info.s + $Distro), $_i++)
-        $completions[$root_cmd + ' -t ' + $Distro] = @($Distro, $_psc.fn_replace($_info.Distro_t), $_i++)
-        $completions[$root_cmd + ' --terminate ' + $Distro] = @($Distro, $_psc.fn_replace($_info.Distro_t), $_i++)
-        $completions[$root_cmd + ' --unregister ' + $Distro] = @($Distro, $_psc.fn_replace($_info.Distro_u), $_i++)
-        $completions[$root_cmd + ' --export ' + $Distro] = @($Distro, $_psc.fn_replace($_info.Distro_e), $_i++)
         _do '~ -d' $temp
         _do '~ --distribution' $temp
         _do '-d' $temp
@@ -85,6 +52,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
         _do '--terminate' $_psc.fn_replace($_info.Distro_t)
         _do '--unregister' $_psc.fn_replace($_info.Distro_u)
         _do '--export' $_psc.fn_replace($_info.Distro_e)
+        $_i++
     }
     #endregion
 
@@ -160,75 +128,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.wsl -ScriptBlock {
     if ($display_count -eq 1) { ' ' }
     #endregion
 
-    #region : Back
-    $_psc.jobs = Start-Job -ScriptBlock {
-        param(
-            $_psc,
-            $cmd,
-            $PSScriptRoots,
-            $path_history
-        )
-        # LRU
-        if ($_psc.comp_data.Count -gt [int]$_psc.config.LRU * 2) {
-            $_psc.comp_data.RemoveAt(0)
-            $_psc.comp_data.RemoveAt(0)
-        }
-        try {
-            $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
-            $history = $history[-1] -split ' '
-
-            function fn([array]$history) {
-                $_i = 0
-                $res = @()
-                $history | ForEach-Object {
-                    if ($_ -like '-*') {
-                        $res += $_i
-                    }
-                    $_i++
-                }
-                return $res[0]
-            }
-
-            $i = fn $history
-            if ($i) {
-                $prefix = $history[0..($i - 1)] -join ' '
-                $history[$i..($history.Count - 1)] | ForEach-Object {
-                    try {
-                        $_psc.comp_data.$cmd.$($prefix + ' ' + $_)[-1] = $_psc.comp_data.$($cmd + '_info').num--
-                    }
-                    catch {}
-                }
-                $base = $prefix -split ' '
-            }
-            else {
-                $base = $history
-            }
-
-            while ($base.Count -gt 1) {
-                try {
-                    $_psc.comp_data.$cmd.$($base -join ' ')[-1] = $_psc.comp_data.$($cmd + '_info').num--
-                }
-                catch {}
-                $base = $base[0..($base.Count - 2)]
-            }
-        }
-        catch {}
-
-        $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
-            try { $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1] }catch { 99999 }
-        }
-        $path_order = $PSScriptRoots + '\order.json'
-        $order_old = (Get-Content -Raw -Path ($path_order) | ConvertFrom-Json).PSObject.Properties.Name
-
-        if (($json_order -join ' ') -ne ($order_old -join ' ')) {
-            $i = 1
-            $order = [ordered]@{}
-            $json_order | ForEach-Object {
-                $order.$_ = $i++
-            }
-            $order | ConvertTo-Json | Out-File $path_order -Force
-        }
-        return $_psc.comp_data
-    }  -ArgumentList $_psc, $root_cmd, $PSScriptRoot, (Get-PSReadLineOption).HistorySavePath
-    #endregion
+    $_psc.fn_order_job($PSScriptRoot, $root_cmd)
 }

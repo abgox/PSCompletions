@@ -30,11 +30,10 @@
     "{{$_psc.json.example.update}}"
   ],
   "update *": [
-    "更新所有存在更新的补全\n",
+    "更新当前所有可更新的补全\n",
     "{{",
-    "$up=Get-Content $_psc.path.update;",
-    "$res='更新列表如下:';",
-    "if($up){$res + ($up -join ',')}",
+    "$res='当前可更新的补全:';",
+    "if($_psc.update){$res + ($_psc.update -join ',')}",
     "else{'所有补全都是最新的,无需进行此操作！'};",
     "}}"
   ],

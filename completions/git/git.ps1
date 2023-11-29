@@ -5,36 +5,11 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
 
     #region : Store
     $root_cmd = $_psc.comp_cmd.git
-    $_i = 9999
 
-    if ($_psc.jobs.State -eq 'Completed') {
-        $_psc.comp_data = Receive-Job $_psc.jobs
-    }
-    try { Remove-Job $_psc.jobs }catch {}
-
-    if (!$_psc.comp_data.$root_cmd) {
-        $_psc.comp_data.$root_cmd = @{}
-
-        $json = Get-Content -Raw -Path  ($PSScriptRoot + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
-
-        $_psc.comp_data.$($root_cmd + '_info') = @{
-            core_info = $json.git_core_info
-            exclude   = @('git_core_info')
-            num       = -1
-        }
-
-        $order = $_psc.fn_get_order($PSScriptRoot, $_psc.comp_data.$($root_cmd + '_info').exclude)
-
-        $json.PSObject.Properties.Name | Where-Object {
-            $_ -notin $_psc.comp_data.$($root_cmd + '_info').exclude
-        } | ForEach-Object {
-            $cmd = $_ -split ' '
-            $_o = if ($order.$_) { $order.$_ }else { $_i++ }
-            $_psc.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
-        }
-    }
+    $_psc.fn_cache($PSScriptRoot)
 
     $completions = $_psc.comp_data.$root_cmd.Clone()
+
     $need_skip = @(
         '-m', '-t', '-F', '-C', '--depth', '-b', '-j',
         '-i', '--interactive', '--soft', '--hard', '--mixed', '-d', '-v'
@@ -42,6 +17,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     #endregion
 
     #region : Special
+    $_i = 99999
     $symbol = $json_info.symbol
     $branch_list = git branch --format='%(refname:lstrip=2)' 2>$null
     $head_list = @{
@@ -74,36 +50,40 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     $branch_list | ForEach-Object {
         $info = 'branch --- ' + $_
         $info_s = $symbol + $info
-        $completions[ $root_cmd + ' switch ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' merge ' + $_] = @($_, $info_s, $_i++)
-        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info_s, $_i++)
+        $completions[ $root_cmd + ' switch ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' merge ' + $_] = @($_, $info_s, $_i)
+        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info_s, $_i)
+        $_i++
     }
 
     $head_list.Keys | ForEach-Object {
         $info = $head_list.$_
-        $completions[ $root_cmd + ' rebase -i ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' rebase --interactive ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' reset ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' reset --soft ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' reset --hard ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' reset --mixed ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' show ' + $_] = @($_, $info, $_i++)
+        $completions[ $root_cmd + ' rebase -i ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' rebase --interactive ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' reset ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' reset --soft ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' reset --hard ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' reset --mixed ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' show ' + $_] = @($_, $info, $_i)
+        $_i++
     }
 
     $branch_head_list | ForEach-Object {
         $info = if ($head_list.$_) { $head_list.$_ }else { 'branch --- ' + $_ }
-        $completions[ $root_cmd + ' checkout ' + $_] = @($_, $info, $_i++)
+        $completions[ $root_cmd + ' checkout ' + $_] = @($_, $info, $_i)
+        $_i++
     }
 
     $remote_list | ForEach-Object {
         $info = 'remote --- ' + $_
         $info_s = $symbol + $info
-        $completions[ $root_cmd + ' push ' + $_] = @($_, $info_s, $_i++)
-        $completions[ $root_cmd + ' pull ' + $_] = @($_, $info_s, $_i++)
-        $completions[ $root_cmd + ' fetch ' + $_] = @($_, $info_s, $_i++)
-        $completions[ $root_cmd + ' remote rename ' + $_] = @($_, $info, $_i++)
-        $completions[ $root_cmd + ' remote rm ' + $_] = @($_, $info, $_i++)
+        $completions[ $root_cmd + ' push ' + $_] = @($_, $info_s, $_i)
+        $completions[ $root_cmd + ' pull ' + $_] = @($_, $info_s, $_i)
+        $completions[ $root_cmd + ' fetch ' + $_] = @($_, $info_s, $_i)
+        $completions[ $root_cmd + ' remote rename ' + $_] = @($_, $info, $_i)
+        $completions[ $root_cmd + ' remote rm ' + $_] = @($_, $info, $_i)
+        $_i++
     }
 
     $commit_info | ForEach-Object {
@@ -113,25 +93,26 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
         $commit = $_[3..($_.Length - 1)]
         $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-        $completions[$root_cmd + ' ' + 'commit -C' + ' ' + $hash] = @($hash, $content, $_i++)
+        $completions[$root_cmd + ' ' + 'commit -C' + ' ' + $hash] = @($hash, $content, $_i)
 
-
-        $completions[$root_cmd + ' ' + 'rebase -i' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'rebase --interactive' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'checkout' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'diff' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'reset' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'reset --soft' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'reset --hard' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'reset --mixed' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'show' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'revert' + ' ' + $hash] = @($hash, $content, $_i++)
-        $completions[$root_cmd + ' ' + 'commit' + ' ' + $hash] = @($hash, $content, $_i++)
+        $completions[$root_cmd + ' ' + 'rebase -i' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'rebase --interactive' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'checkout' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'diff' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'reset' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'reset --soft' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'reset --hard' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'reset --mixed' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'show' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'revert' + ' ' + $hash] = @($hash, $content, $_i)
+        $completions[$root_cmd + ' ' + 'commit' + ' ' + $hash] = @($hash, $content, $_i)
+        $_i++
     }
 
     $tag_list | ForEach-Object {
-        $completions[ $root_cmd + ' tag -d ' + $_] = @($_, ('tag --- ' + $_), $_i++)
-        $completions[ $root_cmd + ' tag -v ' + $_] = @($_, ('tag --- ' + $_), $_i++)
+        $completions[ $root_cmd + ' tag -d ' + $_] = @($_, ('tag --- ' + $_), $_i)
+        $completions[ $root_cmd + ' tag -v ' + $_] = @($_, ('tag --- ' + $_), $_i)
+        $_i++
     }
     #endregion
 
@@ -212,75 +193,5 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.git -ScriptBlock {
     if ($display_count -eq 1) { ' ' }
     #endregion
 
-    #region : Back
-    $_psc.jobs = Start-Job -ScriptBlock {
-        param(
-            $_psc,
-            $cmd,
-            $PSScriptRoots,
-            $path_history
-        )
-        # LRU
-        if ($_psc.comp_data.Count -gt [int]$_psc.config.LRU * 2) {
-            $_psc.comp_data.RemoveAt(0)
-            $_psc.comp_data.RemoveAt(0)
-        }
-        try {
-            $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
-            $history = $history[-1] -split ' '
-
-            function fn([array]$history) {
-                $_i = 0
-                $res = @()
-                $history | ForEach-Object {
-                    if ($_ -like '-*') {
-                        $res += $_i
-                    }
-                    $_i++
-                }
-                return $res[0]
-            }
-
-            $i = fn $history
-            if ($i) {
-                $prefix = $history[0..($i - 1)] -join ' '
-                $history[$i..($history.Count - 1)] | ForEach-Object {
-                    try {
-                        $_psc.comp_data.$cmd.$($prefix + ' ' + $_)[-1] = $_psc.comp_data.$($cmd + '_info').num--
-                    }
-                    catch {}
-                }
-                $base = $prefix -split ' '
-            }
-            else {
-                $base = $history
-            }
-
-            while ($base.Count -gt 1) {
-                try {
-                    $_psc.comp_data.$cmd.$($base -join ' ')[-1] = $_psc.comp_data.$($cmd + '_info').num--
-                }
-                catch {}
-                $base = $base[0..($base.Count - 2)]
-            }
-        }
-        catch {}
-
-        $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '\json\' + $_psc.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $_psc.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
-            try { $_psc.comp_data.$cmd.$($cmd + ' ' + $_)[-1] }catch { 99999 }
-        }
-        $path_order = $PSScriptRoots + '\order.json'
-        $order_old = (Get-Content -Raw -Path ($path_order) | ConvertFrom-Json).PSObject.Properties.Name
-
-        if (($json_order -join ' ') -ne ($order_old -join ' ')) {
-            $i = 1
-            $order = [ordered]@{}
-            $json_order | ForEach-Object {
-                $order.$_ = $i++
-            }
-            $order | ConvertTo-Json | Out-File $path_order -Force
-        }
-        return $_psc.comp_data
-    }  -ArgumentList $_psc, $root_cmd, $PSScriptRoot, (Get-PSReadLineOption).HistorySavePath
-    #endregion
+    $_psc.fn_order_job($PSScriptRoot, $root_cmd)
 }
