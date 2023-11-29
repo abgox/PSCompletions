@@ -102,7 +102,7 @@ Register-ArgumentCompleter -CommandName $_psc.comp_cmd.$template_comp -ScriptBlo
 
     $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
 
-    $json_info = $_psc.comp_data.$($root_cmd + '_info').core_info
+    $_info = $_psc.comp_data.$($root_cmd + '_info').core_info
     $filter_list | ForEach-Object {
         if ($comp_count -gt $display_count) {
             $display_count++
