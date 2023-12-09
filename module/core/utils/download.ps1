@@ -100,9 +100,10 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
     if($core_info.comp_config){
         $configs = $core_info.comp_config.PSObject.Properties.Name
 
-        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.comp_config))
+        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.comp_config_tip))
         foreach($config in $configs){
             $PSCompletions.fn_write($PSCompletions.fn_replace($core_info.comp_config.$config))
         }
+        $PSCompletions.has_completion_config = $true
     }
 }

@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.0'
+$PSCompletions.version = '3.0.1'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '\completions'
@@ -56,23 +56,26 @@ if (!(Test-Path($PSCompletions.path.list)) -or !(Test-Path($PSCompletions.path.r
     #region init env
     $config = $PSCompletions.fn_get_config()
     if ($config.root_cmd) {
-        $root_cmd = $config.root_cmd
-        $github = $config.github
-        $gitee = $config.gitee
-        $language = $config.language
-        $update = if ($config.update -eq 0) { 0 } else { 1 }
-        $LRU = $config.LRU
+        $new_config = @{
+            root_cmd = $config.root_cmd
+            github   = $config.github
+            gitee    = $config.gitee
+            language = $config.language
+            update   = 1
+            LRU      = $config.LRU
+        }
     }
     else {
-        @{
-            root_cmd       = 'psc'
-            github         = 'https://github.com/abgox/PSCompletions'
-            gitee          = 'https://gitee.com/abgox/PSCompletions'
-            language       = $PSCompletions.lang
-            update         = 1
-            LRU            = 5
-        } | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
+        $new_config = @{
+            root_cmd = 'psc'
+            github   = 'https://github.com/abgox/PSCompletions'
+            gitee    = 'https://gitee.com/abgox/PSCompletions'
+            language = $PSCompletions.lang
+            update   = 1
+            LRU      = 5
+        }
     }
+    $new_config | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
     #endregion
 
     $PSCompletions.init = $true
@@ -113,11 +116,11 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
 
     try {
         if (!(Test-Path($psc_json_path))) {
-            $psc_temp = $env:TEMP + '\PSCompletion.json'
+            $psc_temp = 'PSCompletion.json'
             Invoke-WebRequest -Uri ($PSCompletions.url + '/completions/PSCompletions/lang/' + $PSCompletions.lang + '.json') -OutFile $psc_temp
             $PSCompletions.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
             $PSCompletions.fn_add_completion('PSCompletions')
-            Remove-Item  $psc_temp -Force -ErrorAction SilentlyContinue
+            Remove-Item $psc_temp -Force -ErrorAction SilentlyContinue
         }
         if (!(Test-Path($psc_alias_path))) {
             $PSCompletions.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
@@ -164,7 +167,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
 }
 $PSCompletions.fn_init()
 
-if ($PSHOME -notlike "*WindowsPowerShell*") {
+if ($PSHOME -notlike "*WindowsPowerShell*" -and $PSVersionTable.Platform -ne 'Unix') {
     $PSCompletions.path.config = $PSCompletions.path.root + '\config.json'
     $PSCompletions.ui = [ordered]@{}
     . $PSScriptRoot\ui\ui.ps1
@@ -332,12 +335,12 @@ $null = Start-Job -ScriptBlock {
     function get_config() {
         $c = Get-Content -raw -path "$($PSCompletions.path.root)/env.json" | ConvertFrom-Json
         return @{
-            root_cmd       = $c.root_cmd
-            github         = $c.github
-            gitee          = $c.gitee
-            language       = $c.language
-            update         = $c.update
-            LRU            = $c.LRU
+            root_cmd = $c.root_cmd
+            github   = $c.github
+            gitee    = $c.gitee
+            language = $c.language
+            update   = $c.update
+            LRU      = $c.LRU
         }
     }
     function set_config([string]$k, [string]$v) {

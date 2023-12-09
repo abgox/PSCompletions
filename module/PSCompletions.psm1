@@ -628,4 +628,11 @@ function PSCompletions {
     if ($need_init) {
         $PSCompletions.fn_init()
     }
+    if ($PSCompletions.has_completion_config) {
+        $config = @{}
+        $config.ui = $PSCompletions.ui.config
+        $config.color = $PSCompletions.ui.color
+        $config.comp_config = $PSCompletions.comp_config
+        $config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8
+    }
 }

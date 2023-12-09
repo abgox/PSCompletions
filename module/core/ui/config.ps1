@@ -2,10 +2,12 @@ if (Test-Path($PSCompletions.path.config)) {
     $config = Get-Content -Raw $PSCompletions.path.config | ConvertFrom-Json
     $PSCompletions.ui.config = $config.ui
     $PSCompletions.ui.color = $config.color
-    $config.comp_config.PSObject.Properties.Name | ForEach-Object {
-        $PSCompletions.comp_config.$_ = @{}
-        foreach ($item in $config.comp_config.$_.PSObject.Properties.Name) {
-            $PSCompletions.comp_config.$_.$item = $config.comp_config.$_.$item
+    if ($config.comp_config) {
+        $config.comp_config.PSObject.Properties.Name | ForEach-Object {
+            $PSCompletions.comp_config.$_ = @{}
+            foreach ($item in $config.comp_config.$_.PSObject.Properties.Name) {
+                $PSCompletions.comp_config.$_.$item = $config.comp_config.$_.$item
+            }
         }
     }
 }
@@ -59,6 +61,8 @@ else {
     $config = @{}
     $config.ui = $PSCompletions.ui.config
     $config.color = $PSCompletions.ui.color
-    $config.comp_config = $PSCompletions.comp_config
+    if($PSCompletions.comp_config.Count){
+        $config.comp_config = $PSCompletions.comp_config
+    }
     $config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8
 }
