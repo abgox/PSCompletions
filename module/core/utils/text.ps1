@@ -1,0 +1,52 @@
+$PSCompletions | Add-Member -MemberType ScriptMethod fn_get_content {
+    param ([string]$path)
+    return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
+}
+
+$PSCompletions | Add-Member -MemberType ScriptMethod fn_replace {
+    param ([array]$data)
+    $__d__ = $data -join ''
+    $__p__ = '\{\{(.*?(\})*)(?=\}\})\}\}'
+    $matches = [regex]::Matches($__d__, $__p__)
+    foreach ($match in $matches) {
+        $__d__ = $__d__.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value))
+    }
+    if ($__d__ -match $__p__) { $PSCompletions.fn_replace($__d__) }else { return $__d__ }
+}
+
+$PSCompletions | Add-Member -MemberType ScriptMethod fn_write {
+    param([string]$str)
+    $color_list = @()
+    $str = $str -replace "`n", 'n&&_n_n&&'
+    $str_list = $str -split '(<\$[^>]+>.*?(?=<\$|$))' | Where-Object { $_ -ne '' } | ForEach-Object {
+        if ($_ -match '<\$([\s\w]+)>(.*)') {
+            ($matches[2] -replace 'n&&_n_n&&', "`n") -replace '^<\$>', ''
+            $color = $matches[1] -split ' '
+            $color_list += @{
+                color   = $color[0]
+                bgcolor = $color[1]
+            }
+        }
+        else {
+            ($_ -replace 'n&&_n_n&&', "`n") -replace '^<\$>', ''
+            $color_list += @{}
+        }
+    }
+    $str_list = [array]$str_list
+    for ($i = 0; $i -lt $str_list.Count; $i++) {
+        $color = $color_list[$i].color
+        $bgcolor = $color_list[$i].bgcolor
+        if ($color) {
+            if ($bgcolor) {
+                Write-Host $str_list[$i] -f $color -b $bgcolor -NoNewline
+            }
+            else {
+                Write-Host $str_list[$i] -f $color -NoNewline
+            }
+        }
+        else {
+            Write-Host $str_list[$i] -NoNewline
+        }
+    }
+    Write-Host ''
+}

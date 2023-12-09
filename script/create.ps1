@@ -1,6 +1,6 @@
-function info($comp = $comp_name) {
-    if ($_psc.config.language) {
-        $lang = $_psc.config.language
+﻿function info($comp = $comp_name) {
+    if ($PSCompletions.config.language) {
+        $lang = $PSCompletions.config.language
     }
     else {
         $lang = (Get-WinSystemLocale).name
@@ -59,14 +59,15 @@ if ($comp_name.Trim()) {
         else {
             _replace "template\template.ps1" "$comp_dir\$comp_name.ps1"
         }
-        _replace "template\json\zh-CN.json" "$comp_dir\json\zh-CN.json"
-        _replace "template\json\en-US.json" "$comp_dir\json\en-US.json"
-        (New-Guid).Guid | Out-File "$comp_dir\.guid"
+        _replace "template\lang\zh-CN.json" "$comp_dir\lang\zh-CN.json"
+        _replace "template\lang\en-US.json" "$comp_dir\lang\en-US.json"
+        (New-Guid).Guid | Out-File "$comp_dir\guid.txt"
 
-        if((get_input (info).test 'y') -eq 'y'){
-            $completions_dir=Split-Path (PSCompletions which PSCompletions) -Parent
+        if ((get_input (info).test 'y') -eq 'y') {
+            $completions_dir = Split-Path (PSCompletions which PSCompletions) -Parent
             Move-Item ("$PSScriptRoot\..\completions\$comp_name") $completions_dir
-        }else {
+        }
+        else {
             Write-Host "`n$comp_dir\$comp_name.ps1" -f Green
         }
     }

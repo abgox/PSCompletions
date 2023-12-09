@@ -29,15 +29,14 @@
 ## 介绍
 
 -   一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
-    > `WindowsPowerShell` 也可以使用此模块
+    > `Windows PowerShell` 也可以使用此模块
 -   [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 -   `zh-CN`，`en-US` 多语言切换
 -   动态排序补全候选(根据使用频次)
--   补全内容可自定义
+-   补全信息可自定义
     -   通过修改补全`json`文件实现
         > -   建议只修改补全提示信息，避免出现不小心的修改导致整个补全失败
-        > -   如果你已修改，请不要使用`psc update`，避免有更新时，你的自定义被覆盖
-        > -   如果出现问题,请使用 `psc update <completion>` 更新覆盖
+        > -   如果出现补全问题,请使用 `psc update <completion>` 更新覆盖
     -   `psc which <completion>` 获取补全文件路径
 
 **如果 PSCompletions 对你有所帮助，请在右上角点个 Star ⭐ 支持一下**
@@ -65,14 +64,24 @@
 
 ## Demo
 
-![PSCompletions-demo.gif](https://abgop.netlify.app/pscompletions/demo.gif)
+![demo](https://abgop.netlify.app/pscompletions/demo.gif)
 
 ## Tips
 
+### 关于 UI
+
+-   模块的 UI 补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 修改而来
+-   模块自 3.0.0 版本起，默认使用本模块自带的补全 UI 菜单
+    > 由于 UI 在 Windows PowerShell 的使用效果较差，将继续使用语言自带的补全菜单
+    -   如果你喜欢语言自带的补全菜单，运行 `psc ui theme powershell` 即可
+-   你可以通过 `psc ui` 下的命令来更改 UI 的一些样式及配置
+
 ### 关于补全描述中的特殊符号
 
--   ✨：当此补全被选中后，可以按下 `空格键` 和 `Tab` 键继续获得补全候选(特殊情况除外)
--   ✨✨：你需要输入一个不带空格的内容后按下 `空格键` 和 `Tab` 键继续获得补全候选
+> 由于 ✨ 对 UI 有破坏性，所以改用 😄
+
+-   😄：当此补全被选用后，可以按下 `空格键` 和 `Tab` 键继续获得补全候选
+-   😄😄：当此补全被选用后，你需要输入一个不带空格的内容后按下 `空格键` 和 `Tab` 键继续获得补全候选
 -   `...`：补全描述等待后续填充
     -   如果 `...` 是最后一个补全候选，则表示可显示区域过小，无法显示所有候选项
 

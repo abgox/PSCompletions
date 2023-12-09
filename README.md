@@ -33,10 +33,9 @@
 -   [Manage the completion together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
 -   Sort completion tab dynamically by frequency of use.
--   Complete content can be customized.
+-   Completion information can be customized.
     -   By modifying the `json` file to achieve.
         > -   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
-        > -   If you do it, don't use `psc update` to avoid overwriting your customizations.
         > -   If there are problems, please use `psc update <completion>` to overwrite completion
     -   Get the completion file path. `psc which <completion>`
 
@@ -66,14 +65,24 @@
 
 ## Demo
 
-![PSCompletions-demo.gif](https://abgop.netlify.app/pscompletions/demo.gif)
+![demo](https://abgop.netlify.app/pscompletions/demo.gif)
 
 ## Tips
 
+### About UI
+
+-   The module's UI menu is modified from [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion).
+-   Starting with version 3.0.0, the completion UI menu offered by this module is used.
+    -   If you like the language's built-in completion menu, please run `psc ui theme powershell`.
+    -   > Due to the poor use of the UI in `Windows PowerShell`, the language's built-in completion menu will continue to be used.
+-   you can use the commands under the `psc ui` to change the style and config.
+
 ### About special symbols in Completion Description
 
--   ✨: Press `Space` and `Tab` to get command completion when it's selected. (except for special cases)
--   ✨✨：Type a string without spaces, then press `Space` and `Tab` to get command completion.
+> Since ✨ was destructive to the UI, it was replaced with 😄
+
+-   😄: After selecting and applying, Press `Space` and `Tab` to continue to get command completion.
+-   😄😄：After selecting and applying, type a string without spaces, press `Space` and `Tab` to continue to get command completion.
 -   `...`: The description here will be filled in in the future.
     -   If `...` is the last one in the completion, it means that the display area is too small to display all completions.
 
@@ -82,7 +91,7 @@
 -   Please type `./` or `.\` and press `Tab` to get path completion for the **subdirectory** or **file**.
 -   Please type `/` or `\` and press `Tab` to get path completion for the **sibling directory**.
 
-## Available Completions List
+## Available Completions
 
 |                 Completions                 |                   Source                   |
 | :-----------------------------------------: | :----------------------------------------: |
