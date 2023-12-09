@@ -30,7 +30,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.PSCompletions -S
         $_i++
     }
 
-    $PSCompletions.comp_config.PSObject.Properties.Name | ForEach-Object {
+    $PSCompletions.comp_config.Keys | ForEach-Object {
         if ($PSCompletions.comp_config.$_) {
             $core_info = (Get-Content -Raw ($PSCompletions.path.completions + '\' + $_ + '\lang\' + $PSCompletions.lang + '.json') | ConvertFrom-Json).$($_ + '_core_info')
 
