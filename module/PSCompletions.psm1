@@ -92,7 +92,7 @@ function PSCompletions {
                     $response = Invoke-WebRequest -Uri $url
                     if ($response.StatusCode -eq 200) {
                         $content = ($response.Content).Trim()
-                        $guid = (Get-Content ($PSCompletions.path.completions + '\' + $_ + '\guid.txt') -Raw).Trim()
+                        $guid = Get-Content ($PSCompletions.path.completions + '\' + $_ + '\guid.txt') -Raw -ErrorAction SilentlyContinue
                         if ($guid -ne $content) { $update_list.Add($_) }
                     }
                 }
@@ -318,11 +318,22 @@ function PSCompletions {
             }
             else {
                 if ($arg[1] -eq 'reset') {
+                    if ($PSVersionTable.Platform -ne 'Unix') {
+                        $PSCompletions.lang = (Get-WinSystemLocale).name
+                    }
+                    else {
+                        if ($env:LANG -like 'zh[-_]CN*') {
+                            $PSCompletions.lang = 'zh-CN'
+                        }
+                        else {
+                            $PSCompletions.lang = 'en-US'
+                        }
+                    }
                     $c = [ordered]@{
                         root_cmd = 'psc'
                         github   = 'https://github.com/abgox/PSCompletions'
                         gitee    = 'https://gitee.com/abgox/PSCompletions'
-                        lang     = (Get-WinSystemLocale).name
+                        lang     = $PSCompletions.lang
                         update   = 1
                         LRU      = 5
                     }

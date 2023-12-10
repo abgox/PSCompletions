@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.3'
+$PSCompletions.version = '3.0.4'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '\completions'
@@ -55,28 +55,7 @@ if (!(Test-Path($PSCompletions.path.list)) -or !(Test-Path($PSCompletions.path.r
     #endregion
 
     #region init env
-    $config = $PSCompletions.fn_get_config()
-    if ($config.root_cmd) {
-        $new_config = @{
-            root_cmd = $config.root_cmd
-            github   = $config.github
-            gitee    = $config.gitee
-            language = $config.language
-            update   = 1
-            LRU      = $config.LRU
-        }
-    }
-    else {
-        $new_config = @{
-            root_cmd = 'psc'
-            github   = 'https://github.com/abgox/PSCompletions'
-            gitee    = 'https://gitee.com/abgox/PSCompletions'
-            language = $PSCompletions.lang
-            update   = 1
-            LRU      = 5
-        }
-    }
-    $new_config | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
+    $PSCompletions.fn_get_config() | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
     #endregion
 
     $PSCompletions.init = $true
@@ -123,29 +102,31 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
             $PSCompletions.fn_add_completion('PSCompletions')
             Remove-Item $psc_temp -Force -ErrorAction SilentlyContinue
         }
-        if (!(Test-Path($psc_alias_path))) {
-            $PSCompletions.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
-        }
-        $psc_alias = (Get-Content $psc_alias_path -Raw -Encoding utf8).Trim()
-        if ($psc_alias -ne $PSCompletions.root_cmd) {
-            $PSCompletions.fn_set_config('root_cmd', $psc_alias)
-            $PSCompletions.root_cmd = $PSCompletions.config.root_cmd = $psc_alias
-        }
-        $PSCompletions.json = (Get-Content -Path $psc_json_path -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
-        if (!(Test-Path($PSCompletions.path.update))) {
-            New-Item $PSCompletions.path.update > $null
-        }
         if (!(Test-Path($PSCompletions.path.list))) {
             New-Item $PSCompletions.path.list > $null
             if (!($PSCompletions.fn_download_list())) { throw }
         }
-        if (!(Test-Path($PSCompletions.path.old_list))) {
-            Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
-        }
-        $PSCompletions.list = $PSCompletions.fn_get_content($PSCompletions.path.list)
-        $PSCompletions.update = $PSCompletions.fn_get_content($PSCompletions.path.update)
     }
     catch { throw $PSCompletions.fn_replace($PSCompletions.json.init_err) }
+
+    if (!(Test-Path($psc_alias_path))) {
+        $PSCompletions.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
+    }
+    $psc_alias = Get-Content $psc_alias_path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+    if ($psc_alias) { $psc_alias = $psc_alias.Trim() }
+    if ($psc_alias -ne $PSCompletions.root_cmd) {
+        $PSCompletions.fn_set_config('root_cmd', $psc_alias)
+        $PSCompletions.root_cmd = $PSCompletions.config.root_cmd = $psc_alias
+    }
+    $PSCompletions.json = (Get-Content -Path $psc_json_path -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
+    if (!(Test-Path($PSCompletions.path.update))) {
+        New-Item $PSCompletions.path.update > $null
+    }
+    if (!(Test-Path($PSCompletions.path.old_list))) {
+        Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
+    }
+    $PSCompletions.list = $PSCompletions.fn_get_content($PSCompletions.path.list)
+    $PSCompletions.update = $PSCompletions.fn_get_content($PSCompletions.path.update)
 
     $res = [System.Collections.Generic.List[string]]@()
     $PSCompletions.installed = Get-ChildItem -Path $PSCompletions.path.completions -Filter '*.ps1' -Recurse -Depth 1 | Sort-Object CreationTime
@@ -168,7 +149,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
 }
 $PSCompletions.fn_init()
 
-if ($PSHOME -notlike "*WindowsPowerShell*" -and $PSVersionTable.Platform -ne 'Unix') {
+if (!$PSCompletions.ui -and $PSHOME -notlike "*WindowsPowerShell*" -and $PSVersionTable.Platform -ne 'Unix') {
     $PSCompletions.ui = [ordered]@{}
     . $PSScriptRoot\ui\ui.ps1
 }

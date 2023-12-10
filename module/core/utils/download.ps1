@@ -4,7 +4,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_download_list {
             $res = Invoke-WebRequest -Uri ($PSCompletions.url + '/list.txt')
             if ($res.StatusCode -eq 200) {
                 $content = $res.Content.Trim()
-                $old_list = Get-Content $PSCompletions.path.old_list -Raw -Encoding utf8
+                $old_list = Get-Content $PSCompletions.path.old_list -Raw -Encoding utf8 -ErrorAction SilentlyContinue
                 $list = Get-Content $PSCompletions.path.list -Raw -Encoding utf8
                 if ($old_list -ne $list) {
                     Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
