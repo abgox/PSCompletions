@@ -1,4 +1,4 @@
-if(!$PSCompletions.comp_config.git.max_commit){
+if (!$PSCompletions.comp_config.git.max_commit) {
     $PSCompletions.comp_config.git = @{
         max_commit = 20
     }
@@ -22,98 +22,102 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock
     #endregion
 
     #region : Special
-    $_i = 99999
-    $branch_list = git branch --format='%(refname:lstrip=2)' 2>$null
-    $head_list = @{
-        HEAD       = (git show HEAD --relative-date -q 2>$null) -join "`n"
-        FETCH_HEAD = (git show FETCH_HEAD --relative-date -q 2>$null) -join "`n"
-        ORIG_HEAD  = (git show ORIG_HEAD --relative-date -q 2>$null) -join "`n"
-        MERGE_HEAD = (git show MERGE_HEAD --relative-date -q 2>$null) -join "`n"
-    }
-    @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD') | ForEach-Object {
-        if (!$head_list.$_) {
-            $head_list.Remove($_)
+    try {
+        $_i = 99999
+        $branch_list = git branch --format='%(refname:lstrip=2)' 2>$null
+        $head_list = @{
+            HEAD       = (git show HEAD --relative-date -q 2>$null) -join "`n"
+            FETCH_HEAD = (git show FETCH_HEAD --relative-date -q 2>$null) -join "`n"
+            ORIG_HEAD  = (git show ORIG_HEAD --relative-date -q 2>$null) -join "`n"
+            MERGE_HEAD = (git show MERGE_HEAD --relative-date -q 2>$null) -join "`n"
+        }
+        @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD') | ForEach-Object {
+            if (!$head_list.$_) {
+                $head_list.Remove($_)
+            }
+        }
+        $branch_head_list = $branch_list + $head_list.Keys
+        $remote_list = git remote 2>$null
+        $commit_info = [System.Collections.Generic.List[array]]::new()
+        $current_commit = [System.Collections.Generic.List[string]]::new()
+
+        git log --pretty='format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n@@@--------------------@@@' -n $PSCompletions.comp_config.git.max_commit --encoding=gbk 2>$null | ForEach-Object {
+            if ($_ -ne '@@@--------------------@@@') {
+                $current_commit.Add($_)
+            }
+            else {
+                $commit_info.add($current_commit)
+                $current_commit = [System.Collections.Generic.List[string]]::new()
+            }
+        }
+        $current_commit = $null
+        $tag_list = git tag 2>$null
+
+        $branch_list | ForEach-Object {
+            $info = 'branch --- ' + $_
+            $info_s = $_info.symbol + $info
+            $completions[ $root_cmd + ' switch ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' merge ' + $_] = @($_, $info_s, $_i)
+            $completions[ $root_cmd + ' diff ' + $_] = @($_, $info_s, $_i)
+            $_i++
+        }
+        $head_list.Keys | ForEach-Object {
+            $info = $head_list.$_
+            $completions[ $root_cmd + ' rebase -i ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' rebase --interactive ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' diff ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' reset ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' reset --soft ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' reset --hard ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' reset --mixed ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' show ' + $_] = @($_, $info, $_i)
+            $_i++
+        }
+        $branch_head_list | ForEach-Object {
+            $info = if ($head_list.$_) { $head_list.$_ }else { 'branch --- ' + $_ }
+            $completions[ $root_cmd + ' checkout ' + $_] = @($_, $info, $_i)
+            $_i++
+        }
+        $remote_list | ForEach-Object {
+            $info = 'remote --- ' + $_
+            $info_s = $_info.symbol + $info
+            $completions[ $root_cmd + ' push ' + $_] = @($_, $info_s, $_i)
+            $completions[ $root_cmd + ' pull ' + $_] = @($_, $info_s, $_i)
+            $completions[ $root_cmd + ' fetch ' + $_] = @($_, $info_s, $_i)
+            $completions[ $root_cmd + ' remote rename ' + $_] = @($_, $info, $_i)
+            $completions[ $root_cmd + ' remote rm ' + $_] = @($_, $info, $_i)
+            $_i++
+        }
+        $commit_info | ForEach-Object {
+            $hash = $_[0]
+            $date = $_[1]
+            $author = $_[2]
+            $commit = $_[3..($_.Length - 1)]
+            $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
+
+            $completions[$root_cmd + ' ' + 'commit -C' + ' ' + $hash] = @($hash, $content, $_i)
+
+            $completions[$root_cmd + ' ' + 'rebase -i' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'rebase --interactive' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'checkout' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'diff' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'reset' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'reset --soft' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'reset --hard' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'reset --mixed' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'show' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'revert' + ' ' + $hash] = @($hash, $content, $_i)
+            $completions[$root_cmd + ' ' + 'commit' + ' ' + $hash] = @($hash, $content, $_i)
+            $_i++
+        }
+        $tag_list | ForEach-Object {
+            $completions[ $root_cmd + ' tag -d ' + $_] = @($_, ('tag --- ' + $_), $_i)
+            $completions[ $root_cmd + ' tag -v ' + $_] = @($_, ('tag --- ' + $_), $_i)
+            $_i++
         }
     }
-    $branch_head_list = $branch_list + $head_list.Keys
-    $remote_list = git remote 2>$null
-    $commit_info = [System.Collections.Generic.List[array]]::new()
-    $current_commit = [System.Collections.Generic.List[string]]::new()
+    catch {}
 
-    git log --pretty='format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n@@@--------------------@@@' -n $PSCompletions.comp_config.git.max_commit --encoding=gbk 2>$null | ForEach-Object {
-        if ($_ -ne '@@@--------------------@@@') {
-            $current_commit.Add($_)
-        }
-        else {
-            $commit_info.add($current_commit)
-            $current_commit = [System.Collections.Generic.List[string]]::new()
-        }
-    }
-    $current_commit = $null
-    $tag_list = git tag 2>$null
-
-    $branch_list | ForEach-Object {
-        $info = 'branch --- ' + $_
-        $info_s = $_info.symbol + $info
-        $completions[ $root_cmd + ' switch ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' merge ' + $_] = @($_, $info_s, $_i)
-        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info_s, $_i)
-        $_i++
-    }
-    $head_list.Keys | ForEach-Object {
-        $info = $head_list.$_
-        $completions[ $root_cmd + ' rebase -i ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' rebase --interactive ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' diff ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' reset ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' reset --soft ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' reset --hard ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' reset --mixed ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' show ' + $_] = @($_, $info, $_i)
-        $_i++
-    }
-    $branch_head_list | ForEach-Object {
-        $info = if ($head_list.$_) { $head_list.$_ }else { 'branch --- ' + $_ }
-        $completions[ $root_cmd + ' checkout ' + $_] = @($_, $info, $_i)
-        $_i++
-    }
-    $remote_list | ForEach-Object {
-        $info = 'remote --- ' + $_
-        $info_s = $_info.symbol + $info
-        $completions[ $root_cmd + ' push ' + $_] = @($_, $info_s, $_i)
-        $completions[ $root_cmd + ' pull ' + $_] = @($_, $info_s, $_i)
-        $completions[ $root_cmd + ' fetch ' + $_] = @($_, $info_s, $_i)
-        $completions[ $root_cmd + ' remote rename ' + $_] = @($_, $info, $_i)
-        $completions[ $root_cmd + ' remote rm ' + $_] = @($_, $info, $_i)
-        $_i++
-    }
-    $commit_info | ForEach-Object {
-        $hash = $_[0]
-        $date = $_[1]
-        $author = $_[2]
-        $commit = $_[3..($_.Length - 1)]
-        $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-        $completions[$root_cmd + ' ' + 'commit -C' + ' ' + $hash] = @($hash, $content, $_i)
-
-        $completions[$root_cmd + ' ' + 'rebase -i' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'rebase --interactive' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'checkout' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'diff' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'reset' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'reset --soft' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'reset --hard' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'reset --mixed' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'show' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'revert' + ' ' + $hash] = @($hash, $content, $_i)
-        $completions[$root_cmd + ' ' + 'commit' + ' ' + $hash] = @($hash, $content, $_i)
-        $_i++
-    }
-    $tag_list | ForEach-Object {
-        $completions[ $root_cmd + ' tag -d ' + $_] = @($_, ('tag --- ' + $_), $_i)
-        $completions[ $root_cmd + ' tag -v ' + $_] = @($_, ('tag --- ' + $_), $_i)
-        $_i++
-    }
     #endregion
 
     #region : Running
