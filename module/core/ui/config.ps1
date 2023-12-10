@@ -15,39 +15,25 @@ else {
     $PSCompletions.ui.color = @{
         item          = 'Gray'
         item_back     = 'Black'
-
         selected      = 'white'
         selected_back = 'DarkGray'
-
         filter        = 'DarkYellow'
         filter_back   = 'Black'
-
         border        = 'DarkGray'
         border_back   = 'Black'
-
         status        = 'DarkBlue'
         status_back   = 'Black'
-
         tip           = 'DarkCyan'
         tip_back      = 'Black'
     }
     $PSCompletions.ui.config = @{
-
         enable_ui              = 1
-
         follow_cursor          = 0
-
         list_margin_right      = 1
-
         tip_margin_right       = 0
-
-
         fast_scroll_item_count = 10
-
         count_symbol           = '/'
-
         filter_symbol          = '[]'
-
         line                   = @{
             horizontal   = [string][char]9552
             vertical     = [string][char]9553
@@ -57,7 +43,6 @@ else {
             bottom_right = [string][char]9565
         }
     }
-
     $config = @{}
     $config.ui = $PSCompletions.ui.config
     $config.color = $PSCompletions.ui.color

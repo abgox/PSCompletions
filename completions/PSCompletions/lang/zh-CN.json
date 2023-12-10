@@ -128,6 +128,7 @@
     "😄管理 UI 的一些配置\n",
     "如：ui menu powershell  --- 使用 PowerShell语言自带的补全"
   ],
+  "ui reset": "还原所有的补全菜单 UI 设置",
   "ui menu": [
     "😄切换补全菜单"
   ],
@@ -147,7 +148,7 @@
   "ui theme magenta": [
     "Magenta 主色调"
   ],
-  "ui style":"😄设置补全菜单的边框样式主题",
+  "ui style": "😄设置补全菜单的边框样式主题",
   "ui style double_line_rect_border": "设置为双线直角边框(默认)",
   "ui style single_line_rect_border": "设置为单线直角边框",
   "ui style single_line_round_border": "设置为单线圆角边框",
@@ -261,7 +262,7 @@
       "$log=(Get-Content -Raw ($PSCompletions.path.core +'\\log.json') -Encoding UTF8 -ErrorAction SilentlyContinue | ConvertFrom-Json).PSObject.Properties;",
       "$num=1;",
       "$log | Foreach-Object {",
-      "   if($_.Name -gt $PSCompletions.version){if($num){'<$Blue>' + $_.Name + ': ' + $_.Value.$($PSCompletions.lang);$num=0}else{\"`n\" + $_.Name + ': ' + $_.Value.$($PSCompletions.lang)} }",
+      "   if($_.Name -gt $PSCompletions.version){if($num){'<$Blue>' + $_.Name + ': ' + $_.Value.$($PSCompletions.lang);$num=0}else{\"`n \" + $_.Name + ': ' + $_.Value.$($PSCompletions.lang)} }",
       " }",
       "}}\n",
       "<$Cyan>按下 <$Magenta>Enter(回车键)<$Cyan> 进行更新!"
@@ -389,8 +390,9 @@
     "filter_symbol_err": "<$Red>设置此配置项必须要两个字符，如 <$Magenta>[]\n<$Red>如果你希望有空格，请使用引号包裹，如 <$Magenta>'[ ]'",
     "ui_theme_done": "<$Green>成功将补全菜单主题设置为 <$Magenta>{{$arg[2]}}",
     "ui_menu_done": "<$Green>成功{{if($PSCompletions.ui.config.enable_ui){'启用模块内置补全菜单'}else{'禁用模块内置补全菜单,将使用 <$Magenta>PowerShell<$Green> 语言内置补全菜单'} }}",
-    "ui_style_err":"<$Magenta>{{$arg[2]}}<$Red> 不是一个有效的值",
-    "ui_style_done":"<$Green>设置成功",
+    "ui_style_err": "<$Magenta>{{$arg[2]}}<$Red> 不是一个有效的值",
+    "ui_style_done": "<$Green>设置成功",
+    "ui_reset_done": "<$Green>所有补全菜单 UI 相关的设置全部恢复为默认值",
     "which": "定位补全存储位置 --- {{$_}}",
     "which_err": [
       "<$Red>定位补全 <$Magenta>{{$_}} <$Red>失败,你还未添加 <$Magenta>{{$_}} <$Red>补全。\n",

@@ -396,7 +396,7 @@ function PSCompletions {
     }
 
     function _ui {
-        if ($arg[1] -notin @('theme', 'style' , 'custom', 'menu')) {
+        if ($arg[1] -notin @('theme', 'style' , 'custom', 'menu', 'reset')) {
             param_error 'err' 'ui'
             return
         }
@@ -544,8 +544,7 @@ function PSCompletions {
                     $PSCompletions.fn_write((_replace $PSCompletions.json.ui_config_done))
                 }
             }
-            # default: menu
-            Default {
+            'menu' {
                 if (!$arg[2]) {
                     param_error 'min' 'ui_menu'
                     return
@@ -565,6 +564,41 @@ function PSCompletions {
                     $PSCompletions.ui.config.enable_ui = 0
                 }
                 $PSCompletions.fn_write((_replace $PSCompletions.json.ui_menu_done))
+            }
+            # reset
+            Default {
+                $PSCompletions.ui.color = @{
+                    item          = 'Gray'
+                    item_back     = 'Black'
+                    selected      = 'white'
+                    selected_back = 'DarkGray'
+                    filter        = 'DarkYellow'
+                    filter_back   = 'Black'
+                    border        = 'DarkGray'
+                    border_back   = 'Black'
+                    status        = 'DarkBlue'
+                    status_back   = 'Black'
+                    tip           = 'DarkCyan'
+                    tip_back      = 'Black'
+                }
+                $PSCompletions.ui.config = @{
+                    enable_ui              = 1
+                    follow_cursor          = 0
+                    list_margin_right      = 1
+                    tip_margin_right       = 0
+                    fast_scroll_item_count = 10
+                    count_symbol           = '/'
+                    filter_symbol          = '[]'
+                    line                   = @{
+                        horizontal   = [string][char]9552
+                        vertical     = [string][char]9553
+                        top_left     = [string][char]9556
+                        bottom_left  = [string][char]9562
+                        top_right    = [string][char]9559
+                        bottom_right = [string][char]9565
+                    }
+                }
+                $PSCompletions.fn_write((_replace $PSCompletions.json.ui_reset_done))
             }
         }
 
@@ -630,6 +664,44 @@ function PSCompletions {
     }
     if ($PSCompletions.has_completion_config) {
         $config = @{}
+        if(!$PSCompletions.ui){
+            $PSCompletions.ui = @{}
+        }
+        if (!$PSCompletions.ui.color) {
+            $PSCompletions.ui.color = @{
+                item          = 'Gray'
+                item_back     = 'Black'
+                selected      = 'white'
+                selected_back = 'DarkGray'
+                filter        = 'DarkYellow'
+                filter_back   = 'Black'
+                border        = 'DarkGray'
+                border_back   = 'Black'
+                status        = 'DarkBlue'
+                status_back   = 'Black'
+                tip           = 'DarkCyan'
+                tip_back      = 'Black'
+            }
+        }
+        if (!$PSCompletions.ui.config) {
+            $PSCompletions.ui.config = @{
+                enable_ui              = 1
+                follow_cursor          = 0
+                list_margin_right      = 1
+                tip_margin_right       = 0
+                fast_scroll_item_count = 10
+                count_symbol           = '/'
+                filter_symbol          = '[]'
+                line                   = @{
+                    horizontal   = [string][char]9552
+                    vertical     = [string][char]9553
+                    top_left     = [string][char]9556
+                    bottom_left  = [string][char]9562
+                    top_right    = [string][char]9559
+                    bottom_right = [string][char]9565
+                }
+            }
+        }
         $config.ui = $PSCompletions.ui.config
         $config.color = $PSCompletions.ui.color
         $config.comp_config = $PSCompletions.comp_config

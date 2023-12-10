@@ -126,6 +126,7 @@
         "😄Manage some configuration of the UI\n",
         "e.g. ui menu powershell --- use PowerShell's built-in Completions menu"
     ],
+    "ui reset": "Reset all completion menu UI settings.",
     "ui menu": [
         "😄Toggle Completions menu"
     ],
@@ -261,7 +262,7 @@
             "$log=(Get-Content -Raw ($PSCompletions.path.core +'\\log.json') -Encoding UTF8 -ErrorAction SilentlyContinue | ConvertFrom-Json).PSObject.Properties;",
             "$num=1;",
             "$log | Foreach-Object {",
-            "   if($_.Name -gt $PSCompletions.version){if($num){'<$Blue>' + $_.Name + ': ' + $_.Value.$($PSCompletions.lang);$num=0}else{\"`n\" + $_.Name + ': ' + $_.Value.$($PSCompletions.lang)} }",
+            "   if($_.Name -gt $PSCompletions.version){if($num){'<$Blue>' + $_.Name + ': ' + $_.Value.$($PSCompletions.lang);$num=0}else{\"`n \" + $_.Name + ': ' + $_.Value.$($PSCompletions.lang)} }",
             " }",
             "}}\n",
             "<$Cyan>Press <$Magenta>Enter<$Cyan> key to update!"
@@ -400,6 +401,7 @@
         "ui_menu_done": "<$Green>{{if($PSCompletions.ui.config.enable_ui){'Enable the module built-in completion menu'}else{'Disable the module built-in completion menu, and will use <$Magenta>PowerShell<$Green> built-in completion menu'} }}",
         "ui_style_err": "<$Magenta>{{$arg[2]}}<$Red> is'nt a valid value",
         "ui_style_done": "<$Green>Set successfully!",
+        "ui_reset_done": "<$Green>All completion menu UI settings are reverted to default!",
         "which": "Locate completion storage location --- {{$_}}",
         "which_err": [
             "<$Red>Locate completion <$Magenta>{{$_}} <$Red>failed.You haven't added <$Magenta>{{$_}} <$Red>yet.\n",

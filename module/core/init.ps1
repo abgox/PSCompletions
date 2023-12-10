@@ -2,12 +2,13 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.1'
+$PSCompletions.version = '3.0.2'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '\completions'
 $PSCompletions.path.core = $PSCompletions.path.root + '\core'
 $PSCompletions.path.list = $PSCompletions.path.root + '\list.txt'
+$PSCompletions.path.config = $PSCompletions.path.root + '\config.json'
 $PSCompletions.path.old_list = $PSCompletions.path.core + '\.old_list'
 $PSCompletions.path.update = $PSCompletions.path.core + '\.update'
 if ($PSVersionTable.Platform -ne 'Unix') {
@@ -168,7 +169,6 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
 $PSCompletions.fn_init()
 
 if ($PSHOME -notlike "*WindowsPowerShell*" -and $PSVersionTable.Platform -ne 'Unix') {
-    $PSCompletions.path.config = $PSCompletions.path.root + '\config.json'
     $PSCompletions.ui = [ordered]@{}
     . $PSScriptRoot\ui\ui.ps1
 }
