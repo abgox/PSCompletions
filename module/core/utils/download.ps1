@@ -104,6 +104,6 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
         foreach($config in $configs){
             $PSCompletions.fn_write($PSCompletions.fn_replace($core_info.comp_config.$config))
         }
-        $PSCompletions.has_completion_config = $true
+        $PSCompletions.has_config_update = $true
     }
 }

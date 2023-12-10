@@ -303,7 +303,6 @@ function PSCompletions {
             $PSCompletions.fn_write((_replace $PSCompletions.json.order_err))
         }
     }
-
     function _config {
         if ($arg.Length -lt 2) {
             param_error 'min' 'config'
@@ -386,15 +385,9 @@ function PSCompletions {
         $old_value = $comp_config.($arg[1]).($arg[2])
         $comp_config.($arg[1]).($arg[2]) = $arg[3]
 
-        $config = @{}
-        $config.ui = $PSCompletions.ui.config
-        $config.color = $PSCompletions.ui.color
-        $config.comp_config = $comp_config
-
-        $config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8
+        $PSCompletions.comp_config = $comp_config
         $PSCompletions.fn_write((_replace $PSCompletions.json.comp_done))
     }
-
     function _ui {
         if ($arg[1] -notin @('theme', 'style' , 'custom', 'menu', 'reset')) {
             param_error 'err' 'ui'
@@ -601,18 +594,10 @@ function PSCompletions {
                 $PSCompletions.fn_write((_replace $PSCompletions.json.ui_reset_done))
             }
         }
-
-        $config = @{}
-        $config.ui = $PSCompletions.ui.config
-        $config.color = $PSCompletions.ui.color
-        $config.comp_config = $PSCompletions.comp_config
-
-        $config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8
     }
     function _help {
         $PSCompletions.fn_write((_replace $PSCompletions.json.description))
     }
-
     $need_init = $true
     switch ($arg[0]) {
         'list' {
@@ -647,9 +632,11 @@ function PSCompletions {
         }
         'completion' {
             _completion
+            $PSCompletions.has_config_update = $true
         }
         'ui' {
             _ui
+            $PSCompletions.has_config_update = $true
         }
         default {
             if ($arg.Length -eq 1) {
@@ -662,11 +649,8 @@ function PSCompletions {
     if ($need_init) {
         $PSCompletions.fn_init()
     }
-    if ($PSCompletions.has_completion_config) {
-        $config = @{}
-        if(!$PSCompletions.ui){
-            $PSCompletions.ui = @{}
-        }
+    if ($PSCompletions.has_config_update) {
+        if (!$PSCompletions.ui) { $PSCompletions.ui = @{} }
         if (!$PSCompletions.ui.color) {
             $PSCompletions.ui.color = @{
                 item          = 'Gray'
@@ -702,9 +686,10 @@ function PSCompletions {
                 }
             }
         }
-        $config.ui = $PSCompletions.ui.config
-        $config.color = $PSCompletions.ui.color
-        $config.comp_config = $PSCompletions.comp_config
-        $config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8
+        @{
+            ui          = $PSCompletions.ui.config
+            color       = $PSCompletions.ui.color
+            comp_config = $PSCompletions.comp_config
+        } | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8
     }
 }

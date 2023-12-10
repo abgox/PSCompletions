@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.2'
+$PSCompletions.version = '3.0.3'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '\completions'
@@ -117,7 +117,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
 
     try {
         if (!(Test-Path($psc_json_path))) {
-            $psc_temp = 'PSCompletion.json'
+            $psc_temp = 'PSCompletions' + (New-Guid).Guid + '.json'
             Invoke-WebRequest -Uri ($PSCompletions.url + '/completions/PSCompletions/lang/' + $PSCompletions.lang + '.json') -OutFile $psc_temp
             $PSCompletions.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
             $PSCompletions.fn_add_completion('PSCompletions')
