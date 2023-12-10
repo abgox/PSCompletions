@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.4'
+$PSCompletions.version = '3.0.5'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '\completions'

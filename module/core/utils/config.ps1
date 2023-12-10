@@ -1,9 +1,18 @@
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_config {
-    try {
-        $c = Get-Content -raw -path "$($PSCompletions.path.root)/env.json" | ConvertFrom-Json
+    $c = Get-Content -raw -path "$($PSCompletions.path.root)/env.json" -ErrorAction SilentlyContinue | ConvertFrom-Json
+
+    if ($c.root_cmd) {
+        $config = @{
+            root_cmd = $c.root_cmd
+            github   = $c.github
+            gitee    = $c.gitee
+            language = $c.language
+            update   = $c.update
+            LRU      = $c.LRU
+        }
     }
-    catch {
-        $c = @{
+    else {
+        $config = @{
             root_cmd = 'psc'
             github   = 'https://github.com/abgox/PSCompletions'
             gitee    = 'https://gitee.com/abgox/PSCompletions'
@@ -11,16 +20,13 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_config {
             update   = 1
             LRU      = 5
         }
-        $c | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
+        $config | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
     }
-    return @{
-        root_cmd = $c.root_cmd
-        github   = $c.github
-        gitee    = $c.gitee
-        language = $c.language
-        update   = $c.update
-        LRU      = $c.LRU
+
+    if($config.update -eq $PSCompletions.version){
+        $config.update = 1
     }
+    return $config
 }
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_set_config {
     param ([string]$k, [string]$v)
