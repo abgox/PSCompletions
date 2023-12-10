@@ -1,5 +1,7 @@
-$PSCompletions.comp_config.git = @{
-    max_commit = 20
+if(!$PSCompletions.comp_config.git.max_commit){
+    $PSCompletions.comp_config.git = @{
+        max_commit = 20
+    }
 }
 Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock {
     param($word_to_complete, $command_ast, $cursor_position)
