@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.5'
+$PSCompletions.version = '3.0.6'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '\completions'
@@ -349,6 +349,8 @@ $null = Start-Job -ScriptBlock {
     $diff = Compare-Object $new_list $old_list -PassThru
     if ($diff) {
         $diff | Out-File ($PSCompletions.path.core + '\.add') -Force -Encoding utf8
+    }else {
+        Clear-Content ($PSCompletions.path.core + '\.add') -Force
     }
 
     download_list

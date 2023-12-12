@@ -87,12 +87,12 @@ function PSCompletions {
         function _do {
             $update_list = [System.Collections.Generic.List[string]]@()
             try {
-                foreach ($_ in $comp_cmd) {
+                $comp_cmd | ForEach-Object {
                     $url = $PSCompletions.url + '/completions/' + $_ + '/guid.txt'
-                    $response = Invoke-WebRequest -Uri $url
+                    $response = Invoke-WebRequest -Uri  $url
                     if ($response.StatusCode -eq 200) {
-                        $content = ($response.Content).Trim()
-                        $guid = Get-Content ($PSCompletions.path.completions + '\' + $_ + '\guid.txt') -Raw -ErrorAction SilentlyContinue
+                        $content = $response.Content.Trim()
+                        $guid = (Get-Content ($PSCompletions.path.completions + '\' + $_ + '\guid.txt') -Raw).Trim()
                         if ($guid -ne $content) { $update_list.Add($_) }
                     }
                 }
