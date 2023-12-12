@@ -38,8 +38,6 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.PSCompletions -S
             foreach ($config in $configs) {
                 $tip = $PSCompletions.fn_replace($core_info.comp_config.$config) -replace '<\$\w+>', ''
                 $completions[ $root_cmd + ' completion ' + $_ + ' ' + $config] = @($config, $tip , $_i)
-                $value = $PSCompletions.comp_config.$_.$config
-                $completions[ $root_cmd + ' completion ' + $_ + ' ' + $config + ' ' + $value ] = @($value, ($PSCompletions.json.default_value + $value) , $_i)
                 $_i++
             }
         }
