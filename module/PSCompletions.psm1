@@ -92,7 +92,7 @@ function PSCompletions {
                     $response = Invoke-WebRequest -Uri  $url
                     if ($response.StatusCode -eq 200) {
                         $content = $response.Content.Trim()
-                        $guid = (Get-Content ($PSCompletions.path.completions + '\' + $_ + '\guid.txt') -Raw).Trim()
+                        $guid = $PSCompletions.fn_get_raw_content($PSCompletions.path.completions + '\' + $_ + '\guid.txt')
                         if ($guid -ne $content) { $update_list.Add($_) }
                     }
                 }
@@ -657,9 +657,7 @@ function PSCompletions {
             $need_init = $null
         }
     }
-    if ($need_init) {
-        $PSCompletions.fn_init()
-    }
+    if ($need_init) { $PSCompletions.fn_init() }
     if ($PSCompletions.has_config_update) {
         if (!$PSCompletions.ui) { $PSCompletions.ui = @{} }
         if (!$PSCompletions.ui.color) {

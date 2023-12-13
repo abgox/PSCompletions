@@ -262,8 +262,10 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod parse_list {
 	if ($PSCompletions.ui.layout.Above) {
 		$MaxListHeight = $CursorOffset - 1
 		if ($MaxListHeight -lt $ListHeight) { $ListHeight = $MaxListHeight }
-		$Y = 0
 		$PSCompletions.ui.layout.Above_list_h = $Cursor.Y - ($PSCompletions.ui.style_h - 1)
+		if ($ListHeight -lt $PSCompletions.ui.layout.Above_list_h) {
+			$PSCompletions.ui.layout.Above_list_h = $ListHeight
+		}
 	}
 	else {
 		$MaxListHeight = $CursorOffsetBottom - 2
@@ -288,6 +290,32 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod parse_list {
 			$X = $windowSize.Width - $Max
 		}
 	}
+	$PSCompletions._ = $ListHeight
+	if ($PSCompletions.ui.layout.Above -and $ListHeight -gt $PSCompletions.completion_max[1] + 2 -and $ListHeight -gt $Cursor.Y - $PSCompletions.ui.style_h) {
+		switch ($PSCompletions.ui.config.above_list_max) {
+			$null {
+				$ListHeight = $PSCompletions.ui.config.above_list_max + 2
+			 }
+			 -1 {
+				$ListHeight = $Cursor.Y - $PSCompletions.ui.style_h
+			 }
+			Default {
+				if ($PSCompletions.ui.config.above_list_max -gt $Cursor.Y - $PSCompletions.ui.style_h) {
+					$ListHeight = $Cursor.Y - $PSCompletions.ui.style_h
+				}
+				else {
+					$ListHeight = $PSCompletions.ui.config.above_list_max + 2
+				}
+			}
+		}
+	}
+
+	if ($ListHeight -lt $PSCompletions.completion_max[1] + 2) {
+		$ListHeight = $PSCompletions.completion_max[1] + 2
+	}
+	if ($PSCompletions.ui.layout.Above) {
+		$Y = $WindowSize.Height - $CursorOffsetBottom - $PSCompletions.ui.style_h - $ListHeight
+	}
 	# output
 	@{
 		TopX       = $X
@@ -305,14 +333,6 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod new_list {
 	if ($size.Width -lt $MinWidth) { $size.Width = $MinWidth }
 	$Lines = @(foreach ($Item in $content) { "$($Item.ListItemText) ".PadRight($size.Width + 2) })
 	$ListConfig = $PSCompletions.ui.parse_list($size)
-
-	if ($PSCompletions.ui.layout.Above_list_h) {
-		$ListConfig.ListHeight = $PSCompletions.ui.layout.Above_list_h
-	}
-
-	if ($ListConfig.ListHeight -lt $PSCompletions.completion_max[1] + 2) {
-		$ListConfig.ListHeight = $PSCompletions.completion_max[1] + 2
-	}
 
 	$BoxSize = @{
 		Width  = $ListConfig.ListWidth + $PSCompletions.completion_max[0] + 1

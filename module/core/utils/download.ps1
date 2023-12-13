@@ -4,13 +4,12 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_download_list {
             $res = Invoke-WebRequest -Uri ($PSCompletions.url + '/list.txt')
             if ($res.StatusCode -eq 200) {
                 $content = $res.Content.Trim()
-                $old_list = Get-Content $PSCompletions.path.old_list -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-                $list = Get-Content $PSCompletions.path.list -Raw -Encoding utf8
+                $old_list = $PSCompletions.fn_get_raw_content($PSCompletions.path.old_list)
+                $list = $PSCompletions.fn_get_raw_content($PSCompletions.path.list)
                 if ($old_list -ne $list) {
                     Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
                 }
-                if (!$list) { $list = '' }
-                if ($content -ne $list.Trim()) {
+                if ($content -ne $list) {
                     $content | Out-File $PSCompletions.path.list -Force -Encoding utf8
                     $PSCompletions.list = $PSCompletions.fn_get_content($PSCompletions.path.list)
                 }
@@ -66,17 +65,12 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
             OutFile = $completion_dir + '\guid.txt'
         }
     )
-    $jobs = @()
+    $wc = New-Object System.Net.WebClient
     foreach ($file in $files) {
-        $params = $file
-        $jobs += Start-Job -Name $file.OutFile -ScriptBlock {
-            $params = $using:file
-            Invoke-WebRequest @params
-        }
+        $wc.DownloadFile($file.Uri, $file.OutFile)
     }
     $download = if ($is_update) { $PSCompletions.json.updating }else { $PSCompletions.json.adding }
     $PSCompletions.fn_write($PSCompletions.fn_replace($download))
-    Wait-Job -Job $jobs > $null
 
     $all_exist = $true
     foreach ($file in $files) {
@@ -96,12 +90,12 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
         Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
     }
 
-    $core_info = (Get-Content -Raw ($completion_dir + '\lang\' + $PSCompletions.lang + '.json') | ConvertFrom-Json).$($completion + '_core_info')
-    if($core_info.comp_config){
+    $core_info = ($PSCompletions.fn_get_raw_content($completion_dir + '\lang\' + $PSCompletions.lang + '.json') | ConvertFrom-Json).$($completion + '_core_info')
+    if ($core_info.comp_config) {
         $configs = $core_info.comp_config.PSObject.Properties.Name
 
         $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.comp_config_tip))
-        foreach($config in $configs){
+        foreach ($config in $configs) {
             $PSCompletions.fn_write($PSCompletions.fn_replace($core_info.comp_config.$config))
         }
         $PSCompletions.has_config_update = $true

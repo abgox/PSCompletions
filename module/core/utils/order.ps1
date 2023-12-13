@@ -7,7 +7,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_order {
     $path_order = $PSScriptRoots + '\' + $file
 
     if (!(Test-Path($path_order))) {
-        $json = Get-Content -Raw -Path ($PSScriptRoots + '\lang\' + $PSCompletions.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+        $json = $PSCompletions.fn_get_raw_content($PSScriptRoots + '\lang\' + $PSCompletions.lang + '.json') | ConvertFrom-Json
         $i = 1
         $res = [ordered]@{}
         $json.PSObject.Properties.Name | Where-Object {
@@ -18,7 +18,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_order {
         }
         $res | ConvertTo-Json | Out-File $path_order -Force
     }
-    return (Get-Content -Raw $path_order -Encoding utf8 | ConvertFrom-Json)
+    return ($PSCompletions.fn_get_raw_content($path_order) | ConvertFrom-Json)
 }
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_cache {
     param (
@@ -35,13 +35,14 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_cache {
 
     if (!$PSCompletions.comp_data.$root_cmd) {
         $PSCompletions.comp_data.$root_cmd = @{}
-        if($PSCompletions.comp_config.$origin_cmd.language){
+        if ($PSCompletions.comp_config.$origin_cmd.language) {
             $lang = $PSCompletions.comp_config.$origin_cmd.language
-        }else{
+        }
+        else {
             $lang = $PSCompletions.lang
         }
 
-        $json = Get-Content -Raw -Path ($PSScriptRoots + '\lang\' + $lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+        $json = $PSCompletions.fn_get_raw_content($PSScriptRoots + '\lang\' + $lang + '.json') | ConvertFrom-Json
 
         $PSCompletions.comp_data.$($root_cmd + '_info') = @{
             core_info = $json.$($exclude[0])
@@ -80,7 +81,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_order_job {
             $PSCompletions.comp_data.RemoveAt(0)
         }
         try {
-            $history = [array](Get-Content $path_history | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
+            $history = [array](Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { ($_ -split '\s+')[0] -eq $cmd })
             $history = $history[-1] -split ' '
             function fn([array]$history) {
                 $_i = 0

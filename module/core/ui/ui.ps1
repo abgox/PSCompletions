@@ -95,14 +95,14 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod show {
 		$PSCompletions.ui.style_h = [System.Console]::CursorTop
 	}
 
-	if ($available_h -le 5) {
+	if ([System.Console]::WindowHeight -le 5) {
 		''
 		[Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
 		[Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.json.min_area)
 		return
 	}
 
-	if ($available_h - $max[1] -gt 3 -and $PSCompletions.ui.config.enable_ui) {
+	if (($available_h -gt $PSCompletions.completion_max[1] + 3 -or [System.Console]::CursorTop - $PSCompletions.ui.style_h -gt $PSCompletions.completion_max[1] + 3) -and $PSCompletions.ui.config.enable_ui) {
 		''
 		for () {
 			$repeat = $false

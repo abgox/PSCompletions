@@ -1,5 +1,5 @@
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_config {
-    $c = Get-Content -raw -path "$($PSCompletions.path.root)/env.json" -ErrorAction SilentlyContinue | ConvertFrom-Json
+    $c = $PSCompletions.fn_get_raw_content("$($PSCompletions.path.root)/env.json") | ConvertFrom-Json
 
     if ($c.root_cmd) {
         $config = @{

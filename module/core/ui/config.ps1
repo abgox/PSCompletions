@@ -1,6 +1,13 @@
 if (Test-Path($PSCompletions.path.config)) {
-    $PSCompletions.total_config = Get-Content -Raw $PSCompletions.path.config | ConvertFrom-Json
-    $PSCompletions.ui.config = $PSCompletions.total_config.ui
+    $PSCompletions.total_config = $PSCompletions.fn_get_raw_content($PSCompletions.path.config) | ConvertFrom-Json
+    $PSCompletions.ui.config = @{}
+    $PSCompletions.total_config.ui.PSObject.Properties.Name | ForEach-Object {
+        $PSCompletions.ui.config.$_ = $PSCompletions.total_config.ui.$_
+    }
+
+    if (!$PSCompletions.ui.config.above_list_max) {
+        $PSCompletions.ui.config.above_list_max = 10
+    }
     $PSCompletions.ui.color = $PSCompletions.total_config.color
     if ($PSCompletions.total_config.comp_config) {
         $PSCompletions.total_config.comp_config.PSObject.Properties.Name | ForEach-Object {
@@ -44,10 +51,10 @@ else {
         }
     }
     $PSCompletions.total_config = @{
-        ui = $PSCompletions.ui.config
+        ui    = $PSCompletions.ui.config
         color = $PSCompletions.ui.color
     }
-    if($PSCompletions.comp_config.Count){
+    if ($PSCompletions.comp_config.Count) {
         $PSCompletions.total_config.comp_config = $PSCompletions.comp_config
     }
     $PSCompletions.total_config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8

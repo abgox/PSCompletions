@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.6'
+$PSCompletions.version = '3.0.7'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '\completions'
@@ -97,8 +97,9 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
     try {
         if (!(Test-Path($psc_json_path))) {
             $psc_temp = 'PSCompletions' + (New-Guid).Guid + '.json'
-            Invoke-WebRequest -Uri ($PSCompletions.url + '/completions/PSCompletions/lang/' + $PSCompletions.lang + '.json') -OutFile $psc_temp
-            $PSCompletions.json = (Get-Content -Path $psc_temp -Raw -Encoding UTF8 | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
+            $wc = New-Object System.Net.WebClient
+            $wc.DownloadFile(($PSCompletions.url + '/completions/PSCompletions/lang/' + $PSCompletions.lang + '.json'), $psc_temp)
+            $PSCompletions.json = ($PSCompletions.fn_get_raw_content($psc_temp) | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
             $PSCompletions.fn_add_completion('PSCompletions')
             Remove-Item $psc_temp -Force -ErrorAction SilentlyContinue
         }
@@ -112,13 +113,13 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
     if (!(Test-Path($psc_alias_path))) {
         $PSCompletions.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
     }
-    $psc_alias = Get-Content $psc_alias_path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+    $psc_alias = $PSCompletions.fn_get_raw_content($psc_alias_path)
     if ($psc_alias) { $psc_alias = $psc_alias.Trim() }
     if ($psc_alias -ne $PSCompletions.root_cmd) {
         $PSCompletions.fn_set_config('root_cmd', $psc_alias)
         $PSCompletions.root_cmd = $PSCompletions.config.root_cmd = $psc_alias
     }
-    $PSCompletions.json = (Get-Content -Path $psc_json_path -Raw -Encoding UTF8 | ConvertFrom-Json).PSCompletions_core_info
+    $PSCompletions.json = ($PSCompletions.fn_get_raw_content($psc_json_path) | ConvertFrom-Json).PSCompletions_core_info
     if (!(Test-Path($PSCompletions.path.update))) {
         New-Item $PSCompletions.path.update > $null
     }
@@ -137,7 +138,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
     }
     Get-ChildItem -Path $PSCompletions.path.completions -Filter 'alias.txt' -Recurse -Depth 1 | ForEach-Object {
         $cmd = Split-Path (Split-Path $_.FullName -Parent)  -Leaf
-        $PSCompletions.comp_cmd.$cmd = (Get-Content $_.FullName -Raw).Trim()
+        $PSCompletions.comp_cmd.$cmd = $PSCompletions.fn_get_raw_content($_.FullName)
     }
     $load_err_list = [System.Collections.Generic.List[string]]@()
     foreach ($item in $res) {
@@ -196,6 +197,11 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
     function get_content([string]$path) {
         return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
     }
+    function get_raw_content([string]$path, [bool]$trim = $true) {
+        $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+        if ($trim -and $res) { $res = $res.Trim() }
+        return $res
+    }
     function get_order {
         param (
             [string]$PSScriptRoots,
@@ -205,7 +211,7 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
         $path_order = $PSScriptRoots + '\' + $file
 
         if (!(Test-Path($path_order))) {
-            $json = Get-Content -Raw -Path ($PSScriptRoots + '\lang\' + $PSCompletions.lang + '.json') -Encoding UTF8 | ConvertFrom-Json
+            $json = get_raw_content ($PSScriptRoots + '\lang\' + $PSCompletions.lang + '.json') | ConvertFrom-Json
             $i = 1
             $res = [ordered]@{}
             $json.PSObject.Properties.Name | Where-Object {
@@ -216,7 +222,7 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
             }
             $res | ConvertTo-Json | Out-File $path_order -Force
         }
-        return (Get-Content -Raw $path_order -Encoding utf8 | ConvertFrom-Json)
+        return (get_raw_content $path_order | ConvertFrom-Json)
     }
 
     $alias_list = $PSCompletions.comp_cmd.Keys | ForEach-Object { $PSCompletions.comp_cmd.$_ }
@@ -253,7 +259,7 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
             $lang = $PSCompletions.lang
         }
 
-        $json = Get-Content -Raw -Path  "$($PSCompletions.path.completions)\$($_)\lang\$($lang).json" -Encoding UTF8 | ConvertFrom-Json
+        $json = get_raw_content "$($PSCompletions.path.completions)\$($_)\lang\$($lang).json" | ConvertFrom-Json
 
         $info = $_ + '_core_info'
         $PSCompletions.comp_data.$($alias + '_info') = @{
@@ -280,6 +286,14 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
 $null = Start-Job -ScriptBlock {
     param( $PSCompletions )
     function _do($do) { try { & $do }catch {} }
+    function get_content([string]$path) {
+        return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
+    }
+    function get_raw_content([string]$path, [bool]$trim = $true) {
+        $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+        if ($trim -and $res) { $res = $res.Trim() }
+        return $res
+    }
     function _replace([array]$data) {
         $data = $data -join ''
         $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
@@ -296,33 +310,49 @@ $null = Start-Job -ScriptBlock {
                 $res = Invoke-WebRequest -Uri ($PSCompletions.url + '/list.txt')
                 if ($res.StatusCode -eq 200) {
                     $content = $res.Content.Trim()
-                    $old_list = Get-Content $PSCompletions.path.old_list -Raw -Encoding utf8
-                    $list = Get-Content $PSCompletions.path.list -Raw -Encoding utf8
+                    $old_list = get_raw_content $PSCompletions.path.old_list
+                    $list = get_raw_content $PSCompletions.path.list
                     if ($old_list -ne $list) {
                         Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
                     }
-                    if ($content -ne $list.Trim()) {
+                    if ($content -ne $list) {
                         $content | Out-File $PSCompletions.path.list -Force -Encoding utf8
                     }
                     return $content
                 }
             }
-            else {
-                return $false
-            }
+            else { return $false }
         }
         catch { return $false }
     }
     function get_config() {
-        $c = Get-Content -raw -path "$($PSCompletions.path.root)/env.json" | ConvertFrom-Json
-        return @{
-            root_cmd = $c.root_cmd
-            github   = $c.github
-            gitee    = $c.gitee
-            language = $c.language
-            update   = $c.update
-            LRU      = $c.LRU
+        $c = get_raw_content "$($PSCompletions.path.root)/env.json" | ConvertFrom-Json
+
+        if ($c.root_cmd) {
+            $config = @{
+                root_cmd = $c.root_cmd
+                github   = $c.github
+                gitee    = $c.gitee
+                language = $c.language
+                update   = $c.update
+                LRU      = $c.LRU
+            }
         }
+        else {
+            $config = @{
+                root_cmd = 'psc'
+                github   = 'https://github.com/abgox/PSCompletions'
+                gitee    = 'https://gitee.com/abgox/PSCompletions'
+                language = $PSCompletions.lang
+                update   = 1
+                LRU      = 5
+            }
+            $config | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
+        }
+        if($config.update -eq $PSCompletions.version){
+            $config.update = 1
+        }
+        return $config
     }
     function set_config([string]$k, [string]$v) {
         $c = get_config
@@ -335,23 +365,24 @@ $null = Start-Job -ScriptBlock {
             $content = $response.Content.Trim()
             $versions = @($PSCompletions.version, $content) | Sort-Object { [Version] $_ }
             if ($versions[-1] -ne $PSCompletions.version) {
-                $res = Invoke-WebRequest -Uri ($PSCompletions.url + '/module/log.json')
-                if ($res.StatusCode -eq 200) {
-                    $res.Content | Out-File ($PSCompletions.path.core + '\log.json') -Force -Encoding utf8
+                $wc = New-Object System.Net.WebClient
+                $log_url = $PSCompletions.url + '/module/log.json'
+                $log_file = $PSCompletions.path.core + '\log.json'
+                $wc.DownloadFile($log_url, $log_file)
+                if (Test-Path($log_file)) {
                     set_config 'update' $versions[-1]
                 }
             }
         }
     }
 
-    $old_list = Get-Content $PSCompletions.path.old_list -Encoding utf8
-    $new_list = Get-Content $PSCompletions.path.list -Encoding utf8
+    $old_list = get_content $PSCompletions.path.old_list
+    $new_list = get_content $PSCompletions.path.list
     $diff = Compare-Object $new_list $old_list -PassThru
     if ($diff) {
         $diff | Out-File ($PSCompletions.path.core + '\.add') -Force -Encoding utf8
-    }else {
-        Clear-Content ($PSCompletions.path.core + '\.add') -Force
     }
+    else { Clear-Content ($PSCompletions.path.core + '\.add') -Force }
 
     download_list
 
@@ -363,11 +394,11 @@ $null = Start-Job -ScriptBlock {
         $response = Invoke-WebRequest -Uri  $url
         if ($response.StatusCode -eq 200) {
             $content = $response.Content.Trim()
-            $guid = (Get-Content ($PSCompletions.path.completions + '\' + $_ + '\guid.txt') -Raw).Trim()
+            $guid = get_raw_content($PSCompletions.path.completions + '\' + $_ + '\guid.txt')
             if ($guid -ne $content) { $update_list.Add($_) }
         }
     }
-    $old_update_list = Get-Content $PSCompletions.path.update -Encoding utf8
+    $old_update_list = get_content $PSCompletions.path.update
 
     if ($old_update_list) {
         if ($update_list) {

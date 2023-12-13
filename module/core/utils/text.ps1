@@ -2,6 +2,12 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_content {
     param ([string]$path)
     return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
 }
+$PSCompletions | Add-Member -MemberType ScriptMethod fn_get_raw_content {
+    param ([string]$path,[bool]$trim =$true)
+    $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+    if($trim -and $res){$res = $res.Trim()}
+    return $res
+}
 
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_replace {
     param ([array]$data)
