@@ -190,14 +190,15 @@
   "ui custom line bottom_right ┘": "单线",
   "ui custom line bottom_right ╛": "单双线",
   "ui custom config": "😄针对 UI的一些其他自定义配置，如位置，间距，滚动等",
-  "ui custom config follow_cursor": "默认关闭\n😄设置UI是否跟随光标\n即光标的右下角就是UI的左上角\n如果你的终端宽度比较小，不建议开启它",
+  "ui custom config above_list_max": "默认值为10\n当菜单UI显示在上方时，首页显示的补全项的最大个数\n设置为 -1 时，则表示占满上方所有空间",
+  "ui custom config follow_cursor": "默认值为0(表示禁用)\n😄设置UI是否跟随光标\n即光标的右下角就是UI的左上角\n如果你的终端宽度比较小，不建议开启它",
   "ui custom config follow_cursor 0": "默认值，表示禁用，UI 不跟随光标",
   "ui custom config follow_cursor 1": "启用它，让 UI 跟随光标",
-  "ui custom config list_margin_right": "默认值为1，不要使用小于0的值\n设置左侧补全列表与右侧补全提示信息之间的间距(会默认带有约四个空格的间距，不提供修改)",
-  "ui custom config ui_margin_right": "默认值为0\n设置补全提示信息与右侧UI边框的间距",
   "ui custom config fast_scroll_item_count": "默认值为10\n指定当按下 Shift，再进行上下选择时，一次滚动的补全项数量",
   "ui custom config count_symbol": "默认值为 /\n设置补全个数显示区域，当前和总的补全数之间的间隔符",
   "ui custom config filter_symbol": "默认值为 []\n设置过滤区域，左侧和右侧的符号\n设置此配置项需要两个字符\n如有空格，请使用引号包裹,如 '[ ]'",
+  "ui custom config list_margin_right": "默认值为1，不要使用小于0的值\n设置左侧补全列表与右侧补全提示信息之间的间距(会默认带有约四个空格的间距，不提供修改)",
+  "ui custom config ui_margin_right": "默认值为0\n设置补全提示信息与右侧UI边框的间距",
   "PSCompletions_core_info": {
     "description": [
       "<$Blue>PSCompletions(<$Magenta>{{$PSCompletions.root_cmd}}<$Cyan>) --- 命令行补全管理\n",
@@ -256,7 +257,7 @@
     ],
     "repo_err": "<$Yellow>{{$PSCompletions.json.module_warn + \"`n\" + $PSCompletions.json.repo_add}}",
     "cancel": "<$Green>操作取消",
-    "init_err": "<$Red>初始化失败。请检查网络问题",
+    "init_err": "初始化失败。请检查网络问题",
     "cmd_error": [
       "<$Red>子命令 <$Magenta>{{$arg[0]}}<$Red> 不存在。\n",
       "推荐输入 <$Magenta>{{$PSCompletions.root_cmd}}<$Red> 后按下 <$Magenta>空格<$Red> 和 <$Magenta>Tab<$Red> 键进行补全"
@@ -265,7 +266,7 @@
       "<$Yellow>PSCompletions 模块有更新了,是否更新?(已添加的补全会自动迁移)\n",
       "<$Magenta>{{$PSCompletions.version}}<$Cyan> => <$Magenta>{{$PSCompletions.config.update}}\n<$Cyan>",
       "{{",
-      "$log=(Get-Content -Raw ($PSCompletions.path.core +'\\log.json') -Encoding UTF8 -ErrorAction SilentlyContinue | ConvertFrom-Json).PSObject.Properties;",
+      "$log=($PSCompletions.fn_get_raw_content($PSCompletions.path.core +'\\log.json') | ConvertFrom-Json).PSObject.Properties;",
       "$num=1;",
       "$log | Foreach-Object {",
       "   if($_.Name -gt $PSCompletions.version){if($num){'<$Blue>' + $_.Name + ': ' + $_.Value.$($PSCompletions.lang);$num=0}else{\"`n \" + $_.Name + ': ' + $_.Value.$($PSCompletions.lang)} }",
@@ -276,10 +277,8 @@
     "module_updating": "<$Cyan>成功运行命令: <$Magenta>Update-Module PSCompletions \n<$Cyan>PSCompletions 模块更新正在进行中",
     "module_update_done": "<$Green>PSCompletions 模块更新完成,请重启终端并重新导入模块",
     "module_update_err": [
-      "<$Red>PSCompletions 模块更新失败,请手动输入以下命令进行更新\n",
-      "<$Magenta>Update-Module PSCompletions\n",
-      "<$Red>如果你使用的是 Windows PowerShell,你需要确保足够的权限或者使用 -Scope\n",
-      "如: <$Magenta>Update-Module PSCompletions -Scope CurrentUser"
+      "<$Red>PSCompletions 模块更新失败,请根据报错检查原因,可手动输入以下命令进行更新\n",
+      "<$Magenta>Update-Module PSCompletions"
     ],
     "param_min": "<$Red>传入的参数太少。",
     "param_max": "<$Red>传入的参数太多。",

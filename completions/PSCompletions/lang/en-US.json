@@ -188,14 +188,15 @@
     "ui custom line bottom_right ┘": "Single",
     "ui custom line bottom_right ╛": "DoubleSingle",
     "ui custom config": "😄Some other configurations，such as position,spacing,scroll...",
-    "ui custom config follow_cursor": "Close by default\n😄Set whether the menu UI follows the cursor\nThat is, the bottom right corner of the cursor is the top left corner of the UI\nIt is not recommended to turn it on if your terminal width is small",
+    "ui custom config above_list_max": "Default to 10\nMaximum number of completion items displayed on the first page when the menu UI is displayed on top.\nWhen set to -1, it fills up all the space above",
+    "ui custom config follow_cursor": "Default to 0\n😄Set whether the menu UI follows the cursor\nThat is, the bottom right corner of the cursor is the top left corner of the UI\nIt is not recommended to turn it on if your terminal width is small",
     "ui custom config follow_cursor 0": "Default.It mean disable",
     "ui custom config follow_cursor 1": "Enable it",
-    "ui custom config list_margin_right": "Default to 1，Don't use values less than 0\nSet the spacing between the left completion list and the right completion tip area\n(It will default to a spacing of about four spaces, with no modification provided)",
-    "ui custom config ui_margin_right": "Default to 0\nSet the spacing between the completion tip area and the right menu UI border",
     "ui custom config fast_scroll_item_count": "Default to 10\nSpecifies the number of completion items scrolled at once when Shift is pressed and then press up or down.",
     "ui custom config count_symbol": "Default to /\nSets the separator for the number of complements display area.",
     "ui custom config filter_symbol": "Default to []\nSet the symbols to the left and right of the filter area\nIt requires two characters\nWrap in quotation marks if there are spaces,such as '[ ]'",
+    "ui custom config list_margin_right": "Default to 1，Don't use values less than 0\nSet the spacing between the left completion list and the right completion tip area\n(It will default to a spacing of about four spaces, with no modification provided)",
+    "ui custom config ui_margin_right": "Default to 0\nSet the spacing between the completion tip area and the right menu UI border",
     "PSCompletions_core_info": {
         "description": [
             "<$Blue>PSCompletions(<$Magenta>{{$PSCompletions.root_cmd}}<$Cyan>) --- Command completion manager\n",
@@ -255,7 +256,7 @@
         ],
         "repo_err": "<$Yellow>{{$PSCompletions.json.module_warn + \"`n\" + $PSCompletions.json.repo_add}}",
         "cancel": "<$Green>The operation has been canceled.",
-        "init_err": "<$Red>Init failed.Please check your network.",
+        "init_err": "Init failed.Please check your network.",
         "cmd_error": [
             "<$Red>Subcommand <$Magenta>{{$arg[0]}}<$Red> isn't exist.\n",
             "It's recommended to type <$Magenta>{{$PSCompletions.root_cmd}}<$Red>,press <$Magenta>Space<$Red> and <$Magenta>Tab<$Red> to complete."
@@ -265,7 +266,7 @@
             "(The added completion will be automatically migrated)\n",
             "<$Magenta>{{$PSCompletions.version}}<$Cyan> => <$Magenta>{{$PSCompletions.config.update}}\n<$Cyan>",
             "{{",
-            "$log=(Get-Content -Raw ($PSCompletions.path.core +'\\log.json') -Encoding UTF8 -ErrorAction SilentlyContinue | ConvertFrom-Json).PSObject.Properties;",
+            "$log=($PSCompletions.fn_get_raw_content($PSCompletions.path.core +'\\log.json') | ConvertFrom-Json).PSObject.Properties;",
             "$num=1;",
             "$log | Foreach-Object {",
             "   if($_.Name -gt $PSCompletions.version){if($num){'<$Blue>' + $_.Name + ': ' + $_.Value.$($PSCompletions.lang);$num=0}else{\"`n \" + $_.Name + ': ' + $_.Value.$($PSCompletions.lang)} }",
@@ -276,10 +277,10 @@
         "module_updating": "<$Cyan>Successfully run the command: <$Magenta>Update-Module PSCompletions\n<$Cyan>Updating PSCompletions module",
         "module_update_done": "<$Green>PSCompletions module update completed.Please restart the terminal and re-import the module",
         "module_update_err": [
-            "<$Red>PSCompletions module update failed, Please enter the following command to update\n",
-            "<$Magenta>Update-Module PSCompletions\n",
-            "<$Red>If you are using Windows PowerShell, you will need to secure sufficient privileges or use -Scope.\n",
-            "e.g. <$Magenta>Update-Module PSCompletions -Scope CurrentUser"
+            "<$Red>PSCompletions module update failed\n",
+            "Please check the reason according to the error\n",
+            "You can enter the following command to update\n",
+            "<$Magenta>Update-Module PSCompletions"
         ],
         "param_min": "<$Red>Too few parameters.",
         "param_max": "<$Red>Too many parameters.",
