@@ -221,24 +221,26 @@
         "       scoop config <name> <value>  --- Set configuration\n",
         "       scoop config rm <name>       --- Remove configuration"
     ],
-    "config use_external_7zip": "😄External 7zip (from path) will be used for archive extraction",
+    "config use_external_7zip": "{{if($config.use_external_7zip){'Current value: ' + $config.use_external_7zip + \"`n\"} }}😄External 7zip (from path) will be used for archive extraction",
     "config use_external_7zip true": "Set to true",
     "config use_external_7zip false": "Set to false",
-    "config use_lessmsi": "😄Prioritize using the lessmsi utility over native msiexec",
+    "config use_lessmsi": "{{if($config.use_lessmsi){'Current value: ' + $config.use_lessmsi + \"`n\"} }}😄Prioritize using the lessmsi utility over native msiexec",
     "config use_lessmsi true": "Set to true",
     "config use_lessmsi false": "Set to false",
-    "config no_junction": "😄'current' version aliases will not be used. Shims and shortcuts will point to specific versions",
+    "config no_junction": "{{if($config.no_junction){'Current value: ' + $config.no_junction + \"`n\"} }}😄'current' version aliases will not be used. \nShims and shortcuts will point to specific versions",
     "config no_junction true": "Set to true",
     "config no_junction false": "Set to false",
-    "config scoop_repo": "😄Git repository containing Scoop source code. This configuration is for custom forks",
+    "config scoop_repo": "{{if($config.scoop_repo){'Current value: ' + $config.scoop_repo + \"`n\"} }}😄Git repository containing Scoop source code. This configuration is for custom forks",
     "config scoop_repo http://github.com/ScoopInstaller/Scoop": "Default value",
     "config scoop_branch": [
+        "{{if($config.scoop_branch){'Current value: ' + $config.scoop_branch + \"`n\"} }}",
         "😄Allows using branches other than master, useful for testing specific features before being released to all users\n",
         "If you want to receive updates in advance to test new features, use develop (Ref: https://github.com/ScoopInstaller/Scoop/issues/2939)"
     ],
     "config scoop_branch master": "Set to master",
     "config scoop_branch develop": "Set to develop",
     "config proxy": [
+        "{{if($config.proxy){'Current value: '+ $config.proxy + \"`n\"} }}",
         "Usage: proxy [username:password@]host:port\n",
         "By default, Scoop uses proxy settings from Internet Options but with anonymous authentication\n",
         "To use the credentials of the current logged-in user, use 'currentuser' in place of username:password\n",
@@ -246,49 +248,54 @@
         "An empty or unset value is equivalent to 'default' (no username or password)\n",
         "To bypass the system proxy and connect directly, use 'none' (no username or password)"
     ],
-    "config autostash_on_conflict": "😄Scoop will automatically stash uncommitted changes when conflicts are detected during updates (default is false, which will abort the update)",
+    "config autostash_on_conflict": "{{if($config.autostash_on_conflict){'Current value: '+ $config.autostash_on_conflict + \"`n\"} }}😄Scoop will automatically stash uncommitted changes when conflicts are detected during updates (default is false, which will abort the update)",
     "config autostash_on_conflict true": "Set to true",
     "config autostash_on_conflict false": "Set to false",
     "config default_architecture": [
+        "{{if($config.default_architecture){'Current value: '+ $config.default_architecture + \"`n\"} }}",
         "😄Allows configuring the preferred application installation architecture.\n",
         "If not specified, the system will automatically determine the architecture"
     ],
     "config default_architecture 32bit": "Set to 32bit",
     "config default_architecture 64bit": "Set to 64bit",
     "config default_architecture arm64": "Set to arm64",
-    "config debug": "😄Displays additional and verbose output",
+    "config debug": "{{if($config.debug){'Current value: '+ $config.debug + \"`n\"} }}😄Displays additional and verbose output",
     "config debug true": "Set to true",
     "config debug false": "Set to false",
-    "config force_update": "😄Forces updating applications to the version in the bucket",
+    "config force_update": "{{if($config.force_update){'Current value: '+ $config.force_update + \"`n\"} }}😄Forces updating applications to the version in the bucket",
     "config force_update true": "Set to true",
     "config force_update false": "Set to false",
-    "config show_update_log": "😄Does not display 'scoop update' on change commits",
+    "config show_update_log": "{{if($config.show_update_log){'Current value: '+ $config.show_update_log + \"`n\"} }}😄Does not display 'scoop update' on change commits",
     "config show_update_log true": "Set to true",
     "config show_update_log false": "Set to false",
-    "config show_manifest": "😄Displays the manifest for each application about to be installed and asks the user whether to proceed",
+    "config show_manifest": "{{if($config.show_manifest){'Current value: '+ $config.show_manifest + \"`n\"} }}😄Displays the manifest for each application about to be installed and asks the user whether to proceed",
     "config show_manifest true": "Set to true",
     "config show_manifest false": "Set to false",
-    "config shim": "😄Choose scoop shim build",
+    "config shim": "{{if($config.shim){'Current value: '+ $config.shim + \"`n\"} }}😄Choose scoop shim build",
     "config shim kiennq": "Set to kiennq",
     "config shim scoopcs": "Set to scoopcs",
     "config shim 71": "Set to 71",
-    "config root_path": "Path to Scoop's root directory",
-    "config global_path": "Path to the root directory of global applications in Scoop",
-    "config cache_path": "For downloads, defaults to the 'cache' folder under Scoop's root directory",
+    "config root_path": "{{if($config.root_path){'Current value: '+ $config.root_path + \"`n\"} }}Path to Scoop's root directory",
+    "config global_path": "{{if($config.global_path){'Current value: '+ $config.global_path + \"`n\"} }}Path to the root directory of global applications in Scoop",
+    "config cache_path": "{{if($config.cache_path){'Current value: '+ $config.cache_path + \"`n\"} }}For downloads, defaults to the 'cache' folder under Scoop's root directory",
     "config gh_token": [
+        "{{if($config.gh_token){'Current value: '+ $config.gh_token + \"`n\"} }}",
         "GitHub API token used for authentication requests\n",
         "Essential for running checkver and downloading from private repositories without hitting rate limits"
     ],
     "config virustotal_api_key": [
+        "{{if($config.virustotal_api_key){'Current value: '+ $config.virustotal_api_key + \"`n\"} }}",
         "API key for uploading/scanning files using virustotal\n",
         "Ref: https://support.virustotal.com/hc/en-us/articles/115002088769-Please-give-me-an-API-key"
     ],
     "config cat_style": [
+        "{{if($config.cat_style){'Current value: '+ $config.cat_style + \"`n\"} }}",
         "When set to a non-empty string, Scoop will use 'bat' to display 'scoop cat' commands and manifests during manifest inspection\n",
         "This requires installing 'bat' (run 'scoop install bat' to install it), otherwise, it will throw an error\n",
         "Accepts values identical to those passed to the --style flag of 'bat'"
     ],
     "config ignore_running_processes": [
+        "{{if($config.ignore_running_processes){'Current value: '+ $config.ignore_running_processes + \"`n\"} }}",
         "😄When set to false (default), Scoop will immediately stop its process if any target application processes are detected to be running\n",
         "Processes here refer to reset/uninstall/update\n",
         "When set to true, Scoop will only display a warning message and continue the process"
@@ -296,44 +303,52 @@
     "config ignore_running_processes true": "Set to true",
     "config ignore_running_processes false": "Set to false",
     "config private_hosts": [
+        "{{if($config.private_hosts){'Current value: '+ $config.private_hosts + \"`n\"} }}",
         "Array of private hosts requiring additional authentication\n",
         "For e.g.   if you need to access a private GitHub repository, add the host to this list and provide matching and header strings"
     ],
     "config hold_update_until": [
+        "{{if($config.hold_update_until){'Current value: '+ $config.hold_update_until + \"`n\"} }}",
         "Disable/hold Scoop self-updates until the specified date\n",
         "'scoop hold scoop' sets the value to one day ahead\n",
         "Should be provided in 'YYYY-MM-DD', 'YYYY/MM/DD', or any other format acceptable to '[System.DateTime]::Parse()'\n",
         "Ref: https://docs.microsoft.com/dotnet/api/system.datetime.parse?view=netframework-4.5#StringToParse"
     ],
     "config update_nightly": [
+        "{{if($config.update_nightly){'Current value: '+ $config.update_nightly + \"`n\"} }}",
         "😄Nightly versions are formatted as 'nightly-yyyyMMdd', if set to true, they will update one day ahead\n",
         "Otherwise, nightly versions won't update unless --force is used"
     ],
     "config update_nightly true": "Set to true",
     "config update_nightly false": "Set to false",
-    "config aria2-enabled": "😄Whether to enable Aria2c for downloading artifacts",
+    "config aria2-enabled": "{{if($config.'aria2-enabled'){'Current value: '+ $config.'aria2-enabled' + \"`n\"} }}😄Whether to enable Aria2c for downloading artifacts",
     "config aria2-enabled true": "Set to true",
     "config aria2-enabled false": "Set to false",
-    "config aria2-warning-enabled": "😄Whether to disable warning messages displayed during Aria2c downloads",
+    "config aria2-warning-enabled": "{{if($config.'aria2-warning-enabled'){'Current value: '+ $config.'aria2-warning-enabled' + \"`n\"} }}😄Whether to disable warning messages displayed during Aria2c downloads",
     "config aria2-warning-enabled true": "Set to true",
     "config aria2-warning-enabled false": "Set to false",
     "config aria2-retry-wait": [
+        "{{if($config.'aria2-retry-wait'){'Current value: '+ $config.'aria2-retry-wait' + \"`n\"} }}",
         "Seconds to wait between retries\n",
         "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-retry-wait"
     ],
     "config aria2-split": [
+        "{{if($config.'aria2-split'){'Current value: '+ $config.'aria2-split' + \"`n\"} }}",
         "Number of connections to use for downloading\n",
         "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-s"
     ],
     "config aria2-max-connection-per-server": [
+        "{{if($config.'aria2-max-connection-per-server'){'Current value: '+ $config.'aria2-max-connection-per-server' + \"`n\"} }}",
         "Maximum connections per single server for each download\n",
         "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-x"
     ],
     "config aria2-min-split-size": [
+        "{{if($config.'aria2-min-split-size'){'Current value: '+ $config.'aria2-min-split-size' + \"`n\"} }}",
         "Files to be split and downloaded using multiple connections based on the configured size\n",
         "Ref: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-k"
     ],
     "config aria2-options": [
+        "{{if($config.'aria2-options'){'Current value: '+ $config.'aria2-options' + \"`n\"} }}",
         "Array of additional aria2 options\n",
         "Ref: https://aria2.github.io/manual/en/html/aria2c.html#options"
     ],

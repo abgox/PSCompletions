@@ -221,24 +221,26 @@
         "     scoop config <name> <value>  --- 设置配置\n ",
         "     scoop config rm <name>       --- 移除配置"
     ],
-    "config use_external_7zip": "😄外部 7zip (从路径) 将用于解压缩存档",
+    "config use_external_7zip": "{{if($config.use_external_7zip){'当前值: ' + $config.use_external_7zip + \"`n\"} }}😄外部 7zip (从路径) 将用于解压缩存档",
     "config use_external_7zip true": "设置为 true",
     "config use_external_7zip false": "设置为 false",
-    "config use_lessmsi": "😄优先使用 lessmsi 实用程序而不是本机的 msiexec",
+    "config use_lessmsi": "{{if($config.use_lessmsi){'当前值: ' + $config.use_lessmsi + \"`n\"} }}😄优先使用 lessmsi 实用程序而不是本机的 msiexec",
     "config use_lessmsi true": "设置为 true",
     "config use_lessmsi false": "设置为 false",
-    "config no_junction": "😄将不使用\"current\"版本别名。Shims 和 Shortcuts 将指向特定版本",
+    "config no_junction": "{{if($config.no_junction){'当前值: ' + $config.no_junction + \"`n\"} }}😄将不使用\"current\"版本别名。Shims 和 Shortcuts 将指向特定版本",
     "config no_junction true": "设置为 true",
     "config no_junction false": "设置为 false",
-    "config scoop_repo": "😄包含 Scoop 源代码的Git存储库。此配置适用于自定义 forks",
+    "config scoop_repo": "{{if($config.scoop_repo){'当前值: ' + $config.scoop_repo + \"`n\"} }}😄包含 Scoop 源代码的Git存储库。此配置适用于自定义 forks",
     "config scoop_repo http://github.com/ScoopInstaller/Scoop": "默认值",
     "config scoop_branch": [
+        "{{if($config.scoop_branch){'当前值: ' + $config.scoop_branch + \"`n\"} }}",
         "😄允许使用不同于 master 的分支,可以用于在发布给所有用户之前测试特定功能\n",
         "如果要提前接收更新以测试新功能,请使用 develop(参见: https://github.com/ScoopInstaller/Scoop/issues/2939)"
     ],
     "config scoop_branch master": "设置为 master",
     "config scoop_branch develop": "设置为 develop",
     "config proxy": [
+        "{{if($config.proxy){'当前值: '+ $config.proxy + \"`n\"} }}",
         "用法: proxy [username:password@]host:port\n",
         "默认情况下,Scoop 将使用来自 Internet 选项的代理设置,但使用匿名身份验证\n",
         "若要使用当前登录用户的凭据,请在 username:password 位置使用 'currentuser'\n",
@@ -246,46 +248,50 @@
         "代理的空值或未设置值等同于 'default'（没有用户名或密码）\n",
         "要绕过系统代理并直接连接,请使用 'none'（没有用户名或密码）"
     ],
-    "config autostash_on_conflict": "😄在更新期间检测到冲突时,Scoop 将自动储藏未提交的更改(默认值为 false,将中止更新)",
+    "config autostash_on_conflict": "{{if($config.autostash_on_conflict){'当前值: '+ $config.autostash_on_conflict + \"`n\"} }}😄在更新期间检测到冲突时,Scoop 将自动储藏未提交的更改(默认值为 false,将中止更新)",
     "config autostash_on_conflict true": "设置为 true",
     "config autostash_on_conflict false": "设置为 false",
-    "config default_architecture": "😄允许配置首选的应用程序安装架构。如果未指定,系统将自动确定架构",
+    "config default_architecture": "{{if($config.default_architecture){'当前值: '+ $config.default_architecture + \"`n\"} }}😄允许配置首选的应用程序安装架构。如果未指定,系统将自动确定架构",
     "config default_architecture 32bit": "设置为 32bit",
     "config default_architecture 64bit": "设置为 64bit",
     "config default_architecture arm64": "设置为 arm64",
-    "config debug": "😄将显示附加和详细的输出",
+    "config debug": "{{if($config.debug){'当前值: '+ $config.debug + \"`n\"} }}😄将显示附加和详细的输出",
     "config debug true": "设置为 true",
     "config debug false": "设置为 false",
-    "config force_update": "😄强制更新应用程序到 bucket 的版本",
+    "config force_update": "{{if($config.force_update){'当前值: '+ $config.force_update + \"`n\"} }}😄强制更新应用程序到 bucket 的版本",
     "config force_update true": "设置为 true",
     "config force_update false": "设置为 false",
-    "config show_update_log": "😄不显示 'scoop update' 上的更改提交",
+    "config show_update_log": "{{if($config.show_update_log){'当前值: '+ $config.show_update_log + \"`n\"} }}😄不显示 'scoop update' 上的更改提交",
     "config show_update_log true": "设置为 true",
     "config show_update_log false": "设置为 false",
-    "config show_manifest": "😄显示即将安装的每个应用程序的清单,然后询问用户是否要继续",
+    "config show_manifest": "{{if($config.show_manifest){'当前值: '+ $config.show_manifest + \"`n\"} }}😄显示即将安装的每个应用程序的清单,然后询问用户是否要继续",
     "config show_manifest true": "设置为 true",
     "config show_manifest false": "设置为 false",
-    "config shim": "😄选择 scoop shim 构建",
+    "config shim": "{{if($config.shim){'当前值: '+ $config.shim + \"`n\"} }}😄选择 scoop shim 构建",
     "config shim kiennq": "设置为 kiennq",
     "config shim scoopcs": "设置为 scoopcs",
     "config shim 71": "设置为 71",
-    "config root_path": "Scoop 根目录的路径",
-    "config global_path": "全局应用程序的 Scoop 根目录路径",
-    "config cache_path": "对于下载,默认为 Scoop 根目录下的 'cache' 文件夹",
+    "config root_path": "{{if($config.root_path){'当前值: '+ $config.root_path + \"`n\"} }}Scoop 根目录的路径",
+    "config global_path": "{{if($config.global_path){'当前值: '+ $config.global_path + \"`n\"} }}全局应用程序的 Scoop 根目录路径",
+    "config cache_path": "{{if($config.cache_path){'当前值: '+ $config.cache_path + \"`n\"} }}对于下载,默认为 Scoop 根目录下的 'cache' 文件夹",
     "config gh_token": [
+        "{{if($config.gh_token){'当前值: '+ $config.gh_token + \"`n\"} }}",
         "用于进行身份验证请求的 GitHub API 令牌\n",
         "这对于运行 checkver 等功能而不会遇到速率限制并从私有存储库下载是必不可少的"
     ],
     "config virustotal_api_key": [
+        "{{if($config.virustotal_api_key){'当前值: '+ $config.virustotal_api_key + \"`n\"} }}",
         "用于上传/扫描文件使用 virustotal 的 API 密钥\n",
         "参见: https://support.virustotal.com/hc/en-us/articles/115002088769-Please-give-me-an-API-key"
     ],
     "config cat_style": [
+        "{{if($config.cat_style){'当前值: '+ $config.cat_style + \"`n\"} }}",
         "当设置为非空字符串时,Scoop 将使用 'bat' 来显示 'scoop cat' 命令和清单审查期间的清单\n",
         "这需要安装 'bat'（运行 'scoop install bat' 来安装它）,否则将引发错误\n",
         "接受的值与 'bat' 的 --style 标志传递的值相同"
     ],
     "config ignore_running_processes": [
+        "{{if($config.ignore_running_processes){'当前值: '+ $config.ignore_running_processes + \"`n\"} }}",
         "😄当设置为 false(默认值)时,如果检测到任何目标应用程序进程正在运行,Scoop 将立即停止其过程\n",
         "这里的过程是指重置/卸载/更新\n",
         "当设置为 true 时,Scoop 仅显示警告消息并继续过程"
@@ -293,44 +299,52 @@
     "config ignore_running_processes true": "设置为 true",
     "config ignore_running_processes false": "设置为 false",
     "config private_hosts": [
+        "{{if($config.private_hosts){'当前值: '+ $config.private_hosts + \"`n\"} }}",
         "需要额外身份验证的私有主机的数组\n",
         "例如: 如果要访问私有 GitHub 存储库,需要将主机添加到此列表,并提供匹配和标头字符串"
     ],
     "config hold_update_until": [
+        "{{if($config.hold_update_until){'当前值: '+ $config.hold_update_until + \"`n\"} }}",
         "禁用/保留 Scoop 自更新,直到指定的日期\n",
         "'scoop hold scoop' 将值设置为一天后\n",
         "应以 'YYYY-MM-DD'、'YYYY/MM/DD' 或任何其他可接受 '[System.DateTime]::Parse()' 的格式提供\n",
         "参考: https://docs.microsoft.com/dotnet/api/system.datetime.parse?view=netframework-4.5#StringToParse"
     ],
     "config update_nightly": [
+        "{{if($config.update_nightly){'当前值: '+ $config.update_nightly + \"`n\"} }}",
         "😄夜间版本格式为 'nightly-yyyyMMdd',如果设置为 true,则将在一天后更新\n",
         "否则,夜间版本将不会更新,除非使用 --force"
     ],
     "config update_nightly true": "设置为 true",
     "config update_nightly false": "设置为 false",
-    "config aria2-enabled": "😄是否启用 Aria2c 用于下载工件",
+    "config aria2-enabled": "{{if($config.'aria2-enabled'){'当前值: '+ $config.'aria2-enabled' + \"`n\"} }}😄是否启用 Aria2c 用于下载工件",
     "config aria2-enabled true": "设置为 true",
     "config aria2-enabled false": "设置为 false",
-    "config aria2-warning-enabled": "😄是否禁用 Aria2c 下载时显示的警告信息",
+    "config aria2-warning-enabled": "{{if($config.'aria2-warning-enabled'){'当前值: '+ $config.'aria2-warning-enabled' + \"`n\"} }}😄是否禁用 Aria2c 下载时显示的警告信息",
     "config aria2-warning-enabled true": "设置为 true",
     "config aria2-warning-enabled false": "设置为 false",
     "config aria2-retry-wait": [
+        "{{if($config.'aria2-retry-wait'){'当前值: '+ $config.'aria2-retry-wait' + \"`n\"} }}",
         "重试之间等待的秒数\n",
         "参见: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-retry-wait"
     ],
     "config aria2-split": [
+        "{{if($config.'aria2-split'){'当前值: '+ $config.'aria2-split' + \"`n\"} }}",
         "用于下载的连接数\n",
         "参见: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-s"
     ],
     "config aria2-max-connection-per-server": [
+        "{{if($config.'aria2-max-connection-per-server'){'当前值: '+ $config.'aria2-max-connection-per-server' + \"`n\"} }}",
         "每个下载的单个服务器的最大连接数\n",
         "参见: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-x"
     ],
     "config aria2-min-split-size": [
+        "{{if($config.'aria2-min-split-size'){'当前值: '+ $config.'aria2-min-split-size' + \"`n\"} }}",
         "下载的文件将按照配置的大小分割并使用多个连接下载\n",
         "参见: https://aria2.github.io/manual/en/html/aria2c.html#cmdoption-k"
     ],
     "config aria2-options": [
+        "{{if($config.'aria2-options'){'当前值: '+ $config.'aria2-options' + \"`n\"} }}",
         "附加的 aria2 选项数组\n",
         "参见: https://aria2.github.io/manual/en/html/aria2c.html#options"
     ],
