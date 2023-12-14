@@ -14,7 +14,8 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.kubectl -ScriptB
     #endregion
 
     #region : Running
-    $input_arr = $command_ast.CommandElements
+    $orgin_input = ($command_ast.CommandElements -join ' ') -split ' '
+    $input_arr = $orgin_input
     $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
 
     $flag = $input_arr[-1] -notin $need_skip -and $input_arr[-1] -like '-*'
@@ -58,7 +59,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.kubectl -ScriptB
 
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split ' '
-        $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
+        $cmd[-1] -notin $orgin_input -and $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
     } | Sort-Object { $completions.$_[-1] }
 
     function complete_by_old {
@@ -72,13 +73,6 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.kubectl -ScriptB
             if ($len -ge $max_len) { $max_len = $len }
         }
 
-        $options_c = $_info.common_options
-        $options_c.PSObject.Properties.Name | ForEach-Object {
-            $len = $_.Length
-            if ($len -ge $max_len) { $max_len = $len }
-        }
-        $is_fill_up = $false
-
         $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
 
         $filter_list | ForEach-Object {
@@ -89,21 +83,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.kubectl -ScriptB
             }
             else {
                 [CompletionResult]::new(' ', '...', 'ParameterValue', $PSCompletions.json.comp_hide)
-                $is_fill_up = $true
                 return
-            }
-        }
-
-        if (!$is_fill_up) {
-            $options_c.PSObject.Properties.Name | ForEach-Object {
-                if ($comp_count -gt $display_count) {
-                    $display_count++
-                    [CompletionResult]::new($_, $_, 'ParameterValue', ($PSCompletions.fn_replace($options_c.$_)))
-                }
-                else {
-                    [CompletionResult]::new(' ', '...', 'ParameterValue', $PSCompletions.json.comp_hide)
-                    return
-                }
             }
         }
         if ($display_count -eq 1) { ' ' }

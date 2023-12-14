@@ -121,7 +121,8 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock
     #endregion
 
     #region : Running
-    $input_arr = $command_ast.CommandElements
+    $orgin_input = ($command_ast.CommandElements -join ' ') -split ' '
+    $input_arr = $orgin_input
     $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
 
     $flag = $input_arr[-1] -notin $need_skip -and $input_arr[-1] -like '-*'
@@ -163,7 +164,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock
 
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split ' '
-        $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
+        $cmd[-1] -notin $orgin_input -and $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
     } | Sort-Object { $completions.$_[-1] }
 
     function complete_by_old {

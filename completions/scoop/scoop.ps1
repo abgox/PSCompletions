@@ -16,51 +16,55 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.scoop -ScriptBlo
     #region : Special
     $_i = 99999
     $symbol = $json_info.symbol
-    if ($env:SCOOP) {
-        $scoop_path = $env:SCOOP
-    }
-    else {
-        $path = (Get-Content -Raw "$env:UserProfile\.config\scoop\config.json" | ConvertFrom-Json).root_path
-        if ($path) { [environment]::SetEnvironmentvariable('SCOOP', $path, 'User') }
-        $scoop_path = $path
-    }
+    if ($PSVersionTable.Platform -ne 'Unix') {
+        $config = $PSCompletions.fn_get_raw_content("$env:UserProfile\.config\scoop\config.json") | ConvertFrom-Json
+        if ($env:SCOOP) {
+            $scoop_path = $env:SCOOP
+        }
+        else {
+            $path = $config.root_path
+            if ($path) { [environment]::SetEnvironmentvariable('SCOOP', $path, 'User') }
+            $scoop_path = $path
+        }
 
-    if ($env:SCOOP_GLOBAL) {
-        $scoop_global_path = $env:SCOOP_GLOBAL
-    }
-    else {
-        $path = (Get-Content -Raw "$env:UserProfile\.config\scoop\config.json" | ConvertFrom-Json).global_path
-        if ($path) { [environment]::SetEnvironmentvariable('SCOOP_GLOBAL', $path, 'User') }
-        $scoop_global_path = $path
-    }
+        if ($env:SCOOP_GLOBAL) {
+            $scoop_global_path = $env:SCOOP_GLOBAL
+        }
+        else {
+            $path = $config.global_path
+            if ($path) { [environment]::SetEnvironmentvariable('SCOOP_GLOBAL', $path, 'User') }
+            $scoop_global_path = $path
+        }
 
-    Get-ChildItem "$scoop_path\buckets" 2>$null | ForEach-Object {
-        $completions[$root_cmd + ' bucket rm ' + $_.Name] = @($_.Name, ('Remove bucket --- ' + $_.Name), $_i)
-        $_i++
-    }
-
-    function return_str($str) {
-        return ($symbol + $str + ' app --- ' + $_.Name + "`n" + $_.FullName)
-    }
-    function _do($cmd, $tip) {
-        $completions[$root_cmd + ' ' + $cmd + ' ' + $_.Name] = @($_.Name, $tip, $_i)
-    }
-
-    @("$scoop_path\apps", "$scoop_global_path\apps") | ForEach-Object {
-        Get-ChildItem $_ 2>$null | ForEach-Object {
-            _do 'uninstall'  (return_str 'Uninstall')
-            _do 'update' (return_str 'Update')
-            _do 'cleanup' (return_str 'Cleanup')
-            _do 'hold' (return_str 'Hold')
-            _do 'unhold' (return_str 'Unhold')
-            _do 'prefix' $_.FullName
+        Get-ChildItem "$scoop_path\buckets" 2>$null | ForEach-Object {
+            $completions[$root_cmd + ' bucket rm ' + $_.Name] = @($_.Name, ('Remove bucket --- ' + $_.Name), $_i)
             $_i++
+        }
+
+        function return_str($str) {
+            return ($symbol + $str + ' app --- ' + $_.Name + "`n" + $_.FullName)
+        }
+        function _do($cmd, $tip) {
+            $completions[$root_cmd + ' ' + $cmd + ' ' + $_.Name] = @($_.Name, $tip, $_i)
+        }
+
+        @("$scoop_path\apps", "$scoop_global_path\apps") | ForEach-Object {
+            Get-ChildItem $_ 2>$null | ForEach-Object {
+                _do 'uninstall'  (return_str 'Uninstall')
+                _do 'update' (return_str 'Update')
+                _do 'cleanup' (return_str 'Cleanup')
+                _do 'hold' (return_str 'Hold')
+                _do 'unhold' (return_str 'Unhold')
+                _do 'prefix' $_.FullName
+                $_i++
+            }
         }
     }
     #endregion
 
     #region : Running
-    $input_arr = $command_ast.CommandElements
+    $orgin_input = ($command_ast.CommandElements -join ' ') -split ' '
+    $input_arr = $orgin_input
     $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
 
     $flag = $input_arr[-1] -notin $need_skip -and $input_arr[-1] -like '-*'
@@ -104,7 +108,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.scoop -ScriptBlo
 
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split ' '
-        $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
+        $cmd[-1] -notin $orgin_input -and $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
     } | Sort-Object { $completions.$_[-1] }
 
     function complete_by_old {
