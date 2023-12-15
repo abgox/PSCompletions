@@ -39,14 +39,14 @@
         > -   如果出现补全问题,请使用 `psc update <completion>` 更新覆盖
     -   `psc which <completion>` 获取补全文件路径
 
-**如果 PSCompletions 对你有所帮助，请在右上角点个 Star ⭐ 支持一下**
+**如果 PSCompletions 对你有所帮助，请在右上角点个 Star ⭐**
 
 ## 安装
 
 1. 打开 `PowerShell`
 2. `Install-Module PSCompletions`
 3. `Import-Module PSCompletions`
-    - 如果不想每次启动终端都导入一次，就执行 `echo "Import-Module PSCompletions" >> $PROFILE`
+    - 如果不想每次启动 `PowerShell` 都导入一次，就执行 `echo "Import-Module PSCompletions" >> $PROFILE`
 
 ## 卸载
 
@@ -68,13 +68,18 @@
 
 ## Tips
 
-### 关于 UI
+### 关于补全更新
 
--   模块的 UI 补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 修改而来
--   模块自 3.0.0 版本起，默认使用本模块自带的补全 UI 菜单
-    > 由于 UI 在 Windows PowerShell 的使用效果较差，将继续使用语言自带的补全菜单
+-   当打开`PowerShell` 并导入 `PSCompletions` 后，`PSCompletions` 会开启一个后台作业去检查远程仓库中补全的状态
+-   获取到更新后，会在下一次显示补全更新提示
+
+### 关于补全菜单 UI
+
+-   模块的补全菜单 UI 基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 修改而来
+-   模块自 3.0.0 版本起，默认使用本模块自带的补全菜单 UI
+    > 由于 UI 在 Windows PowerShell 上不稳定，Windows PowerShell 将继续使用语言自带的补全菜单
     -   如果你喜欢语言自带的补全菜单，运行 `psc ui theme powershell` 即可
--   你可以通过 `psc ui` 下的命令来更改 UI 的一些样式及配置
+-   你可以通过 `psc ui` 下的命令来更改补全菜单 UI 的一些样式及配置
 
 ### 关于补全描述中的特殊符号
 

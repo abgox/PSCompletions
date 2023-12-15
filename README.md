@@ -69,10 +69,16 @@
 
 ## Tips
 
-### About UI
+### About completion update
 
--   The module's UI menu is modified from [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion).
--   Starting with version 3.0.0, the completion UI menu offered by this module is used.
+-   When the module is imported after `PowerShell` is opened,`PSCompletions` will start a background job to check for the completion status of the remote repository.
+
+-   After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
+
+### About completion menu UI
+
+-   The module's completion menu UI is modified from [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion).
+-   Starting with version 3.0.0, the completion menu UI offered by this module is used.
     -   If you like the language's built-in completion menu, please run `psc ui theme powershell`.
     -   > Due to the poor use of the UI in `Windows PowerShell`, the language's built-in completion menu will continue to be used.
 -   you can use the commands under the `psc ui` to change the style and config.
