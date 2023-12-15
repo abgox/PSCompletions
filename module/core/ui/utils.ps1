@@ -290,7 +290,6 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod parse_list {
 			$X = $windowSize.Width - $Max
 		}
 	}
-	$PSCompletions._ = $ListHeight
 	if ($PSCompletions.ui.layout.Above -and $ListHeight -gt $PSCompletions.completion_max[1] + 2 -and $ListHeight -gt $Cursor.Y - $PSCompletions.ui.style_h) {
 		switch ($PSCompletions.ui.config.above_list_max) {
 			$null {

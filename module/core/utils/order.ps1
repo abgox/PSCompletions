@@ -4,10 +4,10 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_order {
         [array]$exclude = @(),
         [string]$file = 'order.json'
     )
-    $path_order = $PSScriptRoots + '\' + $file
+    $path_order = $PSScriptRoots + '/' + $file
 
     if (!(Test-Path($path_order))) {
-        $json = $PSCompletions.fn_get_raw_content($PSScriptRoots + '\lang\' + $PSCompletions.lang + '.json') | ConvertFrom-Json
+        $json = $PSCompletions.fn_get_raw_content($PSScriptRoots + '/lang/' + $PSCompletions.lang + '.json') | ConvertFrom-Json
         $i = 1
         $res = [ordered]@{}
         $json.PSObject.Properties.Name | Where-Object {
@@ -42,17 +42,18 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_cache {
             $lang = $PSCompletions.lang
         }
 
-        $json = $PSCompletions.fn_get_raw_content($PSScriptRoots + '\lang\' + $lang + '.json') | ConvertFrom-Json
+        $json = $PSCompletions.fn_get_raw_content($PSScriptRoots + '/lang/' + $lang + '.json') | ConvertFrom-Json
 
         $PSCompletions.comp_data.$($root_cmd + '_info') = @{
             core_info = $json.$($exclude[0])
             exclude   = $exclude
             num       = -1
         }
-
+        $common_options = $json.$($exclude[0]).common_options
         $order = $PSCompletions.fn_get_order($PSScriptRoots, $PSCompletions.comp_data.$($root_cmd + '_info').exclude)
 
         $_i = 1
+        $__i = 999999
         $json.PSObject.Properties.Name | Where-Object {
             $_ -notin $PSCompletions.comp_data.$($root_cmd + '_info').exclude
         } | ForEach-Object {
@@ -60,6 +61,18 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_cache {
             $_o = if ($order.$_) { $order.$_ }else { $_i }
             $PSCompletions.comp_data.$root_cmd[$root_cmd + ' ' + $_] = @($cmd[-1], $json.$_, $_o)
             $_i++
+            if ($common_options) {
+                foreach ($item in $common_options.PSObject.Properties.Name) {
+                    $PSCompletions.comp_data.$root_cmd[$root_cmd + ' ' + $_ + ' ' + $item] = @($item, $common_options.$item, $__i)
+                    $__i++
+                }
+            }
+        }
+        if ($common_options) {
+            foreach ($item in $common_options.PSObject.Properties.Name) {
+                $PSCompletions.comp_data.$root_cmd[$root_cmd + ' ' + $item] = @($item, $common_options.$item, $__i)
+                $__i++
+            }
         }
     }
 }
@@ -119,10 +132,10 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_order_job {
         }
         catch {}
 
-        $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '\lang\' + $PSCompletions.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $PSCompletions.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
+        $json_order = (Get-Content -Raw -Path ($PSScriptRoots + '/lang/' + $PSCompletions.lang + '.json') -Encoding UTF8 | ConvertFrom-Json).PSObject.Properties.Name | Where-Object { $_ -notin $PSCompletions.comp_data.$($cmd + '_info').exclude }  | Sort-Object {
             try { $PSCompletions.comp_data.$cmd.$($cmd + ' ' + $_)[-1] }catch { 999999 }
         }
-        $path_order = $PSScriptRoots + '\order.json'
+        $path_order = $PSScriptRoots + '/order.json'
         $order_old = (Get-Content -Raw -Path ($path_order) | ConvertFrom-Json).PSObject.Properties.Name
 
         if (($json_order -join ' ') -ne ($order_old -join ' ')) {

@@ -42,27 +42,27 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
     function _mkdir($path) {
         if (!(Test-Path($path))) { New-Item -ItemType Directory $path > $null }
     }
-    $completion_dir = $PSCompletions.path.completions + '\' + $completion
+    $completion_dir = $PSCompletions.path.completions + '/' + $completion
     _mkdir $PSCompletions.path.completions
     _mkdir $completion_dir
-    _mkdir ($completion_dir + '\lang')
+    _mkdir ($completion_dir + '/lang')
 
     $files = @(
         @{
             Uri     = $url + '/' + $completion + '.ps1'
-            OutFile = $completion_dir + '\' + $completion + '.ps1'
+            OutFile = $completion_dir + '/' + $completion + '.ps1'
         },
         @{
             Uri     = $url + '/lang/zh-CN.json'
-            OutFile = $completion_dir + '\lang\zh-CN.json'
+            OutFile = $completion_dir + '/lang/zh-CN.json'
         },
         @{
             Uri     = $url + '/lang/en-US.json'
-            OutFile = $completion_dir + '\lang\en-US.json'
+            OutFile = $completion_dir + '/lang/en-US.json'
         },
         @{
             Uri     = $url + '/guid.txt'
-            OutFile = $completion_dir + '\guid.txt'
+            OutFile = $completion_dir + '/guid.txt'
         }
     )
     $wc = New-Object System.Net.WebClient
@@ -90,7 +90,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
         Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
     }
 
-    $core_info = ($PSCompletions.fn_get_raw_content($completion_dir + '\lang\' + $PSCompletions.lang + '.json') | ConvertFrom-Json).$($completion + '_core_info')
+    $core_info = ($PSCompletions.fn_get_raw_content($completion_dir + '/lang/' + $PSCompletions.lang + '.json') | ConvertFrom-Json).$($completion + '_core_info')
     if ($core_info.comp_config) {
         $configs = $core_info.comp_config.PSObject.Properties.Name
 
