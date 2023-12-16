@@ -113,6 +113,7 @@
 |        [python](/completions/python)        |             python - 编程语言             |
 |         [scoop](/completions/scoop)         |             Scoop - 软件管理              |
 |         [volta](/completions/volta)         |   volta - 无障碍 JavaScript 工具管理器    |
+|        [winget](/completions/winget)        |       WinGet - Windows 程序包管理器       |
 |           [wsl](/completions/wsl)           |   WSL - 适用于 Linux 的 Windows 子系统    |
 |            [wt](/completions/wt)            |        windows terminal 命令行终端        |
 |          [yarn](/completions/yarn)          |            yarn - 软件包管理器            |

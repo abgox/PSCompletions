@@ -39,7 +39,7 @@
         > -   If there are problems, please use `psc update <completion>` to overwrite completion
     -   Get the completion file path. `psc which <completion>`
 
-**If you find this project helpful, please consider giving it a star ⭐.**
+**If this project is helpful to you, please consider giving it a star ⭐.**
 
 ## How to install
 
@@ -81,7 +81,7 @@
 -   Starting with version 3.0.0, the completion menu UI offered by this module is used.
     -   If you like the language's built-in completion menu, please run `psc ui theme powershell`.
     -   > Due to the poor use of the UI in `Windows PowerShell`, the language's built-in completion menu will continue to be used.
--   you can use the commands under the `psc ui` to change the style and config.
+-   you can run the commands under the `psc ui` to change the style and config.
 
 ### About special symbols in Completion Description
 
@@ -115,6 +115,7 @@
 |        [python](/completions/python)        |      python - A programming language       |
 |         [scoop](/completions/scoop)         |          Scoop - Software Manager          |
 |         [volta](/completions/volta)         | volta - Accessible JavaScript Tool Manager |
+|        [winget](/completions/winget)        |      WinGet - Windows package manager      |
 |           [wsl](/completions/wsl)           |     WSL - Windows Subsystem for Linux      |
 |            [wt](/completions/wt)            |       windows terminal command line        |
 |          [yarn](/completions/yarn)          |           yarn - package manager           |
