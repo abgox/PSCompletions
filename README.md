@@ -30,7 +30,7 @@
 
 -   A completion manager in `PowerShell` for better and simpler use completions.
     > It can also be used in `Windows PowerShell`
--   [Manage completions together.](#available-completions "Click it to view the completion list that can be added !")
+-   [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
 -   Sort completion tab dynamically by frequency of use.
 
@@ -56,7 +56,7 @@
 
 ## How to use(e.g. `git`)
 
-### [Available Completions](#available-completions "All completions that can be added at present. More completions are adding!")
+### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
 -   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue") and I will consider adding it.
 
@@ -98,7 +98,7 @@
 -   Please type `./` or `.\` and press `Tab` to get path completion for the **subdirectory** or **file**.
 -   Please type `/` or `\` and press `Tab` to get path completion for the **sibling directory**.
 
-## Available Completions
+## Available Completions List
 
 |                 Completions                 |                   Source                   |
 | :-----------------------------------------: | :----------------------------------------: |
