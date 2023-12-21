@@ -28,16 +28,17 @@
 
 ## Introduce
 
--   A completion manager in `PowerShell` for better and simpler use and manage completions.
+-   A completion manager in `PowerShell` for better and simpler use completions.
     > It can also be used in `Windows PowerShell`
--   [Manage the completion together.](#available-completions-list "Click it to view the completion list that can be added !")
+-   [Manage completions together.](#available-completions "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
 -   Sort completion tab dynamically by frequency of use.
--   Completion information can be customized.
-    -   By modifying the `json` file to achieve.
-        > -   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
-        > -   If there are problems, please use `psc update <completion>` to overwrite completion
-    -   Get the completion file path. `psc which <completion>`
+
+> -   Completion information can be customized.(Not Recommend)
+>     -   By modifying the `json` file.
+>     -   Get the completion file path: `psc which <completion>`
+>     -   It's recommended to modify only the completion prompt description to avoid accidental modification that causes some errors.
+>     -   If there are problems, please run `psc update <completion>` to overwrite completion.
 
 **If this project is helpful to you, please consider giving it a star ⭐.**
 
@@ -55,13 +56,13 @@
 
 ## How to use(e.g. `git`)
 
-### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
+### [Available Completions](#available-completions "All completions that can be added at present. More completions are adding!")
 
 -   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue") and I will consider adding it.
 
 1. `psc add git`
-2. Then you can type `git`,`Space` and press `Tab` to get command completion.
-3. For more commands on `psc`, you can learn by typing `psc` and then pressing `Tab`.
+2. Then you can type `git` and press `Space` `Tab` to get command completion.
+3. For more commands on `psc`, you can learn by typing `psc` and then pressing `Space` `Tab`.
 
 ## Demo
 
