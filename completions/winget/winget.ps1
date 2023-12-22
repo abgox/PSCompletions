@@ -70,9 +70,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.winget -ScriptBl
         return $res
     }
 
-    $PSCompletions._ = $input_arr
     $input_arr = format_input $input_arr $need_skip
-    $PSCompletions.__ = $input_arr
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split ' '
         $cmd_str = ($cmd -join ' ') -replace '\?', '\?'
@@ -95,7 +93,6 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.winget -ScriptBl
             $len = $_.Length
             if ($len -ge $max_len) { $max_len = $len }
         }
-        $is_fill_up = $false
 
         $comp_count = $cmd_line * [math]::Floor([System.Console]::WindowWidth / ($max_len + 2))
 
@@ -107,21 +104,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.winget -ScriptBl
             }
             else {
                 [CompletionResult]::new(' ', '...', 'ParameterValue', $PSCompletions.json.comp_hide)
-                $is_fill_up = $true
                 return
-            }
-        }
-
-        if (!$is_fill_up) {
-            $options_c.PSObject.Properties.Name | ForEach-Object {
-                if ($comp_count -gt $display_count) {
-                    $display_count++
-                    [CompletionResult]::new($_, $_, 'ParameterValue', ($PSCompletions.fn_replace($options_c.$_)))
-                }
-                else {
-                    [CompletionResult]::new(' ', '...', 'ParameterValue', $PSCompletions.json.comp_hide)
-                    return
-                }
             }
         }
         if ($display_count -eq 1) { ' ' }
