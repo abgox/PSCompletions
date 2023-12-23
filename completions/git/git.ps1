@@ -193,7 +193,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock
     }
 
     $filter_list | ForEach-Object {
-        $completions[$_][0] = $completions[$_][0].Replace('^up', '')
+        $completions[$_][0] = $completions[$_][0].Replace('^up', ' ')
     }
 
     if ($PSCompletions.ui.show -and $PSVersionTable.Platform -ne 'Unix') {
