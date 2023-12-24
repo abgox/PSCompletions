@@ -1,11 +1,5 @@
 ﻿function info($comp = $comp_name) {
-    if ($PSCompletions.config.language) {
-        $lang = $PSCompletions.config.language
-    }
-    else {
-        $lang = (Get-WinSystemLocale).name
-    }
-    if ($lang -eq 'zh-CN') {
+    if ($PSCompletions.lang -eq 'zh-CN') {
         return @{
             "input"          = "输入补全名称: "
             "exist"          = "$comp 补全文件已经存在!"
@@ -24,28 +18,26 @@
 }
 
 function get_input($tip, $default = '') {
-    $res = $tip
-    Write-Host -ForegroundColor Gray -NoNewline $res
+    Write-Host -NoNewline $tip
     $inputs = Read-Host
     if (!$inputs.Trim()) {
         return $default
     }
     return $inputs
 }
-
 $comp_name = get_input (info).input
+$info = info
 $root_dir = Split-Path $PSScriptRoot -Parent
 $comp_dir = $root_dir + '/completions/' + $comp_name
 
-$is_more_option = get_input (info).is_more_option 'y'
+$is_more_option = get_input $info.is_more_option 'y'
 
 if ($comp_name.Trim()) {
     if (Test-Path($comp_dir)) {
-        throw (info).exist
+        throw $info.exist
     }
     else {
         New-Item -ItemType Directory $comp_dir > $null
-
         function _replace($in, $out) {
             $parent = Split-Path $out -Parent
             if (!(Test-Path($parent))) {
@@ -63,7 +55,7 @@ if ($comp_name.Trim()) {
         _replace "template/lang/en-US.json" "$comp_dir/lang/en-US.json"
         (New-Guid).Guid | Out-File "$comp_dir/guid.txt"
 
-        if ((get_input (info).test 'y') -eq 'y') {
+        if ((get_input $info.test 'y') -eq 'y') {
             $completions_dir = Split-Path (PSCompletions which PSCompletions) -Parent
             Move-Item ("$PSScriptRoot/../completions/$comp_name") $completions_dir
         }

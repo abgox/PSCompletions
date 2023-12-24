@@ -22,6 +22,8 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.$template_comp -
 
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split ' '
+        # $cmd_str = ($cmd -join ' ') -replace '\?', '\?'
+        # $input_str = ($input_arr -join ' ') -replace '\?', '\?'
         $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like (($input_arr -join ' ') + $match)
     } | Sort-Object { $completions.$_[-1] }
 
@@ -52,7 +54,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.$template_comp -
     }
 
     # $filter_list | ForEach-Object {
-    #     $completions[$_][0] = $completions[$_][0].Replace('^up', '')
+    #     $completions[$_][0] = $completions[$_][0].Replace('^up', ' ')
     # }
 
     if ($PSCompletions.ui.show -and $PSVersionTable.Platform -ne 'Unix') {
