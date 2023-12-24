@@ -110,8 +110,9 @@
 |           [npm](/completions/npm)           |            npm - 软件包管理器             |
 |           [nrm](/completions/nrm)           |           nrm - npm 镜像源管理            |
 |           [nvm](/completions/nvm)           |           nvm - node 版本管理器           |
+|          [pip](/completions/pip)          |            pip - Python 包管理器            |
 |          [pnpm](/completions/pnpm)          |            pnpm - 软件包管理器            |
-|        [python](/completions/python)        |             python - 编程语言             |
+|        [python](/completions/python)        |             python - 命令行             |
 |         [scoop](/completions/scoop)         |             Scoop - 软件管理              |
 |         [volta](/completions/volta)         |   volta - 无障碍 JavaScript 工具管理器    |
 |        [winget](/completions/winget)        |       WinGet - Windows 程序包管理器       |

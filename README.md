@@ -112,8 +112,9 @@
 |           [npm](/completions/npm)           |           npm - package manager            |
 |           [nrm](/completions/nrm)           |         nrm - npm registry manager         |
 |           [nvm](/completions/nvm)           |         nvm - Node Version Manager         |
+|           [pip](/completions/pip)           |        pip - Python Package Manager        |
 |          [pnpm](/completions/pnpm)          |           pnpm - Package Manager           |
-|        [python](/completions/python)        |      python - A programming language       |
+|        [python](/completions/python)        |           python - command-line            |
 |         [scoop](/completions/scoop)         |          Scoop - Software Manager          |
 |         [volta](/completions/volta)         | volta - Accessible JavaScript Tool Manager |
 |        [winget](/completions/winget)        |      WinGet - Windows package manager      |
