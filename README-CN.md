@@ -88,16 +88,17 @@
 -   😄：表示选用此补全后，可以按下 `Space`(空格键) 和 `Tab` 键继续获得补全候选
 
     -   可通过 `psc config symbol SpaceTab <symbol>` 自定义此符号
+    -   如: `psc config symbol SpaceTab 😄`
 
--   😎：表示选用此补全后，你可以输入一个不带空格的字符串，然后按下 `Space`(空格键) 和 `Tab` 键继续获得补全候选
+-   😎: 表示选用此补全后，你可以输入一个不带空格的字符串，然后按下 `Space`(空格键) 和 `Tab` 键继续获得补全候选
 
     -   可通过 `psc config symbol WriteSpaceTab <symbol>` 自定义此符号
 
--   🤔：表示选用此补全后，你可以按下 `Space`(空格键) 和 `Tab` 键继续获取选项类补全候选(如 --verbose)
+-   🤔: 表示选用此补全后，你可以按下 `Space`(空格键) 和 `Tab` 键继续获取选项类补全候选(如 --verbose)
 
     -   可通过 `psc config symbol OptionsTab <symbol>` 自定义此符号
 
--   `...`：补全描述等待后续填充
+-   `...`: 补全描述等待后续填充
     -   如果 `...` 是最后一个补全候选，则表示可显示区域过小，无法显示所有候选项
 
 ### 关于路径补全

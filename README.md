@@ -29,7 +29,7 @@
 ## Introduce
 
 -   A completion manager in `PowerShell` for better and simpler use completions.
-    > It can also be used in `Windows PowerShell`
+    > It can also be used in `Windows PowerShell`.
 -   [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added !")
 -   Switch between languages(`zh-CN`,`en-US`) freely.
 -   Sort completion tab dynamically by frequency of use.
@@ -72,7 +72,7 @@
 
 ### About completion update
 
--   When the module is imported after `PowerShell` is opened,`PSCompletions` will start a background job to check for the completion status of the remote repository.
+-   When the module is imported after `PowerShell` is opened, `PSCompletions` will start a background job to check for the completion status of the remote repository.
 
 -   After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
 
@@ -91,12 +91,13 @@
 -   😄: It means that after you choose it, you can press `Space` and `Tab` key to continue to get command completions.
 
     -   This symbol can be customized by running `psc config symbol SpaceTab <symbol>`
+    -   e.g. `psc config symbol SpaceTab 😄`
 
 -   😎: It means that after you choose it, you can press a string without spaces, then press `Space` and `Tab` key to continue to get command completions.
 
     -   This symbol can be customized by running `psc config symbol WriteSpaceTab <symbol>`
 
--   🤔：It means that after you choose it, you can press `Space` and `Tab` key to continue to get option-type completions(e.g. --verbose).
+-   🤔: It means that after you choose it, you can press `Space` and `Tab` key to continue to get option-type completions(e.g. --verbose).
 
     -   This symbol can be customized by running `psc config symbol OptionsTab <symbol>`
 
@@ -110,25 +111,25 @@
 
 ## Available Completions List
 
-|                  Completions                  |                                            Source                                             |
-| :-------------------------------------------: | :-------------------------------------------------------------------------------------------: |
-| [PSCompletions()](/completions/PSCompletions) | [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions) |
-|           [chfs](/completions/chfs)           |                       [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                       |
-|          [choco](/completions/choco)          |                [choco(chocolatey) - Software Manager](https://chocolatey.org)                 |
-|           [deno](/completions/deno)           |                   [deno - A secure runtime for JS and TS](https://deno.com)                   |
-|         [docker](/completions/docker)         |             [docker - Container Application Development](https://www.docker.com)              |
-|            [git](/completions/git)            |                      [Git - Version control system](https://git-scm.com)                      |
-|        [kubectl](/completions/kubectl)        |                  [Kubernetes(k8s) command-line tool](https://kubernetes.io)                   |
-|            [npm](/completions/npm)            |                        [npm - package manager](https://www.npmjs.com)                         |
-|            [nrm](/completions/nrm)            |                   [nrm - npm registry manager](https://github.com/Pana/nrm)                   |
-|            [nvm](/completions/nvm)            |                  [nvm - Node Version Manager](https://github.com/nvm-sh/nvm)                  |
-|            [pip](/completions/pip)            |                  [pip - Python Package Manager](https://github.com/pypa/pip)                  |
-|           [pnpm](/completions/pnpm)           |                         [pnpm - Package Manager](https://www.pnpm.cn)                         |
-|         [python](/completions/python)         |                        [python - command-line](https://www.python.org)                        |
-|          [scoop](/completions/scoop)          |                         [Scoop - Software Manager](https://scoop.sh)                          |
-|          [volta](/completions/volta)          |                [volta - Accessible JavaScript Tool Manager](https://volta.sh)                 |
-|         [winget](/completions/winget)         |          [WinGet - Windows package manager](https://github.com/microsoft/winget-cli)          |
-|            [wsl](/completions/wsl)            |             [WSL - Windows Subsystem for Linux](https://github.com/microsoft/WSL)             |
-|             [wt](/completions/wt)             |            [windows terminal command line](https://github.com/microsoft/terminal)             |
-|           [yarn](/completions/yarn)           |                 [yarn - package manager](https://classic.yarnpkg.com/lang/en)                 |
-|                      ...                      |                                              ...                                              |
+|                 Completions                 |                                            Source                                             |
+| :-----------------------------------------: | :-------------------------------------------------------------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) | [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions) |
+|          [chfs](/completions/chfs)          |                       [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                       |
+|         [choco](/completions/choco)         |                [choco(chocolatey) - Software Manager](https://chocolatey.org)                 |
+|          [deno](/completions/deno)          |                   [deno - A secure runtime for JS and TS](https://deno.com)                   |
+|        [docker](/completions/docker)        |             [docker - Container Application Development](https://www.docker.com)              |
+|           [git](/completions/git)           |                      [Git - Version control system](https://git-scm.com)                      |
+|       [kubectl](/completions/kubectl)       |                  [Kubernetes(k8s) command-line tool](https://kubernetes.io)                   |
+|           [npm](/completions/npm)           |                        [npm - package manager](https://www.npmjs.com)                         |
+|           [nrm](/completions/nrm)           |                   [nrm - npm registry manager](https://github.com/Pana/nrm)                   |
+|           [nvm](/completions/nvm)           |                  [nvm - Node Version Manager](https://github.com/nvm-sh/nvm)                  |
+|           [pip](/completions/pip)           |                  [pip - Python Package Manager](https://github.com/pypa/pip)                  |
+|          [pnpm](/completions/pnpm)          |                         [pnpm - Package Manager](https://www.pnpm.cn)                         |
+|        [python](/completions/python)        |                        [python - command-line](https://www.python.org)                        |
+|         [scoop](/completions/scoop)         |                         [Scoop - Software Manager](https://scoop.sh)                          |
+|         [volta](/completions/volta)         |                [volta - Accessible JavaScript Tool Manager](https://volta.sh)                 |
+|        [winget](/completions/winget)        |          [WinGet - Windows package manager](https://github.com/microsoft/winget-cli)          |
+|           [wsl](/completions/wsl)           |             [WSL - Windows Subsystem for Linux](https://github.com/microsoft/WSL)             |
+|            [wt](/completions/wt)            |            [windows terminal command line](https://github.com/microsoft/terminal)             |
+|          [yarn](/completions/yarn)          |                 [yarn - package manager](https://classic.yarnpkg.com/lang/en)                 |
+|                     ...                     |                                              ...                                              |
