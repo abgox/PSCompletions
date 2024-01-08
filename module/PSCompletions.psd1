@@ -10,7 +10,7 @@
 
     RootModule        = 'PSCompletions.psm1'
 
-    ModuleVersion     = '3.0.8'
+    ModuleVersion     = '3.1.0'
 
     GUID              = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -18,7 +18,7 @@
 
     Copyright         = '(c) abgox. All rights reserved.'
 
-    Description       = 'A completion manager for better and simpler use powershell completions. For more information, please visit the project: https://github.com/abgox/PSCompletions'
+    Description       = 'A completion manager for better and simpler use powershell completions. For more information, please visit the project: https://github.com/abgox/PSCompletions | https://gitee.com/abgox/PSCompletions'
     ScriptsToProcess  = 'core\init.ps1'
 
     FunctionsToExport = 'PSCompletions'

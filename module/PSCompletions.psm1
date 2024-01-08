@@ -308,7 +308,7 @@ function PSCompletions {
             param_error 'min' 'config'
             return
         }
-        elseif ($arg.Length -gt 3) {
+        elseif ($arg.Length -gt 4) {
             param_error 'max' 'config'
             return
         }
@@ -333,9 +333,12 @@ function PSCompletions {
                         root_cmd = 'psc'
                         github   = 'https://github.com/abgox/PSCompletions'
                         gitee    = 'https://gitee.com/abgox/PSCompletions'
-                        lang     = $PSCompletions.lang
+                        language = $PSCompletions.lang
                         update   = 1
                         LRU      = 5
+                        sym      = [char]::ConvertFromUtf32(128516)
+                        sym_wr   = [char]::ConvertFromUtf32(128526)
+                        sym_opt  = [char]::ConvertFromUtf32(129300)
                     }
                     $flag = $PSCompletions.fn_confirm($PSCompletions.json.config_reset, {
                             $c | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
@@ -346,11 +349,20 @@ function PSCompletions {
                     }
                     return
                 }
-                $PSCompletions.fn_write((_replace $PSCompletions.json.config_err))
+                if ($arg[1] -eq 'symbol') {
+                    param_error 'min' 'config'
+                }
+                else {
+                    $PSCompletions.fn_write((_replace $PSCompletions.json.config_err))
+                }
             }
         }
         else {
             if ($arg[1] -in $PSCompletions.config.Keys) {
+                if ($arg.Length -gt 3) {
+                    param_error 'max' 'config'
+                    return
+                }
                 if ($arg[1] -eq 'root_cmd') {
                     $cmd = (Get-Command).Name | Where-Object { $_ -eq $arg[2] }
                     $alias = (Get-Alias).Name | Where-Object { $_ -eq $arg[2] }
@@ -363,8 +375,68 @@ function PSCompletions {
                 elseif ($arg[1] -eq 'language') {
                     $PSCompletions.comp_data = [ordered]@{}
                 }
+                $old_value = $PSCompletions.config.$($arg[1])
                 $PSCompletions.fn_set_config($arg[1], $arg[2])
                 $PSCompletions.fn_write((_replace $PSCompletions.json.config_done))
+            }
+            elseif ($arg[1] -eq 'symbol') {
+                switch ($arg[2]) {
+                    'SpaceTab' {
+                        if ($arg[3]) {
+                            $old_value = $PSCompletions.config.sym
+                            $PSCompletions.fn_set_config('sym', $arg[3])
+                            $PSCompletions.fn_write((_replace $PSCompletions.json.config_symbol_done))
+                        }
+                        else {
+                            $PSCompletions.config.sym
+                        }
+                    }
+                    'WriteSpaceTab' {
+                        if ($arg[3]) {
+                            $old_value = $PSCompletions.config.sym_wr
+                            $PSCompletions.fn_set_config('sym_wr', $arg[3])
+                            $PSCompletions.fn_write((_replace $PSCompletions.json.config_symbol_done))
+                        }
+                        else {
+                            $PSCompletions.config.sym_wr
+                        }
+                    }
+                    'OptionsTab' {
+                        if ($arg[3]) {
+                            $old_value = $PSCompletions.config.sym_opt
+                            $PSCompletions.fn_set_config('sym_opt', $arg[3])
+                            $PSCompletions.fn_write((_replace $PSCompletions.json.config_symbol_done))
+                        }
+                        else {
+                            $PSCompletions.config.sym_opt
+                        }
+                    }
+                    'reset' {
+                        if ($arg[3]) {
+                            param_error 'max' 'config_symbol_reset'
+                        }
+                        else {
+                            $symbol = @{
+                                sym     = @('SpaceTab', [char]::ConvertFromUtf32(128516))
+                                sym_wr  = @('WriteSpaceTab', [char]::ConvertFromUtf32(128526))
+                                sym_opt = @('OptionsTab', [char]::ConvertFromUtf32(129300))
+                            }
+                            $symbol_list = @()
+                            foreach ($item in $symbol.Keys) {
+                                $symbol_list += @{
+                                    type      = $symbol.$item[0]
+                                    old_value = $PSCompletions.config.$item
+                                    value     = $symbol.$item[1]
+                                }
+                                $PSCompletions.fn_set_config($item, $symbol.$item[1])
+                            }
+                            $PSCompletions.fn_write((_replace $PSCompletions.json.config_symbol_reset_done))
+                        }
+                    }
+                    Default {
+                        $PSCompletions.fn_write((_replace $PSCompletions.json.config_symbol_err))
+                    }
+                }
             }
             else {
                 $PSCompletions.fn_write((_replace $PSCompletions.json.config_err))

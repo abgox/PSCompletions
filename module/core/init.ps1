@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.0.8'
+$PSCompletions.version = '3.1.0'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '/completions'
@@ -30,13 +30,22 @@ $PSCompletions.comp_config = @{}
     . $PSScriptRoot\utils\$_.ps1
 }
 
+$PSCompletions | Add-Member -MemberType ScriptMethod fn_WindowsPowerShellAdmin {
+    if ($PSHOME -like "*WindowsPowerShell*" -and (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
+        Write-Host "PSCompletions: You're using WindowsPowershell`nCurrently, it is under user privileges, and init cannot be completed.`nChange privileges to administrator Automatically and try init again." -f Yellow
+        & "$($PSCompletions.path.core)\utils\sudo.ps1" powershell
+    }
+}
+
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
     Set-PSReadLineKeyHandler 'Tab' MenuComplete
 }
 if (!(Test-Path($PSCompletions.path.completions))) {
+    $PSCompletions.fn_WindowsPowerShellAdmin()
     New-Item -ItemType Directory $PSCompletions.path.completions > $null
 }
 if (!(Test-Path($PSCompletions.path.list)) -or !(Test-Path($PSCompletions.path.root + '/env.json'))) {
+    $PSCompletions.fn_WindowsPowerShellAdmin()
     if ([environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User')) {
         [environment]::SetEnvironmentvariable('abgox_PSCompletions', '', 'User')
     }
@@ -169,7 +178,13 @@ if ($PSCompletions.config.update -ne 0) {
         $null = $PSCompletions.fn_confirm($PSCompletions.json.module_update, {
                 try {
                     $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_updating))
-                    Update-Module PSCompletions
+                    try {
+                        Update-Module PSCompletions -ErrorAction Stop
+                    }
+                    catch {
+                        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_admin))
+                        & "$($PSCompletions.path.core)\utils\sudo.ps1" Update-Module PSCompletions -ErrorAction Stop
+                    }
                     $version_list = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName
                     if ($PSCompletions.config.update -in $version_list) {
                         $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_done))
