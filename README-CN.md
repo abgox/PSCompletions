@@ -84,10 +84,19 @@
 
 ### 关于补全描述中的特殊符号
 
-> 由于 ✨ 对 UI 有破坏性，所以改用 😄
+-   对于 😄😎🤔: 如果出现多个，可以选择其中一个的效果
+-   😄：表示选用此补全后，可以按下 `Space`(空格键) 和 `Tab` 键继续获得补全候选
 
--   😄：当此补全被选用后，可以按下 `Space`(空格键) 和 `Tab` 键继续获得补全候选
--   😄😄：当此补全被选用后，你需要输入一个不带空格的内容后按下 `Space`(空格键) 和 `Tab` 键继续获得补全候选
+    -   可通过 `psc config symbol SpaceTab <symbol>` 自定义此符号
+
+-   😎：表示选用此补全后，你可以输入一个不带空格的字符串，然后按下 `Space`(空格键) 和 `Tab` 键继续获得补全候选
+
+    -   可通过 `psc config symbol WriteSpaceTab <symbol>` 自定义此符号
+
+-   🤔：表示选用此补全后，你可以按下 `Space`(空格键) 和 `Tab` 键继续获取选项类补全候选(如 --verbose)
+
+    -   可通过 `psc config symbol OptionsTab <symbol>` 自定义此符号
+
 -   `...`：补全描述等待后续填充
     -   如果 `...` 是最后一个补全候选，则表示可显示区域过小，无法显示所有候选项
 
@@ -98,25 +107,25 @@
 
 ## 补全列表
 
-|                  命令补全                   |                 命令来源                  |
-| :-----------------------------------------: | :---------------------------------------: |
-| [PSCompletions](/completions/PSCompletions) |       PSCompletions 本模块自用补全        |
-|          [chfs](/completions/chfs)          | CuteHttpFileServer - 跨平台文件共享服务器 |
-|         [choco](/completions/choco)         |       choco(chocolatey) - 软件管理        |
-|          [deno](/completions/deno)          |       deno - 安全的 JS 和 TS 运行时       |
-|        [docker](/completions/docker)        |           docker - 容器应用开发           |
-|           [git](/completions/git)           |            Git - 版本控制系统             |
-|       [kubectl](/completions/kubectl)       |        Kubernetes(k8s) 命令行工具         |
-|           [npm](/completions/npm)           |            npm - 软件包管理器             |
-|           [nrm](/completions/nrm)           |           nrm - npm 镜像源管理            |
-|           [nvm](/completions/nvm)           |           nvm - node 版本管理器           |
-|          [pip](/completions/pip)          |            pip - Python 包管理器            |
-|          [pnpm](/completions/pnpm)          |            pnpm - 软件包管理器            |
-|        [python](/completions/python)        |             python - 命令行             |
-|         [scoop](/completions/scoop)         |             Scoop - 软件管理              |
-|         [volta](/completions/volta)         |   volta - 无障碍 JavaScript 工具管理器    |
-|        [winget](/completions/winget)        |       WinGet - Windows 程序包管理器       |
-|           [wsl](/completions/wsl)           |   WSL - 适用于 Linux 的 Windows 子系统    |
-|            [wt](/completions/wt)            |        windows terminal 命令行终端        |
-|          [yarn](/completions/yarn)          |            yarn - 软件包管理器            |
-|                     ...                     |                    ...                    |
+|                  命令补全                   |                                      命令来源                                      |
+| :-----------------------------------------: | :--------------------------------------------------------------------------------: |
+| [PSCompletions](/completions/PSCompletions) | [PSCompletions 模块补全](https://www.powershellgallery.com/packages/PSCompletions) |
+|          [chfs](/completions/chfs)          |         [CuteHttpFileServer - 跨平台文件共享服务器](http://iscute.cn/chfs)         |
+|         [choco](/completions/choco)         |               [choco(chocolatey) - 软件管理](https://chocolatey.org)               |
+|          [deno](/completions/deno)          |                 [deno - 安全的 JS 和 TS 运行时](https://deno.com)                  |
+|        [docker](/completions/docker)        |                  [docker - 容器应用开发](https://www.docker.com)                   |
+|           [git](/completions/git)           |                     [Git - 版本控制系统](https://git-scm.com)                      |
+|       [kubectl](/completions/kubectl)       |             [Kubernetes(k8s) 命令行工具](https://kubernetes.io/zh-cn)              |
+|           [npm](/completions/npm)           |                    [npm - 软件包管理器](https://www.npmjs.com)                     |
+|           [nrm](/completions/nrm)           |                [nrm - npm 镜像源管理](https://github.com/Pana/nrm)                 |
+|           [nvm](/completions/nvm)           |               [nvm - node 版本管理器](https://github.com/nvm-sh/nvm)               |
+|           [pip](/completions/pip)           |                [pip - Python 包管理器](https://github.com/pypa/pip)                |
+|          [pnpm](/completions/pnpm)          |                     [pnpm - 软件包管理器](https://www.pnpm.cn)                     |
+|        [python](/completions/python)        |                     [python - 命令行](https://www.python.org)                      |
+|         [scoop](/completions/scoop)         |                        [Scoop - 软件管理](https://scoop.sh)                        |
+|         [volta](/completions/volta)         |              [volta - 无障碍 JavaScript 工具管理器](https://volta.sh)              |
+|        [winget](/completions/winget)        |      [WinGet - Windows 程序包管理器](https://github.com/microsoft/winget-cli)      |
+|           [wsl](/completions/wsl)           |      [WSL - 适用于 Linux 的 Windows 子系统](https://github.com/microsoft/WSL)      |
+|            [wt](/completions/wt)            |        [windows terminal 命令行终端](https://github.com/microsoft/terminal)        |
+|          [yarn](/completions/yarn)          |               [yarn - 软件包管理器](https://classic.yarnpkg.com/en)                |
+|                     ...                     |                                        ...                                         |

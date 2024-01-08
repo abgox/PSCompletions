@@ -86,10 +86,20 @@
 
 ### About special symbols in Completion Description
 
-> Since ✨ was destructive to the UI, it was replaced with 😄
+-   For 😄😎🤔: If there are multiple, you can choose the effect of one of them.
 
--   😄: After selecting and applying, Press `Space` and `Tab` to continue to get command completion.
--   😄😄：After selecting and applying, type a string without spaces, press `Space` and `Tab` to continue to get command completion.
+-   😄: It means that after you choose it, you can press `Space` and `Tab` key to continue to get command completions.
+
+    -   This symbol can be customized by running `psc config symbol SpaceTab <symbol>`
+
+-   😎: It means that after you choose it, you can press a string without spaces, then press `Space` and `Tab` key to continue to get command completions.
+
+    -   This symbol can be customized by running `psc config symbol WriteSpaceTab <symbol>`
+
+-   🤔：It means that after you choose it, you can press `Space` and `Tab` key to continue to get option-type completions(e.g. --verbose).
+
+    -   This symbol can be customized by running `psc config symbol OptionsTab <symbol>`
+
 -   `...`: The description here will be filled in in the future.
     -   If `...` is the last one in the completion, it means that the display area is too small to display all completions.
 
@@ -100,25 +110,25 @@
 
 ## Available Completions List
 
-|                 Completions                 |                   Source                   |
-| :-----------------------------------------: | :----------------------------------------: |
-| [PSCompletions](/completions/PSCompletions) |     PSCompletions - Module completion      |
-|          [chfs](/completions/chfs)          |          chfs(CuteHttpFileServer)          |
-|         [choco](/completions/choco)         |    choco(chocolatey) - Software Manager    |
-|          [deno](/completions/deno)          |   deno - A secure runtime for JS and TS    |
-|        [docker](/completions/docker)        | docker - Container Application Development |
-|           [git](/completions/git)           |        Git - Version control system        |
-|       [kubectl](/completions/kubectl)       |     Kubernetes(k8s) command-line tool      |
-|           [npm](/completions/npm)           |           npm - package manager            |
-|           [nrm](/completions/nrm)           |         nrm - npm registry manager         |
-|           [nvm](/completions/nvm)           |         nvm - Node Version Manager         |
-|           [pip](/completions/pip)           |        pip - Python Package Manager        |
-|          [pnpm](/completions/pnpm)          |           pnpm - Package Manager           |
-|        [python](/completions/python)        |           python - command-line            |
-|         [scoop](/completions/scoop)         |          Scoop - Software Manager          |
-|         [volta](/completions/volta)         | volta - Accessible JavaScript Tool Manager |
-|        [winget](/completions/winget)        |      WinGet - Windows package manager      |
-|           [wsl](/completions/wsl)           |     WSL - Windows Subsystem for Linux      |
-|            [wt](/completions/wt)            |       windows terminal command line        |
-|          [yarn](/completions/yarn)          |           yarn - package manager           |
-|                     ...                     |                    ...                     |
+|                  Completions                  |                                            Source                                             |
+| :-------------------------------------------: | :-------------------------------------------------------------------------------------------: |
+| [PSCompletions()](/completions/PSCompletions) | [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions) |
+|           [chfs](/completions/chfs)           |                       [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                       |
+|          [choco](/completions/choco)          |                [choco(chocolatey) - Software Manager](https://chocolatey.org)                 |
+|           [deno](/completions/deno)           |                   [deno - A secure runtime for JS and TS](https://deno.com)                   |
+|         [docker](/completions/docker)         |             [docker - Container Application Development](https://www.docker.com)              |
+|            [git](/completions/git)            |                      [Git - Version control system](https://git-scm.com)                      |
+|        [kubectl](/completions/kubectl)        |                  [Kubernetes(k8s) command-line tool](https://kubernetes.io)                   |
+|            [npm](/completions/npm)            |                        [npm - package manager](https://www.npmjs.com)                         |
+|            [nrm](/completions/nrm)            |                   [nrm - npm registry manager](https://github.com/Pana/nrm)                   |
+|            [nvm](/completions/nvm)            |                  [nvm - Node Version Manager](https://github.com/nvm-sh/nvm)                  |
+|            [pip](/completions/pip)            |                  [pip - Python Package Manager](https://github.com/pypa/pip)                  |
+|           [pnpm](/completions/pnpm)           |                         [pnpm - Package Manager](https://www.pnpm.cn)                         |
+|         [python](/completions/python)         |                        [python - command-line](https://www.python.org)                        |
+|          [scoop](/completions/scoop)          |                         [Scoop - Software Manager](https://scoop.sh)                          |
+|          [volta](/completions/volta)          |                [volta - Accessible JavaScript Tool Manager](https://volta.sh)                 |
+|         [winget](/completions/winget)         |          [WinGet - Windows package manager](https://github.com/microsoft/winget-cli)          |
+|            [wsl](/completions/wsl)            |             [WSL - Windows Subsystem for Linux](https://github.com/microsoft/WSL)             |
+|             [wt](/completions/wt)             |            [windows terminal command line](https://github.com/microsoft/terminal)             |
+|           [yarn](/completions/yarn)           |                 [yarn - package manager](https://classic.yarnpkg.com/lang/en)                 |
+|                      ...                      |                                              ...                                              |
