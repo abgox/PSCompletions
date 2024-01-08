@@ -15,10 +15,10 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.wsl -ScriptBlock
         '-d', '--distribution',
         '-s', '--set-default',
         '-t', '--terminate',
-        '--unregister', '--export', '--import',
-        '--shell-type', '--install',
-        '--mount', '--unmount', '--update', '-l', '--list'
+        '--unregister',
+        '--shell-type', '--unmount'
     )
+    $ignore = @('--install', '--mount', '--update', '--export', '--import', '-l', '--list')
     #endregion
 
     #region : Special
@@ -38,7 +38,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.wsl -ScriptBlock
         function _do($cmd, $tip) {
             $completions[$root_cmd + ' ' + $cmd + ' ' + $Distro] = @($Distro, $tip, $_i)
         }
-        $temp = $PSCompletions.fn_replace($_info.symbol + $_info.Distro)
+        $temp = $PSCompletions.fn_replace($PSCompletions.config.sym + $_info.Distro)
 
         _do '~ -d' $temp
         _do '~ --distribution' $temp
@@ -59,7 +59,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.wsl -ScriptBlock
     $input_arr = $orgin_input
     $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
 
-    $flag = $input_arr[-1] -notin $need_skip -and $input_arr[-1] -like '-*'
+    $flag = $input_arr[-1] -notin $need_skip -and $input_arr[-1] -notin $ignore -and $input_arr[-1] -like '-*'
 
     if ($space_tab) { $complete = ' ' }
     elseif ($flag) {
@@ -75,10 +75,10 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.wsl -ScriptBlock
         $skip = 0
         for ($i = 0; $i -lt $input_arr.Count; $i++) {
             if ($skip -and ($i -ne $input_arr.Count - 1 -or $input_arr[$i] -notin $need_skip)) {
-                if ($input_arr[$i] -notlike '-*') { $skip = 0 }
+                if ($input_arr[$i] -notlike '-*' -or $input_arr[$i] -in $ignore) { $skip = 0 }
                 continue
             }
-            if ($input_arr[$i] -like '-*') {
+            if ($input_arr[$i] -like '-*' -and $input_arr[$i] -notin $ignore) {
                 if ($input_arr[$i] -in $need_skip -and $i -eq $input_arr.Count - 1) {
                     $res += $input_arr[$i]
                     return $res

@@ -10,7 +10,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.volta -ScriptBlo
 
     $_info = $PSCompletions.comp_data.$($root_cmd + '_info').core_info
 
-    $need_skip = @('-v')
+    $need_skip = @('--format', '-v','--node','--npm','--yarn','--env')
     #endregion
 
     #region : Running

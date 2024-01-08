@@ -10,7 +10,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.kubectl -ScriptB
 
     $_info = $PSCompletions.comp_data.$($root_cmd + '_info').core_info
 
-    $need_skip = @()
+    $need_skip = @('-f','-k','-l','p','-e','-o','-c','-u','-w')
     #endregion
 
     #region : Running

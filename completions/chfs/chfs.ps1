@@ -7,10 +7,13 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.chfs -ScriptBloc
     $PSCompletions.fn_cache($PSScriptRoot)
 
     $completions = $PSCompletions.comp_data.$root_cmd.Clone()
+
+    $need_skip = @('--help','--version')
     #endregion
 
     #region : Running
-    $input_arr = $command_ast.CommandElements
+    $orgin_input = ($command_ast.CommandElements -join ' ') -split ' '
+    $input_arr = $orgin_input
     $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
 
     $flag = $input_arr[-1] -notin $need_skip -and $input_arr[-1] -like '-*'
@@ -21,10 +24,40 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.chfs -ScriptBloc
         $complete = ' ' + $word_to_complete
     }
 
-    $input_arr = $input_arr | Where-Object { $_ -notlike '-*' }
+    function format_input([array]$input_arr, [array]$need_skip = @()) {
+        if ($input_arr.Count -eq 1) {
+            return $input_arr[0]
+        }
+        $res = @()
+        $skip = 0
+        for ($i = 0; $i -lt $input_arr.Count; $i++) {
+            if ($i -eq 1 -and $input_arr[$i] -in $need_skip) {
+                $res += $input_arr[$i]
+                continue
+            }
+            if ($skip -and ($i -ne $input_arr.Count - 1 -or $input_arr[$i] -notin $need_skip)) {
+                if ($input_arr[$i] -notlike '-*') { $skip = 0 }
+                continue
+            }
+            if ($input_arr[$i] -like '-*') {
+                if ($input_arr[$i] -in $need_skip -and $i -eq $input_arr.Count - 1) {
+                    $res += $input_arr[$i]
+                    return $res
+                }
+                else {
+                    $skip = 1
+                }
+            }
+            else { $res += $input_arr[$i] }
+        }
+        return $res
+    }
+
+    $input_arr = format_input $input_arr $need_skip
+
     $filter_list = $completions.Keys | Where-Object {
         $cmd = $_ -split ' '
-        $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
+        $cmd[-1] -notin $orgin_input -and $cmd.Count -eq ($input_arr.Count + $space_tab) -and ($cmd -join ' ') -like ($input_arr -join ' ') + $complete + '*'
     } | Sort-Object { $completions.$_[-1] }
 
     function complete_by_old {
@@ -33,6 +66,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.chfs -ScriptBloc
         $cmd_line = [System.Console]::WindowHeight - 5
 
         $filter_list | ForEach-Object {
+            $completions[$_][0] = $completions[$_][0].Replace('^up', ' ')
             $len = $completions[$_][0].Length
             if ($len -ge $max_len) { $max_len = $len }
         }

@@ -24,7 +24,9 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.winget -ScriptBl
         '-l', '--location',
         '-r', '--rename',
         '-f','--file',
-        '--module-path'
+        '--module-path',
+        '--enable',
+        '--disable'
     )
     #endregion
 

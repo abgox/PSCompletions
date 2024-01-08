@@ -17,7 +17,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock
 
     $need_skip = @(
         '-m', '-t', '-F', '-C', '--depth', '-b', '-j',
-        '-i', '--interactive', '--soft', '--hard', '--mixed', '-d', '-v'
+        '-i', '--interactive', '--soft', '--hard', '--mixed', '-d', '-v','--depth'
     )
     #endregion
 
@@ -55,7 +55,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock
 
         $branch_list | ForEach-Object {
             $info = 'branch --- ' + $_
-            $info_s = $_info.symbol + $info
+            $info_s = $PSCompletions.config.sym + $info
             $completions[ $root_cmd + ' switch ' + $_] = @($_, $info, $_i)
             $completions[ $root_cmd + ' merge ' + $_] = @($_, $info_s, $_i)
             $completions[ $root_cmd + ' diff ' + $_] = @($_, $info_s, $_i)
@@ -80,7 +80,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.git -ScriptBlock
         }
         $remote_list | ForEach-Object {
             $info = 'remote --- ' + $_
-            $info_s = $_info.symbol + $info
+            $info_s = $PSCompletions.config.sym + $info
             $completions[ $root_cmd + ' push ' + $_] = @($_, $info_s, $_i)
             $completions[ $root_cmd + ' pull ' + $_] = @($_, $info_s, $_i)
             $completions[ $root_cmd + ' fetch ' + $_] = @($_, $info_s, $_i)

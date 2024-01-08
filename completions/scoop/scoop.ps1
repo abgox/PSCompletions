@@ -15,7 +15,6 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.scoop -ScriptBlo
 
     #region : Special
     $_i = 99999
-    $symbol = $json_info.symbol
     if ($PSVersionTable.Platform -ne 'Unix') {
         $config = $PSCompletions.fn_get_raw_content("$env:UserProfile\.config\scoop\config.json") | ConvertFrom-Json
         if ($env:SCOOP) {
@@ -42,7 +41,7 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.scoop -ScriptBlo
         }
 
         function return_str($str) {
-            return ($symbol + $str + ' app --- ' + $_.Name + "`n" + $_.FullName)
+            return ($PSCompletions.config.sym + $str + ' app --- ' + $_.Name + "`n" + $_.FullName)
         }
         function _do($cmd, $tip) {
             $completions[$root_cmd + ' ' + $cmd + ' ' + $_.Name] = @($_.Name, $tip, $_i)

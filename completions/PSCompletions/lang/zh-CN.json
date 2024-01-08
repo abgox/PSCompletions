@@ -1,13 +1,13 @@
 ﻿{
   "list": [
-    "😄显示已经添加的补全\n",
+    "{{$PSCompletions.config.sym}}显示已经添加的补全\n",
     "{{$PSCompletions.json.example.list}}"
   ],
   "list --remote": "显示远程仓库({{$PSCompletions.repo}})中的所有可用补全",
   "add": [
     "{{",
     "$has=Compare-Object ($PSCompletions.installed).BaseName $PSCompletions.list -PassThru;",
-    "if($has){'😄'};",
+    "if($has){ $PSCompletions.config.sym };",
     "}}",
     "添加补全(一个或多个)\n",
     "{{$PSCompletions.json.example.add}}"
@@ -15,7 +15,7 @@
   "rm": [
     "{{",
     "$install=($PSCompletions.installed).BaseName | Where-Object {$_ -ne 'PSCompletions'};",
-    "if($install){'😄'};",
+    "if($install){ $PSCompletions.config.sym };",
     "}}",
     "移除补全(一个或多个)\n",
     "{{$PSCompletions.json.example.rm}}"
@@ -25,7 +25,7 @@
     "{{$PSCompletions.json.example.search}}"
   ],
   "update": [
-    "{{if($PSCompletions.update){'😄'} }}",
+    "{{if($PSCompletions.update){ $PSCompletions.config.sym } }}",
     "更新补全(一个或多个)\n",
     "{{$PSCompletions.json.example.update}}"
   ],
@@ -38,37 +38,37 @@
     "}}"
   ],
   "which": [
-    "😄定位补全存储位置\n",
+    "{{$PSCompletions.config.sym}}定位补全存储位置\n",
     "{{$PSCompletions.json.example.which}}"
   ],
   "alias": [
-    "😄管理补全触发的命令名\n",
+    "{{$PSCompletions.config.sym}}管理补全触发的命令名\n",
     "{{$PSCompletions.json.example.alias}}"
   ],
   "alias list": "显示所有补全别名",
   "alias add": [
-    "😄添加补全别名\n",
+    "{{$PSCompletions.config.sym}}添加补全别名\n",
     "{{$PSCompletions.json.example.alias_add}}"
   ],
   "alias rm": [
     "{{",
     "$has=$PSCompletions.comp_cmd.keys | Where-Object { if($_ -eq 'PSCompletions'){$PSCompletions.comp_cmd.$_ -ne 'psc'}else{$_ -ne $PSCompletions.comp_cmd.$_} };",
-    "if($has){'😄'}",
+    "if($has){ $PSCompletions.config.sym }",
     "}}",
     "删除补全别名(一个或多个)\n",
     "{{$PSCompletions.json.example.alias_rm}}"
   ],
   "alias reset": "删除所有补全别名",
-  "order": "😄管理补全的排序(order.json)",
-  "order reset": "😄重置一个或多个补全的排序\n{{$PSCompletions.json.example.order}}",
+  "order": "{{$PSCompletions.config.sym}}管理补全的排序(order.json)",
+  "order reset": "{{$PSCompletions.config.sym}}重置一个或多个补全的排序\n{{$PSCompletions.json.example.order}}",
   "order reset *": "重置所有补全的排序",
   "config": [
-    "😄读写/更改配置\n",
+    "{{$PSCompletions.config.sym}}读写/更改配置\n",
     "{{$PSCompletions.json.example.config}}"
   ],
   "config language": [
     "当前值: zh-CN\n",
-    "😄读取/设置当前配置语言\n",
+    "{{$PSCompletions.config.sym}}读取/设置当前配置语言\n",
     "配置语言会影响所有添加的补全语言\n",
     "通过 {{ $PSCompletions.root_cmd }} completion 单独设置了补全语言的不受影响"
   ],
@@ -84,6 +84,28 @@
     "}else{ $PSCompletions.json.repo_add }",
     "}}"
   ],
+  "config symbol": [
+    "设置补全提示中的表情符号(😄😎🤔)\n",
+    "符号的意义可以通过补全了解，相关详细信息，请访问：\n",
+    "Github: https://github.com/abgox/PSCompletions#about-special-symbols-in-completion-description\n",
+    "Gitee:  https://gitee.com/abgox/PSCompletions#关于补全描述中的特殊符号"
+  ],
+  "config symbol SpaceTab": [
+    "当前值：{{$PSCompletions.config.sym}}\n",
+    "设置它，会影响所有的补全提示中的此类型表情符号\n",
+    "此类型符号的意义：当它在补全提示中出现，表示选用此补全后，你可以按下 Space(空格键) 和 Tab 键继续获取补全候选"
+  ],
+  "config symbol WriteSpaceTab": [
+    "当前值：{{$PSCompletions.config.sym_wr}}\n",
+    "设置它，会影响所有的补全提示中的此类型表情符号\n",
+    "此类型符号的意义：当它在补全提示中出现，表示选用此补全后，你可以输入一个不带空格的字符串，然后按下 Space(空格键) 和 Tab 键继续获取补全候选"
+  ],
+  "config symbol OptionsTab": [
+    "当前值：{{$PSCompletions.config.sym_opt}}\n",
+    "设置它，会影响所有的补全提示中的此类型表情符号\n",
+    "此类型符号的意义：当它在补全提示中出现，表示选用此补全后，你可以按下 Space(空格键) 和 Tab 键继续获取选项类补全候选(如 --verbose)"
+  ],
+  "config symbol reset": "恢复为默认值(😄😎🤔)",
   "config root_cmd": [
     "当前值: {{$PSCompletions.root_cmd}} {{if($PSCompletions.root_cmd -eq 'psc'){'(默认值)'}}}\n",
     "读取/设置 PSCompletions 模块的补全别名"
@@ -91,19 +113,19 @@
   "config root_cmd psc": "设置为 psc(默认值)",
   "config github": [
     "当前值: {{$PSCompletions.config.github}}\n",
-    "😄获取或更改远程库地址 --- Github"
+    "{{$PSCompletions.config.sym}}获取或更改远程库地址 --- Github"
   ],
   "config github \"\"": "将Github仓库设置为空",
   "config github https://github.com/abgox/PSCompletions": "github仓库",
   "config gitee": [
     "当前值: {{$PSCompletions.config.gitee}}\n",
-    "😄获取或更改远程库地址 --- Gitee"
+    "{{$PSCompletions.config.sym}}获取或更改远程库地址 --- Gitee"
   ],
   "config gitee \"\"": "将Gitee仓库设置为空",
   "config gitee https://gitee.com/abgox/PSCompletions": "gitee仓库",
   "config update": [
     "当前值: {{$PSCompletions.config.update}}\n",
-    "😄设置首次加载 PSCompletions 模块时是否显示更新\n",
+    "{{$PSCompletions.config.sym}}设置首次加载 PSCompletions 模块时是否显示更新\n",
     "  1: 显示更新\n",
     "  0: 不显示更新"
   ],
@@ -114,23 +136,23 @@
     "说明: \n",
     " 1. 当首次使用补全时,会读取 json 文件中的补全数据结构并缓存\n",
     " 2. 当缓存个数达到设置的上限后,会移除最先缓存的补全数据\n",
-    " 3. 缓存随终端的关闭清空"
+    " 3. 缓存随 PowerShell 的关闭清空"
   ],
   "config reset": [
     "重置所有 config 为默认值\n",
     "包括(language,root_cmd,github,gitee,update,LRU)"
   ],
   "completion": [
-    "😄单个补全的配置\n",
+    "{{$PSCompletions.config.sym}}单个补全的配置\n",
     "如: completion git language en-US  --- 单独设置 git 补全的语言为英文"
   ],
   "ui": [
-    "😄管理 UI 的一些配置\n",
+    "{{$PSCompletions.config.sym}}管理 UI 的一些配置\n",
     "如：ui menu powershell  --- 使用 PowerShell语言自带的补全"
   ],
   "ui reset": "还原所有的补全菜单 UI 设置",
   "ui menu": [
-    "😄切换补全菜单"
+    "{{$PSCompletions.config.sym}}切换补全菜单"
   ],
   "ui menu default": [
     "使用本模块自带的补全菜单 UI"
@@ -139,7 +161,7 @@
     "使用 PowerShell 语言自带的补全菜单"
   ],
   "ui theme": [
-    "😄切换补全菜单的主题\n",
+    "{{$PSCompletions.config.sym}}切换补全菜单的主题\n",
     "此项仅在使用模块自带的补全菜单 UI 时生效"
   ],
   "ui theme default": [
@@ -148,50 +170,50 @@
   "ui theme magenta": [
     "Magenta 主色调"
   ],
-  "ui style": "😄设置补全菜单的边框样式主题",
+  "ui style": "{{$PSCompletions.config.sym}}设置补全菜单的边框样式主题",
   "ui style double_line_rect_border": "设置为双线直角边框(默认)",
   "ui style single_line_rect_border": "设置为单线直角边框",
   "ui style single_line_round_border": "设置为单线圆角边框",
-  "ui custom": "😄自定义配置",
-  "ui custom color": "😄颜色相关的自定义配置",
-  "ui custom color border": "😄边框的前景色",
-  "ui custom color border_back": "😄边框的背景色",
-  "ui custom color item": "😄补全项的前景色",
-  "ui custom color item_back": "😄补全项的背景色",
-  "ui custom color selected": "😄选中项的前景色",
-  "ui custom color selected_back": "😄选中项的背景色",
-  "ui custom color filter": "😄过滤框(左上角)的前景色",
-  "ui custom color filter_back": "😄过滤框(左上角)的背景色",
-  "ui custom color status": "😄补全个数显示(左下角)的前景色",
-  "ui custom color status_back": "😄补全个数显示(左下角)的背景色",
-  "ui custom color tip": "😄补全提示信息的前景色",
-  "ui custom color tip_back": "😄补全提示信息的背景色",
-  "ui custom line": "😄线条相关的自定义配置",
-  "ui custom line horizontal": "😄UI边框的横线",
+  "ui custom": "{{$PSCompletions.config.sym}}自定义配置",
+  "ui custom color": "{{$PSCompletions.config.sym}}颜色相关的自定义配置",
+  "ui custom color border": "{{$PSCompletions.config.sym}}边框的前景色",
+  "ui custom color border_back": "{{$PSCompletions.config.sym}}边框的背景色",
+  "ui custom color item": "{{$PSCompletions.config.sym}}补全项的前景色",
+  "ui custom color item_back": "{{$PSCompletions.config.sym}}补全项的背景色",
+  "ui custom color selected": "{{$PSCompletions.config.sym}}选中项的前景色",
+  "ui custom color selected_back": "{{$PSCompletions.config.sym}}选中项的背景色",
+  "ui custom color filter": "{{$PSCompletions.config.sym}}过滤框(左上角)的前景色",
+  "ui custom color filter_back": "{{$PSCompletions.config.sym}}过滤框(左上角)的背景色",
+  "ui custom color status": "{{$PSCompletions.config.sym}}补全个数显示(左下角)的前景色",
+  "ui custom color status_back": "{{$PSCompletions.config.sym}}补全个数显示(左下角)的背景色",
+  "ui custom color tip": "{{$PSCompletions.config.sym}}补全提示信息的前景色",
+  "ui custom color tip_back": "{{$PSCompletions.config.sym}}补全提示信息的背景色",
+  "ui custom line": "{{$PSCompletions.config.sym}}线条相关的自定义配置",
+  "ui custom line horizontal": "{{$PSCompletions.config.sym}}UI边框的横线",
   "ui custom line horizontal ═": "双线(默认)",
   "ui custom line horizontal ─": "单线",
-  "ui custom line vertical": "😄UI边框的竖线",
+  "ui custom line vertical": "{{$PSCompletions.config.sym}}UI边框的竖线",
   "ui custom line vertical ║": "双线(默认)",
   "ui custom line vertical │": "单线",
-  "ui custom line top_left": "😄UI边框的左上角",
+  "ui custom line top_left": "{{$PSCompletions.config.sym}}UI边框的左上角",
   "ui custom line top_left ╔": "双线(默认)",
   "ui custom line top_left ┌": "单线",
   "ui custom line top_left ╒": "单双线",
-  "ui custom line bottom_left": "😄UI边框的左下角",
+  "ui custom line bottom_left": "{{$PSCompletions.config.sym}}UI边框的左下角",
   "ui custom line bottom_left ╚": "双线(默认)",
   "ui custom line bottom_left └": "单线",
   "ui custom line bottom_left ╘": "单双线",
-  "ui custom line top_right": "😄UI边框的右上角",
+  "ui custom line top_right": "{{$PSCompletions.config.sym}}UI边框的右上角",
   "ui custom line top_right ╗": "双线(默认)",
   "ui custom line top_right ┐": "单线",
   "ui custom line top_right ╕": "单双线",
-  "ui custom line bottom_right": "😄UI边框的右下角",
+  "ui custom line bottom_right": "{{$PSCompletions.config.sym}}UI边框的右下角",
   "ui custom line bottom_right ╝": "双线(默认)",
   "ui custom line bottom_right ┘": "单线",
   "ui custom line bottom_right ╛": "单双线",
-  "ui custom config": "😄针对 UI的一些其他自定义配置，如位置，间距，滚动等",
+  "ui custom config": "{{$PSCompletions.config.sym}}针对 UI的一些其他自定义配置，如位置，间距，滚动等",
   "ui custom config above_list_max": "默认值为10\n当菜单UI显示在上方时，首页显示的补全项的最大个数\n设置为 -1 时，则表示占满上方所有空间",
-  "ui custom config follow_cursor": "默认值为0(表示禁用)\n😄设置UI是否跟随光标\n即光标的右下角就是UI的左上角\n如果你的终端宽度比较小，不建议开启它",
+  "ui custom config follow_cursor": "默认值为0(表示禁用)\n{{$PSCompletions.config.sym}}设置UI是否跟随光标\n即光标的右下角就是UI的左上角\n如果你的 PowerShell 宽度比较小，不建议开启它",
   "ui custom config follow_cursor 0": "默认值，表示禁用，UI 不跟随光标",
   "ui custom config follow_cursor 1": "启用它，让 UI 跟随光标",
   "ui custom config fast_scroll_item_count": "默认值为10\n指定当按下 Shift，再进行上下选择时，一次滚动的补全项数量",
@@ -227,8 +249,14 @@
       " - 如果对新的补全菜单 UI 不满意,可以使用 <$Magenta>{{$PSCompletions.root_cmd}} ui<$Cyan> 下的命令来更改样式\n",
       "\n",
       "关于补全描述中的特殊符号\n",
-      "- 😄: 当此补全被选用后，可以按下 <$Magenta>空格<$Cyan> 和 <$Magenta>Tab<$Cyan> 键继续获得补全候选\n",
-      "- 😄😄: 当此补全被选用后，你需要输入一个不带空格的内容后按下 <$Magenta>空格<$Cyan> 和 <$Magenta>Tab<$Cyan> 键继续获得补全候选\n",
+      "- 对于 😄😎🤔: 如果出现多个，可以选择其中一个的效果\n",
+      "- 😄：表示选用此补全后，可以按下 <$Magenta>空格<$Cyan> 和 <$Magenta>Tab<$Cyan> 键继续获得补全候选\n",
+      "   - 可通过 <$Magenta>psc config symbol SpaceTab <symbol><$Cyan> 自定义此符号\n",
+      "- 😎：表示选用此补全后，你可以输入一个不带空格的字符串，然后按下 <$Magenta>空格<$Cyan> 和 <$Magenta>Tab<$Cyan> 键继续获得补全候选\n",
+      "   - 可通过 <$Magenta>psc config symbol WriteSpaceTab <symbol><$Cyan> 自定义此符号\n",
+      "- 🤔：表示选用此补全后，你可以按下 <$Magenta>空格<$Cyan> 和 <$Magenta>Tab<$Cyan> 键继续获取选项类补全候选(如 --verbose)\n",
+      "   - 可通过 <$Magenta>psc config symbol OptionsTab <symbol><$Cyan> 自定义此符号\n",
+      "\n",
       "- <$Magenta>...<$Cyan> : 补全描述等待后续填充\n",
       "   - 使用 PowerShell 语言自带的补全菜单时,如果 <$Magenta>...<$Cyan> 是最后一个补全候选,则表示可显示区域过小,无法显示所有候选项\n",
       "\n",
@@ -275,16 +303,15 @@
       "<$Cyan>按下 <$Magenta>Enter(回车键)<$Cyan> 进行更新!"
     ],
     "module_updating": "<$Cyan>成功运行命令: <$Magenta>Update-Module PSCompletions \n<$Cyan>PSCompletions 模块更新正在进行中",
-    "module_update_done": "<$Green>PSCompletions 模块更新完成,请重启终端并重新导入模块",
+    "module_update_done": "<$Green>PSCompletions 模块更新完成,请重启 PowerShell 并重新导入模块",
     "module_update_err": [
       "<$Red>PSCompletions 模块更新失败,请检查原因\n",
       "可能的失败原因:\n",
       " - 网络问题\n",
-      " - 你正在使用 Windows Powershell，但启动的权限过低\n",
-      "    - 你应该使用管理员权限启动或者使用 -Scope CurrentUser 选项\n",
-      "      如：<$Magenta>Update-Module PSCompletions -Scope CurrentUser<$Red>\n",
+      " - 权限不够\n",
       " - ...\n"
     ],
+    "module_update_admin":"<$Yellow>更新 PSCompletions 模块失败，当前为用户权限，无法完成更新\n自动提升为管理员权限，再次尝试更新...",
     "param_min": "<$Red>传入的参数太少。",
     "param_max": "<$Red>传入的参数太多。",
     "param_err": "<$Red>传入的参数错误。",
@@ -355,36 +382,43 @@
       "if($_ -ne $alias){'当前值: '+ $alias }else{'未设置别名'} }}\n",
       "为 {{$_}} 添加补全别名"
     ],
-    "alias_add_done": "<$Green>补全触发命令由 <$Magenta>{{$arg[2]}} <$Green>更改为 <$Magenta>{{$arg[3]}}<$Green>,现在可以使用 <$Magenta>{{$arg[3]}} <$Green>触发补全了(若未生效,请重启终端应用)",
+    "alias_add_done": "<$Green>补全触发命令由 <$Magenta>{{$arg[2]}} <$Green>更改为 <$Magenta>{{$arg[3]}}<$Green>,现在可以使用 <$Magenta>{{$arg[3]}} <$Green>触发补全了\n<$Yellow>(若未生效,请重启 PowerShell)",
     "alias_add_err": "<$Red>别名 <$Magenta>{{$arg[-1]}} <$Red>不可用,因为 <$Magenta>{{$arg[-1]}}<$Magenta> <$Red>是已存在的命令,请设置其他别名",
     "alias_err": "<$Red>你还没有添加 <$Magenta>{{$arg[2]}} <$Red>补全",
     "alias_rm": "移除此别名({{$PSCompletions.comp_cmd.$_}}) --- {{$_}}",
     "alias_rm_done": [
-      "<$Green>成功删除别名: <$Magenta>{{$del_list | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}\n<$Green>",
-      "(若未生效,请重启终端应用)",
+      "<$Green>成功删除别名: <$Magenta>{{$del_list | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}",
+      "\n<$Yellow>(若未生效,请重启 PowerShell)<$Green>",
       "{{ if($PSCompletions.root_cmd -in $del_list){(\"`n(\" + '<$Magenta>' + $PSCompletions.root_cmd + ' <$Green>为 <$Magenta>PSCompletions <$Green>模块别名,只能修改,不能移除)')} }}"
     ],
     "alias_rm_err": "<$Red>不存在别名 <$Magenta>{{$error_list -join ','}}",
     "alias_reset_confirm": "<$Yellow>确定要删除所有补全别名？<$Cyan>\n按下 Enter 删除,其他任意键终止",
     "alias_reset_done": [
-      "<$Green>成功删除别名: <$Magenta>{{$del_list  | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}\n<$Green>",
-      "(若未生效,请重启终端应用)",
+      "<$Green>成功删除别名: <$Magenta>{{$del_list  | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}",
+      "\n<$Yellow>(若未生效,请重启 PowerShell)<$Green>",
       "{{ if($PSCompletions.root_cmd -in $del_list){(\"`n(\" + '<$Magenta>' + $PSCompletions.root_cmd + ' <$Green>为 <$Magenta>PSCompletions <$Green>模块别名,只能修改,不能移除)')} }}"
     ],
     "order": "重置 {{$_}} 的补全顺序",
     "order_done": "<$Green>成功重置排序: <$Magenta>{{$del_list}}",
     "order_err": "<$Red>你还没有添加 <$Magenta>{{$err_list}} <$Red>补全",
-    "config_done": "<$Green>PSCompletions的配置 <$Magenta>{{$arg[1]}} <$Green>成功设置为 <$Magenta>{{$arg[2]}}<$Green> ！(如果未生效,重启终端即可)",
+    "config_done": "<$Green>PSCompletions 的配置 <$Blue>{{$arg[1]}}<$Green>: <$Magenta>{{$old_value}}<$Green> => <$Magenta>{{$arg[2]}}<$Green> ！\n<$Yellow>(如果未生效,重启 PowerShell 即可)",
+    "config_symbol_done": "<$Green>PSCompletions 的 symbol 配置 <$Blue>{{$arg[2]}}<$Green>: <$Magenta>{{$old_value}}<$Green> => <$Magenta>{{$arg[3]}}<$Green> ！\n<$Yellow>(如果未生效,重启 PowerShell 即可)\n注意：一些特殊的符号可能导致补全菜单 UI 宽度计算存在偏差，影响显示效果(影响很小)，请自行测试",
+    "config_symbol_reset_done": "<$Green>PSCompletions 的 symbol 配置重置完成:{{$symbol_list | Foreach-Object { \"`n\" +'<$Blue>' + $_.type + '<$Green>: <$Magenta>' + $_.old_value + ' => ' + $_.value + '<$Green>' } }}\n<$Yellow>(如果未生效,重启 PowerShell 即可)",
     "config_err": [
-      "<$Red>子命令 <$Magenta>{{$arg[1]}} <$Red>错误\n",
-      "它应该是 <$Magenta>{{$PSCompletions.config.Keys;'reset'}} <$Red>其中一个"
+      "<$Red>子命令 <$Magenta>{{$arg[1]}}<$Red> 错误\n",
+      "它应该是 <$Magenta>{{$PSCompletions.config.Keys|Where-Object{$_ -notin @('sym','sym_wr','sym_opt')};'symbol';'reset'}} <$Red>其中一个"
+    ],
+    "config_symbol_err":[
+      "<$Red>子命令 <$Magenta>{{$arg[2]}}<$Red> 错误\n",
+      "它应该是 <$Magenta>SpaceTab WriteSpaceTab OptionsTab reset<$Red> 其中一个"
     ],
     "config_reset": "<$Yellow>确定重置所有配置吗\n<$Cyan>按下 Enter 重置,其他任意键终止",
     "config_reset_done": [
       "<$Green>重置完成,当前配置如下:",
       "{{",
       "$PSCompletions.config.keys | Foreach-Object { \"`n\" + '<$Cyan>'  + $_ + ': <$Blue>' + $PSCompletions.config.$_}",
-      "}}"
+      "}}",
+      "\n<$Yellow>(如果未生效,重启 PowerShell 即可)"
     ],
     "comp_config_tip": "<$Blue>补全 <$Magenta>{{$completion}}<$Blue> 拥有 <$Magenta>{{$configs.Count}}<$Blue> 个独立配置(除 <$Magenta>language<$Blue> 外)\n-----------------------",
     "comp_tip": "对补全 {{$_}} 进行配置",
@@ -393,7 +427,7 @@
     "comp_lang_en": "将语言设置为英文",
     "comp_err": "<$Red>你还没有添加 <$Magenta>{{$arg[1]}}<$Red> 补全",
     "comp_conf_err": "<$Red>{{$arg[1]}} 没有 <$Magenta>{{$arg[2]}} <$Red>配置项",
-    "comp_done": "<$Green>成功将 <$Magenta>{{$arg[1]}}<$Green> 的配置项 <$Magenta>{{ $arg[2] }}<$Green>{{if($old_value){' 从 <$Magenta>' + $old_value +'<$Green>'}}} 设置为 <$Magenta>{{$arg[3]}}<$Green>,重启终端使其生效",
+    "comp_done": "<$Green>成功将 <$Magenta>{{$arg[1]}}<$Green> 的配置项 <$Magenta>{{ $arg[2] }}<$Green>{{if($old_value){' 从 <$Magenta>' + $old_value +'<$Green>'}}} 设置为 <$Magenta>{{$arg[3]}}\n<$Yellow>(若未生效,请重启 PowerShell)",
     "color_err": "<$Magenta>{{$arg[4]}} <$Red>不是一个有效的颜色值，你应该使用以下的颜色值:\n{{$available_color}}",
     "color_done": "<$Green>成功将补全菜单布局中的 <$Magenta>{{$arg[3]}}<$Green> 的颜色从 <$Magenta>{{$old_value}}<$Green> 设置为 <$Magenta>{{$arg[4]}}",
     "line_done": "<$Green>成功将补全菜单布局中的 <$Magenta>{{$arg[3]}}<$Green> 的样式从 <$Magenta>{{$old_value}}<$Green> 设置为 <$Magenta>{{$arg[4]}}",
@@ -452,8 +486,12 @@
       "alias_reset": "如: {{$PSCompletions.root_cmd}} alias reset",
       "order": "如: {{$PSCompletions.root_cmd}} order reset PSCompletions",
       "config": [
-        "如: {{$PSCompletions.root_cmd}} config language       获取语言设置,它应该会返回 zh-CN\n",
-        "   {{$PSCompletions.root_cmd}} config language en-US 设置为英文"
+        "如: {{$PSCompletions.root_cmd}} config language             获取语言设置,它应该会返回 zh-CN\n",
+        "   {{$PSCompletions.root_cmd}} config language en-US       设置为英文\n",
+        "   {{$PSCompletions.root_cmd}} config symbol SpaceTab ''   设置符号为空"
+      ],
+      "config_symbol_reset": [
+        "如: {{$PSCompletions.root_cmd}} config symbol reset     重置所有符号为默认值"
       ],
       "completion": [
         "如: completion git language en-US  --- 单独设置 git 补全的语言为英文"

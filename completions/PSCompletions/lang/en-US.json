@@ -1,13 +1,13 @@
 {
     "list": [
-        "😄Displays the completions that have been added\n",
+        "{{$PSCompletions.config.sym}}Displays the completions that have been added\n",
         "{{$PSCompletions.json.example.list}}"
     ],
     "list --remote": "Display all available completions in the repository({{$PSCompletions.repo}})",
     "add": [
         "{{",
         "$has=Compare-Object ($PSCompletions.installed).BaseName $PSCompletions.list -PassThru;",
-        "if($has){'😄'};",
+        "if($has){ $PSCompletions.config.sym };",
         "}}",
         "add completion(one or more)\n",
         "{{$PSCompletions.json.example.add}}"
@@ -15,7 +15,7 @@
     "rm": [
         "{{",
         "$install=($PSCompletions.installed).BaseName | Where-Object {$_ -ne 'PSCompletions'};",
-        "if($install){'😄'};",
+        "if($install){ $PSCompletions.config.sym };",
         "}}",
         "remove completion(one or more)\n",
         "{{$PSCompletions.json.example.rm}}"
@@ -25,7 +25,7 @@
         "{{$PSCompletions.json.example.search}}"
     ],
     "update": [
-        "{{if($PSCompletions.update){'😄'} }}",
+        "{{if($PSCompletions.update){ $PSCompletions.config.sym } }}",
         "update completion(one or more)\n",
         "{{$PSCompletions.json.example.update}}"
     ],
@@ -38,37 +38,37 @@
         "}}"
     ],
     "which": [
-        "😄Locate completion storage location\n",
+        "{{$PSCompletions.config.sym}}Locate completion storage location\n",
         "{{$PSCompletions.json.example.which}}"
     ],
     "alias": [
-        "😄Manage the alias that triggers completion.\n",
+        "{{$PSCompletions.config.sym}}Manage the alias that triggers completion.\n",
         "{{$PSCompletions.json.example.alias}}"
     ],
     "alias list": "Displays all completion aliases",
     "alias add": [
-        "😄add completion alias.\n",
+        "{{$PSCompletions.config.sym}}add completion alias.\n",
         "{{$PSCompletions.json.example.alias_add}}"
     ],
     "alias rm": [
         "{{",
         "$has=$PSCompletions.comp_cmd.keys | Where-Object { if($_ -eq 'PSCompletions'){$PSCompletions.comp_cmd.$_ -ne 'psc'}else{$_ -ne $PSCompletions.comp_cmd.$_} };",
-        "if($has){'😄'}",
+        "if($has){ $PSCompletions.config.sym }",
         "}}",
         "remove completion alias(one or more)\n",
         "{{$PSCompletions.json.example.alias_rm}}"
     ],
     "alias reset": "Remove all completion aliases",
-    "order": "😄Manage the order of completion(order.json)",
-    "order reset": "😄Reset the order of completion(one or more)\n{{$PSCompletions.json.example.order}}",
+    "order": "{{$PSCompletions.config.sym}}Manage the order of completion(order.json)",
+    "order reset": "{{$PSCompletions.config.sym}}Reset the order of completion(one or more)\n{{$PSCompletions.json.example.order}}",
     "order reset *": "Reset the order of all completions",
     "config": [
-        "😄Get/Set config\n",
+        "{{$PSCompletions.config.sym}}Get/Set config\n",
         "{{$PSCompletions.json.example.config}}"
     ],
     "config language": [
         "Current value: en-US\n",
-        "😄Get/Set language\n",
+        "{{$PSCompletions.config.sym}}Get/Set language\n",
         "It will affect all completion under this module\n",
         "Those who have used '{{ $PSCompletions.root_cmd }} completion' to set the completion language are not affected."
     ],
@@ -84,24 +84,46 @@
         "}else{ $PSCompletions.json.repo_add }",
         "}}"
     ],
+    "config symbol": [
+        "Configure symbols used in completion prompts (😄😎🤔)\n",
+        "The meaning of symbols can be understood through completions. For detailed information, please visit them:\n",
+        "GitHub: https://github.com/abgox/PSCompletions#about-special-symbols-in-completion-description\n",
+        "Gitee: https://gitee.com/abgox/PSCompletions#关于补全描述中的特殊符号"
+    ],
+    "config symbol SpaceTab": [
+        "Current value: {{$PSCompletions.config.sym}}\n",
+        "Setting it will affect all completion prompts with this type of symbol.\n",
+        "Meaning of this type of symbol: When it appears in the completion prompt, it means that after you choose it, you can press Space and Tab key to continue to get command completions."
+    ],
+    "config symbol WriteSpaceTab": [
+        "Current value: {{$PSCompletions.config.sym_wr}}\n",
+        "Setting it will affect all completion prompts with this type of symbol.\n",
+        "Meaning of this type of symbol: When it appears in the completion prompt, it means that after you choose it, you can press a string without spaces, then press Space and Tab key to continue to get command completions."
+    ],
+    "config symbol OptionsTab": [
+        "Current value: {{$PSCompletions.config.sym_opt}}\n",
+        "Setting it will affect all completion prompts with this type of symbol.\n",
+        "Meaning of this type of symbol: When it appears in the completion prompt, it means that after you choose it, you can press Space and Tab key to continue to get option-type completions(e.g. --verbose)."
+    ],
+    "config symbol reset": "Restore to default values (😄😎🤔)",
     "config root_cmd": [
         "Current value: {{$PSCompletions.root_cmd}} {{if($PSCompletions.root_cmd -eq 'psc'){'(default)'}}}\n",
         "Get/Set PSCompletions alias"
     ],
     "config github": [
         "Current value: {{$PSCompletions.config.github}}\n",
-        "😄Get/Set the address of github repo."
+        "{{$PSCompletions.config.sym}}Get/Set the address of github repo."
     ],
     "config github \"\"": "Set Github repository to empty",
     "config github https://github.com/abgox/PSCompletions": "Github repo",
     "config gitee": [
         "Current value: {{$PSCompletions.config.gitee}}\n",
-        "😄Get/Set the address of gitee repo"
+        "{{$PSCompletions.config.sym}}Get/Set the address of gitee repo"
     ],
     "config gitee \"\"": "Set Gitee repository to empty",
     "config gitee https://gitee.com/abgox/PSCompletions": "Gitee repo",
     "config update": [
-        "😄Set whether to display remote update content when PSCompletions module is first loaded.\n",
+        "{{$PSCompletions.config.sym}}Set whether to display remote update content when PSCompletions module is first loaded.\n",
         "  1: Display updates\n",
         "  0: Disable display of updates"
     ],
@@ -112,23 +134,23 @@
         "Tips:\n",
         "1. When using completion for the first time, the completion data structure in the JSON file is read and stored in the cache.\n",
         "2. When the cache limit is reached, the first cached completion data will be removed.\n",
-        "3. Cache cleared with terminal shutdown"
+        "3. Cache cleared with PowerShell shutdown"
     ],
     "config reset": [
         "Reset all configs to default.\n",
         "Include(language,root_cmd,github,gitee,update,LRU)"
     ],
     "completion": [
-        "😄Configuration of the completion\n",
+        "{{$PSCompletions.config.sym}}Configuration of the completion\n",
         "e.g. completion git language zh-CN  --- Set the language of git completion to Chinese"
     ],
     "ui": [
-        "😄Manage some configuration of the UI\n",
+        "{{$PSCompletions.config.sym}}Manage some configuration of the UI\n",
         "e.g. ui menu powershell --- use PowerShell's built-in Completions menu"
     ],
     "ui reset": "Reset all completion menu UI settings.",
     "ui menu": [
-        "😄Toggle Completions menu"
+        "{{$PSCompletions.config.sym}}Toggle Completions menu"
     ],
     "ui menu default": [
         "use module's built-in Completions menu"
@@ -137,7 +159,7 @@
         "use PowerShell's built-in Completions menu"
     ],
     "ui theme": [
-        "😄Toggle the theme of the completions menu\n",
+        "{{$PSCompletions.config.sym}}Toggle the theme of the completions menu\n",
         "This only takes effect when using the module's built-in completion menu"
     ],
     "ui theme default": [
@@ -146,50 +168,50 @@
     "ui theme magenta": [
         "Magenta theme"
     ],
-    "ui style": "😄Set the border style theme of the completion menu UI",
+    "ui style": "{{$PSCompletions.config.sym}}Set the border style theme of the completion menu UI",
     "ui style double_line_rect_border": "Set to double-line-rect-border(default)",
     "ui style single_line_rect_border": "Set to single-line-rect-border",
     "ui style single_line_round_border": "Set to single-line-round-border",
-    "ui custom": "😄Custom the completions menu",
-    "ui custom color": "😄Custom configurations about color",
-    "ui custom color border": "😄Foreground color of the border",
-    "ui custom color border_back": "😄Background color of the border",
-    "ui custom color item": "😄Foreground color of the completion item",
-    "ui custom color item_back": "😄Background color of the completion item",
-    "ui custom color selected": "😄Foreground color of the selected item",
-    "ui custom color selected_back": "😄Background color of the selected item",
-    "ui custom color filter": "😄Foreground color of the filter box (top left).",
-    "ui custom color filter_back": "😄Background color of the filter box (top left).",
-    "ui custom color status": "😄Foreground color of the completion number display (lower left corner).",
-    "ui custom color status_back": "😄Background color of the completion number display (lower left corner).",
-    "ui custom color tip": "😄Foreground color of the completion tip",
-    "ui custom color tip_back": "😄Background color of the completion tip",
-    "ui custom line": "😄Custom configurations about line",
-    "ui custom line horizontal": "😄Horizontal line on the border",
+    "ui custom": "{{$PSCompletions.config.sym}}Custom the completions menu",
+    "ui custom color": "{{$PSCompletions.config.sym}}Custom configurations about color",
+    "ui custom color border": "{{$PSCompletions.config.sym}}Foreground color of the border",
+    "ui custom color border_back": "{{$PSCompletions.config.sym}}Background color of the border",
+    "ui custom color item": "{{$PSCompletions.config.sym}}Foreground color of the completion item",
+    "ui custom color item_back": "{{$PSCompletions.config.sym}}Background color of the completion item",
+    "ui custom color selected": "{{$PSCompletions.config.sym}}Foreground color of the selected item",
+    "ui custom color selected_back": "{{$PSCompletions.config.sym}}Background color of the selected item",
+    "ui custom color filter": "{{$PSCompletions.config.sym}}Foreground color of the filter box (top left).",
+    "ui custom color filter_back": "{{$PSCompletions.config.sym}}Background color of the filter box (top left).",
+    "ui custom color status": "{{$PSCompletions.config.sym}}Foreground color of the completion number display (lower left corner).",
+    "ui custom color status_back": "{{$PSCompletions.config.sym}}Background color of the completion number display (lower left corner).",
+    "ui custom color tip": "{{$PSCompletions.config.sym}}Foreground color of the completion tip",
+    "ui custom color tip_back": "{{$PSCompletions.config.sym}}Background color of the completion tip",
+    "ui custom line": "{{$PSCompletions.config.sym}}Custom configurations about line",
+    "ui custom line horizontal": "{{$PSCompletions.config.sym}}Horizontal line on the border",
     "ui custom line horizontal ═": "Double(default)",
     "ui custom line horizontal ─": "Single",
-    "ui custom line vertical": "😄Vertical line on the border",
+    "ui custom line vertical": "{{$PSCompletions.config.sym}}Vertical line on the border",
     "ui custom line vertical ║": "Double(default)",
     "ui custom line vertical │": "Single",
-    "ui custom line top_left": "😄The top left corner of the border",
+    "ui custom line top_left": "{{$PSCompletions.config.sym}}The top left corner of the border",
     "ui custom line top_left ╔": "Double(default)",
     "ui custom line top_left ┌": "Single",
     "ui custom line top_left ╒": "DoubleSingle",
-    "ui custom line bottom_left": "😄The bottom left corner of the border",
+    "ui custom line bottom_left": "{{$PSCompletions.config.sym}}The bottom left corner of the border",
     "ui custom line bottom_left ╚": "Double(default)",
     "ui custom line bottom_left └": "Single",
     "ui custom line bottom_left ╘": "DoubleSingle",
-    "ui custom line top_right": "😄The top right corner of the border",
+    "ui custom line top_right": "{{$PSCompletions.config.sym}}The top right corner of the border",
     "ui custom line top_right ╗": "Double(default)",
     "ui custom line top_right ┐": "Single",
     "ui custom line top_right ╕": "DoubleSingle",
-    "ui custom line bottom_right": "😄The bottom right corner of the border",
+    "ui custom line bottom_right": "{{$PSCompletions.config.sym}}The bottom right corner of the border",
     "ui custom line bottom_right ╝": "Double(default)",
     "ui custom line bottom_right ┘": "Single",
     "ui custom line bottom_right ╛": "DoubleSingle",
-    "ui custom config": "😄Some other configurations，such as position,spacing,scroll...",
+    "ui custom config": "{{$PSCompletions.config.sym}}Some other configurations，such as position,spacing,scroll...",
     "ui custom config above_list_max": "Default to 10\nMaximum number of completion items displayed on the first page when the menu UI is displayed on top.\nWhen set to -1, it fills up all the space above",
-    "ui custom config follow_cursor": "Default to 0\n😄Set whether the menu UI follows the cursor\nThat is, the bottom right corner of the cursor is the top left corner of the UI\nIt is not recommended to turn it on if your terminal width is small",
+    "ui custom config follow_cursor": "Default to 0\n{{$PSCompletions.config.sym}}Set whether the menu UI follows the cursor\nThat is, the bottom right corner of the cursor is the top left corner of the UI\nIt is not recommended to turn it on if your PowerShell width is small",
     "ui custom config follow_cursor 0": "Default.It mean disable",
     "ui custom config follow_cursor 1": "Enable it",
     "ui custom config fast_scroll_item_count": "Default to 10\nSpecifies the number of completion items scrolled at once when Shift is pressed and then press up or down.",
@@ -226,8 +248,14 @@
             "   you can use the commands under the <$Magenta>{{$PSCompletions.root_cmd}} ui<$Cyan> to change the style\n",
             "\n",
             "About special symbols in Completion Description\n",
-            "- 😄: After selecting and applying, Press <$Magenta>Space<$Cyan> and <$Magenta>Tab<$Cyan> to continue to get command completion.\n",
-            "- 😄😄: After selecting and applying, type a string without spaces, press <$Magenta>Space<$Cyan> and <$Magenta>Tab<$Cyan> to continue to get command completion.\n",
+            "- For 😄😎🤔: If there are multiple, you can choose the effect of one of them.\n",
+            "- 😄：It means that after you choose it, you can press <$Magenta>Space<$Cyan> and <$Magenta>Tab<$Cyan> key to continue to get command completions\n",
+            "   - This symbol can be customized by running <$Magenta>psc config symbol SpaceTab <symbol><$Cyan>\n",
+            "- 😎：It means that after you choose it, you can press a string without spaces, then press <$Magenta>Space<$Cyan> and <$Magenta>Tab<$Cyan> key to continue to get command completions.\n",
+            "   - This symbol can be customized by running <$Magenta>psc config symbol WriteSpaceTab <symbol><$Cyan>\n",
+            "- 🤔：It means that after you choose it, you can press <$Magenta>Space<$Cyan> and <$Magenta>Tab<$Cyan> key to continue to get option-type completions(e.g. --verbose).\n",
+            "   - This symbol can be customized by running <$Magenta>psc config symbol OptionsTab <symbol><$Cyan>\n",
+            "\n",
             "- <$Magenta>...<$Cyan>: The description here will be filled in in the future.\n",
             "   - When you use PowerShell's built-in completion menu,if <$Magenta>...<$Cyan> is the last one in the completion, it means that the display area is too small to display all completions.\n",
             "\n",
@@ -275,16 +303,19 @@
             "<$Cyan>Press <$Magenta>Enter<$Cyan> key to update!"
         ],
         "module_updating": "<$Cyan>Successfully run the command: <$Magenta>Update-Module PSCompletions\n<$Cyan>Updating PSCompletions module",
-        "module_update_done": "<$Green>PSCompletions module update completed.Please restart the terminal and re-import the module",
+        "module_update_done": "<$Green>PSCompletions module update completed.Please restart the PowerShell and re-import the module",
         "module_update_err": [
             "<$Red>PSCompletions module update failed.\n",
             "Please check the reason according to the error.\n",
             "Possible reasons for failure：\n",
             " - Your network is bad.\n",
-            " - You're using Windows Powershell, but startup privileges are too low.\n",
-            "    - You should use administrator privileges to start or use -Scope CurrentUser\n",
-            "      e.g. <$Magenta>Update-Module PSCompletions -Scope CurrentUser<$Red>\n",
+            " - privileges are low.\n",
             " - ...\n"
+        ],
+        "module_update_admin": [
+            "<$Yellow>Updating the PSCompletions module failed.\n",
+            "Currently, it is under user privileges, and updating cannot be completed.\n",
+            "Change privileges to administrator Automatically and try updating again."
         ],
         "param_min": "<$Red>Too few parameters.",
         "param_max": "<$Red>Too many parameters.",
@@ -358,14 +389,14 @@
         "alias_add_done": [
             "<$Green>The completion trigger command has been changed from <$Magenta>{{$arg[2]}}<$Green> to <$Magenta>{{$arg[3]}}<$Green>\n",
             "Now you can use <$Magenta>{{$arg[3]}}<$Green> to trigger completion\n",
-            "(Please restart the terminal if it doesn't take effect.)"
+            "<$Yellow>(If it doesn't take effect, restart the PowerShell)"
         ],
         "alias_add_err": "<$Red>Alias <$Magenta>{{$arg[-1]}} <$Red>is not available,because <$Magenta>{{$arg[-1]}}<$Magenta> <$Red>is an existing command, please set a different alias",
         "alias_err": "<$Red>You haven't added <$Magenta>{{$arg[2]}} <$Red>yet.",
         "alias_rm": "Remove alias({{$PSCompletions.comp_cmd.$_}}) --- {{$_}}",
         "alias_rm_done": [
-            "<$Green>Alias delete list: <$Magenta>{{$del_list | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}\n<$Green>",
-            "(Please restart the terminal if it doesn't take effect.)",
+            "<$Green>Alias delete list: <$Magenta>{{$del_list | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}\n",
+            "<$Yellow>(If it doesn't take effect, restart the PowerShell)<$Green>",
             "{{ if($PSCompletions.root_cmd -in $del_list){(\"`n(\" + '<$Magenta>' + $PSCompletions.root_cmd + ' <$Green>is the alias for the <$Magenta>PSCompletions<$Green> module,which can only be modified and cannot be removed)')} }}"
         ],
         "alias_rm_err": "<$Red>alias no exist --- (<$Magenta>{{$error_list -join ','}}<$Red>)",
@@ -374,17 +405,23 @@
             "<$Cyan>Press Enter to remove,or any other key to abort"
         ],
         "alias_reset_done": [
-            "<$Green>Alias delete list: <$Magenta>{{$del_list | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}\n<$Green>",
-            "(Please restart the terminal if it doesn't take effect.)",
+            "<$Green>Alias delete list: <$Magenta>{{$del_list | Where-Object { $_ -ne $PSCompletions.root_cmd } | Foreach-Object { $_ + '(' + $alias_list.$_ +')' } }}\n",
+            "<$Yellow>(If it doesn't take effect, restart the PowerShell)<$Green>",
             "{{ if($PSCompletions.root_cmd -in $del_list){(\"`n(\" + '<$Magenta>' + $PSCompletions.root_cmd + ' <$Green>is the alias for the <$Magenta>PSCompletions<$Green> module,which can only be modified and cannot be removed)')} }}"
         ],
         "order": "Reset completion order --- {{$_}} ",
         "order_done": "<$Green>reset list: <$Magenta>{{$del_list}}",
         "order_err": "<$Red>You haven't added <$Magenta>{{$err_list}}<$Red> yet.",
-        "config_done": "<$Magenta>{{$arg[1]}}<$Green> => <$Magenta>{{$arg[2]}}<$Green> (If it doesn't take effect, restart the terminal)",
+        "config_done": "<$Blue>{{$arg[1]}}<$Green>: <$Magenta>{{$old_value}}<$Green> => <$Magenta>{{$arg[2]}}\n<$Yellow>(If it doesn't take effect, restart the PowerShell)",
+        "config_symbol_done": "<$Blue>{{$arg[2]}}<$Green>: <$Magenta>{{$old_value}}<$Green> => <$Magenta>{{$arg[3]}}\n<$Yellow>(If it doesn't take effect, restart the PowerShell)\nNote: Some special symbols may cause deviation in the calculation of UI width in the completion menu, which affects the display effect (with minimal impact). Please test it yourself.",
+        "config_symbol_reset_done": "<$Green>Reset successfully:{{$symbol_list | Foreach-Object { \"`n\" +'<$Blue>' + $_.type + '<$Green>: <$Magenta>' + $_.old_value + ' => ' + $_.value + '<$Green>' } }}\n<$Yellow>(If it doesn't take effect, restart the PowerShell)",
         "config_err": [
             "<$Red>Subcommand <$Magenta>{{$arg[1]}}<$Red> error\n",
-            "It should be one of (<$Magenta>{{$PSCompletions.config.Keys;'reset'}}<$Red>)."
+            "It should be one of (<$Magenta>{{$PSCompletions.config.Keys|Where-Object{$_ -notin @('sym','sym_wr','sym_opt')};'symbol';'reset'}}<$Red>)."
+        ],
+        "config_symbol_err": [
+            "<$Red>Subcommand <$Magenta>{{$arg[2]}}<$Red> error\n",
+            "It should be one of (<$Magenta>SpaceTab WriteSpaceTab OptionsTab reset<$Red>)."
         ],
         "config_reset": [
             "<$Yellow>Reset all config?\n",
@@ -394,7 +431,8 @@
             "<$Green>Reset successfully,The current config is as follows:",
             "{{",
             "$PSCompletions.config.keys | Foreach-Object { \"`n\" + '<$Cyan>'  + $_ + ': <$Blue>' + $PSCompletions.config.$_}",
-            "}}"
+            "}}",
+            "\n<$Yellow>(If it doesn't take effect, restart the PowerShell)"
         ],
         "comp_config_tip": "<$Blue>Completion <$Magenta>{{$completion}}<$Blue> have <$Magenta>{{$configs.Count}}<$Blue> configurations(Except for <$Magenta>language<$Blue>)\n-----------------------",
         "comp_tip": "Configure completion --- {{$_}}",
@@ -403,7 +441,7 @@
         "comp_lang_en": "Set the language to English",
         "comp_err": "<$Red>You haven't added <$Magenta>{{$arg[1]}}<$Red> yet.",
         "comp_conf_err": "<$Magenta>{{$arg[1]}}<$Red> has no <$Magenta>{{$arg[2]}}<$Red> configuration item",
-        "comp_done": "<$Magenta>{{$arg[1]}}'s configuration item <$Magenta>{{ $arg[2] }}: <$Green>{{if($old_value){' from <$Magenta>' + $old_value +'<$Green>'}}} to <$Magenta>{{$arg[3]}}<$Green>,restart the terminal for it to take effect",
+        "comp_done": "<$Magenta>{{$arg[1]}}'s configuration item <$Magenta>{{ $arg[2] }}: <$Green>{{if($old_value){' from <$Magenta>' + $old_value +'<$Green>'}}} to <$Magenta>{{$arg[3]}}\n<$Yellow>(If it doesn't take effect, restart the PowerShell)",
         "color_err": "<$Magenta>{{$arg[4]}}<$Red> is not a valid color value, you should use the following color values:\n{{$available_color}}",
         "color_done": "<$Green>The color of menu layout's <$Magenta>{{$arg[3]}}<$Green>: <$Magenta>{{$old_value}}<$Green> => <$Magenta>{{$arg[4]}}",
         "line_done": "<$Green>The line style of menu layout's <$Magenta>{{$arg[3]}}<$Green>: <$Magenta>{{$old_value}}<$Green> => <$Magenta>{{$arg[4]}}",
@@ -462,8 +500,12 @@
             "alias_reset": "e.g. {{$PSCompletions.root_cmd}} alias reset",
             "order": "e.g. {{$PSCompletions.root_cmd}} order reset PSCompletions",
             "config": [
-                "e.g. {{$PSCompletions.root_cmd}} config language         => Get language, it should return en-US\n",
-                "    {{$PSCompletions.root_cmd}} config language zh-CN   => Set language to zh-CN"
+                "e.g. {{$PSCompletions.root_cmd}} config language            => Get language, it should return en-US\n",
+                "    {{$PSCompletions.root_cmd}} config language zh-CN      => Set language to zh-CN\n",
+                "    {{$PSCompletions.root_cmd}} config symbol SpaceTab ''  => Set symbol to null"
+            ],
+            "config_symbol_reset": [
+                "e.g. {{$PSCompletions.root_cmd}} config symbol reset   => Reset all symol to default"
             ],
             "completion": [
                 "e.g. completion git language en-US  --- Set the language of git completion to English"
