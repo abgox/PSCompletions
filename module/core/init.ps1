@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
-$PSCompletions.version = '3.1.0'
+$PSCompletions.version = '3.1.1'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = $PSCompletions.path.root + '/completions'
@@ -22,6 +22,20 @@ else {
         $PSCompletions.lang = 'en-US'
     }
 }
+
+if ($PSHOME -like "*WindowsPowerShell*" -and (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
+    if ($PSCompletions.lang -eq 'zh-CN') {
+        @(80, 83, 67, 111, 109, 112, 108, 101, 116, 105, 111, 110, 115, 32, 27169, 22359, 21152, 36733, 38169, 35823, 65306, 10, 30001, 20110, 20320, 20351, 29992, 30340, 26159, 32, 87, 105, 110, 100, 111, 119, 115, 32, 80, 111, 119, 101, 114, 83, 104, 101, 108, 108, 65292, 20320, 38656, 35201, 20351, 29992, 31649, 29702, 21592, 26435, 38480, 21551, 21160, 23427, 10, 25512, 33616, 20320, 20351, 29992, 32, 80, 111, 119, 101, 114, 83, 104, 101, 108, 108, 65292, 23427, 19981, 38656, 35201, 31649, 29702, 21592, 26435, 38480, 10) | ForEach-Object {
+            $privilege_err += [char]::ConvertFromUtf32($_)
+        }
+        Write-Host $privilege_err -f Red
+    }
+    else {
+        Write-Host "PSCompletions module loading err:`nBecause you're using Windows PowerShell, you must start it with administrator privilege.`nRecommend using PowerShell as it doesn't require administrator privilege.`n" -f Red
+    }
+    throw
+}
+
 $PSCompletions.langs = @('zh-CN', 'en-US')
 $PSCompletions.comp_data = [ordered]@{}
 $PSCompletions.comp_config = @{}
@@ -30,22 +44,13 @@ $PSCompletions.comp_config = @{}
     . $PSScriptRoot\utils\$_.ps1
 }
 
-$PSCompletions | Add-Member -MemberType ScriptMethod fn_WindowsPowerShellAdmin {
-    if ($PSHOME -like "*WindowsPowerShell*" -and (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
-        Write-Host "PSCompletions: You're using WindowsPowershell`nCurrently, it is under user privileges, and init cannot be completed.`nChange privileges to administrator Automatically and try init again." -f Yellow
-        & "$($PSCompletions.path.core)\utils\sudo.ps1" powershell
-    }
-}
-
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
     Set-PSReadLineKeyHandler 'Tab' MenuComplete
 }
 if (!(Test-Path($PSCompletions.path.completions))) {
-    $PSCompletions.fn_WindowsPowerShellAdmin()
     New-Item -ItemType Directory $PSCompletions.path.completions > $null
 }
 if (!(Test-Path($PSCompletions.path.list)) -or !(Test-Path($PSCompletions.path.root + '/env.json'))) {
-    $PSCompletions.fn_WindowsPowerShellAdmin()
     if ([environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User')) {
         [environment]::SetEnvironmentvariable('abgox_PSCompletions', '', 'User')
     }
