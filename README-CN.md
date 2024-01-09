@@ -45,13 +45,16 @@
 ## 安装
 
 1. 打开 `PowerShell`
+    - 如果使用 `Windows PowerShell`，需要以管理员权限启动
 2. `Install-Module PSCompletions`
 3. `Import-Module PSCompletions`
     - 如果不想每次启动 `PowerShell` 都导入一次，就执行 `echo "Import-Module PSCompletions" >> $PROFILE`
 
 ## 卸载
 
--   `Uninstall-Module PSCompletions`
+1. 打开 `PowerShell`
+    - 如果使用 `Windows PowerShell`，需要以管理员权限启动
+2. `Uninstall-Module PSCompletions`
 
 ## 使用(以 `git` 补全为例)
 

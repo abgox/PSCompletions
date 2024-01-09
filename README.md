@@ -45,6 +45,7 @@
 ## How to install
 
 1. Start `PowerShell`
+    - If using `Windows PowerShell`, it's necessary to start in administrator privilege.
 2. `Install-Module PSCompletions`
 3. `Import-Module PSCompletions`
     - `echo "Import-Module PSCompletions" >> $PROFILE`
@@ -52,7 +53,11 @@
 
 ## How to uninstall
 
--   `Uninstall-Module PSCompletions`
+1. Start `PowerShell`
+
+    - If using `Windows PowerShell`, it's necessary to start in administrator privilege.
+
+2. `Uninstall-Module PSCompletions`
 
 ## How to use(e.g. `git`)
 
