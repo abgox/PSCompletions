@@ -98,7 +98,7 @@
     -   This symbol can be customized by running `psc config symbol SpaceTab <symbol>`
     -   e.g. `psc config symbol SpaceTab 😄`
 
--   😎: It means that after you choose it, you can press a string without spaces, then press `Space` and `Tab` key to continue to get command completions.
+-   😎: It means that after you choose it, you can input a string without spaces, then press `Space` and `Tab` key to continue to get command completions.
 
     -   This symbol can be customized by running `psc config symbol WriteSpaceTab <symbol>`
 
