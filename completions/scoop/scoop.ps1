@@ -58,6 +58,14 @@ Register-ArgumentCompleter -CommandName $PSCompletions.comp_cmd.scoop -ScriptBlo
                 $_i++
             }
         }
+
+        Get-ChildItem "$scoop_path\cache" | ForEach-Object {
+            $match = $_.BaseName -match '^([^#]+#[^#]+)'
+            if ($match) {
+                $completions[$root_cmd + ' cache rm ' + $Matches[1]] = @($Matches[1], ('Remove cache:' + "`n" + $_.Name) , $_i)
+                $_i++
+            }
+        }
     }
     #endregion
 
