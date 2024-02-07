@@ -2,15 +2,18 @@ using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 New-Variable -Name PSCompletions -Value @{}  -Option Constant
+@('config', 'confirm', 'download', 'less', 'order', 'text', 'path') | ForEach-Object {
+    . $PSScriptRoot\utils\$_.ps1
+}
 $PSCompletions.version = '3.1.1'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
-$PSCompletions.path.completions = $PSCompletions.path.root + '/completions'
-$PSCompletions.path.core = $PSCompletions.path.root + '/core'
-$PSCompletions.path.list = $PSCompletions.path.root + '/list.txt'
-$PSCompletions.path.config = $PSCompletions.path.root + '/config.json'
-$PSCompletions.path.old_list = $PSCompletions.path.core + '/.old_list'
-$PSCompletions.path.update = $PSCompletions.path.core + '/.update'
+$PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
+$PSCompletions.path.core = Join-Path $PSCompletions.path.root 'core'
+$PSCompletions.path.list = Join-Path $PSCompletions.path.root 'list.txt'
+$PSCompletions.path.config = Join-Path $PSCompletions.path.root 'config.json'
+$PSCompletions.path.old_list = Join-Path $PSCompletions.path.core '.old_list'
+$PSCompletions.path.update = Join-Path $PSCompletions.path.core '.update'
 if ($PSVersionTable.Platform -ne 'Unix') {
     $PSCompletions.lang = (Get-WinSystemLocale).name
 }
@@ -46,29 +49,29 @@ if ($PSHOME -like "*WindowsPowerShell*" -and $PSCompletions.fn_get_config().run_
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
     Set-PSReadLineKeyHandler 'Tab' MenuComplete
 }
-if (!(Test-Path($PSCompletions.path.completions))) {
+if (!(Test-Path $PSCompletions.path.completions)) {
     New-Item -ItemType Directory $PSCompletions.path.completions > $null
 }
-if (!(Test-Path($PSCompletions.path.list)) -or !(Test-Path($PSCompletions.path.root + '/env.json'))) {
+if (!(Test-Path $PSCompletions.path.list) -or !(Test-Path (Join-Path $PSCompletions.path.root 'env.json'))) {
     if ([environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User')) {
         [environment]::SetEnvironmentvariable('abgox_PSCompletions', '', 'User')
     }
     #region move old completions
     $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).Name | Sort-Object { [Version] $_ } -ErrorAction SilentlyContinue
     if ($version -is [array]) { $version = $version[-2] }
-    $old_version_dir = (Split-Path $PSCompletions.path.root -Parent) + '/' + $version
-    $old = (Get-ChildItem ($old_version_dir + '/' + 'completions') -ErrorAction SilentlyContinue | Where-Object { $_.BaseName -ne 'PSCompletions' }).FullName
+    $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $version
+    $old = (Get-ChildItem (Join-Path $old_version_dir 'completions') -ErrorAction SilentlyContinue | Where-Object { $_.BaseName -ne 'PSCompletions' }).FullName
     if ($old) { Move-Item $old $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue }
-    if (Test-Path($old_version_dir + '/env.json')) {
-        Move-Item ($old_version_dir + '/env.json') ($PSCompletions.path.root + '/env.json') -Force -ErrorAction SilentlyContinue
+    if (Test-Path (Join-Path $old_version_dir 'env.json')) {
+        Move-Item (Join-Path $old_version_dir 'env.json') (Join-Path $PSCompletions.path.root 'env.json') -Force -ErrorAction SilentlyContinue
     }
-    if (Test-Path($old_version_dir + '/config.json')) {
-        Move-Item ($old_version_dir + '/config.json') ($PSCompletions.path.root + '/config.json') -Force -ErrorAction SilentlyContinue
+    if (Test-Path (Join-Path $old_version_dir 'config.json')) {
+        Move-Item (Join-Path $old_version_dir 'config.json') (Join-Path $PSCompletions.path.root 'config.json') -Force -ErrorAction SilentlyContinue
     }
     #endregion
 
     #region init env
-    $PSCompletions.fn_get_config() | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
+    $PSCompletions.fn_get_config() | ConvertTo-Json | Out-File (Join-Path $PSCompletions.path.root 'env.json')
     #endregion
 
     $PSCompletions.init = $true
@@ -104,14 +107,14 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
         $PSCompletions.lang = 'en-US'
     }
 
-    $psc_alias_path = $PSCompletions.path.completions + '/PSCompletions/alias.txt'
-    $psc_json_path = $PSCompletions.path.completions + '/PSCompletions/lang/' + $PSCompletions.lang + '.json'
+    $psc_alias_path = $PSCompletions.fn_join_path($PSCompletions.path.completions, 'PSCompletions', 'alias.txt')
+    $psc_json_path = $PSCompletions.fn_join_path($PSCompletions.path.completions, 'PSCompletions', 'lang', ($PSCompletions.lang + '.json'))
 
     try {
         if (!(Test-Path($psc_json_path))) {
             $psc_temp = 'PSCompletions' + (New-Guid).Guid + '.json'
-            $wc = New-Object System.Net.WebClient
-            $wc.DownloadFile(($PSCompletions.url + '/completions/PSCompletions/lang/' + $PSCompletions.lang + '.json'), $psc_temp)
+            $PSCompletions.wc = New-Object System.Net.WebClient
+            $PSCompletions.wc.DownloadFile(($PSCompletions.url + '/completions/PSCompletions/lang/' + $PSCompletions.lang + '.json'), $psc_temp)
             $PSCompletions.json = ($PSCompletions.fn_get_raw_content($psc_temp) | ConvertFrom-Json -ErrorAction SilentlyContinue).PSCompletions_core_info
             $PSCompletions.fn_add_completion('PSCompletions')
             Remove-Item $psc_temp -Force -ErrorAction SilentlyContinue
@@ -205,7 +208,7 @@ if ($PSCompletions.config.update -ne 0) {
         }
     }
     else {
-        $add = $PSCompletions.fn_get_content($PSCompletions.path.core + '/.add')
+        $add = $PSCompletions.fn_get_content((Join-Path $PSCompletions.path.core '.add'))
         if ($PSCompletions.update -or $add) {
             $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.update_info))
         }
@@ -220,7 +223,7 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
     }
     function get_raw_content([string]$path, [bool]$trim = $true) {
         $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-        if ($trim -and $res) { $res = $res.Trim() }
+        if ($trim -and $res) { return $res.Trim() }
         return $res
     }
     function get_order {
@@ -229,7 +232,7 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
             [array]$exclude = @(),
             [string]$file = 'order.json'
         )
-        $path_order = $PSScriptRoots + '/' + $file
+        $path_order = Join-Path $PSScriptRoots $file
 
         if (!(Test-Path($path_order))) {
             $json = get_raw_content ($PSScriptRoots + '/lang/' + $PSCompletions.lang + '.json') | ConvertFrom-Json
@@ -399,10 +402,10 @@ $null = Start-Job -ScriptBlock {
             $content = $response.Content.Trim()
             $versions = @($PSCompletions.version, $content) | Sort-Object { [Version] $_ }
             if ($versions[-1] -ne $PSCompletions.version) {
-                $wc = New-Object System.Net.WebClient
+                $PSCompletions.wc = New-Object System.Net.WebClient
                 $log_url = $PSCompletions.url + '/module/log.json'
                 $log_file = $PSCompletions.path.core + '/log.json'
-                $wc.DownloadFile($log_url, $log_file)
+                $PSCompletions.wc.DownloadFile($log_url, $log_file)
                 if (Test-Path($log_file)) {
                     set_config 'update' $versions[-1]
                 }

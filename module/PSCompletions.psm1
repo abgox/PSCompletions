@@ -73,7 +73,7 @@ function PSCompletions {
         }
         $arg[1..($arg.Length - 1)] | ForEach-Object {
             if ($_ -in $PSCompletions.comp_cmd.keys) {
-                $dir = $PSScriptRoot + '/completions/' + $_
+                $dir = $PSCompletions.fn_join_path($PSScriptRoot, 'completions', $_)
                 Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
                 if (!(Test-Path($dir))) {
                     $PSCompletions.fn_write((_replace $PSCompletions.json.remove_done))
@@ -92,7 +92,7 @@ function PSCompletions {
                     $response = Invoke-WebRequest -Uri  $url
                     if ($response.StatusCode -eq 200) {
                         $content = $response.Content.Trim()
-                        $guid = $PSCompletions.fn_get_raw_content($PSCompletions.path.completions + '/' + $_ + '/guid.txt')
+                        $guid = $PSCompletions.fn_get_raw_content($PSCompletions.fn_join_path($PSCompletions.path.completions, $_, 'guid.txt'))
                         if ($guid -ne $content) { $update_list.Add($_) }
                     }
                 }
@@ -155,7 +155,7 @@ function PSCompletions {
         }
         $arg[1..($arg.Length - 1)] | ForEach-Object {
             if ($_ -in $PSCompletions.comp_cmd.keys) {
-                Write-Output ($PSCompletions.path.completions + '/' + $_)
+                Write-Output (Join-Path $PSCompletions.path.completions $_)
             }
             else {
                 $PSCompletions.fn_write((_replace $PSCompletions.json.which_err))
@@ -217,7 +217,7 @@ function PSCompletions {
                     $PSCompletions.fn_write((_replace ($PSCompletions.json.param_err + "`n" + $PSCompletions.json.alias_add_err)))
                     return
                 }
-                $arg[3] | Out-File ($PSCompletions.path.completions + '/' + $arg[2] + '/alias.txt') -Force -Encoding utf8
+                $arg[3] | Out-File $PSCompletions.fn_join_path($PSCompletions.path.completions, $arg[2], 'alias.txt') -Force -Encoding utf8
                 $PSCompletions.fn_write((_replace $PSCompletions.json.alias_add_done))
             }
             else {
@@ -236,7 +236,7 @@ function PSCompletions {
             foreach ($item in $rm_list) {
                 if ($item -in $alias_list.Keys) {
                     $del_list.Add($item)
-                    Remove-Item ($PSCompletions.path.completions + '/' + $alias_list.$item + '/alias.txt') -Force -ErrorAction SilentlyContinue
+                    Remove-Item $PSCompletions.fn_join_path($PSCompletions.path.completions, $alias_list.$item, 'alias.txt') -Force -ErrorAction SilentlyContinue
                 }
                 else { $error_list.Add($item) }
             }
@@ -256,7 +256,7 @@ function PSCompletions {
                         $alias = $PSCompletions.comp_cmd.$_
                         $del_list.Add($alias)
                         $alias_list.$alias = $_
-                        Remove-Item ($PSCompletions.path.completions + '/' + $_ + '/alias.txt') -Force -ErrorAction SilentlyContinue
+                        Remove-Item $PSCompletions.fn_join_path($PSCompletions.path.completions, $_, 'alias.txt') -Force -ErrorAction SilentlyContinue
                     }
                     $PSCompletions.fn_set_config('root_cmd', 'psc')
                     if ($del_list) {
@@ -280,7 +280,7 @@ function PSCompletions {
         if ($arg[2] -eq '*') {
             $PSCompletions.comp_cmd.keys | ForEach-Object {
                 $dir = PSCompletions which $_
-                Remove-Item ($dir + '/order.json') -Force -ErrorAction SilentlyContinue
+                Remove-Item (Join-Path $dir 'order.json') -Force -ErrorAction SilentlyContinue
                 $del_list.Add($_)
             }
         }
@@ -288,7 +288,7 @@ function PSCompletions {
             $arg[2..($arg.Length - 1)] | ForEach-Object {
                 if ($_ -in $PSCompletions.comp_cmd.keys) {
                     $dir = PSCompletions which $_
-                    Remove-Item ($dir + '/order.json') -Force -ErrorAction SilentlyContinue
+                    Remove-Item (Join-Path $dir 'order.json') -Force -ErrorAction SilentlyContinue
                     $del_list.Add($_)
                 }
                 else {
@@ -341,7 +341,7 @@ function PSCompletions {
                         sym_opt  = [char]::ConvertFromUtf32(129300)
                     }
                     $flag = $PSCompletions.fn_confirm($PSCompletions.json.config_reset, {
-                            $c | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
+                            $c | ConvertTo-Json | Out-File (Join-Path $PSCompletions.path.root 'env.json')
                         })
                     if ($flag) {
                         $PSCompletions.config = $c
@@ -370,7 +370,7 @@ function PSCompletions {
                         $PSCompletions.fn_write((_replace ($PSCompletions.json.param_err + "`n" + $PSCompletions.json.alias_add_err)))
                         return
                     }
-                    $arg[2] | Out-File ($PSCompletions.path.completions + '/PSCompletions/alias.txt') -Force -Encoding utf8
+                    $arg[2] | Out-File $PSCompletions.fn_join_path($PSCompletions.path.completions, 'PSCompletions', 'alias.txt') -Force -Encoding utf8
                 }
                 elseif ($arg[1] -eq 'language') {
                     $PSCompletions.comp_data = [ordered]@{}

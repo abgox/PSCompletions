@@ -42,7 +42,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
     function _mkdir($path) {
         if (!(Test-Path($path))) { New-Item -ItemType Directory $path > $null }
     }
-    $completion_dir = $PSCompletions.path.completions + '/' + $completion
+    $completion_dir = Join-Path $PSCompletions.path.completions $completion
     _mkdir $PSCompletions.path.completions
     _mkdir $completion_dir
     _mkdir ($completion_dir + '/lang')
@@ -50,19 +50,19 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
     $files = @(
         @{
             Uri     = $url + '/' + $completion + '.ps1'
-            OutFile = $completion_dir + '/' + $completion + '.ps1'
+            OutFile = Join-Path $completion_dir  ($completion + '.ps1')
         },
         @{
             Uri     = $url + '/lang/zh-CN.json'
-            OutFile = $completion_dir + '/lang/zh-CN.json'
+            OutFile = $PSCompletions.fn_join_path($completion_dir, 'lang', 'zh-CN.json')
         },
         @{
             Uri     = $url + '/lang/en-US.json'
-            OutFile = $completion_dir + '/lang/en-US.json'
+            OutFile = $PSCompletions.fn_join_path($completion_dir, 'lang', 'en-US.json')
         },
         @{
             Uri     = $url + '/guid.txt'
-            OutFile = $completion_dir + '/guid.txt'
+            OutFile = Join-Path $completion_dir 'guid.txt'
         }
     )
     $wc = New-Object System.Net.WebClient
