@@ -3,13 +3,13 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_download_list {
         if ($PSCompletions.url) {
             $res = Invoke-WebRequest -Uri ($PSCompletions.url + '/list.txt')
             if ($res.StatusCode -eq 200) {
-                $content = $res.Content.Trim()
-                $old_list = $PSCompletions.fn_get_raw_content($PSCompletions.path.old_list)
-                $list = $PSCompletions.fn_get_raw_content($PSCompletions.path.list)
-                if ($old_list -ne $list) {
+                $content = $res.Content -split "`n" | Where-Object { $_ -ne '' }
+                $old_list = $PSCompletions.fn_get_content($PSCompletions.path.old_list)
+                $list = $PSCompletions.fn_get_content($PSCompletions.path.list)
+                if (Compare-Object $list $old_list -PassThru) {
                     Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
                 }
-                if ($content -ne $list) {
+                if (Compare-Object $content $list -PassThru) {
                     $content | Out-File $PSCompletions.path.list -Force -Encoding utf8
                     $PSCompletions.list = $PSCompletions.fn_get_content($PSCompletions.path.list)
                 }
@@ -40,7 +40,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
     }
     $url = $PSCompletions.url + '/completions/' + $completion
     function _mkdir($path) {
-        if (!(Test-Path($path))) { New-Item -ItemType Directory $path > $null }
+        if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
     }
     $completion_dir = Join-Path $PSCompletions.path.completions $completion
     _mkdir $PSCompletions.path.completions

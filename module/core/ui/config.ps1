@@ -1,4 +1,4 @@
-if (Test-Path($PSCompletions.path.config)) {
+if (Test-Path $PSCompletions.path.config) {
     $PSCompletions.total_config = $PSCompletions.fn_get_raw_content($PSCompletions.path.config) | ConvertFrom-Json
     $PSCompletions.ui.config = @{}
     $PSCompletions.total_config.ui.PSObject.Properties.Name | ForEach-Object {

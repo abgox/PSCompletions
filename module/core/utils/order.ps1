@@ -6,7 +6,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_order {
     )
     $path_order = $PSScriptRoots + '/' + $file
 
-    if (!(Test-Path($path_order))) {
+    if (!(Test-Path $path_order)) {
         $json = $PSCompletions.fn_get_raw_content($PSScriptRoots + '/lang/' + $PSCompletions.lang + '.json') | ConvertFrom-Json
         $i = 1
         $res = [ordered]@{}

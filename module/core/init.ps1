@@ -111,7 +111,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
     $psc_json_path = $PSCompletions.fn_join_path($PSCompletions.path.completions, 'PSCompletions', 'lang', ($PSCompletions.lang + '.json'))
 
     try {
-        if (!(Test-Path($psc_json_path))) {
+        if (!(Test-Path $psc_json_path)) {
             $psc_temp = 'PSCompletions' + (New-Guid).Guid + '.json'
             $PSCompletions.wc = New-Object System.Net.WebClient
             $PSCompletions.wc.DownloadFile(($PSCompletions.url + '/completions/PSCompletions/lang/' + $PSCompletions.lang + '.json'), $psc_temp)
@@ -119,14 +119,14 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
             $PSCompletions.fn_add_completion('PSCompletions')
             Remove-Item $psc_temp -Force -ErrorAction SilentlyContinue
         }
-        if (!(Test-Path($PSCompletions.path.list))) {
+        if (!(Test-Path $PSCompletions.path.list)) {
             New-Item $PSCompletions.path.list > $null
             if (!($PSCompletions.fn_download_list())) { throw }
         }
     }
     catch { throw $PSCompletions.fn_replace($PSCompletions.json.init_err) }
 
-    if (!(Test-Path($psc_alias_path))) {
+    if (!(Test-Path $psc_alias_path)) {
         $PSCompletions.root_cmd | Out-File $psc_alias_path -Force -Encoding utf8
     }
     $psc_alias = $PSCompletions.fn_get_raw_content($psc_alias_path)
@@ -136,10 +136,10 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
         $PSCompletions.root_cmd = $PSCompletions.config.root_cmd = $psc_alias
     }
     $PSCompletions.json = ($PSCompletions.fn_get_raw_content($psc_json_path) | ConvertFrom-Json).PSCompletions_core_info
-    if (!(Test-Path($PSCompletions.path.update))) {
+    if (!(Test-Path $PSCompletions.path.update)) {
         New-Item $PSCompletions.path.update > $null
     }
-    if (!(Test-Path($PSCompletions.path.old_list))) {
+    if (!(Test-Path $PSCompletions.path.old_list)) {
         Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
     }
     $PSCompletions.list = $PSCompletions.fn_get_content($PSCompletions.path.list)
@@ -182,29 +182,29 @@ if ($PSCompletions.init) { $PSCompletions.fn_write($PSCompletions.fn_replace($PS
 
 if ($PSCompletions.config.update -ne 0) {
     if ($PSCompletions.config.update -ne 1) {
-        if($PSCompletions.config.module_update -eq 1){
+        if ($PSCompletions.config.module_update -eq 1) {
             $null = $PSCompletions.fn_confirm($PSCompletions.json.module_update, {
-                try {
-                    $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_updating))
                     try {
-                        Update-Module PSCompletions -ErrorAction Stop
+                        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_updating))
+                        try {
+                            Update-Module PSCompletions -ErrorAction Stop
+                        }
+                        catch {
+                            $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_admin))
+                            & "$($PSCompletions.path.core)\utils\sudo.ps1" Update-Module PSCompletions -ErrorAction Stop
+                        }
+                        $version_list = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName
+                        if ($PSCompletions.config.update -in $version_list) {
+                            $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_done))
+                        }
+                        else {
+                            $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
+                        }
                     }
                     catch {
-                        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_admin))
-                        & "$($PSCompletions.path.core)\utils\sudo.ps1" Update-Module PSCompletions -ErrorAction Stop
-                    }
-                    $version_list = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName
-                    if ($PSCompletions.config.update -in $version_list) {
-                        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_done))
-                    }
-                    else {
                         $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
                     }
-                }
-                catch {
-                    $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
-                }
-            })
+                })
         }
     }
     else {
@@ -234,7 +234,7 @@ $PSCompletions.jobs = Start-Job -ScriptBlock {
         )
         $path_order = Join-Path $PSScriptRoots $file
 
-        if (!(Test-Path($path_order))) {
+        if (!(Test-Path $path_order)) {
             $json = get_raw_content ($PSScriptRoots + '/lang/' + $PSCompletions.lang + '.json') | ConvertFrom-Json
             $i = 1
             $res = [ordered]@{}
@@ -346,14 +346,15 @@ $null = Start-Job -ScriptBlock {
             if ($PSCompletions.url) {
                 $res = Invoke-WebRequest -Uri ($PSCompletions.url + '/list.txt')
                 if ($res.StatusCode -eq 200) {
-                    $content = $res.Content.Trim()
-                    $old_list = get_raw_content $PSCompletions.path.old_list
-                    $list = get_raw_content $PSCompletions.path.list
-                    if ($old_list -ne $list) {
+                    $content = $res.Content -split "`n" | Where-Object { $_ -ne '' }
+                    $old_list = get_content $PSCompletions.path.old_list
+                    $list = get_content $PSCompletions.path.old_list
+                    if (Compare-Object $list $old_list -PassThru) {
                         Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
                     }
-                    if ($content -ne $list) {
+                    if (Compare-Object $content $list -PassThru) {
                         $content | Out-File $PSCompletions.path.list -Force -Encoding utf8
+                        $PSCompletions.list = $PSCompletions.fn_get_content($PSCompletions.path.list)
                     }
                     return $content
                 }
@@ -363,27 +364,34 @@ $null = Start-Job -ScriptBlock {
         catch { return $false }
     }
     function get_config() {
-        $c = get_raw_content "$($PSCompletions.path.root)/env.json" | ConvertFrom-Json
+        $c = $PSCompletions.fn_get_raw_content("$($PSCompletions.path.root)/env.json") | ConvertFrom-Json
 
-        if ($c.root_cmd) {
-            $config = @{
-                root_cmd = $c.root_cmd
-                github   = $c.github
-                gitee    = $c.gitee
-                language = $c.language
-                update   = $c.update
-                LRU      = $c.LRU
+        $config = [ordered]@{}
+
+        $default = [ordered]@{
+            root_cmd       = 'psc'
+            github         = 'https://github.com/abgox/PSCompletions'
+            gitee          = 'https://gitee.com/abgox/PSCompletions'
+            language       = $PSCompletions.lang
+            update         = 1
+            LRU            = 5
+            run_with_admin = 1
+            module_update  = 1
+            sym            = [char]::ConvertFromUtf32(128516)
+            sym_wr         = [char]::ConvertFromUtf32(128526)
+            sym_opt        = [char]::ConvertFromUtf32(129300)
+        }
+        $need_set = $false
+        foreach ($key in $default.Keys) {
+            if ($key -notin $c.PSObject.Properties.Name) {
+                $need_set = $true
+                $config.$key = $default[$key]
+            }
+            else {
+                $config.$key = $c.$key
             }
         }
-        else {
-            $config = @{
-                root_cmd = 'psc'
-                github   = 'https://github.com/abgox/PSCompletions'
-                gitee    = 'https://gitee.com/abgox/PSCompletions'
-                language = $PSCompletions.lang
-                update   = 1
-                LRU      = 5
-            }
+        if ($need_set) {
             $config | ConvertTo-Json | Out-File "$($PSCompletions.path.root)/env.json"
         }
         if ($config.update -eq $PSCompletions.version) {
@@ -406,7 +414,7 @@ $null = Start-Job -ScriptBlock {
                 $log_url = $PSCompletions.url + '/module/log.json'
                 $log_file = $PSCompletions.path.core + '/log.json'
                 $PSCompletions.wc.DownloadFile($log_url, $log_file)
-                if (Test-Path($log_file)) {
+                if (Test-Path $log_file) {
                     set_config 'update' $versions[-1]
                 }
             }
@@ -426,13 +434,15 @@ $null = Start-Job -ScriptBlock {
     $update_list = [System.Collections.Generic.List[string]]@()
     $installed = (Get-ChildItem -Path $PSCompletions.path.completions -Filter '*.ps1' -Recurse -Depth 1).BaseName | Where-Object { $_ -in $PSCompletions.list }
 
-    $installed | ForEach-Object {
-        $url = $PSCompletions.url + '/completions/' + $_ + '/guid.txt'
-        $response = Invoke-WebRequest -Uri  $url
-        if ($response.StatusCode -eq 200) {
-            $content = $response.Content.Trim()
-            $guid = get_raw_content($PSCompletions.path.completions + '/' + $_ + '/guid.txt')
-            if ($guid -ne $content) { $update_list.Add($_) }
+    _do {
+        $installed | ForEach-Object {
+            $url = $PSCompletions.url + '/completions/' + $_ + '/guid.txt'
+            $response = Invoke-WebRequest -Uri $url
+            if ($response.StatusCode -eq 200) {
+                $content = $response.Content.Trim()
+                $guid = get_raw_content($PSCompletions.path.completions + '/' + $_ + '/guid.txt') $true
+                if ($guid -ne $content) { $update_list.Add($_) }
+            }
         }
     }
     $old_update_list = get_content $PSCompletions.path.update

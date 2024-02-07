@@ -75,7 +75,7 @@ function PSCompletions {
             if ($_ -in $PSCompletions.comp_cmd.keys) {
                 $dir = $PSCompletions.fn_join_path($PSScriptRoot, 'completions', $_)
                 Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
-                if (!(Test-Path($dir))) {
+                if (!(Test-Path $dir)) {
                     $PSCompletions.fn_write((_replace $PSCompletions.json.remove_done))
                 }
             }
