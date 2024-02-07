@@ -179,7 +179,8 @@ if ($PSCompletions.init) { $PSCompletions.fn_write($PSCompletions.fn_replace($PS
 
 if ($PSCompletions.config.update -ne 0) {
     if ($PSCompletions.config.update -ne 1) {
-        $null = $PSCompletions.fn_confirm($PSCompletions.json.module_update, {
+        if($PSCompletions.config.module_update -eq 1){
+            $null = $PSCompletions.fn_confirm($PSCompletions.json.module_update, {
                 try {
                     $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_updating))
                     try {
@@ -201,6 +202,7 @@ if ($PSCompletions.config.update -ne 0) {
                     $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
                 }
             })
+        }
     }
     else {
         $add = $PSCompletions.fn_get_content($PSCompletions.path.core + '/.add')

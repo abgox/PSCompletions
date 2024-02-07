@@ -11,6 +11,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_config {
         update         = 1
         LRU            = 5
         run_with_admin = 1
+        module_update  = 1
         sym            = [char]::ConvertFromUtf32(128516)
         sym_wr         = [char]::ConvertFromUtf32(128526)
         sym_opt        = [char]::ConvertFromUtf32(129300)
