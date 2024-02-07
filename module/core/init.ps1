@@ -23,7 +23,14 @@ else {
     }
 }
 
-if ($PSHOME -like "*WindowsPowerShell*" -and (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
+$PSCompletions.langs = @('zh-CN', 'en-US')
+$PSCompletions.comp_data = [ordered]@{}
+$PSCompletions.comp_config = @{}
+
+@('config', 'confirm', 'download', 'less', 'order', 'text') | ForEach-Object {
+    . $PSScriptRoot\utils\$_.ps1
+}
+if ($PSHOME -like "*WindowsPowerShell*" -and $PSCompletions.fn_get_config().run_with_admin -eq 1 -and (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
     if ($PSCompletions.lang -eq 'zh-CN') {
         @(80, 83, 67, 111, 109, 112, 108, 101, 116, 105, 111, 110, 115, 32, 27169, 22359, 21152, 36733, 38169, 35823, 65306, 10, 30001, 20110, 20320, 20351, 29992, 30340, 26159, 32, 87, 105, 110, 100, 111, 119, 115, 32, 80, 111, 119, 101, 114, 83, 104, 101, 108, 108, 65292, 20320, 38656, 35201, 20351, 29992, 31649, 29702, 21592, 26435, 38480, 21551, 21160, 23427, 10, 25512, 33616, 20320, 20351, 29992, 32, 80, 111, 119, 101, 114, 83, 104, 101, 108, 108, 65292, 23427, 19981, 38656, 35201, 31649, 29702, 21592, 26435, 38480, 10) | ForEach-Object {
             $privilege_err += [char]::ConvertFromUtf32($_)
@@ -34,14 +41,6 @@ if ($PSHOME -like "*WindowsPowerShell*" -and (!([Security.Principal.WindowsPrinc
         Write-Host "PSCompletions module loading err:`nBecause you're using Windows PowerShell, you must start it with administrator privilege.`nRecommend using PowerShell as it doesn't require administrator privilege.`n" -f Red
     }
     throw
-}
-
-$PSCompletions.langs = @('zh-CN', 'en-US')
-$PSCompletions.comp_data = [ordered]@{}
-$PSCompletions.comp_config = @{}
-
-@('config', 'confirm', 'download', 'less', 'order', 'text') | ForEach-Object {
-    . $PSScriptRoot\utils\$_.ps1
 }
 
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
@@ -324,7 +323,7 @@ $null = Start-Job -ScriptBlock {
     }
     function get_raw_content([string]$path, [bool]$trim = $true) {
         $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-        if ($trim -and $res) { $res = $res.Trim() }
+        if ($trim -and $res) { return $res.Trim() }
         return $res
     }
     function _replace([array]$data) {
@@ -433,16 +432,13 @@ $null = Start-Job -ScriptBlock {
     }
     $old_update_list = get_content $PSCompletions.path.update
 
-    if ($old_update_list) {
-        if ($update_list) {
+    if ($update_list) {
+        if ($old_update_list) {
             $is_write = Compare-Object $update_list $old_update_list -PassThru
         }
         else {
             $is_write = $true
         }
-    }
-    elseif ($update_list) {
-        $is_write = $true
     }
 
     if ($is_write) {

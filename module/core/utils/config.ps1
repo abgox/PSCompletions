@@ -4,22 +4,24 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_config {
     $config = [ordered]@{}
 
     $default = [ordered]@{
-        root_cmd = 'psc'
-        github   = 'https://github.com/abgox/PSCompletions'
-        gitee    = 'https://gitee.com/abgox/PSCompletions'
-        language = $PSCompletions.lang
-        update   = 1
-        LRU      = 5
-        sym      = [char]::ConvertFromUtf32(128516)
-        sym_wr   = [char]::ConvertFromUtf32(128526)
-        sym_opt  = [char]::ConvertFromUtf32(129300)
+        root_cmd       = 'psc'
+        github         = 'https://github.com/abgox/PSCompletions'
+        gitee          = 'https://gitee.com/abgox/PSCompletions'
+        language       = $PSCompletions.lang
+        update         = 1
+        LRU            = 5
+        run_with_admin = 1
+        sym            = [char]::ConvertFromUtf32(128516)
+        sym_wr         = [char]::ConvertFromUtf32(128526)
+        sym_opt        = [char]::ConvertFromUtf32(129300)
     }
     $need_set = $false
     foreach ($key in $default.Keys) {
         if ($key -notin $c.PSObject.Properties.Name) {
             $need_set = $true
             $config.$key = $default[$key]
-        }else{
+        }
+        else {
             $config.$key = $c.$key
         }
     }
