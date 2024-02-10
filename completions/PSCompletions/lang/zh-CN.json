@@ -131,7 +131,8 @@
     "当前值: {{$PSCompletions.config.module_update}}\n",
     "{{$PSCompletions.config.sym}}当模块有了新版本后，是否在 PowerShell 启动后显示更新提示\n",
     "  1: 显示\n",
-    "  0: 不显示\n"
+    "  0: 不显示\n",
+    "注意: 由于远程仓库一直与最新版本的 PSCompletions 模块匹配，可能在禁用更新提示后，导致发生版本更新不及时引发的不兼容错误，这是极小概率事件，如果发生，请自行更新模块"
   ],
   "config module_update 1": [
     "设置为 1(默认值)\n",
@@ -139,7 +140,8 @@
   ],
   "config module_update 0": [
     "设置为 0\n",
-    "不显示更新提示"
+    "不显示更新提示\n",
+    "注意: 由于远程仓库一直与最新版本的 PSCompletions 模块匹配，可能在禁用更新提示后，导致发生版本更新不及时引发的不兼容错误，这是极小概率事件，如果发生，请自行更新模块"
   ],
   "config github": [
     "当前值: {{$PSCompletions.config.github}}\n",
@@ -283,7 +285,7 @@
       "使用 <$Magenta>{{$PSCompletions.root_cmd}} list --remote<$Cyan> 获取所有可添加的补全\n",
       "使用 <$Magenta>{{$PSCompletions.root_cmd}} add <completion><$Cyan> 去添加第一个补全吧！\n",
       "\n",
-      "关于 UI (v3.0.0+)\n",
+      "关于补全菜单 UI (v3.0.0+)\n",
       " - PSCompletions 默认不使用 Powershell 语言内置的补全菜单,除非你使用的是 Windows PowerShell\n",
       "   如果你真的喜欢它,运行 <$Magenta>{{$PSCompletions.root_cmd}} ui theme powershell<$Cyan> 继续使用它\n",
       " - 如果对新的补全菜单 UI 不满意,可以使用 <$Magenta>{{$PSCompletions.root_cmd}} ui<$Cyan> 下的命令来更改样式\n",
@@ -326,6 +328,7 @@
     "repo_err": "<$Yellow>{{$PSCompletions.json.module_warn + \"`n\" + $PSCompletions.json.repo_add}}",
     "cancel": "<$Green>操作取消",
     "init_err": "初始化失败。请检查网络问题",
+    "ui_err":"<$Red>当前终端环境(Windows PowerShell)无法使用模块自带的补全菜单 UI，因此无法使用相关设置\n<$Cyan>推荐你使用 PowerShell",
     "cmd_error": [
       "<$Red>子命令 <$Magenta>{{$arg[0]}}<$Red> 不存在。\n",
       "推荐输入 <$Magenta>{{$PSCompletions.root_cmd}}<$Red> 后按下 <$Magenta>空格<$Red> 和 <$Magenta>Tab<$Red> 键进行补全"

@@ -118,11 +118,11 @@
         "Note: In \"Windows PowerShell\" without administrator mode, the module cannot add/delete/update completions, and update module itself. But Completions that have been added can be used normally."
     ],
     "config run_with_admin 1": [
-        "Set to 1(Default Value\n",
+        "Set to 1(Default Value)\n",
         "The module must be imported in administrator mode, otherwise an error will be reported."
     ],
     "config run_with_admin 0": [
-        "Set to 0(Default Value\n",
+        "Set to 0\n",
         "Modules are imported silently without administrator mode, errors ignored.\n",
         "Note: In \"Windows PowerShell\" without administrator mode, the module cannot add/delete/update completions, and update module itself. But Completions that have been added can be used normally."
     ],
@@ -130,15 +130,17 @@
         "Current value: {{$PSCompletions.config.module_update}}\n",
         "{{$PSCompletions.config.sym}}When a new version of the module is available, whether to display an update prompt after PowerShell is started?\n",
         "  1: Yes\n",
-        "  0: No\n"
+        "  0: No\n",
+        "Note: Since the remote repository always matches the latest version of the PSCompletions module, it's possible that disabling the update prompt may result in an incompatibility error caused by an untimely update.It's a unlikely event, if it does happen, update the module yourself!"
     ],
     "config module_update 1": [
-        "Set to 1(Default Value\n",
+        "Set to 1(Default Value)\n",
         "When a new version of the module is available,display an update prompt after PowerShell is started."
     ],
     "config module_update 0": [
         "设置为 0\n",
-        "When a new version of the module is available,don't display an update prompt after PowerShell is started."
+        "When a new version of the module is available,don't display an update prompt after PowerShell is started.\n",
+        "Note: Since the remote repository always matches the latest version of the PSCompletions module, it's possible that disabling the update prompt may result in an incompatibility error caused by an untimely update.It's a unlikely event, if it does happen, update the module yourself!"
     ],
     "config github": [
         "Current value: {{$PSCompletions.config.github}}\n",
@@ -281,7 +283,7 @@
             "Use <$Magenta>{{$PSCompletions.root_cmd}} list --remote<$Cyan> to lists all completions that can be added\n",
             "Use <$Magenta>{{$PSCompletions.root_cmd}} add <completion><$Cyan> to add the first completion!\n",
             "\n",
-            "About UI (v3.0.0+)\n",
+            "About Completion Menu UI (v3.0.0+)\n",
             " - PSCompletions does'nt use PowerShell's built-in Completions menu by default Unless you're using \"Windows PowerShell\"\n",
             "   If you need it, please run <$Magenta>{{$PSCompletions.root_cmd}} ui theme powershell<$Cyan> .\n\n",
             " - If you're not satisfied with the completion menu UI,\n",
@@ -325,6 +327,7 @@
         "repo_err": "<$Yellow>{{$PSCompletions.json.module_warn + \"`n\" + $PSCompletions.json.repo_add}}",
         "cancel": "<$Green>The operation has been canceled.",
         "init_err": "Init failed.Please check your network.",
+        "ui_err":"<$Red>The current terminal environment(Windows PowerShell) is unable to use the completion menu UI of PSCompletions, so you cannot use the related settings.\n<$Cyan>It's recommended that you use PowerShell.",
         "cmd_error": [
             "<$Red>Subcommand <$Magenta>{{$arg[0]}}<$Red> isn't exist.\n",
             "It's recommended to type <$Magenta>{{$PSCompletions.root_cmd}}<$Red>,press <$Magenta>Space<$Red> and <$Magenta>Tab<$Red> to complete."
