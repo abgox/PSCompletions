@@ -1,11 +1,11 @@
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
-New-Variable -Name PSCompletions -Value @{}  -Option Constant
+New-Variable -Name PSCompletions -Value @{} -Option Constant
 @('config', 'confirm', 'download', 'less', 'order', 'text', 'path') | ForEach-Object {
     . $PSScriptRoot\utils\$_.ps1
 }
-$PSCompletions.version = '3.1.1'
+$PSCompletions.version = '3.2.0'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -29,6 +29,7 @@ else {
 $PSCompletions.langs = @('zh-CN', 'en-US')
 $PSCompletions.comp_data = [ordered]@{}
 $PSCompletions.comp_config = @{}
+$PSCompletions.temp = @{}
 
 if ($PSHOME -like "*WindowsPowerShell*" -and $PSCompletions.fn_get_config().run_with_admin -eq 1 -and (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
     if ($PSCompletions.lang -eq 'zh-CN') {
@@ -50,26 +51,26 @@ if (!(Test-Path $PSCompletions.path.completions)) {
     New-Item -ItemType Directory $PSCompletions.path.completions > $null
 }
 if (!(Test-Path $PSCompletions.path.list) -or !(Test-Path (Join-Path $PSCompletions.path.root 'env.json'))) {
-    if ([environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User')) {
-        [environment]::SetEnvironmentvariable('abgox_PSCompletions', '', 'User')
-    }
-    #region move old completions
-    $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).Name | Sort-Object { [Version] $_ } -ErrorAction SilentlyContinue
-    if ($version -is [array]) { $version = $version[-2] }
-    $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $version
-    $old = (Get-ChildItem (Join-Path $old_version_dir 'completions') -ErrorAction SilentlyContinue | Where-Object { $_.BaseName -ne 'PSCompletions' }).FullName
-    if ($old) { Move-Item $old $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue }
-    if (Test-Path (Join-Path $old_version_dir 'env.json')) {
-        Move-Item (Join-Path $old_version_dir 'env.json') (Join-Path $PSCompletions.path.root 'env.json') -Force -ErrorAction SilentlyContinue
-    }
-    if (Test-Path (Join-Path $old_version_dir 'config.json')) {
-        Move-Item (Join-Path $old_version_dir 'config.json') (Join-Path $PSCompletions.path.root 'config.json') -Force -ErrorAction SilentlyContinue
-    }
-    #endregion
 
-    #region init env
+    $PSCompletions | Add-Member -MemberType ScriptMethod fn_move_old_version {
+        if ([environment]::GetEnvironmentvariable('abgox_PSCompletions', 'User')) {
+            [environment]::SetEnvironmentvariable('abgox_PSCompletions', '', 'User')
+        }
+        $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).Name | Sort-Object { [Version] $_ } -ErrorAction SilentlyContinue
+        if ($version -is [array]) { $version = $version[-2] }
+        $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $version
+        $old = (Get-ChildItem (Join-Path $old_version_dir 'completions') -ErrorAction SilentlyContinue | Where-Object { $_.BaseName -ne 'PSCompletions' }).FullName
+        if ($old) { Move-Item $old $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue }
+        if (Test-Path (Join-Path $old_version_dir 'env.json')) {
+            Move-Item (Join-Path $old_version_dir 'env.json') (Join-Path $PSCompletions.path.root 'env.json') -Force -ErrorAction SilentlyContinue
+        }
+        if (Test-Path (Join-Path $old_version_dir 'config.json')) {
+            Move-Item (Join-Path $old_version_dir 'config.json') (Join-Path $PSCompletions.path.root 'config.json') -Force -ErrorAction SilentlyContinue
+        }
+    }
+    $PSCompletions.fn_move_old_version()
+
     $PSCompletions.fn_get_config() | ConvertTo-Json | Out-File (Join-Path $PSCompletions.path.root 'env.json')
-    #endregion
 
     $PSCompletions.init = $true
 }
@@ -205,8 +206,7 @@ if ($PSCompletions.config.update -ne 0) {
         }
     }
     else {
-        $add = $PSCompletions.fn_get_content((Join-Path $PSCompletions.path.core '.add'))
-        if ($PSCompletions.update -or $add) {
+        if ($PSCompletions.update -or $PSCompletions.fn_get_content((Join-Path $PSCompletions.path.core '.add'))) {
             $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.update_info))
         }
     }
