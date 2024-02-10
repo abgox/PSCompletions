@@ -13,7 +13,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod get_list {
 
 	function set_status {
 		# filter buffer (header) shows the current filter after the last word
-		$filter_buffer = $PSCompletions.ui.new_buffer_cell(" $prefix$($PSCompletions.ui.config.filter_symbol[0])$filter$($PSCompletions.ui.config.filter_symbol[1]) ", $color.filter, $color.filter_back)
+		$filter_buffer = $PSCompletions.ui.new_buffer_cell(" $prefix$($PSCompletions.ui.config.filter_symbol[0])$filter$($PSCompletions.ui.config.filter_symbol[1]) ", $color.filter_text, $color.filter_back)
 		$filter_position = $ListHandle.Position
 		$filter_position.X += 2
 		$filter_handle = $PSCompletions.ui.new_buffer($filter_position, $filter_buffer)
@@ -37,7 +37,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod get_list {
 	. show_tip
 	# select the first item
 	$selected_item = 0
-	$PSCompletions.ui.set_selection(1 , ($selected_item + 1) , ($ListHandle.ListConfig.ListWidth - 3), $color.selected, $color.selected_back)
+	$PSCompletions.ui.set_selection(1 , ($selected_item + 1) , ($ListHandle.ListConfig.ListWidth - 3), $color.selected_text, $color.selected_back)
 
 	### Keys
 	:loop while (($Key = $PSCompletions.ui.ui.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode -ne 27) {
@@ -148,7 +148,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod get_list {
 					. show_tip
 					# select first item
 					$selected_item = 0
-					$PSCompletions.ui.set_selection(1 , ($selected_item + 1) , ($ListHandle.ListConfig.ListWidth - 3) , $color.selected, $color.selected_back)
+					$PSCompletions.ui.set_selection(1 , ($selected_item + 1) , ($ListHandle.ListConfig.ListWidth - 3) , $color.selected_text, $color.selected_back)
 				}
 				else {
 					# update status buffer
@@ -233,7 +233,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod new_buffer {
 
 $PSCompletions.ui | Add-Member -MemberType ScriptMethod new_buffer_status {
 	param($ListHandle)
-	, $PSCompletions.ui.new_buffer_cell(" $($ListHandle.selected_item + 1) $($PSCompletions.ui.config.count_symbol) $($ListHandle.items.count) ", $PSCompletions.ui.color.status , $PSCompletions.ui.color.status_back)
+	, $PSCompletions.ui.new_buffer_cell(" $($ListHandle.selected_item + 1) $($PSCompletions.ui.config.count_symbol) $($ListHandle.items.count) ", $PSCompletions.ui.color.status_text , $PSCompletions.ui.color.status_back)
 }
 
 $PSCompletions.ui | Add-Member -MemberType ScriptMethod new_buffer_cell {
@@ -342,7 +342,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod new_list {
 
 	$PSCompletions.ui.layout.list_h = $BoxSize.Height
 
-	$Box = $PSCompletions.ui.new_box($BoxSize, $PSCompletions.ui.color.border, $PSCompletions.ui.color.border_back)
+	$Box = $PSCompletions.ui.new_box($BoxSize, $PSCompletions.ui.color.border_text, $PSCompletions.ui.color.border_back)
 	$Position = $PSCompletions.ui.new_position($ListConfig.TopX, $ListConfig.TopY)
 	$box_handle = $PSCompletions.ui.new_buffer($Position, $Box)
 
@@ -350,7 +350,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod new_list {
 	$Position.X += 1
 	$Position.Y += 1
 
-	$contentBuffer = $PSCompletions.ui.new_buffer_cell(($Lines[0..($ListConfig.ListHeight - 3)]) , $PSCompletions.ui.color.item , $PSCompletions.ui.color.item_back)
+	$contentBuffer = $PSCompletions.ui.new_buffer_cell(($Lines[0..($ListConfig.ListHeight - 3)]) , $PSCompletions.ui.color.item_text , $PSCompletions.ui.color.item_back)
 
 	$contentHandle = $PSCompletions.ui.new_buffer($Position, $contentBuffer)
 
@@ -398,7 +398,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod get_tip {
 	while ($tip.count -lt $PSCompletions.completion_max[1]) {
 		$tip += ''
 	}
-	, $PSCompletions.ui.new_buffer_cell($tip, $PSCompletions.ui.color.tip , $PSCompletions.ui.color.tip_back)
+	, $PSCompletions.ui.new_buffer_cell($tip, $PSCompletions.ui.color.tip_text , $PSCompletions.ui.color.tip_back)
 }
 
 $PSCompletions.ui | Add-Member -MemberType ScriptMethod mv_list {
@@ -476,7 +476,7 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod move_selection {
 	}
 
 	if ($Move) {
-		$PSCompletions.ui.set_selection(1 , $Line, ($ListHandle.ListConfig.ListWidth - 3), $color.item, $color.item_back)
+		$PSCompletions.ui.set_selection(1 , $Line, ($ListHandle.ListConfig.ListWidth - 3), $color.item_text, $color.item_back)
 		$PSCompletions.ui.mv_list(1, 1, ($ListHandle.ListConfig.ListWidth - 3), ($ListHandle.ListConfig.ListHeight - 2), ( - $count))
 		$selected_item += $count
 		$ListHandle.FirstItem += $count
@@ -492,14 +492,14 @@ $PSCompletions.ui | Add-Member -MemberType ScriptMethod move_selection {
 			$line_position.Y += 1
 			$ItemLines = $ListHandle.Lines[($selected_item..($selected_item - ($count - $One)))]
 		}
-		$null = $PSCompletions.ui.new_buffer($line_position , $PSCompletions.ui.new_buffer_cell($ItemLines, $color.item, $color.item_back))
-		$PSCompletions.ui.set_selection(1, $Line, ($ListHandle.ListConfig.ListWidth - 3) , $color.selected , $color.selected_back)
+		$null = $PSCompletions.ui.new_buffer($line_position , $PSCompletions.ui.new_buffer_cell($ItemLines, $color.item_text, $color.item_back))
+		$PSCompletions.ui.set_selection(1, $Line, ($ListHandle.ListConfig.ListWidth - 3) , $color.selected_text , $color.selected_back)
 	}
 	else {
-		$PSCompletions.ui.set_selection(1, $Line, ($ListHandle.ListConfig.ListWidth - 3), $color.item , $color.item_back)
+		$PSCompletions.ui.set_selection(1, $Line, ($ListHandle.ListConfig.ListWidth - 3), $color.item_text , $color.item_back)
 		$selected_item += $count
 		$Line += $count
-		$PSCompletions.ui.set_selection(1 , $Line, ($ListHandle.ListConfig.ListWidth - 3), $color.selected, $color.selected_back)
+		$PSCompletions.ui.set_selection(1 , $Line, ($ListHandle.ListConfig.ListWidth - 3), $color.selected_text, $color.selected_back)
 	}
 	$ListHandle.selected_item = $selected_item
 	$ListHandle.selected_line = $Line

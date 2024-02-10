@@ -163,7 +163,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_init {
 }
 $PSCompletions.fn_init()
 
-if (!$PSCompletions.ui -and $PSHOME -notlike "*WindowsPowerShell*" -and $PSVersionTable.Platform -ne 'Unix') {
+if ($PSHOME -notlike "*WindowsPowerShell*" -and $PSVersionTable.Platform -ne 'Unix') {
     $PSCompletions.ui = [ordered]@{}
     . $PSScriptRoot\ui\ui.ps1
 }

@@ -474,6 +474,10 @@ function PSCompletions {
         $PSCompletions.fn_write((_replace $PSCompletions.json.comp_done))
     }
     function _ui {
+        if (!$PSCompletions.ui) {
+            $PSCompletions.fn_write((_replace $PSCompletions.json.ui_err))
+            return
+        }
         if ($arg[1] -notin @('theme', 'style' , 'custom', 'menu', 'reset')) {
             param_error 'err' 'ui'
             return
@@ -496,34 +500,34 @@ function PSCompletions {
                 switch ($arg[2]) {
                     'magenta' {
                         $PSCompletions.ui.color = @{
-                            item          = 'DarkGray'
+                            item_text     = 'DarkGray'
                             item_back     = 'White'
-                            selected      = 'white'
+                            selected_text = 'white'
                             selected_back = 'DarkMagenta'
-                            filter        = 'DarkMagenta'
+                            filter_text   = 'DarkMagenta'
                             filter_back   = 'White'
-                            border        = 'DarkMagenta'
+                            border_text   = 'DarkMagenta'
                             border_back   = 'White'
-                            status        = 'DarkMagenta'
+                            status_text   = 'DarkMagenta'
                             status_back   = 'White'
-                            tip           = 'DarkGray'
+                            tip_text      = 'DarkGray'
                             tip_back      = 'White'
                         }
                     }
                     # default
                     Default {
                         $PSCompletions.ui.color = @{
-                            item          = 'Gray'
+                            item_text     = 'Gray'
                             item_back     = 'Black'
-                            selected      = 'white'
+                            selected_text = 'white'
                             selected_back = 'DarkGray'
-                            filter        = 'Yellow'
+                            filter_text   = 'Yellow'
                             filter_back   = 'Black'
-                            border        = 'DarkGray'
+                            border_text   = 'DarkGray'
                             border_back   = 'Black'
-                            status        = 'Blue'
+                            status_text   = 'Blue'
                             status_back   = 'Black'
-                            tip           = 'Cyan'
+                            tip_text      = 'Cyan'
                             tip_back      = 'Black'
                         }
                     }
@@ -646,17 +650,17 @@ function PSCompletions {
             # reset
             Default {
                 $PSCompletions.ui.color = @{
-                    item          = 'Gray'
+                    item_text     = 'Gray'
                     item_back     = 'Black'
-                    selected      = 'white'
+                    selected_text = 'white'
                     selected_back = 'DarkGray'
-                    filter        = 'DarkYellow'
+                    filter_text   = 'DarkYellow'
                     filter_back   = 'Black'
-                    border        = 'DarkGray'
+                    border_text   = 'DarkGray'
                     border_back   = 'Black'
-                    status        = 'DarkBlue'
+                    status_text   = 'DarkBlue'
                     status_back   = 'Black'
-                    tip           = 'DarkCyan'
+                    tip_text      = 'DarkCyan'
                     tip_back      = 'Black'
                 }
                 $PSCompletions.ui.config = @{
@@ -732,21 +736,20 @@ function PSCompletions {
         }
     }
     if ($need_init) { $PSCompletions.fn_init() }
-    if ($PSCompletions.has_config_update) {
-        if (!$PSCompletions.ui) { $PSCompletions.ui = @{} }
+    if ($PSCompletions.has_config_update -and $PSCompletions.ui) {
         if (!$PSCompletions.ui.color) {
             $PSCompletions.ui.color = @{
-                item          = 'Gray'
+                item_text     = 'Gray'
                 item_back     = 'Black'
-                selected      = 'white'
+                selected_text = 'white'
                 selected_back = 'DarkGray'
-                filter        = 'DarkYellow'
+                filter_text   = 'DarkYellow'
                 filter_back   = 'Black'
-                border        = 'DarkGray'
+                border_text   = 'DarkGray'
                 border_back   = 'Black'
-                status        = 'DarkBlue'
+                status_text   = 'DarkBlue'
                 status_back   = 'Black'
-                tip           = 'DarkCyan'
+                tip_text      = 'DarkCyan'
                 tip_back      = 'Black'
             }
         }
@@ -754,6 +757,7 @@ function PSCompletions {
             $PSCompletions.ui.config = @{
                 enable_ui              = 1
                 follow_cursor          = 0
+                above_list_max         = 10
                 list_margin_right      = 1
                 tip_margin_right       = 0
                 fast_scroll_item_count = 10
