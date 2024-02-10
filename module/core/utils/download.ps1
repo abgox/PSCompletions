@@ -6,6 +6,9 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_download_list {
                 $content = $res.Content -split "`n" | Where-Object { $_ -ne '' }
                 $old_list = $PSCompletions.fn_get_content($PSCompletions.path.old_list)
                 $list = $PSCompletions.fn_get_content($PSCompletions.path.list)
+                if (!$content) { $content = "" }
+                if (!$old_list) { $old_list = "" }
+                if (!$list) { $list = "" }
                 if (Compare-Object $list $old_list -PassThru) {
                     Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
                 }

@@ -5,7 +5,7 @@ New-Variable -Name PSCompletions -Value @{} -Option Constant
 @('config', 'confirm', 'download', 'less', 'order', 'text', 'path') | ForEach-Object {
     . $PSScriptRoot\utils\$_.ps1
 }
-$PSCompletions.version = '3.2.0'
+$PSCompletions.version = '3.2.1'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
