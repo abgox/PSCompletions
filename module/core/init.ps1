@@ -5,7 +5,7 @@ New-Variable -Name PSCompletions -Value @{} -Option Constant
 @('config', 'confirm', 'download', 'less', 'order', 'text', 'path') | ForEach-Object {
     . $PSScriptRoot\utils\$_.ps1
 }
-$PSCompletions.version = '3.2.1'
+$PSCompletions.version = '3.2.2'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -346,6 +346,9 @@ $null = Start-Job -ScriptBlock {
                     $content = $res.Content -split "`n" | Where-Object { $_ -ne '' }
                     $old_list = get_content $PSCompletions.path.old_list
                     $list = get_content $PSCompletions.path.old_list
+                    if (!$content) { $content = "" }
+                    if (!$old_list) { $old_list = "" }
+                    if (!$list) { $list = "" }
                     if (Compare-Object $list $old_list -PassThru) {
                         Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
                     }
@@ -361,7 +364,7 @@ $null = Start-Job -ScriptBlock {
         catch { return $false }
     }
     function get_config() {
-        $c = $PSCompletions.fn_get_raw_content("$($PSCompletions.path.root)/env.json") | ConvertFrom-Json
+        $c = get_raw_content "$($PSCompletions.path.root)/env.json" | ConvertFrom-Json
 
         $config = [ordered]@{}
 
@@ -437,7 +440,7 @@ $null = Start-Job -ScriptBlock {
             $response = Invoke-WebRequest -Uri $url
             if ($response.StatusCode -eq 200) {
                 $content = $response.Content.Trim()
-                $guid = get_raw_content($PSCompletions.path.completions + '/' + $_ + '/guid.txt') $true
+                $guid = get_raw_content ($PSCompletions.path.completions + '/' + $_ + '/guid.txt') $true
                 if ($guid -ne $content) { $update_list.Add($_) }
             }
         }
