@@ -2,14 +2,14 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_content {
     param ([string]$path)
     $res = Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' }
     if ($res) { return $res }
-    return ''
+    return $null
 }
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_raw_content {
     param ([string]$path, [bool]$trim = $true)
     $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
     if ($trim -and $res) { $res = $res.Trim() }
     if ($res) { return $res }
-    return ''
+    return $null
 }
 
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_replace {

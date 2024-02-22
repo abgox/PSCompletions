@@ -5,7 +5,7 @@ New-Variable -Name PSCompletions -Value @{} -Option Constant
 @('config', 'confirm', 'download', 'less', 'order', 'text', 'path') | ForEach-Object {
     . $PSScriptRoot\utils\$_.ps1
 }
-$PSCompletions.version = '3.2.3'
+$PSCompletions.version = '3.2.4'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -319,13 +319,13 @@ $null = Start-Job -ScriptBlock {
     function get_content([string]$path) {
         $res = Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' }
         if ($res) { return $res }
-        return ''
+        return $null
     }
     function get_raw_content([string]$path, [bool]$trim = $true) {
         $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
         if ($trim -and $res) { $res = $res.Trim() }
         if ($res) { return $res }
-        return ''
+        return $null
     }
     function _replace([array]$data) {
         $data = $data -join ''
