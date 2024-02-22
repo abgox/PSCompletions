@@ -3,14 +3,13 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_download_list {
         if ($PSCompletions.url) {
             $res = Invoke-WebRequest -Uri ($PSCompletions.url + '/list.txt')
             if ($res.StatusCode -eq 200) {
-                $content = $res.Content -split "`n" | Where-Object { $_ -ne '' }
-                $old_list = $PSCompletions.fn_get_content($PSCompletions.path.old_list)
-                $list = $PSCompletions.fn_get_content($PSCompletions.path.list)
-                if (!$content) { $content = '' }
-                if (Compare-Object $list $old_list -PassThru) {
+                $content = $res.Content.Trim()
+                $old_list = $PSCompletions.fn_get_raw_content($PSCompletions.path.old_list)
+                $list = $PSCompletions.fn_get_raw_content($PSCompletions.path.list)
+                if ($list -ne $old_list) {
                     Copy-Item $PSCompletions.path.list $PSCompletions.path.old_list -Force
                 }
-                if (Compare-Object $content $list -PassThru) {
+                if ($content -ne $list) {
                     $content | Out-File $PSCompletions.path.list -Force -Encoding utf8
                     $PSCompletions.list = $PSCompletions.fn_get_content($PSCompletions.path.list)
                 }
@@ -66,9 +65,8 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_add_completion {
             OutFile = Join-Path $completion_dir 'guid.txt'
         }
     )
-    $wc = New-Object System.Net.WebClient
     foreach ($file in $files) {
-        $wc.DownloadFile($file.Uri, $file.OutFile)
+        $PSCompletions.wc.DownloadFile($file.Uri, $file.OutFile)
     }
     $download = if ($is_update) { $PSCompletions.json.updating }else { $PSCompletions.json.adding }
     $PSCompletions.fn_write($PSCompletions.fn_replace($download))

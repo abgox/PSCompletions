@@ -1,3 +1,4 @@
+$PSCompletions.ui = [ordered]@{}
 $PSCompletions.ui.ui = $Host.UI.RawUI
 $PSCompletions.ui.style_h = 2
 . $PSScriptRoot\config.ps1

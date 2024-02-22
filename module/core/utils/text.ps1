@@ -7,20 +7,24 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_content {
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_raw_content {
     param ([string]$path, [bool]$trim = $true)
     $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-    if ($trim -and $res) { $res = $res.Trim() }
-    if ($res) { return $res }
+    if ($res) {
+        if ($trim) { return $res.Trim() }
+        return $res
+    }
     return $null
 }
 
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_replace {
-    param ([array]$data)
-    $__d__ = $data -join ''
-    $__p__ = '\{\{(.*?(\})*)(?=\}\})\}\}'
-    $matches = [regex]::Matches($__d__, $__p__)
-    foreach ($match in $matches) {
-        $__d__ = $__d__.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value))
+    param ($data)
+    if ($data -is [array]) {
+        $data = $data -join ''
     }
-    if ($__d__ -match $__p__) { $PSCompletions.fn_replace($__d__) }else { return $__d__ }
+    $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
+    $matches = [regex]::Matches($data, $pattern)
+    foreach ($match in $matches) {
+        $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value))
+    }
+    if ($data -match $pattern) { $PSCompletions.fn_replace($data) }else { return $data }
 }
 
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_write {

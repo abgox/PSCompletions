@@ -1,5 +1,5 @@
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_confirm {
-    param ([string]$tip,[scriptblock]$confirm_event)
+    param ([string]$tip, [scriptblock]$confirm_event)
     $PSCompletions.fn_write($PSCompletions.fn_replace($tip))
     $choice = $host.UI.RawUI.ReadKey('NoEcho, IncludeKeyDown')
     if ($choice.Character -eq 13) {

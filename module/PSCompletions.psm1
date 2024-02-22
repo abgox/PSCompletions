@@ -343,7 +343,7 @@ function PSCompletions {
                         sym_opt        = [char]::ConvertFromUtf32(129300)
                     }
                     $flag = $PSCompletions.fn_confirm($PSCompletions.json.config_reset, {
-                            $c | ConvertTo-Json | Out-File (Join-Path $PSCompletions.path.root 'env.json')
+                            $c | ConvertTo-Json | Out-File $PSCompletions.path.env
                         })
                     if ($flag) {
                         $PSCompletions.config = $c
