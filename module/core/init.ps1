@@ -5,7 +5,7 @@ New-Variable -Name PSCompletions -Value @{} -Option Constant
 @('config', 'confirm', 'download', 'less', 'order', 'text', 'path') | ForEach-Object {
     . $PSScriptRoot\utils\$_.ps1
 }
-$PSCompletions.version = '3.2.2'
+$PSCompletions.version = '3.2.3'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -178,37 +178,33 @@ if (!$PSCompletions.config.github -and !$PSCompletions.config.gitee) {
 #region init and update
 if ($PSCompletions.init) { $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.init_info)) }
 
+if (!($PSCompletions.config.update -in @('1', '0')) -and $PSCompletions.config.module_update -eq 1) {
+    $null = $PSCompletions.fn_confirm($PSCompletions.json.module_update, {
+            try {
+                $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_updating))
+                try {
+                    Update-Module PSCompletions -ErrorAction Stop
+                }
+                catch {
+                    $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_admin))
+                    & "$($PSCompletions.path.core)\utils\sudo.ps1" Update-Module PSCompletions -ErrorAction Stop
+                }
+                if ($PSCompletions.config.update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName) {
+                    $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_done))
+                }
+                else {
+                    $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
+                }
+            }
+            catch {
+                $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
+            }
+        })
+}
+
 if ($PSCompletions.config.update -ne 0) {
-    if ($PSCompletions.config.update -ne 1) {
-        if ($PSCompletions.config.module_update -eq 1) {
-            $null = $PSCompletions.fn_confirm($PSCompletions.json.module_update, {
-                    try {
-                        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_updating))
-                        try {
-                            Update-Module PSCompletions -ErrorAction Stop
-                        }
-                        catch {
-                            $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_admin))
-                            & "$($PSCompletions.path.core)\utils\sudo.ps1" Update-Module PSCompletions -ErrorAction Stop
-                        }
-                        $version_list = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName
-                        if ($PSCompletions.config.update -in $version_list) {
-                            $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_done))
-                        }
-                        else {
-                            $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
-                        }
-                    }
-                    catch {
-                        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.module_update_err))
-                    }
-                })
-        }
-    }
-    else {
-        if ($PSCompletions.update -or $PSCompletions.fn_get_content((Join-Path $PSCompletions.path.core '.add'))) {
-            $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.update_info))
-        }
+    if ($PSCompletions.update -or $PSCompletions.fn_get_content((Join-Path $PSCompletions.path.core '.add'))) {
+        $PSCompletions.fn_write($PSCompletions.fn_replace($PSCompletions.json.update_info))
     }
 }
 #endregion
@@ -321,12 +317,15 @@ $null = Start-Job -ScriptBlock {
     param( $PSCompletions )
     function _do($do) { try { & $do }catch {} }
     function get_content([string]$path) {
-        return (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' })
+        $res = Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' }
+        if ($res) { return $res }
+        return ''
     }
     function get_raw_content([string]$path, [bool]$trim = $true) {
         $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-        if ($trim -and $res) { return $res.Trim() }
-        return $res
+        if ($trim -and $res) { $res = $res.Trim() }
+        if ($res) { return $res }
+        return ''
     }
     function _replace([array]$data) {
         $data = $data -join ''
@@ -426,6 +425,7 @@ $null = Start-Job -ScriptBlock {
     $diff = Compare-Object $new_list $old_list -PassThru
     if ($diff) {
         $diff | Out-File ($PSCompletions.path.core + '/.add') -Force -Encoding utf8
+        $new_list | Out-File $PSCompletions.path.old_list -Force
     }
     else { Clear-Content ($PSCompletions.path.core + '/.add') -Force }
 
