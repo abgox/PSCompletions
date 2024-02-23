@@ -114,6 +114,7 @@
 |                  命令补全                   |                                      命令来源                                      |
 | :-----------------------------------------: | :--------------------------------------------------------------------------------: |
 | [PSCompletions](/completions/PSCompletions) | [PSCompletions 模块补全](https://www.powershellgallery.com/packages/PSCompletions) |
+|         [cargo](/completions/cargo)         |             [cargo - Rust 包管理器](https://rustwiki.org/zh-CN/cargo)              |
 |          [chfs](/completions/chfs)          |         [CuteHttpFileServer - 跨平台文件共享服务器](http://iscute.cn/chfs)         |
 |         [choco](/completions/choco)         |               [choco(chocolatey) - 软件管理](https://chocolatey.org)               |
 |          [deno](/completions/deno)          |                 [deno - 安全的 JS 和 TS 运行时](https://deno.com)                  |

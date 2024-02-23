@@ -54,9 +54,7 @@
 ## How to uninstall
 
 1. Start `PowerShell`
-
     - If using `Windows PowerShell`, it's necessary to start in administrator privilege.
-
 2. `Uninstall-Module PSCompletions`
 
 ## How to use(e.g. `git`)
@@ -119,6 +117,7 @@
 |                 Completions                 |                                            Source                                             |
 | :-----------------------------------------: | :-------------------------------------------------------------------------------------------: |
 | [PSCompletions](/completions/PSCompletions) | [PSCompletions - Module completion](https://www.powershellgallery.com/packages/PSCompletions) |
+|         [cargo](/completions/cargo)         |                 [cargo - Rust package manager](https://rustwiki.org/en/cargo)                 |
 |          [chfs](/completions/chfs)          |                       [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                       |
 |         [choco](/completions/choco)         |                [choco(chocolatey) - Software Manager](https://chocolatey.org)                 |
 |          [deno](/completions/deno)          |                   [deno - A secure runtime for JS and TS](https://deno.com)                   |
