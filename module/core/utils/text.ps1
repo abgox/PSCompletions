@@ -16,9 +16,7 @@ $PSCompletions | Add-Member -MemberType ScriptMethod fn_get_raw_content {
 
 $PSCompletions | Add-Member -MemberType ScriptMethod fn_replace {
     param ($data)
-    if ($data -is [array]) {
-        $data = $data -join ''
-    }
+    $data = $data -join ''
     $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
     $matches = [regex]::Matches($data, $pattern)
     foreach ($match in $matches) {
