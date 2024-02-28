@@ -235,6 +235,14 @@
     "别名: --edit\n",
     "配置当前仓库的 config"
   ],
+  "config --unset":[
+    "{{$PSCompletions.config.sym_wr}}删除配置项\n",
+    "例如: git config [--global] --unset user.name"
+  ],
+  "config --get":[
+    "{{$PSCompletions.config.sym_wr}}获取配置项的值，通常可直接省略\n",
+    "例如: git config [--global] [--get] user.name"
+  ],
   "config user.name": [
     "配置用户名\n",
     "例如: git config --global user.name xxx"
@@ -274,6 +282,28 @@
   "config color.interactive auto": "{{$_info.color_auto}}",
   "config color.interactive always": "{{$_info.color_always}}",
   "config color.interactive never": "{{$_info.color_never}}",
+  "config https.proxy": [
+    "{{",
+    "$proxy=git config --get https.proxy;",
+    "if($proxy){' 当前代理: ' + $proxy + \"`n\"};",
+    "$global_proxy=git config --global --get https.proxy;",
+    "if($global_proxy -and $global_proxy -ne $proxy){'全局代理: ' + $global_proxy + \"`n\"}",
+    "}}",
+    "设置 Git https 代理\n",
+    "如: git config [--global] https.proxy 127.0.0.1:10810  --- 设置代理\n",
+    "    git config [--global] --unset https.proxy          --- 取消代理"
+  ],
+  "config http.proxy": [
+    "{{",
+    "$proxy=git config --get http.proxy;",
+    "if($proxy){' 当前代理: ' + $proxy + \"`n\"};",
+    "$global_proxy=git config --global --get http.proxy;",
+    "if($global_proxy -and $global_proxy -ne $proxy){'全局代理: ' + $global_proxy + \"`n\"}",
+    "}}",
+    "设置 Git http 代理\n",
+    "如: git config [--global] http.proxy 127.0.0.1:10810  --- 设置代理\n",
+    "    git config [--global] --unset http.proxy          --- 取消代理"
+  ],
   "stash": [
     "{{$PSCompletions.config.sym}}将更改暂存到 stash 中\n",
     "需要注意,有多个 stash 时从新到老进行排序,索引从0开始"

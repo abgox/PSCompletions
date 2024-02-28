@@ -237,6 +237,14 @@
     "Alias: --edit\n",
     "Edit the configuration for the current repository."
   ],
+  "config --unset":[
+    "{{$PSCompletions.config.sym_wr}}Remove config\n",
+    "e.g. git config [--global] --unset user.name"
+  ],
+  "config --get":[
+    "{{$PSCompletions.config.sym_wr}}Get config value (Usually can be omitted)\n",
+    "e.g. git config [--global] [--get] user.name"
+  ],
   "config user.name": [
     "Configure the username\n",
     "e.g. git config --global user.name xxx"
@@ -276,6 +284,28 @@
   "config color.interactive auto": "{{$_info.color_auto}}",
   "config color.interactive always": "{{$_info.color_always}}",
   "config color.interactive never": "{{$_info.color_never}}",
+  "config https.proxy": [
+    "{{",
+    "$proxy=git config --get https.proxy;",
+    "if($proxy){' Current proxy: ' + $proxy + \"`n\"};",
+    "$global_proxy=git config --global --get https.proxy;",
+    "if($global_proxy -and $global_proxy -ne $proxy){'Global proxy: ' + $global_proxy + \"`n\"}",
+    "}}",
+    "Set the Git https proxy\n",
+    "e.g. git config [--global] https.proxy 127.0.0.1:10810  --- Set proxy\n",
+    "     git config [--global] --unset https.proxy          --- Unset proxy"
+  ],
+  "config http.proxy": [
+    "{{",
+    "$proxy=git config --get http.proxy;",
+    "if($proxy){' Current proxy: ' + $proxy + \"`n\"};",
+    "$global_proxy=git config --global --get http.proxy;",
+    "if($global_proxy -and $global_proxy -ne $proxy){'Global proxy: ' + $global_proxy + \"`n\"}",
+    "}}",
+    "Set the Git http proxy\n",
+    "e.g. git config [--global] http.proxy 127.0.0.1:10810  --- Set proxy\n",
+    "     git config [--global] --unset http.proxy          --- Unset proxy"
+  ],
   "stash": [
     "{{$PSCompletions.config.sym}}Stash changes in the stash.\n",
     "Note that when there are multiple stashes, they are ordered from newest to oldest, with indices starting from 0."
