@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.0.0'
+$PSCompletions.version = '4.0.1'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -666,7 +666,7 @@ if ($PSCompletions.config.module_update -match '^\d+(\.\d+)+$') {
                     catch {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
                     }
-                    if ($PSCompletions.config.update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName) {
+                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName) {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
                     }
                     else {
@@ -682,7 +682,7 @@ if ($PSCompletions.config.module_update -match '^\d+(\.\d+)+$') {
                     catch {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
                     }
-                    if ($PSCompletions.config.update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName) {
+                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName) {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
                     }
                     else {

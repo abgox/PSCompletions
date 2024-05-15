@@ -24,7 +24,7 @@ $PSCompletions.default.menu_line = @{
 }
 $PSCompletions.default.menu_color = @{
     # menu color
-    menu_color_item_text     = 'Gray'
+    menu_color_item_text     = 'Blue'
     menu_color_item_back     = 'Black'
     menu_color_selected_text = 'white'
     menu_color_selected_back = 'DarkGray'
