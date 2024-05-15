@@ -1,0 +1,1896 @@
+{
+  "root": [
+    {
+      "name": "list",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Display the completions that have been added.\n",
+        "{{ $info.list.example }}"
+      ],
+      "options": [
+        {
+          "name": "--remote",
+          "tip": "Display all available completions in the repository ({{ $PSCompletions.url }})."
+        }
+      ]
+    },
+    {
+      "name": "add",
+      "symbol": [
+        "{{",
+        "$has = Compare-Object $PSCompletions.cmd.keys $PSCompletions.list -PassThru;",
+        "if($has){ 'SpaceTab' };",
+        "}}"
+      ],
+      "tip": [
+        "Add completion. (one or more)\n",
+        "{{ $info.add.example }}"
+      ]
+    },
+    {
+      "name": "rm",
+      "symbol": [
+        "{{ if($PSCompletions.cmd.keys){ 'SpaceTab' } }}"
+      ],
+      "tip": [
+        "Remove completion. (one or more)\n",
+        "{{ $info.rm.example }}"
+      ]
+    },
+    {
+      "name": "update",
+      "symbol": [
+        "{{ if($PSCompletions.update){ 'SpaceTab' } }}"
+      ],
+      "tip": [
+        "Update completion. (one or more)\n",
+        "{{ $info.update.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Update all completions that can be updated.\n",
+            "{{",
+            "if($PSCompletions.update){ \"List: $($PSCompletions.update -join ',')\" }",
+            "else{'All completions are the latest!'}",
+            "}}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Search completion. (Wildcard character can be used)\n",
+        "{{ $info.search.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "Search all available completions."
+        }
+      ]
+    },
+    {
+      "name": "which",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Locate completion storage location.\n",
+        "{{ $info.which.example }}"
+      ]
+    },
+    {
+      "name": "alias",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Manage the alias that triggers completion.\n",
+        "Now it's a list, the initial list is the default trigger name, and you are free to add and remove aliases. (Include the default trigger name)\n",
+        "You can only add aliases without Spaces.\n",
+        "{{ $info.alias.example }}"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": "Display all completion aliases."
+        },
+        {
+          "name": "add",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Add one or more alias for the specified completion.\n",
+            "Note: It's add, not replace. Original name can also be used.\n",
+            "      If you only want the new alias, you need to remove the original name after adding the new alias.\n",
+            "{{ $info.alias.add.example }}"
+          ]
+        },
+        {
+          "name": "rm",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Remove completion alias.(one or more)\n",
+            "{{ $info.example.alias.rm.example }}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Get or set the configuration.\n",
+        "{{ $info.config.example }}"
+      ],
+      "next": [
+        {
+          "name": "language",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Current value: en-US\n",
+            "Get or set the language of completions.\n",
+            "The language will affect all added completions unless you set a language for one of them by running 'psc completion xxx'."
+          ],
+          "next": [
+            {
+              "name": "zh-CN",
+              "tip": [
+                "Set the language to zh-CN.",
+                "{{ ",
+                "if(!$PSCompletions.config.url){",
+                "  $gitee=$PSCompletions.config.gitee;",
+                "  if($gitee){ \"`nAfter setting to zh-CN, when you add completion, it will be fetched from the Gitee repo. ($($gitee))\" }",
+                "}",
+                "}}"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "disable_cache",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Current value: {{ $PSCompletions.config.disable_cache }}\n",
+            "Set whether to disable completion cache.\n",
+            "It usually does not need to be modified.\n",
+            "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "Set to 1\n",
+                "Disable completion cache.\n",
+                "It usually does not need to be modified.\n",
+                "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "Set to 0 (Default)\n",
+                "Enable completion cache.\n",
+                "It will make the completion load faster, and it's recommended to keep the default."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Current value: {{ $PSCompletions.config.update }}\n",
+            "Set whether to show update message when loading PSCompletions module at first."
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "Set to 1 (Default)\n",
+                "Show update message when loading PSCompletions module at first."
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "Set to 0\n",
+                "Don't show update message when loading PSCompletions module at first.\n",
+                "Note: It's not recommended to close it, because it will help you get the latest update information in time."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "module_update",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Current value: {{ $PSCompletions.config.module_update }}\n",
+            "Set whether to show update message when PSCompletions module has a new version.\n",
+            "Note: It's not recommended to close it. The remote repository always matches the latest version of PSCompletions."
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "Set to 1 (Default)\n",
+                "Show update message when PSCompletions module has a new version."
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "Set to 0\n",
+                "Don't show update message when PSCompletions module has a new version.\n",
+                "Note: It's not recommended to close it. The remote repository always matches the latest version of PSCompletions."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "github",
+          "symbol": "SpaceTab",
+          "tip": [
+            "{{",
+            "$github = $PSCompletions.config.github;",
+            "if($github){ \"Current value: $($github)\" }else{ 'Github repository is not set.' }",
+            "}}",
+            "\nGet or set the remote repository. (Github)\n",
+            "{{ $info.config.github.example }}"
+          ],
+          "next": [
+            {
+              "name": "https://github.com/abgox/PSCompletions",
+              "tip": "Set the default Github repository."
+            }
+          ]
+        },
+        {
+          "name": "gitee",
+          "symbol": "SpaceTab",
+          "tip": [
+            "{{",
+            "$gitee = $PSCompletions.config.gitee;",
+            "if($gitee){ \"Current value: $($gitee)\" }else{ 'Gitee repository is not set.' }",
+            "}}",
+            "\nGet or set the remote repository. (Gitee)\n",
+            "{{ $info.config.gitee.example }}"
+          ],
+          "next": [
+            {
+              "name": "https://gitee.com/abgox/PSCompletions",
+              "tip": "Set the default Gitee repository."
+            }
+          ]
+        },
+        {
+          "name": "url",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Current value: {{ $PSCompletions.config.url }}\n",
+            "Set the url of the current remote completion data. (default is empty)\n",
+            "It has a higher priority than github and gitee configuration.\n",
+            "{{ $info.config.url.example }}"
+          ],
+          "next": [
+            {
+              "name": "\"\"",
+              "tip": [
+                "Set to \"\" (Default)\n",
+                "\"\": It means using the Github/Gitee repository."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Specify a configuration for a completion. (These configurations have the highest priority.)\n",
+        "By default, each completion has two configurations.( language,menu_show_tip )\n",
+        "{{ $info.completion.example }}"
+      ]
+    },
+    {
+      "name": "menu",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Manage the configuration of the completion menu.\n",
+        "{{ $info.menu.example}}"
+      ],
+      "next": [
+        {
+          "name": "symbol",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Set the symbol in the completion tip.(😄🤔😎)\n",
+            "The meaning of symbols can be understood through completions. For detailed information, please visit them:\n",
+            "Github: https://github.com/abgox/PSCompletions#about-special-symbols\n",
+            "Gitee:  https://gitee.com/abgox/PSCompletions#关于特殊符号"
+          ],
+          "next": [
+            {
+              "name": "SpaceTab",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.symbol_SpaceTab }}\n",
+                "Setting it will affect all completion item with this type of symbol.\n",
+                "When it appears in the completion item, it means that after you choose it,\n",
+                "you can press Space and Tab key to continue to get command completions."
+              ],
+              "next": [
+                {
+                  "name": "😄",
+                  "tip": "Set to 😄 (Default)"
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "Set to \"\"\n",
+                    "It can hide symbols, but it is not recommended that you hide symbols.\n",
+                    "It's more recommended that you modify them to your liking.\n",
+                    "Because these symbols let you know if you can continue to use Tab for completion."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "WriteSpaceTab",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.symbol_WriteSpaceTab }}\n",
+                "Setting it will affect all completion item with this type of symbol.\n",
+                "When it appears in the completion item, it means that after you choose it,\n",
+                "you can enter a string, then press Space and Tab key to continue to get command completions.\n",
+                "If the string has Spaces, Please use \"\" or '' to wrap it. e.g. 'test content'"
+              ],
+              "next": [
+                {
+                  "name": "😎",
+                  "tip": "Set to 😎 (Default)"
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "Set to \"\"\n",
+                    "It can hide symbols, but it is not recommended that you hide symbols.\n",
+                    "It's more recommended that you modify them to your liking.\n",
+                    "Because these symbols let you know if you can continue to use Tab for completion."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "OptionTab",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.symbol_OptionTab }}\n",
+                "Setting it will affect all completion item with this type of symbol.\n",
+                "When it appears in the completion item, it means that after you choose it (option completion),\n",
+                "you can press Space and Tab key to continue to get option completions. (e.g. --verbose)"
+              ],
+              "next": [
+                {
+                  "name": "🤔",
+                  "tip": "Set to 🤔 (Default)"
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "Set to \"\"\n",
+                    "It can hide symbols, but it is not recommended that you hide symbols.\n",
+                    "It's more recommended that you modify them to your liking.\n",
+                    "Because these symbols let you know if you can continue to use Tab for completion."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "line_theme",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Toggle the built-in border style theme of the completion menu.\n",
+            "You can also customize it by running 'psc menu custom line'\n",
+            "{{ $info.menu.line_theme.example }}"
+          ],
+          "next": [
+            {
+              "name": "double_line_rect_border",
+              "tip": [
+                "Set to a double line rectangular border (default). Be like:\n",
+                "╔═════╗\n",
+                "║     ║\n",
+                "╚═════╝"
+              ]
+            },
+            {
+              "name": "single_line_rect_border",
+              "tip": [
+                "Set to a single line rectangular border. Be like:\n",
+                "┌─────┐\n",
+                "│     │\n",
+                "└─────┘"
+              ]
+            },
+            {
+              "name": "single_line_round_border",
+              "tip": [
+                "Set to a single line rounded border. Be like:\n",
+                "╭─────╮\n",
+                "│     │\n",
+                "╰─────╯"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color_theme",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Toggle the built-in color theme of the completion menu.\n",
+            "You can also customize it by running 'psc menu custom color'\n",
+            "{{ $info.menu.color_theme.example }}"
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": "Set to default theme. (Dark theme)"
+            },
+            {
+              "name": "magenta",
+              "tip": "Set to magenta theme. (Light theme)"
+            }
+          ]
+        },
+        {
+          "name": "custom",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Customize the style of the completion menu.\n",
+            "{{ $info.menu.custom.example }}"
+          ],
+          "next": [
+            {
+              "name": "color",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Color-related custom configurations.\n",
+                "{{ $info.example.menu_custom_color }}"
+              ],
+              "next": [
+                {
+                  "name": "border_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_border_text }}\n",
+                    "Foreground color of the border.\n",
+                    "{{ $info.example.menu_custom_color_border_text }}"
+                  ]
+                },
+                {
+                  "name": "border_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_border_back }}\n",
+                    "BackGround color of the border.\n",
+                    "{{ $info.example.menu_custom_color_border_back }}"
+                  ]
+                },
+                {
+                  "name": "item_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_item_text }}\n",
+                    "Foreground color of the completion item.\n",
+                    "{{ $info.example.menu_custom_color_item_text }}"
+                  ]
+                },
+                {
+                  "name": "item_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_item_back }}\n",
+                    "BackGround color of the completion item.\n",
+                    "{{ $info.example.menu_custom_color_item_back }}"
+                  ]
+                },
+                {
+                  "name": "selected_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_selected_text }}\n",
+                    "Foreground color of the selected item.\n",
+                    "{{ $info.example.menu_custom_color_selected_text }}"
+                  ]
+                },
+                {
+                  "name": "selected_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_selected_back }}\n",
+                    "BackGround color of the selected item.\n",
+                    "{{ $info.example.menu_custom_color_selected_back }}"
+                  ]
+                },
+                {
+                  "name": "filter_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_filter_text }}\n",
+                    "Foreground color of the filter box (Top left corner).\n",
+                    "{{ $info.example.menu_custom_color_filter_text }}"
+                  ]
+                },
+                {
+                  "name": "filter_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_filter_back }}\n",
+                    "BackGround color of the filter box (Top left corner).\n",
+                    "{{ $info.example.menu_custom_color_filter_back }}"
+                  ]
+                },
+                {
+                  "name": "status_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_status_text }}\n",
+                    "Foreground color of the completion number display (Bottom left corner).\n",
+                    "{{ $info.example.menu_custom_color_status_text }}"
+                  ]
+                },
+                {
+                  "name": "status_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_status_back }}\n",
+                    "BackGround color of the completion number display (Bottom left corner).\n",
+                    "{{ $info.example.menu_custom_color_status_back }}"
+                  ]
+                },
+                {
+                  "name": "tip_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_tip_text }}\n",
+                    "Foreground color of the completion tip.\n",
+                    "{{ $info.example.menu_custom_color_tip_text }}"
+                  ]
+                },
+                {
+                  "name": "tip_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: {{ $PSCompletions.config.menu_color_tip_back }}\n",
+                    "BackGround color of the completion tip.\n",
+                    "{{ $info.example.menu_custom_color_tip_back }}"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "line",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Line-related custom configurations.\n",
+                "{{ $info.example.menu_custom_line }}"
+              ],
+              "next": [
+                {
+                  "name": "horizontal",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: \"{{ $PSCompletions.config.menu_line_horizontal }}\"\n",
+                    "The horizontal line of the border.\n",
+                    "{{ $info.example.menu_custom_line_horizontal }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"═\"",
+                      "tip": "Set to \"═\" (Default)"
+                    },
+                    {
+                      "name": "\"─\"",
+                      "tip": "Set to \"─\""
+                    }
+                  ]
+                },
+                {
+                  "name": "vertical",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: \"{{ $PSCompletions.config.menu_line_vertical }}\"\n",
+                    "The vertical line of the border.\n",
+                    "{{ $info.example.menu_custom_line_vertical }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"║\"",
+                      "tip": "Set to \"║\" (Default)"
+                    },
+                    {
+                      "name": "\"│\"",
+                      "tip": "Set to \"│\""
+                    }
+                  ]
+                },
+                {
+                  "name": "top_left",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: \"{{ $PSCompletions.config.menu_line_top_left }}\"\n",
+                    "Top left corner of the border.\n",
+                    "{{ $info.example.menu_custom_line_top_left }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╔\"",
+                      "tip": "Set to \"╔\" (Default)"
+                    },
+                    {
+                      "name": "\"┌\"",
+                      "tip": "Set to \"┌\""
+                    },
+                    {
+                      "name": "\"╒\"",
+                      "tip": "Set to \"╒\""
+                    }
+                  ]
+                },
+                {
+                  "name": "bottom_left",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: \"{{ $PSCompletions.config.menu_line_bottom_left }}\"\n",
+                    "Bottom left corner of the border.\n",
+                    "{{ $info.example.menu_custom_line_bottom_left }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╚\"",
+                      "tip": "Set to \"╚\" (Default)"
+                    },
+                    {
+                      "name": "\"└\"",
+                      "tip": "Set to \"└\""
+                    },
+                    {
+                      "name": "\"╘\"",
+                      "tip": "Set to \"╘\""
+                    }
+                  ]
+                },
+                {
+                  "name": "top_right",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: \"{{ $PSCompletions.config.menu_line_top_right }}\"\n",
+                    "Top right corner of the border.\n",
+                    "{{ $info.example.menu_custom_line_top_right }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╗\"",
+                      "tip": "Set to \"╗\" (Default)"
+                    },
+                    {
+                      "name": "\"┐\"",
+                      "tip": "Set to \"┐\""
+                    },
+                    {
+                      "name": "\"╕\"",
+                      "tip": "Set to \"╕\""
+                    }
+                  ]
+                },
+                {
+                  "name": "bottom_right",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "Current value: \"{{ $PSCompletions.config.menu_line_bottom_right }}\"\n",
+                    "Bottom right corner of the border.\n",
+                    "{{ $info.example.menu_custom_line_bottom_right }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╝\"",
+                      "tip": "Set to \"╝\" (Default)"
+                    },
+                    {
+                      "name": "\"┘\"",
+                      "tip": "Set to \"┘\""
+                    },
+                    {
+                      "name": "\"╛\"",
+                      "tip": "Set to \"╛\""
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Some other custom configurations for the completion menu.\n",
+            "{{ $info.menu.config.example }}"
+          ],
+          "next": [
+            {
+              "name": "menu_enable",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_enable }} (Default: 1, it means enabled.)\n",
+                "Set whether to use the completion menu provided by the PSCompletions module.\n",
+                "If you are not using PowerShell (pwsh) on a Windows system, it's invalid."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0\n",
+                    "Use PowerShell's built-in completion menu."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)\n",
+                    "Use the completion menu provided by the PSCompletions module."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_above_margin_bottom",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_above_margin_bottom }} (Default: 0)\n",
+                "It must be greater than or equal to 0.\n",
+                "Set the distance between the bottom of the menu and the input cursor when the completion menu is displayed above."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": "Set to 0 (Default)"
+                }
+              ]
+            },
+            {
+              "name": "menu_list_cover_buffer",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_list_cover_buffer }} (Default: 0, it means disabled.)\n",
+                "Set whether to overwrite the original content of each line in the area where the completion list is displayed.\n",
+                "(Restores when exiting the complete menu)\n",
+                "If set to 0, only a small area of the content needed for display is overwritten."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0 (Default)\n",
+                    "Only a small area of the content needed for display is overwritten."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1\n",
+                    "Overwrite the original content of each line in the region."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_tip_cover_buffer",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_tip_cover_buffer }} (Default: 0, it means disabled.)\n",
+                "Set whether to overwrite the original content of each line in the area where it is located and its neighboring areas when displaying a completion tip.\n",
+                "(Restores when exiting the complete menu)"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0 (Default)\n",
+                    "Only a small area of the content needed for display is overwritten."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1\n",
+                    "Overwrite the original content of each line in the area where it is located and its neighboring areas."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_show_tip",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_show_tip }} (Default: 1, it means enabled.)\n",
+                "Set whether to show the completion tip.\n",
+                "(If the display area of the terminal is too small, it automatically hides the completion tip.)"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0\n",
+                    "Don't show the completion tip."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)\n",
+                    "Show the completion tip."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_tip_follow_cursor",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_tip_follow_cursor }} (Default: 0, it means disabled.)\n",
+                "Set whether the completion tip is displayed following the input cursor."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0 (Default)\n",
+                    "Don't follow the input cursor."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1\n",
+                    "Follow the input cursor."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_list_follow_cursor",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_list_follow_cursor }} (Default: 1, it means enabled.)\n",
+                "Set whether the completion list is displayed following the input cursor."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0\n",
+                    "Don't follow the input cursor."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)\n",
+                    "Follow the input cursor."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_is_prefix_match",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_is_prefix_match }} (Default: 0, it means using fuzzy matching.)\n",
+                "Set whether the menu uses prefix matching mode for completion list filtering.\n",
+                "If set to 1, the common prefix of the current completion list will be automatically extracted."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0 (Default)\n",
+                    "It means using fuzzy matching."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1\n",
+                    "It means using prefix matching.\n",
+                    "The common prefix of the current completion list will be automatically extracted."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_above_list_max_count",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_above_list_max_count }} (Default: -1)\n",
+                "Set the maximum number of completion items to be displayed on the first page when the completion menu is displayed above the cursor.\n",
+                "If it's -1, it means to display as many complements as possible according to the available height."
+              ],
+              "next": [
+                {
+                  "name": "-1",
+                  "tip": [
+                    "Set to -1 (Default)\n",
+                    "Display as many complements as possible according to the available height."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_below_list_max_count",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_below_list_max_count }} (Default: -1)\n",
+                "Set the maximum number of completion items to be displayed on the first page when the completion menu is displayed below the cursor.\n",
+                "If it's -1, it means to display as many complements as possible according to the available height."
+              ],
+              "next": [
+                {
+                  "name": "-1",
+                  "tip": [
+                    "Set to -1 (Default)\n",
+                    "Display as many complements as possible according to the available height."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_between_item_and_symbol",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: \"{{ $PSCompletions.config.menu_between_item_and_symbol }}\" (Default: \" \")\n",
+                "Set the separator between the completion item and the symbol when there is a symbol after the completion item."
+              ],
+              "next": [
+                {
+                  "name": "\" \"",
+                  "tip": [
+                    "Set to \" \" (Default)\n",
+                    "Add a space between each completion item and symbol."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enter_when_single",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.enter_when_single }} (Default: 0)\n",
+                "When there is only one completion item, whether to enter it directly instead of displaying the completion menu."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0 (Default)\n",
+                    "Even if there is only one completion item, the menu is displayed first.\n",
+                    "You can press the Tab key again to enter the completion item."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1\n",
+                    "When there is only one completion item, it will be entered directly."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_selection_with_margin",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_selection_with_margin }} (Default: 1, it means enabled.)\n",
+                "When the margin of the completion list is set, whether the selection style of the currently selected item contains margin."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0\n",
+                    "Don't include margin in the selection style of the currently selected item."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)\n",
+                    "Include margin in the selection style of the currently selected item."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_list_min_width",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_list_min_width }} (Default: 10)\n",
+                "Set the minimum width of the completion list area in the completion menu."
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "Set 10 (Default)\n",
+                    "When the width of the completion list area is less than 10, the width will be filled with 10 to avoid menu display errors."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_list_margin_left",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_list_margin_left }} (Default: 0)\n",
+                "Set the spacing between the completion item area and the left border in the completion menu."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": "Set to 0 (Default)"
+                }
+              ]
+            },
+            {
+              "name": "menu_list_margin_right",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_list_margin_right }} (Default: 0)\n",
+                "Set the spacing between the completion item area and the right border in the completion menu."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": "Set to 0 (Default)"
+                }
+              ]
+            },
+            {
+              "name": "menu_status_symbol",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: \"{{ $PSCompletions.config.menu_status_symbol }}\" (Default: \"/\")\n",
+                "Set the spacer between the current and total count, which is in the bottom left corner."
+              ],
+              "next": [
+                {
+                  "name": "\"/\"",
+                  "tip": "Set \"/\" (Default)"
+                }
+              ]
+            },
+            {
+              "name": "menu_filter_symbol",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: \"{{ $PSCompletions.config.menu_filter_symbol }}\" (Default: \"[]\")\n",
+                "Set the symbols on the left and right of the filter area, which is in the top left corner.\n",
+                "It requires two characters."
+              ],
+              "next": [
+                {
+                  "name": "\"[]\"",
+                  "tip": "Set \"[]\" (Default)"
+                }
+              ]
+            },
+            {
+              "name": "menu_completions_sort",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current value: {{ $PSCompletions.config.menu_completions_sort }} (Default: 1, it means enabled.)\n",
+                "Set whether to dynamically sort the completion list based on command history."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0\n",
+                    "Don't dynamically sort completion list based on command history."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)\n",
+                    "Dynamically sort completion list based on command history."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Reset the specified configuration to the default\n",
+        "{{ $info.reset.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Reset the entire PSCompletions module.\n",
+            "Except for the core code of the module, all other content is removed."
+          ]
+        },
+        {
+          "name": "env",
+          "tip": [
+            "Reset some environment configurations.\n",
+            "Include configuration items under the command ('psc config')."
+          ]
+        },
+        {
+          "name": "alias",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Reset all completions or specified completions to the default completion trigger name.\n",
+            "{{ $info.reset.alias.example }}"
+          ],
+          "next": [
+            {
+              "name": "*",
+              "tip": "Reset all completions to the default completion trigger name."
+            }
+          ]
+        },
+        {
+          "name": "order",
+          "tip": [
+            "Reset all order.\n",
+            "It just removes the order sort file, which will be regenerated when the next completion is triggered.\n",
+            "If you do not want to sort by command history, you should disable sorting by running 'psc config menu_completions_sort 0'."
+          ]
+        },
+        {
+          "name": "menu",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Reset the configuration of the completion menu.\n",
+            "{{ $info.reset.menu.example }}"
+          ],
+          "next": [
+            {
+              "name": "*",
+              "tip": [
+                "Reset all configurations of the completion menu.\n",
+                "Include all configuration items under the command ('psc menu')."
+              ]
+            },
+            {
+              "name": "symbol",
+              "tip": [
+                "Reset symbols to default values.\n",
+                "SpaceTab      => 😄\n",
+                "WriteSpaceTab => 😎\n",
+                "OptionTab     => 🤔"
+              ]
+            },
+            {
+              "name": "line",
+              "tip": [
+                "Rest the line-related configurations of the completion menu.\n",
+                "Include all configuration items under the command ('psc menu custom line')."
+              ]
+            },
+            {
+              "name": "color",
+              "tip": [
+                "Rest the color-related configurations of the completion menu.\n",
+                "Include all configuration items under the command ('psc menu custom color')."
+              ]
+            },
+            {
+              "name": "config",
+              "tip": [
+                "Reset other custom configurations of the completion menu.\n",
+                "Include all configuration items under the command ('psc menu config')."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": {
+    "description": [
+      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell Completions Manager\n",
+      "Current module version: <@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
+      "Module version log: <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/log.json<@Cyan>\n",
+      "\n",
+      "About special symbol after the completion item:\n",
+      "- 😄🤔😎 : If there are multiple, you can choose the effect of one of them.\n",
+      "\n",
+      "   - 😄 : It means that after you choose it, you can press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get command completions.(Normal or optional completions)\n",
+      "        - It can be customized by running <@Magenta>psc menu symbol SpaceTab <symbol><@Cyan>\n",
+      "   - 🤔 : It means that after you choose it (option completion), you can press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get option completions. (e.g. --verbose)\n",
+      "        - It can be customized by running <@Magenta>psc menu symbol OptionTab <symbol><@Cyan>\n",
+      "   - 😎 : It means that after you choose it (option completion), you can enter a string, then press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get the rest of option completions.\n",
+      "        - If the string has Spaces, Please use \"\" or '' to wrap it. e.g. 'test content'\n",
+      "        - If there is also 😄, it means that there are some strings to complete, you can press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get command completions without entering a string.\n",
+      "        - It can be customized by running <@Magenta>psc menu symbol WriteSpaceTab <symbol><@Cyan>\n",
+      "   - Completion of generic options can also be triggered if there is one or more generic option completion.\n",
+      "   - All complements can be triggered by pressing the <@Magenta>Tab<@Cyan> key after entering a part.\n",
+      "   - If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.\n",
+      "     - e.g. <@Magenta>psc menu symbol SpaceTab \"\"<@Cyan>\n",
+      "\n",
+      "- When using the completion menu provided by PowerShell, if <@Magenta>...<@Cyan> is the last completion item, which means that the display area is too small to display all completion items.\n",
+      "- When using the completion menu provided by PSCompletions module, if <@Magenta>...<@Cyan> appears at the end of the completion tip, which means that the width of the display area is too narrow and the tip display is not completed.\n",
+      "\n",
+      "About completion tip:\n",
+      " - Completion tip is only a helper, you can also hide the tip by running <@Magenta>psc menu config menu_show_tip 0<@Cyan>\n",
+      " - General structure of the completion tip: <@Magenta>Usage<@Cyan> + <@Magenta>Description<@Cyan> + <@Magenta>Example<@Cyan>\n",
+      "------------- Tip Example --------------\n\n",
+      "U: install|add <app> [-g|-u] [options]\n",
+      "This is a description of the command.\n",
+      "E: list\n",
+      "   list --remote\n\n",
+      "----------------------------------------\n",
+      "- Example Analysis:\n",
+      "  1. Usage: Begin with <@Magenta>U: <@Cyan>\n",
+      "     - command name: <@Magenta>install<@Cyan>\n",
+      "     - command alias: <@Magenta>add<@Cyan>\n",
+      "     - required parameters: <@Magenta><app><@Cyan>\n",
+      "       - The values in <> are a simple summary of the parameters.\n",
+      "     - optional parameters: <@Magenta>-g<@Cyan> <@Magenta>-u<@Cyan>\n",
+      "       - [options] : Some options\n",
+      "  2. Description: the description of the command\n",
+      "  3. Example: Begin with <@Magenta>E: <@Cyan>\n",
+      "\n",
+      "About completion menu provided by PSCompletions module:\n",
+      "- It can only be used in PowerShell(pwsh) under Windows.\n",
+      "- When you use it, you can select previous or next option in the following keys:\n",
+      "   - Select previous/Select next\n",
+      "   1. Up/Down\n",
+      "   2. Left/Right\n",
+      "   3. Tab/Shift + Tab\n",
+      "   4. Space/Shift + Space\n",
+      "   5. Ctrl + U/Ctrl + D\n",
+      "   6. Ctrl + P/Ctrl + N\n",
+      "- All configurations of it, you can trigger completion by running <@Magenta>psc menu<@Cyan>, then learn about them by completion tip.\n",
+      "\n",
+      "About other information of PSCompletions module:\n",
+      "PSCompletions will take up two global names. (<@Yellow>You shouldn't modify them<@Cyan>)\n",
+      "  <@Magenta>$PSCompletions<@Cyan> => A variable name. Used to save all information related to the module.\n",
+      "  <@Magenta>PSCompletions<@Cyan>  => A function name. The core function of the module export. (<@Magenta>psc<@Cyan> is actually its alias.)\n",
+      "\n",
+      "For more information, please visit the project:\n",
+      "  Github: <@Blue>https://github.com/abgox/PSCompletions\n<@Cyan>",
+      "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions\n<@Cyan>",
+      "When you have a problem using it, you should submit an issue.\n",
+      "If the project is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>.\n"
+    ],
+    "init_info": [
+      "\n<@Yellow>PSCompletions module install warning (The display is initialized for the first time only):\n",
+      "You should not be in the following case:\n",
+      "  1. Install the PSCompletions module in the built-in Windows powershell on the Windows system started in administrator mode.\n",
+      "  2. The installation is accidentally using <@Magenta>-Scope AllUser<@Yellow>\n",
+      "If you are in the case, you should use <@Magenta>-Scope CurrentUser<@Yellow> to reinstall the module, unless you are in the following case:\n",
+       "  1. You already know that the module installed in administrator mode can have permission issues when used with user mode.\n",
+       "  2. You always use the administrator mode to open PowerShell, and never use the user mode.\n\n",
+      "<@Blue>Full installation command: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Cyan>\n\n",
+      "---------------------------------------------------------------------\n",
+      "<@Cyan>✨✨✨PSCompletions(<@Magenta>psc<@Cyan>) --- init successfully!✨✨✨\n",
+      "<@Yellow>The following is displayed for the first time only, you can also see it by running <@Magenta>psc<@Yellow><@Cyan>\n",
+      "Current module version: <@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
+      "Module version log: <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/log.json<@Cyan>\n",
+      "\n",
+      "About special symbol after the completion item:\n",
+      "- 😄🤔😎 : If there are multiple, you can choose the effect of one of them.\n",
+      "\n",
+      "   - 😄 : It means that after you choose it, you can press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get command completions.(Normal or optional completions)\n",
+      "        - It can be customized by running <@Magenta>psc menu symbol SpaceTab <symbol><@Cyan>\n",
+      "   - 🤔 : It means that after you choose it (option completion), you can press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get option completions. (e.g. --verbose)\n",
+      "        - It can be customized by running <@Magenta>psc menu symbol OptionTab <symbol><@Cyan>\n",
+      "   - 😎 : It means that after you choose it (option completion), you can enter a string, then press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get the rest of option completions.\n",
+      "        - If the string has Spaces, Please use \"\" or '' to wrap it. e.g. 'test content'\n",
+      "        - If there is also 😄, it means that there are some strings to complete, you can press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key to continue to get command completions without entering a string.\n",
+      "        - It can be customized by running <@Magenta>psc menu symbol WriteSpaceTab <symbol><@Cyan>\n",
+      "   - Completion of generic options can also be triggered if there is one or more generic option completion.\n",
+      "   - All complements can be triggered by pressing the <@Magenta>Tab<@Cyan> key after entering a part.\n",
+      "   - If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.\n",
+      "     - e.g. <@Magenta>psc menu symbol SpaceTab \"\"<@Cyan>\n",
+      "\n",
+      "- When using the completion menu provided by PowerShell, if <@Magenta>...<@Cyan> is the last completion item, which means that the display area is too small to display all completion items.\n",
+      "- When using the completion menu provided by PSCompletions module, if <@Magenta>...<@Cyan> appears at the end of the completion tip, which means that the width of the display area is too narrow and the tip display is not completed.\n",
+      "\n",
+      "About completion tip:\n",
+      " - Completion tip is only a helper, you can also hide the tip by running <@Magenta>psc menu config menu_show_tip 0<@Cyan>\n",
+      " - General structure of the completion tip: <@Magenta>Usage<@Cyan> + <@Magenta>Description<@Cyan> + <@Magenta>Example<@Cyan>\n",
+      "------------- Tip Example --------------\n\n",
+      "U: install|add <app> [-g|-u] [options]\n",
+      "This is a description of the command.\n",
+      "E: list\n",
+      "   list --remote\n\n",
+      "----------------------------------------\n",
+      "- Example Analysis:\n",
+      "  1. Usage: Begin with <@Magenta>U: <@Cyan>\n",
+      "     - command name: <@Magenta>install<@Cyan>\n",
+      "     - command alias: <@Magenta>add<@Cyan>\n",
+      "     - required parameters: <@Magenta><app><@Cyan>\n",
+      "       - The values in <> are a simple summary of the parameters.\n",
+      "     - optional parameters: <@Magenta>-g<@Cyan> <@Magenta>-u<@Cyan>\n",
+      "       - [options] : Some options\n",
+      "  2. Description: the description of the command\n",
+      "  3. Example: Begin with <@Magenta>E: <@Cyan>\n",
+      "\n",
+      "About completion menu provided by PSCompletions module:\n",
+      "- It can only be used in PowerShell(pwsh) under Windows.\n",
+      "- When you use it, you can select previous or next option in the following ways:\n",
+      "   - Select previous/Select next\n",
+      "   1. Up/Down\n",
+      "   2. Left/Right\n",
+      "   3. Tab/Shift + Tab\n",
+      "   4. Space/Shift + Space\n",
+      "   5. Ctrl + U/Ctrl + D\n",
+      "   6. Ctrl + P/Ctrl + N\n",
+      "- All configurations of it, you can trigger completion by running <@Magenta>psc menu<@Cyan>, then learn about them by completion tip.\n",
+      "\n",
+      "About other information of PSCompletions module:\n",
+      "PSCompletions will take up two global names. (<@Yellow>You shouldn't modify them<@Cyan>)\n",
+      "  <@Magenta>$PSCompletions<@Cyan> => A variable name. Used to save all information related to the module.\n",
+      "  <@Magenta>PSCompletions<@Cyan>  => A function name. The core function of the module export. (<@Magenta>psc<@Cyan> is actually its alias.)\n",
+      "\n",
+      "For more information, please visit the project:\n",
+      "  Github: <@Blue>https://github.com/abgox/PSCompletions\n<@Cyan>",
+      "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions\n<@Cyan>",
+      "When you have a problem using it, you should submit an issue.\n",
+      "If the project is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>.\n"
+    ],
+    "err": {
+      "network": [
+        "<@Red>Please check your network and try again!\n",
+        "If you are sure that your network is working and you are still getting errors, please submit an issue.\n"
+      ],
+      "download_list": "<@Red>Failed to get the completions list, please check the network or try again later.",
+      "download_file": [
+        "<@Red>File {{ Split-path $download_info.url -leaf }} download failed, please check the network or try again later.\n",
+        "Download url: {{ $download_info.url }}\n",
+        "Save path   : {{ $download_info.file }}\n",
+        "If you are sure that your network is working and you are still getting errors, please submit an issue.\n"
+      ],
+      "url": [
+        "<@Red>PSCompletions module isn't currently configured with a valid remote repository, you can add it by running the following command.<@Green>\n",
+        "E: psc config github https://github.com/abgox/PSCompletions\n",
+        "   psc config gitee https://gitee.com/abgox/PSCompletions\n",
+        "   psc config url https://example.com<@Blue>\n",
+        "Note:\n",
+        "- The <@Magenta>url<@Blue> have a higher priority than <@Magenta>github<@Blue> and <@Magenta>gitee<@Blue>.\n",
+        "- If <@Magenta>url<@Blue> don't set, <@Magenta>github<@Blue> or <@Magenta>gitee<@Blue> is automatically selected based on the <@Magenta>language<@Blue>.\n",
+        "- If <@Magenta>github<@Blue> and <@Magenta>gitee<@Blue> have only one of them set, it will be selected."
+      ]
+    },
+    "module": {
+      "update": [
+        "<@Yellow>Now PSCompletions module can be updated! Update?\n",
+        "(The added completion will be automatically migrated.)\n",
+        "<@Magenta>{{ $PSCompletions.version }}<@Cyan> => <@Magenta>{{ $PSCompletions.config.module_update }}\n<@Cyan>",
+        "{{ ",
+        "$log=($PSCompletions.get_raw_content(\"$($PSCompletions.path.core)\\log.json\") | ConvertFrom-Json).PSObject.Properties;",
+        "$lang = if($PSCompletions.language -eq 'zh-CN'){ 'zh-CN' }else{ 'en-US' };",
+        "$num=1;",
+        "$log | ForEach-Object {",
+        "   if($_.Name -gt $PSCompletions.version){",
+        "      if($num){ \"<@Blue>$($_.Name) : $($_.Value.$($lang))\";$num = 0 }",
+        "      else{ \"`n $($_.Name) : $($_.Value.$($lang))\" }",
+        "   }",
+        "}",
+        "}}\n",
+        "<@Cyan>Press <@Magenta>Enter<@Cyan> key to update!"
+      ],
+      "updating": "<@Cyan>Successfully run the command: <@Magenta>Update-Module PSCompletions\n<@Cyan>Updating PSCompletions module",
+      "update_done": "<@Green>PSCompletions module update completed.Please restart the PowerShell and re-import the module",
+      "update_err": [
+        "<@Red>PSCompletions module update failed.\n",
+        "<@Yellow>Possible reasons for failure:\n",
+        "1. Network issue.\n",
+        "2. Permissions issue, In version 4.0.0+, you must install with user permissions.(<@Magenta>-Scope CurrentUser<@Yellow>)\n",
+        "   - Permission issue for upgrading modules from v3.x.x to v4.x.x in Windows PowerShell(powershell)\n",
+        "       - If you are using Windows PowerShell(powershell) and are updating modules, you should first remove all PSCompletions modules from your computer.\n",
+        "       - Then use <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Yellow> to install the latest version of PSCompletions module.\n",
+        "       - <@Magenta>-Scope CurrentUser<@Yellow> is required, <@Red> cannot use '-Scope AllUser'<@Yellow>\n",
+        "   - In PowerShell(pwsh), the module was previously installed using <@Magenta>Install-Module PSCompletions -Scope AllUser<@Yellow>, causing a problem with module directory permissions.\n",
+        "       - You should delete this module. (or move it somewhere else for backup.)\n",
+        "       - Then use <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Yellow> to install the latest version of PSCompletions module.\n",
+        "       - <@Magenta>-Scope CurrentUser<@Yellow> is required, <@Red> cannot use '-Scope AllUser'<@Yellow>\n",
+        "       - You are free to handle width the previously backed up module directory.\n",
+        "3. For other reasons, please submit an issue.\n"
+      ]
+    },
+    "update_info": [
+      "<@Cyan>PSCompletions remote repository update:\n",
+      "{{",
+      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
+      "$add=@();",
+      "$rm=@();",
+      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
+      "if($add){ \"Add: <@Magenta>$($add)<@Cyan>`nUse <@Magenta>psc add <completion><@Cyan> to add.`n`n\" };",
+      "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n`n\" };",
+      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update *<@Cyan> to update.`n`n\" };",
+      "}}",
+      "If you don't want to see it, you can hide it by running <@Blue>psc config update 0 <@Cyan>\n",
+      "But I don't recommend it, it's a good tip."
+    ],
+    "update_has": [
+      "<@Cyan>-------------------\n",
+      "Updatable completions: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
+      "You can update them by running the following command:\n",
+      "<@Magenta>psc update *"
+    ],
+    "update_no": [
+      "<@Cyan>--------------------\n",
+      "<@Green>All the completions are up to date!"
+    ],
+    "param_min": "<@Red>Too few parameters.",
+    "param_max": "<@Red>Too many parameters.",
+    "param_err": "<@Red>Parameter error.",
+    "sub_cmd": [
+      "{{",
+      "if($sub_cmd){\"<@Red>Subcommand <@Magenta>$($sub_cmd)<@Red> error`n\"};",
+      "if($cmd_list){",
+      "\"<@Yellow>You should select a subcommand from the subcommand list below.`n\";",
+      "\"<@Blue>-------------------`n\";",
+      "\"<@Magenta>$($cmd_list -join \"`n\")<@Yellow>`n\";",
+      "\"<@Blue>-------------------\";",
+      "};",
+      "if($cmd_info){ \"<@Red>$($cmd_info)\" };",
+      "}}"
+    ],
+    "no_completion": "<@Red>You haven't added <@Magenta>{{ $completion }}<@Red> yet.",
+    "confirm_cancel": "<@Green>The operation has been canceled.",
+    "less_tip": [
+      "<@Cyan>🔔Press Enter to view more, or any other key to exit!(<@Magenta>{{$lines}}<@Cyan> lines remaining)🔔\n",
+      "<@Yellow>--------------------"
+    ],
+    "comp_hide": "⚠️Due to the limited display area size, some completions have been hidden⚠️\nYou can filter by entering the prefix of the completion and pressing Tab",
+    "min_area": "The area is too small!",
+    "example_color": "<@Cyan>",
+    "list": {
+      "add_symbol": "🔴",
+      "added_symbol": "🟢",
+      "symbol_tip": "\n<@Yellow>🟢: You have added it.   🔴: You haven't added it yet.",
+      "example": [
+        "E: psc list              --- Display a list of locally installed completions\n",
+        "   psc list --remote     --- Display remote completions list"
+      ]
+    },
+    "add": {
+      "tip": "Add completion --- {{ $completion }}",
+      "example": [
+        "E: psc add git            --- Add git\n",
+        "   psc add git docker     --- Add git,docker"
+      ],
+      "doing": "<@Cyan>Adding completion --- <@Magenta>{{ $completion }}",
+      "done": [
+        "<@Green>Completion <@Magenta>{{ $completion }}<@Green> add completed.\n",
+        "{{ ",
+        "if($PSCompletions.config.url){",
+        "   \"Current remote url: <@Blue>$($PSCompletions.config.url)<@Green>\"",
+        "}else{",
+        "   \"Current remote repository: <@Blue>$($PSCompletions.repo)<@Green>\"",
+        "}",
+        "}}\n",
+        "Completion file directory: <@Blue>{{ $completion_dir }}\n",
+        "{{",
+        " if($json.config){",
+        "'<@Cyan>---------- Special configuration ---------- ';",
+        "   $json.config | ForEach-Object { \"`n<@Magenta>$($_.name)<@Blue>: $($_.value)(Default)`n$($PSCompletions.replace_content($_.tip))\" };",
+        "\"`n<@Cyan>----------------------------------\";",
+        "};",
+        "}}"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue entering the completion name you want to add.\n",
+          "You can enter more names, separated by spaces."
+        ],
+        "no": [
+          "<@Red>Completion <@Magenta>{{ $completion }}<@Red> does not exist in the completions list.\n",
+          "It's recommended to type <@Magenta>psc add<@Red>, then press <@Magenta>Space<@Red> and <@Magenta>Tab<@Red> to complete.\n",
+          "Or you can use <@Magenta>psc search<@Red> to search for available completions."
+        ]
+      }
+    },
+    "rm": {
+      "tip": "Remove completion --- {{ $completion }}",
+      "example": [
+        "E: psc rm git            --- Remove git\n",
+        "   psc rm git docker     --- Remove git,docker"
+      ],
+      "done": "<@Green>Completion <@Magenta>{{ $completion }}<@Green> has been removed.",
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue entering the completion name you want to remove.\n",
+          "You can enter more names, separated by spaces."
+        ]
+      }
+    },
+    "update": {
+      "tip": "Update completion --- {{ $completion }}",
+      "example": [
+        "E: psc update                 --- Check update\n",
+        "   psc update *               --- Update all completions\n",
+        "   psc update psc             --- Update psc\n",
+        "   psc update psc git bun     --- Update psc,git,bun"
+      ],
+      "doing": "<@Cyan>Updating completion ---<@Magenta> {{ $completion }}",
+      "done": [
+        "<@Green>Completion <@Magenta>{{ $completion }}<@Green> update completed.\n",
+        "{{",
+        "if($PSCompletions.config.url){",
+        "   \"Current remote url: <@Blue>$($PSCompletions.config.url)<@Green>\"",
+        "}else{",
+        "   \"Current remote repository: <@Blue>$($PSCompletions.repo)<@Green>\"",
+        "}",
+        "}}\n",
+        "Completion file directory: <@Blue>{{ $completion_dir }}"
+      ]
+    },
+    "search": {
+      "example": [
+        "E: psc search *     --- Show all installable completions\n",
+        "   psc search p*    --- Search for completion starting with p in the name\n",
+        "   psc search *p*   --- Search for completion with p in the name"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue to enter a matching string with *.\n",
+          "If you do not use *, please enter the full name.\n",
+          "ou can also just enter * to see all available completions."
+        ],
+        "no": "<@Yellow>No matching completions found!"
+      }
+    },
+    "which": {
+      "tip": "Locate completion storage location --- {{ $completion }}",
+      "example": [
+        "E: psc which git            --- Get the location of git\n",
+        "   psc which git docker     --- Get the location of git and docker"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue to enter the name of the completion you want to find the storage location for.\n",
+          "You can enter more names, separated by spaces."
+        ]
+      }
+    },
+    "alias": {
+      "example": [
+        "E: psc alias list                 --- List all aliases\n",
+        "   psc alias add git g gi ./g     --- Add g gi ./g as git alias\n",
+        "   psc alias rm g                 --- Remove g alias"
+      ],
+      "done": [
+        "{{",
+        "if($arg[1] -eq 'add') {",
+        "\"<@Magenta>$($completion)<@Green> adds an alias <@Magenta>$($alias)<@Green>, Now <@Magenta>$($completion)<@Green>'s available aliases: <@Magenta>$($PSCompletions.cmd.$completion -join ' ') $($alias)`n<@Yellow>You need to restart PowerShell and re-import the PSCompletions module for the changes to take effect.\"",
+        "}",
+        "elseif($arg[1] -eq 'rm') {",
+        "\"<@Magenta>$($completion)<@Green> removes an alias <@Magenta>$($alias)<@Green>, Now <@Magenta>$($completion)<@Green>'s available aliases: <@Magenta>$(($PSCompletions.cmd.$completion | Where-Object { $_ -ne $alias }) -join ' ')`n<@Yellow>You need to restart PowerShell and re-import the PSCompletions module for the changes to take effect.\"",
+        "}",
+        "}}"
+      ],
+      "list": {
+        "example": [
+          "E: psc alias list     --- List all aliases"
+        ]
+      },
+      "add": {
+        "tip": [
+          "{{ \"Current aliases: $($PSCompletions.cmd.$completion -join ' ')\" }}\n",
+          "Add one or more aliases for {{ $completion }}."
+        ],
+        "example": [
+          "E: psc alias add git g gi            --- Add g,gi as git alias\n",
+          "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 as scoop alias"
+        ],
+        "err": {
+          "min_k": [
+            "<@Yellow>",
+            "You should continue to enter a completion name that is already installed.\n",
+            "Then enter one or more alias you want to add."
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "You need to continue entering one or more alias that you want to add for {{ $completion }}."
+          ],
+          "exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> is already an alias for {{ $completion }}.",
+          "cmd_exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> already exists, please set other alias."
+        }
+      },
+      "rm": {
+        "tip": "Remove one or more aliases for {{ $completion }}.",
+        "tip_v": [
+          "{{",
+          "$path_alias = \"$($PSCompletions.path.completions)/$($PSCompletions.alias.$completion)/alias.txt\";",
+          "$alias_list = $PSCompletions.get_content($path_alias);",
+          "if($alias_list.Count -eq 1){",
+          "\"The alias cannot be removed because it's the only alias of $($completion).`nIf you want to change it, you should first add a new alias for $($completion) and then remove the old alias.\"",
+          "}",
+          "else{ 'Remove this alias.' };",
+          "}}"
+        ],
+        "example": [
+          "E: psc alias rm git g gi            --- Remove aliases (g,gi) for git\n",
+          "   psc alias rm scoop scoop.ps1     --- Remove alias (scoop.ps1) for scoop"
+        ],
+        "err": {
+          "min_k": [
+            "<@Yellow>",
+            "You should continue to enter a completion name that is already installed.\n",
+            "Then enter one or more alias you want to remove."
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "You need to continue entering one or more alias that you want to remove for {{ $completion }}."
+          ],
+          "no_alias": "<@Magenta>{{ $alias }}<@Red> isn't the alias of {{ $completion }}",
+          "unique": [
+            "<@Magenta>{{ $alias }}<@Red> cannot be removed because it's the only alias of <@Magenta>{{ $completion }}<@Red>.\n",
+            "If you want to change it, you should first add a new alias and then remove the old alias."
+          ]
+        }
+      }
+    },
+    "config": {
+      "example": [
+        "E: psc config language               --- Get language\n",
+        "   psc config language zh-CN         --- Set to zh-CN"
+      ],
+      "done": [
+        "<@Green>PSCompletions's configuration modified successfully!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
+      ],
+      "err": {
+        "value": [
+          "<@Magenta>{{ $config_item }}<@Yellow> just need a value, number 1 or 0.\n",
+          "1 mean enabled, and 0 mean disabled."
+        ]
+      },
+      "language": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> just need a value, like <@Magenta>zh-CN<@Yellow>"
+          ]
+        },
+        "example": [
+          "E: psc config language           --- Get language\n",
+          "   psc config language zh-CN     --- Set to zh-CN"
+        ]
+      },
+      "disable_cache": {
+        "example": [
+          "E: psc config disable_cache 1     --- Disable cache\n",
+          "   psc config disable_cache 0     --- Enable cache"
+        ]
+      },
+      "update": {
+        "example": [
+          "E: psc config update 1     --- Show completion update\n",
+          "   psc config update 0     --- Hide completion update"
+        ]
+      },
+      "module_update": {
+        "example": [
+          "E: psc config module_update 1     --- Show module update\n",
+          "   psc config module_update 0     --- Hide module update"
+        ]
+      },
+      "github": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a Github repository. (https://github.com/xxx)"
+          ]
+        },
+        "example": [
+          "E: psc config github                                            --- Get current Github repository\n",
+          "   psc config github https://github.com/abgox/PSCompletions     --- Set Github repository"
+        ]
+      },
+      "gitee": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a Gitee repository. (https://gitee.com/xxx)"
+          ]
+        },
+        "example": [
+          "E: psc config gitee                                           --- Get current Gitee repository\n",
+          "   psc config gitee https://gitee.com/abgox/PSCompletions     --- Set Gitee repository"
+        ]
+      },
+      "url": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a url. (https://xxx)\n",
+            "The url must be valid, and its directory structure should be the same as that of the repository."
+          ]
+        },
+        "example": [
+          "E: psc config url                                                    --- Get current url\n",
+          "   psc config url https://gitee.com/abgox/PSCompletions/raw/main     --- Set url"
+        ]
+      }
+    },
+    "completion": {
+      "tip": [
+        "Set special configuration for {{ $completion }}\n",
+        "Special configurations have higher priority than global configurations."
+      ],
+      "tip_v": "Set to {{ $value }}",
+      "tip_rm": [
+        "Set to \"\", it means to remove this Special configuration of {{ $completion }}.\n",
+        "When removed, the default value will be used."
+      ],
+      "example": [
+        "E: psc completion psc language zh-CN      --- Set the psc completion language to zh-CN\n",
+        "   psc completion psc language \"\"         --- It means to remove this Special configuration\n",
+        "   psc completion psc menu_show_tip 0     --- Set whether the psc displays a completion tip"
+      ],
+      "done": [
+        "<@Green>{{ $completion }} 's special configuration modified successfully!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue to enter the configuration items to be set\n",
+          "By default, each completion comes with two special configurations. ( <@Magenta>language,menu_show_tip<@Yellow> )\n",
+          "{{",
+          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin @('language','menu_show_tip') };",
+          "if($config){ \"$($arg[1])'s additional special configuration: <@Magenta>$($config -join ' ')\" }",
+          "}}"
+        ]
+      },
+      "language": {
+        "tip": [
+          "{{",
+          "$v = $PSCompletions.config.comp_config.$completion.language;",
+          "if($v){ \"Current value: $($v)`n\" }",
+          "}}",
+          "Set the language of {{ $completion }}."
+        ],
+        "tip_v": "Set language to {{ $language }}."
+      },
+      "menu_show_tip": {
+        "tip": [
+          "{{",
+          "$v = $PSCompletions.config.comp_config.$completion.menu_show_tip;",
+          "if($v){ \"Current value: $($v)`n\" }",
+          "}}",
+          "Set whether to display completion tip for {{ $completion }} when using the completion menu provided by PSCompletions module."
+        ],
+        "tip_v1": "Set {{ $completion }}'s menu_show_tip to 1.",
+        "tip_v0": "Set {{ $completion }}'s menu_show_tip to 0."
+      }
+    },
+    "menu": {
+      "example": [
+        "E: psc menu config menu_show_tip 0                  --- Hide completion tip\n",
+        "   psc menu symbol SpaceTab \"\"                      --- Hide symbol\n",
+        "   psc menu line_theme single_line_round_border     --- Toggle the built-in border style theme\n",
+        "   psc menu config                                  --- Set menu configurations"
+      ],
+      "done": [
+        "<@Green>Configuration modified successfully!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
+      ],
+      "symbol": {
+        "example": [
+          "E: psc menu symbol SpaceTab 😄\n",
+          "   psc menu symbol OptionTab 🤔\n",
+          "   psc menu symbol WriteSpaceTab 😎"
+        ],
+        "err": {
+          "max": [
+            "<@Yellow>",
+            "{{ $arg[2] }} just need a value. It can be any symbol you like."
+          ]
+        }
+      },
+      "line_theme": {
+        "example": [
+          "E: psc menu line_theme double_line_rect_border       --- Set to a double line rectangular border (default)\n",
+          "   psc menu line_theme single_line_rect_border       --- Set to a single line rectangular border\n",
+          "   psc menu line_theme single_line_round_border      --- Set to a single line rounded border"
+        ],
+        "done": [
+          "<@Green>Completion menu border line style modified successfully!"
+        ]
+      },
+      "color_theme": {
+        "example": [
+          "E: psc menu color_theme default      --- Default theme\n",
+          "   psc menu color_theme magenta      --- Magenta"
+        ],
+        "done": [
+          "<@Green>Completion menu color style modified successfully!"
+        ]
+      },
+      "custom": {
+        "example": [
+          "E: psc menu custom color border_text DarkGray     --- Set foreground color of the border to DarkGray\n",
+          "   psc menu custom line horizontal \"─\"            --- Set the horizontal line of the border to -"
+        ],
+        "color": {
+          "tip": "Set color to {{ $color }}."
+        }
+      },
+      "config": {
+        "example": [
+          "E: psc menu config menu_show_tip 0         --- Hide completion tip\n",
+          "   psc menu config menu_enable 0           --- Disable completion menu provided by PSCompletions module\n",
+          "   psc menu config menu_filter_symbol []   --- Set the symbol of the filter area"
+        ],
+        "err": {
+          "v_0": "<@Red>It should be an integer number greater than or equal to<@Magenta>0.",
+          "v_1": "<@Red>It should be an integer number greater than or equal to<@Magenta>1.",
+          "v_2": "<@Red>It should be an integer number greater than or equal to<@Magenta>1, or equal to <@Magenta>-1.",
+          "v_3": "<@Red>It should be the number <@Magenta>1<@Red> or <@Magenta>0<@Red>, which means enabled or disabled."
+        }
+      }
+    },
+    "reset": {
+      "example": [
+        "E: psc reset *             --- Reset PSCompletions module\n",
+        "   psc reset menu symbol   --- Reset all symbols(😄🤔😎)\n",
+        "   psc reset alias psc     --- Reset psc alias"
+      ],
+      "init_confirm": [
+        "<@Yellow>Reset the PSCompletions module, are you sure?\n",
+        "<@Red>It will delete everything except the module core code.\n",
+        "<@Yellow>If you're sure, please press <@Magenta>Enter<@Yellow> key to continue, or press any other key to cancel."
+      ],
+      "init_done": [
+        "<@Green>PSCompletions module was reset successfully!\n",
+        "<@Yellow>You need to restart PowerShell and re-import the PSCompletions module, which will re-initialize."
+      ],
+      "done": [
+        "{{",
+        "if($change_list){",
+        "  \"<@Green>Reset successfully!`n<@Yellow>If it does not take effect, restart PowerShell and import the module again`n<@Cyan>Here are the changes from old to new:`n------------------------------`n\";",
+        "  ($change_list | ForEach-Object { \"<@Blue>$($_.item): <@Magenta>$($_.old_value)<@Blue> => <@Magenta>$($_.new_value)<@Blue>\" }) -join \"`n\";",
+        "  \"<@Cyan>`n------------------------------\"",
+        "}else{",
+        "  \"<@Green>Reset successfully!`n<@Yellow>If it does not take effect, restart PowerShell and import the module again\"",
+        "}",
+        "}}"
+      ],
+      "alias": {
+        "tip": "Reset {{ $completion }}'s alias to default.",
+        "example": [
+          "E: psc reset alias *               --- Reset all aliases\n",
+          "   psc reset alias psc             --- Reset psc alias\n",
+          "   psc reset alias psc git bun     --- Reset psc git bun alias"
+        ]
+      },
+      "menu": {
+        "example": [
+          "E: psc reset menu *              --- Reset all menu configurations\n",
+          "   psc reset menu config         --- Reset menu configurations\n",
+          "   psc reset menu line_theme     --- Reset menu border line style"
+        ]
+      }
+    }
+  }
+}

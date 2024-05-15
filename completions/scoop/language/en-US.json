@@ -1,0 +1,777 @@
+{
+  "root": [
+    {
+      "name": "bucket",
+      "tip": "Manage Scoop bucket",
+      "next": [
+        {
+          "name": "list",
+          "tip": "List added bucket"
+        },
+        {
+          "name": "add",
+          "symbol": "SpaceTab",
+          "tip": [
+            "U: add <bucket> [<repo>]\n",
+            "Add Scoop bucket\n",
+            "E: add extras\n",
+            "   add abgo_bucket https://github.com/abgox/abgo_bucket.git"
+          ]
+        },
+        {
+          "name": "rm",
+          "symbol":"SpaceTab" ,
+          "tip": [
+            "U: rm <bucket>\n",
+            "Remove Scoop bucket\n",
+            "E: rm extras\n",
+            "   rm abgo_bucket"
+          ]
+        },
+        {
+          "name": "known",
+          "tip": [
+            "List all official known buckets\n",
+            "You can add them without the repo remote address\n",
+            "E: scoop bucket add extras"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search <query>\n",
+        "Search installable applications\n",
+        "E: search sudo        --- Search sudo in each bucket (order follows scoop bucket list)\n",
+        "   search main/sudo   --- Search sudo only in main"
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "U: install [options] <app>\n",
+        "Install application\n",
+        "E: install sudo           --- Search sudo in each bucket and install if found\n",
+        "   install main/sudo      --- Search sudo only in main and install if found\n",
+        "   install -u main/sudo   --- Install application without updating Scoop"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "Install application Globally"
+          ]
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--no-update-scoop"
+          ],
+          "tip": [
+            "U: -u|--no-update-scoop\n",
+            "Install application without updating Scoop"
+          ]
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--no-cache"
+          ],
+          "tip": [
+            "U: -k|--no-cache\n",
+            "Don't use download cache"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -s|--skip\n",
+            "Skip hash verification"
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--arch"
+          ],
+          "tip": [
+            "U: -a|--arch <32bit|64bit|arm64>\n",
+            "Use specified architecture if supported"
+          ],
+          "next": [
+            {
+              "name": "32bit",
+              "tip": "Use 32bit architecture"
+            },
+            {
+              "name": "64bit",
+              "tip": "Use 64bit architecture"
+            },
+            {
+              "name": "arm64",
+              "tip": "Use arm64 architecture"
+            }
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--independent"
+          ],
+          "tip": [
+            "U: -i|--independent\n",
+            "Don't auto install dependencies"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "U: uninstall [options] <app>\n",
+        "Uninstall application\n",
+        "E: uninstall sudo"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "Uninstall application Globally"
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--purge"
+          ],
+          "tip": [
+            "U: -p|--purge\n",
+            "Remove persistent data under the persist directory"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [options] [<app>]\n",
+        "Update application or Scoop itself\n",
+        "E: update        --- Update Scoop itself\n",
+        "   update 7zip   --- Update 7zip"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "Update all applications"
+        }
+      ],
+      "options": [
+        {
+          "name": "-a",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -a|--all\n",
+            "Update all applications (alternative to *)"
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--force"
+          ],
+          "tip": [
+            "U: -f|--force\n",
+            "Force update even if no new versions"
+          ]
+        },
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "Update installed applications globally"
+          ]
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--no-cache"
+          ],
+          "tip": [
+            "U: -k|--no-cache\n",
+            "Don't use download cache"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -s|--skip\n",
+            "Skip hash verification"
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--independent"
+          ],
+          "tip": [
+            "U: -i|--independent\n",
+            "Don't auto install dependencies"
+          ]
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ],
+          "tip": [
+            "U: -q|--quiet\n",
+            "Hide irrelevant messages"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "U: list [query]\n",
+        "List installed applications\n",
+        "E: list      --- List all installed applications\n",
+        "   list i    --- List applications with names containing 'i'\n",
+        "   list ^i   --- List applications starting with 'i'\n",
+        "   list i$   --- List applications ending with 'i'"
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "U: info [--verbose] <app>\n",
+        "Display information about a specific application\n",
+        "E: info 7zip"
+      ],
+      "options": [
+        {
+          "name": "--verbose",
+          "tip": "Display detailed information"
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "U: cache show|rm [<app>] [<app>...]\n",
+        "Manage download cache\n",
+        "E: cache                --- Show all download caches\n",
+        "   cache show 7zip      --- Show 7zip download cache\n",
+        "   cache rm 7zip sudo   --- Remove 7zip sudo download cache"
+      ],
+      "next": [
+        {
+          "name": "show",
+          "tip": [
+            "Show download cache\n",
+            "E: show 7zip"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "Remove download cache for specified applications\n",
+            "E: rm *     --- Remove all download caches\n",
+            "   rm 7zip  --- Remove 7zip download cache"
+          ],
+          "next": [
+            {
+              "name": "*",
+              "tip": "Remove all download caches"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "U: reset <app|*>\n",
+        "Reset applications to resolve conflicts\n",
+        "E: reset python\n",
+        "   reset python27"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "Reset all applications"
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "tip": [
+        "U: cleanup [options] <app|*>\n",
+        "Clean up applications (Remove old versions)\n",
+        "E: cleanup 7zip"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "Clean up all applications"
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -a|--all\n",
+            "Clean up all applications (alternative to *)"
+          ]
+        },
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "Clean up installed applications globally"
+          ]
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--cache"
+          ],
+          "tip": [
+            "U: -k|--cache\n",
+            "Remove outdated download cache"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prefix",
+      "symbol": "SpaceTab",
+      "tip": [
+        "U: prefix <app>\n",
+        "Return the path for a specified application\n",
+        "E: prefix 7zip"
+      ]
+    },
+    {
+      "name": "cat",
+      "tip": [
+        "U: cat <app>\n",
+        "Display the content of a specified application's manifest\n",
+        "E: cat 7zip"
+      ]
+    },
+    {
+      "name": "checkup",
+      "tip": "Check if Scoop has potential issues"
+    },
+    {
+      "name": "alias",
+      "tip": [
+        "U: alias <list|add|rm> [<args>]\n",
+        "Manage Scoop aliases"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": "List all command aliases"
+        },
+        {
+          "name": "add",
+          "tip": [
+            "U: add <alias> <command> <description>\n",
+            "Add command aliases\n",
+            "E: add upgrade 'scoop update *' 'Updates all apps'\n",
+            "   Type 'scoop upgrade' to run 'scoop update *'"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm <alias>\n",
+            "Remove command aliases\n",
+            "E: rm upgrade"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shim",
+      "tip": [
+        "U: shim <list|add|rm|info|alter> [<shim>...] [-g] [other_args]\n",
+        "Manage Scoop shims"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "U: list [<shim>|<pattern>...]\n",
+            "List all shims or matching shims"
+          ]
+        },
+        {
+          "name": "add",
+          "tip": [
+            "U: add <shim> <command_path> [<args>...]\n",
+            "Add custom shims"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm <shim> [<shim>...]\n",
+            "Remove shims\n",
+            "(This may remove shims added by application manifests, be cautious)"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "U: info <shim>\n",
+            "Display information about a shim"
+          ]
+        },
+        {
+          "name": "alter",
+          "tip": [
+            "U: alter <shim>\n",
+            "Replace the target source of a shim"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config [rm] name [value]\n",
+        "Manage Scoop configuration\n",
+        "E: config                  --- Get all configurations\n",
+        "   config <name>           --- Get configuration\n",
+        "   config <name> <value>   --- Set configuration\n",
+        "   config rm <name>        --- Remove configuration"
+      ]
+    },
+    {
+      "name": "which",
+      "tip": [
+        "U: which <command>\n",
+        "Locate a shim/executable (similar to the 'which' command on Linux)\n",
+        "E: which scoop"
+      ]
+    },
+    {
+      "name": "hold",
+      "tip": [
+        "U: hold [-g] <app>\n",
+        "Disable updates for a specified app\n",
+        "E: hold 7zip"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "Disable updates for a specified app globally"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unhold",
+      "tip": [
+        "U: unhold [-g] <app>\n",
+        "Enable updates for a specified app\n",
+        "E: unhold 7zip"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "Enable updates for a specified app globally"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "U: export [-c] > scoop_file.json\n",
+        "Export installed apps, buckets (and optional config) in JSON format\n",
+        "E: export -c > ~/Desktop/scoop_file.json   --- Export to scoop_file.json under the Desktop directory"
+      ],
+      "options": [
+        {
+          "name": "-c",
+          "alias": [
+            "--config"
+          ],
+          "tip": [
+            "U: -c|--config\n",
+            "Include Scoop's configuration in the export"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import <path|url>\n",
+        "Import installed apps, buckets (and config) from a specified file in JSON format\n",
+        "E: import ~/Desktop/scoop_file.json"
+      ]
+    },
+    {
+      "name": "depends",
+      "symbol": "SpaceTab",
+      "tip": [
+        "U: depends <app>\n",
+        "List dependencies for an app, ordered by installation sequence\n",
+        "E: depends python"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "U: status [-l|--local]\n",
+        "Display status and check for new app versions\n",
+        "E: status"
+      ],
+      "options": [
+        {
+          "name": "-l",
+          "alias": [
+            "--local"
+          ],
+          "tip": [
+            "U: -l|--local\n",
+            "Check the status of locally installed apps only and disable remote fetching/checking of Scoop and buckets"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "U: create <url>\n",
+        "Create a custom app manifest"
+      ]
+    },
+    {
+      "name": "download",
+      "tip": [
+        "U: download [options] <app>\n",
+        "Download apps in the cache folder and verify hashes\n",
+        "E: download git                     --- Download an app without installing it\n",
+        "   download gh@2.7.0                --- Download a different version of an app\n",
+        "   download https://xxx/sudo.json   --- Download an app from a manifest via URL\n",
+        "   download path/to/app.json        --- Download an app from a local manifest on the computer"
+      ],
+      "options": [
+        {
+          "name": "-u",
+          "alias": [
+            "--no-update-scoop"
+          ],
+          "tip": [
+            "U: -u|--no-update-scoop\n",
+            "Only download without updating Scoop if there's an update available"
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--force"
+          ],
+          "tip": [
+            "U: -f|--force\n",
+            "Force the download and overwrite the download cache"
+          ]
+        },
+        {
+          "name": "--no-hash-check",
+          "tip": "Skip hash validation during download"
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--arch"
+          ],
+          "tip": [
+            "U: -a|--arch <32bit|64bit|arm64>\n",
+            "Use specified architecture if supported"
+          ],
+          "next": [
+            {
+              "name": "32bit",
+              "tip": "Use 32bit architecture"
+            },
+            {
+              "name": "64bit",
+              "tip": "Use 64bit architecture"
+            },
+            {
+              "name": "arm64",
+              "tip": "Use arm64 architecture"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "virustotal",
+      "tip": [
+        "U: virustotal [options] [*|<app1>...]\n",
+        "Look up the hash or URL of an app on virustotal.com"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "Check all installed apps"
+        }
+      ],
+      "options": [
+        {
+          "name": "-a",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -a|--all\n",
+            "Check all installed apps"
+          ]
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--no-update-scoop"
+          ],
+          "tip": [
+            "U: -u|--no-update-scoop\n",
+            "Only check without updating Scoop if there's an update available"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--scan"
+          ],
+          "tip": [
+            "U: -s|--scan\n",
+            "Submit download URLs for analysis (and future retrieval) for packages without VirusTotal information\n",
+            "This requires configuring virustotal_api_key"
+          ]
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--no-depends"
+          ],
+          "tip": [
+            "U: -n|--no-depends\n",
+            "By default, it also checks all dependencies. This option bypasses it"
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--passthru"
+          ],
+          "tip": [
+            "U: -p|--passthru\n",
+            "Return the reports as objects"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "home",
+      "symbol": "SpaceTab",
+      "tip": [
+        "U: home <app>\n",
+        "Open the homepage of an app\n",
+        "E: home sudo"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": "Show command help"
+    }
+  ],
+  "options": [
+    {
+      "name": "-v",
+      "alias": [
+        "--version"
+      ],
+      "tip": [
+        "U: -v|--version\n",
+        "Show Scoop version and the latest commit information of the buckets"
+      ]
+    }
+  ],
+  "common_options": [
+    {
+      "name": "-h",
+      "alias": [
+        "--help"
+      ],
+      "tip": [
+        "U: -h|--help\n",
+        "Show command help"
+      ]
+    }
+  ],
+  "info": {
+    "tip": {
+      "bucket": {
+        "add": "Add bucket --- {{ $bucket }}",
+        "rm": "Remove bucket --- {{ $bucket }}"
+      },
+      "uninstall": "Uninstall app --- {{ $app }}",
+      "update": "Update app --- {{ $app }}",
+      "cleanup": "Clean up app --- {{ $app }}",
+      "hold": "Disable updates for app --- {{ $app }}",
+      "unhold": "Enable updates for app --- {{ $app }}",
+      "prefix": [
+        "Get the path of app --- {{ $app }}\n",
+        "Path: {{ $path }}"
+      ],
+      "cache": {
+        "rm": [
+          "Remove download cache --- {{ $cache }}\n",
+          "Path: {{ $path }}"
+        ]
+      }
+    }
+  }
+}

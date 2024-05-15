@@ -1,0 +1,777 @@
+{
+  "root": [
+    {
+      "name": "bucket",
+      "tip": "管理 Scoop 存储库",
+      "next": [
+        {
+          "name": "list",
+          "tip": "列出已添加的存储库"
+        },
+        {
+          "name": "add",
+          "symbol": "SpaceTab",
+          "tip": [
+            "U: add <bucket> [<repo>]\n",
+            "添加 Scoop 存储库\n",
+            "E: add extras\n",
+            "   add abgo_bucket https://github.com/abgox/abgo_bucket.git"
+          ]
+        },
+        {
+          "name": "rm",
+          "symbol": "SpaceTab",
+          "tip": [
+            "Remove Scoop 存储库\n",
+            "E: rm extras\n",
+            "   rm abgo_bucket"
+          ]
+        },
+        {
+          "name": "known",
+          "tip": [
+            "列出所有官方已知的存储库\n",
+            "你可以不带仓库远程地址添加它们\n",
+            "E: scoop bucket add extras"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search <query>\n",
+        "搜索可安装的应用程序\n",
+        "E: search sudo        --- 在每个存储库中搜索 sudo(顺序遵循 scoop bucket list)\n",
+        "   search main/sudo   --- 只在 main 中搜索 sudo 并安装如果找到"
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "U: install [options] <app>\n",
+        "安装应用程序\n",
+        "E: install sudo           --- 在每个存储库中搜索 sudo 并安装如果找到\n",
+        "   install main/sudo      --- 只在 main 中搜索 sudo 并安装如果找到\n",
+        "   install -u main/sudo   --- 安装应用程序而不更新 Scoop"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "全局安装应用程序"
+          ]
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--no-update-scoop"
+          ],
+          "tip": [
+            "U: -u|--no-update-scoop\n",
+            "安装应用程序而不更新 Scoop"
+          ]
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--no-cache"
+          ],
+          "tip": [
+            "U: -k|--no-cache\n",
+            "不使用下载缓存"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -s|--skip\n",
+            "跳过哈希验证"
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--arch"
+          ],
+          "tip": [
+            "U: -a|--arch <32bit|64bit|arm64>\n",
+            "如果支持, 使用指定的架构"
+          ],
+          "next": [
+            {
+              "name": "32bit",
+              "tip": "使用 32 位架构"
+            },
+            {
+              "name": "64bit",
+              "tip": "使用 64 位架构"
+            },
+            {
+              "name": "arm64",
+              "tip": "使用 arm64 架构"
+            }
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--independent"
+          ],
+          "tip": [
+            "U: -i|--independent\n",
+            "不自动安装依赖项"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "U: uninstall [options] <app>\n",
+        "卸载应用程序\n",
+        "E: uninstall sudo"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "全局卸载应用程序"
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--purge"
+          ],
+          "tip": [
+            "U: -p|--purge\n",
+            "在 persist 目录下删除持久数据"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [options] [<app>]\n",
+        "更新应用程序或 Scoop 本身\n",
+        "E: update        --- 更新 Scoop 本身\n",
+        "   update 7zip   --- 更新 7zip"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "更新所有应用程序"
+        }
+      ],
+      "options": [
+        {
+          "name": "-a",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -a|--all\n",
+            "更新所有应用程序(与 * 命令的替代)"
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--force"
+          ],
+          "tip": [
+            "U: -f|--force\n",
+            "即使没有新版本也强制更新"
+          ]
+        },
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "全局更新已安装的应用程序"
+          ]
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--no-cache"
+          ],
+          "tip": [
+            "U: -k|--no-cache\n",
+            "不使用下载缓存"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -s|--skip\n",
+            "跳过哈希验证"
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--independent"
+          ],
+          "tip": [
+            "U: -i|--independent\n",
+            "不自动安装依赖项"
+          ]
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ],
+          "tip": [
+            "U: -q|--quiet\n",
+            "隐藏不相关的消息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "U: list [query]\n",
+        "列出已安装的应用程序\n",
+        "E: list      --- 列出所有已安装的应用程序\n",
+        "   list i    --- 列出名称包含 'i' 的应用程序\n",
+        "   list ^i   --- 列出以 'i' 开头的应用程序\n",
+        "   list i$   --- 列出以 'i' 结尾的应用程序"
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "U: info [--verbose] <app>\n",
+        "显示有关特定应用程序的信息\n",
+        "E: info 7zip"
+      ],
+      "options": [
+        {
+          "name": "--verbose",
+          "tip": "显示详细信息"
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "U: cache show|rm [<app>] [<app>...]\n",
+        "管理下载缓存\n",
+        "E: cache                --- 显示所有下载缓存\n",
+        "   cache show 7zip      --- 显示 7zip 的下载缓存\n",
+        "   cache rm 7zip sudo   --- 移除 7zip sudo 的下载缓存"
+      ],
+      "next": [
+        {
+          "name": "show",
+          "tip": [
+            "显示下载缓存\n",
+            "E: show 7zip"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "移除指定应用程序的下载缓存\n",
+            "E: rm *     --- 移除所有下载缓存\n",
+            "   rm 7zip  --- 移除 7zip 的下载缓存"
+          ],
+          "next": [
+            {
+              "name": "*",
+              "tip": "移除所有下载缓存"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "U: reset <app|*>\n",
+        "重置应用程序以解决冲突\n",
+        "E: reset python\n",
+        "   reset python27"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "重置所有应用程序"
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "tip": [
+        "U: cleanup [options] <app|*>\n",
+        "清理应用程序(移除旧版本)\n",
+        "E: cleanup 7zip"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "清理所有应用程序",
+          "options": [
+            {
+              "name": "-a",
+              "alias": [
+                "--all"
+              ],
+              "tip": [
+                "U: -a|--all\n",
+                "清理所有应用程序(与 * 命令的替代)"
+              ]
+            },
+            {
+              "name": "-g",
+              "alias": [
+                "--global"
+              ],
+              "tip": [
+                "U: -g|--global\n",
+                "全局清理已安装的应用程序"
+              ]
+            },
+            {
+              "name": "-k",
+              "alias": [
+                "--cache"
+              ],
+              "tip": [
+                "U: -k|--cache\n",
+                "移除过时的下载缓存"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prefix",
+      "symbol": "SpaceTab",
+      "tip": [
+        "返回指定应用程序的路径\n",
+        "E: prefix 7zip"
+      ]
+    },
+    {
+      "name": "cat",
+      "tip": [
+        "U: cat <app>\n",
+        "显示指定应用程序的清单内容\n",
+        "E: cat 7zip"
+      ]
+    },
+    {
+      "name": "checkup",
+      "tip": "检查 Scoop 是否有潜在问题"
+    },
+    {
+      "name": "alias",
+      "tip": [
+        "U: alias <list|add|rm> [<args>]\n",
+        "管理 Scoop 别名"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": "列出所有命令别名"
+        },
+        {
+          "name": "add",
+          "tip": [
+            "U: add <alias> <command> <description>\n",
+            "添加命令别名\n",
+            "E: add upgrade 'scoop update *' '更新所有应用程序'\n",
+            "   Type 'scoop upgrade' 以运行 'scoop update *'"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm <alias>\n",
+            "移除命令别名\n",
+            "E: rm upgrade"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shim",
+      "tip": [
+        "U: shim <list|add|rm|info|alter> [<shim>...] [-g] [other_args]\n",
+        "管理 Scoop shims"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "U: list [<shim>|<pattern>...]\n",
+            "列出所有 shims 或匹配的 shims"
+          ]
+        },
+        {
+          "name": "add",
+          "tip": [
+            "U: add <shim> <command_path> [<args>...]\n",
+            "添加自定义 shims"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm <shim> [<shim>...]\n",
+            "移除 shims\n",
+            "(这可能会移除应用程序清单中添加的 shims, 请小心使用)"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "U: info <shim>\n",
+            "显示 shim 的信息"
+          ]
+        },
+        {
+          "name": "alter",
+          "tip": [
+            "U: alter <shim>\n",
+            "替换 shim 的目标源"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config [rm] name [value]\n",
+        "管理 Scoop 配置\n",
+        "E: config                  --- 获取所有配置\n",
+        "   config <name>           --- 获取配置\n",
+        "   config <name> <value>   --- 设置配置\n",
+        "   config rm <name>        --- 移除配置"
+      ]
+    },
+    {
+      "name": "which",
+      "tip": [
+        "U: which <command>\n",
+        "定位一个 shim/可执行文件(类似于 Linux 上的 'which' 命令)\n",
+        "E: which scoop"
+      ]
+    },
+    {
+      "name": "hold",
+      "tip": [
+        "U: hold [-g] <app>\n",
+        "禁用指定应用程序的更新\n",
+        "E: hold 7zip"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "禁用指定应用程序的全局更新"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unhold",
+      "tip": [
+        "U: unhold [-g] <app>\n",
+        "启用指定应用程序的更新\n",
+        "E: unhold 7zip"
+      ],
+      "options": [
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "U: -g|--global\n",
+            "启用指定应用程序的全局更新"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "U: export [-c] > scoop_file.json\n",
+        "以 JSON 格式导出已安装的应用程序、存储库(以及可选的配置)\n",
+        "E: export -c > ~/Desktop/scoop_file.json   --- 将 scoop_file.json 导出到桌面目录"
+      ],
+      "options": [
+        {
+          "name": "-c",
+          "alias": [
+            "--config"
+          ],
+          "tip": [
+            "U: -c|--config\n",
+            "在导出中包含 Scoop 的配置"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import <path|url>\n",
+        "从指定的 JSON 格式文件导入已安装的应用程序、存储库(以及配置)\n",
+        "E: import ~/Desktop/scoop_file.json"
+      ]
+    },
+    {
+      "name": "depends",
+      "symbol": "SpaceTab",
+      "tip": [
+        "U: depends <app>\n",
+        "列出应用程序的依赖项, 按安装顺序排序\n",
+        "E: depends python"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "U: status [-l|--local]\n",
+        "显示状态并检查新应用程序版本\n",
+        "E: status"
+      ],
+      "options": [
+        {
+          "name": "-l",
+          "alias": [
+            "--local"
+          ],
+          "tip": [
+            "U: -l|--local\n",
+            "仅检查本地安装的应用程序的状态, 并禁用 Scoop 和存储库的远程获取/检查"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "U: create <url>\n",
+        "创建自定义应用程序清单"
+      ]
+    },
+    {
+      "name": "download",
+      "tip": [
+        "U: download [options] <app>\n",
+        "在缓存文件夹中下载应用程序并验证哈希值\n",
+        "E: download git                     --- 下载一个应用程序而不安装它\n",
+        "   download gh@2.7.0                --- 下载应用程序的不同版本\n",
+        "   download https://xxx/sudo.json   --- 通过 URL 从清单下载应用程序\n",
+        "   download path/to/app.json        --- 从计算机上的本地清单下载应用程序"
+      ],
+      "options": [
+        {
+          "name": "-u",
+          "alias": [
+            "--no-update-scoop"
+          ],
+          "tip": [
+            "U: -u|--no-update-scoop\n",
+            "如果可用, 仅下载而不更新 Scoop"
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--force"
+          ],
+          "tip": [
+            "U: -f|--force\n",
+            "强制下载并覆盖下载缓存"
+          ]
+        },
+        {
+          "name": "--no-hash-check",
+          "tip": "在下载期间跳过哈希验证"
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--arch"
+          ],
+          "tip": [
+            "U: -a|--arch <32bit|64bit|arm64>\n",
+            "如果支持, 使用指定的架构"
+          ],
+          "next": [
+            {
+              "name": "32bit",
+              "tip": "使用 32 位架构"
+            },
+            {
+              "name": "64bit",
+              "tip": "使用 64 位架构"
+            },
+            {
+              "name": "arm64",
+              "tip": "使用 arm64 架构"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "virustotal",
+      "tip": [
+        "U: virustotal [options] [*|<app1>...]\n",
+        "在 virustotal.com 上查找应用程序的哈希或 URL"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "检查所有已安装的应用程序"
+        }
+      ],
+      "options": [
+        {
+          "name": "-a",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -a|--all\n",
+            "检查所有已安装的应用程序"
+          ]
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--no-update-scoop"
+          ],
+          "tip": [
+            "U: -u|--no-update-scoop\n",
+            "如果可用, 仅检查而不更新 Scoop"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--scan"
+          ],
+          "tip": [
+            "U: -s|--scan\n",
+            "提交下载 URL 进行分析(并用于未来检索)对于没有 VirusTotal 信息的包\n",
+            "这需要配置 virustotal_api_key"
+          ]
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--no-depends"
+          ],
+          "tip": [
+            "U: -n|--no-depends\n",
+            "默认情况下, 它还会检查所有依赖项。此选项绕过它"
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--passthru"
+          ],
+          "tip": [
+            "U: -p|--passthru\n",
+            "以对象形式返回报告"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "home",
+      "symbol": "SpaceTab",
+      "tip": [
+        "U: home <app>\n",
+        "打开应用主页\n",
+        "E: home sudo"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": "显示命令帮助"
+    }
+  ],
+  "options": [
+    {
+      "name": "-v",
+      "alias": [
+        "--version"
+      ],
+      "tip": [
+        "U: -v|--version\n",
+        "显示 Scoop 版本和存储桶的最新提交信息"
+      ]
+    }
+  ],
+  "common_options": [
+    {
+      "name": "-h",
+      "alias": [
+        "--help"
+      ],
+      "tip": [
+        "U: -h|--help\n",
+        "显示帮助信息"
+      ]
+    }
+  ],
+  "info": {
+    "tip": {
+      "bucket": {
+        "add": "添加 bucket --- {{ $bucket }}",
+        "rm": "移除 bucket --- {{ $bucket }}"
+      },
+      "uninstall": "卸载 app --- {{ $app }}",
+      "update": "更新 app --- {{ $app }}",
+      "cleanup": "清理 app --- {{ $app }}",
+      "hold": "禁用应用更新 --- {{ $app }}",
+      "unhold": "启用应用更新 --- {{ $app }}",
+      "prefix": [
+        "获取应用的存储路径 --- {{ $app }}\n",
+        "Path: {{ $path }}"
+      ],
+      "cache": {
+        "rm": [
+          "移除下载缓存 --- {{ $cache }}\n",
+          "Path: {{ $path }}"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,2002 @@
+{
+  "root": [
+    {
+      "name": "init",
+      "tip": [
+        "U: init [options]\n",
+        "Create an empty Git repository or reinitialize an existing repository."
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ],
+          "tip": [
+            "U: -q|--quiet\n",
+            "Initialize without printing any information."
+          ]
+        },
+        {
+          "name": "--bare",
+          "tip": "Initialize a bare repository without creating the .git folder, placing all contents directly in the current directory."
+        },
+        {
+          "name": "--template=",
+          "tip": "Specify a custom template directory for repository initialization."
+        }
+      ]
+    },
+    {
+      "name": "clone",
+      "tip": "Clone a repository into a new directory.",
+      "options": [
+        {
+          "name": "-b",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -b <branch>\n",
+            "Specify the branch to clone.\n",
+            "By default, git clone clones the main branch of the remote repository."
+          ]
+        },
+        {
+          "name": "--depth",
+          "tip": [
+            "U: --depth <n>\n",
+            "Specify the depth of commit history to clone."
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": "Clone only the latest commit without historical commit records."
+            }
+          ]
+        },
+        {
+          "name": "-j",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -j <n>\n",
+            "Specify the number of threads for parallel cloning to speed up the process."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "add",
+      "tip": "Add file changes to the index.",
+      "options": [
+        {
+          "name": ".",
+          "tip": "Add all changes in the current directory and its subdirectories (including new, modified, and deleted files) to the index."
+        },
+        {
+          "name": "-A",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -A|--all\n",
+            "Add all changes in the current working tree (including new, modified, and deleted files) to the index."
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--force"
+          ],
+          "tip": [
+            "U: -f|--force\n",
+            "Allow adding ignored files."
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": [
+            "U: -i|--interactive\n",
+            "Interactively add modified content from the working tree to the index."
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--patch"
+          ],
+          "tip": [
+            "U: -p|--patch\n",
+            "Interactively choose chunks of content between the index and the working tree to add to the index.\n",
+            "Similar to git add -i but skips the initial command menu and goes directly to the patch subcommand."
+          ]
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--edit"
+          ],
+          "tip": [
+            "U: -e|--edit\n",
+            "Open the diff and the index in an editor for further editing."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "tip": "Record changes to the repository.",
+      "options": [
+        {
+          "name": "-m",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -m <message>\n",
+            "Specify a descriptive message for the commit."
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -a|--all\n",
+            "Automatically stage changes to tracked files in the index."
+          ]
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--edit"
+          ],
+          "tip": [
+            "U: -e|--edit\n",
+            "Launch an editor to edit the commit message."
+          ]
+        },
+        {
+          "name": "--amend",
+          "tip": "Modify the message of the last commit(Create a new commit, replacing the last one)"
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--patch"
+          ],
+          "tip": [
+            "U: -p|--patch\n",
+            "Interactively choose which changes to commit."
+          ]
+        },
+        {
+          "name": "-t",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -t <file>\n",
+            "Get the commit message from the given file and launch an editor for editing."
+          ]
+        },
+        {
+          "name": "-F",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -F <file>\n",
+            "Get the commit message from the given file."
+          ]
+        },
+        {
+          "name": "-C",
+          "symbol": [
+            "WriteSpaceTab",
+            "SpaceTab"
+          ],
+          "tip": [
+            "U: -C <commit>\n",
+            "Take an existing commit object and reuse the log message and author information when creating a commit (including timestamps)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "tip": "Update remote references and associated objects.",
+      "options": [
+        {
+          "name": "--all",
+          "tip": "push all branches"
+        }
+      ]
+    },
+    {
+      "name": "pull",
+      "tip": "Fetch and merge from another repository or local branch.",
+      "options": [
+        {
+          "name": "--all",
+          "tip": "fetch from all remotes"
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": "Download objects and references from another repository.",
+      "options": [
+        {
+          "name": "--all",
+          "tip": "fetch from all remotes"
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": "Show the status of the working tree.",
+      "options": [
+        {
+          "name": "-s",
+          "alias": [
+            "--short"
+          ],
+          "tip": [
+            "U: -s|--short\n",
+            "Show the output in a short format."
+          ]
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--branch"
+          ],
+          "tip": [
+            "U: -b|--branch\n",
+            "Show branch and tracking information, even in short format."
+          ]
+        },
+        {
+          "name": "--show-stash",
+          "tip": "Show the number of hidden entries in the stash."
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verbose"
+          ],
+          "tip": [
+            "U: -v|--verbose\n",
+            "Show additional text changes to be committed."
+          ]
+        },
+        {
+          "name": "-vv",
+          "tip": "Show uncommitted changes in the working tree."
+        }
+      ]
+    },
+    {
+      "name": "log",
+      "tip": "Show commit logs.",
+      "options": [
+        {
+          "name": "-n",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -n <n>\n",
+            "Show the last n commit messages."
+          ]
+        },
+        {
+          "name": "--graph",
+          "tip": "Display branch and merge history in ASCII art alongside the log."
+        },
+        {
+          "name": "--oneline",
+          "tip": "Display each commit message on one line."
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show statistics about file modifications in each commit.\n",
+            "Each commit lists the modified files, added and removed lines, and a summary of all line changes at the end."
+          ]
+        },
+        {
+          "name": "--shortstat",
+          "tip": "Show only the summary line for --stat"
+        },
+        {
+          "name": "-p",
+          "tip": "Show each update's differences in patch format, more detailed than --stat"
+        },
+        {
+          "name": "--name-only",
+          "tip": "Show a list of modified files after the commit messages."
+        },
+        {
+          "name": "--name-status",
+          "tip": "Show a list of added, modified, and deleted files."
+        },
+        {
+          "name": "--abbrev-commit",
+          "tip": "Show only the first few characters of the SHA-1 checksum instead of the full 40 characters."
+        },
+        {
+          "name": "--relative-date",
+          "tip": "Display dates in a shorter relative format instead of the full format (e.g. 2 weeks ago)"
+        },
+        {
+          "name": "--pretty",
+          "tip": "Display commit history in a custom format."
+        },
+        {
+          "name": "--pretty=oneline",
+          "tip": "Display each commit message on one line, showing only the hash and commit message."
+        },
+        {
+          "name": "--pretty=short",
+          "tip": "Display hash, Author, and commit info."
+        },
+        {
+          "name": "--pretty=full",
+          "tip": "Display hash, Author, Commit, and commit info."
+        },
+        {
+          "name": "--pretty=fuller",
+          "tip": "Display hash, Author, AuthorDate, Commit, CommitDate, and commit info."
+        },
+        {
+          "name": "--pretty=format:\"\"",
+          "tip": "Control the format of displayed information."
+        }
+      ]
+    },
+    {
+      "name": "rebase",
+      "tip": [
+        "Move local commits to the tip of an updated upstream branch.\n",
+        "Used to modify commit history, often to integrate commits from one branch into another."
+      ],
+      "options": [
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "symbol": [
+            "SpaceTab",
+            "WriteSpaceTab"
+          ],
+          "tip": [
+            "U: -i|--interactive\n",
+            "Allows interactive rebase, enabling editing, merging, deleting, and more for each commit."
+          ]
+        },
+        {
+          "name": "--onto",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --onto <new_base_branch>\n",
+            "Specify a new base branch to apply commits from the current branch onto."
+          ]
+        },
+        {
+          "name": "--abort",
+          "tip": "Cancel the ongoing rebase operation and return to the state before the rebase started."
+        },
+        {
+          "name": "--continue",
+          "tip": "Continue the rebase operation, typically used after resolving conflicts."
+        },
+        {
+          "name": "--skip",
+          "tip": "Skip the current commit and continue the rebase operation."
+        },
+        {
+          "name": "--merge",
+          "tip": "Merge a branch into the target branch instead of applying commits sequentially."
+        },
+        {
+          "name": "-x",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -x <cmd>\n",
+            "Execute a specified command after each commit is applied, useful for automation such as testing and linting."
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": "Preserve the structure of merge commits to maintain merge history."
+        }
+      ]
+    },
+    {
+      "name": "branch",
+      "tip": "List, create, or delete branches.",
+      "options": [
+        {
+          "name": "-a",
+          "tip": "List all branches, including local and remote branches."
+        },
+        {
+          "name": "-d",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -d <branch>\n",
+            "Delete the specified branch."
+          ]
+        },
+        {
+          "name": "-D",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -D <branch>\n",
+            "Force delete the specified branch."
+          ]
+        },
+        {
+          "name": "-m",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -m <old_branch> <new_branch>\n",
+            "Rename the specified branch."
+          ]
+        },
+        {
+          "name": "-M",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -M <old_branch> <new_branch>\n",
+            "Force rename the specified branch."
+          ]
+        },
+        {
+          "name": "-v",
+          "tip": "View local branches with their last commit information."
+        },
+        {
+          "name": "-vv",
+          "tip": "View local branches with their last commit information and their relationship to branches and remote branches."
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "tip": [
+        "Switch branches or paths in the working tree.\n",
+        "E: checkout <branch>           --- Switch branches\n",
+        "   checkout <commit_hash>      --- Switch to a specific commit\n",
+        "   checkout -b <new_branch>    --- Create and switch to a new branch"
+      ],
+      "options": [
+        {
+          "name": "-b",
+          "tip": [
+            "U: -b <new_branch>\n",
+            "Create and switch to a new branch"
+          ]
+        },
+        {
+          "name": "-B",
+          "tip": [
+            "U: -B <new_branch>\n",
+            "Forcefully create (overwrite if the branch exists) and switch to a branch"
+          ]
+        },
+        {
+          "name": "--orphan",
+          "tip": [
+            "U: --orphan <new_branch>\n",
+            "Create a new orphan branch"
+          ]
+        },
+        {
+          "name": ".",
+          "tip": "Discard all changes in the working directory; the index is preserved."
+        },
+        {
+          "name": "-f",
+          "tip": "Forcefully discard changes in both the index and the working directory."
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "tip": "Switch branches.",
+      "options": [
+        {
+          "name": "-c",
+          "alias": [
+            "--create"
+          ],
+          "tip": [
+            "U: -c|--create <new_branch>\n",
+            "Create a new branch and switch to it."
+          ]
+        },
+        {
+          "name": "-",
+          "tip": "Switch to the previously switched branch."
+        }
+      ]
+    },
+    {
+      "name": "merge",
+      "tip": "Merge two or more development histories.",
+      "options": [
+        {
+          "name": "--continue",
+          "tip": "Continue the current merge operation."
+        },
+        {
+          "name": "--abort",
+          "tip": "Abort the merge and return to the original state."
+        },
+        {
+          "name": "--quit",
+          "tip": "Keep the current conflicts and exit the merge."
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "tip": [
+        "Display changes between commits, changes between commits and the working tree, and more.\n",
+        "E: diff <file>                --- Show differences between the specified file in the working directory and the index.\n",
+        "   diff <commit1> <commit2>   --- Compare differences between two commits.\n",
+        "   diff <branch1> <branch2>   --- Compare differences between two branches."
+      ],
+      "options": [
+        {
+          "name": "--staged",
+          "tip": "Compare differences between the index and the latest commit."
+        },
+        {
+          "name": "--color-words",
+          "tip": "Compare word differences between the working directory and the latest commit."
+        }
+      ]
+    },
+    {
+      "name": "reflog",
+      "tip": "Manage reflog information.",
+      "next": [
+        {
+          "name": "show",
+          "tip": "Display the commit history in the reflog."
+        },
+        {
+          "name": "delete",
+          "tip": "Remove entries from the reflog."
+        },
+        {
+          "name": "expire",
+          "tip": "Remove older reflog entries."
+        },
+        {
+          "name": "exists",
+          "tip": "Check if a ref has an associated reflog entry."
+        }
+      ]
+    },
+    {
+      "name": "remote",
+      "tip": "Manage remote repositories in a Git repository.",
+      "next": [
+        {
+          "name": "add",
+          "tip": "Add a new remote repository."
+        },
+        {
+          "name": "rename",
+          "tip": "Rename a remote repository.",
+          "options": [
+            {
+              "name": "--progress",
+              "tip": "force progress reporting"
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "alias": [
+            "remove"
+          ],
+          "symbol": [
+            "{{",
+            "if(git remote 2>$null){ 'SpaceTab' }",
+            "}}"
+          ],
+          "tip": [
+            "U: rm|remove <repository>\n",
+            "Remove a remote repository."
+          ]
+        },
+        {
+          "name": "set-head",
+          "tip": "Set the default branch on a remote repository."
+        },
+        {
+          "name": "set-branches",
+          "tip": "Set the list of branches to track on a remote repository."
+        },
+        {
+          "name": "get-url",
+          "tip": "Display the URL of a remote repository."
+        },
+        {
+          "name": "set-url",
+          "tip": "Change the URL of a remote repository."
+        },
+        {
+          "name": "show",
+          "tip": "Display information about remote repositories."
+        },
+        {
+          "name": "prune",
+          "tip": "Remove stale references from remote repositories."
+        },
+        {
+          "name": "update",
+          "tip": "Fetch updates from remote repositories."
+        }
+      ],
+      "options": [
+        {
+          "name": "-v",
+          "tip": "List the currently configured remote repositories and display their URLs."
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "tip": [
+        "Create, list, delete, or verify tags with or without GPG signatures.\n",
+        "E: tag [-l|--list]   --- List tags\n",
+        "   tag v1.0.0        --- Create a tag\n",
+        "   tag  -d v1.0.0    --- Delete a tag"
+      ],
+      "options": [
+        {
+          "name": "-l",
+          "alias": [
+            "--list"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -l|--list [pattern]\n",
+            "List tags (can use wildcards)\n",
+            "E: -l v1.0*"
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--annotate"
+          ],
+          "tip": [
+            "U: -a|--annotate <tag>\n",
+            "Create an annotated tag object.\n",
+            "E: -a v1.0.0"
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--delete"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -d|--delete <tag>\n",
+            "Delete tags."
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verify"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -v|--verify <tag>\n",
+            "Verify tags"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": "Retrieve and configure repository or global options.",
+      "next": [
+        {
+          "name": "user.name",
+          "tip": [
+            "Configure the username\n",
+            "E: [--global] user.name xxx"
+          ]
+        },
+        {
+          "name": "user.email",
+          "tip": [
+            "Configure the email\n",
+            "E: [--global] user.email xxx@outlook.com"
+          ]
+        },
+        {
+          "name": "core.editor",
+          "tip": [
+            "Configure the default editor\n",
+            "To change it to VS Code, manually copy and run the following command:\n",
+            "git config --global --replace-all core.editor 'code --wait'"
+          ],
+          "next": [
+            {
+              "name": "vim",
+              "tip": "Configure the default editor as vim"
+            },
+            {
+              "name": "nvim",
+              "tip": "Configure the default editor as nvim"
+            },
+            {
+              "name": "notepad",
+              "tip": "Configure the default editor as Notepad (Microsoft Notepad)"
+            }
+          ]
+        },
+        {
+          "name": "commit.template",
+          "tip": [
+            "Configure the default commit template\n",
+            "E: [--global] commit.template ~/.gitmessage"
+          ]
+        },
+        {
+          "name": "color.ui",
+          "tip": "Configure command auto-coloring.",
+          "next": [
+            {
+              "name": "true",
+              "tip": "Enable command auto-coloring configuration."
+            },
+            {
+              "name": "false",
+              "tip": "Disable command auto-coloring configuration."
+            }
+          ]
+        },
+        {
+          "name": "color.status",
+          "tip": "Configure auto-coloring for the status command.",
+          "next": [
+            {
+              "name": "auto",
+              "tip": "Default value. Automatically determine whether to enable color display based on terminal support."
+            },
+            {
+              "name": "always",
+              "tip": "Always enable color display, regardless of terminal support."
+            },
+            {
+              "name": "never",
+              "tip": "Never enable color display, even if the terminal supports it."
+            }
+          ]
+        },
+        {
+          "name": "color.diff",
+          "tip": "Configure auto-coloring for the diff command.",
+          "next": [
+            {
+              "name": "auto",
+              "tip": "Default value. Automatically determine whether to enable color display based on terminal support."
+            },
+            {
+              "name": "always",
+              "tip": "Always enable color display, regardless of terminal support."
+            },
+            {
+              "name": "never",
+              "tip": "Never enable color display, even if the terminal supports it."
+            }
+          ]
+        },
+        {
+          "name": "color.branch",
+          "tip": "Configure auto-coloring for the branch command.",
+          "next": [
+            {
+              "name": "auto",
+              "tip": "Default value. Automatically determine whether to enable color display based on terminal support."
+            },
+            {
+              "name": "always",
+              "tip": "Always enable color display, regardless of terminal support."
+            },
+            {
+              "name": "never",
+              "tip": "Never enable color display, even if the terminal supports it."
+            }
+          ]
+        },
+        {
+          "name": "color.interactive",
+          "tip": "Configure auto-coloring for the -i (interactive) command.",
+          "next": [
+            {
+              "name": "auto",
+              "tip": "Default value. Automatically determine whether to enable color display based on terminal support."
+            },
+            {
+              "name": "always",
+              "tip": "Always enable color display, regardless of terminal support."
+            },
+            {
+              "name": "never",
+              "tip": "Never enable color display, even if the terminal supports it."
+            }
+          ]
+        },
+        {
+          "name": "https.proxy",
+          "tip": [
+            "Set the Git https proxy\n",
+            "E: [--global] https.proxy 127.0.0.1:10810   --- Set proxy\n",
+            "   [--global] --unset https.proxy           --- Unset proxy"
+          ]
+        }
+      ],
+      "options": [
+        {
+          "name": "--global",
+          "tip": "Perform global settings."
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--edit"
+          ],
+          "tip": [
+            "U: -e|--edit\n",
+            "Edit the configuration for the current repository."
+          ]
+        },
+        {
+          "name": "--unset",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "Remove config\n",
+            "E: [--global] --unset user.name"
+          ]
+        },
+        {
+          "name": "--get",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "Get config value (Usually can be omitted)\n",
+            "E: [--global] [--get] user.name"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stash",
+      "tip": [
+        "Stash changes in the stash.\n",
+        "Note that when there are multiple stashes, they are ordered from newest to oldest, with indices starting from 0."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": "List all stashes."
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show [<index>]\n",
+            "To show other stashes, specify an index.\n",
+            "index: Represents the index of the stash, starting from 0.\n",
+            "E: show 1   --- Show the second stash."
+          ]
+        },
+        {
+          "name": "pop",
+          "tip": [
+            "Apply and remove changes from the stash.\n",
+            "The difference from 'apply' is that 'pop' removes the stash after applying."
+          ]
+        },
+        {
+          "name": "apply",
+          "tip": [
+            "Apply changes from the stash.\n",
+            "The difference from 'pop' is that 'apply' doesn't remove the stash."
+          ]
+        },
+        {
+          "name": "push",
+          "tip": "Stash changes (equivalent to 'git stash').",
+          "options": [
+            {
+              "name": "-m",
+              "symbol": "WriteSpaceTab",
+              "tip": [
+                "Specify a descriptive message for this stash.\n",
+                "E: -m \"Remark\" (equivalent to 'git stash -m \"Remark\"')"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "drop",
+          "tip": [
+            "Remove a single stash.\n",
+            "E: drop     ---  Remove the first stash\n",
+            "   drop 1   ---  Remove the second stash"
+          ]
+        },
+        {
+          "name": "clear",
+          "tip": "Clear the stash."
+        }
+      ],
+      "options": [
+        {
+          "name": "-m",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "Specify a descriptive message for this stash.\n",
+            "E: -m \"Remark\""
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": "Reset the current HEAD to a specified commit.",
+      "options": [
+        {
+          "name": "--soft",
+          "symbol": [
+            "WriteSpaceTab",
+            "SpaceTab"
+          ],
+          "tip": "Move HEAD to a specified commit, keeping changes in both the working directory and the staging area (index)."
+        },
+        {
+          "name": "--mixed",
+          "symbol": [
+            "WriteSpaceTab",
+            "SpaceTab"
+          ],
+          "tip": "Default behavior: Move HEAD to a specified commit and move changes from both the working directory and the staging area to the working directory."
+        },
+        {
+          "name": "--hard",
+          "symbol": [
+            "WriteSpaceTab",
+            "SpaceTab"
+          ],
+          "tip": "Move HEAD to a specified commit and remove all changes, including those in the working directory and the index. Be cautious, as this is irreversible."
+        }
+      ]
+    },
+    {
+      "name": "cherry",
+      "tip": "Find commits in the local commit list that have not been pushed to the remote and display their hash values.",
+      "options": [
+        {
+          "name": "-v",
+          "tip": "Display hash values and commit messages."
+        }
+      ]
+    },
+    {
+      "name": "cherry-pick",
+      "tip": [
+        "Pick a specified commit from another branch and apply it to the current branch.\n",
+        "E: cherry-pick <commit1>             ---  Pick commit1\n",
+        "   cherry-pick <commit1..commit2>    ---  Pick all commits between commit1 and commit2 (excluding commit1)\n",
+        "   cherry-pick <commit1^..commit2>   ---  Pick all commits between commit1 and commit2 (including commit1)"
+      ],
+      "options": [
+        {
+          "name": "--continue",
+          "tip": "Continue the merge (you should have resolved conflicts before using this command)."
+        },
+        {
+          "name": "--abort",
+          "tip": "Abort the cherry-pick operation and return to the original state."
+        },
+        {
+          "name": "--quit",
+          "tip": "Keep the current conflicts and exit the cherry-pick."
+        }
+      ]
+    },
+    {
+      "name": "rm",
+      "tip": "Delete the specified file from the working directory and stage the deletion.",
+      "options": [
+        {
+          "name": "-f",
+          "tip": "Forcefully delete the specified file from the working directory, even if it has been modified and staged."
+        },
+        {
+          "name": "--cached",
+          "tip": "Stop tracking the specified file (remove the specified file from the index), but keep it in the working directory."
+        }
+      ]
+    },
+    {
+      "name": "mv",
+      "tip": "Move or rename a file, directory, or symbolic link, and stage the change.",
+      "options": [
+        {
+          "name": "-f",
+          "tip": "Forcefully move or rename a file, directory, or symbolic link, and stage the change."
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "symbol": "SpaceTab",
+      "tip": [
+        "Show information related to the current commit and changes to files\n",
+        "E: show                 --- Show HEAD\n",
+        "   show <commit_hash>   --- Show the commit"
+      ]
+    },
+    {
+      "name": "shortlog",
+      "tip": "Summarize Git log output."
+    },
+    {
+      "name": "show-branch",
+      "tip": "Display branches and their commits."
+    },
+    {
+      "name": "revert",
+      "symbol": [
+        "WriteSpaceTab",
+        "SpaceTab"
+      ],
+      "tip": [
+        "U: revert <commit-hash>\n",
+        "Undo changes made by a specified commit (creates a new commit)."
+      ]
+    },
+    {
+      "name": "annotate",
+      "alias": [
+        "blame"
+      ],
+      "tip": "Display authorship and last modification commit information for each line in a file, along with the line's content"
+    },
+    {
+      "name": "format-patch",
+      "tip": [
+        "Create patches, where N represents how many patches to generate (one patch per commit).\n",
+        "E: format-patch -2   ---  Generate two patch files (xxx.patch) from the latest two commits."
+      ]
+    },
+    {
+      "name": "am",
+      "tip": "Apply patches.",
+      "options": [
+        {
+          "name": "--show-current-patch=diff",
+          "tip": "View failed patches."
+        },
+        {
+          "name": "--continue",
+          "alias": [
+            "--resolved"
+          ],
+          "tip": [
+            "U: --continue|--resolved\n",
+            "Continue applying patches (you should have resolved conflicts before using this command)."
+          ]
+        },
+        {
+          "name": "--skip",
+          "tip": "Skip this patch."
+        },
+        {
+          "name": "--abort",
+          "tip": "Abort applying patches and restore the original state."
+        }
+      ]
+    },
+    {
+      "name": "apply",
+      "tip": "Apply patches to files and/or the index.",
+      "options": [
+        {
+          "name": "--reject",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --reject <patch_file>\n",
+            "Automatically merge non-conflicting code changes from the patch while generating conflicting content as xxx.rej files."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": "Remove untracked files from the working tree."
+    },
+    {
+      "name": "count-objects",
+      "tip": "Count unpacked objects and display their disk usage.",
+      "options": [
+        {
+          "name": "-H",
+          "alias": [
+            "--human-readable"
+          ],
+          "tip": [
+            "U: -H|--human-readable\n",
+            "Print sizes in human-readable format."
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verbose"
+          ],
+          "tip": [
+            "U: -v|--verbose\n",
+            "Also report the number of packed objects and objects that can be removed."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flow",
+      "tip": "Manage branches and development workflows.",
+      "next": [
+        {
+          "name": "init",
+          "tip": "Initialize a new Git repository with a branching model."
+        },
+        {
+          "name": "feature",
+          "tip": "Manage feature branches."
+        },
+        {
+          "name": "bugfix",
+          "tip": "Manage bugfix branches."
+        },
+        {
+          "name": "release",
+          "tip": "Manage release branches."
+        },
+        {
+          "name": "hotfix",
+          "tip": "Manage hotfix branches."
+        },
+        {
+          "name": "support",
+          "tip": "Manage support branches."
+        },
+        {
+          "name": "version",
+          "tip": "Display version information."
+        },
+        {
+          "name": "config",
+          "tip": "Manage Git-flow configuration."
+        },
+        {
+          "name": "log",
+          "tip": "Display logs that don't match the base branch."
+        }
+      ]
+    },
+    {
+      "name": "prune",
+      "tip": "Remove all unreachable objects from the object database."
+    },
+    {
+      "name": "grep",
+      "tip": "Print lines matching a pattern."
+    },
+    {
+      "name": "gc",
+      "tip": "Clean unnecessary files and optimize the local repository."
+    },
+    {
+      "name": "archimport",
+      "tip": "Import an Arch repository into Git."
+    },
+    {
+      "name": "archive",
+      "tip": "Create a file archive from a named tree."
+    },
+    {
+      "name": "bisect",
+      "tip": "Find changes introducing errors using binary search.",
+      "next": [
+        {
+          "name": "bad",
+          "tip": "Mark the current or given revision as bad."
+        },
+        {
+          "name": "good",
+          "tip": "Mark the current or given revision as good."
+        },
+        {
+          "name": "help",
+          "tip": "Display help messages."
+        },
+        {
+          "name": "log",
+          "tip": "Display the log of the current bisection."
+        },
+        {
+          "name": "next",
+          "tip": "Find and check out the next revision to test."
+        },
+        {
+          "name": "new",
+          "tip": "Mark the current or given revision as new, indicating a good state."
+        },
+        {
+          "name": "old",
+          "tip": "Mark the current or given revision as old, indicating a bad state."
+        },
+        {
+          "name": "replay",
+          "tip": "Replay the bisect log."
+        },
+        {
+          "name": "reset",
+          "tip": "Finish the bisect and return to the given branch."
+        },
+        {
+          "name": "run",
+          "tip": "Run the evaluation script."
+        },
+        {
+          "name": "skip",
+          "tip": "Choose the nearby commit."
+        },
+        {
+          "name": "start",
+          "tip": "Reset the bisect state and start a new bisect."
+        },
+        {
+          "name": "terms",
+          "tip": "Display the terms used for old and new commits (default is bad, good).",
+          "next": [
+            {
+              "name": "--term-good",
+              "tip": "Change the terms used for old and new commits (default is good)."
+            },
+            {
+              "name": "--term-bad",
+              "tip": "Change the terms used for old and new commits (default is bad)."
+            }
+          ]
+        },
+        {
+          "name": "view",
+          "tip": "Display the remaining revisions in gitk."
+        },
+        {
+          "name": "visualize",
+          "tip": "Display the remaining revisions in gitk."
+        }
+      ]
+    },
+    {
+      "name": "bugreport",
+      "tip": "Collect information for user-submitted bug reports.",
+      "options": [
+        {
+          "name": "-o",
+          "alias": [
+            "--output-directory"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -o|--output-directory <path>\n",
+            "Specify the target location for the bugreport files."
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--suffix"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -s|--suffix <suffix>\n",
+            "Specify a strftime format suffix for the filenames."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bundle",
+      "tip": "Move objects and references via archive.",
+      "next": [
+        {
+          "name": "create",
+          "tip": "Create a bundle."
+        },
+        {
+          "name": "list-heads",
+          "tip": "List references defined in the bundle."
+        },
+        {
+          "name": "unbundle",
+          "tip": "Unpack a bundle into a repository."
+        },
+        {
+          "name": "verify",
+          "tip": "Check if a bundle is valid and can be cleanly applied."
+        }
+      ]
+    },
+    {
+      "name": "cat-file",
+      "tip": "Show content or type information of repository objects."
+    },
+    {
+      "name": "check-attr",
+      "tip": "Display gitattributes information."
+    },
+    {
+      "name": "check-ignore",
+      "tip": "Debug .gitignore/.gitexclude files."
+    },
+    {
+      "name": "check-mailmap",
+      "tip": "Display canonical names and email addresses of contacts.",
+      "options": [
+        {
+          "name": "--stdin",
+          "tip": "Read one contact per line from standard input."
+        }
+      ]
+    },
+    {
+      "name": "checkout-index",
+      "tip": "Copy files from the index to the working directory."
+    },
+    {
+      "name": "check-ref-format",
+      "tip": "Ensure reference names are well-formed."
+    },
+    {
+      "name": "citool",
+      "tip": "Graphical alternative to Git commit."
+    },
+    {
+      "name": "commit-graph",
+      "tip": "Write and verify Git commit graph files."
+    },
+    {
+      "name": "commit-tree",
+      "tip": "Create a new commit object."
+    },
+    {
+      "name": "difftool",
+      "tip": "Display changes using common diff tools."
+    },
+    {
+      "name": "daemon",
+      "tip": "Run a very simple Git repository server."
+    },
+    {
+      "name": "describe",
+      "tip": "Display the most recent tag reachable from a commit."
+    },
+    {
+      "name": "diff-files",
+      "tip": "Compare files between the working tree and the index."
+    },
+    {
+      "name": "diff-index",
+      "tip": "Compare the contents and modes of blobs between the index and the repository."
+    },
+    {
+      "name": "diff-tree",
+      "tip": "Compare the contents and modes of blobs found via two tree objects."
+    },
+    {
+      "name": "fast-export",
+      "tip": "Data exporter."
+    },
+    {
+      "name": "fast-import",
+      "tip": "Directly import information into Git."
+    },
+    {
+      "name": "fetch-pack",
+      "tip": "Receive missing objects from another repository."
+    },
+    {
+      "name": "filter-branch",
+      "tip": "Rewrite branches."
+    },
+    {
+      "name": "fmt-merge-msg",
+      "tip": "Generate a merge commit message."
+    },
+    {
+      "name": "for-each-ref",
+      "tip": "Output information on each reference."
+    },
+    {
+      "name": "for-each-repo",
+      "tip": "Run Git command on a group of repositories."
+    },
+    {
+      "name": "fsck",
+      "tip": "Verify the connectivity and validity of objects in the database."
+    },
+    {
+      "name": "get-tar-commit-id",
+      "tip": "Extract commit ID from an archive created using git archive."
+    },
+    {
+      "name": "gui",
+      "tip": "Portable graphical interface for Git."
+    },
+    {
+      "name": "hash-object",
+      "tip": "Compute object ID and optionally create a blob from a file."
+    },
+    {
+      "name": "help",
+      "tip": "Display help information about Git."
+    },
+    {
+      "name": "http-backend",
+      "tip": "Run the server-side implementation for Git repositories."
+    },
+    {
+      "name": "http-fetch",
+      "tip": "Download from a remote Git repository over HTTP."
+    },
+    {
+      "name": "http-push",
+      "tip": "Push objects to another repository over HTTP/DAV."
+    },
+    {
+      "name": "imap-send",
+      "tip": "Send a collection of patches to an IMAP folder."
+    },
+    {
+      "name": "index-pack",
+      "tip": "Build pack index file for an existing packed archive."
+    },
+    {
+      "name": "instaweb",
+      "tip": "Instantly browse working repository in gitweb."
+    },
+    {
+      "name": "interpret-trailers",
+      "tip": "Add or parse structured information in commit messages."
+    },
+    {
+      "name": "ls-files",
+      "tip": "Show information about files in the index and working directory."
+    },
+    {
+      "name": "ls-remote",
+      "tip": "List references in a remote repository."
+    },
+    {
+      "name": "ls-tree",
+      "tip": "List the contents of a tree object."
+    },
+    {
+      "name": "mailinfo",
+      "tip": "Extract patch and authorship from a single email message."
+    },
+    {
+      "name": "mailsplit",
+      "tip": "Split an mbox file into a list of files."
+    },
+    {
+      "name": "maintenance",
+      "tip": "Run tasks to optimize Git repository data."
+    },
+    {
+      "name": "merge-base",
+      "tip": "Find common ancestors as merge bases as cheaply as possible."
+    },
+    {
+      "name": "merge-file",
+      "tip": "Run a three-way file merge."
+    },
+    {
+      "name": "merge-index",
+      "tip": "Run a merge for files needing merging."
+    },
+    {
+      "name": "merge-one-file",
+      "tip": "Common core of 'git merge-index' and standard helper for use with git merge-index."
+    },
+    {
+      "name": "mergetool",
+      "tip": "Run merge conflict resolution tools to resolve merge conflicts."
+    },
+    {
+      "name": "merge-tree",
+      "tip": "Show three-way merge without touching the index."
+    },
+    {
+      "name": "mktag",
+      "tip": "Create a tag object with optional verification."
+    },
+    {
+      "name": "mktree",
+      "tip": "Build a tree-object from ls-tree formatted text."
+    },
+    {
+      "name": "multi-pack-index",
+      "tip": "Write and verify multi-pack-indexes."
+    },
+    {
+      "name": "notes",
+      "tip": "Add or inspect object notes.",
+      "next": [
+        {
+          "name": "add",
+          "tip": "Add notes to an object."
+        },
+        {
+          "name": "append",
+          "tip": "Append notes to an existing object."
+        },
+        {
+          "name": "copy",
+          "tip": "Copy notes from one object to another."
+        },
+        {
+          "name": "edit",
+          "tip": "Edit notes of an existing object."
+        },
+        {
+          "name": "get-ref",
+          "tip": "Get the reference to notes on an object."
+        },
+        {
+          "name": "list",
+          "tip": "List notes on an object."
+        },
+        {
+          "name": "merge",
+          "tip": "Merge notes from one object into another."
+        },
+        {
+          "name": "prune",
+          "tip": "Prune notes from the object database."
+        },
+        {
+          "name": "remove",
+          "tip": "Remove notes from an object."
+        },
+        {
+          "name": "show",
+          "tip": "Show notes on an object."
+        }
+      ]
+    },
+    {
+      "name": "name-rev",
+      "tip": "Find symbolic names for given refs."
+    },
+    {
+      "name": "pack-objects",
+      "tip": "Create a packed archive of objects."
+    },
+    {
+      "name": "pack-redundant",
+      "tip": "Find redundant pack files."
+    },
+    {
+      "name": "pack-refs",
+      "tip": "Pack heads and tags for efficient repository access."
+    },
+    {
+      "name": "parse-remote",
+      "tip": "Routine to help parse remote repository access parameters."
+    },
+    {
+      "name": "patch-id",
+      "tip": "Compute unique ID for a patch."
+    },
+    {
+      "name": "prune-packed",
+      "tip": "Remove extra objects that are already in pack files."
+    },
+    {
+      "name": "quiltimport",
+      "tip": "Apply a quilt patchset."
+    },
+    {
+      "name": "rerere",
+      "tip": "Reuse recorded resolution of conflicted merges.",
+      "next": [
+        {
+          "name": "clear",
+          "tip": "Clear the rerere database."
+        },
+        {
+          "name": "forget",
+          "tip": "Forget about conflicts resolved."
+        },
+        {
+          "name": "diff",
+          "tip": "Show conflict diff."
+        },
+        {
+          "name": "remaining",
+          "tip": "Show remaining conflicts."
+        },
+        {
+          "name": "status",
+          "tip": "Show the status of the rerere cache."
+        },
+        {
+          "name": "gc",
+          "tip": "Garbage collect the rerere database."
+        }
+      ]
+    },
+    {
+      "name": "restore",
+      "tip": "Restore working tree files."
+    },
+    {
+      "name": "range-diff",
+      "tip": "Compare two commit ranges."
+    },
+    {
+      "name": "read-tree",
+      "tip": "Reads tree information into the index."
+    },
+    {
+      "name": "receive-pack",
+      "tip": "Receive what is pushed into the repository."
+    },
+    {
+      "name": "repack",
+      "tip": "Pack unpacked objects in a repository."
+    },
+    {
+      "name": "replace",
+      "tip": "Create, list, delete refs to replace objects."
+    },
+    {
+      "name": "request-pull",
+      "tip": "Generates a summary of pending changes."
+    },
+    {
+      "name": "rev-list",
+      "tip": "List commit objects in reverse chronological order."
+    },
+    {
+      "name": "rev-parse",
+      "tip": "Pick out and massage parameters and messages from Git."
+    },
+    {
+      "name": "send-email",
+      "tip": "Send a collection of patches as emails."
+    },
+    {
+      "name": "send-pack",
+      "tip": "Push objects over Git protocol to another repository."
+    },
+    {
+      "name": "shell",
+      "tip": "Restricted login shell for Git-only SSH access."
+    },
+    {
+      "name": "show-index",
+      "tip": "Show packed archive index."
+    },
+    {
+      "name": "show-ref",
+      "tip": "List references in a local repository."
+    },
+    {
+      "name": "sparse-checkout",
+      "tip": "Initialize and modify the sparse-checkout."
+    },
+    {
+      "name": "stripspace",
+      "tip": "Filter out empty lines."
+    },
+    {
+      "name": "submodule",
+      "tip": "Initialize, update, or inspect submodules.",
+      "next": [
+        {
+          "name": "add",
+          "tip": "Add a new submodule to the current project."
+        },
+        {
+          "name": "status",
+          "tip": "Show the status of submodules in the current project."
+        },
+        {
+          "name": "init",
+          "tip": "Initialize submodules for the current project."
+        },
+        {
+          "name": "deinit",
+          "tip": "Un-initialize submodules for the current project."
+        },
+        {
+          "name": "update",
+          "tip": "Update submodules in the current project."
+        },
+        {
+          "name": "summary",
+          "tip": "Show submodule summary status."
+        },
+        {
+          "name": "foreach",
+          "tip": "Run a command in each submodule."
+        },
+        {
+          "name": "sync",
+          "tip": "Synchronize submodules' remote URL configuration."
+        }
+      ]
+    },
+    {
+      "name": "subtree",
+      "tip": "Split a repository into subtrees and merge them."
+    },
+    {
+      "name": "svn",
+      "tip": "Perform bidirectional operations between Subversion(SVN) repositories and Git.",
+      "next": [
+        {
+          "name": "init",
+          "tip": "Initialize a Git repository for Subversion(SVN) integration."
+        },
+        {
+          "name": "fetch",
+          "tip": "Fetch revisions from a Subversion(SVN) repository."
+        },
+        {
+          "name": "clone",
+          "tip": "Clone a Subversion(SVN) repository into Git."
+        },
+        {
+          "name": "rebase",
+          "tip": "Rebase the current branch onto SVN commits."
+        },
+        {
+          "name": "dcommit",
+          "tip": "Commit Git changes to a Subversion(SVN) repository."
+        },
+        {
+          "name": "log",
+          "tip": "Show Subversion(SVN) commit logs."
+        },
+        {
+          "name": "find-rev",
+          "tip": "Find the SVN revision corresponding to a Git commit."
+        },
+        {
+          "name": "set-tree",
+          "tip": "Set the current Git tree to be equivalent to an SVN checkout."
+        },
+        {
+          "name": "commit-diff",
+          "tip": "Commit changes from Git diffs to Subversion(SVN)."
+        },
+        {
+          "name": "info",
+          "tip": "Display information about the Subversion(SVN) repository."
+        },
+        {
+          "name": "create-ignore",
+          "tip": "Create ignore files from Subversion(SVN) properties."
+        },
+        {
+          "name": "propget",
+          "tip": "Get Subversion(SVN) properties from the repository."
+        },
+        {
+          "name": "proplist",
+          "tip": "List Subversion(SVN) properties."
+        },
+        {
+          "name": "show-ignore",
+          "tip": "Show ignore patterns from Subversion(SVN) properties."
+        },
+        {
+          "name": "show-externals",
+          "tip": "Show Subversion(SVN) externals definitions."
+        },
+        {
+          "name": "branch",
+          "tip": "Create a new branch in a Subversion(SVN) repository."
+        },
+        {
+          "name": "tag",
+          "tip": "Create a new tag in a Subversion(SVN) repository."
+        },
+        {
+          "name": "blame",
+          "tip": "Show blame annotations from a Subversion(SVN) repository."
+        },
+        {
+          "name": "migrate",
+          "tip": "Migrate an SVN repository to Git."
+        },
+        {
+          "name": "mkdirs",
+          "tip": "Create directories in a Subversion(SVN) repository."
+        },
+        {
+          "name": "reset",
+          "tip": "Reset the current branch to the last fetched state."
+        },
+        {
+          "name": "gc",
+          "tip": "Perform maintenance operations on a Git-SVN repository."
+        }
+      ]
+    },
+    {
+      "name": "symbolic-ref",
+      "tip": "Read and modify symbolic references."
+    },
+    {
+      "name": "update-git-for-windows",
+      "tip": "Update Git for Windows."
+    },
+    {
+      "name": "unpack-file",
+      "tip": "Create a temporary file containing blob content."
+    },
+    {
+      "name": "unpack-objects",
+      "tip": "Unpack objects from a packed repository archive."
+    },
+    {
+      "name": "update-index",
+      "tip": "Register file contents in the index."
+    },
+    {
+      "name": "update-ref",
+      "tip": "Safely update the object name stored in a reference."
+    },
+    {
+      "name": "update-server-info",
+      "tip": "Update auxiliary info files to help the server."
+    },
+    {
+      "name": "upload-archive",
+      "tip": "Send an archive back to git-archive."
+    },
+    {
+      "name": "upload-pack",
+      "tip": "Send packed objects back to git fetch-pack."
+    },
+    {
+      "name": "version",
+      "tip": "Display Git version information."
+    },
+    {
+      "name": "var",
+      "tip": "Display Git logical variables."
+    },
+    {
+      "name": "verify-commit",
+      "tip": "Check GPG signature of commits."
+    },
+    {
+      "name": "verify-pack",
+      "tip": "Verify packed Git archive files."
+    },
+    {
+      "name": "verify-tag",
+      "tip": "Check GPG signature of tags."
+    },
+    {
+      "name": "whatchanged",
+      "tip": "Show commit logs with differences introduced."
+    },
+    {
+      "name": "worktree",
+      "tip": "Manage multiple working directories attached to the same repository.",
+      "next": [
+        {
+          "name": "add",
+          "tip": "Add a new working tree to the current repository."
+        },
+        {
+          "name": "list",
+          "tip": "List all working trees in the current repository."
+        },
+        {
+          "name": "lock",
+          "tip": "Lock the current working tree to prevent concurrent access."
+        },
+        {
+          "name": "move",
+          "tip": "Move or rename a working tree in the current repository."
+        },
+        {
+          "name": "prune",
+          "tip": "Remove empty directories from the working tree."
+        },
+        {
+          "name": "remove",
+          "tip": "Remove a working tree from the current repository."
+        },
+        {
+          "name": "unlock",
+          "tip": "Unlock the current working tree to allow concurrent access."
+        },
+        {
+          "name": "checkout",
+          "tip": "Checkout a branch into a working tree."
+        },
+        {
+          "name": "reset",
+          "tip": "Reset a working tree to a specific state."
+        },
+        {
+          "name": "merge",
+          "tip": "Merge a branch into a working tree."
+        },
+        {
+          "name": "rebase",
+          "tip": "Rebase a branch onto another branch in the working tree."
+        },
+        {
+          "name": "status",
+          "tip": "Show the status of a working tree."
+        }
+      ]
+    }
+  ],
+  "options": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": "Show the version of git."
+    }
+  ],
+  "common_options": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: --help|-h\n",
+        "Print help."
+      ]
+    }
+  ],
+  "config": [
+    {
+      "name": "max_commit",
+      "value": "20",
+      "values": [
+        "-1",
+        "20"
+      ],
+      "tip": [
+        "The maximum number that can be parsed for a project commit.\n",
+        "If it is <@Magenta>-1<@Blue>, all commits will be parsed."
+      ]
+    }
+  ]
+}

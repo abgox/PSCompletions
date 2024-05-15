@@ -1,0 +1,1899 @@
+﻿{
+  "root": [
+    {
+      "name": "list",
+      "symbol": "SpaceTab",
+      "tip": [
+        "显示已经添加的补全\n",
+        "{{ $info.list.example }}"
+      ],
+      "options": [
+        {
+          "name": "--remote",
+          "tip": "显示远程仓库({{ $PSCompletions.url }})中的所有可用补全"
+        }
+      ]
+    },
+    {
+      "name": "add",
+      "symbol": [
+        "{{",
+        "$has = Compare-Object $PSCompletions.cmd.keys $PSCompletions.list -PassThru;",
+        "if($has){ 'SpaceTab' };",
+        "}}"
+      ],
+      "tip": [
+        "添加补全(一个或多个)\n",
+        "{{ $info.add.example }}"
+      ]
+    },
+    {
+      "name": "rm",
+      "symbol": [
+        "{{ if($PSCompletions.cmd.keys){ 'SpaceTab' } }}"
+      ],
+      "tip": [
+        "移除补全(一个或多个)\n",
+        "{{ $info.rm.example }}"
+      ]
+    },
+    {
+      "name": "update",
+      "symbol": [
+        "{{ if($PSCompletions.update){ 'SpaceTab' } }}"
+      ],
+      "tip": [
+        "更新补全(一个或多个)\n",
+        "{{ $info.update.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "更新当前所有可更新的补全\n",
+            "{{",
+            "if($PSCompletions.update){ \"当前可更新的补全: $($PSCompletions.update -join ',')\" }",
+            "else{'所有补全都是最新的!'}",
+            "}}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "symbol": "SpaceTab",
+      "tip": [
+        "搜索补全(可使用通配符匹配)\n",
+        "{{ $info.search.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": "搜索所有可用补全"
+        }
+      ]
+    },
+    {
+      "name": "which",
+      "symbol": "SpaceTab",
+      "tip": [
+        "定位补全存储位置\n",
+        "{{ $info.which.example }}"
+      ]
+    },
+    {
+      "name": "alias",
+      "symbol": "SpaceTab",
+      "tip": [
+        "管理补全触发的命令名\n",
+        "现在补全别名是一个列表, 初始列表是补全的默认触发名, 你可以自由的添加和删除别名(包括默认触发名)\n",
+        "唯一的限制是, 添加的别名不能带有空格\n",
+        "{{ $info.alias.example }}"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": "显示所有补全别名"
+        },
+        {
+          "name": "add",
+          "symbol": "SpaceTab",
+          "tip": [
+            "为指定补全添加一个别名\n",
+            "注意: 是添加一个新的别名而不是替换, 原本的补全名也可以使用\n",
+            "      如果只想保留新的别名, 需要在添加新的别名后使用 rm 命令移除原本的补全名\n",
+            "{{ $info.alias.add.example }}"
+          ]
+        },
+        {
+          "name": "rm",
+          "symbol": "SpaceTab",
+          "tip": [
+            "删除补全别名(一个或多个)\n",
+            "{{ $info.example.alias.rm.example }}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "symbol": "SpaceTab",
+      "tip": [
+        "读写/更改配置\n",
+        "{{ $info.config.example }}"
+      ],
+      "next": [
+        {
+          "name": "language",
+          "symbol": "SpaceTab",
+          "tip": [
+            "当前值: zh-CN\n",
+            "读取/设置当前配置语言\n",
+            "配置语言会影响所有添加的补全语言\n",
+            "通过 psc completion 单独设置了补全语言的不受影响"
+          ],
+          "next": [
+            {
+              "name": "en-US",
+              "tip": [
+                "设置为英文",
+                "{{",
+                "if(!$PSCompletions.config.url){",
+                "  $github=$PSCompletions.config.github;",
+                "  if($github){ \"`n设置为 en-US 后, 添加补全时, 将从 Github 仓库($($github))中获取\" }",
+                "}",
+                "}}"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "disable_cache",
+          "symbol": "SpaceTab",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.disable_cache }}\n",
+            "设置是否禁用补全缓存\n",
+            "这个配置通常不需要修改, 主要用于补全数据文件的更新调试(每次补全都会重新读取 json)"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1\n",
+                "禁用补全缓存, 主要用于更新调试补全数据文件\n",
+                "禁用后, 每次补全都会重新去读取补全数据文件(json)"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0 (默认值)\n",
+                "启用补全缓存, 这会让补全的加载速度更快, 建议保持默认"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "symbol": "SpaceTab",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.update }}\n",
+            "设置首次加载 PSCompletions 模块时是否显示更新(更新包括更新补全、新增补全)"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)\n",
+                "首次加载模块时显示更新"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0\n",
+                "首次加载模块时不显示更新\n",
+                "注意: 这并不推荐, 因为及时获取更新信息能避免一些意外错误"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "module_update",
+          "symbol": "SpaceTab",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.module_update }}\n",
+            "当模块有了新版本后, 是否在首次加载模块后显示更新提示\n",
+            "注意: 远程仓库始终匹配 PSCompletions 最新版本, 不建议关闭它"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)\n",
+                "显示更新提示"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0\n",
+                "不显示更新提示\n",
+                "注意: 远程仓库始终匹配 PSCompletions 最新版本, 不建议关闭它"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "github",
+          "symbol": "SpaceTab",
+          "tip": [
+            "{{",
+            "$github = $PSCompletions.config.github;",
+            "if($github){ \"当前值: $($github)\" }else{ '未设置 Github 仓库地址' }",
+            "}}",
+            "\n获取或更改远程库地址 --- Github\n",
+            "{{ $info.config.github.example }}"
+          ],
+          "next": [
+            {
+              "name": "https://github.com/abgox/PSCompletions",
+              "tip": "设置为默认 Github 仓库"
+            }
+          ]
+        },
+        {
+          "name": "gitee",
+          "symbol": "SpaceTab",
+          "tip": [
+            "{{",
+            "$gitee = $PSCompletions.config.gitee;",
+            "if($gitee){ \"当前值: $($gitee)\" }else{ '未设置 Gitee 仓库地址' }",
+            "}}",
+            "\n获取或更改远程库地址 --- Gitee\n",
+            "{{ $info.config.gitee.example }}"
+          ],
+          "next": [
+            {
+              "name": "https://gitee.com/abgox/PSCompletions",
+              "tip": "设置为默认 Gitee 仓库"
+            }
+          ]
+        },
+        {
+          "name": "url",
+          "symbol": "SpaceTab",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.url }}\n",
+            "设置当前远程补全信息的地址(默认为空)\n",
+            "它的优先级高于 github 和 gitee 配置\n",
+            "{{ $info.config.url.example }}"
+          ],
+          "next": [
+            {
+              "name": "\"\"",
+              "tip": [
+                "设置为 \"\" (默认值)\n",
+                "\"\" 表示使用 Github/Gitee 仓库"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "symbol": "SpaceTab",
+      "tip": [
+        "指定单个补全的独立配置(独立配置优先级最高)\n",
+        "每个补全默认带有两个可设置的独立配置( language,menu_show_tip )\n",
+        "{{ $info.completion.example }}"
+      ]
+    },
+    {
+      "name": "menu",
+      "symbol": "SpaceTab",
+      "tip": [
+        "管理补全菜单的相关配置\n",
+        "{{ $info.menu.example}}"
+      ],
+      "next": [
+        {
+          "name": "symbol",
+          "symbol": "SpaceTab",
+          "tip": [
+            "设置补全提示中的表情符号(😄🤔😎)\n",
+            "符号的意义可以通过补全了解, 相关详细信息, 请访问: \n",
+            "Github: https://github.com/abgox/PSCompletions#about-special-symbols\n",
+            "Gitee:  https://gitee.com/abgox/PSCompletions#关于特殊符号"
+          ],
+          "next": [
+            {
+              "name": "SpaceTab",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.symbol_SpaceTab }}\n",
+                "设置它, 会影响所有的补全提示中的此类型表情符号\n",
+                "当它在补全提示中出现, 表示选用此补全后, 你可以按下 Space(空格键) 和 Tab 键继续获取补全候选"
+              ],
+              "next": [
+                {
+                  "name": "😄",
+                  "tip": "设置为 😄 (默认值)"
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "设置为 \"\"\n",
+                    "这可以起到隐藏符号的效果, 但是不建议你隐藏符号, 更建议修改为你喜欢的符号\n",
+                    "因为符号的出现是为了让你能够直观感知到是否可以继续使用 Tab 进行补全"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "WriteSpaceTab",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.symbol_WriteSpaceTab }}\n",
+                "设置它, 会影响所有的补全提示中的此类型表情符号\n",
+                "当它在补全提示中出现, 表示选用此补全后, 你可以输入一个内容, 然后按下 Space(空格键) 和 Tab 键继续获取补全候选\n",
+                "如果输入内容带有空格, 请使用 \"\" 或者 '' 包裹, e.g. 'test content'"
+              ],
+              "next": [
+                {
+                  "name": "😎",
+                  "tip": "设置为 😎 (默认值)"
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "设置为 \"\"\n",
+                    "这可以起到隐藏符号的效果, 但是不建议你隐藏符号, 更建议修改为你喜欢的符号\n",
+                    "因为符号的出现就是为了让你能够直观感知到是否可以继续使用 Tab 进行补全"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "OptionTab",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.symbol_OptionTab }}\n",
+                "设置它, 会影响所有的补全提示中的此类型表情符号\n",
+                "当它在补全提示中出现, 表示选用此补全后, 你可以按下 Space(空格键) 和 Tab 键继续获取选项类补全候选(如 --verbose)"
+              ],
+              "next": [
+                {
+                  "name": "🤔",
+                  "tip": "设置为 🤔 (默认值)"
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "设置为 \"\"\n",
+                    "这可以起到隐藏符号的效果, 但是不建议你隐藏符号, 更建议修改为你喜欢的符号\n",
+                    "因为符号的出现就是为了让你能够直观感知到是否可以继续使用 Tab 进行补全"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "line_theme",
+          "symbol": "SpaceTab",
+          "tip": [
+            "切换补全菜单的内置边框样式主题\n",
+            "你也可以通过 psc menu custom line 下的命令来自定义\n",
+            "{{ $info.menu.line_theme.example }}"
+          ],
+          "next": [
+            {
+              "name": "double_line_rect_border",
+              "tip": [
+                "设置为双线直角边框(默认值), 效果如下:\n",
+                "╔═════╗\n",
+                "║     ║\n",
+                "╚═════╝"
+              ]
+            },
+            {
+              "name": "single_line_rect_border",
+              "tip": [
+                "设置为单线直角边框, 效果如下:\n",
+                "┌─────┐\n",
+                "│     │\n",
+                "└─────┘"
+              ]
+            },
+            {
+              "name": "single_line_round_border",
+              "tip": [
+                "设置为单线圆角边框, 效果如下:\n",
+                "╭─────╮\n",
+                "│     │\n",
+                "╰─────╯"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color_theme",
+          "symbol": "SpaceTab",
+          "tip": [
+            "切换补全菜单的内置颜色主题\n",
+            "你也可以通过 psc menu custom color 下的命令来自定义\n",
+            "{{ $info.menu.color_theme.example }}"
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": "设置为默认主题(深色主题)"
+            },
+            {
+              "name": "magenta",
+              "tip": "设置为 Magenta 主题(浅色主题)"
+            }
+          ]
+        },
+        {
+          "name": "custom",
+          "symbol": "SpaceTab",
+          "tip": [
+            "自定义补全菜单的样式\n",
+            "{{ $info.menu.custom.example }}"
+          ],
+          "next": [
+            {
+              "name": "color",
+              "symbol": "SpaceTab",
+              "tip": [
+                "颜色相关的自定义配置\n",
+                "{{ $info.example.menu_custom_color }}"
+              ],
+              "next": [
+                {
+                  "name": "border_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_border_text }}\n",
+                    "边框的前景色\n",
+                    "{{ $info.example.menu_custom_color_border_text }}"
+                  ]
+                },
+                {
+                  "name": "border_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_border_back }}\n",
+                    "边框的背景色\n",
+                    "{{ $info.example.menu_custom_color_border_back }}"
+                  ]
+                },
+                {
+                  "name": "item_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_item_text }}\n",
+                    "补全项的前景色\n",
+                    "{{ $info.example.menu_custom_color_item_text }}"
+                  ]
+                },
+                {
+                  "name": "item_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_item_back }}\n",
+                    "补全项的背景色\n",
+                    "{{ $info.example.menu_custom_color_item_back }}"
+                  ]
+                },
+                {
+                  "name": "selected_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_selected_text }}\n",
+                    "选中项的前景色\n",
+                    "{{ $info.example.menu_custom_color_selected_text }}"
+                  ]
+                },
+                {
+                  "name": "selected_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_selected_back }}\n",
+                    "选中项的背景色\n",
+                    "{{ $info.example.menu_custom_color_selected_back }}"
+                  ]
+                },
+                {
+                  "name": "filter_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_filter_text }}\n",
+                    "过滤框(左上角)的前景色\n",
+                    "{{ $info.example.menu_custom_color_filter_text }}"
+                  ]
+                },
+                {
+                  "name": "filter_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_filter_back }}\n",
+                    "过滤框(左上角)的背景色\n",
+                    "{{ $info.example.menu_custom_color_filter_back }}"
+                  ]
+                },
+                {
+                  "name": "status_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_status_text }}\n",
+                    "补全个数显示(左下角)的前景色\n",
+                    "{{ $info.example.menu_custom_color_status_text }}"
+                  ]
+                },
+                {
+                  "name": "status_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_status_back }}\n",
+                    "补全个数显示(左下角)的背景色\n",
+                    "{{ $info.example.menu_custom_color_status_back }}"
+                  ]
+                },
+                {
+                  "name": "tip_text",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_tip_text }}\n",
+                    "补全提示信息的前景色\n",
+                    "{{ $info.example.menu_custom_color_tip_text }}"
+                  ]
+                },
+                {
+                  "name": "tip_back",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.menu_color_tip_back }}\n",
+                    "补全提示信息的背景色\n",
+                    "{{ $info.example.menu_custom_color_tip_back }}"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "line",
+              "symbol": "SpaceTab",
+              "tip": [
+                "补全菜单的边框线相关的自定义配置\n",
+                "{{ $info.example.menu_custom_line }}"
+              ],
+              "next": [
+                {
+                  "name": "horizontal",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: \"{{ $PSCompletions.config.menu_line_horizontal }}\"\n",
+                    "边框的横线\n",
+                    "{{ $info.example.menu_custom_line_horizontal }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"═\"",
+                      "tip": "设置为双线(默认)"
+                    },
+                    {
+                      "name": "\"─\"",
+                      "tip": "设置为单线"
+                    }
+                  ]
+                },
+                {
+                  "name": "vertical",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: \"{{ $PSCompletions.config.menu_line_vertical }}\"\n",
+                    "边框的竖线\n",
+                    "{{ $info.example.menu_custom_line_vertical }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"║\"",
+                      "tip": "设置为双线(默认)"
+                    },
+                    {
+                      "name": "\"│\"",
+                      "tip": "设置为单线"
+                    }
+                  ]
+                },
+                {
+                  "name": "top_left",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: \"{{ $PSCompletions.config.menu_line_top_left }}\"\n",
+                    "边框的左上角\n",
+                    "{{ $info.example.menu_custom_line_top_left }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╔\"",
+                      "tip": "设置为双线(默认)"
+                    },
+                    {
+                      "name": "\"┌\"",
+                      "tip": "设置为单线"
+                    },
+                    {
+                      "name": "\"╒\"",
+                      "tip": "设置为单双线"
+                    }
+                  ]
+                },
+                {
+                  "name": "bottom_left",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: \"{{ $PSCompletions.config.menu_line_bottom_left }}\"\n",
+                    "边框的左下角\n",
+                    "{{ $info.example.menu_custom_line_bottom_left }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╚\"",
+                      "tip": "设置为双线(默认)"
+                    },
+                    {
+                      "name": "\"└\"",
+                      "tip": "设置为单线"
+                    },
+                    {
+                      "name": "\"╘\"",
+                      "tip": "设置为单双线"
+                    }
+                  ]
+                },
+                {
+                  "name": "top_right",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: \"{{ $PSCompletions.config.menu_line_top_right }}\"\n",
+                    "边框的右上角\n",
+                    "{{ $info.example.menu_custom_line_top_right }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╗\"",
+                      "tip": "设置为双线(默认)"
+                    },
+                    {
+                      "name": "\"┐\"",
+                      "tip": "设置为单线"
+                    },
+                    {
+                      "name": "\"╕\"",
+                      "tip": "设置为单双线"
+                    }
+                  ]
+                },
+                {
+                  "name": "bottom_right",
+                  "symbol": "SpaceTab",
+                  "tip": [
+                    "当前值: \"{{ $PSCompletions.config.menu_line_bottom_right }}\"\n",
+                    "边框的右下角\n",
+                    "{{ $info.example.menu_custom_line_bottom_right }}"
+                  ],
+                  "next": [
+                    {
+                      "name": "\"╝\"",
+                      "tip": "设置为双线(默认)"
+                    },
+                    {
+                      "name": "\"┘\"",
+                      "tip": "设置为单线"
+                    },
+                    {
+                      "name": "\"╛\"",
+                      "tip": "设置为单双线"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "symbol": "SpaceTab",
+          "tip": [
+            "针对补全菜单的一些其他自定义配置\n",
+            "{{ $info.menu.config.example }}"
+          ],
+          "next": [
+            {
+              "name": "menu_enable",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_enable }} (默认值为 1, 表示启用)\n",
+                "设置是否使用 PSCompletions 模块提供的补全菜单\n",
+                "如果你不是在 Windows 系统下使用 PowerShell(pwsh), 你无法使用模块提供的补全菜单, 此配置无效"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置 为 0\n",
+                    "使用 PowerShell 内置的补全菜单"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)\n",
+                    "使用 PSCompletions 模块提供的补全菜单"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_above_margin_bottom",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_above_margin_bottom }} (默认值为 0,必须大于等于 0)\n",
+                "设置当补全菜单显示在上方时, 菜单底部和输入光标之间的距离"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": "设置为 0 (默认值)"
+                }
+              ]
+            },
+            {
+              "name": "menu_list_cover_buffer",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_list_cover_buffer }} (默认值为 0, 表示禁用)\n",
+                "设置当显示补全列表时, 是否覆盖它所在区域每一行的原有内容(退出补全菜单时恢复)\n",
+                "如果禁用, 则只覆盖显示所需要的一小块区域内容"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "不覆盖所在区域每一行的原有内容, 只覆盖显示所需要的一小块区域内容"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1\n",
+                    "覆盖所在区域每一行的原有内容"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_tip_cover_buffer",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_tip_cover_buffer }} (默认值为 0, 表示禁用)\n",
+                "设置当显示补全提示信息时, 是否覆盖它所在区域及其附近区域每一行的原有内容(退出补全菜单时恢复)"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "不覆盖它所在区域及其上方区域每一行的原有内容, 只覆盖显示所需要的那几行区域"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1\n",
+                    "覆盖它所在区域及其上方区域每一行的原有内容"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_show_tip",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_show_tip }} (默认值为 1, 表示启用)\n",
+                "设置是否需要补全提示信息\n",
+                "当启用时, 如果终端显示区域过小, 会自动隐藏补全提示信息, 以便能正常显示补全项"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0\n",
+                    "不显示补全提示信息"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)\n",
+                    "显示补全提示信息"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_tip_follow_cursor",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_tip_follow_cursor }} (默认值为 0, 表示禁用)\n",
+                "设置补全菜单命令提示信息是否跟随输入光标显示"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "补全提示信息不跟随输入光标显示, 从 PowerShell 最左侧开始显示"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1\n",
+                    "补全提示信息跟随输入光标显示"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_list_follow_cursor",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_list_follow_cursor }} (默认值为 1, 表示启用)\n",
+                "设置补全菜单列表是否跟随输入光标显示"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0\n",
+                    "补全列表不跟随输入光标显示, 从 PowerShell 最左侧开始显示"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)\n",
+                    "补全列表跟随输入光标显示"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_is_prefix_match",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_is_prefix_match }} (默认值为 0, 表示使用模糊匹配)\n",
+                "设置菜单是否使用前缀匹配模式进行补全过滤\n",
+                "如果你开启了前缀匹配, 将会自动提取当前补全候选的共用前缀"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "使用模糊匹配, 你只需要输入部分字符即可匹配到相关的补全项"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1\n",
+                    "使用前缀匹配, 你只需要输入前缀即可匹配到相关的补全项",
+                    "如果存在共用的前缀, 会自动提取"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_above_list_max_count",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_above_list_max_count }} (默认值为 -1)\n",
+                "设置当补全菜单显示在光标上方时, 第一页显示的补全项的最大个数\n",
+                "如果值为 -1, 则表示根据光标上方可用的高度尽量显示更多的补全个数"
+              ],
+              "next": [
+                {
+                  "name": "-1",
+                  "tip": [
+                    "设置为 -1 (默认值)\n",
+                    "根据光标上方可用的高度尽量显示更多的补全个数"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_below_list_max_count",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_below_list_max_count }} (默认值为 -1)\n",
+                "设置当补全菜单显示在光标下方时, 第一页显示的补全项的最大个数\n",
+                "如果值为 -1, 则表示根据光标下方可用的高度尽量显示更多的补全个数"
+              ],
+              "next": [
+                {
+                  "name": "-1",
+                  "tip": [
+                    "设置为 -1 (默认值)\n",
+                    "根据光标下方可用的高度尽量显示更多的补全个数"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_between_item_and_symbol",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.menu_between_item_and_symbol }}\" (默认值: \" \")\n",
+                "设置当补全项后面有符号时, 补全项与符号之间的间隔符"
+              ],
+              "next": [
+                {
+                  "name": "\" \"",
+                  "tip": [
+                    "设置为 \" \" (默认值)\n",
+                    "每一个补全项和符号之间都加入一个空格作为间隔"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enter_when_single",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enter_when_single }} (默认值为 0, 表示禁用)\n",
+                "当候选补全项只有一个时, 是否直接输入, 而不是显示补全菜单"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "即使只有一个候选补全项, 也会先显示菜单, 此时, 你可以再次按下 Tab 键输入此候选补全项"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1\n",
+                    "当候选补全项只有一个时, 会直接输入, 不会显示补全菜单"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_selection_with_margin",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_selection_with_margin }} (默认值为 1, 表示启用)\n",
+                "当设置了补全列表的 margin (间距)时, 当前选中项的选中样式是否包含 margin"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0\n",
+                    "当前选中项的选中样式不包含 margin"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)\n",
+                    "当前选中项的选中样式包含 margin"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_list_min_width",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_list_min_width }} (默认值为 10)\n",
+                "设置补全菜单中, 补全项区域的最小宽度\n",
+                "如果补全项的宽度小于 10, 会用空格填充补全项的宽度为 10, 避免菜单显示错误\n",
+                "这里的填充不会影响最终选择的补全项"
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "设置为 10 (默认值)\n",
+                    "当所有可选的补全项的宽度低于 10, 会填充宽度为 10, 避免菜单显示错误\n",
+                    "此值不建议设置太低, 10 是一个比较合适的值"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_list_margin_left",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_list_margin_left }} (默认值为 0)\n",
+                "设置补全菜单中, 补全项区域和左边框的之间的间距"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "没有额外的间距"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_list_margin_right",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_list_margin_right }} (默认值为 0)\n",
+                "设置补全菜单中, 补全列表和右边框的之间的间距"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "没有额外的间距"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_status_symbol",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.menu_status_symbol }}\" (默认值为 \"/\")\n",
+                "设置底部边框上的补全个数显示区域, 当前补全数以及总补全数之间的间隔符"
+              ],
+              "next": [
+                {
+                  "name": "\"/\"",
+                  "tip": "设置为 \"/\" (默认值)"
+                }
+              ]
+            },
+            {
+              "name": "menu_filter_symbol",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.menu_filter_symbol }}\" (默认值为 \"[]\")\n",
+                "设置顶部边框上的过滤区域, 左侧和右侧的符号\n",
+                "设置此配置项需要两个字符"
+              ],
+              "next": [
+                {
+                  "name": "\"[]\"",
+                  "tip": "设置为 \"[]\" (默认值)"
+                }
+              ]
+            },
+            {
+              "name": "menu_completions_sort",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_completions_sort }} (默认值为 1, 表示启用)\n",
+                "设置是否根据命令历史记录动态排序补全列表"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0\n",
+                    "不再根据命令历史记录动态排序补全列表"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)\n",
+                    "根据命令历史记录动态排序补全列表"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "symbol": "SpaceTab",
+      "tip": [
+        "将指定的配置重置为默认值\n",
+        "{{ $info.reset.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "重置模块 PSCompletions 的所有内容\n",
+            "你可以理解为, 重置到刚开始安装 PSCompletions 模块的状态"
+          ]
+        },
+        {
+          "name": "env",
+          "tip": [
+            "重置一些环境配置\n",
+            "它会将 config 命令下可以设置的所有配置恢复到默认值"
+          ]
+        },
+        {
+          "name": "alias",
+          "symbol": "SpaceTab",
+          "tip": [
+            "将所有补全或指定的补全恢复为默认补全名\n",
+            "{{ $info.reset.alias.example }}"
+          ],
+          "next": [
+            {
+              "name": "*",
+              "tip": "删除所有补全别名, 全部恢复为默认补全名"
+            }
+          ]
+        },
+        {
+          "name": "order",
+          "tip": [
+            "重置所有的 order\n",
+            "这里只是移除了 order 排序文件, 当下一次补全时, 会重新生成排序文件\n",
+            "如果你不希望根据历史记录排序, 你应该使用 psc menu config menu_completions_sort 0 来禁用排序"
+          ]
+        },
+        {
+          "name": "menu",
+          "symbol": "SpaceTab",
+          "tip": [
+            "重置补全菜单的配置\n",
+            "{{ $info.reset.menu.example }}"
+          ],
+          "next": [
+            {
+              "name": "*",
+              "tip": [
+                "重置所有补全菜单的配置\n",
+                "包括 psc menu 命令下可以设置的所有的配置项"
+              ]
+            },
+            {
+              "name": "symbol",
+              "tip": [
+                "重置符号为默认值\n",
+                "SpaceTab      => 😄\n",
+                "WriteSpaceTab => 😎\n",
+                "OptionTab     => 🤔"
+              ]
+            },
+            {
+              "name": "line",
+              "tip": [
+                "重置补全菜单边框线条相关的配置项\n",
+                "包含 psc menu custom line 命令下的所有配置项"
+              ]
+            },
+            {
+              "name": "color",
+              "tip": [
+                "重置补全菜单的颜色相关的配置项\n",
+                "包含 psc menu custom color 命令下的所有配置项"
+              ]
+            },
+            {
+              "name": "config",
+              "tip": [
+                "重置补全菜单的其他自定义配置\n",
+                "包括 psc menu config 命令下可以设置的其他配置项"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": {
+    "description": [
+      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell 补全管理\n",
+      "当前模块版本: <@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
+      "模块版本日志: <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/log.json<@Cyan>\n",
+      "\n",
+      "关于补全项后面的特殊符号:\n",
+      "- 😄🤔😎 : 如果出现多个, 表示符合多个条件, 可以选择其中一个的效果\n",
+      "\n",
+      "   - 😄 : 表示选用当前选中的补全后, 可以按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取补全(普通补全或选项类补全)\n",
+      "        - 可通过 <@Magenta>psc menu symbol SpaceTab <symbol><@Cyan> 自定义此符号\n",
+      "   - 🤔 : 表示选用当前选中的选项类补全后, 你可以按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取剩余选项类补全(如 --verbose)\n",
+      "        - 可通过 <@Magenta>psc menu symbol OptionTab <symbol><@Cyan> 自定义此符号\n",
+      "   - 😎 : 表示选用当前选中的选项类补全后, 你可以输入一个字符串, 然后按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取剩余选项类补全\n",
+      "        - 如果字符串有空格, 请使用 \"\" 或 '' 包裹, 如 \"test content\"\n",
+      "        - 如果同时还有 😄, 表示有几个预设的字符串可以补全, 你可以不输入字符串, 直接按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取补全\n",
+      "        - 可通过 <@Magenta>psc menu symbol WriteSpaceTab <symbol><@Cyan> 自定义此符号\n",
+      "   - 如果存在通用选项类补全, 也可以触发通用选项的补全\n",
+      "   - 所有补全都可以在输入部分后按下 <@Magenta>Tab<@Cyan> 键触发补全\n",
+      "   - 如果你不需要也不想看到这些符号, 可以将它们替换成空字符串。e.g. <@Magenta>psc menu symbol SpaceTab \"\"<@Cyan>\n",
+      "\n",
+      "- 使用 PowerShell 语言自带的补全菜单时, 如果 <@Magenta>...<@Cyan> 是最后一个补全, 则表示可显示区域过小, 无法显示所有候选项\n",
+      "- 使用模块提供的补全菜单时, 如果补全提示信息末尾出现 <@Magenta>...<@Cyan>, 则表示当前显示区域宽度不够, 提示信息显示不完整\n",
+      "\n",
+      "关于补全提示信息:\n",
+      " - 补全提示信息只是辅助, 你也可以使用 <@Magenta>psc menu config menu_show_tip 0<@Cyan> 来禁用补全提示信息的显示\n",
+      " - 补全提示信息一般由三部分组成: <@Magenta>用法<@Cyan> + <@Magenta>描述<@Cyan> + <@Magenta>举例<@Cyan>\n",
+      "-----------------示例--------------------\n\n",
+      "U: install|add <app> [-g|-u] [options]\n",
+      "这里是命令的描述说明\n",
+      "在 U: 和 E: 之间的内容都是命令描述\n",
+      "E: list\n",
+      "   list --remote\n\n",
+      "----------------------------------------\n",
+      "- 示例解析:\n",
+      "  1. 用法: 以 <@Magenta>U: <@Cyan>开头(Usage)\n",
+      "     - 命令名称: <@Magenta>install<@Cyan>\n",
+      "     - 命令别名: <@Magenta>add<@Cyan>\n",
+      "     - 必填参数: <@Magenta><app><@Cyan>\n",
+      "       - <> 里的值是对必填参数的简要概括\n",
+      "     - 可选参数: <@Magenta>-g<@Cyan> <@Magenta>-u<@Cyan>\n",
+      "       - [options] 表示泛指一些选项\n",
+      "  2. 描述: U: 和 E: 之间的内容是命令描述\n",
+      "  3. 举例: 以 <@Magenta>E: <@Cyan> 开头(Example), 及其之后的内容\n",
+      "     - 示例的起始命令通常是当前补全命令附近, 不会从头开始列出\n",
+      "\n",
+      "关于模块提供的补全菜单:\n",
+      "- 模块提供的补全菜单只能在 Windows 系统下使用 PowerShell(pwsh) 运行, 其他环境只能使用 PowerShell 自带的补全菜单\n",
+      "- 在此补全菜单中, 你可以使用以下按键进行选择补全项\n",
+      "   - 选择上一项/选择下一项\n",
+      "   1. Up/Down\n",
+      "   2. Left/Right\n",
+      "   3. Tab/Shift + Tab\n",
+      "   4. Space/Shift + Space\n",
+      "   5. Ctrl + U/Ctrl + D\n",
+      "   6. Ctrl + P/Ctrl + N\n",
+      "- 补全菜单的所有配置, 你可以使用 <@Magenta>psc menu<@Cyan> 触发补全, 通过命令提示信息来了解\n",
+      "\n",
+      "关于模块的其他信息:\n",
+      "PSCompletions 模块只会占用两个全局命名(<@Yellow>你不能修改它们, 所有的修改只能通过 <@Magenta>psc<@Yellow> 命令<@Cyan>)\n",
+      "  <@Magenta>$PSCompletions<@Cyan> => 变量名, 用于存储模块相关的所有信息\n",
+      "  <@Magenta>PSCompletions<@Cyan>  => 函数名, 模块导出的核心函数(<@Magenta>psc<@Cyan> 其实就是它的别名)\n",
+      "\n",
+      "如需了解更多信息, 请访问项目:\n",
+      "  Github: <@Blue>https://github.com/abgox/PSCompletions\n<@Cyan>",
+      "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions\n<@Cyan>",
+      "如果有使用问题, 请提交 issue\n",
+      "如果 PSCompletions 对你有所帮助, 请给这个项目点个 <@Yellow>Star<@>"
+    ],
+    "init_info": [
+      "\n<@Yellow>PSCompletions 模块安装警告(仅首次初始化显示):\n",
+      "你不应该属于以下情况:\n",
+      "  1. 在以管理员模式启动的 Windows 系统内置的 Windows powershell 中安装 PSCompletions 模块\n",
+      "  2. 安装时意外使用了 <@Magenta>-Scope AllUser<@Yellow>\n",
+      "如果属于以上情况, 你应该重新安装模块, 使用 <@Magenta>-Scope CurrentUser<@Yellow>, 除非你符合以下前提:\n",
+      "  1. 你已知晓以管理员模式安装的模块在用户权限下使用会出现权限问题\n",
+      "  2. 你始终使用管理员模式打开 PowerShell, 不会使用用户权限打开终端\n\n",
+      "<@Blue>完整安装命令: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Cyan>\n\n",
+      "---------------------------------------------------------------------\n",
+      "<@Cyan>✨✨✨PSCompletions(<@Magenta>psc<@Cyan>) --- 初始化成功！✨✨✨\n",
+      "<@Yellow>以下内容仅首次初始化显示, 你也可以通过运行 <@Magenta>psc<@Yellow> 来看到这些内容<@Cyan>\n",
+      "当前模块版本: <@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
+      "模块版本日志: <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/log.json<@Cyan>\n",
+      "<@Magenta>v3 => v4<@Cyan> 不兼容更新详细说明: <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/log_v4.json<@Cyan>\n",
+      "\n",
+      "本模块命令简单, 你只需要输入 <@Magenta>psc<@Cyan> 并尝试按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键, 你会快速了解所有命令。\n",
+      "使用 <@Magenta>psc list --remote<@Cyan> 获取所有可添加的补全\n",
+      "使用 <@Magenta>psc add <completion><@Cyan> 去添加第一个补全吧！\n",
+      "\n",
+      "关于补全项后面的特殊符号:\n",
+      "- 😄🤔😎 : 如果出现多个, 表示符合多个条件, 可以选择其中一个的效果\n",
+      "\n",
+      "   - 😄 : 表示选用当前选中的补全后, 可以按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取补全(普通补全或选项类补全)\n",
+      "        - 可通过 <@Magenta>psc menu symbol SpaceTab <symbol><@Cyan> 自定义此符号\n",
+      "   - 🤔 : 表示选用当前选中的选项类补全后, 你可以按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取剩余选项类补全(如 --verbose)\n",
+      "        - 可通过 <@Magenta>psc menu symbol OptionTab <symbol><@Cyan> 自定义此符号\n",
+      "   - 😎 : 表示选用当前选中的选项类补全后, 你可以输入一个字符串, 然后按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取剩余选项类补全\n",
+      "        - 如果字符串有空格, 请使用 \"\" 或 '' 包裹, 如 \"test content\"\n",
+      "        - 如果同时还有 😄, 表示有几个预设的字符串可以补全, 你可以不输入字符串, 直接按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键继续获取补全\n",
+      "        - 可通过 <@Magenta>psc menu symbol WriteSpaceTab <symbol><@Cyan> 自定义此符号\n",
+      "   - 如果存在通用选项类补全, 也可以触发通用选项的补全\n",
+      "   - 所有补全都可以在输入部分后按下 <@Magenta>Tab<@Cyan> 键触发补全\n",
+      "   - 如果你不需要也不想看到这些符号, 可以将它们替换成空字符串。e.g. <@Magenta>psc menu symbol SpaceTab \"\"<@Cyan>\n",
+      "\n",
+      "- 使用 PowerShell 语言自带的补全菜单时, 如果 <@Magenta>...<@Cyan> 是最后一个补全, 则表示可显示区域过小, 无法显示所有候选项\n",
+      "- 使用模块提供的补全菜单时, 如果补全提示信息末尾出现 <@Magenta>...<@Cyan>, 则表示当前显示区域宽度不够, 提示信息显示不完整\n",
+      "\n",
+      "关于补全提示信息:\n",
+      " - 补全提示信息只是辅助, 你也可以使用 <@Magenta>psc menu config menu_show_tip 0<@Cyan> 来禁用补全提示信息的显示\n",
+      " - 补全提示信息一般由三部分组成: <@Magenta>用法<@Cyan> + <@Magenta>描述<@Cyan> + <@Magenta>举例<@Cyan>\n",
+      "-----------------示例--------------------\n\n",
+      "U: install|add <app> [-g|-u] [options]\n",
+      "这里是命令的描述说明\n",
+      "在 U: 和 E: 之间的内容都是命令描述\n",
+      "E: list\n",
+      "   list --remote\n\n",
+      "----------------------------------------\n",
+      "- 示例解析:\n",
+      "  1. 用法: 以 <@Magenta>U: <@Cyan>开头(Usage)\n",
+      "     - 命令名称: <@Magenta>install<@Cyan>\n",
+      "     - 命令别名: <@Magenta>add<@Cyan>\n",
+      "     - 必填参数: <@Magenta><app><@Cyan>\n",
+      "       - <> 里的值是对必填参数的简要概括\n",
+      "     - 可选参数: <@Magenta>-g<@Cyan> <@Magenta>-u<@Cyan>\n",
+      "       - [options] 表示泛指一些选项\n",
+      "  2. 描述: U: 和 E: 之间的内容是命令描述\n",
+      "  3. 举例: 以 <@Magenta>E: <@Cyan> 开头(Example), 及其之后的内容\n",
+      "     - 示例的起始命令通常是当前补全命令附近, 不会从头开始列出\n",
+      "\n",
+      "关于模块提供的补全菜单:\n",
+      "- 模块提供的补全菜单只能在 Windows 系统下使用 PowerShell(pwsh) 运行, 其他环境只能使用 PowerShell 自带的补全菜单\n",
+      "- 在此补全菜单中, 你可以使用以下方式进行选项上下选择\n",
+      "   - 向上选择/向下选择\n",
+      "   1. Up/Down\n",
+      "   2. Left/Right\n",
+      "   3. Tab/Shift + Tab\n",
+      "   4. Space/Shift + Space\n",
+      "   5. Ctrl + U/Ctrl + D\n",
+      "   6. Ctrl + P/Ctrl + N\n",
+      "- 补全菜单的所有配置, 你可以使用 <@Magenta>psc menu<@Cyan> 触发补全, 通过命令提示信息来了解\n",
+      "\n",
+      "关于模块的其他信息:\n",
+      "PSCompletions 模块只会占用两个全局命名(<@Yellow>你不能修改它们, 所有的修改只能通过 <@Magenta>psc<@Yellow> 命令<@Cyan>)\n",
+      "  <@Magenta>$PSCompletions<@Cyan> => 变量名, 用于存储模块相关的所有信息\n",
+      "  <@Magenta>PSCompletions<@Cyan>  => 函数名, 模块导出的核心函数(<@Magenta>psc<@Cyan> 其实就是它的别名)\n",
+      "\n",
+      "如需了解更多信息, 请访问项目:\n",
+      "  Github: <@Blue>https://github.com/abgox/PSCompletions\n<@Cyan>",
+      "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions\n<@Cyan>",
+      "如果有使用问题, 请提交 issue\n",
+      "如果 PSCompletions 对你有所帮助, 请给这个项目点个 <@Yellow>Star<@>"
+    ],
+    "err": {
+      "network": [
+        "<@Red>请先检查一下你的网络是否正常, 然后再次尝试\n",
+        "如果确定网络正常却仍然报错, 请提交 issue\n"
+      ],
+      "download_list": "<@Red>获取补全列表失败, 请检查网络连接或稍后再试",
+      "download_file": [
+        "<@Red>文件 {{ Split-path $download_info.url -leaf }} 下载失败, 请检查网络连接或稍后再试\n",
+        "文件下载地址: {{ $download_info.url }}\n",
+        "文件保存路径: {{ $download_info.file }}\n",
+        "如果确定不是网络问题, 请提交 issue\n"
+      ],
+      "url": [
+        "<@Red>PSCompletions 模块当前没有配置有效的远程仓库, 你可以运行以下命令添加不同的仓库<@Green>\n",
+        "E: psc config github https://github.com/abgox/PSCompletions\n",
+        "   psc config gitee https://gitee.com/abgox/PSCompletions\n",
+        "   psc config url https://example.com<@Blue>\n",
+        "注意:\n",
+        "- <@Magenta>url<@Blue> 的优先级高于 <@Magenta>github<@Blue> 和 <@Magenta>gitee<@Blue>\n",
+        "- 如果 <@Magenta>url<@Blue> 没有设置, 会自动基于 <@Magenta>language<@Blue> 选择 <@Magenta>github<@Blue> 或 <@Magenta>gitee<@Blue>\n",
+        "- 如果 <@Magenta>github<@Blue> 和 <@Magenta>gitee<@Blue> 只有一个设置了值, 则会直接选择它"
+      ]
+    },
+    "module": {
+      "update": [
+        "<@Yellow>PSCompletions 模块有更新了, 是否更新?(已添加的补全会自动迁移)\n",
+        "<@Magenta>{{ $PSCompletions.version }}<@Cyan> => <@Magenta>{{ $PSCompletions.config.module_update }}\n<@Cyan>",
+        "{{ ",
+        "$log=($PSCompletions.get_raw_content(\"$($PSCompletions.path.core)\\log.json\") | ConvertFrom-Json).PSObject.Properties;",
+        "$lang = if($PSCompletions.language -eq 'zh-CN'){ 'zh-CN' }else{ 'en-US' };",
+        "$num=1;",
+        "$log | ForEach-Object {",
+        "   if($_.Name -gt $PSCompletions.version){",
+        "      if($num){ \"<@Blue>$($_.Name) : $($_.Value.$($lang))\";$num = 0 }",
+        "      else{ \"`n $($_.Name) : $($_.Value.$($lang))\" }",
+        "   }",
+        "}",
+        "}}\n",
+        "<@Cyan>按下 <@Magenta>Enter(回车键)<@Cyan> 进行更新!"
+      ],
+      "updating": "<@Cyan>成功运行命令: <@Magenta>Update-Module PSCompletions \n<@Cyan>PSCompletions 模块更新正在进行中",
+      "update_done": "<@Green>PSCompletions 模块更新完成, 请重启 PowerShell 并重新引入模块",
+      "update_err": [
+        "<@Red>PSCompletions 模块更新失败, 请检查原因\n",
+        "<@Yellow>可能的失败原因:\n",
+        "1. 网络问题\n",
+        "2. 权限问题, 在 4.0.0+ 版本中, 你必须以用户权限(<@Magenta>-Scope CurrentUser<@Yellow>)安装\n",
+        "   - 在 Windows PowerShell(powershell) 中将模块从 v3.x.x 升级到 v4.x.x 的权限问题\n",
+        "       - 如果你正在使用 Windows PowerShell(powershell), 且正在升级模块, 此时, 你应该先删除电脑中所有的 PSCompletions 模块\n",
+        "       - 然后使用 <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Yellow> 来安装最新版本的 PSCompletions 模块\n",
+        "       - <@Magenta>-Scope CurrentUser<@Yellow> 必须指定, <@Red>不能使用 -Scope AllUser<@Yellow>\n",
+        "   - 在 PowerShell(pwsh) 下, 之前使用 <@Magenta>Install-Module PSCompletions -Scope AllUser<@Yellow> 安装了模块, 导致模块目录权限有问题\n",
+        "       - 你应该删除这个模块(或者将它移动到其他地方, 以作备份)\n",
+        "       - 然后使用 <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Yellow> 来安装最新版本的 PSCompletions 模块\n",
+        "       - <@Magenta>-Scope CurrentUser<@Yellow> 必须指定, <@Red>不能使用 -Scope AllUser<@Yellow>\n",
+        "       - 你可以看情况处理之前备份的模块目录\n",
+        "3. 其他原因, 请提交 issue\n"
+      ]
+    },
+    "update_info": [
+      "<@Cyan>PSCompletions 远程仓库更新: \n",
+      "{{",
+      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
+      "$add=@();",
+      "$rm=@();",
+      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
+      "if($add){ \"新增补全: <@Magenta>$($add)<@Cyan>`n使用 <@Magenta>psc add <completion><@Cyan> 进行添加`n`n\" };",
+      "if($rm){ \"删除补全: <@Magenta>$($rm)<@Cyan>`n`n\" };",
+      "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update *<@Cyan> 进行更新`n`n\" };",
+      "}}",
+      "如果不想看到它, 请输入 <@Blue>psc config update 0 <@Cyan>禁止显示远程仓库状态。\n",
+      "但是我不建议你这样做, 它是一个很恰当的提示"
+    ],
+    "update_has": [
+      "<@Cyan>-------------------\n",
+      "可以更新的补全: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
+      "你可以运行以下命令去更新它们:\n",
+      "<@Magenta>psc update *"
+    ],
+    "update_no": [
+      "<@Cyan>--------------------\n",
+      "<@Green>已添加的补全都是最新的！"
+    ],
+    "param_min": "<@Red>传入的参数过少。",
+    "param_max": "<@Red>传入的参数过多。",
+    "param_err": "<@Red>传入的参数错误。",
+    "sub_cmd": [
+      "{{",
+      "if($sub_cmd){\"<@Red>子命令 <@Magenta>$($sub_cmd)<@Red> 错误`n\"};",
+      "if($cmd_list){",
+      "\"<@Yellow>你应该在下方的子命令列表中选择一个子命令使用`n\";",
+      "\"<@Blue>-------------------`n\";",
+      "\"<@Magenta>$($cmd_list -join \"`n\")<@Yellow>`n\";",
+      "\"<@Blue>-------------------\";",
+      "};",
+      "if($cmd_info){ \"<@Red>$($cmd_info)\" };",
+      "}}"
+    ],
+    "no_completion": "<@Red>你还未添加 <@Magenta>{{ $completion }}<@Red> 补全",
+    "confirm_cancel": "<@Green>操作取消!",
+    "less_tip": [
+      "<@Cyan>🔔按下 Enter 键查看更多, 按下其他任意键退出！(剩余 <@Magenta>{{ $lines }} <@Cyan>行)🔔\n",
+      "<@Yellow>--------------------"
+    ],
+    "comp_hide": "⚠️由于显示区域限制, 一些补全被隐藏⚠️\n你可以通过键入补全的前缀并按 Tab 键进行过滤",
+    "min_area": "显示区域宽度或高度太小!",
+    "example_color": "<@Cyan>",
+    "list": {
+      "add_symbol": "🔴",
+      "added_symbol": "🟢",
+      "symbol_tip": "\n<@Yellow>🟢: 补全已经添加   🔴: 补全还未添加",
+      "example": [
+        "E: psc list              --- 显示本地已安装的补全列表\n",
+        "   psc list --remote     --- 显示远程补全列表"
+      ]
+    },
+    "add": {
+      "tip": "添加补全 --- {{ $completion }}",
+      "example": [
+        "E: psc add git            --- 添加 git 补全\n",
+        "   psc add git docker     --- 添加 git 和 docker 补全"
+      ],
+      "doing": "<@Cyan>正在添加补全 --- <@Magenta>{{ $completion }}",
+      "done": [
+        "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 添加成功\n",
+        "{{",
+        "if($PSCompletions.config.url){",
+        "   \"当前使用的远程 url 地址: <@Blue>$($PSCompletions.config.url)<@Green>\"",
+        "}else{",
+        "   \"当前使用的远程仓库: <@Blue>$($PSCompletions.repo)<@Green>\"",
+        "}",
+        "}}\n",
+        "补全文件所在目录: <@Blue>{{ $completion_dir }}\n",
+        "{{",
+        " if($json.config){",
+        "'<@Cyan>---------- 补全独立配置 ---------- ';",
+        "   $json.config | ForEach-Object { \"`n<@Magenta>$($_.name)<@Blue>: $($_.value)(默认值)`n$($PSCompletions.replace_content($_.tip))\" };",
+        "\"`n<@Cyan>----------------------------------\";",
+        "};",
+        "}}"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入要添加的补全名称\n",
+          "你可以输入多个补全名称, 以空格分隔, 会依次添加"
+        ],
+        "no": [
+          "<@Red>补全 <@Magenta>{{ $completion }}<@Red> 在补全列表文件中不存在。\n",
+          "<@Yellow>推荐输入 <@Magenta>psc add<@Yellow> 后按下 <@Magenta>空格<@Yellow> 和 <@Magenta>Tab<@Yellow> 键进行补全\n",
+          "或者使用 <@Magenta>psc search<@Yellow> 搜索可用的补全"
+        ]
+      }
+    },
+    "rm": {
+      "tip": "移除补全 --- {{ $completion }}",
+      "example": [
+        "E: psc rm git            --- 移除 git 补全\n",
+        "   psc rm git docker     --- 移除 git 和 docker 补全"
+      ],
+      "done": "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 成功被移除",
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入要移除的补全名称\n",
+          "你可以输入多个补全名称, 以空格分隔, 会依次移除"
+        ]
+      }
+    },
+    "update": {
+      "tip": "更新补全 --- {{ $completion }}",
+      "example": [
+        "E: psc update                 --- 检查更新\n",
+        "   psc update *               --- 更新所有的有更新的补全\n",
+        "   psc update psc             --- 更新 psc 补全\n",
+        "   psc update psc git bun     --- 更新 psc、git 和 bun 补全"
+      ],
+      "doing": "<@Cyan>正在更新补全 ---<@Magenta> {{ $completion }}",
+      "done": [
+        "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 更新成功\n",
+        "{{",
+        "if($PSCompletions.config.url){",
+        "   \"当前使用的远程 url 地址: <@Blue>$($PSCompletions.config.url)<@Green>\"",
+        "}else{",
+        "   \"当前使用的远程仓库: <@Blue>$($PSCompletions.repo)<@Green>\"",
+        "}",
+        "}}\n",
+        "补全文件所在目录: <@Blue>{{ $completion_dir }}"
+      ]
+    },
+    "search": {
+      "example": [
+        "E: psc search *     --- 显示所有可安装补全\n",
+        "   psc search p*    --- 搜索以p开头的补全\n",
+        "   psc search *p*   --- 搜索名称带有p的补全"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入一个带有通配符(*)的匹配字符串\n",
+          "如果不使用通配符, 请输入完整的名称\n",
+          "或者你可以输入 * 查看所有的补全"
+        ],
+        "no": "<@Yellow>没有搜索到匹配的补全！"
+      }
+    },
+    "which": {
+      "tip": "定位补全存储位置 --- {{ $completion }}",
+      "example": [
+        "E: psc which git            --- 返回 git 补全的存储位置\n",
+        "   psc which git docker     --- 返回 git 和 docker 补全的存储位置"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入要查找存储位置的补全名称\n",
+          "你可以输入多个补全名称, 以空格分隔, 会依次返回补全文件的存储位置"
+        ]
+      }
+    },
+    "alias": {
+      "example": [
+        "E: psc alias list                 --- 列出所有别名\n",
+        "   psc alias add git g gi ./g     --- 添加 g gi ./g 为 git 别名\n",
+        "   psc alias rm g                 --- 删除一个别名或多个"
+      ],
+      "done": [
+        "{{",
+        "if($arg[1] -eq 'add') {",
+        "\"<@Magenta>$($completion)<@Green> 新增一个别名 <@Magenta>$($alias)<@Green>, 现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$($PSCompletions.cmd.$completion -join ' ') $($alias)`n<@Yellow>你需要重启 PowerShell 并重新引入 PSCompletions 模块来使更改生效\"",
+        "}",
+        "elseif($arg[1] -eq 'rm') {",
+        "\"<@Magenta>$($completion)<@Green> 移除一个别名 <@Magenta>$($alias)<@Green>, 现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$(($PSCompletions.cmd.$completion | Where-Object { $_ -ne $alias }) -join ' ')`n<@Yellow>你需要重启 PowerShell 并重新引入 PSCompletions 模块来使更改生效\"",
+        "}",
+        "}}"
+      ],
+      "list": {
+        "example": [
+          "E: psc alias list     --- 列出所有别名"
+        ]
+      },
+      "add": {
+        "tip": [
+          "{{ \"当前别名列表: $($PSCompletions.cmd.$completion -join ' ')\" }}\n",
+          "为 {{ $completion }} 添加一个或多个别名"
+        ],
+        "example": [
+          "E: psc alias add git g gi            --- 为 git 添加 g、gi 两个别名\n",
+          "   psc alias add scoop scoop.ps1     --- 为 scoop 添加一个别名 scoop.ps1"
+        ],
+        "err": {
+          "min_k": [
+            "<@Yellow>",
+            "你应该继续输入一个已经安装了的补全名称\n",
+            "然后再输入一个或多个你想添加的别名"
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "你还需要继续输入一个或多个你想为 {{ $completion }} 添加的别名"
+          ],
+          "exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 已经是 {{ $completion }} 的别名了",
+          "cmd_exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 是已存在的命令, 请设置其他别名"
+        }
+      },
+      "rm": {
+        "tip": "为 {{ $completion }} 移除一个或多个别名",
+        "tip_v": [
+          "{{",
+          "$path_alias = \"$($PSCompletions.path.completions)/$($PSCompletions.alias.$completion)/alias.txt\";",
+          "$alias_list = $PSCompletions.get_content($path_alias);",
+          "if($alias_list.Count -eq 1){",
+          "\"此别名无法移除, 因为它是补全 $($completion) 唯一的别名`n如果你希望修改它, 你应该先为补全 $($completion) 添加一个新的别名, 再移除这个旧别名\"",
+          "}",
+          "else{ '移除此别名' };",
+          "}}"
+        ],
+        "example": [
+          "E: psc alias rm git g gi            --- 为 git 删除 g、gi 两个别名\n",
+          "   psc alias rm scoop scoop.ps1     --- 为 scoop 删除一个别名 scoop.ps1"
+        ],
+        "err": {
+          "min_k": [
+            "<@Yellow>",
+            "你应该继续输入一个已经安装了的补全名称\n",
+            "然后再输入一个或多个你想移除的此补全的别名"
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "你还需要继续输入一个或多个你想为 {{ $completion }} 移除的别名"
+          ],
+          "no_alias": "<@Magenta>{{ $alias }}<@Red>不是 {{ $completion }} 的别名",
+          "unique": [
+            "<@Red>移除 <@Magenta>{{ $alias }}<@Red> 失败, 因为它是补全 <@Magenta>{{ $completion }}<@Red> 唯一的补全触发名\n",
+            "如果你想要修改它, 你应该先添加一个新别名, 再移除这个旧别名"
+          ]
+        }
+      }
+    },
+    "config": {
+      "example": [
+        "E: psc config language               --- 获取语言设置\n",
+        "   psc config language en-US         --- 设置为英文"
+      ],
+      "done": [
+        "<@Green>PSCompletions 的配置修改成功!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
+      ],
+      "err": {
+        "value": [
+          "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 数字 1 或 0\n",
+          "1 表示启用, 0 表示禁用"
+        ]
+      },
+      "language": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 像 <@Magenta>zh-CN<@Yellow> 这样的区域语言标识符"
+          ]
+        },
+        "example": [
+          "E: psc config language           --- 获取语言设置\n",
+          "   psc config language en-US     --- 设置为英文"
+        ]
+      },
+      "disable_cache": {
+        "example": [
+          "E: psc config disable_cache 1     --- 禁用补全缓存\n",
+          "   psc config disable_cache 0     --- 启用补全缓存"
+        ]
+      },
+      "update": {
+        "example": [
+          "E: psc config update 1     --- 显示补全更新\n",
+          "   psc config update 0     --- 不显示补全更新"
+        ]
+      },
+      "module_update": {
+        "example": [
+          "E: psc config module_update 1     --- 显示模块更新\n",
+          "   psc config module_update 0     --- 不显示模块更新"
+        ]
+      },
+      "github": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 Github 仓库地址(https://github.com/xxx)"
+          ]
+        },
+        "example": [
+          "E: psc config github                                            --- 获取当前使用的 Github 仓库\n",
+          "   psc config github https://github.com/abgox/PSCompletions     --- 设置 Github 仓库地址"
+        ]
+      },
+      "gitee": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 Gitee 仓库地址(https://gitee.com/xxx)"
+          ]
+        },
+        "example": [
+          "E: psc config gitee                                           --- 获取当前使用的 Gitee 仓库\n",
+          "   psc config gitee https://gitee.com/abgox/PSCompletions     --- 设置 Gitee 仓库地址"
+        ]
+      },
+      "url": {
+        "err": {
+          "max": [
+            "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 url 地址(https://xxx)\n",
+            "这个 url 必须是可用的, 且其目录结构应该与仓库相同"
+          ]
+        },
+        "example": [
+          "E: psc config url                                                    --- 获取当前使用的 url\n",
+          "   psc config url https://gitee.com/abgox/PSCompletions/raw/main     --- 设置 url 地址"
+        ]
+      }
+    },
+    "completion": {
+      "tip": [
+        "设置 {{ $completion }} 的独立配置\n",
+        "独立配置的优先级高于全局配置"
+      ],
+      "tip_v": "设置为 {{ $value }}",
+      "tip_rm": [
+        "设置为空, 表示移除 {{ $completion }} 的这个独立配置\n",
+        "移除后, 将使用默认值"
+      ],
+      "example": [
+        "E: psc completion psc language en-US      --- 单独设置 psc 补全的语言为英文\n",
+        "   psc completion psc language \"\"         --- 设置为空, 表示移除这一个独立配置\n",
+        "   psc completion psc menu_show_tip 0     --- 单独设置 psc 是否显示补全提示信息"
+      ],
+      "done": [
+        "<@Green>{{ $completion }} 的独立配置修改成功!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入要设置的配置项\n",
+          "每个补全默认带有两个可设置的独立配置( <@Magenta>language,menu_show_tip<@Yellow> )\n",
+          "{{",
+          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin @('language','menu_show_tip') };",
+          "if($config){ \"$($arg[1]) 额外的可用配置项: <@Magenta>$($config -join ' ')\" }",
+          "}}"
+        ]
+      },
+      "language": {
+        "tip": [
+          "{{",
+          "$v = $PSCompletions.config.comp_config.$completion.language;",
+          "if($v){ \"当前值: $($v)`n\" }",
+          "}}",
+          "设置 {{ $completion }} 的语言"
+        ],
+        "tip_v": "设置语言为 {{ $language }}"
+      },
+      "menu_show_tip": {
+        "tip": [
+          "{{",
+          "$v = $PSCompletions.config.comp_config.$completion.menu_show_tip;",
+          "if($v){ \"当前值: $($v)`n\" }",
+          "}}",
+          "设置当使用模块提供的补全菜单时, {{ $completion }} 是否显示补全提示信息"
+        ],
+        "tip_v1": "将 {{ $completion }} 的 menu_show_tip 配置设置为 1",
+        "tip_v0": "将 {{ $completion }} 的 menu_show_tip 配置设置为 0"
+      }
+    },
+    "menu": {
+      "example": [
+        "E: psc menu config menu_show_tip 0                  --- 不显示补全提示信息\n",
+        "   psc menu symbol SpaceTab \"\"                      --- 设置符号为空字符串(这可以隐藏符号)\n",
+        "   psc menu line_theme single_line_round_border     --- 切换内置的边框线条主题\n",
+        "   psc menu config                                  --- 设置补全菜单配置"
+      ],
+      "done": [
+        "<@Green>配置修改成功!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
+      ],
+      "symbol": {
+        "example": [
+          "E: psc menu symbol SpaceTab 😄\n",
+          "   psc menu symbol OptionTab 🤔\n",
+          "   psc menu symbol WriteSpaceTab 😎"
+        ],
+        "err": {
+          "max": [
+            "<@Yellow>",
+            "{{ $arg[2] }} 配置项只需要一个值, 可以是你喜欢的符号"
+          ]
+        }
+      },
+      "line_theme": {
+        "example": [
+          "E: psc menu line_theme double_line_rect_border       --- 设置为双线直角边框(默认)\n",
+          "   psc menu line_theme single_line_rect_border       --- 设置为单线直角边框\n",
+          "   psc menu line_theme single_line_round_border      --- 设置为单线圆角边框"
+        ],
+        "done": [
+          "<@Green>menu 边框样式主题修改成功!"
+        ]
+      },
+      "color_theme": {
+        "example": [
+          "E: psc menu color_theme default      --- 默认主题\n",
+          "   psc menu color_theme magenta      --- Magenta"
+        ],
+        "done": [
+          "<@Green>menu 颜色样式主题修改成功!"
+        ]
+      },
+      "custom": {
+        "example": [
+          "E: psc menu custom color border_text DarkGray     --- 设置边框的前景色为 DarkGray\n",
+          "   psc menu custom line horizontal \"─\"            --- 设置边框的横线为 -"
+        ],
+        "color": {
+          "tip": "设置颜色为 {{ $color }}"
+        }
+      },
+      "config": {
+        "example": [
+          "E: psc menu config menu_show_tip 0         --- 不显示补全提示信息\n",
+          "   psc menu config menu_enable 0           --- 禁用模块提供的补全菜单\n",
+          "   psc menu config menu_filter_symbol []   --- 设置过滤区域(左上角), 左侧和右侧的符号, 默认为 []"
+        ],
+        "err": {
+          "v_0": "<@Red>应该是一个大于等于 <@Magenta>0<@Red> 的整数数字",
+          "v_1": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字",
+          "v_2": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字, 或者 <@Magenta>-1<@Red>",
+          "v_3": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用"
+        }
+      }
+    },
+    "reset": {
+      "example": [
+        "E: psc reset *             --- 重置所有配置\n",
+        "   psc reset menu symbol   --- 重置所有符号配置(😄🤔😎)\n",
+        "   psc reset alias psc     --- 将 psc 恢复为默认补全名"
+      ],
+      "init_confirm": [
+        "<@Yellow>是否完全重置 PSCompletions 模块？\n",
+        "<@Red>它会删除 PSCompletions 模块的所有内容, 包括已下载的补全, 配置等, 只会保留模块最初的运行文件\n",
+        "<@Yellow>如果你需要重置, 请按下 <@Magenta>Enter<@Yellow> 键确定, 否则按下其他任意键取消"
+      ],
+      "init_done": [
+        "<@Green>PSCompletions 模块重置成功!\n",
+        "<@Yellow>你需要重新启动 PowerShell 并引入 PSCompletions 模块, 它会重新初始化"
+      ],
+      "done": [
+        "{{",
+        "if($change_list){",
+        "  \"<@Green>重置完成!`n<@Yellow>如果未生效, 请重启 PowerShell 并重新导入模块`n<@Cyan>以下是重置前后的新旧对比:`n------------------------------`n\";",
+        "  ($change_list | ForEach-Object { \"<@Blue>$($_.item): <@Magenta>$($_.old_value)<@Blue> => <@Magenta>$($_.new_value)<@Blue>\" }) -join \"`n\";",
+        "  \"<@Cyan>`n------------------------------\"",
+        "}else{",
+        "  \"<@Green>重置完成!`n<@Yellow>如果未生效, 请重启 PowerShell 并重新导入模块\"",
+        "}",
+        "}}"
+      ],
+      "alias": {
+        "tip": "将 {{ $completion }} 恢复为默认补全名",
+        "example": [
+          "E: psc reset alias *               --- 删除所有补全别名,全部恢复为默认补全名\n",
+          "   psc reset alias psc             --- 将 psc 恢复为默认补全名\n",
+          "   psc reset alias psc git bun     --- 将 psc git bun 恢复为默认补全名"
+        ]
+      },
+      "menu": {
+        "example": [
+          "E: psc reset menu *              --- 重置所有补全菜单配置\n",
+          "   psc reset menu config         --- 重置补全菜单的自定义配置\n",
+          "   psc reset menu line_theme     --- 重置补全菜单的边框线条主题"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,3224 @@
+{
+  "root": [
+    {
+      "name": "build",
+      "alias": [
+        "b"
+      ],
+      "tip": [
+        "U: build|b\n",
+        "Compile the current package."
+      ],
+      "options": [
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": "Outputs a future incompatibility report at the end of the build."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to build (see 'cargo help pkgid')"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Build all packages in the workspace"
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude packages from the build."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Build only this package's library."
+        },
+        {
+          "name": "--bins",
+          "tip": "Build all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Build only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Build all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Build only the specified example."
+          ]
+        },
+        {
+          "name": "--tests",
+          "tip": "Build all tests."
+        },
+        {
+          "name": "--test",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --test <test>\n",
+            "Build only the specified test target."
+          ]
+        },
+        {
+          "name": "--benches",
+          "tip": "Build all benches."
+        },
+        {
+          "name": "--bench",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bench <bench>\n",
+            "Build only the specified bench target."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Build all targets (lib, bins, examples, tests, and benches)."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Build for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Build artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Build artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the Build as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--out-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --out-dir <directory>\n",
+            "Copy final artifacts to this directory (unstable)"
+          ]
+        },
+        {
+          "name": "--build-plan",
+          "tip": "Output the build plan in JSON (unstable)"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output build graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "alias": [
+        "c"
+      ],
+      "tip": "Analyze the current package and report errors, but don't build object files.",
+      "options": [
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": "Outputs a future incompatibility report at the end of the build."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to check (see 'cargo help pkgid')"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Check all packages in the workspace"
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude packages from the check."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Check only this package's library."
+        },
+        {
+          "name": "--bins",
+          "tip": "Check all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Check only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Check all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Check only the specified example."
+          ]
+        },
+        {
+          "name": "--tests",
+          "tip": "Check all tests."
+        },
+        {
+          "name": "--test",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --test <test>\n",
+            "Check only the specified test target."
+          ]
+        },
+        {
+          "name": "--benches",
+          "tip": "Check all benches."
+        },
+        {
+          "name": "--bench",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bench <bench>\n",
+            "Check only the specified bench target."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Check all targets (lib, bins, examples, tests, and benches)."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Check for the target triple."
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts."
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Check artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Check artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the Check as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output Check graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": "Remove the target directory.",
+      "options": [
+        {
+          "name": "-doc",
+          "tip": "Whether or not to clean just the documentation directory."
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to clean artifacts for."
+          ]
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Whether or not to clean release artifacts."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Clean artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Target triple to clean output for."
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doc",
+      "alias": [
+        "d"
+      ],
+      "tip": "Build this package's and its dependencies' documentation.",
+      "options": [
+        {
+          "name": "--open",
+          "tip": "Opens the docs in a browser after the operation."
+        },
+        {
+          "name": "--no-deps",
+          "tip": "Don't build documentation for dependencies."
+        },
+        {
+          "name": "--document-private-items",
+          "tip": "Document private items."
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to document."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Document all packages in the workspace"
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude packages from the document."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Document only this package's library."
+        },
+        {
+          "name": "--bins",
+          "tip": "Document all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Document only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Document all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Document only the specified example."
+          ]
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Document for the target triple."
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts."
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Document artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Document artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the Document as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output Document graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "new",
+      "tip": "Create a new cargo package.",
+      "options": [
+        {
+          "name": "--vcs",
+          "tip": [
+            "Initialize a new repository for the given version control system (git, hg, pijul, or fossil)\n",
+            "or do not initialize any version control at all (none), overriding a global configuration.\n",
+            "[possible values: git, hg, pijul, fossil, none]"
+          ],
+          "next": [
+            {
+              "name": "git"
+            },
+            {
+              "name": "hg"
+            },
+            {
+              "name": "pijul"
+            },
+            {
+              "name": "fossil"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--bin",
+          "tip": "Use a binary (application) template [default]"
+        },
+        {
+          "name": "--lib",
+          "tip": "Use a library template."
+        },
+        {
+          "name": "--edition",
+          "tip": "Edition to set for the crate generated [possible values: 2015, 2018, 2021]",
+          "next": [
+            {
+              "name": "2015"
+            },
+            {
+              "name": "2018"
+            },
+            {
+              "name": "2021"
+            }
+          ]
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --name <name>\n",
+            "Set the resulting package name, defaults to the directory name."
+          ]
+        },
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": "Create a new cargo package in an existing directory.",
+      "options": [
+        {
+          "name": "--vcs",
+          "tip": [
+            "Initialize a new repository for the given version control system (git, hg, pijul, or fossil)\n",
+            "or do not initialize any version control at all (none), overriding a global configuration.\n",
+            "[possible values: git, hg, pijul, fossil, none]"
+          ],
+          "next": [
+            {
+              "name": "git"
+            },
+            {
+              "name": "hg"
+            },
+            {
+              "name": "pijul"
+            },
+            {
+              "name": "fossil"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--bin",
+          "tip": "Use a binary (application) template [default]"
+        },
+        {
+          "name": "--lib",
+          "tip": "Use a library template."
+        },
+        {
+          "name": "--edition",
+          "tip": "Edition to set for the crate generated [possible values: 2015, 2018, 2021]",
+          "next": [
+            {
+              "name": "2015"
+            },
+            {
+              "name": "2018"
+            },
+            {
+              "name": "2021"
+            }
+          ]
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --name <name>\n",
+            "Set the resulting package name, defaults to the directory name."
+          ]
+        },
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "add",
+      "tip": "Add dependencies to a manifest file.",
+      "options": [
+        {
+          "name": "--no-default-features",
+          "tip": "Disable the default features."
+        },
+        {
+          "name": "--default-features",
+          "tip": "Re-enable the default features"
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": "Mark the dependency as optional."
+        },
+        {
+          "name": "--no-optional",
+          "tip": "Mark the dependency as required."
+        },
+        {
+          "name": "--rename",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --rename <name>\n",
+            "Rename the dependency."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": "Don't actually write the manifest."
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to modify."
+          ]
+        },
+        {
+          "name": "--path",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --path <path>\n",
+            "Filesystem path to local crate to add."
+          ]
+        },
+        {
+          "name": "--git",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --git <git-url>\n",
+            "Git repository location."
+          ]
+        },
+        {
+          "name": "--branch",
+          "tip": "Git branch to download the crate from.",
+          "next": [
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            },
+            {
+              "name": "dev"
+            }
+          ]
+        },
+        {
+          "name": "--tag",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --tag <tag>\n",
+            "Git tag to download the crate from."
+          ]
+        },
+        {
+          "name": "--rev",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --rev <rev>\n",
+            "Git reference to download the crate from."
+          ]
+        },
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Package registry for this dependency."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": "Add as development dependency."
+        },
+        {
+          "name": "--build",
+          "tip": "Add as build dependency."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Add as dependency to the given target platform."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": "Remove dependencies from a manifest file.",
+      "options": [
+        {
+          "name": "--dry-run",
+          "tip": "Don't actually write the manifest."
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to modify."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": "Remove as development dependency."
+        },
+        {
+          "name": "--build",
+          "tip": "Remove as build dependency."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Remove as dependency to the given target platform."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "alias": [
+        "r"
+      ],
+      "tip": [
+        "U: run|r\n",
+        "Run a binary or example of the local package."
+      ],
+      "options": [
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to run (see 'cargo help pkgid')"
+          ]
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Name of the bin target to run."
+          ]
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Name of the example target to run."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Build all targets (lib, bins, examples, tests, and benches)."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Build for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Run artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Run artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the Run as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--out-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --out-dir <directory>\n",
+            "Copy final artifacts to this directory (unstable)"
+          ]
+        },
+        {
+          "name": "--build-plan",
+          "tip": "Output the build plan in JSON (unstable)"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output build graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: test|t\n",
+        "Run the tests."
+      ],
+      "options": [
+        {
+          "name": "--doc",
+          "tip": "Run tests for documentation."
+        },
+        {
+          "name": "--no-run",
+          "tip": "Compile, but don't run tests."
+        },
+        {
+          "name": "--no-fail-fast",
+          "tip": "Run all tests regardless of failure."
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": "Outputs a future incompatibility report at the end of the build."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to run tests for."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Test all packages in the workspace"
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude packages from the test."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Test only this package's library unit tests."
+        },
+        {
+          "name": "--bins",
+          "tip": "Test all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Test only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Test all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Test only the specified example."
+          ]
+        },
+        {
+          "name": "--tests",
+          "tip": "Test all tests."
+        },
+        {
+          "name": "--test",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --test <test>\n",
+            "Test only the specified test target."
+          ]
+        },
+        {
+          "name": "--benches",
+          "tip": "Test all benches."
+        },
+        {
+          "name": "--bench",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bench <bench>\n",
+            "Test only the specified bench target."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Test all targets (does not include doctests)."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Test for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Test artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Test artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the test as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output build graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "bench",
+      "tip": "Run the benchmarks.",
+      "options": [
+        {
+          "name": "--no-run",
+          "tip": "Compile, but don't run benchmarks."
+        },
+        {
+          "name": "--no-fail-fast",
+          "tip": "Run all benchmarks regardless of failure."
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": "Outputs a future incompatibility report at the end of the build."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to run benchmarks for."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Test all packages in the workspace."
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude packages from the benchmark."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Benchmark only this package's library."
+        },
+        {
+          "name": "--bins",
+          "tip": "Benchmark all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Benchmark only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Benchmark all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Benchmark only the specified example."
+          ]
+        },
+        {
+          "name": "--tests",
+          "tip": "Benchmark all tests."
+        },
+        {
+          "name": "--test",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --test <test>\n",
+            "Benchmark only the specified test target."
+          ]
+        },
+        {
+          "name": "--benches",
+          "tip": "Benchmark all benches."
+        },
+        {
+          "name": "--bench",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bench <bench>\n",
+            "Benchmark only the specified bench target."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Benchmark all targets."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Test for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Benchmark artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the benchmark as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output build graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": "Update dependencies listed in Cargo.lock.",
+      "options": [
+        {
+          "name": "--dry-run",
+          "tip": "Don't actually write the lockfile."
+        },
+        {
+          "name": "--aggressive",
+          "tip": "Force updating all dependencies of SPEC as well when used with -p"
+        },
+        {
+          "name": "--precise",
+          "symbol": "WriteSpaceTab",
+          "tip": "Update a single dependency to exactly PRECISE when used with -p"
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: --workspace|-w\n",
+            "Only update the workspace packages."
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to update."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": "Search registry for crates.",
+      "options": [
+        {
+          "name": "--limit",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --limit <limit>\n",
+            "Limit the number of results (default: 10, max: 100)"
+          ]
+        },
+        {
+          "name": "--index",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --index <index>\n",
+            "Registry index URL to upload the package to."
+          ]
+        },
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": "Package and upload this package to the registry.",
+      "options": [
+        {
+          "name": "--dry-run",
+          "tip": "Perform all checks without uploading."
+        },
+        {
+          "name": "--index",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --index <index>\n",
+            "Registry index URL to upload the package to."
+          ]
+        },
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to publish to."
+          ]
+        },
+        {
+          "name": "--token",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --token <token>\n",
+            "Token to use when uploading."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": "Don't verify the contents by building them."
+        },
+        {
+          "name": "--allow-dirty",
+          "tip": "Allow dirty working directories to be packaged."
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to publish."
+          ]
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Publish for the target triple."
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the benchmark as soon as there is an error (unstable)."
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": "Install a Rust binary. Default location is $HOME/.cargo/bin",
+      "options": [
+        {
+          "name": "--version",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --version <version>\n",
+            "Specify a version to install."
+          ]
+        },
+        {
+          "name": "--index",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --index <index>\n",
+            "Registry index to install from."
+          ]
+        },
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to use."
+          ]
+        },
+        {
+          "name": "--git",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --git <git>\n",
+            "Git repository location."
+          ]
+        },
+        {
+          "name": "--branch",
+          "tip": "Git branch to download the crate from.",
+          "next": [
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            },
+            {
+              "name": "dev"
+            }
+          ]
+        },
+        {
+          "name": "--tag",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --tag <tag>\n",
+            "Git tag to download the crate from."
+          ]
+        },
+        {
+          "name": "--rev",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --rev <rev>\n",
+            "Git reference to download the crate from."
+          ]
+        },
+        {
+          "name": "--path",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --path <path>\n",
+            "Filesystem path to local crate to add."
+          ]
+        },
+        {
+          "name": "--root",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --root <path>\n",
+            "Directory to install packages into."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: --force|-f\n",
+            "Force overwriting existing crates or binaries."
+          ]
+        },
+        {
+          "name": "--no-track",
+          "tip": "Do not save tracking information."
+        },
+        {
+          "name": "--list",
+          "tip": "list all installed packages and their versions."
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--bins",
+          "tip": "Install all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Install only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Install all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Install only the specified example."
+          ]
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Install for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": "Install artifacts with the specified profile."
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the install as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output build graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": "Uninstall a Rust binary.",
+      "options": [
+        {
+          "name": "--root",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --root <path>\n",
+            "Directory to uninstall packages from."
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to uninstall."
+          ]
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Only uninstall the binary NAME."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clippy",
+      "tip": "Checks a package to catch common mistakes and improve your Rust code.",
+      "options": [
+        {
+          "name": "--no-deps",
+          "tip": "Run Clippy only on the given crate, without linting the dependencies"
+        },
+        {
+          "name": "--fix",
+          "tip": "Automatically apply lint suggestions. This flag implies `--no-deps` and `--all-targets`"
+        },
+        {
+          "name": "--explain",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --explain <lint>\n",
+            "Print the documentation for a given lint"
+          ]
+        },
+        {
+          "name": "--warn",
+          "alias": [
+            "-W"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --warn|-W <warn>\n",
+            "Set lint warnings"
+          ]
+        },
+        {
+          "name": "--allow",
+          "alias": [
+            "-A"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --allow|-A <allow>\n",
+            "Set lint allowed list"
+          ]
+        },
+        {
+          "name": "--deny",
+          "alias": [
+            "-D"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --deny|-D <deny>\n",
+            "Set lint denied list"
+          ]
+        },
+        {
+          "name": "--forbid",
+          "alias": [
+            "-F"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --forbid|-F <forbid>\n",
+            "Set lint forbidden list"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": "Inspect configuration values.",
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "U: get <config>\n",
+            "Get Cargo's config."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": "Fetch dependencies of a package from the network.",
+      "options": [
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Fetch dependencies for the target triple"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fix",
+      "tip": "Automatically fix lint warnings reported by rustc.",
+      "options": [
+        {
+          "name": "--edition",
+          "tip": "Fix in preparation for the next edition."
+        },
+        {
+          "name": "--edition-idioms",
+          "tip": "Fix warnings to migrate to the idioms of an edition."
+        },
+        {
+          "name": "--broken-code",
+          "tip": "Fix code even if it already has compiler errors."
+        },
+        {
+          "name": "--allow-no-vcs",
+          "tip": "Fix code even if a VCS was not detected."
+        },
+        {
+          "name": "--allow-dirty",
+          "tip": "Fix code even if the working directory is dirty."
+        },
+        {
+          "name": "--allow-staged",
+          "tip": "Fix code even if the working directory has staged changes."
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package(s) to fix."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Fix all packages in the workspace."
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude packages from the fixes."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Fix only this package's library."
+        },
+        {
+          "name": "--bins",
+          "tip": "Fix all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Fix only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Fix all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Fix only the specified example."
+          ]
+        },
+        {
+          "name": "--tests",
+          "tip": "Fix all tests."
+        },
+        {
+          "name": "--test",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --test <test>\n",
+            "Fix only the specified test target."
+          ]
+        },
+        {
+          "name": "--benches",
+          "tip": "Fix all benches."
+        },
+        {
+          "name": "--bench",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bench <bench>\n",
+            "Fix only the specified bench target."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Fix all targets (lib, bins, examples, tests, and benches)."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Fix for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Fix artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Fix artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the fix as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "tip": "Formats all bin and lib files of the current crate using rustfmt.",
+      "options": [
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Specify package to format."
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--all",
+          "tip": "Format all packages, and also their local path-based dependencies."
+        },
+        {
+          "name": "--check",
+          "tip": "Run rustfmt in check mode."
+        }
+      ]
+    },
+    {
+      "name": "generate-lockfile",
+      "tip": "Generate the lockfile for a package."
+    },
+    {
+      "name": "locate-project",
+      "tip": "Print a JSON representation of a Cargo.toml file's location.",
+      "options": [
+        {
+          "name": "--workspace",
+          "tip": "Locate Cargo.toml of the workspace root."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": "Log in to a registry.",
+      "options": [
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": "Remove an API token from the registry locally.",
+      "options": [
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metadata",
+      "tip": "Output the resolved dependencies of a package, the concrete used versions including overrides, in machine-readable format.",
+      "options": [
+        {
+          "name": "--filter-platform",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --filter-platform <triple>\n",
+            "Only include resolve dependencies matching the given target-triple."
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": "Output information only about the workspace members and don't fetch dependencies."
+        },
+        {
+          "name": "--format-version",
+          "tip": "Format version [possible values: 1]",
+          "next": [
+            {
+              "name": "1"
+            }
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        }
+      ]
+    },
+    {
+      "name": "owner",
+      "tip": "Manage the owners of a crate on the registry.",
+      "options": [
+        {
+          "name": "--add",
+          "alias": [
+            "-a"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --add|-a <owner>\n",
+            "Name of a user or team to invite as an owner."
+          ]
+        },
+        {
+          "name": "--remove",
+          "alias": [
+            "-r"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --remove|-r <owner>\n",
+            "Name of a user or team to remove as an owner."
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: --list|-l\n",
+            "List owners of a crate."
+          ]
+        },
+        {
+          "name": "--index",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --index <index>\n",
+            "Registry index to modify owners for."
+          ]
+        },
+        {
+          "name": "--token",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --token <token>\n",
+            "API token to use when authenticating."
+          ]
+        },
+        {
+          "name": "--registry",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --registry <registry>\n",
+            "Registry to use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "package",
+      "tip": "Assemble the local package into a distributable tarball.",
+      "options": [
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: --list|-l\n",
+            "Print files included in a package without making one."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": "Don't verify the contents by building them."
+        },
+        {
+          "name": "--no-metadata",
+          "tip": "Ignore warnings about a lack of human-usable metadata."
+        },
+        {
+          "name": "--allow-dirty",
+          "tip": "Allow dirty working directories to be packaged."
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package(s) to assemble."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Assemble all packages in the workspace"
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Don't assemble specified packages."
+          ]
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Assemble for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the assemble as soon as there is an error (unstable)."
+        }
+      ]
+    },
+    {
+      "name": "pkgid",
+      "tip": "Print a fully qualified package specification.",
+      "options": [
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Argument to get the package ID specifier for."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "read-manifest",
+      "tip": "Print a JSON representation of a Cargo.toml manifest."
+    },
+    {
+      "name": "report",
+      "tip": "Generate and display various kinds of reports.",
+      "options": [
+        {
+          "name": "future-incompatibilities",
+          "tip": "Reports any crates which will eventually stop compiling."
+        }
+      ]
+    },
+    {
+      "name": "rustc",
+      "tip": "Compile a package, and pass extra options to the compiler.",
+      "options": [
+        {
+          "name": "--print",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --print <output>\n",
+            "Output compiler information without compiling."
+          ]
+        },
+        {
+          "name": "--crate-type",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --crate-type <type>\n",
+            "Comma separated list of types of crates for the compiler to emit."
+          ]
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": "Outputs a future incompatibility report at the end of the build."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to build"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Build all packages in the workspace"
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude packages from the build."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Build only this package's library."
+        },
+        {
+          "name": "--bins",
+          "tip": "Build all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Build only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Build all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Build only the specified example."
+          ]
+        },
+        {
+          "name": "--tests",
+          "tip": "Build all tests."
+        },
+        {
+          "name": "--test",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --test <test>\n",
+            "Build only the specified test target."
+          ]
+        },
+        {
+          "name": "--benches",
+          "tip": "Build all benches."
+        },
+        {
+          "name": "--bench",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bench <bench>\n",
+            "Build only the specified bench target."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Build all targets (lib, bins, examples, tests, and benches)."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Build for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Build artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Build artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the Build as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        },
+        {
+          "name": "--unit-graph",
+          "tip": "Output build graph in JSON (unstable)"
+        }
+      ]
+    },
+    {
+      "name": "rustdoc",
+      "tip": "Build a package's documentation, using specified custom flags.",
+      "options": [
+        {
+          "name": "--open",
+          "tip": "Opens the docs in a browser after the operation."
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": "Ignore `rust-version` specification in packages."
+        },
+        {
+          "name": "--message-format",
+          "tip": "Specify message-format: short|json|human.",
+          "next": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "human"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to document"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": "Build only this package's library."
+        },
+        {
+          "name": "--bins",
+          "tip": "Build all binaries."
+        },
+        {
+          "name": "--bin",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bin <bin>\n",
+            "Build only the specified binary."
+          ]
+        },
+        {
+          "name": "--examples",
+          "tip": "Build all examples."
+        },
+        {
+          "name": "--example",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --example <example>\n",
+            "Build only the specified example."
+          ]
+        },
+        {
+          "name": "--tests",
+          "tip": "Build all tests."
+        },
+        {
+          "name": "--test",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --test <test>\n",
+            "Build only the specified test target."
+          ]
+        },
+        {
+          "name": "--benches",
+          "tip": "Build all benches."
+        },
+        {
+          "name": "--bench",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --bench <bench>\n",
+            "Build only the specified bench target."
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": "Build all targets (lib, bins, examples, tests, and benches)."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Build for the target triple"
+          ]
+        },
+        {
+          "name": "--target-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target-dir <directory>\n",
+            "Directory for all generated artifacts"
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release|-r\n",
+            "Build artifacts in release mode, with optimizations."
+          ]
+        },
+        {
+          "name": "--profile",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --profile <profile>\n",
+            "Build artifacts with the specified profile."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs|-j <N>\n",
+            "Number of parallel jobs, defaults to # of CPUs."
+          ]
+        },
+        {
+          "name": "--keep-going",
+          "tip": "Do not abort the Build as soon as there is an error (unstable)."
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": "Timing output formats (unstable) (comma separated): html,json"
+        }
+      ]
+    },
+    {
+      "name": "tree",
+      "tip": "Display a tree visualization of a dependency graph.",
+      "options": [
+        {
+          "name": "--edges",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: --edges|-e\n",
+            "The kinds of dependencies to display (features,normal,build,dev,all,no-normal,no-build,no-dev,no-proc-macro)"
+          ],
+          "next": [
+            {
+              "name": "features"
+            },
+            {
+              "name": "normal"
+            },
+            {
+              "name": "build"
+            },
+            {
+              "name": "dev"
+            },
+            {
+              "name": "all"
+            },
+            {
+              "name": "no-normal"
+            },
+            {
+              "name": "no-build"
+            },
+            {
+              "name": "no-dev"
+            },
+            {
+              "name": "no-proc-macro"
+            }
+          ]
+        },
+        {
+          "name": "--invert",
+          "alias": [
+            "-i"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --invert|-i\n",
+            "Invert the tree direction and focus on the given package."
+          ]
+        },
+        {
+          "name": "--prune",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --prune <package>\n",
+            "Prune the given package from the display of the dependency tree."
+          ]
+        },
+        {
+          "name": "--depth",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --depth <depth>\n",
+            "Maximum display depth of the dependency tree."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "tip": "Change the prefix (indentation) of how each entry is displayed [default: indent] [possible values: depth, indent, none]",
+          "next": [
+            {
+              "name": "depth"
+            },
+            {
+              "name": "indent"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--no-dedupe",
+          "tip": "Do not de-duplicate. (repeats all shared dependencies)"
+        },
+        {
+          "name": "--duplicates",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: --duplicates|-d\n",
+            "Show only dependencies which come in multiple versions (implies -i)"
+          ]
+        },
+        {
+          "name": "--charset",
+          "tip": "Character set to use in output [default: utf8] [possible values: utf8, ascii]",
+          "next": [
+            {
+              "name": "utf8"
+            },
+            {
+              "name": "ascii"
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": "Format string used for printing dependencies [default: {p}]"
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --package|-p <package>\n",
+            "Package to be used as the root of the tree."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": "Display the tree for all packages in the workspace."
+        },
+        {
+          "name": "--exclude",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --exclude <package>\n",
+            "Exclude specific workspace members."
+          ]
+        },
+        {
+          "name": "--features",
+          "symbol": "WriteSpaceTab",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features|-F <features>\n",
+            "Space or comma separated list of features to activate."
+          ]
+        },
+        {
+          "name": "--all-features",
+          "tip": "Activate all available features."
+        },
+        {
+          "name": "--no-default-features",
+          "tip": "Do not activate the 'default' feature."
+        },
+        {
+          "name": "--target",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --target <triple>\n",
+            "Filter dependencies matching the given target-triple (default host platform). Pass `all` to include all targets."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "vendor",
+      "tip": "Vendor all dependencies for a project locally.",
+      "options": [
+        {
+          "name": "--no-delete",
+          "tip": "Don't delete older crates in the vendor directory."
+        },
+        {
+          "name": "--sync",
+          "alias": [
+            "-s"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --sync|-s <path>\n",
+            "Additional `Cargo.toml` to sync and vendor."
+          ]
+        },
+        {
+          "name": "--respect-source-config",
+          "tip": "Respect `[source]` config in `.cargo/config`"
+        },
+        {
+          "name": "--versioned-dirs",
+          "tip": "Always include version in subdir name."
+        }
+      ]
+    },
+    {
+      "name": "verify-project",
+      "tip": "Check correctness of crate manifest."
+    },
+    {
+      "name": "version",
+      "tip": "Show version information."
+    },
+    {
+      "name": "yank",
+      "tip": "Remove a pushed crate from the index.",
+      "options": [
+        {
+          "name": "--version",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --version <version>\n",
+            "The version to yank or un-yank."
+          ]
+        },
+        {
+          "name": "--undo",
+          "tip": "Undo a yank, putting a version back into the index."
+        },
+        {
+          "name": "--index",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --index <index>\n",
+            "Registry index to yank from."
+          ]
+        },
+        {
+          "name": "--token",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --token <token>\n",
+            "API token to use when authenticating."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "U: help <cmd>\n",
+        "Displays help for a cargo subcommand."
+      ]
+    }
+  ],
+  "options": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: --version|-V\n",
+        "Print version info and exit."
+      ]
+    }
+  ],
+  "common_options": [
+    {
+      "name": "--manifest-path",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: --manifest-path <path>\n",
+        "Path to Cargo.toml"
+      ]
+    },
+    {
+      "name": "--list",
+      "tip": "List installed commands"
+    },
+    {
+      "name": "--explain",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: --explain <CODE>\n",
+        "Run 'rustc --explain CODE'"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: --verbose|-v\n",
+        "Use verbose output (-vv very verbose/build.rs output)"
+      ]
+    },
+    {
+      "name": "-vv",
+      "tip": "Use very verbose output"
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: --quiet|-q\n",
+        "Do not print cargo log messages"
+      ]
+    },
+    {
+      "name": "--color",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: --color <when>\n",
+        "Control coloring of output: auto, always, never\n",
+        "E: --color always"
+      ]
+    },
+    {
+      "name": "-C",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -C <DIRECTORY>\n",
+        "Change to DIRECTORY before doing anything(nightly-only)."
+      ]
+    },
+    {
+      "name": "--frozen",
+      "tip": "Require Cargo.lock and cache are up to date."
+    },
+    {
+      "name": "--locked",
+      "tip": "Require Cargo.lock is up to date."
+    },
+    {
+      "name": "--offline",
+      "tip": "Run without accessing the network."
+    },
+    {
+      "name": "--config",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: --config <FILE>\n",
+        "Specify config file path to override a configuration value."
+      ]
+    },
+    {
+      "name": "-Z",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -Z <FLAG>\n",
+        "Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: --help|-h\n",
+        "Print help information."
+      ]
+    }
+  ]
+}
