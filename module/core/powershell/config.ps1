@@ -6,7 +6,7 @@ $PSCompletions.default.env = @{
     module_update = 1
     github        = 'https://github.com/abgox/PSCompletions'
     gitee         = 'https://gitee.com/abgox/PSCompletions'
-    url           = 'http://127.0.0.1:8080'
+    url           = ''
 }
 $PSCompletions.default.symbol = @{
     symbol_SpaceTab      = [char]::ConvertFromUtf32([convert]::ToInt32(("U+1F604" -replace 'U\+', '0x'), 16))
