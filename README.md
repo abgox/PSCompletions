@@ -73,7 +73,7 @@
 
 ### About completion update
 
--   When the module is imported after `PowerShell` is opened, `PSCompletions` will start a background job to check for the completion status of the remote repository.
+-   When the module is imported after opening `PowerShell`, `PSCompletions` will start a background job to check for the completion status of the remote repository.
 
 -   After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
 
@@ -109,6 +109,25 @@
     -   All complements can be triggered by pressing the `Tab` key after entering a part.
     -   If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.
         -   e.g. `psc menu symbol SpaceTab ""`
+
+### About language
+
+-   `Global language`: Default to the language of current system.
+    -   You can show it by running `psc config language`
+    -   You can change it by running `psc config language zh-CN`
+-   `Completion language`: The language set for the specified completion.
+    -   e.g. `psc completion git language en-US`
+-   `Available language`: In the completion `config.json` file, there is a `language` attribute whose value is a list of available languages.
+
+#### Determine language
+
+1. Get the specified language:
+    - If there is `Completion language`,use it.
+    - If not, use `Global language`.
+2. Determine the final language:
+    - Determine whether the value of the first step exists in `Available language`.
+    - If it exists, use it.
+    - If not, use the first of the `Available language`. (It's usually `en-US`)
 
 ### About path completion
 

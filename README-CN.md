@@ -73,7 +73,7 @@
 ### 关于补全更新
 
 -   当打开 `PowerShell` 并导入 `PSCompletions` 后，`PSCompletions` 会开启一个后台作业去检查远程仓库中补全的状态
--   获取到更新后，会在下一次显示补全更新提示
+-   获取到更新后，会在下一次打开 `PowerShell` 并导入 `PSCompletions` 后显示补全更新提示
 
 ### 关于补全菜单
 
@@ -113,6 +113,23 @@
 
 -   使用 PowerShell 语言自带的补全菜单时, 如果 `...` 是最后一个补全, 则表示可显示区域过小, 无法显示所有候选项
 -   使用模块提供的补全菜单时, 如果补全提示信息末尾出现 `...`, 则表示当前显示区域宽度不够, 提示信息显示不完整
+
+### 关于语言
+
+-   `Global language`: 默认为当前的系统语言
+    -   `psc config language` 可以查看全局的语言配置
+    -   `psc config language zh-CN` 可以更改全局的语言配置
+-   `Completion language`: 为指定的补全设置的语言
+    -   e.g. `psc completion git language en-US`
+-   `Available language`: 每一个补全的 `config.json` 文件中有一个 `language` 属性，它的值是一个可用的语言列表
+
+#### 确定语言
+
+1. 确定指定的语言: 如果有 `Completion language`，优先使用它，没有则使用 `Global language`
+2. 确定最终使用的语言:
+    - 判断第一步确定的值是否存在于 `Available language` 中
+    - 如果存在，则使用它
+    - 如果不存在，直接使用 `Available language` 中的第一种语言(一般为 `en-US`)
 
 ### 关于路径补全
 
