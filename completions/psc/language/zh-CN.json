@@ -286,7 +286,7 @@
       "symbol": "SpaceTab",
       "tip": [
         "指定单个补全的独立配置(独立配置优先级最高)\n",
-        "每个补全默认带有两个可设置的独立配置( language,menu_show_tip )\n",
+        "每个补全默认带有两个可设置的独立配置(language|menu_show_tip)\n",
         "{{ $info.completion.example }}"
       ]
     },
@@ -1747,7 +1747,7 @@
       "example": [
         "E: psc completion psc language en-US      --- 单独设置 psc 补全的语言为英文\n",
         "   psc completion psc language \"\"         --- 设置为空, 表示移除这一个独立配置\n",
-        "   psc completion psc menu_show_tip 0     --- 单独设置 psc 是否显示补全提示信息"
+        "   psc completion psc menu_show_tip 0     --- 单独设置 psc 不显示补全提示信息"
       ],
       "done": [
         "<@Green>{{ $completion }} 的独立配置修改成功!\n",
@@ -1757,7 +1757,7 @@
         "min": [
           "<@Yellow>",
           "你应该继续输入要设置的配置项\n",
-          "每个补全默认带有两个可设置的独立配置( <@Magenta>language,menu_show_tip<@Yellow> )\n",
+          "每个补全默认带有两个可设置的独立配置(<@Magenta>language<@Yellow>|<@Magenta>menu_show_tip<@Yellow>)\n",
           "{{",
           "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin @('language','menu_show_tip') };",
           "if($config){ \"$($arg[1]) 额外的可用配置项: <@Magenta>$($config -join ' ')\" }",

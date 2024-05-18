@@ -288,7 +288,7 @@
       "symbol": "SpaceTab",
       "tip": [
         "Specify a configuration for a completion. (These configurations have the highest priority.)\n",
-        "By default, each completion has two configurations.( language,menu_show_tip )\n",
+        "By default, each completion has two configurations. (language|menu_show_tip)\n",
         "{{ $info.completion.example }}"
       ]
     },
@@ -1283,8 +1283,8 @@
       "  1. Install the PSCompletions module in the built-in Windows powershell on the Windows system started in administrator mode.\n",
       "  2. The installation is accidentally using <@Magenta>-Scope AllUser<@Yellow>\n",
       "If you are in the case, you should use <@Magenta>-Scope CurrentUser<@Yellow> to reinstall the module, unless you are in the following case:\n",
-       "  1. You already know that the module installed in administrator mode can have permission issues when used with user mode.\n",
-       "  2. You always use the administrator mode to open PowerShell, and never use the user mode.\n\n",
+      "  1. You already know that the module installed in administrator mode can have permission issues when used with user mode.\n",
+      "  2. You always use the administrator mode to open PowerShell, and never use the user mode.\n\n",
       "<@Blue>Full installation command: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Cyan>\n\n",
       "---------------------------------------------------------------------\n",
       "<@Cyan>✨✨✨PSCompletions(<@Magenta>psc<@Cyan>) --- init successfully!✨✨✨\n",
@@ -1745,7 +1745,7 @@
       "example": [
         "E: psc completion psc language zh-CN      --- Set the psc completion language to zh-CN\n",
         "   psc completion psc language \"\"         --- It means to remove this Special configuration\n",
-        "   psc completion psc menu_show_tip 0     --- Set whether the psc displays a completion tip"
+        "   psc completion psc menu_show_tip 0     --- Set psc completion to not display tip"
       ],
       "done": [
         "<@Green>{{ $completion }} 's special configuration modified successfully!\n",
@@ -1755,7 +1755,7 @@
         "min": [
           "<@Yellow>",
           "You should continue to enter the configuration items to be set\n",
-          "By default, each completion comes with two special configurations. ( <@Magenta>language,menu_show_tip<@Yellow> )\n",
+          "By default, each completion comes with two special configurations. (<@Magenta>language<@Yellow>|<@Magenta>menu_show_tip<@Yellow>)\n",
           "{{",
           "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin @('language','menu_show_tip') };",
           "if($config){ \"$($arg[1])'s additional special configuration: <@Magenta>$($config -join ' ')\" }",
