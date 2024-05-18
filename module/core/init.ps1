@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.0.2'
+$PSCompletions.version = '4.0.3'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -77,6 +77,8 @@ $PSCompletions.order = [ordered]@{}
 
 $PSCompletions.language = $PSUICulture
 
+$PSCompletions.encoding = [console]::OutputEncoding
+
 $PSCompletions.wc = New-Object System.Net.WebClient
 
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
@@ -95,19 +97,19 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
 if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path.completions)) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
         $version = (Get-ChildItem (Split-Path $this.path.root -Parent)).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue
-            if ($version -is [array]) {
-                $old_version = $version[-2]
-                if($old_version -ge "4"){
-                    $old_version_dir = Join-Path (Split-Path $this.path.root -Parent) $old_version
-                    $this.ensure_dir($this.path.completions)
-                    Get-ChildItem "$($old_version_dir)/completions" -ErrorAction SilentlyContinue | Where-Object {
-                        $_.BaseName -ne 'psc'
-                    } | ForEach-Object {
-                        Move-Item $_.FullName $this.path.completions -Force -ErrorAction SilentlyContinue
-                    }
-                    Move-Item "$($old_version_dir)/config.json" $this.path.config -Force -ErrorAction SilentlyContinue
+        if ($version -is [array]) {
+            $old_version = $version[-2]
+            if ($old_version -ge "4") {
+                $old_version_dir = Join-Path (Split-Path $this.path.root -Parent) $old_version
+                $this.ensure_dir($this.path.completions)
+                Get-ChildItem "$($old_version_dir)/completions" -ErrorAction SilentlyContinue | Where-Object {
+                    $_.BaseName -ne 'psc'
+                } | ForEach-Object {
+                    Move-Item $_.FullName $this.path.completions -Force -ErrorAction SilentlyContinue
                 }
+                Move-Item "$($old_version_dir)/config.json" $this.path.config -Force -ErrorAction SilentlyContinue
             }
+        }
     }
     $PSCompletions.move_old_version()
 }
@@ -659,7 +661,7 @@ if ($PSCompletions.config.module_update -match '^\d+(\.\d+)+$') {
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
                 if ($PSEdition -eq "Desktop") {
                     # powershell 5.1
-                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module_updating))
+                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
                     try {
                         Update-Module PSCompletions -ErrorAction Stop
                     }
@@ -675,7 +677,7 @@ if ($PSCompletions.config.module_update -match '^\d+(\.\d+)+$') {
                 }
                 else {
                     # pwsh
-                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module_updating))
+                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
                     try {
                         Update-Module PSCompletions -ErrorAction Stop
                     }

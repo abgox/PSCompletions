@@ -535,6 +535,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     param($filter_list)
     $this.origin_filter_list = $this.filter_list = $filter_list
 
+    $lastest_encoding = [console]::OutputEncoding
+    [console]::OutputEncoding = $PSCompletions.encoding
+
     $this.pos = $Host.UI.RawUI.WindowPosition
     $this.pos_tip = $Host.UI.RawUI.WindowPosition
     $this.list_max_width = 0
@@ -586,6 +589,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                     67 {
                         # Ctrl + c
                         $this.reset($true)
+                        ''
                         break loop
                     }
                     { $_ -eq 85 -or $_ -eq 80 } {
@@ -705,6 +709,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     catch {
         $this.reset($true)
     }
+    [console]::OutputEncoding = $lastest_encoding
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
     param($filter_list)
