@@ -79,16 +79,20 @@
 
 -   模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
 -   模块提供的补全菜单只能在 Windows 系统下使用 PowerShell(pwsh) 运行, 其他环境只能使用 PowerShell 自带的补全菜单
--   在此补全菜单中, 你可以使用以下按键选择补全项
+-   模块提供的补全菜单中的按键
 
-    | 选择上一项 |  选择下一项   |
-    | :--------: | :-----------: |
-    |     Up     |     Down      |
-    |    Left    |     Right     |
-    |    Tab     |  Shift + Tab  |
-    |   Space    | Shift + Space |
-    |  Ctrl + u  |   Ctrl + d    |
-    |  Ctrl + p  |   Ctrl + n    |
+    1. 应用选中的补全项: `Enter`(回车键)
+    2. 退出补全菜单: `ESC` / `Ctrl + c`
+    3. 选择补全项:
+
+        | 选择上一项 |   选择下一项    |
+        | :--------: | :-------------: |
+        |    `Up`    |     `Down`      |
+        |   `Left`   |     `Right`     |
+        |   `Tab`    |  `Shift + Tab`  |
+        |  `Space`   | `Shift + Space` |
+        | `Ctrl + u` |   `Ctrl + d`    |
+        | `Ctrl + p` |   `Ctrl + n`    |
 
 -   补全菜单的所有配置, 你可以使用 `psc menu` 触发补全, 通过命令提示信息来了解
 

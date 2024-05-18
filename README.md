@@ -81,16 +81,20 @@
 
 -   The module's completion menu provided by the module is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
 -   It can only be used in PowerShell(pwsh) under Windows.
--   When you use it, you can select previous or next option in the following keys.
+-   Some keys in the completion menu provided by the module.
 
-    | select previous option | select next option |
-    | :--------------------: | :----------------: |
-    |           Up           |        Down        |
-    |          Left          |       Right        |
-    |          Tab           |    Shift + Tab     |
-    |         Space          |   Shift + Space    |
-    |        Ctrl + u        |      Ctrl + d      |
-    |        Ctrl + p        |      Ctrl + n      |
+    1. Apply the selected completion item: `Enter`
+    2. Exit the completion menu: `ESC` / `Ctrl + c`
+    3. Select completion item:
+
+        | Select previous item | Select next item |
+        | :------------------: | :--------------: |
+        |         `Up`         |      `Down`      |
+        |        `Left`        |     `Right`      |
+        |        `Tab`         |  `Shift + Tab`   |
+        |       `Space`        | `Shift + Space`  |
+        |      `Ctrl + u`      |    `Ctrl + d`    |
+        |      `Ctrl + p`      |    `Ctrl + n`    |
 
 -   All configurations of it, you can trigger completion by running `psc menu`, then learn about them by completion tip.
 
