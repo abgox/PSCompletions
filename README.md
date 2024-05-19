@@ -62,14 +62,19 @@
 -   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues 'Click to submit an issue') and I will consider adding it.
 
 1. `psc add git`
-2. Then you can type `git` and press `Space` `Tab` to get command completion.
-3. For more commands on `psc`, you can learn by typing `psc` and then pressing `Space` `Tab`.
+2. Then you can enter `git` and press `Space` `Tab` to get command completion.
+3. For more commands on `psc`, you can learn by entering `psc` and then pressing `Space` `Tab`.
 
 ## Demo
 
 ![demo](https://abgop.netlify.app/pscompletions/demo.gif)
 
 ## Tips
+
+### About the completion trigger key
+
+-   The module uses the `Tab` key by default.
+-   You can set it by running `Set-PSReadLineKeyHandler <key> MenuComplete`.
 
 ### About completion update
 
@@ -91,8 +96,8 @@
         | :------------------: | :--------------: |
         |         `Up`         |      `Down`      |
         |        `Left`        |     `Right`      |
-        |        `Tab`         |  `Shift + Tab`   |
-        |       `Space`        | `Shift + Space`  |
+        |    `Shift + Tab`     |      `Tab`       |
+        |   `Shift + Space`    |     `Space`      |
         |      `Ctrl + u`      |    `Ctrl + d`    |
         |      `Ctrl + p`      |    `Ctrl + n`    |
 
@@ -135,8 +140,16 @@
 
 ### About path completion
 
--   Please type `./` or `.\` and press `Tab` to get path completion for the **subdirectory** or **file**.
--   Please type `/` or `\` and press `Tab` to get path completion for the **sibling directory**.
+-   Take `git` for example, when entering `git add`, pressing the `Space` and `Tab` keys, path completion will not be triggered, only completion provided by the module will be triggered.
+-   If you want to trigger path completion, you need to enter a content.
+-   If the content matches this regex rule `^\.*[\\/].*`, it will get the path completion, which is PowerShell completion.
+-   e.g.
+
+    -   Please enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
+    -   Please enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
+    -   Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
+
+-   So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ## Available Completions List
 
