@@ -23,13 +23,10 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
 
         addCompletion "completion $($completion)" 'SpaceTab' $PSCompletions.replace_content($PSCompletions.info.completion.tip)
         addCompletion "completion $($completion) language" 'SpaceTab' $PSCompletions.replace_content($PSCompletions.info.completion.language.tip)
-        addCompletion "completion $($completion) language `"`"" '' $PSCompletions.replace_content($PSCompletions.info.completion.tip_rm)
         addCompletion "completion $($completion) menu_show_tip" 'SpaceTab' $PSCompletions.replace_content($PSCompletions.info.completion.menu_show_tip.tip)
 
         addCompletion "completion $($completion) menu_show_tip 1" '' $PSCompletions.replace_content($PSCompletions.info.completion.menu_show_tip.tip_v1)
         addCompletion "completion $($completion) menu_show_tip 0" '' $PSCompletions.replace_content($PSCompletions.info.completion.menu_show_tip.tip_v0)
-        addCompletion "completion $($completion) menu_show_tip `"`"" '' $PSCompletions.replace_content($PSCompletions.info.completion.tip_rm)
-
 
         $language = $PSCompletions.get_language($completion)
         $config = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/config.json") | ConvertFrom-Json
@@ -49,10 +46,15 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             else {
                 addCompletion "completion $($completion) $($c.name)" '' $tip
             }
-            addCompletion "completion $($completion) $($c.name) `"`"" '' $PSCompletions.replace_content($PSCompletions.info.completion.tip_rm)
+            $config_item = $c.name
+            addCompletion "reset completion $($completion) $($config_item)" '' $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip_v)
         }
 
         addCompletion "reset alias $($completion)" '' $PSCompletions.replace_content($PSCompletions.info.reset.alias.tip)
+
+
+        $symbol = if ($json.config) { 'SpaceTab' }else { '' }
+        addCompletion "reset completion $($completion)" $symbol $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip)
     }
 
     foreach ($completion in $PSCompletions.list) {
