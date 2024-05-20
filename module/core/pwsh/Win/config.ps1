@@ -28,13 +28,13 @@ $PSCompletions.default.menu_color = @{
     menu_color_item_back     = 'Black'
     menu_color_selected_text = 'white'
     menu_color_selected_back = 'DarkGray'
-    menu_color_filter_text   = 'DarkYellow'
+    menu_color_filter_text   = 'Yellow'
     menu_color_filter_back   = 'Black'
-    menu_color_border_text   = 'DarkGray'
+    menu_color_border_text   = 'Gray'
     menu_color_border_back   = 'Black'
-    menu_color_status_text   = 'DarkBlue'
+    menu_color_status_text   = 'Blue'
     menu_color_status_back   = 'Black'
-    menu_color_tip_text      = 'DarkCyan'
+    menu_color_tip_text      = 'Cyan'
     menu_color_tip_back      = 'Black'
 }
 $PSCompletions.default.menu_config = @{
@@ -105,8 +105,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod set_config {
     param ([string]$k, $v)
-    $c = $this.get_config()
-    $c.$k = $v
-    $this.config = $c
-    $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
+    $this.config = $this.get_config()
+    $this.config.$k = $v
+    $this.config | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
 }

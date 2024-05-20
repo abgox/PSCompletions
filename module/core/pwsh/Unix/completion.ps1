@@ -19,8 +19,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             $input_arr.RemoveAt(0)
 
             # 获取 json 数据
-            if (!$PSCompletions.data) {
-                $PSCompletions.data = [ordered]@{}
+            if ($PSCompletions.data.Count -eq 0) {
                 if ($PSCompletions.job.State -eq 'Completed') {
                     $data = Receive-Job $PSCompletions.job
                     $data.Keys | ForEach-Object {
@@ -332,7 +331,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             }
 
             $menu_show_tip = $PSCompletions.config.comp_config.$root.menu_show_tip
-            if ($menu_show_tip) {
+            if ($menu_show_tip -ne $null) {
                 $PSCompletions.menu.is_show_tip = $menu_show_tip -eq 1
             }
             else {

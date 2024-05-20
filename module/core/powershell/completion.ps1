@@ -3,40 +3,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
     $this.cmd[$cmd] | ForEach-Object {
         Register-ArgumentCompleter -CommandName $_ -ScriptBlock {
             param($word_to_complete, $command_ast, $cursor_position)
-            function ConvertFrom-JsonToHashtable([string]$json) {
-                # Handle json string
-                $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
-                foreach ($match in $matches) {
-                    $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
-                }
-                $json = [regex]::Replace($json, ",`n?(\s*`n)?\}", "}")
-                function ConvertToHashtable($obj) {
-                    $hash = @{}
-                    if ($obj -is [System.Management.Automation.PSCustomObject]) {
-                        $obj | Get-Member -MemberType Properties | ForEach-Object {
-                            $k = $_.Name # Key
-                            $v = $obj.$k # Value
-                            if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
-                                # Handle array
-                                $arr = @()
-                                foreach ($item in $v) {
-                                    $arr += if ($item -is [System.Management.Automation.PSCustomObject]) { ConvertToHashtable($item) }else { $item }
-                                }
-                                $hash[$k] = $arr
-                            }
-                            elseif ($v -is [System.Management.Automation.PSCustomObject]) {
-                                # Handle object
-                                $hash[$k] = ConvertToHashtable($v)
-                            }
-                            else { $hash[$k] = $v }
-                        }
-                    }
-                    else { $hash = $obj }
-                    $hash
-                }
-                # Recurse
-                ConvertToHashtable ($json | ConvertFrom-Json)
-            }
 
             $regex = "(?:`"[^`"]*`"|'[^']*'|\S)+"
             $matches = [regex]::Matches($command_ast.CommandElements, $regex)
@@ -51,8 +17,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             $input_arr.RemoveAt(0)
 
             # get json
-            if (!$PSCompletions.data) {
-                $PSCompletions.data = [ordered]@{}
+            if ($PSCompletions.data.Count -eq 0) {
                 if ($PSCompletions.job.State -eq 'Completed') {
                     $data = Receive-Job $PSCompletions.job
                     $data.Keys | ForEach-Object {
@@ -64,7 +29,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             }
             if (!$PSCompletions.data.$root -or $PSCompletions.config.disable_cache) {
                 $language = $PSCompletions.get_language($root)
-                $PSCompletions.data.$root = ConvertFrom-JsonToHashtable $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($root)/language/$($language).json")
+                $PSCompletions.data.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($root)/language/$($language).json"))
             }
 
             $common_options = if ($PSCompletions.data.$root.common_options) {
@@ -292,7 +257,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                 else {
                     # 第一次运行，直接获取排序
                     if (Test-Path $path_order) {
-                        $PSCompletions.order.$root = ConvertFrom-JsonToHashtable $PSCompletions.get_raw_content($path_order)
+                        $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_order))
                     }
                     else {
                         # 没有使用过此命令，还没有命令排序
@@ -358,7 +323,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             }
 
             $menu_show_tip = $PSCompletions.config.comp_config.$root.menu_show_tip
-            if ($menu_show_tip) {
+            if ($menu_show_tip -ne $null) {
                 $PSCompletions.menu.is_show_tip = $menu_show_tip -eq 1
             }
             else {

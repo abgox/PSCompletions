@@ -28,13 +28,13 @@ $PSCompletions.default.menu_color = @{
     menu_color_item_back     = 'Black'
     menu_color_selected_text = 'white'
     menu_color_selected_back = 'DarkGray'
-    menu_color_filter_text   = 'DarkYellow'
+    menu_color_filter_text   = 'Yellow'
     menu_color_filter_back   = 'Black'
-    menu_color_border_text   = 'DarkGray'
+    menu_color_border_text   = 'Gray'
     menu_color_border_back   = 'Black'
-    menu_color_status_text   = 'DarkBlue'
+    menu_color_status_text   = 'Blue'
     menu_color_status_back   = 'Black'
-    menu_color_tip_text      = 'DarkCyan'
+    menu_color_tip_text      = 'Cyan'
     menu_color_tip_back      = 'Black'
 }
 $PSCompletions.default.menu_config = @{
@@ -63,42 +63,8 @@ $PSCompletions.default.menu_config = @{
 $PSCompletions.default.comp_config = @{}
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
-    function ConvertFrom-JsonToHashtable([string]$json) {
-        # Handle json string
-        $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
-        foreach ($match in $matches) {
-            $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
-        }
-        $json = [regex]::Replace($json, ",`n?(\s*`n)?\}", "}")
-        function ConvertToHashtable($obj) {
-            $hash = @{}
-            if ($obj -is [System.Management.Automation.PSCustomObject]) {
-                $obj | Get-Member -MemberType Properties | ForEach-Object {
-                    $k = $_.Name # Key
-                    $v = $obj.$k # Value
-                    if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
-                        # Handle array
-                        $arr = @()
-                        foreach ($item in $v) {
-                            $arr += if ($item -is [System.Management.Automation.PSCustomObject]) { ConvertToHashtable($item) }else { $item }
-                        }
-                        $hash[$k] = $arr
-                    }
-                    elseif ($v -is [System.Management.Automation.PSCustomObject]) {
-                        # Handle object
-                        $hash[$k] = ConvertToHashtable($v)
-                    }
-                    else { $hash[$k] = $v }
-                }
-            }
-            else { $hash = $obj }
-            $hash
-        }
-        # Recurse
-        ConvertToHashtable ($json | ConvertFrom-Json)
-    }
     if (Test-Path $this.path.config) {
-        $c = ConvertFrom-JsonToHashtable $this.get_raw_content($this.path.config)
+        $c = $PSCompletions.ConvertFrom_JsonToHashtable($this.get_raw_content($this.path.config))
         if ($c) {
             @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config') | ForEach-Object {
                 foreach ($config in $this.default.$_.Keys) {
@@ -139,8 +105,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod set_config {
     param ([string]$k, $v)
-    $c = $this.get_config()
-    $c.$k = $v
-    $this.config = $c
-    $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
+    $this.config = $this.get_config()
+    $this.config.$k = $v
+    $this.config | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
 }

@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.0.4'
+$PSCompletions.version = '4.0.5'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -145,6 +145,41 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod join_path {
     }
     return $res
 }
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonToHashtable {
+    param([string]$json)
+    # Handle json string
+    $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
+    foreach ($match in $matches) {
+        $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
+    }
+    $json = [regex]::Replace($json, ",`n?(\s*`n)?\}", "}")
+    function ConvertToHashtable($obj) {
+        $hash = @{}
+        if ($obj -is [System.Management.Automation.PSCustomObject]) {
+            $obj | Get-Member -MemberType Properties | ForEach-Object {
+                $k = $_.Name # Key
+                $v = $obj.$k # Value
+                if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
+                    # Handle array
+                    $arr = @()
+                    foreach ($item in $v) {
+                        $arr += if ($item -is [System.Management.Automation.PSCustomObject]) { ConvertToHashtable($item) }else { $item }
+                    }
+                    $hash[$k] = $arr
+                }
+                elseif ($v -is [System.Management.Automation.PSCustomObject]) {
+                    # Handle object
+                    $hash[$k] = ConvertToHashtable($v)
+                }
+                else { $hash[$k] = $v }
+            }
+        }
+        else { $hash = $obj }
+        $hash
+    }
+    # Recurse
+    ConvertToHashtable ($json | ConvertFrom-Json)
+}
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
     $path_config = "$($this.path.completions)/$($completion)/config.json"
@@ -231,7 +266,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less {
     param (
         $str_list,
         [string]$color = 'Green',
-        [int]$show_line = [System.Console]::WindowHeight - 5
+        [int]$show_line = [System.Console]::WindowHeight - 7
     )
     if ($str_list -is [string]) {
         $str_list = $str_list -split "`n"
@@ -275,7 +310,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less_t
         [array]$str_list,
         [array]$header = @('key', 'value', 5),
         [scriptblock]$do = {},
-        [int]$show_line = [System.Console]::WindowHeight - 5
+        [int]$show_line = [System.Console]::WindowHeight - 7
     )
     $str_list = @(
         @{
@@ -501,6 +536,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
+    $this.data = [ordered]@{}
     $this.cmd = [ordered]@{}
     $this.config = $this.get_config()
 
@@ -705,7 +741,11 @@ else {
 # 缓存 completion 数据并后台检测更新
 $PSCompletions.job = Start-Job -ScriptBlock {
     param($PSCompletions, $root)
-    function ConvertFrom-JsonToHashtable([string]$json) {
+    function ConvertFrom-JsonToHashtable {
+        param(
+            [Parameter(ValueFromPipeline = $true)]
+            [string]$json
+        )
         <#
             # 处理 json 文件中的一些特殊情况
             # -  如果有键名为空的情况，则替换为随机的 guid
@@ -780,12 +820,12 @@ $PSCompletions.job = Start-Job -ScriptBlock {
         $language = $PSCompletions.get_language($_)
         $path_language = "$($PSCompletions.path.completions)/$($_)/language/$($language).json"
         if (Test-Path $path_language) {
-            $completion_datas.$_ = ConvertFrom-JsonToHashtable $PSCompletions.get_raw_content($path_language)
+            $completion_datas.$_ = $PSCompletions.get_raw_content($path_language) | ConvertFrom-JsonToHashtable
         }
         else {
             try {
                 $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$($_)/language/$($language).json", $path_language)
-                $completion_datas.$_ = ConvertFrom-JsonToHashtable $PSCompletions.get_raw_content($path_language)
+                $completion_datas.$_ = $PSCompletions.get_raw_content($path_language) | ConvertFrom-JsonToHashtable
             }
             catch {
                 Remove-Item "$($PSCompletions.path.completions)/$($_)" -Force -ErrorAction SilentlyContinue
@@ -794,10 +834,9 @@ $PSCompletions.job = Start-Job -ScriptBlock {
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod set_config {
         param ([string]$k, $v)
-        $c = ConvertFrom-JsonToHashtable $this.get_raw_content($this.path.config)
+        $c = $this.get_raw_content($this.path.config) | ConvertFrom-JsonToHashtable
         $c.$k = $v
-        $this.config = $c
-        $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8
+        $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
     }
     # download list
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
@@ -829,10 +868,10 @@ $PSCompletions.job = Start-Job -ScriptBlock {
         $path = "$($PSCompletions.path.completions)/$($_)/config.json"
         $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
         $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
-        $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json -AsHashtable
+        $json = $PSCompletions.get_raw_content($path) | ConvertFrom-JsonToHashtable
         if ($json.config) {
             foreach ($item in $json.config) {
-                if ($PSCompletions.config.comp_config.$_.$($item.name) -eq $null) {
+                if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
                     $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
                     $need_update_config = $true
                 }

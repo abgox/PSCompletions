@@ -329,7 +329,6 @@ function PSCompletions {
                     $new_value = $arg[2]
                     $PSCompletions.set_config($arg[1], $arg[2])
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.config.done))
-
                 }
                 else {
                     if ($common_err) {
@@ -391,15 +390,14 @@ function PSCompletions {
             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
             return
         }
-        if ($arg.Length -lt 4) {
-            Show-ParamError 'min' 'completion'
-            return
-        }
         if ($arg.Length -gt 4) {
             Show-ParamError 'max' 'completion'
             return
         }
-
+        if ($arg.Length -eq 3) {
+            Write-Output $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])
+            return
+        }
         if ($PSCompletions.config.comp_config.$($arg[1]) -eq $null) {
             $PSCompletions.config.comp_config.$($arg[1]) = @{}
         }
@@ -409,6 +407,38 @@ function PSCompletions {
         $old_value = $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])
         $new_value = $arg[3]
         $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) = $arg[3]
+
+        $PSCompletions.cmd.keys | ForEach-Object {
+            $path = "$($PSCompletions.path.completions)/$($_)/config.json"
+            $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
+            $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
+            $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
+            $config_list = @('language', 'menu_show_tip')
+            if ($json.config) {
+                foreach ($item in $json.config) {
+                    $config_list += $item.name
+                    if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
+                        $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
+                    }
+                }
+            }
+            try {
+                foreach ($item in $PSCompletions.config.comp_config.keys) {
+                    if ($item -notin $PSCompletions.list -and !(Test-Path "$($PSCompletions.path.completions)/$($item)")) {
+                        $PSCompletions.config.comp_config.Remove($item)
+                    }
+                    foreach ($c in $PSCompletions.config.comp_config.$item.keys) {
+                        if ($c -notin $config_list) {
+                            $PSCompletions.config.comp_config.$item.Remove($c)
+                        }
+                        if ($c -in @('language', 'menu_show_tip') -and $PSCompletions.config.comp_config.$item.$c -in @('', $null)) {
+                            $PSCompletions.config.comp_config.$item.Remove($c)
+                        }
+                    }
+                }
+            }
+            catch {}
+        }
         Out-Config
         $PSCompletions.write_with_color((_replace $PSCompletions.info.completion.done))
     }
@@ -508,17 +538,17 @@ function PSCompletions {
                 }
                 switch ($arg[2]) {
                     'magenta' {
-                        $PSCompletions.config.menu_color_item_text = 'DarkMagenta'
+                        $PSCompletions.config.menu_color_item_text = 'Magenta'
                         $PSCompletions.config.menu_color_item_back = 'White'
                         $PSCompletions.config.menu_color_selected_text = 'white'
                         $PSCompletions.config.menu_color_selected_back = 'DarkMagenta'
-                        $PSCompletions.config.menu_color_filter_text = 'DarkMagenta'
+                        $PSCompletions.config.menu_color_filter_text = 'Magenta'
                         $PSCompletions.config.menu_color_filter_back = 'White'
-                        $PSCompletions.config.menu_color_border_text = 'DarkMagenta'
+                        $PSCompletions.config.menu_color_border_text = 'Magenta'
                         $PSCompletions.config.menu_color_border_back = 'White'
-                        $PSCompletions.config.menu_color_status_text = 'DarkMagenta'
+                        $PSCompletions.config.menu_color_status_text = 'Magenta'
                         $PSCompletions.config.menu_color_status_back = 'White'
-                        $PSCompletions.config.menu_color_tip_text = 'DarkMagenta'
+                        $PSCompletions.config.menu_color_tip_text = 'Magenta'
                         $PSCompletions.config.menu_color_tip_back = 'White'
                     }
                     'default' {
@@ -528,7 +558,7 @@ function PSCompletions {
                         $PSCompletions.config.menu_color_selected_back = 'DarkGray'
                         $PSCompletions.config.menu_color_filter_text = 'Yellow'
                         $PSCompletions.config.menu_color_filter_back = 'Black'
-                        $PSCompletions.config.menu_color_border_text = 'DarkGray'
+                        $PSCompletions.config.menu_color_border_text = 'Gray'
                         $PSCompletions.config.menu_color_border_back = 'Black'
                         $PSCompletions.config.menu_color_status_text = 'Blue'
                         $PSCompletions.config.menu_color_status_back = 'Black'
@@ -653,7 +683,7 @@ function PSCompletions {
         }
     }
     function _reset {
-        $cmd_list = @('env', 'alias', 'order', 'menu', '*')
+        $cmd_list = @('env', 'alias', 'order', 'completion', 'menu', '*')
         if ($arg.Length -lt 2) {
             Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
             return
@@ -663,19 +693,19 @@ function PSCompletions {
             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
         }
 
-        if ($arg[1] -in @('alias', 'menu')) {
+        if ($arg[1] -in @('alias', 'completion', 'menu')) {
             $cmd_list = @('*')
-            if ($arg[1] -eq 'alias') {
+            if ($arg[1] -in @('alias', 'completion')) {
                 $cmd_list += $PSCompletions.cmd.Keys
             }
             elseif ($arg[1] -eq 'menu') {
                 $cmd_list += @('symbol', 'line', 'color', 'config')
             }
             if ($arg.Length -eq 2) {
-                Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
+                Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.$($arg[1]).example
                 return
             }
-            if ($arg.Length -gt 3) {
+            if ($arg[1] -ne 'completion' -and $arg.Length -gt 3) {
                 Show-ParamError 'max' '' '' $PSCompletions.info.reset.$($arg[1]).example
                 return
             }
@@ -734,6 +764,51 @@ function PSCompletions {
                 $change_list = $null
                 $is_change_config = $false
             }
+            "completion" {
+                function _do($cmd, [switch]$is_all) {
+                    $path = "$($PSCompletions.path.completions)/$($cmd)/config.json"
+                    $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
+                    $path = "$($PSCompletions.path.completions)/$($cmd)/language/$($json.language[0]).json"
+                    $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
+                    if ($json.config) {
+                        foreach ($item in $json.config) {
+                            if (!$PSCompletions.config.comp_config.$cmd) {
+                                $PSCompletions.config.comp_config.$cmd = @{}
+                            }
+                            if ($is_all) {
+                                $PSCompletions.config.comp_config.$cmd.$($item.name) = $item.value
+                            }
+                            else {
+                                if ($PSCompletions.config.comp_config.$cmd.$($item.name) -in @('', $null)) {
+                                    $PSCompletions.config.comp_config.$cmd.$($item.name) = $item.value
+                                }
+                            }
+                        }
+                    }
+                }
+                if ($arg[2] -eq '*') {
+                    $PSCompletions.config.comp_config = @{}
+                    $PSCompletions.cmd.keys | ForEach-Object {
+                        _do $_ -is_all
+                    }
+                }
+                else {
+                    if ($arg.Length -eq 3) {
+                        $PSCompletions.config.comp_config.$($arg[2]) = @{}
+                    }
+                    else {
+                        # great than 3
+                        $config_list = $arg[3..($arg.Length - 1)]
+                        if (!$PSCompletions.config.comp_config.$($arg[2])) {
+                            $PSCompletions.config.comp_config.$($arg[2]) = @{}
+                        }
+                        foreach ($config in $config_list) {
+                            try { $PSCompletions.config.comp_config.$($arg[2]).Remove($config) }catch {}
+                        }
+                    }
+                    _do $arg[2]
+                }
+            }
             "menu" {
                 $cmd_list = @('*', 'symbol', 'line', 'color', 'config')
                 if ($arg[2] -notin $cmd_list) {
@@ -788,6 +863,7 @@ function PSCompletions {
     switch ($arg[0]) {
         'list' {
             _list
+            $need_init = $false
         }
         'add' {
             _add
@@ -809,9 +885,6 @@ function PSCompletions {
         'alias' {
             _alias
         }
-        'order' {
-            _order
-        }
         'config' {
             _config
         }
@@ -823,12 +896,11 @@ function PSCompletions {
         }
         'reset' {
             _reset
-            $need_init = $false
         }
         default {
             if ($arg[0]) {
                 $sub_cmd = $arg[0]
-                $cmd_list = @('list', 'add', 'rm', 'update', 'search', 'which', 'alias', 'order', 'config', 'completion', 'menu', 'reset')
+                $cmd_list = @('list', 'add', 'rm', 'update', 'search', 'which', 'alias', 'config', 'completion', 'menu', 'reset')
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.sub_cmd))
             }
             else { _help }
