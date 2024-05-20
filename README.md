@@ -79,7 +79,6 @@
 ### About completion update
 
 -   When the module is imported after opening `PowerShell`, `PSCompletions` will start a background job to check for the completion status of the remote repository.
-
 -   After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
 
 ### About completion menu
@@ -89,8 +88,10 @@
 -   Some keys in the completion menu provided by the module.
 
     1. Apply the selected completion item: `Enter`
-    2. Exit the completion menu: `ESC` / `Ctrl + c`
-    3. Select completion item:
+    2. Delete filter characters: `Backspace`
+    3. Exit the completion menu: `ESC` / `Ctrl + c`
+        - When there are no characters in the filter area, you can also use `Backspace` key to exit the completion menu.
+    4. Select completion item:
 
         | Select previous item | Select next item |
         | :------------------: | :--------------: |
@@ -144,11 +145,9 @@
 -   If you want to trigger path completion, you need to enter a content.
 -   If the content matches this regex rule `^\.*[\\/].*`, it will get the path completion, which is PowerShell completion.
 -   e.g.
-
     -   Please enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
     -   Please enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
     -   Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
-
 -   So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ## Available Completions List
