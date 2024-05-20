@@ -127,10 +127,11 @@
           "name": "language",
           "symbol": "SpaceTab",
           "tip": [
-            "当前值: zh-CN\n",
+            "当前值: {{ $PSCompletions.language }}\n",
             "读取/设置当前配置语言\n",
             "配置语言会影响所有添加的补全语言\n",
-            "通过 psc completion 单独设置了补全语言的不受影响"
+            "通过 psc completion 单独设置了补全语言的不受影响\n",
+            "更多信息请访问: https://gitee.com/abgox/PSCompletions#%E5%85%B3%E4%BA%8E%E8%AF%AD%E8%A8%80"
           ],
           "next": [
             {
@@ -305,7 +306,7 @@
             "设置补全提示中的表情符号(😄🤔😎)\n",
             "符号的意义可以通过补全了解, 相关详细信息, 请访问: \n",
             "Github: https://github.com/abgox/PSCompletions#about-special-symbols\n",
-            "Gitee:  https://gitee.com/abgox/PSCompletions#关于特殊符号"
+            "Gitee:  https://gitee.com/abgox/PSCompletions#%E5%85%B3%E4%BA%8E%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"
           ],
           "next": [
             {
@@ -725,7 +726,7 @@
                 {
                   "name": "0",
                   "tip": [
-                    "设置 为 0\n",
+                    "设置为 0\n",
                     "使用 PowerShell 内置的补全菜单"
                   ]
                 },
@@ -1256,8 +1257,10 @@
       "- 模块提供的补全菜单只能在 Windows 系统下使用 PowerShell(pwsh) 运行, 其他环境只能使用 PowerShell 自带的补全菜单\n",
       "- 模块提供的补全菜单中的按键\n",
       "   1. 应用选中的补全项: <@Magenta>Enter<@Cyan>(回车键)\n",
-      "   2. 退出补全菜单: <@Magenta>ESC<@Cyan>/<@Magenta>Ctrl + c<@Cyan>\n",
-      "   3. 选择补全项: \n",
+      "   2. 删除过滤字符: <@Magenta>Backspace<@Cyan>(退格键)\n",
+      "   3. 退出补全菜单: <@Magenta>ESC<@Cyan>/<@Magenta>Ctrl + c<@Cyan>\n",
+      "      - 当过滤区域没有字符时，也可以按下 <@Magenta>Backspace<@Cyan>(退格键) 退出补全菜单\n",
+      "   4. 选择补全项: \n",
       "     ┌───────────────┬───────────────┐\n",
       "     │   选择上一项  │   选择下一项  │\n",
       "     │       <@Magenta>Up<@Cyan>      │     <@Magenta>Down<@Cyan>      │\n",
@@ -1270,14 +1273,14 @@
       "- 补全菜单的所有配置, 你可以使用 <@Magenta>psc menu<@Cyan> 触发补全, 通过命令提示信息来了解\n",
       "\n",
       "关于模块的其他信息:\n",
-      "PSCompletions 模块只会占用两个全局命名(<@Yellow>你不能修改它们, 所有的修改只能通过 <@Magenta>psc<@Yellow> 命令<@Cyan>)\n",
+      "PSCompletions 模块只会占用两个全局命名(<@Yellow>你不能修改它们<@Cyan>)\n",
       "  <@Magenta>$PSCompletions<@Cyan> => 变量名, 用于存储模块相关的所有信息\n",
       "  <@Magenta>PSCompletions<@Cyan>  => 函数名, 模块导出的核心函数(<@Magenta>psc<@Cyan> 其实就是它的别名)\n",
       "\n",
       "如需了解更多信息, 请访问项目:\n",
       "  Github: <@Blue>https://github.com/abgox/PSCompletions\n<@Cyan>",
       "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions\n<@Cyan>",
-      "如果有使用问题, 请提交 issue\n",
+      "如果有使用问题, 请提交 issue ( https://github.com/abgox/PSCompletions/issues )\n",
       "如果 PSCompletions 对你有所帮助, 请给这个项目点个 <@Yellow>Star<@>"
     ],
     "init_info": [
@@ -1341,38 +1344,45 @@
       "\n",
       "关于模块提供的补全菜单:\n",
       "- 模块提供的补全菜单只能在 Windows 系统下使用 PowerShell(pwsh) 运行, 其他环境只能使用 PowerShell 自带的补全菜单\n",
-      "- 在此补全菜单中, 你可以使用以下方式进行选项上下选择\n",
-      "   - 向上选择/向下选择\n",
-      "   1. Up/Down\n",
-      "   2. Left/Right\n",
-      "   3. Tab/Shift + Tab\n",
-      "   4. Space/Shift + Space\n",
-      "   5. Ctrl + U/Ctrl + D\n",
-      "   6. Ctrl + P/Ctrl + N\n",
+      "- 模块提供的补全菜单中的按键\n",
+      "   1. 应用选中的补全项: <@Magenta>Enter<@Cyan>(回车键)\n",
+      "   2. 删除过滤字符: <@Magenta>Backspace<@Cyan>(退格键)\n",
+      "   3. 退出补全菜单: <@Magenta>ESC<@Cyan>/<@Magenta>Ctrl + c<@Cyan>\n",
+      "      - 当过滤区域没有字符时，也可以按下 <@Magenta>Backspace<@Cyan>(退格键) 退出补全菜单\n",
+      "   4. 选择补全项: \n",
+      "     ┌───────────────┬───────────────┐\n",
+      "     │   选择上一项  │   选择下一项  │\n",
+      "     │       <@Magenta>Up<@Cyan>      │     <@Magenta>Down<@Cyan>      │\n",
+      "     |      <@Magenta>Left<@Cyan>     │     <@Magenta>Right<@Cyan>     │\n",
+      "     │  <@Magenta>Shift + Tab<@Cyan>  │      <@Magenta>Tab<@Cyan>      │\n",
+      "     │ <@Magenta>Shift + Space<@Cyan> │     <@Magenta>Space<@Cyan>     │\n",
+      "     │   <@Magenta>Ctrl + u<@Cyan>    │   <@Magenta>Ctrl + d<@Cyan>    │\n",
+      "     │   <@Magenta>Ctrl + p<@Cyan>    │   <@Magenta>Ctrl + n<@Cyan>    │\n",
+      "     └───────────────┴───────────────┘\n",
       "- 补全菜单的所有配置, 你可以使用 <@Magenta>psc menu<@Cyan> 触发补全, 通过命令提示信息来了解\n",
       "\n",
       "关于模块的其他信息:\n",
-      "PSCompletions 模块只会占用两个全局命名(<@Yellow>你不能修改它们, 所有的修改只能通过 <@Magenta>psc<@Yellow> 命令<@Cyan>)\n",
+      "PSCompletions 模块只会占用两个全局命名(<@Yellow>你不能修改它们<@Cyan>)\n",
       "  <@Magenta>$PSCompletions<@Cyan> => 变量名, 用于存储模块相关的所有信息\n",
       "  <@Magenta>PSCompletions<@Cyan>  => 函数名, 模块导出的核心函数(<@Magenta>psc<@Cyan> 其实就是它的别名)\n",
       "\n",
       "如需了解更多信息, 请访问项目:\n",
       "  Github: <@Blue>https://github.com/abgox/PSCompletions\n<@Cyan>",
       "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions\n<@Cyan>",
-      "如果有使用问题, 请提交 issue\n",
+      "如果有使用问题, 请提交 issue ( https://github.com/abgox/PSCompletions/issues )\n",
       "如果 PSCompletions 对你有所帮助, 请给这个项目点个 <@Yellow>Star<@>"
     ],
     "err": {
       "network": [
         "<@Red>请先检查一下你的网络是否正常, 然后再次尝试\n",
-        "如果确定网络正常却仍然报错, 请提交 issue\n"
+        "如果确定网络正常却仍然报错, 请提交 issue ( https://github.com/abgox/PSCompletions/issues )\n"
       ],
       "download_list": "<@Red>获取补全列表失败, 请检查网络连接或稍后再试",
       "download_file": [
         "<@Red>文件 {{ Split-path $download_info.url -leaf }} 下载失败, 请检查网络连接或稍后再试\n",
         "文件下载地址: {{ $download_info.url }}\n",
         "文件保存路径: {{ $download_info.file }}\n",
-        "如果确定不是网络问题, 请提交 issue\n"
+        "如果确定不是网络问题, 请提交 issue ( https://github.com/abgox/PSCompletions/issues )\n"
       ],
       "url": [
         "<@Red>PSCompletions 模块当前没有配置有效的远程仓库, 你可以运行以下命令添加不同的仓库<@Green>\n",
@@ -1418,7 +1428,7 @@
         "       - 然后使用 <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Yellow> 来安装最新版本的 PSCompletions 模块\n",
         "       - <@Magenta>-Scope CurrentUser<@Yellow> 必须指定, <@Red>不能使用 -Scope AllUser<@Yellow>\n",
         "       - 你可以看情况处理之前备份的模块目录\n",
-        "3. 其他原因, 请提交 issue\n"
+        "3. 其他原因, 请提交 issue ( https://github.com/abgox/PSCompletions/issues )\n"
       ]
     },
     "update_info": [
@@ -1436,7 +1446,7 @@
       "但是我不建议你这样做, 它是一个很恰当的提示"
     ],
     "update_has": [
-      "<@Cyan>-------------------\n",
+      "<@Cyan>--------------------\n",
       "可以更新的补全: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
       "你可以运行以下命令去更新它们:\n",
       "<@Magenta>psc update *"
@@ -1496,10 +1506,11 @@
         "}}\n",
         "补全文件所在目录: <@Blue>{{ $completion_dir }}\n",
         "{{",
-        " if($json.config){",
-        "'<@Cyan>---------- 补全独立配置 ---------- ';",
-        "   $json.config | ForEach-Object { \"`n<@Magenta>$($_.name)<@Blue>: $($_.value)(默认值)`n$($PSCompletions.replace_content($_.tip))\" };",
-        "\"`n<@Cyan>----------------------------------\";",
+        "if($json.config){",
+        " '<@Blue>---------- 补全特殊配置 ---------- ';",
+        " $config_list=$json.config | ForEach-Object { \"`n<@Magenta>$($_.name)<@Blue>:`n默认值: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" };",
+        " $config_list -join \"`n\";",
+        " \"`n<@Blue>----------------------------------\";",
         "};",
         "}}"
       ],
@@ -1549,14 +1560,26 @@
         "   \"当前使用的远程仓库: <@Blue>$($PSCompletions.repo)<@Green>\"",
         "}",
         "}}\n",
-        "补全文件所在目录: <@Blue>{{ $completion_dir }}"
+        "补全文件所在目录: <@Blue>{{ $completion_dir }}\n",
+        "{{",
+        "if($json.config){",
+        " '<@Blue>---------- 补全特殊配置 ---------- ';",
+        " $config_list=$json.config | ForEach-Object {",
+        "   $config_value = $PSCompletions.config.comp_config.$completion.$($_.name);",
+        "   $value = if($config_value -ne $null){ \"`n当前值: $($config_value)\" };",
+        "   \"`n<@Magenta>$($_.name)<@Blue>: $($value)`n默认值: $($_.value)`n$($PSCompletions.replace_content($_.tip))\"",
+        " };",
+        " $config_list -join \"`n\";",
+        " \"`n<@Blue>----------------------------------\";",
+        "};",
+        "}}"
       ]
     },
     "search": {
       "example": [
         "E: psc search *     --- 显示所有可安装补全\n",
-        "   psc search p*    --- 搜索以p开头的补全\n",
-        "   psc search *p*   --- 搜索名称带有p的补全"
+        "   psc search p*    --- 搜索以 p 开头的补全\n",
+        "   psc search *p*   --- 搜索名称带有 p 的补全"
       ],
       "err": {
         "min": [
