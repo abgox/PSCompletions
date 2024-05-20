@@ -1987,15 +1987,31 @@
   ],
   "config": [
     {
-      "name": "max_commit",
-      "value": "20",
+      "name": "disable_hooks",
+      "value": 0,
       "values": [
-        "-1",
-        "20"
+        1,
+        0
       ],
       "tip": [
-        "可以项目解析的 commit 的最大数量\n",
-        "如果设置为 <@Magenta>-1<@Blue>, 所有的 commit都将被解析。"
+        "设置是否禁用 hooks，默认为 0 表示不禁用\n",
+        "git 中的 hooks 主要用于解析 commit 信息、分支信息等, 然后动态添加到一些补全中(如 reset,checkout,branch 等)\n",
+        "如: git reset 后可以获取到解析出来的 commit，快速补全\n",
+        "如果你不需要它，你可以禁用它，这样可以提高补全的加载速度\n",
+        "如果禁用它，那么 <@Magenta>max_commit<@Blue> 配置也将无效"
+      ]
+    },
+    {
+      "name": "max_commit",
+      "value": 20,
+      "values": [
+        -1,
+        20
+      ],
+      "tip": [
+        "可以为当前项目解析的 commit 的最大数量\n",
+        "如果设置为 <@Magenta>-1<@Blue>, 会解析所有的 commit\n",
+        "如果项目 commit 数量较多，设置为 <@Magenta>-1<@Blue> 对补全加载的速度会有不小的影响"
       ]
     }
   ]

@@ -23,8 +23,7 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
         $remote_list = git remote 2>$null
         $commit_info = [System.Collections.Generic.List[array]]::new()
         $current_commit = [System.Collections.Generic.List[string]]::new()
-
-        if(!$PSCompletions.config.comp_config.git.max_commit){
+        if ($PSCompletions.config.comp_config.git.max_commit -in @('', $null)) {
             $PSCompletions.config.comp_config.git.max_commit = 20
         }
 
