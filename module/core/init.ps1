@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.0.3'
+$PSCompletions.version = '4.0.4'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -99,7 +99,7 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
         $version = (Get-ChildItem (Split-Path $this.path.root -Parent)).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue
         if ($version -is [array]) {
             $old_version = $version[-2]
-            if ($old_version -ge "4") {
+            if ($old_version -match "^\d+\.\d.*" -and $old_version -ge "4") {
                 $old_version_dir = Join-Path (Split-Path $this.path.root -Parent) $old_version
                 $this.ensure_dir($this.path.completions)
                 Get-ChildItem "$($old_version_dir)/completions" -ErrorAction SilentlyContinue | Where-Object {
@@ -652,7 +652,7 @@ $PSCompletions.cmd.psc | ForEach-Object {
     if ($_ -ne 'PSCompletions') { Set-Alias $_ PSCompletions }
 }
 
-if ($PSCompletions.config.module_update -match '^\d+(\.\d+)+$') {
+if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
     if ($PSCompletions.config.module_update -eq $PSCompletions.version) {
         $PSCompletions.set_config('module_update', 1)
     }
@@ -792,51 +792,9 @@ $PSCompletions.job = Start-Job -ScriptBlock {
             }
         }
     }
-
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
-        if (Test-Path $this.path.config) {
-            $c = ConvertFrom-JsonToHashtable $this.get_raw_content($this.path.config)
-            if ($c) {
-                @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config') | ForEach-Object {
-                    foreach ($config in $this.default.$_.Keys) {
-                        # 如果配置不存在，则添加默认配置
-                        if ($config -notin $c.keys) {
-                            $hasDiff = $true
-                            $c.$config = $this.default.$_.$config
-                        }
-                    }
-                }
-                if (!$c.comp_config) {
-                    $hasDiff = $true
-                    $c.comp_config = @{}
-                }
-                if ($hasDiff) {
-                    $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
-                }
-                return $c
-            }
-            else {
-                $need_init = $true
-            }
-        }
-        else {
-            $need_init = $true
-        }
-        if ($need_init) {
-            $c = @{}
-            @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config') | ForEach-Object {
-                foreach ($config in $this.default.$_.Keys) {
-                    $c.$config = $this.default.$_.$config
-                }
-            }
-            $c.comp_config = @{}
-            $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
-        }
-        return $c
-    }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod set_config {
         param ([string]$k, $v)
-        $c = $this.get_config()
+        $c = ConvertFrom-JsonToHashtable $this.get_raw_content($this.path.config)
         $c.$k = $v
         $this.config = $c
         $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8
@@ -865,6 +823,23 @@ $PSCompletions.job = Start-Job -ScriptBlock {
             catch {}
         }
     }
+
+    # ensure completion config
+    $PSCompletions.cmd.keys | ForEach-Object {
+        $path = "$($PSCompletions.path.completions)/$($_)/config.json"
+        $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
+        $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
+        $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json -AsHashtable
+        if ($json.config) {
+            foreach ($item in $json.config) {
+                if ($PSCompletions.config.comp_config.$_.$($item.name) -eq $null) {
+                    $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
+                    $need_update_config = $true
+                }
+            }
+        }
+    }
+    if ($need_update_config) { $PSCompletions.config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8 -Force }
 
     $PSCompletions.download_list()
 

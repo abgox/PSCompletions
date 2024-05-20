@@ -269,9 +269,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                 return $filter_list
             }
 
-            # 允许外部的 hooks 覆盖默认的函数，实现在特殊需求下的定制需要
-            $path_hook = "$($PSCompletions.path.completions)/$($root)/hooks.ps1"
-            if (Test-Path $path_hook) { . $path_hook }
+            if ($PSCompletions.config.comp_config.$root.disable_hooks -ne 1) {
+                # 使用 hooks 覆盖默认的函数，实现在一些特殊的需求，比如一些补全的动态加载
+                $path_hook = "$($PSCompletions.path.completions)/$($root)/hooks.ps1"
+                if (Test-Path $path_hook) { . $path_hook }
+            }
 
             $completions = getCompletions
             $completions = handleCompletions $completions

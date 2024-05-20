@@ -38,29 +38,8 @@ function PSCompletions {
         $PSCompletions.show_with_less_table($data, ('Completion', 'Alias', $max_len))
     }
 
-    function Set-Config {
-        # 如果补全单独的配置对象中没有值，应该在重置时删除这个对象，然后写入配置文件，但是这里不能改动全局的配置对象
-        # 创建一个新的配置对象，这样可以不影响全局的配置
-        $config = @{}
-        $PSCompletions.config.Keys | ForEach-Object { $config.$_ = $PSCompletions.config.$_ }
-        $config.comp_config = @{}
-        $PSCompletions.config.comp_config.Keys | ForEach-Object {
-            if ($PSCompletions.config.comp_config.$_.Keys.Count -gt 0) {
-                $usable_list = @()
-                foreach ($k in $PSCompletions.config.comp_config.$_.Keys) {
-                    if ($PSCompletions.config.comp_config.$_.$k -ne '') {
-                        $usable_list += $k
-                    }
-                }
-                if ($usable_list) {
-                    $config.comp_config.$_ = @{}
-                    foreach ($k in $usable_list) {
-                        $config.comp_config.$_.$k = $PSCompletions.config.comp_config.$_.$k
-                    }
-                }
-            }
-        }
-        $config | ConvertTo-Json | Out-File $PSCompletions.path.config -Force -Encoding utf8
+    function Out-Config {
+        $PSCompletions.config | ConvertTo-Json | Out-File $PSCompletions.path.config -Force -Encoding utf8
     }
     function _list {
         if ($arg.Length -gt 2) {
@@ -246,7 +225,7 @@ function PSCompletions {
             }
             'add' {
                 $completion = $arg[2]
-                if (!$arg[2]) {
+                if ($arg[2] -eq $null) {
                     $cmd_list = $PSCompletions.cmd.keys
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.add.example
                     return
@@ -257,7 +236,7 @@ function PSCompletions {
                         return
                     }
                 }
-                if (!$arg[3]) {
+                if ($arg[3] -eq $null) {
                     Show-ParamError 'min' '' $PSCompletions.info.alias.add.err.min_v $PSCompletions.info.alias.add.example
                     return
                 }
@@ -284,7 +263,7 @@ function PSCompletions {
             }
             'rm' {
                 $completion = $arg[2]
-                if (!$arg[2]) {
+                if ($arg[2] -eq $null) {
                     $cmd_list = $PSCompletions.cmd.keys
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.rm.example
                     return
@@ -295,7 +274,7 @@ function PSCompletions {
                         return
                     }
                 }
-                if (!$arg[3]) {
+                if ($arg[3] -eq $null) {
                     Show-ParamError 'min' '' $PSCompletions.info.alias.rm.err.min_v $PSCompletions.info.alias.rm.example
                     return
                 }
@@ -406,7 +385,7 @@ function PSCompletions {
         # 每个补全都默认带有的两个配置项
         $config_list = @('language', 'menu_show_tip')
 
-        if ($arg[2] -notin $config_list -and !$PSCompletions.config.comp_config.$($arg[1]).$($arg[2])) {
+        if ($arg[2] -notin $config_list -and $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) -eq $null) {
             $cmd_list = $config_list + ($PSCompletions.config.comp_config.$($arg[1]).keys | Where-Object { $_ -notin $config_list })
             $sub_cmd = $arg[2]
             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
@@ -421,7 +400,7 @@ function PSCompletions {
             return
         }
 
-        if (!$PSCompletions.config.comp_config.$($arg[1])) {
+        if ($PSCompletions.config.comp_config.$($arg[1]) -eq $null) {
             $PSCompletions.config.comp_config.$($arg[1]) = @{}
         }
 
@@ -430,7 +409,7 @@ function PSCompletions {
         $old_value = $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])
         $new_value = $arg[3]
         $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) = $arg[3]
-        Set-Config
+        Out-Config
         $PSCompletions.write_with_color((_replace $PSCompletions.info.completion.done))
     }
 
@@ -509,7 +488,7 @@ function PSCompletions {
                         $PSCompletions.config.menu_line_bottom_right = [string][char]9583
                     }
                 }
-                Set-Config
+                Out-Config
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.line_theme.done))
             }
             'color_theme' {
@@ -557,7 +536,7 @@ function PSCompletions {
                         $PSCompletions.config.menu_color_tip_back = 'Black'
                     }
                 }
-                Set-Config
+                Out-Config
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.color_theme.done))
             }
             'custom' {
@@ -799,7 +778,7 @@ function PSCompletions {
                 }
             }
         }
-        if ($is_change_config) { Set-Config }
+        if ($is_change_config) { Out-Config }
         if (!$no_show_msg) { $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.done)) }
     }
     function _help {

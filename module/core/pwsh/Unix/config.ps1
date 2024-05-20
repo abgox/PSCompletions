@@ -1,4 +1,3 @@
-
 $PSCompletions.default.env = @{
     # env
     language      = $PSUICulture
@@ -7,6 +6,7 @@ $PSCompletions.default.env = @{
     github        = 'https://github.com/abgox/PSCompletions'
     gitee         = 'https://gitee.com/abgox/PSCompletions'
     url           = ''
+    disable_cache = 0
 }
 $PSCompletions.default.symbol = @{
     symbol_SpaceTab      = "😄"
@@ -39,7 +39,6 @@ $PSCompletions.default.menu_color = @{
 }
 $PSCompletions.default.menu_config = @{
     # menu config
-    disable_cache                = 0
     enter_when_single            = 0
     menu_enable                  = 1
     menu_show_tip                = 1
@@ -75,7 +74,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
                     }
                 }
             }
-            if (!$c.comp_config) {
+            if ($c.comp_config -eq $null) {
                 $hasDiff = $true
                 $c.comp_config = @{}
             }

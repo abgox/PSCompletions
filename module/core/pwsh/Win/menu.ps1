@@ -153,7 +153,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         $usable_height = $this.cursor_to_bottom - $this.ui_size.Height
 
         if ($this.tip_max_height -ge $usable_height) {
-            $new_ui_height = $this.ui_size.height - ($this.tip_max_height - $usable_height) - 1
+            $new_ui_height = $this.ui_size.height - ($this.tip_max_height - $usable_height) - 2
             if ($new_ui_height -lt 3) {
                 $this.is_show_tip = $false
             }
@@ -170,6 +170,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         }
         $this.pos.Y = $Host.UI.RawUI.CursorPosition.Y + 1
         $this.pos_tip.Y = $this.pos.Y + $this.ui_size.height + 1
+        if ($this.pos_tip.Y -ge $Host.UI.RawUI.BufferSize.Height) {
+            $this.is_show_tip = $false
+        }
     }
     $this.page_max_index = $this.ui_size.height - 3
 }
@@ -207,7 +210,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
         $border_box += [string]$PSCompletions.config.menu_line_vertical + (' ' * ($PSCompletions.config.menu_list_margin_left + $content.Length + $PSCompletions.config.menu_list_margin_right)) + [string]$PSCompletions.config.menu_line_vertical
         $content_box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
     }
-    $line_bottom = [string]$PSCompletions.config.menu_line_bottom_left + $PSCompletions.config.menu_line_horizontal * ($this.list_max_width + $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right) + $PSCompletions.config.menu_line_bottom_right
+    $status = "$(([string]($this.selected_index + 1)).PadLeft($this.filter_list.Count.ToString().Length, ' '))"
+    $line_bottom = [string]$PSCompletions.config.menu_line_bottom_left + $PSCompletions.config.menu_line_horizontal + ' ' * ($status.Length + 1) + $PSCompletions.config.menu_line_horizontal * ($this.list_max_width + $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right - $status.Length - 2) + $PSCompletions.config.menu_line_bottom_right
     $border_box += $line_bottom
 
     $buffer = $Host.UI.RawUI.NewBufferCellArray($border_box, $PSCompletions.config.menu_color_border_text, $PSCompletions.config.menu_color_border_back)
@@ -277,11 +281,11 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     $this.old_status_buffer = $old_buffer  # 之前的内容
     $this.old_status_pos = $old_top  # 之前的位置
 
-    $current = " $(([string]($this.selected_index + 1)).PadLeft($this.filter_list.Count.ToString().Length, ' '))"
+    $current = "$(([string]($this.selected_index + 1)).PadLeft($this.filter_list.Count.ToString().Length, ' '))"
     $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$($current) $($PSCompletions.config.menu_status_symbol) $($PSCompletions.menu.filter_list.Count) "), $PSCompletions.config.menu_color_status_text, $PSCompletions.config.menu_color_status_back)
 
     $pos_status = $Host.UI.RawUI.CursorPosition
-    $pos_status.X = $this.pos.X + 2
+    $pos_status.X = $this.pos.X + 3
     $pos_status.Y = $this.pos.Y + $this.ui_size.height - 1
     $Host.UI.RawUI.SetBufferContents($pos_status, $buffer_status)
 }
@@ -450,16 +454,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
         $this.offset += $count
         $this.new_list_buffer($this.offset)
 
-        # 处理当前选中的行
-        $box = @()
-        $content = $this.filter_list[$this.ui_size.height - 3 + $this.offset].name
-        $box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
-        $buffer = $Host.UI.RawUI.NewBufferCellArray($box, $PSCompletions.config.menu_color_item_text, $PSCompletions.config.menu_color_item_back)
-        $pos = @{
-            X = $this.pos.X + 1
-            Y = $this.pos.Y + $this.ui_size.height - 1
-        }
-        $Host.UI.RawUI.SetBufferContents($pos, $buffer)
         $this.old_selection = $null
         $this.set_selection()
     }
@@ -545,10 +539,12 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $this.ui_size = $Host.UI.RawUI.BufferSize
 
     $this.filter = ''  # 过滤的关键词
+    $this.old_filter = ''
 
     $this.page_current_index = 0 # 当前显示第几个
 
     $this.selected_index = 0  # 当前选中的索引
+    $this.old_selected_index = 0
 
     $this.offset = 0  # 索引的偏移量，用于滚动翻页
 
@@ -651,7 +647,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                 ### Character/Backspace
                 { $PressKey.Character } {
                     # update filter
-                    $old_filter = $this.filter
+                    $this.old_filter = $this.filter
                     $old_filter_list = $this.filter_list
                     if ($PressKey.Character -eq 8) {
                         # backspace
@@ -685,7 +681,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                         $this.filter += $PressKey.Character
                         $this.filter_completions($this.filter_list)
                         if (!$this.filter_list) {
-                            $this.filter = $old_filter
+                            $this.filter = $this.old_filter
                             $this.filter_list = $old_filter_list
                         }
                         else {
@@ -701,9 +697,15 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                     break
                 }
             }
-            if ($this.is_show_tip) { $this.new_tip_buffer($this.selected_index) }
-            $this.new_filter_buffer($this.filter)
-            $this.new_status_buffer()
+            if ($this.selected_index -ne $this.old_selected_index) {
+                $this.new_status_buffer()
+                if ($this.is_show_tip) { $this.new_tip_buffer($this.selected_index) }
+                $this.old_selected_index = $this.selected_index
+            }
+            if ($this.filter -ne $this.old_filter) {
+                $this.new_filter_buffer($this.filter)
+                $this.old_filter = $this.filter
+            }
         }
     }
     catch {
