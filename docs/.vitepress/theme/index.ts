@@ -13,7 +13,11 @@ export default {
   },
   enhanceApp() {
     try {
+      let langs = ['en-US', 'zh-CN']
       let lang = navigator.language
+      if (!langs.includes(lang)) {
+        lang = langs[0]
+      }
       if (/\/PSCompletions\/?$/.test(location.pathname)) {
         location.href += lang
       }
