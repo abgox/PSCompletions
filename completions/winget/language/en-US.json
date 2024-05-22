@@ -1,0 +1,1523 @@
+{
+  "root": [
+    {
+      "name": "install",
+      "alias": [
+        "add"
+      ],
+      "tip": [
+        "U: install|add\n",
+        "Install the specified package (by searching configured sources or directly finding it from the manifest).\n",
+        "By default, the query must match the package's id, name, or moniker in a case-insensitive manner.\n",
+        "Other fields can be used by passing the respective options.\n",
+        "By default, the install command checks the package installation status and attempts to perform an upgrade if applicable.\n",
+        "Use --force to override and perform a direct install"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__manifest }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "Install the package for the current user"
+            },
+            {
+              "name": "machine",
+              "tip": "Install the package for all users on the machine"
+            }
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--architecture"
+          ],
+          "tip": "{{ $info.__architecture }}",
+          "next": [
+            {
+              "name": "x64",
+              "tip": "Install the package for x64 architecture"
+            },
+            {
+              "name": "x86",
+              "tip": "Install the package for x86 architecture"
+            },
+            {
+              "name": "arm64",
+              "tip": "Install the package for arm64 architecture"
+            }
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": "{{ $info.__installer_type }}",
+          "next": [
+            {
+              "name": "msi",
+              "tip": "Use MSI installer"
+            },
+            {
+              "name": "msix",
+              "tip": "Use MSIX installer"
+            },
+            {
+              "name": "exe",
+              "tip": "Use EXE installer"
+            },
+            {
+              "name": "appx",
+              "tip": "Use APPX installer"
+            },
+            {
+              "name": "msu",
+              "tip": "Use MSU installer"
+            },
+            {
+              "name": "inno",
+              "tip": "Use Inno Setup installer"
+            },
+            {
+              "name": "nullsoft",
+              "tip": "Use Nullsoft Installer installer"
+            },
+            {
+              "name": "wix",
+              "tip": "Use WiX installer"
+            },
+            {
+              "name": "zip",
+              "tip": "Use ZIP archive"
+            }
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": "{{ $info.__interactive }}"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--silent"
+          ],
+          "tip": "{{ $info.__silent }}"
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--log"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__log }}"
+        },
+        {
+          "name": "--custom",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__custom }}"
+        },
+        {
+          "name": "--override",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__override }}"
+        },
+        {
+          "name": "-l",
+          "alias": [
+            "--location"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__location }}"
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": "{{ $info.__ignore_security_hash }}"
+        },
+        {
+          "name": "--ignore-local-archive-malware-scan",
+          "tip": "{{ $info.__ignore_local_archive_malware_scan }}"
+        },
+        {
+          "name": "--dependency-source",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__dependency_source }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--no-upgrade",
+          "tip": "{{ $info.__no_upgrade }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--rename"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__rename }}"
+        },
+        {
+          "name": "--uninstall-previous",
+          "tip": "{{ $info.__uninstall_previous }}"
+        },
+        {
+          "name": "--force",
+          "tip": "{{ $info.__force }}"
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "alias": [
+        "view"
+      ],
+      "tip": [
+        "U: show|view\n",
+        "Display information about a specific package.\n",
+        "By default, the query must match the package's ID, name, or moniker in a case-insensitive manner.\n",
+        "Other fields can be used by passing the respective options."
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "Install the package for the current user"
+            },
+            {
+              "name": "machine",
+              "tip": "Install the package for all users on the machine"
+            }
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--architecture"
+          ],
+          "tip": "{{ $info.__architecture }}",
+          "next": [
+            {
+              "name": "x64",
+              "tip": "Install the package for x64 architecture"
+            },
+            {
+              "name": "x86",
+              "tip": "Install the package for x86 architecture"
+            },
+            {
+              "name": "arm64",
+              "tip": "Install the package for arm64 architecture"
+            }
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": "{{ $info.__installer_type }}",
+          "next": [
+            {
+              "name": "msi",
+              "tip": "Use MSI installer"
+            },
+            {
+              "name": "msix",
+              "tip": "Use MSIX installer"
+            },
+            {
+              "name": "exe",
+              "tip": "Use EXE installer"
+            },
+            {
+              "name": "appx",
+              "tip": "Use APPX installer"
+            },
+            {
+              "name": "msu",
+              "tip": "Use MSU installer"
+            },
+            {
+              "name": "inno",
+              "tip": "Use Inno Setup installer"
+            },
+            {
+              "name": "nullsoft",
+              "tip": "Use Nullsoft Installer installer"
+            },
+            {
+              "name": "wix",
+              "tip": "Use WiX installer"
+            },
+            {
+              "name": "zip",
+              "tip": "Use ZIP archive"
+            }
+          ]
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--versions",
+          "tip": "{{ $info.__versions }}"
+        }
+      ]
+    },
+    {
+      "name": "source",
+      "tip": "Manage the sources of packages",
+      "next": [
+        {
+          "name": "list",
+          "tip": "List current sources"
+        },
+        {
+          "name": "add",
+          "tip": "Add a new source"
+        },
+        {
+          "name": "remove",
+          "tip": "Remove current source"
+        },
+        {
+          "name": "update",
+          "tip": "Update current source"
+        },
+        {
+          "name": "reset",
+          "tip": "Reset sources"
+        },
+        {
+          "name": "export",
+          "tip": "Export current sources"
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "alias": [
+        "find"
+      ],
+      "tip": [
+        "U: search|find\n",
+        "Search for packages from configured sources"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "--tag",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__tag }}"
+        },
+        {
+          "name": "--cmd",
+          "alias": [
+            "--command"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__command }}"
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--count"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__count }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--versions",
+          "tip": "{{ $info.__versions }}"
+        }
+      ]
+    },
+    {
+      "name": "ls",
+      "alias": [
+        "list"
+      ],
+      "tip": [
+        "U: ls|list\n",
+        "List installed packages"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "--tag",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__tag }}"
+        },
+        {
+          "name": "--cmd",
+          "alias": [
+            "--command"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__command }}"
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--count"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__count }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--versions",
+          "tip": "{{ $info.__versions }}"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "upgrade"
+      ],
+      "tip": [
+        "U: update|upgrade\n",
+        "Update installed packages to the latest available version"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__manifest }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--recurse",
+            "--all"
+          ],
+          "tip": "{{ $info.__recurse }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": "{{ $info.__interactive }}"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--silent"
+          ],
+          "tip": "{{ $info.__silent }}"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--log"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__log }}"
+        },
+        {
+          "name": "--custom",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__custom }}"
+        },
+        {
+          "name": "--override",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__override }}"
+        },
+        {
+          "name": "-l",
+          "alias": [
+            "--location"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__location }}"
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": "{{ $info.__ignore_security_hash }}"
+        },
+        {
+          "name": "--ignore-local-archive-malware-scan",
+          "tip": "{{ $info.__ignore_local_archive_malware_scan }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--uninstall-previous",
+          "tip": "{{ $info.__uninstall_previous }}"
+        },
+        {
+          "name": "--force",
+          "tip": "{{ $info.__force }}"
+        },
+        {
+          "name": "--purge",
+          "tip": "{{ $info.__purge }}"
+        },
+        {
+          "name": "--skip-dependencies",
+          "tip": "{{ $info.__skip_dependencies }}"
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--unknown",
+            "--include-unknown"
+          ],
+          "tip": "{{ $info.__unknown }}"
+        },
+        {
+          "name": "--pinned",
+          "alias": [
+            "--include-pinned"
+          ],
+          "tip": "{{ $info.__pinned }}"
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "rm",
+        "remove"
+      ],
+      "tip": [
+        "U: uninstall|rm|remove\n",
+        "Uninstall the given package"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__manifest }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "Install the package for the current user"
+            },
+            {
+              "name": "machine",
+              "tip": "Install the package for all users on the machine"
+            }
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": "{{ $info.__interactive }}"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--silent"
+          ],
+          "tip": "{{ $info.__silent }}"
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--log"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__log }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--force",
+          "tip": "{{ $info.__force }}"
+        },
+        {
+          "name": "--purge",
+          "tip": "{{ $info.__purge }}"
+        },
+        {
+          "name": "--product-code",
+          "symbol":"WriteSpaceTab",
+          "tip": [
+            "U: --product-code <product-code>\n",
+            "Filter results by product code"
+          ]
+        },
+        {
+          "name": "--preserve",
+          "tip": "Preserve all files and directories created by the package (portable)"
+        }
+      ]
+    },
+    {
+      "name": "hash",
+      "tip": "Helper for hashing installed program",
+      "options": [
+        {
+          "name": "-f",
+          "alias": [
+            "--file"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -f|--file <file>\n",
+            "Hash the specified file"
+          ]
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--msix"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -m|--msix <file>\n",
+            "Treat the input file as an msix; if signed, provide the signed hash"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "tip": "Validate the manifest file",
+      "options": [
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -m|--manifest <manifest>\n",
+            "Path to the manifest file to be validated"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "tip": "Open settings or set administrator settings",
+      "options": [
+        {
+          "name": "--enable",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --enable <setting>\n",
+            "Enable specific administrator settings"
+          ]
+        },
+        {
+          "name": "--disable",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --disable <setting>\n",
+            "Disable specific administrator settings"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "export",
+          "tip": "Export settings",
+          "options": [
+            {
+              "name": "--enable",
+              "symbol": "WriteSpaceTab",
+              "tip": [
+                "U: --enable <setting>\n",
+                "Enable specific administrator settings"
+              ]
+            },
+            {
+              "name": "--disable",
+              "symbol": "WriteSpaceTab",
+              "tip": [
+                "U: --disable <setting>\n",
+                "Disable specific administrator settings"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "features",
+      "tip": "Display the status of experimental features"
+    },
+    {
+      "name": "export",
+      "tip": "Export the list of installed packages",
+      "options": [
+        {
+          "name": "-o",
+          "alias": [
+            "--output"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -o|--output <file>\n",
+            "Write the results to the specified file"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "tip": [
+            "U: -s|--source <source>\n",
+            "Export packages from the specified source"
+          ]
+        },
+        {
+          "name": "--include-versions",
+          "tip": "Include package versions in the generated file"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": "Install all packages from a file",
+      "options": [
+        {
+          "name": "-i",
+          "alias": [
+            "--import-file"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -i|--import-file <file>\n",
+            "File describing the packages to install"
+          ]
+        },
+        {
+          "name": "--ignore-unavailable",
+          "tip": "Ignore unavailable packages"
+        },
+        {
+          "name": "--ignore-versions",
+          "tip": "Ignore package versions in the import file"
+        },
+        {
+          "name": "--no-upgrade",
+          "tip": "{{ $info.__no_upgrade }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "tip": "Manage package pins",
+      "next": [
+        {
+          "name": "list",
+          "tip": "List current package pins"
+        },
+        {
+          "name": "add",
+          "tip": "Add a new package pin"
+        },
+        {
+          "name": "remove",
+          "tip": "Remove a package pin"
+        },
+        {
+          "name": "reset",
+          "tip": "Reset package pins"
+        }
+      ]
+    },
+    {
+      "name": "configure",
+      "tip": "(To be continued, some options are not yet added) Configure the system to the desired state",
+      "options": [
+        {
+          "name": "-f",
+          "alias": [
+            "--file"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__file }}"
+        },
+        {
+          "name": "--module-path",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__module_path }}"
+        }
+      ],
+      "next": [
+        {
+          "name": "show",
+          "tip": "Display detailed information about the configured settings",
+          "options": [
+            {
+              "name": "-f",
+              "alias": [
+                "--file"
+              ],
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__file }}"
+            },
+            {
+              "name": "--module-path",
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__module_path }}"
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "tip": "Check the system against the desired state",
+          "options": [
+            {
+              "name": "-f",
+              "alias": [
+                "--file"
+              ],
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__file }}"
+            },
+            {
+              "name": "--module-path",
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__module_path }}"
+            }
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": "Validate the configuration file",
+          "options": [
+            {
+              "name": "-f",
+              "alias": [
+                "--file"
+              ],
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__file }}"
+            },
+            {
+              "name": "--module-path",
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__module_path }}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "download",
+      "tip": "Download installer from the given package",
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "Install the package for the current user"
+            },
+            {
+              "name": "machine",
+              "tip": "Install the package for all users on the machine"
+            }
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--architecture"
+          ],
+          "tip": "{{ $info.__architecture }}",
+          "next": [
+            {
+              "name": "x64",
+              "tip": "Install the package for x64 architecture"
+            },
+            {
+              "name": "x86",
+              "tip": "Install the package for x86 architecture"
+            },
+            {
+              "name": "arm64",
+              "tip": "Install the package for arm64 architecture"
+            }
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": "{{ $info.__installer_type }}",
+          "next": [
+            {
+              "name": "msi",
+              "tip": "Use MSI installer"
+            },
+            {
+              "name": "msix",
+              "tip": "Use MSIX installer"
+            },
+            {
+              "name": "exe",
+              "tip": "Use EXE installer"
+            },
+            {
+              "name": "appx",
+              "tip": "Use APPX installer"
+            },
+            {
+              "name": "msu",
+              "tip": "Use MSU installer"
+            },
+            {
+              "name": "inno",
+              "tip": "Use Inno Setup installer"
+            },
+            {
+              "name": "nullsoft",
+              "tip": "Use Nullsoft Installer installer"
+            },
+            {
+              "name": "wix",
+              "tip": "Use WiX installer"
+            },
+            {
+              "name": "zip",
+              "tip": "Use ZIP archive"
+            }
+          ]
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": "{{ $info.__ignore_security_hash }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--skip-dependencies",
+          "tip": "{{ $info.__skip_dependencies }}"
+        }
+      ]
+    }
+  ],
+  "options": [
+    {
+      "name": "-v",
+      "alias": [
+        "--version"
+      ],
+      "tip": [
+        "U: -v|--version\n",
+        "Display the version of the tool"
+      ]
+    },
+    {
+      "name": "--info",
+      "tip": "Display general information about the tool"
+    }
+  ],
+  "common_options": [
+    {
+      "name": "-?",
+      "alias": [
+        "--help"
+      ],
+      "tip": [
+        "U: -?|--help\n",
+        "Display help information for the selected command"
+      ]
+    },
+    {
+      "name": "--wait",
+      "tip": "Prompt the user to press any key before exiting"
+    },
+    {
+      "name": "--logs",
+      "alias": [
+        "--open-logs"
+      ],
+      "tip": [
+        "U: --logs|--open-logs\n",
+        "Open the default log location"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "--verbose-logs"
+      ],
+      "tip": [
+        "U: --verbose|--verbose-logs\n",
+        "Enable detailed logging for WinGet"
+      ]
+    },
+    {
+      "name": "--disable-interactivity",
+      "tip": "Disable interactive prompts"
+    }
+  ],
+  "info": {
+    "__query": [
+      "U: -q|--query <query>...\n",
+      "Query used for searching packages"
+    ],
+    "__manifest": [
+      "U: -m|--manifest <manifest>\n",
+      "Path to the package manifest (YAML) file\n",
+      "Use manifest to run the installation experience from a local YAML file"
+    ],
+    "__id": [
+      "U: --id <id>\n",
+      "Filter results by package ID\n",
+      "E: --id Microsoft.VisualStudioCode"
+    ],
+    "__name": [
+      "U: --name <name>\n",
+      "Filter results by package name\n",
+      "E: --name \"Visual Studio Code\""
+    ],
+    "__moniker": [
+      "U: --moniker <moniker>\n",
+      "Filter results by package moniker\n",
+      "E: --moniker \"vscode\""
+    ],
+    "__version": [
+      "U: -v|--version <version>\n",
+      "Use the specified version, default is the latest version\n",
+      "E: -v 1.56.2"
+    ],
+    "__source": [
+      "U: -s|--source <source>\n",
+      "Query packages using the specified source, must be followed by source name\n",
+      "E: -s winget"
+    ],
+    "__exact": [
+      "U: -e|--exact\n",
+      "Use exact string in the query, including case sensitivity. It won't use substring default behavior"
+    ],
+    "__scope": [
+      "U: --scope <scope>\n",
+      "Select installation scope (user or machine)\n",
+      "E: --scope user"
+    ],
+    "__architecture": [
+      "U: -a|--architecture <arch>\n",
+      "Use the specified architecture\n",
+      "E: -a x64"
+    ],
+    "__installer_type": [
+      "U: --installer-type <type>\n",
+      "Select the installer type to use for the package\n",
+      "E: --installer-type msi"
+    ],
+    "__interactive": [
+      "U: -i|--interactive\n",
+      "Run installer in interactive mode.\n",
+      "Default experience displays installer progress"
+    ],
+    "__silent": [
+      "U: -q|--silent\n",
+      "Run installer in silent mode.\n",
+      "Default experience doesn't display installer progress"
+    ],
+    "__locale": [
+      "U: --locale <locale>\n",
+      "Specify the locale to use (BCP47 format)\n",
+      "E: --locale zh-CN"
+    ],
+    "__log": [
+      "U: -o|--log <log>\n",
+      "Redirect logging to a log file.\n",
+      "Must provide the path to a file you have write permissions for\n",
+      "E: -o \"D:\\winget-install.log\""
+    ],
+    "__custom": [
+      "U: --custom <custom>\n",
+      "Parameters to pass to the installer in addition to default values\n",
+      "E: --custom \"/q /norestart\""
+    ],
+    "__override": [
+      "U: --override <override>\n",
+      "Strings to pass directly to the installer\n",
+      "E: --override \"/q /norestart\""
+    ],
+    "__location": [
+      "U: -l|--location <location>\n",
+      "Location to install to, if supported\n",
+      "E: -l \"D:\\software\""
+    ],
+    "__ignore_security_hash": "Override installer hash checking. Not recommended",
+    "__ignore_local_archive_malware_scan": "Ignore malware scan performed as part of installing archive type packages from local manifest",
+    "__dependency_source": [
+      "U: --dependency-source <source>\n",
+      "Use the specified source to find package dependencies\n",
+      "E: --dependency-source winget"
+    ],
+    "__accept_package_agreements": "Used to accept license agreements and avoid prompts",
+    "__accept_source_agreements": "Used to accept source license agreements and avoid prompts",
+    "__no_upgrade": "Skip package upgrade if an installed version already exists",
+    "__header": [
+      "U: --header <header>\n",
+      "Optional Windows Package Manager REST source HTTP headers\n",
+      "E: --header \"Authorization: Bearer <token>\""
+    ],
+    "__rename": [
+      "U: -r|--rename <value>\n",
+      "Value to rename the executable (portable)\n",
+      "E: -r \"New Name\""
+    ],
+    "__uninstall_previous": "Uninstall previous versions of the package during the upgrade process",
+    "__force": "Run the command directly and proceed even if there are non-security-related issues",
+    "__versions": "Display available versions of the package",
+    "__tag": [
+      "U: --tag <tag>\n",
+      "Filter results by package tag\n",
+      "E: --tag \"recommended\""
+    ],
+    "__command": [
+      "U: --cmd|--command <command>\n",
+      "Filter results by command\n",
+      "E: --command \"winget install\""
+    ],
+    "__count": [
+      "U: -n|--count <count>\n",
+      "Display no more than the specified number of results (1-1000)\n",
+      "E: --count 10"
+    ],
+    "__purge": "Delete all files and directories in the package directory (portable)",
+    "__skip_dependencies": "Skip processing package dependencies and Windows features",
+    "__recurse": [
+      "U: -r|--recurse|--all\n",
+      "Update all installed packages to the latest version if available"
+    ],
+    "__unknown": [
+      "U: -u|--unknown|--include-unknown\n",
+      "Update package even if its current version cannot be determined"
+    ],
+    "__pinned": [
+      "U: --pinned|--include-pinned\n",
+      "Update package even if it has non-blocking package pins"
+    ],
+    "__file": [
+      "U: -f|--file <file>\n",
+      "Path to the configuration file"
+    ],
+    "__module_path": [
+      "U: --module-path <path>\n",
+      "Specify the location on the local computer for storing modules.\n",
+      "Default: %LOCALAPPDATA%\\Microsoft\\WinGet\\Configuration\\Modules"
+    ]
+  }
+}

@@ -1,0 +1,1523 @@
+{
+  "root": [
+    {
+      "name": "install",
+      "alias": [
+        "add"
+      ],
+      "tip": [
+        "U: install|add\n",
+        "安装指定的包(通过搜索配置的源或直接从清单中找到它)。\n",
+        "默认情况下, 查询必须与包的 id、名称或别名在大小写不敏感的方式下匹配。\n",
+        "可以使用相应的选项通过其他字段进行查询。\n",
+        "默认情况下, 安装命令会检查包的安装状态并尝试执行升级(如果适用)。\n",
+        "使用 --force 选项以强制执行直接安装。"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__manifest }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "为当前用户安装包"
+            },
+            {
+              "name": "machine",
+              "tip": "为机器上的所有用户安装包"
+            }
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--architecture"
+          ],
+          "tip": "{{ $info.__architecture }}",
+          "next": [
+            {
+              "name": "x64",
+              "tip": "安装 x64 架构的包"
+            },
+            {
+              "name": "x86",
+              "tip": "安装 x86 架构的包"
+            },
+            {
+              "name": "arm64",
+              "tip": "安装 arm64 架构的包"
+            }
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": "{{ $info.__installer_type }}",
+          "next": [
+            {
+              "name": "msi",
+              "tip": "使用 MSI 安装程序"
+            },
+            {
+              "name": "msix",
+              "tip": "使用 MSIX 安装程序"
+            },
+            {
+              "name": "exe",
+              "tip": "使用 EXE 安装程序"
+            },
+            {
+              "name": "appx",
+              "tip": "使用 APPX 安装程序"
+            },
+            {
+              "name": "msu",
+              "tip": "使用 MSU 安装程序"
+            },
+            {
+              "name": "inno",
+              "tip": "使用 Inno Setup 安装程序"
+            },
+            {
+              "name": "nullsoft",
+              "tip": "使用 Nullsoft 安装程序"
+            },
+            {
+              "name": "wix",
+              "tip": "使用 WiX 安装程序"
+            },
+            {
+              "name": "zip",
+              "tip": "使用 ZIP 解压安装"
+            }
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": "{{ $info.__interactive }}"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--silent"
+          ],
+          "tip": "{{ $info.__silent }}"
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--log"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__log }}"
+        },
+        {
+          "name": "--custom",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__custom }}"
+        },
+        {
+          "name": "--override",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__override }}"
+        },
+        {
+          "name": "-l",
+          "alias": [
+            "--location"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__location }}"
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": "{{ $info.__ignore_security_hash }}"
+        },
+        {
+          "name": "--ignore-local-archive-malware-scan",
+          "tip": "{{ $info.__ignore_local_archive_malware_scan }}"
+        },
+        {
+          "name": "--dependency-source",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__dependency_source }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--no-upgrade",
+          "tip": "{{ $info.__no_upgrade }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--rename"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__rename }}"
+        },
+        {
+          "name": "--uninstall-previous",
+          "tip": "{{ $info.__uninstall_previous }}"
+        },
+        {
+          "name": "--force",
+          "tip": "{{ $info.__force }}"
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "alias": [
+        "view"
+      ],
+      "tip": [
+        "U: show|view\n",
+        "显示有关特定包的信息。\n",
+        "默认情况下, 查询必须与包的 ID、名称或别名在大小写不敏感的方式下匹配。\n",
+        "可以使用相应的选项通过其他字段进行查询。"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "为当前用户安装包"
+            },
+            {
+              "name": "machine",
+              "tip": "为机器上的所有用户安装包"
+            }
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--architecture"
+          ],
+          "tip": "{{ $info.__architecture }}",
+          "next": [
+            {
+              "name": "x64",
+              "tip": "安装 x64 架构的包"
+            },
+            {
+              "name": "x86",
+              "tip": "安装 x86 架构的包"
+            },
+            {
+              "name": "arm64",
+              "tip": "安装 arm64 架构的包"
+            }
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": "{{ $info.__installer_type }}",
+          "next": [
+            {
+              "name": "msi",
+              "tip": "使用 MSI 安装程序"
+            },
+            {
+              "name": "msix",
+              "tip": "使用 MSIX 安装程序"
+            },
+            {
+              "name": "exe",
+              "tip": "使用 EXE 安装程序"
+            },
+            {
+              "name": "appx",
+              "tip": "使用 APPX 安装程序"
+            },
+            {
+              "name": "msu",
+              "tip": "使用 MSU 安装程序"
+            },
+            {
+              "name": "inno",
+              "tip": "使用 Inno Setup 安装程序"
+            },
+            {
+              "name": "nullsoft",
+              "tip": "使用 Nullsoft 安装程序"
+            },
+            {
+              "name": "wix",
+              "tip": "使用 WiX 安装程序"
+            },
+            {
+              "name": "zip",
+              "tip": "使用 ZIP 解压安装"
+            }
+          ]
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--versions",
+          "tip": "{{ $info.__versions }}"
+        }
+      ]
+    },
+    {
+      "name": "source",
+      "tip": "管理包的源",
+      "next": [
+        {
+          "name": "list",
+          "tip": "列出当前源"
+        },
+        {
+          "name": "add",
+          "tip": "添加新源"
+        },
+        {
+          "name": "remove",
+          "tip": "移除当前源"
+        },
+        {
+          "name": "update",
+          "tip": "更新当前源"
+        },
+        {
+          "name": "reset",
+          "tip": "重置源"
+        },
+        {
+          "name": "export",
+          "tip": "导出当前源"
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "alias": [
+        "find"
+      ],
+      "tip": [
+        "U: search|find\n",
+        "从配置的源中搜索包"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "--tag",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__tag }}"
+        },
+        {
+          "name": "--cmd",
+          "alias": [
+            "--command"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__command }}"
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--count"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__count }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--versions",
+          "tip": "{{ $info.__versions }}"
+        }
+      ]
+    },
+    {
+      "name": "ls",
+      "alias": [
+        "list"
+      ],
+      "tip": [
+        "U: ls|list\n",
+        "显示已安装的软件包"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "--tag",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__tag }}"
+        },
+        {
+          "name": "--cmd",
+          "alias": [
+            "--command"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__command }}"
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--count"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__count }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--versions",
+          "tip": "{{ $info.__versions }}"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "upgrade"
+      ],
+      "tip": [
+        "U: update|upgrade\n",
+        "将已安装的软件包更新到最新的可用版本"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__manifest }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--recurse",
+            "--all"
+          ],
+          "tip": "{{ $info.__recurse }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": "{{ $info.__interactive }}"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--silent"
+          ],
+          "tip": "{{ $info.__silent }}"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--log"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__log }}"
+        },
+        {
+          "name": "--custom",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__custom }}"
+        },
+        {
+          "name": "--override",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__override }}"
+        },
+        {
+          "name": "-l",
+          "alias": [
+            "--location"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__location }}"
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": "{{ $info.__ignore_security_hash }}"
+        },
+        {
+          "name": "--ignore-local-archive-malware-scan",
+          "tip": "{{ $info.__ignore_local_archive_malware_scan }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--uninstall-previous",
+          "tip": "{{ $info.__uninstall_previous }}"
+        },
+        {
+          "name": "--force",
+          "tip": "{{ $info.__force }}"
+        },
+        {
+          "name": "--purge",
+          "tip": "{{ $info.__purge }}"
+        },
+        {
+          "name": "--skip-dependencies",
+          "tip": "{{ $info.__skip_dependencies }}"
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--unknown",
+            "--include-unknown"
+          ],
+          "tip": "{{ $info.__unknown }}"
+        },
+        {
+          "name": "--pinned",
+          "alias": [
+            "--include-pinned"
+          ],
+          "tip": "{{ $info.__pinned }}"
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "rm",
+        "remove"
+      ],
+      "tip": [
+        "U: uninstall|rm|remove\n",
+        "卸载给定的软件包"
+      ],
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__manifest }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "为当前用户安装包"
+            },
+            {
+              "name": "machine",
+              "tip": "为机器上的所有用户安装包"
+            }
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": "{{ $info.__interactive }}"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--silent"
+          ],
+          "tip": "{{ $info.__silent }}"
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--log"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__log }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--header",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__header }}"
+        },
+        {
+          "name": "--force",
+          "tip": "{{ $info.__force }}"
+        },
+        {
+          "name": "--purge",
+          "tip": "{{ $info.__purge }}"
+        },
+        {
+          "name": "--product-code",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --product-code <product-code>\n",
+            "通过产品代码过滤结果"
+          ]
+        },
+        {
+          "name": "--preserve",
+          "tip": "保留由包创建的所有文件和目录(便携式)"
+        }
+      ]
+    },
+    {
+      "name": "hash",
+      "tip": "用于哈希已安装程序的助手",
+      "options": [
+        {
+          "name": "-f",
+          "alias": [
+            "--file"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -f|--file <file>\n",
+            "哈希指定的文件"
+          ]
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--msix"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -m|--msix <file>\n",
+            "将输入文件视为 msix; 如果已签名, 则提供已签名的哈希"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "tip": "验证清单文件",
+      "options": [
+        {
+          "name": "-m",
+          "alias": [
+            "--manifest"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -m|--manifest <manifest>\n",
+            "要验证的清单文件的路径"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "tip": "打开设置或设置管理员设置",
+      "options": [
+        {
+          "name": "--enable",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --enable <setting>\n",
+            "启用特定的管理员设置"
+          ]
+        },
+        {
+          "name": "--disable",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --disable <setting>\n",
+            "禁用特定的管理员设置"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "export",
+          "tip": "导出设置",
+          "options": [
+            {
+              "name": "--enable",
+              "symbol": "WriteSpaceTab",
+              "tip": [
+                "U: --enable <setting>\n",
+                "启用特定的管理员设置"
+              ]
+            },
+            {
+              "name": "--disable",
+              "symbol": "WriteSpaceTab",
+              "tip": [
+                "U: --disable <setting>\n",
+                "禁用特定的管理员设置"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "features",
+      "tip": "显示实验性特性的状态"
+    },
+    {
+      "name": "export",
+      "tip": "导出已安装包的列表",
+      "options": [
+        {
+          "name": "-o",
+          "alias": [
+            "--output"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -o|--output <file>\n",
+            "将结果写入指定的文件"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "tip": [
+            "U: -s|--source <source>\n",
+            "从指定的源导出包"
+          ]
+        },
+        {
+          "name": "--include-versions",
+          "tip": "在生成的文件中包含包版本"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": "从文件安装所有包",
+      "options": [
+        {
+          "name": "-i",
+          "alias": [
+            "--import-file"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -i|--import-file <file>\n",
+            "描述要安装的包的文件"
+          ]
+        },
+        {
+          "name": "--ignore-unavailable",
+          "tip": "忽略不可用的包"
+        },
+        {
+          "name": "--ignore-versions",
+          "tip": "在导入文件中忽略包版本"
+        },
+        {
+          "name": "--no-upgrade",
+          "tip": "{{ $info.__no_upgrade }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "tip": "管理包的固定",
+      "next": [
+        {
+          "name": "list",
+          "tip": "列出当前包的固定"
+        },
+        {
+          "name": "add",
+          "tip": "添加新的包固定"
+        },
+        {
+          "name": "remove",
+          "tip": "移除包固定"
+        },
+        {
+          "name": "reset",
+          "tip": "重置包固定"
+        }
+      ]
+    },
+    {
+      "name": "configure",
+      "tip": "(一些选项尚未添加) 配置系统到所需状态",
+      "options": [
+        {
+          "name": "-f",
+          "alias": [
+            "--file"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__file }}"
+        },
+        {
+          "name": "--module-path",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__module_path }}"
+        }
+      ],
+      "next": [
+        {
+          "name": "show",
+          "tip": "显示配置设置的详细信息",
+          "options": [
+            {
+              "name": "-f",
+              "alias": [
+                "--file"
+              ],
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__file }}"
+            },
+            {
+              "name": "--module-path",
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__module_path }}"
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "tip": "检查系统是否符合所需状态",
+          "options": [
+            {
+              "name": "-f",
+              "alias": [
+                "--file"
+              ],
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__file }}"
+            },
+            {
+              "name": "--module-path",
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__module_path }}"
+            }
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": "验证配置文件",
+          "options": [
+            {
+              "name": "-f",
+              "alias": [
+                "--file"
+              ],
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__file }}"
+            },
+            {
+              "name": "--module-path",
+              "symbol": "WriteSpaceTab",
+              "tip": "{{ $info.__module_path }}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "download",
+      "tip": "从给定的软件包中下载安装程序",
+      "options": [
+        {
+          "name": "-q",
+          "alias": [
+            "--query"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__query }}"
+        },
+        {
+          "name": "--id",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__id }}"
+        },
+        {
+          "name": "--name",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__name }}"
+        },
+        {
+          "name": "--moniker",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__moniker }}"
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--version"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__version }}"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__source }}"
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--exact"
+          ],
+          "tip": "{{ $info.__exact }}"
+        },
+        {
+          "name": "--scope",
+          "tip": "{{ $info.__scope }}",
+          "next": [
+            {
+              "name": "user",
+              "tip": "为当前用户安装包"
+            },
+            {
+              "name": "machine",
+              "tip": "为机器上的所有用户安装包"
+            }
+          ]
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--architecture"
+          ],
+          "tip": "{{ $info.__architecture }}",
+          "next": [
+            {
+              "name": "x64",
+              "tip": "安装 x64 架构的包"
+            },
+            {
+              "name": "x86",
+              "tip": "安装 x86 架构的包"
+            },
+            {
+              "name": "arm64",
+              "tip": "安装 arm64 架构的包"
+            }
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": "{{ $info.__installer_type }}",
+          "next": [
+            {
+              "name": "msi",
+              "tip": "使用 MSI 安装程序"
+            },
+            {
+              "name": "msix",
+              "tip": "使用 MSIX 安装程序"
+            },
+            {
+              "name": "exe",
+              "tip": "使用 EXE 安装程序"
+            },
+            {
+              "name": "appx",
+              "tip": "使用 APPX 安装程序"
+            },
+            {
+              "name": "msu",
+              "tip": "使用 MSU 安装程序"
+            },
+            {
+              "name": "inno",
+              "tip": "使用 Inno Setup 安装程序"
+            },
+            {
+              "name": "nullsoft",
+              "tip": "使用 Nullsoft 安装程序"
+            },
+            {
+              "name": "wix",
+              "tip": "使用 WiX 安装程序"
+            },
+            {
+              "name": "zip",
+              "tip": "使用 ZIP 解压安装"
+            }
+          ]
+        },
+        {
+          "name": "--locale",
+          "symbol": "WriteSpaceTab",
+          "tip": "{{ $info.__locale }}"
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": "{{ $info.__ignore_security_hash }}"
+        },
+        {
+          "name": "--accept-package-agreements",
+          "tip": "{{ $info.__accept_package_agreements }}"
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": "{{ $info.__accept_source_agreements }}"
+        },
+        {
+          "name": "--skip-dependencies",
+          "tip": "{{ $info.__skip_dependencies }}"
+        }
+      ]
+    }
+  ],
+  "options": [
+    {
+      "name": "-v",
+      "alias": [
+        "--version"
+      ],
+      "tip": [
+        "U: -v|--version\n",
+        "打印 winget 的版本"
+      ]
+    },
+    {
+      "name": "--info",
+      "tip": "显示 winget 的一些常规信息"
+    }
+  ],
+  "common_options": [
+    {
+      "name": "-?",
+      "alias": [
+        "--help"
+      ],
+      "tip": [
+        "U: -?|--help\n",
+        "显示帮助信息"
+      ]
+    },
+    {
+      "name": "--wait",
+      "tip": "提示用户在退出前按任意键"
+    },
+    {
+      "name": "--logs",
+      "alias": [
+        "--open-logs"
+      ],
+      "tip": [
+        "U: --logs|--open-logs\n",
+        "打开默认日志位置"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "--verbose-logs"
+      ],
+      "tip": [
+        "U: --verbose|--verbose-logs\n",
+        "为 winget 启用详细日志记录"
+      ]
+    },
+    {
+      "name": "--disable-interactivity",
+      "tip": "禁用交互式提示"
+    }
+  ],
+  "info": {
+    "__query": [
+      "U: -q|--query <query>...\n",
+      "用于搜索包的查询"
+    ],
+    "__manifest": [
+      "U: -m|--manifest <manifest>\n",
+      "包清单(YAML)文件的路径\n",
+      "使用 manifest 从本地 YAML 文件运行安装体验"
+    ],
+    "__id": [
+      "U: --id <id>\n",
+      "通过包 ID 过滤结果\n",
+      "E: --id Microsoft.VisualStudioCode"
+    ],
+    "__name": [
+      "U: --name <name>\n",
+      "通过包名称过滤结果\n",
+      "E: --name \"Visual Studio Code\""
+    ],
+    "__moniker": [
+      "U: --moniker <moniker>\n",
+      "通过包别名过滤结果\n",
+      "E: --moniker \"vscode\""
+    ],
+    "__version": [
+      "U: -v|--version <version>\n",
+      "使用指定的版本, 默认为最新版本\n",
+      "E: -v 1.56.2"
+    ],
+    "__source": [
+      "U: -s|--source <source>\n",
+      "使用指定的源查询包, 必须后跟源名称\n",
+      "E: -s winget"
+    ],
+    "__exact": [
+      "U: -e|--exact\n",
+      "在查询中使用精确字符串, 包括大小写敏感性。它不会使用默认的子字符串行为"
+    ],
+    "__scope": [
+      "U: --scope <scope>\n",
+      "选择安装范围 [user|machine]\n",
+      "E: --scope user"
+    ],
+    "__architecture": [
+      "U: -a|--architecture <arch>\n",
+      "使用指定的架构\n",
+      "E: -a x64"
+    ],
+    "__installer_type": [
+      "U: --installer-type <type>\n",
+      "选择用于包的安装程序类型\n",
+      "E: --installer-type msi"
+    ],
+    "__interactive": [
+      "U: -i|--interactive\n",
+      "以交互模式运行安装程序。\n",
+      "默认体验显示安装程序进度"
+    ],
+    "__silent": [
+      "U: -q|--silent\n",
+      "以静默模式运行安装程序。\n",
+      "默认体验不显示安装程序进度"
+    ],
+    "__locale": [
+      "U: --locale <locale>\n",
+      "指定要使用的区域设置(BCP47 格式)\n",
+      "E: --locale zh-CN"
+    ],
+    "__log": [
+      "U: -o|--log <log>\n",
+      "将日志重定向到日志文件。\n",
+      "必须提供具有写入权限的文件路径\n",
+      "E: -o \"D:\\winget-install.log\""
+    ],
+    "__custom": [
+      "U: --custom <custom>\n",
+      "传递给安装程序的附加参数, 包括默认值\n",
+      "E: --custom \"/q /norestart\""
+    ],
+    "__override": [
+      "U: --override <override>\n",
+      "直接传递给安装程序的字符串\n",
+      "E: --override \"/q /norestart\""
+    ],
+    "__location": [
+      "U: -l|--location <location>\n",
+      "安装到指定位置, 如果支持\n",
+      "E: -l \"D:\\software\""
+    ],
+    "__ignore_security_hash": "覆盖安装程序哈希检查。不推荐使用",
+    "__ignore_local_archive_malware_scan": "忽略作为本地清单的一部分安装的存档类型包的恶意软件扫描",
+    "__dependency_source": [
+      "U: --dependency-source <source>\n",
+      "使用指定的源查找包依赖项\n",
+      "E: --dependency-source winget"
+    ],
+    "__accept_package_agreements": "用于接受许可协议并避免提示",
+    "__accept_source_agreements": "用于接受源许可协议并避免提示",
+    "__no_upgrade": "如果已安装版本已存在, 则跳过包升级",
+    "__header": [
+      "U: --header <header>\n",
+      "可选的 Windows 包管理器 REST 源 HTTP 头\n",
+      "E: --header \"Authorization: Bearer <token>\""
+    ],
+    "__rename": [
+      "U: -r|--rename <value>\n",
+      "重命名可执行文件(便携式)的值\n",
+      "E: -r \"新名称\""
+    ],
+    "__uninstall_previous": "在升级过程中卸载包的先前版本",
+    "__force": "直接运行命令并继续, 即使存在非安全相关的问题",
+    "__versions": "显示包的可用版本",
+    "__tag": [
+      "U: --tag <tag>\n",
+      "通过包标签过滤结果\n",
+      "E: --tag \"recommended\""
+    ],
+    "__command": [
+      "U: --cmd|--command <command>\n",
+      "通过命令过滤结果\n",
+      "E: --command \"winget install\""
+    ],
+    "__count": [
+      "U: -n|--count <count>\n",
+      "显示不超过指定数量的结果(1-1000)\n",
+      "E: --count 10"
+    ],
+    "__purge": "删除包目录中的所有文件和目录(便携式)",
+    "__skip_dependencies": "跳过处理包依赖项和 Windows 功能",
+    "__recurse": [
+      "U: -r|--recurse|--all\n",
+      "如果可用, 则更新所有已安装的包到最新版本"
+    ],
+    "__unknown": [
+      "U: -u|--unknown|--include-unknown\n",
+      "即使当前版本无法确定, 也更新包"
+    ],
+    "__pinned": [
+      "U: --pinned|--include-pinned\n",
+      "即使有非阻塞的包固定, 也更新包"
+    ],
+    "__file": [
+      "U: -f|--file <file>\n",
+      "配置文件的路径"
+    ],
+    "__module_path": [
+      "U: --module-path <path>\n",
+      "指定本地计算机上存储模块的位置。\n",
+      "默认: %LOCALAPPDATA%\\Microsoft\\WinGet\\Configuration\\Modules"
+    ]
+  }
+}
