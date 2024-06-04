@@ -107,11 +107,11 @@
 ### About special symbols
 
 -   😄🤔😎 : If there are multiple, you can choose the effect of one of them.
-    -   😄 : It means that after you choose it, you can press `Space` and `Tab` key to continue to get command completions.(Normal or optional completions)
+    -   😄 : It means that after you apply it, you can press `Space` and `Tab` key to continue to get command completions.(Normal or optional completions)
         -   It can be customized by running `psc menu symbol SpaceTab <symbol>`
-    -   🤔 : It means that after you choose it (option completion), you can press `Space` and `Tab` key to continue to get option completions. (e.g. `--verbose`)
+    -   🤔 : It means that after you apply it (option completion), you can press `Space` and `Tab` key to continue to get option completions. (e.g. `--verbose`)
         -   It can be customized by running `psc menu symbol OptionTab <symbol>`
-    -   😎 : It means that after you choose it (option completion), you can enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
+    -   😎 : It means that after you apply it (option completion), you can enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
         -   If the string has Spaces, Please use "" or '' to wrap it. e.g. 'test content'
         -   If there is also 😄, it means that there are some strings to complete, you can press `Space` and `Tab` key to continue to get command completions without entering a string.
         -   It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
