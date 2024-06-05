@@ -120,8 +120,8 @@ function generate_list {
         }
 
         $lang_info = handle_language
-        $info_EN += $lang_info -join ' '
-        $info_CN += $lang_info -join ' '
+        $info_EN += $lang_info -join '<br>'
+        $info_CN += $lang_info -join '<br>'
 
         # Description
         ## EN
@@ -151,7 +151,7 @@ function handle($lang) {
     function get_static_content($path) {
         $content = Get-Content -Path $path -Encoding UTF8
 
-        $match = $content | Select-String -Pattern "\|:-:\|:-:\|-\|"
+        $match = $content | Select-String -Pattern "\|:-:\|-\|-\|"
 
         if ($match) {
             $matchLineNumber = ([array]$match.LineNumber)[0]

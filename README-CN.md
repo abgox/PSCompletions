@@ -166,7 +166,7 @@
     -   **`Description`**: 命令描述
 
 |Completion|Language|Description|
-|:-:|:-:|-|
+|:-:|-|-|
 |[bun](https://bun.sh)|`en-US` `zh-CN(100%)`|Bun - JavaScript 运行时和工具包|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|`en-US` `zh-CN(100%)`|cargo - Rust 包管理器|
 |[chfs](http://iscute.cn/chfs)|`en-US` `zh-CN(100%)`|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|

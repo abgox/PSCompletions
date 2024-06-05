@@ -161,7 +161,7 @@
     -   **`Description`**: Command Description.
 
 |Completion|Language|Description|
-|:-:|:-:|-|
+|:-:|-|-|
 |[bun](https://bun.sh)|`en-US` `zh-CN(100%)`|Bun - JavaScript all-in-one toolkit|
 |[cargo](https://rustwiki.org/en/cargo)|`en-US` `zh-CN(100%)`|cargo - Rust package manager|
 |[chfs](http://iscute.cn/chfs)|`en-US` `zh-CN(100%)`|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server|
