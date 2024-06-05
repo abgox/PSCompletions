@@ -152,28 +152,34 @@
 
 ## Available Completions List
 
-|           Completions           |                                         Source                                         |
-| :-----------------------------: | :------------------------------------------------------------------------------------: |
-|     [psc](/completions/psc)     | [psc - PSCompletions Module](https://www.powershellgallery.com/packages/PSCompletions) |
-|     [bun](/completions/bun)     |                 [Bun - JavaScript all-in-one toolkit](https://bun.sh)                  |
-|   [cargo](/completions/cargo)   |             [cargo - Rust package manager](https://rustwiki.org/en/cargo)              |
-|    [chfs](/completions/chfs)    |                   [chfs(CuteHttpFileServer)](http://iscute.cn/chfs)                    |
-|   [choco](/completions/choco)   |             [choco(chocolatey) - Software Manager](https://chocolatey.org)             |
-|   [conda](/completions/conda)   |    [conda - binary package and environment manager](https://github.com/conda/conda)    |
-|    [deno](/completions/deno)    |               [deno - A secure runtime for JS and TS](https://deno.com)                |
-|  [docker](/completions/docker)  |          [docker - Container Application Development](https://www.docker.com)          |
-|     [git](/completions/git)     |                  [Git - Version control system](https://git-scm.com)                   |
-| [kubectl](/completions/kubectl) |               [Kubernetes(k8s) command-line tool](https://kubernetes.io)               |
-|     [npm](/completions/npm)     |                     [npm - package manager](https://www.npmjs.com)                     |
-|     [nrm](/completions/nrm)     |               [nrm - npm registry manager](https://github.com/Pana/nrm)                |
-|     [nvm](/completions/nvm)     |              [nvm - Node Version Manager](https://github.com/nvm-sh/nvm)               |
-|     [pip](/completions/pip)     |              [pip - Python Package Manager](https://github.com/pypa/pip)               |
-|    [pnpm](/completions/pnpm)    |                     [pnpm - Package Manager](https://www.pnpm.cn)                      |
-|  [python](/completions/python)  |                    [python - command-line](https://www.python.org)                     |
-|   [scoop](/completions/scoop)   |                      [Scoop - Software Manager](https://scoop.sh)                      |
-|   [volta](/completions/volta)   |             [volta - Accessible JavaScript Tool Manager](https://volta.sh)             |
-|  [winget](/completions/winget)  |      [WinGet - Windows package manager](https://github.com/microsoft/winget-cli)       |
-|     [wsl](/completions/wsl)     |         [WSL - Windows Subsystem for Linux](https://github.com/microsoft/WSL)          |
-|      [wt](/completions/wt)      |         [windows terminal command line](https://github.com/microsoft/terminal)         |
-|    [yarn](/completions/yarn)    |             [yarn - package manager](https://classic.yarnpkg.com/lang/en)              |
-|               ...               |                                          ...                                           |
+-   Guide
+    -   **`Completion`** ：Click to view to the official website of the command. Sort by first letter(0-9,a-z).
+        -   Special case: `abc(a)`, it means that you need to download it by `psc add abc`, but by default `a` is used instead of `abc` to trigger the completion.
+    -   **`Language`**: Supported Languages, and Translation Progress.
+        -   The translation progress is compared to `en-US`
+        -   If it is greater than `100%`, it means that the current language has some redundant completion items and should be cleaned.
+    -   **`Description`**: Command Description.
+
+|Completion|Language|Description|
+|:-:|:-:|-|
+|[bun](https://bun.sh)|`en-US` `zh-CN(100%)`|Bun - JavaScript all-in-one toolkit|
+|[cargo](https://rustwiki.org/en/cargo)|`en-US` `zh-CN(100%)`|cargo - Rust package manager|
+|[chfs](http://iscute.cn/chfs)|`en-US` `zh-CN(100%)`|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server|
+|[choco](https://chocolatey.org/)|`en-US` `zh-CN(100%)`|choco(chocolatey) - Software Manager|
+|[conda](https://github.com/conda/conda)|`en-US` `zh-CN(100%)`|conda - binary package and environment manager|
+|[deno](https://deno.com/)|`en-US` `zh-CN(100%)`|Deno - A secure runtime for JavaScript and TypeScript.|
+|[docker](https://www.docker.com)|`en-US` `zh-CN(100%)`|docker - Container Application Development|
+|[git](https://git-scm.com)|`en-US` `zh-CN(100%)`|Git - Version control system|
+|[npm](https://www.npmjs.com/)|`en-US` `zh-CN(100%)`|npm - package manager|
+|[nrm](https://github.com/Pana/nrm)|`en-US` `zh-CN(100%)`|nrm - npm registry manager|
+|[nvm](https://github.com/nvm-sh/nvm)|`en-US` `zh-CN(100%)`|nvm - Node Version Manager|
+|[pip](https://github.com/pypa/pip)|`en-US` `zh-CN(100%)`|pip - Python Package Manager|
+|[pnpm](https://pnpm.io/)|`en-US` `zh-CN(94.23%)`|pnpm - Package Manager|
+|[psc](https://github.com/abgox/PSCompletions)|`en-US` `zh-CN(100%)`|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
+|[python](https://www.python.org)|`en-US` `zh-CN(100%)`|python - command-line|
+|[scoop](https://scoop.sh)|`en-US` `zh-CN(100%)`|Scoop - Software Manager|
+|[volta](https://volta.sh)|`en-US` `zh-CN(100%)`|volta - Accessible JavaScript Tool Manager|
+|[winget](https://github.com/microsoft/winget-cli)|`en-US` `zh-CN(100%)`|WinGet - Windows package manager|
+|[wsl](https://github.com/microsoft/WSL)|`en-US` `zh-CN(100%)`|WSL - Windows Subsystem for Linux|
+|[wt](https://github.com/microsoft/terminal)|`en-US` `zh-CN(100%)`|Windows terminal command line|
+|[yarn](https://classic.yarnpkg.com/)|`en-US` `zh-CN(100%)`|yarn - package manager|
