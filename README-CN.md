@@ -157,28 +157,34 @@
 
 ## 补全列表
 
-|            命令补全             |                                       命令来源                                       |
-| :-----------------------------: | :----------------------------------------------------------------------------------: |
-|     [psc](/completions/psc)     | [psc - PSCompletions 模块](https://www.powershellgallery.com/packages/PSCompletions) |
-|     [bun](/completions/bun)     |                  [Bun - JavaScript 运行时和工具包](https://bun.sh)                   |
-|   [cargo](/completions/cargo)   |              [cargo - Rust 包管理器](https://rustwiki.org/zh-CN/cargo)               |
-|    [chfs](/completions/chfs)    |          [CuteHttpFileServer - 跨平台文件共享服务器](http://iscute.cn/chfs)          |
-|   [choco](/completions/choco)   |                [choco(chocolatey) - 软件管理](https://chocolatey.org)                |
-|   [conda](/completions/conda)   |            [conda - 二进制包和环境管理器](https://github.com/conda/conda)            |
-|    [deno](/completions/deno)    |                  [deno - 安全的 JS 和 TS 运行时](https://deno.com)                   |
-|  [docker](/completions/docker)  |                   [docker - 容器应用开发](https://www.docker.com)                    |
-|     [git](/completions/git)     |                      [Git - 版本控制系统](https://git-scm.com)                       |
-| [kubectl](/completions/kubectl) |              [Kubernetes(k8s) 命令行工具](https://kubernetes.io/zh-cn)               |
-|     [npm](/completions/npm)     |                     [npm - 软件包管理器](https://www.npmjs.com)                      |
-|     [nrm](/completions/nrm)     |                 [nrm - npm 镜像源管理](https://github.com/Pana/nrm)                  |
-|     [nvm](/completions/nvm)     |                [nvm - node 版本管理器](https://github.com/nvm-sh/nvm)                |
-|     [pip](/completions/pip)     |                 [pip - Python 包管理器](https://github.com/pypa/pip)                 |
-|    [pnpm](/completions/pnpm)    |                      [pnpm - 软件包管理器](https://www.pnpm.cn)                      |
-|  [python](/completions/python)  |                      [python - 命令行](https://www.python.org)                       |
-|   [scoop](/completions/scoop)   |                         [Scoop - 软件管理](https://scoop.sh)                         |
-|   [volta](/completions/volta)   |               [volta - 无障碍 JavaScript 工具管理器](https://volta.sh)               |
-|  [winget](/completions/winget)  |       [WinGet - Windows 程序包管理器](https://github.com/microsoft/winget-cli)       |
-|     [wsl](/completions/wsl)     |       [WSL - 适用于 Linux 的 Windows 子系统](https://github.com/microsoft/WSL)       |
-|      [wt](/completions/wt)      |         [windows terminal 命令行终端](https://github.com/microsoft/terminal)         |
-|    [yarn](/completions/yarn)    |                [yarn - 软件包管理器](https://classic.yarnpkg.com/en)                 |
-|               ...               |                                         ...                                          |
+-   说明
+    -   **`Completion`** ：可添加的补全。点击跳转命令官方网站，按照数字字母排序(0-9,a-z)。
+        -   特殊情况: `abc(a)`，这表示你需要通过 `psc add abc` 去下载它，但默认使用 `a` 而不是 `abc` 去触发补全
+    -   **`Language`**: 支持的语言，以及翻译进度
+        -   翻译进度是相较于 `en-US` 的
+            -   如果翻译进度大于 `100%`，则表示当前语言有一部分多余的补全项，应该被清理
+    -   **`Description`**: 命令描述
+
+|Completion|Language|Description|
+|:-:|:-:|-|
+|[bun](https://bun.sh)|`en-US` `zh-CN(100%)`|Bun - JavaScript 运行时和工具包|
+|[cargo](https://rustwiki.org/zh-CN/cargo/)|`en-US` `zh-CN(100%)`|cargo - Rust 包管理器|
+|[chfs](http://iscute.cn/chfs)|`en-US` `zh-CN(100%)`|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
+|[choco](https://chocolatey.org/)|`en-US` `zh-CN(100%)`|choco(chocolatey) - 软件管理|
+|[conda](https://github.com/conda/conda)|`en-US` `zh-CN(100%)`|conda - 二进制包和环境管理器|
+|[deno](https://deno.com/)|`en-US` `zh-CN(100%)`|Deno - 安全的 JavaScript 和 TypeScript 运行时|
+|[docker](https://www.docker.com)|`en-US` `zh-CN(100%)`|docker - 容器应用开发|
+|[git](https://git-scm.com)|`en-US` `zh-CN(100%)`|Git - 版本控制系统|
+|[npm](https://www.npmjs.com/)|`en-US` `zh-CN(100%)`|npm - 软件包管理器|
+|[nrm](https://github.com/Pana/nrm)|`en-US` `zh-CN(100%)`|nrm - npm 镜像源管理|
+|[nvm](https://github.com/nvm-sh/nvm)|`en-US` `zh-CN(100%)`|nvm - node 版本管理器|
+|[pip](https://github.com/pypa/pip)|`en-US` `zh-CN(100%)`|pip - Python 包管理器|
+|[pnpm](https://pnpm.io/zh/)|`en-US` `zh-CN(94.23%)`|pnpm - 软件包管理器|
+|[psc](https://github.com/abgox/PSCompletions)|`en-US` `zh-CN(100%)`|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
+|[python](https://www.python.org)|`en-US` `zh-CN(100%)`|python - 命令行|
+|[scoop](https://scoop.sh)|`en-US` `zh-CN(100%)`|Scoop - 软件管理|
+|[volta](https://volta.sh)|`en-US` `zh-CN(100%)`|volta - 无障碍 JavaScript 工具管理器|
+|[winget](https://github.com/microsoft/winget-cli)|`en-US` `zh-CN(100%)`|WinGet - Windows 程序包管理器|
+|[wsl](https://github.com/microsoft/WSL)|`en-US` `zh-CN(100%)`|WSL - 适用于 Linux 的 Windows 子系统|
+|[wt](https://github.com/microsoft/terminal)|`en-US` `zh-CN(100%)`|Windows terminal 命令行终端|
+|[yarn](https://classic.yarnpkg.com/)|`en-US` `zh-CN(100%)`|yarn - 软件包管理器|
