@@ -162,24 +162,24 @@
 
 |Completion|Language|Description|
 |:-:|-|-|
-|[bun](https://bun.sh)|`en-US` `zh-CN(100%)`|Bun - JavaScript all-in-one toolkit|
-|[cargo](https://rustwiki.org/en/cargo)|`en-US` `zh-CN(100%)`|cargo - Rust package manager|
-|[chfs](http://iscute.cn/chfs)|`en-US` `zh-CN(100%)`|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server|
-|[choco](https://chocolatey.org/)|`en-US` `zh-CN(100%)`|choco(chocolatey) - Software Manager|
-|[conda](https://github.com/conda/conda)|`en-US` `zh-CN(100%)`|conda - binary package and environment manager|
-|[deno](https://deno.com/)|`en-US` `zh-CN(100%)`|Deno - A secure runtime for JavaScript and TypeScript.|
-|[docker](https://www.docker.com)|`en-US` `zh-CN(100%)`|docker - Container Application Development|
-|[git](https://git-scm.com)|`en-US` `zh-CN(100%)`|Git - Version control system|
-|[npm](https://www.npmjs.com/)|`en-US` `zh-CN(100%)`|npm - package manager|
-|[nrm](https://github.com/Pana/nrm)|`en-US` `zh-CN(100%)`|nrm - npm registry manager|
-|[nvm](https://github.com/nvm-sh/nvm)|`en-US` `zh-CN(100%)`|nvm - Node Version Manager|
-|[pip](https://github.com/pypa/pip)|`en-US` `zh-CN(100%)`|pip - Python Package Manager|
-|[pnpm](https://pnpm.io/)|`en-US` `zh-CN(94.23%)`|pnpm - Package Manager|
-|[psc](https://github.com/abgox/PSCompletions)|`en-US` `zh-CN(100%)`|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
-|[python](https://www.python.org)|`en-US` `zh-CN(100%)`|python - command-line|
-|[scoop](https://scoop.sh)|`en-US` `zh-CN(100%)`|Scoop - Software Manager|
-|[volta](https://volta.sh)|`en-US` `zh-CN(100%)`|volta - Accessible JavaScript Tool Manager|
-|[winget](https://github.com/microsoft/winget-cli)|`en-US` `zh-CN(100%)`|WinGet - Windows package manager|
-|[wsl](https://github.com/microsoft/WSL)|`en-US` `zh-CN(100%)`|WSL - Windows Subsystem for Linux|
-|[wt](https://github.com/microsoft/terminal)|`en-US` `zh-CN(100%)`|Windows terminal command line|
-|[yarn](https://classic.yarnpkg.com/)|`en-US` `zh-CN(100%)`|yarn - package manager|
+|[bun](https://bun.sh)|`en-US`<br>`zh-CN(100%)`|Bun - JavaScript all-in-one toolkit|
+|[cargo](https://rustwiki.org/en/cargo)|`en-US`<br>`zh-CN(100%)`|cargo - Rust package manager|
+|[chfs](http://iscute.cn/chfs)|`en-US`<br>`zh-CN(100%)`|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server|
+|[choco](https://chocolatey.org/)|`en-US`<br>`zh-CN(100%)`|choco(chocolatey) - Software Manager|
+|[conda](https://github.com/conda/conda)|`en-US`<br>`zh-CN(100%)`|conda - binary package and environment manager|
+|[deno](https://deno.com/)|`en-US`<br>`zh-CN(100%)`|Deno - A secure runtime for JavaScript and TypeScript.|
+|[docker](https://www.docker.com)|`en-US`<br>`zh-CN(100%)`|docker - Container Application Development|
+|[git](https://git-scm.com)|`en-US`<br>`zh-CN(100%)`|Git - Version control system|
+|[npm](https://www.npmjs.com/)|`en-US`<br>`zh-CN(100%)`|npm - package manager|
+|[nrm](https://github.com/Pana/nrm)|`en-US`<br>`zh-CN(100%)`|nrm - npm registry manager|
+|[nvm](https://github.com/nvm-sh/nvm)|`en-US`<br>`zh-CN(100%)`|nvm - Node Version Manager|
+|[pip](https://github.com/pypa/pip)|`en-US`<br>`zh-CN(100%)`|pip - Python Package Manager|
+|[pnpm](https://pnpm.io/)|`en-US`<br>`zh-CN(94.23%)`|pnpm - Package Manager|
+|[psc](https://github.com/abgox/PSCompletions)|`en-US`<br>`zh-CN(100%)`|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
+|[python](https://www.python.org)|`en-US`<br>`zh-CN(100%)`|python - command-line|
+|[scoop](https://scoop.sh)|`en-US`<br>`zh-CN(100%)`|Scoop - Software Manager|
+|[volta](https://volta.sh)|`en-US`<br>`zh-CN(100%)`|volta - Accessible JavaScript Tool Manager|
+|[winget](https://github.com/microsoft/winget-cli)|`en-US`<br>`zh-CN(100%)`|WinGet - Windows package manager|
+|[wsl](https://github.com/microsoft/WSL)|`en-US`<br>`zh-CN(100%)`|WSL - Windows Subsystem for Linux|
+|[wt](https://github.com/microsoft/terminal)|`en-US`<br>`zh-CN(100%)`|Windows terminal command line|
+|[yarn](https://classic.yarnpkg.com/)|`en-US`<br>`zh-CN(100%)`|yarn - package manager|
