@@ -1,7 +1,7 @@
 ---
 title: 关于补全的 json 文件结构
 next:
-    text: 关于贡献
+    text: 关于 PR (Pull Request)
     link: '../contribute/index.md'
 ---
 
@@ -80,10 +80,11 @@ next:
 ### 3. `common_options`
 
 -   值类型: 数组
+-   结构与 `options` 相同
 -   这里面的所有选项在任何时候都会显示
 -   ```json
     {
-    	"options": [
+    	"common_options": [
     		{
     			"name": "--help",
     			"alias": ["-h"],

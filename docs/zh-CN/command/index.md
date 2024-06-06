@@ -1,7 +1,7 @@
 ---
 title: 模块命令
 next:
-    text: 关于贡献
+    text: 关于 PR (Pull Request)
     link: '../contribute/index.md'
 ---
 

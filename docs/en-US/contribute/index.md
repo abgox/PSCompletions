@@ -14,7 +14,14 @@ prev:
 ## 1. Update the content of completion json file
 
 -   Patch some tips of the completion.(`tip` attributes)
--   Add some missing commands for the completion.
+-   Add some missing parts for the completion.
+    -   The missing parts can be viewed by using the `compareJson.ps1` script.
+        -   Take `git` for example.
+        -   You can view the missing parts of the `zh-CN.json` file (Compared to the `en-US.json` file) by using the following command.
+            -   `.\script\compareJson.ps1 .\completions\git\language\zh-CN.json .\completions\git\language\en-US.json`
+        -   If it's compared to the first language configured in `config.json`, the second parameter can also be omitted.
+            -   It's usually compared to the first language, so the following commands are the most common usage.
+            -   `.\script\compareJson.ps1 .\completions\git\language\zh-CN.json`
 
 ## 2. Add language
 
@@ -27,6 +34,11 @@ prev:
 ## 3. Add a new completion
 
 1. Run it in the project root directory. `.\script\create.ps1`
+    - For the convenience of debugging, `create.ps1` will link the created completion directory to the `completions` directory of the `PSCompletions` module.
+        - So `PSCompletions` module must be installed and imported before running `create.ps1`.
+            - `Install-Module PSCompletions -Scope CurrentUser`
+            - `Import-Module PSCompletions`
+    - After the `PR` is committed and merged, you should use `psc rm` to remove this completion and `psc add` to re-add it.
 2. Follow the prompts.
 3. Modify the new completion.
-4. Add this completion to the value of the `list` property in `completions.json` in the project root directory.
+4. Modify `config.json` as required.
