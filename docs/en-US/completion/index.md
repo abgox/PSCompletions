@@ -79,10 +79,11 @@ next:
 ### 3. `common_options`
 
 -   The type of value: array
+-   Same structure as `options`
 -   All options are displayed at all times.
 -   ```json
     {
-    	"options": [
+    	"common_options": [
     		{
     			"name": "--help",
     			"alias": ["-h"],

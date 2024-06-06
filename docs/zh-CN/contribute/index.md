@@ -18,6 +18,13 @@ prev:
 
 -   完善补全的一些提示信息(`tip` 属性)
 -   添加补全的一些缺失的命令
+    -   可以通过 `.\script\compareJson.ps1` 脚本来查看未完成的部分
+        -   以 `git` 举例
+        -   你可以使用以下命令查看 `zh-CN.json` 文件缺少的属性(相较于 `en-US.json` 文件)
+            -   `.\script\compareJson.ps1 .\completions\git\language\zh-CN.json .\completions\git\language\en-US.json`
+        -   如果是和 `config.json` 中配置的第一个语言对比，也可以省略第二个参数
+            -   一般都是和第一个语言对比，所以以下命令是最常见的用法
+            -   `.\script\compareJson.ps1 .\completions\git\language\zh-CN.json`
 
 ## 2. 添加语言
 
@@ -30,6 +37,11 @@ prev:
 ## 3. 添加一个全新的命令补全
 
 1. 在项目根目录下运行 `.\script\create.ps1`
+    - 为了调试方便，`create.ps1` 会将创建的补全目录链接到实际 `PSCompletions` 的 `completions` 目录下
+        - 因此，必须先安装并导入 `PSCompletions` 模块，然后再运行 `create.ps1`
+            - `Install-Module PSCompletions -Scope CurrentUser`
+            - `Import-Module PSCompletions`
+    - 当提交 `PR` 并被合并后，你应该使用 `psc rm` 移除掉此补全，并使用 `psc add` 重新添加
 2. 根据提示进行操作
 3. 修改新创建的补全
-4. 最后还需要在项目根目录的 `completions.json` 中的 `list` 属性值中添加此补全
+4. 根据需求修改 `config.json`
