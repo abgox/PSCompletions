@@ -189,4 +189,4 @@
 |[wsl](https://github.com/microsoft/WSL)|`en-US`<br>`zh-CN(100%)`|WSL - 适用于 Linux 的 Windows 子系统|
 |[wt](https://github.com/microsoft/terminal)|`en-US`<br>`zh-CN(100%)`|Windows terminal 命令行终端|
 |[yarn](https://classic.yarnpkg.com/)|`en-US`<br>`zh-CN(100%)`|yarn - 软件包管理器|
-|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
+|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
