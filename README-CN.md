@@ -167,7 +167,7 @@
 
 |Completion|Language|Description|
 |:-:|-|-|
-|[7z](https://7-zip.org/)|`en-US`|The command line cli of 7-Zip|
+|[7z](https://7-zip.org/)|`en-US`<br>`zh-CN(100%)`|7-Zip 的命令行 cli 程序|
 |[bun](https://bun.sh)|`en-US`<br>`zh-CN(100%)`|Bun - JavaScript 运行时和工具包|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|`en-US`<br>`zh-CN(100%)`|cargo - Rust 包管理器|
 |[chfs](http://iscute.cn/chfs)|`en-US`<br>`zh-CN(100%)`|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
