@@ -1,11 +1,14 @@
-name: Update README
+name: Update
+
 on:
   workflow_dispatch:
   push:
     branches:
         - main
+
 permissions:
   contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -16,7 +19,11 @@ jobs:
 
     - name: Generate list and update README content
       run: |
-        .\script\generate_list.ps1
+        .\script\auto-update-readme.ps1
+
+    - name: update completions.json
+      run: |
+        .\script\auto-update-completions.json.ps1
 
     - name: Commit and push changes
       run: |
@@ -24,5 +31,5 @@ jobs:
         git config --local user.name "${{ github.actor }}"
         git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
         git add .
-        git commit -m "feat(README): update"
+        git commit -m "Automatically update README and completions.json"
         git push
