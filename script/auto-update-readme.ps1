@@ -93,7 +93,7 @@ function generate_list {
                 return @{
                     MissingProperties    = $missingProperties
                     ExtraProperties      = $extraProperties
-                    CompletionPercentage = [math]::Round($completionPercentage, 2)
+                    CompletionPercentage = [math]::Round($completionPercentage, 0)
                 }
             }
 
