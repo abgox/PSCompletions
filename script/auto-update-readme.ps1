@@ -12,10 +12,10 @@ function generate_list {
             $completion.$lang = Get-Content "$($_.FullName)/language/$($lang).json" -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
         }
         if ("zh-CN" -notin $completion.Keys) {
-            $completion."zh-CN" = $completion.($completion.Keys[0])
+            $completion."zh-CN" = $completion.($lang_list[0])
         }
         if ("en-US" -notin $completion.Keys) {
-            $completion."en-US" = $completion.($completion.Keys[0])
+            $completion."en-US" = $completion.($lang_list[0])
         }
 
         # Completion
@@ -133,7 +133,7 @@ function generate_list {
         $content_CN += "|" + ($info_CN -join "|") + "|"
     }
 
-    $footer = '|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|'
+    $footer = '|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|'
 
     $content_EN += $footer
     $content_CN += $footer
