@@ -185,4 +185,4 @@
 |[wsl](https://github.com/microsoft/WSL)|`en-US`<br>`zh-CN(100%)`|WSL - Windows Subsystem for Linux|
 |[wt](https://github.com/microsoft/terminal)|`en-US`<br>`zh-CN(100%)`|Windows terminal command line|
 |[yarn](https://classic.yarnpkg.com/)|`en-US`<br>`zh-CN(100%)`|yarn - package manager|
-|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
+|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|

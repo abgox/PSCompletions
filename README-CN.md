@@ -167,7 +167,7 @@
 
 |Completion|Language|Description|
 |:-:|-|-|
-|[7z]()|`en-US`||
+|[7z](https://7-zip.org/)|`en-US`|The command line cli of 7-Zip|
 |[bun](https://bun.sh)|`en-US`<br>`zh-CN(100%)`|Bun - JavaScript 运行时和工具包|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|`en-US`<br>`zh-CN(100%)`|cargo - Rust 包管理器|
 |[chfs](http://iscute.cn/chfs)|`en-US`<br>`zh-CN(100%)`|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
@@ -190,4 +190,4 @@
 |[wsl](https://github.com/microsoft/WSL)|`en-US`<br>`zh-CN(100%)`|WSL - 适用于 Linux 的 Windows 子系统|
 |[wt](https://github.com/microsoft/terminal)|`en-US`<br>`zh-CN(100%)`|Windows terminal 命令行终端|
 |[yarn](https://classic.yarnpkg.com/)|`en-US`<br>`zh-CN(100%)`|yarn - 软件包管理器|
-|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
+|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
