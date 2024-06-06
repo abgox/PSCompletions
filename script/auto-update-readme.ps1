@@ -141,11 +141,11 @@ function generate_list {
 function handle($lang) {
     $content = generate_list
     if ($lang -eq "en-US") {
-        $path = ".\README.md"
+        $path = "$PSScriptRoot\..\README.md"
         $content = $content."en-US"
     }
     else {
-        $path = ".\README-CN.md"
+        $path = "$PSScriptRoot\..\README-CN.md"
         $content = $content."zh-CN"
     }
     function get_static_content($path) {
