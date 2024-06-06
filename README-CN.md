@@ -167,24 +167,24 @@
 
 |Completion|Language|Description|
 |:-:|-|-|
-|[bun](https://bun.sh)|`en-US` `zh-CN(100%)`|Bun - JavaScript 运行时和工具包|
-|[cargo](https://rustwiki.org/zh-CN/cargo/)|`en-US` `zh-CN(100%)`|cargo - Rust 包管理器|
-|[chfs](http://iscute.cn/chfs)|`en-US` `zh-CN(100%)`|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
-|[choco](https://chocolatey.org/)|`en-US` `zh-CN(100%)`|choco(chocolatey) - 软件管理|
-|[conda](https://github.com/conda/conda)|`en-US` `zh-CN(100%)`|conda - 二进制包和环境管理器|
-|[deno](https://deno.com/)|`en-US` `zh-CN(100%)`|Deno - 安全的 JavaScript 和 TypeScript 运行时|
-|[docker](https://www.docker.com)|`en-US` `zh-CN(100%)`|docker - 容器应用开发|
-|[git](https://git-scm.com)|`en-US` `zh-CN(100%)`|Git - 版本控制系统|
-|[npm](https://www.npmjs.com/)|`en-US` `zh-CN(100%)`|npm - 软件包管理器|
-|[nrm](https://github.com/Pana/nrm)|`en-US` `zh-CN(100%)`|nrm - npm 镜像源管理|
-|[nvm](https://github.com/nvm-sh/nvm)|`en-US` `zh-CN(100%)`|nvm - node 版本管理器|
-|[pip](https://github.com/pypa/pip)|`en-US` `zh-CN(100%)`|pip - Python 包管理器|
-|[pnpm](https://pnpm.io/zh/)|`en-US` `zh-CN(94.23%)`|pnpm - 软件包管理器|
-|[psc](https://github.com/abgox/PSCompletions)|`en-US` `zh-CN(100%)`|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
-|[python](https://www.python.org)|`en-US` `zh-CN(100%)`|python - 命令行|
-|[scoop](https://scoop.sh)|`en-US` `zh-CN(100%)`|Scoop - 软件管理|
-|[volta](https://volta.sh)|`en-US` `zh-CN(100%)`|volta - 无障碍 JavaScript 工具管理器|
-|[winget](https://github.com/microsoft/winget-cli)|`en-US` `zh-CN(100%)`|WinGet - Windows 程序包管理器|
-|[wsl](https://github.com/microsoft/WSL)|`en-US` `zh-CN(100%)`|WSL - 适用于 Linux 的 Windows 子系统|
-|[wt](https://github.com/microsoft/terminal)|`en-US` `zh-CN(100%)`|Windows terminal 命令行终端|
-|[yarn](https://classic.yarnpkg.com/)|`en-US` `zh-CN(100%)`|yarn - 软件包管理器|
+|[bun](https://bun.sh)|`en-US`<br>`zh-CN(100%)`|Bun - JavaScript 运行时和工具包|
+|[cargo](https://rustwiki.org/zh-CN/cargo/)|`en-US`<br>`zh-CN(100%)`|cargo - Rust 包管理器|
+|[chfs](http://iscute.cn/chfs)|`en-US`<br>`zh-CN(100%)`|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
+|[choco](https://chocolatey.org/)|`en-US`<br>`zh-CN(100%)`|choco(chocolatey) - 软件管理|
+|[conda](https://github.com/conda/conda)|`en-US`<br>`zh-CN(100%)`|conda - 二进制包和环境管理器|
+|[deno](https://deno.com/)|`en-US`<br>`zh-CN(100%)`|Deno - 安全的 JavaScript 和 TypeScript 运行时|
+|[docker](https://www.docker.com)|`en-US`<br>`zh-CN(100%)`|docker - 容器应用开发|
+|[git](https://git-scm.com)|`en-US`<br>`zh-CN(100%)`|Git - 版本控制系统|
+|[npm](https://www.npmjs.com/)|`en-US`<br>`zh-CN(100%)`|npm - 软件包管理器|
+|[nrm](https://github.com/Pana/nrm)|`en-US`<br>`zh-CN(100%)`|nrm - npm 镜像源管理|
+|[nvm](https://github.com/nvm-sh/nvm)|`en-US`<br>`zh-CN(100%)`|nvm - node 版本管理器|
+|[pip](https://github.com/pypa/pip)|`en-US`<br>`zh-CN(100%)`|pip - Python 包管理器|
+|[pnpm](https://pnpm.io/zh/)|`en-US`<br>`zh-CN(94.23%)`|pnpm - 软件包管理器|
+|[psc](https://github.com/abgox/PSCompletions)|`en-US`<br>`zh-CN(100%)`|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
+|[python](https://www.python.org)|`en-US`<br>`zh-CN(100%)`|python - 命令行|
+|[scoop](https://scoop.sh)|`en-US`<br>`zh-CN(100%)`|Scoop - 软件管理|
+|[volta](https://volta.sh)|`en-US`<br>`zh-CN(100%)`|volta - 无障碍 JavaScript 工具管理器|
+|[winget](https://github.com/microsoft/winget-cli)|`en-US`<br>`zh-CN(100%)`|WinGet - Windows 程序包管理器|
+|[wsl](https://github.com/microsoft/WSL)|`en-US`<br>`zh-CN(100%)`|WSL - 适用于 Linux 的 Windows 子系统|
+|[wt](https://github.com/microsoft/terminal)|`en-US`<br>`zh-CN(100%)`|Windows terminal 命令行终端|
+|[yarn](https://classic.yarnpkg.com/)|`en-US`<br>`zh-CN(100%)`|yarn - 软件包管理器|
