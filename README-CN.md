@@ -165,7 +165,7 @@
             -   如果翻译进度大于 `100%`，则表示当前语言有一部分多余的补全项，应该被清理
     -   **`Description`**: 命令描述
 
-|Completion|Language|Description|
+|Completion|Language List|Description|
 |:-:|-|-|
 |[bun](https://bun.sh)|`en-US`<br>`zh-CN(100%)`|Bun - JavaScript 运行时和工具包|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|`en-US`<br>`zh-CN(100%)`|cargo - Rust 包管理器|
