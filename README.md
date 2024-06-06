@@ -160,7 +160,7 @@
         -   If it is greater than `100%`, it means that the current language has some redundant completion items and should be cleaned.
     -   **`Description`**: Command Description.
 
-|Completion|Language List|Description|
+|Completion|Language|Description|
 |:-:|-|-|
 |[bun](https://bun.sh)|`en-US`<br>`zh-CN(100%)`|Bun - JavaScript all-in-one toolkit|
 |[cargo](https://rustwiki.org/en/cargo)|`en-US`<br>`zh-CN(100%)`|cargo - Rust package manager|
