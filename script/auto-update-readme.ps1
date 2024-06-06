@@ -93,7 +93,7 @@ function generate_list {
                 return @{
                     MissingProperties    = $missingProperties
                     ExtraProperties      = $extraProperties
-                    CompletionPercentage = [math]::Round($completionPercentage, 0)
+                    CompletionPercentage = [math]::Round($completionPercentage, 2)
                 }
             }
 
@@ -132,6 +132,12 @@ function generate_list {
         $content_EN += "|" + ($info_EN -join "|") + "|"
         $content_CN += "|" + ($info_CN -join "|") + "|"
     }
+
+    $footer = '|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|'
+
+    $content_EN += $footer
+    $content_CN += $footer
+
     return @{
         "en-US" = $content_EN
         "zh-CN" = $content_CN
