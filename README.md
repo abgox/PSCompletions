@@ -170,6 +170,7 @@
 |[deno](https://deno.com/)|`en-US`<br>`zh-CN(100%)`|Deno - A secure runtime for JavaScript and TypeScript.|
 |[docker](https://www.docker.com)|`en-US`<br>`zh-CN(100%)`|docker - Container Application Development|
 |[git](https://git-scm.com)|`en-US`<br>`zh-CN(100%)`|Git - Version control system|
+|[kubectl](https://kubernetes.io/docs/reference/kubectl/)|`en-US`<br>`zh-CN(100%)`|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br> kubectl is its command-line tool.|
 |[npm](https://www.npmjs.com/)|`en-US`<br>`zh-CN(100%)`|npm - package manager|
 |[nrm](https://github.com/Pana/nrm)|`en-US`<br>`zh-CN(100%)`|nrm - npm registry manager|
 |[nvm](https://github.com/nvm-sh/nvm)|`en-US`<br>`zh-CN(100%)`|nvm - Node Version Manager|
