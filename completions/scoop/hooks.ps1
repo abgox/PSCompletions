@@ -27,15 +27,15 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
                 if ($path) { [environment]::SetEnvironmentvariable('SCOOP_GLOBAL', $path, 'User') }
                 $scoop_global_path = $path
             }
-            scoop bucket known | ForEach-Object {
+            foreach ($_ in scoop bucket known) {
                 $bucket = $_
                 addCompletion "bucket add $($bucket)" '' $PSCompletions.replace_content($PSCompletions.data.scoop.info.tip.bucket.add)
             }
-            Get-ChildItem "$scoop_path\buckets" 2>$null | ForEach-Object {
+            foreach ($_ in Get-ChildItem "$scoop_path\buckets" 2>$null) {
                 $bucket = $_.Name
                 addCompletion "bucket rm $($bucket)" '' $PSCompletions.replace_content($PSCompletions.data.scoop.info.tip.bucket.rm)
             }
-            @("$scoop_path\apps", "$scoop_global_path\apps") | ForEach-Object {
+            foreach ($_ in @("$scoop_path\apps", "$scoop_global_path\apps")) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     $path = $item.FullName
@@ -47,7 +47,7 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
                     addCompletion "prefix $($app)" '' $PSCompletions.replace_content($PSCompletions.data.scoop.info.tip.prefix)
                 }
             }
-            Get-ChildItem "$scoop_path\cache" | ForEach-Object {
+            foreach ($_ in Get-ChildItem "$scoop_path\cache" -ErrorAction SilentlyContinue) {
                 $match = $_.BaseName -match '^([^#]+#[^#]+)'
                 if ($match) {
                     $part = $_.Name -split "#"
