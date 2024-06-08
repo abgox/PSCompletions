@@ -176,7 +176,7 @@
 |[nrm](https://github.com/Pana/nrm)|`en-US`<br>`zh-CN(100%)`|nrm - npm registry manager|
 |[nvm](https://github.com/nvm-sh/nvm)|`en-US`<br>`zh-CN(100%)`|nvm - Node Version Manager|
 |[pip](https://github.com/pypa/pip)|`en-US`<br>`zh-CN(100%)`|pip - Python Package Manager|
-|[pnpm](https://pnpm.io/)|`en-US`<br>`zh-CN(94.23%)`|pnpm - Package Manager|
+|[pnpm](https://pnpm.io/)|`en-US`<br>`zh-CN(100%)`|pnpm - Package Manager|
 |[psc](https://github.com/abgox/PSCompletions)|`en-US`<br>`zh-CN(100%)`|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
 |[python](https://www.python.org)|`en-US`<br>`zh-CN(100%)`|python - command-line|
 |[scoop](https://scoop.sh)|`en-US`<br>`zh-CN(100%)`|Scoop - Software Manager|
