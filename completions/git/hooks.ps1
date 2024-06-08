@@ -14,7 +14,7 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             ORIG_HEAD  = (git show ORIG_HEAD --relative-date -q 2>$null) -join "`n"
             MERGE_HEAD = (git show MERGE_HEAD --relative-date -q 2>$null) -join "`n"
         }
-        @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD') | ForEach-Object {
+        foreach ($_ in @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD')) {
             if (!$head_list.$_) {
                 $head_list.Remove($_)
             }
@@ -26,8 +26,8 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
         if ($PSCompletions.config.comp_config.git.max_commit -in @('', $null)) {
             $PSCompletions.config.comp_config.git.max_commit = 20
         }
-
-        git log --pretty='format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n@@@--------------------@@@' -n $PSCompletions.config.comp_config.git.max_commit --encoding=gbk 2>$null | ForEach-Object {
+        $git_info = git log --pretty='format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n@@@--------------------@@@' -n $PSCompletions.config.comp_config.git.max_commit --encoding=gbk 2>$null
+        foreach ($_ in $git_info) {
             if ($_ -ne '@@@--------------------@@@') {
                 $current_commit.Add($_)
             }
@@ -39,14 +39,14 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
         $current_commit = $null
         $tag_list = git tag 2>$null
 
-        $branch_list | ForEach-Object {
+        foreach ($_ in $branch_list) {
             $info = 'branch --- ' + $_
 
             addCompletion "switch $($_)" '' $info
             addCompletion "merge $($_)" '' $info
             addCompletion "diff $($_)" '' $info
         }
-        $head_list.Keys | ForEach-Object {
+        foreach ($_ in $head_list.Keys) {
             $info = $head_list.$_
             addCompletion "rebase -i $($_)" '' $info
             addCompletion "rebase --interactive $($_)" '' $info
@@ -57,11 +57,11 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             addCompletion "reset --mixed $($_)" '' $info
             addCompletion "show $($_)" '' $info
         }
-        $branch_head_list | ForEach-Object {
+        foreach ($_ in $branch_head_list) {
             $info = if ($head_list.$_) { $head_list.$_ }else { 'branch --- ' + $_ }
             addCompletion "checkout $($_)" '' $info
         }
-        $remote_list | ForEach-Object {
+        foreach($_ in $remote_list) {
             $info = 'remote --- ' + $_
             addCompletion "push $($_)" '' $info
 
@@ -70,7 +70,7 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             addCompletion "remote rename $($_)" '' $info
             addCompletion "remote rm $($_)" '' $info
         }
-        $commit_info | ForEach-Object {
+        foreach($_ in $commit_info) {
             $hash = $_[0]
             $date = $_[1]
             $author = $_[2]
@@ -90,7 +90,7 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             addCompletion "revert $($hash)" '' $content
             addCompletion "commit $($hash)" '' $content
         }
-        $tag_list | ForEach-Object {
+        foreach($_ in $tag_list) {
             addCompletion "tag -d $($_)" '' "tag --- $($_)"
             addCompletion "tag -v $($_)" '' "tag --- $($_)"
         }
