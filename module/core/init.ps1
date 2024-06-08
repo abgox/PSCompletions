@@ -115,17 +115,16 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
 }
 
 if ($PSEdition -eq "Core") {
-    # pwsh (Unix)
-    if ($PSVersionTable.Platform -eq 'Unix') {
-        . $PSScriptRoot\pwsh\Unix\completion.ps1
-        . $PSScriptRoot\pwsh\Unix\config.ps1
-        . $PSScriptRoot\pwsh\Unix\menu.ps1
-    }
-    else {
+    if ($IsWindows) {
         # pwsh (Windows)
         . $PSScriptRoot\pwsh\Win\completion.ps1
         . $PSScriptRoot\pwsh\Win\config.ps1
         . $PSScriptRoot\pwsh\Win\menu.ps1
+    }
+    else {
+        . $PSScriptRoot\pwsh\Unix\completion.ps1
+        . $PSScriptRoot\pwsh\Unix\config.ps1
+        . $PSScriptRoot\pwsh\Unix\menu.ps1
     }
 }
 else {
@@ -689,10 +688,7 @@ $PSCompletions.cmd.psc | ForEach-Object {
 }
 
 if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
-    if ($PSCompletions.config.module_update -eq $PSCompletions.version) {
-        $PSCompletions.set_config('module_update', 1)
-    }
-    else {
+    if ($PSCompletions.config.module_update -gt $PSCompletions.version) {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/log.json", (Join-Path $PSCompletions.path.core 'log.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
                 if ($PSEdition -eq "Desktop") {
@@ -728,6 +724,9 @@ if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
                     }
                 }
             })
+    }
+    else {
+        $PSCompletions.set_config('module_update', 1)
     }
 }
 else {
