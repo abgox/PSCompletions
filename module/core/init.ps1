@@ -96,15 +96,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
 
 if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path.completions)) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
-        $version = (Get-ChildItem (Split-Path $this.path.root -Parent)).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue
+        $version = (Get-ChildItem (Split-Path $this.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue
         if ($version -is [array]) {
             $old_version = $version[-2]
             if ($old_version -match "^\d+\.\d.*" -and $old_version -ge "4") {
                 $old_version_dir = Join-Path (Split-Path $this.path.root -Parent) $old_version
                 $this.ensure_dir($this.path.completions)
-                Get-ChildItem "$($old_version_dir)/completions" -ErrorAction SilentlyContinue | Where-Object {
-                    $_.BaseName -ne 'psc'
-                } | ForEach-Object {
+                foreach ($_ in Get-ChildItem "$($old_version_dir)/completions" -ErrorAction SilentlyContinue) {
                     Move-Item $_.FullName $this.path.completions -Force -ErrorAction SilentlyContinue
                 }
                 Move-Item "$($old_version_dir)/config.json" $this.path.config -Force -ErrorAction SilentlyContinue
@@ -155,7 +153,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_Json
     function ConvertToHashtable($obj) {
         $hash = @{}
         if ($obj -is [System.Management.Automation.PSCustomObject]) {
-            $obj | Get-Member -MemberType Properties | ForEach-Object {
+            foreach ($_ in $obj | Get-Member -MemberType Properties) {
                 $k = $_.Name # Key
                 $v = $obj.$k # Value
                 if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
@@ -229,7 +227,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color
     param([string]$str)
     $color_list = @()
     $str = $str -replace "`n", 'n&&_n_n&&'
-    $str_list = $str -split '(<\@[^>]+>.*?(?=<\@|$))' | Where-Object { $_ -ne '' } | ForEach-Object {
+    $str_list = foreach ($_ in $str -split '(<\@[^>]+>.*?(?=<\@|$))' | Where-Object { $_ -ne '' }) {
         if ($_ -match '<\@([\s\w]+)>(.*)') {
             ($matches[2] -replace 'n&&_n_n&&', "`n") -replace '^<\@>', ''
             $color = $matches[1] -split ' '
@@ -301,7 +299,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less {
         }
     }
     else {
-        $str_list | ForEach-Object { Write-Host $_ -f $color }
+        foreach ($_ in $str_list) { Write-Host $_ -f $color }
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less_table {
@@ -362,7 +360,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less_t
     }
     else {
         & $do
-        $str_list | ForEach-Object {
+        foreach ($_ in $str_list) {
             if ($_.bgColor) {
                 Write-Host $_.content -f $_.color -b $_.bgColor[2]
             }
@@ -471,8 +469,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             OutFile = Join-Path $completion_dir 'guid.txt'
         }
     )
-
-    $config.language | ForEach-Object {
+    foreach ($_ in $config.language) {
         $files += @{
             Uri     = "$($url)/language/$($_).json"
             OutFile = $PSCompletions.join_path($completion_dir, 'language', "$($_).json")
@@ -523,7 +520,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         if (!$this.config.comp_config.$completion) {
             $this.config.comp_config.$completion = @{}
         }
-        $json.config | ForEach-Object {
+        foreach ($_ in $json.config) {
             if (!($this.config.comp_config.$completion.$($_.name))) {
                 $this.config.comp_config.$completion.$($_.name) = $_.value
                 $need_update_config = $true
@@ -625,7 +622,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $this.ensure_file($this.path.update)
     $this.update = $this.get_content($this.path.update)
 
-    Get-ChildItem -Path $this.path.completions -Directory | Sort-Object CreationTime | ForEach-Object {
+    foreach ($_ in Get-ChildItem -Path $this.path.completions -Directory -ErrorAction SilentlyContinue | Sort-Object CreationTime) {
         if (Test-Path "$($_.FullName)/config.json") {
             $this.cmd.$($_.Name) = $_.Name
         }
@@ -634,7 +631,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         }
     }
 
-    Get-ChildItem -Path $this.path.completions | ForEach-Object {
+    foreach ($_ in Get-ChildItem -Path $this.path.completions -ErrorAction SilentlyContinue) {
         $path_alias = Join-Path $_.FullName 'alias.txt'
         $this.cmd.$($_.Name) = @()
         if (Test-Path $path_alias) {
@@ -654,11 +651,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     }
 
     $this.alias = @{}
-    $this.cmd.Keys | ForEach-Object {
+    foreach ($_ in $this.cmd.Keys) {
         foreach ($alias in $this.cmd.$_) { $this.alias.$($alias) = $_ }
     }
 
-    $this.cmd.keys | ForEach-Object {
+    foreach ($_ in $this.cmd.Keys) {
         $this.handle_completion($_)
         if ((!$this.config.comp_config.$_)) {
             $this.config.comp_config.$_ = @{}
@@ -672,7 +669,7 @@ if ($PSCompletions.is_first_init) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
 }
 
-$PSCompletions.cmd.keys | Where-Object { $_ -ne 'psc' } | ForEach-Object {
+foreach ($_ in $PSCompletions.cmd.keys | Where-Object { $_ -ne 'psc' }) {
     <#
         这里使用 PowerShell 的内置变量 $args 作为临时变量
         虽然 $args 不是一个有意义的变量名，但是它的特性很适合作为一个不污染全局的临时变量
@@ -683,7 +680,7 @@ $PSCompletions.cmd.keys | Where-Object { $_ -ne 'psc' } | ForEach-Object {
     }
 }
 
-$PSCompletions.cmd.psc | ForEach-Object {
+foreach ($_ in $PSCompletions.cmd.psc) {
     if ($_ -ne 'PSCompletions') { Set-Alias $_ PSCompletions }
 }
 
@@ -700,7 +697,7 @@ if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
                     catch {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
                     }
-                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName) {
+                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).BaseName) {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
                     }
                     else {
@@ -716,7 +713,7 @@ if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
                     catch {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
                     }
-                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent)).BaseName) {
+                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).BaseName) {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
                     }
                     else {
@@ -746,10 +743,10 @@ $PSCompletions.job = Start-Job -ScriptBlock {
             [string]$json
         )
         <#
-            # 处理 json 文件中的一些特殊情况
-            # -  如果有键名为空的情况，则替换为随机的 guid
-            # -  并移除最后一个属性的 ,
-        #>
+                # 处理 json 文件中的一些特殊情况
+                # -  如果有键名为空的情况，则替换为随机的 guid
+                # -  并移除最后一个属性的 ,
+            #>
         $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
         foreach ($match in $matches) {
             $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
@@ -758,7 +755,7 @@ $PSCompletions.job = Start-Job -ScriptBlock {
         function ConvertToHashtable($obj) {
             $hash = @{}
             if ($obj -is [System.Management.Automation.PSCustomObject]) {
-                $obj | Get-Member -MemberType Properties | ForEach-Object {
+                foreach ($_ in $obj | Get-Member -MemberType Properties) {
                     $k = $_.Name # Key
                     $v = $obj.$k # Value
                     if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
@@ -815,7 +812,7 @@ $PSCompletions.job = Start-Job -ScriptBlock {
     }
 
     $completion_datas = @{}
-    $PSCompletions.cmd.Keys | ForEach-Object {
+    foreach ($_ in $PSCompletions.cmd.Keys) {
         $language = $PSCompletions.get_language($_)
         $path_language = "$($PSCompletions.path.completions)/$($_)/language/$($language).json"
         if (Test-Path $path_language) {
@@ -863,7 +860,7 @@ $PSCompletions.job = Start-Job -ScriptBlock {
     }
 
     # ensure completion config
-    $PSCompletions.cmd.keys | ForEach-Object {
+    foreach ($_ in $PSCompletions.cmd.Keys) {
         $path = "$($PSCompletions.path.completions)/$($_)/config.json"
         $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
         $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
@@ -897,7 +894,7 @@ $PSCompletions.job = Start-Job -ScriptBlock {
     # check update
     if ($PSCompletions.config.update -eq 1) {
         $update_list = [System.Collections.Generic.List[string]]@()
-        Get-ChildItem $PSCompletions.path.completions | Where-Object { $_.Name -in $PSCompletions.list } | ForEach-Object {
+        foreach ($_ in Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue | Where-Object { $_.Name -in $PSCompletions.list }) {
             try {
                 $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$($_.Name)/guid.txt"
                 $content = $response.Content.Trim()
