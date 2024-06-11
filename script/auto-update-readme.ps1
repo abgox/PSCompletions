@@ -111,15 +111,15 @@ function generate_list {
                 $result = Compare-JsonProperties -hashTableEN $hashTableEN -hashTableCN $hashTableCN
                 return $result.CompletionPercentage
             }
-            $lang_info = @("``$($lang_list[0])``")
+            $lang_info = @("**$($lang_list[0])**")
             if ($lang_list.Count -gt 1) {
                 foreach ($lang in $lang_list[1..($lang_list.Count - 1)]) {
                     $percentage = get_percentage $lang
                     if ($lang -in $json_config.language) {
-                        $lang_info += "``$($lang)($($percentage)%)``"
+                        $lang_info += "**$($lang)($($percentage)%)**"
                     }
                     else {
-                        $lang_info += "~~``$($lang)($($percentage)%)``~~"
+                        $lang_info += "**~~$($lang)~~($($percentage)%)**"
                     }
                 }
             }
