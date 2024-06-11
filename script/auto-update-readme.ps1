@@ -7,7 +7,7 @@ function generate_list {
         $completion = @{}
         $json_config = Get-Content "$($_.FullName)/config.json" -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
 
-        $lang_list = $json_config.language
+        $lang_list = Get-ChildItem "$($_.FullName)/language" | ForEach-Object { $_.BaseName }
         foreach ($lang in $lang_list) {
             $completion.$lang = Get-Content "$($_.FullName)/language/$($lang).json" -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
         }
@@ -17,6 +17,8 @@ function generate_list {
         if ("en-US" -notin $completion.Keys) {
             $completion."en-US" = $completion.($lang_list[0])
         }
+        if (!$completion."en-US".info) { $completion."en-US".info = $completion.($lang_list[0]).info }
+        if (!$completion."zh-CN".info) { $completion."zh-CN".info = $completion.($lang_list[0]).info }
 
         # Completion
         ## EN
@@ -113,7 +115,12 @@ function generate_list {
             if ($lang_list.Count -gt 1) {
                 foreach ($lang in $lang_list[1..($lang_list.Count - 1)]) {
                     $percentage = get_percentage $lang
-                    $lang_info += "``$($lang)($($percentage)%)``"
+                    if ($lang -in $json_config.language) {
+                        $lang_info += "``$($lang)($($percentage)%)``"
+                    }
+                    else {
+                        $lang_info += "~~``$($lang)($($percentage)%)``~~"
+                    }
                 }
             }
             return $lang_info
