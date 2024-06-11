@@ -119,7 +119,7 @@ function generate_list {
                         $lang_info += "**$($lang)($($percentage)%)**"
                     }
                     else {
-                        $lang_info += "**~~$($lang)~~($($percentage)%)**"
+                        $lang_info += "**~~$($lang)($($percentage)%)~~**"
                     }
                 }
             }
