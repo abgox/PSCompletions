@@ -2,11 +2,17 @@
   "root": [
     {
       "name": "a",
-      "tip": "Add files to archive"
+      "tip": [
+        "Add files to archive\n",
+        "E: a demo.zip demo\\"
+      ]
     },
     {
       "name": "b",
-      "tip": "Benchmark"
+      "tip": [
+        "Benchmark\n",
+        "Test the CPU usage during the execution of compression or decompression algorithms"
+      ]
     },
     {
       "name": "d",
@@ -42,7 +48,10 @@
     },
     {
       "name": "x",
-      "tip": "extract files with full paths"
+      "tip": [
+        "extract files with full paths\n",
+        "E: x D:\\demo.7z -oD:\\demo"
+      ]
     }
   ],
   "options": [
@@ -68,19 +77,28 @@
     },
     {
       "name": "-ai",
-      "symbol": "WriteSpaceTab",
-      "tip": "Include archives"
+      "tip": [
+        "Include archives\n",
+        "E: -ai!file1.txt    --- Include file1.txt\n",
+        "   -air!file1.txt   --- Include file1.txt(Include subdirectory)\n",
+        "   -ai!*.txt        --- Include all txt files"
+      ]
     },
     {
       "name": "-ax",
-      "symbol": "WriteSpaceTab",
-      "tip": "eXclude archives"
+      "tip": [
+        "exclude archives\n",
+        "E: -ax!a*.7z   --- Exclude all archives with 7z extension"
+      ]
     },
     {
       "name": "-ao",
       "tip": [
-        "U: -ao[a|s|t|u]\n",
-        "set Overwrite mode"
+        "set Overwrite mode\n",
+        "E: -aoa   --- Overwrite existing files without any prompting\n",
+        "   -aos   --- Skip existing files, they will not be overwritten\n",
+        "   -aot   --- If a file with the same name exists, the existing file is automatically renamed\n",
+        "   -aou   --- If a file with the same name already exists, the released file is automatically renamed"
       ]
     },
     {
@@ -111,55 +129,43 @@
     },
     {
       "name": "-i",
-      "symbol": "WriteSpaceTab",
-      "tip": "Include filenames"
+      "tip": [
+        "Include filenames\n",
+        "E: -i!*.txt   --- Include all txt files"
+      ]
     },
     {
       "name": "-m",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -m <Parameters>\n",
-        "set compression Method"
-      ]
+      "tip": "set compression Method"
     },
     {
       "name": "-mmt",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -mmt <N>\n",
-        "set number of CPU threads"
-      ]
+      "tip": "set number of CPU threads"
     },
     {
       "name": "-mx",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -mx <N>\n",
-        "set compression level"
-      ]
+      "tip": "set compression level"
     },
     {
       "name": "-o",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -o <Directory>\n",
-        "set Output directory"
+        "set Output directory\n",
+        "U: -oD:\\demo\n"
       ]
     },
     {
       "name": "-p",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -p <Password>\n",
-        "set Password"
+        "set Password\n",
+        "E: -p123456   --- Set password to 123456"
       ]
     },
     {
       "name": "-r",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -r <-|0>\n",
-        "Recurse subdirectories"
+        "Recurse subdirectories\n",
+        "E: -r-   --- Disable\n",
+        "   -r0   --- Enable"
       ]
     },
     {
@@ -185,10 +191,7 @@
     },
     {
       "name": "-scrc",
-      "tip": [
-        "U: -scrc[CRC32|CRC64|SHA1|SHA256] <value>\n",
-        "set hash function for x, e, h commands"
-      ]
+      "tip": "set hash function for x, e, h commands"
     },
     {
       "name": "-sdel",
@@ -196,25 +199,15 @@
     },
     {
       "name": "-seml",
-      "tip": [
-        "U: -seml <.>\n",
-        "send archive by email"
-      ]
+      "tip": "send archive by email"
     },
     {
       "name": "-sfx",
-      "tip": [
-        "U: -sfx <name>\n",
-        "Create SFX archive"
-      ]
+      "tip": "Create SFX archive"
     },
     {
       "name": "-si",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -si <name>\n",
-        "read data from stdin"
-      ]
+      "tip": "read data from stdin"
     },
     {
       "name": "-slp",
@@ -270,57 +263,47 @@
     },
     {
       "name": "-stm",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -stm <HexMask>\n",
-        "set CPU thread affinity mask (hexadecimal number)"
-      ]
+      "tip": "set CPU thread affinity mask (hexadecimal number)"
     },
     {
       "name": "-stx",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -stx <Type>\n",
-        "exclude archive type"
-      ]
+      "tip": "exclude archive type"
     },
     {
       "name": "-t",
       "tip": [
-        "U: -t[7z|bzip2|gzip|swfc|tar|wim|xz|zip...] <Type>\n",
-        "Set type of archive"
+        "U: -t[7z|bzip2|gzip|swfc|tar|wim|xz|zip...]\n",
+        "Set type of archive\n",
+        "E: -tzip   --- Create zip archive"
       ]
     },
     {
       "name": "-u",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -u <[-][p#][q#][r#][x#][y#][z#][!newArchiveName]>\n",
+        "U: -u<[-][p#][q#][r#][x#][y#][z#][!newArchiveName]>\n",
         "Update options"
       ]
     },
     {
       "name": "-v",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -v <Size>[b|k|m|g]\n",
-        "Create volumes"
+        "Create volumes\n",
+        "E: -v10m         --- Create a volume of 10MB\n",
+        "   -v10k -v15k   --- Create two volumes of 10KB and 15KB"
       ]
     },
     {
       "name": "-w",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -w <path>\n",
-        "assign Work directory"
+        "assign Work directory\n",
+        "E: -wD:\\temp   --- Set working directory to D:\\temp"
       ]
     },
     {
       "name": "-x",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -x <[r[-|0]]{@listfile|!wildcard}>\n",
-        "eXclude filenames"
+        "exclude filenames\n",
+        "E: -x!*.txt   --- Exclude all txt files"
       ]
     },
     {
