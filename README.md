@@ -37,7 +37,7 @@
 -   A completion manager in `PowerShell` for better and simpler use completions.
     > It can also be used in `Windows PowerShell`.(Not Recommend)
 -   [Manage completions together.](#available-completions-list 'Click it to view the completion list that can be added !')
--   Switch between languages(`zh-CN`,`en-US`...) freely.
+-   Switch between languages(`en-US`,`zh-CN`,...) freely.
 -   Sort completion tab dynamically by frequency of use.
 
 **If this project is helpful to you, please consider giving it a star ⭐.**
@@ -111,7 +111,7 @@
         -   It can be customized by running `psc menu symbol SpaceTab <symbol>`
     -   🤔 : It means that after you apply it (option completion), you can press `Space` and `Tab` key to continue to get option completions. (e.g. `--verbose`)
         -   It can be customized by running `psc menu symbol OptionTab <symbol>`
-    -   😎 : It means that after you apply it (option completion), you can enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
+    -   😎 : It means that after you apply it (option completion), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
         -   If the string has Spaces, Please use "" or '' to wrap it. e.g. 'test content'
         -   If there is also 😄, it means that there are some strings to complete, you can press `Space` and `Tab` key to continue to get command completions without entering a string.
         -   It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
@@ -126,7 +126,7 @@
     -   You can show it by running `psc config language`
     -   You can change it by running `psc config language zh-CN`
 -   `Completion language`: The language set for the specified completion.
-    -   e.g. `psc completion git language en-US`
+    -   e.g. `psc completion git language en-US`.
 -   `Available language`: In the completion `config.json` file, there is a `language` attribute whose value is a list of available languages.
 
 #### Determine language
