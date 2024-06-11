@@ -172,6 +172,7 @@
 |[docker](https://www.docker.com)|`en-US`<br>`zh-CN(100%)`|docker - Container Application Development|
 |[git](https://git-scm.com)|`en-US`<br>`zh-CN(100%)`|Git - Version control system|
 |[kubectl](https://kubernetes.io/docs/reference/kubectl/)|`en-US`<br>`zh-CN(100%)`|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br> kubectl is its command-line tool.|
+|[ngrok](https://ngrok.com/)|`en-US`|ngrok - Unified Ingress Platform  for developers<br> Connect localhost to the internet for testing applications and APIs|
 |[npm](https://www.npmjs.com/)|`en-US`<br>`zh-CN(100%)`|npm - package manager|
 |[nrm](https://github.com/Pana/nrm)|`en-US`<br>`zh-CN(100%)`|nrm - npm registry manager|
 |[nvm](https://github.com/nvm-sh/nvm)|`en-US`<br>`zh-CN(100%)`|nvm - Node Version Manager|

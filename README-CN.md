@@ -177,6 +177,7 @@
 |[docker](https://www.docker.com)|`en-US`<br>`zh-CN(100%)`|docker - 容器应用开发|
 |[git](https://git-scm.com)|`en-US`<br>`zh-CN(100%)`|Git - 版本控制系统|
 |[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/)|`en-US`<br>`zh-CN(100%)`|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br> kubectl 是它的命令行工具|
+|[ngrok](https://ngrok.com/)|`en-US`|ngrok - Unified Ingress Platform  for developers<br> Connect localhost to the internet for testing applications and APIs|
 |[npm](https://www.npmjs.com/)|`en-US`<br>`zh-CN(100%)`|npm - 软件包管理器|
 |[nrm](https://github.com/Pana/nrm)|`en-US`<br>`zh-CN(100%)`|nrm - npm 镜像源管理|
 |[nvm](https://github.com/nvm-sh/nvm)|`en-US`<br>`zh-CN(100%)`|nvm - node 版本管理器|
