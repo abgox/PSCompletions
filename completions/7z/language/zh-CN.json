@@ -2,19 +2,28 @@
   "root": [
     {
       "name": "a",
-      "tip": "将文件添加到归档"
+      "tip": [
+        "将文件添加到归档\n",
+        "E: a demo.zip demo\\   --- 将 demo 目录下的所有文件添加到 demo.zip 中"
+      ]
     },
     {
       "name": "b",
-      "tip": "Benchmark"
+      "tip": "测试压缩或解压算法执行时的 CPU 占用"
     },
     {
       "name": "d",
-      "tip": "从归档中删除文件"
+      "tip": [
+        "从归档中删除文件\n",
+        "E: d demo.zip *.bak -r   --- 删除 demo.zip 中所有扩展名为 bak 的文件"
+      ]
     },
     {
       "name": "e",
-      "tip": "从归档中提取文件(不使用目录名称)"
+      "tip": [
+        "将归档中的所有文件解压到指定路径\n",
+        "相比于 x, 所有文件将输出到同一个目录中"
+      ]
     },
     {
       "name": "h",
@@ -42,7 +51,11 @@
     },
     {
       "name": "x",
-      "tip": "具有完整路径的 eXtract 文件"
+      "tip": [
+        "提取文件\n",
+        "需要指定提取文件的完整路径\n",
+        "E: x D:\\demo.7z -oD:\\demo"
+      ]
     }
   ],
   "options": [
@@ -68,19 +81,28 @@
     },
     {
       "name": "-ai",
-      "symbol": "WriteSpaceTab",
-      "tip": "包括归档"
+      "tip": [
+        "包括归档\n",
+        "E: -ai!file1.txt    --- 包含 file1.txt\n",
+        "   -air!file1.txt   --- 包含 file1.txt(包括子目录)\n",
+        "   -ai!*.txt        --- 包含所有扩展名为txt的文件"
+      ]
     },
     {
       "name": "-ax",
-      "symbol": "WriteSpaceTab",
-      "tip": "提取归档"
+      "tip": [
+        "指定必须从操作中排除的归档\n",
+        "E: -ax!a*.7z   --- 排除所有扩展名为 7z 的归档\n"
+      ]
     },
     {
       "name": "-ao",
       "tip": [
-        "U: -ao[a|s|t|u]\n",
-        "设置覆盖模式"
+        "设置覆盖模式\n",
+        "E: -aoa   --- 直接覆盖现有文件，而没有任何提示\n",
+        "   -aos   --- 跳过现有文件，其不会被覆盖\n",
+        "   -aot   --- 如果相同文件名的文件以存在，将自动重命名现有的文件\n",
+        "   -aou   --- 如果相同文件名的文件以存在，将自动重命名被释放的文件"
       ]
     },
     {
@@ -111,55 +133,43 @@
     },
     {
       "name": "-i",
-      "symbol": "WriteSpaceTab",
-      "tip": "包含文件名"
+      "tip": [
+        "包含文件名\n",
+        "E: -i!*.txt   --- 包含所有扩展名为txt的文件"
+      ]
     },
     {
       "name": "-m",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -m <Parameters>\n",
-        "设置压缩方法"
-      ]
+      "tip": "设置压缩方法"
     },
     {
       "name": "-mmt",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -mmt <N>\n",
-        "设置 CPU 线程数"
-      ]
+      "tip": "设置 CPU 线程数"
     },
     {
       "name": "-mx",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -mx <N>\n",
-        "设置压缩级别"
-      ]
+      "tip": "设置压缩级别"
     },
     {
       "name": "-o",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -o <Directory>\n",
-        "设置输出目录"
+        "设置输出目录\n",
+        "U: -oD:\\demo\n"
       ]
     },
     {
       "name": "-p",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -p <Password>\n",
-        "设置密码"
+        "设置密码\n",
+        "E: -p123456   --- 设置密码为 123456"
       ]
     },
     {
       "name": "-r",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -r <-|0>\n",
-        "递归子目录"
+        "递归子目录(e/l/t/x，默认开启)\n",
+        "E: -r-   --- 关闭递归子目录(a/d/u等需要扫描磁盘文件的命令，默认使用它)\n",
+        "   -r0   --- 开启递归子目录。但只应用于通配符。"
       ]
     },
     {
@@ -178,17 +188,11 @@
     },
     {
       "name": "-scs",
-      "tip": [
-        "U: -scs[UTF-8|UTF-16LE|UTF-16BE|WIN|DOS] <value>\n",
-        "设置列表文件字符集"
-      ]
+      "tip": "设置列表文件字符集"
     },
     {
       "name": "-scrc",
-      "tip": [
-        "U: -scrc[CRC32|CRC64|SHA1|SHA256] <value>\n",
-        "为x、e、h命令设置哈希函数"
-      ]
+      "tip": "为x、e、h命令设置哈希函数"
     },
     {
       "name": "-sdel",
@@ -196,25 +200,15 @@
     },
     {
       "name": "-seml",
-      "tip": [
-        "U: -seml <.>\n",
-        "通过电子邮件发送归档"
-      ]
+      "tip": "通过电子邮件发送归档"
     },
     {
       "name": "-sfx",
-      "tip": [
-        "U: -sfx <name>\n",
-        "创建 SFX 归档"
-      ]
+      "tip": "创建 SFX 归档"
     },
     {
       "name": "-si",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -si <name>\n",
-        "从标准输入读取数据"
-      ]
+      "tip": "从标准输入读取数据"
     },
     {
       "name": "-slp",
@@ -270,57 +264,47 @@
     },
     {
       "name": "-stm",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -stm <HexMask>\n",
-        "设置 CPU 线程关联掩码(十六进制数)"
-      ]
+      "tip": "设置 CPU 线程关联掩码(十六进制数)"
     },
     {
       "name": "-stx",
-      "symbol": "WriteSpaceTab",
-      "tip": [
-        "U: -stx <Type>\n",
-        "排除归档类型"
-      ]
+      "tip": "排除归档类型"
     },
     {
       "name": "-t",
       "tip": [
-        "U: -t[7z|bzip2|gzip|swfc|tar|wim|xz|zip...] <Type>\n",
-        "设置归档类型"
+        "U: -t[7z|bzip2|gzip|swfc|tar|wim|xz|zip...]\n",
+        "设置归档类型\n",
+        "E: -tzip   --- 设置归档类型为 zip"
       ]
     },
     {
       "name": "-u",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -u <[-][p#][q#][r#][x#][y#][z#][!newArchiveName]>\n",
+        "U: -u<[-][p#][q#][r#][x#][y#][z#][!newArchiveName]>\n",
         "更新选项"
       ]
     },
     {
       "name": "-v",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -v <Size>[b|k|m|g]\n",
-        "创建卷"
+        "创建卷\n",
+        "E: -v10m         --- 创建 10MB 的卷\n",
+        "   -v10k -v15k   --- 创建 10KB 和 15KB 的卷"
       ]
     },
     {
       "name": "-w",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -w <path>\n",
-        "分配工作目录"
+        "分配工作目录\n",
+        "E: -wD:\\temp   --- 设置工作目录为 D:\\temp"
       ]
     },
     {
       "name": "-x",
-      "symbol": "WriteSpaceTab",
       "tip": [
-        "U: -x <[r[-|0]]{@listfile|!wildcard}>\n",
-        "排除文件名"
+        "排除文件名\n",
+        "E: -x!*.txt   --- 排除所有扩展名为txt的文件"
       ]
     },
     {
