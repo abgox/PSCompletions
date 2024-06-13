@@ -170,6 +170,7 @@
 |[conda](https://github.com/conda/conda)|**en-US**<br>**zh-CN(100%)**|conda - binary package and environment manager|
 |[deno](https://deno.com/)|**en-US**<br>**zh-CN(100%)**|Deno - A secure runtime for JavaScript and TypeScript.|
 |[docker](https://www.docker.com)|**en-US**<br>**zh-CN(100%)**|docker - Container Application Development|
+|[fnm](https://github.com/Schniz/fnm)|**en-US**<br>**~~zh-CN(14.52%)~~**|Fast and simple Node.js version manager, built in Rust.|
 |[git](https://git-scm.com)|**en-US**<br>**zh-CN(100%)**|Git - Version control system|
 |[kubectl](https://kubernetes.io/docs/reference/kubectl/)|**en-US**<br>**zh-CN(100%)**|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br> kubectl is its command-line tool.|
 |[ngrok](https://ngrok.com/)|**en-US**<br>**zh-CN(100%)**|ngrok - Unified Ingress Platform for developers.<br> Connect localhost to the internet for testing applications and APIs.|
