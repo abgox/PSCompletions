@@ -1,6 +1,83 @@
 {
   "options": [
     {
+      "name": "-a",
+      "alias": [
+        "--algorithm"
+      ],
+      "tip": [
+        "U: -a|--algorithm <ALGORITHM>\n",
+        "select the digest type to use. See DIGEST below\n",
+        "[possible values: sysv, bsd, crc, md5, sha1, sha224, sha256, sha384, sha512, blake2b, sm3]"
+      ],
+      "next": [
+        {
+          "name": "sysv"
+        },
+        {
+          "name": "bsd"
+        },
+        {
+          "name": "crc"
+        },
+        {
+          "name": "md5"
+        },
+        {
+          "name": "sha1"
+        },
+        {
+          "name": "sha224"
+        },
+        {
+          "name": "sha256"
+        },
+        {
+          "name": "sha384"
+        },
+        {
+          "name": "sha512"
+        },
+        {
+          "name": "blake2b"
+        },
+        {
+          "name": "sm3"
+        }
+      ]
+    },
+    {
+      "name": "--untagged",
+      "tip": "create a reversed style checksum, without digest type"
+    },
+    {
+      "name": "--tag",
+      "tip": "create a BSD style checksum, undo --untagged (default)"
+    },
+    {
+      "name": "-l",
+      "alias": [
+        "--length"
+      ],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -l|--length <LENGTH>\n",
+        "digest length in bits;\n",
+        "must not exceed the max for the blake2 algorithm and must be a multiple of 8"
+      ]
+    },
+    {
+      "name": "--raw",
+      "tip": "emit a raw binary digest, not hexadecimal"
+    },
+    {
+      "name": "-b",
+      "alias": [
+        "--base64"
+      ],
+      "tip": "emit a base64 digest, not hexadecimal"
+    },
+    {
       "name": "--version",
       "alias": [
         "-V"
@@ -9,17 +86,6 @@
     }
   ],
   "common_options": [
-    {
-      "name": "-a",
-      "alias": [
-        "--algorithm"
-      ],
-      "tip": "select the digest type to use. See DIGEST below"
-    },
-    {
-      "name": "--untagged",
-      "tip": "create a reversed style checksum, without digest type"
-    },
     {
       "name": "--help",
       "alias": [
