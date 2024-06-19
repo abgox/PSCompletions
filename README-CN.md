@@ -168,22 +168,32 @@
 |Completion|Language|Description|
 |:-:|-|-|
 |[7z](https://7-zip.org/)|**en-US**<br>**zh-CN(100%)**|7-Zip 的命令行 cli 程序|
-|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(15.38%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(15.38%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[basename](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[basenc](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(18.18%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[arch](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|显示当前系统架构。<br> 来源于 [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(15.38%)~~**|Compute and check message digests.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(15.38%)~~**|Compute and check message digests.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Encode/decode data and print to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Encode/decode data and print to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[basename](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Print NAME with any leading directory components removed.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[basenc](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(18.18%)~~**|Encode/decode data and print to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[bun](https://bun.sh)|**en-US**<br>**zh-CN(100%)**|Bun - JavaScript 运行时和工具包|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|**en-US**<br>**zh-CN(100%)**|cargo - Rust 包管理器|
 |[chfs](http://iscute.cn/chfs)|**en-US**<br>**zh-CN(100%)**|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
 |[choco](https://chocolatey.org/)|**en-US**<br>**zh-CN(100%)**|choco(chocolatey) - 软件管理|
-|[cksum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[comm](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(27.27%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[cksum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|Print CRC and size for each file.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[comm](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(27.27%)~~**|Compare two sorted files line by line.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[conda](https://github.com/conda/conda)|**en-US**<br>**zh-CN(100%)**|conda - 二进制包和环境管理器|
-|[csplit](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(19.35%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[csplit](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(19.35%)~~**|Split a file into sections determined by context lines.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[cut](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(16.22%)~~**|Print specified byte or field columns from each line of stdin or the input files.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[date](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(14.29%)~~**|Print or set the system date and time.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[dd](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|复制并转换文件系统资源。<br> 来源于 [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[deno](https://deno.com/)|**en-US**<br>**zh-CN(100%)**|Deno - 安全的 JavaScript 和 TypeScript 运行时|
+|[df](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(6.67%)~~**|Show information about the file system on which each FILE resides, or all file systems by default.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[dircolors](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(31.58%)~~**|Output commands to set the LS_COLORS environment variable.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[dirname](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(54.55%)~~**|Strip last component from file name.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[docker](https://www.docker.com)|**en-US**<br>**zh-CN(100%)**|docker - 容器应用开发|
+|[du](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(6%)~~**|Estimate file space usage.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[env](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(16.67%)~~**|Set each NAME to VALUE in the environment and run COMMAND.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[factor](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(60%)~~**|Print the prime factors of the given NUMBER(s).<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[fnm](https://github.com/Schniz/fnm)|**en-US**<br>**~~zh-CN(14.52%)~~**|快速、简单的 Node.js 版本管理器，使用 Rust 构建|
 |[git](https://git-scm.com)|**en-US**<br>**zh-CN(100%)**|Git - 版本控制系统|
 |[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/)|**en-US**<br>**zh-CN(100%)**|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br> kubectl 是它的命令行工具|
