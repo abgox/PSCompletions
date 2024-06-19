@@ -163,6 +163,10 @@
 |Completion|Language|Description|
 |:-:|-|-|
 |[7z](https://7-zip.org/)|**en-US**<br>**zh-CN(100%)**|The command line cli of 7-Zip|
+|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(18.18%)~~**|b2sum - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|b3sum - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base32 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base64 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[bun](https://bun.sh)|**en-US**<br>**zh-CN(100%)**|Bun - JavaScript all-in-one toolkit|
 |[cargo](https://rustwiki.org/en/cargo)|**en-US**<br>**zh-CN(100%)**|cargo - Rust package manager|
 |[chfs](http://iscute.cn/chfs)|**en-US**<br>**zh-CN(100%)**|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server|
@@ -185,6 +189,6 @@
 |[volta](https://volta.sh)|**en-US**<br>**zh-CN(100%)**|volta - Accessible JavaScript Tool Manager|
 |[winget](https://github.com/microsoft/winget-cli)|**en-US**<br>**zh-CN(100%)**|WinGet - Windows package manager|
 |[wsl](https://github.com/microsoft/WSL)|**en-US**<br>**zh-CN(100%)**|WSL - Windows Subsystem for Linux|
-|[wt](https://github.com/microsoft/terminal)|**en-US**<br>**zh-CN(100%)**|Windows terminal command line|
+|[wt](https://github.com/microsoft/terminal)|**en-US**<br>**zh-CN(100%)**|Windows Terminal command line.<br> You can use it to start a terminal.|
 |[yarn](https://classic.yarnpkg.com/)|**en-US**<br>**zh-CN(100%)**|yarn - package manager|
 |...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
