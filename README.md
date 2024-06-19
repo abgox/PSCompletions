@@ -163,20 +163,20 @@
 |Completion|Language|Description|
 |:-:|-|-|
 |[7z](https://7-zip.org/)|**en-US**<br>**zh-CN(100%)**|The command line cli of 7-Zip|
-|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(18.18%)~~**|b2sum - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|b3sum - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base32 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base64 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(15.38%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(15.38%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[basename](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[basenc](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(18.18%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[bun](https://bun.sh)|**en-US**<br>**zh-CN(100%)**|Bun - JavaScript all-in-one toolkit|
 |[cargo](https://rustwiki.org/en/cargo)|**en-US**<br>**zh-CN(100%)**|cargo - Rust package manager|
 |[chfs](http://iscute.cn/chfs)|**en-US**<br>**zh-CN(100%)**|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server|
 |[choco](https://chocolatey.org/)|**en-US**<br>**zh-CN(100%)**|choco(chocolatey) - Software Manager|
-|[cksum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(46.15%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[comm](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(28.57%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[cksum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[comm](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(27.27%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[conda](https://github.com/conda/conda)|**en-US**<br>**zh-CN(100%)**|conda - binary package and environment manager|
-|[csplit](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(21.43%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[csplit](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(19.35%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[deno](https://deno.com/)|**en-US**<br>**zh-CN(100%)**|Deno - A secure runtime for JavaScript and TypeScript.|
 |[docker](https://www.docker.com)|**en-US**<br>**zh-CN(100%)**|docker - Container Application Development|
 |[fnm](https://github.com/Schniz/fnm)|**en-US**<br>**~~zh-CN(14.52%)~~**|Fast and simple Node.js version manager, built in Rust.|
