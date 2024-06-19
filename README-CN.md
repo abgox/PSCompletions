@@ -168,6 +168,10 @@
 |Completion|Language|Description|
 |:-:|-|-|
 |[7z](https://7-zip.org/)|**en-US**<br>**zh-CN(100%)**|7-Zip 的命令行 cli 程序|
+|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(18.18%)~~**|b2sum - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|b3sum - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base32 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base64 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[bun](https://bun.sh)|**en-US**<br>**zh-CN(100%)**|Bun - JavaScript 运行时和工具包|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|**en-US**<br>**zh-CN(100%)**|cargo - Rust 包管理器|
 |[chfs](http://iscute.cn/chfs)|**en-US**<br>**zh-CN(100%)**|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
@@ -190,6 +194,6 @@
 |[volta](https://volta.sh)|**en-US**<br>**zh-CN(100%)**|volta - 无障碍 JavaScript 工具管理器|
 |[winget](https://github.com/microsoft/winget-cli)|**en-US**<br>**zh-CN(100%)**|WinGet - Windows 程序包管理器|
 |[wsl](https://github.com/microsoft/WSL)|**en-US**<br>**zh-CN(100%)**|WSL - 适用于 Linux 的 Windows 子系统|
-|[wt](https://github.com/microsoft/terminal)|**en-US**<br>**zh-CN(100%)**|Windows terminal 命令行终端|
+|[wt](https://github.com/microsoft/terminal)|**en-US**<br>**zh-CN(100%)**|Windows Terminal 命令行终端。<br> 你可以使用此命令启动一个终端。|
 |[yarn](https://classic.yarnpkg.com/)|**en-US**<br>**zh-CN(100%)**|yarn - 软件包管理器|
 |...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
