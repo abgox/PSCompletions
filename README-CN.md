@@ -172,11 +172,16 @@
 |[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|b3sum - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[base32](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base32 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[base64](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(35.29%)~~**|base64 - Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[basename](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[basenc](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(18.18%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[bun](https://bun.sh)|**en-US**<br>**zh-CN(100%)**|Bun - JavaScript 运行时和工具包|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|**en-US**<br>**zh-CN(100%)**|cargo - Rust 包管理器|
 |[chfs](http://iscute.cn/chfs)|**en-US**<br>**zh-CN(100%)**|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器|
 |[choco](https://chocolatey.org/)|**en-US**<br>**zh-CN(100%)**|choco(chocolatey) - 软件管理|
+|[cksum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(46.15%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[comm](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(28.57%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[conda](https://github.com/conda/conda)|**en-US**<br>**zh-CN(100%)**|conda - 二进制包和环境管理器|
+|[csplit](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(21.43%)~~**|Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[deno](https://deno.com/)|**en-US**<br>**zh-CN(100%)**|Deno - 安全的 JavaScript 和 TypeScript 运行时|
 |[docker](https://www.docker.com)|**en-US**<br>**zh-CN(100%)**|docker - 容器应用开发|
 |[fnm](https://github.com/Schniz/fnm)|**en-US**<br>**~~zh-CN(14.52%)~~**|快速、简单的 Node.js 版本管理器，使用 Rust 构建|
