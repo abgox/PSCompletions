@@ -505,7 +505,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
 
     $path_alias = Join-Path $completion_dir 'alias.txt'
     if (!(Test-Path $path_alias) -or !$this.get_raw_content($path_alias)) {
-        $completion | Out-File $path_alias -encoding utf8 -Force
+        $alias = if ($config.alias) { $config.alias -join "`n" }else { $completion }
+        $alias | Out-File $path_alias -encoding utf8 -Force
     }
     $language = $PSCompletions.get_language($completion)
     $json = $this.get_raw_content("$($completion_dir)/language/$($language).json") | ConvertFrom-Json
