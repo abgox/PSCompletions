@@ -199,15 +199,22 @@
 |[fold](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Writes each file (or standard input if no files are given) to standard output whilst breaking long lines.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[git](https://git-scm.com)|**en-US**<br>**zh-CN(100%)**|Git - 版本控制系统|
 |[hashsum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(8.57%)~~**|Compute and check message digests.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[head](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(24%)~~**|Print the first 10 lines of each `FILE` to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[head](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(24%)~~**|Print the first 10 lines of each 'FILE' to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[join](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(13.04%)~~**|For each pair of input lines with identical join fields, write a line to standard output.<br> The default join field is the first, delimited by blanks.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/)|**en-US**<br>**zh-CN(100%)**|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br> kubectl 是它的命令行工具|
 |[link](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|调用 link 函数为现有的 FILE1 创建名为 FILE2 的链接。<br> 来源于 [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[ln](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(14.63%)~~**|Make links between files.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[md5sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|Compute and check message digests.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[mktemp](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(24%)~~**|Create a temporary file or directory.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[ngrok](https://ngrok.com/)|**en-US**<br>**zh-CN(100%)**|ngrok - 面向开发人员的统一入口平台。<br> 将 localhost 连接到 Internet 以测试应用程序和 API。|
+|[nl](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(6.58%)~~**|Number lines of files.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[npm](https://www.npmjs.com/)|**en-US**<br>**zh-CN(100%)**|npm - 软件包管理器|
+|[nproc](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(46.15%)~~**|Print the number of cores available to the current process.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[nrm](https://github.com/Pana/nrm)|**en-US**<br>**zh-CN(100%)**|nrm - npm 镜像源管理|
+|[numfmt](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(8.57%)~~**|Convert numbers from/to human-readable strings.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[nvm](https://github.com/nvm-sh/nvm)|**en-US**<br>**zh-CN(100%)**|nvm - node 版本管理器|
+|[od](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(7.41%)~~**|Dump files in octal and other formats.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[paste](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(100%)**|pip - Python 包管理器|
 |[pnpm](https://pnpm.io/zh/)|**en-US**<br>**zh-CN(100%)**|pnpm - 软件包管理器|
 |[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|

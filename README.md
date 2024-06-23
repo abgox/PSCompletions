@@ -194,15 +194,22 @@
 |[fold](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Writes each file (or standard input if no files are given) to standard output whilst breaking long lines.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[git](https://git-scm.com)|**en-US**<br>**zh-CN(100%)**|Git - Version control system|
 |[hashsum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(8.57%)~~**|Compute and check message digests.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[head](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(24%)~~**|Print the first 10 lines of each `FILE` to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[head](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(24%)~~**|Print the first 10 lines of each 'FILE' to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[join](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(13.04%)~~**|For each pair of input lines with identical join fields, write a line to standard output.<br> The default join field is the first, delimited by blanks.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[kubectl](https://kubernetes.io/docs/reference/kubectl/)|**en-US**<br>**zh-CN(100%)**|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br> kubectl is its command-line tool.|
 |[link](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|Call the link function to create a link named FILE2 to an existing FILE1.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[ln](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(14.63%)~~**|Make links between files.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[md5sum](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(17.14%)~~**|Compute and check message digests.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[mktemp](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(24%)~~**|Create a temporary file or directory.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[ngrok](https://ngrok.com/)|**en-US**<br>**zh-CN(100%)**|ngrok - Unified Ingress Platform for developers.<br> Connect localhost to the internet for testing applications and APIs.|
+|[nl](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(6.58%)~~**|Number lines of files.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[npm](https://www.npmjs.com/)|**en-US**<br>**zh-CN(100%)**|npm - package manager|
+|[nproc](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(46.15%)~~**|Print the number of cores available to the current process.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[nrm](https://github.com/Pana/nrm)|**en-US**<br>**zh-CN(100%)**|nrm - npm registry manager|
+|[numfmt](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(8.57%)~~**|Convert numbers from/to human-readable strings.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[nvm](https://github.com/nvm-sh/nvm)|**en-US**<br>**zh-CN(100%)**|nvm - Node Version Manager|
+|[od](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(7.41%)~~**|Dump files in octal and other formats.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[paste](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(100%)**|pip - Python Package Manager|
 |[pnpm](https://pnpm.io/)|**en-US**<br>**zh-CN(100%)**|pnpm - Package Manager|
 |[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
