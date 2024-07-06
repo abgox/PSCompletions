@@ -2,8 +2,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
     if ($this.is_show_tip) {
         $max_width = 0
         $tip_max_height = 0
-        $this.filter_list = $this.filter_list | ForEach-Object {
-            $symbol = ($_.symbol | ForEach-Object { $PSCompletions.config."symbol_$($_)" }) -join ''
+        $this.filter_list = foreach ($_ in $this.filter_list) {
+            $symbol = foreach ($c in $_.symbol) { $PSCompletions.config."symbol_$($c)" }
+            $symbol = $symbol -join ''
             $pad = if ($symbol) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbol)" }else { '' }
             $name_with_symbol = "$($_.name[-1])$($pad)"
 
@@ -34,7 +35,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
         $this.list_max_width = $max_width
         $this.tip_max_height = $tip_max_height
 
-        $this.filter_list | ForEach-Object {
+        foreach ($_ in $this.filter_list) {
             $pad = $max_width - $_.width
             $_.name = "$($_.name)$(' ' * $pad)"
         }
@@ -50,8 +51,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
     }
     else {
         $max_width = 0
-        $this.filter_list = $this.filter_list | ForEach-Object {
-            $symbol = ($PSCompletions.replace_content($_.symbol, ' ') -split ' ' | ForEach-Object { $PSCompletions.config."symbol_$($_)" }) -join ''
+        $this.filter_list = foreach ($_ in $this.filter_list) {
+            $symbol = foreach ($c in $_.symbol) { $PSCompletions.config."symbol_$($c)" }
+            $symbol = $symbol -join ''
             $pad = if ($symbol) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbol)" }else { '' }
             $name_with_symbol = "$($_.name[-1])$($pad)"
 
@@ -71,7 +73,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
         }
         $this.list_max_width = $max_width
 
-        $this.filter_list | ForEach-Object {
+        foreach ($_ in $this.filter_list) {
             $pad = $max_width - $_.width
             $_.name = "$($_.name)$(' ' * $pad)"
         }
@@ -189,7 +191,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
 
     if ($PSCompletions.config.menu_list_cover_buffer) {
         $box = @()
-        0..$this.ui_size.Height | ForEach-Object {
+        foreach ($_ in 0..$this.ui_size.Height) {
             $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
         }
         $pos = @{
@@ -205,7 +207,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
     $content_box = @()
     $line_top = [string]$PSCompletions.config.menu_line_top_left + $PSCompletions.config.menu_line_horizontal * ($this.list_max_width + $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right) + $PSCompletions.config.menu_line_top_right
     $border_box += $line_top
-    $offset..($this.ui_size.height - 3 + $offset) | ForEach-Object {
+    foreach ($_ in $offset..($this.ui_size.height - 3 + $offset)) {
         $content = $this.filter_list[$_].name
         $border_box += [string]$PSCompletions.config.menu_line_vertical + (' ' * ($PSCompletions.config.menu_list_margin_left + $content.Length + $PSCompletions.config.menu_list_margin_right)) + [string]$PSCompletions.config.menu_line_vertical
         $content_box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
@@ -227,7 +229,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_buffer {
     param($offset = 0)
     $content_box = @()
-    $offset..($this.ui_size.height - 3 + $offset) | ForEach-Object {
+    foreach ($_ in $offset..($this.ui_size.height - 3 + $offset)) {
         $content = $this.filter_list[$_].name
         $content_box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
     }
@@ -324,7 +326,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
 
     if ($PSCompletions.config.menu_tip_cover_buffer) {
         if ($PSCompletions.menu.is_show_above) {
-            0..($this.pos.Y - 1) | ForEach-Object {
+            foreach ($_ in 0..($this.pos.Y - 1)) {
                 $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
             }
             $pos = @{
@@ -333,7 +335,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
             }
         }
         else {
-            0..($Host.UI.RawUI.BufferSize.Height - $this.pos_tip.Y) | ForEach-Object {
+            foreach ($_ in 0..($Host.UI.RawUI.BufferSize.Height - $this.pos_tip.Y)) {
                 $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
             }
             $pos = @{
@@ -343,7 +345,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
         }
     }
     else {
-        0..($this.tip_max_height + 1) | ForEach-Object {
+        foreach ($_ in 0..($this.tip_max_height + 1)) {
             $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
         }
         $pos = @{
@@ -370,8 +372,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
         }
         _do $string.Substring(0, ($string.Length - 2)) $max_width $true
     }
-
-    $this.filter_list[$index].tip -split "`n" | ForEach-Object {
+    foreach ($_ in $this.filter_list[$index].tip -split "`n") {
         if ($_) { $box += _do $_ ($Host.UI.RawUI.BufferSize.Width - 1) }
     }
     if ($box) {
@@ -727,8 +728,11 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
 
     $max_width = 0
     $tip_max_height = 0
-    $filter_list = $filter_list | ForEach-Object {
-        $symbol = ($PSCompletions.replace_content($_.symbol, ' ') -split ' ' | ForEach-Object { $PSCompletions.config."symbol_$($_)" }) -join ''
+    $filter_list = foreach ($_ in $filter_list) {
+        $symbol = foreach ($c in $_.symbol) {
+            $PSCompletions.config."symbol_$($c)"
+        }
+        $symbol = $symbol -join ''
         $pad = if ($symbol) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbol)" }else { '' }
         $name_with_symbol = "$($_.name[-1])$($pad)"
 
@@ -740,6 +744,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             $tip_arr = $tip -split "`n"
         }
         else {
+            $tip = ' '
             $tip_arr = @()
         }
         if ($tip_arr.Count -gt $tip_max_height) { $tip_max_height = $tip_arr.Count }
@@ -758,7 +763,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     $display_count = 0
     if ($max_count -lt 5 -or !$PSCompletions.config.menu_show_tip) {
         $max_count = ($Host.UI.RawUI.BufferSize.Height) * ([math]::Floor($ui_width) / ($item_witdh))
-        $filter_list | ForEach-Object {
+        foreach ($_ in $filter_list) {
             if ($max_count -gt $display_count -and $_.name) {
                 $display_count++
                 [CompletionResult]::new($_.value, $_.name, 'ParameterValue', ' ')
@@ -766,7 +771,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         }
     }
     else {
-        $filter_list | ForEach-Object {
+        foreach ($_ in $filter_list) {
             if ($max_count -gt $display_count -and $_.name) {
                 $display_count++
                 [CompletionResult]::new($_.value, $_.name, 'ParameterValue', $_.tip)

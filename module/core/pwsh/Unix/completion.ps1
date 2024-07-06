@@ -1,6 +1,6 @@
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
     param([string]$cmd)
-    $this.cmd[$cmd] | ForEach-Object {
+    foreach ($_ in $this.cmd[$cmd]) {
         Register-ArgumentCompleter -CommandName $_ -ScriptBlock {
             param($word_to_complete, $command_ast, $cursor_position)
             # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
@@ -22,7 +22,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             if ($PSCompletions.data.Count -eq 0) {
                 if ($PSCompletions.job.State -eq 'Completed') {
                     $data = Receive-Job $PSCompletions.job
-                    $data.Keys | ForEach-Object {
+                    foreach ($_ in $data.Keys) {
                         $PSCompletions.data.$_ = $data.$_
                     }
                     Remove-Job $PSCompletions.job
@@ -35,10 +35,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             }
 
             $common_options = if ($PSCompletions.data.$root.common_options) {
-                $PSCompletions.data.$root.common_options | ForEach-Object { $_.name }
+                foreach ($_ in $PSCompletions.data.$root.common_options) { $_.name }
             }
             else { New-Object System.Collections.ArrayList }
-
             $WriteSpaceTab = [System.Collections.Generic.List[string]]@()
 
             $WriteSpaceTab_and_SpaceTab = [System.Collections.Generic.List[string]]@()
@@ -50,7 +49,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                 $completions = [System.Collections.Generic.List[System.Object]]@()
                 $index = 1
                 function parseCompletions ($node, $pre, [switch]$isOption) {
-                    $node | ForEach-Object {
+                    foreach ($_ in $node) {
                         $pad = if ($pre) { ' ' }else { '' }
                         $symbols = @()
                         if ($isOption) {
@@ -132,7 +131,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                 $need_skip = $false
 
                 $filter_input_arr = [System.Collections.Generic.List[string]]@()
-                $input_arr | ForEach-Object {
+                foreach ($_ in $input_arr) {
                     if ($_ -like '-*' -or $need_skip) {
                         if ($need_skip) { $need_skip = $false }
                         if ($_ -in $WriteSpaceTab) {
@@ -167,7 +166,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                 }
 
                 $filter_list = [System.Collections.Generic.List[System.Object]]@()
-                $completions | ForEach-Object {
+                foreach ($_ in $completions) {
                     $matches = [regex]::Matches($_.name, "(?:`"[^`"]*`"|'[^']*'|\S)+")
                     $cmd = [System.Collections.Generic.List[string]]@()
                     foreach ($m in $matches) { $cmd.Add($m.Value) }
@@ -206,7 +205,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                 # 处理 common_options
                 if ($PSCompletions.data.$root.common_options) {
                     if ($space_tab) {
-                        $PSCompletions.data.$root.common_options | Where-Object { $_.name -notin $input_arr } | ForEach-Object {
+                        foreach ($_ in $PSCompletions.data.$root.common_options | Where-Object { $_.name -notin $input_arr }) {
                             $symbols = @('OptionTab')
                             if ($_.symbol) {
                                 $symbols += $PSCompletions.replace_content($_.symbol, ' ') -split ' '
@@ -227,7 +226,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                         }
                     }
                     else {
-                        $PSCompletions.data.$root.common_options | Where-Object { $_.name -notin $input_arr -and $_.name -like "$($filter_input_arr[-1])*" } | ForEach-Object {
+                        foreach ($_ in $PSCompletions.data.$root.common_options | Where-Object { $_.name -notin $input_arr -and $_.name -like "$($filter_input_arr[-1])*" }) {
                             $_.name = @($_.name)
                             $filter_list.Add($_)
                         }
@@ -246,13 +245,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             $completions = getCompletions
             $completions = handleCompletions $completions
             $filter_list = filterCompletions $completions $root
-
-            if ($PSCompletions.data.$root.common_options) {
-                $PSCompletions.data.$root.common_options | ForEach-Object {
-                    $_.name = @($_.name)
-                    $filter_list += $_
-                }
-            }
 
             # 排序
             if ($PSCompletions.config.menu_completions_sort) {
@@ -284,12 +276,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                     param($PScompletions, $completions, $path_history, $root, $path_order)
                     $order = [ordered]@{}
                     $index = 1
-                    $completions | ForEach-Object {
+                    foreach ($_ in $completions) {
                         $order.$($_.name -join ' ') = $index
                         $index++
                     }
                     $historys = [System.Collections.Generic.List[string]]@()
-                    Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue | ForEach-Object {
+                    foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
                         foreach ($alias in $PSCompletions.cmd.$root) {
                             if ($_ -match "^[^\S\n]*$($alias)\s+.+") {
                                 $historys.Add($_)
@@ -310,8 +302,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                             handle_order $history[0..($history.Count - 2)]
                         }
                     }
-
-                    $historys | ForEach-Object {
+                    foreach ($_ in $historys) {
                         $matches = [regex]::Matches($_, "(?:`"[^`"]*`"|'[^']*'|\S)+")
                         $cmd = [System.Collections.Generic.List[string]]@()
                         foreach ($m in $matches) { $cmd.Add($m.Value) }
