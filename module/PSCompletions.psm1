@@ -28,7 +28,7 @@ function PSCompletions {
     function Show-List() {
         $max_len = ($PSCompletions.cmd.keys | Measure-Object -Maximum Length).Maximum
         $max_len = if ($max_len -lt 10) { 10 }else { $max_len }
-        $PSCompletions.cmd.keys | ForEach-Object {
+        foreach ($_ in $PSCompletions.cmd.keys) {
             $alias = $PSCompletions.cmd.$_ -join ' '
             $data.Add(@{
                     content = "{0,-$($max_len + 3)} {1}" -f ($_, $alias)
@@ -54,7 +54,7 @@ function PSCompletions {
                     return
                 }
                 $max_len = ($PSCompletions.list | Measure-Object -Maximum Length).Maximum
-                $PSCompletions.list | ForEach-Object {
+                foreach ($_ in $PSCompletions.list) {
                     $status = if ($PSCompletions.cmd.$_) { $PSCompletions.info.list.added_symbol }else { $PSCompletions.info.list.add_symbol }
                     $data.Add(@{
                             content = "{0,-$($max_len + 3)} {1}" -f ($_, $status)
@@ -151,7 +151,7 @@ function PSCompletions {
         else {
             if ($arg[1] -eq '*') {
                 # 更新全部可以更新的补全
-                $PSCompletions.update | ForEach-Object {
+                foreach ($_ in $PSCompletions.update) {
                     $PSCompletions.add_completion($_, $true, $true)
                 }
             }
@@ -407,8 +407,7 @@ function PSCompletions {
         $old_value = $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])
         $new_value = $arg[3]
         $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) = $arg[3]
-
-        $PSCompletions.cmd.keys | ForEach-Object {
+        foreach ($_ in $PSCompletions.cmd.keys) {
             $path = "$($PSCompletions.path.completions)/$($_)/config.json"
             $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
             $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
@@ -719,7 +718,7 @@ function PSCompletions {
         }
         function handle_reset($cmd) {
             $change_list = [System.Collections.Generic.List[System.Object]]@()
-            $PSCompletions.default.$cmd.Keys | ForEach-Object {
+            foreach ($_ in $PSCompletions.default.$cmd.Keys) {
                 $change_list.Add(@{
                         item      = $_
                         old_value = $PSCompletions.config.$_
@@ -757,7 +756,7 @@ function PSCompletions {
                 $is_change_config = $false
             }
             "order" {
-                $PSCompletions.cmd.Keys | ForEach-Object {
+                foreach ($_ in $PSCompletions.cmd.Keys) {
                     $path_order = "$($PSCompletions.path.completions)/$($_)/order.json"
                     Remove-Item $path_order -Force -ErrorAction SilentlyContinue
                 }
@@ -788,7 +787,7 @@ function PSCompletions {
                 }
                 if ($arg[2] -eq '*') {
                     $PSCompletions.config.comp_config = @{}
-                    $PSCompletions.cmd.keys | ForEach-Object {
+                    foreach ($_ in $PSCompletions.cmd.keys) {
                         _do $_ -is_all
                     }
                 }
@@ -840,7 +839,7 @@ function PSCompletions {
             }
             '*' {
                 $is_init_module = $PSCompletions.confirm_do($PSCompletions.replace_content($PSCompletions.info.reset.init_confirm), {
-                        @('completions', 'completions_json', 'config', 'update', 'change') | ForEach-Object {
+                        foreach ($_ in @('completions', 'completions_json', 'config', 'update', 'change')) {
                             Remove-Item $PSCompletions.path.$_ -Force -Recurse -ErrorAction SilentlyContinue
                         }
                         Remove-Item "$($PSCompletions.path.core)/log.json" -Force -Recurse -ErrorAction SilentlyContinue

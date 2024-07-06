@@ -12,8 +12,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
 
     $max_width = 0
     $tip_max_height = 0
-    $filter_list = $filter_list | ForEach-Object {
-        $symbol = ($PSCompletions.replace_content($_.symbol, ' ') -split ' ' | ForEach-Object { $PSCompletions.config."symbol_$($_)" }) -join ''
+    $filter_list = foreach ($_ in $filter_list) {
+        $symbol = foreach ($c in $_.symbol) { $PSCompletions.config."symbol_$($c)" }
+        $symbol = $symbol -join ''
         $pad = if ($symbol) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbol)" }else { '' }
         $name_with_symbol = "$($_.name[-1])$($pad)"
 
@@ -44,7 +45,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     $display_count = 0
     if ($max_count -lt 5 -or !$PSCompletions.config.menu_show_tip) {
         $max_count = ($Host.UI.RawUI.BufferSize.Height) * ([math]::Floor($ui_width) / ($item_witdh))
-        $filter_list | ForEach-Object {
+        foreach ($_ in $filter_list) {
             if ($max_count -gt $display_count -and $_.name) {
                 $display_count++
                 [CompletionResult]::new($_.value, $_.name, 'ParameterValue', ' ')
@@ -52,7 +53,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         }
     }
     else {
-        $filter_list | ForEach-Object {
+        foreach ($_ in $filter_list) {
             if ($max_count -gt $display_count -and $_.name) {
                 $display_count++
                 [CompletionResult]::new($_.value, $_.name, 'ParameterValue', $_.tip)
