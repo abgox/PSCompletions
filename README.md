@@ -59,7 +59,7 @@
 
 ### [Available Completions](#available-completions-list 'All completions that can be added at present. More completions are adding!')
 
--   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues 'Click to submit an issue') and I will consider adding it.
+-   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues 'Click to submit an issue').
 
 1. `psc add git`
 2. Then you can enter `git` and press `Space` `Tab` to get command completion.
@@ -157,7 +157,6 @@
         -   Special case: `abc(a)`, it means that you need to download it by `psc add abc`, but by default `a` is used instead of `abc` to trigger the completion.
     -   **`Language`**: Supported Languages, and Translation Progress.
         -   The translation progress is compared to `en-US`
-        -   If it is greater than `100%`, it means that the current language has some redundant completion items and should be cleaned.
     -   **`Description`**: Command Description.
 
 |Completion|Language|Description|

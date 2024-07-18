@@ -58,7 +58,7 @@
 
 ### [可用补全列表](#补全列表 '当前可添加的所有补全，更多的补全正在添加中！')
 
--   如果补全列表里没有你想要的补全，你可以[提交 issues](https://github.com/abgox/PSCompletions/issues '点击提交 issues'), 我会逐步添加
+-   如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues '点击提交 issues')
 
 1. `psc add git`
 2. 然后你就可以输入 `git`,按下 `Space`(空格键) `Tab` 键来获得命令补全
@@ -162,7 +162,6 @@
         -   特殊情况: `abc(a)`，这表示你需要通过 `psc add abc` 去下载它，但默认使用 `a` 而不是 `abc` 去触发补全
     -   **`Language`**: 支持的语言，以及翻译进度
         -   翻译进度是相较于 `en-US` 的
-            -   如果翻译进度大于 `100%`，则表示当前语言有一部分多余的补全项，应该被清理
     -   **`Description`**: 命令描述
 
 |Completion|Language|Description|
