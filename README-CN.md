@@ -214,6 +214,7 @@
 |[nvm](https://github.com/nvm-sh/nvm)|**en-US**<br>**zh-CN(100%)**|nvm - node 版本管理器|
 |[od](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(7.41%)~~**|Dump files in octal and other formats.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[paste](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[pdm](https://github.com/pdm-project/pdm)|**en-US**<br>**~~zh-CN(9.09%)~~**|A modern Python package and dependency manager supporting the latest PEP standards|
 |[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(100%)**|pip - Python 包管理器|
 |[pnpm](https://pnpm.io/zh/)|**en-US**<br>**zh-CN(100%)**|pnpm - 软件包管理器|
 |[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
