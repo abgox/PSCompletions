@@ -58,7 +58,7 @@
 
 ### [可用补全列表](#补全列表 '当前可添加的所有补全，更多的补全正在添加中！')
 
--   如果补全列表里没有你想要的补全，你可以[提交 issues](https://github.com/abgox/PSCompletions/issues '点击提交 issues'), 我会逐步添加
+-   如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues '点击提交 issues')
 
 1. `psc add git`
 2. 然后你就可以输入 `git`,按下 `Space`(空格键) `Tab` 键来获得命令补全
@@ -162,7 +162,6 @@
         -   特殊情况: `abc(a)`，这表示你需要通过 `psc add abc` 去下载它，但默认使用 `a` 而不是 `abc` 去触发补全
     -   **`Language`**: 支持的语言，以及翻译进度
         -   翻译进度是相较于 `en-US` 的
-            -   如果翻译进度大于 `100%`，则表示当前语言有一部分多余的补全项，应该被清理
     -   **`Description`**: 命令描述
 
 |Completion|Language|Description|
@@ -215,6 +214,7 @@
 |[nvm](https://github.com/nvm-sh/nvm)|**en-US**<br>**zh-CN(100%)**|nvm - node 版本管理器|
 |[od](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(7.41%)~~**|Dump files in octal and other formats.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[paste](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[pdm](https://github.com/pdm-project/pdm)|**en-US**<br>**~~zh-CN(9.09%)~~**|A modern Python package and dependency manager supporting the latest PEP standards|
 |[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(100%)**|pip - Python 包管理器|
 |[pnpm](https://pnpm.io/zh/)|**en-US**<br>**zh-CN(100%)**|pnpm - 软件包管理器|
 |[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
