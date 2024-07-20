@@ -185,7 +185,7 @@
 |[dircolors](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(31.58%)~~**|Output commands to set the LS_COLORS environment variable.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[dirname](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(54.55%)~~**|Strip last component from file name.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[docker](https://www.docker.com)|**en-US**<br>**zh-CN(100%)**|docker - Container Application Development|
-|[du](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(6%)~~**|Estimate file space usage.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
+|[du](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(5.83%)~~**|Estimate file space usage.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[env](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(16.67%)~~**|Set each NAME to VALUE in the environment and run COMMAND.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[factor](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(60%)~~**|Print the prime factors of the given NUMBER(s).<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[fmt](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(14.63%)~~**|Reformat paragraphs from input files (or stdin) to stdout.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
