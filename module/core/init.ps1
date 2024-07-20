@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.0.7'
+$PSCompletions.version = '4.0.9'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -115,19 +115,18 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
 if ($PSEdition -eq "Core") {
     if ($IsWindows) {
         # pwsh (Windows)
-        . $PSScriptRoot\pwsh\Win\completion.ps1
-        . $PSScriptRoot\pwsh\Win\config.ps1
+        . $PSScriptRoot\pwsh\Win\utils.ps1
         . $PSScriptRoot\pwsh\Win\menu.ps1
     }
     else {
-        . $PSScriptRoot\pwsh\Unix\completion.ps1
-        . $PSScriptRoot\pwsh\Unix\config.ps1
+        . $PSScriptRoot\pwsh\Win\utils.ps1
         . $PSScriptRoot\pwsh\Unix\menu.ps1
     }
+    . $PSScriptRoot\pwsh\config.ps1
 }
 else {
     # powershell 5.x
-    . $PSScriptRoot\powershell\completion.ps1
+    . $PSScriptRoot\powershell\utils.ps1
     . $PSScriptRoot\powershell\config.ps1
     . $PSScriptRoot\powershell\menu.ps1
 }
@@ -141,41 +140,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod join_path {
         $res = Join-Path $res $args[$i]
     }
     return $res
-}
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonToHashtable {
-    param([string]$json)
-    # Handle json string
-    $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
-    foreach ($match in $matches) {
-        $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
-    }
-    $json = [regex]::Replace($json, ",`n?(\s*`n)?\}", "}")
-    function ConvertToHashtable($obj) {
-        $hash = @{}
-        if ($obj -is [System.Management.Automation.PSCustomObject]) {
-            foreach ($_ in $obj | Get-Member -MemberType Properties) {
-                $k = $_.Name # Key
-                $v = $obj.$k # Value
-                if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
-                    # Handle array
-                    $arr = @()
-                    foreach ($item in $v) {
-                        $arr += if ($item -is [System.Management.Automation.PSCustomObject]) { ConvertToHashtable($item) }else { $item }
-                    }
-                    $hash[$k] = $arr
-                }
-                elseif ($v -is [System.Management.Automation.PSCustomObject]) {
-                    # Handle object
-                    $hash[$k] = ConvertToHashtable($v)
-                }
-                else { $hash[$k] = $v }
-            }
-        }
-        else { $hash = $obj }
-        $hash
-    }
-    # Recurse
-    ConvertToHashtable ($json | ConvertFrom-Json)
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
@@ -677,7 +641,7 @@ foreach ($_ in $PSCompletions.cmd.keys | Where-Object { $_ -ne 'psc' }) {
         使用 $args 作为临时变量，不会影响它在函数以及脚本中接受传递参数的作用
     #>
     foreach ($args in $PSCompletions.cmd.$_) {
-        if ($args -ne $_) { Set-Alias $args $_ }
+        if ($args -ne $_) { Set-Alias $args $_ -ErrorAction SilentlyContinue }
     }
 }
 
@@ -689,37 +653,13 @@ if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
     if ($PSCompletions.config.module_update -gt $PSCompletions.version) {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/log.json", (Join-Path $PSCompletions.path.core 'log.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
-                if ($PSEdition -eq "Desktop") {
-                    # powershell 5.1
-                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
-                    try {
-                        Update-Module PSCompletions -ErrorAction Stop
-                    }
-                    catch {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
-                    }
-                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).BaseName) {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
-                    }
-                    else {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
-                    }
+                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
+                try {
+                    Update-Module PSCompletions -ErrorAction Stop
+                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
                 }
-                else {
-                    # pwsh
-                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
-                    try {
-                        Update-Module PSCompletions -ErrorAction Stop
-                    }
-                    catch {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
-                    }
-                    if ($PSCompletions.config.module_update -in (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).BaseName) {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
-                    }
-                    else {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
-                    }
+                catch {
+                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
                 }
             })
     }

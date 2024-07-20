@@ -1,169 +1,185 @@
 {
-    "4.0.7": {
-        "zh-CN": [
-            "修复(2024/7/6)\n",
-            "  - 将 ForEach-Object 替换为 foreach\n",
-            "    - ForEach-Object 在一些特殊情况下的结果不符合预期\n",
-            "  - 清理一些代码\n"
-        ],
-        "en-US": [
-            "Fix(2024/7/6)\n",
-            "  - Replace ForEach-Object with foreach.\n",
-            "    - ForEach-Object has unexpected results in some special cases.\n",
-            "  - Clean up some code\n"
-        ]
-    },
-    "4.0.6": {
-        "zh-CN": [
-            "修复(2024/5/20)\n",
-            "  - 一个默认颜色配置改错了，修复一下\n"
-        ],
-        "en-US": [
-            "Fix(2024/5/20)\n",
-            "  - A default configuration color was mistakenly written, fix it.\n"
-        ]
-    },
-    "4.0.5": {
-        "zh-CN": [
-            "修复(2024/5/20)\n",
-            "  - 修复了关于补全特殊配置的一些问题\n",
-            "  - 修复了因为存在缓存导致配置修改后无法立即生效的问题\n",
-            "  - 给 reset 命令添加 completion 子命令，用于重置(移除)补全的特殊配置\n",
-            "  - 修复了一些其他问题\n"
-        ],
-        "en-US": [
-            "Fix(2024/5/20)\n",
-            "  - Fix some issues about the special configurations of completion.\n",
-            "  - Fix an issue where configuration changes did not take immediate effect due to caching.\n",
-            "  - Add the 'completion' subcommand to the 'reset' command to reset (remove) the special configuration of completion.\n",
-            "  - Fix some other issues.\n"
-        ]
-    },
-    "4.0.4": {
-        "zh-CN": [
-            "修复(2024/5/20)\n",
-            "  - 修复了当补全列表滚动时，补全提示信息、过滤区域、状态区域闪烁的问题\n",
-            "  - 修复了一些其他的小问题\n"
-        ],
-        "en-US": [
-            "Fix(2024/5/20)\n",
-            "  - Fix a bug where the completion tip area, filter area and status area flashes when scrolling the completion list.\n",
-            "  - Fix some other minor issues.\n"
-        ]
-    },
-    "4.0.3": {
-        "zh-CN": [
-            "修复(2024/5/18)\n",
-            "  - 修复了一个因为修改终端输出编码导致提示信息显示错误的问题\n",
-            "    - 必须先导入 PSCompletions 模块，然后再修改终端输出编码，否则还是会显示错误\n",
-            "  - 将 <@Magenta>menu_tip_cover_buffer<@Blue> 这个配置的默认值从 <@Magenta>0<@Blue> 修改为 <@Magenta>1<@Blue>\n",
-            "    - 表示默认情况下，菜单提示信息会覆盖缓冲区内容，主要是当提示信息显示在上方时，会覆盖掉上方所有内容，这会看起来背景更简洁\n",
-            "    - 当然，当补全菜单消失后，覆盖的内容会恢复\n",
-            "    - 你也可以禁用它(<@Magenta>psc menu config menu_tip_cover_buffer 0<@Blue>)\n",
-            "  - 修复了一些其他的小问题\n"
-        ],
-        "en-US": [
-            "Fix(2024/5/18)\n",
-            "  - Fix a bug where the completion tip was displayed incorrectly because the terminal output encoding was modified.\n",
-            "    - You must import the PSCompletions module first, and then modify the terminal output encoding. Otherwise, it will still display incorrectly.\n",
-            "  - Change the default value of <@Magenta>menu_tip_cover_buffer<@Blue> from <@Magenta>0<@Blue> to <@Magenta>1<@Blue>.\n",
-            "    - This configuration means that the completion tip will cover the buffer content by default, which is mainly when the completion tip is displayed above, it will cover all the buffer content above, which will make the background look cleaner.\n",
-            "    - Of course, the buffer content covered by the completion tip will be restored when the completion menu disappears.\n",
-            "    - You can disable it by running <@Magenta>psc menu config menu_tip_cover_buffer 0<@Blue>.\n",
-            "  - Fix some other minor issues.\n"
-        ]
-    },
-    "4.0.2": {
-        "zh-CN": [
-            "修复(2024/5/15)\n",
-            "  - 一个测试环境的配置没有及时删除，修复一下\n"
-        ],
-        "en-US": [
-            "Fix(2024/5/15)\n",
-            "  - A test environment configuration was not deleted, fix it.\n"
-        ]
-    },
-    "4.0.1": {
-        "zh-CN": [
-            "修复(2024/5/15)\n",
-            "  - 一个默认配置的颜色写错了，修复一下\n"
-        ],
-        "en-US": [
-            "Fix(2024/5/15)\n",
-            "  - A default configuration color was mistakenly written, fix it.\n"
-        ]
-    },
-    "4.0.0": {
-        "zh-CN": [
-            "更新(2024/5/15)\n<@Yellow>",
-            "  如果你当前使用的 PSCompletions 模块需要管理员权限，你应该删除 PSCompletions 模块，然后以用户权限安装最新版的模块。\n",
-            "  完整的模块安装命令: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Blue>\n\n",
-            "  - 4.0.0 版本重构了整个模块，解决了许多不合理的地方，所以完全不兼容旧版本的配置和补全\n",
-            "    1. 性能优化:\n",
-            "       - 提升了模块加载速度\n",
-            "       - 提升了补全响应速度\n",
-            "    2. 补全菜单:\n",
-            "       - 补全菜单完全重写，菜单渲染的稳定性大幅提高，从根本上解决了许多渲染 bug\n",
-            "       - 补全菜单新增了许多的配置项，你可以自行通过触发补全以及提示信息查看\n",
-            "       - 比如: <@Magenta>menu_show_tip<@Blue>, 它可以控制补全提示信息是否显示，如果你对命令足够熟悉，建议禁用补全提示信息\n",
-            "       - 此配置也可以单独给某一个补全设置，参考 <@Magenta>psc completion<@Blue> 下的命令\n",
-            "    3. 补全别名:\n",
-            "       - 现在补全别名支持多个，你可以随意添加。理论上，你可以添加无数个别名\n",
-            "       - 比如，你可以添加 .\\scoop.ps1 这样的别名，这在有些时候比较有用\n",
-            "    4. 补全文件和模块解耦\n",
-            "       - 现在可以只编写 json 文件去新增/更新/翻译一个补全，不需要涉及到代码\n",
-            "       - 同时使用了 json schema 控制 json 文件的类型，这让想要为仓库添加补全的贡献者创建 PR 的难度大幅降低\n",
-            "       - 比如你觉得某一个命令的描述不够完善，你也可以修改它的 json 文件后之后，提交一个 PR\n",
-            "    5. 语言:\n",
-            "       - 现在从模块层面，支持任何语言，模块会根据语言配置以及每一个补全的 config.json 文件来决定语言\n",
-            "       - 这意味着以后可以添加更多语言的支持，只需要编写对应的 json 文件即可\n",
-            "    6. 其他: \n",
-            "       - 新增了一些按键映射，你现在可以通过许多种按键方式在补全菜单中选择补全项，你可以选择一种适合自己的。\n",
-            "           - 选择上一个补全/选择下一个补全\n",
-            "           - Up/Down\n",
-            "           - Left/Right\n",
-            "           - Tab/Shift + Tab\n",
-            "           - Space/Shift + Space\n",
-            "           - Ctrl + u/Ctrl + d\n",
-            "           - Ctrl + p/Ctrl + n\n",
-            "       - 现在符号被放在了补全项的后面，补全提示信息中不再出现符号\n",
-            "       - ...\n"
-        ],
-        "en-US": [
-            "Update(2024/5/15)\n<@Yellow>",
-            "  If you are using the PSCompletions module with administrator permission, you should remove the PSCompletions module and install the latest version with user permission.\n",
-            "  Full module installation command: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Blue>\n\n",
-            "  - This version completely rewrites the module, and solves many inappropriate places, so it's completely incompatible with the old version configuration and completion.\n",
-            "    1. Performance optimization:\n",
-            "       - Improve module loading speed.\n",
-            "       - Improve completion response speed.\n",
-            "    2. Completion menu:\n",
-            "       - Completely rewrite the completion menu, which greatly improves the stability of the menu rendering, and solves many rendering bugs from the root.\n",
-            "       - The completion menu now has many configuration items, you can trigger completion by running <@Magenta>psc menu<@Blue>, then learn about them by completion tip.\n",
-            "       - For example: <@Magenta>menu_show_tip<@Blue>, which can control whether the completion tip is displayed.\n",
-            "           - If you are familiar with the command, it's recommended to disable the completion tip.\n",
-            "           - This configuration can also be set separately for each completion, refer to <@Magenta>psc completion<@Blue> for command.\n",
-            "    3. Completion alias:\n",
-            "       - Now completion alias supports multiple, you can add as many as you like. Theoretically, you can add an infinite number of aliases.\n",
-            "       - For example, you can add .\\scoop.ps1  as an alias, which can be useful in some cases.\n",
-            "    4. Decoupling of completion file and module.\n",
-            "       - Add/update/translate completions now doesn't involve module core code.\n",
-            "       - Use json schema to control the type of json file, which makes it easier for contributors to create PR for the completion repository.\n",
-            "       - For example, if you think the description of a command is not good, you can modify its json file and create a PR.\n",
-            "    5. Language:\n",
-            "       - Now the module supports any language, and the module determines the language based on the language configuration and each completion's config.json file.\n",
-            "       - It means that more languages can be supported in the future by simply writing the corresponding json file.\n",
-            "    6. Other: \n",
-            "       - Added some key mappings, which allows you to select completion items in the completion menu using various key combinations. You can choose one that suits you.\n",
-            "           - Select previous/next item\n",
-            "           - Up/Down\n",
-            "           - Left/Right\n",
-            "           - Tab/Shift + Tab\n",
-            "           - Space/Shift + Space\n",
-            "           - Ctrl + u/Ctrl + d\n",
-            "           - Ctrl + p/Ctrl + n\n",
-            "       - The symbol is now placed behind the completion item, and the symbol is no longer displayed in the completion tip.\n",
-            "       - ...\n"
-        ]
-    }
+	"4.0.9": {
+		"zh-CN": [
+			"修复(2024/7/20)\n",
+			"  - 添加两个命令: 添加/移除所有补全\n",
+			"    - psc add *\n",
+			"    - psc rm *\n",
+			"  - 优化 common_options 的逻辑处理\n",
+			"  - 修复模块更新的问题\n",
+			"  - 调整源代码文件目录结构\n",
+			"  - 清理代码\n"
+		],
+		"en-US": [
+			"Fix(2024/7/20)\n",
+			"  - Add two commands: add/remove all completions.\n",
+			"    - psc add *\n",
+			"    - psc rm *\n",
+			"  - Optimize the logic processing of common_options.\n",
+			"  - Fix the problem of module update.\n",
+			"  - Adjust the directory structure of the source code file.\n",
+			"  - Clean up the code.\n"
+		]
+	},
+	"4.0.7": {
+		"zh-CN": [
+			"修复(2024/7/6)\n",
+			"  - 将 ForEach-Object 替换为 foreach\n",
+			"    - ForEach-Object 在一些特殊情况下的结果不符合预期\n",
+			"  - 清理一些代码\n"
+		],
+		"en-US": [
+			"Fix(2024/7/6)\n",
+			"  - Replace ForEach-Object with foreach.\n",
+			"    - ForEach-Object has unexpected results in some special cases.\n",
+			"  - Clean up some code\n"
+		]
+	},
+	"4.0.6": {
+		"zh-CN": ["修复(2024/5/20)\n", "  - 一个默认颜色配置改错了，修复一下\n"],
+		"en-US": [
+			"Fix(2024/5/20)\n",
+			"  - A default configuration color was mistakenly written, fix it.\n"
+		]
+	},
+	"4.0.5": {
+		"zh-CN": [
+			"修复(2024/5/20)\n",
+			"  - 修复了关于补全特殊配置的一些问题\n",
+			"  - 修复了因为存在缓存导致配置修改后无法立即生效的问题\n",
+			"  - 给 reset 命令添加 completion 子命令，用于重置(移除)补全的特殊配置\n",
+			"  - 修复了一些其他问题\n"
+		],
+		"en-US": [
+			"Fix(2024/5/20)\n",
+			"  - Fix some issues about the special configurations of completion.\n",
+			"  - Fix an issue where configuration changes did not take immediate effect due to caching.\n",
+			"  - Add the 'completion' subcommand to the 'reset' command to reset (remove) the special configuration of completion.\n",
+			"  - Fix some other issues.\n"
+		]
+	},
+	"4.0.4": {
+		"zh-CN": [
+			"修复(2024/5/20)\n",
+			"  - 修复了当补全列表滚动时，补全提示信息、过滤区域、状态区域闪烁的问题\n",
+			"  - 修复了一些其他的小问题\n"
+		],
+		"en-US": [
+			"Fix(2024/5/20)\n",
+			"  - Fix a bug where the completion tip area, filter area and status area flashes when scrolling the completion list.\n",
+			"  - Fix some other minor issues.\n"
+		]
+	},
+	"4.0.3": {
+		"zh-CN": [
+			"修复(2024/5/18)\n",
+			"  - 修复了一个因为修改终端输出编码导致提示信息显示错误的问题\n",
+			"    - 必须先导入 PSCompletions 模块，然后再修改终端输出编码，否则还是会显示错误\n",
+			"  - 将 <@Magenta>menu_tip_cover_buffer<@Blue> 这个配置的默认值从 <@Magenta>0<@Blue> 修改为 <@Magenta>1<@Blue>\n",
+			"    - 表示默认情况下，菜单提示信息会覆盖缓冲区内容，主要是当提示信息显示在上方时，会覆盖掉上方所有内容，这会看起来背景更简洁\n",
+			"    - 当然，当补全菜单消失后，覆盖的内容会恢复\n",
+			"    - 你也可以禁用它(<@Magenta>psc menu config menu_tip_cover_buffer 0<@Blue>)\n",
+			"  - 修复了一些其他的小问题\n"
+		],
+		"en-US": [
+			"Fix(2024/5/18)\n",
+			"  - Fix a bug where the completion tip was displayed incorrectly because the terminal output encoding was modified.\n",
+			"    - You must import the PSCompletions module first, and then modify the terminal output encoding. Otherwise, it will still display incorrectly.\n",
+			"  - Change the default value of <@Magenta>menu_tip_cover_buffer<@Blue> from <@Magenta>0<@Blue> to <@Magenta>1<@Blue>.\n",
+			"    - This configuration means that the completion tip will cover the buffer content by default, which is mainly when the completion tip is displayed above, it will cover all the buffer content above, which will make the background look cleaner.\n",
+			"    - Of course, the buffer content covered by the completion tip will be restored when the completion menu disappears.\n",
+			"    - You can disable it by running <@Magenta>psc menu config menu_tip_cover_buffer 0<@Blue>.\n",
+			"  - Fix some other minor issues.\n"
+		]
+	},
+	"4.0.2": {
+		"zh-CN": [
+			"修复(2024/5/15)\n",
+			"  - 一个测试环境的配置没有及时删除，修复一下\n"
+		],
+		"en-US": [
+			"Fix(2024/5/15)\n",
+			"  - A test environment configuration was not deleted, fix it.\n"
+		]
+	},
+	"4.0.1": {
+		"zh-CN": ["修复(2024/5/15)\n", "  - 一个默认配置的颜色写错了，修复一下\n"],
+		"en-US": [
+			"Fix(2024/5/15)\n",
+			"  - A default configuration color was mistakenly written, fix it.\n"
+		]
+	},
+	"4.0.0": {
+		"zh-CN": [
+			"更新(2024/5/15)\n<@Yellow>",
+			"  如果你当前使用的 PSCompletions 模块需要管理员权限，你应该删除 PSCompletions 模块，然后以用户权限安装最新版的模块。\n",
+			"  完整的模块安装命令: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Blue>\n\n",
+			"  - 4.0.0 版本重构了整个模块，解决了许多不合理的地方，所以完全不兼容旧版本的配置和补全\n",
+			"    1. 性能优化:\n",
+			"       - 提升了模块加载速度\n",
+			"       - 提升了补全响应速度\n",
+			"    2. 补全菜单:\n",
+			"       - 补全菜单完全重写，菜单渲染的稳定性大幅提高，从根本上解决了许多渲染 bug\n",
+			"       - 补全菜单新增了许多的配置项，你可以自行通过触发补全以及提示信息查看\n",
+			"       - 比如: <@Magenta>menu_show_tip<@Blue>, 它可以控制补全提示信息是否显示，如果你对命令足够熟悉，建议禁用补全提示信息\n",
+			"       - 此配置也可以单独给某一个补全设置，参考 <@Magenta>psc completion<@Blue> 下的命令\n",
+			"    3. 补全别名:\n",
+			"       - 现在补全别名支持多个，你可以随意添加。理论上，你可以添加无数个别名\n",
+			"       - 比如，你可以添加 .\\scoop.ps1 这样的别名，这在有些时候比较有用\n",
+			"    4. 补全文件和模块解耦\n",
+			"       - 现在可以只编写 json 文件去新增/更新/翻译一个补全，不需要涉及到代码\n",
+			"       - 同时使用了 json schema 控制 json 文件的类型，这让想要为仓库添加补全的贡献者创建 PR 的难度大幅降低\n",
+			"       - 比如你觉得某一个命令的描述不够完善，你也可以修改它的 json 文件后之后，提交一个 PR\n",
+			"    5. 语言:\n",
+			"       - 现在从模块层面，支持任何语言，模块会根据语言配置以及每一个补全的 config.json 文件来决定语言\n",
+			"       - 这意味着以后可以添加更多语言的支持，只需要编写对应的 json 文件即可\n",
+			"    6. 其他: \n",
+			"       - 新增了一些按键映射，你现在可以通过许多种按键方式在补全菜单中选择补全项，你可以选择一种适合自己的。\n",
+			"           - 选择上一个补全/选择下一个补全\n",
+			"           - Up/Down\n",
+			"           - Left/Right\n",
+			"           - Tab/Shift + Tab\n",
+			"           - Space/Shift + Space\n",
+			"           - Ctrl + u/Ctrl + d\n",
+			"           - Ctrl + p/Ctrl + n\n",
+			"       - 现在符号被放在了补全项的后面，补全提示信息中不再出现符号\n",
+			"       - ...\n"
+		],
+		"en-US": [
+			"Update(2024/5/15)\n<@Yellow>",
+			"  If you are using the PSCompletions module with administrator permission, you should remove the PSCompletions module and install the latest version with user permission.\n",
+			"  Full module installation command: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Blue>\n\n",
+			"  - This version completely rewrites the module, and solves many inappropriate places, so it's completely incompatible with the old version configuration and completion.\n",
+			"    1. Performance optimization:\n",
+			"       - Improve module loading speed.\n",
+			"       - Improve completion response speed.\n",
+			"    2. Completion menu:\n",
+			"       - Completely rewrite the completion menu, which greatly improves the stability of the menu rendering, and solves many rendering bugs from the root.\n",
+			"       - The completion menu now has many configuration items, you can trigger completion by running <@Magenta>psc menu<@Blue>, then learn about them by completion tip.\n",
+			"       - For example: <@Magenta>menu_show_tip<@Blue>, which can control whether the completion tip is displayed.\n",
+			"           - If you are familiar with the command, it's recommended to disable the completion tip.\n",
+			"           - This configuration can also be set separately for each completion, refer to <@Magenta>psc completion<@Blue> for command.\n",
+			"    3. Completion alias:\n",
+			"       - Now completion alias supports multiple, you can add as many as you like. Theoretically, you can add an infinite number of aliases.\n",
+			"       - For example, you can add .\\scoop.ps1  as an alias, which can be useful in some cases.\n",
+			"    4. Decoupling of completion file and module.\n",
+			"       - Add/update/translate completions now doesn't involve module core code.\n",
+			"       - Use json schema to control the type of json file, which makes it easier for contributors to create PR for the completion repository.\n",
+			"       - For example, if you think the description of a command is not good, you can modify its json file and create a PR.\n",
+			"    5. Language:\n",
+			"       - Now the module supports any language, and the module determines the language based on the language configuration and each completion's config.json file.\n",
+			"       - It means that more languages can be supported in the future by simply writing the corresponding json file.\n",
+			"    6. Other: \n",
+			"       - Added some key mappings, which allows you to select completion items in the completion menu using various key combinations. You can choose one that suits you.\n",
+			"           - Select previous/next item\n",
+			"           - Up/Down\n",
+			"           - Left/Right\n",
+			"           - Tab/Shift + Tab\n",
+			"           - Space/Shift + Space\n",
+			"           - Ctrl + u/Ctrl + d\n",
+			"           - Ctrl + p/Ctrl + n\n",
+			"       - The symbol is now placed behind the completion item, and the symbol is no longer displayed in the completion tip.\n",
+			"       - ...\n"
+		]
+	}
 }

@@ -1,3 +1,8 @@
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonToHashtable {
+    param([string]$json)
+    return ConvertFrom-Json -AsHashtable $json
+}
+
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
     param([string]$cmd)
     foreach ($_ in $this.cmd[$cmd]) {
@@ -31,14 +36,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             }
             if (!$PSCompletions.data.$root -or $PSCompletions.config.disable_cache) {
                 $language = $PSCompletions.get_language($root)
-                $PSCompletions.data.$root = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($root)/language/$($language).json") | ConvertFrom-Json -AsHashtable
+                $PSCompletions.data.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($root)/language/$($language).json"))
             }
 
-            $common_options = if ($PSCompletions.data.$root.common_options) {
-                foreach ($_ in $PSCompletions.data.$root.common_options) { $_.name }
+            $common_options = [System.Collections.Generic.List[string]]@()
+            $common_options_with_next = [System.Collections.Generic.List[string]]@()
+            if ($PSCompletions.data.$root.common_options) {
+                foreach ($_ in $PSCompletions.data.$root.common_options) {
+                    foreach ($a in $_.alias) {
+                        $common_options.Add($a)
+                        if ($_.next) { $common_options_with_next.Add($a) }
+                    }
+                    $common_options.Add($_.name)
+                    if ($_.next) { $common_options_with_next.Add($_.name) }
+                }
             }
-            else { New-Object System.Collections.ArrayList }
             $WriteSpaceTab = [System.Collections.Generic.List[string]]@()
+            $WriteSpaceTab.AddRange($common_options_with_next)
 
             $WriteSpaceTab_and_SpaceTab = [System.Collections.Generic.List[string]]@()
 
@@ -204,35 +218,91 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
 
                 # 处理 common_options
                 if ($PSCompletions.data.$root.common_options) {
+                    function returnSymbol {
+                        $symbols = @('OptionTab')
+                        if ($_.next) {
+                            $symbols += 'SpaceTab'
+                            $symbols += 'WriteSpaceTab'
+                        }
+                        if ($_.symbol) {
+                            $symbols += $PSCompletions.replace_content($_.symbol, ' ') -split ' '
+                        }
+                        $symbols = $symbols | Select-Object -Unique
+                        return $symbols
+                    }
                     if ($space_tab) {
-                        foreach ($_ in $PSCompletions.data.$root.common_options | Where-Object { $_.name -notin $input_arr }) {
-                            $symbols = @('OptionTab')
-                            if ($_.symbol) {
-                                $symbols += $PSCompletions.replace_content($_.symbol, ' ') -split ' '
+                        if ($input_arr[-1] -in $common_options_with_next -and ($input_arr -notlike "*$($input_arr[-1])*$($input_arr[-1])*" -or $input_arr -like "*$($input_arr[-1])")) {
+                            $filter_list.Clear()
+                            $PSCompletions.data.$root.common_options | Where-Object {
+                                $_.name -eq $input_arr[-1] -or $_.alias -contains $input_arr[-1]
+                            } | ForEach-Object {
+                                foreach ($n in $_.next) {
+                                    $filter_list.Add(@{
+                                            name = @($n.name)
+                                            tip  = $n.tip
+                                        })
+                                }
                             }
-                            $symbols = $symbols | Select-Object -Unique
-                            if ($_.alias) {
+                        }
+                        foreach ($_ in $PSCompletions.data.$root.common_options) {
+                            if ($_.name -notin $input_arr) {
+                                $isExist = $false
+                                $temp_list = [System.Collections.Generic.List[System.Object]]@()
+                                $_.name = @($_.name)
+                                $_.symbol = returnSymbol
+                                $temp_list.Add($_)
+
                                 foreach ($a in $_.alias) {
+                                    if ($a -notin $input_arr) {
+                                        $temp_list.Add(@{
+                                                name   = @($a)
+                                                symbol = returnSymbol
+                                                tip    = $_.tip
+                                            })
+                                    }
+                                    else {
+                                        $temp_list.Clear()
+                                        break
+                                    }
+                                }
+                                $filter_list.AddRange($temp_list)
+                            }
+                        }
+                    }
+                    else {
+                        if ($input_arr[-2] -in $common_options_with_next -and $input_arr -notlike "*$($input_arr[-2])*$($input_arr[-2])*") {
+                            $filter_list.Clear()
+                            $PSCompletions.data.$root.common_options | Where-Object {
+                                $_.name -eq $input_arr[-2] -or $_.alias -contains $input_arr[-2]
+                            } | ForEach-Object {
+                                foreach ($n in $_.next) {
+                                    if ($n.name -like "$($input_arr[-1])*") {
+                                        $filter_list.Add(@{
+                                                name = @($n.name)
+                                                tip  = $n.tip
+                                            })
+                                    }
+                                }
+                            }
+                        }
+                        foreach ($_ in $PSCompletions.data.$root.common_options) {
+                            if ($_.name -notin $input_arr -and $_.name -like "$($input_arr[-1])*") {
+                                $_.name = @($_.name)
+                                $_.symbol = returnSymbol
+                                $filter_list.Add($_)
+                            }
+                            foreach ($a in $_.alias) {
+                                if ($a -notin $input_arr -and $a -like "$($input_arr[-1])*") {
                                     $filter_list.Add(@{
                                             name   = @($a)
-                                            symbol = $symbols
+                                            symbol = returnSymbol
                                             tip    = $_.tip
                                         })
                                 }
                             }
-                            $_.name = @($_.name)
-                            $_.symbol = $symbols
-                            $filter_list.Add($_)
-                        }
-                    }
-                    else {
-                        foreach ($_ in $PSCompletions.data.$root.common_options | Where-Object { $_.name -notin $input_arr -and $_.name -like "$($filter_input_arr[-1])*" }) {
-                            $_.name = @($_.name)
-                            $filter_list.Add($_)
                         }
                     }
                 }
-
                 return $filter_list
             }
 
@@ -258,7 +328,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                 }
                 else {
                     if (Test-Path $path_order) {
-                        $PSCompletions.order.$root = $PSCompletions.get_raw_content($path_order) | ConvertFrom-Json -AsHashtable
+                        $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_order))
                     }
                     else {
                         $PSCompletions.order.$root = $null
@@ -328,12 +398,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             else {
                 $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
             }
-            if ($PSCompletions.config.menu_enable) {
-                $PSCompletions.menu.show_module_menu($filter_list)
-            }
-            else {
-                $PSCompletions.menu.show_powershell_menu($filter_list)
-            }
+            $PSCompletions.menu.show_powershell_menu($filter_list)
         }
     }
 }
