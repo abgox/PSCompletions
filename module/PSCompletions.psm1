@@ -262,9 +262,7 @@ function PSCompletions {
                     if ($alias -like "* *") {
                         $alias = ($alias -split ' ')[0]
                     }
-                    $exist_cmd = (Get-Command).Name | Where-Object { $alias -eq $_ }
-                    $exist_alias = (Get-Alias).Name | Where-Object { $alias -eq $_ }
-                    if ($exist_cmd -or $exist_alias) {
+                    if ($alias -in (Get-Alias).Name -or $alias -in (Get-Command).Name) {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
                     }
