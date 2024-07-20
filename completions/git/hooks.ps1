@@ -61,7 +61,7 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             $info = if ($head_list.$_) { $head_list.$_ }else { 'branch --- ' + $_ }
             addCompletion "checkout $($_)" '' $info
         }
-        foreach($_ in $remote_list) {
+        foreach ($_ in $remote_list) {
             $info = 'remote --- ' + $_
             addCompletion "push $($_)" '' $info
 
@@ -70,7 +70,7 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             addCompletion "remote rename $($_)" '' $info
             addCompletion "remote rm $($_)" '' $info
         }
-        foreach($_ in $commit_info) {
+        foreach ($_ in $commit_info) {
             $hash = $_[0]
             $date = $_[1]
             $author = $_[2]
@@ -90,9 +90,18 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
             addCompletion "revert $($hash)" '' $content
             addCompletion "commit $($hash)" '' $content
         }
-        foreach($_ in $tag_list) {
+        foreach ($_ in $tag_list) {
             addCompletion "tag -d $($_)" '' "tag --- $($_)"
             addCompletion "tag -v $($_)" '' "tag --- $($_)"
+        }
+        foreach ($_ in git stash list --encoding=gbk 2>$null) {
+            if ($_ -match 'stash@\{(\d+)\}') {
+                $stashId = $matches[1]
+                addCompletion "stash show $stashId" '' $_
+                addCompletion "stash pop $stashId" '' $_
+                addCompletion "stash apply $stashId" '' $_
+                addCompletion "stash drop $stashId" '' $_
+            }
         }
     }
     catch {}

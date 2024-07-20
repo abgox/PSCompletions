@@ -16,11 +16,15 @@
     },
     {
       "name": "add",
-      "symbol": [
-        "{{",
-        "$has = Compare-Object $PSCompletions.cmd.keys $PSCompletions.list -PassThru;",
-        "if($has){ 'SpaceTab' };",
-        "}}"
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "添加所有的补全\n",
+            "注意：添加大量的补全可能会导致 PowerShell 启动加载速度变得慢一点\n",
+            "     建议添加自己需要的补全"
+          ]
+        }
       ],
       "tip": [
         "添加补全(一个或多个)\n",
@@ -29,8 +33,14 @@
     },
     {
       "name": "rm",
-      "symbol": [
-        "{{ if($PSCompletions.cmd.keys){ 'SpaceTab' } }}"
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "移除所有的补全\n",
+            "注意: psc 作为 PSCompletions 模块的补全，会在移除后自动重新添加"
+          ]
+        }
       ],
       "tip": [
         "移除补全(一个或多个)\n",

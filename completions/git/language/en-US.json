@@ -889,7 +889,8 @@
       "name": "stash",
       "tip": [
         "Stash changes in the stash.\n",
-        "Note that when there are multiple stashes, they are ordered from newest to oldest, with indices starting from 0."
+        "Note: When there're multiple stashes, they're ordered from newest to oldest, and the index is starting from 0.\n",
+        "      If the index is omitted, the first stash is operated by default. (stash@{0})"
       ],
       "next": [
         {
@@ -898,25 +899,41 @@
         },
         {
           "name": "show",
+          "symbol":"SpaceTab",
           "tip": [
             "U: show [<index>]\n",
             "To show other stashes, specify an index.\n",
             "index: Represents the index of the stash, starting from 0.\n",
-            "E: show 1   --- Show the second stash."
+            "E: show 1   --- Show the second stash. (stash@{1})"
+          ],
+          "options": [
+            {
+              "name": "-p",
+              "alias": [
+                "--patch"
+              ],
+              "tip": "Show the diff of the stash."
+            }
           ]
         },
         {
           "name": "pop",
+          "symbol":"SpaceTab",
           "tip": [
+            "U: pop [<index>]\n",
             "Apply and remove changes from the stash.\n",
-            "The difference from 'apply' is that 'pop' removes the stash after applying."
+            "The difference from 'apply' is that 'pop' removes the stash after applying.\n",
+            "E: pop 1   --- Pop the second stash. (stash@{1})"
           ]
         },
         {
           "name": "apply",
+          "symbol":"SpaceTab",
           "tip": [
+            "U: apply [<index>]\n",
             "Apply changes from the stash.\n",
-            "The difference from 'pop' is that 'apply' doesn't remove the stash."
+            "The difference from 'pop' is that 'apply' doesn't remove the stash.\n",
+            "E: apply 1   --- Apply the second stash. (stash@{1})"
           ]
         },
         {
@@ -935,10 +952,11 @@
         },
         {
           "name": "drop",
+          "symbol":"SpaceTab",
           "tip": [
+            "U: drop [<index>]\n",
             "Remove a single stash.\n",
-            "E: drop     ---  Remove the first stash\n",
-            "   drop 1   ---  Remove the second stash"
+            "E: drop 1   ---  Remove the second stash. (stash@{1})"
           ]
         },
         {

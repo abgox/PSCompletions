@@ -82,6 +82,13 @@ function PSCompletions {
             $PSCompletions.write_with_color((_replace $PSCompletions.info.err.download_list))
             return
         }
+
+        if ($arg.Length -eq 2 -and $arg[1] -eq '*') {
+            foreach ($_ in $PSCompletions.list) {
+                $PSCompletions.add_completion($_)
+            }
+            return
+        }
         foreach ($completion in $arg[1..($arg.Length - 1)]) {
             if ($completion -in $PSCompletions.list) {
                 $PSCompletions.add_completion($completion)
@@ -94,6 +101,17 @@ function PSCompletions {
     function _rm {
         if ($arg.Length -lt 2) {
             Show-ParamError 'min' 'rm'
+            return
+        }
+
+        if ($arg.Length -eq 2 -and $arg[1] -eq '*') {
+            foreach ($completion in $PSCompletions.cmd.keys) {
+                $dir = Join-Path $PSCompletions.path.completions $completion
+                Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
+                if (!(Test-Path $dir)) {
+                    $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
+                }
+            }
             return
         }
 
