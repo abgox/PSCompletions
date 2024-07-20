@@ -889,7 +889,8 @@
       "name": "stash",
       "tip": [
         "在 stash 中暂存更改。\n",
-        "请注意, 当有多个 stash 时, 它们是从新到旧的顺序排列的, 索引从 0 开始。"
+        "请注意, 当有多个 stash 时, 它们是从新到旧的顺序排列的, 索引从 0 开始。\n",
+        "如果不输入索引, 则默认操作第一个 stash。(stash@{0})"
       ],
       "next": [
         {
@@ -898,25 +899,39 @@
         },
         {
           "name": "show",
+          "symbol":"SpaceTab",
           "tip": [
             "U: show [<index>]\n",
             "要显示其他 stash, 请指定一个 index。\n",
             "index: 代表 stash 的索引, 从 0 开始。\n",
-            "E: show 1   --- 显示第二个 stash。"
+            "E: show 1   --- 显示第二个 stash (stash@{1})"
+          ],
+          "options": [
+            {
+              "name": "-p",
+              "alias": [
+                "--patch"
+              ],
+              "tip": "查看 stash 的详细 diff 信息。"
+            }
           ]
         },
         {
           "name": "pop",
+          "symbol":"SpaceTab",
           "tip": [
-            "应用并移除 stash 中的更改。\n",
-            "与 'apply' 不同的地方在于, 'pop' 在应用后移除 stash。"
+            "U: pop [<index>]\n",
+            "应用并移除 stash 中的更改。与 'apply' 不同的地方在于, 'pop' 在应用后移除 stash。\n",
+            "E: pop 1   --- 应用并移除第二个 stash (stash@{1})"
           ]
         },
         {
           "name": "apply",
+          "symbol":"SpaceTab",
           "tip": [
-            "应用 stash 中的更改。\n",
-            "与 'pop' 不同的地方在于, 'apply' 在应用后不删除 stash。"
+            "U: apply [<index>]\n",
+            "应用 stash 中的更改。与 'pop' 不同的地方在于, 'apply' 在应用后不删除 stash。\n",
+            "E: apply 1   --- 应用第二个 stash (stash@{1})"
           ]
         },
         {
@@ -935,10 +950,11 @@
         },
         {
           "name": "drop",
+          "symbol":"SpaceTab",
           "tip": [
+            "U: drop [<index>]\n",
             "移除一个 stash。\n",
-            "E: drop     --- 移除第一个 stash\n",
-            "   drop 1   --- 移除第二个 stash"
+            "E: drop 1   --- 移除第二个 stash (stash@{1})"
           ]
         },
         {

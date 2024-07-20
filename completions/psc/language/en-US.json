@@ -16,11 +16,15 @@
     },
     {
       "name": "add",
-      "symbol": [
-        "{{",
-        "$has = Compare-Object $PSCompletions.cmd.keys $PSCompletions.list -PassThru;",
-        "if($has){ 'SpaceTab' };",
-        "}}"
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Add all completions.\n",
+            "Note: Add many completions may cause PowerShell to load slowly for the start up.\n",
+            "      It's recommended to add what you need."
+          ]
+        }
       ],
       "tip": [
         "Add completion. (one or more)\n",
@@ -29,8 +33,14 @@
     },
     {
       "name": "rm",
-      "symbol": [
-        "{{ if($PSCompletions.cmd.keys){ 'SpaceTab' } }}"
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Remove all completions.\n",
+            "Note: psc will be automatically re-added after removing."
+          ]
+        }
       ],
       "tip": [
         "Remove completion. (one or more)\n",
