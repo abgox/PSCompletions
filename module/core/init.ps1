@@ -408,10 +408,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     param (
         [string]$completion,
-        [bool]$log = $true,
-        [bool]$is_update = $false
+        [bool]$log = $true
     )
     $url = "$($this.url)/completions/$($completion)"
+
+    $is_update = Test-Path "$($this.path.completions)/$($completion)"
 
     $completion_dir = Join-Path $this.path.completions $completion
 
@@ -646,7 +647,7 @@ foreach ($_ in $PSCompletions.cmd.keys | Where-Object { $_ -ne 'psc' }) {
 }
 
 foreach ($_ in $PSCompletions.cmd.psc) {
-    if ($_ -ne 'PSCompletions') { Set-Alias $_ PSCompletions }
+    if ($_ -ne 'PSCompletions') { Set-Alias $_ PSCompletions -ErrorAction SilentlyContinue }
 }
 
 if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {

@@ -61,7 +61,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
 
             function getCompletions {
                 $completions = [System.Collections.Generic.List[System.Object]]@()
-                $index = 1
                 function parseCompletions ($node, $pre, [switch]$isOption) {
                     foreach ($_ in $node) {
                         $pad = if ($pre) { ' ' }else { '' }

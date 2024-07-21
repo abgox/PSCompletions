@@ -103,6 +103,8 @@ function PSCompletions {
             Show-ParamError 'min' 'rm'
             return
         }
+        Clear-Content $PSCompletions.path.update -Force
+        $PSCompletions.update = @()
 
         if ($arg.Length -eq 2 -and $arg[1] -eq '*') {
             foreach ($completion in $PSCompletions.cmd.keys) {
@@ -170,13 +172,13 @@ function PSCompletions {
             if ($arg[1] -eq '*') {
                 # 更新全部可以更新的补全
                 foreach ($_ in $PSCompletions.update) {
-                    $PSCompletions.add_completion($_, $true, $true)
+                    $PSCompletions.add_completion($_, $true)
                 }
             }
             else {
                 foreach ($completion in $arg[1..($arg.Length - 1)]) {
                     if ($completion -in $completion_list) {
-                        $PSCompletions.add_completion($completion, $true, $true)
+                        $PSCompletions.add_completion($completion, $true)
                     }
                     else {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion))
