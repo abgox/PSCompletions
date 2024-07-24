@@ -28,17 +28,17 @@
 
 ## 介绍
 
--   `PowerShell`: 跨平台的 PowerShell。命令行中运行 `pwsh` 启动
+- `PowerShell`: 跨平台的 PowerShell。命令行中运行 `pwsh` 启动
 
--   `Windows PowerShell`: Windows 系统内置的 PowerShell。命令行中运行 `powershell` 启动
+- `Windows PowerShell`: Windows 系统内置的 PowerShell。命令行中运行 `powershell` 启动
 
 ---
 
--   一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
-    > `Windows PowerShell` 也可以使用此模块，但不建议
--   [集中管理补全](#补全列表 '点击查看可添加补全列表！')
--   `en-US`,`zh-CN`,... 多语言切换
--   动态排序补全候选(根据使用频次)
+- 一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
+  > `Windows PowerShell` 也可以使用此模块，但不建议
+- [集中管理补全](#补全列表 "点击查看可添加补全列表！")
+- `en-US`,`zh-CN`,... 多语言切换
+- 动态排序补全候选(根据使用频次)
 
 **如果 PSCompletions 对你有所帮助，请在右上角点个 Star ⭐**
 
@@ -47,7 +47,7 @@
 1. 打开 `PowerShell`
 2. `Install-Module PSCompletions -Scope CurrentUser`
 3. `Import-Module PSCompletions`
-    - 如果不想每次启动 `PowerShell` 都导入一次，就执行 `echo "Import-Module PSCompletions" >> $PROFILE`
+   - 如果不想每次启动 `PowerShell` 都导入一次，就执行 `echo "Import-Module PSCompletions" >> $PROFILE`
 
 ## 卸载
 
@@ -56,9 +56,9 @@
 
 ## 使用(以 `git` 补全为例)
 
-### [可用补全列表](#补全列表 '当前可添加的所有补全，更多的补全正在添加中！')
+### [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
 
--   如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues '点击提交 issues')
+- 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
 
 1. `psc add git`
 2. 然后你就可以输入 `git`,按下 `Space`(空格键) `Tab` 键来获得命令补全
@@ -72,98 +72,99 @@
 
 ### 关于补全触发按键
 
--   模块默认使用 `Tab` 键作为补全触发按键
--   你可以使用 `Set-PSReadLineKeyHandler <key> MenuComplete` 去设置它
+- 模块默认使用 `Tab` 键作为补全触发按键
+- 你可以使用 `Set-PSReadLineKeyHandler <key> MenuComplete` 去设置它
 
 ### 关于补全更新
 
--   当打开 `PowerShell` 并导入 `PSCompletions` 后，`PSCompletions` 会开启一个后台作业去检查远程仓库中补全的状态
--   获取到更新后，会在下一次打开 `PowerShell` 并导入 `PSCompletions` 后显示补全更新提示
+- 当打开 `PowerShell` 并导入 `PSCompletions` 后，`PSCompletions` 会开启一个后台作业去检查远程仓库中补全的状态
+- 获取到更新后，会在下一次打开 `PowerShell` 并导入 `PSCompletions` 后显示补全更新提示
 
 ### 关于补全菜单
 
--   模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
--   模块提供的补全菜单只能在 Windows 系统下使用 PowerShell(pwsh) 运行, 其他环境只能使用 PowerShell 自带的补全菜单
--   模块提供的补全菜单中的按键
+- 模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
+- 模块提供的补全菜单只能在 Windows 系统下使用 PowerShell(pwsh) 运行, 其他环境只能使用 PowerShell 自带的补全菜单
+- 模块提供的补全菜单中的按键
 
-    1. 应用选中的补全项: `Enter`(回车键)
-    2. 删除过滤字符: `Backspace`(退格键)
-    3. 退出补全菜单: `ESC` / `Ctrl + c`
-        - 当过滤区域没有字符时，也可以使用 `Backspace`(退格键) 退出补全菜单
-    4. 选择补全项:
+  1. 应用选中的补全项: `Enter`(回车键)
+  2. 删除过滤字符: `Backspace`(退格键)
+  3. 退出补全菜单: `ESC` / `Ctrl + c`
+     - 当过滤区域没有字符时，也可以使用 `Backspace`(退格键) 退出补全菜单
+  4. 选择补全项:
 
-        |   选择上一项    | 选择下一项 |
-        | :-------------: | :--------: |
-        |      `Up`       |   `Down`   |
-        |     `Left`      |  `Right`   |
-        |  `Shift + Tab`  |   `Tab`    |
-        | `Shift + Space` |  `Space`   |
-        |   `Ctrl + u`    | `Ctrl + d` |
-        |   `Ctrl + p`    | `Ctrl + n` |
+     |   选择上一项    | 选择下一项 |
+     | :-------------: | :--------: |
+     |      `Up`       |   `Down`   |
+     |     `Left`      |  `Right`   |
+     |  `Shift + Tab`  |   `Tab`    |
+     | `Shift + Space` |  `Space`   |
+     |   `Ctrl + u`    | `Ctrl + d` |
+     |   `Ctrl + p`    | `Ctrl + n` |
 
--   补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过命令提示信息来了解
+- 补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过命令提示信息来了解
 
 ### 关于特殊符号
 
--   😄🤔😎 : 如果出现多个, 表示符合多个条件, 可以选择其中一个的效果
+- 😄🤔😎 : 如果出现多个, 表示符合多个条件, 可以选择其中一个的效果
 
-    -   😄 : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取补全(普通补全或选项类补全)
-        -   可通过 `psc menu symbol SpaceTab <symbol>` 自定义此符号
-        -   如: `psc menu symbol SpaceTab ""` 设置为空字符串
-    -   🤔 : 表示选用当前选中的选项类补全后, 你可以按下 `Space`(空格键) 和 `Tab` 键继续获取剩余选项类补全(如 --verbose)
-        -   可通过 `psc menu symbol OptionTab <symbol>` 自定义此符号
-    -   😎 : 表示选用当前选中的选项类补全后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取剩余选项类补全
+  - 😄 : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取补全(普通补全或选项类补全)
+    - 可通过 `psc menu symbol SpaceTab <symbol>` 自定义此符号
+    - 如: `psc menu symbol SpaceTab ""` 设置为空字符串
+  - 🤔 : 表示选用当前选中的选项类补全后, 你可以按下 `Space`(空格键) 和 `Tab` 键继续获取剩余选项类补全(如 --verbose)
+    - 可通过 `psc menu symbol OptionTab <symbol>` 自定义此符号
+  - 😎 : 表示选用当前选中的选项类补全后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取剩余选项类补全
 
-        -   如果字符串有空格, 请使用 "" 或 '' 包裹，如 "test content"
-        -   如果同时还有 😄, 表示有几个预设的字符串可以补全, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取补全
-        -   可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
+    - 如果字符串有空格, 请使用 "" 或 '' 包裹，如 "test content"
+    - 如果同时还有 😄, 表示有几个预设的字符串可以补全, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取补全
+    - 可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
 
-    -   如果存在通用选项类补全, 也可以触发通用选项的补全
-    -   所有补全都可以在输入部分后按下 `Tab` 键触发补全
-    -   如果你不需要也不想看到这些符号, 可以将它们替换成空字符串。如: `psc menu symbol SpaceTab ""`
+  - 如果存在通用选项类补全, 也可以触发通用选项的补全
+  - 所有补全都可以在输入部分后按下 `Tab` 键触发补全
+  - 如果你不需要也不想看到这些符号, 可以将它们替换成空字符串。如: `psc menu symbol SpaceTab ""`
 
--   使用 PowerShell 语言自带的补全菜单时, 如果 `...` 是最后一个补全, 则表示可显示区域过小, 无法显示所有候选项
--   使用模块提供的补全菜单时, 如果补全提示信息末尾出现 `...`, 则表示当前显示区域宽度不够, 提示信息显示不完整
+- 使用 PowerShell 语言自带的补全菜单时, 如果 `...` 是最后一个补全, 则表示可显示区域过小, 无法显示所有候选项
+- 使用模块提供的补全菜单时, 如果补全提示信息末尾出现 `...`, 则表示当前显示区域宽度不够, 提示信息显示不完整
 
 ### 关于语言
 
--   `Global language`: 默认为当前的系统语言
-    -   `psc config language` 可以查看全局的语言配置
-    -   `psc config language zh-CN` 可以更改全局的语言配置
--   `Completion language`: 为指定的补全设置的语言
-    -   e.g. `psc completion git language en-US`
--   `Available language`: 每一个补全的 `config.json` 文件中有一个 `language` 属性，它的值是一个可用的语言列表
+- `Global language`: 默认为当前的系统语言
+  - `psc config language` 可以查看全局的语言配置
+  - `psc config language zh-CN` 可以更改全局的语言配置
+- `Completion language`: 为指定的补全设置的语言
+  - e.g. `psc completion git language en-US`
+- `Available language`: 每一个补全的 `config.json` 文件中有一个 `language` 属性，它的值是一个可用的语言列表
 
 #### 确定语言
 
 1. 确定指定的语言: 如果有 `Completion language`，优先使用它，没有则使用 `Global language`
 2. 确定最终使用的语言:
-    - 判断第一步确定的值是否存在于 `Available language` 中
-    - 如果存在，则使用它
-    - 如果不存在，直接使用 `Available language` 中的第一种语言(一般为 `en-US`)
+   - 判断第一步确定的值是否存在于 `Available language` 中
+   - 如果存在，则使用它
+   - 如果不存在，直接使用 `Available language` 中的第一种语言(一般为 `en-US`)
 
 ### 关于路径补全
 
--   以 `git` 为例，当输入 `git add`，此时按下 `Space` 和 `Tab` 键，不会触发路径补全，只会触发模块提供的命令补全
--   如果你希望触发路径补全，你需要输入内容
--   只要输入的内容符合这个正则 `^\.*[\\/].*`，都会去获取路径补全，这是 PowerShell 的补全，与模块无关
--   比如:
+- 以 `git` 为例，当输入 `git add`，此时按下 `Space` 和 `Tab` 键，不会触发路径补全，只会触发模块提供的命令补全
+- 如果你希望触发路径补全，你需要输入内容
+- 只要输入的内容符合这个正则 `^\.*[\\/].*`，都会去获取路径补全，这是 PowerShell 的补全，与模块无关
+- 比如:
 
-    -   输入 `./` 或 `.\` 后按下 `Tab` 以获取 **子目录** 或 **文件** 的路径补全
-    -   输入 `../` 或 `..\` 后按下 `Tab` 以获取 **父级目录** 或 **文件** 的路径补全
-    -   输入 `/` 或 `\` 后按下 `Tab` 以获取 **同级目录** 的路径补全
+  - 输入 `./` 或 `.\` 后按下 `Tab` 以获取 **子目录** 或 **文件** 的路径补全
+  - 输入 `../` 或 `..\` 后按下 `Tab` 以获取 **父级目录** 或 **文件** 的路径补全
+  - 输入 `/` 或 `\` 后按下 `Tab` 以获取 **同级目录** 的路径补全
 
--   因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
+- 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 
 ## 补全列表
 
--   说明
-    -   **`Completion`** ：可添加的补全。点击跳转命令官方网站，按照数字字母排序(0-9,a-z)。
-        -   特殊情况: `abc(a)`，这表示你需要通过 `psc add abc` 去下载它，但默认使用 `a` 而不是 `abc` 去触发补全
-    -   **`Language`**: 支持的语言，以及翻译进度
-        -   翻译进度是相较于 `en-US` 的
-    -   **`Description`**: 命令描述
+- 说明
+  - **`Completion`** ：可添加的补全。点击跳转命令官方网站，按照数字字母排序(0-9,a-z)。
+    - 特殊情况: `abc(a)`，这表示你需要通过 `psc add abc` 去下载它，但默认使用 `a` 而不是 `abc` 去触发补全
+  - **`Language`**: 支持的语言，以及翻译进度
+    - 翻译进度是相较于 `en-US` 的
+  - **`Description`**: 命令描述
 
+<!-- prettier-ignore-start -->
 |Completion|Language|Description|
 |:-:|-|-|
 |[7z](https://7-zip.org/)|**en-US**<br>**zh-CN(100%)**|7-Zip 的命令行 cli 程序|
@@ -226,3 +227,4 @@
 |[wt](https://github.com/microsoft/terminal)|**en-US**<br>**zh-CN(100%)**|Windows Terminal 命令行终端。<br> 你可以使用此命令启动一个终端。|
 |[yarn](https://classic.yarnpkg.com/)|**en-US**<br>**zh-CN(100%)**|yarn - 软件包管理器|
 |...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
+<!-- prettier-ignore-end -->

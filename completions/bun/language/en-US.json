@@ -1,1375 +1,1199 @@
 {
-    "root": [
+  "root": [
+    {
+      "name": "run",
+      "alias": ["exec"],
+      "tip": [
+        "U: run|exec [flags] <file or script>\n",
+        "Execute a file with Bun.\n",
+        "E: run ./my-script.ts   --- Run ts file\n",
+        "   run build            --- Run a package.json script"
+      ],
+      "options": [
         {
-            "name": "run",
-            "alias": [
-                "exec"
-            ],
-            "tip": [
-                "U: run|exec [flags] <file or script>\n",
-                "Execute a file with Bun.\n",
-                "E: run ./my-script.ts   --- Run ts file\n",
-                "   run build            --- Run a package.json script"
-            ],
-            "options": [
-                {
-                    "name": "--main-fields",
-                    "tip": [
-                        "Main fields to lookup in package.json.\n",
-                        "Defaults to --target dependent"
-                    ]
-                },
-                {
-                    "name": "--extension-order",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --extension-order <ext1,ext2,ext3>\n",
-                        "Defaults to: .tsx,.ts,.jsx,.js,.json"
-                    ]
-                },
-                {
-                    "name": "--tsconfig-override",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --tsconfig-override <path>\n",
-                        "Specify custom tsconfig.json.\n",
-                        "Default ./tsconfig.json"
-                    ]
-                },
-                {
-                    "name": "-d",
-                    "alias": [
-                        "--define"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -d|--define <K:V>\n",
-                        "Substitute K:V while parsing. Values are parsed as JSON.\n",
-                        "E: --define process.env.NODE_ENV:\"development\""
-                    ]
-                },
-                {
-                    "name": "-l",
-                    "alias": [
-                        "--loader"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -l|--loader <.ext:loader>\n",
-                        "Parse files with .ext:loader\n",
-                        "Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi\n",
-                        "E: --loader .js:jsx"
-                    ]
-                },
-                {
-                    "name": "--no-macros",
-                    "tip": "Disable macros from being executed in the bundler, transpiler and runtime."
-                },
-                {
-                    "name": "--jsx-factory",
-                    "tip": "Changes the function called when compiling JSX elements using the classic JSX runtime."
-                },
-                {
-                    "name": "--jsx-fragment",
-                    "tip": "Changes the function called when compiling JSX fragments."
-                },
-                {
-                    "name": "--jsx-import-source",
-                    "tip": [
-                        "Declares the module specifier to be used for importing the jsx and jsxs factory functions.\n",
-                        "Default: \"react\""
-                    ]
-                },
-                {
-                    "name": "--jsx-runtime",
-                    "tip": "Set up the JSX runtime.",
-                    "next": [
-                        {
-                            "name": "classic"
-                        },
-                        {
-                            "name": "automatic"
-                        }
-                    ]
-                }
-            ]
+          "name": "--main-fields",
+          "tip": [
+            "Main fields to lookup in package.json.\n",
+            "Defaults to --target dependent"
+          ]
         },
         {
-            "name": "test",
-            "tip": [
-                "U: test [flags] <file or script>\n",
-                "Run all matching test files and print the results to stdout."
-            ],
-            "options": [
-                {
-                    "name": "--timeout",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --timeout <ms>\n",
-                        "Set the per-test timeout in milliseconds, default is 5000."
-                    ]
-                },
-                {
-                    "name": "--update-snapshots",
-                    "tip": "Update snapshot files"
-                },
-                {
-                    "name": "--rerun-each",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --rerun-each <n>\n",
-                        "Re-run each test file <n> times, helps catch certain bugs"
-                    ]
-                },
-                {
-                    "name": "--only",
-                    "tip": "Only run tests that are marked with \"test.only()\""
-                },
-                {
-                    "name": "--todo",
-                    "tip": "Include tests that are marked with \"test.todo()\""
-                },
-                {
-                    "name": "--coverage",
-                    "tip": "Generate a coverage profile."
-                },
-                {
-                    "name": "--bail",
-                    "tip": [
-                        "U: --bail <n>\n",
-                        "Exit the test suite after <n> failures.\n",
-                        "If you do not specify a number, it defaults to 1."
-                    ]
-                },
-                {
-                    "name": "-t",
-                    "alias": [
-                        "--test-name-pattern"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -t|--test-name-pattern <regex>\n",
-                        "Run only tests with a name that matches the given regex."
-                    ]
-                }
-            ]
+          "name": "--extension-order",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --extension-order <ext1,ext2,ext3>\n",
+            "Defaults to: .tsx,.ts,.jsx,.js,.json"
+          ]
         },
         {
-            "name": "x",
-            "tip": [
-                "U: x [flags] <package>[@version] [...flags and arguments]\n",
-                "Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.\n",
-                "E: x --bun vite dev foo.js"
-            ],
-            "options": [
-                {
-                    "name": "--bun",
-                    "tip": "Force the command to run with Bun instead of Node.js"
-                }
-            ]
+          "name": "--tsconfig-override",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --tsconfig-override <path>\n",
+            "Specify custom tsconfig.json.\n",
+            "Default ./tsconfig.json"
+          ]
         },
         {
-            "name": "repl",
-            "tip": [
-                "U: repl [options]\n",
-                "Start a REPL session with Bun."
-            ],
-            "options": [
-                {
-                    "name": "--sloppy",
-                    "tip": "Runs the REPL in sloppy mode."
-                },
-                {
-                    "name": "--print",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --print <expression>\n",
-                        "Evaluates given code, prints result and exits.\n",
-                        "E: --print \"console.log('Hello')\""
-                    ]
-                },
-                {
-                    "name": "--eval",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --eval <expression>\n",
-                        "Evaluates given code and silently exits.\n",
-                        "E: --eval \"console.log('Hello')\""
-                    ]
-                }
-            ]
+          "name": "-d",
+          "alias": ["--define"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -d|--define <K:V>\n",
+            "Substitute K:V while parsing. Values are parsed as JSON.\n",
+            "E: --define process.env.NODE_ENV:\"development\""
+          ]
         },
         {
-            "name": "install",
-            "alias": [
-                "i",
-                "add",
-                "a"
-            ],
-            "tip": [
-                "U: install|i|add|a\n",
-                "Install/Add dependencies for a package.json."
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "Write a yarn.lock file. (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "Don't install devDependencies."
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "Don't update package.json or save a lockfile."
-                },
-                {
-                    "name": "--save",
-                    "tip": "Save to package.json. (true by default)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "Don't install anything."
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "Disallow changes to lockfile."
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "Always request the latest versions from the registry & reinstall all dependencies."
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "Store & load cached data from a specific directory path."
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "Ignore manifest cache entirely."
-                },
-                {
-                    "name": "--silent",
-                    "tip": "Don't log anything."
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "Excessively verbose logging."
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "Disable the progress bar."
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "Don't print a summary."
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "Skip verifying integrity of newly downloaded packages."
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "Skip lifecycle scripts in the project's package.json (dependency scripts are never run)."
-                },
-                {
-                    "name": "--trust",
-                    "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "Install globally."
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "Set a specific cwd."
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "Platform-specific optimizations for installing dependencies.\n",
-                        "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "default value"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": [
-                        "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead.\n",
-                        "Default: esbuild, turbo"
-                    ]
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "Maximum number of concurrent jobs for lifecycle scripts. (default 5)"
-                },
-                {
-                    "name": "-d",
-                    "alias": [
-                        "--dev"
-                    ],
-                    "tip": [
-                        "U: -d|--dev\n",
-                        "Add dependency to \"devDependencies\"."
-                    ]
-                },
-                {
-                    "name": "--optional",
-                    "tip": "Add dependency to \"optionalDependencies\"."
-                },
-                {
-                    "name": "-E",
-                    "alias": [
-                        "--exact"
-                    ],
-                    "tip": [
-                        "U: -E|--exact\n",
-                        "Add the exact version instead of the ^range"
-                    ]
-                }
-            ]
+          "name": "-l",
+          "alias": ["--loader"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -l|--loader <.ext:loader>\n",
+            "Parse files with .ext:loader\n",
+            "Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi\n",
+            "E: --loader .js:jsx"
+          ]
         },
         {
-            "name": "remove",
-            "alias": [
-                "rm"
-            ],
-            "tip": [
-                "U: remove|rm [flags] <pkg> [...<pkg>]\n",
-                "Remove a package from package.json and uninstall from node_modules.\n",
-                "E: remove vite"
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "Write a yarn.lock file. (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "Don't uninstall devDependencies."
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "Don't update package.json or save a lockfile."
-                },
-                {
-                    "name": "--save",
-                    "tip": "Save to package.json. (true by default)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "Don't uninstall anything."
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "Disallow changes to lockfile."
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "Always request the latest versions from the registry & reinstall all dependencies."
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "Store & load cached data from a specific directory path."
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "Ignore manifest cache entirely."
-                },
-                {
-                    "name": "--silent",
-                    "tip": "Don't log anything."
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "Excessively verbose logging."
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "Disable the progress bar."
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "Don't print a summary."
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "Skip verifying integrity of newly downloaded packages."
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "Uninstall globally."
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "Set a specific cwd"
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "Platform-specific optimizations for installing dependencies.\n",
-                        "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "default value"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
-                }
-            ]
+          "name": "--no-macros",
+          "tip": "Disable macros from being executed in the bundler, transpiler and runtime."
         },
         {
-            "name": "update",
-            "tip": "Update all dependencies to most recent versions within the version range in package.json.",
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "Write a yarn.lock file. (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "Don't update devDependencies."
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "Don't update package.json or save a lockfile."
-                },
-                {
-                    "name": "--save",
-                    "tip": "Save to package.json. (true by default)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "Don't update anything."
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "Disallow changes to lockfile."
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "Always request the latest versions from the registry & reinstall all dependencies."
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "Store & load cached data from a specific directory path."
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "Ignore manifest cache entirely."
-                },
-                {
-                    "name": "--silent",
-                    "tip": "Don't log anything."
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "Excessively verbose logging."
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "Disable the progress bar."
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "Don't print a summary."
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "Skip verifying integrity of newly downloaded packages."
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "Update globally."
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "Set a specific cwd."
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "Platform-specific optimizations for installing dependencies.\n",
-                        "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "default value"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
-                }
-            ]
+          "name": "--jsx-factory",
+          "tip": "Changes the function called when compiling JSX elements using the classic JSX runtime."
         },
         {
-            "name": "link",
-            "tip": [
-                "U: link [flags] [<package>]\n",
-                "Register or link a local npm package."
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "Write a yarn.lock file. (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "Don't link devDependencies."
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "Don't update package.json or save a lockfile."
-                },
-                {
-                    "name": "--save",
-                    "tip": "Save to package.json. (true by default)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "Don't link anything."
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "Disallow changes to lockfile."
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "Always request the latest versions from the registry & reinstall all dependencies."
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "Store & load cached data from a specific directory path."
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "Ignore manifest cache entirely."
-                },
-                {
-                    "name": "--silent",
-                    "tip": "Don't log anything."
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "Excessively verbose logging."
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "Disable the progress bar."
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "Don't print a summary."
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "Skip verifying integrity of newly downloaded packages."
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "Link globally."
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "Set a specific cwd."
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "Platform-specific optimizations for installing dependencies.\n",
-                        "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "default value"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
-                }
-            ]
+          "name": "--jsx-fragment",
+          "tip": "Changes the function called when compiling JSX fragments."
         },
         {
-            "name": "unlink",
-            "tip": [
-                "U: unlink [flags] [<package>]\n",
-                "Unlink a local npm package."
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "Write a yarn.lock file. (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "Don't unlink devDependencies."
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "Don't update package.json or save a lockfile."
-                },
-                {
-                    "name": "--save",
-                    "tip": "Save to package.json. (true by default)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "Don't unlink anything."
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "Disallow changes to lockfile."
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "Always request the latest versions from the registry & reinstall all dependencies."
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "Store & load cached data from a specific directory path."
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "Ignore manifest cache entirely."
-                },
-                {
-                    "name": "--silent",
-                    "tip": "Don't log anything."
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "Excessively verbose logging."
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "Disable the progress bar."
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "Don't print a summary."
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "Skip verifying integrity of newly downloaded packages."
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "Unlink globally."
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "Set a specific cwd."
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "Platform-specific optimizations for installing dependencies.\n",
-                        "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "default value"
-                        },
-                        {
-                            "name": "symlink",
-                            "tip": "default value"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
-                }
-            ]
+          "name": "--jsx-import-source",
+          "tip": [
+            "Declares the module specifier to be used for importing the jsx and jsxs factory functions.\n",
+            "Default: \"react\""
+          ]
         },
         {
-            "name": "pm",
-            "tip": [
-                "U: pm <command>\n",
-                "Additional package management utilities."
-            ],
-            "next": [
-                {
-                    "name": "bin",
-                    "tip": "print the path to bin folder",
-                    "options": [
-                        {
-                            "name": "-g",
-                            "alias": [
-                                "--global"
-                            ],
-                            "tip": [
-                                "U: -g|--global\n",
-                                "print the global bin folder"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "name": "ls",
-                    "tip": "list the dependency tree according to the current lockfile.",
-                    "options": [
-                        {
-                            "name": "--all",
-                            "tip": "list the entire dependency tree according to the current lockfile."
-                        }
-                    ]
-                },
-                {
-                    "name": "hash",
-                    "tip": "generate & print the hash of the current lockfile."
-                },
-                {
-                    "name": "hash-string",
-                    "tip": "print the hash stored in the current lockfile."
-                },
-                {
-                    "name": "cache",
-                    "tip": "print the path to the cache folder.",
-                    "next": [
-                        {
-                            "name": "rm",
-                            "tip": "clear the cache"
-                        }
-                    ]
-                },
-                {
-                    "name": "migrate",
-                    "tip": "migrate another package manager's lockfile without installing anything."
-                },
-                {
-                    "name": "untrusted",
-                    "tip": "print current untrusted dependencies with scripts."
-                },
-                {
-                    "name": "default-trusted",
-                    "tip": "print the default trusted dependencies list."
-                }
-            ]
-        },
-        {
-            "name": "build",
-            "tip": [
-                "U: build [...flags] [...entrypoints]\n",
-                "Transpile and bundle one or more files.\n",
-                "E: build ./a.ts ./b.jsx"
-            ],
-            "options": [
-                {
-                    "name": "--compile",
-                    "tip": "Generate a standalone Bun executable containing your bundled code."
-                },
-                {
-                    "name": "--watch",
-                    "tip": "Automatically restart the process on file change."
-                },
-                {
-                    "name": "--target",
-                    "tip": [
-                        "The intended execution environment for the bundle.\n",
-                        "\"browser\", \"bun\" or \"node\""
-                    ],
-                    "next": [
-                        {
-                            "name": "browser"
-                        },
-                        {
-                            "name": "bun"
-                        },
-                        {
-                            "name": "node"
-                        }
-                    ]
-                },
-                {
-                    "name": "--outdir",
-                    "tip": "Default to \"dist\" if multiple files."
-                },
-                {
-                    "name": "--outfile",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --outfile <path>\n",
-                        "Write to a file"
-                    ]
-                },
-                {
-                    "name": "--sourcemap",
-                    "tip": "Build with sourcemaps - 'inline', 'external', or 'none'",
-                    "next": [
-                        {
-                            "name": "inline"
-                        },
-                        {
-                            "name": "external"
-                        },
-                        {
-                            "name": "none"
-                        }
-                    ]
-                },
-                {
-                    "name": "--format",
-                    "tip": "Specifies the module format to build to. Only \"esm\" is supported."
-                },
-                {
-                    "name": "--root",
-                    "tip": "Root directory used for multiple entry points."
-                },
-                {
-                    "name": "--splitting",
-                    "tip": "Enable code splitting."
-                },
-                {
-                    "name": "--public-path",
-                    "tip": "A prefix to be appended to any import paths in bundled code."
-                },
-                {
-                    "name": "-e",
-                    "alias": [
-                        "--external"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -e|--external <module>\n",
-                        "Exclude module from transpilation (can use * wildcards).\n",
-                        "E: -e react"
-                    ]
-                },
-                {
-                    "name": "--entry-naming",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --entry-naming <name>\n",
-                        "Customize entry point filenames. Defaults to \"[dir]/[name].[ext]\""
-                    ]
-                },
-                {
-                    "name": "--chunk-naming",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --chunk-naming <name>\n",
-                        "Customize chunk filenames. Defaults to \"[name]-[hash].[ext]\""
-                    ]
-                },
-                {
-                    "name": "--asset-naming",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --asset-naming <name>\n",
-                        "Customize asset filenames. Defaults to \"[name]-[hash].[ext]\""
-                    ]
-                },
-                {
-                    "name": "--server-components",
-                    "tip": "Enable React Server Components. (experimental)"
-                },
-                {
-                    "name": "--no-bundle",
-                    "tip": "Transpile file only, do not bundle."
-                },
-                {
-                    "name": "--minify",
-                    "tip": "Enable all minification flags."
-                },
-                {
-                    "name": "--minify-syntax",
-                    "tip": "Minify syntax and inline data."
-                },
-                {
-                    "name": "--minify-whitespace",
-                    "tip": "Minify whitespace."
-                },
-                {
-                    "name": "--minify-identifiers",
-                    "tip": "Minify identifiers."
-                },
-                {
-                    "name": "--conditions",
-                    "tip": "Pass custom conditions to resolve."
-                }
-            ]
-        },
-        {
-            "name": "init",
-            "tip": [
-                "U: init [flags] [<entrypoint> ...]\n",
-                "Initialize a Bun project in the current directory.\n",
-                "Creates a package.json, tsconfig.json, and bunfig.toml if they don't exist."
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yes"
-                    ],
-                    "tip": [
-                        "U: -y|--yes\n",
-                        "Accept all default options."
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "c",
-            "alias": [
-                "create"
-            ],
-            "tip": [
-                "U: c|create <template> [...flags] [dest]\n",
-                "Create a new project from a template.\n",
-                "E: create @"
-            ]
-        },
-        {
-            "name": "upgrade",
-            "tip": [
-                "E: upgrade [flags]\n",
-                "Upgrade to latest version of Bun."
-            ],
-            "options": [
-                {
-                    "name": "--canary",
-                    "tip": "Install the most recent canary version of Bun."
-                }
-            ]
+          "name": "--jsx-runtime",
+          "tip": "Set up the JSX runtime.",
+          "next": [
+            {
+              "name": "classic"
+            },
+            {
+              "name": "automatic"
+            }
+          ]
         }
-    ],
-    "options": [
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "U: test [flags] <file or script>\n",
+        "Run all matching test files and print the results to stdout."
+      ],
+      "options": [
         {
-            "name": "-v",
-            "alias": [
-                "--version"
-            ],
-            "tip": [
-                "U: -v|--version\n",
-                "Show current version of Bun."
-            ]
+          "name": "--timeout",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --timeout <ms>\n",
+            "Set the per-test timeout in milliseconds, default is 5000."
+          ]
         },
         {
-            "name": "--revision",
-            "tip": "Print version with revision and exit"
+          "name": "--update-snapshots",
+          "tip": "Update snapshot files"
+        },
+        {
+          "name": "--rerun-each",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --rerun-each <n>\n",
+            "Re-run each test file <n> times, helps catch certain bugs"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": "Only run tests that are marked with \"test.only()\""
+        },
+        {
+          "name": "--todo",
+          "tip": "Include tests that are marked with \"test.todo()\""
+        },
+        {
+          "name": "--coverage",
+          "tip": "Generate a coverage profile."
+        },
+        {
+          "name": "--bail",
+          "tip": [
+            "U: --bail <n>\n",
+            "Exit the test suite after <n> failures.\n",
+            "If you do not specify a number, it defaults to 1."
+          ]
+        },
+        {
+          "name": "-t",
+          "alias": ["--test-name-pattern"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -t|--test-name-pattern <regex>\n",
+            "Run only tests with a name that matches the given regex."
+          ]
         }
-    ],
-    "common_options": [
+      ]
+    },
+    {
+      "name": "x",
+      "tip": [
+        "U: x [flags] <package>[@version] [...flags and arguments]\n",
+        "Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.\n",
+        "E: x --bun vite dev foo.js"
+      ],
+      "options": [
         {
-            "name": "-h",
-            "alias": [
-                "--help"
-            ],
-            "tip": [
-                "U: -h|--help\n",
-                "Print help text for command."
-            ]
-        },
-        {
-            "name": "--watch",
-            "tip": "Automatically restart the process on file change."
-        },
-        {
-            "name": "--hot",
-            "tip": "Enable auto reload in the Bun runtime, test runner, or bundler."
-        },
-        {
-            "name": "--smol",
-            "tip": "Use less memory, but run garbage collection more often."
-        },
-        {
-            "name": "-r",
-            "alias": [
-                "--preload"
-            ],
-            "symbol": "WriteSpaceTab",
-            "tip": [
-                "U: -r|--preload <module>\n",
-                "Import a module before other modules are loaded."
-            ]
-        },
-        {
-            "name": "--inspect",
-            "tip": "Activate Bun's debugger."
-        },
-        {
-            "name": "--inspect-wait",
-            "tip": "Activate Bun's debugger, wait for a connection before executing."
-        },
-        {
-            "name": "--inspect-brk",
-            "tip": "Activate Bun's debugger, set breakpoint on first line of code and wait."
-        },
-        {
-            "name": "--if-present",
-            "tip": "Exit without an error if the entrypoint does not exist."
-        },
-        {
-            "name": "--no-install",
-            "tip": "Disable auto install in the Bun runtime."
-        },
-        {
-            "name": "--install",
-            "tip": [
-                "Configure auto-install behavior.\n",
-                "Possible values: \"auto\", \"fallback\", \"force\""
-            ],
-            "next": [
-                {
-                    "name": "auto",
-                    "tip": "default, auto-installs when no node_modules"
-                },
-                {
-                    "name": "fallback",
-                    "tip": "missing packages only"
-                },
-                {
-                    "name": "force",
-                    "tip": "always"
-                }
-            ]
-        },
-        {
-            "name": "-i",
-            "tip": [
-                "Auto-install dependencies during execution.\n",
-                "Equivalent to --install=fallback."
-            ]
-        },
-        {
-            "name": "-e",
-            "alias": [
-                "--eval"
-            ],
-            "symbol": "WriteSpaceTab",
-            "tip": [
-                "U: -e|--eval <code>\n",
-                "Evaluate argument as a script."
-            ]
-        },
-        {
-            "name": "--print",
-            "tip": "Evaluate argument as a script and print the result."
-        },
-        {
-            "name": "--prefer-offline",
-            "tip": "Skip staleness checks for packages in the Bun runtime and resolve from disk."
-        },
-        {
-            "name": "--prefer-latest",
-            "tip": "Use the latest matching versions of packages in the Bun runtime, always checking npm."
-        },
-        {
-            "name": "-p",
-            "alias": [
-                "--port"
-            ],
-            "symbol": "WriteSpaceTab",
-            "tip": [
-                "U: -p|--port <port>\n",
-                "Set the default port for Bun.serve."
-            ]
-        },
-        {
-            "name": "--conditions",
-            "tip": "Pass custom conditions to resolve."
-        },
-        {
-            "name": "--silent",
-            "tip": "Don't print the script command."
-        },
-        {
-            "name": "-b",
-            "alias": [
-                "--bun"
-            ],
-            "tip": [
-                "U: -b|--bun\n",
-                "Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)."
-            ]
-        },
-        {
-            "name": "--shell",
-            "tip": [
-                "Control the shell used for package.json scripts.\n",
-                "Supports either 'bun' or 'system'."
-            ]
-        },
-        {
-            "name": "--env-file",
-            "tip": "Load environment variables from the specified file(s)."
-        },
-        {
-            "name": "--cwd",
-            "tip": [
-                "Absolute path to resolve files & entry points from.\n",
-                "This just changes the process' cwd."
-            ]
-        },
-        {
-            "name": "-c",
-            "alias": [
-                "--config"
-            ],
-            "tip": [
-                "U: -c|--config <path>\n",
-                "Specify path to Bun config file.\n",
-                "Default ./bunfig.toml."
-            ]
+          "name": "--bun",
+          "tip": "Force the command to run with Bun instead of Node.js"
         }
-    ],
-    "info": {
-        "completion_info": {
-            "url": "https://bun.sh",
-            "description": "Bun - JavaScript all-in-one toolkit"
+      ]
+    },
+    {
+      "name": "repl",
+      "tip": ["U: repl [options]\n", "Start a REPL session with Bun."],
+      "options": [
+        {
+          "name": "--sloppy",
+          "tip": "Runs the REPL in sloppy mode."
+        },
+        {
+          "name": "--print",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --print <expression>\n",
+            "Evaluates given code, prints result and exits.\n",
+            "E: --print \"console.log('Hello')\""
+          ]
+        },
+        {
+          "name": "--eval",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --eval <expression>\n",
+            "Evaluates given code and silently exits.\n",
+            "E: --eval \"console.log('Hello')\""
+          ]
         }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": ["i", "add", "a"],
+      "tip": [
+        "U: install|i|add|a\n",
+        "Install/Add dependencies for a package.json."
+      ],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "Write a yarn.lock file. (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "Don't install devDependencies."]
+        },
+        {
+          "name": "--no-save",
+          "tip": "Don't update package.json or save a lockfile."
+        },
+        {
+          "name": "--save",
+          "tip": "Save to package.json. (true by default)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "Don't install anything."
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "Disallow changes to lockfile."
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --cache-dir <path>\n",
+            "Store & load cached data from a specific directory path."
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "Ignore manifest cache entirely."
+        },
+        {
+          "name": "--silent",
+          "tip": "Don't log anything."
+        },
+        {
+          "name": "--verbose",
+          "tip": "Excessively verbose logging."
+        },
+        {
+          "name": "--no-progress",
+          "tip": "Disable the progress bar."
+        },
+        {
+          "name": "--no-summary",
+          "tip": "Don't print a summary."
+        },
+        {
+          "name": "--no-verify",
+          "tip": "Skip verifying integrity of newly downloaded packages."
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "Skip lifecycle scripts in the project's package.json (dependency scripts are never run)."
+        },
+        {
+          "name": "--trust",
+          "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "Install globally."]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "Set a specific cwd."]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "Platform-specific optimizations for installing dependencies.\n",
+            "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "default value"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": [
+            "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead.\n",
+            "Default: esbuild, turbo"
+          ]
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "Maximum number of concurrent jobs for lifecycle scripts. (default 5)"
+        },
+        {
+          "name": "-d",
+          "alias": ["--dev"],
+          "tip": ["U: -d|--dev\n", "Add dependency to \"devDependencies\"."]
+        },
+        {
+          "name": "--optional",
+          "tip": "Add dependency to \"optionalDependencies\"."
+        },
+        {
+          "name": "-E",
+          "alias": ["--exact"],
+          "tip": [
+            "U: -E|--exact\n",
+            "Add the exact version instead of the ^range"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": ["rm"],
+      "tip": [
+        "U: remove|rm [flags] <pkg> [...<pkg>]\n",
+        "Remove a package from package.json and uninstall from node_modules.\n",
+        "E: remove vite"
+      ],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "Write a yarn.lock file. (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "Don't uninstall devDependencies."]
+        },
+        {
+          "name": "--no-save",
+          "tip": "Don't update package.json or save a lockfile."
+        },
+        {
+          "name": "--save",
+          "tip": "Save to package.json. (true by default)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "Don't uninstall anything."
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "Disallow changes to lockfile."
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --cache-dir <path>\n",
+            "Store & load cached data from a specific directory path."
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "Ignore manifest cache entirely."
+        },
+        {
+          "name": "--silent",
+          "tip": "Don't log anything."
+        },
+        {
+          "name": "--verbose",
+          "tip": "Excessively verbose logging."
+        },
+        {
+          "name": "--no-progress",
+          "tip": "Disable the progress bar."
+        },
+        {
+          "name": "--no-summary",
+          "tip": "Don't print a summary."
+        },
+        {
+          "name": "--no-verify",
+          "tip": "Skip verifying integrity of newly downloaded packages."
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
+        },
+        {
+          "name": "--trust",
+          "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "Uninstall globally."]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "Set a specific cwd"]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "Platform-specific optimizations for installing dependencies.\n",
+            "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "default value"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": "Update all dependencies to most recent versions within the version range in package.json.",
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "Write a yarn.lock file. (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "Don't update devDependencies."]
+        },
+        {
+          "name": "--no-save",
+          "tip": "Don't update package.json or save a lockfile."
+        },
+        {
+          "name": "--save",
+          "tip": "Save to package.json. (true by default)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "Don't update anything."
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "Disallow changes to lockfile."
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --cache-dir <path>\n",
+            "Store & load cached data from a specific directory path."
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "Ignore manifest cache entirely."
+        },
+        {
+          "name": "--silent",
+          "tip": "Don't log anything."
+        },
+        {
+          "name": "--verbose",
+          "tip": "Excessively verbose logging."
+        },
+        {
+          "name": "--no-progress",
+          "tip": "Disable the progress bar."
+        },
+        {
+          "name": "--no-summary",
+          "tip": "Don't print a summary."
+        },
+        {
+          "name": "--no-verify",
+          "tip": "Skip verifying integrity of newly downloaded packages."
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
+        },
+        {
+          "name": "--trust",
+          "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "Update globally."]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "Set a specific cwd."]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "Platform-specific optimizations for installing dependencies.\n",
+            "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "default value"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "U: link [flags] [<package>]\n",
+        "Register or link a local npm package."
+      ],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "Write a yarn.lock file. (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "Don't link devDependencies."]
+        },
+        {
+          "name": "--no-save",
+          "tip": "Don't update package.json or save a lockfile."
+        },
+        {
+          "name": "--save",
+          "tip": "Save to package.json. (true by default)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "Don't link anything."
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "Disallow changes to lockfile."
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --cache-dir <path>\n",
+            "Store & load cached data from a specific directory path."
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "Ignore manifest cache entirely."
+        },
+        {
+          "name": "--silent",
+          "tip": "Don't log anything."
+        },
+        {
+          "name": "--verbose",
+          "tip": "Excessively verbose logging."
+        },
+        {
+          "name": "--no-progress",
+          "tip": "Disable the progress bar."
+        },
+        {
+          "name": "--no-summary",
+          "tip": "Don't print a summary."
+        },
+        {
+          "name": "--no-verify",
+          "tip": "Skip verifying integrity of newly downloaded packages."
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
+        },
+        {
+          "name": "--trust",
+          "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "Link globally."]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "Set a specific cwd."]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "Platform-specific optimizations for installing dependencies.\n",
+            "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "default value"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "tip": ["U: unlink [flags] [<package>]\n", "Unlink a local npm package."],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "Write a yarn.lock file. (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "Don't unlink devDependencies."]
+        },
+        {
+          "name": "--no-save",
+          "tip": "Don't update package.json or save a lockfile."
+        },
+        {
+          "name": "--save",
+          "tip": "Save to package.json. (true by default)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "Don't unlink anything."
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "Disallow changes to lockfile."
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --cache-dir <path>\n",
+            "Store & load cached data from a specific directory path."
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "Ignore manifest cache entirely."
+        },
+        {
+          "name": "--silent",
+          "tip": "Don't log anything."
+        },
+        {
+          "name": "--verbose",
+          "tip": "Excessively verbose logging."
+        },
+        {
+          "name": "--no-progress",
+          "tip": "Disable the progress bar."
+        },
+        {
+          "name": "--no-summary",
+          "tip": "Don't print a summary."
+        },
+        {
+          "name": "--no-verify",
+          "tip": "Skip verifying integrity of newly downloaded packages."
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "Skip lifecycle scripts in the project's package.json. (dependency scripts are never run)"
+        },
+        {
+          "name": "--trust",
+          "tip": "Add to trustedDependencies in the project's package.json and install the package(s)."
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "Unlink globally."]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "Set a specific cwd."]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "Platform-specific optimizations for installing dependencies.\n",
+            "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "default value"
+            },
+            {
+              "name": "symlink",
+              "tip": "default value"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
+        }
+      ]
+    },
+    {
+      "name": "pm",
+      "tip": ["U: pm <command>\n", "Additional package management utilities."],
+      "next": [
+        {
+          "name": "bin",
+          "tip": "print the path to bin folder",
+          "options": [
+            {
+              "name": "-g",
+              "alias": ["--global"],
+              "tip": ["U: -g|--global\n", "print the global bin folder"]
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": "list the dependency tree according to the current lockfile.",
+          "options": [
+            {
+              "name": "--all",
+              "tip": "list the entire dependency tree according to the current lockfile."
+            }
+          ]
+        },
+        {
+          "name": "hash",
+          "tip": "generate & print the hash of the current lockfile."
+        },
+        {
+          "name": "hash-string",
+          "tip": "print the hash stored in the current lockfile."
+        },
+        {
+          "name": "cache",
+          "tip": "print the path to the cache folder.",
+          "next": [
+            {
+              "name": "rm",
+              "tip": "clear the cache"
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "tip": "migrate another package manager's lockfile without installing anything."
+        },
+        {
+          "name": "untrusted",
+          "tip": "print current untrusted dependencies with scripts."
+        },
+        {
+          "name": "default-trusted",
+          "tip": "print the default trusted dependencies list."
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "U: build [...flags] [...entrypoints]\n",
+        "Transpile and bundle one or more files.\n",
+        "E: build ./a.ts ./b.jsx"
+      ],
+      "options": [
+        {
+          "name": "--compile",
+          "tip": "Generate a standalone Bun executable containing your bundled code."
+        },
+        {
+          "name": "--watch",
+          "tip": "Automatically restart the process on file change."
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "The intended execution environment for the bundle.\n",
+            "\"browser\", \"bun\" or \"node\""
+          ],
+          "next": [
+            {
+              "name": "browser"
+            },
+            {
+              "name": "bun"
+            },
+            {
+              "name": "node"
+            }
+          ]
+        },
+        {
+          "name": "--outdir",
+          "tip": "Default to \"dist\" if multiple files."
+        },
+        {
+          "name": "--outfile",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --outfile <path>\n", "Write to a file"]
+        },
+        {
+          "name": "--sourcemap",
+          "tip": "Build with sourcemaps - 'inline', 'external', or 'none'",
+          "next": [
+            {
+              "name": "inline"
+            },
+            {
+              "name": "external"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": "Specifies the module format to build to. Only \"esm\" is supported."
+        },
+        {
+          "name": "--root",
+          "tip": "Root directory used for multiple entry points."
+        },
+        {
+          "name": "--splitting",
+          "tip": "Enable code splitting."
+        },
+        {
+          "name": "--public-path",
+          "tip": "A prefix to be appended to any import paths in bundled code."
+        },
+        {
+          "name": "-e",
+          "alias": ["--external"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -e|--external <module>\n",
+            "Exclude module from transpilation (can use * wildcards).\n",
+            "E: -e react"
+          ]
+        },
+        {
+          "name": "--entry-naming",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --entry-naming <name>\n",
+            "Customize entry point filenames. Defaults to \"[dir]/[name].[ext]\""
+          ]
+        },
+        {
+          "name": "--chunk-naming",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --chunk-naming <name>\n",
+            "Customize chunk filenames. Defaults to \"[name]-[hash].[ext]\""
+          ]
+        },
+        {
+          "name": "--asset-naming",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --asset-naming <name>\n",
+            "Customize asset filenames. Defaults to \"[name]-[hash].[ext]\""
+          ]
+        },
+        {
+          "name": "--server-components",
+          "tip": "Enable React Server Components. (experimental)"
+        },
+        {
+          "name": "--no-bundle",
+          "tip": "Transpile file only, do not bundle."
+        },
+        {
+          "name": "--minify",
+          "tip": "Enable all minification flags."
+        },
+        {
+          "name": "--minify-syntax",
+          "tip": "Minify syntax and inline data."
+        },
+        {
+          "name": "--minify-whitespace",
+          "tip": "Minify whitespace."
+        },
+        {
+          "name": "--minify-identifiers",
+          "tip": "Minify identifiers."
+        },
+        {
+          "name": "--conditions",
+          "tip": "Pass custom conditions to resolve."
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [flags] [<entrypoint> ...]\n",
+        "Initialize a Bun project in the current directory.\n",
+        "Creates a package.json, tsconfig.json, and bunfig.toml if they don't exist."
+      ],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yes"],
+          "tip": ["U: -y|--yes\n", "Accept all default options."]
+        }
+      ]
+    },
+    {
+      "name": "c",
+      "alias": ["create"],
+      "tip": [
+        "U: c|create <template> [...flags] [dest]\n",
+        "Create a new project from a template.\n",
+        "E: create @"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": ["E: upgrade [flags]\n", "Upgrade to latest version of Bun."],
+      "options": [
+        {
+          "name": "--canary",
+          "tip": "Install the most recent canary version of Bun."
+        }
+      ]
     }
+  ],
+  "options": [
+    {
+      "name": "-v",
+      "alias": ["--version"],
+      "tip": ["U: -v|--version\n", "Show current version of Bun."]
+    },
+    {
+      "name": "--revision",
+      "tip": "Print version with revision and exit"
+    }
+  ],
+  "common_options": [
+    {
+      "name": "-h",
+      "alias": ["--help"],
+      "tip": ["U: -h|--help\n", "Print help text for command."]
+    },
+    {
+      "name": "--watch",
+      "tip": "Automatically restart the process on file change."
+    },
+    {
+      "name": "--hot",
+      "tip": "Enable auto reload in the Bun runtime, test runner, or bundler."
+    },
+    {
+      "name": "--smol",
+      "tip": "Use less memory, but run garbage collection more often."
+    },
+    {
+      "name": "-r",
+      "alias": ["--preload"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -r|--preload <module>\n",
+        "Import a module before other modules are loaded."
+      ]
+    },
+    {
+      "name": "--inspect",
+      "tip": "Activate Bun's debugger."
+    },
+    {
+      "name": "--inspect-wait",
+      "tip": "Activate Bun's debugger, wait for a connection before executing."
+    },
+    {
+      "name": "--inspect-brk",
+      "tip": "Activate Bun's debugger, set breakpoint on first line of code and wait."
+    },
+    {
+      "name": "--if-present",
+      "tip": "Exit without an error if the entrypoint does not exist."
+    },
+    {
+      "name": "--no-install",
+      "tip": "Disable auto install in the Bun runtime."
+    },
+    {
+      "name": "--install",
+      "tip": [
+        "Configure auto-install behavior.\n",
+        "Possible values: \"auto\", \"fallback\", \"force\""
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": "default, auto-installs when no node_modules"
+        },
+        {
+          "name": "fallback",
+          "tip": "missing packages only"
+        },
+        {
+          "name": "force",
+          "tip": "always"
+        }
+      ]
+    },
+    {
+      "name": "-i",
+      "tip": [
+        "Auto-install dependencies during execution.\n",
+        "Equivalent to --install=fallback."
+      ]
+    },
+    {
+      "name": "-e",
+      "alias": ["--eval"],
+      "symbol": "WriteSpaceTab",
+      "tip": ["U: -e|--eval <code>\n", "Evaluate argument as a script."]
+    },
+    {
+      "name": "--print",
+      "tip": "Evaluate argument as a script and print the result."
+    },
+    {
+      "name": "--prefer-offline",
+      "tip": "Skip staleness checks for packages in the Bun runtime and resolve from disk."
+    },
+    {
+      "name": "--prefer-latest",
+      "tip": "Use the latest matching versions of packages in the Bun runtime, always checking npm."
+    },
+    {
+      "name": "-p",
+      "alias": ["--port"],
+      "symbol": "WriteSpaceTab",
+      "tip": ["U: -p|--port <port>\n", "Set the default port for Bun.serve."]
+    },
+    {
+      "name": "--conditions",
+      "tip": "Pass custom conditions to resolve."
+    },
+    {
+      "name": "--silent",
+      "tip": "Don't print the script command."
+    },
+    {
+      "name": "-b",
+      "alias": ["--bun"],
+      "tip": [
+        "U: -b|--bun\n",
+        "Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)."
+      ]
+    },
+    {
+      "name": "--shell",
+      "tip": [
+        "Control the shell used for package.json scripts.\n",
+        "Supports either 'bun' or 'system'."
+      ]
+    },
+    {
+      "name": "--env-file",
+      "tip": "Load environment variables from the specified file(s)."
+    },
+    {
+      "name": "--cwd",
+      "tip": [
+        "Absolute path to resolve files & entry points from.\n",
+        "This just changes the process' cwd."
+      ]
+    },
+    {
+      "name": "-c",
+      "alias": ["--config"],
+      "tip": [
+        "U: -c|--config <path>\n",
+        "Specify path to Bun config file.\n",
+        "Default ./bunfig.toml."
+      ]
+    }
+  ],
+  "info": {
+    "completion_info": {
+      "url": "https://bun.sh",
+      "description": "Bun - JavaScript all-in-one toolkit"
+    }
+  }
 }

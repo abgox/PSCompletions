@@ -28,17 +28,17 @@
 
 ## Introduce
 
--   `PowerShell`: A Cross-platform PowerShell. Start it in command line by running `pwsh`.
+- `PowerShell`: A Cross-platform PowerShell. Start it in command line by running `pwsh`.
 
--   `Windows PowerShell`: A PowerShell which is built-in on Windows systems. Start it in command line by running `powershell`.
+- `Windows PowerShell`: A PowerShell which is built-in on Windows systems. Start it in command line by running `powershell`.
 
 ---
 
--   A completion manager in `PowerShell` for better and simpler use completions.
-    > It can also be used in `Windows PowerShell`.(Not Recommend)
--   [Manage completions together.](#available-completions-list 'Click it to view the completion list that can be added !')
--   Switch between languages(`en-US`,`zh-CN`,...) freely.
--   Sort completion tab dynamically by frequency of use.
+- A completion manager in `PowerShell` for better and simpler use completions.
+  > It can also be used in `Windows PowerShell`.(Not Recommend)
+- [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added !")
+- Switch between languages(`en-US`,`zh-CN`,...) freely.
+- Sort completion tab dynamically by frequency of use.
 
 **If this project is helpful to you, please consider giving it a star ⭐.**
 
@@ -47,8 +47,8 @@
 1. Start `PowerShell`
 2. `Install-Module PSCompletions -Scope CurrentUser`
 3. `Import-Module PSCompletions`
-    - `echo "Import-Module PSCompletions" >> $PROFILE`
-    - So you don't have to import the module every time you open PowerShell.
+   - `echo "Import-Module PSCompletions" >> $PROFILE`
+   - So you don't have to import the module every time you open PowerShell.
 
 ## How to uninstall
 
@@ -57,9 +57,9 @@
 
 ## How to use(e.g. `git`)
 
-### [Available Completions](#available-completions-list 'All completions that can be added at present. More completions are adding!')
+### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
--   If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues 'Click to submit an issue').
+- If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue").
 
 1. `psc add git`
 2. Then you can enter `git` and press `Space` `Tab` to get command completion.
@@ -73,92 +73,93 @@
 
 ### About the completion trigger key
 
--   The module uses the `Tab` key by default.
--   You can set it by running `Set-PSReadLineKeyHandler <key> MenuComplete`.
+- The module uses the `Tab` key by default.
+- You can set it by running `Set-PSReadLineKeyHandler <key> MenuComplete`.
 
 ### About completion update
 
--   When the module is imported after opening `PowerShell`, `PSCompletions` will start a background job to check for the completion status of the remote repository.
--   After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
+- When the module is imported after opening `PowerShell`, `PSCompletions` will start a background job to check for the completion status of the remote repository.
+- After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
 
 ### About completion menu
 
--   The module's completion menu provided by the module is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
--   It can only be used in PowerShell(pwsh) under Windows.
--   Some keys in the completion menu provided by the module.
+- The module's completion menu provided by the module is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
+- It can only be used in PowerShell(pwsh) under Windows.
+- Some keys in the completion menu provided by the module.
 
-    1. Apply the selected completion item: `Enter`
-    2. Delete filter characters: `Backspace`
-    3. Exit the completion menu: `ESC` / `Ctrl + c`
-        - When there are no characters in the filter area, you can also use `Backspace` key to exit the completion menu.
-    4. Select completion item:
+  1. Apply the selected completion item: `Enter`
+  2. Delete filter characters: `Backspace`
+  3. Exit the completion menu: `ESC` / `Ctrl + c`
+     - When there are no characters in the filter area, you can also use `Backspace` key to exit the completion menu.
+  4. Select completion item:
 
-        | Select previous item | Select next item |
-        | :------------------: | :--------------: |
-        |         `Up`         |      `Down`      |
-        |        `Left`        |     `Right`      |
-        |    `Shift + Tab`     |      `Tab`       |
-        |   `Shift + Space`    |     `Space`      |
-        |      `Ctrl + u`      |    `Ctrl + d`    |
-        |      `Ctrl + p`      |    `Ctrl + n`    |
+     | Select previous item | Select next item |
+     | :------------------: | :--------------: |
+     |         `Up`         |      `Down`      |
+     |        `Left`        |     `Right`      |
+     |    `Shift + Tab`     |      `Tab`       |
+     |   `Shift + Space`    |     `Space`      |
+     |      `Ctrl + u`      |    `Ctrl + d`    |
+     |      `Ctrl + p`      |    `Ctrl + n`    |
 
--   All configurations of it, you can trigger completion by running `psc menu`, then learn about them by completion tip.
+- All configurations of it, you can trigger completion by running `psc menu`, then learn about them by completion tip.
 
 ### About special symbols
 
--   😄🤔😎 : If there are multiple, you can choose the effect of one of them.
-    -   😄 : It means that after you apply it, you can press `Space` and `Tab` key to continue to get command completions.(Normal or optional completions)
-        -   It can be customized by running `psc menu symbol SpaceTab <symbol>`
-    -   🤔 : It means that after you apply it (option completion), you can press `Space` and `Tab` key to continue to get option completions. (e.g. `--verbose`)
-        -   It can be customized by running `psc menu symbol OptionTab <symbol>`
-    -   😎 : It means that after you apply it (option completion), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
-        -   If the string has Spaces, Please use "" or '' to wrap it. e.g. 'test content'
-        -   If there is also 😄, it means that there are some strings to complete, you can press `Space` and `Tab` key to continue to get command completions without entering a string.
-        -   It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
-    -   Completion of generic options can also be triggered if there is one or more generic option completion.
-    -   All complements can be triggered by pressing the `Tab` key after entering a part.
-    -   If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.
-        -   e.g. `psc menu symbol SpaceTab ""`
+- 😄🤔😎 : If there are multiple, you can choose the effect of one of them.
+  - 😄 : It means that after you apply it, you can press `Space` and `Tab` key to continue to get command completions.(Normal or optional completions)
+    - It can be customized by running `psc menu symbol SpaceTab <symbol>`
+  - 🤔 : It means that after you apply it (option completion), you can press `Space` and `Tab` key to continue to get option completions. (e.g. `--verbose`)
+    - It can be customized by running `psc menu symbol OptionTab <symbol>`
+  - 😎 : It means that after you apply it (option completion), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
+    - If the string has Spaces, Please use "" or '' to wrap it. e.g. 'test content'
+    - If there is also 😄, it means that there are some strings to complete, you can press `Space` and `Tab` key to continue to get command completions without entering a string.
+    - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
+  - Completion of generic options can also be triggered if there is one or more generic option completion.
+  - All complements can be triggered by pressing the `Tab` key after entering a part.
+  - If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.
+    - e.g. `psc menu symbol SpaceTab ""`
 
 ### About language
 
--   `Global language`: Default to the language of current system.
-    -   You can show it by running `psc config language`
-    -   You can change it by running `psc config language zh-CN`
--   `Completion language`: The language set for the specified completion.
-    -   e.g. `psc completion git language en-US`.
--   `Available language`: In the completion `config.json` file, there is a `language` attribute whose value is a list of available languages.
+- `Global language`: Default to the language of current system.
+  - You can show it by running `psc config language`
+  - You can change it by running `psc config language zh-CN`
+- `Completion language`: The language set for the specified completion.
+  - e.g. `psc completion git language en-US`.
+- `Available language`: In the completion `config.json` file, there is a `language` attribute whose value is a list of available languages.
 
 #### Determine language
 
 1. Get the specified language:
-    - If there is `Completion language`,use it.
-    - If not, use `Global language`.
+   - If there is `Completion language`,use it.
+   - If not, use `Global language`.
 2. Determine the final language:
-    - Determine whether the value of the first step exists in `Available language`.
-    - If it exists, use it.
-    - If not, use the first of the `Available language`. (It's usually `en-US`)
+   - Determine whether the value of the first step exists in `Available language`.
+   - If it exists, use it.
+   - If not, use the first of the `Available language`. (It's usually `en-US`)
 
 ### About path completion
 
--   Take `git` for example, when entering `git add`, pressing the `Space` and `Tab` keys, path completion will not be triggered, only completion provided by the module will be triggered.
--   If you want to trigger path completion, you need to enter a content.
--   If the content matches this regex rule `^\.*[\\/].*`, it will get the path completion, which is PowerShell completion.
--   e.g.
-    -   Please enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
-    -   Please enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
-    -   Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
--   So you can enter `git add ./` and then press `Tab` key to get the path completion.
+- Take `git` for example, when entering `git add`, pressing the `Space` and `Tab` keys, path completion will not be triggered, only completion provided by the module will be triggered.
+- If you want to trigger path completion, you need to enter a content.
+- If the content matches this regex rule `^\.*[\\/].*`, it will get the path completion, which is PowerShell completion.
+- e.g.
+  - Please enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
+  - Please enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
+  - Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
+- So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ## Available Completions List
 
--   Guide
-    -   **`Completion`** ：Click to view to the official website of the command. Sort by first letter(0-9,a-z).
-        -   Special case: `abc(a)`, it means that you need to download it by `psc add abc`, but by default `a` is used instead of `abc` to trigger the completion.
-    -   **`Language`**: Supported Languages, and Translation Progress.
-        -   The translation progress is compared to `en-US`
-    -   **`Description`**: Command Description.
+- Guide
+  - **`Completion`** ：Click to view to the official website of the command. Sort by first letter(0-9,a-z).
+    - Special case: `abc(a)`, it means that you need to download it by `psc add abc`, but by default `a` is used instead of `abc` to trigger the completion.
+  - **`Language`**: Supported Languages, and Translation Progress.
+    - The translation progress is compared to `en-US`
+  - **`Description`**: Command Description.
 
+<!-- prettier-ignore-start -->
 |Completion|Language|Description|
 |:-:|-|-|
 |[7z](https://7-zip.org/)|**en-US**<br>**zh-CN(100%)**|The command line cli of 7-Zip|
@@ -221,3 +222,4 @@
 |[wt](https://github.com/microsoft/terminal)|**en-US**<br>**zh-CN(100%)**|Windows Terminal command line.<br> You can use it to start a terminal.|
 |[yarn](https://classic.yarnpkg.com/)|**en-US**<br>**zh-CN(100%)**|yarn - package manager|
 |...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
+<!-- prettier-ignore-end -->

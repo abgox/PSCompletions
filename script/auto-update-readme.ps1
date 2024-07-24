@@ -142,8 +142,8 @@ function generate_list {
 
     $footer = '|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|'
 
-    $content_EN += $footer
-    $content_CN += $footer
+    $content_EN += $footer + "`n<!-- prettier-ignore-end -->"
+    $content_CN += $footer + "`n<!-- prettier-ignore-end -->"
 
     return @{
         "en-US" = $content_EN
