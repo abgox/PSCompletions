@@ -118,10 +118,12 @@
     },
     {
       "name": "remove",
+      "symbol":"SpaceTab",
       "tip": "Remove dependencies from the project"
     },
     {
       "name": "run",
+      "symbol":"SpaceTab",
       "tip": "Run arbitrary package scripts"
     },
     {
@@ -146,6 +148,7 @@
     },
     {
       "name": "upgrade",
+      "symbol":"SpaceTab",
       "tip": "Upgrade dependencies to their latest versions"
     },
     {
@@ -452,5 +455,24 @@
       "url": "https://classic.yarnpkg.com/",
       "description": "yarn - package manager"
     }
-  }
+  },
+  "config": [
+    {
+      "name": "disable_hooks",
+      "value": 0,
+      "values": [
+        1,
+        0
+      ],
+      "tip": [
+        "Current Value: <@Magenta>{{$PSCompletions.config.comp_config.yarn.disable_hooks}}<@Blue>\n",
+        "Set whether to disable hooks. Default to 0.\n",
+        "The hooks will parse the scripts/dependencies/devDependencies fields in package.json and add them in completions dynamically.\n",
+        "(e.g. <@Magenta>run<@Blue>, <@Magenta>remove<@Blue>, <@Magenta>upgrade<@Blue>...)\n",
+        "For example, enter <@Magenta>yarn upgrade<@Blue>, press <@Magenta>Space<@Blue> and <@Magenta>Tab<@Blue> key, and you can get some extra completions.\n",
+        "(The extra completions come from the dependencies/devDependencies fields defined in package.json.)\n",
+        "You can disable hooks by running <@Magenta>psc completion yarn disable_hooks 1<@Blue>."
+      ]
+    }
+  ]
 }
