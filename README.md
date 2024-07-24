@@ -216,6 +216,7 @@
 |[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
 |[python](https://www.python.org)|**en-US**<br>**zh-CN(100%)**|python - command-line|
 |[scoop](https://scoop.sh)|**en-US**<br>**zh-CN(100%)**|Scoop - Software Manager|
+|[sfsu](https://github.com/winpax/sfsu)|**en-US**<br>**~~zh-CN(10.77%)~~**|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster|
 |[volta](https://volta.sh)|**en-US**<br>**zh-CN(100%)**|volta - Accessible JavaScript Tool Manager|
 |[winget](https://github.com/microsoft/winget-cli)|**en-US**<br>**zh-CN(100%)**|WinGet - Windows package manager|
 |[wsl](https://github.com/microsoft/WSL)|**en-US**<br>**zh-CN(100%)**|WSL - Windows Subsystem for Linux|

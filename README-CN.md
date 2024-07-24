@@ -221,6 +221,7 @@
 |[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
 |[python](https://www.python.org)|**en-US**<br>**zh-CN(100%)**|python - 命令行|
 |[scoop](https://scoop.sh)|**en-US**<br>**zh-CN(100%)**|Scoop - 软件管理|
+|[sfsu](https://github.com/winpax/sfsu)|**en-US**<br>**~~zh-CN(10.77%)~~**|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster|
 |[volta](https://volta.sh)|**en-US**<br>**zh-CN(100%)**|volta - 无障碍 JavaScript 工具管理器|
 |[winget](https://github.com/microsoft/winget-cli)|**en-US**<br>**zh-CN(100%)**|WinGet - Windows 程序包管理器|
 |[wsl](https://github.com/microsoft/WSL)|**en-US**<br>**zh-CN(100%)**|WSL - 适用于 Linux 的 Windows 子系统|
