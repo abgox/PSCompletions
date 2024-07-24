@@ -1,5 +1,5 @@
 function handleCompletions([System.Collections.Generic.List[System.Object]]$completions) {
-    function addCompletion($name, $symbol = '', $tip = ' ') {
+    function addCompletion($name, $tip = ' ', $symbol = '') {
         $completions.Add(@{
                 name   = $name
                 symbol = $symbol
@@ -19,20 +19,20 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
     foreach ($_ in $Distro_list) {
         if ($_ -ne '') {
             $Distro = $_
-            addCompletion "~ -d $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
-            addCompletion "-d $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
-            addCompletion "~ --distribution $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
-            addCompletion "--distribution $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
+            addCompletion "~ -d $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
+            addCompletion "-d $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
+            addCompletion "~ --distribution $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
+            addCompletion "--distribution $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
 
-            addCompletion "-s $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
-            addCompletion "--set-default $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--set-default')
+            addCompletion "-s $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--distribution')
+            addCompletion "--set-default $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--set-default')
 
-            addCompletion "-t $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--set-default')
-            addCompletion "--terminate $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--terminate')
+            addCompletion "-t $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--set-default')
+            addCompletion "--terminate $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--terminate')
 
-            addCompletion "--unregister $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--unregister')
+            addCompletion "--unregister $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--unregister')
 
-            addCompletion "--export $($Distro)" '' $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--export')
+            addCompletion "--export $($Distro)" $PSCompletions.replace_content($PSCompletions.data.wsl.info.tip.'--export')
         }
     }
     return $completions
