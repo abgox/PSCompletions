@@ -1548,11 +1548,9 @@
         "Completion file directory: <@Blue>{{ $completion_dir }}\n",
         "{{",
         " if($json.config){",
-        "'<@Blue>---------- Special configuration ---------- ';",
+        "\"<@Blue>---------- The special configuration of $($completion)---------- \";",
         " $config_list=$json.config | ForEach-Object {",
-        "  $config_value = $PSCompletions.config.comp_config.$completion.$($_.name);",
-        "  $value = if($config_value -ne $null){ \"`nCurrent Value: $($config_value)\" };",
-        "  \"`n<@Magenta>$($_.name)<@Blue>:$($value)`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
+        "  \"`n<@Magenta>$($_.name)<@Blue>:`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
         " };",
         " $config_list -join \"`n\";",
         " \"`n<@Blue>-------------------------------------------\";",
@@ -1608,11 +1606,9 @@
         "Completion file directory: <@Blue>{{ $completion_dir }}\n",
         "{{",
         "if($json.config){",
-        " '<@Blue>---------- Special configuration ---------- ';",
+        "\"<@Blue>---------- The special configuration of $($completion)---------- \";",
         " $config_list=$json.config | ForEach-Object {",
-        "  $config_value = $PSCompletions.config.comp_config.$completion.$($_.name);",
-        "  $value = if($config_value -ne $null){ \"`nCurrent Value: $($config_value)\" };",
-        "  \"`n<@Magenta>$($_.name)<@Blue>:$($value)`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
+        "  \"`n<@Magenta>$($_.name)<@Blue>:`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
         " };",
         " $config_list -join \"`n\";",
         " \"`n<@Blue>-------------------------------------------\";",
@@ -1983,9 +1979,12 @@
         0
       ],
       "tip": [
+        "Current Value: <@Magenta>{{$PSCompletions.config.comp_config.psc.disable_hooks}}<@Blue>\n",
         "Set whether to disable hooks. Default to 0.\n",
-        "The psc hooks are used to get the name of the installed completions, completions that can be added, etc. and then dynamically add them to some completions. (e.g. <@Magenta>add<@Blue>, <@Magenta>rm<@Blue>, <@Magenta>update<@Blue>, <@Magenta>completion<@Blue>, <@Magenta>alias<@Blue>, etc.)\n",
-        "For example, enter <@Magenta>psc rm<@Blue>, press <@Magenta>Space<@Blue> and <@Magenta>Tab<@Blue> key, and you can get some extra completions about the name of the installed completions.\n",
+        "The hooks will get the name of the installed or addable completions and add them in completions dynamically.\n",
+        "(e.g. <@Magenta>add<@Blue>, <@Magenta>rm<@Blue>, <@Magenta>update<@Blue>, <@Magenta>completion<@Blue>, <@Magenta>alias<@Blue>...)\n",
+        "For example, enter <@Magenta>psc rm<@Blue>, press <@Magenta>Space<@Blue> and <@Magenta>Tab<@Blue> key,\n",
+        "and you can get some extra completions about the name of the installed completions.\n",
         "You can disable hooks by running <@Magenta>psc completion psc disable_hooks 1<@Blue>."
       ]
     }
