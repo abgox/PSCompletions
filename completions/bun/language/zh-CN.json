@@ -1,1375 +1,1160 @@
 {
-    "root": [
+  "root": [
+    {
+      "name": "run",
+      "alias": ["exec"],
+      "tip": [
+        "U: run|exec [flags] <file or script>\n",
+        "使用 Bun 执行一个文件\n",
+        "E: run ./my-script.ts   --- 运行 ts 文件\n",
+        "   run build            --- 运行 package.json 中的脚本"
+      ],
+      "options": [
         {
-            "name": "run",
-            "alias": [
-                "exec"
-            ],
-            "tip": [
-                "U: run|exec [flags] <file or script>\n",
-                "使用 Bun 执行一个文件\n",
-                "E: run ./my-script.ts   --- 运行 ts 文件\n",
-                "   run build            --- 运行 package.json 中的脚本"
-            ],
-            "options": [
-                {
-                    "name": "--main-fields",
-                    "tip": [
-                        "要在 package.json 中查找的主要字段\n",
-                        "默认为 --target dependent"
-                    ]
-                },
-                {
-                    "name": "--extension-order",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --extension-order <ext1,ext2,ext3>\n",
-                        "默认为: .tsx,.ts,.jsx,.js,.json"
-                    ]
-                },
-                {
-                    "name": "--tsconfig-override",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --tsconfig-override <path>\n",
-                        "指定自定义的 tsconfig.json",
-                        "默认为 ./tsconfig.json"
-                    ]
-                },
-                {
-                    "name": "-d",
-                    "alias": [
-                        "--define"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -d|--define <K:V>\n",
-                        "在解析时替换 K:V。值将解析为 JSON",
-                        "E: --define process.env.NODE_ENV:\"development\""
-                    ]
-                },
-                {
-                    "name": "-l",
-                    "alias": [
-                        "--loader"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -l|--loader <.ext:loader>\n",
-                        "使用 .ext:loader 解析文件\n",
-                        "有效的加载器: js, jsx, ts, tsx, json, toml, text, file, wasm, napi\n",
-                        "E: --loader .js:jsx"
-                    ]
-                },
-                {
-                    "name": "--no-macros",
-                    "tip": "禁止在捆绑器、转译器和运行时执行宏"
-                },
-                {
-                    "name": "--jsx-factory",
-                    "tip": "更改编译 JSX 元素时调用的函数"
-                },
-                {
-                    "name": "--jsx-fragment",
-                    "tip": "更改编译 JSX 片段时调用的函数"
-                },
-                {
-                    "name": "--jsx-import-source",
-                    "tip": [
-                        "声明用于导入 jsx 和 jsxs 工厂函数的模块规范符\n",
-                        "默认为: \"react\""
-                    ]
-                },
-                {
-                    "name": "--jsx-runtime",
-                    "tip": "设置 JSX 运行时",
-                    "next": [
-                        {
-                            "name": "classic"
-                        },
-                        {
-                            "name": "automatic"
-                        }
-                    ]
-                }
-            ]
+          "name": "--main-fields",
+          "tip": [
+            "要在 package.json 中查找的主要字段\n",
+            "默认为 --target dependent"
+          ]
         },
         {
-            "name": "test",
-            "tip": [
-                "U: test [flags] <file or script>\n",
-                "运行所有匹配的测试文件, 并将结果打印到标准输出"
-            ],
-            "options": [
-                {
-                    "name": "--timeout",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --timeout <ms>\n",
-                        "设置每个测试的超时时间(毫秒), 默认为 5000"
-                    ]
-                },
-                {
-                    "name": "--update-snapshots",
-                    "tip": "更新快照文件"
-                },
-                {
-                    "name": "--rerun-each",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --rerun-each <n>\n",
-                        "重新运行每个测试文件 <n> 次, 有助于捕获某些错误"
-                    ]
-                },
-                {
-                    "name": "--only",
-                    "tip": "仅运行标记为 \"test.only()\" 的测试"
-                },
-                {
-                    "name": "--todo",
-                    "tip": "包括标记为 \"test.todo()\" 的测试"
-                },
-                {
-                    "name": "--coverage",
-                    "tip": "生成覆盖率文件"
-                },
-                {
-                    "name": "--bail",
-                    "tip": [
-                        "U: --bail <n>\n",
-                        "在 <n> 次失败后退出测试套件\n",
-                        "如果不指定数字, 默认为 1"
-                    ]
-                },
-                {
-                    "name": "-t",
-                    "alias": [
-                        "--test-name-pattern"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -t|--test-name-pattern <regex>\n",
-                        "仅运行名称与给定正则表达式匹配的测试"
-                    ]
-                }
-            ]
+          "name": "--extension-order",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --extension-order <ext1,ext2,ext3>\n",
+            "默认为: .tsx,.ts,.jsx,.js,.json"
+          ]
         },
         {
-            "name": "x",
-            "tip": [
-                "U: x [flags] <package>[@version] [...flags and arguments]\n",
-                "执行一个 npm 包可执行文件(CLI), 如果未安装在 node_modules 中, 将自动安装到全局共享缓存中\n",
-                "E: x --bun vite dev foo.js"
-            ],
-            "options": [
-                {
-                    "name": "--bun",
-                    "tip": "强制命令使用 Bun 而不是 Node.js 运行"
-                }
-            ]
+          "name": "--tsconfig-override",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --tsconfig-override <path>\n",
+            "指定自定义的 tsconfig.json",
+            "默认为 ./tsconfig.json"
+          ]
         },
         {
-            "name": "repl",
-            "tip": [
-                "U: repl [options]\n",
-                "使用 Bun 启动一个 REPL 会话"
-            ],
-            "options": [
-                {
-                    "name": "--sloppy",
-                    "tip": "以 sloopy 模式运行 REPL"
-                },
-                {
-                    "name": "--print",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --print <expression>\n",
-                        "评估给定的代码, 打印结果并退出\n",
-                        "E: --print \"console.log('Hello')\""
-                    ]
-                },
-                {
-                    "name": "--eval",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --eval <expression>\n",
-                        "评估给定的代码并静默退出\n",
-                        "E: --eval \"console.log('Hello')\""
-                    ]
-                }
-            ]
+          "name": "-d",
+          "alias": ["--define"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -d|--define <K:V>\n",
+            "在解析时替换 K:V。值将解析为 JSON",
+            "E: --define process.env.NODE_ENV:\"development\""
+          ]
         },
         {
-            "name": "install",
-            "alias": [
-                "i",
-                "add",
-                "a"
-            ],
-            "tip": [
-                "U: install|i|add|a\n",
-                "为 package.json 安装/添加依赖项"
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "生成 yarn.lock 文件 (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "不安装 devDependencies"
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "不更新 package.json 或保存锁定文件"
-                },
-                {
-                    "name": "--save",
-                    "tip": "保存到 package.json (默认为 true)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "不安装任何东西"
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "禁止对锁定文件进行更改"
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "始终从注册表请求最新版本并重新安装所有依赖项"
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "从特定目录路径存储和加载缓存数据"
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "完全忽略清单缓存"
-                },
-                {
-                    "name": "--silent",
-                    "tip": "不记录任何内容"
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "更详细的记录"
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "禁用进度条"
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "不打印摘要"
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "跳过对新下载的软件包完整性的验证"
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "全局安装"
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "设置特定的 cwd"
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "针对安装依赖项进行平台特定的优化\n",
-                        "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "默认值"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": [
-                        "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"\n",
-                        "默认值: esbuild, turbo"
-                    ]
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "生命周期脚本的最大并发作业数。 (默认为 5)"
-                },
-                {
-                    "name": "-d",
-                    "alias": [
-                        "--dev"
-                    ],
-                    "tip": [
-                        "U: -d|--dev\n",
-                        "将依赖项添加到 \"devDependencies\""
-                    ]
-                },
-                {
-                    "name": "--optional",
-                    "tip": "将依赖项添加到 \"optionalDependencies\""
-                },
-                {
-                    "name": "-E",
-                    "alias": [
-                        "--exact"
-                    ],
-                    "tip": [
-                        "U: -E|--exact\n",
-                        "添加精确版本而不是 ^range"
-                    ]
-                }
-            ]
+          "name": "-l",
+          "alias": ["--loader"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -l|--loader <.ext:loader>\n",
+            "使用 .ext:loader 解析文件\n",
+            "有效的加载器: js, jsx, ts, tsx, json, toml, text, file, wasm, napi\n",
+            "E: --loader .js:jsx"
+          ]
         },
         {
-            "name": "remove",
-            "alias": [
-                "rm"
-            ],
-            "tip": [
-                "U: remove|rm [flags] <pkg> [...<pkg>]\n",
-                "从 package.json 中移除一个包并从 node_modules 中卸载\n",
-                "E: remove vite"
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "生成 yarn.lock 文件。 (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "不卸载 devDependencies"
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "不更新 package.json 或保存锁定文件"
-                },
-                {
-                    "name": "--save",
-                    "tip": "保存到 package.json。 (默认为 true)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "不卸载任何东西"
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "禁止对锁定文件进行更改"
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "始终从注册表请求最新版本并重新安装所有依赖项"
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "从特定目录路径存储和加载缓存数据"
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "完全忽略清单缓存"
-                },
-                {
-                    "name": "--silent",
-                    "tip": "不记录任何内容"
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "更详细的记录"
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "禁用进度条"
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "不打印摘要"
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "跳过对新下载的软件包完整性的验证"
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "全局卸载"
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "设置特定的 cwd"
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "针对安装依赖项进行平台特定的优化\n",
-                        "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "默认值"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
-                }
-            ]
+          "name": "--no-macros",
+          "tip": "禁止在捆绑器、转译器和运行时执行宏"
         },
         {
-            "name": "update",
-            "tip": "将 package.json 中所有的依赖项更新到最新版本的范围内",
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "生成 yarn.lock 文件。 (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "不更新 devDependencies"
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "不更新 package.json 或保存锁定文件"
-                },
-                {
-                    "name": "--save",
-                    "tip": "保存到 package.json。 (默认为 true)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "不更新任何东西"
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "禁止对锁定文件进行更改"
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "始终从注册表请求最新版本并重新安装所有依赖项"
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "从特定目录路径存储和加载缓存数据"
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "完全忽略清单缓存"
-                },
-                {
-                    "name": "--silent",
-                    "tip": "不记录任何内容"
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "更详细的记录"
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "禁用进度条"
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "不打印摘要"
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "跳过对新下载的软件包完整性的验证"
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "全局更新"
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "设置特定的 cwd"
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "针对安装依赖项进行平台特定的优化\n",
-                        "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "默认值"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
-                }
-            ]
+          "name": "--jsx-factory",
+          "tip": "更改编译 JSX 元素时调用的函数"
         },
         {
-            "name": "link",
-            "tip": [
-                "U: link [flags] [<package>]\n",
-                "注册或链接一个本地的 npm 包"
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "生成 yarn.lock 文件。 (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "不链接 devDependencies"
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "不更新 package.json 或保存锁定文件"
-                },
-                {
-                    "name": "--save",
-                    "tip": "保存到 package.json。 (默认为 true)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "不链接任何东西"
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "禁止对锁定文件进行更改"
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "始终从注册表请求最新版本并重新安装所有依赖项"
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "从特定目录路径存储和加载缓存数据"
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "完全忽略清单缓存"
-                },
-                {
-                    "name": "--silent",
-                    "tip": "不记录任何内容"
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "更详细的记录"
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "禁用进度条"
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "不打印摘要"
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "跳过对新下载的软件包完整性的验证"
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "全局链接"
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "设置特定的 cwd"
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "针对安装依赖项进行平台特定的优化\n",
-                        "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "默认值"
-                        },
-                        {
-                            "name": "symlink"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
-                }
-            ]
+          "name": "--jsx-fragment",
+          "tip": "更改编译 JSX 片段时调用的函数"
         },
         {
-            "name": "unlink",
-            "tip": [
-                "U: unlink [flags] [<package>]\n",
-                "取消链接一个本地的 npm 包"
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yarn"
-                    ],
-                    "tip": [
-                        "U: -y|--yarn\n",
-                        "生成 yarn.lock 文件。 (yarn v1)"
-                    ]
-                },
-                {
-                    "name": "-p",
-                    "alias": [
-                        "--production"
-                    ],
-                    "tip": [
-                        "U: -p|--production\n",
-                        "不取消链接 devDependencies"
-                    ]
-                },
-                {
-                    "name": "--no-save",
-                    "tip": "不更新 package.json 或保存锁定文件"
-                },
-                {
-                    "name": "--save",
-                    "tip": "保存到 package.json。 (默认为 true)"
-                },
-                {
-                    "name": "--dry-run",
-                    "tip": "不取消链接任何东西"
-                },
-                {
-                    "name": "--frozen-lockfile",
-                    "tip": "禁止对锁定文件进行更改"
-                },
-                {
-                    "name": "-f",
-                    "alias": [
-                        "--force"
-                    ],
-                    "tip": [
-                        "U: -f|--force\n",
-                        "始终从注册表请求最新版本并重新安装所有依赖项"
-                    ]
-                },
-                {
-                    "name": "--cache-dir",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cache-dir <path>\n",
-                        "从特定目录路径存储和加载缓存数据"
-                    ]
-                },
-                {
-                    "name": "--no-cache",
-                    "tip": "完全忽略清单缓存"
-                },
-                {
-                    "name": "--silent",
-                    "tip": "不记录任何内容"
-                },
-                {
-                    "name": "--verbose",
-                    "tip": "更详细的记录"
-                },
-                {
-                    "name": "--no-progress",
-                    "tip": "禁用进度条"
-                },
-                {
-                    "name": "--no-summary",
-                    "tip": "不打印摘要"
-                },
-                {
-                    "name": "--no-verify",
-                    "tip": "跳过对新下载的软件包完整性的验证"
-                },
-                {
-                    "name": "--ignore-scripts",
-                    "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
-                },
-                {
-                    "name": "--trust",
-                    "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
-                },
-                {
-                    "name": "-g",
-                    "alias": [
-                        "--global"
-                    ],
-                    "tip": [
-                        "U: -g|--global\n",
-                        "全局取消链接"
-                    ]
-                },
-                {
-                    "name": "--cwd",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --cwd <cwd>\n",
-                        "设置特定的 cwd"
-                    ]
-                },
-                {
-                    "name": "--backend",
-                    "tip": [
-                        "针对安装依赖项进行平台特定的优化\n",
-                        "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
-                    ],
-                    "next": [
-                        {
-                            "name": "hardlink",
-                            "tip": "默认值"
-                        },
-                        {
-                            "name": "symlink",
-                            "tip": "默认值"
-                        },
-                        {
-                            "name": "copyfile"
-                        }
-                    ]
-                },
-                {
-                    "name": "--link-native-bins",
-                    "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
-                },
-                {
-                    "name": "--concurrent-scripts",
-                    "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
-                }
-            ]
+          "name": "--jsx-import-source",
+          "tip": [
+            "声明用于导入 jsx 和 jsxs 工厂函数的模块规范符\n",
+            "默认为: \"react\""
+          ]
         },
         {
-            "name": "pm",
-            "tip": [
-                "U: pm <command>\n",
-                "额外的包管理工具"
-            ],
-            "next": [
-                {
-                    "name": "bin",
-                    "tip": "打印 bin 文件夹的路径",
-                    "options": [
-                        {
-                            "name": "-g",
-                            "alias": [
-                                "--global"
-                            ],
-                            "tip": [
-                                "U: -g|--global\n",
-                                "打印全局 bin 文件夹的路径"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "name": "ls",
-                    "tip": "根据当前的锁定文件列出依赖树",
-                    "options": [
-                        {
-                            "name": "--all",
-                            "tip": "根据当前的锁定文件列出整个依赖树"
-                        }
-                    ]
-                },
-                {
-                    "name": "hash",
-                    "tip": "生成并打印当前锁定文件的哈希值"
-                },
-                {
-                    "name": "hash-string",
-                    "tip": "打印存储在当前锁定文件中的哈希值"
-                },
-                {
-                    "name": "cache",
-                    "tip": "打印缓存文件夹的路径",
-                    "next": [
-                        {
-                            "name": "rm",
-                            "tip": "清除缓存"
-                        }
-                    ]
-                },
-                {
-                    "name": "migrate",
-                    "tip": "迁移另一个包管理器的锁定文件, 而无需安装任何内容"
-                },
-                {
-                    "name": "untrusted",
-                    "tip": "打印当前具有脚本的不受信任的依赖项"
-                },
-                {
-                    "name": "default-trusted",
-                    "tip": "打印默认信任的依赖项列表"
-                }
-            ]
-        },
-        {
-            "name": "build",
-            "tip": [
-                "U: build [...flags] [...entrypoints]\n",
-                "编译和捆绑一个或多个文件\n",
-                "E: build ./a.ts ./b.jsx"
-            ],
-            "options": [
-                {
-                    "name": "--compile",
-                    "tip": "生成包含您捆绑代码的独立 Bun 可执行文件"
-                },
-                {
-                    "name": "--watch",
-                    "tip": "在文件更改时自动重启进程"
-                },
-                {
-                    "name": "--target",
-                    "tip": [
-                        "捆绑的目标执行环境\n",
-                        "\"browser\"、\"bun\" 或 \"node\""
-                    ],
-                    "next": [
-                        {
-                            "name": "browser"
-                        },
-                        {
-                            "name": "bun"
-                        },
-                        {
-                            "name": "node"
-                        }
-                    ]
-                },
-                {
-                    "name": "--outdir",
-                    "tip": "如果有多个文件, 默认为 \"dist\""
-                },
-                {
-                    "name": "--outfile",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --outfile <path>\n",
-                        "写入文件"
-                    ]
-                },
-                {
-                    "name": "--sourcemap",
-                    "tip": "使用源映射构建 - 'inline'、'external' 或 'none'",
-                    "next": [
-                        {
-                            "name": "inline"
-                        },
-                        {
-                            "name": "external"
-                        },
-                        {
-                            "name": "none"
-                        }
-                    ]
-                },
-                {
-                    "name": "--format",
-                    "tip": "指定要构建的模块格式。仅支持 \"esm\""
-                },
-                {
-                    "name": "--root",
-                    "tip": "用于多个入口点的根目录"
-                },
-                {
-                    "name": "--splitting",
-                    "tip": "启用代码拆分"
-                },
-                {
-                    "name": "--public-path",
-                    "tip": "在捆绑代码中附加到任何导入路径的前缀"
-                },
-                {
-                    "name": "-e",
-                    "alias": [
-                        "--external"
-                    ],
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: -e|--external <module>\n",
-                        "从编译中排除模块(可以使用 * 通配符)\n",
-                        "E: -e react"
-                    ]
-                },
-                {
-                    "name": "--entry-naming",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --entry-naming <name>\n",
-                        "自定义入口点文件名。默认为 \"[dir]/[name].[ext]\""
-                    ]
-                },
-                {
-                    "name": "--chunk-naming",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --chunk-naming <name>\n",
-                        "自定义块文件名。默认为 \"[name]-[hash].[ext]\""
-                    ]
-                },
-                {
-                    "name": "--asset-naming",
-                    "symbol": "WriteSpaceTab",
-                    "tip": [
-                        "U: --asset-naming <name>\n",
-                        "自定义资源文件名。默认为 \"[name]-[hash].[ext]\""
-                    ]
-                },
-                {
-                    "name": "--server-components",
-                    "tip": "启用 React 服务器组件。 (实验性)"
-                },
-                {
-                    "name": "--no-bundle",
-                    "tip": "仅编译文件, 不捆绑"
-                },
-                {
-                    "name": "--minify",
-                    "tip": "启用所有压缩标志"
-                },
-                {
-                    "name": "--minify-syntax",
-                    "tip": "压缩语法和内联数据"
-                },
-                {
-                    "name": "--minify-whitespace",
-                    "tip": "压缩空白"
-                },
-                {
-                    "name": "--minify-identifiers",
-                    "tip": "压缩标识符"
-                },
-                {
-                    "name": "--conditions",
-                    "tip": "传递自定义条件以解析"
-                }
-            ]
-        },
-        {
-            "name": "init",
-            "tip": [
-                "U: init [flags] [<entrypoint> ...]\n",
-                "在当前目录初始化一个 Bun 项目\n",
-                "如果不存在, 将创建 package.json、tsconfig.json 和 bunfig.toml"
-            ],
-            "options": [
-                {
-                    "name": "-y",
-                    "alias": [
-                        "--yes"
-                    ],
-                    "tip": [
-                        "U: -y|--yes\n",
-                        "接受所有默认选项"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "c",
-            "alias": [
-                "create"
-            ],
-            "tip": [
-                "U: c|create <template> [...flags] [dest]\n",
-                "从模板创建一个新项目\n",
-                "E: create @remix-run/dev"
-            ]
-        },
-        {
-            "name": "upgrade",
-            "tip": [
-                "E: upgrade [flags]\n",
-                "升级到最新版本的 Bun"
-            ],
-            "options": [
-                {
-                    "name": "--canary",
-                    "tip": "安装最新的 Bun 预发布版本"
-                }
-            ]
+          "name": "--jsx-runtime",
+          "tip": "设置 JSX 运行时",
+          "next": [
+            {
+              "name": "classic"
+            },
+            {
+              "name": "automatic"
+            }
+          ]
         }
-    ],
-    "options": [
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "U: test [flags] <file or script>\n",
+        "运行所有匹配的测试文件, 并将结果打印到标准输出"
+      ],
+      "options": [
         {
-            "name": "-v",
-            "alias": [
-                "--version"
-            ],
-            "tip": [
-                "U: -v|--version\n",
-                "显示当前 Bun 的版本"
-            ]
+          "name": "--timeout",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --timeout <ms>\n",
+            "设置每个测试的超时时间(毫秒), 默认为 5000"
+          ]
         },
         {
-            "name": "--revision",
-            "tip": "打印包含修订版本的版本信息并退出"
+          "name": "--update-snapshots",
+          "tip": "更新快照文件"
+        },
+        {
+          "name": "--rerun-each",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --rerun-each <n>\n",
+            "重新运行每个测试文件 <n> 次, 有助于捕获某些错误"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": "仅运行标记为 \"test.only()\" 的测试"
+        },
+        {
+          "name": "--todo",
+          "tip": "包括标记为 \"test.todo()\" 的测试"
+        },
+        {
+          "name": "--coverage",
+          "tip": "生成覆盖率文件"
+        },
+        {
+          "name": "--bail",
+          "tip": [
+            "U: --bail <n>\n",
+            "在 <n> 次失败后退出测试套件\n",
+            "如果不指定数字, 默认为 1"
+          ]
+        },
+        {
+          "name": "-t",
+          "alias": ["--test-name-pattern"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -t|--test-name-pattern <regex>\n",
+            "仅运行名称与给定正则表达式匹配的测试"
+          ]
         }
-    ],
-    "common_options": [
+      ]
+    },
+    {
+      "name": "x",
+      "tip": [
+        "U: x [flags] <package>[@version] [...flags and arguments]\n",
+        "执行一个 npm 包可执行文件(CLI), 如果未安装在 node_modules 中, 将自动安装到全局共享缓存中\n",
+        "E: x --bun vite dev foo.js"
+      ],
+      "options": [
         {
-            "name": "-h",
-            "alias": [
-                "--help"
-            ],
-            "tip": [
-                "U: -h|--help\n",
-                "打印命令的帮助文本"
-            ]
-        },
-        {
-            "name": "--watch",
-            "tip": "文件更改时自动重新启动进程"
-        },
-        {
-            "name": "--hot",
-            "tip": "在 Bun 运行时、测试运行器或打包器中启用自动重新加载"
-        },
-        {
-            "name": "--smol",
-            "tip": "使用更少的内存, 但更频繁地运行垃圾收集"
-        },
-        {
-            "name": "-r",
-            "alias": [
-                "--preload"
-            ],
-            "symbol": "WriteSpaceTab",
-            "tip": [
-                "U: -r|--preload <module>\n",
-                "在加载其他模块之前导入一个模块"
-            ]
-        },
-        {
-            "name": "--inspect",
-            "tip": "激活 Bun 的调试器"
-        },
-        {
-            "name": "--inspect-wait",
-            "tip": "激活 Bun 的调试器, 在执行之前等待连接"
-        },
-        {
-            "name": "--inspect-brk",
-            "tip": "激活 Bun 的调试器, 在代码的第一行设置断点并等待"
-        },
-        {
-            "name": "--if-present",
-            "tip": "如果入口点不存在, 则退出而不报错"
-        },
-        {
-            "name": "--no-install",
-            "tip": "在 Bun 运行时禁用自动安装"
-        },
-        {
-            "name": "--install",
-            "tip": [
-                "配置自动安装行为\n",
-                "可用的值: auto/fallback/force"
-            ],
-            "next": [
-                {
-                    "name": "auto",
-                    "tip": "默认, 当不存在 node_modules 时自动安装"
-                },
-                {
-                    "name": "fallback",
-                    "tip": "仅缺少的包"
-                },
-                {
-                    "name": "force",
-                    "tip": "始终安装"
-                }
-            ]
-        },
-        {
-            "name": "-i",
-            "tip": [
-                "在执行过程中自动安装依赖项\n",
-                "等同于 --install=fallback"
-            ]
-        },
-        {
-            "name": "-e",
-            "alias": [
-                "--eval"
-            ],
-            "symbol": "WriteSpaceTab",
-            "tip": [
-                "U: -e|--eval <code>\n",
-                "将参数作为脚本进行评估"
-            ]
-        },
-        {
-            "name": "--print",
-            "tip": "将参数作为脚本进行评估并打印结果"
-        },
-        {
-            "name": "--prefer-offline",
-            "tip": "跳过 Bun 运行时的包陈旧性检查, 并从磁盘解析"
-        },
-        {
-            "name": "--prefer-latest",
-            "tip": "在 Bun 运行时使用最新匹配的包版本, 始终检查 npm"
-        },
-        {
-            "name": "-p",
-            "alias": [
-                "--port"
-            ],
-            "symbol": "WriteSpaceTab",
-            "tip": [
-                "U: -p|--port <port>\n",
-                "设置 Bun.serve 的默认端口"
-            ]
-        },
-        {
-            "name": "--conditions",
-            "tip": "传递自定义条件以解析"
-        },
-        {
-            "name": "--silent",
-            "tip": "不打印脚本命令"
-        },
-        {
-            "name": "-b",
-            "alias": [
-                "--bun"
-            ],
-            "tip": [
-                "U: -b|--bun\n",
-                "强制脚本或包使用 Bun 的运行时, 而不是 Node.js (通过符号链接 node)"
-            ]
-        },
-        {
-            "name": "--shell",
-            "tip": [
-                "控制 package.json 脚本所使用的 shell\n",
-                "支持 'bun' 或 'system'"
-            ]
-        },
-        {
-            "name": "--env-file",
-            "tip": "从指定文件加载环境变量"
-        },
-        {
-            "name": "--cwd",
-            "tip": [
-                "用于解析文件和入口点的绝对路径\n",
-                "这只是更改了进程的 cwd"
-            ]
-        },
-        {
-            "name": "-c",
-            "alias": [
-                "--config"
-            ],
-            "tip": [
-                "U: -c|--config <path>\n",
-                "指定 Bun 配置文件的路径\n",
-                "默认为 ./bunfig.toml"
-            ]
+          "name": "--bun",
+          "tip": "强制命令使用 Bun 而不是 Node.js 运行"
         }
-    ],
-    "info": {
-        "completion_info": {
-            "url": "https://bun.sh",
-            "description": "Bun - JavaScript 运行时和工具包"
+      ]
+    },
+    {
+      "name": "repl",
+      "tip": ["U: repl [options]\n", "使用 Bun 启动一个 REPL 会话"],
+      "options": [
+        {
+          "name": "--sloppy",
+          "tip": "以 sloopy 模式运行 REPL"
+        },
+        {
+          "name": "--print",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --print <expression>\n",
+            "评估给定的代码, 打印结果并退出\n",
+            "E: --print \"console.log('Hello')\""
+          ]
+        },
+        {
+          "name": "--eval",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --eval <expression>\n",
+            "评估给定的代码并静默退出\n",
+            "E: --eval \"console.log('Hello')\""
+          ]
         }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": ["i", "add", "a"],
+      "tip": ["U: install|i|add|a\n", "为 package.json 安装/添加依赖项"],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "生成 yarn.lock 文件 (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "不安装 devDependencies"]
+        },
+        {
+          "name": "--no-save",
+          "tip": "不更新 package.json 或保存锁定文件"
+        },
+        {
+          "name": "--save",
+          "tip": "保存到 package.json (默认为 true)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "不安装任何东西"
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "禁止对锁定文件进行更改"
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "始终从注册表请求最新版本并重新安装所有依赖项"
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cache-dir <path>\n", "从特定目录路径存储和加载缓存数据"]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "完全忽略清单缓存"
+        },
+        {
+          "name": "--silent",
+          "tip": "不记录任何内容"
+        },
+        {
+          "name": "--verbose",
+          "tip": "更详细的记录"
+        },
+        {
+          "name": "--no-progress",
+          "tip": "禁用进度条"
+        },
+        {
+          "name": "--no-summary",
+          "tip": "不打印摘要"
+        },
+        {
+          "name": "--no-verify",
+          "tip": "跳过对新下载的软件包完整性的验证"
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
+        },
+        {
+          "name": "--trust",
+          "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "全局安装"]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "设置特定的 cwd"]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "针对安装依赖项进行平台特定的优化\n",
+            "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "默认值"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": [
+            "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"\n",
+            "默认值: esbuild, turbo"
+          ]
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "生命周期脚本的最大并发作业数。 (默认为 5)"
+        },
+        {
+          "name": "-d",
+          "alias": ["--dev"],
+          "tip": ["U: -d|--dev\n", "将依赖项添加到 \"devDependencies\""]
+        },
+        {
+          "name": "--optional",
+          "tip": "将依赖项添加到 \"optionalDependencies\""
+        },
+        {
+          "name": "-E",
+          "alias": ["--exact"],
+          "tip": ["U: -E|--exact\n", "添加精确版本而不是 ^range"]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": ["rm"],
+      "tip": [
+        "U: remove|rm [flags] <pkg> [...<pkg>]\n",
+        "从 package.json 中移除一个包并从 node_modules 中卸载\n",
+        "E: remove vite"
+      ],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "生成 yarn.lock 文件。 (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "不卸载 devDependencies"]
+        },
+        {
+          "name": "--no-save",
+          "tip": "不更新 package.json 或保存锁定文件"
+        },
+        {
+          "name": "--save",
+          "tip": "保存到 package.json。 (默认为 true)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "不卸载任何东西"
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "禁止对锁定文件进行更改"
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "始终从注册表请求最新版本并重新安装所有依赖项"
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cache-dir <path>\n", "从特定目录路径存储和加载缓存数据"]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "完全忽略清单缓存"
+        },
+        {
+          "name": "--silent",
+          "tip": "不记录任何内容"
+        },
+        {
+          "name": "--verbose",
+          "tip": "更详细的记录"
+        },
+        {
+          "name": "--no-progress",
+          "tip": "禁用进度条"
+        },
+        {
+          "name": "--no-summary",
+          "tip": "不打印摘要"
+        },
+        {
+          "name": "--no-verify",
+          "tip": "跳过对新下载的软件包完整性的验证"
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
+        },
+        {
+          "name": "--trust",
+          "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "全局卸载"]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "设置特定的 cwd"]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "针对安装依赖项进行平台特定的优化\n",
+            "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "默认值"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": "将 package.json 中所有的依赖项更新到最新版本的范围内",
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "生成 yarn.lock 文件。 (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "不更新 devDependencies"]
+        },
+        {
+          "name": "--no-save",
+          "tip": "不更新 package.json 或保存锁定文件"
+        },
+        {
+          "name": "--save",
+          "tip": "保存到 package.json。 (默认为 true)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "不更新任何东西"
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "禁止对锁定文件进行更改"
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "始终从注册表请求最新版本并重新安装所有依赖项"
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cache-dir <path>\n", "从特定目录路径存储和加载缓存数据"]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "完全忽略清单缓存"
+        },
+        {
+          "name": "--silent",
+          "tip": "不记录任何内容"
+        },
+        {
+          "name": "--verbose",
+          "tip": "更详细的记录"
+        },
+        {
+          "name": "--no-progress",
+          "tip": "禁用进度条"
+        },
+        {
+          "name": "--no-summary",
+          "tip": "不打印摘要"
+        },
+        {
+          "name": "--no-verify",
+          "tip": "跳过对新下载的软件包完整性的验证"
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
+        },
+        {
+          "name": "--trust",
+          "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "全局更新"]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "设置特定的 cwd"]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "针对安装依赖项进行平台特定的优化\n",
+            "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "默认值"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": ["U: link [flags] [<package>]\n", "注册或链接一个本地的 npm 包"],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "生成 yarn.lock 文件。 (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "不链接 devDependencies"]
+        },
+        {
+          "name": "--no-save",
+          "tip": "不更新 package.json 或保存锁定文件"
+        },
+        {
+          "name": "--save",
+          "tip": "保存到 package.json。 (默认为 true)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "不链接任何东西"
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "禁止对锁定文件进行更改"
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "始终从注册表请求最新版本并重新安装所有依赖项"
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cache-dir <path>\n", "从特定目录路径存储和加载缓存数据"]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "完全忽略清单缓存"
+        },
+        {
+          "name": "--silent",
+          "tip": "不记录任何内容"
+        },
+        {
+          "name": "--verbose",
+          "tip": "更详细的记录"
+        },
+        {
+          "name": "--no-progress",
+          "tip": "禁用进度条"
+        },
+        {
+          "name": "--no-summary",
+          "tip": "不打印摘要"
+        },
+        {
+          "name": "--no-verify",
+          "tip": "跳过对新下载的软件包完整性的验证"
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
+        },
+        {
+          "name": "--trust",
+          "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "全局链接"]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "设置特定的 cwd"]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "针对安装依赖项进行平台特定的优化\n",
+            "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "默认值"
+            },
+            {
+              "name": "symlink"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "tip": ["U: unlink [flags] [<package>]\n", "取消链接一个本地的 npm 包"],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yarn"],
+          "tip": ["U: -y|--yarn\n", "生成 yarn.lock 文件。 (yarn v1)"]
+        },
+        {
+          "name": "-p",
+          "alias": ["--production"],
+          "tip": ["U: -p|--production\n", "不取消链接 devDependencies"]
+        },
+        {
+          "name": "--no-save",
+          "tip": "不更新 package.json 或保存锁定文件"
+        },
+        {
+          "name": "--save",
+          "tip": "保存到 package.json。 (默认为 true)"
+        },
+        {
+          "name": "--dry-run",
+          "tip": "不取消链接任何东西"
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": "禁止对锁定文件进行更改"
+        },
+        {
+          "name": "-f",
+          "alias": ["--force"],
+          "tip": [
+            "U: -f|--force\n",
+            "始终从注册表请求最新版本并重新安装所有依赖项"
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cache-dir <path>\n", "从特定目录路径存储和加载缓存数据"]
+        },
+        {
+          "name": "--no-cache",
+          "tip": "完全忽略清单缓存"
+        },
+        {
+          "name": "--silent",
+          "tip": "不记录任何内容"
+        },
+        {
+          "name": "--verbose",
+          "tip": "更详细的记录"
+        },
+        {
+          "name": "--no-progress",
+          "tip": "禁用进度条"
+        },
+        {
+          "name": "--no-summary",
+          "tip": "不打印摘要"
+        },
+        {
+          "name": "--no-verify",
+          "tip": "跳过对新下载的软件包完整性的验证"
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)"
+        },
+        {
+          "name": "--trust",
+          "tip": "添加到项目的 package.json 中的 trustedDependencies, 并安装包"
+        },
+        {
+          "name": "-g",
+          "alias": ["--global"],
+          "tip": ["U: -g|--global\n", "全局取消链接"]
+        },
+        {
+          "name": "--cwd",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --cwd <cwd>\n", "设置特定的 cwd"]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "针对安装依赖项进行平台特定的优化\n",
+            "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "hardlink",
+              "tip": "默认值"
+            },
+            {
+              "name": "symlink",
+              "tip": "默认值"
+            },
+            {
+              "name": "copyfile"
+            }
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": "生命周期脚本的最大并发作业数 (默认为 5)"
+        }
+      ]
+    },
+    {
+      "name": "pm",
+      "tip": ["U: pm <command>\n", "额外的包管理工具"],
+      "next": [
+        {
+          "name": "bin",
+          "tip": "打印 bin 文件夹的路径",
+          "options": [
+            {
+              "name": "-g",
+              "alias": ["--global"],
+              "tip": ["U: -g|--global\n", "打印全局 bin 文件夹的路径"]
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": "根据当前的锁定文件列出依赖树",
+          "options": [
+            {
+              "name": "--all",
+              "tip": "根据当前的锁定文件列出整个依赖树"
+            }
+          ]
+        },
+        {
+          "name": "hash",
+          "tip": "生成并打印当前锁定文件的哈希值"
+        },
+        {
+          "name": "hash-string",
+          "tip": "打印存储在当前锁定文件中的哈希值"
+        },
+        {
+          "name": "cache",
+          "tip": "打印缓存文件夹的路径",
+          "next": [
+            {
+              "name": "rm",
+              "tip": "清除缓存"
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "tip": "迁移另一个包管理器的锁定文件, 而无需安装任何内容"
+        },
+        {
+          "name": "untrusted",
+          "tip": "打印当前具有脚本的不受信任的依赖项"
+        },
+        {
+          "name": "default-trusted",
+          "tip": "打印默认信任的依赖项列表"
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "U: build [...flags] [...entrypoints]\n",
+        "编译和捆绑一个或多个文件\n",
+        "E: build ./a.ts ./b.jsx"
+      ],
+      "options": [
+        {
+          "name": "--compile",
+          "tip": "生成包含您捆绑代码的独立 Bun 可执行文件"
+        },
+        {
+          "name": "--watch",
+          "tip": "在文件更改时自动重启进程"
+        },
+        {
+          "name": "--target",
+          "tip": ["捆绑的目标执行环境\n", "\"browser\"、\"bun\" 或 \"node\""],
+          "next": [
+            {
+              "name": "browser"
+            },
+            {
+              "name": "bun"
+            },
+            {
+              "name": "node"
+            }
+          ]
+        },
+        {
+          "name": "--outdir",
+          "tip": "如果有多个文件, 默认为 \"dist\""
+        },
+        {
+          "name": "--outfile",
+          "symbol": "WriteSpaceTab",
+          "tip": ["U: --outfile <path>\n", "写入文件"]
+        },
+        {
+          "name": "--sourcemap",
+          "tip": "使用源映射构建 - 'inline'、'external' 或 'none'",
+          "next": [
+            {
+              "name": "inline"
+            },
+            {
+              "name": "external"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": "指定要构建的模块格式。仅支持 \"esm\""
+        },
+        {
+          "name": "--root",
+          "tip": "用于多个入口点的根目录"
+        },
+        {
+          "name": "--splitting",
+          "tip": "启用代码拆分"
+        },
+        {
+          "name": "--public-path",
+          "tip": "在捆绑代码中附加到任何导入路径的前缀"
+        },
+        {
+          "name": "-e",
+          "alias": ["--external"],
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: -e|--external <module>\n",
+            "从编译中排除模块(可以使用 * 通配符)\n",
+            "E: -e react"
+          ]
+        },
+        {
+          "name": "--entry-naming",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --entry-naming <name>\n",
+            "自定义入口点文件名。默认为 \"[dir]/[name].[ext]\""
+          ]
+        },
+        {
+          "name": "--chunk-naming",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --chunk-naming <name>\n",
+            "自定义块文件名。默认为 \"[name]-[hash].[ext]\""
+          ]
+        },
+        {
+          "name": "--asset-naming",
+          "symbol": "WriteSpaceTab",
+          "tip": [
+            "U: --asset-naming <name>\n",
+            "自定义资源文件名。默认为 \"[name]-[hash].[ext]\""
+          ]
+        },
+        {
+          "name": "--server-components",
+          "tip": "启用 React 服务器组件。 (实验性)"
+        },
+        {
+          "name": "--no-bundle",
+          "tip": "仅编译文件, 不捆绑"
+        },
+        {
+          "name": "--minify",
+          "tip": "启用所有压缩标志"
+        },
+        {
+          "name": "--minify-syntax",
+          "tip": "压缩语法和内联数据"
+        },
+        {
+          "name": "--minify-whitespace",
+          "tip": "压缩空白"
+        },
+        {
+          "name": "--minify-identifiers",
+          "tip": "压缩标识符"
+        },
+        {
+          "name": "--conditions",
+          "tip": "传递自定义条件以解析"
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [flags] [<entrypoint> ...]\n",
+        "在当前目录初始化一个 Bun 项目\n",
+        "如果不存在, 将创建 package.json、tsconfig.json 和 bunfig.toml"
+      ],
+      "options": [
+        {
+          "name": "-y",
+          "alias": ["--yes"],
+          "tip": ["U: -y|--yes\n", "接受所有默认选项"]
+        }
+      ]
+    },
+    {
+      "name": "c",
+      "alias": ["create"],
+      "tip": [
+        "U: c|create <template> [...flags] [dest]\n",
+        "从模板创建一个新项目\n",
+        "E: create @remix-run/dev"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": ["E: upgrade [flags]\n", "升级到最新版本的 Bun"],
+      "options": [
+        {
+          "name": "--canary",
+          "tip": "安装最新的 Bun 预发布版本"
+        }
+      ]
     }
+  ],
+  "options": [
+    {
+      "name": "-v",
+      "alias": ["--version"],
+      "tip": ["U: -v|--version\n", "显示当前 Bun 的版本"]
+    },
+    {
+      "name": "--revision",
+      "tip": "打印包含修订版本的版本信息并退出"
+    }
+  ],
+  "common_options": [
+    {
+      "name": "-h",
+      "alias": ["--help"],
+      "tip": ["U: -h|--help\n", "打印命令的帮助文本"]
+    },
+    {
+      "name": "--watch",
+      "tip": "文件更改时自动重新启动进程"
+    },
+    {
+      "name": "--hot",
+      "tip": "在 Bun 运行时、测试运行器或打包器中启用自动重新加载"
+    },
+    {
+      "name": "--smol",
+      "tip": "使用更少的内存, 但更频繁地运行垃圾收集"
+    },
+    {
+      "name": "-r",
+      "alias": ["--preload"],
+      "symbol": "WriteSpaceTab",
+      "tip": ["U: -r|--preload <module>\n", "在加载其他模块之前导入一个模块"]
+    },
+    {
+      "name": "--inspect",
+      "tip": "激活 Bun 的调试器"
+    },
+    {
+      "name": "--inspect-wait",
+      "tip": "激活 Bun 的调试器, 在执行之前等待连接"
+    },
+    {
+      "name": "--inspect-brk",
+      "tip": "激活 Bun 的调试器, 在代码的第一行设置断点并等待"
+    },
+    {
+      "name": "--if-present",
+      "tip": "如果入口点不存在, 则退出而不报错"
+    },
+    {
+      "name": "--no-install",
+      "tip": "在 Bun 运行时禁用自动安装"
+    },
+    {
+      "name": "--install",
+      "tip": ["配置自动安装行为\n", "可用的值: auto/fallback/force"],
+      "next": [
+        {
+          "name": "auto",
+          "tip": "默认, 当不存在 node_modules 时自动安装"
+        },
+        {
+          "name": "fallback",
+          "tip": "仅缺少的包"
+        },
+        {
+          "name": "force",
+          "tip": "始终安装"
+        }
+      ]
+    },
+    {
+      "name": "-i",
+      "tip": ["在执行过程中自动安装依赖项\n", "等同于 --install=fallback"]
+    },
+    {
+      "name": "-e",
+      "alias": ["--eval"],
+      "symbol": "WriteSpaceTab",
+      "tip": ["U: -e|--eval <code>\n", "将参数作为脚本进行评估"]
+    },
+    {
+      "name": "--print",
+      "tip": "将参数作为脚本进行评估并打印结果"
+    },
+    {
+      "name": "--prefer-offline",
+      "tip": "跳过 Bun 运行时的包陈旧性检查, 并从磁盘解析"
+    },
+    {
+      "name": "--prefer-latest",
+      "tip": "在 Bun 运行时使用最新匹配的包版本, 始终检查 npm"
+    },
+    {
+      "name": "-p",
+      "alias": ["--port"],
+      "symbol": "WriteSpaceTab",
+      "tip": ["U: -p|--port <port>\n", "设置 Bun.serve 的默认端口"]
+    },
+    {
+      "name": "--conditions",
+      "tip": "传递自定义条件以解析"
+    },
+    {
+      "name": "--silent",
+      "tip": "不打印脚本命令"
+    },
+    {
+      "name": "-b",
+      "alias": ["--bun"],
+      "tip": [
+        "U: -b|--bun\n",
+        "强制脚本或包使用 Bun 的运行时, 而不是 Node.js (通过符号链接 node)"
+      ]
+    },
+    {
+      "name": "--shell",
+      "tip": [
+        "控制 package.json 脚本所使用的 shell\n",
+        "支持 'bun' 或 'system'"
+      ]
+    },
+    {
+      "name": "--env-file",
+      "tip": "从指定文件加载环境变量"
+    },
+    {
+      "name": "--cwd",
+      "tip": ["用于解析文件和入口点的绝对路径\n", "这只是更改了进程的 cwd"]
+    },
+    {
+      "name": "-c",
+      "alias": ["--config"],
+      "tip": [
+        "U: -c|--config <path>\n",
+        "指定 Bun 配置文件的路径\n",
+        "默认为 ./bunfig.toml"
+      ]
+    }
+  ],
+  "info": {
+    "completion_info": {
+      "url": "https://bun.sh",
+      "description": "Bun - JavaScript 运行时和工具包"
+    }
+  }
 }
