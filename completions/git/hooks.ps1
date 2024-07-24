@@ -1,6 +1,6 @@
 function handleCompletions([System.Collections.Generic.List[System.Object]]$completions) {
     $tempList = [System.Collections.Generic.List[System.Object]]@()
-    function addCompletion($name, $symbol = '', $tip = ' ') {
+    function addCompletion($name, $tip = ' ', $symbol = '') {
         $tempList.Add(@{
                 name   = $name
                 symbol = $symbol
@@ -42,33 +42,33 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
     foreach ($_ in $branch_list) {
         $info = 'branch --- ' + $_
 
-        addCompletion "switch $($_)" '' $info
-        addCompletion "merge $($_)" '' $info
-        addCompletion "diff $($_)" '' $info
+        addCompletion "switch $($_)" $info
+        addCompletion "merge $($_)" $info
+        addCompletion "diff $($_)" $info
     }
     foreach ($_ in $head_list.Keys) {
         $info = $head_list.$_
-        addCompletion "rebase -i $($_)" '' $info
-        addCompletion "rebase --interactive $($_)" '' $info
-        addCompletion "diff $($_)" '' $info
-        addCompletion "reset $($_)" '' $info
-        addCompletion "reset --soft $($_)" '' $info
-        addCompletion "reset --hard $($_)" '' $info
-        addCompletion "reset --mixed $($_)" '' $info
-        addCompletion "show $($_)" '' $info
+        addCompletion "rebase -i $($_)" $info
+        addCompletion "rebase --interactive $($_)" $info
+        addCompletion "diff $($_)" $info
+        addCompletion "reset $($_)" $info
+        addCompletion "reset --soft $($_)" $info
+        addCompletion "reset --hard $($_)" $info
+        addCompletion "reset --mixed $($_)" $info
+        addCompletion "show $($_)" $info
     }
     foreach ($_ in $branch_head_list) {
         $info = if ($head_list.$_) { $head_list.$_ }else { 'branch --- ' + $_ }
-        addCompletion "checkout $($_)" '' $info
+        addCompletion "checkout $($_)" $info
     }
     foreach ($_ in $remote_list) {
         $info = 'remote --- ' + $_
-        addCompletion "push $($_)" '' $info
+        addCompletion "push $($_)" $info
 
-        addCompletion "pull $($_)" '' $info
-        addCompletion "fetch $($_)" '' $info
-        addCompletion "remote rename $($_)" '' $info
-        addCompletion "remote rm $($_)" '' $info
+        addCompletion "pull $($_)" $info
+        addCompletion "fetch $($_)" $info
+        addCompletion "remote rename $($_)" $info
+        addCompletion "remote rm $($_)" $info
     }
     foreach ($_ in $commit_info) {
         $hash = $_[0]
@@ -77,30 +77,30 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
         $commit = $_[3..($_.Length - 1)]
         $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-        addCompletion "commit -C $($hash)" '' $content
-        addCompletion "rebase -i $($hash)" '' $content
-        addCompletion "rebase --interactive $($hash)" '' $content
-        addCompletion "checkout $($hash)" '' $content
-        addCompletion "diff $($hash)" '' $content
-        addCompletion "reset $($hash)" '' $content
-        addCompletion "reset --soft $($hash)" '' $content
-        addCompletion "reset --hard $($hash)" '' $content
-        addCompletion "reset --mixed $($hash)" '' $content
-        addCompletion "show $($hash)" '' $content
-        addCompletion "revert $($hash)" '' $content
-        addCompletion "commit $($hash)" '' $content
+        addCompletion "commit -C $($hash)" $content
+        addCompletion "rebase -i $($hash)" $content
+        addCompletion "rebase --interactive $($hash)" $content
+        addCompletion "checkout $($hash)" $content
+        addCompletion "diff $($hash)" $content
+        addCompletion "reset $($hash)" $content
+        addCompletion "reset --soft $($hash)" $content
+        addCompletion "reset --hard $($hash)" $content
+        addCompletion "reset --mixed $($hash)" $content
+        addCompletion "show $($hash)" $content
+        addCompletion "revert $($hash)" $content
+        addCompletion "commit $($hash)" $content
     }
     foreach ($_ in $tag_list) {
-        addCompletion "tag -d $($_)" '' "tag --- $($_)"
-        addCompletion "tag -v $($_)" '' "tag --- $($_)"
+        addCompletion "tag -d $($_)" "tag --- $($_)"
+        addCompletion "tag -v $($_)" "tag --- $($_)"
     }
     foreach ($_ in git stash list --encoding=gbk 2>$null) {
         if ($_ -match 'stash@\{(\d+)\}') {
             $stashId = $matches[1]
-            addCompletion "stash show $stashId" '' $_
-            addCompletion "stash pop $stashId" '' $_
-            addCompletion "stash apply $stashId" '' $_
-            addCompletion "stash drop $stashId" '' $_
+            addCompletion "stash show $stashId" $_
+            addCompletion "stash pop $stashId" $_
+            addCompletion "stash apply $stashId" $_
+            addCompletion "stash drop $stashId" $_
         }
     }
     return $tempList + $completions
