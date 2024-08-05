@@ -103,6 +103,7 @@
      |      `Ctrl + p`      |    `Ctrl + n`    |
 
 - All configurations of it, you can trigger completion by running `psc menu`, then learn about them by completion tip.
+  - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
 
 ### About special symbols
 
