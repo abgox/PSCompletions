@@ -3,13 +3,16 @@
 </p>
 
 <p align="center">
-    <a href="README.md">English</a> |
     <a href="README-CN.md">简体中文</a> |
+    <a href="README.md">English</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
 </p>
 
 <p align="center">
+    <a href="https://github.com/abgox/PSCompletions">
+        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2Fabgo_bucket%2Fmain%2Fbucket%2FPSCompletions.json&query=%24.version&label=version" alt="module version" />
+    </a>
     <a href="https://github.com/abgox/PSCompletions/blob/main/LICENSE">
         <img src="https://img.shields.io/github/license/abgox/PSCompletions" alt="license" />
     </a>
@@ -28,17 +31,18 @@
 
 ## Introduce
 
-- `PowerShell`: A Cross-platform PowerShell. Start it in command line by running `pwsh`.
+- [`PowerShell`](https://github.com/PowerShell/PowerShell): A Cross-platform PowerShell. Start it in command line by running `pwsh`.
 
-- `Windows PowerShell`: A PowerShell which is built-in on Windows systems. Start it in command line by running `powershell`.
+- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows systems. Start it in command line by running `powershell`.
 
 ---
 
 - A completion manager in `PowerShell` for better and simpler use completions.
-  > It can also be used in `Windows PowerShell`.(Not Recommend)
+  > It can also be used in `Windows PowerShell`, but it's a better choice to use `PowerShell`.
 - [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added !")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion tab dynamically by frequency of use.
+- [It provides a useful completion menu.](#about-completion-menu)
 
 **If this project is helpful to you, please consider giving it a star ⭐.**
 
@@ -46,9 +50,10 @@
 
 1. Start `PowerShell`
 2. `Install-Module PSCompletions -Scope CurrentUser`
+   > - Don't omit `-Scope CurrentUser` unless you're sure you'll always open `PowerShell` with administrator permissions.
 3. `Import-Module PSCompletions`
+   - If you don't want to import the `PSCompletions` module every time you start `PowerShell`, you can write it to `$PROFILE`.
    - `echo "Import-Module PSCompletions" >> $PROFILE`
-   - So you don't have to import the module every time you open PowerShell.
 
 ## How to uninstall
 
@@ -62,8 +67,8 @@
 - If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue").
 
 1. `psc add git`
-2. Then you can enter `git` and press `Space` `Tab` to get command completion.
-3. For more commands on `psc`, you can learn by entering `psc` and then pressing `Space` `Tab`.
+2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
+3. For more usages on `psc`, you just need to enter `psc`, press `Space` and `Tab` key, and you will get all usages of `psc` by reading [the completion tip](#about-completion-tip).
 
 ## Demo
 
@@ -73,18 +78,24 @@
 
 ### About the completion trigger key
 
-- The module uses the `Tab` key by default.
+- `PSCompletions` uses the `Tab` key by default.
 - You can set it by running `Set-PSReadLineKeyHandler <key> MenuComplete`.
 
 ### About completion update
 
-- When the module is imported after opening `PowerShell`, `PSCompletions` will start a background job to check for the completion status of the remote repository.
+- When `PSCompletions` module is imported after starting `PowerShell`, it will start a background job to check for the completion status of the remote repository.
 - After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
 
 ### About completion menu
 
+- In addition to the language's built-in completion menu, `PSCompletions` module also provides a useful completion menu.
+
 - The module's completion menu provided by the module is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
-- It can only be used in PowerShell(pwsh) under Windows.
+
+- Available Windows environment:
+  - `PowerShell` <img src="https://img.shields.io/badge/v4.0.0+-4CAF50" alt="v4.0.0+ support" />
+  - `Windows PowerShell` <img src="https://img.shields.io/badge/v4.1.0+-4CAF50" alt="v4.1.0+ support" />
+    - Due to rendering problems of `Windows PowerShell`, the border style of the completion menu cannot be customized.
 - Some keys in the completion menu provided by the module.
 
   1. Apply the selected completion item: `Enter`
@@ -102,24 +113,60 @@
      |      `Ctrl + u`      |    `Ctrl + d`    |
      |      `Ctrl + p`      |    `Ctrl + n`    |
 
-- All configurations of it, you can trigger completion by running `psc menu`, then learn about them by completion tip.
+- All configurations of it, you can trigger completion by running `psc menu`, then learn about them by [the completion tip](#about-completion-tip).
   - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
 
 ### About special symbols
+
+- Special symbols after the completion item are used to let you know in advance if completions are available before you press the `Tab` key.
+
+  - If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.
+    - `psc menu symbol SpaceTab ""`
+    - `psc menu symbol OptionTab ""`
+    - `psc menu symbol WriteSpaceTab ""`
 
 - 😄🤔😎 : If there are multiple, you can choose the effect of one of them.
   - 😄 : It means that after you apply it, you can press `Space` and `Tab` key to continue to get command completions.(Normal or optional completions)
     - It can be customized by running `psc menu symbol SpaceTab <symbol>`
   - 🤔 : It means that after you apply it (option completion), you can press `Space` and `Tab` key to continue to get option completions. (e.g. `--verbose`)
+    - Generic optional completions shares this symbol, but it does not affect them.
     - It can be customized by running `psc menu symbol OptionTab <symbol>`
   - 😎 : It means that after you apply it (option completion), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
-    - If the string has Spaces, Please use "" or '' to wrap it. e.g. 'test content'
+    - If the string has Spaces, Please use `"`(quote) or `'`(single quote) to wrap it. e.g. "test content"
     - If there is also 😄, it means that there are some strings to complete, you can press `Space` and `Tab` key to continue to get command completions without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
-  - Completion of generic options can also be triggered if there is one or more generic option completion.
-  - All complements can be triggered by pressing the `Tab` key after entering a part.
-  - If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.
-    - e.g. `psc menu symbol SpaceTab ""`
+  - All completions can be triggered by pressing the `Tab` key after entering a part.
+    - In `Windows PowerShell`, if you press the `Tab` key after entering `-` or `--`, you won't get the completions.
+    - You should press the `Tab` key to trigger the completion menu, and then type `-` or `--` to filter.
+    - This problem isn't in `PowerShell`.
+
+### About completion tip
+
+- The completion tip is only a helper, you can also disable the tip by running `psc menu config menu_show_tip 0`
+
+  - To enable the completion tip, run `psc menu config menu_show_tip 1`.
+  - You can also disable the tip for a specific completion, such as `psc`.
+    - `psc completion psc menu_show_tip 0`
+
+- General structure of the completion tip: `Usage` + `Description` + `Example`
+
+  ```txt
+  U: install|add [-g|-u] [options] <app>
+  This is a description of the command.
+  E: install xxx
+     add -g xxx
+  ```
+
+- Example Analysis:
+  1. Usage: Begin with `U:`
+     - command name: `install`
+     - command alias: `add`
+     - required parameters: `<app>`
+       - `app` is a simple summary of the parameters.
+     - optional parameters: `-g` `-u`
+       - `[options]`: Some options.
+  2. Description: The description of the command.
+  3. Example: Begin with `E:`
 
 ### About language
 
@@ -144,11 +191,12 @@
 
 - Take `git` for example, when entering `git add`, pressing the `Space` and `Tab` keys, path completion will not be triggered, only completion provided by the module will be triggered.
 - If you want to trigger path completion, you need to enter a content.
-- If the content matches this regex rule `^\.*[\\/].*`, it will get the path completion, which is PowerShell completion.
+- If the content matches this regex rule `^\.*[\\/]*`, it will trigger `PowerShell` path completion.
 - e.g.
   - Please enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
   - Please enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
   - Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
+  - More examples: `.` / `~/` / `../../` ...
 - So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ## Available Completions List
