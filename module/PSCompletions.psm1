@@ -37,7 +37,6 @@ function PSCompletions {
         }
         $PSCompletions.show_with_less_table($data, ('Completion', 'Alias', $max_len))
     }
-
     function Out-Config {
         $PSCompletions.config | ConvertTo-Json | Out-File $PSCompletions.path.config -Force -Encoding utf8
     }
@@ -575,7 +574,7 @@ function PSCompletions {
                         $PSCompletions.config.menu_color_selected_back = 'DarkGray'
                         $PSCompletions.config.menu_color_filter_text = 'Yellow'
                         $PSCompletions.config.menu_color_filter_back = 'Black'
-                        $PSCompletions.config.menu_color_border_text = 'Gray'
+                        $PSCompletions.config.menu_color_border_text = 'DarkGray'
                         $PSCompletions.config.menu_color_border_back = 'Black'
                         $PSCompletions.config.menu_color_status_text = 'Blue'
                         $PSCompletions.config.menu_color_status_back = 'Black'
@@ -874,6 +873,8 @@ function PSCompletions {
         if (!$no_show_msg) { $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.done)) }
     }
     function _help {
+        $json = $PSCompletions.data.psc
+        $info = $PSCompletions.info
         $PSCompletions.write_with_color((_replace $PSCompletions.info.description))
     }
     $need_init = $true

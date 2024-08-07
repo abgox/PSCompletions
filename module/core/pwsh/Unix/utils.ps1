@@ -1,6 +1,6 @@
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonToHashtable {
     param([string]$json)
-    return ConvertFrom-Json -AsHashtable $json
+    ConvertFrom-Json -AsHashtable $json
 }
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {

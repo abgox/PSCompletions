@@ -428,7 +428,18 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             else {
                 $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
             }
-            $PSCompletions.menu.show_powershell_menu($filter_list)
+            if ($PSCompletions.config.menu_enable) {
+                $PSCompletions.config.menu_line_horizontal = "-"
+                $PSCompletions.config.menu_line_vertical = "|"
+                $PSCompletions.config.menu_line_top_left = "+"
+                $PSCompletions.config.menu_line_bottom_left = "+"
+                $PSCompletions.config.menu_line_top_right = "+"
+                $PSCompletions.config.menu_line_bottom_right = "+"
+                $PSCompletions.menu.show_module_menu($filter_list)
+            }
+            else {
+                $PSCompletions.menu.show_powershell_menu($filter_list)
+            }
         }
     }
 }

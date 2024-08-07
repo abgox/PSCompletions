@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.0.9'
+$PSCompletions.version = '4.1.0'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -86,11 +86,11 @@ if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
 }
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_file {
-    param( [string]$path )
+    param([string]$path)
     if (!(Test-Path $path)) { New-Item -ItemType File $path > $null }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
-    param( [string]$path )
+    param([string]$path)
     if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
 }
 
@@ -112,6 +112,8 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
     $PSCompletions.move_old_version()
 }
 
+. $PSScriptRoot\pwsh\config.ps1
+
 if ($PSEdition -eq "Core") {
     if ($IsWindows) {
         # pwsh (Windows)
@@ -119,20 +121,18 @@ if ($PSEdition -eq "Core") {
         . $PSScriptRoot\pwsh\Win\menu.ps1
     }
     else {
-        . $PSScriptRoot\pwsh\Win\utils.ps1
-        . $PSScriptRoot\pwsh\Unix\menu.ps1
+        # WSL/Unix...
+        . $PSScriptRoot\pwsh\Unix\utils.ps1
     }
-    . $PSScriptRoot\pwsh\config.ps1
 }
 else {
-    # powershell 5.x
+    # Windows PowerShell 5.x
     . $PSScriptRoot\powershell\utils.ps1
-    . $PSScriptRoot\powershell\config.ps1
-    . $PSScriptRoot\powershell\menu.ps1
+    . $PSScriptRoot\pwsh\Win\menu.ps1
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length {
-    param([string]$c)
-    return $Host.UI.RawUI.NewBufferCellArray($c, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
+    param([string]$str)
+    return $Host.UI.RawUI.NewBufferCellArray($str, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod join_path {
     $res = $args[0]
@@ -179,7 +179,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content {
     param ($data, $separator = '')
-    $data = ($data -join $separator)
+    $data = $data -join $separator
     $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
     $matches = [regex]::Matches($data, $pattern)
     foreach ($match in $matches) {
@@ -628,6 +628,77 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         }
     }
 }
+Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
+    param($filter_list)
+    if ($Host.UI.RawUI.BufferSize.Height -lt 5) {
+        [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
+        [Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.info.min_area)
+        ''
+        return
+    }
+
+    $json = $PSCompletions.data.$($PSCompletions.current_cmd)
+    $info = $json.info
+
+    $max_width = 0
+    $tip_max_height = 0
+    $filter_list = foreach ($_ in $filter_list) {
+        $symbol = foreach ($c in $_.symbol) {
+            $PSCompletions.config."symbol_$($c)"
+        }
+        $symbol = $symbol -join ''
+        $pad = if ($symbol) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbol)" }else { '' }
+        $name_with_symbol = "$($_.name[-1])$($pad)"
+
+        $width = $this.get_length($name_with_symbol)
+        if ($width -gt $max_width) { $max_width = $width }
+
+        if ($_.tip) {
+            $tip = $PSCompletions.replace_content($_.tip)
+            $tip_arr = $tip -split "`n"
+        }
+        else {
+            $tip = ' '
+            $tip_arr = @()
+        }
+        if ($tip_arr.Count -gt $tip_max_height) { $tip_max_height = $tip_arr.Count }
+        @{
+            name  = $name_with_symbol
+            value = $_.name[-1]
+            width = $width
+            tip   = $tip
+        }
+    }
+    $item_witdh = $max_width + 2
+    $ui_max_width = 100
+    $ui_width = if ($Host.UI.RawUI.BufferSize.Width -gt $ui_max_width) { $ui_max_width }else { $Host.UI.RawUI.BufferSize.Width }
+    $max_count = ($Host.UI.RawUI.BufferSize.Height - $tip_max_height) * ([math]::Floor($ui_width) / ($item_witdh))
+
+    $display_count = 0
+    if ($max_count -lt 5 -or !$PSCompletions.config.menu_show_tip) {
+        $max_count = ($Host.UI.RawUI.BufferSize.Height) * ([math]::Floor($ui_width) / ($item_witdh))
+        foreach ($_ in $filter_list) {
+            if ($max_count -gt $display_count -and $_.name) {
+                $display_count++
+                [CompletionResult]::new($_.value, $_.name, 'ParameterValue', ' ')
+            }
+        }
+    }
+    else {
+        foreach ($_ in $filter_list) {
+            if ($max_count -gt $display_count -and $_.name) {
+                $display_count++
+                [CompletionResult]::new($_.value, $_.name, 'ParameterValue', $_.tip)
+            }
+        }
+    }
+
+    if ($filter_list -is [array] -and $display_count -lt $filter_list.Count) {
+        [CompletionResult]::new(' ', '...', 'ParameterValue', $PSCompletions.info.comp_hide)
+        $display_count++
+    }
+    if ($display_count -eq 1 -and !$PSCompletions.config.enter_when_single) { ' ' }
+}
 
 $PSCompletions.init_data()
 
@@ -655,13 +726,7 @@ if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/log.json", (Join-Path $PSCompletions.path.core 'log.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
-                try {
-                    Update-Module PSCompletions -ErrorAction Stop
-                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_done))
-                }
-                catch {
-                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update_err))
-                }
+                Update-Module PSCompletions -ErrorAction Stop
             })
     }
     else {
