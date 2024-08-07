@@ -1,4 +1,4 @@
-$PSCompletions.default.env = @{
+﻿$PSCompletions.default.env = @{
     # env
     language      = $PSUICulture
     update        = 1
@@ -66,7 +66,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
     if (Test-Path $this.path.config) {
         $c = $this.ConvertFrom_JsonToHashtable($this.get_raw_content($this.path.config))
         if ($c) {
-            foreach($_ in @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config')){
+            foreach ($_ in @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config')) {
                 foreach ($config in $this.default.$_.Keys) {
                     if ($config -notin $c.keys) {
                         $hasDiff = $true
@@ -92,7 +92,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
     }
     if ($need_init) {
         $c = @{}
-        foreach($_ in @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config')){
+        foreach ($_ in @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config')) {
             foreach ($config in $this.default.$_.Keys) {
                 $c.$config = $this.default.$_.$config
             }
