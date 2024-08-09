@@ -118,7 +118,7 @@
             "读取/设置当前配置语言\n",
             "配置语言会影响所有添加的补全语言\n",
             "通过 psc completion 单独设置了补全语言的不受影响\n",
-            "更多信息请访问: https://gitee.com/abgox/PSCompletions#%E5%85%B3%E4%BA%8E%E8%AF%AD%E8%A8%80"
+            "更多信息请访问: https://gitee.com/abgox/PSCompletions/blob/main/README-CN.md#关于语言"
           ],
           "next": [
             {
@@ -287,8 +287,8 @@
           "tip": [
             "设置补全提示中的表情符号(😄🤔😎)\n",
             "符号的意义可以通过补全了解, 相关详细信息, 请访问: \n",
-            "Github: https://github.com/abgox/PSCompletions#about-special-symbols\n",
-            "Gitee:  https://gitee.com/abgox/PSCompletions#%E5%85%B3%E4%BA%8E%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"
+            "Github: https://github.com/abgox/PSCompletions/blob/main/README-CN.md#关于特殊符号\n",
+            "Gitee:  https://gitee.com/abgox/PSCompletions/blob/main/README-CN.md#关于特殊符号"
           ],
           "next": [
             {
@@ -694,6 +694,30 @@
           ],
           "next": [
             {
+              "name": "enter_when_single",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enter_when_single }} (默认值为 0, 表示禁用)\n",
+                "当候选补全项只有一个时, 是否直接输入, 而不是显示补全菜单"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)\n",
+                    "即使只有一个候选补全项, 也会先显示菜单, 此时, 你可以再次按下 Tab 或 空格键输入此候选补全项"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1\n",
+                    "当候选补全项只有一个时, 会直接输入, 不会显示补全菜单"
+                  ]
+                }
+              ]
+            },
+            {
               "name": "menu_enable",
               "symbol": "SpaceTab",
               "tip": [
@@ -795,22 +819,36 @@
               ]
             },
             {
+              "name": "menu_trigger_key",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.menu_trigger_key }}\" (默认值为 \"Tab\")\n",
+                "设置触发补全的按键(此配置修改后需要重启 PowerShell)"
+              ],
+              "next": [
+                {
+                  "name": "\"Tab\"",
+                  "tip": "设置为 \"Tab\" (默认值)\n"
+                }
+              ]
+            },
+            {
               "name": "menu_tip_follow_cursor",
               "symbol": "SpaceTab",
               "tip": [
-                "当前值: {{ $PSCompletions.config.menu_tip_follow_cursor }} (默认值为 0, 表示禁用)\n",
+                "当前值: {{ $PSCompletions.config.menu_tip_follow_cursor }} (默认值为 1, 表示启用)\n",
                 "设置补全菜单命令提示信息是否跟随输入光标显示"
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "设置为 0 (默认值)\n",
+                    "设置为 0\n",
                     "补全提示信息不跟随输入光标显示, 从 PowerShell 最左侧开始显示"
                   ]
                 },
                 {
-                  "name": "1",
+                  "name": "1 (默认值)",
                   "tip": ["设置为 1\n", "补全提示信息跟随输入光标显示"]
                 }
               ]
@@ -911,30 +949,6 @@
                   "tip": [
                     "设置为 \" \" (默认值)\n",
                     "每一个补全项和符号之间都加入一个空格作为间隔"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enter_when_single",
-              "symbol": "SpaceTab",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enter_when_single }} (默认值为 0, 表示禁用)\n",
-                "当候选补全项只有一个时, 是否直接输入, 而不是显示补全菜单"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0 (默认值)\n",
-                    "即使只有一个候选补全项, 也会先显示菜单, 此时, 你可以再次按下 Tab 键输入此候选补全项"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1\n",
-                    "当候选补全项只有一个时, 会直接输入, 不会显示补全菜单"
                   ]
                 }
               ]
@@ -1055,6 +1069,52 @@
                     "设置为 1 (默认值)\n",
                     "根据命令历史记录动态排序补全列表"
                   ]
+                }
+              ]
+            },
+            {
+              "name": "menu_enhance",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_enhance }} (默认值为 1, 表示启用)\n",
+                "设置是否增强补全菜单的功能(此配置修改后需要重启 PowerShell)\n",
+                "详细信息: https://github.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n",
+                "          https://gitee.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0\n",
+                    "详细信息: https://github.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n",
+                    "          https://gitee.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)\n",
+                    "详细信息: https://github.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n",
+                    "          https://gitee.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_show_tip_when_enhance",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.menu_show_tip_when_enhance }} (默认值为 1, 表示启用)\n",
+                "对于不是通过 'psc add' 添加的补全，如果有命令提示信息，是否显示"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": ["设置为 0\n", "不显示命令提示信息"]
+                },
+                {
+                  "name": "1",
+                  "tip": ["设置为 1 (默认值)\n", "显示命令提示信息"]
                 }
               ]
             }
@@ -1690,7 +1750,8 @@
           "v_0": "<@Red>应该是一个大于等于 <@Magenta>0<@Red> 的整数数字",
           "v_1": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字",
           "v_2": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字, 或者 <@Magenta>-1<@Red>",
-          "v_3": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用"
+          "v_3": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用",
+          "menu_trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> 不是一个可用的按键映射，修改失败"
         }
       }
     },

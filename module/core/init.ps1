@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.1.0'
+$PSCompletions.version = '4.2.0'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -58,7 +58,10 @@ $PSCompletions.menu = @{
             "menu_list_margin_left",
             "menu_list_margin_right",
             "menu_status_symbol",
-            "menu_filter_symbol"
+            "menu_filter_symbol",
+            "menu_trigger_key",
+            "menu_enhance"
+            "menu_show_tip_when_enhance"
         )
         line_item   = @(
             "horizontal",
@@ -81,19 +84,6 @@ $PSCompletions.encoding = [console]::OutputEncoding
 
 $PSCompletions.wc = New-Object System.Net.WebClient
 
-if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
-    Set-PSReadLineKeyHandler 'Tab' MenuComplete
-}
-
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_file {
-    param([string]$path)
-    if (!(Test-Path $path)) { New-Item -ItemType File $path > $null }
-}
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
-    param([string]$path)
-    if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
-}
-
 if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path.completions)) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
         $version = (Get-ChildItem (Split-Path $this.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue
@@ -112,13 +102,14 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
     $PSCompletions.move_old_version()
 }
 
-. $PSScriptRoot\pwsh\config.ps1
+. $PSScriptRoot\common\config.ps1
 
 if ($PSEdition -eq "Core") {
     if ($IsWindows) {
         # pwsh (Windows)
+        . $PSScriptRoot\common\utils.ps1
+        . $PSScriptRoot\common\menu.ps1
         . $PSScriptRoot\pwsh\Win\utils.ps1
-        . $PSScriptRoot\pwsh\Win\menu.ps1
     }
     else {
         # WSL/Unix...
@@ -127,19 +118,47 @@ if ($PSEdition -eq "Core") {
 }
 else {
     # Windows PowerShell 5.x
+    . $PSScriptRoot\common\utils.ps1
+    . $PSScriptRoot\common\menu.ps1
     . $PSScriptRoot\powershell\utils.ps1
-    . $PSScriptRoot\pwsh\Win\menu.ps1
 }
-Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length {
-    param([string]$str)
-    return $Host.UI.RawUI.NewBufferCellArray($str, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod split_array {
+    <#
+    .Synopsis
+        分割数组
+    .Description
+        三个参数:
+        $array: 数组
+        $count: 每个数组的元素个数
+        $by_count: 如果此值为 $true, 则 $count 为指定的数组个数，否则为每个数组的元素个数
+    #>
+    param ([array]$array, [int]$count, [bool]$by_count)
+    if ($by_count) {
+        $ChunkSize = [math]::Ceiling($array.Length / $count)
+    }
+    else {
+        $ChunkSize = $count
+    }
+    $chunks = @()
+    for ($i = 0; $i -lt $array.Length; $i += $ChunkSize) {
+        $chunks += , ($array[$i..([math]::Min($i + $ChunkSize - 1, $array.Length - 1))])
+    }
+    $chunks
+}
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_file {
+    param([string]$path)
+    if (!(Test-Path $path)) { New-Item -ItemType File $path > $null }
+}
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
+    param([string]$path)
+    if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod join_path {
     $res = $args[0]
     for ($i = 1; $i -lt $args.Count; $i++) {
         $res = Join-Path $res $args[$i]
     }
-    return $res
+    $res
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
@@ -160,13 +179,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     else {
         $language = if ($this.language -in $content_config.language) { $this.language }else { $content_config.language[0] }
     }
-    return $language
+    $language
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
     param ([string]$path)
     $res = Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' }
     if ($res) { return $res }
-    return New-Object System.Collections.ArrayList
+    New-Object System.Collections.ArrayList
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content {
     param ([string]$path, [bool]$trim = $true)
@@ -175,7 +194,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
         if ($trim) { return $res.Trim() }
         return $res
     }
-    return ''
+    ''
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content {
     param ($data, $separator = '')
@@ -350,7 +369,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod confirm_do {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
     if (!(Test-Path $this.path.completions_json)) {
-        @{ list = @('psc') } | ConvertTo-Json | Out-File $this.path.completions_json -Encoding utf8 -Force
+        @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $this.path.completions_json -Encoding utf8 -Force
     }
     $current_list = ($this.get_raw_content($this.path.completions_json) | ConvertFrom-Json).list
     if ($this.url) {
@@ -362,7 +381,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
             $diff = Compare-Object $remote_list $current_list -PassThru
             if ($diff) {
                 $diff | Out-File $this.path.change -Force -Encoding utf8
-                $content | ConvertTo-Json | Out-File $this.path.completions_json -Encoding utf8 -Force
+                $content | ConvertTo-Json -Depth 100 -Compress | Out-File $this.path.completions_json -Encoding utf8 -Force
                 $this.list = $remote_list
             }
             else {
@@ -378,7 +397,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
     }
     $this.list = $current_list
     $this.write_with_color($this.replace_content($this.info.err.url))
-    return $false
+    $false
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
     param(
@@ -493,7 +512,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             }
         }
         if ($need_update_config) {
-            $this.config | ConvertTo-Json | Out-File $this.path.config -Force -Encoding utf8
+            $this.config | ConvertTo-Json -Depth 100 -Compress | Out-File $this.path.config -Force -Encoding utf8
         }
     }
 }
@@ -525,7 +544,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         $this.repo = $null
     }
     else {
-        function _do($i, $k) {
+        function _do {
+            param($i, $k)
             if ($this.config.$i) {
                 return @($this.$i, $this.config.$i)
             }
@@ -545,8 +565,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
             $this.repo = $info[1]
         }
     }
-
-
     $this.ensure_dir($this.path.completions)
 
     if (Test-Path "$($this.path.completions)/psc") {
@@ -566,8 +584,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         $this.info = ($this.get_raw_content($path_language) | ConvertFrom-Json).info
     }
     else {
-        New-Item -ItemType Directory "$($this.path.completions)/psc" > $null
-        New-Item -ItemType Directory "$($this.path.completions)/psc/language" > $null
+        $this.ensure_dir("$($this.path.completions)/psc")
+        $this.ensure_dir("$($this.path.completions)/psc/language")
         $language = $this.get_language('psc')
         $path_language = "$($this.path.completions)/psc/language/$($language).json"
 
@@ -588,45 +606,107 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $this.ensure_file($this.path.update)
     $this.update = $this.get_content($this.path.update)
 
-    foreach ($_ in Get-ChildItem -Path $this.path.completions -Directory -ErrorAction SilentlyContinue | Sort-Object CreationTime) {
-        if (Test-Path "$($_.FullName)/config.json") {
-            $this.cmd.$($_.Name) = $_.Name
-        }
-        else {
-            Remove-Item $_.FullName -Force -Recurse -ErrorAction SilentlyContinue
-        }
-    }
+    $completions_dir_list = Get-ChildItem -Path $this.path.completions -Directory -ErrorAction SilentlyContinu
+    if ($completions_dir_list.Count -ge 10) {
+        # 使用线程安全的数据结构，避免出现多线程同时访问同一个数据结构,导致数据损坏
+        $PSCompletions.cmd = [System.Collections.Concurrent.ConcurrentDictionary[[string], [System.Collections.Generic.List[System.String]]]]::new()
+        $PSCompletions.alias = [System.Collections.Concurrent.ConcurrentDictionary[[string], [System.Collections.Generic.List[System.String]]]]::new()
 
-    foreach ($_ in Get-ChildItem -Path $this.path.completions -ErrorAction SilentlyContinue) {
-        $path_alias = Join-Path $_.FullName 'alias.txt'
-        $this.cmd.$($_.Name) = @()
-        if (Test-Path $path_alias) {
-            $alias_list = $this.get_content($path_alias)
-            if ($alias_list) {
-                foreach ($alias in $alias_list) { $this.cmd.$($_.Name) += $alias.Trim() }
+        $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
+        $runspacePool.Open()
+        $runspaces = @()
+        foreach ($arr in $PSCompletions.split_array($completions_dir_list, [Environment]::ProcessorCount, $true)) {
+            $runspace = [powershell]::Create().AddScript({
+                    param($paths, $this)
+                    function get_content {
+                        param ([string]$path)
+                        $res = Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' }
+                        if ($res) { return $res }
+                        New-Object System.Collections.ArrayList
+                    }
+                    foreach ($path in $paths) {
+                        $name = $path.Name
+                        if ((!$this.config.comp_config.$name)) {
+                            $this.config.comp_config.$name = @{}
+                        }
+                        $path_alias = Join-Path $path 'alias.txt'
+                        $this.cmd.$name = @()
+                        if (Test-Path $path_alias) {
+                            $alias_list = get_content $path_alias
+                            if ($alias_list) {
+                                foreach ($alias in $alias_list) {
+                                    $alias = $alias.Trim()
+                                    if ($alias) {
+                                        $this.alias.$alias = $name
+                                        $this.cmd.$name += $alias
+                                    }
+                                }
+                            }
+                            else {
+                                $this.alias.$name = $name
+                                $this.cmd.$name += $name
+                                $name | Out-File $path_alias -Encoding utf8 -Force
+                            }
+                        }
+                        else {
+                            $this.alias.$name = $name
+                            $this.cmd.$name += $name
+                            $name | Out-File $path_alias -Encoding utf8 -Force
+                        }
+                    }
+                }).AddArgument($arr).AddArgument($this)
+
+            $runspace.RunspacePool = $runspacePool
+            $runspaces += @{ Runspace = $runspace; Job = $runspace.BeginInvoke() }
+        }
+
+        # 等待所有任务完成
+        foreach ($rs in $runspaces) {
+            $rs.Runspace.EndInvoke($rs.Job)
+            $rs.Runspace.Dispose()
+        }
+
+        $runspacePool.Close()
+        $runspacePool.Dispose()
+    }
+    else {
+        $PSCompletions.cmd = @{}
+        $PSCompletions.alias = @{}
+        foreach ($_ in Get-ChildItem -Path $this.path.completions -Directory -ErrorAction SilentlyContinue) {
+            $path_alias = Join-Path $_.FullName 'alias.txt'
+            $name = $_.Name
+            if ((!$this.config.comp_config.$name)) {
+                $this.config.comp_config.$name = @{}
+            }
+            $this.cmd.$name = @()
+            if (Test-Path $path_alias) {
+                $alias_list = $this.get_content($path_alias)
+                if ($alias_list) {
+                    foreach ($alias in $alias_list) {
+                        $alias = $alias.Trim()
+                        if ($alias) {
+                            $this.cmd.$name += $alias
+                            $this.alias.$alias = $name
+                        }
+                    }
+                }
+                else {
+                    $this.alias.$name = $name
+                    $this.cmd.$name += $name
+                    $name | Out-File $path_alias -Encoding utf8 -Force
+                }
             }
             else {
-                $this.cmd.$($_.Name) += $_.Name
-                $_.Name | Out-File $path_alias -Encoding utf8 -Force
+                $this.alias.$name = $name
+                $this.cmd.$name += $name
+                $name | Out-File $path_alias -Encoding utf8 -Force
             }
         }
-        else {
-            $this.cmd.$($_.Name) += $_.Name
-            $_.Name | Out-File $path_alias -Encoding utf8 -Force
-        }
     }
-
-    $this.alias = @{}
-    foreach ($_ in $this.cmd.Keys) {
-        foreach ($alias in $this.cmd.$_) { $this.alias.$($alias) = $_ }
-    }
-
-    foreach ($_ in $this.cmd.Keys) {
-        $this.handle_completion($_)
-        if ((!$this.config.comp_config.$_)) {
-            $this.config.comp_config.$_ = @{}
-        }
-    }
+}
+Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length {
+    param([string]$str)
+    $Host.UI.RawUI.NewBufferCellArray($str, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
     param($filter_list)
@@ -637,70 +717,54 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         return
     }
 
-    $json = $PSCompletions.data.$($PSCompletions.current_cmd)
-    $info = $json.info
+    # is_show_tip
+    if ($PSCompletions.current_cmd) {
+        $json = $PSCompletions.data.$($PSCompletions.current_cmd)
+        $info = $json.info
 
-    $max_width = 0
-    $tip_max_height = 0
-    $filter_list = foreach ($_ in $filter_list) {
-        $symbol = foreach ($c in $_.symbol) {
-            $PSCompletions.config."symbol_$($c)"
-        }
-        $symbol = $symbol -join ''
-        $pad = if ($symbol) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbol)" }else { '' }
-        $name_with_symbol = "$($_.name[-1])$($pad)"
-
-        $width = $this.get_length($name_with_symbol)
-        if ($width -gt $max_width) { $max_width = $width }
-
-        if ($_.tip) {
-            $tip = $PSCompletions.replace_content($_.tip)
-            $tip_arr = $tip -split "`n"
+        $menu_show_tip = $PSCompletions.config.comp_config.$($PSCompletions.current_cmd).menu_show_tip
+        if ($menu_show_tip) {
+            $this.is_show_tip = $menu_show_tip -eq 1
         }
         else {
-            $tip = ' '
-            $tip_arr = @()
-        }
-        if ($tip_arr.Count -gt $tip_max_height) { $tip_max_height = $tip_arr.Count }
-        @{
-            name  = $name_with_symbol
-            value = $_.name[-1]
-            width = $width
-            tip   = $tip
-        }
-    }
-    $item_witdh = $max_width + 2
-    $ui_max_width = 100
-    $ui_width = if ($Host.UI.RawUI.BufferSize.Width -gt $ui_max_width) { $ui_max_width }else { $Host.UI.RawUI.BufferSize.Width }
-    $max_count = ($Host.UI.RawUI.BufferSize.Height - $tip_max_height) * ([math]::Floor($ui_width) / ($item_witdh))
-
-    $display_count = 0
-    if ($max_count -lt 5 -or !$PSCompletions.config.menu_show_tip) {
-        $max_count = ($Host.UI.RawUI.BufferSize.Height) * ([math]::Floor($ui_width) / ($item_witdh))
-        foreach ($_ in $filter_list) {
-            if ($max_count -gt $display_count -and $_.name) {
-                $display_count++
-                [CompletionResult]::new($_.value, $_.name, 'ParameterValue', ' ')
-            }
+            $this.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
         }
     }
     else {
-        foreach ($_ in $filter_list) {
-            if ($max_count -gt $display_count -and $_.name) {
-                $display_count++
-                [CompletionResult]::new($_.value, $_.name, 'ParameterValue', $_.tip)
-            }
-        }
+        $this.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
     }
 
-    if ($filter_list -is [array] -and $display_count -lt $filter_list.Count) {
-        [CompletionResult]::new(' ', '...', 'ParameterValue', $PSCompletions.info.comp_hide)
-        $display_count++
+    if ($this.is_show_tip) {
+        foreach ($_ in $filter_list) {
+            if ($_.ToolTip) {
+                $tip = $PSCompletions.replace_content($_.ToolTip)
+                $tip_arr = $tip -split "`n"
+            }
+            else {
+                $tip = ' '
+                $tip_arr = @()
+            }
+            if ($tip_arr.Count -gt $tip_max_height) { $tip_max_height = $tip_arr.Count }
+
+            [CompletionResult]::new($_.CompletionText, $_.ListItemText, 'ParameterValue', $tip)
+        }
+        $this.tip_max_height = $tip_max_height
     }
-    if ($display_count -eq 1 -and !$PSCompletions.config.enter_when_single) { ' ' }
+    else {
+        foreach ($_ in $filter_list) {
+            [CompletionResult]::new($_.CompletionText, $_.ListItemText, 'ParameterValue', ' ')
+        }
+    }
+    $PSCompletions.current_cmd = $null
 }
 
 $PSCompletions.init_data()
+
+if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
+    Set-PSReadLineKeyHandler $PSCompletions.config.menu_trigger_key MenuComplete
+    $PSCompletions.generate_completion()
+    $PSCompletions.handle_completion()
+}
 
 if ($PSCompletions.is_first_init) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
@@ -742,176 +806,4 @@ else {
 }
 
 # 缓存 completion 数据并后台检测更新
-$PSCompletions.job = Start-Job -ScriptBlock {
-    param($PSCompletions, $root)
-    function ConvertFrom-JsonToHashtable {
-        param(
-            [Parameter(ValueFromPipeline = $true)]
-            [string]$json
-        )
-        <#
-                # 处理 json 文件中的一些特殊情况
-                # -  如果有键名为空的情况，则替换为随机的 guid
-                # -  并移除最后一个属性的 ,
-            #>
-        $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
-        foreach ($match in $matches) {
-            $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
-        }
-        $json = [regex]::Replace($json, ",`n?(\s*`n)?\}", "}")
-        function ConvertToHashtable($obj) {
-            $hash = @{}
-            if ($obj -is [System.Management.Automation.PSCustomObject]) {
-                foreach ($_ in $obj | Get-Member -MemberType Properties) {
-                    $k = $_.Name # Key
-                    $v = $obj.$k # Value
-                    if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
-                        # Handle array
-                        $arr = @()
-                        foreach ($item in $v) {
-                            $arr += if ($item -is [System.Management.Automation.PSCustomObject]) { ConvertToHashtable($item) }else { $item }
-                        }
-                        $hash[$k] = $arr
-                    }
-                    elseif ($v -is [System.Management.Automation.PSCustomObject]) {
-                        # Handle object
-                        $hash[$k] = ConvertToHashtable($v)
-                    }
-                    else { $hash[$k] = $v }
-                }
-            }
-            else { $hash = $obj }
-            $hash
-        }
-        # Recurse
-        ConvertToHashtable ($json | ConvertFrom-Json)
-    }
-
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content {
-        param ([string]$path, [bool]$trim = $true)
-        $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-        if ($res) {
-            if ($trim) { return $res.Trim() }
-            return $res
-        }
-        return ''
-    }
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
-        param ([string]$completion)
-        $path_config = "$($this.path.completions)/$($completion)/config.json"
-        if (!(Test-Path $path_config) -or !$this.get_raw_content($path_config)) {
-            $this.download_file("$($this.url)/completions/$($completion)/config.json", $path_config)
-        }
-        $content_config = $this.get_raw_content($path_config) | ConvertFrom-Json
-        if ($this.config.comp_config.$completion -and $this.config.comp_config.$completion.language) {
-            $config_language = $this.config.comp_config.$completion.language
-        }
-        else {
-            $config_language = $null
-        }
-        if ($config_language) {
-            $language = if ($config_language -in $content_config.language) { $config_language }else { $content_config.language[0] }
-        }
-        else {
-            $language = if ($this.language -in $content_config.language) { $this.language }else { $content_config.language[0] }
-        }
-        return $language
-    }
-
-    $completion_datas = @{}
-    foreach ($_ in $PSCompletions.cmd.Keys) {
-        $language = $PSCompletions.get_language($_)
-        $path_language = "$($PSCompletions.path.completions)/$($_)/language/$($language).json"
-        if (Test-Path $path_language) {
-            $completion_datas.$_ = $PSCompletions.get_raw_content($path_language) | ConvertFrom-JsonToHashtable
-        }
-        else {
-            try {
-                $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$($_)/language/$($language).json", $path_language)
-                $completion_datas.$_ = $PSCompletions.get_raw_content($path_language) | ConvertFrom-JsonToHashtable
-            }
-            catch {
-                Remove-Item "$($PSCompletions.path.completions)/$($_)" -Force -ErrorAction SilentlyContinue
-            }
-        }
-    }
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod set_config {
-        param ([string]$k, $v)
-        $c = $this.get_raw_content($this.path.config) | ConvertFrom-JsonToHashtable
-        $c.$k = $v
-        $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
-    }
-    # download list
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
-        if (!(Test-Path $this.path.completions_json)) {
-            @{ list = @('psc') } | ConvertTo-Json | Out-File $this.path.completions_json -Encoding utf8 -Force
-        }
-        $current_list = ($this.get_raw_content($this.path.completions_json) | ConvertFrom-Json).list
-        if ($this.url) {
-            try {
-                $content = (Invoke-WebRequest -Uri "$($this.url)/completions.json").Content | ConvertFrom-Json
-
-                $remote_list = $content.list
-
-                $diff = Compare-Object $remote_list $current_list -PassThru
-                if ($diff) {
-                    $diff | Out-File $this.path.change -Force -Encoding utf8
-                    $content | ConvertTo-Json | Out-File $this.path.completions_json -Encoding utf8 -Force
-                }
-                else {
-                    Clear-Content $this.path.change -Force
-                }
-            }
-            catch {}
-        }
-    }
-
-    # ensure completion config
-    foreach ($_ in $PSCompletions.cmd.Keys) {
-        $path = "$($PSCompletions.path.completions)/$($_)/config.json"
-        $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
-        $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
-        $json = $PSCompletions.get_raw_content($path) | ConvertFrom-JsonToHashtable
-        if ($json.config) {
-            foreach ($item in $json.config) {
-                if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
-                    $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
-                    $need_update_config = $true
-                }
-            }
-        }
-    }
-    if ($need_update_config) { $PSCompletions.config | ConvertTo-Json | Out-File $PSCompletions.path.config -Encoding utf8 -Force }
-
-    $PSCompletions.download_list()
-
-    # check version
-    try {
-        if ($PSCompletions.config.module_update -eq 1) {
-            $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/module/version.txt"
-            $content = $response.Content.Trim()
-            $versions = @($PSCompletions.version, $content) | Sort-Object { [Version] $_ }
-            if ($versions[-1] -ne $PSCompletions.version) {
-                $PSCompletions.set_config('module_update', $versions[-1])
-            }
-        }
-    }
-    catch {}
-
-    # check update
-    if ($PSCompletions.config.update -eq 1) {
-        $update_list = [System.Collections.Generic.List[string]]@()
-        foreach ($_ in Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue | Where-Object { $_.Name -in $PSCompletions.list }) {
-            try {
-                $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$($_.Name)/guid.txt"
-                $content = $response.Content.Trim()
-                $guid = $PScompletions.get_raw_content("$($PSCompletions.path.completions)/$($_.Name)/guid.txt")
-                if ($guid -ne $content) { $update_list.Add($_.Name) }
-            }
-            catch {}
-        }
-        if ($update_list) { $update_list | Out-File $PSCompletions.path.update -Force -Encoding utf8 }
-        else { Clear-Content $PSCompletions.path.update -Force }
-    }
-    return $completion_datas
-} -ArgumentList $PSCompletions
+$PSCompletions.start_job()

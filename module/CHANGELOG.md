@@ -3,6 +3,36 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.0 (2024/8/9)
+
+- Add three `menu` configurations:
+
+  1. `menu_trigger_key`: Default value is `Tab`, which is used to set the trigger key of the completion menu.
+     - Setting: `psc menu config menu_trigger_key <key>`
+  2. `menu_enhance`: Default value is `1`, which is used to enable or disable the enhanced completion menu feature.
+     - Setting: `psc menu config menu_enhance 1`
+     - When enabled, `PSCompletions` will intercept all completions and uses the completion menu provided by `PSCompletions` to render completions.
+     - For example, commands such as `Get-*`, `Set-*` in `PowerShell` will use the completion menu provided by `PSCompletions` to render the completion.
+     - Note: This setting only takes effect if `menu_enable` is also enabled.
+     - [About menu enhance](../README.md#about-menu-enhance)
+  3. `menu_show_tip_when_enhance`: Default value is `1`, which is used to control whether to show command tips for completions that are not added through `psc add`.
+     - Setting: `psc menu config menu_show_tip_when_enhance 1`
+     - Use together with `menu_enhance`.
+
+- Fix an issue where multi-byte characters(such as Chinese characters) could cause partial rendering errors in the menu.
+
+  - This is useful with `menu_enhance`.
+  - For example, when using the `cd` command, even if the path completion contains Chinese or other multi-byte characters, the menu will render correctly.
+
+- Completion tips now support automatic line wrapping based on available width.
+
+  - For a better experience, the default value of the `menu_tip_follow_cursor` config has been changed from `0` to `1`.
+
+- Refactored code by reorganizing the source file directory structure and extracting common code.
+- Use multi-threading to optimize performance and remove some redundant code.
+- Fixed some other issues.
+- Cleaned up the code.
+
 ## 4.1.0 (2024/8/7)
 
 - Now `Windows PowerShell` can use the completion menu provided by `PSCompletions`.

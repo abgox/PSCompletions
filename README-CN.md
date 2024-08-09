@@ -72,14 +72,14 @@
 
 ## Demo
 
-![demo](https://abgop.netlify.app/pscompletions/demo.gif)
+![demo](https://wsrv.nl/?url=oh-my-pic.netlify.app/PSCompletions-demo.gif&output=gif&n=-1&default=oh-my-pic.netlify.app/PSCompletions-demo.gif)
 
 ## Tips
 
 ### 关于补全触发按键
 
 - 模块默认使用 `Tab` 键作为补全触发按键
-- 你可以使用 `Set-PSReadLineKeyHandler <key> MenuComplete` 去设置它
+- 你可以使用 `psc menu config menu_trigger_key <key>` 去设置它
 
 ### 关于补全更新
 
@@ -89,6 +89,7 @@
 ### 关于补全菜单
 
 - 除了语言内置的补全菜单，`PSCompletions` 模块还提供了一个好用的补全菜单。
+  - 配置: `psc menu config menu_enable 1` (默认开启)
 - 模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
 - 模块提供的补全菜单可用的 Windows 环境：
   - `PowerShell` <img src="https://img.shields.io/badge/v4.0.0+-4CAF50" alt="v4.0.0+ support" />
@@ -97,6 +98,7 @@
 - 模块提供的补全菜单中的按键
 
   1. 选用当前选中的补全项: `Enter`(回车键)
+     - 当只有一个可选项时，也可以使用 `Tab` 或 `Space` 键
   2. 删除过滤字符: `Backspace`(退格键)
   3. 退出补全菜单: `ESC` / `Ctrl + c`
      - 当过滤区域没有字符时，也可以使用 `Backspace`(退格键) 退出补全菜单
@@ -113,6 +115,25 @@
 
 - 补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过[补全提示信息](#关于补全提示信息)来了解
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)
+
+#### 关于菜单增强
+
+- <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />
+
+- 配置: `psc menu config menu_enhance 1` 默认开启
+- 现在，`PSCompletions` 对于补全有两种实现
+
+  1. `Register-ArgumentCompleter`
+
+     - <img src="https://img.shields.io/badge/v4.1.0-4CAF50" alt="v4.1.0 support" /> 及之前版本都使用此实现
+     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" /> 变为可选: 设置 `menu_enhance` 为 `0`
+     - 此实现只能管理 `psc add` 添加的补全
+
+  2. `Set-PSReadLineKeyHandler`
+     - `v4.2.0` 及之后版本都默认使用此实现
+       - 需要 `menu_enable` 和 `menu_enhance` 同时为 `1`
+     - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
+     - 同时使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
 
 ### 关于特殊符号
 
@@ -137,12 +158,6 @@
     - 可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
 
   - 所有补全都可以在输入部分字符后按下 `Tab` 键触发补全
-    - 在 `Windows PowerShell` 中，输入 `-` 或 `--` 后按下 `Tab`键是无法获取补全的
-    - 你应该先按下 `Tab` 键触发补全菜单，然后输入 `-` 或 `--` 进行筛选
-    - 这个问题在 `PowerShell` 中不存在
-
-- 使用 PowerShell 语言自带的补全菜单时, 如果 `...` 是最后一个补全, 则表示可显示区域过小, 无法显示所有候选项
-- 使用模块提供的补全菜单时, 如果补全提示信息末尾出现 `...`, 则表示当前显示区域宽度不够, 提示信息显示不完整
 
 ### 关于补全提示信息
 
@@ -194,14 +209,13 @@
 ### 关于路径补全
 
 - 以 `git` 为例，当输入 `git add`，此时按下 `Space` 和 `Tab` 键，不会触发路径补全，只会触发模块提供的命令补全
-- 如果你希望触发路径补全，你需要输入内容
-- 只要输入的内容符合这个正则 `^\.*[\\/]*`，都会触发 `PowerShell` 的路径补全
+- 如果你希望触发路径补全，你需要输入内容，且内容符合正则 `^(?:\.\.?|~)?(?:[/\\]).*`
 - 比如:
 
   - 输入 `./` 或 `.\` 后按下 `Tab` 以获取 **子目录** 或 **文件** 的路径补全
   - 输入 `../` 或 `..\` 后按下 `Tab` 以获取 **父级目录** 或 **文件** 的路径补全
   - 输入 `/` 或 `\` 后按下 `Tab` 以获取 **同级目录** 的路径补全
-  - 更多的: `.` / `~/` / `../../` ...
+  - 更多的: `~/` / `../../` ...
 
 - 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 

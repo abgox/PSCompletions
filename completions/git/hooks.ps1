@@ -1,10 +1,16 @@
 function handleCompletions([System.Collections.Generic.List[System.Object]]$completions) {
     $tempList = [System.Collections.Generic.List[System.Object]]@()
     function addCompletion($name, $tip = ' ', $symbol = '') {
+        $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config."symbol_$($c)" }
+        $symbols = $symbols -join ''
+        $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)" }else { '' }
+        $cmd_arr = $name -split ' '
+
         $tempList.Add(@{
-                name   = $name
-                symbol = $symbol
-                tip    = $tip
+                name           = $name
+                ListItemText   = "$($cmd_arr[-1])$($padSymbols)"
+                CompletionText = $cmd_arr[-1]
+                ToolTip        = $tip
             })
     }
     $branch_list = git branch --format='%(refname:lstrip=2)' 2>$null

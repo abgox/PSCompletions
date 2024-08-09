@@ -72,14 +72,14 @@
 
 ## Demo
 
-![demo](https://abgop.netlify.app/pscompletions/demo.gif)
+![demo](https://wsrv.nl/?url=oh-my-pic.netlify.app/PSCompletions-demo.gif&output=gif&n=-1&default=oh-my-pic.netlify.app/PSCompletions-demo.gif)
 
 ## Tips
 
 ### About the completion trigger key
 
 - `PSCompletions` uses the `Tab` key by default.
-- You can set it by running `Set-PSReadLineKeyHandler <key> MenuComplete`.
+- You can set it by running `psc menu config menu_trigger_key <key>`.
 
 ### About completion update
 
@@ -116,6 +116,28 @@
 - All configurations of it, you can trigger completion by running `psc menu`, then learn about them by [the completion tip](#about-completion-tip).
   - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
 
+#### About menu enhance
+
+- <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />
+
+- config: `psc menu config menu_enhance 1` (Default: `1`)
+- Now, `PSCompletions` has two completion implementations
+
+  1. `Register-ArgumentCompleter`
+
+     - <img src="https://img.shields.io/badge/v4.1.0-4CAF50" alt="v4.1.0 support" /> : It's used.
+     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's optional.
+
+       - You can use it by running `psc menu config menu_enable 0`.
+       - It' Not recommended. It only works for completions added by `psc add`.
+
+  2. `Set-PSReadLineKeyHandler`
+     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's used by default.
+       - Requires: `menu_enable`and `menu_enhance` both set to `1`.
+     - It no longer needs to loop through registering `Register-ArgumentCompleter` for all completions, which theoretically makes loading faster.
+     - It use [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
+       - For example, commands such as `Get-*`/`Set-*`/... in `PowerShell` will use the completion menu provided by `PSCompletions` to render the completion.
+
 ### About special symbols
 
 - Special symbols after the completion item are used to let you know in advance if completions are available before you press the `Tab` key.
@@ -136,9 +158,6 @@
     - If there is also 😄, it means that there are some strings to complete, you can press `Space` and `Tab` key to continue to get command completions without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
   - All completions can be triggered by pressing the `Tab` key after entering a part.
-    - In `Windows PowerShell`, if you press the `Tab` key after entering `-` or `--`, you won't get the completions.
-    - You should press the `Tab` key to trigger the completion menu, and then type `-` or `--` to filter.
-    - This problem isn't in `PowerShell`.
 
 ### About completion tip
 
@@ -190,13 +209,12 @@
 ### About path completion
 
 - Take `git` for example, when entering `git add`, pressing the `Space` and `Tab` keys, path completion will not be triggered, only completion provided by the module will be triggered.
-- If you want to trigger path completion, you need to enter a content.
-- If the content matches this regex rule `^\.*[\\/]*`, it will trigger `PowerShell` path completion.
+- If you want to trigger path completion, you need to enter a content which matches `^(?:\.\.?|~)?(?:[/\\]).*`.
 - e.g.
   - Please enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
   - Please enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
   - Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
-  - More examples: `.` / `~/` / `../../` ...
+  - More examples: `~/` / `../../` ...
 - So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ## Available Completions List
