@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.3 (2024/8/9)
+
+- Fix an issue where the `menu_show_tip` configuration for specific completions was invalid.
+- Fix an issue where the menu was rendered incorrectly when filtering completions.
+
 ## 4.2.2 (2024/8/9)
 
 - No longer checks for updates immediately after using `psc update *` update completion.
