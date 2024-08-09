@@ -38,7 +38,7 @@ function PSCompletions {
         $PSCompletions.show_with_less_table($data, ('Completion', 'Alias', $max_len))
     }
     function Out-Config {
-        $PSCompletions.config | ConvertTo-Json | Out-File $PSCompletions.path.config -Force -Encoding utf8
+        $PSCompletions.config | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.config -Force -Encoding utf8
     }
     function _list {
         if ($arg.Length -gt 2) {
@@ -135,7 +135,7 @@ function PSCompletions {
         $completion_list = $PSCompletions.cmd.keys | Where-Object { $_ -in $PSCompletions.list }
 
         # 检查补全列表更新，并将最新结果保存到 update 文件中，以及 $PSCompletions.update 变量中
-        function check_update() {
+        function check_update {
             $update_list = [System.Collections.Generic.List[string]]@()
 
             foreach ($completion in $completion_list) {
@@ -338,7 +338,8 @@ function PSCompletions {
             }
         }
 
-        function handle_done($is_can, [switch]$common_err) {
+        function handle_done {
+            param($is_can, [switch]$common_err)
             if ($arg.Length -eq 3) {
                 if ($is_can) {
                     $config_item = $arg[1]
@@ -645,7 +646,7 @@ function PSCompletions {
                     return
                 }
                 if ($arg.Length -eq 3) {
-                    Show-ParamError 'min' '' '' $PSCompletions.info.menu.config.example
+                    $PSCompletions.config.$($arg[2])
                     return
                 }
                 if ($arg.Length -gt 4) {
@@ -662,6 +663,19 @@ function PSCompletions {
                     $is_num = $false
                 }
                 switch ($arg[2]) {
+                    'menu_trigger_key' {
+                        try {
+                            $PSCompletions.config.menu_trigger_key = $arg[3]
+                            $PSCompletions.powershell_completion()
+                            $PSCompletions.config.menu_trigger_key = "Tab"
+                        }
+                        catch {
+                            Show-ParamError 'err' 'menu_trigger_key' $PSCompletions.info.menu.config.err.menu_trigger_key
+                            $PSCompletions.config.menu_trigger_key = "Tab"
+                            return
+                        }
+                    }
+
                     { $_ -in @('menu_above_list_max_count', 'menu_below_list_max_count') } {
                         $cmd_list = $null
                         $sub_cmd = $arg[3]
@@ -680,7 +694,7 @@ function PSCompletions {
                             return
                         }
                     }
-                    { $_ -in @('menu_enable', 'menu_show_tip', 'menu_list_follow_cursor', 'menu_tip_follow_cursor', 'menu_list_cover_buffer', 'menu_tip_cover_buffer', 'menu_is_prefix_match', 'menu_selection_with_margin', 'enter_when_single', 'menu_completions_sort') } {
+                    { $_ -in @('menu_enable', 'menu_show_tip', 'menu_list_follow_cursor', 'menu_tip_follow_cursor', 'menu_list_cover_buffer', 'menu_tip_cover_buffer', 'menu_is_prefix_match', 'menu_selection_with_margin', 'enter_when_single', 'menu_completions_sort', 'menu_enhance', 'menu_show_tip_when_enhance') } {
                         if (!$is_num -or $arg[3] -notin @(1, 0)) {
                             $cmd_list = $null
                             $sub_cmd = $arg[3]
@@ -733,7 +747,8 @@ function PSCompletions {
                 return
             }
         }
-        function handle_reset($cmd) {
+        function handle_reset {
+            param($cmd)
             $change_list = [System.Collections.Generic.List[System.Object]]@()
             foreach ($_ in $PSCompletions.default.$cmd.Keys) {
                 $change_list.Add(@{
@@ -781,7 +796,8 @@ function PSCompletions {
                 $is_change_config = $false
             }
             "completion" {
-                function _do($cmd, [switch]$is_all) {
+                function _do {
+                    param($cmd, [switch]$is_all)
                     $path = "$($PSCompletions.path.completions)/$($cmd)/config.json"
                     $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                     $path = "$($PSCompletions.path.completions)/$($cmd)/language/$($json.language[0]).json"

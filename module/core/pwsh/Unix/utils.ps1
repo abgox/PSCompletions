@@ -3,16 +3,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_Json
     ConvertFrom-Json -AsHashtable $json
 }
 
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {}
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
-    param([string]$cmd)
-    foreach ($_ in $this.cmd[$cmd]) {
+    foreach ($_ in $this.alias.keys) {
         Register-ArgumentCompleter -CommandName $_ -ScriptBlock {
             param($word_to_complete, $command_ast, $cursor_position)
-            # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
-            $regex = "(?:`"[^`"]*`"|'[^']*'|\S)+"
-            $matches = [regex]::Matches($command_ast.CommandElements, $regex)
 
-            $input_arr = New-Object System.Collections.Generic.List[string]
+            # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
+            $input_arr = [System.Collections.Generic.List[string]]@()
+            $matches = [regex]::Matches($command_ast.CommandElements, "(?:`"[^`"]*`"|'[^']*'|\S)+")
             foreach ($match in $matches) { $input_arr.Add($match.Value) }
 
             # 触发补全的值，此值可能是别名或命令名
@@ -23,16 +22,17 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
 
             $input_arr.RemoveAt(0)
 
+            # 是否是按下空格键触发的补全
+            $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
+
             # 获取 json 数据
-            if ($PSCompletions.data.Count -eq 0) {
-                if ($PSCompletions.job.State -eq 'Completed') {
-                    $data = Receive-Job $PSCompletions.job
-                    foreach ($_ in $data.Keys) {
-                        $PSCompletions.data.$_ = $data.$_
-                    }
-                    Remove-Job $PSCompletions.job
-                    $PSCompletions.job = $null
+            if ($PSCompletions.job.State -eq 'Completed') {
+                $data = Receive-Job $PSCompletions.job
+                foreach ($_ in $data.Keys) {
+                    $PSCompletions.data.$_ = $data.$_
                 }
+                Remove-Job $PSCompletions.job
+                $PSCompletions.job = $null
             }
             if (!$PSCompletions.data.$root -or $PSCompletions.config.disable_cache) {
                 $language = $PSCompletions.get_language($root)
@@ -61,84 +61,136 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
 
             function getCompletions {
                 $completions = [System.Collections.Generic.List[System.Object]]@()
-                function parseCompletions ($node, $pre, [switch]$isOption) {
-                    foreach ($_ in $node) {
-                        $pad = if ($pre) { ' ' }else { '' }
-                        $symbols = @()
-                        if ($isOption) {
-                            $symbols += 'OptionTab'
-                        }
-                        if ($_.next -or $_.options) {
-                            $symbols += 'SpaceTab'
-                            if ($isOption) {
-                                $symbols += 'WriteSpaceTab'
-                            }
-                        }
-                        if ($_.symbol) {
-                            $symbols += $PSCompletions.replace_content($_.symbol, ' ') -split ' '
-                        }
-                        $symbols = $symbols | Select-Object -Unique
 
-                        $completions.Add(@{
-                                name   = $pre + $pad + $_.name
-                                symbol = $symbols
-                                tip    = $_.tip
-                            })
-                        if ($_.alias) {
-                            if ($isOption) {
-                                foreach ($a in $_.alias) {
-                                    $completions.Add(@{
-                                            name   = $pre + $pad + $a
-                                            symbol = $symbols
-                                            tip    = $_.tip
-                                        })
-                                    if ($_.next) { parseCompletions $_.next ($pre + $pad + $a) }
-                                }
-                            }
-                            else {
-                                foreach ($a in $_.alias) {
-                                    # 判断别名出现的位置
-                                    $index = (($pre + $pad + $_.name) -split ' ').Length - 1
-                                    # 用这个位置创建一个数组，将所有在这个位置出现的别名全部写入这个数组
-                                    if (!($alias_map[$index])) { $alias_map[$index] = @() }
-                                    $alias_map[$index] += @{
-                                        name  = $_.name
-                                        alias = $a
-                                    }
-                                    $completions.Add(@{
-                                            name   = $pre + $pad + $a
-                                            symbol = $symbols
-                                            tip    = $_.tip
-                                        })
-                                }
-                            }
-                        }
-                        if ($symbols) {
-                            if ('WriteSpaceTab' -in $symbols) {
-                                $WriteSpaceTab.Add($_.name)
-                                if ($_.alias) {
-                                    foreach ($a in $_.alias) { $WriteSpaceTab.Add($a) }
-                                }
-                                if ('SpaceTab' -in $symbols) {
-                                    $WriteSpaceTab_and_SpaceTab.Add($_.name)
-                                    if ($_.alias) {
-                                        foreach ($a in $_.alias) { $WriteSpaceTab_and_SpaceTab.Add($a) }
-                                    }
-                                }
-                            }
-                        }
-                        if ($_.next) { parseCompletions $_.next ($pre + $pad + $_.name) }
-                        if ($_.options) { parseCompletions $_.options ($pre + $pad + $_.name) -isOption }
+                $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
+                $runspacePool.Open()
+                $runspaces = @()
+
+                $tasks = @()
+                if ($PSCompletions.data.$root.root) {
+                    $tasks += @{
+                        node     = $PSCompletions.data.$root.root
+                        isOption = $false
                     }
                 }
-                if ($PSCompletions.data.$root.root) { parseCompletions $PSCompletions.data.$root.root '' }
-                if ($PSCompletions.data.$root.options) { parseCompletions $PSCompletions.data.$root.options '' -isOption }
+                if ($PSCompletions.data.$root.options) {
+                    $tasks += @{
+                        node     = $PSCompletions.data.$root.options
+                        isOption = $true
+                    }
+                }
+                foreach ($task in $tasks) {
+                    $runspace = [powershell]::Create().AddScript({
+                            param($obj, $PSCompletions)
+                            $completions = [System.Collections.Generic.List[System.Object]]@()
+                            function _replace {
+                                param ($data, $separator = '')
+                                $data = ($data -join $separator)
+                                $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
+                                $matches = [regex]::Matches($data, $pattern)
+                                foreach ($match in $matches) {
+                                    $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
+                                }
+                                if ($data -match $pattern) { (_replace $data) }else { return $data }
+                            }
+                            function parseCompletions {
+                                param($node, $pre, $isOption)
+                                foreach ($_ in $node) {
+                                    $pad = if ($pre) { ' ' }else { '' }
+                                    $symbols = @()
+                                    if ($isOption) {
+                                        $symbols += 'OptionTab'
+                                    }
+                                    if ($_.next -or $_.options) {
+                                        $symbols += 'SpaceTab'
+                                        if ($isOption) {
+                                            $symbols += 'WriteSpaceTab'
+                                        }
+                                    }
+                                    if ($_.symbol) {
+                                        $symbols += (_replace $_.symbol ' ') -split ' '
+                                    }
+                                    $symbols = $symbols | Select-Object -Unique
+                                    $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$($c)" }
+                                    $symbols = $symbols -join ''
+                                    $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)" }else { '' }
+
+                                    $completions.Add(@{
+                                            name           = $pre + $pad + $_.name
+                                            ListItemText   = "$($_.name)$($padSymbols)"
+                                            CompletionText = $_.name
+                                            ToolTip        = $_.tip
+                                        })
+                                    if ($_.alias) {
+                                        if ($isOption) {
+                                            foreach ($a in $_.alias) {
+                                                $completions.Add(@{
+                                                        name           = $pre + $pad + $a
+                                                        ListItemText   = "$($a)$($padSymbols)"
+                                                        CompletionText = $a
+                                                        ToolTip        = $_.tip
+                                                    })
+                                                if ($_.next) { parseCompletions $_.next ($pre + $pad + $a) }
+                                            }
+                                        }
+                                        else {
+                                            foreach ($a in $_.alias) {
+                                                # 判断别名出现的位置
+                                                $index = (($pre + $pad + $_.name) -split ' ').Length - 1
+                                                # 用这个位置创建一个数组，将所有在这个位置出现的别名全部写入这个数组
+                                                if (!($alias_map[$index])) { $alias_map[$index] = @() }
+                                                $alias_map[$index] += @{
+                                                    name  = $_.name
+                                                    alias = $a
+                                                }
+                                                $completions.Add(@{
+                                                        name           = $pre + $pad + $a
+                                                        ListItemText   = "$($a)$($padSymbols)"
+                                                        CompletionText = $a
+                                                        ToolTip        = $_.tip
+                                                    })
+                                            }
+                                        }
+                                    }
+                                    if ($symbols) {
+                                        if ('WriteSpaceTab' -in $symbols) {
+                                            $WriteSpaceTab.Add($_.name)
+                                            if ($_.alias) {
+                                                foreach ($a in $_.alias) { $WriteSpaceTab.Add($a) }
+                                            }
+                                            if ('SpaceTab' -in $symbols) {
+                                                $WriteSpaceTab_and_SpaceTab.Add($_.name)
+                                                if ($_.alias) {
+                                                    foreach ($a in $_.alias) { $WriteSpaceTab_and_SpaceTab.Add($a) }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if ($_.next) { parseCompletions $_.next ($pre + $pad + $_.name) }
+                                    if ($_.options) { parseCompletions $_.options ($pre + $pad + $_.name) -isOption }
+                                }
+                            }
+                            parseCompletions $obj.node '' $obj.isOption
+                            return $completions
+                        }).AddArgument($task).AddArgument($PSCompletions)
+                    $runspace.RunspacePool = $runspacePool
+                    $runspaces += @{ Runspace = $runspace; Job = $runspace.BeginInvoke() }
+                }
+
+                # 等待所有任务完成
+                foreach ($rs in $runspaces) {
+                    $result = $rs.Runspace.EndInvoke($rs.Job)
+                    $rs.Runspace.Dispose()
+                    $completions.AddRange($result)
+                }
                 return $completions
             }
-            function handleCompletions($completions) { return $completions }
-            function filterCompletions($completions, $root) {
-                # 是否是按下空格键触发的补全
-                $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
+            function handleCompletions {
+                param($completions)
+                return $completions
+            }
+            function filterCompletions {
+                param($completions, $root)
 
                 # 当这个 options 是 WriteSpaceTab 时，将下一个值直接过滤掉
                 $need_skip = $false
@@ -178,46 +230,68 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                     $match = '*'
                 }
 
-                $filter_list = [System.Collections.Generic.List[System.Object]]@()
-                foreach ($_ in $completions) {
-                    $matches = [regex]::Matches($_.name, "(?:`"[^`"]*`"|'[^']*'|\S)+")
-                    $cmd = [System.Collections.Generic.List[string]]@()
-                    foreach ($m in $matches) { $cmd.Add($m.Value) }
-                    <#
-                        判断选项是否使用过了，如果使用过了，$no_used 为 $true
-                        这里的判断对于 --file="abc" 这样的命令无法使用，因为这里和用户输入的 "abc"是连着的
-                    #>
-                    $no_used = if ($cmd[-1] -like '-*') {
-                        $cmd[-1] -notin $input_arr
-                    }
-                    else { $true }
+                $alias_input_arr = $filter_input_arr
 
-                    $alias_input_arr = $filter_input_arr
-
-                    # 循环命令的长度，针对每一个位置去 $alias_map 找到对应的数组，然后把数组里的值拿出来比对，如果有匹配的，替换掉原来的命令名
-                    # 用位置的好处是，这样遍历是依赖于命令的长度，而命令长度一般不长
-                    for ($i = 0; $i -lt $filter_input_arr.Count; $i++) {
-                        if ($alias_map[$i]) {
-                            foreach ($obj in $alias_map[$i]) {
-                                if ($obj.alias -eq $filter_input_arr[$i]) {
-                                    $alias_input_arr[$i] = $obj.name
-                                    break
-                                }
+                # 循环命令的长度，针对每一个位置去 $alias_map 找到对应的数组，然后把数组里的值拿出来比对，如果有匹配的，替换掉原来的命令名
+                # 用位置的好处是，这样遍历是依赖于命令的长度，而命令长度一般不长
+                for ($i = 0; $i -lt $filter_input_arr.Count; $i++) {
+                    if ($alias_map[$i]) {
+                        foreach ($obj in $alias_map[$i]) {
+                            if ($obj.alias -eq $filter_input_arr[$i]) {
+                                $alias_input_arr[$i] = $obj.name
+                                break
                             }
                         }
                     }
-                    $isLike = ($_.name -like ([WildcardPattern]::Escape($filter_input_arr -join ' ') + $match)) -or ($_.name -like ([WildcardPattern]::Escape($alias_input_arr -join ' ') + $match))
+                }
 
-                    if ($no_used -and $cmd.Count -eq ($filter_input_arr.Count + $space_tab) -and $isLike) {
-                        # 让 name 的值变成一个数组，方便后面处理
-                        $_.name = $cmd
-                        $filter_list.Add($_)
+                $filter_list = [System.Collections.Generic.List[System.Object]]@()
+
+                $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
+                $runspacePool.Open()
+                $runspaces = @()
+
+                foreach ($completions in $PSCompletions.split_array($completions, [Environment]::ProcessorCount, $true)) {
+                    $runspace = [powershell]::Create().AddScript({
+                            param($completions, $input_arr, $filter_input_arr, $match, $alias_input_arr, $space_tab)
+                            foreach ($completion in $completions) {
+                                $matches = [regex]::Matches($completion.name, "(?:`"[^`"]*`"|'[^']*'|\S)+")
+                                $cmd = [System.Collections.Generic.List[string]]@()
+                                foreach ($m in $matches) { $cmd.Add($m.Value) }
+                                <#
+                                        判断选项是否使用过了，如果使用过了，$no_used 为 $true
+                                        这里的判断对于 --file="abc" 这样的命令无法使用，因为这里和用户输入的 "abc"是连着的
+                                    #>
+                                $no_used = if ($cmd[-1] -like '-*') {
+                                    $cmd[-1] -notin $input_arr
+                                }
+                                else { $true }
+
+
+                                $isLike = ($completion.name -like ([WildcardPattern]::Escape($filter_input_arr -join ' ') + $match)) -or ($completion.name -like ([WildcardPattern]::Escape($alias_input_arr -join ' ') + $match))
+                                if ($no_used -and $cmd.Count -eq ($filter_input_arr.Count + $space_tab) -and $isLike) {
+                                    $completion
+                                }
+                            }
+                        }).AddArgument($completions).AddArgument($input_arr).AddArgument($filter_input_arr).AddArgument($match).AddArgument($alias_input_arr).AddArgument($space_tab)
+
+
+                    $runspace.RunspacePool = $runspacePool
+                    $runspaces += @{ Runspace = $runspace; Job = $runspace.BeginInvoke() }
+                }
+
+                # 等待所有任务完成
+                foreach ($rs in $runspaces) {
+                    $result = $rs.Runspace.EndInvoke($rs.Job)
+                    $rs.Runspace.Dispose()
+                    if ($result) {
+                        $filter_list.AddRange($result)
                     }
                 }
 
                 # 处理 common_options
                 if ($PSCompletions.data.$root.common_options) {
-                    function returnSymbol {
+                    function Get-PadSymbols {
                         $symbols = @('OptionTab')
                         if ($_.next) {
                             $symbols += 'SpaceTab'
@@ -227,7 +301,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                             $symbols += $PSCompletions.replace_content($_.symbol, ' ') -split ' '
                         }
                         $symbols = $symbols | Select-Object -Unique
-                        return $symbols
+
+                        $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$($c)" }
+                        $symbols = $symbols -join ''
+                        if ($symbols) {
+                            "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)"
+                        }
+                        else {
+                            ''
+                        }
                     }
                     if ($space_tab) {
                         if ($input_arr[-1] -in $common_options_with_next -and ($input_arr -notlike "*$($input_arr[-1])*$($input_arr[-1])*" -or $input_arr -like "*$($input_arr[-1])")) {
@@ -237,8 +319,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                             } | ForEach-Object {
                                 foreach ($n in $_.next) {
                                     $filter_list.Add(@{
-                                            name = @($n.name)
-                                            tip  = $n.tip
+                                            ListItemText   = $n.name
+                                            CompletionText = $n.name
+                                            ToolTip        = $n.tip
                                         })
                                 }
                             }
@@ -247,16 +330,19 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                             if ($_.name -notin $input_arr) {
                                 $isExist = $false
                                 $temp_list = [System.Collections.Generic.List[System.Object]]@()
-                                $_.name = @($_.name)
-                                $_.symbol = returnSymbol
-                                $temp_list.Add($_)
+
+                                $temp_list.Add(@{
+                                        ListItemText   = "$($_.name)$(Get-PadSymbols)"
+                                        CompletionText = $_.name
+                                        ToolTip        = $_.tip
+                                    })
 
                                 foreach ($a in $_.alias) {
                                     if ($a -notin $input_arr) {
                                         $temp_list.Add(@{
-                                                name   = @($a)
-                                                symbol = returnSymbol
-                                                tip    = $_.tip
+                                                ListItemText   = "$($a)$(Get-PadSymbols)"
+                                                CompletionText = $a
+                                                ToolTip        = $_.tip
                                             })
                                     }
                                     else {
@@ -277,8 +363,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                                 foreach ($n in $_.next) {
                                     if ($n.name -like "$($input_arr[-1])*") {
                                         $filter_list.Add(@{
-                                                name = @($n.name)
-                                                tip  = $n.tip
+                                                ListItemText   = $n.name
+                                                CompletionText = $n.name
+                                                ToolTip        = $n.tip
                                             })
                                     }
                                 }
@@ -286,16 +373,18 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                         }
                         foreach ($_ in $PSCompletions.data.$root.common_options) {
                             if ($_.name -notin $input_arr -and $_.name -like "$($input_arr[-1])*") {
-                                $_.name = @($_.name)
-                                $_.symbol = returnSymbol
-                                $filter_list.Add($_)
+                                $filter_list.Add(@{
+                                        ListItemText   = "$($_.name)$(Get-PadSymbols)"
+                                        CompletionText = $_.name
+                                        ToolTip        = $_.tip
+                                    })
                             }
                             foreach ($a in $_.alias) {
                                 if ($a -notin $input_arr -and $a -like "$($input_arr[-1])*") {
                                     $filter_list.Add(@{
-                                            name   = @($a)
-                                            symbol = returnSymbol
-                                            tip    = $_.tip
+                                            ListItemText   = "$($a)$(Get-PadSymbols)"
+                                            CompletionText = $a
+                                            ToolTip        = $_.tip
                                         })
                                 }
                             }
@@ -340,64 +429,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
                         if ($o) { $o }else { 999999999 }
                     }
                 }
-
-                $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
-                    param($PScompletions, $completions, $path_history, $root, $path_order)
-                    $order = [ordered]@{}
-                    $index = 1
-                    foreach ($_ in $completions) {
-                        $order.$($_.name -join ' ') = $index
-                        $index++
-                    }
-                    $historys = [System.Collections.Generic.List[string]]@()
-                    foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
-                        foreach ($alias in $PSCompletions.cmd.$root) {
-                            if ($_ -match "^[^\S\n]*$($alias)\s+.+") {
-                                $historys.Add($_)
-                                break
-                            }
-                        }
-                    }
-                    $index = -1
-                    function handle_order([array]$history) {
-                        $str = $history -join ' '
-                        if ($str -in $order.Keys) {
-                            $order.$str = $index
-                        }
-                        if ($history.Count -eq 1) {
-                            return
-                        }
-                        else {
-                            handle_order $history[0..($history.Count - 2)]
-                        }
-                    }
-                    foreach ($_ in $historys) {
-                        $matches = [regex]::Matches($_, "(?:`"[^`"]*`"|'[^']*'|\S)+")
-                        $cmd = [System.Collections.Generic.List[string]]@()
-                        foreach ($m in $matches) { $cmd.Add($m.Value) }
-                        if ($cmd.Count -gt 1) {
-                            handle_order $cmd[1..($cmd.Count - 1)]
-                            $index--
-                        }
-                    }
-                    $json = $order | ConvertTo-Json -Compress
-                    $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
-                    foreach ($match in $matches) {
-                        $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
-                    }
-                    $json | Out-File $path_order -Encoding utf8 -Force
-                    return $order
-                } -ArgumentList $PScompletions, $completions, (Get-PSReadLineOption).HistorySavePath, $root, $path_order
-            }
-
-            $menu_show_tip = $PSCompletions.config.comp_config.$root.menu_show_tip
-            if ($menu_show_tip -ne $null) {
-                $PSCompletions.menu.is_show_tip = $menu_show_tip -eq 1
-            }
-            else {
-                $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
+                $PSCompletions.order_job($completions, (Get-PSReadLineOption).HistorySavePath, $root, $path_order)
             }
             $PSCompletions.menu.show_powershell_menu($filter_list)
+            $PSCompletions.current_cmd = $null
         }
     }
 }

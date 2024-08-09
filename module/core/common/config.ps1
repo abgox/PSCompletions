@@ -41,10 +41,12 @@ $PSCompletions.default.menu_config = @{
     # menu config
     enter_when_single            = 0
     menu_enable                  = 1
+    menu_enhance                 = 1
+    menu_show_tip_when_enhance   = 1
     menu_show_tip                = 1
     menu_completions_sort        = 1
     menu_selection_with_margin   = 1
-    menu_tip_follow_cursor       = 0
+    menu_tip_follow_cursor       = 1
     menu_tip_cover_buffer        = 1
     menu_list_follow_cursor      = 1
     menu_list_cover_buffer       = 0
@@ -58,6 +60,7 @@ $PSCompletions.default.menu_config = @{
     menu_between_item_and_symbol = ' '
     menu_status_symbol           = '/'
     menu_filter_symbol           = '[]'
+    menu_trigger_key             = 'Tab'
 }
 # completion config
 $PSCompletions.default.comp_config = @{}
@@ -79,7 +82,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
                 $c.comp_config = @{}
             }
             if ($hasDiff) {
-                $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
+                $c | ConvertTo-Json -Depth 100 -Compress | Out-File $this.path.config -Encoding utf8 -Force
             }
             return $c
         }
@@ -98,7 +101,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
             }
         }
         $c.comp_config = @{}
-        $c | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
+        $c | ConvertTo-Json -Depth 100 -Compress | Out-File $this.path.config -Encoding utf8 -Force
     }
     return $c
 }
@@ -107,5 +110,5 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod set_config {
     param ([string]$k, $v)
     $this.config = $this.get_config()
     $this.config.$k = $v
-    $this.config | ConvertTo-Json | Out-File $this.path.config -Encoding utf8 -Force
+    $this.config | ConvertTo-Json -Depth 100 -Compress | Out-File $this.path.config -Encoding utf8 -Force
 }

@@ -3,6 +3,37 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 4.2.0 (2024/8/9)
+
+- 添加了三个 `menu` 配置
+
+  1. `menu_trigger_key`: 默认值为 `Tab`, 用于设置补全菜单的触发按键
+     - 设置: `psc menu config menu_trigger_key <key>`
+  2. `menu_enhance`: 默认值为 `1`, 用于设置是否启用补全菜单增强功能
+
+     - 设置: `psc menu config menu_enhance 1`
+     - 开启后，`PSCompletions` 会拦截所有补全，并使用 `PSCompletions` 提供的补全菜单渲染补全
+     - 比如，`PowerShell` 中的 `Get-*`,`Set-*` 等命令都会使用 `PSCompletions` 提供的补全菜单渲染补全
+     - 需要注意，此配置项生效的前提是启用了 `menu_enable`
+     - [关于菜单增强](../README-CN.md#关于菜单增强)
+
+  3. `menu_show_tip_when_enhance`: 默认值为 `1`, 设置不是通过 `psc add` 添加的补全，是否显示命令提示信息
+
+     - 设置: `psc menu config menu_show_tip_when_enhance 1`
+     - 和 `menu_enhance` 一起使用
+
+- 解决了多字节文字可能导致菜单出现部分渲染错误的问题
+  - 这配合 `menu_enhance` 很有用
+  - 比如，输入 `cd` 命令按下 `Tab` 触发补全，即使路径补全中有中文等多字节文字，菜单也不会有渲染问题
+- 补全提示信息支持根据可用宽度自动换行
+
+  - 为了体验更好，`menu_tip_follow_cursor` 配置项的默认值从 `0` 修改为 `1`
+
+- 重构代码，调整源代码文件目录结构，提取公共代码
+- 使用多线程优化性能，移除一些多余的执行语句
+- 修复一些其他问题
+- 整理代码
+
 ## 4.1.0 (2024/8/7)
 
 - 现在 `Windows PowerShell` 也可以使用模块提供的补全菜单了
