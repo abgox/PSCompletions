@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.2.2'
+$PSCompletions.version = '4.2.3'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -723,7 +723,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         $info = $json.info
 
         $menu_show_tip = $PSCompletions.config.comp_config.$($PSCompletions.current_cmd).menu_show_tip
-        if ($menu_show_tip) {
+        if ($menu_show_tip -ne $null) {
             $this.is_show_tip = $menu_show_tip -eq 1
         }
         else {

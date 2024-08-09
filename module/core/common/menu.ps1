@@ -94,22 +94,29 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
             @{ Runspace = $task; Job = $job }
         }
 
-        $this.origin_filter_list = $this.filter_list = foreach ($rs in $runspaces) {
+
+        $this.filter_list = [System.Collections.Generic.List[System.Object]]@()
+        $this.origin_filter_list = [System.Collections.Generic.List[System.Object]]@()
+
+        foreach ($rs in $runspaces) {
             $results = $rs.Runspace.EndInvoke($rs.Job)
             $rs.Runspace.Dispose()
             foreach ($result in $results) {
                 $width = $this.get_length($result.ListItemText)
                 if ($width -gt $max_width) { $max_width = $width }
                 if ($result.ToolTip.Count -gt $tip_max_height) { $tip_max_height = $result.ToolTip.Count }
-                @{
+                $result = @{
                     ListItemText   = $result.ListItemText
                     CompletionText = $result.CompletionText
                     ToolTip        = $result.ToolTip
                     width          = $width
                     height         = $result.ToolTip.Count
                 }
+                $this.filter_list.Add($result)
+                $this.origin_filter_list.Add($result)
             }
         }
+
         $runspacePool.Close()
         $runspacePool.Dispose()
         $this.tip_max_height = $tip_max_height
@@ -594,7 +601,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     else {
         if ($PSCompletions.current_cmd) {
             $menu_show_tip = $PSCompletions.config.comp_config.$($PSCompletions.current_cmd).menu_show_tip
-            if ($menu_show_tip) {
+            if ($menu_show_tip -ne $null) {
                 $this.is_show_tip = $menu_show_tip -eq 1
             }
             else {
@@ -608,7 +615,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
     param($filter_list, [bool]$is_menu_enhance)
-    $this.origin_filter_list = $this.filter_list = $filter_list
+    $this.filter_list = $filter_list
 
     $lastest_encoding = [console]::OutputEncoding
     [console]::OutputEncoding = $PSCompletions.encoding
@@ -629,7 +636,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $this.offset = 0  # 索引的偏移量，用于滚动翻页
 
-    $this.filter_completions($this.origin_filter_list)
+    $this.filter_completions($this.filter_list)
     # 如果没有可用的选项，直接结束，触发路径补全
     if (!$this.filter_list) { return }
     $this.reset($true, $is_menu_enhance)
