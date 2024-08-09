@@ -2,10 +2,16 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
     if (!(Test-Path "package.json")) { return $completions }
 
     function addCompletion($name, $tip = ' ', $symbol = '') {
+        $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config."symbol_$($c)" }
+        $symbols = $symbols -join ''
+        $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)" }else { '' }
+        $cmd_arr = $name -split ' '
+
         $completions.Add(@{
-                name   = $name
-                symbol = $symbol
-                tip    = $tip
+                name           = $name
+                ListItemText   = "$($cmd_arr[-1])$($padSymbols)"
+                CompletionText = $cmd_arr[-1]
+                ToolTip        = $tip
             })
     }
 

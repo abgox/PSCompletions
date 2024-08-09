@@ -129,7 +129,7 @@
             "Current Value: {{ $PSCompletions.language }}\n",
             "Get or set the language of completions.\n",
             "The language will affect all added completions unless you set a language for one of them by running 'psc completion xxx'.\n",
-            "For more information: https://github.com/abgox/PSCompletions#about-language"
+            "For more information: https://github.com/abgox/PSCompletions/blob/main/README.md#about-language"
           ],
           "next": [
             {
@@ -310,8 +310,8 @@
           "tip": [
             "Set the symbol in the completion tip.(😄🤔😎)\n",
             "The meaning of symbols can be understood through completions. For detailed information, please visit them:\n",
-            "Github: https://github.com/abgox/PSCompletions#about-special-symbols\n",
-            "Gitee:  https://gitee.com/abgox/PSCompletions#%E5%85%B3%E4%BA%8E%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"
+            "Github: https://github.com/abgox/PSCompletions/blob/main/README.md#about-special-symbols\n",
+            "Gitee:  https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-special-symbols"
           ],
           "next": [
             {
@@ -726,6 +726,31 @@
           ],
           "next": [
             {
+              "name": "enter_when_single",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enter_when_single }} (Default: 0)\n",
+                "When there is only one completion item, whether to enter it directly instead of displaying the completion menu."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0 (Default)\n",
+                    "Even if there is only one completion item, the menu is displayed first.\n",
+                    "You can press the Tab or Space key again to enter the completion item."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1\n",
+                    "When there is only one completion item, it will be entered directly."
+                  ]
+                }
+              ]
+            },
+            {
               "name": "menu_enable",
               "symbol": "SpaceTab",
               "tip": [
@@ -836,23 +861,34 @@
               ]
             },
             {
+              "name": "menu_trigger_key",
+              "symbol": "SpaceTab",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.menu_trigger_key }}\" (Default: \"Tab\")\n",
+                "Setting the key that triggers the completion menu. (You should restart PowerShell after changing this configuration.)"
+              ],
+              "next": [
+                {
+                  "name": "\"Tab\"",
+                  "tip": "Set to \"Tab\" (Default)\n"
+                }
+              ]
+            },
+            {
               "name": "menu_tip_follow_cursor",
               "symbol": "SpaceTab",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.menu_tip_follow_cursor }} (Default: 0, it means disabled.)\n",
+                "Current Value: {{ $PSCompletions.config.menu_tip_follow_cursor }} (Default: 1, it means enabled.)\n",
                 "Set whether the completion tip is displayed following the input cursor."
               ],
               "next": [
                 {
                   "name": "0",
-                  "tip": [
-                    "Set to 0 (Default)\n",
-                    "Don't follow the input cursor."
-                  ]
+                  "tip": ["Set to 0\n", "Don't follow the input cursor."]
                 },
                 {
                   "name": "1",
-                  "tip": ["Set to 1\n", "Follow the input cursor."]
+                  "tip": ["Set to 1 (Default)\n", "Follow the input cursor."]
                 }
               ]
             },
@@ -906,14 +942,14 @@
               "tip": [
                 "Current Value: {{ $PSCompletions.config.menu_above_list_max_count }} (Default: -1)\n",
                 "Set the maximum number of completion items to be displayed on the first page when the completion menu is displayed above the cursor.\n",
-                "If it's -1, it means to display as many complements as possible according to the available height."
+                "If it's -1, it means to display as many completions as possible according to the available height."
               ],
               "next": [
                 {
                   "name": "-1",
                   "tip": [
                     "Set to -1 (Default)\n",
-                    "Display as many complements as possible according to the available height."
+                    "Display as many completions as possible according to the available height."
                   ]
                 }
               ]
@@ -924,14 +960,14 @@
               "tip": [
                 "Current Value: {{ $PSCompletions.config.menu_below_list_max_count }} (Default: -1)\n",
                 "Set the maximum number of completion items to be displayed on the first page when the completion menu is displayed below the cursor.\n",
-                "If it's -1, it means to display as many complements as possible according to the available height."
+                "If it's -1, it means to display as many completions as possible according to the available height."
               ],
               "next": [
                 {
                   "name": "-1",
                   "tip": [
                     "Set to -1 (Default)\n",
-                    "Display as many complements as possible according to the available height."
+                    "Display as many completions as possible according to the available height."
                   ]
                 }
               ]
@@ -949,31 +985,6 @@
                   "tip": [
                     "Set to \" \" (Default)\n",
                     "Add a space between each completion item and symbol."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enter_when_single",
-              "symbol": "SpaceTab",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enter_when_single }} (Default: 0)\n",
-                "When there is only one completion item, whether to enter it directly instead of displaying the completion menu."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0 (Default)\n",
-                    "Even if there is only one completion item, the menu is displayed first.\n",
-                    "You can press the Tab key again to enter the completion item."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1\n",
-                    "When there is only one completion item, it will be entered directly."
                   ]
                 }
               ]
@@ -1097,6 +1108,52 @@
                     "Set to 1 (Default)\n",
                     "Dynamically sort completion list based on command history."
                   ]
+                }
+              ]
+            },
+            {
+              "name": "menu_enhance",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.menu_enhance }} (Default 1, it means enabled)\n",
+                "Set whether to override PowerShell's built-in completion menu. (You should restart PowerShell after changing this configuration.)\n",
+                "More info: https://github.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n",
+                "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0\n",
+                    "More info: https://github.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n",
+                    "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)\n",
+                    "More info: https://github.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n",
+                    "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "menu_show_tip_when_enhance",
+              "symbol": "SpaceTab",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.menu_show_tip_when_enhance }} (Default 1, it means enabled)\n",
+                "For completions not added via 'psc add', if there're completion tip, whether to display it."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": ["Set to 0\n", "Don't show the completion tip."]
+                },
+                {
+                  "name": "1",
+                  "tip": ["Set to 1 (Default)\n", "Show the completion tip."]
                 }
               ]
             }
@@ -1741,7 +1798,8 @@
           "v_0": "<@Red>It should be an integer number greater than or equal to<@Magenta>0.",
           "v_1": "<@Red>It should be an integer number greater than or equal to<@Magenta>1.",
           "v_2": "<@Red>It should be an integer number greater than or equal to<@Magenta>1, or equal to <@Magenta>-1.",
-          "v_3": "<@Red>It should be the number <@Magenta>1<@Red> or <@Magenta>0<@Red>, which means enabled or disabled."
+          "v_3": "<@Red>It should be the number <@Magenta>1<@Red> or <@Magenta>0<@Red>, which means enabled or disabled.",
+          "menu_trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> isn't a valid trigger key."
         }
       }
     },
