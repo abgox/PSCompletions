@@ -184,7 +184,6 @@ function PSCompletions {
                     }
                 }
             }
-            check_update
         }
     }
     function _search {

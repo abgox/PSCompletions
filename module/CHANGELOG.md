@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.2 (2024/8/9)
+
+- No longer checks for updates immediately after using `psc update *` update completion.
+
 ## 4.2.1 (2024/8/9)
 
 - Fix a small issue when migrating to the new version.
