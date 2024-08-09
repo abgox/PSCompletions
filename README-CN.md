@@ -126,11 +126,12 @@
   1. `Register-ArgumentCompleter`
 
      - <img src="https://img.shields.io/badge/v4.1.0-4CAF50" alt="v4.1.0 support" /> 及之前版本都使用此实现
-     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" /> 变为可选: 设置 `menu_enhance` 为 `0`
-     - 此实现只能管理 `psc add` 添加的补全
+     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 此实现变为可选
+       - 你可以通过设置 `menu_enhance` 为 `0` 来继续使用它
+       - 但并不推荐，它只能用于 `psc add` 添加的补全
 
   2. `Set-PSReadLineKeyHandler`
-     - `v4.2.0` 及之后版本都默认使用此实现
+     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 默认使用此实现
        - 需要 `menu_enable` 和 `menu_enhance` 同时为 `1`
      - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
      - 同时使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
