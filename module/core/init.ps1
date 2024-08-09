@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.2.0'
+$PSCompletions.version = '4.2.1'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -91,7 +91,7 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
             $old_version = $version[-2]
             if ($old_version -match "^\d+\.\d.*" -and $old_version -ge "4") {
                 $old_version_dir = Join-Path (Split-Path $this.path.root -Parent) $old_version
-                $this.ensure_dir($this.path.completions)
+                if (!(Test-Path $this.path.completions)) { New-Item -ItemType Directory $this.path.completions > $null }
                 foreach ($_ in Get-ChildItem "$($old_version_dir)/completions" -ErrorAction SilentlyContinue) {
                     Move-Item $_.FullName $this.path.completions -Force -ErrorAction SilentlyContinue
                 }

@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.1 (2024/8/9)
+
+- Fix a small issue when migrating to the new version.
+
 ## 4.2.0 (2024/8/9)
 
 - Add three `menu` configurations:
