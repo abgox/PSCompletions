@@ -365,13 +365,13 @@
                 handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) -common_err
             }
             'github' {
-                handle_done ($arg[2] -match 'http[s]?://github.com/.*')
+                handle_done ($arg[2] -match 'http[s]?://github.com/.*' -or $arg[2] -eq '')
             }
             'gitee' {
-                handle_done ($arg[2] -match 'http[s]?://gitee.com/.*')
+                handle_done ($arg[2] -match 'http[s]?://gitee.com/.*' -or $arg[2] -eq '')
             }
             'url' {
-                handle_done ($arg[2] -match 'http[s]?://')
+                handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '')
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list_first {
+    param($filter_list)
     $max_width = 0
     if ($this.is_show_tip) {
         $tip_max_height = 0
@@ -84,7 +85,7 @@
             }
         }
 
-        foreach ($arr in $PSCompletions.split_array($this.filter_list, [Environment]::ProcessorCount, $true)) {
+        foreach ($arr in $PSCompletions.split_array($filter_list, [Environment]::ProcessorCount, $true)) {
             $filterListTasks += [powershell]::Create().AddScript($scriptBlock).AddArgument($arr).AddArgument($PSCompletions).AddArgument($Host.UI)
         }
 
@@ -93,10 +94,6 @@
             $job = $task.BeginInvoke()
             @{ Runspace = $task; Job = $job }
         }
-
-
-        $this.filter_list = [System.Collections.Generic.List[System.Object]]@()
-        $this.origin_filter_list = [System.Collections.Generic.List[System.Object]]@()
 
         foreach ($rs in $runspaces) {
             $results = $rs.Runspace.EndInvoke($rs.Job)
@@ -112,8 +109,8 @@
                     width          = $width
                     height         = $result.ToolTip.Count
                 }
-                $this.filter_list.Add($result)
                 $this.origin_filter_list.Add($result)
+                $this.filter_list.Add($result)
             }
         }
 
@@ -122,14 +119,16 @@
         $this.tip_max_height = $tip_max_height
     }
     else {
-        $this.filter_list = foreach ($_ in $this.filter_list) {
+        foreach ($_ in $filter_list) {
             $width = $this.get_length($_.ListItemText)
             if ($width -gt $max_width) { $max_width = $width }
-            @{
+            $result = @{
                 ListItemText   = $_.ListItemText
                 CompletionText = $_.CompletionText
                 width          = $width
             }
+            $this.origin_filter_list.Add($result)
+            $this.filter_list.Add($result)
         }
     }
     if ($max_width -lt $PSCompletions.config.menu_list_min_width) {
@@ -287,7 +286,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
             X = 0
             Y = $this.pos.Y
         }
-        if ($PSCompletions.menu.is_show_above) { $pos.Y -- }
+        if ($this.is_show_above) { $pos.Y -- }
         $buffer = $Host.UI.RawUI.NewBufferCellArray($box, $host.UI.RawUI.BackgroundColor, $host.UI.RawUI.BackgroundColor)
         $Host.UI.RawUI.SetBufferContents($pos, $buffer)
     }
@@ -376,7 +375,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     $this.old_status_pos = $old_top  # 之前的位置
 
     $current = "$(([string]($this.selected_index + 1)).PadLeft($this.filter_list.Count.ToString().Length, ' '))"
-    $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$($current)$($PSCompletions.config.menu_status_symbol)$($PSCompletions.menu.filter_list.Count)"), $PSCompletions.config.menu_color_status_text, $PSCompletions.config.menu_color_status_back)
+    $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$($current)$($PSCompletions.config.menu_status_symbol)$($this.filter_list.Count)"), $PSCompletions.config.menu_color_status_text, $PSCompletions.config.menu_color_status_back)
 
     $pos_status = $Host.UI.RawUI.CursorPosition
     $pos_status.X = $this.pos.X + 3
@@ -386,7 +385,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip_buffer {
     param($X, $Y)
     if ($PSCompletions.config.menu_tip_cover_buffer) {
-        if ($PSCompletions.menu.is_show_above) {
+        if ($this.is_show_above) {
             $Y = 0
             $to_Y = $this.pos.Y
         }
@@ -396,7 +395,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip
         }
     }
     else {
-        if ($PSCompletions.menu.is_show_above) {
+        if ($this.is_show_above) {
             $Y = $this.pos_tip.Y - 1
             $to_Y = $this.pos.Y
         }
@@ -416,7 +415,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
     param($index)
     $box = @()
     if ($PSCompletions.config.menu_tip_cover_buffer) {
-        if ($PSCompletions.menu.is_show_above) {
+        if ($this.is_show_above) {
             foreach ($_ in 0..($this.pos.Y - 1)) {
                 $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
             }
@@ -443,7 +442,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
             X = 0
             Y = $this.pos_tip.Y - 1
         }
-        if ($PSCompletions.menu.is_show_above -and $pos.Y -lt 0) { $pos.Y = 0 }
+        if ($this.is_show_above -and $pos.Y -lt 0) { $pos.Y = 0 }
     }
     $buffer = $Host.UI.RawUI.NewBufferCellArray($box, $host.UI.RawUI.BackgroundColor, $host.UI.RawUI.BackgroundColor)
     $Host.UI.RawUI.SetBufferContents($pos, $buffer)
@@ -558,7 +557,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_comp
     $this.filter_list = [System.Collections.Generic.List[System.Object]]@()
 
     foreach ($f in $filter_list) {
-        if ($f.ListItemText -and $f.ListItemText -like $match) {
+        if ($f.CompletionText -and $f.CompletionText -like $match) {
             $this.filter_list.Add($f)
         }
     }
@@ -592,10 +591,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     $this.offset = 0
     $this.selected_index = 0
     $this.page_current_index = 0
-
+    $this.tip_max_height = 0
 
     if ($is_menu_enhance) {
-        $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip_when_enhance -eq 1
+        $this.is_show_tip = $PSCompletions.config.menu_show_tip_when_enhance -eq 1
     }
     else {
         if ($PSCompletions.current_cmd) {
@@ -614,7 +613,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
     param($filter_list, [bool]$is_menu_enhance)
-    $this.filter_list = $filter_list
 
     $lastest_encoding = [console]::OutputEncoding
     [console]::OutputEncoding = $PSCompletions.encoding
@@ -635,11 +633,13 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $this.offset = 0  # 索引的偏移量，用于滚动翻页
 
-    $this.filter_completions($this.filter_list)
     # 如果没有可用的选项，直接结束，触发路径补全
-    if (!$this.filter_list) { return }
+    if (!$filter_list) { return }
     $this.reset($true, $is_menu_enhance)
-    $this.handle_list_first()
+
+    $this.origin_filter_list = [System.Collections.Generic.List[System.Object]]@()
+    $this.filter_list = [System.Collections.Generic.List[System.Object]]@()
+    $this.handle_list_first($filter_list)
 
     if ($PSCompletions.config.enter_when_single -and $PSCompletions.is_single) {
         return $this.filter_list[$this.selected_index].CompletionText

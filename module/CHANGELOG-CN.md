@@ -3,6 +3,16 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 4.2.6 (2024/8/10)
+
+- 修复补全项列表为空的bug
+- 如果使用 `Windows PowerShell`，且使用了命令行主题(如: oh-my-posh)，当补全菜单显示在上方时，可能会导致当前行附近的文字及图标错乱
+  - 解决方案:
+    1. 禁用命令行主题
+    2. 尽量让补全菜单显示在下方(只要当前行在窗口中部以上即可)
+    3. 不要使用 `Windows PowerShell`，直接使用 [`PowerShell`](https://github.com/PowerShell/PowerShell)
+       - `Windows PowerShell` 真的很差，小问题总是很多
+
 ## 4.2.5 (2024/8/10)
 
 - 如果菜单启用了前缀匹配(`menu_is_prefix_match`)，当有公共前缀时，只提取补全的值
@@ -10,7 +20,7 @@
 
 ## 4.2.4 (2024/8/10)
 
-- 修复了因为一个代码文件使用了 LF 换行符导致 Windows PowerShell 模块加载错误的问题
+- 修复了因为一个代码文件使用了 LF 换行符导致 `Windows PowerShell` 模块加载错误的问题
   - 对于源代码文件，将 LF 换行符替换为 CRLF 换行符，UTF-8 编码替换为 UTF-8-BOM 编码
 - 修复了非 Windows 环境的初始化导入缺失的问题
 - 更改源代码文件目录结构

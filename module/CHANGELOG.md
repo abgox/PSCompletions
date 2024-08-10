@@ -3,6 +3,16 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.6 (2024/8/10)
+
+- Fix a bug where the list of completions list was empty.
+- If using `Windows PowerShell` and using a command-line theme (such as oh-my-posh), it may cause the current line and nearby text and icons to be distorted when the completion menu is displayed above the current line.
+  - Solution:
+    1. Disable the command-line theme.
+    2. Try to make the completion menu display below the current line. (Only if the current line is above the middle of the window.)
+    3. Do not use `Windows PowerShell`, use [`PowerShell`](https://github.com/PowerShell/PowerShell).
+       - `Windows PowerShell` is really bad, there are always many small issues.
+
 ## 4.2.5 (2024/8/10)
 
 - If prefix match (`menu_is_prefix_match`) is enabled in the completion menu, only the value of completion is extracted when there's a common prefix.
@@ -10,7 +20,7 @@
 
 ## 4.2.4 (2024/8/10)
 
-- Fix an issue where Windows PowerShell module loading failed because a code file used LF line breaks.
+- Fix an issue where `Windows PowerShell` module loading failed because a code file used LF line breaks.
   - For code files , replace LF line breaks to CRLF line breaks and replace UTF-8 to UTF-8-BOM encoding.
 - Fix an issue where initialization imports were missing in non-Windows environments.
 - Change the source file directory structure.
