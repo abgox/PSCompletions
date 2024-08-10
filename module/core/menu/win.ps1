@@ -535,9 +535,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_prefix {
-    $prefix = $this.filter_list[-1].ListItemText
+    $prefix = $this.filter_list[-1].CompletionText
     for ($i = $this.filter_list.count - 2; $i -ge 0 -and $prefix; --$i) {
-        $text = $this.filter_list[$i].ListItemText
+        $text = $this.filter_list[$i].CompletionText
         if ($text) {
             while ($prefix -and !$text.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
                 $prefix = $prefix.Substring(0, $prefix.Length - 1)

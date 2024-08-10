@@ -3,7 +3,12 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
-## 4.2.4 (2024/8/9)
+## 4.2.5 (2024/8/10)
+
+- If prefix match (`menu_is_prefix_match`) is enabled in the completion menu, only the value of completion is extracted when there's a common prefix.
+- Optimize the logic of completion update.
+
+## 4.2.4 (2024/8/10)
 
 - Fix an issue where Windows PowerShell module loading failed because a code file used LF line breaks.
   - For code files , replace LF line breaks to CRLF line breaks and replace UTF-8 to UTF-8-BOM encoding.

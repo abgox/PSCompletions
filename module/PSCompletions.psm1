@@ -134,57 +134,50 @@
     function _update {
         $completion_list = $PSCompletions.cmd.keys | Where-Object { $_ -in $PSCompletions.list }
 
-        # 检查补全列表更新，并将最新结果保存到 update 文件中，以及 $PSCompletions.update 变量中
-        function check_update {
-            $update_list = [System.Collections.Generic.List[string]]@()
-
+        if ($arg.Length -lt 2) {
+            # 如果只是使用 psc update 则检查更新
+            $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
                 try {
-                    $url = "$($PSCompletions.url)/completions/$($completion)/guid.txt"
-                    $response = Invoke-WebRequest -Uri $url
+                    $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$($completion)/guid.txt"
+                    $content = $response.Content.Trim()
+                    $guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/guid.txt")
+                    if ($guid -ne $content) { $need_update_list.Add($completion) }
                 }
-                catch {
-                    $path_guid = $PSCompletions.Join_path($PSCompletions.path.completions, $completion, 'guid.txt')
-                    $PSCompletions.download_file("$($PSCompletions.url)/completions/$($completion)/guid.txt", $path_guid)
-                    return
-                }
-                $content = $response.Content.Trim()
-                $guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/guid.txt")
-                if ($guid -ne $content) { $update_list.Add($completion) }
+                catch {  }
             }
-            $PSCompletions.update = $update_list
-            if ($update_list) {
-                $PSCompletions.write_with_color((_replace $PSCompletions.info.update_has))
-                $update_list | Out-File $PSCompletions.path.update -Force -Encoding utf8
-            }
-            else {
-                Clear-Content $PSCompletions.path.update -Force
-                $PSCompletions.write_with_color((_replace $PSCompletions.info.update_no))
-            }
-        }
-
-        if ($arg.Length -lt 2) {
-            # 如果只是 update 没有指定更新什么补全，则检查更新
-            check_update
+            $PSCompletions.update = $need_update_list
         }
         else {
+            $updated_list = [System.Collections.Generic.List[string]]@()
             if ($arg[1] -eq '*') {
                 # 更新全部可以更新的补全
                 foreach ($_ in $PSCompletions.update) {
                     $PSCompletions.add_completion($_, $true)
+                    $updated_list.Add($_)
                 }
             }
             else {
                 foreach ($completion in $arg[1..($arg.Length - 1)]) {
                     if ($completion -in $completion_list) {
                         $PSCompletions.add_completion($completion, $true)
+                        $updated_list.Add($completion)
                     }
                     else {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion))
                     }
                 }
             }
+            $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update) | Where-Object { $_ -notin $updated_list }
         }
+
+        if ($PSCompletions.update) {
+            $PSCompletions.write_with_color((_replace $PSCompletions.info.update_has))
+        }
+        else {
+            $PSCompletions.write_with_color((_replace $PSCompletions.info.update_no))
+        }
+        $PSCompletions.update | Out-File $PSCompletions.path.update -Force -Encoding utf8
     }
     function _search {
         if ($arg.Length -lt 2) {
