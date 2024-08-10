@@ -1,4 +1,4 @@
-Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list_first {
+﻿Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list_first {
     $max_width = 0
     if ($this.is_show_tip) {
         $tip_max_height = 0
@@ -146,7 +146,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
     }
     $this.ui_size.Width = 1 + $PSCompletions.config.menu_list_margin_left + $max_width + $PSCompletions.config.menu_list_margin_right + 1
 }
-
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list {
     $max_width = 0
     if ($this.is_show_tip) {

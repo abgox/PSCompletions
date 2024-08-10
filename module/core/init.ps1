@@ -1,9 +1,9 @@
-using namespace System.Management.Automation
+﻿using namespace System.Management.Automation
 # 创建一个常量对象，用于存储 PSCompletions 模块的所有信息
 New-Variable -Name PSCompletions -Value @{} -Option Constant
 
 # 模块版本
-$PSCompletions.version = '4.2.3'
+$PSCompletions.version = '4.2.4'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -102,25 +102,18 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
     $PSCompletions.move_old_version()
 }
 
-. $PSScriptRoot\common\config.ps1
+. $PSScriptRoot\config.ps1
 
-if ($PSEdition -eq "Core") {
-    if ($IsWindows) {
-        # pwsh (Windows)
-        . $PSScriptRoot\common\utils.ps1
-        . $PSScriptRoot\common\menu.ps1
-        . $PSScriptRoot\pwsh\Win\utils.ps1
-    }
-    else {
-        # WSL/Unix...
-        . $PSScriptRoot\pwsh\Unix\utils.ps1
-    }
+if ($PSEdition -eq "Core" -and !$IsWindows) {
+    # WSL/Unix...
+    . $PSScriptRoot\utils\Core.ps1
+    . $PSScriptRoot\completion\unix.ps1
 }
 else {
-    # Windows PowerShell 5.x
-    . $PSScriptRoot\common\utils.ps1
-    . $PSScriptRoot\common\menu.ps1
-    . $PSScriptRoot\powershell\utils.ps1
+    # Windows...
+    . $PSScriptRoot\utils\$PSEdition.ps1
+    . $PSScriptRoot\completion\win.ps1
+    . $PSScriptRoot\menu\win.ps1
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod split_array {
     <#

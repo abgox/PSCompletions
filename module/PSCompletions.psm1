@@ -1,4 +1,4 @@
-function PSCompletions {
+﻿function PSCompletions {
     $arg = $args
 
     # ? 由于此处使用 $PSCompletions.replace_content 会导致其无法使用外部变量，所以重新定义一个函数以供使用

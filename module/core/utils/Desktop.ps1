@@ -1,12 +1,44 @@
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonToHashtable {
+﻿Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonToHashtable {
     param([string]$json)
-    ConvertFrom-Json -AsHashtable $json
+    # Handle json string
+    $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
+    foreach ($match in $matches) {
+        $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
+    }
+    $json = [regex]::Replace($json, ",`n?(\s*`n)?\}", "}")
+    function ConvertToHashtable {
+        param($obj)
+        $hash = @{}
+        if ($obj -is [System.Management.Automation.PSCustomObject]) {
+            foreach ($_ in $obj | Get-Member -MemberType Properties) {
+                $k = $_.Name # Key
+                $v = $obj.$k # Value
+                if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
+                    # Handle array
+                    $arr = @()
+                    foreach ($item in $v) {
+                        $arr += if ($item -is [System.Management.Automation.PSCustomObject]) { ConvertToHashtable($item) }else { $item }
+                    }
+                    $hash[$k] = $arr
+                }
+                elseif ($v -is [System.Management.Automation.PSCustomObject]) {
+                    # Handle object
+                    $hash[$k] = ConvertToHashtable($v)
+                }
+                else { $hash[$k] = $v }
+            }
+        }
+        else { $hash = $obj }
+        $hash
+    }
+    # Recurse
+    ConvertToHashtable ($json | ConvertFrom-Json)
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
-    $PSCompletions.job = Start-ThreadJob -ScriptBlock {
+    $PSCompletions.job = Start-Job -ScriptBlock {
         param($PSCompletions)
 
-        $null = Start-ThreadJob -ScriptBlock {
+        $null = Start-Job -ScriptBlock {
             param($PSCompletions)
             function convert_from_json_to_hashtable {
                 param(
@@ -230,10 +262,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         return $completion_datas
     } -ArgumentList $PSCompletions
 }
-
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
     param($completions, $history_path, $root, $path_order)
-    $PSCompletions.order."$($root)_job" = Start-ThreadJob -ScriptBlock {
+    $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
         param($PScompletions, $completions, $path_history, $root, $path_order)
         $order = [ordered]@{}
         $index = 1

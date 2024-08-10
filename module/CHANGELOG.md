@@ -3,6 +3,13 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.4 (2024/8/9)
+
+- Fix an issue where Windows PowerShell module loading failed because a code file used LF line breaks.
+  - For code files , replace LF line breaks to CRLF line breaks and replace UTF-8 to UTF-8-BOM encoding.
+- Fix an issue where initialization imports were missing in non-Windows environments.
+- Change the source file directory structure.
+
 ## 4.2.3 (2024/8/9)
 
 - Fix an issue where the `menu_show_tip` configuration for specific completions was invalid.
