@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">✨PSCompletions(psc) ✨</h1>
+    <h1 align="center">✨<a href="https://pscompletions.pages.dev">PSCompletions(psc)</a> ✨</h1>
 </p>
 
 <p align="center">
@@ -10,11 +10,14 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/abgox/PSCompletions">
-        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2Fabgo_bucket%2Fmain%2Fbucket%2FPSCompletions.json&query=%24.version&label=version" alt="module version" />
-    </a>
     <a href="https://github.com/abgox/PSCompletions/blob/main/LICENSE">
         <img src="https://img.shields.io/github/license/abgox/PSCompletions" alt="license" />
+    </a>
+    <a href="https://www.powershellgallery.com/packages/PSCompletions">
+        <img src="https://img.shields.io/powershellgallery/v/PSCompletions?label=version" alt="module version" />
+    </a>
+    <a href="https://www.powershellgallery.com/packages/PSCompletions">
+        <img src="https://img.shields.io/powershellgallery/dt/PSCompletions?color=%23008FC7" alt="PowerShell Gallery" />
     </a>
     <a href="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg">
         <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
@@ -72,7 +75,7 @@
 
 ## Demo
 
-![demo](https://wsrv.nl/?url=oh-my-pic.netlify.app/PSCompletions-demo.gif&output=gif&n=-1&default=oh-my-pic.netlify.app/PSCompletions-demo.gif)
+![demo](https://pscompletions.pages.dev/demo-CN.gif)
 
 ## Tips
 
