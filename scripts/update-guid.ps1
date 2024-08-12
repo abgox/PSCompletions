@@ -1,4 +1,18 @@
-﻿if ($PSUICulture -eq 'zh-CN') {
+﻿param([string]$path)
+
+if (Test-Path $path) {
+    if ((Get-Item $path).Extension -eq ".txt") {
+        (New-Guid).Guid | Out-File $path -Force
+    }
+    else {
+        Get-ChildItem $path -Recurse -Filter "guid.txt" | ForEach-Object {
+            (New-Guid).Guid | Out-File $_.FullName -Force
+        }
+    }
+    return
+}
+
+if ($PSUICulture -eq 'zh-CN') {
     $select = '选择一个或多个补全, 选中的补全的 "Guid.txt" 文件(按住 Ctrl 或 Shift 键选择多个)'
 }
 else {
