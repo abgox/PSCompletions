@@ -3,7 +3,7 @@
 New-Variable -Name PSCompletions -Value @{} -Option ReadOnly
 
 # 模块版本
-$PSCompletions.version = '4.2.7'
+$PSCompletions.version = '4.2.8'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'

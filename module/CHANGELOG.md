@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.8 (2024/8/12)
+
+- Fix a rendering error caused by a boundary case.
+
 ## 4.2.7 (2024/8/12)
 
 - `PSCompletions` module will take up two global names, `$PSCompletions` (variable) and `PSCompletions` (function).
