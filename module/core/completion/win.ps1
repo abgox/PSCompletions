@@ -265,27 +265,36 @@
 
                         foreach ($completions in $PSCompletions.split_array($completions, [Environment]::ProcessorCount, $true)) {
                             $runspace = [powershell]::Create().AddScript({
-                                    param($completions, $input_arr, $filter_input_arr, $match, $alias_input_arr, $space_tab)
+                                    param($completions, $input_arr, $filter_input_arr, $match, $alias_input_arr, $space_tab, $host_ui)
+                                    $max_width = 0
+                                    $results = [System.Collections.Generic.List[System.Object]]@()
+                                    function get_length {
+                                        param([string]$str)
+                                        $host_ui.RawUI.NewBufferCellArray($str, $host_ui.RawUI.BackgroundColor, $host_ui.RawUI.BackgroundColor).LongLength
+                                    }
                                     foreach ($completion in $completions) {
                                         $matches = [regex]::Matches($completion.name, "(?:`"[^`"]*`"|'[^']*'|\S)+")
                                         $cmd = [System.Collections.Generic.List[string]]@()
                                         foreach ($m in $matches) { $cmd.Add($m.Value) }
-                                        <#
-                                            判断选项是否使用过了，如果使用过了，$no_used 为 $true
-                                            这里的判断对于 --file="abc" 这样的命令无法使用，因为这里和用户输入的 "abc"是连着的
-                                        #>
+
+                                        # 判断选项是否使用过了，如果使用过了，$no_used 为 $true
+                                        # 这里的判断对于 --file="abc" 这样的命令无法使用，因为这里和用户输入的 "abc"是连着的
                                         $no_used = if ($cmd[-1] -like '-*') {
                                             $cmd[-1] -notin $input_arr
                                         }
                                         else { $true }
 
-
                                         $isLike = ($completion.name -like ([WildcardPattern]::Escape($filter_input_arr -join ' ') + $match)) -or ($completion.name -like ([WildcardPattern]::Escape($alias_input_arr -join ' ') + $match))
                                         if ($no_used -and $cmd.Count -eq ($filter_input_arr.Count + $space_tab) -and $isLike) {
-                                            $completion
+                                            $results.Add($completion)
+                                            $max_width = [Math]::Max($max_width, (get_length $completion.ListItemText))
                                         }
                                     }
-                                }).AddArgument($completions).AddArgument($input_arr).AddArgument($filter_input_arr).AddArgument($match).AddArgument($alias_input_arr).AddArgument($space_tab)
+                                    @{
+                                        results   = $results
+                                        max_width = $max_width
+                                    }
+                                }).AddArgument($completions).AddArgument($input_arr).AddArgument($filter_input_arr).AddArgument($match).AddArgument($alias_input_arr).AddArgument($space_tab).AddArgument($Host.UI)
 
 
                             $runspace.RunspacePool = $runspacePool
@@ -296,9 +305,10 @@
                         foreach ($rs in $runspaces) {
                             $result = $rs.Runspace.EndInvoke($rs.Job)
                             $rs.Runspace.Dispose()
-                            if ($result) {
-                                $filter_list.AddRange($result)
+                            if ($result.results) {
+                                $filter_list.AddRange(@($result.results))
                             }
+                            $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $result.max_width)
                         }
 
                         # 处理 common_options
@@ -335,6 +345,7 @@
                                                     CompletionText = $n.name
                                                     ToolTip        = $n.tip
                                                 })
+                                            $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($n.name))
                                         }
                                     }
                                 }
@@ -342,20 +353,23 @@
                                     if ($_.name -notin $input_arr) {
                                         $isExist = $false
                                         $temp_list = [System.Collections.Generic.List[System.Object]]@()
-
+                                        $name_with_symbol = "$($_.name)$(Get-PadSymbols)"
                                         $temp_list.Add(@{
-                                                ListItemText   = "$($_.name)$(Get-PadSymbols)"
+                                                ListItemText   = $name_with_symbol
                                                 CompletionText = $_.name
                                                 ToolTip        = $_.tip
                                             })
+                                        $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
 
                                         foreach ($a in $_.alias) {
                                             if ($a -notin $input_arr) {
+                                                $name_with_symbol = "$($a)$(Get-PadSymbols)"
                                                 $temp_list.Add(@{
-                                                        ListItemText   = "$($a)$(Get-PadSymbols)"
+                                                        ListItemText   = $name_with_symbol
                                                         CompletionText = $a
                                                         ToolTip        = $_.tip
                                                     })
+                                                $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
                                             }
                                             else {
                                                 $temp_list.Clear()
@@ -379,25 +393,30 @@
                                                         CompletionText = $n.name
                                                         ToolTip        = $n.tip
                                                     })
+                                                $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($n.name))
                                             }
                                         }
                                     }
                                 }
                                 foreach ($_ in $PSCompletions.data.$root.common_options) {
                                     if ($_.name -notin $input_arr -and $_.name -like "$($input_arr[-1])*") {
+                                        $name_with_symbol = "$($_.name)$(Get-PadSymbols)"
                                         $filter_list.Add(@{
-                                                ListItemText   = "$($_.name)$(Get-PadSymbols)"
+                                                ListItemText   = $name_with_symbol
                                                 CompletionText = $_.name
                                                 ToolTip        = $_.tip
                                             })
+                                        $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
                                     }
                                     foreach ($a in $_.alias) {
                                         if ($a -notin $input_arr -and $a -like "$($input_arr[-1])*") {
+                                            $name_with_symbol = "$($a)$(Get-PadSymbols)"
                                             $filter_list.Add(@{
-                                                    ListItemText   = "$($a)$(Get-PadSymbols)"
+                                                    ListItemText   = $name_with_symbol
                                                     CompletionText = $a
                                                     ToolTip        = $_.tip
                                                 })
+                                            $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
                                         }
                                     }
                                 }
@@ -411,7 +430,6 @@
                         $path_hook = "$($PSCompletions.path.completions)/$($root)/hooks.ps1"
                         if (Test-Path $path_hook) { . $path_hook }
                     }
-
                     $completions = getCompletions
                     $completions = handleCompletions $completions
                     $filter_list = filterCompletions $completions $root
@@ -470,7 +488,67 @@
                     if (!$completion.CompletionMatches) {
                         return
                     }
-                    $result = $PSCompletions.menu.show_module_menu($completion.CompletionMatches, $true)
+
+                    $filter_list = [System.Collections.Generic.List[System.Object]]@()
+                    $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
+                    $runspacePool.Open()
+                    $runspaces = @()
+
+                    foreach ($completions in $PSCompletions.split_array($completion.CompletionMatches, [Environment]::ProcessorCount, $true)) {
+                        $runspace = [powershell]::Create().AddScript({
+                                param($completions, $host_ui)
+                                $max_width = 0
+                                $results = [System.Collections.Generic.List[System.Object]]@()
+                                function get_length {
+                                    param([string]$str)
+                                    $host_ui.RawUI.NewBufferCellArray($str, $host_ui.RawUI.BackgroundColor, $host_ui.RawUI.BackgroundColor).LongLength
+                                }
+                                foreach ($completion in $completions) {
+                                    if($completion.ToolTip){
+                                        if ($completion.ResultType -in @("ParameterValue", "ParameterName")) {
+                                            $tool_tip = $completion.ToolTip
+                                        }
+                                        else {
+                                            # 如果是内置命令，由于其 ToolTip 写法很奇怪，会导致显示的内容有些问题
+                                            $tool_tip = @()
+                                            foreach ($tip in $completion.ToolTip) {
+                                                $tip = $tip -replace '\s{2}', ' '
+
+                                                $guid = [guid]::NewGuid()
+                                                $tip = $tip -replace '\s{2}', $guid
+
+                                                $tool_tip += $tip.Trim() -split $guid
+                                            }
+                                            $tool_tip = $tool_tip -join "`n`n"
+                                        }
+                                        $results.Add(@{
+                                                ListItemText   = $completion.ListItemText
+                                                CompletionText = $completion.CompletionText
+                                                ToolTip        = $tool_tip
+                                            })
+                                    }else{
+                                        $results.Add($completion)
+                                    }
+                                    $max_width = [Math]::Max($max_width, (get_length $completion.ListItemText))
+                                }
+                                @{
+                                    results   = $results
+                                    max_width = $max_width
+                                }
+                            }).AddArgument($completions).AddArgument($Host.UI)
+                        $runspace.RunspacePool = $runspacePool
+                        $runspaces += @{ Runspace = $runspace; Job = $runspace.BeginInvoke() }
+                    }
+                    foreach ($rs in $runspaces) {
+                        $result = $rs.Runspace.EndInvoke($rs.Job)
+                        $rs.Runspace.Dispose()
+                        $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $result.max_width)
+                        if ($result.results) {
+                            $filter_list.AddRange([array]$result.results)
+                        }
+                    }
+
+                    $result = $PSCompletions.menu.show_module_menu($filter_list, $true)
                     # apply the completion
                     if ($result) {
                         [Microsoft.PowerShell.PSConsoleReadLine]::Replace($completion.ReplacementIndex, $completion.ReplacementLength, $result)
@@ -730,15 +808,20 @@
 
                         foreach ($completions in $PSCompletions.split_array($completions, [Environment]::ProcessorCount, $true)) {
                             $runspace = [powershell]::Create().AddScript({
-                                    param($completions, $input_arr, $filter_input_arr, $match, $alias_input_arr, $space_tab)
+                                    param($completions, $input_arr, $filter_input_arr, $match, $alias_input_arr, $space_tab, $host_ui)
+                                    $max_width = 0
+                                    $results = [System.Collections.Generic.List[System.Object]]@()
+                                    function get_length {
+                                        param([string]$str)
+                                        $host_ui.RawUI.NewBufferCellArray($str, $host_ui.RawUI.BackgroundColor, $host_ui.RawUI.BackgroundColor).LongLength
+                                    }
                                     foreach ($completion in $completions) {
                                         $matches = [regex]::Matches($completion.name, "(?:`"[^`"]*`"|'[^']*'|\S)+")
                                         $cmd = [System.Collections.Generic.List[string]]@()
                                         foreach ($m in $matches) { $cmd.Add($m.Value) }
-                                        <#
-                                                判断选项是否使用过了，如果使用过了，$no_used 为 $true
-                                                这里的判断对于 --file="abc" 这样的命令无法使用，因为这里和用户输入的 "abc"是连着的
-                                            #>
+
+                                        # 判断选项是否使用过了，如果使用过了，$no_used 为 $true
+                                        # 这里的判断对于 --file="abc" 这样的命令无法使用，因为这里和用户输入的 "abc"是连着的
                                         $no_used = if ($cmd[-1] -like '-*') {
                                             $cmd[-1] -notin $input_arr
                                         }
@@ -746,10 +829,15 @@
 
                                         $isLike = ($completion.name -like ([WildcardPattern]::Escape($filter_input_arr -join ' ') + $match)) -or ($completion.name -like ([WildcardPattern]::Escape($alias_input_arr -join ' ') + $match))
                                         if ($no_used -and $cmd.Count -eq ($filter_input_arr.Count + $space_tab) -and $isLike) {
-                                            $completion
+                                            $results.Add($completion)
+                                            $max_width = [Math]::Max($max_width, (get_length $completion.ListItemText))
                                         }
                                     }
-                                }).AddArgument($completions).AddArgument($input_arr).AddArgument($filter_input_arr).AddArgument($match).AddArgument($alias_input_arr).AddArgument($space_tab)
+                                    @{
+                                        results   = $results
+                                        max_width = $max_width
+                                    }
+                                }).AddArgument($completions).AddArgument($input_arr).AddArgument($filter_input_arr).AddArgument($match).AddArgument($alias_input_arr).AddArgument($space_tab).AddArgument($Host.UI)
 
 
                             $runspace.RunspacePool = $runspacePool
@@ -760,9 +848,10 @@
                         foreach ($rs in $runspaces) {
                             $result = $rs.Runspace.EndInvoke($rs.Job)
                             $rs.Runspace.Dispose()
-                            if ($result) {
-                                $filter_list.AddRange($result)
+                            if ($result.results) {
+                                $filter_list.AddRange(@($result.results))
                             }
+                            $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $result.max_width)
                         }
 
                         # 处理 common_options
@@ -799,6 +888,7 @@
                                                     CompletionText = $n.name
                                                     ToolTip        = $n.tip
                                                 })
+                                            $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($n.name))
                                         }
                                     }
                                 }
@@ -806,20 +896,23 @@
                                     if ($_.name -notin $input_arr) {
                                         $isExist = $false
                                         $temp_list = [System.Collections.Generic.List[System.Object]]@()
-
+                                        $name_with_symbol = "$($_.name)$(Get-PadSymbols)"
                                         $temp_list.Add(@{
-                                                ListItemText   = "$($_.name)$(Get-PadSymbols)"
+                                                ListItemText   = $name_with_symbol
                                                 CompletionText = $_.name
                                                 ToolTip        = $_.tip
                                             })
+                                        $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
 
                                         foreach ($a in $_.alias) {
                                             if ($a -notin $input_arr) {
+                                                $name_with_symbol = "$($a)$(Get-PadSymbols)"
                                                 $temp_list.Add(@{
-                                                        ListItemText   = "$($a)$(Get-PadSymbols)"
+                                                        ListItemText   = $name_with_symbol
                                                         CompletionText = $a
                                                         ToolTip        = $_.tip
                                                     })
+                                                $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
                                             }
                                             else {
                                                 $temp_list.Clear()
@@ -843,25 +936,30 @@
                                                         CompletionText = $n.name
                                                         ToolTip        = $n.tip
                                                     })
+                                                $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($n.name))
                                             }
                                         }
                                     }
                                 }
                                 foreach ($_ in $PSCompletions.data.$root.common_options) {
                                     if ($_.name -notin $input_arr -and $_.name -like "$($input_arr[-1])*") {
+                                        $name_with_symbol = "$($_.name)$(Get-PadSymbols)"
                                         $filter_list.Add(@{
-                                                ListItemText   = "$($_.name)$(Get-PadSymbols)"
+                                                ListItemText   = $name_with_symbol
                                                 CompletionText = $_.name
                                                 ToolTip        = $_.tip
                                             })
+                                        $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
                                     }
                                     foreach ($a in $_.alias) {
                                         if ($a -notin $input_arr -and $a -like "$($input_arr[-1])*") {
+                                            $name_with_symbol = "$($a)$(Get-PadSymbols)"
                                             $filter_list.Add(@{
-                                                    ListItemText   = "$($a)$(Get-PadSymbols)"
+                                                    ListItemText   = $name_with_symbol
                                                     CompletionText = $a
                                                     ToolTip        = $_.tip
                                                 })
+                                            $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($name_with_symbol))
                                         }
                                     }
                                 }

@@ -1,9 +1,9 @@
 ﻿using namespace System.Management.Automation
 # 创建一个常量对象，用于存储 PSCompletions 模块的所有信息
-New-Variable -Name PSCompletions -Value @{} -Option Constant
+New-Variable -Name PSCompletions -Value @{} -Option ReadOnly
 
 # 模块版本
-$PSCompletions.version = '4.2.6'
+$PSCompletions.version = '4.2.7'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -737,11 +737,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
                 $tip = ' '
                 $tip_arr = @()
             }
-            if ($tip_arr.Count -gt $tip_max_height) { $tip_max_height = $tip_arr.Count }
-
+            $this.tip_max_height = [Math]::Max($this.tip_max_height, $tip_arr.Count)
             [CompletionResult]::new($_.CompletionText, $_.ListItemText, 'ParameterValue', $tip)
         }
-        $this.tip_max_height = $tip_max_height
     }
     else {
         foreach ($_ in $filter_list) {
@@ -775,7 +773,7 @@ foreach ($_ in $PSCompletions.cmd.keys | Where-Object { $_ -ne 'psc' }) {
 }
 
 foreach ($_ in $PSCompletions.cmd.psc) {
-    if ($_ -ne 'PSCompletions') { Set-Alias $_ PSCompletions -ErrorAction SilentlyContinue }
+    if ($_ -ne $PSCompletions.config.function_name) { Set-Alias $_ $PSCompletions.config.function_name -ErrorAction SilentlyContinue }
 }
 
 if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
@@ -783,7 +781,7 @@ if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/log.json", (Join-Path $PSCompletions.path.core 'log.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
-                Update-Module PSCompletions -ErrorAction Stop
+                Update-Module PSCompletions -Force -ErrorAction Stop
             })
     }
     else {

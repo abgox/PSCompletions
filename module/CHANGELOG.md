@@ -3,6 +3,25 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.7 (2024/8/12)
+
+- `PSCompletions` module will take up two global names, `$PSCompletions` (variable) and `PSCompletions` (function).
+  - Now, they are both read-only, and trying to overwrite will have an error, preventing accidental operation from causing the module to fail.
+  - However, `PSCompletions` (function) can be configured to change the function name.
+- Add a configuration item `function_name`, with a default value of `PSCompletions`.
+  - Setting: `psc config function_name <name>`
+  - Use in the following case:
+    - When you need to define a function, the name must be `PSCompletions`.
+    - You can use `function_name` to rename the function of this module to a non-conflicting name.
+  - Note:
+    - `PSCompletions` (function) can be configured, but `$PSCompletions` (variable) cannot be modified.
+- When you need to define a variable, the name must be `$PSCompletions`.
+- It cannot be solved, either you don't use `PSCompletions` module, or you give the variable you define a different name.
+- Simple processing of ToolTip information for `PowerShell` commands, optimized display.
+- When the menu is displayed, filtering by input characters no longer changes the width of the menu.
+- Fix a bug where you could set an existing command as an alias.
+- Optimize logical operations, remove some unnecessary operations.
+
 ## 4.2.6 (2024/8/10)
 
 - Fix a bug where the list of completions list was empty.
