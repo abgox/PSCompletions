@@ -8,26 +8,24 @@
 
 @{
 
-    RootModule        = 'PSCompletions.psm1'
+    RootModule       = 'PSCompletions.psm1'
 
-    ModuleVersion     = '4.2.6'
+    ModuleVersion    = '4.2.7'
 
-    GUID              = '00929632-527d-4dab-a5b3-21197faccd05'
+    GUID             = '00929632-527d-4dab-a5b3-21197faccd05'
 
-    Author            = 'abgox'
+    Author           = 'abgox'
 
-    Copyright         = '(c) abgox. All rights reserved.'
+    Copyright        = '(c) abgox. All rights reserved.'
 
-    Description       = 'A completion manager for better and simpler use powershell completions. For more information, please visit the project: https://github.com/abgox/PSCompletions | https://gitee.com/abgox/PSCompletions'
-    ScriptsToProcess  = 'core\init.ps1'
+    Description      = 'A completion manager for better and simpler use powershell completions. For more information, please visit the project or website: https://github.com/abgox/PSCompletions | https://gitee.com/abgox/PSCompletions | https://pscompletions.pages.dev'
+    ScriptsToProcess = 'core\init.ps1'
 
-    FunctionsToExport = 'PSCompletions'
-
-    PrivateData       = @{
+    PrivateData      = @{
 
         PSData = @{
 
-            Tags       = @('PowerShell', 'pwsh', 'Tab', 'PS-Completions', 'Dynamic', 'Multi-language', 'base-in-json' , 'Completion-Manager')
+            Tags       = @('PowerShell', 'pwsh', 'Tab', 'PS-Completions', 'Dynamic', 'Multi-language', 'base-in-json' , 'Completion-Manager', 'TabExpansion2')
 
             LicenseUri = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 

@@ -7,6 +7,7 @@
     gitee         = 'https://gitee.com/abgox/PSCompletions'
     url           = ''
     disable_cache = 0
+    function_name = 'PSCompletions'
 }
 $PSCompletions.default.symbol = @{
     symbol_SpaceTab      = "😄"

@@ -3,6 +3,27 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 4.2.7 (2024/8/12)
+
+- `PSCompletions` 模块会占用两个全局命名，`$PSCompletions`(变量) 和 `PSCompletions`(函数)
+  - 现在，它们都为只读，强行覆盖会报错，防止误操作导致模块失效
+  - 但 `PSCompletions`(函数) 可以通过配置修改函数名
+- 添加一个配置项 `function_name`, 默认值为 `PSCompletions`
+
+  - 设置: `psc config function_name <name>`
+  - 使用场景:
+    - 当你或其他模块需要定义一个函数，名字刚好也必须为 `PSCompletions` 时
+    - 你可以通过 `function_name` 将本模块的函数修改为一个不冲突的名字
+  - 需要注意:
+    - `PSCompletions`(函数) 可以通过配置修改，但 `$PSCompletions`(变量) 是无法修改的
+    - 当你需要定义一个变量，名字刚好也必须为 `$PSCompletions`
+    - 无法解决，要么你不使用 `PSCompletions` 模块，要么给你要定义的变量改个名字
+
+- 对 PowerShell 内置命令的 ToolTip 提示信息简单处理，优化显示
+- 当菜单显示后，输入字符进行过滤不再更改菜单的宽度
+- 修复了可以设置一个已存在的命令为别名的bug
+- 优化逻辑运算，移除一些多余的运算
+
 ## 4.2.6 (2024/8/10)
 
 - 修复补全项列表为空的bug

@@ -1,9 +1,9 @@
 ﻿Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list_first {
     param($filter_list)
     $max_width = 0
-    if ($this.is_show_tip) {
-        $tip_max_height = 0
 
+    $this.ui_size.width = $this.list_max_width + 2 + $this.config.menu_list_margin_left + $this.config.menu_list_margin_right
+    if ($this.is_show_tip) {
         $filterListTasks = @()
         $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
         $runspacePool.Open()
@@ -15,14 +15,10 @@
 
                 # 指定一行的最大宽度
                 $lineWidth = $Host_UI.RawUI.BufferSize.Width
+
                 if ($PSCompletions.config.menu_tip_follow_cursor) {
                     $w = $lineWidth - $Host_UI.RawUI.CursorPosition.X
-                    if ($w -lt $PSCompletions.config.menu_list_min_width) {
-                        $lineWidth = $PSCompletions.config.menu_list_min_width
-                    }
-                    else {
-                        $lineWidth = $w
-                    }
+                    $lineWidth = [Math]::Max($w, $PSCompletions.menu.ui_size.Width)
                 }
                 $PSCompletions.menu.tip_width = $lineWidth
 
@@ -99,89 +95,30 @@
             $results = $rs.Runspace.EndInvoke($rs.Job)
             $rs.Runspace.Dispose()
             foreach ($result in $results) {
-                $width = $this.get_length($result.ListItemText)
-                if ($width -gt $max_width) { $max_width = $width }
-                if ($result.ToolTip.Count -gt $tip_max_height) { $tip_max_height = $result.ToolTip.Count }
+                $this.tip_max_height = [Math]::Max($this.tip_max_height, $result.ToolTip.Count)
                 $result = @{
                     ListItemText   = $result.ListItemText
                     CompletionText = $result.CompletionText
                     ToolTip        = $result.ToolTip
-                    width          = $width
-                    height         = $result.ToolTip.Count
                 }
                 $this.origin_filter_list.Add($result)
                 $this.filter_list.Add($result)
             }
         }
-
         $runspacePool.Close()
         $runspacePool.Dispose()
-        $this.tip_max_height = $tip_max_height
     }
     else {
-        foreach ($_ in $filter_list) {
-            $width = $this.get_length($_.ListItemText)
-            if ($width -gt $max_width) { $max_width = $width }
-            $result = @{
-                ListItemText   = $_.ListItemText
-                CompletionText = $_.CompletionText
-                width          = $width
-            }
-            $this.origin_filter_list.Add($result)
-            $this.filter_list.Add($result)
-        }
+        $this.origin_filter_list = $filter_list
+        $this.filter_list = $filter_list
     }
-    if ($max_width -lt $PSCompletions.config.menu_list_min_width) {
-        $max_width = $PSCompletions.config.menu_list_min_width
-    }
-    $this.list_max_width = $max_width
-
-    if ($this.filter_list -is [array]) {
-        $PSCompletions.is_single = $false
-    }
-    else {
-        $PSCompletions.is_single = $true
-        $this.filter_list = @($this.filter_list)
-    }
-    $this.ui_size.Width = 1 + $PSCompletions.config.menu_list_margin_left + $max_width + $PSCompletions.config.menu_list_margin_right + 1
-}
-Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list {
-    $max_width = 0
-    if ($this.is_show_tip) {
-        $tip_max_height = 0
-        foreach ($item in $this.filter_list) {
-            if ($item.width -gt $max_width) { $max_width = $item.width }
-            if ($item.ToolTip.Count -gt $tip_max_height) { $tip_max_height = $item.ToolTip.Count }
-        }
-        $this.tip_max_height = $tip_max_height
-    }
-    else {
-        foreach ($item in $this.filter_list) {
-            if ($item.width -gt $max_width) { $max_width = $item.width }
-        }
-    }
-    if ($max_width -lt $PSCompletions.config.menu_list_min_width) {
-        $max_width = $PSCompletions.config.menu_list_min_width
-    }
-    $this.list_max_width = $max_width
-
-    if ($this.filter_list -is [array]) {
-        $PSCompletions.is_single = $false
-    }
-    else {
-        $PSCompletions.is_single = $true
-        $this.filter_list = @($this.filter_list)
-    }
-    $this.ui_size.Width = 1 + $PSCompletions.config.menu_list_margin_left + $max_width + $PSCompletions.config.menu_list_margin_right + 1
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list {
     # X
     if ($PSCompletions.config.menu_list_follow_cursor) {
         $this.pos.X = $Host.UI.RawUI.CursorPosition.X
-        # 如果跟随鼠标，如果在超过右侧边界，则向左偏移
-        if ($this.pos.X + $this.ui_size.Width -gt $Host.UI.RawUI.BufferSize.Width - 1) {
-            $this.pos.X = $Host.UI.RawUI.BufferSize.Width - 1 - $this.ui_size.Width
-        }
+        # 如果跟随鼠标，且超过右侧边界，则向左偏移
+        $this.pos.X = [Math]::Min($this.pos.X, $Host.UI.RawUI.BufferSize.Width - 1 - $this.ui_size.Width)
     }
     else {
         $this.pos.X = 0
@@ -191,12 +128,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     if ($this.pos.x -eq 0) { $this.pos.x ++ }
 
     if ($PSCompletions.config.menu_tip_follow_cursor) {
-        if ($Host.UI.RawUI.BufferSize.Width - $this.pos.X -lt $this.tip_width) {
-            $this.pos_tip.X = $Host.UI.RawUI.BufferSize.Width - $this.tip_width
-        }
-        else {
-            $this.pos_tip.X = $this.pos.X
-        }
+        $this.pos_tip.X = $this.pos.X
     }
     else {
         $this.pos_tip.X = 0
@@ -211,22 +143,18 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     $this.ui_size.height = $this.filter_list.Count + 2
     if ($this.is_show_above) {
         if ($PScompletions.config.menu_above_list_max_count -ne -1) {
-            if ($this.filter_list.Count -gt $PScompletions.config.menu_above_list_max_count) {
-                $this.ui_size.height = $PScompletions.config.menu_above_list_max_count + 2
-            }
+            $this.ui_size.height = [Math]::Min($this.ui_size.height, $PScompletions.config.menu_above_list_max_count + 2)
         }
-        if ($this.ui_size.height -gt $this.cursor_to_top) {
-            $this.ui_size.height = $this.cursor_to_top
+        else {
+            $this.ui_size.height = [Math]::Min($this.ui_size.height, $this.cursor_to_top)
         }
     }
     else {
         if ($PScompletions.config.menu_below_list_max_count -ne -1) {
-            if ($this.filter_list.Count -gt $PScompletions.config.menu_below_list_max_count) {
-                $this.ui_size.height = $PScompletions.config.menu_below_list_max_count + 2
-            }
+            $this.ui_size.height = [Math]::Min($this.ui_size.height, $PScompletions.config.menu_below_list_max_count + 2)
         }
-        if ($this.ui_size.height -gt $this.cursor_to_bottom) {
-            $this.ui_size.height = $this.cursor_to_bottom
+        else {
+            $this.ui_size.height = [Math]::Min($this.ui_size.height, $this.cursor_to_bottom)
         }
     }
     if ($this.is_show_above) {
@@ -235,12 +163,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
             $this.is_show_tip = $false
         }
         else {
-            $this.ui_size.height = $new_ui_height
-            if ($this.ui_size.height - 2 -gt $this.filter_list.Count) {
-                $this.ui_size.height = $this.filter_list.Count + 2
-            }
+            $this.ui_size.height = [Math]::Min($new_ui_height, $this.filter_list.Count + 2)
         }
-        if ($this.ui_size.height -lt 3) { $this.ui_size.height = 3 }
+        $this.ui_size.height = [Math]::Max($this.ui_size.height, 3)
         $this.pos.Y = $Host.UI.RawUI.CursorPosition.Y - $this.ui_size.height - $PSCompletions.config.menu_above_margin_bottom
         # 设置 tip 的 起始位置
         $this.pos_tip.Y = $this.pos.Y - $this.tip_max_height - 1
@@ -254,12 +179,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
             $this.is_show_tip = $false
         }
         else {
-            $this.ui_size.height = $new_ui_height
-            if ($this.ui_size.height - 2 -gt $this.filter_list.Count) {
-                $this.ui_size.height = $this.filter_list.Count + 2
-            }
+            $this.ui_size.height = [Math]::Min($new_ui_height, $this.filter_list.Count + 2)
         }
-        if ($this.ui_size.height -lt 3) { $this.ui_size.height = 3 }
+        $this.ui_size.height = [Math]::Max($this.ui_size.height, 3)
         $this.pos.Y = $Host.UI.RawUI.CursorPosition.Y + 1
         $this.pos_tip.Y = $this.pos.Y + $this.ui_size.height + 1
         if ($this.pos_tip.Y -ge $Host.UI.RawUI.BufferSize.Height) {
@@ -268,13 +190,90 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     }
     $this.page_max_index = $this.ui_size.height - 3
 }
-Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_buffer {
-    param($X, $Y)
-    $old_top = New-Object System.Management.Automation.Host.Coordinates 0, $Y
-    $old_bottom = New-Object System.Management.Automation.Host.Coordinates $Host.ui.RawUI.BufferSize.Width, ($Y + $this.ui_size.height)
-    $old_buffer = $Host.UI.RawUI.GetBufferContents((New-Object System.Management.Automation.Host.Rectangle $old_top, $old_bottom))
-    $this.old_menu_buffer = $old_buffer  # 之前的内容
-    $this.old_menu_pos = $old_top  # 之前的位置
+Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_buffer {
+    param($startPos, $endPos)
+    $top = New-Object System.Management.Automation.Host.Coordinates $startPos.X, $startPos.Y
+    $bottom = New-Object System.Management.Automation.Host.Coordinates $endPos.X , $endPos.Y
+    $buffer = $Host.UI.RawUI.GetBufferContents((New-Object System.Management.Automation.Host.Rectangle $top, $bottom))
+    @{
+        top    = $top
+        bottom = $bottom
+        buffer = $buffer
+    }
+}
+Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
+    if ($this.is_show_above) {
+        $menu_start_pos = @{
+            X = $Host.UI.RawUI.WindowPosition.X
+            Y = 0
+        }
+        $menu_end_pos = @{
+            X = $this.pos.X + $this.ui_size.Width
+            Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.menu_above_margin_bottom
+        }
+        $menu_start_pos.Y = [Math]::Max($menu_start_pos.Y, $this.pos.Y)
+    }
+    else {
+        $menu_start_pos = $this.pos
+        $menu_end_pos = @{
+            X = $menu_start_pos.X + $this.ui_size.Width
+            Y = $menu_start_pos.Y + $this.ui_size.Height
+        }
+        $menu_end_pos.Y = [Math]::Min($menu_end_pos.Y, $Host.UI.RawUI.BufferSize.Height)
+    }
+    if ($this.is_show_tip) {
+        $tip_start_pos = @{
+            X = $Host.UI.RawUI.WindowPosition.X
+            Y = $this.pos.Y - $this.tip_max_height - 1
+        }
+        if ($this.is_show_above) {
+            $tip_end_pos = @{
+                X = $Host.UI.RawUI.BufferSize.Width
+                Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.menu_above_margin_bottom
+            }
+            $tip_start_pos.Y = [Math]::Min($tip_start_pos.Y, $Host.UI.RawUI.WindowPosition.Y)
+        }
+        else {
+            $tip_start_pos.Y = $this.pos.Y
+            $tip_end_pos = @{
+                X = $Host.UI.RawUI.BufferSize.Width
+                Y = $tip_start_pos.Y + $this.ui_size.Height + $this.tip_max_height + 1
+            }
+            $tip_end_pos.Y = [Math]::Min($tip_end_pos.Y, $Host.UI.RawUI.BufferSize.Height)
+        }
+    }
+    @{
+        menu = @{
+            start_pos = $menu_start_pos
+            end_pos   = $menu_end_pos
+        }
+        tip  = @{
+            start_pos = $tip_start_pos
+            end_pos   = $tip_end_pos
+        }
+    }
+}
+Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_buffer {
+    $box = @()
+    if ($PSCompletions.config.menu_tip_cover_buffer) {
+        if ($this.is_show_above) {
+            foreach ($_ in 0..($this.pos.Y - 2)) {
+                $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
+            }
+            $pos = $Host.UI.RawUI.WindowPosition
+        }
+        else {
+            foreach ($_ in 0..($Host.UI.RawUI.BufferSize.Height - $this.pos_tip.Y)) {
+                $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
+            }
+            $pos = @{
+                X = 0
+                Y = $this.pos_tip.Y - 1
+            }
+        }
+        $buffer = $Host.UI.RawUI.NewBufferCellArray($box, $host.UI.RawUI.BackgroundColor, $host.UI.RawUI.BackgroundColor)
+        $Host.UI.RawUI.SetBufferContents($pos, $buffer)
+    }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer {
     if ($PSCompletions.config.menu_list_cover_buffer) {
@@ -296,9 +295,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
     $line_top = [string]$PSCompletions.config.menu_line_top_left + $PSCompletions.config.menu_line_horizontal * ($this.list_max_width + $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right) + $PSCompletions.config.menu_line_top_right
     $border_box += $line_top
     foreach ($_ in 0..($this.ui_size.height - 3)) {
-        $pad = $this.list_max_width - $this.filter_list[$_].width
-        $content = "$($this.filter_list[$_].ListItemText)$(' ' * $pad)"
-
+        $content_length = $this.get_length($this.filter_list[$_].ListItemText)
+        $content = $this.filter_list[$_].ListItemText + " " * ($this.list_max_width - $content_length)
         $border_box += [string]$PSCompletions.config.menu_line_vertical + (' ' * ($PSCompletions.config.menu_list_margin_left + $this.list_max_width + $PSCompletions.config.menu_list_margin_right)) + [string]$PSCompletions.config.menu_line_vertical
         $content_box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
     }
@@ -320,9 +318,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_bu
     param($offset)
     $content_box = @()
     foreach ($_ in $offset..($this.ui_size.height - 3 + $offset)) {
-        $pad = $this.list_max_width - $this.filter_list[$_].width
-        $content = "$($this.filter_list[$_].ListItemText)$(' ' * $pad)"
-
+        $content_length = $this.get_length($this.filter_list[$_].ListItemText)
+        $content = $this.filter_list[$_].ListItemText + " " * ($this.list_max_width - $content_length)
         $content_box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
     }
     $buffer = $Host.UI.RawUI.NewBufferCellArray($content_box, $PSCompletions.config.menu_color_item_text, $PSCompletions.config.menu_color_item_back)
@@ -363,11 +360,16 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     if ($this.old_status_buffer) {
         $Host.UI.RawUI.SetBufferContents($this.old_status_pos, $this.old_status_buffer)
     }
-    $X = $this.pos.X
-    $Y = $this.pos.Y + $this.ui_size.height - 1
+    $X = $this.pos.X + 3
+    if ($this.is_show_above) {
+        $Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.menu_above_margin_bottom
+    }
+    else {
+        $Y = $this.pos.Y + $this.ui_size.height - 1
+    }
 
     $old_top = New-Object System.Management.Automation.Host.Coordinates $X, $Y
-    $old_bottom = New-Object System.Management.Automation.Host.Coordinates $Host.ui.RawUI.BufferSize.Width, ($Y + 1)
+    $old_bottom = New-Object System.Management.Automation.Host.Coordinates $Host.UI.RawUI.BufferSize.Width, ($Y + 1)
 
     $old_buffer = $Host.UI.RawUI.GetBufferContents((New-Object System.Management.Automation.Host.Rectangle $old_top, $old_bottom))
 
@@ -377,10 +379,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     $current = "$(([string]($this.selected_index + 1)).PadLeft($this.filter_list.Count.ToString().Length, ' '))"
     $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$($current)$($PSCompletions.config.menu_status_symbol)$($this.filter_list.Count)"), $PSCompletions.config.menu_color_status_text, $PSCompletions.config.menu_color_status_back)
 
-    $pos_status = $Host.UI.RawUI.CursorPosition
-    $pos_status.X = $this.pos.X + 3
-    $pos_status.Y = $this.pos.Y + $this.ui_size.height - 1
-    $Host.UI.RawUI.SetBufferContents($pos_status, $buffer_status)
+    $Host.UI.RawUI.SetBufferContents(@{ X = $X; Y = $Y }, $buffer_status)
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip_buffer {
     param($X, $Y)
@@ -395,21 +394,15 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip
         }
     }
     else {
+        $Y = $this.pos_tip.Y - 1
         if ($this.is_show_above) {
-            $Y = $this.pos_tip.Y - 1
             $to_Y = $this.pos.Y
         }
         else {
-            $Y = $this.pos_tip.Y - 1
             $to_Y = $this.pos_tip.Y + $this.tip_max_height
         }
     }
-    $old_top = New-Object System.Management.Automation.Host.Coordinates 0, $Y
-    $old_bottom = New-Object System.Management.Automation.Host.Coordinates $Host.ui.RawUI.BufferSize.Width, $to_Y
-
-    $old_buffer = $Host.UI.RawUI.GetBufferContents((New-Object System.Management.Automation.Host.Rectangle $old_top, $old_bottom))
-    $this.old_tip_buffer = $old_buffer
-    $this.old_tip_pos = $old_top
+    $this.old_tip_buffer = $this.get_buffer(@{ X = 0; Y = $Y }, @{ X = $Host.UI.RawUI.BufferSize.Width; Y = $to_Y })
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buffer {
     param($index)
@@ -442,7 +435,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
             X = 0
             Y = $this.pos_tip.Y - 1
         }
-        if ($this.is_show_above -and $pos.Y -lt 0) { $pos.Y = 0 }
+        if ($this.is_show_above) {
+            $pos.Y = [Math]::Max($pos.Y, 0)
+        }
     }
     $buffer = $Host.UI.RawUI.NewBufferCellArray($box, $host.UI.RawUI.BackgroundColor, $host.UI.RawUI.BackgroundColor)
     $Host.UI.RawUI.SetBufferContents($pos, $buffer)
@@ -460,14 +455,15 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
     if ($this.old_selection) {
         $Host.UI.RawUI.SetBufferContents($this.old_selection.pos, $this.old_selection.buffer)
     }
+
+    $X = $this.pos.X + 1
+    $to_X = $X + $this.list_max_width - 1
     # 如果高亮需要包含 margin
     if ($PSCompletions.config.menu_selection_with_margin) {
-        $X = $this.pos.X + 1
-        $to_X = $X + $this.list_max_width - 1 + $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right
+        $to_X += $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right
     }
     else {
-        $X = $this.pos.X + 1 + $PSCompletions.config.menu_list_margin_left
-        $to_X = $X + $this.list_max_width - 1
+        $X += $PSCompletions.config.menu_list_margin_left
     }
 
     # 当前页的第几个
@@ -518,7 +514,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
             }
         }
     }
-
     if ($is_move) {
         $this.page_current_index += $count
         $this.selected_index += $count
@@ -561,27 +556,31 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_comp
             $this.filter_list.Add($f)
         }
     }
-    $PSCompletions.is_single = $this.filter_list.Count -eq 1
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     param([bool]$clearAll, [bool]$is_menu_enhance)
     # reset content
-    try {
-        $Host.UI.RawUI.SetBufferContents($this.old_tip_pos, $this.old_tip_buffer)
-        if ($clearAll) {
-            $this.old_tip_buffer = $null
-            $this.old_tip_pos = $null
+
+    if ($this.old_tip_buffer) {
+        $Host.UI.RawUI.SetBufferContents($this.old_tip_buffer.top, $this.old_tip_buffer.buffer)
+    }
+
+    if ($this.old_menu_buffer) {
+        $Host.UI.RawUI.SetBufferContents($this.old_menu_buffer.top, $this.old_menu_buffer.buffer)
+    }
+
+    if ($clearAll) {
+        $this.old_tip_buffer = $null
+        $this.old_menu_buffer = $null
+        if ($this.origin_menu_buffer) {
+            $Host.UI.RawUI.SetBufferContents($this.origin_menu_buffer.top, $this.origin_menu_buffer.buffer)
+            $this.origin_menu_buffer = $null
+        }
+        if ($this.origin_tip_buffer) {
+            $Host.UI.RawUI.SetBufferContents($this.origin_tip_buffer.top, $this.origin_tip_buffer.buffer)
+            $this.origin_tip_buffer = $null
         }
     }
-    catch {}
-    try {
-        $Host.UI.RawUI.SetBufferContents($this.old_menu_pos, $this.old_menu_buffer)
-        if ($clearAll) {
-            $this.old_menu_buffer = $null
-            $this.old_menu_pos = $null
-        }
-    }
-    catch {}
     $this.old_selection = $null
     $this.old_filter_buffer = $null
     $this.old_filter_pos = $null
@@ -614,12 +613,14 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
     param($filter_list, [bool]$is_menu_enhance)
 
+    if (!$filter_list) { return }
+
     $lastest_encoding = [console]::OutputEncoding
     [console]::OutputEncoding = $PSCompletions.encoding
 
-    $this.pos = $Host.UI.RawUI.WindowPosition
-    $this.pos_tip = $Host.UI.RawUI.WindowPosition
-    $this.list_max_width = 0
+    $this.pos = @{ X = 0; Y = 0 }
+    $this.pos_tip = @{ X = 0; Y = 0 }
+    $this.list_max_width = [Math]::Max($this.list_max_width, $PSCompletions.config.menu_list_min_width)
 
     $this.ui_size = $Host.UI.RawUI.BufferSize
 
@@ -633,15 +634,13 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $this.offset = 0  # 索引的偏移量，用于滚动翻页
 
-    # 如果没有可用的选项，直接结束，触发路径补全
-    if (!$filter_list) { return }
     $this.reset($true, $is_menu_enhance)
 
     $this.origin_filter_list = [System.Collections.Generic.List[System.Object]]@()
     $this.filter_list = [System.Collections.Generic.List[System.Object]]@()
     $this.handle_list_first($filter_list)
 
-    if ($PSCompletions.config.enter_when_single -and $PSCompletions.is_single) {
+    if ($PSCompletions.config.enter_when_single -and $this.filter_list.Count -eq 1) {
         return $this.filter_list[$this.selected_index].CompletionText
     }
     $this.parse_list()
@@ -653,8 +652,23 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         ''
         return
     }
-    # 第一次显示菜单之前，记录之前的 buffer 内容
-    $this.get_old_buffer($this.pos.X, $this.pos.Y)
+
+    # 显示菜单之前，记录 buffer
+    $pos = $this.get_pos()
+    $this.origin_menu_buffer = $this.get_buffer($pos.menu.start_pos, $pos.menu.end_pos)
+
+    $this.origin_tip_buffer = $this.get_buffer($pos.tip.start_pos, $pos.tip.end_pos)
+
+    $this.old_menu_buffer = $this.get_buffer(
+        @{
+            X = $Host.UI.RawUI.WindowPosition.X
+            Y = $this.pos.Y
+        },
+        @{
+            X = $Host.ui.RawUI.BufferSize.Width
+            Y = $this.pos.Y + $this.ui_size.height
+        })
+
     if ($this.is_show_tip) { $this.get_old_tip_buffer($this.pos_tip.X, $this.pos_tip.Y) }
     # 显示菜单
     $this.new_buffer()
@@ -663,146 +677,145 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $this.new_filter_buffer($this.filter)
     $this.new_status_buffer()
     $this.set_selection()
-
-    try {
-        :loop while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode) {
-            $shift_pressed = 0x10 -band [int]$PressKey.ControlKeyState
-            if ($PressKey.ControlKeyState -like "*CtrlPressed*") {
-                switch ($PressKey.VirtualKeyCode) {
-                    67 {
-                        # 67: Ctrl + c
-                        $this.reset($true)
-                        ''
-                        break loop
-                    }
-                    { $_ -eq 85 -or $_ -eq 80 } {
-                        # 85: Ctrl + u
-                        # 80: Ctrl + p
-                        $this.move_selection(-1)
-                        break
-                    }
-
-                    { $_ -eq 68 -or $_ -eq 78 } {
-                        # 68: Ctrl + d
-                        # 78: Ctrl + n
-                        $this.move_selection(1)
-                        break
-                    }
-                }
-            }
+    :loop while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode) {
+        $shift_pressed = 0x10 -band [int]$PressKey.ControlKeyState
+        if ($PressKey.ControlKeyState -like "*CtrlPressed*") {
             switch ($PressKey.VirtualKeyCode) {
-                { $_ -in @(9, 32) } {
-                    # 9: Tab
-                    # 32: Space
-                    if ($PSCompletions.is_single) {
-                        $this.reset($true)
-                        $this.filter_list[$this.selected_index].CompletionText
-                        break loop
-                    }
-                    if ($shift_pressed) {
-                        # Up
-                        $this.move_selection(-1)
-                    }
-                    else {
-                        # Down
-                        $this.move_selection(1)
-                    }
-                    break
-                }
-                27 {
-                    # 27: ESC
+                67 {
+                    # 67: Ctrl + c
                     $this.reset($true)
                     ''
                     break loop
                 }
-                13 {
-                    # 13: Enter
-                    $this.filter_list[$this.selected_index].CompletionText
-                    $this.reset($true)
-                    break loop
-                }
-
-                # 向上
-                # 37: Up
-                # 38: Left
-                { $_ -in @(37, 38) } {
+                { $_ -eq 85 -or $_ -eq 80 } {
+                    # 85: Ctrl + u
+                    # 80: Ctrl + p
                     $this.move_selection(-1)
                     break
                 }
-                # 向下
-                # 39: Right
-                # 40: Down
-                { $_ -in @(39, 40) } {
+
+                { $_ -eq 68 -or $_ -eq 78 } {
+                    # 68: Ctrl + d
+                    # 78: Ctrl + n
                     $this.move_selection(1)
                     break
                 }
-                # Character/Backspace
-                { $PressKey.Character } {
-                    # update filter
-                    $this.old_filter = $this.filter
-                    $old_filter_list = $this.filter_list
-                    if ($PressKey.Character -eq 8) {
-                        # 8: backspace
-                        if ($this.filter -eq $this.filter_by_auto_pick) {
-                            $this.filter = ''
-                            $this.filter_by_auto_pick = ''
-                            $this.reset($true)
-                            ''
-                            break loop
-                        }
-                        if ($this.filter) {
-                            $this.filter = $this.filter.Substring(0, $this.filter.Length - 1)
-                        }
-                        else {
-                            $this.reset($true)
-                            ''
-                            break loop
-                        }
+            }
+        }
+        switch ($PressKey.VirtualKeyCode) {
+            { $_ -in @(9, 32) } {
+                # 9: Tab
+                # 32: Space
+                if ($this.filter_list.Count -eq 1) {
+                    $this.reset($true)
+                    $this.filter_list[$this.selected_index].CompletionText
+                    break loop
+                }
+                if ($shift_pressed) {
+                    # Up
+                    $this.move_selection(-1)
+                }
+                else {
+                    # Down
+                    $this.move_selection(1)
+                }
+                break
+            }
+            27 {
+                # 27: ESC
+                $this.reset($true)
+                ''
+                break loop
+            }
+            13 {
+                # 13: Enter
+                $this.filter_list[$this.selected_index].CompletionText
+                $this.reset($true)
+                break loop
+            }
+
+            # 向上
+            # 37: Up
+            # 38: Left
+            { $_ -in @(37, 38) } {
+                $this.move_selection(-1)
+                break
+            }
+            # 向下
+            # 39: Right
+            # 40: Down
+            { $_ -in @(39, 40) } {
+                $this.move_selection(1)
+                break
+            }
+            # Character/Backspace
+            { $PressKey.Character } {
+                # update filter
+                if ($PressKey.Character -eq 8) {
+                    # 8: backspace
+                    if ($this.filter -eq $this.filter_by_auto_pick) {
+                        $this.filter = ''
+                        $this.filter_by_auto_pick = ''
+                        $this.reset($true)
+                        ''
+                        break loop
+                    }
+                    if ($this.filter) {
+                        $this.filter = $this.filter.Substring(0, $this.filter.Length - 1)
+                    }
+                    else {
+                        $this.reset($true)
+                        ''
+                        break loop
+                    }
+                    $this.new_cover_buffer()
+                    $this.reset()
+                    $this.filter_completions($this.origin_filter_list)
+                    foreach ($item in $this.filter_list) {
+                        $this.tip_max_height = [Math]::Max($this.tip_max_height, $item.ToolTip.Count)
+                    }
+                    $this.parse_list()
+                    $this.new_buffer()
+                    if ($this.is_show_tip) { $this.new_tip_buffer($this.selected_index) }
+                    $this.new_status_buffer()
+                    $this.set_selection(0)
+                }
+                else {
+                    # add char
+                    $this.filter += $PressKey.Character
+                    $this.filter_completions($this.filter_list)
+                    if (!$this.filter_list) {
+                        $this.filter = $this.old_filter
+                        $this.filter_list = $old_filter_list
+                    }
+                    else {
+                        $this.new_cover_buffer()
                         $this.reset()
-                        $this.filter_completions($this.origin_filter_list)
-                        $this.handle_list()
+                        foreach ($item in $this.filter_list) {
+                            $this.tip_max_height = [Math]::Max($this.tip_max_height, $item.ToolTip.Count)
+                        }
+
                         $this.parse_list()
                         $this.new_buffer()
                         if ($this.is_show_tip) { $this.new_tip_buffer($this.selected_index) }
-                        $this.new_filter_buffer()
                         $this.new_status_buffer()
                         $this.set_selection(0)
                     }
-                    else {
-                        # add char
-                        $this.filter += $PressKey.Character
-                        $this.filter_completions($this.filter_list)
-                        if (!$this.filter_list) {
-                            $this.filter = $this.old_filter
-                            $this.filter_list = $old_filter_list
-                        }
-                        else {
-                            $this.reset()
-                            $this.handle_list()
-                            $this.parse_list()
-                            $this.new_buffer()
-                            if ($this.is_show_tip) { $this.new_tip_buffer($this.selected_index) }
-                            $this.new_filter_buffer()
-                            $this.new_status_buffer()
-                            $this.set_selection(0)
-                        }
-                    }
-                    break
                 }
-            }
-            if ($this.selected_index -ne $this.old_selected_index) {
-                $this.new_status_buffer()
-                if ($this.is_show_tip) { $this.new_tip_buffer($this.selected_index) }
-                $this.old_selected_index = $this.selected_index
-            }
-            if ($this.filter -ne $this.old_filter) {
-                $this.new_filter_buffer($this.filter)
-                $this.old_filter = $this.filter
+                break
             }
         }
-    }
-    catch {
-        $this.reset($true)
+        if ($this.selected_index -ne $this.old_selected_index) {
+            $this.new_status_buffer()
+            if ($this.is_show_tip) { $this.new_tip_buffer($this.selected_index) }
+            $this.old_selected_index = $this.selected_index
+        }
+        if ($this.filter -ne $this.old_filter) {
+            $this.new_filter_buffer($this.filter)
+            $this.old_filter = $this.filter
+            $old_filter_list = $this.filter_list
+        }
     }
     [console]::OutputEncoding = $lastest_encoding
+    $this.list_max_width = 0
 }

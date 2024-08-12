@@ -1,4 +1,44 @@
 {
+  "4.2.7": {
+    "zh-CN": [
+      "修复(2024/8/12)\n",
+      "- <@Magenta>PSCompletions<@Blue> 模块会占用两个全局命名，<@Magenta>$PSCompletions<@Blue>(变量) 和 <@Magenta>PSCompletions<@Blue>(函数)\n",
+      "  - 现在，它们都为只读，强行覆盖会报错，防止误操作导致模块失效\n",
+      "  - 不过 <@Magenta>PSCompletions<@Blue>(函数) 可以通过配置修改函数名\n",
+      "- 添加一个配置项 <@Magenta>function_name<@Blue>, 默认值为 <@Magenta>PSCompletions<@Blue>\n",
+      "  - 设置: <@Magenta>psc config function_name <name><@Blue>\n",
+      "  - 使用场景:\n",
+      "    - 当你需要定义一个函数，名字刚好也必须为 <@Magenta>PSCompletions<@Blue> 时\n",
+      "    - 你可以通过 <@Magenta>function_name<@Blue> 将本模块的函数修改为一个不冲突的名字\n",
+      "  - 需要注意:\n",
+      "    - <@Magenta>PSCompletions<@Blue>(函数)可以通过配置修改，但 <@Magenta>$PSCompletions<@Blue>(变量)是无法修改的\n",
+      "    - 当你需要定义一个变量，名字刚好也必须为 <@Magenta>$PSCompletions<@Blue>\n",
+      "    - 无法解决，要么你不使用 <@Magenta>PSCompletions<@Blue> 模块，要么给你要定义的变量改个名字\n",
+      "- 对 <@Magenta>PowerShell<@Blue> 命令的 ToolTip 提示信息简单处理，优化显示\n",
+      "- 当菜单显示后，输入字符进行过滤不再更改菜单的宽度\n",
+      "- 修复了可以将一个已存在的命令设置为别名的bug\n",
+      "- 优化逻辑运算，移除一些多余的运算\n"
+    ],
+    "en-US": [
+      "Fix(2024/8/12)\n",
+      "- <@Magenta>PSCompletions<@Blue> module will take up two global names, <@Magenta>$PSCompletions<@Blue> (variable) and <@Magenta>PSCompletions<@Blue> (function).\n",
+      "  - Now, they are both read-only, and trying to overwrite will have an error, preventing accidental operation from causing the module to fail.\n",
+      "  - However, <@Magenta>PSCompletions<@Blue> (function) can be configured to change the function name.\n",
+      "- Add a configuration item <@Magenta>function_name<@Blue>, with a default value of <@Magenta>PSCompletions<@Blue>.\n",
+      "  - Setting: <@Magenta>psc config function_name <name><@Blue>\n",
+      "  - Use in the following case:\n",
+      "    - When you need to define a function, the name must be <@Magenta>PSCompletions<@Blue>.\n",
+      "    - You can use <@Magenta>function_name<@Blue> to rename the function of this module to a non-conflicting name.\n",
+      "  - Note:\n",
+      "    - <@Magenta>PSCompletions<@Blue> (function) can be configured, but <@Magenta>$PSCompletions<@Blue> (variable) cannot be modified.\n",
+      "    - When you need to define a variable, the name must be <@Magenta>$PSCompletions<@Blue>.\n",
+      "    - It cannot be solved, either you don't use <@Magenta>PSCompletions<@Blue> module, or you give the variable you define a different name.\n",
+      "- Simple processing of ToolTip information for <@Magenta>PowerShell<@Blue> commands, optimized display.\n",
+      "- When the menu is displayed, filtering by input characters no longer changes the width of the menu.\n",
+      "- Fix a bug where you could set an existing command as an alias.\n",
+      "- Optimize logical operations, remove some unnecessary operations.\n"
+    ]
+  },
   "4.2.6": {
     "zh-CN": [
       "修复(2024/8/10)\n",

@@ -1,4 +1,4 @@
-﻿function PSCompletions {
+﻿Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
     $arg = $args
 
     # ? 由于此处使用 $PSCompletions.replace_content 会导致其无法使用外部变量，所以重新定义一个函数以供使用
@@ -252,10 +252,8 @@
                     return
                 }
                 foreach ($alias in $arg[3..($arg.Length - 1)]) {
-                    if ($alias -like "* *") {
-                        $alias = ($alias -split ' ')[0]
-                    }
-                    if ($alias -in (Get-Alias).Name -or $alias -in (Get-Command).Name) {
+                    $alias = ($alias -split ' ')[0]
+                    if (Get-Command $alias -ErrorAction SilentlyContinue) {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
                     }
@@ -308,7 +306,7 @@
         }
     }
     function _config {
-        $cmd_list = @('language', 'disable_cache', 'update', 'module_update', 'symbol', 'github', 'gitee', 'url')
+        $cmd_list = @('language', 'disable_cache', 'update', 'module_update', 'symbol', 'github', 'gitee', 'url', 'function_name')
         if ($arg.Length -lt 2) {
             Show-ParamError 'min' '' $PSCompletions.info.sub_cmd  $PSCompletions.info.config.example
             return
@@ -353,7 +351,7 @@
         $config_item = $arg[1]
         switch ($arg[1]) {
             'language' {
-                handle_done $true
+                handle_done ($arg[2] -is [string] -and $arg[2] -ne '')
             }
             'disable_cache' {
                 handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) -common_err
@@ -372,6 +370,15 @@
             }
             'url' {
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '')
+            }
+            'function_name' {
+                # Get-Command PSCompletions 会导致触发更新，需要特殊处理
+                if ($arg[2] -eq 'PSCompletions' -and $PSCompletions.config.function_name -ne 'PSCompletions') {
+                    handle_done $true
+                    return
+                }
+                $is_exist = Get-Command $arg[2] -ErrorAction SilentlyContinue
+                handle_done ($arg[2] -is [string] -and $arg[2] -ne '' -and !$is_exist)
             }
         }
     }
@@ -451,7 +458,6 @@
         Out-Config
         $PSCompletions.write_with_color((_replace $PSCompletions.info.completion.done))
     }
-
     function _menu {
         $cmd_list = @('symbol', 'line_theme', 'color_theme', 'custom', 'config')
         if ($arg.Length -lt 2) {
@@ -933,4 +939,6 @@
         }
     }
     if ($need_init) { $PSCompletions.init_data() }
-}
+} -Option ReadOnly
+
+Export-ModuleMember -Function $PSCompletions.config.function_name
