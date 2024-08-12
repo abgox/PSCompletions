@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-        - main
+      - main
 
 permissions:
   contents: write
@@ -13,23 +13,23 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
-    - name: Generate list and update README content
-      run: |
-        .\script\auto-update-readme.ps1
+      - name: Generate list and update README content
+        run: |
+          .\scripts\auto-update-readme.ps1
 
-    - name: update completions.json
-      run: |
-        .\script\auto-update-completions.json.ps1
+      - name: update completions.json
+        run: |
+          .\scripts\auto-update-completions.json.ps1
 
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "abgohxf@outlook.com"
-        git config --local user.name "${{ github.actor }}"
-        git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-        git add .
-        git commit -m "[bot] update README and completions.json"
-        git push
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "abgohxf@outlook.com"
+          git config --local user.name "${{ github.actor }}"
+          git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add .
+          git commit -m "[bot] update README and completions.json"
+          git push
