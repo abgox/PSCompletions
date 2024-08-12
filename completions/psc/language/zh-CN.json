@@ -264,6 +264,21 @@
               "tip": ["一个可用的地址\n", "(通过 Github Pages 生成)"]
             }
           ]
+        },
+        {
+          "name": "function_name",
+          "symbol": "SpaceTab",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.function_name }}\n",
+            "设置模块导出的核心函数名(修改后必须重启 PowerShell)\n",
+            "当你需要定义一个函数，且必须命名为 PSCompletions 时，你可以通过此配置修改 PSCompletions 模块默认导出的函数名以解决冲突"
+          ],
+          "next": [
+            {
+              "name": "PSCompletions",
+              "tip": "设置为 PSCompletions (默认值)"
+            }
+          ]
         }
       ]
     },
@@ -1241,16 +1256,16 @@
       "  Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG-CN.md<@Cyan>\n",
       "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG-CN.md<@Cyan>\n",
       "\n",
-      "本模块命令简单, 你只需要输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法。\n",
-      "现在，输入 <@Magenta>psc add<@Cyan> 并按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键，去添加第一个补全吧!\n",
+      "<@Blue>PSCompletions<@Cyan> 命令简单, 只需要输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法。\n",
       "\n",
-      "PSCompletions 模块只会占用两个全局命名(<@Yellow>你不能修改它们<@Cyan>)\n",
+      "<@Blue>PSCompletions<@Cyan> 模块只会占用两个全局命名\n",
       "  <@Magenta>PSCompletions<@Cyan> => 函数名, 模块导出的核心函数(<@Magenta>psc<@Cyan> 其实就是它的别名)\n",
-      " <@Magenta>$PSCompletions<@Cyan> => 变量名, 存储模块相关的所有信息\n",
+      " <@Magenta>$PSCompletions<@Cyan> => 变量名, 存储模块相关的所有信息(<@Yellow>你不能修改它<@Cyan>)\n",
       "\n",
-      "更多相关信息, 请访问项目:\n",
-      "  Github: <@Blue>https://github.com/abgox/PSCompletions<@Cyan>\n",
-      "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions<@Cyan>\n",
+      "更多相关信息, 请访问:\n",
+      "  Website : <@Blue>https://pscompletions.pages.dev<@Cyan>\n",
+      "  Github  : <@Blue>https://github.com/abgox/PSCompletions<@Cyan>\n",
+      "  Gitee   : <@Blue>https://gitee.com/abgox/PSCompletions<@Cyan>\n",
       "如果有使用问题, 请提交 issue: https://github.com/abgox/PSCompletions/issues\n",
       "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目点个 <@Yellow>Star<@>\n"
     ],
@@ -1641,6 +1656,15 @@
         "example": [
           "E: psc config url                                           --- 获取当前使用的 url\n",
           "   psc config url https://abgox.github.io/PSCompletions     --- 设置 url 地址"
+        ]
+      },
+      "function_name": {
+        "err": {
+          "max": "<@Magenta>{{ $config_item }}<@Yellow> 配置项需要一个值, 且它不是已存在的命令"
+        },
+        "example": [
+          "E: psc config function_name                   --- 获取当前使用的函数名\n",
+          "   psc config function_name PSCompletions     --- 设置函数名"
         ]
       }
     },
