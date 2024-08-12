@@ -184,7 +184,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         $this.ui_size.height = [Math]::Max($this.ui_size.height, 3)
         $this.pos.Y = $Host.UI.RawUI.CursorPosition.Y + 1
         $this.pos_tip.Y = $this.pos.Y + $this.ui_size.height + 1
-        if ($this.pos_tip.Y -ge $Host.UI.RawUI.BufferSize.Height) {
+        if ($this.pos_tip.Y -ge $Host.UI.RawUI.BufferSize.Height - 1) {
             $this.is_show_tip = $false
         }
     }
@@ -219,7 +219,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
             X = $menu_start_pos.X + $this.ui_size.Width
             Y = $menu_start_pos.Y + $this.ui_size.Height
         }
-        $menu_end_pos.Y = [Math]::Min($menu_end_pos.Y, $Host.UI.RawUI.BufferSize.Height)
+        $menu_end_pos.Y = [Math]::Min($menu_end_pos.Y, $Host.UI.RawUI.BufferSize.Height - 1)
     }
     if ($this.is_show_tip) {
         $tip_start_pos = @{
@@ -239,7 +239,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
                 X = $Host.UI.RawUI.BufferSize.Width
                 Y = $tip_start_pos.Y + $this.ui_size.Height + $this.tip_max_height + 1
             }
-            $tip_end_pos.Y = [Math]::Min($tip_end_pos.Y, $Host.UI.RawUI.BufferSize.Height)
+            $tip_end_pos.Y = [Math]::Min($tip_end_pos.Y, $Host.UI.RawUI.BufferSize.Height - 1)
         }
     }
     @{
@@ -254,8 +254,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_buffer {
-    $box = @()
     if ($PSCompletions.config.menu_tip_cover_buffer) {
+        $box = @()
         if ($this.is_show_above) {
             foreach ($_ in 0..($this.pos.Y - 2)) {
                 $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
@@ -270,6 +270,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_b
                 X = 0
                 Y = $this.pos_tip.Y - 1
             }
+            $pos.Y = [Math]::Min($pos.Y, $Host.UI.RawUI.BufferSize.Height - 1)
         }
         $buffer = $Host.UI.RawUI.NewBufferCellArray($box, $host.UI.RawUI.BackgroundColor, $host.UI.RawUI.BackgroundColor)
         $Host.UI.RawUI.SetBufferContents($pos, $buffer)
@@ -390,7 +391,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip
         }
         else {
             $Y = $this.pos_tip.Y - 1
-            $to_Y = $Host.UI.RawUI.BufferSize.Height
+            $to_Y = $Host.UI.RawUI.BufferSize.Height - 1
         }
     }
     else {

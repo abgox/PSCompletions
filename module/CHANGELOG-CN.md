@@ -3,6 +3,10 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 4.2.8 (2024/8/12)
+
+- 修复一个触发边界情况导致渲染错误的问题
+
 ## 4.2.7 (2024/8/12)
 
 - `PSCompletions` 模块会占用两个全局命名，`$PSCompletions`(变量) 和 `PSCompletions`(函数)
