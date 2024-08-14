@@ -1,19 +1,19 @@
-function handleCompletions([System.Collections.Generic.List[System.Object]]$completions) {
+﻿function handleCompletions($completions) {
     if (!(Test-Path "package.json")) { return $completions }
 
-    $tempList = [System.Collections.Generic.List[System.Object]]@()
-    function addCompletion($name, $tip = ' ', $symbol = '') {
+    $tempList = @()
+    function returnCompletion($name, $tip = ' ', $symbol = '') {
         $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config."symbol_$($c)" }
         $symbols = $symbols -join ''
         $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)" }else { '' }
         $cmd_arr = $name -split ' '
 
-        $tempList.Add(@{
-                name           = $name
-                ListItemText   = "$($cmd_arr[-1])$($padSymbols)"
-                CompletionText = $cmd_arr[-1]
-                ToolTip        = $tip
-            })
+        @{
+            name           = $name
+            ListItemText   = "$($cmd_arr[-1])$($padSymbols)"
+            CompletionText = $cmd_arr[-1]
+            ToolTip        = $tip
+        }
     }
 
     $packageJson = $PSCompletions.ConvertFrom_JsonToHashtable((Get-Content "package.json" -Raw))
@@ -22,22 +22,21 @@ function handleCompletions([System.Collections.Generic.List[System.Object]]$comp
     $devDependencies = $packageJson.devDependencies
     if ($scripts) {
         foreach ($script in $scripts.Keys) {
-            addCompletion $script "package.json scripts:`n$($scripts.$script)"
-            addCompletion "run $script" "package.json scripts:`n$($scripts.$script)"
+            $tempList += returnCompletion "run $script" "package.json scripts:`n$($scripts.$script)"
         }
     }
     if ($dependencies) {
         foreach ($dependency in $dependencies.Keys) {
-            addCompletion "remove $dependency" "Remove dependency: $($dependency) ($($dependencies.$dependency))"
+            $tempList += returnCompletion "remove $dependency" "Remove dependency: $($dependency) ($($dependencies.$dependency))"
 
-            addCompletion "upgrade $dependency" "Current Version: $($dependencies.$dependency)"
+            $tempList += returnCompletion "upgrade $dependency" "Current Version: $($dependencies.$dependency)"
         }
     }
     if ($devDependencies) {
         foreach ($devDependency in $devDependencies.Keys) {
-            addCompletion "remove $devDependency" "Remove devDependency: $($devDependency) ($($devDependencies.$devDependency))"
+            $tempList += returnCompletion "remove $devDependency" "Remove devDependency: $($devDependency) ($($devDependencies.$devDependency))"
 
-            addCompletion "upgrade $devDependency" "Current Version: $($devDependencies.$devDependency)"
+            $tempList += returnCompletion "upgrade $devDependency" "Current Version: $($devDependencies.$devDependency)"
         }
     }
     return $tempList + $completions
