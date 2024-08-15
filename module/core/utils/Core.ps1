@@ -157,9 +157,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 }
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
-    param($completions, $history_path, $root, $path_order)
+    param($completions, [string]$history_path, [string]$root, [string]$path_order)
     $PSCompletions.order."$($root)_job" = Start-ThreadJob -ScriptBlock {
-        param($PScompletions, $completions, $path_history, $root, $path_order)
+        param($PScompletions, $completions, [string]$path_history, [string]$root, [string]$path_order)
         $order = [ordered]@{}
         $index = 1
         foreach ($_ in $completions) {

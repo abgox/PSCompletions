@@ -329,7 +329,7 @@
         }
 
         function handle_done {
-            param($is_can, [switch]$common_err)
+            param([bool]$is_can, [switch]$common_err)
             if ($arg.Length -eq 3) {
                 if ($is_can) {
                     $config_item = $arg[1]
@@ -746,7 +746,7 @@
             }
         }
         function handle_reset {
-            param($cmd)
+            param([string]$cmd)
             $change_list = [System.Collections.Generic.List[System.Object]]@()
             foreach ($_ in $PSCompletions.default.$cmd.Keys) {
                 $change_list.Add(@{
@@ -795,7 +795,7 @@
             }
             "completion" {
                 function _do {
-                    param($cmd, [switch]$is_all)
+                    param([string]$cmd, [switch]$is_all)
                     $path = "$($PSCompletions.path.completions)/$($cmd)/config.json"
                     $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                     $path = "$($PSCompletions.path.completions)/$($cmd)/language/$($json.language[0]).json"
@@ -873,7 +873,7 @@
                         foreach ($_ in @('completions', 'completions_json', 'config', 'update', 'change')) {
                             Remove-Item $PSCompletions.path.$_ -Force -Recurse -ErrorAction SilentlyContinue
                         }
-                        Remove-Item "$($PSCompletions.path.core)/log.json" -Force -Recurse -ErrorAction SilentlyContinue
+                        Remove-Item "$($PSCompletions.path.core)/CHANGELOG.json" -Force -Recurse -ErrorAction SilentlyContinue
                     })
                 if ($is_init_module) {
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_done))
