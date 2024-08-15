@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.2.9 (2024/8/15)
+
+- Fix some issues.
+- Optimize some logic, improve performance.
+
 ## 4.2.8 (2024/8/12)
 
 - Fix a rendering error caused by a boundary case.
