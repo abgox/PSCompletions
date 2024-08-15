@@ -1,5 +1,5 @@
 ﻿Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list_first {
-    param($filter_list)
+    param([array]$filter_list)
     $max_width = 0
 
     $this.ui_size.width = $this.list_max_width + 2 + $this.config.menu_list_margin_left + $this.config.menu_list_margin_right
@@ -316,7 +316,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
     $Host.UI.RawUI.SetBufferContents($pos, $buffer)
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_buffer {
-    param($offset)
+    param([int]$offset)
     $content_box = @()
     foreach ($_ in $offset..($this.ui_size.height - 3 + $offset)) {
         $content_length = $this.get_length($this.filter_list[$_].ListItemText)
@@ -331,7 +331,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_bu
     $Host.UI.RawUI.SetBufferContents($pos, $buffer)
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_filter_buffer {
-    param($filter)
+    param([string]$filter)
     if ($this.old_filter_buffer) {
         $Host.UI.RawUI.SetBufferContents($this.old_filter_pos, $this.old_filter_buffer)
     }
@@ -383,7 +383,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     $Host.UI.RawUI.SetBufferContents(@{ X = $X; Y = $Y }, $buffer_status)
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip_buffer {
-    param($X, $Y)
+    param([int]$X, [int]$Y)
     if ($PSCompletions.config.menu_tip_cover_buffer) {
         if ($this.is_show_above) {
             $Y = 0
@@ -406,7 +406,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip
     $this.old_tip_buffer = $this.get_buffer(@{ X = 0; Y = $Y }, @{ X = $Host.UI.RawUI.BufferSize.Width; Y = $to_Y })
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buffer {
-    param($index)
+    param([int]$index)
     $box = @()
     if ($PSCompletions.config.menu_tip_cover_buffer) {
         if ($this.is_show_above) {
@@ -541,7 +541,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_prefix 
     $this.filter = $this.filter_by_auto_pick = $prefix
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_completions {
-    param($filter_list)
+    param([array]$filter_list)
     # 如果是前缀匹配
     if ($PSCompletions.config.menu_is_prefix_match) {
         $match = "$($this.filter)*"
@@ -611,7 +611,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
-    param($filter_list, [bool]$is_menu_enhance)
+    param([array]$filter_list, [bool]$is_menu_enhance)
 
     if (!$filter_list) { return }
 

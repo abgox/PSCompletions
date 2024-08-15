@@ -3,6 +3,13 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.3.0 (2024/8/15)
+
+- Fix module update issue in `Windows PowerShell`.
+- Fix dynamic completion sorting failure.
+- Fix a issue in version comparison.
+  - To avoid version comparison errors, this version number is changed from `4.2.10` to `4.3.0`.
+
 ## 4.2.9 (2024/8/15)
 
 - Fix some issues.

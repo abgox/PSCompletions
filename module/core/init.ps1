@@ -3,7 +3,7 @@
 New-Variable -Name PSCompletions -Value @{} -Option ReadOnly
 
 # 模块版本
-$PSCompletions.version = '4.2.9'
+$PSCompletions.version = '4.3.0'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -393,10 +393,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
     $false
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
-    param(
-        [string]$url,
-        [string]$file
-    )
+    param([string]$url, [string]$file)
     try {
         $this.wc.DownloadFile($url, $file)
     }
@@ -538,7 +535,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     }
     else {
         function _do {
-            param($i, $k)
+            param([string]$i, [string]$k)
             if ($this.config.$i) {
                 return @($this.$i, $this.config.$i)
             }
@@ -610,7 +607,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         $runspaces = @()
         foreach ($arr in $PSCompletions.split_array($completions_dir_list, [Environment]::ProcessorCount, $true)) {
             $runspace = [powershell]::Create().AddScript({
-                    param($paths, $this)
+                    param([array]$paths, $this)
                     function get_content {
                         param ([string]$path)
                         $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where( { $_ -ne '' })
@@ -702,7 +699,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length 
     $Host.UI.RawUI.NewBufferCellArray($str, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
-    param($filter_list)
+    param([array]$filter_list)
     if ($Host.UI.RawUI.BufferSize.Height -lt 5) {
         [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.info.min_area)
@@ -777,8 +774,9 @@ foreach ($_ in $PSCompletions.cmd.psc) {
 }
 
 if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
-    if ($PSCompletions.config.module_update -gt $PSCompletions.version) {
-        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/log.json", (Join-Path $PSCompletions.path.core 'log.json'))
+    $PSCompletions.version_list = $PSCompletions.config.module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending
+    if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
+        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.core 'CHANGELOG.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
                 Update-Module PSCompletions -Force -ErrorAction Stop

@@ -75,7 +75,7 @@
                         if ($data -match $pattern) { (_replace $data) }else { return $data }
                     }
                     function parseCompletions {
-                        param($node, $pre, $isOption)
+                        param($node, [string]$pre, [bool]$isOption)
                         foreach ($_ in $node) {
                             $pad = if ($pre) { ' ' }else { '' }
                             $symbols = @()
@@ -187,7 +187,7 @@
         return $completions
     }
     function filterCompletions {
-        param($completions, $root)
+        param($completions, [string]$root)
 
         # 当这个 options 是 WriteSpaceTab 时，将下一个值直接过滤掉
         $need_skip = $false
@@ -250,7 +250,7 @@
 
         foreach ($completions in $PSCompletions.split_array($completions, [Environment]::ProcessorCount, $true)) {
             $runspace = [powershell]::Create().AddScript({
-                    param($completions, $input_arr, $filter_input_arr, $match, $alias_input_arr, $space_tab, $host_ui)
+                    param($completions, [array]$input_arr, [array]$filter_input_arr, [string]$match, [array]$alias_input_arr, [bool]$space_tab, $host_ui)
                     $max_width = 0
                     $results = @()
                     function get_length {
