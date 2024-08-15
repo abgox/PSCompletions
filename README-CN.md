@@ -287,6 +287,7 @@
 |[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(100%)**|pip - Python 包管理器|
 |[pnpm](https://pnpm.io/zh/)|**en-US**<br>**zh-CN(100%)**|pnpm - 软件包管理器|
 |[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
+|[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|**en-US**<br>**zh-CN(100%)**|PowerShell cli. (pwsh.exe)|
 |[python](https://www.python.org)|**en-US**<br>**zh-CN(100%)**|python - 命令行|
 |[scoop](https://scoop.sh)|**en-US**<br>**zh-CN(100%)**|Scoop - 软件管理|
 |[sfsu](https://github.com/winpax/sfsu)|**en-US**<br>**~~zh-CN(10.77%)~~**|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster|
