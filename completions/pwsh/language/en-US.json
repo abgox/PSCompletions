@@ -1,0 +1,275 @@
+{
+  "options": [
+    {
+      "name": "-File",
+      "alias": ["-f"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -File <filePath> [args]\n",
+        "The value of File can be - or a filepath and optional parameters.\n",
+        "If the value of File is -, then commands are read from standard input.\n",
+        "Detail: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
+      ],
+      "next": [
+        {
+          "name": "-"
+        }
+      ]
+    },
+    {
+      "name": "-Command",
+      "alias": ["-c"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -Command <-|string|scriptBlock> [args]\n",
+        "The value of Command can be -, a script block, or a string.\n",
+        "If the value of Command is -, the command text is read from standard input.\n",
+        "Detail: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-command---c"
+      ],
+      "next": [
+        {
+          "name": "-"
+        }
+      ]
+    },
+    {
+      "name": "-CommandWithArgs",
+      "alias": ["-cwa"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -CommandWithArgs <string>\n",
+        "Executes a PowerShell command with arguments.\n",
+        "Unlike -Command, this parameter populates the $args built-in variable that can be used by the command.\n",
+        "The first string is the command. Additional strings delimited by whitespace are the arguments."
+      ]
+    },
+    {
+      "name": "-ConfigurationName",
+      "alias": ["-config"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -ConfigurationName <string>\n",
+        "Specifies a configuration endpoint in which PowerShell is run.\n",
+        "This can be any endpoint registered on the local machine including the default PowerShell remoting endpoints or a custom endpoint having specific user role capabilities."
+      ]
+    },
+    {
+      "name": "-ConfigurationFile",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -ConfigurationFile <filePath>\n",
+        "Specifies a session configuration (.pssc) file path.\n",
+        "The configuration contained in the configuration file will be applied to the PowerShell session."
+      ]
+    },
+    {
+      "name": "-CustomPipeName",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -CustomPipeName <string>\n",
+        "Specifies the name to use for an additional IPC server (named pipe) used for debugging and other cross-process communication.\n",
+        "This offers a predictable mechanism for connecting to other PowerShell instances.\n",
+        "Typically used with the CustomPipeName parameter on Enter-PSHostProcess."
+      ]
+    },
+    {
+      "name": "-EncodedCommand",
+      "alias": ["-e", "-ec"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -EncodedCommand <Base64EncodedCommand>\n",
+        "Accepts a Base64-encoded string version of a command.\n",
+        "Use this parameter to submit commands to PowerShell that require complex, nested quoting.\n",
+        "The Base64 representation must be a UTF-16LE encoded string."
+      ]
+    },
+    {
+      "name": "-ExecutionPolicy",
+      "alias": ["-ex", "-ep"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -ExecutionPolicy <ExecutionPolicy>\n",
+        "Sets the default execution policy for the current session and saves it in the $env:PSExecutionPolicyPreference environment variable.\n",
+        "This parameter does not change the persistently configured execution policies.\n",
+        "This parameter only applies to Windows computers. On non-Windows platforms, the parameter and the value provided are ignored."
+      ]
+    },
+    {
+      "name": "-InputFormat",
+      "alias": ["-inp", "-if"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -InputFormat <string>\n",
+        "Describes the format of data sent to PowerShell.\n",
+        "Valid values are \"Text\" (text strings) or \"XML\" (serialized CLIXML format)."
+      ],
+      "next": [
+        {
+          "name": "Text"
+        },
+        {
+          "name": "XML"
+        }
+      ]
+    },
+    {
+      "name": "-Interactive",
+      "alias": ["-i"],
+      "tip": [
+        "Present an interactive prompt to the user.\n",
+        "Inverse for NonInteractive parameter."
+      ]
+    },
+    {
+      "name": "-Login",
+      "alias": ["-l"],
+      "tip": [
+        "On Linux and macOS, starts PowerShell as a login shell, using /bin/sh to execute login profiles such as /etc/profile and ~/.profile.\n",
+        "On Windows, this switch does nothing."
+      ]
+    },
+    {
+      "name": "-MTA",
+      "tip": [
+        "Start PowerShell using a multi-threaded apartment.\n",
+        "This switch is only available on Windows. Using this parameter on non-Windows platforms results in an error."
+      ]
+    },
+    {
+      "name": "-NoExit",
+      "alias": ["-noe"],
+      "tip": [
+        "Doesn't exit after running startup commands.\n",
+        "E: pwsh -NoExit -Command Get-Date"
+      ]
+    },
+    {
+      "name": "-NoLogo",
+      "alias": ["-nol"],
+      "tip": "Hides the banner at startup of interactive sessions."
+    },
+    {
+      "name": "-NonInteractive",
+      "alias": ["-noni"],
+      "tip": [
+        "This switch is used to create sessions that shouldn't require user input.\n",
+        "This is useful for scripts that run in scheduled tasks or CI/CD pipelines.\n",
+        "Any attempts to use interactive features, like Read-Host or confirmation prompts, result in statement terminating errors rather than hanging."
+      ]
+    },
+    {
+      "name": "-NoProfile",
+      "alias": ["-nop"],
+      "tip": "Doesn't load the PowerShell profiles."
+    },
+    {
+      "name": "-NoProfileLoadTime",
+      "tip": "Hides the PowerShell profile load time text shown at startup when the load time exceeds 500 milliseconds."
+    },
+    {
+      "name": "-OutputFormat",
+      "alias": ["-o", "-of"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -OutputFormat <string>\n",
+        "Determines how output from PowerShell is formatted.\n",
+        "Valid values are \"Text\" (text strings) or \"XML\" (serialized CLIXML format)."
+      ],
+      "next": [
+        {
+          "name": "Text"
+        },
+        {
+          "name": "XML"
+        }
+      ]
+    },
+    {
+      "name": "-SettingsFile",
+      "alias": ["-settings"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -SettingsFile <filePath>\n",
+        "Overrides the system-wide powershell.config.json settings file for the session.\n",
+        "By default, system-wide settings are read from the powershell.config.json in the $PSHOME directory.\n",
+        "Note that these settings aren't used by the endpoint specified by the -ConfigurationName argument."
+      ]
+    },
+    {
+      "name": "-SSHServerMode",
+      "alias": ["-sshs"],
+      "tip": [
+        "Used in sshd_config for running PowerShell as an SSH subsystem.\n",
+        "It isn't intended or supported for any other use."
+      ]
+    },
+    {
+      "name": "-STA",
+      "tip": [
+        "Start PowerShell using a single-threaded apartment. This is the default.\n",
+        "This switch is only available on the Windows platform.\n",
+        "Using this parameter on non-Windows platforms results in an error."
+      ]
+    },
+    {
+      "name": "-WindowStyle",
+      "alias": ["-w"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -WindowStyle <style>\n",
+        "Sets the window style for the session.\n",
+        "Valid values are Normal, Minimized, Maximized and Hidden.\n",
+        "This parameter only applies to Windows. Using this parameter on non-Windows platforms results in an error."
+      ],
+      "next": [
+        {
+          "name": "Normal"
+        },
+        {
+          "name": "Hidden"
+        },
+        {
+          "name": "Minimized"
+        },
+        {
+          "name": "Maximized"
+        }
+      ]
+    },
+    {
+      "name": "-WorkingDirectory",
+      "alias": ["-wd", "-wo"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -WorkingDirectory <directoryPath>\n",
+        "Sets the initial working directory by executing at startup.\n",
+        "Any valid PowerShell file path is supported.\n",
+        "E: pwsh -WorkingDirectory ~"
+      ],
+      "next": [
+        {
+          "name": "~",
+          "tip": "The current user's home directory."
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": ["-v"],
+      "tip": "Show the version."
+    }
+  ],
+  "common_options": [
+    {
+      "name": "--help",
+      "alias": ["-h", "-?", "/?"],
+      "tip": "Show help."
+    }
+  ],
+  "info": {
+    "completion_info": {
+      "url": "https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh",
+      "description": "PowerShell cli. (pwsh.exe)"
+    }
+  }
+}

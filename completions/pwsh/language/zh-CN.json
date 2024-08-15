@@ -1,0 +1,266 @@
+{
+  "options": [
+    {
+      "name": "-File",
+      "alias": ["-f"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -File <filePath> [args]\n",
+        "File 的值可以是 -,文件路径和可选参数。如果值为 -，则从标准输入读取命令。\n",
+        "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
+      ],
+      "next": [
+        {
+          "name": "-"
+        }
+      ]
+    },
+    {
+      "name": "-Command",
+      "alias": ["-c"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -Command <-|string|scriptBlock> [args]\n",
+        "Command 的值可以是 -、脚本块或字符串。 如果 Command 的值为 -，则将从标准输入读取命令文本。\n",
+        "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-command---c"
+      ],
+      "next": [
+        {
+          "name": "-"
+        }
+      ]
+    },
+    {
+      "name": "-CommandWithArgs",
+      "alias": ["-cwa"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -CommandWithArgs <string>\n",
+        "使用参数执行 PowerShell 命令。\n",
+        "与 -Command 不同，此参数填充可供命令使用的 $args 内置 -i 变量。\n",
+        "第一个字符串是命令。 用空格分隔的其他字符串是参数。"
+      ]
+    },
+    {
+      "name": "-ConfigurationName",
+      "alias": ["-config"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -ConfigurationName <string>\n",
+        "指定运行 PowerShell 的配置终结点。\n",
+        "可以是在本地计算机上注册的任何终结点，包括默认 PowerShell 远程处理终结点或具有特定用户角色功能的自定义终结点。"
+      ]
+    },
+    {
+      "name": "-ConfigurationFile",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -ConfigurationFile <filePath>\n",
+        "指定会话配置 (.pssc) 文件路径。\n",
+        "配置文件中包含的配置将应用于 PowerShell 会话。"
+      ]
+    },
+    {
+      "name": "-CustomPipeName",
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -CustomPipeName <string>\n",
+        "指定要用于调试和其他跨进程通信的其他 IPC 服务器（命名管道）的名称。\n",
+        "这提供了连接到其他 PowerShell 实例的可预测机制。\n",
+        "通常与 Enter-PSHostProcess 上的 CustomPipeName 参数一起使用。"
+      ]
+    },
+    {
+      "name": "-EncodedCommand",
+      "alias": ["-e", "-ec"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -EncodedCommand <Base64EncodedCommand>\n",
+        "接受命令的 Base-e64 编码字符串版本。\n",
+        "使用此参数将命令提交到需要复杂嵌套引用的 PowerShell。\n",
+        "Base64 表示形式必须是 UTF-16LE 编码的字符串。"
+      ]
+    },
+    {
+      "name": "-ExecutionPolicy",
+      "alias": ["-ex", "-ep"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -ExecutionPolicy <ExecutionPolicy>\n",
+        "为当前会话设置默认执行策略，并将其保存在 $env:PSExecutionPolicyPreference 环境变量中。\n",
+        "此参数不会更改持久配置的执行策略。\n",
+        "此参数仅适用于 Windows 计算机。在非 Windows 平台上，将忽略提供的参数和值。"
+      ]
+    },
+    {
+      "name": "-InputFormat",
+      "alias": ["-inp", "-if"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -InputFormat <string>\n",
+        "描述发送到 PowerShell 的数据格式。\n",
+        "有效值为 Text (文本字符串) 或 XML (序列化 CLIXML 格式)。"
+      ],
+      "next": [
+        {
+          "name": "Text"
+        },
+        {
+          "name": "XML"
+        }
+      ]
+    },
+    {
+      "name": "-Interactive",
+      "alias": ["-i"],
+      "tip": ["向用户显示交互式提示。\n", "NonInteractive 参数的反函数。"]
+    },
+    {
+      "name": "-Login",
+      "alias": ["-l"],
+      "tip": [
+        "在 Linux 和 macOS 上，使用 /bin/sh 以登录 shell 的形式启动 PowerShell，以执行 /etc/profile 和 ~/.profile 等登录配置文件。\n",
+        "在 Windows 上，此开关不执行任何操作。"
+      ]
+    },
+    {
+      "name": "-MTA",
+      "tip": [
+        "使用多线程单元启动 PowerShell。\n",
+        "此开关仅在 Windows 上可用。在非 Windows 平台上使用此参数会导致错误。"
+      ]
+    },
+    {
+      "name": "-NoExit",
+      "alias": ["-noe"],
+      "tip": ["运行启动命令后不退出。\n", "E: pwsh -NoExit -Command Get-Date"]
+    },
+    {
+      "name": "-NoLogo",
+      "alias": ["-nol"],
+      "tip": "在交互式会话启动时隐藏横幅。"
+    },
+    {
+      "name": "-NonInteractive",
+      "alias": ["-noni"],
+      "tip": [
+        "此开关用于创建不应要求用户输入的会话。 \n",
+        "这对于在计划任务或 CI/CD 管道中运行的脚本非常有用。\n",
+        "任何尝试使用交互式功能（如 Read-Host 或确认提示）都会导致语句终止错误而不是挂起。"
+      ]
+    },
+    {
+      "name": "-NoProfile",
+      "alias": ["-nop"],
+      "tip": "不加载 PowerShell 配置文件。"
+    },
+    {
+      "name": "-NoProfileLoadTime",
+      "tip": "当加载时间超过 500 毫秒时，隐藏启动时显示的 PowerShell 配置文件加载时间文本。"
+    },
+    {
+      "name": "-OutputFormat",
+      "alias": ["-o", "-of"],
+      "symbol": ["WriteSpaceTab", "SpaceTab"],
+      "tip": [
+        "U: -OutputFormat <string>\n",
+        "确定 PowerShell 输出内容的格式。\n",
+        "有效值为 Text (文本字符串) 或 XML (序列化 CLIXML 格式)。"
+      ],
+      "next": [
+        {
+          "name": "Text"
+        },
+        {
+          "name": "XML"
+        }
+      ]
+    },
+    {
+      "name": "-SettingsFile",
+      "alias": ["-settings"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -SettingsFile <filePath>\n",
+        "替代会话的 system-wide powershell.config.json 设置文件。\n",
+        "默认情况下，system-wide 设置从 $PSHOME 目录中的 powershell.config.json 读取。\n",
+        "请注意，-ConfigurationName 参数指定的终结点不使用这些设置。"
+      ]
+    },
+    {
+      "name": "-SSHServerMode",
+      "alias": ["-sshs"],
+      "tip": [
+        "在 sshd_config 中用于将 PowerShell 作为 SSH 子系统运行。\n",
+        " 不用于任何其他用途或不受支持。"
+      ]
+    },
+    {
+      "name": "-STA",
+      "tip": [
+        "使用单线程单元启动 PowerShell。这是默认情况。\n",
+        "此开关仅在 Windows 平台上可用。在非 Windows 平台上使用此参数会导致错误。\n"
+      ]
+    },
+    {
+      "name": "-WindowStyle",
+      "alias": ["-w"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -WindowStyle <style>\n",
+        "为会话设置窗口样式。\n",
+        "有效值包括 Normal、Minimized、Maximized 和 Hidden。\n",
+        "在非 Windows 平台上使用此参数会导致错误。"
+      ],
+      "next": [
+        {
+          "name": "Normal"
+        },
+        {
+          "name": "Hidden"
+        },
+        {
+          "name": "Minimized"
+        },
+        {
+          "name": "Maximized"
+        }
+      ]
+    },
+    {
+      "name": "-WorkingDirectory",
+      "alias": ["-wd", "-wo"],
+      "symbol": "WriteSpaceTab",
+      "tip": [
+        "U: -WorkingDirectory <directoryPath>\n",
+        "通过在启动时执行来设置初始工作目录。\n",
+        "支持任何有效的 PowerShell 文件路径。\n",
+        "E: pwsh -WorkingDirectory ~"
+      ],
+      "next": [
+        {
+          "name": "~",
+          "tip": "当前用户的 home 目录。"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": ["-v"],
+      "tip": "显示版本信息"
+    }
+  ],
+  "common_options": [
+    {
+      "name": "--help",
+      "alias": ["-h", "-?", "/?"],
+      "tip": "显示帮助信息"
+    }
+  ],
+  "info": {
+    "completion_info": {
+      "url": "https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh",
+      "description": "PowerShell cli. (pwsh.exe)"
+    }
+  }
+}
