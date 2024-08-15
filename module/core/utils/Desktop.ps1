@@ -150,20 +150,21 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
             # check update
             if ($PSCompletions.config.update -eq 1) {
-                $update_list = [System.Collections.Generic.List[string]]@()
-                foreach ($_ in Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue | Where-Object { $_.Name -in $PSCompletions.list }) {
+                $update_list = @()
+                foreach ($_ in (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })) {
                     try {
                         $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$($_.Name)/guid.txt"
                         $content = $response.Content.Trim()
                         $guid = get_raw_content "$($PSCompletions.path.completions)/$($_.Name)/guid.txt"
-                        if ($guid -ne $content) { $update_list.Add($_.Name) }
+                        if ($guid -ne $content -and $content -match "^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$") {
+                            $update_list += $_.Name
+                        }
                     }
                     catch {}
                 }
                 if ($update_list) { $update_list | Out-File $PSCompletions.path.update -Force -Encoding utf8 }
                 else { Clear-Content $PSCompletions.path.update -Force }
             }
-
         } -ArgumentList $PSCompletions
 
         $PSCompletions.wc = New-Object System.Net.WebClient
@@ -240,9 +241,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         }
 
         $completion_datas = @{}
-        Get-ChildItem $PSCompletions.path.completions -Include "order.json" -File -Recurse | Where-Object {
-            $_.LastWriteTime -gt (Get-Date).AddMonths(-1)
-        } | ForEach-Object {
+        $time = (Get-Date).AddMonths(-6)
+        $filter = (Get-ChildItem $PSCompletions.path.completions -Filter "order.json" -File -Recurse).Where({ $_.LastWriteTime -gt $time })
+        foreach ($_ in $filter) {
             $cmd = Split-Path (Split-Path $_.FullName -Parent) -Leaf
             if ($cmd -in $PSCompletions.cmd.Keys) {
                 $language = get_language $cmd
@@ -272,11 +273,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             $order.$($_.name -join ' ') = $index
             $index++
         }
-        $historys = [System.Collections.Generic.List[string]]@()
+        $historys = @()
         foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
             foreach ($alias in $PSCompletions.cmd.$root) {
                 if ($_ -match "^[^\S\n]*$($alias)\s+.+") {
-                    $historys.Add($_)
+                    $historys += $_
                     break
                 }
             }
@@ -297,8 +298,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         }
         foreach ($_ in $historys) {
             $matches = [regex]::Matches($_, "(?:`"[^`"]*`"|'[^']*'|\S)+")
-            $cmd = [System.Collections.Generic.List[string]]@()
-            foreach ($m in $matches) { $cmd.Add($m.Value) }
+            $cmd = @()
+            foreach ($m in $matches) { $cmd += $m.Value }
             if ($cmd.Count -gt 1) {
                 handle_order $cmd[1..($cmd.Count - 1)]
                 $index--

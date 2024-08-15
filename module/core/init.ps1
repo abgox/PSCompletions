@@ -3,7 +3,7 @@
 New-Variable -Name PSCompletions -Value @{} -Option ReadOnly
 
 # 模块版本
-$PSCompletions.version = '4.2.8'
+$PSCompletions.version = '4.2.9'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -103,6 +103,7 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
 }
 
 . $PSScriptRoot\config.ps1
+. $PSScriptRoot\completion\utils.ps1
 
 if ($PSEdition -eq "Core" -and !$IsWindows) {
     # WSL/Unix...
@@ -132,9 +133,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod split_array {
     else {
         $ChunkSize = $count
     }
-    $chunks = @()
-    for ($i = 0; $i -lt $array.Length; $i += $ChunkSize) {
-        $chunks += , ($array[$i..([math]::Min($i + $ChunkSize - 1, $array.Length - 1))])
+    $chunks = for ($i = 0; $i -lt $array.Length; $i += $ChunkSize) {
+        , ($array[$i..([math]::Min($i + $ChunkSize - 1, $array.Length - 1))])
     }
     $chunks
 }
@@ -176,9 +176,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
     param ([string]$path)
-    $res = Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' }
+    $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
     if ($res) { return $res }
-    New-Object System.Collections.ArrayList
+    , @()
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content {
     param ([string]$path, [bool]$trim = $true)
@@ -203,7 +203,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color
     param([string]$str)
     $color_list = @()
     $str = $str -replace "`n", 'n&&_n_n&&'
-    $str_list = foreach ($_ in $str -split '(<\@[^>]+>.*?(?=<\@|$))' | Where-Object { $_ -ne '' }) {
+    $str_list = foreach ($_ in ($str -split '(<\@[^>]+>.*?(?=<\@|$))').Where({ $_ -ne '' })) {
         if ($_ -match '<\@([\s\w]+)>(.*)') {
             ($matches[2] -replace 'n&&_n_n&&', "`n") -replace '^<\@>', ''
             $color = $matches[1] -split ' '
@@ -613,9 +613,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                     param($paths, $this)
                     function get_content {
                         param ([string]$path)
-                        $res = Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue | Where-Object { $_ -ne '' }
+                        $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where( { $_ -ne '' })
                         if ($res) { return $res }
-                        New-Object System.Collections.ArrayList
+                        , @()
                     }
                     foreach ($path in $paths) {
                         $name = $path.Name
@@ -761,7 +761,7 @@ if ($PSCompletions.is_first_init) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
 }
 
-foreach ($_ in $PSCompletions.cmd.keys | Where-Object { $_ -ne 'psc' }) {
+foreach ($_ in $PSCompletions.cmd.Keys.Where({ $_ -ne 'psc' })) {
     <#
         这里使用 PowerShell 的内置变量 $args 作为临时变量
         虽然 $args 不是一个有意义的变量名，但是它的特性很适合作为一个不污染全局的临时变量

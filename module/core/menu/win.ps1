@@ -101,16 +101,16 @@
                     CompletionText = $result.CompletionText
                     ToolTip        = $result.ToolTip
                 }
-                $this.origin_filter_list.Add($result)
-                $this.filter_list.Add($result)
+                $this.origin_filter_list += $result
+                $this.filter_list += $result
             }
         }
         $runspacePool.Close()
         $runspacePool.Dispose()
     }
     else {
-        $this.origin_filter_list = $filter_list
-        $this.filter_list = $filter_list
+        $this.origin_filter_list = [array]$filter_list
+        $this.filter_list = [array]$filter_list
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list {
@@ -370,7 +370,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     }
 
     $old_top = New-Object System.Management.Automation.Host.Coordinates $X, $Y
-    $old_bottom = New-Object System.Management.Automation.Host.Coordinates $Host.UI.RawUI.BufferSize.Width, ($Y + 1)
+    $old_bottom = New-Object System.Management.Automation.Host.Coordinates $Host.UI.RawUI.BufferSize.Width, $Y
 
     $old_buffer = $Host.UI.RawUI.GetBufferContents((New-Object System.Management.Automation.Host.Rectangle $old_top, $old_bottom))
 
@@ -483,11 +483,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
         buffer = $LineBuffer
     }
     # 给原本的内容设置颜色和背景颜色
-    # 如果补全项出现多字节字符，就会裁切出 Trailing 类型字符
-    # 如果不去掉 Trailing 类型字符的话，菜单渲染问题挺大
-    # 去掉后，有多字节字符的行尾的菜单边框会消失，不过在可接受的范围内
+    # 对于多字节字符，会过滤掉 Trailing 类型字符以确保正确渲染
+    $content = foreach ($i in $LineBuffer.Where({ $_.BufferCellType -ne "Trailing" })) { $i.Character }
     $LineBuffer = $Host.UI.RawUI.NewBufferCellArray(
-        @([string]::Join('', ($LineBuffer | Where-Object { $_.BufferCellType -ne "Trailing" } | ForEach-Object { $_.Character }))),
+        @([string]::Join('', $content)),
         $PSCompletions.config.menu_color_selected_text,
         $PSCompletions.config.menu_color_selected_back
     )
@@ -550,11 +549,11 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_comp
     else {
         $match = "*$($this.filter)*"
     }
-    $this.filter_list = [System.Collections.Generic.List[System.Object]]@()
+    $this.filter_list = @()
 
     foreach ($f in $filter_list) {
         if ($f.CompletionText -and $f.CompletionText -like $match) {
-            $this.filter_list.Add($f)
+            $this.filter_list += $f
         }
     }
 }
@@ -637,8 +636,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $this.reset($true, $is_menu_enhance)
 
-    $this.origin_filter_list = [System.Collections.Generic.List[System.Object]]@()
-    $this.filter_list = [System.Collections.Generic.List[System.Object]]@()
+    $this.origin_filter_list = @()
+    $this.filter_list = @()
     $this.handle_list_first($filter_list)
 
     if ($PSCompletions.config.enter_when_single -and $this.filter_list.Count -eq 1) {
@@ -667,7 +666,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         },
         @{
             X = $Host.ui.RawUI.BufferSize.Width
-            Y = $this.pos.Y + $this.ui_size.height
+            Y = $this.pos.Y + $this.ui_size.height - 1
         })
 
     if ($this.is_show_tip) { $this.get_old_tip_buffer($this.pos_tip.X, $this.pos_tip.Y) }

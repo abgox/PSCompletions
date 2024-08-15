@@ -132,7 +132,7 @@
         }
     }
     function _update {
-        $completion_list = $PSCompletions.cmd.keys | Where-Object { $_ -in $PSCompletions.list }
+        $completion_list = $PSCompletions.cmd.keys.Where({ $_ -in $PSCompletions.list })
 
         if ($arg.Length -lt 2) {
             # 如果只是使用 psc update 则检查更新
@@ -142,7 +142,7 @@
                     $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$($completion)/guid.txt"
                     $content = $response.Content.Trim()
                     $guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/guid.txt")
-                    if ($guid -ne $content) { $need_update_list.Add($completion) }
+                    if ($guid -ne $content -and $content -match "^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$") { $need_update_list.Add($completion) }
                 }
                 catch {  }
             }
@@ -168,7 +168,7 @@
                     }
                 }
             }
-            $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update) | Where-Object { $_ -notin $updated_list }
+            $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update).Where({ $_ -notin $updated_list })
         }
 
         if ($PSCompletions.update) {
@@ -192,7 +192,7 @@
             $PSCompletions.write_with_color((_replace $PSCompletions.info.err.download_list))
             return
         }
-        $result = $PSCompletions.list | Where-Object { $_ -like $arg[1] }
+        $result = $PSCompletions.list.Where({ $_ -like $arg[1] })
         if ($result) {
             $PSCompletions.show_with_less($result, 'Cyan')
         }
@@ -291,7 +291,7 @@
                         $path_alias = "$($PSCompletions.path.completions)/$($PSCompletions.alias.$alias)/alias.txt"
                         $alias_list = $PSCompletions.get_content($path_alias)
                         if ($alias_list.Count -gt 1) {
-                            $alias_list | Where-Object { $_ -ne $alias } | Out-File $path_alias -Force -Encoding utf8
+                            $alias_list.Where({ $_ -ne $alias }) | Out-File $path_alias -Force -Encoding utf8
                             $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.done))
                         }
                         else {
@@ -402,7 +402,7 @@
         $config_list = @('language', 'menu_show_tip')
 
         if ($arg[2] -notin $config_list -and $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) -eq $null) {
-            $cmd_list = $config_list + ($PSCompletions.config.comp_config.$($arg[1]).keys | Where-Object { $_ -notin $config_list })
+            $cmd_list = $config_list + ($PSCompletions.config.comp_config.$($arg[1]).keys.Where({ $_ -notin $config_list }))
             $sub_cmd = $arg[2]
             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
             return
