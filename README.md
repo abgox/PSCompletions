@@ -280,7 +280,7 @@
 |[nvm](https://github.com/nvm-sh/nvm)|**en-US**<br>**zh-CN(100%)**|nvm - Node Version Manager|
 |[od](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(7.41%)~~**|Dump files in octal and other formats.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
 |[paste](https://github.com/uutils/coreutils)|**en-US**<br>**~~zh-CN(33.33%)~~**|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br> Come from [uutils/coreutils](https://github.com/uutils/coreutils)|
-|[pdm](https://github.com/pdm-project/pdm)|**en-US**<br>**~~zh-CN(8.86%)~~**|A modern Python package and dependency manager supporting the latest PEP standards|
+|[pdm](https://github.com/pdm-project/pdm)|**en-US**<br>**~~zh-CN(0.82%)~~**|A modern Python package and dependency manager supporting the latest PEP standards|
 |[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(100%)**|pip - Python Package Manager|
 |[pnpm](https://pnpm.io/)|**en-US**<br>**zh-CN(100%)**|pnpm - Package Manager|
 |[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|**en-US**<br>**zh-CN(100%)**|Windows PowerShell CLI. (powershell.exe)|
