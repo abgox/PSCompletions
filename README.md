@@ -49,6 +49,9 @@
 
 **If this project is helpful to you, please consider giving it a star ⭐.**
 
+## what's new
+please refer to [changelog](./module/CHANGELOG.md)
+
 ## How to install
 
 1. Start `PowerShell`

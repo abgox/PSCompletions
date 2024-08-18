@@ -49,6 +49,9 @@
 
 **如果 PSCompletions 对你有所帮助，请在右上角点个 Star ⭐**
 
+## 新功能
+请查阅[更新日志](./module/CHANGELOG-CN.md)
+
 ## 安装
 
 1. 打开 `PowerShell`
