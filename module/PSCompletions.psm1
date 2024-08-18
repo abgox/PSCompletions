@@ -692,7 +692,7 @@
                             return
                         }
                     }
-                    { $_ -in @('menu_enable', 'menu_show_tip', 'menu_list_follow_cursor', 'menu_tip_follow_cursor', 'menu_list_cover_buffer', 'menu_tip_cover_buffer', 'menu_is_prefix_match', 'menu_selection_with_margin', 'enter_when_single', 'menu_completions_sort', 'menu_enhance', 'menu_show_tip_when_enhance') } {
+                    { $_ -in @('menu_enable', 'menu_show_tip', 'menu_list_follow_cursor', 'menu_tip_follow_cursor', 'menu_list_cover_buffer', 'menu_tip_cover_buffer', 'menu_is_prefix_match', 'menu_is_loop', 'menu_selection_with_margin', 'enter_when_single', 'menu_completions_sort', 'menu_enhance', 'menu_show_tip_when_enhance') } {
                         if (!$is_num -or $arg[3] -notin @(1, 0)) {
                             $cmd_list = $null
                             $sub_cmd = $arg[3]

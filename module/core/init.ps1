@@ -45,6 +45,7 @@ $PSCompletions.menu = @{
             "menu_list_follow_cursor",
             "menu_tip_follow_cursor",
             "menu_is_prefix_match",
+            "menu_is_loop",
             "enter_when_single",
             "menu_selection_with_margin",
             "menu_completions_sort"
