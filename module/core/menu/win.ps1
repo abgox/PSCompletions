@@ -629,7 +629,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
-    param([array]$filter_list, [bool]$is_menu_enhance)
+    param($filter_list, [bool]$is_menu_enhance)
 
     if (!$filter_list) { return }
 
