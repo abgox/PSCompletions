@@ -493,40 +493,53 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
     $Host.UI.RawUI.SetBufferContents(@{ X = $X; Y = $Y }, $LineBuffer)
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_selection {
-    param([int]$moveDirection)
+    param([bool]$isDown)
 
-    $MOVE_UP = -1
-    $MOVE_DOWN = 1
+    $moveDirection = if ($isDown) { 1 } else { -1 }
 
-    if ($moveDirection -notin @($MOVE_UP, $MOVE_DOWN)) {
-        throw "Invalid move direction. Use $MOVE_UP for up or $MOVE_DOWN for down."
-    }
-
-    $is_scroll = $false
-    $is_move = $false
-
-    if ($moveDirection -eq $MOVE_DOWN) {
-        $is_move = $this.page_current_index -lt $this.page_max_index
+    $is_move = if ($isDown) {
+        $this.page_current_index -lt $this.page_max_index
     }
     else {
-        $is_move = $this.page_current_index -gt 0
+        $this.page_current_index -gt 0
     }
-    $is_scroll = !$is_move
-    
-    $this.selected_index = ($this.selected_index + $moveDirection + $this.filter_list.Count) % $this.filter_list.Count
+
+    $new_selected_index = $this.selected_index + $moveDirection
+
+    if ($PSCompletions.config.menu_is_loop) {
+        $this.selected_index = ($new_selected_index + $this.filter_list.Count) % $this.filter_list.Count
+    }
+    else {
+        # Handle no loop
+        $this.selected_index = if ($new_selected_index -lt 0) {
+            0
+        }
+        elseif ($new_selected_index -ge $this.filter_list.Count) {
+            $this.filter_list.Count - 1
+        }
+        else {
+            $new_selected_index
+        }
+    }
 
     if ($is_move) {
-        $this.page_current_index = ($this.page_current_index + $moveDirection + $this.page_max_index + 1) % ($this.page_max_index + 1)
+        $this.page_current_index = ($this.page_current_index + $moveDirection) % ($this.page_max_index + 1)
+        if ($this.page_current_index -lt 0) {
+            $this.page_current_index += $this.page_max_index + 1
+        }
     }
-    if ($is_scroll) {
-        if ($moveDirection -eq $MOVE_UP -and $this.selected_index -eq $this.filter_list.Count - 1) {
+    elseif ($PSCompletions.config.menu_is_loop -or ($new_selected_index -ge 0 -and $new_selected_index -lt $this.filter_list.Count)) {
+        if (!$isDown -and $this.selected_index -eq $this.filter_list.Count - 1) {
             $this.page_current_index += $this.page_max_index
         }
-        elseif ($moveDirection -eq $MOVE_DOWN -and $this.selected_index -eq 0) {
+        elseif ($isDown -and $this.selected_index -eq 0) {
             $this.page_current_index -= $this.page_max_index
         }
 
-        $this.offset = ($this.offset + $moveDirection + $this.filter_list.Count - $this.page_max_index) % ($this.filter_list.Count - $this.page_max_index)
+        $this.offset = ($this.offset + $moveDirection) % ($this.filter_list.Count - $this.page_max_index)
+        if ($this.offset -lt 0) {
+            $this.offset += $this.filter_list.Count - $this.page_max_index
+        }
 
         $this.new_list_buffer($this.offset)
         $this.old_selection = $null
@@ -695,14 +708,14 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                 { $_ -eq 85 -or $_ -eq 80 } {
                     # 85: Ctrl + u
                     # 80: Ctrl + p
-                    $this.move_selection(-1)
+                    $this.move_selection($false)
                     break
                 }
 
                 { $_ -eq 68 -or $_ -eq 78 } {
                     # 68: Ctrl + d
                     # 78: Ctrl + n
-                    $this.move_selection(1)
+                    $this.move_selection($true)
                     break
                 }
             }
@@ -718,11 +731,11 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                 }
                 if ($shift_pressed) {
                     # Up
-                    $this.move_selection(-1)
+                    $this.move_selection($false)
                 }
                 else {
                     # Down
-                    $this.move_selection(1)
+                    $this.move_selection($true)
                 }
                 break
             }
@@ -743,14 +756,14 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             # 37: Up
             # 38: Left
             { $_ -in @(37, 38) } {
-                $this.move_selection(-1)
+                $this.move_selection($false)
                 break
             }
             # 向下
             # 39: Right
             # 40: Down
             { $_ -in @(39, 40) } {
-                $this.move_selection(1)
+                $this.move_selection($true)
                 break
             }
             # Character/Backspace
