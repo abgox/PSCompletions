@@ -54,12 +54,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 $json = get_raw_content $path | ConvertFrom-Json
                 $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
                 $json = get_raw_content $path | ConvertFrom-Json -AsHashtable
-                if ($json.config) {
-                    foreach ($item in $json.config) {
-                        if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
-                            $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
-                            $need_update_config = $true
-                        }
+                foreach ($item in $json.config) {
+                    if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
+                        $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
+                        $need_update_config = $true
                     }
                 }
             }

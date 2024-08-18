@@ -17,15 +17,13 @@
 
     $common_options = @()
     $common_options_with_next = @()
-    if ($PSCompletions.data.$root.common_options) {
-        foreach ($_ in $PSCompletions.data.$root.common_options) {
-            foreach ($a in $_.alias) {
-                $common_options += $a
-                if ($_.next) { $common_options_with_next += $a }
-            }
-            $common_options += $_.name
-            if ($_.next) { $common_options_with_next += $_.name }
+    foreach ($_ in $PSCompletions.data.$root.common_options) {
+        foreach ($a in $_.alias) {
+            $common_options += $a
+            if ($_.next) { $common_options_with_next += $a }
         }
+        $common_options += $_.name
+        if ($_.next) { $common_options_with_next += $_.name }
     }
     $PSCompletions.temp_WriteSpaceTab = @()
     $PSCompletions.temp_WriteSpaceTab += $common_options_with_next
@@ -42,19 +40,16 @@
         $runspacePool.Open()
         $runspaces = @()
 
-        $tasks = @()
-        if ($PSCompletions.data.$root.root) {
-            $tasks += @{
+        $tasks = @(
+            @{
                 node     = $PSCompletions.data.$root.root
                 isOption = $false
-            }
-        }
-        if ($PSCompletions.data.$root.options) {
-            $tasks += @{
+            },
+            @{
                 node     = $PSCompletions.data.$root.options
                 isOption = $true
             }
-        }
+        )
         foreach ($task in $tasks) {
             $runspace = [powershell]::Create().AddScript({
                     param($obj, $PSCompletions)
@@ -66,7 +61,7 @@
                     }
                     function _replace {
                         param ($data, $separator = '')
-                        $data = ($data -join $separator)
+                        $data = $data -join $separator
                         $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
                         $matches = [regex]::Matches($data, $pattern)
                         foreach ($match in $matches) {
@@ -135,8 +130,8 @@
                                         # 判断别名出现的位置
                                         $index = (($pre + $pad + $_.name) -split ' ').Length - 1
                                         # 用这个位置创建一个数组，将所有在这个位置出现的别名全部写入这个数组
-                                        if (!($_alias_map[$index])) { $_alias_map[$index] = @() }
-                                        $_alias_map[$index] += @{
+                                        if (!$_alias_map.$index) { $_alias_map.$index = @() }
+                                        $_alias_map.$index += @{
                                             name  = $_.name
                                             alias = $a
                                         }
@@ -172,11 +167,11 @@
             $PSCompletions.temp_WriteSpaceTab += $result.temp.WriteSpaceTab
             $PSCompletions.temp_WriteSpaceTab_and_SpaceTab += $result.temp.WriteSpaceTab_and_SpaceTab
             foreach ($a in $result.alias_map.Keys) {
-                if ($alias_map[$a]) {
-                    $alias_map[$a] += $result.alias_map[$a]
+                if ($alias_map.$a) {
+                    $alias_map.$a += $result.alias_map.$a
                 }
                 else {
-                    $alias_map[$a] = $result.alias_map[$a]
+                    $alias_map.$a = $result.alias_map.$a
                 }
             }
         }
@@ -232,12 +227,10 @@
         # 循环命令的长度，针对每一个位置去 $alias_map 找到对应的数组，然后把数组里的值拿出来比对，如果有匹配的，替换掉原来的命令名
         # 用位置的好处是，这样遍历是依赖于命令的长度，而命令长度一般不长
         for ($i = 0; $i -lt $filter_input_arr.Count; $i++) {
-            if ($alias_map[$i]) {
-                foreach ($obj in $alias_map[$i]) {
-                    if ($obj.alias -eq $filter_input_arr[$i]) {
-                        $alias_input_arr[$i] = $obj.name
-                        break
-                    }
+            foreach ($obj in $alias_map.$i) {
+                if ($obj.alias -eq $filter_input_arr[$i]) {
+                    $alias_input_arr[$i] = $obj.name
+                    break
                 }
             }
         }

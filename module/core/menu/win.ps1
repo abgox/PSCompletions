@@ -52,7 +52,7 @@
             }
             function _replace {
                 param ($data, $separator = '')
-                $data = ($data -join $separator)
+                $data = $data -join $separator
                 $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
                 $matches = [regex]::Matches($data, $pattern)
                 foreach ($match in $matches) {

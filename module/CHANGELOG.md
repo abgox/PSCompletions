@@ -3,6 +3,12 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.3.1 (2024/8/18)
+
+- Add a configuration item `menu_is_loop`, controlling whether the menu is looped, with a default value of `1`.
+  - Disable it: `psc menu config menu_is_loop 0`
+- Optimize the migration logic of old versions.
+
 ## 4.3.0 (2024/8/15)
 
 - Fix module update issue in `Windows PowerShell`.
@@ -80,13 +86,13 @@
   1. `menu_trigger_key`: Default value is `Tab`, which is used to set the trigger key of the completion menu.
      - Setting: `psc menu config menu_trigger_key <key>`
   2. `menu_enhance`: Default value is `1`, which is used to enable or disable the enhanced completion menu feature.
-     - Setting: `psc menu config menu_enhance 1`
+     - Disable it: `psc menu config menu_enhance 0`
      - When enabled, `PSCompletions` will intercept all completions and uses the completion menu provided by `PSCompletions` to render completions.
      - For example, commands such as `Get-*`, `Set-*` in `PowerShell` will use the completion menu provided by `PSCompletions` to render the completion.
      - Note: This setting only takes effect if `menu_enable` is also enabled.
      - [About menu enhance](../README.md#about-menu-enhance)
   3. `menu_show_tip_when_enhance`: Default value is `1`, which is used to control whether to show command tips for completions that are not added through `psc add`.
-     - Setting: `psc menu config menu_show_tip_when_enhance 1`
+     - Disable it: `psc menu config menu_show_tip_when_enhance 0`
      - Use together with `menu_enhance`.
 
 - Fix an issue where multi-byte characters(such as Chinese characters) could cause partial rendering errors in the menu.

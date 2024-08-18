@@ -4,7 +4,7 @@
     # ? 由于此处使用 $PSCompletions.replace_content 会导致其无法使用外部变量，所以重新定义一个函数以供使用
     function _replace {
         param ($data, $separator = '')
-        $data = ($data -join $separator)
+        $data = $data -join $separator
         $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
         $matches = [regex]::Matches($data, $pattern)
         foreach ($match in $matches) {
