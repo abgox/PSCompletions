@@ -3,6 +3,12 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 4.3.1 (2024/8/18)
+
+- 添加一个配置项 `menu_is_loop`, 控制是否循环显示菜单，默认值为 `1`
+  - 禁用它: `psc menu config menu_is_loop 0`
+- 优化旧版本的迁移逻辑
+
 ## 4.3.0 (2024/8/15)
 
 - 修复在 `Windows PowerShell` 中的模块更新问题
@@ -83,7 +89,7 @@
      - 设置: `psc menu config menu_trigger_key <key>`
   2. `menu_enhance`: 默认值为 `1`, 用于设置是否启用补全菜单增强功能
 
-     - 设置: `psc menu config menu_enhance 1`
+     - 禁用它: `psc menu config menu_enhance 0`
      - 开启后，`PSCompletions` 会拦截所有补全，并使用 `PSCompletions` 提供的补全菜单渲染补全
      - 比如，`PowerShell` 中的 `Get-*`,`Set-*` 等命令都会使用 `PSCompletions` 提供的补全菜单渲染补全
      - 需要注意，此配置项生效的前提是启用了 `menu_enable`
@@ -91,7 +97,7 @@
 
   3. `menu_show_tip_when_enhance`: 默认值为 `1`, 设置不是通过 `psc add` 添加的补全，是否显示命令提示信息
 
-     - 设置: `psc menu config menu_show_tip_when_enhance 1`
+     - 禁用它: `psc menu config menu_show_tip_when_enhance 0`
      - 和 `menu_enhance` 一起使用
 
 - 解决了多字节文字可能导致菜单出现部分渲染错误的问题

@@ -55,6 +55,7 @@ $PSCompletions.default.menu_config = @{
     menu_list_margin_right       = 0
     menu_list_min_width          = 10
     menu_is_prefix_match         = 0
+    menu_is_loop                 = 1
     menu_above_margin_bottom     = 0
     menu_above_list_max_count    = -1
     menu_below_list_max_count    = -1
