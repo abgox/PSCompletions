@@ -493,40 +493,45 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
     $Host.UI.RawUI.SetBufferContents(@{ X = $X; Y = $Y }, $LineBuffer)
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_selection {
-    param([int]$count)
+    param([int]$moveDirection)
+
+    $MOVE_UP = -1
+    $MOVE_DOWN = 1
+
+    if ($moveDirection -notin @($MOVE_UP, $MOVE_DOWN)) {
+        throw "Invalid move direction. Use $MOVE_UP for up or $MOVE_DOWN for down."
+    }
+
     $is_scroll = $false
     $is_move = $false
-    if ($this.selected_index + $count -ge 0 -and $this.selected_index + $count -le ($this.filter_list.Count - 1) ) {
-        if ($count -gt 0) {
-            if ($this.page_current_index -ge $this.page_max_index) {
-                $is_scroll = $true
-            }
-            else {
-                $is_move = $true
-            }
-        }
-        else {
-            if ($this.page_current_index -le 0) {
-                $is_scroll = $true
-            }
-            else {
-                $is_move = $true
-            }
-        }
+
+    if ($moveDirection -eq $MOVE_DOWN) {
+        $is_move = $this.page_current_index -lt $this.page_max_index
     }
+    else {
+        $is_move = $this.page_current_index -gt 0
+    }
+    $is_scroll = !$is_move
+    
+    $this.selected_index = ($this.selected_index + $moveDirection + $this.filter_list.Count) % $this.filter_list.Count
+
     if ($is_move) {
-        $this.page_current_index += $count
-        $this.selected_index += $count
-        $this.set_selection()
+        $this.page_current_index = ($this.page_current_index + $moveDirection + $this.page_max_index + 1) % ($this.page_max_index + 1)
     }
     if ($is_scroll) {
-        $this.selected_index += $count
-        $this.offset += $count
-        $this.new_list_buffer($this.offset)
+        if ($moveDirection -eq $MOVE_UP -and $this.selected_index -eq $this.filter_list.Count - 1) {
+            $this.page_current_index += $this.page_max_index
+        }
+        elseif ($moveDirection -eq $MOVE_DOWN -and $this.selected_index -eq 0) {
+            $this.page_current_index -= $this.page_max_index
+        }
 
+        $this.offset = ($this.offset + $moveDirection + $this.filter_list.Count - $this.page_max_index) % ($this.filter_list.Count - $this.page_max_index)
+
+        $this.new_list_buffer($this.offset)
         $this.old_selection = $null
-        $this.set_selection()
     }
+    $this.set_selection()
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_prefix {
     $prefix = $this.filter_list[-1].CompletionText
