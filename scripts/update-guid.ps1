@@ -1,13 +1,19 @@
-﻿param([string]$path)
+﻿param([array]$completion_list)
 
-if (Test-Path $path) {
-    if ((Get-Item $path).Extension -eq ".txt") {
-        (New-Guid).Guid | Out-File $path -Force
+
+$root_dir = Split-Path $PSScriptRoot -Parent
+$path_list = $completion_list | ForEach-Object {
+    $completion_dir = $root_dir + "/completions/" + $_
+    if (Test-Path $completion_dir) {
+        $completion_dir
     }
-    else {
-        Get-ChildItem $path -Recurse -Filter "guid.txt" | ForEach-Object {
-            (New-Guid).Guid | Out-File $_.FullName -Force
-        }
+}
+if ($path_list) {
+    foreach ($path in $path_list) {
+        Write-Host "Updating Guid.txt file of " -NoNewline
+        Write-Host $(Split-Path $path -Leaf) -ForegroundColor Magenta -NoNewline
+        Write-Host "."
+        (New-Guid).Guid | Out-File "$path/guid.txt" -Force
     }
     return
 }
