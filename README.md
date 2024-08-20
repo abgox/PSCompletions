@@ -36,7 +36,7 @@
 
 - [`PowerShell`](https://github.com/PowerShell/PowerShell): A Cross-platform PowerShell. Start it in command line by running `pwsh`.
 
-- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows systems. Start it in command line by running `powershell`.
+- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it in command line by running `powershell`.
 
 ---
 
@@ -44,13 +44,14 @@
   > It can also be used in `Windows PowerShell`, but it's a better choice to use `PowerShell`.
 - [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added !")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
-- Sort completion tab dynamically by frequency of use.
-- [It provides a useful completion menu.](#about-completion-menu)
+- Sort completion items dynamically by frequency of use.
+- [It provides a better completion menu.](#about-completion-menu)
 
 **If this project is helpful to you, please consider giving it a star ⭐.**
 
-## what's new
-please refer to [changelog](./module/CHANGELOG.md)
+## What's new
+
+Please read the [CHANGELOG](./module/CHANGELOG.md).
 
 ## How to install
 
@@ -80,6 +81,10 @@ please refer to [changelog](./module/CHANGELOG.md)
 
 ![demo](https://pscompletions.pages.dev/demo.gif)
 
+## Contribution
+
+Please read [CONTRIBUTING.md](./.github/contributing.md).
+
 ## Tips
 
 ### About the completion trigger key
@@ -94,20 +99,24 @@ please refer to [changelog](./module/CHANGELOG.md)
 
 ### About completion menu
 
-- In addition to the language's built-in completion menu, `PSCompletions` module also provides a useful completion menu.
+- In addition to the language's built-in completion menu, `PSCompletions` module also provides a better completion menu.
+
+  - Setting: `psc menu config menu_enable 1` (Default: `1`)
 
 - The module's completion menu provided by the module is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
 
 - Available Windows environment:
-  - `PowerShell` <img src="https://img.shields.io/badge/v4.0.0+-4CAF50" alt="v4.0.0+ support" />
-  - `Windows PowerShell` <img src="https://img.shields.io/badge/v4.1.0+-4CAF50" alt="v4.1.0+ support" />
+  - `PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.0.0+-4CAF50" alt="v4.0.0+ support" />
+  - `Windows PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.1.0+-4CAF50" alt="v4.1.0+ support" />
     - Due to rendering problems of `Windows PowerShell`, the border style of the completion menu cannot be customized.
+      - If you need to customize it, use `PowerShell`.
 - Some keys in the completion menu provided by the module.
 
   1. Apply the selected completion item: `Enter`
+     - You can also use `Tab` or `Space` when there's only one completion.
   2. Delete filter characters: `Backspace`
-  3. Exit the completion menu: `ESC` / `Ctrl + c`
-     - When there are no characters in the filter area, you can also use `Backspace` key to exit the completion menu.
+  3. Exit the completion menu: `Esc` / `Ctrl + c`
+     - You can also use `Backspace` when there're no characters in the filter area.
   4. Select completion item:
 
      | Select previous item | Select next item |
@@ -122,27 +131,26 @@ please refer to [changelog](./module/CHANGELOG.md)
 - All configurations of it, you can trigger completion by running `psc menu`, then learn about them by [the completion tip](#about-completion-tip).
   - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
 
-#### About menu enhance
+#### About menu enhance <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />
 
-- <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />
+- Setting: `psc menu config menu_enhance 1` (Default: `1`)
+- Now, `PSCompletions` has two completion implementations.
 
-- config: `psc menu config menu_enhance 1` (Default: `1`)
-- Now, `PSCompletions` has two completion implementations
-
-  1. `Register-ArgumentCompleter`
-
-     - <img src="https://img.shields.io/badge/v4.1.0-4CAF50" alt="v4.1.0 support" /> : It's used.
-     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's optional.
-
-       - You can use it by running `psc menu config menu_enable 0`.
-       - It' Not recommended. It only works for completions added by `psc add`.
-
-  2. `Set-PSReadLineKeyHandler`
-     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's used by default.
-       - Requires: `menu_enable`and `menu_enhance` both set to `1`.
+  1. [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
+     - <img src="https://img.shields.io/badge/module%20version-v4.1.0-4CAF50" alt="v4.1.0 support" /> : It's used.
+     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's optional.
+       - You can use it by running `psc menu config menu_enhance 0`.
+       - It's not recommended. It only works for completions added by `psc add`.
+  2. [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
+     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's used by default.
+       - Requires: `menu_enable` and `menu_enhance` both set to `1`.
      - It no longer needs to loop through registering `Register-ArgumentCompleter` for all completions, which theoretically makes loading faster.
      - It use [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
-       - For example, commands such as `Get-*`/`Set-*`/... in `PowerShell` will use the completion menu provided by `PSCompletions` to render the completion.
+       - For example:
+         - Path completion such as `cd`/`.\`/`..\`/`~\`/... in `PowerShell`.
+         - Build-in commands such as `Get-*`/`Set-*`/`New-*`/... in `PowerShell`.
+         - Completion registered by cli or module.
+         - ...
 
 ### About special symbols
 
@@ -154,14 +162,19 @@ please refer to [changelog](./module/CHANGELOG.md)
     - `psc menu symbol WriteSpaceTab ""`
 
 - 😄🤔😎 : If there are multiple, you can choose the effect of one of them.
-  - 😄 : It means that after you apply it, you can press `Space` and `Tab` key to continue to get command completions.(Normal or optional completions)
+  - Define them:
+    - `Normal Completion`: Sub-commands. Such as `add`/`pull`/`push`/`commit`/... in `git`.
+    - `Optional Completion`: Optional parameters. Such as `-g`/`-u`/... in `git add`.
+    - `General Optional Completion`: General optional parameters that can be used with any command. Such as `--help`/... in `git`.
+  - 😄 : It means that after you apply it, you can press `Space` and `Tab` key to continue to get `Normal Completion` or `Optional Completion`.
+    - It will appear only when there's `Normal Completion` or `Optional Completion`.
     - It can be customized by running `psc menu symbol SpaceTab <symbol>`
-  - 🤔 : It means that after you apply it (option completion), you can press `Space` and `Tab` key to continue to get option completions. (e.g. `--verbose`)
-    - Generic optional completions shares this symbol, but it does not affect them.
+  - 🤔 : It means that after you apply it (`Optional Completion`), you can press `Space` and `Tab` key to continue to get other `Optional Completion`.
+    - `General Optional Completion` use also this symbol.
     - It can be customized by running `psc menu symbol OptionTab <symbol>`
-  - 😎 : It means that after you apply it (option completion), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get the rest of option completions.
-    - If the string has Spaces, Please use `"`(quote) or `'`(single quote) to wrap it. e.g. "test content"
-    - If there is also 😄, it means that there are some strings to complete, you can press `Space` and `Tab` key to continue to get command completions without entering a string.
+  - 😎 : It means that after you apply it (`Optional Completion` or `General Optional Completion`), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get other `Optional Completion` or `General Optional Completion`.
+    - If the string has Spaces, Please use `"`(quote) or `'`(single quote) to wrap it. e.g. `"test content"`
+    - If there's also 😄, it means that there's `Normal Completion`, you can press `Space` and `Tab` key to continue to get them without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
   - All completions can be triggered by pressing the `Tab` key after entering a part.
 
@@ -196,8 +209,8 @@ please refer to [changelog](./module/CHANGELOG.md)
 ### About language
 
 - `Global language`: Default to the language of current system.
-  - You can show it by running `psc config language`
-  - You can change it by running `psc config language zh-CN`
+  - You can show it by running `psc config language`.
+  - You can change it by running `psc config language zh-CN`.
 - `Completion language`: The language set for the specified completion.
   - e.g. `psc completion git language en-US`.
 - `Available language`: In the completion `config.json` file, there is a `language` attribute whose value is a list of available languages.
@@ -229,7 +242,7 @@ please refer to [changelog](./module/CHANGELOG.md)
   - **`Completion`** ：Click to view to the official website of the command. Sort by first letter(0-9,a-z).
     - Special case: `abc(a)`, it means that you need to download it by `psc add abc`, but by default `a` is used instead of `abc` to trigger the completion.
   - **`Language`**: Supported Languages, and Translation Progress.
-    - The translation progress is compared to `en-US`
+    - The translation progress is compared to `en-US`.
   - **`Description`**: Command Description.
 
 <!-- prettier-ignore-start -->

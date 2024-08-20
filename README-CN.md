@@ -44,13 +44,14 @@
   > `Windows PowerShell` 也可以使用此模块，但更推荐使用 `PowerShell`
 - [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 - `en-US`,`zh-CN`,... 多语言切换
-- 动态排序补全候选(根据使用频次)
+- 动态排序补全项(根据使用频次)
 - [提供了一个更好用的补全菜单](#关于补全菜单)
 
-**如果 PSCompletions 对你有所帮助，请在右上角点个 Star ⭐**
+**如果 PSCompletions 对你有所帮助，请在此项目点个 Star ⭐**
 
-## 新功能
-请查阅[更新日志](./module/CHANGELOG-CN.md)
+## 新的变化
+
+请查阅 [更新日志](./module/CHANGELOG-CN.md)
 
 ## 安装
 
@@ -74,11 +75,15 @@
 
 1. `psc add git`
 2. 然后你就可以输入 `git`, 按下 `Space`(空格键) `Tab` 键来获得命令补全
-3. 关于 `psc` 的更多命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过[补全提示信息](#关于补全提示信息)来了解
+3. 关于 `psc` 的更多命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
 
 ## Demo
 
 ![demo](https://pscompletions.pages.dev/demo-CN.gif)
+
+## 贡献
+
+- 请查阅 [CONTRIBUTING.md](./.github/contributing.md)
 
 ## Tips
 
@@ -94,17 +99,18 @@
 
 ### 关于补全菜单
 
-- 除了语言内置的补全菜单，`PSCompletions` 模块还提供了一个好用的补全菜单。
+- 除了语言内置的补全菜单，`PSCompletions` 模块还提供了一个更好用的补全菜单。
   - 配置: `psc menu config menu_enable 1` (默认开启)
 - 模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
 - 模块提供的补全菜单可用的 Windows 环境：
-  - `PowerShell` <img src="https://img.shields.io/badge/v4.0.0+-4CAF50" alt="v4.0.0+ support" />
-  - `Windows PowerShell` <img src="https://img.shields.io/badge/v4.1.0+-4CAF50" alt="v4.1.0+ support" />
+  - `PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.0.0+-4CAF50" alt="v4.0.0+ support" />
+  - `Windows PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.1.0+-4CAF50" alt="v4.1.0+ support" />
     - 由于 `Windows PowerShell` 渲染问题，补全菜单的边框样式无法自定义
+    - 如果需要自定义，请使用 `PowerShell`
 - 模块提供的补全菜单中的按键
 
   1. 选用当前选中的补全项: `Enter`(回车键)
-     - 当只有一个可选项时，也可以使用 `Tab` 或 `Space` 键
+     - 当只有一个补全项时，也可以使用 `Tab` 或 `Space`(空格) 键
   2. 删除过滤字符: `Backspace`(退格键)
   3. 退出补全菜单: `ESC` / `Ctrl + c`
      - 当过滤区域没有字符时，也可以使用 `Backspace`(退格键) 退出补全菜单
@@ -119,32 +125,35 @@
      |   `Ctrl + u`    | `Ctrl + d` |
      |   `Ctrl + p`    | `Ctrl + n` |
 
-- 补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过[补全提示信息](#关于补全提示信息)来了解
+- 补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)
 
-#### 关于菜单增强
-
-- <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />
+#### 关于菜单增强 <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />
 
 - 配置: `psc menu config menu_enhance 1` 默认开启
 - 现在，`PSCompletions` 对于补全有两种实现
 
-  1. `Register-ArgumentCompleter`
+  1. [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
 
-     - <img src="https://img.shields.io/badge/v4.1.0-4CAF50" alt="v4.1.0 support" /> 及之前版本都使用此实现
-     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 此实现变为可选
-       - 你可以通过设置 `menu_enhance` 为 `0` 来继续使用它
+     - <img src="https://img.shields.io/badge/module%20version-v4.1.0-4CAF50" alt="v4.1.0 support" /> 及之前版本都使用此实现
+     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 此实现变为可选
+       - 你可以运行 `psc menu config menu_enhance 0` 来继续使用它
        - 但并不推荐，它只能用于 `psc add` 添加的补全
 
-  2. `Set-PSReadLineKeyHandler`
-     - <img src="https://img.shields.io/badge/v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 默认使用此实现
+  2. [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
+     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 默认使用此实现
        - 需要 `menu_enable` 和 `menu_enhance` 同时为 `1`
      - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
      - 同时使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
+       - 例如:
+         - `cd`/`.\`/`..\`/`~\`/... 这样的路径补全
+         - `Get-*`/`Set-*`/`New-*`/... 这样的内置命令补全
+         - 由 cli 或模块注册的补全
+         - ...
 
 ### 关于特殊符号
 
-- 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全候选项
+- 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全项
 
   - 如果你不需要也不想看到这些符号, 可以将它们替换成空字符串以隐藏它们
     - `psc menu symbol SpaceTab ""`
@@ -153,15 +162,20 @@
 
 - 😄🤔😎 : 如果出现多个, 表示符合多个条件, 可以选择其中一个效果
 
-  - 😄 : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取补全(普通补全或选项类补全)
+  - 定义:
+    - `Normal Completion`: 子命令，例如在 `git` 中的 `add`/`pull`/`push`/`commit`/...
+    - `Optional Completion`: 可选参数，例如在 `git add` 中的 `-g`/`-u`/...
+    - `General Optional Completion`: 可以用在任何地方的通用可选参数，例如在 `git` 中的 `--help`/...
+  - 😄 : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取 `Normal Completion` 或者 `Optional Completion`
+    - 仅在有 `Normal Completion` 或 `Optional Completion` 时才会显示此符号
     - 可通过 `psc menu symbol SpaceTab <symbol>` 自定义此符号
-  - 🤔 : 表示选用当前选中的选项类补全后, 你可以按下 `Space`(空格键) 和 `Tab` 键继续获取剩余选项类补全(如 --verbose)
-    - 通用选项类补全共用此符号，它可以在任何位置触发，不会影响它们
+  - 🤔 : 表示选用当前选中的补全(`Optional Completion`)后, 你可以按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion`
+    - `General Optional Completion` 也使用此符号
     - 可通过 `psc menu symbol OptionTab <symbol>` 自定义此符号
-  - 😎 : 表示选用当前选中的选项类补全后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取剩余选项类补全
+  - 😎 : 表示选用当前选中的补全(`Optional Completion` 或者 `General Optional Completion`)后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion` 或者 `General Optional Completion`
 
-    - 如果字符串有空格, 请使用 `"`(引号) 或 `'`(单引号) 包裹，如 "test content"
-    - 如果同时还有 😄, 表示有几个预设的字符串可以补全, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取补全
+    - 如果字符串有空格, 请使用 `"`(引号) 或 `'`(单引号) 包裹，如 `"test content"`
+    - 如果同时还有 😄, 表示有几个预设的字符串(`Normal Completion`)可以补全, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取它们
     - 可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
 
   - 所有补全都可以在输入部分字符后按下 `Tab` 键触发补全
@@ -202,7 +216,7 @@
   - `psc config language` 可以查看全局的语言配置
   - `psc config language zh-CN` 可以更改全局的语言配置
 - `Completion language`: 为指定的补全设置的语言
-  - e.g. `psc completion git language en-US`
+  - 例如: `psc completion git language en-US`
 - `Available language`: 每一个补全的 `config.json` 文件中有一个 `language` 属性，它的值是一个可用的语言列表
 
 #### 确定语言
