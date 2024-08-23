@@ -47,31 +47,53 @@
 - 动态排序补全项(根据使用频次)
 - [提供了一个更好用的补全菜单](#关于补全菜单)
 
-**如果 PSCompletions 对你有所帮助，请在此项目点个 Star ⭐**
+**如果 `PSCompletions` 对你有所帮助，请在此项目点个 Star ⭐**
 
 ## 新的变化
 
-请查阅 [更新日志](./module/CHANGELOG-CN.md)
+- 请查阅 [更新日志](./module/CHANGELOG-CN.md)
 
 ## 安装
 
 1. 打开 `PowerShell`
-2. `Install-Module PSCompletions -Scope CurrentUser`
-   > - 除非你确定始终会使用管理员权限打开 `PowerShell`，否则不要省略 `-Scope CurrentUser`
-3. `Import-Module PSCompletions`
+2. 安装模块:
+
+   - 除非你确定始终会使用管理员权限打开 `PowerShell`，否则不要省略 `-Scope CurrentUser`
+
+   ```powershell
+   Install-Module PSCompletions -Scope CurrentUser
+   ```
+
+   - 静默安装:
+
+   ```powershell
+   Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+   ```
+
+3. 导入模块:
+   ```powershell
+   Import-Module PSCompletions
+   ```
    - 如果不想每次启动 `PowerShell` 都需要导入 `PSCompletions` 模块，你可以将导入语句写入 `$PROFILE` 中
-   - `echo "Import-Module PSCompletions" >> $PROFILE`
+   ```powershell
+   echo "Import-Module PSCompletions" >> $PROFILE
+   ```
 
 ## 卸载
 
 1. 打开 `PowerShell`
-2. `Uninstall-Module PSCompletions`
+2. 卸载模块:
+   ```powershell
+   Uninstall-Module PSCompletions
+   ```
 
-## 使用(以 `git` 补全为例)
+## 使用
 
 ### [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
 
-- 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
+> 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
+
+- 以 `git` 补全为例
 
 1. `psc add git`
 2. 然后你就可以输入 `git`, 按下 `Space`(空格键) `Tab` 键来获得命令补全
@@ -83,7 +105,7 @@
 
 ## 贡献
 
-- 请查阅 [CONTRIBUTING.md](./.github/contributing.md)
+- 请查阅 [CONTRIBUTING](./.github/contributing.md)
 
 ## Tips
 

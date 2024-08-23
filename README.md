@@ -45,33 +45,52 @@
 - [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added !")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
-- [It provides a better completion menu.](#about-completion-menu)
+- [Provide a better completion menu.](#about-completion-menu)
 
-**If this project is helpful to you, please consider giving it a star ⭐.**
+**If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**
 
 ## What's new
 
-Please read the [CHANGELOG](./module/CHANGELOG.md).
+- See the [CHANGELOG](./module/CHANGELOG.md) for details.
 
 ## How to install
 
-1. Start `PowerShell`
-2. `Install-Module PSCompletions -Scope CurrentUser`
-   > - Don't omit `-Scope CurrentUser` unless you're sure you'll always open `PowerShell` with administrator permissions.
-3. `Import-Module PSCompletions`
-   - If you don't want to import the `PSCompletions` module every time you start `PowerShell`, you can write it to `$PROFILE`.
-   - `echo "Import-Module PSCompletions" >> $PROFILE`
+1. Start `PowerShell`.
+2. Install module:
+
+   - Don't omit `-Scope CurrentUser` unless you're sure you'll always start `PowerShell` with administrator permissions.
+     ```powershell
+     Install-Module PSCompletions -Scope CurrentUser
+     ```
+   - Install silently:
+     ```powershell
+     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+     ```
+
+3. Import module:
+   ```powershell
+   Import-Module PSCompletions
+   ```
+   - If you don't want to import the `PSCompletions` module every time when you start `PowerShell`, you can write it to `$PROFILE`.
+     ```powershell
+     echo "Import-Module PSCompletions" >> $PROFILE
+     ```
 
 ## How to uninstall
 
-1. Start `PowerShell`
-2. `Uninstall-Module PSCompletions`
+1. Start `PowerShell`.
+2. Uninstall module:
+   ```powershell
+   Uninstall-Module PSCompletions
+   ```
 
-## How to use(e.g. `git`)
+## How to use
 
 ### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
-- If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue").
+> If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue").
+
+- Take `git` as an example.
 
 1. `psc add git`
 2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
@@ -83,7 +102,7 @@ Please read the [CHANGELOG](./module/CHANGELOG.md).
 
 ## Contribution
 
-Please read [CONTRIBUTING.md](./.github/contributing.md).
+- See the [CONTRIBUTING](./.github/contributing.md) for details.
 
 ## Tips
 
@@ -103,14 +122,14 @@ Please read [CONTRIBUTING.md](./.github/contributing.md).
 
   - Setting: `psc menu config menu_enable 1` (Default: `1`)
 
-- The module's completion menu provided by the module is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
+- The module's completion menu is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
 
 - Available Windows environment:
   - `PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.0.0+-4CAF50" alt="v4.0.0+ support" />
   - `Windows PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.1.0+-4CAF50" alt="v4.1.0+ support" />
     - Due to rendering problems of `Windows PowerShell`, the border style of the completion menu cannot be customized.
       - If you need to customize it, use `PowerShell`.
-- Some keys in the completion menu provided by the module.
+- Some keys in the module's completion menu.
 
   1. Apply the selected completion item: `Enter`
      - You can also use `Tab` or `Space` when there's only one completion.
