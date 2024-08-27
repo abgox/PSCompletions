@@ -695,6 +695,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $this.new_filter_buffer($this.filter)
     $this.new_status_buffer()
     $this.set_selection()
+    $old_filter_list = $this.filter_list
     :loop while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode) {
         $shift_pressed = 0x10 -band [int]$PressKey.ControlKeyState
         if ($PressKey.ControlKeyState -like "*CtrlPressed*") {

@@ -3,7 +3,7 @@
 New-Variable -Name PSCompletions -Value @{} -Option ReadOnly
 
 # 模块版本
-$PSCompletions.version = '4.3.2'
+$PSCompletions.version = '4.3.3'
 $PSCompletions.path = @{}
 $PSCompletions.path.root = Split-Path $PSScriptRoot -Parent
 $PSCompletions.path.completions = Join-Path $PSCompletions.path.root 'completions'
@@ -807,7 +807,7 @@ if ($PSCompletions.config.module_update -match "^\d+\.\d.*") {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.core 'CHANGELOG.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
-                Update-Module PSCompletions -Force -ErrorAction Stop
+                Update-Module PSCompletions -RequiredVersion $PSCompletions.version_list[0] -Force -ErrorAction Stop
             })
     }
     else {
