@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 4.3.3 (2024/8/27)
+
+- Fix an error that occurred when `menu_is_prefix_match` was enabled, due to the input after public prefix extraction.
+
 ## 4.3.2 (2024/8/18)
 
 - Fix a method(`show_module_menu`) parameter type conversion error.
