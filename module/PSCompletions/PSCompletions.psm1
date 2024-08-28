@@ -139,9 +139,9 @@
             $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
                 try {
-                    $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$($completion)/guid.txt"
+                    $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$completion/guid.txt"
                     $content = $response.Content.Trim()
-                    $guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/guid.txt")
+                    $guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/guid.txt")
                     if ($guid -ne $content -and $content -match "^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$") { $need_update_list.Add($completion) }
                 }
                 catch {  }
@@ -257,7 +257,7 @@
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
                     }
-                    $path_alias = "$($PSCompletions.path.completions)/$($completion)/alias.txt"
+                    $path_alias = "$($PSCompletions.path.completions)/$completion/alias.txt"
                     $alias_list = $PSCompletions.get_content($path_alias)
                     if ($alias -notin $alias_list) {
                         $alias | Out-File $path_alias -Append -Encoding utf8 -Force
@@ -425,9 +425,9 @@
         $new_value = $arg[3]
         $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) = $arg[3]
         foreach ($_ in $PSCompletions.cmd.keys) {
-            $path = "$($PSCompletions.path.completions)/$($_)/config.json"
+            $path = "$($PSCompletions.path.completions)/$_/config.json"
             $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
-            $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
+            $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
             $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
             $config_list = @('language', 'menu_show_tip')
             if ($json.config) {
@@ -440,7 +440,7 @@
             }
             try {
                 foreach ($item in $PSCompletions.config.comp_config.keys) {
-                    if ($item -notin $PSCompletions.list -and !(Test-Path "$($PSCompletions.path.completions)/$($item)")) {
+                    if ($item -notin $PSCompletions.list -and !(Test-Path "$($PSCompletions.path.completions)/$item")) {
                         $PSCompletions.config.comp_config.Remove($item)
                     }
                     foreach ($c in $PSCompletions.config.comp_config.$item.keys) {
@@ -770,7 +770,7 @@
 
                 foreach ($completion in $del_list) {
                     if ($completion -in $PSCompletions.cmd.Keys) {
-                        $path_alias = "$($PSCompletions.path.completions)/$($completion)/alias.txt"
+                        $path_alias = "$($PSCompletions.path.completions)/$completion/alias.txt"
                         $old_value = $PSCompletions.get_content($path_alias) -join ' '
                         Set-Content -Path $path_alias -Value $completion -Force -Encoding utf8
                         $change_list.Add(@{
@@ -787,7 +787,7 @@
             }
             "order" {
                 foreach ($_ in $PSCompletions.cmd.Keys) {
-                    $path_order = "$($PSCompletions.path.completions)/$($_)/order.json"
+                    $path_order = "$($PSCompletions.path.completions)/$_/order.json"
                     Remove-Item $path_order -Force -ErrorAction SilentlyContinue
                 }
                 $change_list = $null
@@ -796,9 +796,9 @@
             "completion" {
                 function _do {
                     param([string]$cmd, [switch]$is_all)
-                    $path = "$($PSCompletions.path.completions)/$($cmd)/config.json"
+                    $path = "$($PSCompletions.path.completions)/$cmd/config.json"
                     $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
-                    $path = "$($PSCompletions.path.completions)/$($cmd)/language/$($json.language[0]).json"
+                    $path = "$($PSCompletions.path.completions)/$cmd/language/$($json.language[0]).json"
                     $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
                     if ($json.config) {
                         foreach ($item in $json.config) {

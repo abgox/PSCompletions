@@ -10,7 +10,7 @@
     }
     if (!$PSCompletions.data.$root -or $PSCompletions.config.disable_cache) {
         $language = $PSCompletions.get_language($root)
-        $PSCompletions.data.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($root)/language/$($language).json"))
+        $PSCompletions.data.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
     }
 
     $input_arr = [array]$input_arr
@@ -103,13 +103,13 @@
                                 }
                             }
 
-                            $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$($c)" }
+                            $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$c" }
                             $symbols = $symbols -join ''
-                            $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)" }else { '' }
+                            $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$symbols" }else { '' }
 
                             $completions.Add(@{
                                     name           = $pre + $pad + $_.name
-                                    ListItemText   = "$($_.name)$($padSymbols)"
+                                    ListItemText   = "$($_.name)$padSymbols"
                                     CompletionText = $_.name
                                     ToolTip        = $_.tip
                                 })
@@ -118,7 +118,7 @@
                                     foreach ($a in $_.alias) {
                                         $completions.Add(@{
                                                 name           = $pre + $pad + $a
-                                                ListItemText   = "$($a)$($padSymbols)"
+                                                ListItemText   = "$a$padSymbols"
                                                 CompletionText = $a
                                                 ToolTip        = $_.tip
                                             })
@@ -137,7 +137,7 @@
                                         }
                                         $completions.Add(@{
                                                 name           = $pre + $pad + $a
-                                                ListItemText   = "$($a)$($padSymbols)"
+                                                ListItemText   = "$a$padSymbols"
                                                 CompletionText = $a
                                                 ToolTip        = $_.tip
                                             })
@@ -302,10 +302,10 @@
                 }
                 $symbols = $symbols | Select-Object -Unique
 
-                $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$($c)" }
+                $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$c" }
                 $symbols = $symbols -join ''
                 if ($symbols) {
-                    "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)"
+                    "$($PSCompletions.config.menu_between_item_and_symbol)$symbols"
                 }
                 else {
                     ''
@@ -340,7 +340,7 @@
 
                         foreach ($a in $_.alias) {
                             if ($a -notin $input_arr) {
-                                $name_with_symbol = "$($a)$(Get-PadSymbols)"
+                                $name_with_symbol = "$a$(Get-PadSymbols)"
                                 $temp_list += @{
                                     ListItemText   = $name_with_symbol
                                     CompletionText = $a
@@ -386,7 +386,7 @@
                     }
                     foreach ($a in $_.alias) {
                         if ($a -notin $input_arr -and $a -like "$($input_arr[-1])*") {
-                            $name_with_symbol = "$($a)$(Get-PadSymbols)"
+                            $name_with_symbol = "$a$(Get-PadSymbols)"
                             $filter_list += @{
                                 ListItemText   = $name_with_symbol
                                 CompletionText = $a
@@ -403,7 +403,7 @@
 
     if ($PSCompletions.config.comp_config.$root.disable_hooks -ne 1) {
         # 使用 hooks 覆盖默认的函数，实现在一些特殊的需求，比如一些补全的动态加载
-        $path_hook = "$($PSCompletions.path.completions)/$($root)/hooks.ps1"
+        $path_hook = "$($PSCompletions.path.completions)/$root/hooks.ps1"
         if (Test-Path $path_hook) { . $path_hook }
     }
     $completions = getCompletions
@@ -412,7 +412,7 @@
 
     # 排序
     if ($PSCompletions.config.menu_completions_sort) {
-        $path_order = "$($PSCompletions.path.completions)/$($root)/order.json"
+        $path_order = "$($PSCompletions.path.completions)/$root/order.json"
         if ($PSCompletions.order."$($root)_job") {
             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
                 $PSCompletions.order.$root = Receive-Job $PSCompletions.order."$($root)_job"

@@ -94,19 +94,19 @@ if (!(Test-Path $PSCompletions.path.config) -and !(Test-Path $PSCompletions.path
                 $old_version_dir = Join-Path (Split-Path $this.path.root -Parent) $old_version
                 if (!(Test-Path $this.path.completions)) { New-Item -ItemType Directory $this.path.completions > $null }
                 $PSCompletions.old_psc = @{}
-                foreach ($_ in Get-ChildItem "$($old_version_dir)/completions" -Directory -ErrorAction SilentlyContinue) {
+                foreach ($_ in Get-ChildItem "$old_version_dir/completions" -Directory -ErrorAction SilentlyContinue) {
                     if ($_.Name -eq "psc") {
-                        $PSCompletions.old_psc.path = "$($old_version_dir)/completions/psc"
-                        $PSCompletions.old_psc.alias = (Get-Content "$($old_version_dir)/completions/psc/alias.txt" -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
-                        $old_psc_guid = Get-Content "$($old_version_dir)/completions/psc/guid.txt" -Raw -ErrorAction SilentlyContinue
+                        $PSCompletions.old_psc.path = "$old_version_dir/completions/psc"
+                        $PSCompletions.old_psc.alias = (Get-Content "$old_version_dir/completions/psc/alias.txt" -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
+                        $old_psc_guid = Get-Content "$old_version_dir/completions/psc/guid.txt" -Raw -ErrorAction SilentlyContinue
                         if ($old_psc_guid) { $PSCompletions.old_psc.guid = $old_psc_guid.Trim() }
                     }
                     else {
                         Move-Item $_.FullName $this.path.completions -Force -ErrorAction SilentlyContinue
                     }
                 }
-                Move-Item "$($old_version_dir)/config.json" $this.path.config -Force -ErrorAction SilentlyContinue
-                Move-Item "$($old_version_dir)/completions.json" $this.path.completions_json -Force -ErrorAction SilentlyContinue
+                Move-Item "$old_version_dir/config.json" $this.path.config -Force -ErrorAction SilentlyContinue
+                Move-Item "$old_version_dir/completions.json" $this.path.completions_json -Force -ErrorAction SilentlyContinue
             }
         }
     }
@@ -169,9 +169,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod join_path {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
-    $path_config = "$($this.path.completions)/$($completion)/config.json"
+    $path_config = "$($this.path.completions)/$completion/config.json"
     if (!(Test-Path $path_config) -or !$this.get_raw_content($path_config)) {
-        $this.download_file("$($this.url)/completions/$($completion)/config.json", $path_config)
+        $this.download_file("$($this.url)/completions/$completion/config.json", $path_config)
     }
     $content_config = $this.get_raw_content($path_config) | ConvertFrom-Json
     if ($this.config.comp_config.$completion -and $this.config.comp_config.$completion.language) {
@@ -421,8 +421,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
         }
         else {
             Write-Host "File ($(Split-Path $url -Leaf)) download failed, please check your network connection or try again later." -ForegroundColor Red
-            Write-Host "File download Url: $($url)" -ForegroundColor Red
-            Write-Host "File save path: $($file)" -ForegroundColor Red
+            Write-Host "File download Url: $url" -ForegroundColor Red
+            Write-Host "File save path: $file" -ForegroundColor Red
             Write-Host "If you are sure that it is not a network problem, please submit an issue`n" -ForegroundColor Red
         }
         throw
@@ -434,9 +434,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         [bool]$log = $true,
         [bool]$is_update = $true
     )
-    $url = "$($this.url)/completions/$($completion)"
+    $url = "$($this.url)/completions/$completion"
 
-    $is_update = (Test-Path "$($this.path.completions)/$($completion)") -and $is_update
+    $is_update = (Test-Path "$($this.path.completions)/$completion") -and $is_update
 
     $completion_dir = Join-Path $this.path.completions $completion
 
@@ -445,28 +445,28 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     $this.ensure_dir((Join-Path $completion_dir 'language'))
 
     $download_info = @{
-        url  = "$($url)/config.json"
+        url  = "$url/config.json"
         file = Join-Path $completion_dir 'config.json'
     }
     $PSCompletions.download_file($download_info.url, $download_info.file)
 
-    $config = $this.get_content("$($completion_dir)/config.json") | ConvertFrom-Json
+    $config = $this.get_content("$completion_dir/config.json") | ConvertFrom-Json
 
     $files = @(
         @{
-            Uri     = "$($url)/guid.txt"
+            Uri     = "$url/guid.txt"
             OutFile = Join-Path $completion_dir 'guid.txt'
         }
     )
     foreach ($_ in $config.language) {
         $files += @{
-            Uri     = "$($url)/language/$($_).json"
-            OutFile = $PSCompletions.join_path($completion_dir, 'language', "$($_).json")
+            Uri     = "$url/language/$_.json"
+            OutFile = $PSCompletions.join_path($completion_dir, 'language', "$_.json")
         }
     }
     if ($config.hooks) {
         $files += @{
-            Uri     = "$($url)/hooks.ps1"
+            Uri     = "$url/hooks.ps1"
             OutFile = Join-Path $completion_dir 'hooks.ps1'
         }
     }
@@ -498,7 +498,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         $alias | Out-File $path_alias -encoding utf8 -Force
     }
     $language = $PSCompletions.get_language($completion)
-    $json = $this.get_raw_content("$($completion_dir)/language/$($language).json") | ConvertFrom-Json
+    $json = $this.get_raw_content("$completion_dir/language/$language.json") | ConvertFrom-Json
     # 如果所有文件下载完成，打印完成信息
     if ($log) {
         $this.write_with_color($this.replace_content($done))
@@ -572,19 +572,18 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     }
     $this.ensure_dir($this.path.completions)
 
-    if (Test-Path "$($this.path.completions)/psc") {
+    $path_psc = "$($this.path.completions)/psc"
+    if (Test-Path $path_psc) {
         $language = $this.get_language('psc')
-        $path_config = "$($this.path.completions)/psc/config.json"
+        $path_config = "$path_psc/config.json"
         $content_config = $this.get_raw_content($path_config) | ConvertFrom-Json
-        if ($content_config.hooks) {
-            $path_hooks = "$($this.path.completions)/psc/hooks.ps1"
-            if (!(Test-Path $path_hooks)) {
-                $this.download_file("$($this.url)/completions/psc/hooks.ps1", $path_hooks)
-            }
+        $path_hooks = "$path_psc/hooks.ps1"
+        if ($content_config.hooks -and !(Test-Path $path_hooks)) {
+            $this.download_file("$($this.url)/completions/psc/hooks.ps1", $path_hooks)
         }
-        $path_language = "$($this.path.completions)/psc/language/$($language).json"
+        $path_language = "$path_psc/language/$language.json"
         if (!(Test-Path $path_language)) {
-            $this.download_file("$($this.url)/completions/psc/language/$($language).json", $path_language)
+            $this.download_file("$($this.url)/completions/psc/language/$language.json", $path_language)
         }
         $this.info = ($this.get_raw_content($path_language) | ConvertFrom-Json).info
     }
@@ -595,27 +594,27 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         if ($psc_guid -and $PSCompletions.old_psc.guid -eq $psc_guid) {
             Move-Item $PSCompletions.old_psc.path $PSCompletions.path.completions -Force
             $language = $this.get_language('psc')
-            $path_language = "$($this.path.completions)/psc/language/$($language).json"
+            $path_language = "$path_psc/language/$language.json"
             $this.info = ($this.get_raw_content($path_language) | ConvertFrom-Json).info
         }
         else {
-            $this.ensure_dir("$($this.path.completions)/psc")
-            $this.ensure_dir("$($this.path.completions)/psc/language")
+            $this.ensure_dir($path_psc)
+            $this.ensure_dir("$path_psc/language")
             $language = $this.get_language('psc')
-            $path_language = "$($this.path.completions)/psc/language/$($language).json"
-
-            $this.download_file("$($this.url)/completions/psc/language/$($language).json", $path_language)
+            $path_language = "$path_psc/language/$language.json"
+            $this.download_file("$($this.url)/completions/psc/language/$language.json", $path_language)
             $this.info = ($this.get_raw_content($path_language) | ConvertFrom-Json).info
             $this.add_completion('psc', $true, $false)
             if ($PSCompletions.old_psc.alias) {
-                $PSCompletions.old_psc.alias | Out-File "$($PSCompletions.path.completions)/psc/alias.txt" -encoding utf8 -Force
+                $PSCompletions.old_psc.alias | Out-File "$path_psc/alias.txt" -encoding utf8 -Force
             }
         }
     }
 
     if (!(Test-Path $PSCompletions.path.completions_json) -and !($this.download_list())) {
-        $this.write_with_color($this.replace_content($this.info.err.download_list))
-        throw $this.replace_content($this.info.err.download_list) -replace '<\@\w+>', ''
+        $errorMessage = $this.replace_content($this.info.err.download_list)
+        $this.write_with_color($errorMessage)
+        throw $errorMessage -replace '<\@\w+>', ''
     }
 
     $this.list = ($this.get_raw_content($this.path.completions_json) | ConvertFrom-Json).list
@@ -624,7 +623,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $this.ensure_file($this.path.update)
     $this.update = $this.get_content($this.path.update)
 
-    $completions_dir_list = Get-ChildItem -Path $this.path.completions -Directory -ErrorAction SilentlyContinu
+    $completions_dir_list = Get-ChildItem -Path $this.path.completions -Directory
     if ($completions_dir_list.Count -ge 10) {
         # 使用线程安全的数据结构，避免出现多线程同时访问同一个数据结构,导致数据损坏
         $PSCompletions.cmd = [System.Collections.Concurrent.ConcurrentDictionary[[string], [System.Collections.Generic.List[System.String]]]]::new()

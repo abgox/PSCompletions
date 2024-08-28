@@ -50,9 +50,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
             # ensure completion config
             foreach ($_ in $PSCompletions.cmd.Keys) {
-                $path = "$($PSCompletions.path.completions)/$($_)/config.json"
+                $path = "$($PSCompletions.path.completions)/$_/config.json"
                 $json = get_raw_content $path | ConvertFrom-Json
-                $path = "$($PSCompletions.path.completions)/$($_)/language/$($json.language[0]).json"
+                $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
                 $json = get_raw_content $path | ConvertFrom-Json -AsHashtable
                 foreach ($item in $json.config) {
                     if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
@@ -107,10 +107,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         }
         function get_language {
             param ([string]$completion)
-            $path_config = "$($PSCompletions.path.completions)/$($completion)/config.json"
+            $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
             if (!(Test-Path $path_config) -or !( get_raw_content $path_config)) {
                 try {
-                    $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$($completion)/config.json", $path_config)
+                    $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$completion/config.json", $path_config)
                 }
                 catch {}
             }
@@ -137,13 +137,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $cmd = Split-Path (Split-Path $_.FullName -Parent) -Leaf
             if ($cmd -in $PSCompletions.cmd.Keys) {
                 $language = get_language $cmd
-                $path_language = "$($PSCompletions.path.completions)/$($cmd)/language/$($language).json"
+                $path_language = "$($PSCompletions.path.completions)/$cmd/language/$language.json"
                 if (Test-Path $path_language) {
                     $completion_datas.$cmd = (get_raw_content $path_language) | ConvertFrom-Json -AsHashtable
                 }
                 else {
                     try {
-                        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$($cmd)/language/$($language).json", $path_language)
+                        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$cmd/language/$language.json", $path_language)
                         $completion_datas.$cmd = (get_raw_content $path_language) | ConvertFrom-Json -AsHashtable
                     }
                     catch {}
@@ -167,7 +167,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         $historys = @()
         foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
             foreach ($alias in $PSCompletions.cmd.$root) {
-                if ($_ -match "^[^\S\n]*$($alias)\s+.+") {
+                if ($_ -match "^[^\S\n]*$alias\s+.+") {
                     $historys += $_
                     break
                 }

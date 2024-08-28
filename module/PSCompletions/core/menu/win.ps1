@@ -378,7 +378,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     $this.old_status_pos = $old_top  # 之前的位置
 
     $current = "$(([string]($this.selected_index + 1)).PadLeft($this.filter_list.Count.ToString().Length, ' '))"
-    $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$($current)$($PSCompletions.config.menu_status_symbol)$($this.filter_list.Count)"), $PSCompletions.config.menu_color_status_text, $PSCompletions.config.menu_color_status_back)
+    $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$current$($PSCompletions.config.menu_status_symbol)$($this.filter_list.Count)"), $PSCompletions.config.menu_color_status_text, $PSCompletions.config.menu_color_status_back)
 
     $Host.UI.RawUI.SetBufferContents(@{ X = $X; Y = $Y }, $buffer_status)
 }
