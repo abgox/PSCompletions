@@ -1,7 +1,7 @@
 ﻿Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
-    if ($this.config.menu_enhance -and $this.config.menu_enable) {
+    if ($PSCompletions.config.menu_enhance -and $PSCompletions.config.menu_enable) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
-            Set-PSReadLineKeyHandler -Key $this.config.menu_trigger_key -ScriptBlock {
+            Set-PSReadLineKeyHandler -Key $PSCompletions.config.menu_trigger_key -ScriptBlock {
                 $buffer = ''
                 $cursorPosition = 0
                 [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursorPosition)
@@ -10,17 +10,17 @@
                 }
 
                 # Windows PowerShell 5.x
-                if ($PSEdition -ne "Core") {
-                    $PSCompletions.config.menu_line_horizontal = "-"
-                    $PSCompletions.config.menu_line_vertical = "|"
-                    $PSCompletions.config.menu_line_top_left = "+"
-                    $PSCompletions.config.menu_line_bottom_left = "+"
-                    $PSCompletions.config.menu_line_top_right = "+"
-                    $PSCompletions.config.menu_line_bottom_right = "+"
+                if ($PSEdition -ne 'Core') {
+                    $PSCompletions.config.menu_line_horizontal = '-'
+                    $PSCompletions.config.menu_line_vertical = '|'
+                    $PSCompletions.config.menu_line_top_left = '+'
+                    $PSCompletions.config.menu_line_bottom_left = '+'
+                    $PSCompletions.config.menu_line_top_right = '+'
+                    $PSCompletions.config.menu_line_bottom_right = '+'
                 }
 
                 # 是否是按下空格键触发的补全
-                $space_tab = if ($buffer[-1] -eq " ") { 1 }else { 0 }
+                $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                 # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
                 $input_arr = @()
                 $matches = [regex]::Matches($buffer, "(?:`"[^`"]*`"|'[^']*'|\S)+")
@@ -29,10 +29,10 @@
                 # 触发补全的值，此值可能是别名或命令名
                 $alias = $input_arr[0]
 
-                if ($PSCompletions.alias.$alias -and $input_arr[-1] -notmatch "^(?:\.\.?|~)?(?:[/\\]).*") {
+                if ($PSCompletions.data.aliasMap.$alias -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
                     if ($buffer -eq $alias) { return }
                     # 原始的命令名，也是 completions 目录下的命令目录名
-                    $PSCompletions.current_cmd = $root = $PSCompletions.alias.$alias
+                    $PSCompletions.current_cmd = $root = $PSCompletions.data.aliasMap.$alias
 
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 
@@ -76,7 +76,7 @@
                                 }
                                 foreach ($completion in $completions) {
                                     if ($completion.ToolTip) {
-                                        if ($completion.ResultType -in @("ParameterValue", "ParameterName")) {
+                                        if ($completion.ResultType -in @('ParameterValue', 'ParameterName')) {
                                             $tool_tip = $completion.ToolTip
                                         }
                                         else {
@@ -132,7 +132,7 @@
     }
     else {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
-            foreach ($_ in $this.alias.keys) {
+            foreach ($_ in $PSCompletions.data.aliasMap.keys) {
                 Register-ArgumentCompleter -CommandName $_ -ScriptBlock {
                     param($word_to_complete, $command_ast, $cursor_position)
 
@@ -144,20 +144,20 @@
 
                     $alias = $input_arr[0]
 
-                    $PSCompletions.current_cmd = $root = $PSCompletions.alias.$alias
+                    $PSCompletions.current_cmd = $root = $PSCompletions.data.aliasMap.$alias
 
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 
                     $filter_list = $PSCompletions.get_completion()
                     if ($PSCompletions.config.menu_enable) {
                         # Windows PowerShell 5.x
-                        if ($PSEdition -ne "Core") {
-                            $PSCompletions.config.menu_line_horizontal = "-"
-                            $PSCompletions.config.menu_line_vertical = "|"
-                            $PSCompletions.config.menu_line_top_left = "+"
-                            $PSCompletions.config.menu_line_bottom_left = "+"
-                            $PSCompletions.config.menu_line_top_right = "+"
-                            $PSCompletions.config.menu_line_bottom_right = "+"
+                        if ($PSEdition -ne 'Core') {
+                            $PSCompletions.config.menu_line_horizontal = '-'
+                            $PSCompletions.config.menu_line_vertical = '|'
+                            $PSCompletions.config.menu_line_top_left = '+'
+                            $PSCompletions.config.menu_line_bottom_left = '+'
+                            $PSCompletions.config.menu_line_top_right = '+'
+                            $PSCompletions.config.menu_line_bottom_right = '+'
                         }
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }

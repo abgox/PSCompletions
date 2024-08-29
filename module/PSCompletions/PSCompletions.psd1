@@ -7,29 +7,39 @@
 #
 
 @{
+    RootModule           = 'PSCompletions.psm1'
 
-    RootModule       = 'PSCompletions.psm1'
+    ModuleVersion        = '4.3.3'
 
-    ModuleVersion    = '4.3.3'
+    GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
-    GUID             = '00929632-527d-4dab-a5b3-21197faccd05'
+    Author               = 'abgox'
 
-    Author           = 'abgox'
+    Copyright            = 'Copyright (c) 2023-present abgox. All Rights Reserved.'
 
-    Copyright        = '(c) abgox. All rights reserved.'
+    CompatiblePSEditions = @('Core', 'Desktop')
 
-    Description      = 'A completion manager for better and simpler use powershell completions. For more information, please visit the project or website: https://github.com/abgox/PSCompletions | https://gitee.com/abgox/PSCompletions | https://pscompletions.pages.dev'
-    ScriptsToProcess = 'core\init.ps1'
+    HelpInfoUri          = 'https://pscompletions.pages.dev'
 
-    PrivateData      = @{
+    Description          = 'A completion manager for better and simpler use PowerShell completions.
+ For more information, please visit the project or website:
+  - https://github.com/abgox/PSCompletions
+  - https://gitee.com/abgox/PSCompletions
+  - https://pscompletions.pages.dev'
+
+    ScriptsToProcess     = 'core\init.ps1'
+
+    PrivateData          = @{
 
         PSData = @{
 
-            Tags       = @('PowerShell', 'pwsh', 'Tab', 'PS-Completions', 'Dynamic', 'Multi-language', 'base-in-json' , 'Completion-Manager', 'TabExpansion2')
+            Tags         = @('Tab', 'Completion', 'Prompt', 'TabExpansion', 'Completions', 'Dynamic', 'Multi-Language', 'Base-in-json', 'Completion-Manager', 'TabExpansion2', 'PowerShell', 'pwsh', 'PSEdition_Core', 'PSEdition_Desktop', 'Windows', 'Linux', 'MacOS')
 
-            LicenseUri = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
+            LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
-            ProjectUri = 'https://github.com/abgox/PSCompletions'
+            ProjectUri   = 'https://github.com/abgox/PSCompletions'
+
+            ReleaseNotes = 'https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md'
 
         }
 

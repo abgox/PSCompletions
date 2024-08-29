@@ -76,6 +76,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             # Recurse
             ConvertToHashtable ($json | ConvertFrom-Json)
         }
+        function get_content {
+            param ([string]$path)
+            $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
+            if ($res) { return $res }
+            , @()
+        }
         function get_raw_content {
             param ([string]$path, [bool]$trim = $true)
             $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
@@ -140,20 +146,64 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
         download_list
 
+        $PSCompletions.wc = New-Object System.Net.WebClient
         # ensure completion config
-        foreach ($_ in $PSCompletions.cmd.Keys) {
+        foreach ($_ in $PSCompletions.data.list) {
             $path = "$($PSCompletions.path.completions)/$_/config.json"
+            if (!(Test-Path $path)) {
+                $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$_/config.json", $path)
+            }
             $json = get_raw_content $path | ConvertFrom-Json
             $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
             $json = get_raw_content $path | convert_from_json_to_hashtable
             foreach ($item in $json.config) {
+                if (!$PSCompletions.config.comp_config.$_) {
+                    $PSCompletions.config.comp_config.$_ = @{}
+                }
                 if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
                     $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
                     $need_update_config = $true
                 }
             }
         }
+        $PSCompletions.temp_keys = $PSCompletions.config.comp_config.Keys
+        foreach ($_ in $PSCompletions.temp_keys.Where({ $_ -notin $PSCompletions.list })) {
+            $PSCompletions.config.comp_config.Remove($_)
+            $need_update_config = $true
+        }
+        foreach ($_ in $PSCompletions.data.list.Where({ !$PSCompletions.config.comp_config.$_.Count })) {
+            $PSCompletions.config.comp_config.Remove($_)
+            $need_update_config = $true
+        }
         if ($need_update_config) { $PSCompletions.config | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.config -Encoding utf8 -Force }
+
+        # completions-data.json
+        $data = [ordered]@{
+            list     = @()
+            alias    = [ordered]@{}
+            aliasMap = [ordered]@{}
+        }
+        foreach ($f in Get-ChildItem $PSCompletions.path.completions -Directory) {
+            $data.list += $f.Name
+        }
+        foreach ($_ in $data.list) {
+            $data.alias.$_ = @()
+            if ($PSCompletions.data.alias.$_) {
+                foreach ($a in $PSCompletions.data.alias.$_) {
+                    $data.alias.$_ += $a
+                    $data.aliasMap.$a = $_
+                }
+            }
+            else {
+                $data.alias.$_ += $_
+                $data.aliasMap.$_ = $_
+            }
+        }
+        $new_completion_data = $data | ConvertTo-Json -Depth 100 -Compress
+        $old_completion_data = $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress
+        if ($new_completion_data -ne $old_completion_data) {
+            $new_completion_data | Out-File $PScompletions.path.data -Force -Encoding utf8
+        }
 
         # check version
         try {
@@ -169,6 +219,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         catch {}
 
         # check update
+        if (!(Test-Path $PSCompletions.path.update)) {
+            New-Item $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
+        }
         if ($PSCompletions.config.update -eq 1) {
             $update_list = @()
             foreach ($_ in (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })) {
@@ -188,10 +241,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
         $completion_datas = @{}
         $time = (Get-Date).AddMonths(-6)
-        $filter = (Get-ChildItem $PSCompletions.path.completions -Filter "order.json" -File -Recurse).Where({ $_.LastWriteTime -gt $time })
+        $filter = (Get-ChildItem $PSCompletions.path.completions -Filter 'order.json' -File -Recurse).Where({ $_.LastWriteTime -gt $time })
         foreach ($_ in $filter) {
             $cmd = Split-Path (Split-Path $_.FullName -Parent) -Leaf
-            if ($cmd -in $PSCompletions.cmd.Keys) {
+            if ($cmd -in $PSCompletions.data.list) {
                 $language = get_language $cmd
                 $path_language = "$($PSCompletions.path.completions)/$cmd/language/$language.json"
                 if (Test-Path $path_language) {
@@ -221,7 +274,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         }
         $historys = @()
         foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
-            foreach ($alias in $PSCompletions.cmd.$root) {
+            foreach ($alias in $PSCompletions.data.alias.$root) {
                 if ($_ -match "^[^\S\n]*$alias\s+.+") {
                     $historys += $_
                     break
