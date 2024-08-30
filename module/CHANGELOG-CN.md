@@ -3,6 +3,26 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.0.0 (2024/8/30)
+
+- 减少文件 I/O 操作，优化初始化方法，提升首次加载速度。
+  - 移除每个补全目录下的 **alias.txt** 文件，使用 **data.json** 文件存储数据。
+- 将配置数据文件 **config.json** 合并到 **data.json** 中。
+  - 注意: 如果使用了 scoop 去安装 `PSCompletions`，请检查应用清单(manifest)中的 persist 是否更新为 **data.json**。
+- 修改了几乎所有配置项的名称。
+
+  - 配置项名称的修改，不影响正常使用，在更新版本后，也会自动迁移旧的配置项到新的配置项。
+  - 比如:
+    - `update` => `enable_completions_update`
+    - `module_update` => `enable_module_update`
+    - `menu_show_tip` => `enable_tip`
+    - ...
+
+- 移除了两个配置项: `github` 和 `gitee`。
+  - 如果需要自定义地址，请使用 `url` 配置项。
+  - `psc config url <url>`
+- 其他的优化和修复。
+
 ## 4.3.3 (2024/8/27)
 
 - 当启用 `menu_is_prefix_match` 时，公共前缀提取后的输入可能会导致错误，现在已修复
