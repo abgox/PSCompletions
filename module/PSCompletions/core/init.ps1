@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.0'
+    version                 = '5.0.1'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -1014,7 +1014,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
 
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
-    if ('psc' -notin $PSCompletions.data.list) {
+    if (!(Test-Path "$($PSCompletions.path.completions)/psc")) {
         $PSCompletions.add_completion('psc', $false, $false)
         $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
     }
