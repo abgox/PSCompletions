@@ -12,7 +12,7 @@
             ToolTip        = $tip
         }
     }
-    foreach ($completion in $PSCompletions.cmd.Keys) {
+    foreach ($completion in $PSCompletions.data.list) {
 
         $completions += returnCompletion "rm $($completion)" $PSCompletions.replace_content($PSCompletions.info.rm.tip)
 
@@ -23,7 +23,7 @@
 
         $completions += returnCompletion "alias rm $($completion)" $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip) 'SpaceTab'
 
-        foreach ($alias in $PSCompletions.cmd.$completion) {
+        foreach ($alias in $PSCompletions.data.alias.$completion) {
             $completions += returnCompletion "alias rm $($completion) $($alias)" $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v)
         }
 
@@ -64,7 +64,7 @@
     }
 
     foreach ($completion in $PSCompletions.list) {
-        if ($completion -notin $PSCompletions.cmd.Keys) {
+        if ($completion -notin $PSCompletions.data.list) {
             $completions += returnCompletion "add $($completion)" $PSCompletions.replace_content($PSCompletions.info.add.tip)
         }
     }
