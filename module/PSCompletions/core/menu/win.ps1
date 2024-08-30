@@ -2,7 +2,7 @@
     param([array]$filter_list)
     $max_width = 0
 
-    $PSCompletions.menu.ui_size.width = $PSCompletions.menu.list_max_width + 2 + $PSCompletions.menu.config.menu_list_margin_left + $PSCompletions.menu.config.menu_list_margin_right
+    $PSCompletions.menu.ui_size.width = $PSCompletions.menu.list_max_width + 2 + $PSCompletions.menu.config.width_from_menu_left_to_item + $PSCompletions.menu.config.width_from_menu_right_to_item
     if ($PSCompletions.menu.is_show_tip) {
         $filterListTasks = @()
         $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
@@ -16,7 +16,7 @@
                 # 指定一行的最大宽度
                 $lineWidth = $Host_UI.RawUI.BufferSize.Width
 
-                if ($PSCompletions.config.menu_tip_follow_cursor) {
+                if ($PSCompletions.config.enable_tip_follow_cursor) {
                     $w = $lineWidth - $Host_UI.RawUI.CursorPosition.X
                     $lineWidth = [Math]::Max($w, $PSCompletions.menu.ui_size.Width)
                 }
@@ -115,7 +115,7 @@
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list {
     # X
-    if ($PSCompletions.config.menu_list_follow_cursor) {
+    if ($PSCompletions.config.enable_list_follow_cursor) {
         $PSCompletions.menu.pos.X = $Host.UI.RawUI.CursorPosition.X
         # 如果跟随鼠标，且超过右侧边界，则向左偏移
         $PSCompletions.menu.pos.X = [Math]::Min($PSCompletions.menu.pos.X, $Host.UI.RawUI.BufferSize.Width - 1 - $PSCompletions.menu.ui_size.Width)
@@ -127,7 +127,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     # 当为 0 时，有几率出现渲染错误，所以坐标右移一点
     if ($PSCompletions.menu.pos.x -eq 0) { $PSCompletions.menu.pos.x ++ }
 
-    if ($PSCompletions.config.menu_tip_follow_cursor) {
+    if ($PSCompletions.config.enable_tip_follow_cursor) {
         $PSCompletions.menu.pos_tip.X = $PSCompletions.menu.pos.X
     }
     else {
@@ -136,22 +136,22 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
 
     # Y
     $PSCompletions.menu.cursor_to_bottom = $Host.UI.RawUI.BufferSize.Height - $Host.UI.RawUI.CursorPosition.Y - 1
-    $PSCompletions.menu.cursor_to_top = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.config.menu_above_margin_bottom - 1
+    $PSCompletions.menu.cursor_to_top = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above - 1
 
     $PSCompletions.menu.is_show_above = if ($PSCompletions.menu.cursor_to_bottom -ge $PSCompletions.menu.cursor_to_top) { $false }else { $true }
 
     $PSCompletions.menu.ui_size.height = $PSCompletions.menu.filter_list.Count + 2
     if ($PSCompletions.menu.is_show_above) {
-        if ($PScompletions.config.menu_above_list_max_count -ne -1) {
-            $PSCompletions.menu.ui_size.height = [Math]::Min($PSCompletions.menu.ui_size.height, $PScompletions.config.menu_above_list_max_count + 2)
+        if ($PScompletions.config.list_max_count_when_above -ne -1) {
+            $PSCompletions.menu.ui_size.height = [Math]::Min($PSCompletions.menu.ui_size.height, $PScompletions.config.list_max_count_when_above + 2)
         }
         else {
             $PSCompletions.menu.ui_size.height = [Math]::Min($PSCompletions.menu.ui_size.height, $PSCompletions.menu.cursor_to_top)
         }
     }
     else {
-        if ($PScompletions.config.menu_below_list_max_count -ne -1) {
-            $PSCompletions.menu.ui_size.height = [Math]::Min($PSCompletions.menu.ui_size.height, $PScompletions.config.menu_below_list_max_count + 2)
+        if ($PScompletions.config.list_max_count_when_below -ne -1) {
+            $PSCompletions.menu.ui_size.height = [Math]::Min($PSCompletions.menu.ui_size.height, $PScompletions.config.list_max_count_when_below + 2)
         }
         else {
             $PSCompletions.menu.ui_size.height = [Math]::Min($PSCompletions.menu.ui_size.height, $PSCompletions.menu.cursor_to_bottom)
@@ -166,7 +166,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
             $PSCompletions.menu.ui_size.height = [Math]::Min($new_ui_height, $PSCompletions.menu.filter_list.Count + 2)
         }
         $PSCompletions.menu.ui_size.height = [Math]::Max($PSCompletions.menu.ui_size.height, 3)
-        $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.menu.ui_size.height - $PSCompletions.config.menu_above_margin_bottom
+        $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.menu.ui_size.height - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
         # 设置 tip 的 起始位置
         $PSCompletions.menu.pos_tip.Y = $PSCompletions.menu.pos.Y - $PSCompletions.menu.tip_max_height - 1
         if ($PSCompletions.menu.pos_tip.Y -lt 0) {
@@ -209,7 +209,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
         }
         $menu_end_pos = @{
             X = $PSCompletions.menu.pos.X + $PSCompletions.menu.ui_size.Width
-            Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.menu_above_margin_bottom
+            Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
         }
         $menu_start_pos.Y = [Math]::Max($menu_start_pos.Y, $PSCompletions.menu.pos.Y)
     }
@@ -229,7 +229,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
         if ($PSCompletions.menu.is_show_above) {
             $tip_end_pos = @{
                 X = $Host.UI.RawUI.BufferSize.Width
-                Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.menu_above_margin_bottom
+                Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
             }
             $tip_start_pos.Y = [Math]::Min($tip_start_pos.Y, $Host.UI.RawUI.WindowPosition.Y)
         }
@@ -254,7 +254,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_buffer {
-    if ($PSCompletions.config.menu_tip_cover_buffer) {
+    if ($PSCompletions.config.enable_tip_cover_buffer) {
         $box = @()
         if ($PSCompletions.menu.is_show_above) {
             foreach ($_ in 0..($PSCompletions.menu.pos.Y - 2)) {
@@ -277,7 +277,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_b
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer {
-    if ($PSCompletions.config.menu_list_cover_buffer) {
+    if ($PSCompletions.config.enable_list_cover_buffer) {
         $box = @()
         foreach ($_ in 0..$PSCompletions.menu.ui_size.Height) {
             $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
@@ -293,22 +293,22 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
 
     $border_box = @()
     $content_box = @()
-    $line_top = [string]$PSCompletions.config.menu_line_top_left + $PSCompletions.config.menu_line_horizontal * ($PSCompletions.menu.list_max_width + $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right) + $PSCompletions.config.menu_line_top_right
+    $line_top = [string]$PSCompletions.config.top_left + $PSCompletions.config.horizontal * ($PSCompletions.menu.list_max_width + $PSCompletions.config.width_from_menu_left_to_item + $PSCompletions.config.width_from_menu_right_to_item) + $PSCompletions.config.top_right
     $border_box += $line_top
     foreach ($_ in 0..($PSCompletions.menu.ui_size.height - 3)) {
         $content_length = $PSCompletions.menu.get_length($PSCompletions.menu.filter_list[$_].ListItemText)
         $content = $PSCompletions.menu.filter_list[$_].ListItemText + ' ' * ($PSCompletions.menu.list_max_width - $content_length)
-        $border_box += [string]$PSCompletions.config.menu_line_vertical + (' ' * ($PSCompletions.config.menu_list_margin_left + $PSCompletions.menu.list_max_width + $PSCompletions.config.menu_list_margin_right)) + [string]$PSCompletions.config.menu_line_vertical
-        $content_box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
+        $border_box += [string]$PSCompletions.config.vertical + (' ' * ($PSCompletions.config.width_from_menu_left_to_item + $PSCompletions.menu.list_max_width + $PSCompletions.config.width_from_menu_right_to_item)) + [string]$PSCompletions.config.vertical
+        $content_box += (' ' * $PSCompletions.config.width_from_menu_left_to_item) + $content + (' ' * $PSCompletions.config.width_from_menu_right_to_item)
     }
     $status = "$(([string]($PSCompletions.menu.selected_index + 1)).PadLeft($PSCompletions.menu.filter_list.Count.ToString().Length, ' '))"
-    $line_bottom = [string]$PSCompletions.config.menu_line_bottom_left + $PSCompletions.config.menu_line_horizontal * 2 + ' ' * ($status.Length + 1) + $PSCompletions.config.menu_line_horizontal * ($PSCompletions.menu.list_max_width + $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right - $status.Length - 3) + $PSCompletions.config.menu_line_bottom_right
+    $line_bottom = [string]$PSCompletions.config.bottom_left + $PSCompletions.config.horizontal * 2 + ' ' * ($status.Length + 1) + $PSCompletions.config.horizontal * ($PSCompletions.menu.list_max_width + $PSCompletions.config.width_from_menu_left_to_item + $PSCompletions.config.width_from_menu_right_to_item - $status.Length - 3) + $PSCompletions.config.bottom_right
     $border_box += $line_bottom
 
-    $buffer = $Host.UI.RawUI.NewBufferCellArray($border_box, $PSCompletions.config.menu_color_border_text, $PSCompletions.config.menu_color_border_back)
+    $buffer = $Host.UI.RawUI.NewBufferCellArray($border_box, $PSCompletions.config.border_text, $PSCompletions.config.border_back)
     $Host.UI.RawUI.SetBufferContents($PSCompletions.menu.pos, $buffer)
 
-    $buffer = $Host.UI.RawUI.NewBufferCellArray($content_box, $PSCompletions.config.menu_color_item_text, $PSCompletions.config.menu_color_item_back)
+    $buffer = $Host.UI.RawUI.NewBufferCellArray($content_box, $PSCompletions.config.item_text, $PSCompletions.config.item_back)
     $pos = @{
         X = $PSCompletions.menu.pos.X + 1
         Y = $PSCompletions.menu.pos.Y + 1
@@ -321,9 +321,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_bu
     foreach ($_ in $offset..($PSCompletions.menu.ui_size.height - 3 + $offset)) {
         $content_length = $PSCompletions.menu.get_length($PSCompletions.menu.filter_list[$_].ListItemText)
         $content = $PSCompletions.menu.filter_list[$_].ListItemText + ' ' * ($PSCompletions.menu.list_max_width - $content_length)
-        $content_box += (' ' * $PSCompletions.config.menu_list_margin_left) + $content + (' ' * $PSCompletions.config.menu_list_margin_right)
+        $content_box += (' ' * $PSCompletions.config.width_from_menu_left_to_item) + $content + (' ' * $PSCompletions.config.width_from_menu_right_to_item)
     }
-    $buffer = $Host.UI.RawUI.NewBufferCellArray($content_box, $PSCompletions.config.menu_color_item_text, $PSCompletions.config.menu_color_item_back)
+    $buffer = $Host.UI.RawUI.NewBufferCellArray($content_box, $PSCompletions.config.item_text, $PSCompletions.config.item_back)
     $pos = @{
         X = $PSCompletions.menu.pos.X + 1
         Y = $PSCompletions.menu.pos.Y + 1
@@ -346,12 +346,12 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_filter_
     $PSCompletions.menu.old_filter_buffer = $old_buffer  # 之前的内容
     $PSCompletions.menu.old_filter_pos = $old_top  # 之前的位置
 
-    $char = $PSCompletions.config.menu_filter_symbol
+    $char = $PSCompletions.config.filter_symbol
     $mindle = [System.Math]::Ceiling($char.Length / 2)
     $start = $char.Substring(0, $mindle)
     $end = $char.Substring($mindle)
 
-    $buffer_filter = $Host.UI.RawUI.NewBufferCellArray(@(@($start, $filter, $end) -join ''), $PSCompletions.config.menu_color_filter_text, $PSCompletions.config.menu_color_filter_back)
+    $buffer_filter = $Host.UI.RawUI.NewBufferCellArray(@(@($start, $filter, $end) -join ''), $PSCompletions.config.filter_text, $PSCompletions.config.filter_back)
     $pos_filter = $Host.UI.RawUI.CursorPosition
     $pos_filter.X = $PSCompletions.menu.pos.X + 2
     $pos_filter.Y = $PSCompletions.menu.pos.Y
@@ -363,7 +363,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     }
     $X = $PSCompletions.menu.pos.X + 3
     if ($PSCompletions.menu.is_show_above) {
-        $Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.menu_above_margin_bottom
+        $Y = $Host.UI.RawUI.CursorPosition.Y - 1 - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
     }
     else {
         $Y = $PSCompletions.menu.pos.Y + $PSCompletions.menu.ui_size.height - 1
@@ -378,13 +378,13 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     $PSCompletions.menu.old_status_pos = $old_top  # 之前的位置
 
     $current = "$(([string]($PSCompletions.menu.selected_index + 1)).PadLeft($PSCompletions.menu.filter_list.Count.ToString().Length, ' '))"
-    $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$current$($PSCompletions.config.menu_status_symbol)$($PSCompletions.menu.filter_list.Count)"), $PSCompletions.config.menu_color_status_text, $PSCompletions.config.menu_color_status_back)
+    $buffer_status = $Host.UI.RawUI.NewBufferCellArray(@("$current$($PSCompletions.config.status_symbol)$($PSCompletions.menu.filter_list.Count)"), $PSCompletions.config.status_text, $PSCompletions.config.status_back)
 
     $Host.UI.RawUI.SetBufferContents(@{ X = $X; Y = $Y }, $buffer_status)
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip_buffer {
     param([int]$X, [int]$Y)
-    if ($PSCompletions.config.menu_tip_cover_buffer) {
+    if ($PSCompletions.config.enable_tip_cover_buffer) {
         if ($PSCompletions.menu.is_show_above) {
             $Y = 0
             $to_Y = $PSCompletions.menu.pos.Y
@@ -408,7 +408,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buffer {
     param([int]$index)
     $box = @()
-    if ($PSCompletions.config.menu_tip_cover_buffer) {
+    if ($PSCompletions.config.enable_tip_cover_buffer) {
         if ($PSCompletions.menu.is_show_above) {
             foreach ($_ in 0..($PSCompletions.menu.pos.Y - 1)) {
                 $box += (' ' * $Host.UI.RawUI.BufferSize.Width)
@@ -448,7 +448,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
             X = $PSCompletions.menu.pos_tip.X
             Y = $PSCompletions.menu.pos_tip.Y
         }
-        $buffer = $Host.UI.RawUI.NewBufferCellArray($PSCompletions.menu.filter_list[$index].ToolTip, $PSCompletions.config.menu_color_tip_text, $PSCompletions.config.menu_color_tip_back)
+        $buffer = $Host.UI.RawUI.NewBufferCellArray($PSCompletions.menu.filter_list[$index].ToolTip, $PSCompletions.config.tip_text, $PSCompletions.config.tip_back)
         $Host.UI.RawUI.SetBufferContents($pos, $buffer)
     }
 }
@@ -460,11 +460,11 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
     $X = $PSCompletions.menu.pos.X + 1
     $to_X = $X + $PSCompletions.menu.list_max_width - 1
     # 如果高亮需要包含 margin
-    if ($PSCompletions.config.menu_selection_with_margin) {
-        $to_X += $PSCompletions.config.menu_list_margin_left + $PSCompletions.config.menu_list_margin_right
+    if ($PSCompletions.config.enable_selection_with_margin) {
+        $to_X += $PSCompletions.config.width_from_menu_left_to_item + $PSCompletions.config.width_from_menu_right_to_item
     }
     else {
-        $X += $PSCompletions.config.menu_list_margin_left
+        $X += $PSCompletions.config.width_from_menu_left_to_item
     }
 
     # 当前页的第几个
@@ -487,8 +487,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
     $content = foreach ($i in $LineBuffer.Where({ $_.BufferCellType -ne 'Trailing' })) { $i.Character }
     $LineBuffer = $Host.UI.RawUI.NewBufferCellArray(
         @([string]::Join('', $content)),
-        $PSCompletions.config.menu_color_selected_text,
-        $PSCompletions.config.menu_color_selected_back
+        $PSCompletions.config.selected_text,
+        $PSCompletions.config.selected_back
     )
     $Host.UI.RawUI.SetBufferContents(@{ X = $X; Y = $Y }, $LineBuffer)
 }
@@ -506,7 +506,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
 
     $new_selected_index = $PSCompletions.menu.selected_index + $moveDirection
 
-    if ($PSCompletions.config.menu_is_loop) {
+    if ($PSCompletions.config.enable_list_loop) {
         $PSCompletions.menu.selected_index = ($new_selected_index + $PSCompletions.menu.filter_list.Count) % $PSCompletions.menu.filter_list.Count
     }
     else {
@@ -528,7 +528,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
             $PSCompletions.menu.page_current_index += $PSCompletions.menu.page_max_index + 1
         }
     }
-    elseif ($PSCompletions.config.menu_is_loop -or ($new_selected_index -ge 0 -and $new_selected_index -lt $PSCompletions.menu.filter_list.Count)) {
+    elseif ($PSCompletions.config.enable_list_loop -or ($new_selected_index -ge 0 -and $new_selected_index -lt $PSCompletions.menu.filter_list.Count)) {
         if (!$isDown -and $PSCompletions.menu.selected_index -eq $PSCompletions.menu.filter_list.Count - 1) {
             $PSCompletions.menu.page_current_index += $PSCompletions.menu.page_max_index
         }
@@ -561,7 +561,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_prefix 
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_completions {
     param([array]$filter_list)
     # 如果是前缀匹配
-    if ($PSCompletions.config.menu_is_prefix_match) {
+    if ($PSCompletions.config.enable_prefix_match_in_filter) {
         $match = "$($PSCompletions.menu.filter)*"
     }
     else {
@@ -576,7 +576,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_comp
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
-    param([bool]$clearAll, [bool]$is_menu_enhance)
+    param([bool]$clearAll, [bool]$enable_menu_enhance)
     # reset content
 
     if ($PSCompletions.menu.old_tip_buffer) {
@@ -610,26 +610,26 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     $PSCompletions.menu.page_current_index = 0
     $PSCompletions.menu.tip_max_height = 0
 
-    if ($is_menu_enhance) {
-        $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip_when_enhance -eq 1
+    if ($enable_menu_enhance) {
+        $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip_when_enhance -eq 1
     }
     else {
         if ($PSCompletions.current_cmd) {
-            $menu_show_tip = $PSCompletions.config.comp_config.$($PSCompletions.current_cmd).menu_show_tip
-            if ($menu_show_tip -ne $null) {
-                $PSCompletions.menu.is_show_tip = $menu_show_tip -eq 1
+            $enable_tip = $PSCompletions.config.comp_config.$($PSCompletions.current_cmd).enable_tip
+            if ($enable_tip -ne $null) {
+                $PSCompletions.menu.is_show_tip = $enable_tip -eq 1
             }
             else {
-                $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
+                $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1
             }
         }
         else {
-            $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
+            $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1
         }
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
-    param($filter_list, [bool]$is_menu_enhance)
+    param($filter_list, [bool]$enable_menu_enhance)
 
     if (!$filter_list) { return }
 
@@ -638,7 +638,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $PSCompletions.menu.pos = @{ X = 0; Y = 0 }
     $PSCompletions.menu.pos_tip = @{ X = 0; Y = 0 }
-    $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.config.menu_list_min_width)
+    $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.config.list_min_width)
 
     $PSCompletions.menu.ui_size = $Host.UI.RawUI.BufferSize
 
@@ -652,13 +652,13 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $PSCompletions.menu.offset = 0  # 索引的偏移量，用于滚动翻页
 
-    $PSCompletions.menu.reset($true, $is_menu_enhance)
+    $PSCompletions.menu.reset($true, $enable_menu_enhance)
 
     $PSCompletions.menu.origin_filter_list = @()
     $PSCompletions.menu.filter_list = @()
     $PSCompletions.menu.handle_list_first($filter_list)
 
-    if ($PSCompletions.config.enter_when_single -and $PSCompletions.menu.filter_list.Count -eq 1) {
+    if ($PSCompletions.config.enable_enter_when_single -and $PSCompletions.menu.filter_list.Count -eq 1) {
         return $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index].CompletionText
     }
     $PSCompletions.menu.parse_list()
@@ -691,7 +691,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     # 显示菜单
     $PSCompletions.menu.new_buffer()
     if ($PSCompletions.menu.is_show_tip) { $PSCompletions.menu.new_tip_buffer($PSCompletions.menu.selected_index) }
-    if ($PSCompletions.config.menu_is_prefix_match) { $PSCompletions.menu.get_prefix() }
+    if ($PSCompletions.config.enable_prefix_match_in_filter) { $PSCompletions.menu.get_prefix() }
     $PSCompletions.menu.new_filter_buffer($PSCompletions.menu.filter)
     $PSCompletions.menu.new_status_buffer()
     $PSCompletions.menu.set_selection()

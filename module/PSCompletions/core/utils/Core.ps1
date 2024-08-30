@@ -23,73 +23,37 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 }
                 return ''
             }
-            function set_config {
-                param ([string]$k, [string]$v)
-                $c = get_raw_content $PScompletions.path.config | ConvertFrom-Json -AsHashtable
-                $c.$k = $v
-                $c | ConvertTo-Json -Depth 100 -Compress | Out-File $PScompletions.path.config -Encoding utf8 -Force
-            }
             function download_list {
                 if (!(Test-Path $PScompletions.path.completions_json)) {
                     @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PScompletions.path.completions_json -Encoding utf8 -Force
                 }
                 $current_list = (get_raw_content $PScompletions.path.completions_json | ConvertFrom-Json).list
-                if ($PScompletions.url) {
-                    try {
-                        $content = (Invoke-WebRequest -Uri "$($PScompletions.url)/completions.json").Content | ConvertFrom-Json
-                        $remote_list = $content.list
+                try {
+                    $content = (Invoke-WebRequest -Uri "$($PScompletions.url)/completions.json").Content | ConvertFrom-Json
+                    $remote_list = $content.list
 
-                        $diff = Compare-Object $remote_list $current_list -PassThru
-                        if ($diff) {
-                            $diff | Out-File $PScompletions.path.change -Force -Encoding utf8
-                            $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PScompletions.path.completions_json -Encoding utf8 -Force
-                        }
-                        else {
-                            Clear-Content $PScompletions.path.change -Force
-                        }
+                    $diff = Compare-Object $remote_list $current_list -PassThru
+                    if ($diff) {
+                        $diff | Out-File $PScompletions.path.change -Force -Encoding utf8
+                        $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PScompletions.path.completions_json -Encoding utf8 -Force
                     }
-                    catch {}
+                    else {
+                        Clear-Content $PScompletions.path.change -Force
+                    }
                 }
+                catch {}
             }
 
             download_list
 
             $PSCompletions.wc = New-Object System.Net.WebClient
-            # ensure completion config
-            foreach ($_ in $PSCompletions.data.list) {
-                $path = "$($PSCompletions.path.completions)/$_/config.json"
-                if (!(Test-Path $path)) {
-                    $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$_/config.json", $path)
-                }
-                $json = get_raw_content $path | ConvertFrom-Json
-                $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
-                $json = get_raw_content $path | ConvertFrom-Json -AsHashtable
-                foreach ($item in $json.config) {
-                    if (!$PSCompletions.config.comp_config.$_) {
-                        $PSCompletions.config.comp_config.$_ = @{}
-                    }
-                    if ($PSCompletions.config.comp_config.$_.$($item.name) -in @('', $null)) {
-                        $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
-                        $need_update_config = $true
-                    }
-                }
-            }
-            $PSCompletions.temp_keys = $PSCompletions.config.comp_config.Keys
-            foreach ($_ in $PSCompletions.temp_keys.Where({ $_ -notin $PSCompletions.list })) {
-                $PSCompletions.config.comp_config.Remove($_)
-                $need_update_config = $true
-            }
-            foreach ($_ in $PSCompletions.data.list.Where({ !$PSCompletions.config.comp_config.$_.Count })) {
-                $PSCompletions.config.comp_config.Remove($_)
-                $need_update_config = $true
-            }
-            if ($need_update_config) { $PSCompletions.config | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.config -Encoding utf8 -Force }
 
-            # completions-data.json
+            # data.json
             $data = [ordered]@{
                 list     = @()
                 alias    = [ordered]@{}
                 aliasMap = [ordered]@{}
+                config   = [ordered]@{}
             }
             foreach ($f in Get-ChildItem $PSCompletions.path.completions -Directory) {
                 $data.list += $f.Name
@@ -107,20 +71,64 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $data.aliasMap.$_ = $_
                 }
             }
-            $new_completion_data = $data | ConvertTo-Json -Depth 100 -Compress
-            $old_completion_data = $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress
-            if ($new_completion_data -ne $old_completion_data) {
-                $new_completion_data | Out-File $PScompletions.path.data -Force -Encoding utf8
+
+            ## config
+            foreach ($c in $PSCompletions.default_config.Keys) {
+                if ($PSCompletions.config.$c) {
+                    $data.config.$c = $PSCompletions.config.$c
+                }
+                else {
+                    $data.config.$c = $PSCompletions.default_config.$c
+                }
+            }
+
+            ## config.comp_config
+            $data.config.comp_config = [ordered]@{}
+            foreach ($_ in Get-ChildItem $PSCompletions.path.completions -Directory) {
+                $completion = $_.Name
+                if (!$data.config.comp_config.$completion) {
+                    $data.config.comp_config.$completion = [ordered]@{}
+                }
+                foreach ($c in $PSCompletions.config.comp_config.$completion.Keys) {
+                    $data.config.comp_config.$completion.$c = $PSCompletions.config.comp_config.$completion.$c
+                }
+            }
+            foreach ($_ in $PSCompletions.data.list) {
+                $path = "$($PSCompletions.path.completions)/$_/config.json"
+                if (!(Test-Path $path)) {
+                    $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$_/config.json", $path)
+                }
+                $json = get_raw_content $path | ConvertFrom-Json
+                $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
+                $json = get_raw_content $path | ConvertFrom-Json -AsHashtable
+                foreach ($item in $json.config) {
+                    if (!$data.config.comp_config.$_) {
+                        $data.config.comp_config.$_ = [ordered]@{}
+                    }
+                    if ($data.config.comp_config.$_.$($item.name) -in @('', $null)) {
+                        $data.config.comp_config.$_.$($item.name) = $item.value
+                    }
+                }
+            }
+            foreach ($_ in $data.config.comp_config.Keys.Clone().Where({ !$data.config.comp_config.$_.Count })) {
+                $data.config.comp_config.Remove($_)
+            }
+
+            $new_data = $data | ConvertTo-Json -Depth 100 -Compress
+            $old_data = $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress
+            if ($new_data -ne $old_data) {
+                $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
             }
 
             # check version
             try {
-                if ($PSCompletions.config.module_update -eq 1) {
+                if ($PSCompletions.config.enable_module_update -eq 1) {
                     $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/module/version.txt"
                     $content = $response.Content.Trim()
                     $versions = @($PSCompletions.version, $content) | Sort-Object { [Version] $_ }
                     if ($versions[-1] -ne $PSCompletions.version) {
-                        set_config 'module_update' $versions[-1]
+                        $PSCompletions.config.enable_module_update = $versions[-1]
+                        $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                     }
                 }
             }
@@ -130,7 +138,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             if (!(Test-Path $PSCompletions.path.update)) {
                 New-Item $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
             }
-            if ($PSCompletions.config.update -eq 1) {
+            if ($PSCompletions.config.enable_completions_update -eq 1) {
                 $update_list = @()
                 foreach ($_ in (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })) {
                     try {

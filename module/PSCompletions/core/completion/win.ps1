@@ -1,7 +1,7 @@
 ﻿Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
-    if ($PSCompletions.config.menu_enhance -and $PSCompletions.config.menu_enable) {
+    if ($PSCompletions.config.enable_menu_enhance -and $PSCompletions.config.enable_menu) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
-            Set-PSReadLineKeyHandler -Key $PSCompletions.config.menu_trigger_key -ScriptBlock {
+            Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock {
                 $buffer = ''
                 $cursorPosition = 0
                 [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursorPosition)
@@ -11,12 +11,12 @@
 
                 # Windows PowerShell 5.x
                 if ($PSEdition -ne 'Core') {
-                    $PSCompletions.config.menu_line_horizontal = '-'
-                    $PSCompletions.config.menu_line_vertical = '|'
-                    $PSCompletions.config.menu_line_top_left = '+'
-                    $PSCompletions.config.menu_line_bottom_left = '+'
-                    $PSCompletions.config.menu_line_top_right = '+'
-                    $PSCompletions.config.menu_line_bottom_right = '+'
+                    $PSCompletions.config.horizontal = '-'
+                    $PSCompletions.config.vertical = '|'
+                    $PSCompletions.config.top_left = '+'
+                    $PSCompletions.config.bottom_left = '+'
+                    $PSCompletions.config.top_right = '+'
+                    $PSCompletions.config.bottom_right = '+'
                 }
 
                 # 是否是按下空格键触发的补全
@@ -149,15 +149,15 @@
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 
                     $filter_list = $PSCompletions.get_completion()
-                    if ($PSCompletions.config.menu_enable) {
+                    if ($PSCompletions.config.enable_menu) {
                         # Windows PowerShell 5.x
                         if ($PSEdition -ne 'Core') {
-                            $PSCompletions.config.menu_line_horizontal = '-'
-                            $PSCompletions.config.menu_line_vertical = '|'
-                            $PSCompletions.config.menu_line_top_left = '+'
-                            $PSCompletions.config.menu_line_bottom_left = '+'
-                            $PSCompletions.config.menu_line_top_right = '+'
-                            $PSCompletions.config.menu_line_bottom_right = '+'
+                            $PSCompletions.config.horizontal = '-'
+                            $PSCompletions.config.vertical = '|'
+                            $PSCompletions.config.top_left = '+'
+                            $PSCompletions.config.bottom_left = '+'
+                            $PSCompletions.config.top_right = '+'
+                            $PSCompletions.config.bottom_right = '+'
                         }
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }

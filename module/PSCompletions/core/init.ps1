@@ -1,99 +1,98 @@
-using namespace System.Management.Automation
+﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version  = '4.3.3'
-    path     = @{
+    version                 = '4.3.3'
+    path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
         core             = Join-Path $_ 'core'
         completions_json = Join-Path $_ 'completions.json'
-        config           = Join-Path $_ 'config.json'
         data             = Join-Path $_ 'data.json'
         update           = Join-Path $_ 'update.txt'
         change           = Join-Path $_ 'change.txt'
     }
-    order    = [ordered]@{}
-    language = $PSUICulture
-    encoding = [console]::OutputEncoding
-    wc       = New-Object System.Net.WebClient
-    menu     = @{
+    order                   = [ordered]@{}
+    language                = $PSUICulture
+    encoding                = [console]::OutputEncoding
+    wc                      = New-Object System.Net.WebClient
+    menu                    = @{
         const = @{
+            symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
+            line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
             color_item  = @('item_text', 'item_back', 'selected_text', 'selected_back', 'filter_text', 'filter_back', 'border_text', 'border_back', 'status_text', 'status_back', 'tip_text', 'tip_back')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
-            config_item = @('menu_enable', 'menu_show_tip', 'menu_list_follow_cursor', 'menu_tip_follow_cursor', 'menu_is_prefix_match', 'menu_is_loop', 'enter_when_single', 'menu_selection_with_margin', 'menu_completions_sort', 'menu_above_margin_bottom', 'menu_tip_cover_buffer', 'menu_list_cover_buffer', 'menu_above_list_max_count', 'menu_below_list_max_count', 'menu_between_item_and_symbol', 'menu_list_min_width', 'menu_list_margin_left', 'menu_list_margin_right', 'menu_status_symbol', 'menu_filter_symbol', 'menu_trigger_key', 'menu_enhance', 'menu_show_tip_when_enhance')
-            line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
+            config_item = @(
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_tip_cover_buffer', 'enable_list_cover_buffer', 'enable_list_loop', 'enable_selection_with_margin', 'enable_enter_when_single', 'enable_prefix_match_in_filter', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above'
+            )
         }
     }
-    default  = @{
-        env         = @{
-            # env
-            language      = $PSUICulture
-            update        = 1
-            module_update = 1
-            github        = 'https://github.com/abgox/PSCompletions'
-            gitee         = 'https://gitee.com/abgox/PSCompletions'
-            url           = ''
-            disable_cache = 0
-            function_name = 'PSCompletions'
-        }
-        symbol      = @{
-            symbol_SpaceTab      = '😄'
-            symbol_WriteSpaceTab = '😎'
-            symbol_OptionTab     = '🤔'
-        }
-        menu_line   = @{
-            # menu line
-            menu_line_horizontal   = '═'
-            menu_line_vertical     = '║'
-            menu_line_top_left     = '╔'
-            menu_line_bottom_left  = '╚'
-            menu_line_top_right    = '╗'
-            menu_line_bottom_right = '╝'
-        }
-        menu_color  = @{
-            # menu color
-            menu_color_item_text     = 'Blue'
-            menu_color_item_back     = 'Black'
-            menu_color_selected_text = 'white'
-            menu_color_selected_back = 'DarkGray'
-            menu_color_filter_text   = 'Yellow'
-            menu_color_filter_back   = 'Black'
-            menu_color_border_text   = 'DarkGray'
-            menu_color_border_back   = 'Black'
-            menu_color_status_text   = 'Blue'
-            menu_color_status_back   = 'Black'
-            menu_color_tip_text      = 'Cyan'
-            menu_color_tip_back      = 'Black'
-        }
-        menu_config = @{
-            # menu config
-            enter_when_single            = 0
-            menu_enable                  = 1
-            menu_enhance                 = 1
-            menu_show_tip_when_enhance   = 1
-            menu_show_tip                = 1
-            menu_completions_sort        = 1
-            menu_selection_with_margin   = 1
-            menu_tip_follow_cursor       = 1
-            menu_tip_cover_buffer        = 1
-            menu_list_follow_cursor      = 1
-            menu_list_cover_buffer       = 0
-            menu_list_margin_left        = 0
-            menu_list_margin_right       = 0
-            menu_list_min_width          = 10
-            menu_is_prefix_match         = 0
-            menu_is_loop                 = 1
-            menu_above_margin_bottom     = 0
-            menu_above_list_max_count    = -1
-            menu_below_list_max_count    = -1
-            menu_between_item_and_symbol = ' '
-            menu_status_symbol           = '/'
-            menu_filter_symbol           = '[]'
-            menu_trigger_key             = 'Tab'
-        }
-        # completion config
-        comp_config = @{}
+    default_config          = [ordered]@{
+        # config
+        url                                          = ''
+        language                                     = $PSUICulture
+        enable_completions_update                    = 1
+        enable_module_update                         = 1
+        disable_cache                                = 0
+        function_name                                = 'PSCompletions'
+
+        # menu symbol
+        SpaceTab                                     = '😄'
+        WriteSpaceTab                                = '😎'
+        OptionTab                                    = '🤔'
+
+        # menu line
+        horizontal                                   = '═'
+        vertical                                     = '║'
+        top_left                                     = '╔'
+        bottom_left                                  = '╚'
+        top_right                                    = '╗'
+        bottom_right                                 = '╝'
+
+        # menu color
+        item_text                                    = 'Blue'
+        item_back                                    = 'Black'
+        selected_text                                = 'white'
+        selected_back                                = 'DarkGray'
+        filter_text                                  = 'Yellow'
+        filter_back                                  = 'Black'
+        border_text                                  = 'DarkGray'
+        border_back                                  = 'Black'
+        status_text                                  = 'Blue'
+        status_back                                  = 'Black'
+        tip_text                                     = 'Cyan'
+        tip_back                                     = 'Black'
+
+        # menu config
+        trigger_key                                  = 'Tab'
+        between_item_and_symbol                      = ' '
+        status_symbol                                = '/'
+        filter_symbol                                = '[]'
+
+        enable_menu                                  = 1
+        enable_menu_enhance                          = 1
+        enable_tip                                   = 1
+        enable_tip_when_enhance                      = 1
+        enable_completions_sort                      = 1
+        enable_tip_follow_cursor                     = 1
+        enable_list_follow_cursor                    = 1
+        enable_tip_cover_buffer                      = 1
+        enable_list_cover_buffer                     = 0
+
+        enable_list_loop                             = 1
+        enable_selection_with_margin                 = 1
+        enable_enter_when_single                     = 0
+        enable_prefix_match_in_filter                = 0
+
+        list_min_width                               = 10
+        list_max_count_when_above                    = -1
+        list_max_count_when_below                    = -1
+        width_from_menu_left_to_item                 = 0
+        width_from_menu_right_to_item                = 0
+        height_from_menu_bottom_to_cursor_when_above = 0
     }
+    # 每个补全都默认带有的配置项
+    default_completion_item = @('language', 'enable_tip')
+    config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'disable_cache', 'function_name')
 } -Option ReadOnly
 
 if ($PSEdition -eq 'Core' -and !$IsWindows) {
@@ -210,9 +209,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                                 }
                             }
 
-                            $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$c" }
+                            $symbols = foreach ($c in $symbols) { $PSCompletions.config.$c }
                             $symbols = $symbols -join ''
-                            $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$symbols" }else { '' }
+                            $padSymbols = if ($symbols) { "$($PSCompletions.config.between_item_and_symbol)$symbols" }else { '' }
 
                             $completions.Add(@{
                                     name           = $pre + $pad + $_.name
@@ -409,10 +408,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 }
                 $symbols = $symbols | Select-Object -Unique
 
-                $symbols = foreach ($c in $symbols) { $PSCompletions.config."symbol_$c" }
+                $symbols = foreach ($c in $symbols) { $PSCompletions.config.$c }
                 $symbols = $symbols -join ''
                 if ($symbols) {
-                    "$($PSCompletions.config.menu_between_item_and_symbol)$symbols"
+                    "$($PSCompletions.config.between_item_and_symbol)$symbols"
                 }
                 else {
                     ''
@@ -518,7 +517,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $filter_list = filterCompletions $completions $root
 
     # 排序
-    if ($PSCompletions.config.menu_completions_sort) {
+    if ($PSCompletions.config.enable_completions_sort) {
         $path_order = "$($PSCompletions.path.completions)/$root/order.json"
         if ($PSCompletions.order."$($root)_job") {
             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
@@ -545,52 +544,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $PSCompletions.order_job($completions, (Get-PSReadLineOption).HistorySavePath, $root, $path_order)
     }
     return $filter_list
-}
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_config {
-    if (Test-Path $PSCompletions.path.config) {
-        $c = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($PSCompletions.path.config))
-        if ($c) {
-            foreach ($_ in @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config')) {
-                foreach ($config in $PSCompletions.default.$_.Keys) {
-                    if ($config -notin $c.keys) {
-                        $hasDiff = $true
-                        $c.$config = $PSCompletions.default.$_.$config
-                    }
-                }
-            }
-            if ($c.comp_config -eq $null) {
-                $hasDiff = $true
-                $c.comp_config = @{}
-            }
-            if ($hasDiff) {
-                $c | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.config -Encoding utf8 -Force
-            }
-            return $c
-        }
-        else {
-            $need_init = $true
-        }
-    }
-    else {
-        $need_init = $true
-    }
-    if ($need_init) {
-        $c = @{}
-        foreach ($_ in @('env', 'symbol', 'menu_line', 'menu_color', 'menu_config')) {
-            foreach ($config in $PSCompletions.default.$_.Keys) {
-                $c.$config = $PSCompletions.default.$_.$config
-            }
-        }
-        $c.comp_config = @{}
-        $c | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.config -Encoding utf8 -Force
-    }
-    return $c
-}
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod set_config {
-    param ([string]$k, $v)
-    $PSCompletions.config = $PSCompletions.get_config()
-    $PSCompletions.config.$k = $v
-    $PSCompletions.config | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.config -Encoding utf8 -Force
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod split_array {
     <#
@@ -846,32 +799,28 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
         @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
     }
     $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
-    if ($PSCompletions.url) {
-        try {
-            $content = (Invoke-WebRequest -Uri "$($PSCompletions.url)/completions.json").Content | ConvertFrom-Json
+    try {
+        $content = (Invoke-WebRequest -Uri "$($PSCompletions.url)/completions.json").Content | ConvertFrom-Json
 
-            $remote_list = $content.list
+        $remote_list = $content.list
 
-            $diff = Compare-Object $remote_list $current_list -PassThru
-            if ($diff) {
-                $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
-                $PSCompletions.list = $remote_list
-            }
-            else {
-                Clear-Content $PSCompletions.path.change -Force
-                $PSCompletions.list = $current_list
-            }
-            return $remote_list
+        $diff = Compare-Object $remote_list $current_list -PassThru
+        if ($diff) {
+            $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
+            $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+            $PSCompletions.list = $remote_list
         }
-        catch {
+        else {
+            Clear-Content $PSCompletions.path.change -Force
             $PSCompletions.list = $current_list
-            return $false
         }
+        return $remote_list
     }
-    $PSCompletions.list = $current_list
-    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.url))
-    $false
+    catch {
+        $PSCompletions.list = $current_list
+        $PSCompletions._invalid_url = "$($PSCompletions.url)/completions.json"
+        return $false
+    }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
     param([string]$url, [string]$file)
@@ -898,7 +847,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     param (
         [string]$completion,
-        [bool]$is_last = $true,
         [bool]$log = $true,
         [bool]$is_update = $true
     )
@@ -960,16 +908,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
 
     $done = if ($is_update) { $PSCompletions.info.update.done }else { $PSCompletions.info.add.done }
 
-    if (!$PSCompletions.data) {
-        $PSCompletions.data = [ordered]@{
-            list     = @()
-            alias    = [ordered]@{}
-            aliasMap = [ordered]@{}
-        }
-    }
     if ($completion -notin $PSCompletions.data.list) {
         $PSCompletions.data.list += $completion
-        $PSCompletions._need_update_completions_data = $true
+        $PSCompletions._need_update_data = $true
     }
     if (!$PSCompletions.data.alias.$completion) {
         $PSCompletions.data.alias.$completion = @()
@@ -980,7 +921,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             if ($a -notin $PSCompletions.data.alias.$completion) {
                 $PSCompletions.data.alias.$completion += $a
                 $PSCompletions.data.aliasMap.$a = $completion
-                $PSCompletions._need_update_completions_data = $true
+                $PSCompletions._need_update_data = $true
             }
         }
     }
@@ -988,47 +929,76 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         if ($completion -notin $PSCompletions.data.alias.$completion) {
             $PSCompletions.data.alias.$completion += $completion
             $PSCompletions.data.aliasMap.$completion = $completion
-            $PSCompletions._need_update_completions_data = $true
+            $PSCompletions._need_update_data = $true
         }
     }
-
-    if ($PSCompletions._need_update_completions_data -and $is_last) {
-        $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
-    }
-
     $language = $PSCompletions.get_language($completion)
     $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
+    if (!$PSCompletions.completions) {
+        $PSCompletions.completions = @{}
+    }
     $PSCompletions.completions.$completion = $json
 
     if ($log) { $PSCompletions.write_with_color($PSCompletions.replace_content($done)) }
 
-    # 如果补全有单独的配置信息，写入配置文件
     if ($json.config) {
-        $PSCompletions.config = $PSCompletions.get_config()
         if (!$PSCompletions.config.comp_config.$completion) {
             $PSCompletions.config.comp_config.$completion = @{}
         }
         foreach ($_ in $json.config) {
             if (!($PSCompletions.config.comp_config.$completion.$($_.name))) {
                 $PSCompletions.config.comp_config.$completion.$($_.name) = $_.value
-                $PSCompletions._need_update_config = $true
+                $PSCompletions._need_update_data = $true
             }
-        }
-        if ($PSCompletions._need_update_config -and $is_last) {
-            $PSCompletions.config | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.config -Force -Encoding utf8
         }
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.completions = @{}
-    $PSCompletions.config = $PSCompletions.get_config()
 
-    if ($PSCompletions.config.language) {
-        $PSCompletions.language = $PSCompletions.config.language
+    if (Test-Path $PSCompletions.path.data) {
+        $PSCompletions.data = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
     }
     else {
-        $PSCompletions.language = $PSUICulture
+        $data = @{
+            list     = @()
+            alias    = @{}
+            aliasMap = @{}
+            config   = $PSCompletions.default_config
+        }
+        $data.config.comp_config = @{}
+        foreach ($_ in Get-ChildItem -Path $PSCompletions.path.completions -Directory) {
+            $name = $_.Name
+            $data.list += $name
+            $data.alias.$name = @()
+            $path_config = Join-Path $_.FullName 'config.json'
+            if (!(Test-Path $path_config)) {
+                $PSCompletions.add_completion($name)
+            }
+            $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
+            if ($config.alias) {
+                foreach ($a in $config.alias) {
+                    $data.alias.$name += $a
+                    $data.aliasMap.$a = $name
+                }
+            }
+            else {
+                $data.alias.$name += $name
+                $data.aliasMap.$name = $name
+            }
+            $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
+            $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
+            $data.config.comp_config.$name = @{}
+            foreach ($_ in $json.config) {
+                $data.config.comp_config.$name.$($_.name) = $_.value
+            }
+        }
+        $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $PSCompletions.data = $data
     }
+    $PSCompletions.config = $PSCompletions.data.config
+    $PSCompletions.language = $PSCompletions.config.language
+
     if ($PSCompletions.config.url) {
         $PSCompletions.url = $PSCompletions.config.url
     }
@@ -1044,46 +1014,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
 
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
-
-    if (Test-Path $PSCompletions.path.data) {
-        $PSCompletions.data = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
-    }
-    else {
-        $data = @{
-            list     = @()
-            alias    = @{}
-            aliasMap = @{}
-        }
-        foreach ($_ in Get-ChildItem -Path $PSCompletions.path.completions -Directory) {
-            $name = $_.Name
-            $data.list += $name
-            $data.alias.$name = @()
-            $path_config = Join-Path $_.FullName 'config.json'
-            if (!(Test-Path $path_config)) {
-                $PSCompletions.add_completion($name)
-            }
-            if (Test-Path $path_config) {
-                $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
-                if ($config.alias) {
-                    foreach ($a in $config.alias) {
-                        $data.alias.$name += $a
-                        $data.aliasMap.$a = $name
-                    }
-                }
-                else {
-                    $data.alias.$name += $name
-                    $data.aliasMap.$name = $name
-                }
-            }
-        }
-        $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
-        $PSCompletions.data = $data
-    }
     if ('psc' -notin $PSCompletions.data.list) {
-        $PSCompletions.data.list += 'psc'
-        $PSCompletions.data.alias.psc = @('psc')
-        $PSCompletions.data.aliasMap.psc = 'psc'
-        $PSCompletions.add_completion('psc', $true, $false, $false)
+        $PSCompletions.add_completion('psc', $false, $false)
         $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
     }
     if (!$PSCompletions.info) {
@@ -1114,16 +1046,16 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         $json = $PSCompletions.completions.$($PSCompletions.current_cmd)
         $info = $json.info
 
-        $menu_show_tip = $PSCompletions.config.comp_config.$($PSCompletions.current_cmd).menu_show_tip
-        if ($menu_show_tip -ne $null) {
-            $PSCompletions.menu.is_show_tip = $menu_show_tip -eq 1
+        $enable_tip = $PSCompletions.config.comp_config.$($PSCompletions.current_cmd).enable_tip
+        if ($enable_tip -ne $null) {
+            $PSCompletions.menu.is_show_tip = $enable_tip -eq 1
         }
         else {
-            $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
+            $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1
         }
     }
     else {
-        $PSCompletions.menu.is_show_tip = $PSCompletions.config.menu_show_tip -eq 1
+        $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1
     }
 
     if ($PSCompletions.menu.is_show_tip) {
@@ -1156,28 +1088,135 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
             if ($old_version -match '^\d+\.\d.*' -and $old_version -ge '4') {
                 $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $old_version
                 $PSCompletions.ensure_dir($PSCompletions.path.completions)
-                foreach ($_ in Get-ChildItem "$old_version_dir/completions" -Directory -ErrorAction SilentlyContinue) {
-                    if ($_.Name -ne 'psc') {
-                        Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
+
+                if (Test-Path "$old_version_dir/data.json") {
+                    foreach ($_ in Get-ChildItem "$old_version_dir/completions" -Directory -ErrorAction SilentlyContinue) {
+                        if ($_.Name -ne 'psc') {
+                            Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
+                        }
                     }
+                    Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction SilentlyContinue
                 }
-                Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction SilentlyContinue
-                Move-Item "$old_version_dir/config.json" $PSCompletions.path.config -Force -ErrorAction SilentlyContinue
-                Move-Item "$old_version_dir/update" $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
-                Move-Item "$old_version_dir/change" $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
+                else {
+                    $data = @{
+                        list     = @()
+                        alias    = @{}
+                        aliasMap = @{}
+                        config   = $PSCompletions.default_config
+                    }
+                    $data.config.comp_config = @{}
+                    foreach ($_ in Get-ChildItem "$old_version_dir/completions" -Directory -ErrorAction SilentlyContinue) {
+                        $name = $_.Name
+                        $data.list += $name
+                        $data.alias.$name = @()
+                        $path_alias = Join-Path $_.FullName 'alias.txt'
+                        if (Test-Path $path_alias) {
+                            $alias_list = $PSCompletions.get_content($path_alias)
+                            foreach ($a in $alias_list) {
+                                $data.alias.$name += $a
+                                $data.aliasMap.$a = $name
+                            }
+                        }
+                        else {
+                            $path_config = Join-Path $_.FullName 'config.json'
+                            $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
+                            if ($config.alias) {
+                                foreach ($a in $config.alias) {
+                                    $data.alias.$name += $a
+                                    $data.aliasMap.$a = $name
+                                }
+                            }
+                            else {
+                                $data.alias.$name += $name
+                                $data.aliasMap.$name = $name
+                            }
+                        }
+
+                        $path_data_config = "$old_version_dir/config.json"
+                        if (Test-Path $path_data_config) {
+                            $configMap = @{
+                                url                          = 'url'
+                                language                     = 'language'
+                                update                       = 'enable_completions_update'
+                                module_update                = 'enable_module_update'
+                                disable_cache                = 'disable_cache'
+                                function_name                = 'function_name'
+                                symbol_SpaceTab              = 'SpaceTab'
+                                symbol_WriteSpaceTab         = 'WriteSpaceTab'
+                                symbol_OptionTab             = 'OptionTab'
+                                menu_line_horizontal         = 'horizontal'
+                                menu_line_vertical           = 'vertical'
+                                menu_line_top_left           = 'top_left'
+                                menu_line_bottom_left        = 'bottom_left'
+                                menu_line_top_right          = 'top_right'
+                                menu_line_bottom_right       = 'bottom_right'
+                                menu_color_item_text         = 'item_text'
+                                menu_color_item_back         = 'item_back'
+                                menu_color_selected_text     = 'selected_text'
+                                menu_color_selected_back     = 'selected_back'
+                                menu_color_filter_text       = 'filter_text'
+                                menu_color_filter_back       = 'filter_back'
+                                menu_color_border_text       = 'border_text'
+                                menu_color_border_back       = 'border_back'
+                                menu_color_status_text       = 'status_text'
+                                menu_color_status_back       = 'status_back'
+                                menu_color_tip_text          = 'tip_text'
+                                menu_color_tip_back          = 'tip_back'
+                                trigger_key                  = 'trigger_key'
+                                menu_between_item_and_symbol = 'between_item_and_symbol'
+                                menu_status_symbol           = 'status_symbol'
+                                menu_filter_symbol           = 'filter_symbol'
+                                menu_enable                  = 'enable_menu'
+                                menu_enhance                 = 'enable_menu_enhance'
+                                menu_show_tip                = 'enable_tip'
+                                menu_show_tip_when_enhance   = 'enable_tip_when_enhance'
+                                menu_completions_sort        = 'enable_completions_sort'
+                                menu_tip_follow_cursor       = 'enable_tip_follow_cursor'
+                                menu_list_follow_cursor      = 'enable_list_follow_cursor'
+                                menu_tip_cover_buffer        = 'enable_tip_cover_buffer'
+                                menu_list_cover_buffer       = 'enable_list_cover_buffer'
+                                menu_is_loop                 = 'enable_list_loop'
+                                menu_selection_with_margin   = 'enable_selection_with_margin'
+                                enter_when_single            = 'enable_enter_when_single'
+                                menu_is_prefix_match         = 'enable_prefix_match_in_filter'
+                                menu_list_min_width          = 'list_min_width'
+                                menu_above_list_max_count    = 'list_max_count_when_above'
+                                menu_below_list_max_count    = 'list_max_count_when_below'
+                                menu_list_margin_left        = 'width_from_menu_left_to_item'
+                                menu_list_margin_right       = 'width_from_menu_right_to_item'
+                                menu_above_margin_bottom     = 'height_from_menu_bottom_to_cursor_when_above'
+                            }
+
+                            $data_config = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_data_config))
+                            foreach ($c in $data_config.Keys) {
+                                if ($configMap[$c]) {
+                                    $data.config.$($configMap[$c]) = $data_config.$c
+                                }
+                            }
+                        }
+                        if ($_.Name -ne 'psc') {
+                            Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
+                        }
+                    }
+                    $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                }
+                Move-Item "$old_version_dir/update.txt" $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
+                Move-Item "$old_version_dir/change.txt" $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
                 Move-Item "$old_version_dir/completions.json" $PSCompletions.path.completions_json -Force -ErrorAction SilentlyContinue
             }
         }
+        else {
+            $PSCompletions.is_first_init = $true
+        }
     }
     $PSCompletions.move_old_version()
-    $PSCompletions.is_first_init = $true
     $null = New-Item (Join-Path $PSCompletions.path.core '.temp') -Force
 }
 
 $PSCompletions.init_data()
 
 if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
-    Set-PSReadLineKeyHandler $PSCompletions.config.menu_trigger_key MenuComplete
+    Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
     $PSCompletions.generate_completion()
     $PSCompletions.handle_completion()
 }
@@ -1197,8 +1236,8 @@ foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
     }
 }
 
-if ($PSCompletions.config.module_update -match '^\d+\.\d.*') {
-    $PSCompletions.version_list = $PSCompletions.config.module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending
+if ($PSCompletions.config.enable_module_update -match '^\d+\.\d.*') {
+    $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.core 'CHANGELOG.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
@@ -1207,16 +1246,16 @@ if ($PSCompletions.config.module_update -match '^\d+\.\d.*') {
             })
     }
     else {
-        $PSCompletions.set_config('module_update', 1)
+        $PSCompletions.config.enable_module_update = 1
+        $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
     }
 }
 else {
-    if ($PSCompletions.config.update -eq 1) {
+    if ($PSCompletions.config.enable_completions_update -eq 1) {
         if ($PSCompletions.update -or $PSCompletions.get_content($PSCompletions.path.change)) {
             $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
         }
     }
 }
 
-# 缓存 completion 数据并后台检测更新
 $PSCompletions.start_job()
