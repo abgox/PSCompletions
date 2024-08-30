@@ -9,13 +9,15 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '4.3.3'
+    ModuleVersion        = '5.0.0'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
     Author               = 'abgox'
 
     Copyright            = 'Copyright (c) 2023-present abgox. All Rights Reserved.'
+
+    PowerShellVersion    = '5.1'
 
     CompatiblePSEditions = @('Core', 'Desktop')
 

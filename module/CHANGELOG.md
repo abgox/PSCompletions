@@ -3,6 +3,24 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.0.0 (2024/8/30)
+
+- Reduce file I/O operations and optimize initialization method to improve first load speed.
+  - Remove the **alias.txt** file in each completion directory, and use **data.json** to store data.
+- Merge configuration data file **config.json** into **data.json**.
+  - Note: If you use scoop to install `PSCompletions`, please check the manifest (persist) to update to **data.json**.
+- Modify the name of almost all configuration items.
+  - The name of the configuration item has been modified, and it will not affect normal use. When the version is updated, it will automatically migrate the old configuration item to the new configuration item.
+  - For example:
+    - `update` => `enable_completions_update`
+    - `module_update` => `enable_module_update`
+    - `menu_show_tip` => `enable_tip`
+    - ...
+- Remove two configuration items: `github` and `gitee`.
+  - If you need to customize the url, please use the `url` configuration item.
+  - `psc config url <url>`
+- Other optimizations and fixes.
+
 ## 4.3.3 (2024/8/27)
 
 - Fix an error that occurred when `menu_is_prefix_match` was enabled, due to the input after public prefix extraction.
