@@ -239,13 +239,15 @@
       "value": 0,
       "values": [1, 0],
       "tip": [
-        "当前值: <@Magenta>{{$PSCompletions.config.comp_config.pnpm.disable_hooks}}<@Blue>\n",
+        "{{",
+        "$_value = $PSCompletions.config.comp_config.pnpm.disable_hooks;",
+        "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
+        "}}",
         "设置是否禁用 hooks，默认为 0 表示启用\n",
-        "hooks 将解析 package.json 中的 scripts/dependencies/devDependencies 等字段, 然后动态添加到补全中\n",
-        "(如 <@Magenta>run<@Blue>, <@Magenta>rm<@Blue>/<@Magenta>remove<@Blue>, <@Magenta>update<@Blue>/<@Magenta>up<@Blue>/<@Magenta>upgrade<@Blue> 等)\n",
-        "如: 输入 <@Magenta>pnpm run<@Blue> 后按下 <@Magenta>Space<@Blue>(空格) 和 <@Magenta>Tab<@Blue> 键可以获取额外的补全\n",
-        "   (这些额外的补全来自 package.json 中定义的 scripts 命令)\n",
-        "你可以通过运行 <@Magenta>psc completion pnpm disable_hooks 1<@Blue> 来禁用 hooks"
+        "hooks 将解析一些数据, 然后动态添加到命令补全中\n",
+        "包含的数据: package.json 中的 scripts/dependencies/devDependencies 等字段\n",
+        "包含的命令: <@Magenta>run<@Blue>,<@Magenta>rm<@Blue>/<@Magenta>remove<@Blue>,<@Magenta>update<@Blue>/<@Magenta>up<@Blue>/<@Magenta>upgrade<@Blue>,...\n",
+        "你可以通过运行 <@Magenta>psc completion pnpm disable_hooks 1<@Blue> 来禁用它"
       ]
     }
   ]

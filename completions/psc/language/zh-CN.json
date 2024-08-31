@@ -1778,12 +1778,15 @@
       "value": 0,
       "values": [1, 0],
       "tip": [
-        "当前值: <@Magenta>{{$PSCompletions.config.comp_config.psc.disable_hooks}}<@Blue>\n",
+        "{{",
+        "$_value = $PSCompletions.config.comp_config.psc.disable_hooks;",
+        "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
+        "}}",
         "设置是否禁用 hooks，默认为 0 表示启用\n",
-        "hooks 将获取已添加或可添加的补全名称, 然后动态添加到命令补全中\n",
-        "(如 <@Magenta>add<@Blue>, <@Magenta>rm<@Blue>, <@Magenta>update<@Blue>, <@Magenta>completion<@Blue>, <@Magenta>alias<@Blue> 等)\n",
-        "如: 输入 <@Magenta>psc rm<@Blue> 后按下 <@Magenta>Space<@Blue>(空格) 和 <@Magenta>Tab<@Blue> 键可以获取已添加的补全名称的补全\n",
-        "你可以通过运行 <@Magenta>psc completion psc disable_hooks 1<@Blue> 来禁用 hooks"
+        "hooks 将解析一些数据, 然后动态添加到命令补全中\n",
+        "包含的数据: 已添加或可添加的补全名称\n",
+        "包含的命令: <@Magenta>add<@Blue>,<@Magenta>rm<@Blue>,<@Magenta>update<@Blue>,<@Magenta>completion<@Blue>,<@Magenta>alias<@Blue>,...\n",
+        "你可以通过运行 <@Magenta>psc completion psc disable_hooks 1<@Blue> 来禁用它"
       ]
     }
   ]

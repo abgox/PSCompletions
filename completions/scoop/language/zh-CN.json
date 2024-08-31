@@ -603,12 +603,15 @@
       "value": 0,
       "values": [1, 0],
       "tip": [
-        "当前值: <@Magenta>{{$PSCompletions.config.comp_config.scoop.disable_hooks}}<@Blue>\n",
+        "{{",
+        "$_value = $PSCompletions.config.comp_config.scoop.disable_hooks;",
+        "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
+        "}}",
         "设置是否禁用 hooks，默认为 0 表示启用\n",
-        "hooks 将获取已安装的 app 名称、bucket 名称、cache 等, 然后动态添加到命令补全中\n",
-        "(如 <@Magenta>uninstall<@Blue>, <@Magenta>update<@Blue>, <@Magenta>bucket<@Blue>, <@Magenta>cache rm<@Blue>, <@Magenta>hold<@Blue> 等)\n",
-        "如: 输入 <@Magenta>scoop uninstall<@Blue> 后按下 <@Magenta>Space<@Blue>(空格) 和 <@Magenta>Tab<@Blue> 键可以获取已安装的应用名补全\n",
-        "你可以通过运行 <@Magenta>psc completion scoop disable_hooks 1<@Blue> 来禁用 hooks"
+        "hooks 将解析一些数据, 然后动态添加到命令补全中\n",
+        "包含的数据: 已安装的 app 名称、bucket 名称、cache 等\n",
+        "包含的命令: <@Magenta>uninstall<@Blue>,<@Magenta>update<@Blue>,<@Magenta>bucket<@Blue>,<@Magenta>cache rm<@Blue>,<@Magenta>hold<@Blue>,...\n",
+        "你可以通过运行 <@Magenta>psc completion scoop disable_hooks 1<@Blue> 来禁用它"
       ]
     }
   ]

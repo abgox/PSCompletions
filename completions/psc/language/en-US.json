@@ -1832,13 +1832,15 @@
       "value": 0,
       "values": [1, 0],
       "tip": [
-        "Current Value: <@Magenta>{{$PSCompletions.config.comp_config.psc.disable_hooks}}<@Blue>\n",
+        "{{",
+        "$_value = $PSCompletions.config.comp_config.psc.disable_hooks;",
+        "if($_value -ne $null){ \"Current Value: <@Magenta>$_value<@Blue>`n\" }",
+        "}}",
         "Set whether to disable hooks. Default to 0.\n",
-        "The hooks will get the name of the installed or addable completions and add them in completions dynamically.\n",
-        "(e.g. <@Magenta>add<@Blue>, <@Magenta>rm<@Blue>, <@Magenta>update<@Blue>, <@Magenta>completion<@Blue>, <@Magenta>alias<@Blue>...)\n",
-        "For example, enter <@Magenta>psc rm<@Blue>, press <@Magenta>Space<@Blue> and <@Magenta>Tab<@Blue> key,\n",
-        "and you can get some extra completions about the name of the installed completions.\n",
-        "You can disable hooks by running <@Magenta>psc completion psc disable_hooks 1<@Blue>."
+        "The hooks will parse some data and add them in command completions dynamically.\n",
+        "Included data: the name of the installed or addable completions\n",
+        "Included command: <@Magenta>add<@Blue>,<@Magenta>rm<@Blue>,<@Magenta>update<@Blue>,<@Magenta>completion<@Blue>,<@Magenta>alias<@Blue>,...\n",
+        "You can disable it by running <@Magenta>psc completion psc disable_hooks 1<@Blue>."
       ]
     }
   ]

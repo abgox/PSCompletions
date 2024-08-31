@@ -1867,13 +1867,15 @@
       "value": 0,
       "values": [1, 0],
       "tip": [
-        "当前值: <@Magenta>{{$PSCompletions.config.comp_config.git.disable_hooks}}<@Blue>\n",
+        "{{",
+        "$_value = $PSCompletions.config.comp_config.git.disable_hooks;",
+        "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
+        "}}",
         "设置是否禁用 hooks，默认为 0 表示启用\n",
-        "hooks 将解析 commit 信息、分支信息等, 然后动态添加到补全中\n",
-        "(如 <@Magenta>reset<@Blue>,<@Magenta>checkout<@Blue>,<@Magenta>branch<@Blue> 等)\n",
-        "如: 输入 <@Magenta>git reset<@Blue> 后按下 <@Magenta>Space<@Blue>(空格) 和 <@Magenta>Tab<@Blue> 键可以获取额外的补全\n",
-        "   (这些额外的补全来自解析的 commit 信息)\n",
-        "你可以通过运行 <@Magenta>psc completion git disable_hooks 1<@Blue> 来禁用 hooks\n",
+        "hooks 将解析一些数据, 然后动态添加到命令补全中\n",
+        "包含的数据: commit 信息、分支信息等\n",
+        "包含的命令: <@Magenta>reset<@Blue>,<@Magenta>checkout<@Blue>,<@Magenta>branch<@Blue>,...\n",
+        "你可以通过运行 <@Magenta>psc completion git disable_hooks 1<@Blue> 来禁用它\n",
         "如果禁用它，那么 <@Magenta>max_commit<@Blue> 配置也将无效"
       ]
     },
@@ -1882,7 +1884,10 @@
       "value": 20,
       "values": [-1, 20],
       "tip": [
-        "当前值: <@Magenta>{{$PSCompletions.config.comp_config.git.max_commit}}<@Blue>\n",
+        "{{",
+        "$_value = $PSCompletions.config.comp_config.git.max_commit;",
+        "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
+        "}}",
         "可以为当前项目解析的 commit 的最大数量，默认为 20\n",
         "如果设置为 <@Magenta>-1<@Blue>, 会解析所有 commit\n",
         "如果项目 commit 数量较多，设置为 <@Magenta>-1<@Blue> 会对补全加载速度会有较大影响"

@@ -419,13 +419,15 @@
       "value": 0,
       "values": [1, 0],
       "tip": [
-        "Current Value: <@Magenta>{{$PSCompletions.config.comp_config.yarn.disable_hooks}}<@Blue>\n",
+        "{{",
+        "$_value = $PSCompletions.config.comp_config.yarn.disable_hooks;",
+        "if($_value -ne $null){ \"Current Value: <@Magenta>$_value<@Blue>`n\" }",
+        "}}",
         "Set whether to disable hooks. Default to 0.\n",
-        "The hooks will parse the scripts/dependencies/devDependencies fields in package.json and add them in completions dynamically.\n",
-        "(e.g. <@Magenta>run<@Blue>, <@Magenta>remove<@Blue>, <@Magenta>upgrade<@Blue>...)\n",
-        "For example, enter <@Magenta>yarn upgrade<@Blue>, press <@Magenta>Space<@Blue> and <@Magenta>Tab<@Blue> key, and you can get some extra completions.\n",
-        "(The extra completions come from the dependencies/devDependencies fields defined in package.json.)\n",
-        "You can disable hooks by running <@Magenta>psc completion yarn disable_hooks 1<@Blue>."
+        "The hooks will parse some data and add them in command completions dynamically.\n",
+        "Included data: scripts/dependencies/devDependencies fields in package.json\n",
+        "Included command: <@Magenta>run<@Blue>,<@Magenta>remove<@Blue>,<@Magenta>upgrade<@Blue>,...\n",
+        "You can disable it by running <@Magenta>psc completion yarn disable_hooks 1<@Blue>."
       ]
     }
   ]

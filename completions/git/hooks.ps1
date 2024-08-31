@@ -1,9 +1,9 @@
 ﻿function handleCompletions($completions) {
     $tempList = @()
     function returnCompletion($name, $tip = ' ', $symbol = '') {
-        $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config."symbol_$($c)" }
+        $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config.$c }
         $symbols = $symbols -join ''
-        $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)" }else { '' }
+        $padSymbols = if ($symbols) { "$($PSCompletions.config.between_item_and_symbol)$($symbols)" }else { '' }
         $cmd_arr = $name -split ' '
 
         @{

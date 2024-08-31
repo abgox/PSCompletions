@@ -1,8 +1,8 @@
 ﻿function handleCompletions($completions) {
     function returnCompletion($name, $tip = ' ', $symbol = '') {
-        $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config."symbol_$($c)" }
+        $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config.$c }
         $symbols = $symbols -join ''
-        $padSymbols = if ($symbols) { "$($PSCompletions.config.menu_between_item_and_symbol)$($symbols)" }else { '' }
+        $padSymbols = if ($symbols) { "$($PSCompletions.config.between_item_and_symbol)$($symbols)" }else { '' }
         $cmd_arr = $name -split ' '
 
         @{
@@ -29,10 +29,10 @@
 
         $completions += returnCompletion "completion $($completion)" $PSCompletions.replace_content($PSCompletions.info.completion.tip) 'SpaceTab'
         $completions += returnCompletion "completion $($completion) language" $PSCompletions.replace_content($PSCompletions.info.completion.language.tip) 'SpaceTab'
-        $completions += returnCompletion "completion $($completion) menu_show_tip" $PSCompletions.replace_content($PSCompletions.info.completion.menu_show_tip.tip) 'SpaceTab'
+        $completions += returnCompletion "completion $($completion) enable_tip" $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip) 'SpaceTab'
 
-        $completions += returnCompletion "completion $($completion) menu_show_tip 1" $PSCompletions.replace_content($PSCompletions.info.completion.menu_show_tip.tip_v1)
-        $completions += returnCompletion "completion $($completion) menu_show_tip 0" $PSCompletions.replace_content($PSCompletions.info.completion.menu_show_tip.tip_v0)
+        $completions += returnCompletion "completion $($completion) enable_tip 1" $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip_v1)
+        $completions += returnCompletion "completion $($completion) enable_tip 0" $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip_v0)
 
         $language = $PSCompletions.get_language($completion)
         $config = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/config.json") | ConvertFrom-Json
