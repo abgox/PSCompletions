@@ -109,7 +109,7 @@
 ### About the completion trigger key
 
 - `PSCompletions` uses the `Tab` key by default.
-- You can set it by running `psc menu config menu_trigger_key <key>`.
+- You can set it by running `psc menu config trigger_key <key>`.
 
 ### About completion update
 
@@ -120,7 +120,7 @@
 
 - In addition to the language's built-in completion menu, `PSCompletions` module also provides a better completion menu.
 
-  - Setting: `psc menu config menu_enable 1` (Default: `1`)
+  - Setting: `psc menu config enable_menu 1` (Default: `1`)
 
 - The module's completion menu is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
 
@@ -152,17 +152,17 @@
 
 #### About menu enhance <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />
 
-- Setting: `psc menu config menu_enhance 1` (Default: `1`)
+- Setting: `psc menu config enable_menu_enhance 1` (Default: `1`)
 - Now, `PSCompletions` has two completion implementations.
 
   1. [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
      - <img src="https://img.shields.io/badge/module%20version-v4.1.0-4CAF50" alt="v4.1.0 support" /> : It's used.
      - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's optional.
-       - You can use it by running `psc menu config menu_enhance 0`.
+       - You can use it by running `psc menu config enable_menu_enhance 0`.
        - It's not recommended. It only works for completions added by `psc add`.
   2. [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
      - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's used by default.
-       - Requires: `menu_enable` and `menu_enhance` both set to `1`.
+       - Requires: `enable_menu` and `enable_menu_enhance` both set to `1`.
      - It no longer needs to loop through registering `Register-ArgumentCompleter` for all completions, which theoretically makes loading faster.
      - It use [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
        - For example:
@@ -199,11 +199,11 @@
 
 ### About completion tip
 
-- The completion tip is only a helper, you can also disable the tip by running `psc menu config menu_show_tip 0`
+- The completion tip is only a helper, you can also disable the tip by running `psc menu config enable_tip 0`
 
-  - To enable the completion tip, run `psc menu config menu_show_tip 1`.
+  - To enable the completion tip, run `psc menu config enable_tip 1`.
   - You can also disable the tip for a specific completion, such as `psc`.
-    - `psc completion psc menu_show_tip 0`
+    - `psc completion psc enable_tip 0`
 
 - General structure of the completion tip: `Usage` + `Description` + `Example`
 

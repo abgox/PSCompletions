@@ -112,7 +112,7 @@
 ### 关于补全触发按键
 
 - 模块默认使用 `Tab` 键作为补全触发按键
-- 你可以使用 `psc menu config menu_trigger_key <key>` 去设置它
+- 你可以使用 `psc menu config trigger_key <key>` 去设置它
 
 ### 关于补全更新
 
@@ -122,7 +122,7 @@
 ### 关于补全菜单
 
 - 除了语言内置的补全菜单，`PSCompletions` 模块还提供了一个更好用的补全菜单。
-  - 配置: `psc menu config menu_enable 1` (默认开启)
+  - 配置: `psc menu config enable_menu 1` (默认开启)
 - 模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
 - 模块提供的补全菜单可用的 Windows 环境：
   - `PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.0.0+-4CAF50" alt="v4.0.0+ support" />
@@ -152,19 +152,19 @@
 
 #### 关于菜单增强 <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />
 
-- 配置: `psc menu config menu_enhance 1` 默认开启
+- 配置: `psc menu config enable_menu_enhance 1` 默认开启
 - 现在，`PSCompletions` 对于补全有两种实现
 
   1. [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
 
      - <img src="https://img.shields.io/badge/module%20version-v4.1.0-4CAF50" alt="v4.1.0 support" /> 及之前版本都使用此实现
      - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 此实现变为可选
-       - 你可以运行 `psc menu config menu_enhance 0` 来继续使用它
+       - 你可以运行 `psc menu config enable_menu_enhance 0` 来继续使用它
        - 但并不推荐，它只能用于 `psc add` 添加的补全
 
   2. [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
      - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 默认使用此实现
-       - 需要 `menu_enable` 和 `menu_enhance` 同时为 `1`
+       - 需要 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
      - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
      - 同时使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
        - 例如:
@@ -204,11 +204,11 @@
 
 ### 关于补全提示信息
 
-- 补全提示信息只是辅助, 你也可以使用 `psc menu config menu_show_tip 0` 来禁用补全提示信息
+- 补全提示信息只是辅助, 你也可以使用 `psc menu config enable_tip 0` 来禁用补全提示信息
 
-  - 启用补全提示信息: `psc menu config menu_show_tip 1`
+  - 启用补全提示信息: `psc menu config enable_tip 1`
   - 也可以禁用特定补全的提示信息，如 `psc`
-    - `psc completion psc menu_show_tip 0`
+    - `psc completion psc enable_tip 0`
 
 - 补全提示信息一般由三部分组成: 用法(Usage) + 描述(Description) + 举例(Example)
   ```txt
