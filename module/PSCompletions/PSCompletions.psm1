@@ -388,10 +388,9 @@
             param([bool]$is_can, [switch]$common_err)
             if ($arg.Length -eq 3) {
                 if ($is_can) {
-                    $config_item = $arg[1]
-                    $old_value = $PSCompletions.config.$($arg[1])
+                    $old_value = $PSCompletions.config.$config_item
                     $new_value = $arg[2]
-                    $PSCompletions.config.$($arg[1]) = $arg[2]
+                    $PSCompletions.config.$config_item = $new_value
                     $PSCompletions._need_update_data = $true
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.config.done))
                 }
@@ -472,11 +471,14 @@
 
         $completion = $arg[1]
         $config_item = $arg[2]
-        $old_value = $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])
+        $old_value = $PSCompletions.config.comp_config.$completion.$config_item
         $new_value = $arg[3]
-        $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) = $arg[3]
+        $PSCompletions.config.comp_config.$completion.$config_item = $new_value
         $PSCompletions._need_update_data = $true
         foreach ($_ in $PSCompletions.data.list) {
+            if (!$PSCompletions.config.comp_config.$_) {
+                $PSCompletions.config.comp_config.$_ = @{}
+            }
             $path = "$($PSCompletions.path.completions)/$_/config.json"
             $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
             $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
@@ -491,9 +493,15 @@
                     }
                 }
             }
-            foreach ($c in $PSCompletions.config.comp_config.$_.keys.Clone()) {
-                if ($c -notin $config_list) {
-                    $PSCompletions.config.comp_config.$_.Remove($c)
+            if ($PSCompletions.config.comp_config.$_) {
+                $_keys = @()
+                foreach ($k in $PSCompletions.config.comp_config.$_.keys) {
+                    if ($k -notin $config_list) {
+                        $_keys += $k
+                    }
+                }
+                foreach ($k in $_keys) {
+                    $null = $PSCompletions.config.comp_config.$_.Remove($c)
                 }
             }
         }
@@ -523,14 +531,14 @@
                     Show-ParamError 'max' '' $PSCompletions.info.menu.$($arg[1]).err.max $PSCompletions.info.menu.$($arg[1]).example
                     return
                 }
+                $config_item = $arg[2]
                 if ($arg.Length -eq 3) {
-                    Write-Output $PSCompletions.config.$($arg[2])
+                    Write-Output $PSCompletions.config.$config_item
                 }
                 if ($arg.Length -eq 4) {
-                    $config_item = "$($arg[1]) $($arg[2])"
-                    $old_value = $PSCompletions.config.$($arg[2])
+                    $old_value = $PSCompletions.config.$config_item
                     $new_value = $arg[3]
-                    $PSCompletions.config.$arg[2] = $arg[3]
+                    $PSCompletions.config.$config_item = $arg[3]
                     $PSCompletions._need_update_data = $true
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
                 }
@@ -668,9 +676,9 @@
                     return
                 }
                 $config_item = $arg[3]
-                $old_value = $PSCompletions.config.$($arg[3])
+                $old_value = $PSCompletions.config.$config_item
                 $new_value = $arg[4]
-                $PSCompletions.config.$arg[3] = $new_value
+                $PSCompletions.config.$config_item = $new_value
                 $PSCompletions._need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
             }
@@ -744,9 +752,9 @@
                     }
                 }
                 $config_item = $arg[2]
-                $old_value = $PSCompletions.config.$($arg[2])
+                $old_value = $PSCompletions.config.$config_item
                 $new_value = $arg[3]
-                $PSCompletions.config.$arg[2] = $new_value
+                $PSCompletions.config.$config_item = $new_value
                 $PSCompletions._need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
             }
