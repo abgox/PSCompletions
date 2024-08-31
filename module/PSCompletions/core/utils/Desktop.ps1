@@ -115,6 +115,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
             return $language
         }
+        function ensure_dir {
+            param([string]$path)
+            if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
+        }
         function download_list {
             if (!(Test-Path $PScompletions.path.completions_json)) {
                 @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PScompletions.path.completions_json -Encoding utf8 -Force
@@ -135,10 +139,29 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
             catch {}
         }
+        function ensure_psc {
+            $url = "$($PSCompletions.url)/completions/psc"
+            $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
 
+            ensure_dir "$($PSCompletions.path.completions)/psc"
+            ensure_dir "$($PSCompletions.path.completions)/psc/language"
+
+            $path_list = @(
+                "psc/language/$language.json",
+                "psc/config.json",
+                "psc/guid.txt",
+                "psc/hooks.ps1"
+            )
+            foreach ($path in $path_list) {
+                $path_file = "$($PSCompletions.path.completions)/$path"
+                if (!(Test-Path $path_file)) {
+                    $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$path", $path_file)
+                }
+            }
+        }
+
+        ensure_psc
         download_list
-
-        $PSCompletions.wc = New-Object System.Net.WebClient
 
         # data.json
         $data = [ordered]@{

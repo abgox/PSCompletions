@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '5.0.1'
+    ModuleVersion        = '5.0.2'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -21,13 +21,12 @@
 
     CompatiblePSEditions = @('Core', 'Desktop')
 
-    HelpInfoUri          = 'https://pscompletions.pages.dev'
-
     Description          = 'A completion manager for better and simpler use PowerShell completions.
  For more information, please visit the project or website:
-  - https://github.com/abgox/PSCompletions
-  - https://gitee.com/abgox/PSCompletions
-  - https://pscompletions.pages.dev'
+  - Website: https://pscompletions.pages.dev
+  - Github:  https://github.com/abgox/PSCompletions
+  - Gitee:   https://gitee.com/abgox/PSCompletions
+ '
 
     ScriptsToProcess     = 'core\init.ps1'
 
@@ -35,16 +34,20 @@
 
         PSData = @{
 
-            Tags         = @('Tab', 'Completion', 'Prompt', 'TabExpansion', 'Completions', 'Dynamic', 'Multi-Language', 'Base-in-json', 'Completion-Manager', 'TabExpansion2', 'PowerShell', 'pwsh', 'PSEdition_Core', 'PSEdition_Desktop', 'Windows', 'Linux', 'MacOS')
+            Tags         = @('psc', 'Tab', 'Completion', 'Prompt', 'TabExpansion', 'Completions', 'Dynamic', 'Multi-Language', 'Base-in-json', 'Completion-Manager', 'TabExpansion2', 'PowerShell', 'pwsh', 'PSEdition_Core', 'PSEdition_Desktop', 'Windows', 'Linux', 'MacOS')
 
             LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
             ProjectUri   = 'https://github.com/abgox/PSCompletions'
+
+            # IconUri = ''
 
             ReleaseNotes = 'https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md'
 
         }
 
     }
+
+    HelpInfoUri          = 'https://pscompletions.pages.dev'
 }
 

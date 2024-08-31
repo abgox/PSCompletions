@@ -8,6 +8,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
         $null = Start-ThreadJob -ScriptBlock {
             param($PSCompletions)
+            $PSCompletions.wc = New-Object System.Net.WebClient
             function get_content {
                 param ([string]$path)
                 $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
@@ -43,7 +44,32 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 }
                 catch {}
             }
+            function ensure_dir {
+                param([string]$path)
+                if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
+            }
+            function ensure_psc {
+                $url = "$($PSCompletions.url)/completions/psc"
+                $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
 
+                ensure_dir "$($PSCompletions.path.completions)/psc"
+                ensure_dir "$($PSCompletions.path.completions)/psc/language"
+
+                $path_list = @(
+                    "psc/language/$language.json",
+                    "psc/config.json",
+                    "psc/guid.txt",
+                    "psc/hooks.ps1"
+                )
+                foreach ($path in $path_list) {
+                    $path_file = "$($PSCompletions.path.completions)/$path"
+                    if (!(Test-Path $path_file)) {
+                        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/completions/$path", $path_file)
+                    }
+                }
+            }
+
+            ensure_psc
             download_list
 
             $PSCompletions.wc = New-Object System.Net.WebClient

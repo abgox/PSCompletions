@@ -929,7 +929,7 @@
                 $is_init_module = $PSCompletions.confirm_do(
                     $PSCompletions.replace_content($PSCompletions.info.reset.init_confirm),
                     {
-                        foreach ($_ in @('completions', 'completions_json', 'config', 'data' , 'update', 'change')) {
+                        foreach ($_ in @('completions', 'completions_json', 'data' , 'update', 'change')) {
                             Remove-Item $PSCompletions.path.$_ -Force -Recurse -ErrorAction SilentlyContinue
                         }
                         Remove-Item "$($PSCompletions.path.core)/CHANGELOG.json" -Force -Recurse -ErrorAction SilentlyContinue
