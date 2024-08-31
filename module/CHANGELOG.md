@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.0.2 (2024/8/31)
+
+- Remove unnecessary file I/O operations.
+- Other optimizations and fixes.
+
 ## 5.0.1 (2024/8/31)
 
 - Fix the issue that `psc` did not add after updating the module version.

@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.1'
+    version                 = '5.0.2'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -507,10 +507,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         return $filter_list
     }
 
-    if ($PSCompletions.config.comp_config.$root.disable_hooks -ne 1) {
+    if ($PSCompletions.config.comp_config.$root.disable_hooks -ne $null) {
         # 使用 hooks 覆盖默认的函数，实现在一些特殊的需求，比如一些补全的动态加载
-        $path_hook = "$($PSCompletions.path.completions)/$root/hooks.ps1"
-        if (Test-Path $path_hook) { . $path_hook }
+        if ($PSCompletions.config.comp_config.$root.disable_hooks -ne 1) {
+            . "$($PSCompletions.path.completions)/$root/hooks.ps1"
+        }
     }
     $completions = getCompletions
     $completions = handleCompletions $completions
@@ -585,9 +586,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod join_path {
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
     $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
-    if (!(Test-Path $path_config)) {
-        $PSCompletions.download_file("$($PSCompletions.url)/completions/$completion/config.json", $path_config)
-    }
     $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
     if ($PSCompletions.config.comp_config.$completion.language) {
         $config_language = $PSCompletions.config.comp_config.$completion.language
@@ -1014,9 +1012,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
 
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
-    if (!(Test-Path "$($PSCompletions.path.completions)/psc")) {
+    if ($PSCompletions._update_version -or 'psc' -notin $PSCompletions.data.list) {
         $PSCompletions.add_completion('psc', $false, $false)
         $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $PSCompletions._update_version = $null
     }
     if (!$PSCompletions.info) {
         if ($PSCompletions.completions.psc.info) {
@@ -1086,6 +1085,7 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
         if ($version -is [array]) {
             $old_version = $version[-2]
             if ($old_version -match '^\d+\.\d.*' -and $old_version -ge '4') {
+                $PSCompletions._update_version = $true
                 $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $old_version
                 $PSCompletions.ensure_dir($PSCompletions.path.completions)
 
