@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.0.3 (2024/8/31)
+
+- Fix the error that the `psc` subcommand runs into an error.
+- Other optimizations and fixes.
+
 ## 5.0.2 (2024/8/31)
 
 - Remove unnecessary file I/O operations.

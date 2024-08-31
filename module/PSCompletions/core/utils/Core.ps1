@@ -136,7 +136,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     }
                 }
             }
-            foreach ($_ in $data.config.comp_config.Keys.Clone().Where({ !$data.config.comp_config.$_.Count })) {
+            $_keys = @()
+            foreach ($k in $data.config.comp_config.Keys) {
+                if (!$data.config.comp_config.$k.Count) {
+                    $_keys += $k
+                }
+            }
+            foreach ($_ in $_keys) {
                 $data.config.comp_config.Remove($_)
             }
 
