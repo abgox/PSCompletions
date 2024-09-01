@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.0.4 (2024/9/1)
+
+- Fix the issue that the `psc rm *` command will reset all configuration items.
+- Other optimizations and fixes.
+
 ## 5.0.3 (2024/8/31)
 
 - Fix the error that the `psc` subcommand runs into an error.
