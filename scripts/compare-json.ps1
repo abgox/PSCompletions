@@ -2,6 +2,16 @@ param(
     [string]$DifferenceJsonPath, # 差异文件
     [string]$ReferenceJsonPath # 参考文件
 )
+if (!$PSCompletions) {
+    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+    return
+}
+
+if (!$DifferenceJsonPath -or !(Test-Path $DifferenceJsonPath)) {
+    $PSCompletions.write_with_color("<@Yellow>You should enter available json path.`ne.g. <@Magenta>.\scripts\compare-json.ps1 .\completions\psc\language\zh-CN.json`n     .\scripts\compare-json.ps1 .\completions\psc\language\zh-CN.json .\completions\psc\language\en-US.json")
+    return
+}
+
 function ConvertTo-FlatHashtable {
     param (
         [Parameter(Mandatory = $true)][hashtable]$InputHashtable,
