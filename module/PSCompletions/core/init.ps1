@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.3'
+    version                 = '5.0.4'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -1162,7 +1162,7 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
                                 menu_color_status_back       = 'status_back'
                                 menu_color_tip_text          = 'tip_text'
                                 menu_color_tip_back          = 'tip_back'
-                                trigger_key                  = 'trigger_key'
+                                menu_trigger_key             = 'trigger_key'
                                 menu_between_item_and_symbol = 'between_item_and_symbol'
                                 menu_status_symbol           = 'status_symbol'
                                 menu_filter_symbol           = 'filter_symbol'

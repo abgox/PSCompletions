@@ -112,6 +112,13 @@
         Clear-Content $PSCompletions.path.update -Force
         $PSCompletions.update = @()
 
+        $data = [ordered]@{
+            list     = @()
+            alias    = [ordered]@{}
+            aliasMap = [ordered]@{}
+            config   = $PSCompletions.data.config
+        }
+
         if ($arg.Length -eq 2 -and $arg[1] -eq '*') {
             foreach ($completion in $PSCompletions.data.list) {
                 $dir = Join-Path $PSCompletions.path.completions $completion
@@ -120,48 +127,41 @@
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
                 }
             }
-            Remove-Item $PSCompletions.path.data -Force -ErrorAction SilentlyContinue
-            return
-        }
 
-        $remove_list = @()
-        foreach ($completion in  $arg[1..($arg.Length - 1)]) {
-            if ($completion -in $PSCompletions.data.list) {
-                $remove_list += $completion
-                $dir = Join-Path $PSCompletions.path.completions $completion
-                if (!(Test-Path $dir)) {
-                    $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion))
-                    continue
+            $data.config.comp_config = @{}
+        }
+        else {
+            $remove_list = @()
+            foreach ($completion in  $arg[1..($arg.Length - 1)]) {
+                if ($completion -in $PSCompletions.data.list) {
+                    $remove_list += $completion
+                    $dir = Join-Path $PSCompletions.path.completions $completion
+                    if (!(Test-Path $dir)) {
+                        $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion))
+                        continue
+                    }
+                    Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
+                    if (!(Test-Path $dir)) {
+                        $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
+                    }
                 }
-                Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
-                if (!(Test-Path $dir)) {
-                    $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
-                }
+                else { $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion)) }
             }
-            else { $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion)) }
-        }
-
-        $data = [ordered]@{
-            list     = @()
-            alias    = [ordered]@{}
-            aliasMap = [ordered]@{}
-            config   = $PSCompletions.data.config
-        }
-
-        foreach ($completion in $PSCompletions.data.list.Where({ $_ -notin $remove_list })) {
-            $data.list += $completion
-        }
-        foreach ($_ in $data.list) {
-            $data.alias.$_ = @()
-            if ($PSCompletions.data.alias.$_) {
-                foreach ($a in $PSCompletions.data.alias.$_) {
-                    $data.alias.$_ += $a
-                    $data.aliasMap.$a = $_
-                }
+            foreach ($completion in $PSCompletions.data.list.Where({ $_ -notin $remove_list })) {
+                $data.list += $completion
             }
-            else {
-                $data.alias.$_ += $_
-                $data.aliasMap.$_ = $_
+            foreach ($_ in $data.list) {
+                $data.alias.$_ = @()
+                if ($PSCompletions.data.alias.$_) {
+                    foreach ($a in $PSCompletions.data.alias.$_) {
+                        $data.alias.$_ += $a
+                        $data.aliasMap.$a = $_
+                    }
+                }
+                else {
+                    $data.alias.$_ += $_
+                    $data.aliasMap.$_ = $_
+                }
             }
         }
         $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PScompletions.path.data -Force -Encoding utf8
