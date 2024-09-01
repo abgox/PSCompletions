@@ -1,7 +1,31 @@
-﻿$invalideGuid = @()
+﻿param([string]$repo)
+
+if (!$PSCompletions) {
+    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+    return
+}
+if (!$repo) {
+    $PSCompletions.write_with_color("<@Yellow>You should enter an available repo name.`ne.g. <@Magenta>.\scripts\check-guid-valid.ps1 gitee`n     .\scripts\check-guid-valid.ps1 github")
+    return
+}
+
+$repo_list = @("github", 'gitee')
+if ($repo -notin $repo_list) {
+    $PSCompletions.write_with_color("<@Magenta>$repo<@Red> isn't an available repo.`ne.g. <@Magenta>.\scripts\check-guid-valid.ps1 gitee`n     .\scripts\check-guid-valid.ps1 github")
+    return
+}
+
+$invalideGuid = @()
+
+if ($repo -eq "Github") {
+    $prefix_url = "https://raw.githubusercontent.com/abgox/PSCompletions/main/completions"
+}
+else {
+    $prefix_url = "https://gitee.com/abgox/PSCompletions/raw/main/completions"
+}
+
 Get-ChildItem -Path "$PSScriptRoot\..\completions\" -Directory | ForEach-Object {
-    # $url = "https://raw.githubusercontent.com/abgox/PSCompletions/main/completions/$($_.Name)/guid.txt"
-    $url = "https://gitee.com/abgox/PSCompletions/raw/main/completions/$($_.Name)/guid.txt"
+    $url = "$prefix_url/$($_.Name)/guid.txt"
     try {
         $content = Invoke-WebRequest -Uri $url
         $content = $content.Content.Trim()
@@ -14,12 +38,12 @@ Get-ChildItem -Path "$PSScriptRoot\..\completions\" -Directory | ForEach-Object 
 }
 if ($invalideGuid) {
     write-host "------------------------------------" -ForegroundColor Yellow
-    Write-Host "The following guid.txt are invalid:" -ForegroundColor Yellow
+    $PSCompletions.write_with_color("<@Yellow>The following guid.txt of <@Magenta>$repo<@Yellow> are invalid:")
     foreach ($item in $invalideGuid) {
         Write-Host $item -ForegroundColor Red
     }
 }
 else {
     write-host "------------------------------------" -ForegroundColor Green
-    Write-Host "All guid.txt are valid." -ForegroundColor Green
+    $PSCompletions.write_with_color("<@Green>All guid.txt of <@Magenta>$repo<@Green> are valid.")
 }
