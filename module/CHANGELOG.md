@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.0.5 (2024/9/2)
+
+- Add a method `return_completion` in `$PSCompletions` for `hooks.ps1`.
+- Other optimizations and fixes.
+
 ## 5.0.4 (2024/9/1)
 
 - Fix the issue that the `psc rm *` command will reset all configuration items.
