@@ -3,6 +3,11 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.0.5 (2024/9/2)
+
+- 在 `$PSCompletions` 中添加一个方法 `return_completion` 用于 `hooks.ps1`。
+- 其他的优化和修复。
+
 ## 5.0.4 (2024/9/1)
 
 - 修复 `psc rm *` 命令会重置所有配置项的问题。

@@ -422,13 +422,7 @@
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '')
             }
             'function_name' {
-                # Get-Command PSCompletions 会导致触发更新，需要特殊处理
-                if ($arg[2] -eq 'PSCompletions' -and $PSCompletions.config.function_name -ne 'PSCompletions') {
-                    handle_done $true
-                    return
-                }
-                $is_exist = Get-Command $arg[2] -ErrorAction SilentlyContinue
-                handle_done ($arg[2] -is [string] -and $arg[2] -ne '' -and !$is_exist)
+                handle_done ($arg[2] -ne '' -and !(Get-Command $arg[2] -ErrorAction SilentlyContinue))
             }
         }
     }

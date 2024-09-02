@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.4'
+    version                 = '5.0.5'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -107,8 +107,19 @@ else {
     . $PSScriptRoot\menu\win.ps1
 }
 
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
+    param([string]$name, [string]$tip = ' ', [array]$symbols)
+    $_symbol = foreach ($c in $symbols) { $PSCompletions.config.$c }
+    $padSymbols = if ($_symbol) { "$($PSCompletions.config.between_item_and_symbol)$($_symbol -join '')" }else { '' }
+    $cmd_arr = $name -split ' '
+    @{
+        name           = $name
+        ListItemText   = "$($cmd_arr[-1])$($padSymbols)"
+        CompletionText = $cmd_arr[-1]
+        ToolTip        = $tip
+    }
+}
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
-    # 获取 json 数据
     if ($PSCompletions.job.State -eq 'Completed') {
         $PSCompletions.completions = Receive-Job $PSCompletions.job
         Remove-Job $PSCompletions.job
@@ -568,20 +579,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod split_array {
     }
     $chunks
 }
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_file {
-    param([string]$path)
-    if (!(Test-Path $path)) { New-Item -ItemType File $path > $null }
-}
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
     param([string]$path)
     if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
-}
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod join_path {
-    $res = $args[0]
-    for ($i = 1; $i -lt $args.Count; $i++) {
-        $res = Join-Path $res $args[$i]
-    }
-    $res
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
@@ -839,7 +839,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
             Write-Host "File save path: $file" -ForegroundColor Red
             Write-Host "If you are sure that it is not a network problem, please submit an issue`n" -ForegroundColor Red
         }
-        throw
+        throw $_
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
@@ -853,10 +853,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     $is_update = (Test-Path "$($PSCompletions.path.completions)/$completion") -and $is_update
 
     $completion_dir = Join-Path $PSCompletions.path.completions $completion
+    $language_dir = Join-Path $completion_dir 'language'
 
     $PSCompletions.ensure_dir($PSCompletions.path.completions)
     $PSCompletions.ensure_dir($completion_dir)
-    $PSCompletions.ensure_dir((Join-Path $completion_dir 'language'))
+    $PSCompletions.ensure_dir($language_dir)
 
     $download_info = @{
         url  = "$url/config.json"
@@ -875,7 +876,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     foreach ($_ in $config.language) {
         $files += @{
             Uri     = "$url/language/$_.json"
-            OutFile = $PSCompletions.join_path($completion_dir, 'language', "$_.json")
+            OutFile = Join-Path $language_dir "$_.json"
         }
     }
     if ($config.hooks) {
@@ -1081,7 +1082,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
 
 if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
-        $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue
+        $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue | Where-Object { $_ -match '^\d+\.\d.*' }
         if ($version -is [array]) {
             $old_version = $version[-2]
             if ($old_version -match '^\d+\.\d.*' -and $old_version -ge '4') {
@@ -1206,7 +1207,20 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
             }
         }
         else {
-            $PSCompletions.is_first_init = $true
+            if ($PSUICulture -eq 'zh-CN') {
+                $language = 'zh-CN'
+                $PSCompletions.url = 'https://gitee.com/abgox/PSCompletions/raw/main'
+            }
+            else {
+                $language = 'en-US'
+                $PSCompletions.url = 'https://raw.githubusercontent.com/abgox/PSCompletions/main'
+            }
+
+            $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc/language")
+            $PSCompletions.download_file("$($PSCompletions.url)/completions/psc/language/$language.json", "$($PSCompletions.path.completions)/psc/language/$language.json")
+
+            $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
+            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
         }
     }
     $PSCompletions.move_old_version()
@@ -1215,29 +1229,23 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
 
 $PSCompletions.init_data()
 
-if (Get-Command Set-PSReadLineKeyHandler -ErrorAction SilentlyContinue) {
-    Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
-    $PSCompletions.generate_completion()
-    $PSCompletions.handle_completion()
-}
-
-if ($PSCompletions.is_first_init) {
-    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
-}
+Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
+$PSCompletions.generate_completion()
+$PSCompletions.handle_completion()
 
 foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
     if ($PSCompletions.data.aliasMap.$_ -eq 'psc') {
-        Set-Alias $_ $PSCompletions.config.function_name -ErrorAction SilentlyContinue
+        Set-Alias $_ $PSCompletions.config.function_name
     }
     else {
         if ($_ -ne $PSCompletions.data.aliasMap.$_) {
-            Set-Alias $_ $PSCompletions.data.aliasMap.$_ -ErrorAction SilentlyContinue
+            Set-Alias $_ $PSCompletions.data.aliasMap.$_
         }
     }
 }
 
-if ($PSCompletions.config.enable_module_update -match '^\d+\.\d.*') {
-    $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending
+if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
+    $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction SilentlyContinue
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.core 'CHANGELOG.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
