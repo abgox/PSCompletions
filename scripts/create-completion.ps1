@@ -19,7 +19,7 @@ else {
 }
 
 $root_dir = Split-Path $PSScriptRoot -Parent
-$completion_dir = $PSCompletions.join_path($root_dir, "completions", $completion_name)
+$completion_dir = "$root_dir/completions/$completion_name"
 if (Test-Path $completion_dir) {
     $PSCompletions.write_with_color($guide.exist)
     return

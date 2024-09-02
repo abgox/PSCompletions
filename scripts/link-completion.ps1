@@ -15,7 +15,7 @@ if ($completion_name -notin $completions_list) {
     return
 }
 $root_dir = Split-Path $PSScriptRoot -Parent
-$completion_dir = $PSCompletions.join_path($root_dir, "completions", $completion_name)
+$completion_dir = "$root_dir/completions/$completion_name"
 if (!(Test-Path $completion_dir)) {
     $PSCompletions.write_with_color("<@Red><@Magenta>$completion_name<@Red> isn't exist.")
     return
