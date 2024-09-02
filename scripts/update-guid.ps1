@@ -1,5 +1,13 @@
 ﻿param([array]$completion_list)
 
+if (!$PSCompletions) {
+    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+    return
+}
+if (!$completion_list) {
+    $PSCompletions.write_with_color("<@Yellow>You should enter an available completion list.`ne.g. <@Magenta>.\scripts\update-guid.ps1 psc`n     .\scripts\update-guid.ps1 psc,git")
+    return
+}
 
 $root_dir = Split-Path $PSScriptRoot -Parent
 $path_list = $completion_list | ForEach-Object {
