@@ -34,9 +34,9 @@
 
 ## 介绍
 
-- [`PowerShell`](https://github.com/PowerShell/PowerShell): 跨平台的 PowerShell。命令行中运行 `pwsh`/`pwsh.exe` 启动
+- [`PowerShell`](https://github.com/PowerShell/PowerShell): 跨平台的 PowerShell。运行 `pwsh`/`pwsh.exe` 启动
 
-- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。命令行中运行 `powershell`/`powershell.exe` 启动
+- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。运行 `powershell`/`powershell.exe` 启动
 
 ---
 
@@ -121,7 +121,7 @@
 
 ### 关于补全菜单
 
-- 除了语言内置的补全菜单，`PSCompletions` 模块还提供了一个更强大的补全菜单。
+- 除了 `PowerShell` 内置的补全菜单，`PSCompletions` 模块还提供了一个更强大的补全菜单。
   - 配置: `psc menu config enable_menu 1` (默认开启)
 - 模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
 - 模块提供的补全菜单可用的 Windows 环境：

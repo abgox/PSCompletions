@@ -34,9 +34,9 @@
 
 ## Introduce
 
-- [`PowerShell`](https://github.com/PowerShell/PowerShell): A cross-platform PowerShell. Start it in command line by running `pwsh`/`pwsh.exe`.
+- [`PowerShell`](https://github.com/PowerShell/PowerShell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
 
-- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it in command line by running `powershell`/`powershell.exe`.
+- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
 
 ---
 
@@ -118,7 +118,7 @@
 
 ### About completion menu
 
-- In addition to the language's built-in completion menu, `PSCompletions` module also provides a more powerful completion menu.
+- In addition to the built-in completion menu of `PowerShell`, `PSCompletions` module also provides a more powerful completion menu.
 
   - Setting: `psc menu config enable_menu 1` (Default: `1`)
 
