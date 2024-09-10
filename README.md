@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">✨<a href="https://pscompletions.pages.dev">PSCompletions(psc)</a> ✨</h1>
+    <h1 align="center">✨<a href="https://pscompletions.pages.dev">PSCompletions(psc)</a>✨</h1>
 </p>
 
 <p align="center">
@@ -52,6 +52,10 @@
 ## What's new
 
 - See the [CHANGELOG](./module/CHANGELOG.md) for details.
+
+## FAQ
+
+- See the [FAQ](https://pscompletions.pages.dev/FAQ)
 
 ## How to install
 
@@ -168,6 +172,7 @@
        - For example:
          - Path completion such as `cd`/`.\`/`..\`/`~\`/... in `PowerShell`.
          - Build-in commands such as `Get-*`/`Set-*`/`New-*`/... in `PowerShell`.
+         - Completion registered by [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
          - Completion registered by cli or module.
          - ...
 

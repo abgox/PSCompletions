@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">✨<a href="https://pscompletions.pages.dev">PSCompletions(psc)</a> ✨</h1>
+    <h1 align="center">✨<a href="https://pscompletions.pages.dev">PSCompletions(psc)</a>✨</h1>
 </p>
 
 <p align="center">
@@ -52,6 +52,10 @@
 ## 新的变化
 
 - 请查阅 [更新日志](./module/CHANGELOG-CN.md)
+
+## 常见问题
+
+- 请查阅 [常见问题](https://pscompletions.pages.dev/FAQ)
 
 ## 安装
 
@@ -170,6 +174,7 @@
        - 例如:
          - `cd`/`.\`/`..\`/`~\`/... 这样的路径补全
          - `Get-*`/`Set-*`/`New-*`/... 这样的内置命令补全
+         - 通过 [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
          - 由 cli 或模块注册的补全
          - ...
 
