@@ -260,6 +260,10 @@
   - More examples: `~/` / `../../` ...
 - So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
+## Support
+
+![Support](https://abgox.pages.dev/support.png)
+
 ## Available Completions List
 
 - Guide

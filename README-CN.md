@@ -267,6 +267,10 @@
 
 - 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 
+## 赞赏支持
+
+![赞赏支持](https://abgox.pages.dev/support.png)
+
 ## 补全列表
 
 - 说明
