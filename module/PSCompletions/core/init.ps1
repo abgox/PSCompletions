@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.5'
+    version                 = '5.0.6'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -14,6 +14,7 @@ New-Variable -Name PSCompletions -Value @{
     order                   = [ordered]@{}
     language                = $PSUICulture
     encoding                = [console]::OutputEncoding
+    separator               = [System.IO.Path]::DirectorySeparatorChar
     wc                      = New-Object System.Net.WebClient
     menu                    = @{
         const = @{
@@ -1013,7 +1014,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
 
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
-    if ($PSCompletions._update_version -or 'psc' -notin $PSCompletions.data.list) {
+    if ('psc' -notin $PSCompletions.data.list -or $PSCompletions._update_version) {
         $PSCompletions.add_completion('psc', $false, $false)
         $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
         $PSCompletions._update_version = $null

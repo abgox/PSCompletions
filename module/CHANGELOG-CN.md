@@ -3,6 +3,11 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.0.6 (2024/10/26)
+
+- 修复了目录路径补全没有尾部路径分隔符的问题
+- 其他的优化和修复。
+
 ## 5.0.5 (2024/9/2)
 
 - 在 `$PSCompletions` 中添加一个方法 `return_completion` 用于 `hooks.ps1`。

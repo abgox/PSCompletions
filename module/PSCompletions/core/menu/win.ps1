@@ -631,6 +631,20 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
     param($filter_list, [bool]$enable_menu_enhance)
 
+    function handleOutput($item) {
+        $out = $item.CompletionText
+        try {
+            if ((Get-ItemProperty ($item.ToolTip)).Attributes -like '*Directory*') {
+                if ($out -like "* *") {
+                    return $out.Insert($out.Length - 1, $PSCompletions.separator)
+                }
+                return $out + $PSCompletions.separator
+            }
+        }
+        catch {}
+        return $out
+    }
+
     if (!$filter_list) { return }
 
     $lastest_encoding = [console]::OutputEncoding
@@ -659,7 +673,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $PSCompletions.menu.handle_list_first($filter_list)
 
     if ($PSCompletions.config.enable_enter_when_single -and $PSCompletions.menu.filter_list.Count -eq 1) {
-        return $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index].CompletionText
+        return handleOutput $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index]
     }
     $PSCompletions.menu.parse_list()
 
@@ -748,7 +762,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             }
             13 {
                 # 13: Enter
-                $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index].CompletionText
+                handleOutput $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index]
                 $PSCompletions.menu.reset($true)
                 break loop
             }
