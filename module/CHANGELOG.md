@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.0.6 (2024/10/26)
+
+- Fix directory path completion without trailing path separators.
+- Other optimizations and fixes.
+
 ## 5.0.5 (2024/9/2)
 
 - Add a method `return_completion` in `$PSCompletions` for `hooks.ps1`.
