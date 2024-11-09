@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.6'
+    version                 = '5.0.7'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -973,7 +973,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
             $data.alias.$name = @()
             $path_config = Join-Path $_.FullName 'config.json'
             if (!(Test-Path $path_config)) {
-                $PSCompletions.add_completion($name)
+                continue
             }
             $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
             if ($config.alias) {
@@ -995,6 +995,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         }
         $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
         $PSCompletions.data = $data
+        $null = $PSCompletions.download_list()
     }
     $PSCompletions.config = $PSCompletions.data.config
     $PSCompletions.language = $PSCompletions.config.language
@@ -1218,8 +1219,11 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
             }
 
             $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc/language")
-            $PSCompletions.download_file("$($PSCompletions.url)/completions/psc/language/$language.json", "$($PSCompletions.path.completions)/psc/language/$language.json")
 
+            $file_list = @('language/zh-CN.json', 'language/en-US.json', 'config.json', 'guid.txt', 'hooks.ps1')
+            foreach ($_ in $file_list) {
+                $PSCompletions.download_file("$($PSCompletions.url)/completions/psc/$_", "$($PSCompletions.path.completions)/psc/$_")
+            }
             $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
             $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
         }
