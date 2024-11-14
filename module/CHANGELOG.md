@@ -3,11 +3,9 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
-
 ## 5.0.7 (2024/11/9)
 
 - Fix an initialization bug.
-
 
 ## 5.0.6 (2024/10/26)
 
