@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.7'
+    version                 = '5.0.8'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -96,17 +96,16 @@ New-Variable -Name PSCompletions -Value @{
     config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'disable_cache', 'function_name')
 } -Option ReadOnly
 
-if ($PSEdition -eq 'Core' -and !$IsWindows) {
-    # WSL/Unix...
-    . $PSScriptRoot\utils\Core.ps1
-    . $PSScriptRoot\completion\unix.ps1
-}
-else {
+if ($IsWindows -or $PSEdition -eq 'Desktop') {
     # Windows...
-    . $PSScriptRoot\utils\$PSEdition.ps1
     . $PSScriptRoot\completion\win.ps1
     . $PSScriptRoot\menu\win.ps1
 }
+else {
+    # WSL/Unix...
+    . $PSScriptRoot\completion\unix.ps1
+}
+. $PSScriptRoot\utils\$PSEdition.ps1
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, [string]$tip = ' ', [array]$symbols)
@@ -866,7 +865,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     }
     $PSCompletions.download_file($download_info.url, $download_info.file)
 
-    $config = $PSCompletions.get_content("$completion_dir/config.json") | ConvertFrom-Json
+    $config = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json
+    $config | ConvertTo-Json -Compress -Depth 100 | Out-File $download_info.file -Encoding utf8 -Force
 
     $files = @(
         @{
@@ -894,9 +894,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         }
         try {
             $PSCompletions.wc.DownloadFile($download_info.url, $download_info.file)
+            if ($download_info.file -match '\.json$') {
+                $PSCompletions.get_raw_content($download_info.file) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $download_info.file -Encoding utf8 -Force
+            }
         }
         catch {
-            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.download_file))
             Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
             throw
         }
@@ -1020,14 +1022,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
         $PSCompletions._update_version = $null
     }
-    if (!$PSCompletions.info) {
-        if ($PSCompletions.completions.psc.info) {
-            $PSCompletions.info = $PSCompletions.completions.psc.info
-        }
-        else {
-            $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
-            $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
-        }
+    if ($PSCompletions.completions.psc.info) {
+        $PSCompletions.info = $PSCompletions.completions.psc.info
+    }
+    else {
+        $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
+        $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length {
@@ -1222,7 +1222,11 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
 
             $file_list = @('language/zh-CN.json', 'language/en-US.json', 'config.json', 'guid.txt', 'hooks.ps1')
             foreach ($_ in $file_list) {
-                $PSCompletions.download_file("$($PSCompletions.url)/completions/psc/$_", "$($PSCompletions.path.completions)/psc/$_")
+                $outFile = "$($PSCompletions.path.completions)/psc/$_"
+                $PSCompletions.download_file("$($PSCompletions.url)/completions/psc/$_", $outFile)
+                if ($outFile -match '\.json$') {
+                    $PSCompletions.get_raw_content($outFile) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $outFile -Encoding utf8 -Force
+                }
             }
             $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
             $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))

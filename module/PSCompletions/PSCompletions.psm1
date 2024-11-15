@@ -809,15 +809,14 @@
             }
             'alias' {
                 $change_list = [System.Collections.Generic.List[System.Object]]@()
-                $del_list = if ($arg[2] -eq '*') { $PSCompletions.data.list }else { $arg[2..($arg.Length - 1)] }
-
+                $del_list = if ($arg[2] -eq '*') { , $PSCompletions.data.list }else { , $arg[2..($arg.Length - 1)] }
                 foreach ($completion in $del_list) {
                     if ($completion -in $PSCompletions.data.list) {
                         $old_value = $PSCompletions.data.alias.$completion -join ' '
                         $PSCompletions.data.alias.Remove($completion)
                         $alias = ($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/config.json") | ConvertFrom-Json).alias
-                        $new_value = if ($alias) { $alias }else { @($completion) }
-                        $PSCompletions.data.alias.$completion = $new_value
+                        $new_value = if ($alias) { $alias }else { $completion }
+                        $PSCompletions.data.alias.$completion = , $new_value
                         $PSCompletions._need_update_data = $true
                         $change_list.Add(@{
                                 item      = $completion
@@ -851,48 +850,32 @@
             }
             'completion' {
                 function _do {
-                    param([string]$cmd, [switch]$is_all)
+                    param([string]$cmd)
                     $path = "$($PSCompletions.path.completions)/$cmd/config.json"
                     $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                     $path = "$($PSCompletions.path.completions)/$cmd/language/$($json.language[0]).json"
                     $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
                     foreach ($item in $json.config) {
-                        if (!$PSCompletions.config.comp_config.$cmd) {
-                            $PSCompletions.config.comp_config.$cmd = @{}
-                        }
                         $PSCompletions._need_update_data = $true
-                        if ($is_all) {
-                            $PSCompletions.config.comp_config.$cmd.$($item.name) = $item.value
-                        }
-                        else {
-                            if ($PSCompletions.config.comp_config.$cmd.$($item.name) -in @('', $null)) {
-                                $PSCompletions.config.comp_config.$cmd.$($item.name) = $item.value
-                            }
-                        }
+                        $PSCompletions.config.comp_config.$cmd.$($item.name) = $item.value
                     }
                 }
                 if ($arg[2] -eq '*') {
                     $PSCompletions.config.comp_config = @{}
                     foreach ($_ in $PSCompletions.data.list) {
-                        _do $_ -is_all
+                        _do $_
                     }
                 }
                 else {
-                    if ($arg.Length -eq 3) {
+                    if ($arg.Length -eq 3 -or !$PSCompletions.config.comp_config.$($arg[2])) {
                         $PSCompletions.config.comp_config.$($arg[2]) = @{}
+                        $PSCompletions._need_update_data = $true
                     }
                     else {
-                        # great than 3
                         $config_list = $arg[3..($arg.Length - 1)]
-                        if (!$PSCompletions.config.comp_config.$($arg[2])) {
-                            $PSCompletions.config.comp_config.$($arg[2]) = @{}
-                        }
                         foreach ($config in $config_list) {
-                            try {
-                                $PSCompletions.config.comp_config.$($arg[2]).Remove($config)
-                                $PSCompletions._need_update_data = $true
-                            }
-                            catch {}
+                            $PSCompletions.config.comp_config.$($arg[2]).Remove($config)
+                            $PSCompletions._need_update_data = $true
                         }
                     }
                     _do $arg[2]
