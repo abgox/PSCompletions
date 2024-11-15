@@ -29,6 +29,7 @@
             $completions += $PSCompletions.return_completion("completion $($completion) language $($language)", $PSCompletions.replace_content($PSCompletions.info.completion.language.tip_v))
         }
         foreach ($c in $json.config) {
+            $config_item = $c.name
             $tip = $PSCompletions.replace_content($c.tip) -replace '<\@\w+>', ''
             if ($c.values) {
                 $completions += $PSCompletions.return_completion("completion $($completion) $($c.name)", $tip, 'SpaceTab')
@@ -39,15 +40,9 @@
             else {
                 $completions += $PSCompletions.return_completion("completion $($completion) $($c.name)", $tip)
             }
-            $config_item = $c.name
-            $completions += $PSCompletions.return_completion("reset completion $($completion) $($config_item)", $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip_v))
         }
 
         $completions += $PSCompletions.return_completion("reset alias $($completion)", $PSCompletions.replace_content($PSCompletions.info.reset.alias.tip))
-
-
-        $symbol = if ($json.config) { 'SpaceTab' }else { '' }
-        $completions += $PSCompletions.return_completion("reset completion $($completion)", $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip), $symbol)
     }
 
     foreach ($completion in $PSCompletions.list) {
@@ -65,5 +60,16 @@
             $completions += $PSCompletions.return_completion("menu custom color $($item) $($color)", $PSCompletions.replace_content($PSCompletions.info.menu.custom.color.tip))
         }
     }
+
+    foreach ($completion in $PSCompletions.data.config.comp_config.Keys) {
+        if ($PSCompletions.data.config.comp_config.$completion.Keys) {
+            $completions += $PSCompletions.return_completion("reset completion $($completion)", $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip), 'SpaceTab' )
+
+            foreach ($config_item in $PSCompletions.data.config.comp_config.$completion.Keys) {
+                $completions += $PSCompletions.return_completion("reset completion $($completion) $config_item", $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip_v))
+            }
+        }
+    }
+
     return $completions
 }
