@@ -1,18 +1,5 @@
 ﻿function handleCompletions($completions) {
     $tempList = @()
-    function returnCompletion($name, $tip = ' ', $symbol = '') {
-        $symbols = foreach ($c in ($symbol -split ' ')) { $PSCompletions.config.$c }
-        $symbols = $symbols -join ''
-        $padSymbols = if ($symbols) { "$($PSCompletions.config.between_item_and_symbol)$($symbols)" }else { '' }
-        $cmd_arr = $name -split ' '
-
-        @{
-            name           = $name
-            ListItemText   = "$($cmd_arr[-1])$($padSymbols)"
-            CompletionText = $cmd_arr[-1]
-            ToolTip        = $tip
-        }
-    }
 
     function CleanNul($data) {
         $res = [System.Collections.Generic.List[byte]]::new()
@@ -26,20 +13,20 @@
     foreach ($_ in wsl -l -q) {
         $Distro = CleanNul $_
         if ($Distro -ne '') {
-            $tempList += returnCompletion "~ -d $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution')
-            $tempList += returnCompletion "-d $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution')
-            $tempList += returnCompletion "~ --distribution $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution')
-            $tempList += returnCompletion "--distribution $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution')
+            $tempList += $PSCompletions.return_completion("~ -d $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution'))
+            $tempList += $PSCompletions.return_completion("-d $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution'))
+            $tempList += $PSCompletions.return_completion("~ --distribution $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution'))
+            $tempList += $PSCompletions.return_completion("--distribution $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution'))
 
-            $tempList += returnCompletion "-s $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution')
-            $tempList += returnCompletion "--set-default $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--set-default')
+            $tempList += $PSCompletions.return_completion("-s $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution'))
+            $tempList += $PSCompletions.return_completion("--set-default $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--set-default'))
 
-            $tempList += returnCompletion "-t $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--set-default')
-            $tempList += returnCompletion "--terminate $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--terminate')
+            $tempList += $PSCompletions.return_completion("-t $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--set-default'))
+            $tempList += $PSCompletions.return_completion("--terminate $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--terminate'))
 
-            $tempList += returnCompletion "--unregister $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--unregister')
+            $tempList += $PSCompletions.return_completion("--unregister $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--unregister'))
 
-            $tempList += returnCompletion "--export $($Distro)" $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--export')
+            $tempList += $PSCompletions.return_completion("--export $($Distro)", $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--export'))
         }
     }
     return $tempList + $completions
