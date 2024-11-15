@@ -3,6 +3,12 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.0.8 (2024/11/15)
+
+- Fix the issue that the help information is not changed after switching languages.
+- Fix some issues with the `reset` subcommand.
+- Now, when downloading/updating completions, all json files will be compressed.
+
 ## 5.0.7 (2024/11/9)
 
 - Fix an initialization bug.

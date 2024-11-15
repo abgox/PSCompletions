@@ -72,8 +72,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             ensure_psc
             download_list
 
-            $PSCompletions.wc = New-Object System.Net.WebClient
-
             # data.json
             $data = [ordered]@{
                 list     = @()
