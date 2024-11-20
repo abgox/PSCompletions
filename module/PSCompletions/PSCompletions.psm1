@@ -917,7 +917,7 @@
                         foreach ($_ in @('completions', 'completions_json', 'data' , 'update', 'change')) {
                             Remove-Item $PSCompletions.path.$_ -Force -Recurse -ErrorAction SilentlyContinue
                         }
-                        Remove-Item "$($PSCompletions.path.core)/CHANGELOG.json" -Force -Recurse -ErrorAction SilentlyContinue
+                        Remove-Item "$($PSCompletions.path.temp)/CHANGELOG.json" -Force -Recurse -ErrorAction SilentlyContinue
                     }
                 )
                 if ($is_init_module) {

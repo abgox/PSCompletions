@@ -1,17 +1,19 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.0.8'
+    version                 = '5.1.0'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
         core             = Join-Path $_ 'core'
-        completions_json = Join-Path $_ 'completions.json'
         data             = Join-Path $_ 'data.json'
-        update           = Join-Path $_ 'update.txt'
-        change           = Join-Path $_ 'change.txt'
+        temp             = Join-Path $_ 'temp'
+        completions_json = Join-Path $_ 'temp\completions.json'
+        update           = Join-Path $_ 'temp\update.txt'
+        change           = Join-Path $_ 'temp\change.txt'
     }
     order                   = [ordered]@{}
+    completions_data        = @{}
     language                = $PSUICulture
     encoding                = [console]::OutputEncoding
     separator               = [System.IO.Path]::DirectorySeparatorChar
@@ -120,36 +122,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completio
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
-    if ($PSCompletions.job.State -eq 'Completed') {
-        $PSCompletions.completions = Receive-Job $PSCompletions.job
-        Remove-Job $PSCompletions.job
-        $PSCompletions.job = $null
-    }
-    if (!$PSCompletions.completions.$root -or $PSCompletions.config.disable_cache) {
-        $language = $PSCompletions.get_language($root)
-        $PSCompletions.completions.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
-    }
-
-    $input_arr = [array]$input_arr
-
-    $common_options = @()
-    $common_options_with_next = @()
-    foreach ($_ in $PSCompletions.completions.$root.common_options) {
-        foreach ($a in $_.alias) {
-            $common_options += $a
-            if ($_.next) { $common_options_with_next += $a }
-        }
-        $common_options += $_.name
-        if ($_.next) { $common_options_with_next += $_.name }
-    }
-    $PSCompletions.temp_WriteSpaceTab = @()
-    $PSCompletions.temp_WriteSpaceTab += $common_options_with_next
-
-    $PSCompletions.temp_WriteSpaceTab_and_SpaceTab = @()
-
-    # 存储别名的映射，用于在过滤时允许别名
-    $alias_map = @{}
-
     function getCompletions {
         $completions = @()
 
@@ -281,14 +253,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             $result = $rs.Runspace.EndInvoke($rs.Job)
             $rs.Runspace.Dispose()
             $completions += $result.completions
-            $PSCompletions.temp_WriteSpaceTab += $result.temp.WriteSpaceTab
-            $PSCompletions.temp_WriteSpaceTab_and_SpaceTab += $result.temp.WriteSpaceTab_and_SpaceTab
+            $PSCompletions.completions_data."$($root)_WriteSpaceTab" += $result.temp.WriteSpaceTab
+            $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" += $result.temp.WriteSpaceTab_and_SpaceTab
             foreach ($a in $result.alias_map.Keys) {
-                if ($alias_map.$a) {
-                    $alias_map.$a += $result.alias_map.$a
+                if ($PSCompletions.completions_data."$($root)_alias_map".$a) {
+                    $PSCompletions.completions_data."$($root)_alias_map".$a += $result.alias_map.$a
                 }
                 else {
-                    $alias_map.$a = $result.alias_map.$a
+                    $PSCompletions.completions_data."$($root)_alias_map".$a = $result.alias_map.$a
                 }
             }
         }
@@ -308,8 +280,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         foreach ($_ in $input_arr) {
             if ($_ -like '-*' -or $need_skip) {
                 if ($need_skip) { $need_skip = $false }
-                if ($_ -in $PSCompletions.temp_WriteSpaceTab) {
-                    if ($input_arr[-1 - !$space_tab] -eq $_ -and $_ -in $PSCompletions.temp_WriteSpaceTab_and_SpaceTab) {
+                if ($_ -in $PSCompletions.completions_data."$($root)_WriteSpaceTab") {
+                    if ($input_arr[-1 - !$space_tab] -eq $_ -and $_ -in $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab") {
                         $need_add = $true
                     }
                     else {
@@ -341,10 +313,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
         $alias_input_arr = $filter_input_arr
 
-        # 循环命令的长度，针对每一个位置去 $alias_map 找到对应的数组，然后把数组里的值拿出来比对，如果有匹配的，替换掉原来的命令名
+        # 循环命令的长度，针对每一个位置去 $PSCompletions.completions_data."$($root)_alias_map" 找到对应的数组，然后把数组里的值拿出来比对，如果有匹配的，替换掉原来的命令名
         # 用位置的好处是，这样遍历是依赖于命令的长度，而命令长度一般不长
         for ($i = 0; $i -lt $filter_input_arr.Count; $i++) {
-            foreach ($obj in $alias_map.$i) {
+            foreach ($obj in $PSCompletions.completions_data."$($root)_alias_map".$i) {
                 if ($obj.alias -eq $filter_input_arr[$i]) {
                     $alias_input_arr[$i] = $obj.name
                     break
@@ -518,13 +490,52 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         return $filter_list
     }
 
+    if ($PSCompletions.job.State -eq 'Completed') {
+        $PSCompletions.completions = Receive-Job $PSCompletions.job
+        Remove-Job $PSCompletions.job
+        $PSCompletions.job = $null
+    }
+    if ($PSCompletions.config.disable_cache) {
+        $PSCompletions.completions.$root = $null
+        $PSCompletions.completions_data.$root = $null
+    }
+
+    if (!$PSCompletions.completions.$root) {
+        $language = $PSCompletions.get_language($root)
+        $PSCompletions.completions.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
+    }
+
+    $PSCompletions.cmd = $input_arr
+
+    $input_arr = [array]$input_arr
+
     if ($PSCompletions.config.comp_config.$root.disable_hooks -ne $null) {
         # 使用 hooks 覆盖默认的函数，实现在一些特殊的需求，比如一些补全的动态加载
         if ($PSCompletions.config.comp_config.$root.disable_hooks -ne 1) {
             . "$($PSCompletions.path.completions)/$root/hooks.ps1"
         }
     }
-    $completions = getCompletions
+    if (!$PSCompletions.completions_data.$root) {
+        $common_options = @()
+        $common_options_with_next = @()
+        foreach ($_ in $PSCompletions.completions.$root.common_options) {
+            foreach ($a in $_.alias) {
+                $common_options += $a
+                if ($_.next) { $common_options_with_next += $a }
+            }
+            $common_options += $_.name
+            if ($_.next) { $common_options_with_next += $_.name }
+        }
+        $PSCompletions.completions_data."$($root)_WriteSpaceTab" = $common_options_with_next
+
+        $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = @()
+    
+        # 存储别名的映射，用于在过滤时允许别名
+        $PSCompletions.completions_data."$($root)_alias_map" = @{}
+
+        $PSCompletions.completions_data.$root = getCompletions
+    }
+    $completions = $PSCompletions.completions_data.$root
     $completions = handleCompletions $completions
     $filter_list = filterCompletions $completions $root
 
@@ -1082,7 +1093,53 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     $PSCompletions.current_cmd = $null
 }
 
-if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
+    param(
+        [array]$completions, # The list of completions.
+        [bool]$isShowTip = $PSCompletions.config.enable_tip_when_enhance # Set whether to display the tooltip or not.
+    )
+
+    $PSCompletions.menu.is_show_tip = $isShowTip
+    foreach ($_ in $completions) {
+        Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
+            param($wordToComplete, $commandAst, $cursorPosition)
+            $words = @($commandAst.CommandElements | Where { $_.Extent.StartOffset -lt $cursorPosition } | ForEach-Object {
+                    $word = $_.ToString()
+                    if ($word.Length -gt 2) {
+                        if (($word.StartsWith('"') -and $word.EndsWith('"')) -or ($word.StartsWith("'") -and $word.EndsWith("'"))) {
+                            $word = $word.Substring(1, $word.Length - 2)
+                        }
+                    }
+                    return $word
+                })
+            $emptyS = ''
+            if ($PSVersionTable.PSVersion.Major -eq 5) {
+                $emptyS = '""'
+            }
+            $lastElemIndex = -1
+            if ($words.Count -lt $commandAst.CommandElements.Count) {
+                $lastElemIndex = $words.Count - 1
+            }
+            if ($commandAst.CommandElements[$lastElemIndex].Extent.EndOffset -lt $cursorPosition) {
+                $words += $emptyS
+            }
+            @((argc --argc-compgen powershell $emptyS $words) -split "`n") | ForEach-Object {
+                $parts = ($_ -split "`t")
+
+                if ($PSCompletions.menu.is_show_tip) {
+                    $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
+                    [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, $tip)
+                }
+                else {
+                    [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, ' ')
+                }
+            }
+        }
+    }
+}
+
+if (!(Test-Path $PSCompletions.path.temp)) {
+    $PSCompletions.ensure_dir($PSCompletions.path.temp)
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
         $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue | Where-Object { $_ -match '^\d+\.\d.*' }
         if ($version -is [array]) {
@@ -1203,9 +1260,9 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
                     }
                     $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                 }
-                Move-Item "$old_version_dir/update.txt" $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
-                Move-Item "$old_version_dir/change.txt" $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
-                Move-Item "$old_version_dir/completions.json" $PSCompletions.path.completions_json -Force -ErrorAction SilentlyContinue
+                Move-Item "$old_version_dir/temp/update.txt" $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
+                Move-Item "$old_version_dir/temp/change.txt" $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
+                Move-Item "$old_version_dir/temp/completions.json" $PSCompletions.path.completions_json -Force -ErrorAction SilentlyContinue
             }
         }
         else {
@@ -1233,7 +1290,6 @@ if (!(Test-Path (Join-Path $PSCompletions.path.core '.temp'))) {
         }
     }
     $PSCompletions.move_old_version()
-    $null = New-Item (Join-Path $PSCompletions.path.core '.temp') -Force
 }
 
 $PSCompletions.init_data()
@@ -1256,7 +1312,7 @@ foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction SilentlyContinue
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
-        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.core 'CHANGELOG.json'))
+        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
                 Update-Module PSCompletions -RequiredVersion $PSCompletions.version_list[0] -Force -ErrorAction Stop
