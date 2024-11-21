@@ -26,4 +26,4 @@ Copy-Item -Path "$($path.module)\PSCompletions.psd1" -Destination "$($path.dist)
 
 Copy-Item -Path "$($path.module)\PSCompletions.psm1" -Destination "$($path.dist)\PSCompletions.psm1" -Force
 
-Publish-Module -Path $dist -NuGetApiKey $NuGetApiKey -Verbose:$Verbose
+Publish-Module -Path $path.dist -NuGetApiKey $NuGetApiKey -Verbose:$Verbose
