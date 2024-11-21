@@ -46,6 +46,7 @@
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
 - [Provide a more powerful completion menu.](#about-completion-menu)
+- [Combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
 
 **If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**
 
@@ -173,6 +174,7 @@
          - Path completion such as `cd`/`.\`/`..\`/`~\`/... in `PowerShell`.
          - Build-in commands such as `Get-*`/`Set-*`/`New-*`/... in `PowerShell`.
          - Completion registered by [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
+         - [Combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
          - Completion registered by cli or module.
          - ...
 

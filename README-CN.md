@@ -46,6 +46,7 @@
 - `en-US`,`zh-CN`,... 多语言切换
 - 动态排序补全项(根据使用频次)
 - [提供了一个更强大的补全菜单](#关于补全菜单)
+- [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
 
 **如果 `PSCompletions` 对你有所帮助，请在此项目点个 Star ⭐**
 
@@ -175,6 +176,7 @@
          - `cd`/`.\`/`..\`/`~\`/... 这样的路径补全
          - `Get-*`/`Set-*`/`New-*`/... 这样的内置命令补全
          - 通过 [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
+         - [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
          - 由 cli 或模块注册的补全
          - ...
 
