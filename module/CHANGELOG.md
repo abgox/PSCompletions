@@ -6,7 +6,7 @@
 ## 5.1.0 (2024/11/21)
 
 - Add method `$PSCompletions.argc_completions()` for [argc-completions](https://github.com/sigoden/argc-completions).
-  - For details: [PSCompletions and argc-completions](https://pscompletions.pages.dev/FAQ/#pscompletions-and-argc-completions).
+  - For details: [PSCompletions and argc-completions](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions).
 - Optimize the module directory structure, and put unnecessary files into the temp directory.
 - Reduce unnecessary duplicate parsing, making subsequent completions faster after the first completion.
 - Other optimizations and fixes.
