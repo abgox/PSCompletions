@@ -158,8 +158,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         }
     }
     if ($PSCompletions.menu.is_show_above) {
-        $new_ui_height = $PSCompletions.menu.cursor_to_top - $PSCompletions.menu.tip_max_height - 1
-        if ($new_ui_height -lt 3) {
+        $new_ui_height = $PSCompletions.menu.cursor_to_top - $PSCompletions.menu.tip_max_height - 2
+        if ($new_ui_height -lt 5) {
             $PSCompletions.menu.is_show_tip = $false
         }
         else {
@@ -174,8 +174,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         }
     }
     else {
-        $new_ui_height = $PSCompletions.menu.cursor_to_bottom - $PSCompletions.menu.tip_max_height - 1
-        if ($new_ui_height -lt 3) {
+        $new_ui_height = $PSCompletions.menu.cursor_to_bottom - $PSCompletions.menu.tip_max_height - 2
+        if ($new_ui_height -lt 5) {
             $PSCompletions.menu.is_show_tip = $false
         }
         else {
@@ -608,7 +608,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     $PSCompletions.menu.offset = 0
     $PSCompletions.menu.selected_index = 0
     $PSCompletions.menu.page_current_index = 0
-    $PSCompletions.menu.tip_max_height = 0
 
     if ($enable_menu_enhance) {
         $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip_when_enhance -eq 1
@@ -635,8 +634,14 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         $out = $item.CompletionText
         try {
             if ((Get-ItemProperty ($item.ToolTip)).Attributes -like '*Directory*') {
-                if ($out -like "* *") {
+                if ($out[-1] -match "^['`"]$") {
+                    if ($out[-2] -match "^[/\\]$") {
+                        return $out
+                    }
                     return $out.Insert($out.Length - 1, $PSCompletions.separator)
+                }
+                if ($out[-1] -match "^[/\\]$") {
+                    return $out
                 }
                 return $out + $PSCompletions.separator
             }
@@ -647,7 +652,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     if (!$filter_list) { return }
 
-    $lastest_encoding = [console]::OutputEncoding
+    $current_encoding = [console]::OutputEncoding
     [console]::OutputEncoding = $PSCompletions.encoding
 
     $PSCompletions.menu.pos = @{ X = 0; Y = 0 }
@@ -849,6 +854,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             $old_filter_list = $PSCompletions.menu.filter_list
         }
     }
-    [console]::OutputEncoding = $lastest_encoding
+    [console]::OutputEncoding = $current_encoding
     $PSCompletions.menu.list_max_width = 0
 }

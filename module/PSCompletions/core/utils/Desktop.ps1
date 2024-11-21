@@ -309,11 +309,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             $order.$($_.name -join ' ') = $index
             $index++
         }
-        $historys = @()
+        $history_arr = @()
         foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
             foreach ($alias in $PSCompletions.data.alias.$root) {
                 if ($_ -match "^[^\S\n]*$alias\s+.+") {
-                    $historys += $_
+                    $history_arr += $_
                     break
                 }
             }
@@ -332,7 +332,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
                 handle_order $history[0..($history.Count - 2)]
             }
         }
-        foreach ($_ in $historys) {
+        foreach ($_ in $history_arr) {
             $matches = [regex]::Matches($_, "(?:`"[^`"]*`"|'[^']*'|\S)+")
             $cmd = @()
             foreach ($m in $matches) { $cmd += $m.Value }
@@ -342,11 +342,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             }
         }
         $json = $order | ConvertTo-Json -Depth 100 -Compress
-        $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
-        foreach ($match in $matches) {
-            $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
+        $old_json = Get-Content -Path $path_order -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
+
+        if ($json -ne $old_json) {
+            $matches = [regex]::Matches($json, '(^"\s*"\s*:)|(\s*,"\s*"\s*:)')
+            foreach ($match in $matches) {
+                $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
+            }
+            $json | Out-File $path_order -Encoding utf8 -Force
         }
-        $json | Out-File $path_order -Encoding utf8 -Force
         return $order
     } -ArgumentList $PScompletions, $completions, $history_path, $root, $path_order
 }
