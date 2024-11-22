@@ -3,7 +3,7 @@
 
     $tempList = @()
 
-    $packageJson = $PSCompletions.ConvertFrom_JsonToHashtable((Get-Content "package.json" -Raw))
+    $packageJson = $PSCompletions.ConvertFrom_JsonToHashtable((Get-Content "package.json" -Raw -Encoding utf8))
     $scripts = $packageJson.scripts
     $dependencies = $packageJson.dependencies
     $devDependencies = $packageJson.devDependencies
