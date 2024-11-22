@@ -42,11 +42,12 @@
 
 - A completion manager in `PowerShell` for better and simpler use completions.
   > It can also be used in `Windows PowerShell`, but it's a better choice to use `PowerShell`.
-- [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added !")
+- [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added.")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
-- [Provide a more powerful completion menu.](#about-completion-menu)
-- [Combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
+- [Provide a more powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
+- [Combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
+  - [sigoden/argc-completions](https://github.com/sigoden/argc-completions)
 
 **If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**
 
@@ -56,7 +57,7 @@
 
 ## FAQ
 
-- See the [FAQ](https://pscompletions.pages.dev/FAQ)
+- See the [FAQ](https://pscompletions.pages.dev/FAQ).
 
 ## How to install
 
@@ -93,7 +94,7 @@
 
 ### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
-> If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue").
+> If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
 
 - Take `git` as an example.
 

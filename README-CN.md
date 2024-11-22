@@ -45,8 +45,9 @@
 - [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 - `en-US`,`zh-CN`,... 多语言切换
 - 动态排序补全项(根据使用频次)
-- [提供了一个更强大的补全菜单](#关于补全菜单)
-- [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
+- [提供了一个更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
+- [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
+  - [argc-completions 仓库](https://github.com/sigoden/argc-completions)
 
 **如果 `PSCompletions` 对你有所帮助，请在此项目点个 Star ⭐**
 
