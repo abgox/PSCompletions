@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.1.1 (2024/11/22)
+
+- Fix the issue of `order.json` parsing compression causing completion errors.
+- Other optimizations and fixes.
+
 ## 5.1.0 (2024/11/21)
 
 - Add method `$PSCompletions.argc_completions()` for [argc-completions](https://github.com/sigoden/argc-completions).

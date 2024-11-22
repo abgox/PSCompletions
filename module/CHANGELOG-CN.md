@@ -3,6 +3,11 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.1.1 (2024/11/22)
+
+- 修复了 `order.json` 解析压缩导致补全报错的问题。
+- 其他的优化和修复。
+
 ## 5.1.0 (2024/11/21)
 
 - 添加方法 `$PSCompletions.argc_completions()` 用于 [argc-completions](https://github.com/sigoden/argc-completions)。

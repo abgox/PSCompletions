@@ -342,12 +342,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             }
         }
         $json = $order | ConvertTo-Json -Depth 100 -Compress
-        $old_json = Get-Content -Path $path_order -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
-
+        try {
+            $old_json = Get-Content -Path $path_order -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
+        }
+        catch {
+            $old_json = ''
+        }
         if ($json -ne $old_json) {
-            $matches = [regex]::Matches($json, '(^"\s*"\s*:)|(\s*,"\s*"\s*:)')
+            $matches = [regex]::Matches($json, '[^\\]("":[-0-9]+,)')
             foreach ($match in $matches) {
-                $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
+                $json = $json -replace $match.Groups[1].Value, ''
             }
             $json | Out-File $path_order -Encoding utf8 -Force
         }
