@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.1.0'
+    version                 = '5.1.1'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -551,7 +551,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         }
         else {
             if (Test-Path $path_order) {
-                $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_order))
+                try {
+                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_order))
+                }
+                catch {
+                    $PSCompletions.order.$root = $null
+                }
             }
             else {
                 $PSCompletions.order.$root = $null
@@ -929,11 +934,19 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         $PSCompletions.data.alias.$completion = @()
     }
 
+    $PSCompletions._alias_conflict = $false
+    $conflict_alias_list = @()
     if ($config.alias) {
         foreach ($a in $config.alias) {
             if ($a -notin $PSCompletions.data.alias.$completion) {
                 $PSCompletions.data.alias.$completion += $a
-                $PSCompletions.data.aliasMap.$a = $completion
+                if ($PSCompletions.data.aliasMap.$a) {
+                    $PSCompletions._alias_conflict = $true
+                    $conflict_alias_list += $a
+                }
+                else {
+                    $PSCompletions.data.aliasMap.$a = $completion
+                }
                 $PSCompletions._need_update_data = $true
             }
         }
@@ -941,10 +954,21 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     else {
         if ($completion -notin $PSCompletions.data.alias.$completion) {
             $PSCompletions.data.alias.$completion += $completion
-            $PSCompletions.data.aliasMap.$completion = $completion
+            if ($PSCompletions.data.aliasMap.$completion) {
+                $PSCompletions._alias_conflict = $true
+                $conflict_alias_list += $completion
+            }
+            else {
+                $PSCompletions.data.aliasMap.$completion = $completion
+            }
             $PSCompletions._need_update_data = $true
         }
     }
+
+    if ($PSCompletions._alias_conflict) {
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.alias_conflict))
+    }
+
     $language = $PSCompletions.get_language($completion)
     $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
     if (!$PSCompletions.completions) {
