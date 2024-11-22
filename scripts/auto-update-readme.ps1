@@ -99,11 +99,11 @@ function generate_list {
                 }
             }
 
-            $json1 = Get-Content -Path "$($_.FullName)/language/$($lang_list[0]).json" -Raw | ConvertFrom-Json -Depth 100
+            $json1 = Get-Content -Path "$($_.FullName)/language/$($lang_list[0]).json" -Raw -Encoding utf8 | ConvertFrom-Json -Depth 100
             $hashTableEN = $json1 | ConvertTo-Json -Depth 100 | ConvertFrom-Json -AsHashtable -Depth 100
 
             function get_percentage($lang) {
-                $json2 = Get-Content -Path "$($_.FullName)/language/$($lang).json" -Raw | ConvertFrom-Json -Depth 100
+                $json2 = Get-Content -Path "$($_.FullName)/language/$($lang).json" -Raw -Encoding utf8 | ConvertFrom-Json -Depth 100
                 # 将 JSON 对象转换为哈希表
                 $hashTableCN = $json2 | ConvertTo-Json -Depth 100 | ConvertFrom-Json -AsHashtable -Depth 100
 

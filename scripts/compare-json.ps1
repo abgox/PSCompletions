@@ -77,12 +77,12 @@ function Compare-JsonProperties {
 if (!$ReferenceJsonPath) {
     $completion_dir = Split-Path (Split-Path $DifferenceJsonPath -Parent) -Parent
     $path_config = Join-Path $completion_dir "config.json"
-    $lang_list = (Get-Content -Path $path_config -Raw | ConvertFrom-Json).language
+    $lang_list = (Get-Content -Path $path_config -Raw -Encoding utf8 | ConvertFrom-Json).language
 
     $ReferenceJsonPath = "$($completion_dir)/language/$($lang_list[0]).json"
 }
-$json1 = Get-Content -Path $ReferenceJsonPath -Raw | ConvertFrom-Json -Depth 100
-$json2 = Get-Content -Path $DifferenceJsonPath -Raw | ConvertFrom-Json -Depth 100
+$json1 = Get-Content -Path $ReferenceJsonPath -Raw -Encoding utf8 | ConvertFrom-Json -Depth 100
+$json2 = Get-Content -Path $DifferenceJsonPath -Raw -Encoding utf8 | ConvertFrom-Json -Depth 100
 
 $hashTableEN = $json1 | ConvertTo-Json -Depth 100 | ConvertFrom-Json -AsHashtable -Depth 100
 $hashTableCN = $json2 | ConvertTo-Json -Depth 100 | ConvertFrom-Json -AsHashtable -Depth 100
