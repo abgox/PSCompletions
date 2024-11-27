@@ -1338,8 +1338,21 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
         $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'))
         $null = $PSCompletions.confirm_do($PSCompletions.info.module.update, {
-                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
-                Update-Module PSCompletions -RequiredVersion $PSCompletions.version_list[0] -Force -ErrorAction Stop
+                $cmd_list = @(
+                    "Update-Module PSCompletions -RequiredVersion $($PSCompletions.version_list[0]) -Force -ErrorAction Stop",
+                    "Update-PSResource PSCompletions -Version $($PSCompletions.version_list[0]) -Force -ErrorAction Stop",
+                    "Scoop update pscompletions"
+                )
+                foreach ($update_cmd in $cmd_list) {
+                    try {
+                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
+                        Invoke-Expression $update_cmd
+                        break
+                    }
+                    catch {
+                        Write-Host $_ -ForegroundColor Red
+                    }
+                }
             })
     }
     else {
