@@ -181,6 +181,15 @@
 
 ### About special symbols
 
+> [!NOTE]
+>
+> - Due to future changes in Windows Terminal, 😄🤔😎 will not be displayed properly in the completion menu, so these three default special symbols will change.
+> - Related issue: https://github.com/microsoft/terminal/issues/18242
+> - The changes are as follows:
+>   - `😎` => `↓`
+>   - `😄` => `→`
+>   - `🤔` => `?`
+
 - Special symbols after the completion item are used to let you know in advance if completions are available before you press the `Tab` key.
 
   - If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.
@@ -188,20 +197,20 @@
     - `psc menu symbol OptionTab ""`
     - `psc menu symbol WriteSpaceTab ""`
 
-- 😄🤔😎 : If there are multiple, you can choose the effect of one of them.
+- `→`,`?`,`↓` : If there are multiple, you can choose the effect of one of them.
   - Define them:
     - `Normal Completion`: Sub-commands. Such as `add`/`pull`/`push`/`commit`/... in `git`.
     - `Optional Completion`: Optional parameters. Such as `-g`/`-u`/... in `git add`.
     - `General Optional Completion`: General optional parameters that can be used with any command. Such as `--help`/... in `git`.
-  - 😄 : It means that after you apply it, you can press `Space` and `Tab` key to continue to get `Normal Completion` or `Optional Completion`.
+  - `→` : It means that after you apply it, you can press `Space` and `Tab` key to continue to get `Normal Completion` or `Optional Completion`.
     - It will appear only when there's `Normal Completion` or `Optional Completion`.
     - It can be customized by running `psc menu symbol SpaceTab <symbol>`
-  - 🤔 : It means that after you apply it (`Optional Completion`), you can press `Space` and `Tab` key to continue to get other `Optional Completion`.
+  - `?` : It means that after you apply it (`Optional Completion`), you can press `Space` and `Tab` key to continue to get other `Optional Completion`.
     - `General Optional Completion` use also this symbol.
     - It can be customized by running `psc menu symbol OptionTab <symbol>`
-  - 😎 : It means that after you apply it (`Optional Completion` or `General Optional Completion`), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get other `Optional Completion` or `General Optional Completion`.
+  - `↓` : It means that after you apply it (`Optional Completion` or `General Optional Completion`), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get other `Optional Completion` or `General Optional Completion`.
     - If the string has Spaces, Please use `"`(quote) or `'`(single quote) to wrap it. e.g. `"test content"`
-    - If there's also 😄, it means that there's `Normal Completion`, you can press `Space` and `Tab` key to continue to get them without entering a string.
+    - If there's also `→`, it means that there's `Normal Completion`, you can press `Space` and `Tab` key to continue to get them without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
   - All completions can be triggered by pressing the `Tab` key after entering a part.
 

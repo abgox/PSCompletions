@@ -183,6 +183,15 @@
 
 ### 关于特殊符号
 
+> [!NOTE]
+>
+> - 由于未来的 Windows Terminal 的变化，将导致在补全菜单中无法正常显示 😄🤔😎，因此这三个默认特殊符号将改变。
+> - 相关的 issue: https://github.com/microsoft/terminal/issues/18242
+> - 变化如下:
+>   - `😄` => `→`
+>   - `🤔` => `?`
+>   - `😎` => `↓`
+
 - 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全项
 
   - 如果你不需要也不想看到这些符号, 可以将它们替换成空字符串以隐藏它们
@@ -190,22 +199,22 @@
     - `psc menu symbol OptionTab ""`
     - `psc menu symbol WriteSpaceTab ""`
 
-- 😄🤔😎 : 如果出现多个, 表示符合多个条件, 可以选择其中一个效果
+- `→`,`?`,`↓` : 如果出现多个, 表示符合多个条件, 可以选择其中一个效果
 
   - 定义:
     - `Normal Completion`: 子命令，例如在 `git` 中的 `add`/`pull`/`push`/`commit`/...
     - `Optional Completion`: 可选参数，例如在 `git add` 中的 `-g`/`-u`/...
     - `General Optional Completion`: 可以用在任何地方的通用可选参数，例如在 `git` 中的 `--help`/...
-  - 😄 : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取 `Normal Completion` 或者 `Optional Completion`
+  - `→` : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取 `Normal Completion` 或者 `Optional Completion`
     - 仅在有 `Normal Completion` 或 `Optional Completion` 时才会显示此符号
     - 可通过 `psc menu symbol SpaceTab <symbol>` 自定义此符号
-  - 🤔 : 表示选用当前选中的补全(`Optional Completion`)后, 你可以按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion`
+  - `?` : 表示选用当前选中的补全(`Optional Completion`)后, 你可以按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion`
     - `General Optional Completion` 也使用此符号
     - 可通过 `psc menu symbol OptionTab <symbol>` 自定义此符号
-  - 😎 : 表示选用当前选中的补全(`Optional Completion` 或者 `General Optional Completion`)后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion` 或者 `General Optional Completion`
+  - `↓` : 表示选用当前选中的补全(`Optional Completion` 或者 `General Optional Completion`)后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion` 或者 `General Optional Completion`
 
     - 如果字符串有空格, 请使用 `"`(引号) 或 `'`(单引号) 包裹，如 `"test content"`
-    - 如果同时还有 😄, 表示有几个预设的字符串(`Normal Completion`)可以补全, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取它们
+    - 如果同时还有 `→`, 表示有几个预设的字符串(`Normal Completion`)可以补全, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取它们
     - 可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
 
   - 所有补全都可以在输入部分字符后按下 `Tab` 键触发补全
