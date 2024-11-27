@@ -194,7 +194,9 @@
 
 - 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全项
 
-  - 如果你不需要也不想看到这些符号, 可以将它们替换成空字符串以隐藏它们
+  - 这些符号目前只在通过 `psc add` 添加的补全中存在
+
+  - 你可以将它们替换成空字符串来隐藏它们
     - `psc menu symbol SpaceTab ""`
     - `psc menu symbol OptionTab ""`
     - `psc menu symbol WriteSpaceTab ""`

@@ -186,13 +186,14 @@
 > - Due to future changes in Windows Terminal, 😄🤔😎 will not be displayed properly in the completion menu, so these three default special symbols will change.
 > - Related issue: https://github.com/microsoft/terminal/issues/18242
 > - The changes are as follows:
->   - `😎` => `↓`
 >   - `😄` => `→`
 >   - `🤔` => `?`
+>   - `😎` => `↓`
 
 - Special symbols after the completion item are used to let you know in advance if completions are available before you press the `Tab` key.
 
-  - If you don't need or want to see these symbols, you can hide them by replacing them with the empty string.
+  - They only exist in completions added via `psc add`.
+  - You can hide them by replacing them with the empty string.
     - `psc menu symbol SpaceTab ""`
     - `psc menu symbol OptionTab ""`
     - `psc menu symbol WriteSpaceTab ""`
