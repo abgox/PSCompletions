@@ -5,7 +5,7 @@
       "symbol": "SpaceTab",
       "tip": [
         "Display the completions that have been added.\n",
-        "{{ $info.list.example }}"
+        "{{ $json.info.list.example }}"
       ],
       "options": [
         {
@@ -1407,7 +1407,7 @@
       "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n`n\" };",
       "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update *<@Cyan> to update.`n`n\" };",
       "}}",
-      "If you don't want to see it, you can hide it by running <@Blue>psc config update 0 <@Cyan>\n",
+      "If you don't want to see it, you can hide it by running <@Blue>psc config enable_completions_update 0<@Cyan>\n",
       "But I don't recommend it, it's a good tip."
     ],
     "update_has": [
@@ -1670,14 +1670,14 @@
       },
       "update": {
         "example": [
-          "E: psc config update 1     --- Show completion update\n",
-          "   psc config update 0     --- Hide completion update"
+          "E: psc config enable_completions_update 1     --- Show completion update\n",
+          "   psc config enable_completions_update 0     --- Hide completion update"
         ]
       },
       "module_update": {
         "example": [
-          "E: psc config module_update 1     --- Show module update\n",
-          "   psc config module_update 0     --- Hide module update"
+          "E: psc config enable_module_update 1     --- Show module update\n",
+          "   psc config enable_module_update 0     --- Hide module update"
         ]
       },
       "url": {
@@ -1759,6 +1759,7 @@
       ],
       "done": [
         "<@Green>Configuration modified successfully!\n",
+        "<@Yellow>If it does not take effect, restart PowerShell and import the module again.\n",
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
       ],
       "symbol": {

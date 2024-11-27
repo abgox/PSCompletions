@@ -5,7 +5,7 @@
       "symbol": "SpaceTab",
       "tip": [
         "显示已经添加的补全\n",
-        "{{ $info.list.example }}"
+        "{{ $json.info.list.example }}"
       ],
       "options": [
         {
@@ -1406,7 +1406,7 @@
       "if($rm){ \"删除补全: <@Magenta>$($rm)<@Cyan>`n`n\" };",
       "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update *<@Cyan> 进行更新`n`n\" };",
       "}}",
-      "如果不想看到它, 请输入 <@Blue>psc config update 0 <@Cyan>禁止显示远程仓库状态。\n",
+      "如果不想看到它, 请输入 <@Blue>psc config enable_completions_update 0<@Cyan> 禁止显示远程仓库状态。\n",
       "但是我不建议你这样做, 它是一个很恰当的提示"
     ],
     "update_has": [
@@ -1669,8 +1669,8 @@
       },
       "update": {
         "example": [
-          "E: psc config update 1     --- 显示补全更新\n",
-          "   psc config update 0     --- 不显示补全更新"
+          "E: psc config enable_completions_update 1     --- 显示补全更新\n",
+          "   psc config enable_completions_update 0     --- 不显示补全更新"
         ]
       },
       "module_update": {
@@ -1758,6 +1758,7 @@
       ],
       "done": [
         "<@Green>配置修改成功!\n",
+        "<@Yellow>如果未生效, 请重启 PowerShell 并重新导入模块\n",
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
       ],
       "symbol": {
