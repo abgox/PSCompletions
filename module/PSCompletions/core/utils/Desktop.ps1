@@ -141,13 +141,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         }
         function ensure_psc {
             $url = "$($PSCompletions.url)/completions/psc"
-            $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
+            # $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
 
             ensure_dir "$($PSCompletions.path.completions)/psc"
             ensure_dir "$($PSCompletions.path.completions)/psc/language"
 
             $path_list = @(
-                "psc/language/$language.json",
+                # "psc/language/$language.json",
+                "psc/language/zh-CN.json",
+                "psc/language/en-US.json",
                 "psc/config.json",
                 "psc/guid.txt",
                 "psc/hooks.ps1"
@@ -175,7 +177,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         }
         foreach ($_ in $data.list) {
             $data.alias.$_ = @()
-            if ($PSCompletions.data.alias.$_) {
+            if ($PSCompletions.data.alias.$_ -ne $null) {
                 foreach ($a in $PSCompletions.data.alias.$_) {
                     $data.alias.$_ += $a
                     $data.aliasMap.$a = $_
@@ -189,7 +191,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
         ## config
         foreach ($c in $PSCompletions.default_config.Keys) {
-            if ($PSCompletions.config.$c) {
+            if ($PSCompletions.config.$c -ne $null) {
                 $data.config.$c = $PSCompletions.config.$c
             }
             else {
@@ -201,7 +203,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         $data.config.comp_config = [ordered]@{}
         foreach ($_ in Get-ChildItem $PSCompletions.path.completions -Directory) {
             $completion = $_.Name
-            if (!$data.config.comp_config.$completion) {
+            if ($data.config.comp_config.$completion -eq $null) {
                 $data.config.comp_config.$completion = [ordered]@{}
             }
             foreach ($c in $PSCompletions.config.comp_config.$completion.Keys) {
@@ -217,7 +219,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
             $json = get_raw_content $path | ConvertFrom-Json -AsHashtable
             foreach ($item in $json.config) {
-                if (!$data.config.comp_config.$_) {
+                if ($data.config.comp_config.$_ -eq $null) {
                     $data.config.comp_config.$_ = [ordered]@{}
                 }
                 if ($data.config.comp_config.$_.$($item.name) -in @('', $null)) {

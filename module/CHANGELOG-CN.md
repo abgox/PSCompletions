@@ -3,6 +3,19 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.1.2 (2024/11/27)
+
+- 由于未来的 Windows Terminal 的变化，将导致在补全菜单中无法正常显示 😄🤔😎，因此这三个默认特殊符号将改变。
+  - 相关的 issue: https://github.com/microsoft/terminal/issues/18242
+  - 目前 Windows Terminal 可用，Windows Terminal Preview 不可用。
+  - PSCompletions 不会自动替换它们，你需要手动运行命令 `psc reset menu symbol` 来替换它们。
+  - 变化如下:
+    - `😄` => `→`
+    - `🤔` => `?`
+    - `😎` => `↓`
+- 修复了配置修改后不生效的问题。
+- 其他的优化和修复。
+
 ## 5.1.1 (2024/11/22)
 
 - 修复了 `order.json` 解析压缩导致补全报错的问题。
