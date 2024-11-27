@@ -3,6 +3,19 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.1.2 (2024/11/27)
+
+- Due to future changes in Windows Terminal, 😄🤔😎 will not be displayed properly in the completion menu, so these three default special symbols will change.
+  - Related issue: https://github.com/microsoft/terminal/issues/18242
+  - Currently, Windows Terminal is available, Windows Terminal Preview is not available.
+  - PSCompletions will not automatically replace them, you need to run the command `psc reset menu symbol` to replace them.
+  - The changes are as follows:
+    - `😄` => `→`
+    - `🤔` => `?`
+    - `😎` => `↓`
+- Fix the issue of not taking effect after configuration modification.
+- Other optimizations and fixes.
+
 ## 5.1.1 (2024/11/22)
 
 - Fix the issue of `order.json` parsing compression causing completion errors.

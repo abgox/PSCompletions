@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.1.1'
+    version                 = '5.1.2'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -39,9 +39,9 @@ New-Variable -Name PSCompletions -Value @{
         function_name                                = 'PSCompletions'
 
         # menu symbol
-        SpaceTab                                     = '😄'
-        WriteSpaceTab                                = '😎'
-        OptionTab                                    = '🤔'
+        SpaceTab                                     = '→'
+        WriteSpaceTab                                = '↓'
+        OptionTab                                    = '?'
 
         # menu line
         horizontal                                   = '═'
@@ -495,7 +495,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         Remove-Job $PSCompletions.job
         $PSCompletions.job = $null
     }
-    if ($PSCompletions.config.disable_cache) {
+    if ($PSCompletions.config.disable_cache -eq 1) {
         $PSCompletions.completions.$root = $null
         $PSCompletions.completions_data.$root = $null
     }
@@ -509,7 +509,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
     $input_arr = [array]$input_arr
 
-    if ($PSCompletions.config.comp_config.$root.disable_hooks -ne $null) {
+    if ($PSCompletions.config.comp_config.$root.disable_hooks -eq 1) {
         # 使用 hooks 覆盖默认的函数，实现在一些特殊的需求，比如一些补全的动态加载
         if ($PSCompletions.config.comp_config.$root.disable_hooks -ne 1) {
             . "$($PSCompletions.path.completions)/$root/hooks.ps1"
@@ -540,7 +540,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $filter_list = filterCompletions $completions $root
 
     # 排序
-    if ($PSCompletions.config.enable_completions_sort) {
+    if ($PSCompletions.config.enable_completions_sort -eq 1) {
         $path_order = "$($PSCompletions.path.completions)/$root/order.json"
         if ($PSCompletions.order."$($root)_job") {
             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
@@ -1079,7 +1079,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     }
 
     # is_show_tip
-    if ($PSCompletions.current_cmd) {
+    if ($PSCompletions.current_cmd -ne $null) {
         $json = $PSCompletions.completions.$($PSCompletions.current_cmd)
         $info = $json.info
 
@@ -1097,7 +1097,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
 
     if ($PSCompletions.menu.is_show_tip) {
         foreach ($_ in $filter_list) {
-            if ($_.ToolTip) {
+            if ($_.ToolTip -ne $null) {
                 $tip = $PSCompletions.replace_content($_.ToolTip)
                 $tip_arr = $tip -split "`n"
             }
