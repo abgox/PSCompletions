@@ -9,6 +9,16 @@
                     return
                 }
 
+                # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
+                if ($PSEdition -ne 'Core') {
+                    $PSCompletions.config.horizontal = '-'
+                    $PSCompletions.config.vertical = '|'
+                    $PSCompletions.config.top_left = '+'
+                    $PSCompletions.config.bottom_left = '+'
+                    $PSCompletions.config.top_right = '+'
+                    $PSCompletions.config.bottom_right = '+'
+                }
+
                 # 是否是按下空格键触发的补全
                 $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                 # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
@@ -140,6 +150,15 @@
 
                     $filter_list = $PSCompletions.get_completion()
                     if ($PSCompletions.config.enable_menu -eq 1) {
+                        # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
+                        if ($PSEdition -ne 'Core') {
+                            $PSCompletions.config.horizontal = '-'
+                            $PSCompletions.config.vertical = '|'
+                            $PSCompletions.config.top_left = '+'
+                            $PSCompletions.config.bottom_left = '+'
+                            $PSCompletions.config.top_right = '+'
+                            $PSCompletions.config.bottom_right = '+'
+                        }
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }
                     else {

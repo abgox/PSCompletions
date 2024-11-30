@@ -1,7 +1,7 @@
 ﻿using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.1.3'
+    version                 = '5.1.4'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -1061,15 +1061,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     else {
         $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
         $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
-    }
-    # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
-    if ($PSEdition -ne 'Core') {
-        $PSCompletions.config.horizontal = '-'
-        $PSCompletions.config.vertical = '|'
-        $PSCompletions.config.top_left = '+'
-        $PSCompletions.config.bottom_left = '+'
-        $PSCompletions.config.top_right = '+'
-        $PSCompletions.config.bottom_right = '+'
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length {
