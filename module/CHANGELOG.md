@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.1.4 (2024/11/30)
+
+- Fix the issue of unexpected border style change when using `PowerShell` and `Windows PowerShell` together in `v5.1.3`.
+
 ## 5.1.3 (2024/11/30)
 
 - Fix the issue of dynamic completion not taking effect for commands with `hooks.ps1`.
