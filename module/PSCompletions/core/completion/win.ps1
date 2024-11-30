@@ -9,16 +9,6 @@
                     return
                 }
 
-                # Windows PowerShell 5.x
-                if ($PSEdition -ne 'Core') {
-                    $PSCompletions.config.horizontal = '-'
-                    $PSCompletions.config.vertical = '|'
-                    $PSCompletions.config.top_left = '+'
-                    $PSCompletions.config.bottom_left = '+'
-                    $PSCompletions.config.top_right = '+'
-                    $PSCompletions.config.bottom_right = '+'
-                }
-
                 # 是否是按下空格键触发的补全
                 $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                 # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
@@ -80,7 +70,7 @@
                                             $tool_tip = $completion.ToolTip
                                         }
                                         else {
-                                            # 如果是内置命令，由于其 ToolTip 写法很奇怪，会导致显示的内容有些问题
+                                            # XXX: 如果是内置命令(如: Get-Content等)，其 ToolTip 写法很奇怪，会导致显示的内容有些问题，这里做了特殊处理
                                             $tool_tip = @()
                                             foreach ($tip in $completion.ToolTip) {
                                                 $tip = $tip -replace '\s{2}', ' '
@@ -150,15 +140,6 @@
 
                     $filter_list = $PSCompletions.get_completion()
                     if ($PSCompletions.config.enable_menu -eq 1) {
-                        # Windows PowerShell 5.x
-                        if ($PSEdition -ne 'Core') {
-                            $PSCompletions.config.horizontal = '-'
-                            $PSCompletions.config.vertical = '|'
-                            $PSCompletions.config.top_left = '+'
-                            $PSCompletions.config.bottom_left = '+'
-                            $PSCompletions.config.top_right = '+'
-                            $PSCompletions.config.bottom_right = '+'
-                        }
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }
                     else {

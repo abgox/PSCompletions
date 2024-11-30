@@ -3,6 +3,12 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.1.3 (2024/11/30)
+
+- Fix the issue of dynamic completion not taking effect for commands with `hooks.ps1`.
+- When a module needs to be updated, it will try multiple update methods.
+- Other optimizations and fixes.
+
 ## 5.1.2 (2024/11/27)
 
 - Due to future changes in Windows Terminal, 😄🤔😎 will not be displayed properly in the completion menu, so these three default special symbols will change.
