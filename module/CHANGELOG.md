@@ -6,7 +6,7 @@
 ## 5.1.3 (2024/11/30)
 
 - Fix the issue of dynamic completion not taking effect for commands with `hooks.ps1`.
-- When a module needs to be updated, it will try multiple update methods.
+- When subsequent module needs to be updated, it will try multiple update methods.
 - Other optimizations and fixes.
 
 ## 5.1.2 (2024/11/27)
