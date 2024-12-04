@@ -1,4 +1,7 @@
 ﻿function handleCompletions($completions) {
+    if ($completions -isnot [array]) {
+        return $completions
+    }
     $tempList = @()
 
     function CleanNul($data) {

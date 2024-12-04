@@ -1,4 +1,7 @@
 ﻿function handleCompletions($completions) {
+    if ($completions -isnot [array]) {
+        return $completions
+    }
     if (!(Test-Path "package.json")) { return $completions }
 
     $tempList = @()

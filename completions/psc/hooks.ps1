@@ -1,4 +1,7 @@
 ﻿function handleCompletions($completions) {
+    if ($completions -isnot [array]) {
+        return $completions
+    }
     foreach ($completion in $PSCompletions.data.list) {
 
         $completions += $PSCompletions.return_completion("rm $($completion)", $PSCompletions.replace_content($PSCompletions.info.rm.tip))

@@ -1,4 +1,7 @@
 ﻿function handleCompletions($completions) {
+    if ($completions -isnot [array]) {
+        return $completions
+    }
     $voltaBinDir = Split-Path (Get-Command volta).Source -Parent
     $toolsDir = "$(Split-Path $voltaBinDir -Parent)\tools\image"
     $list = @("node", "npm", "pnpm", "yarn")
