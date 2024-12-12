@@ -730,7 +730,8 @@
             "U: -a|--annotate <tag>\n",
             "创建一个注解标签对象。\n",
             "E: -a v1.0.0"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "-d",
@@ -745,6 +746,12 @@
             "U: -d|--delete <tag>\n",
             "删除标签。"
           ]
+        },
+        {
+          "name": "-m"
+        },
+        {
+          "name": "-e"
         },
         {
           "name": "-v",
@@ -2072,23 +2079,15 @@
   },
   "config": [
     {
-      "name": "disable_hooks",
-      "value": 0,
+      "name": "enable_hooks",
+      "value": 1,
       "values": [
         1,
         0
       ],
       "tip": [
-        "{{",
-        "$_value = $PSCompletions.config.comp_config.git.disable_hooks;",
-        "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
-        "}}",
-        "设置是否禁用 hooks，默认为 0 表示启用\n",
-        "hooks 将解析一些数据, 然后动态添加到命令补全中\n",
-        "包含的数据: commit 信息、分支信息等\n",
-        "包含的命令: <@Magenta>reset<@Blue>,<@Magenta>checkout<@Blue>,<@Magenta>branch<@Blue>,...\n",
-        "你可以通过运行 <@Magenta>psc completion git disable_hooks 1<@Blue> 来禁用它\n",
-        "如果禁用它，那么 <@Magenta>max_commit<@Blue> 配置也将无效"
+        "{{ $PSCompletions.info.completion.enable_hooks.tip }}\n",
+        "如果禁用它，那么 <@Magenta>max_commit<@Blue> 配置也将无效。"
       ]
     },
     {
@@ -2103,9 +2102,8 @@
         "$_value = $PSCompletions.config.comp_config.git.max_commit;",
         "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
         "}}",
-        "可以为当前项目解析的 commit 的最大数量，默认为 20\n",
-        "如果设置为 <@Magenta>-1<@Blue>, 会解析所有 commit\n",
-        "如果项目 commit 数量较多，设置为 <@Magenta>-1<@Blue> 会对补全加载速度会有较大影响"
+        "可以为当前项目解析的 commit 的最大数量，默认为 <@Magenta>20<@Blue>。\n",
+        "如果设置为 <@Magenta>-1<@Blue>, 会解析所有 commit，这对补全加载速度有影响。"
       ]
     }
   ]

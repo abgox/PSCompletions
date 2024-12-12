@@ -1,4 +1,4 @@
-﻿Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
     if ($PSCompletions.config.enable_menu_enhance -and $PSCompletions.config.enable_menu) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
             Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock {
@@ -9,16 +9,6 @@
                     return
                 }
 
-                # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
-                if ($PSEdition -ne 'Core') {
-                    $PSCompletions.config.horizontal = '-'
-                    $PSCompletions.config.vertical = '|'
-                    $PSCompletions.config.top_left = '+'
-                    $PSCompletions.config.bottom_left = '+'
-                    $PSCompletions.config.top_right = '+'
-                    $PSCompletions.config.bottom_right = '+'
-                }
-
                 # 是否是按下空格键触发的补全
                 $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                 # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
@@ -27,12 +17,14 @@
                 foreach ($match in $matches) { $input_arr += $match.Value }
 
                 # 触发补全的值，此值可能是别名或命令名
-                $alias = $input_arr[0]
+                $root = $alias = $input_arr[0]
 
-                if ($PSCompletions.data.aliasMap.$alias -ne $null -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
+                $PSCompletions.menu.by_TabExpansion2 = $false
+
+                if ($PSCompletions.data.aliasMap[$alias] -ne $null -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
                     if ($buffer -eq $alias) { return }
                     # 原始的命令名，也是 completions 目录下的命令目录名
-                    $PSCompletions.current_cmd = $root = $PSCompletions.data.aliasMap.$alias
+                    $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap.$alias
 
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 
@@ -60,73 +52,50 @@
                         return
                     }
 
-                    $filter_list = @()
-                    $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
-                    $runspacePool.Open()
-                    $runspaces = @()
+                    $filter_list = $completion.CompletionMatches
 
-                    foreach ($completions in $PSCompletions.split_array($completion.CompletionMatches, [Environment]::ProcessorCount, $true)) {
-                        $runspace = [powershell]::Create().AddScript({
-                                param($completions, $host_ui)
-                                $max_width = 0
-                                $results = @()
-                                function get_length {
-                                    param([string]$str)
-                                    $host_ui.RawUI.NewBufferCellArray($str, $host_ui.RawUI.BackgroundColor, $host_ui.RawUI.BackgroundColor).LongLength
-                                }
-                                foreach ($completion in $completions) {
-                                    if ($completion.ToolTip -ne $null) {
-                                        if ($completion.ResultType -in @('ParameterValue', 'ParameterName')) {
-                                            $tool_tip = $completion.ToolTip
-                                        }
-                                        else {
-                                            # XXX: 如果是内置命令(如: Get-Content等)，其 ToolTip 写法很奇怪，会导致显示的内容有些问题，这里做了特殊处理
-                                            $tool_tip = @()
-                                            foreach ($tip in $completion.ToolTip) {
-                                                $tip = $tip -replace '\s{2}', ' '
-
-                                                $guid = [guid]::NewGuid()
-                                                $tip = $tip -replace '\s{2}', $guid
-
-                                                $tool_tip += $tip.Trim() -split $guid
-                                            }
-                                            $tool_tip = $tool_tip -join "`n`n"
-                                        }
-                                        $results += @{
-                                            ListItemText   = $completion.ListItemText
-                                            CompletionText = $completion.CompletionText
-                                            ToolTip        = $tool_tip
-                                        }
-                                    }
-                                    else {
-                                        $results += $completion
-                                    }
-                                    $max_width = [Math]::Max($max_width, (get_length $completion.ListItemText))
-                                }
-                                @{
-                                    results   = $results
-                                    max_width = $max_width
-                                }
-                            }).AddArgument($completions).AddArgument($Host.UI)
-                        $runspace.RunspacePool = $runspacePool
-                        $runspaces += @{ Runspace = $runspace; Job = $runspace.BeginInvoke() }
-                    }
-                    foreach ($rs in $runspaces) {
-                        $result = $rs.Runspace.EndInvoke($rs.Job)
-                        $rs.Runspace.Dispose()
-                        $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $result.max_width)
-                        if ($result.results) {
-                            $filter_list += $result.results
+                    if ($PSCompletions.config.enable_completions_sort -eq 1 -and (Get-Command $alias -ErrorAction SilentlyContinue)) {
+                        $path_order = "$($PSCompletions.path.temp)/order/$root.json"
+                        if ($PSCompletions.order."$($root)_job") {
+                            if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
+                                $PSCompletions.order.$root = Receive-Job $PSCompletions.order."$($root)_job"
+                                Remove-Job $PSCompletions.order."$($root)_job"
+                                $PSCompletions.order.Remove("$($root)_job")
+                            }
                         }
+                        else {
+                            if (Test-Path $path_order) {
+                                try {
+                                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_order))
+                                }
+                                catch {
+                                    $PSCompletions.order.$root = $null
+                                }
+                            }
+                            else {
+                                $PSCompletions.order.$root = $null
+                            }
+                        }
+                        $order = $PSCompletions.order.$root
+                        if ($order) {
+                            $PSCompletions._i = 0 # 这里使用 $PSCompletions._i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
+                            $filter_list = $filter_list | Sort-Object {
+                                $PSCompletions._i --
+                                # 不能使用 $order.($_.CompletionText)，它可能获取到对象中的 OverloadDefinitions
+                                $o = $order[$_.CompletionText]
+                                if ($o) { $o }else { $PSCompletions._i }
+                            } -Descending -CaseSensitive
+                        }
+                        $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
                     }
 
-                    $result = $PSCompletions.menu.show_module_menu($filter_list, $true)
+                    $PSCompletions.menu.by_TabExpansion2 = $true
+                    $result = $PSCompletions.menu.show_module_menu($filter_list)
                     # apply the completion
                     if ($result -ne $null) {
                         [Microsoft.PowerShell.PSConsoleReadLine]::Replace($completion.ReplacementIndex, $completion.ReplacementLength, $result)
                     }
                 }
-                $PSCompletions.current_cmd = $null
             }
         }
     }
@@ -144,27 +113,20 @@
 
                     $alias = $input_arr[0]
 
-                    $PSCompletions.current_cmd = $root = $PSCompletions.data.aliasMap.$alias
+                    $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap.$alias
 
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 
                     $filter_list = $PSCompletions.get_completion()
+
+                    $PSCompletions.menu.by_TabExpansion2 = $false
+
                     if ($PSCompletions.config.enable_menu -eq 1) {
-                        # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
-                        if ($PSEdition -ne 'Core') {
-                            $PSCompletions.config.horizontal = '-'
-                            $PSCompletions.config.vertical = '|'
-                            $PSCompletions.config.top_left = '+'
-                            $PSCompletions.config.bottom_left = '+'
-                            $PSCompletions.config.top_right = '+'
-                            $PSCompletions.config.bottom_right = '+'
-                        }
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }
                     else {
                         $PSCompletions.menu.show_powershell_menu($filter_list)
                     }
-                    $PSCompletions.current_cmd = $null
                 }
             }
         }

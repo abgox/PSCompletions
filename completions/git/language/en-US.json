@@ -730,7 +730,8 @@
             "U: -a|--annotate <tag>\n",
             "Create an annotated tag object.\n",
             "E: -a v1.0.0"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "-d",
@@ -745,6 +746,12 @@
             "U: -d|--delete <tag>\n",
             "Delete tags."
           ]
+        },
+        {
+          "name": "-m"
+        },
+        {
+          "name": "-e"
         },
         {
           "name": "-v",
@@ -2074,22 +2081,14 @@
   },
   "config": [
     {
-      "name": "disable_hooks",
-      "value": 0,
+      "name": "enable_hooks",
+      "value": 1,
       "values": [
         1,
         0
       ],
       "tip": [
-        "{{",
-        "$_value = $PSCompletions.config.comp_config.git.disable_hooks;",
-        "if($_value -ne $null){ \"Current Value: <@Magenta>$_value<@Blue>`n\" }",
-        "}}",
-        "Set whether to disable hooks. Default to 0.\n",
-        "The hooks will parse some data and add them in command completions dynamically.\n",
-        "Included data: commit,branch,...\n",
-        "Included command: <@Magenta>reset<@Blue>,<@Magenta>checkout<@Blue>,<@Magenta>branch<@Blue>,...\n",
-        "You can disable it by running <@Magenta>psc completion git disable_hooks 1<@Blue>.\n",
+        "{{ $PSCompletions.info.completion.enable_hooks.tip }}\n",
         "If you disable it, the <@Magenta>max_commit<@Blue> configuration will also be invalid."
       ]
     },
@@ -2105,9 +2104,8 @@
         "$_value = $PSCompletions.config.comp_config.git.max_commit;",
         "if($_value -ne $null){ \"Current Value: <@Magenta>$_value<@Blue>`n\" }",
         "}}",
-        "The maximum number that can be parsed for a project commit. Default to 20.\n",
-        "If it is <@Magenta>-1<@Blue>, all commits will be parsed.\n",
-        "If there are a large number of project commits, setting <@Magenta>-1<@Blue> will affect the loading speed of the completion."
+        "The maximum number that can be parsed for a project commit. Default to <@Magenta>20<@Blue>.\n",
+        "If it is <@Magenta>-1<@Blue>, all commits will be parsed, which may affect the loading speed."
       ]
     }
   ]

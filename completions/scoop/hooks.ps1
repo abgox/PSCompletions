@@ -1,59 +1,162 @@
-﻿function handleCompletions($completions) {
-    if ($completions -isnot [array]) {
-        return $completions
-    }
+function handleCompletions($completions) {
+    $tempList = @()
 
-    if ($PSVersionTable.Platform -ne 'Unix') {
-        try {
-            $config = $PSCompletions.get_raw_content("$env:UserProfile\.config\scoop\config.json") | ConvertFrom-Json
-            if ($env:SCOOP) {
-                $scoop_path = $env:SCOOP
-            }
-            else {
-                $path = $config.root_path
-                if ($path) { [environment]::SetEnvironmentvariable('SCOOP', $path, 'User') }
-                $scoop_path = $path
-            }
+    $filter_input_arr = $PSCompletions.filter_input_arr
 
-            if ($env:SCOOP_GLOBAL) {
-                $scoop_global_path = $env:SCOOP_GLOBAL
-            }
-            else {
-                $path = $config.global_path
-                if ($path) { [environment]::SetEnvironmentvariable('SCOOP_GLOBAL', $path, 'User') }
-                $scoop_global_path = $path
-            }
-            foreach ($_ in scoop bucket known) {
-                $bucket = $_
-                $completions += $PSCompletions.return_completion("bucket add $($bucket)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.add))
-            }
-            foreach ($_ in Get-ChildItem "$scoop_path\buckets" 2>$null) {
-                $bucket = $_.Name
-                $completions += $PSCompletions.return_completion("bucket rm $($bucket)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm))
-            }
-            foreach ($_ in @("$scoop_path\apps", "$scoop_global_path\apps")) {
-                foreach ($item in (Get-ChildItem $_ 2>$null)) {
-                    $app = $item.Name
-                    $path = $item.FullName
-                    $completions += $PSCompletions.return_completion("uninstall $($app)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.uninstall))
-                    $completions += $PSCompletions.return_completion("update $($app)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update))
-                    $completions += $PSCompletions.return_completion("cleanup $($app)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cleanup))
-                    $completions += $PSCompletions.return_completion("hold $($app)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.hold))
-                    $completions += $PSCompletions.return_completion("unhold $($app)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.unhold))
-                    $completions += $PSCompletions.return_completion("prefix $($app)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.prefix))
+    $config = scoop config
+    $root_path = $config.root_path
+    $global_path = $config.global_path
+
+    switch ($filter_input_arr[0]) {
+        'bucket' {
+            switch ($filter_input_arr[1]) {
+                'add' {
+                    if ($filter_input_arr.Count -eq 2) {
+                        foreach ($_ in scoop bucket known) {
+                            $bucket = $_
+                            $tempList += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.add))
+                        }
+                    }
                 }
-            }
-            foreach ($_ in Get-ChildItem "$scoop_path\cache" -ErrorAction SilentlyContinue) {
-                $match = $_.BaseName -match '^([^#]+#[^#]+)'
-                if ($match) {
-                    $part = $_.Name -split "#"
-                    $path = $_.FullName
-                    $cache = $part[0..1] -join "#"
-                    $completions += $PSCompletions.return_completion("cache rm $($cache)", $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm))
+                'rm' {
+                    if ($filter_input_arr.Count -eq 2) {
+                        foreach ($_ in Get-ChildItem "$root_path\buckets" 2>$null) {
+                            $bucket = $_.Name
+                            $tempList += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm))
+                        }
+                    }
                 }
             }
         }
-        catch {}
+        'uninstall' {
+            if ($filter_input_arr.Count -gt 1) {
+                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
+            }
+            else {
+                $selected = @()
+            }
+            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+                foreach ($item in (Get-ChildItem $_ 2>$null)) {
+                    $app = $item.Name
+                    $path = $item.FullName
+                    if ($app -notin $selected) {
+                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.uninstall), @('SpaceTab'))
+                    }
+                }
+            }
+        }
+        'update' {
+            if ($filter_input_arr.Count -gt 1) {
+                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
+            }
+            else {
+                $selected = @()
+            }
+            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+                foreach ($item in (Get-ChildItem $_ 2>$null)) {
+                    $app = $item.Name
+                    $path = $item.FullName
+                    if ($app -notin $selected) {
+                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update), @('SpaceTab'))
+                    }
+                }
+            }
+        }
+        'cleanup' {
+            if ($filter_input_arr.Count -gt 1) {
+                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
+            }
+            else {
+                $selected = @()
+            }
+            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+                foreach ($item in (Get-ChildItem $_ 2>$null)) {
+                    $app = $item.Name
+                    $path = $item.FullName
+                    if ($app -notin $selected) {
+                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cleanup), @('SpaceTab'))
+                    }
+                }
+            }
+        }
+        'hold' {
+            if ($filter_input_arr.Count -gt 1) {
+                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
+            }
+            else {
+                $selected = @()
+            }
+            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+                foreach ($item in (Get-ChildItem $_ 2>$null)) {
+                    $app = $item.Name
+                    $path = $item.FullName
+                    $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.hold), @('SpaceTab'))
+                }
+            }
+        }
+        'unhold' {
+            if ($filter_input_arr.Count -gt 1) {
+                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
+            }
+            else {
+                $selected = @()
+            }
+            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+                foreach ($item in (Get-ChildItem $_ 2>$null)) {
+                    $app = $item.Name
+                    $path = $item.FullName
+                    if ($app -notin $selected) {
+                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.unhold), @('SpaceTab'))
+                    }
+                }
+            }
+        }
+        'prefix' {
+            if ($filter_input_arr.Count -eq 1) {
+                foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+                    foreach ($item in (Get-ChildItem $_ 2>$null)) {
+                        $app = $item.Name
+                        $path = $item.FullName
+                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.prefix))
+                    }
+                }
+            }
+        }
+        'cache' {
+            if ('*' -in $filter_input_arr) {
+                break
+            }
+            if ($filter_input_arr.Count -ge 2 -and $filter_input_arr[1] -eq "rm") {
+                $selected = $filter_input_arr[2..($filter_input_arr.Count - 1)]
+                foreach ($_ in Get-ChildItem "$root_path\cache" -ErrorAction SilentlyContinue) {
+                    $match = $_.BaseName -match '^([^#]+#[^#]+)'
+                    if ($match) {
+                        $part = $_.Name -split "#"
+                        $path = $_.FullName
+                        $cache = $part[0..1] -join "#"
+                        if ($cache -notin $selected) {
+                            $tempList += $PSCompletions.return_completion($cache, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm), @('SpaceTab'))
+                        }
+                    }
+                }
+            }
+        }
+        'config' {
+            if ($filter_input_arr.Count -eq 1) {
+                $configs = Get-Member -InputObject $config -MemberType NoteProperty
+                $completions_list = $completions.CompletionText
+                foreach ($c in $configs) {
+                    $current_value = $c.Name
+                    $info = $PSCompletions.completions_data.scoop.root.config.$($PSCompletions.guid).Where({ $_.CompletionText -eq $current_value })[0].ToolTip
+                    if (!$info) {
+                        $info = @($PSCompletions.info.current_value + ': ' + $current_value)
+                    }
+                    if ($current_value -notin $completions_list) {
+                        $tempList += $PSCompletions.return_completion($current_value, $PSCompletions.replace_content($info))
+                    }
+                }
+            }
+        }
     }
-    return $completions
+    return $tempList + $completions
 }
