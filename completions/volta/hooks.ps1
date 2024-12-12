@@ -1,16 +1,21 @@
-﻿function handleCompletions($completions) {
-    if ($completions -isnot [array]) {
-        return $completions
-    }
+function handleCompletions($completions) {
+    $tempList = @()
+
     $voltaBinDir = Split-Path (Get-Command volta).Source -Parent
     $toolsDir = "$(Split-Path $voltaBinDir -Parent)\tools\image"
     $list = @("node", "npm", "pnpm", "yarn")
 
-    foreach ($l in $list) {
-        $versionList = Get-ChildItem "$toolsDir\$l" -Directory
-        foreach ($v in $versionList) {
-            $completions += $PSCompletions.return_completion("pin $l@$($v.BaseName)", "pin - $l@$($v.BaseName)")
+    $filter_input_arr = $PSCompletions.filter_input_arr
+
+    switch ($filter_input_arr[-1]) {
+        'pin' {
+            foreach ($l in $list) {
+                $versionList = Get-ChildItem "$toolsDir\$l" -Directory
+                foreach ($v in $versionList) {
+                    $tempList += $PSCompletions.return_completion("$l@$($v.BaseName)", "pin - $l@$($v.BaseName)")
+                }
+            }
         }
     }
-    return $completions
+    return $tempList + $completions
 }

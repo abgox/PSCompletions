@@ -65,6 +65,15 @@
             "if($PSCompletions.update){ \"当前可更新的补全: $($PSCompletions.update -join ',')\" }",
             "else{'所有补全都是最新的!'}",
             "}}"
+          ],
+          "options": [
+            {
+              "name": "--force",
+              "tip": [
+                "强制更新所有已经添加的补全\n",
+                "(这可以确保补全一定是最新的)"
+              ]
+            }
           ]
         }
       ]
@@ -278,7 +287,7 @@
           "symbol": "SpaceTab",
           "tip": [
             "当前值: {{ $PSCompletions.config.function_name }}\n",
-            "设置模块导出的核心函数名(修改后必须重启 PowerShell)\n",
+            "设置模块导出的核心函数名\n",
             "当你需要定义一个函数，且必须命名为 PSCompletions 时，你可以通过此配置修改 PSCompletions 模块默认导出的函数名以解决冲突"
           ],
           "next": [
@@ -311,7 +320,7 @@
           "name": "symbol",
           "symbol": "SpaceTab",
           "tip": [
-            "设置补全提示中的特殊符号(→?↓)\n",
+            "设置补全提示中的特殊符号(»?!)\n",
             "这些符号只在通过 psc add 添加的补全中存在\n",
             "详情: https://pscompletions.pages.dev/command/#menu-symbol"
           ],
@@ -324,8 +333,8 @@
               ],
               "next": [
                 {
-                  "name": "→",
-                  "tip": "设置为 → (默认值)"
+                  "name": "»",
+                  "tip": "设置为 » (默认值)"
                 },
                 {
                   "name": "\"\"",
@@ -345,8 +354,8 @@
               ],
               "next": [
                 {
-                  "name": "↓",
-                  "tip": "设置为 ↓ (默认值)"
+                  "name": "!",
+                  "tip": "设置为 ! (默认值)"
                 },
                 {
                   "name": "\"\"",
@@ -415,6 +424,15 @@
                 "╭─────╮\n",
                 "│     │\n",
                 "╰─────╯"
+              ]
+            },
+            {
+              "name": "bold_line_rect_border",
+              "tip": [
+                "设置为粗线直角边框, 效果如下:\n",
+                "┏━━━━━┓\n",
+                "┃     ┃\n",
+                "┗━━━━━┛"
               ]
             }
           ]
@@ -856,7 +874,7 @@
               "symbol": "SpaceTab",
               "tip": [
                 "当前值: \"{{ $PSCompletions.config.trigger_key }}\" (默认值为 \"Tab\")\n",
-                "设置触发补全的按键(此配置修改后需要重启 PowerShell)"
+                "设置触发补全的按键"
               ],
               "next": [
                 {
@@ -1152,7 +1170,7 @@
               "symbol": "SpaceTab",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_menu_enhance }} (默认值为 1, 表示启用)\n",
-                "设置是否增强补全菜单的功能(此配置修改后需要重启 PowerShell)\n",
+                "设置是否增强补全菜单的功能\n",
                 "详细信息: https://github.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n",
                 "          https://gitee.com/abgox/PSCompletions/blob/main/README-CN.md#关于菜单增强\n"
               ],
@@ -1282,8 +1300,8 @@
               "name": "symbol",
               "tip": [
                 "重置符号为默认值\n",
-                "SpaceTab      => →\n",
-                "WriteSpaceTab => ↓\n",
+                "SpaceTab      => »\n",
+                "WriteSpaceTab => !\n",
                 "OptionTab     => ?"
               ]
             },
@@ -1391,8 +1409,10 @@
         "}}\n",
         "<@Cyan>按下 <@Magenta>Enter(回车键)<@Cyan> 进行更新，<@Magenta>其他任意键(不包含 Ctrl 键)<@Cyan> 取消更新!"
       ],
-      "updating": "<@Cyan>尝试运行命令: <@Magenta>{{ $update_cmd }}<@Cyan>\nPSCompletions 模块正在尝试更新..."
+      "updating": "<@Cyan>尝试运行命令: <@Magenta>{{ $update_cmd }}<@Cyan>\nPSCompletions 模块正在尝试更新...",
+      "restart": "<@Yellow>请重启 PowerShell 并重新导入 PSCompletions 模块来使更改生效"
     },
+    "current_value": "当前值",
     "update_info": [
       "<@Cyan>PSCompletions 远程仓库更新: \n",
       "{{",
@@ -1479,8 +1499,7 @@
         ],
         "no": [
           "<@Red>补全 <@Magenta>{{ $completion }}<@Red> 在补全列表文件中不存在。\n",
-          "<@Yellow>推荐输入 <@Magenta>psc add<@Yellow> 后按下 <@Magenta>空格<@Yellow> 和 <@Magenta>Tab<@Yellow> 键进行补全\n",
-          "或者使用 <@Magenta>psc search<@Yellow> 搜索可用的补全"
+          "<@Yellow>推荐输入 <@Magenta>psc add<@Yellow> 后按下 <@Magenta>空格<@Yellow> 和 <@Magenta>Tab<@Yellow> 键进行补全"
         ]
       }
     },
@@ -1565,10 +1584,12 @@
       "done": [
         "{{",
         "if($arg[1] -eq 'add') {",
-        "\"<@Magenta>$($completion)<@Green> 新增一个别名 <@Magenta>$($alias)<@Green>, 现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($alias)`n<@Yellow>你需要重启 PowerShell 并重新导入 PSCompletions 模块来使更改生效\"",
+        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> 新增了一个别名 <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
         "}",
         "elseif($arg[1] -eq 'rm') {",
-        "\"<@Magenta>$($completion)<@Green> 移除一个别名 <@Magenta>$($alias)<@Green>, 现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -ne $alias }) -join ' ')`n<@Yellow>你需要重启 PowerShell 并重新导入 PSCompletions 模块来使更改生效\"",
+        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> 移除了一个别名 <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
         "}",
         "}}"
       ],
@@ -1711,7 +1732,7 @@
         "   psc completion psc language en-US   --- 单独设置 psc 补全的语言为英文"
       ],
       "done": [
-        "<@Green>{{ $completion }} 的独立配置修改成功!\n",
+        "<@Magenta>{{ $completion }}<@Green> 的独立配置修改成功!\n",
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
       ],
       "err": {
@@ -1741,29 +1762,39 @@
           "$v = $PSCompletions.config.comp_config.$completion.enable_tip;",
           "if($v -notin @('',$null)){ \"当前值: $($v)`n\" }",
           "}}",
-          "设置当使用模块提供的补全菜单时, {{ $completion }} 是否显示补全提示信息"
+          "设置 {{ $completion }} 是否显示补全提示信息"
         ],
         "tip_v1": "将 {{ $completion }} 的 enable_tip 配置设置为 1",
         "tip_v0": "将 {{ $completion }} 的 enable_tip 配置设置为 0"
+      },
+      "enable_hooks": {
+        "tip": [
+          "{{",
+          "$_value = $PSCompletions.config.comp_config.$completion.enable_hooks;",
+          "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
+          "}}",
+          "设置是否启用 hooks，默认为 <@Magenta>1<@Blue>。\n",
+          "hooks 将解析或生成补全数据，然后动态添加到命令补全中。\n",
+          "你可以通过运行 <@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue> 来禁用它。"
+        ]
       }
     },
     "menu": {
       "example": [
         "E: psc menu config enable_tip 0                     --- 不显示补全提示信息\n",
-        "   psc menu symbol SpaceTab \"\"                      --- 设置符号为空字符串(这可以隐藏符号)\n",
+        "   psc menu symbol SpaceTab \"\"                      --- 隐藏符号\n",
         "   psc menu line_theme single_line_round_border     --- 切换内置的边框线条主题\n",
         "   psc menu config                                  --- 设置补全菜单配置"
       ],
       "done": [
         "<@Green>配置修改成功!\n",
-        "<@Yellow>如果未生效, 请重启 PowerShell 并重新导入模块\n",
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
       ],
       "symbol": {
         "example": [
-          "E: psc menu symbol SpaceTab →\n",
+          "E: psc menu symbol SpaceTab »\n",
           "   psc menu symbol OptionTab ?\n",
-          "   psc menu symbol WriteSpaceTab ↓"
+          "   psc menu symbol WriteSpaceTab !"
         ],
         "err": {
           "max": [
@@ -1818,9 +1849,9 @@
     "reset": {
       "example": [
         "E: psc reset *                --- 重置所有配置\n",
-        "   psc reset menu symbol      --- 重置所有符号配置(→?↓)\n",
+        "   psc reset menu symbol      --- 重置所有符号配置(»?!)\n",
         "   psc reset alias psc        --- 将 psc 恢复为默认补全名\n",
-        "   psc reset completion psc   --- 重置(移除) psc 的特殊配置\n"
+        "   psc reset completion psc   --- 重置(移除) psc 的特殊配置"
       ],
       "init_confirm": [
         "<@Yellow>是否完全重置 PSCompletions 模块？\n",
@@ -1834,11 +1865,11 @@
       "done": [
         "{{",
         "if($change_list){",
-        "  \"<@Green>重置完成!`n<@Yellow>如果未生效, 请重启 PowerShell 并重新导入模块`n<@Cyan>以下是重置前后的新旧对比:`n------------------------------`n\";",
-        "  ($change_list | ForEach-Object { \"<@Blue>$($_.item): <@Magenta>$($_.old_value)<@Blue> => <@Magenta>$($_.new_value)<@Blue>\" }) -join \"`n\";",
+        "  \"<@Green>重置完成!`n<@Cyan>以下是重置前后的新旧对比:`n------------------------------`n\";",
+        "  ($change_list | ForEach-Object {",
+        "$str = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" }",
+        " \"$($str): <@Magenta>$($_.old_value)<@Blue> => <@Magenta>$($_.new_value)<@Blue>\" }) -join \"`n\";",
         "  \"<@Cyan>`n------------------------------\"",
-        "}else{",
-        "  \"<@Green>重置完成!`n<@Yellow>如果未生效, 请重启 PowerShell 并重新导入模块\"",
         "}",
         "}}"
       ],
@@ -1870,22 +1901,14 @@
   },
   "config": [
     {
-      "name": "disable_hooks",
-      "value": 0,
+      "name": "enable_hooks",
+      "value": 1,
       "values": [
         1,
         0
       ],
       "tip": [
-        "{{",
-        "$_value = $PSCompletions.config.comp_config.psc.disable_hooks;",
-        "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
-        "}}",
-        "设置是否禁用 hooks，默认为 0 表示启用\n",
-        "hooks 将解析一些数据, 然后动态添加到命令补全中\n",
-        "包含的数据: 已添加或可添加的补全名称\n",
-        "包含的命令: <@Magenta>add<@Blue>,<@Magenta>rm<@Blue>,<@Magenta>update<@Blue>,<@Magenta>completion<@Blue>,<@Magenta>alias<@Blue>,...\n",
-        "你可以通过运行 <@Magenta>psc completion psc disable_hooks 1<@Blue> 来禁用它"
+        "{{ $PSCompletions.info.completion.enable_hooks.tip }}"
       ]
     }
   ]

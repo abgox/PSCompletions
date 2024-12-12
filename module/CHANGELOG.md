@@ -3,6 +3,22 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.2.0 (2024/12/12)
+
+- Add an option `--force` to the command `psc update *`.
+- Stop using filter mode to get completions, and cache the parsed tree object, which greatly improves completion performance.
+- Expand the completion sorting function, now, completions that are not added by `psc add` will also be sorted automatically based on command history.
+- Add a style `bold_line_rect_border` for border lines. Use it by the command `psc menu line_theme bold_line_rect_border`.
+- Modify the default symbol (`?!»`) to avoid rendering issues caused by special characters.
+- Optimize the display effect of the completion menu in various terminal window sizes.
+- Delay the effective node of `hooks` to the end of processing completion items, which is more flexible.
+- Replace the configuration item `disable_hooks` with `enable_hooks`.
+- Fix the issue of multiple update confirmations caused by the `CompletionPredictor` module.
+- Fix compatibility issues in `Windows PowerShell`, such as the completion menu being misaligned and other compatibility issues.
+- Fix the issue of not fully utilizing the terminal width for command prompt information adaptation.
+- Now, you can create a data.json file with content `{}` in the installation logic of Scoop application manifests.
+- Other optimizations and fixes.
+
 ## 5.1.4 (2024/11/30)
 
 - Fix the issue of unexpected border style change when using `PowerShell` and `Windows PowerShell` together in `v5.1.3`.
