@@ -82,6 +82,12 @@
      echo "Import-Module PSCompletions" >> $PROFILE
      ```
 
+> [!warning]
+>
+> - The `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` can no longer be used.
+> - It will cause the `PSCompletions` menu to not work correctly.
+> - For detail, see [About the completion trigger key](#about-the-completion-trigger-key).
+
 ## How to uninstall
 
 1. Start `PowerShell`.
@@ -116,6 +122,18 @@
 
 - `PSCompletions` uses the `Tab` key by default.
 - You can set it by running `psc menu config trigger_key <key>`.
+
+> [!warning]
+>
+> - The `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` can no longer be used.
+> - It will cause the `PSCompletions` menu to not work correctly.
+>
+> ```diff
+>
+> + Import-Module PSCompletions
+>
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
+> ```
 
 ### About completion update
 

@@ -85,6 +85,11 @@
    echo "Import-Module PSCompletions" >> $PROFILE
    ```
 
+> [!warning]
+>
+> - 不能再使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了，它会导致 `PSCompletions` 菜单无法正常工作
+> - 详细配置请参考 [关于补全触发按键](#关于补全触发按键)
+
 ## 卸载
 
 1. 打开 `PowerShell`
@@ -117,8 +122,19 @@
 
 ### 关于补全触发按键
 
-- 模块默认使用 `Tab` 键作为补全触发按键
+- 模块默认使用 `Tab` 键作为补全菜单触发按键
 - 你可以使用 `psc menu config trigger_key <key>` 去设置它
+
+> [!warning]
+>
+> - 不能再使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了，它会导致 `PSCompletions` 菜单无法正常工作
+>
+> ```diff
+>
+> + Import-Module PSCompletions
+>
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
+> ```
 
 ### 关于补全更新
 
