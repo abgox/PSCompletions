@@ -55,7 +55,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     $filter_list = $completion.CompletionMatches
 
                     if ($PSCompletions.config.enable_completions_sort -eq 1 -and (Get-Command $alias -ErrorAction SilentlyContinue)) {
-                        $path_order = "$($PSCompletions.path.temp)/order/$root.json"
+                        $path_order = "$($PSCompletions.path.order)/$root.json"
                         if ($PSCompletions.order."$($root)_job") {
                             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
                                 $PSCompletions.order.$root = Receive-Job $PSCompletions.order."$($root)_job"

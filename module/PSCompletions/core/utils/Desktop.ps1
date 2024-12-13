@@ -150,7 +150,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             catch {}
         }
 
-        ensure_dir "$($PSCompletions.path.temp)/order"
+        ensure_dir $PSCompletions.path.order
 
         ensure_psc
 
@@ -406,9 +406,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         $_completions = @{}
         $_completions_data = @{}
         $time = (Get-Date).AddMonths(-6)
-        $filter = (Get-ChildItem $PSCompletions.path.completions -Filter 'order.json' -File -Recurse).Where({ $_.LastWriteTime -gt $time })
+        $filter = (Get-ChildItem $PSCompletions.path.order).Where({ $_.LastWriteTime -gt $time })
         foreach ($_ in $filter) {
-            $root = Split-Path (Split-Path $_.FullName -Parent) -Leaf
+            $root = $_.BaseName
             if ($root -in $PSCompletions.data.list) {
                 $language = get_language $root
                 $path_language = "$($PSCompletions.path.completions)/$root/language/$language.json"
@@ -437,7 +437,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
     $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
         param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
 
-        $order_dir = "$($PScompletions.path.temp)/order"
+        $order_dir = $PSCompletions.path.order
         if (!(Test-Path $order_dir)) {
             New-Item -ItemType Directory -Path $order_dir -Force | Out-Null
         }
@@ -473,7 +473,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             $index++
             $result.$_ = $index
         }
-        $result | ConvertTo-Json -Depth 100 -Compress | Out-File $path_order -Force -Encoding utf8
+
+        $old = Get-Content -Raw $path_order -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
+        $new = $result | ConvertTo-Json -Depth 100 -Compress
+        if ($new -ne $old) {
+            $new | Out-File $path_order -Force -Encoding utf8
+        }
+
         return $result
     } -ArgumentList $PScompletions, $history_path, $root, $path_order
 }
