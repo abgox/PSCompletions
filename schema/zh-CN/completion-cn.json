@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "description": "The JSON Schema of the the PSCompletions module completion data file.",
+  "description": "PSCompletions 模块补全数据文件的 JSON Schema",
   "type": "object",
   "required": [
     "info"
@@ -24,11 +24,11 @@
   ],
   "definitions": {
     "completion_tip": {
-      "$ref": "#/definitions/array_items"
-      // "description": "A description of the configuration item.\nMust contain one of the following Chinese symbols.\n.?!;",
-      // "contains": {
-      //   "pattern": ".*[\\.?!;].*"
-      // }
+      "$ref": "#/definitions/array_items",
+      "description": "补全提示信息。\n必须包含以下的其中一个中文符号。\n。？！；",
+      "contains": {
+        "pattern": ".*[。？！；].*"
+      }
     },
     "string": {
       "type": "string",
@@ -54,25 +54,25 @@
       "properties": {
         "name": {
           "$ref": "#/definitions/string",
-          "description": "command name"
+          "description": "命令名称"
         },
         "alias": {
           "$ref": "#/definitions/array_items",
-          "description": "command alias"
+          "description": "命令别名"
         },
         "symbol": {
-          "description": "Symbol",
+          "description": "特殊符号",
           "anyOf": [
             {
               "$ref": "#/definitions/array",
-              "description": "It must be an array.",
+              "description": "它必须是一个数组",
               "enum": [
                 []
               ]
             },
             {
               "$ref": "#/definitions/array",
-              "description": "When using hooks to dynamically generate some completions, you need to specify SpaceTab.",
+              "description": "当使用 hooks 去动态生成一些补全项时，需要指定 SpaceTab",
               "enum": [
                 [
                   "SpaceTab"
@@ -81,7 +81,7 @@
             },
             {
               "$ref": "#/definitions/array",
-              "description": "You can also use PowerShell syntax, which requires {{ }} wraps.",
+              "description": "你也可以使用 PowerShell 语法，需要 使用 {{ }} 包裹",
               "enum": [
                 [
                   "{{",
@@ -96,7 +96,7 @@
                 "$ref": "#/definitions/string",
                 "oneOf": [
                   {
-                    "description": "Specify SpaceTab",
+                    "description": "指定 SpaceTab",
                     "enum": [
                       "SpaceTab"
                     ]
@@ -113,7 +113,7 @@
         "next": {
           "type": "array",
           "uniqueItems": true,
-          "description": "Next command completion, it's used to define the completion that can be obtained after entering the command by pressing the Tab key",
+          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全",
           "items": {
             "$ref": "#/definitions/root_item"
           }
@@ -121,7 +121,7 @@
         "options": {
           "type": "array",
           "uniqueItems": true,
-          "description": "Available option completion",
+          "description": "可用的选项类补全",
           "items": {
             "$ref": "#/definitions/options_item"
           }
@@ -137,25 +137,25 @@
       "properties": {
         "name": {
           "$ref": "#/definitions/string",
-          "description": "command name"
+          "description": "命令名称"
         },
         "alias": {
           "$ref": "#/definitions/array_items",
-          "description": "command alias"
+          "description": "命令别名"
         },
         "symbol": {
-          "description": "Symbol.(OptionTab is added by default)",
+          "description": "特殊符号\n默认就指定了 OptionTab,不需要再次指定它，只需要指定其他的特殊符号",
           "anyOf": [
             {
               "$ref": "#/definitions/array",
-              "description": "It must be an array.",
+              "description": "它必须是一个数组",
               "enum": [
                 []
               ]
             },
             {
               "$ref": "#/definitions/array",
-              "description": "Specify Symbol",
+              "description": "指定符号",
               "enum": [
                 [
                   "WriteSpaceTab"
@@ -167,7 +167,7 @@
             },
             {
               "$ref": "#/definitions/array",
-              "description": "You can also use PowerShell syntax, which requires {{ }} wraps.",
+              "description": "你也可以使用 PowerShell 语法，需要 使用 {{ }} 包裹",
               "enum": [
                 [
                   "{{",
@@ -182,13 +182,13 @@
                 "$ref": "#/definitions/string",
                 "anyOf": [
                   {
-                    "description": "Specify WriteSpaceTab",
+                    "description": "指定 WriteSpaceTab",
                     "enum": [
                       "WriteSpaceTab"
                     ]
                   },
                   {
-                    "description": "Specify SpaceTab",
+                    "description": "指定 SpaceTab",
                     "enum": [
                       "SpaceTab"
                     ]
@@ -205,7 +205,7 @@
         "next": {
           "type": "array",
           "uniqueItems": true,
-          "description": "Next command completion, it's used to define the completion that can be obtained after entering the command by pressing the Tab key.\nIf next is added, WriteSpaceTab is automatically added to the symbol of the current.",
+          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全\n如果添加了 next, 会给当前命令的 symbol 自动添加 WriteSpaceTab",
           "items": {
             "$ref": "#/definitions/root_item"
           }
@@ -217,27 +217,27 @@
   "properties": {
     "root": {
       "$ref": "#/definitions/array",
-      "description": "The root node of the command",
+      "description": "命令的根节点",
       "items": {
         "$ref": "#/definitions/root_item"
       }
     },
     "options": {
       "$ref": "#/definitions/array",
-      "description": "Optional Completion\nfor the root command",
+      "description": "根命令的选项类补全",
       "items": {
         "$ref": "#/definitions/options_item"
       }
     },
     "common_options": {
       "$ref": "#/definitions/array",
-      "description": "General Optional Completion\nSome general options, these options will appear in any situation",
+      "description": "通用选项类补全\n这些选项会在任何情况下都出现",
       "items": {
         "$ref": "#/definitions/options_item"
       }
     },
     "info": {
-      "description": "Some completion information, which can be accessed using {{ $info.xxx }} in any place in this json file",
+      "description": "一些补全的信息\n这些信息可以在此 json 文件任何地方使用 {{ $info.xxx }} 进行访问",
       "type": "object",
       "minProperties": 1,
       "required": [
@@ -246,7 +246,7 @@
       "properties": {
         "completion_info": {
           "type": "object",
-          "description": "Some information about completion.",
+          "description": "补全的一些相关信息",
           "required": [
             "url",
             "description"
@@ -254,11 +254,11 @@
           "properties": {
             "url": {
               "$ref": "#/definitions/string",
-              "description": "The homepage of the command."
+              "description": "命令的主页网址"
             },
             "description": {
               "$ref": "#/definitions/array_items",
-              "description": "The description of the command."
+              "description": "命令的描述"
             }
           },
           "additionalProperties": false
@@ -266,8 +266,8 @@
       }
     },
     "config": {
-      "description": "Some special configuration items are defined here.",
-      "type": "array",
+      "$ref": "#/definitions/array",
+      "description": "定义一些特别的配置项",
       "items": {
         "type": "object",
         "required": [
@@ -278,7 +278,7 @@
         "properties": {
           "name": {
             "$ref": "#/definitions/string",
-            "description": "A name for the configuration item"
+            "description": "配置项的名称"
           },
           "value": {
             "oneOf": [
@@ -289,7 +289,7 @@
                 "type": "number"
               }
             ],
-            "description": "A default value for the configuration item"
+            "description": "配置项的初始值"
           },
           "values": {
             "$ref": "#/definitions/array",
@@ -303,11 +303,11 @@
                 }
               ]
             },
-            "description": "A list of possible values that will be displayed in the completion of the completion command"
+            "description": "配置项的可选值\n这里填写的值会在 completion 命令补全中显示"
           },
           "tip": {
             "$ref": "#/definitions/array_items",
-            "description": "A description of the configuration item"
+            "description": "配置项的提示信息"
           }
         }
       }
