@@ -396,7 +396,7 @@
           ],
           "tip": [
             "U: -i|--interactive\n",
-            "允许交互式rebase, 为每个提交启用编辑、合并、删除等功能。"
+            "允许交互式 rebase, 为每个提交启用编辑、合并、删除等功能。"
           ]
         },
         {
@@ -714,10 +714,12 @@
           "alias": [
             "--list"
           ],
-          "symbol": "WriteSpaceTab",
+          "symbol": [
+            "WriteSpaceTab"
+          ],
           "tip": [
             "U: -l|--list [pattern]\n",
-            "列出标签(可以使用通配符)\n",
+            "列出标签(可以使用通配符)。\n",
             "E: -l v1.0*"
           ]
         },
@@ -771,154 +773,239 @@
     },
     {
       "name": "config",
-      "tip": "检索和配置仓库或全局选项。",
+      "tip": [
+        "U: config [--global] ...\n",
+        "检索和配置仓库或全局选项。"
+      ],
       "next": [
         {
           "name": "user.name",
           "tip": [
-            "配置用户名\n",
+            "配置用户名。\n",
             "E: [--global] user.name xxx"
           ]
         },
         {
           "name": "user.email",
           "tip": [
-            "配置邮箱\n",
+            "配置邮箱。\n",
             "E: [--global] user.email xxx@outlook.com"
           ]
         },
         {
           "name": "core.editor",
           "tip": [
-            "配置默认编辑器"
+            "配置默认编辑器。"
           ],
           "next": [
             {
               "name": "\"code --wait\"",
               "tip": [
-                "将默认编辑器设置为 vscode"
+                "将默认编辑器设置为 vscode。"
               ]
             },
             {
               "name": "vim",
-              "tip": "将默认编辑器设置为 vim"
+              "tip": [
+                "将默认编辑器设置为 vim。"
+              ]
             },
             {
               "name": "nvim",
-              "tip": "将默认编辑器设置为 nvim"
+              "tip": [
+                "将默认编辑器设置为 nvim。"
+              ]
             },
             {
               "name": "notepad",
-              "tip": "将默认编辑器设置为 Notepad (Microsoft Notepad)"
-            }
-          ]
-        },
-        {
-          "name": "commit.template",
-          "tip": [
-            "配置默认提交模板\n",
-            "E: [--global] commit.template ~/.gitmessage"
-          ]
-        },
-        {
-          "name": "color.ui",
-          "tip": "配置命令自动着色。",
-          "next": [
-            {
-              "name": "true",
-              "tip": "启用命令自动着色配置。"
-            },
-            {
-              "name": "false",
-              "tip": "禁用命令自动着色配置。"
-            }
-          ]
-        },
-        {
-          "name": "color.status",
-          "tip": "配置 status 命令的自动着色。",
-          "next": [
-            {
-              "name": "auto",
-              "tip": "默认值。根据终端支持自动确定是否启用颜色显示。"
-            },
-            {
-              "name": "always",
-              "tip": "始终启用颜色显示, 无论终端支持与否。"
-            },
-            {
-              "name": "never",
-              "tip": "从不启用颜色显示, 即使终端支持。"
-            }
-          ]
-        },
-        {
-          "name": "color.diff",
-          "tip": "配置 diff 命令的自动着色。",
-          "next": [
-            {
-              "name": "auto",
-              "tip": "默认值。根据终端支持自动确定是否启用颜色显示。"
-            },
-            {
-              "name": "always",
-              "tip": "始终启用颜色显示, 无论终端支持与否。"
-            },
-            {
-              "name": "never",
-              "tip": "从不启用颜色显示, 即使终端支持。"
-            }
-          ]
-        },
-        {
-          "name": "color.branch",
-          "tip": "配置 branch 命令的自动着色。",
-          "next": [
-            {
-              "name": "auto",
-              "tip": "默认值。根据终端支持自动确定是否启用颜色显示。"
-            },
-            {
-              "name": "always",
-              "tip": "始终启用颜色显示, 无论终端支持与否。"
-            },
-            {
-              "name": "never",
-              "tip": "从不启用颜色显示, 即使终端支持。"
-            }
-          ]
-        },
-        {
-          "name": "color.interactive",
-          "tip": "配置 -i(交互式)命令的自动着色。",
-          "next": [
-            {
-              "name": "auto",
-              "tip": "默认值。根据终端支持自动确定是否启用颜色显示。"
-            },
-            {
-              "name": "always",
-              "tip": "始终启用颜色显示, 无论终端支持与否。"
-            },
-            {
-              "name": "never",
-              "tip": "从不启用颜色显示, 即使终端支持。"
+              "tip": [
+                "将默认编辑器设置为 Notepad。"
+              ]
             }
           ]
         },
         {
           "name": "https.proxy",
           "tip": [
-            "设置 Git https 代理\n",
-            "E: [--global] https.proxy 127.0.0.1:10810   --- 设置代理\n",
-            "   [--global] --unset https.proxy           --- 取消代理设置"
+            "配置 Git https 代理。\n",
+            "E: [--global] https.proxy 127.0.0.1:10810   --- 设置代理。\n",
+            "   [--global] --unset https.proxy           --- 取消代理设置。"
+          ]
+        },
+        {
+          "name": "user.signingkey",
+          "tip": [
+            "配置 GPG 签名的私钥。"
+          ]
+        },
+        {
+          "name": "gpg.program",
+          "tip": [
+            "配置 GPG 程序路径。"
+          ]
+        },
+        {
+          "name": "commit.gpgsign",
+          "tip": [
+            "配置是否对提交进行 GPG 签名。"
+          ],
+          "next": [
+            {
+              "name": "true",
+              "tip": [
+                "对提交进行 GPG 签名。"
+              ]
+            },
+            {
+              "name": "false",
+              "tip": [
+                "不对提交进行 GPG 签名。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "commit.template",
+          "tip": [
+            "配置默认提交模板。\n",
+            "E: [--global] commit.template ~/.gitmessage"
+          ]
+        },
+        {
+          "name": "color.ui",
+          "tip": [
+            "配置命令自动着色。"
+          ],
+          "next": [
+            {
+              "name": "true",
+              "tip": [
+                "启用命令自动着色配置。"
+              ]
+            },
+            {
+              "name": "false",
+              "tip": [
+                "禁用命令自动着色配置。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.status",
+          "tip": [
+            "配置 status 命令的自动着色。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "默认值。\n",
+                "根据终端支持自动确定是否启用颜色显示。"
+              ]
+            },
+            {
+              "name": "always",
+              "tip": [
+                "始终启用颜色显示, 无论终端支持与否。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不启用颜色显示, 即使终端支持。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.diff",
+          "tip": [
+            "配置 diff 命令的自动着色。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "默认值。\n",
+                "根据终端支持自动确定是否启用颜色显示。"
+              ]
+            },
+            {
+              "name": "always",
+              "tip": [
+                "始终启用颜色显示, 无论终端支持与否。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不启用颜色显示, 即使终端支持。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.branch",
+          "tip": [
+            "配置 branch 命令的自动着色。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "默认值。\n",
+                "根据终端支持自动确定是否启用颜色显示。"
+              ]
+            },
+            {
+              "name": "always",
+              "tip": [
+                "始终启用颜色显示, 无论终端支持与否。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不启用颜色显示, 即使终端支持。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.interactive",
+          "tip": [
+            "配置交互式命令(-i)的自动着色。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "默认值。\n",
+                "根据终端支持自动确定是否启用颜色显示。"
+              ]
+            },
+            {
+              "name": "always",
+              "tip": [
+                "始终启用颜色显示, 无论终端支持与否。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不启用颜色显示, 即使终端支持。"
+              ]
+            }
           ]
         }
       ],
       "options": [
         {
           "name": "--global",
-          "tip": "执行全局设置。"
+          "tip": [
+            "执行全局设置。"
+          ]
         },
         {
           "name": "-e",
@@ -932,17 +1019,95 @@
         },
         {
           "name": "--unset",
-          "symbol": "WriteSpaceTab",
           "tip": [
-            "移除配置\n",
+            "移除配置。\n",
             "E: [--global] --unset user.name"
+          ],
+          "next": [
+            {
+              "name": "user.name",
+              "tip": [
+                "移除配置 --- 用户名。"
+              ]
+            },
+            {
+              "name": "user.email",
+              "tip": [
+                "移除配置 --- 邮箱。"
+              ]
+            },
+            {
+              "name": "core.editor",
+              "tip": [
+                "移除配置 --- 默认编辑器。"
+              ]
+            },
+            {
+              "name": "https.proxy",
+              "tip": [
+                "移除配置 ---  Git https 代理。"
+              ]
+            },
+            {
+              "name": "user.signingkey",
+              "tip": [
+                "移除配置 ---  GPG 签名的私钥。"
+              ]
+            },
+            {
+              "name": "gpg.program",
+              "tip": [
+                "移除配置 ---  GPG 程序路径。"
+              ]
+            },
+            {
+              "name": "commit.gpgsign",
+              "tip": [
+                "移除配置 --- 是否对提交进行 GPG 签名。"
+              ]
+            },
+            {
+              "name": "commit.template",
+              "tip": [
+                "移除配置 --- 默认提交模板。"
+              ]
+            },
+            {
+              "name": "color.ui",
+              "tip": [
+                "移除配置 --- 命令自动着色。"
+              ]
+            },
+            {
+              "name": "color.status",
+              "tip": [
+                "移除配置 ---  status 命令的自动着色。"
+              ]
+            },
+            {
+              "name": "color.diff",
+              "tip": [
+                "移除配置 --- diff 命令的自动着色。"
+              ]
+            },
+            {
+              "name": "color.branch",
+              "tip": [
+                "移除配置 ---  branch 命令的自动着色。"
+              ]
+            },
+            {
+              "name": "color.interactive",
+              "tip": [
+                "移除配置 ---  交互式命令(-i)的自动着色。"
+              ]
+            }
           ]
         },
         {
           "name": "--get",
-          "symbol": "WriteSpaceTab",
           "tip": [
-            "获取配置值(通常可以省略)\n",
+            "获取配置值(通常可以省略)。\n",
             "E: [--global] [--get] user.name"
           ]
         }
