@@ -189,7 +189,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
             if ($arg[1] -eq '*') {
                 if ($arg[2] -eq '--force') {
                     foreach ($_ in $completion_list) {
-                        Remove-Item "$($PSCompletions.path.completions)/$_/order.json" -Force -ErrorAction SilentlyContinue
                         $PSCompletions.add_completion($_)
                         $updated_list.Add($_)
                     }
@@ -873,12 +872,11 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                 }
             }
             'order' {
-                foreach ($_ in $PSCompletions.data.list) {
-                    $path_order = "$($PSCompletions.path.completions)/$_/order.json"
-                    Remove-Item $path_order -Force -ErrorAction SilentlyContinue
+                Get-ChildItem $PSCompletions.path.order | ForEach-Object {
+                    Remove-Item $_.FullName -Force -Recurse -ErrorAction SilentlyContinue
                 }
-                Remove-Item "$($PSCompletions.path.temp)/order" -Force -Recurse -ErrorAction SilentlyContinue
-                New-Item -ItemType Directory "$($PSCompletions.path.temp)/order" -Force | Out-Null
+                $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.order.done))
+                return
             }
             'completion' {
                 function _do {

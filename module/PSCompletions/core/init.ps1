@@ -1,13 +1,14 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.2.0'
+    version                 = '5.2.1'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
         core             = Join-Path $_ 'core'
         data             = Join-Path $_ 'data.json'
         temp             = Join-Path $_ 'temp'
+        order            = Join-Path $_ 'temp\order'
         completions_json = Join-Path $_ 'temp\completions.json'
         update           = Join-Path $_ 'temp\update.txt'
         change           = Join-Path $_ 'temp\change.txt'
@@ -129,8 +130,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             WriteSpaceTab_and_SpaceTab = @()
         }
         function parseJson($cmds, $obj, $cmdO, [switch]$isOption) {
-            $obj.$cmdO = @{
-                $guid = @()
+            if ($obj[$cmdO].$guid -eq $null) {
+                $obj[$cmdO] = @{
+                    $guid = @()
+                }
             }
             foreach ($cmd in $cmds) {
                 $symbols = @()
@@ -437,7 +440,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     }
 
     if ($PSCompletions.config.enable_completions_sort -eq 1) {
-        $path_order = "$($PSCompletions.path.completions)/$root/order.json"
+        $path_order = "$($PSCompletions.path.order)/$root.json"
         if ($PSCompletions.order."$($root)_job") {
             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
                 $PSCompletions.order.$root = Receive-Job $PSCompletions.order."$($root)_job"
@@ -1138,7 +1141,7 @@ if (!(Test-Path $PSCompletions.path.temp)) {
         $PSCompletions.data = $null
     }
     $PSCompletions.ensure_dir($PSCompletions.path.temp)
-    $PSCompletions.ensure_dir("$($PSCompletions.path.temp)/order")
+    $PSCompletions.ensure_dir($PSCompletions.path.order)
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
         $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue | Where-Object { $_ -match '^\d+\.\d.*' }
         if ($version -is [array]) {

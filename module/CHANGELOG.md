@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.2.1 (2024/12/13)
+
+- Fix an issue where some completion items were missing due to errors during parsing of completions.
+- Other optimizations and fixes.
+
 ## 5.2.0 (2024/12/12)
 
 - Add an option `--force` to the command `psc update *`.
