@@ -34,14 +34,15 @@
 
 ## 介绍
 
-- [`PowerShell`](https://github.com/PowerShell/PowerShell): 跨平台的 PowerShell。运行 `pwsh`/`pwsh.exe` 启动
-
-- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。运行 `powershell`/`powershell.exe` 启动
+> [!Note]
+>
+> - [`PowerShell`](https://github.com/PowerShell/PowerShell): 跨平台的 PowerShell。运行 `pwsh`/`pwsh.exe` 启动
+> - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。运行 `powershell`/`powershell.exe` 启动
+> - 它们都可以使用 `PSCompletions`, 但是更推荐 [`PowerShell`](https://github.com/PowerShell/PowerShell)
 
 ---
 
 - 一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
-  > `Windows PowerShell` 也可以使用此模块，但更推荐使用 `PowerShell`
 - [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 - `en-US`,`zh-CN`,... 多语言切换
 - 动态排序补全项(根据使用频次)
@@ -87,8 +88,16 @@
 
 > [!warning]
 >
-> - 不能再使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了，它会导致 `PSCompletions` 菜单无法正常工作
+> - 导入 `PSCompletions` 后，就不要使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了
+> - 因为 `PSCompletions` 使用了它，如果再次使用，会覆盖 `PSCompletions` 中的设置，导致 `PSCompletions` 补全菜单无法正常工作
+> - 你应该通过 `PSCompletions` 中的配置去设置它
 > - 详细配置请参考 [关于补全触发按键](#关于补全触发按键)
+>
+> ```diff
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
+>
+> + Import-Module PSCompletions
+> ```
 
 ## 卸载
 
@@ -102,7 +111,10 @@
 
 ### [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
 
+> [!Note]
 > 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
+>
+> 也可以 [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
 
 - 以 `git` 补全为例
 
@@ -127,13 +139,13 @@
 
 > [!warning]
 >
-> - 不能再使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了，它会导致 `PSCompletions` 菜单无法正常工作
+> - 导入 `PSCompletions` 后，就不要使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了
+> - 因为 `PSCompletions` 使用了它，如果再次使用，会覆盖 `PSCompletions` 中的设置，导致 `PSCompletions` 补全菜单无法正常工作
 >
 > ```diff
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 >
 > + Import-Module PSCompletions
->
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 > ```
 
 ### 关于补全更新
@@ -181,7 +193,7 @@
 
 #### 关于菜单增强 <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />
 
-- 配置: `psc menu config enable_menu_enhance 1` 默认开启
+- 配置: `psc menu config enable_menu_enhance 1` (默认开启)
 - 现在，`PSCompletions` 对于补全有两种实现
 
   1. [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)

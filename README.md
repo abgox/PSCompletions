@@ -34,14 +34,15 @@
 
 ## Introduce
 
-- [`PowerShell`](https://github.com/PowerShell/PowerShell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
-
-- [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
+> [!Note]
+>
+> - [`PowerShell`](https://github.com/PowerShell/PowerShell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
+> - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
+> - They can both use `PSCompletions`, but [`PowerShell`](https://github.com/PowerShell/PowerShell) is more recommended.
 
 ---
 
 - A completion manager in `PowerShell` for better and simpler use completions.
-  > It can also be used in `Windows PowerShell`, but it's a better choice to use `PowerShell`.
 - [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added.")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
@@ -84,9 +85,16 @@
 
 > [!warning]
 >
-> - The `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` can no longer be used.
-> - It will cause the `PSCompletions` menu to not work correctly.
-> - For detail, see [About the completion trigger key](#about-the-completion-trigger-key).
+> - When using `PSCompletions`, don't use `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete`.
+> - Because `PSCompletions` uses it, if it's used again, it will overwrite the settings in `PSCompletions`, causing the `PSCompletions` completion menu to not work properly.
+> - You should set it by the configuration in `PSCompletions`.
+> - For detail configuration, see [About the completion trigger key](#about-the-completion-trigger-key).
+>
+> ```diff
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
+>
+> + Import-Module PSCompletions
+> ```
 
 ## How to uninstall
 
@@ -100,7 +108,10 @@
 
 ### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
 
+> [!Note]
 > If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
+>
+> You can also [combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
 
 - Take `git` as an example.
 
@@ -125,14 +136,13 @@
 
 > [!warning]
 >
-> - The `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` can no longer be used.
-> - It will cause the `PSCompletions` menu to not work correctly.
+> - When using `PSCompletions`, don't use `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete`.
+> - Because `PSCompletions` uses it, if it's used again, it will overwrite the settings in `PSCompletions`, causing the `PSCompletions` completion menu to not work properly.
 >
 > ```diff
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 >
 > + Import-Module PSCompletions
->
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 > ```
 
 ### About completion update
@@ -216,7 +226,7 @@
 
 - Special symbols after the completion item are used to let you know in advance if completions are available before you press the `Tab` key.
 
-  - They only exist in completions added via `psc add`.
+  - They only exist in completions added by `psc add`.
   - You can hide them by replacing them with the empty string.
     - `psc menu symbol SpaceTab ""`
     - `psc menu symbol OptionTab ""`
