@@ -96,7 +96,7 @@ function handleCompletions([array]$completions) {
                 'rm' {
                     if ($filter_input_arr.Count -le 2) {
                         foreach ($completion in $PSCompletions.data.list) {
-                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip))
+                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip), @('SpaceTab'))
                         }
                     }
                     else {
