@@ -141,6 +141,13 @@
 - 当打开 `PowerShell` 并导入 `PSCompletions` 模块后，`PSCompletions` 会开启一个后台作业去检查远程仓库中补全的状态
 - 获取到更新后，会在下一次打开 `PowerShell` 并导入 `PSCompletions` 后显示补全更新提示
 
+### 关于选项类补全
+
+- 选项类补全，指的是像 `-*` 的命令补全，例如 `git config --global` 中的 `--global`
+- 你应该优先使用选项类补全
+- 以 `git` 补全为例，如果你想要输入 `git config user.name --global xxx`
+- 你应该先补全 `--global`，然后再补全 `user.name`，最后输入名称 `xxx`
+
 ### 关于补全菜单
 
 - 除了 `PowerShell` 内置的补全菜单，`PSCompletions` 模块还提供了一个更强大的补全菜单。

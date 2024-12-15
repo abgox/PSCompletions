@@ -140,6 +140,12 @@
 - When `PSCompletions` module is imported after starting `PowerShell`, it will start a background job to check for the completion status of the remote repository.
 - After getting the update, `PSCompletions` will show the latest status of the completions in the next time.
 
+### About option completion
+
+- `Optional Completion`: some command completions that like `-*`, such as `--global` in `git config --global`.
+- You should use option completion first.
+- Taking `git` as an example, if you want to enter `git config user.name --global xxx`, you should use `--global` completion first, and then use `user.name`, and then enter the name `xxx` .
+
 ### About completion menu
 
 - In addition to the built-in completion menu of `PowerShell`, `PSCompletions` module also provides a more powerful completion menu.
