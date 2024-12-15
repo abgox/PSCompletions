@@ -1,11 +1,141 @@
 {
   "options": [
     {
+      "name": "-a",
+      "tip": [
+        "U: -a <FILENUM>\n",
+        "also print unpairable lines from file FILENUM, where FILENUM is 1 or 2, corresponding to FILE1 or FILE2\n",
+        "[possible values: 1, 2]"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "-v",
+      "tip": [
+        "U: -v <FILENUM>\n",
+        "like -a FILENUM, but suppress joined output lines\n",
+        "[possible values: 1, 2]"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    },
+    {
+      "name": "-e",
+      "symbol": [
+        "WriteSpaceTab"
+      ],
+      "tip": [
+        "U: -e <EMPTY>\n",
+        "replace missing input fields with EMPTY"
+      ]
+    },
+    {
+      "name": "-i",
+      "alias": [
+        "--ignore-case"
+      ],
+      "tip": [
+        "ignore differences in case when comparing fields"
+      ]
+    },
+    {
+      "name": "-j",
+      "symbol": [
+        "WriteSpaceTab"
+      ],
+      "tip": [
+        "U: -j <FIELD>\n",
+        "equivalent to '-1 FIELD -2 FIELD'"
+      ]
+    },
+    {
+      "name": "-o",
+      "symbol": [
+        "WriteSpaceTab"
+      ],
+      "tip": [
+        "U: -o <FORMAT>\n",
+        "obey FORMAT while constructing output line"
+      ]
+    },
+    {
+      "name": "-t",
+      "symbol": [
+        "WriteSpaceTab"
+      ],
+      "tip": [
+        "U: -t <CHAR>\n",
+        "use CHAR as input and output field separator"
+      ]
+    },
+    {
+      "name": "-1",
+      "symbol": [
+        "WriteSpaceTab"
+      ],
+      "tip": [
+        "U: -1 <FIELD>\n",
+        "join on this FIELD of file 1"
+      ]
+    },
+    {
+      "name": "-2",
+      "symbol": [
+        "WriteSpaceTab"
+      ],
+      "tip": [
+        "U: -2 <FIELD>\n",
+        "join on this FIELD of file 2"
+      ]
+    },
+    {
+      "name": "--check-order",
+      "tip": [
+        "check that the input is correctly sorted, even if all input lines are pairable"
+      ]
+    },
+    {
+      "name": "--nocheck-order",
+      "tip": [
+        "do not check that the input is correctly sorted"
+      ]
+    },
+    {
+      "name": "--header",
+      "tip": [
+        "treat the first line in each file as field headers, print them without trying to pair them"
+      ]
+    },
+    {
+      "name": "-z",
+      "alias": [
+        "--zero-terminated"
+      ],
+      "tip": [
+        "line delimiter is NUL, not newline"
+      ]
+    },
+    {
       "name": "--version",
       "alias": [
         "-V"
       ],
-      "tip": "显示版本信息"
+      "tip": [
+        "显示版本信息。"
+      ]
     }
   ],
   "common_options": [
@@ -14,7 +144,19 @@
       "alias": [
         "-h"
       ],
-      "tip": "显示帮助信息"
+      "tip": [
+        "显示帮助信息。"
+      ]
     }
-  ]
+  ],
+  "info": {
+    "completion_info": {
+      "url": "https://github.com/uutils/coreutils",
+      "description": [
+        "For each pair of input lines with identical join fields, write a line to standard output.\n",
+        "The default join field is the first, delimited by blanks.\n",
+        "Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils)."
+      ]
+    }
+  }
 }
