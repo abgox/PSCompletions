@@ -580,8 +580,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
 
     $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
     if (!$content_config.language) {
-        $PSCompletions.download_file("$($PSCompletions.url)/completions/$completion/config.json", $path_config)
+        $PSCompletions.download_file("completions/$completion/config.json", $path_config, $PSCompletions.urls)
         $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
+        $content_config | ConvertTo-Json -Compress -Depth 100 | Out-File $path_config -Encoding utf8 -Force
     }
     if ($PSCompletions.config.comp_config[$completion].language) {
         $config_language = $PSCompletions.config.comp_config.$completion.language
@@ -775,59 +776,92 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
         @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
     }
     $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
-    try {
-        $content = (Invoke-WebRequest -Uri "$($PSCompletions.url)/completions.json").Content | ConvertFrom-Json
+    $isErr = $true
+    foreach ($url in $PSCompletions.urls) {
+        try {
+            $content = (Invoke-WebRequest -Uri "$url/completions.json").Content | ConvertFrom-Json
 
-        $remote_list = $content.list
+            $remote_list = $content.list
 
-        $diff = Compare-Object $remote_list $current_list -PassThru
-        if ($diff) {
-            if ($PSCompletions.is_update_init) {
-                $diff = ''
+            $diff = Compare-Object $remote_list $current_list -PassThru
+            if ($diff) {
+                $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
+                $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+                $PSCompletions.list = $remote_list
             }
-            $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-            $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
-            $PSCompletions.list = $remote_list
+            else {
+                Clear-Content $PSCompletions.path.change -Force
+                $PSCompletions.list = $current_list
+            }
+            $isErr = $false
+            return $remote_list
         }
-        else {
-            Clear-Content $PSCompletions.path.change -Force
+        catch {
             $PSCompletions.list = $current_list
+            $PSCompletions._invalid_url += "`n$url/completions.json"
         }
-        return $remote_list
     }
-    catch {
-        $PSCompletions.list = $current_list
-        $PSCompletions._invalid_url = "$($PSCompletions.url)/completions.json"
+    if ($isErr) {
+        $PSCompletions._invalid_url = $PSCompletions._invalid_url | Sort-Object -Unique
         return $false
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
-    param([string]$url, [string]$file)
-    try {
-        $PSCompletions.wc.DownloadFile($url, $file)
-    }
-    catch {
-        if ($PSCompletions.info) {
-            $download_info = @{
+    param(
+        [string]$path, # 相对于 $baseUrl 的文件路径
+        [string]$file,
+        [array]$baseUrl
+    )
+
+    $isErr = $true
+    $errList = @()
+
+    for ($i = 0; $i -lt $baseUrl.Count; $i++) {
+        $item = $baseUrl[$i]
+        $url = $item + '/' + $path
+        try {
+            $PSCompletions.wc.DownloadFile($url, $file)
+            $isErr = $false
+            break
+        }
+        catch {
+            $errList += @{
                 url  = $url
                 file = $file
+                err  = $_
             }
-            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.download_file))
         }
-        else {
-            Write-Host "File ($(Split-Path $url -Leaf)) download failed, please check your network connection or try again later." -ForegroundColor Red
-            Write-Host "File download Url: $url" -ForegroundColor Red
-            Write-Host "File save path: $file" -ForegroundColor Red
-            Write-Host "If you are sure that it is not a network problem, please submit an issue`n" -ForegroundColor Red
+    }
+    if ($isErr) {
+        for ($i = 0; $i -lt $errList.Count; $i++) {
+            $item = $errList[$i]
+            if ($PSCompletions.info) {
+                $download_info = @{
+                    url  = $item.url
+                    file = $item.file
+                }
+                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.download_file))
+            }
+            else {
+                Write-Host "File ($(Split-Path $item.url -Leaf)) download failed, please check your network connection or try again later." -ForegroundColor Red
+                Write-Host "File download Url: $($item.url)" -ForegroundColor Red
+                Write-Host "File save path: $($item.file)" -ForegroundColor Red
+                Write-Host "If you are sure that it is not a network problem, please submit an issue`n" -ForegroundColor Red
+            }
+            if ($i -eq $errList.Count - 1) {
+                throw $item.err
+            }
+            else {
+                Write-Host $item.err -f Red
+            }
+            Write-Host ''
         }
-        throw $_
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     param (
         [string]$completion,
-        [bool]$log = $true,
-        [bool]$is_update = $true
+        [bool]$log = $true
     )
 
     $PSCompletions._has_add_completion = $log -and $true
@@ -835,9 +869,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     $PSCompletions.completions_data[$completion] = $null
     $PSCompletions.completions[$completion] = $null
 
-    $url = "$($PSCompletions.url)/completions/$completion"
+    $url = "completions/$completion"
 
-    $is_update = (Test-Path "$($PSCompletions.path.completions)/$completion") -and $is_update
+    $is_update = Test-Path "$($PSCompletions.path.completions)/$completion"
 
     $completion_dir = Join-Path $PSCompletions.path.completions $completion
     $language_dir = Join-Path $completion_dir 'language'
@@ -850,7 +884,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         url  = "$url/config.json"
         file = Join-Path $completion_dir 'config.json'
     }
-    $PSCompletions.download_file($download_info.url, $download_info.file)
+    $PSCompletions.download_file($download_info.url, $download_info.file, $PSCompletions.urls)
 
     $config = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json
     $config | ConvertTo-Json -Compress -Depth 100 | Out-File $download_info.file -Encoding utf8 -Force
@@ -867,7 +901,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             OutFile = Join-Path $language_dir "$_.json"
         }
     }
-    if ($config.hooks) {
+    if ($config.hooks -ne $null) {
         $files += @{
             Uri     = "$url/hooks.ps1"
             OutFile = Join-Path $completion_dir 'hooks.ps1'
@@ -880,14 +914,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             file = $file.OutFile
         }
         try {
-            $PSCompletions.wc.DownloadFile($download_info.url, $download_info.file)
+            $PSCompletions.download_file($download_info.url, $download_info.file, $PSCompletions.urls)
             if ($download_info.file -match '\.json$') {
                 $PSCompletions.get_raw_content($download_info.file) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $download_info.file -Encoding utf8 -Force
             }
         }
         catch {
             Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
-            throw
+            throw $_
         }
     }
 
@@ -960,6 +994,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             }
         }
     }
+    if ($config.hooks -ne $null) {
+        if (!$PSCompletions.config.comp_config[$completion]) {
+            $PSCompletions.config.comp_config.$completion = @{}
+        }
+        if ($PSCompletions.config.comp_config.$completion.enable_hooks -eq $null) {
+            $PSCompletions.config.comp_config.$completion.enable_hooks = [int]$config.hooks
+        }
+    }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod new_data {
     $data = @{
@@ -1012,23 +1054,25 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 
     if ($PSCompletions.config.url) {
         $PSCompletions.url = $PSCompletions.config.url
+        $PSCompletions.urls = @($PSCompletions.config.url)
     }
     else {
         if ($PSCompletions.language -eq 'zh-CN') {
             $PSCompletions.url = 'https://gitee.com/abgox/PSCompletions/raw/main'
+            $PSCompletions.urls = @('https://gitee.com/abgox/PSCompletions/raw/main', 'https://raw.githubusercontent.com/abgox/PSCompletions/main')
         }
         else {
             $PSCompletions.url = 'https://raw.githubusercontent.com/abgox/PSCompletions/main'
+            $PSCompletions.urls = @('https://raw.githubusercontent.com/abgox/PSCompletions/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
         }
     }
 
     $PSCompletions.list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
 
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
-    if ('psc' -notin $PSCompletions.data.list -or $PSCompletions.is_init) {
-        $PSCompletions.add_completion('psc', $false, $false)
+    if ('psc' -notin $PSCompletions.data.list) {
+        $PSCompletions.add_completion('psc', $false)
         $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
-        $PSCompletions.is_init = $null
     }
     if ($PSCompletions.completions.psc.info) {
         $PSCompletions.info = $PSCompletions.completions.psc.info
@@ -1084,7 +1128,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         }
     }
 }
-
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
     param(
         [array]$completions, # The list of completions.
@@ -1131,15 +1174,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
 }
 
 if (!(Test-Path $PSCompletions.path.temp)) {
-    $PSCompletions.data = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
-    $PSCompletions.is_init = $true
-    if ($PSCompletions.data.config) {
-        $PSCompletions.is_update_init = $true
-    }
-    else {
-        $PSCompletions.is_first_init = $true
-        $PSCompletions.data = $null
-    }
     $PSCompletions.ensure_dir($PSCompletions.path.temp)
     $PSCompletions.ensure_dir($PSCompletions.path.order)
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
@@ -1204,38 +1238,64 @@ if (!(Test-Path $PSCompletions.path.temp)) {
             }
         }
         else {
-            if ($PSUICulture -eq 'zh-CN') {
-                $language = 'zh-CN'
-                $PSCompletions.url = 'https://gitee.com/abgox/PSCompletions/raw/main'
-            }
-            else {
-                $language = 'en-US'
-                $PSCompletions.url = 'https://raw.githubusercontent.com/abgox/PSCompletions/main'
-            }
-
-            $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc/language")
-
-            $file_list = @('language/zh-CN.json', 'language/en-US.json', 'config.json', 'guid.txt', 'hooks.ps1')
-            foreach ($_ in $file_list) {
-                $outFile = "$($PSCompletions.path.completions)/psc/$_"
-                $PSCompletions.download_file("$($PSCompletions.url)/completions/psc/$_", $outFile)
-                if ($outFile -match '\.json$') {
-                    $PSCompletions.get_raw_content($outFile) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $outFile -Encoding utf8 -Force
+            if (Test-Path $PSCompletions.path.data) {
+                $data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json
+                if (!$data.config) {
+                    $PSCompletions.is_first_init = $true
                 }
             }
-            $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
+            else {
+                $PSCompletions.is_first_init = $true
+            }
         }
+        if ($PSUICulture -eq 'zh-CN') {
+            $language = 'zh-CN'
+            $urls = @('https://gitee.com/abgox/PSCompletions/raw/main', 'https://raw.githubusercontent.com/abgox/PSCompletions/main')
+        }
+        else {
+            $language = 'en-US'
+            $urls = @('https://raw.githubusercontent.com/abgox/PSCompletions/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
+        }
+
+        $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
+        $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc/language")
+
+        $path_config = "$($PSCompletions.path.completions)/psc/config.json"
+
+        $PSCompletions.download_file("completions/psc/config.json", $path_config, $urls)
+
+        $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
+        $config | ConvertTo-Json -Compress -Depth 100 | Out-File $path_config -Encoding utf8 -Force
+
+        $file_list = @('guid.txt')
+        if ($config.hooks -ne $null) {
+            $file_list += 'hooks.ps1'
+        }
+        foreach ($lang in $config.language) {
+            $file_list += "language/$lang.json"
+        }
+        foreach ($_ in $file_list) {
+            $outFile = "$($PSCompletions.path.completions)/psc/$_"
+            $PSCompletions.download_file("completions/psc/$_", $outFile, $urls)
+            if ($outFile -match '\.json$') {
+                $PSCompletions.get_raw_content($outFile) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $outFile -Encoding utf8 -Force
+            }
+        }
+        $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
     }
     $PSCompletions.move_old_version()
-    if ($PSCompletions.is_first_init) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
-    }
+    $PSCompletions.is_init = $true
 }
 
 $PSCompletions.init_data()
 
 if ($PSCompletions.is_init) {
     $null = $PSCompletions.download_list()
+    if ($PSCompletions.is_first_init) {
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
+        $PScompletions.list | Out-File $PSCompletions.path.change -Encoding utf8 -Force
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
+    }
 }
 if (!$PSCompletions.config.enable_menu) {
     Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
@@ -1257,7 +1317,7 @@ foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction SilentlyContinue
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
-        $PSCompletions.wc.DownloadFile("$($PSCompletions.url)/module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'))
+        $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), $PSCompletions.urls)
 
         # XXX: 这里是为了避免 CompletionPredictor 模块引起的多次确认
         if (!$PSCompletions._write_update_confirm) {
@@ -1301,11 +1361,12 @@ else {
     if (!$PSCompletions._show_update_info) {
         $PSCompletions._show_update_info = $true
         if ($PSCompletions.config.enable_completions_update -eq 1) {
-            if ($PSCompletions.update -or $PSCompletions.get_content($PSCompletions.path.change)) {
+            if (($PSCompletions.update -or $PSCompletions.get_content($PSCompletions.path.change) -and !$PScompletions.is_init)) {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
             }
         }
     }
 }
+$PSCompletions.is_init = $null
 
 $PSCompletions.start_job()

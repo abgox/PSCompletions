@@ -1512,9 +1512,12 @@
         "}}\n",
         "补全文件所在目录: <@Blue>{{ $completion_dir }}\n",
         "{{",
-        "if($json.config){",
+        "if($json.config -or $config.hooks -ne $null){",
         " \"<@Blue>---------- $($completion) 补全特殊配置 ---------- \";",
-        " $config_list=$json.config | ForEach-Object {",
+        "$configList = @();",
+        "if($config.hooks -ne $null){$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};};",
+        "if($json.config){$configList += $json.config;};",
+        " $config_list = $configList | ForEach-Object {",
         "   \"`n<@Magenta>$($_.name)<@Blue>:`n默认值: $($_.value)`n$($PSCompletions.replace_content($_.tip))\"",
         " };",
         " $config_list -join \"`n\";",
@@ -1565,9 +1568,12 @@
         "}}\n",
         "补全文件所在目录: <@Blue>{{ $completion_dir }}\n",
         "{{",
-        "if($json.config){",
+        "if($json.config -or $config.hooks -ne $null){",
         " \"<@Blue>---------- $($completion) 补全特殊配置 ---------- \";",
-        " $config_list=$json.config | ForEach-Object {",
+        "$configList = @();",
+        "if($config.hooks -ne $null){$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};};",
+        "if($json.config){$configList += $json.config;};",
+        " $config_list = $configList | ForEach-Object {",
         "   \"`n<@Magenta>$($_.name)<@Blue>:`n默认值: $($_.value)`n$($PSCompletions.replace_content($_.tip))\"",
         " };",
         " $config_list -join \"`n\";",
@@ -1804,7 +1810,7 @@
           "$_value = $PSCompletions.config.comp_config.$completion.enable_hooks;",
           "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
           "}}",
-          "设置是否启用 hooks，默认为 <@Magenta>1<@Blue>。\n",
+          "设置是否启用 hooks。\n",
           "hooks 将解析或生成补全数据，然后动态添加到命令补全中。\n",
           "你可以通过运行 <@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue> 来禁用它。"
         ]
@@ -1934,18 +1940,5 @@
         ]
       }
     }
-  },
-  "config": [
-    {
-      "name": "enable_hooks",
-      "value": 1,
-      "values": [
-        1,
-        0
-      ],
-      "tip": [
-        "{{ $PSCompletions.info.completion.enable_hooks.tip }}"
-      ]
-    }
-  ]
+  }
 }

@@ -35,7 +35,7 @@ Copy-Item "$($PSScriptRoot)/template/config.json" "$completion_dir/config.json" 
 
 Copy-Item "$($PSScriptRoot)/template/language/en-US.json" "$completion_dir/language/en-US.json" -Force
 Copy-Item "$($PSScriptRoot)/template/language/zh-CN.json" "$completion_dir/language/zh-CN.json" -Force
-
+Copy-Item "$($PSScriptRoot)/template/hooks.ps1" "$completion_dir/hooks.ps1" -Force
 
 $test_dir = Join-Path $PSCompletions.path.completions $completion_name
 Remove-Item $test_dir -Recurse -Force -ErrorAction SilentlyContinue
@@ -45,4 +45,7 @@ $PSCompletions.write_with_color($PSCompletions.replace_content($guide.success))
 $PSCompletions.data.list += $completion_name
 $PSCompletions.data.alias.$completion_name = $completion_name
 $PSCompletions.data.aliasMap.$completion_name = $completion_name
+$PSCompletions.data.config.comp_config.$completion_name = @{
+    enable_hooks = 1
+}
 $PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force

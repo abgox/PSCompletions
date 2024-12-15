@@ -137,6 +137,13 @@ function handleCompletions([array]$completions) {
                     2 {
                         $tempList += $PSCompletions.return_completion("language", $PSCompletions.replace_content($PSCompletions.info.completion.language.tip), @('SpaceTab'))
                         $tempList += $PSCompletions.return_completion("enable_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip), @('SpaceTab'))
+
+                        if ($PSCompletions.config.comp_config[$completion].Count) {
+                            if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
+                                $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
+                                $tempList += $PSCompletions.return_completion('enable_hooks', $tip, $symbol)
+                            }
+                        }
                         foreach ($c in $json.config) {
                             $config_item = $c.name
                             $tip = $PSCompletions.replace_content($c.tip) -replace '<\@\w+>', ''
@@ -160,6 +167,15 @@ function handleCompletions([array]$completions) {
                             'enable_tip' {
                                 $tempList += $PSCompletions.return_completion('1', $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip_v1))
                                 $tempList += $PSCompletions.return_completion('0', $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip_v0))
+                            }
+                            'enable_hooks' {
+                                if ($PSCompletions.config.comp_config[$completion].Count) {
+                                    if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
+                                        foreach ($value in 0..1) {
+                                            $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.completion.tip_v))
+                                        }
+                                    }
+                                }
                             }
                             Default {
                                 $c = $json.config.Where({ $_.name -eq $filter_input_arr[2] })

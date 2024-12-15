@@ -13,19 +13,19 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                 if ($PSCompletions.menu.is_show_tip) {
                     function Get-MultilineTruncatedString {
                         param ([string]$inputString, $Host_UI = $Host.UI)
-            
+
                         $lineWidth = $Host_UI.RawUI.BufferSize.Width
-            
+
                         if ($PSCompletions.config.enable_tip_follow_cursor -eq 1) {
                             $lineWidth -= $Host_UI.RawUI.CursorPosition.X
                         }
-            
+
                         $currentWidth = 0
                         $outputString = ''
                         $currentLine = ''
-            
+
                         $char_record = @{}
-            
+
                         foreach ($char in $inputString.ToCharArray()) {
                             if ($char_record.ContainsKey($char)) {
                                 $charWidth = $char_record[$char]
@@ -34,7 +34,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                                 $charWidth = $Host_UI.RawUI.NewBufferCellArray($char, $Host_UI.RawUI.BackgroundColor, $Host_UI.RawUI.BackgroundColor).LongLength
                                 $char_record[$char] = $charWidth
                             }
-            
+
                             if ($currentWidth + $charWidth -gt $lineWidth) {
                                 $outputString += $currentLine + "`n"
                                 $currentLine = ''
@@ -44,7 +44,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                             $currentWidth += $charWidth
                         }
                         $outputString += $currentLine
-            
+
                         return $outputString
                     }
                     function _replace {
@@ -81,7 +81,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                 $return = @()
                 if ($PSCompletions.menu.is_show_tip) {
                     foreach ($result in $results) {
-                        $PSCompletions.menu.tip_height_list += $result.ToolTip.Count
+                        $PSCompletions.menu.tip_max_height = [Math]::Max($PSCompletions.menu.tip_max_height, $result.ToolTip.Count)
                         $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($result.ListItemText))
                         $return += @{
                             ListItemText   = $result.ListItemText
@@ -164,7 +164,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                         $tip_arr += (Get-MultilineTruncatedString $v $Host.UI) -split "`n"
                     }
                 }
-                $PSCompletions.menu.tip_height_list += $tip_arr.Count
+                $PSCompletions.menu.tip_max_height = [Math]::Max($PSCompletions.menu.tip_max_height, $tip_arr.Count)
                 $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($item.ListItemText))
                 $results += @{
                     ListItemText   = $item.ListItemText
@@ -211,6 +211,25 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     if ($PSCompletions.menu.is_show_above) {
         if ($PSCompletions.config.list_max_count_when_above -eq -1) {
             $PSCompletions.menu.ui_size.Height = [Math]::Min($PSCompletions.menu.cursor_to_top, $PSCompletions.menu.ui_size.Height)
+
+            $menu_limit = 4
+            # 8: 2个补全项 + 3行提示的高度
+            $rest = [Math]::Max(0, $PSCompletions.menu.cursor_to_top - 8)
+            if ($rest -le 1) {
+                $menu_limit += $rest + ($PSCompletions.menu.cursor_to_top -gt 4)
+            }
+            else {
+                $r = $rest / 2
+                if ($r -gt $PSCompletions.menu.tip_max_height) {
+                    $menu_limit += $rest - $PSCompletions.menu.tip_max_height
+                }
+                else {
+                    $menu_limit += $r
+                }
+            }
+            if ($PSCompletions.menu.cursor_to_top -eq 6) {
+                $menu_limit = 4
+            }
         }
         else {
             $PSCompletions.menu.ui_size.Height = [Math]::Min($PSCompletions.menu.cursor_to_top, $PSCompletions.config.list_max_count_when_above + 2)
@@ -219,6 +238,29 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     else {
         if ($PSCompletions.config.list_max_count_when_below -eq -1) {
             $PSCompletions.menu.ui_size.Height = [Math]::Min($PSCompletions.menu.cursor_to_bottom, $PSCompletions.menu.ui_size.Height)
+
+            $menu_limit = 4
+            # 8: 2个补全项 + 3行提示的高度
+            $rest = [Math]::Max(0, $PSCompletions.menu.cursor_to_bottom - 8)
+            if ($rest -le 1) {
+                $menu_limit += $rest + ($PSCompletions.menu.cursor_to_bottom -gt 4)
+                $PSCompletions.menu.tip_max_height = $PSCompletions.menu.cursor_to_bottom - $menu_limit - 1
+                if ($PSCompletions.menu.tip_max_height -lt 1) {
+                    $PSCompletions.menu.tip_max_height = 1
+                }
+            }
+            else {
+                $r = $rest / 2
+                if ($r -gt $PSCompletions.menu.tip_max_height) {
+                    $menu_limit += $rest - $PSCompletions.menu.tip_max_height
+                }
+                else {
+                    $menu_limit += $r
+                }
+            }
+            if ($PSCompletions.menu.cursor_to_bottom -eq 6) {
+                $menu_limit = 4
+            }
         }
         else {
             $PSCompletions.menu.ui_size.Height = [Math]::Min($PSCompletions.menu.cursor_to_bottom, $PSCompletions.config.list_max_count_when_below + 2)
@@ -226,71 +268,37 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     }
 
     if ($PSCompletions.menu.is_show_tip) {
-        $max = 1
-        foreach ($i in $PSCompletions.menu.tip_height_list) {
-            $max = [Math]::Max($i, $max)
-        }
-        $PSCompletions.menu.tip_max_height = $max
-
-        function handle_menu {
-            if ($PSCompletions.menu.is_show_above) {
-                $height = $PSCompletions.menu.cursor_to_top - $PSCompletions.menu.tip_max_height - 3
-                if ($height -lt 4) {
-                    $PSCompletions.menu.ui_size.Height = [Math]::Min($PSCompletions.menu.cursor_to_top, $PSCompletions.menu.ui_size.Height)
-                    $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.menu.ui_size.Height - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
-                }
-                else {
-                    $new_ui_height = [Math]::Min($height, $PSCompletions.menu.ui_size.Height)
-                    $PSCompletions.menu.ui_size.Height = [Math]::Min($new_ui_height, $PSCompletions.menu.filter_list.Count + 2)
-                    $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.menu.ui_size.Height - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
-                }
-                $PSCompletions.menu.pos_tip.Y = $PSCompletions.menu.pos.Y - $PSCompletions.menu.tip_max_height - 1
-                if ($PSCompletions.menu.pos_tip.Y -lt 0) {
-                    if ($PSCompletions.menu.tip_max_height -gt 1) {
-                        $max = 1
-                        foreach ($i in $PSCompletions.menu.tip_height_list.Where({ $_ -lt $PSCompletions.menu.tip_max_height })) {
-                            $max = [Math]::Max($i, $max)
-                        }
-                        $PSCompletions.menu.tip_max_height = $max
-                        handle_menu
-                    }
-                    else {
-                        $PSCompletions.menu.is_show_tip = $false
-                    }
-                }
+        $menu_limit = [Math]::Min($menu_limit, $PSCompletions.menu.ui_size.Height)
+        if ($PSCompletions.menu.is_show_above) {
+            if ($menu_limit -gt 12 -and ($PSCompletions.menu.cursor_to_top - $menu_limit) -lt $PSCompletions.menu.tip_max_height) {
+                $menu_limit = 12
+                $PSCompletions.menu.tip_max_height = $PSCompletions.menu.cursor_to_top - $menu_limit - 1
             }
             else {
-                $height = $PSCompletions.menu.cursor_to_bottom - $PSCompletions.menu.tip_max_height - 3
-                if ($height -lt 4) {
-                    $PSCompletions.menu.ui_size.Height = [Math]::Min($PSCompletions.menu.cursor_to_bottom, $PSCompletions.menu.ui_size.Height)
-                    $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y + 1
-                }
-                else {
-                    $new_ui_height = [Math]::Min($height, $PSCompletions.menu.ui_size.Height)
-                    $PSCompletions.menu.ui_size.Height = [Math]::Min($new_ui_height, $PSCompletions.menu.filter_list.Count + 2)
-                    $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y + 1
-                }
-                $PSCompletions.menu.pos_tip.Y = $PSCompletions.menu.pos.Y + $PSCompletions.menu.ui_size.Height + 1
-                if ($PSCompletions.menu.pos_tip.Y -ge $Host.UI.RawUI.BufferSize.Height) {
-                    $PSCompletions.menu.pos_tip.Y = [Math]::Min($PSCompletions.menu.pos_tip.Y, $Host.UI.RawUI.BufferSize.Height - 1)
-                    if ($PSCompletions.menu.tip_max_height -gt 1) {
-                        $max = 1
-                        foreach ($i in $PSCompletions.menu.tip_height_list.Where({ $_ -lt $PSCompletions.menu.tip_max_height })) {
-                            $max = [Math]::Max($i, $max)
-                        }
-                        $PSCompletions.menu.tip_max_height = $max
-                        handle_menu
-                    }
-                    else {
-                        $PSCompletions.menu.is_show_tip = $false
-                    }
-                }
-                else {
-                    $PSCompletions.menu.tip_max_height = $Host.UI.RawUI.BufferSize.Height - $PSCompletions.menu.pos.Y - $PSCompletions.menu.ui_size.Height - 1
+                # tip 可以显示的高度
+                $rest = $PSCompletions.menu.cursor_to_top - $menu_limit - 1
+                if ($PSCompletions.menu.tip_max_height -gt $rest) {
+                    $PSCompletions.menu.tip_max_height = [Math]::Max(1, $rest)
                 }
             }
+            $PSCompletions.menu.ui_size.Height = [Math]::Min($menu_limit, $PSCompletions.menu.ui_size.Height)
+            $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.menu.ui_size.Height - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
+            $PSCompletions.menu.pos_tip.Y = $PSCompletions.menu.pos.Y - $PSCompletions.menu.tip_max_height - 1
+            if ($PSCompletions.menu.pos_tip.Y -lt 0) {
+                $PSCompletions.menu.is_show_tip = $false
+            }
         }
-        handle_menu
+        else {
+            if ($menu_limit -gt 12 -and ($PSCompletions.menu.cursor_to_bottom - $menu_limit) -lt $PSCompletions.menu.tip_max_height) {
+                $menu_limit = 12
+            }
+            $PSCompletions.menu.ui_size.Height = [Math]::Min($menu_limit, $PSCompletions.menu.ui_size.Height)
+            $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y + 1
+            $PSCompletions.menu.pos_tip.Y = $PSCompletions.menu.pos.Y + $PSCompletions.menu.ui_size.Height + 1
+            if ($PSCompletions.menu.pos_tip.Y -gt $Host.UI.RawUI.BufferSize.Height - 1) {
+                $PSCompletions.menu.is_show_tip = $false
+            }
+        }
     }
     else {
         if ($PSCompletions.menu.is_show_above) {
@@ -588,12 +596,12 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
         $tip = $PSCompletions.menu.filter_list[$index].ToolTip
         if ($PSCompletions.menu.tip_max_height -eq 1) {
             if ($tip.Count -gt 1) {
-                $tip = "$($tip[0])..."
+                $tip = $tip[0]
             }
         }
         else {
             if ($tip.Count -gt $PSCompletions.menu.tip_max_height) {
-                $tip = $tip[0..($PSCompletions.menu.tip_max_height - 2)] + "$($tip[$PSCompletions.menu.tip_max_height - 1])..."
+                $tip = $tip[0..($PSCompletions.menu.tip_max_height - 1)]
             }
         }
         $Host.UI.RawUI.SetBufferContents($pos, $Host.UI.RawUI.NewBufferCellArray($tip, $PSCompletions.config.tip_text, $PSCompletions.config.tip_back))
@@ -801,9 +809,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $PSCompletions.menu.pos = @{ X = 0; Y = 0 }
     $PSCompletions.menu.pos_tip = @{ X = 0; Y = 0 }
 
-    $PSCompletions.menu.list_max_width = 0
-    $PSCompletions.menu.tip_max_height = 0
-    $PSCompletions.menu.tip_height_list = @()
+    $PSCompletions.menu.list_max_width = $PSCompletions.config.list_min_width
+    $PSCompletions.menu.tip_max_height = 1
     $PSCompletions.menu.ui_size = $Host.UI.RawUI.BufferSize
 
     $PSCompletions.menu.filter = ''  # 过滤的关键词
@@ -830,14 +837,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $PSCompletions.menu.cursor_to_bottom = $Host.UI.RawUI.BufferSize.Height - 1 - $Host.UI.RawUI.CursorPosition.Y
     $PSCompletions.menu.cursor_to_top = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above - 1
 
-    if ($PSCompletions.menu.cursor_to_bottom -ge $PSCompletions.menu.cursor_to_top) {
-        $PSCompletions.menu.is_show_above = $false
-        $PSCompletions.menu.rest_height = $PSCompletions.menu.cursor_to_bottom - $PSCompletions.menu.cursor_to_top - 1
-    }
-    else {
-        $PSCompletions.menu.is_show_above = $true
-        $PSCompletions.menu.rest_height = $PSCompletions.menu.cursor_to_top - $PSCompletions.menu.cursor_to_bottom - 1
-    }
+    $PSCompletions.menu.is_show_above = $PSCompletions.menu.cursor_to_bottom -lt $PSCompletions.menu.cursor_to_top
 
     $PSCompletions.menu.parse_list()
 

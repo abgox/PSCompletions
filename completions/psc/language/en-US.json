@@ -1503,9 +1503,12 @@
         "}}\n",
         "Completion file directory: <@Blue>{{ $completion_dir }}\n",
         "{{",
-        " if($json.config){",
+        " if($json.config -or $config.hooks -ne $null){",
         "\"<@Blue>---------- The special configuration of $($completion)---------- \";",
-        " $config_list=$json.config | ForEach-Object {",
+        "$configList = @();",
+        "if($config.hooks -ne $null){$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};};",
+        "if($json.config){$configList += $json.config;};",
+        " $config_list = $configList | ForEach-Object {",
         "  \"`n<@Magenta>$($_.name)<@Blue>:`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
         " };",
         " $config_list -join \"`n\";",
@@ -1556,9 +1559,12 @@
         "}}\n",
         "Completion file directory: <@Blue>{{ $completion_dir }}\n",
         "{{",
-        "if($json.config){",
+        " if($json.config -or $config.hooks -ne $null){",
         "\"<@Blue>---------- The special configuration of $($completion)---------- \";",
-        " $config_list=$json.config | ForEach-Object {",
+        "$configList = @();",
+        "if($config.hooks -ne $null){$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};};",
+        "if($json.config){$configList += $json.config;};",
+        " $config_list = $configList | ForEach-Object {",
         "  \"`n<@Magenta>$($_.name)<@Blue>:`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
         " };",
         " $config_list -join \"`n\";",
@@ -1795,7 +1801,7 @@
           "$_value = $PSCompletions.config.comp_config.$completion.enable_hooks;",
           "if($_value -ne $null){ \"Current Value: <@Magenta>$_value<@Blue>`n\" }",
           "}}",
-          "Set whether to enable hooks. Default to <@Magenta>1<@Blue>.\n",
+          "Set whether to enable hooks.\n",
           "The hooks will parse or generate some completion data and add them dynamically.\n",
           "You can disable it by running the command (<@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue>)."
         ]
@@ -1925,18 +1931,5 @@
         ]
       }
     }
-  },
-  "config": [
-    {
-      "name": "enable_hooks",
-      "value": 1,
-      "values": [
-        1,
-        0
-      ],
-      "tip": [
-        "{{ $PSCompletions.info.completion.enable_hooks.tip }}"
-      ]
-    }
-  ]
+  }
 }
