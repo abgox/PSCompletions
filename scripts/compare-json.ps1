@@ -64,6 +64,10 @@ function Compare-JsonProperty {
         )
         for ($i = 0; $i -lt [Math]::Max($ReferenceArray.Count, $DifferenceArray.Count); $i++) {
             if ($ReferenceArray[$i]) {
+                if (!$DifferenceArray[$i]) {
+                    $count.missingList += "$($attr)[$($i)]"
+                }
+
                 if ($ReferenceArray[$i].tip) {
                     $count.totalTips++
                     if ($DifferenceArray[$i].tip) {
@@ -76,6 +80,7 @@ function Compare-JsonProperty {
                         $Reference = _replace $ReferenceArray[$i].tip
                         if (noTranslated $Difference $Reference) {
                             $count.untranslatedList += @{
+                                name  = $ReferenceArray[$i].name
                                 value = $DifferenceArray[$i].tip
                                 attr  = "$($attr)[$($i)].tip"
                             }
@@ -125,6 +130,10 @@ function Compare-JsonProperty {
                 continue
             }
             if ($ReferenceContent.config[$i]) {
+                if (!$DifferenceContent.config[$i]) {
+                    $count.missingList += "config[$($i)]"
+                }
+
                 if ($ReferenceContent.config[$i].tip) {
                     $count.totalTips++
                     if ($DifferenceContent.config[$i].tip) {
@@ -132,6 +141,7 @@ function Compare-JsonProperty {
                         $Reference = $ReferenceContent.config[$i].tip -join ''
                         if (noTranslated $Difference $Reference) {
                             $count.untranslatedList += @{
+                                name  = $ReferenceContent.config[$i].name
                                 value = $DifferenceContent.config[$i].tip
                                 attr  = "config[$($i)].tip"
                             }
@@ -163,6 +173,7 @@ function Compare-JsonProperty {
                 $Reference = $ReferenceContent.info.completion_info.description -join ''
                 if (noTranslated $Difference $Reference) {
                     $count.untranslatedList += @{
+                        name  = 'description'
                         value = $DifferenceContent.info.completion_info.description
                         attr  = "info.completion_info.description"
                     }
@@ -202,6 +213,7 @@ function Compare-JsonProperty {
             $PSCompletions.write_with_color("`n<@Yellow>以下是未翻译的提示(个数: <@Magenta>$($count.untranslatedList.Count)<@Yellow>):")
             foreach ($o in $count.untranslatedList) {
                 $PSCompletions.write_with_color("<@Cyan>--------------------`n位置: <@Magenta>$($o.attr)")
+                $PSCompletions.write_with_color("<@Cyan>属性: <@Magenta>$($o.name)")
                 $PSCompletions.write_with_color("<@Cyan>当前的属性值:")
                 $o.value
             }
@@ -228,6 +240,7 @@ function Compare-JsonProperty {
             $PSCompletions.write_with_color("`n<@Yellow>The following tips are not translated (count: <@Magenta>$($count.untranslatedList.Count)<@Yellow>):")
             foreach ($o in $count.untranslatedList) {
                 $PSCompletions.write_with_color("<@Cyan>--------------------`nLocation: <@Magenta>$($o.attr)")
+                $PSCompletions.write_with_color("<@Cyan>Property: <@Magenta>$($o.name)")
                 $PSCompletions.write_with_color("<@Cyan>Current value:")
                 $o.value
             }
