@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.2.2'
+    version                 = '5.2.3'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -1059,11 +1059,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     else {
         if ($PSCompletions.language -eq 'zh-CN') {
             $PSCompletions.url = 'https://gitee.com/abgox/PSCompletions/raw/main'
-            $PSCompletions.urls = @('https://gitee.com/abgox/PSCompletions/raw/main', 'https://raw.githubusercontent.com/abgox/PSCompletions/main')
+            $PSCompletions.urls = @('https://abgox.github.io/PSCompletions', 'https://gitee.com/abgox/PSCompletions/raw/main', 'https://github.com/abgox/PSCompletions/raw/main')
         }
         else {
-            $PSCompletions.url = 'https://raw.githubusercontent.com/abgox/PSCompletions/main'
-            $PSCompletions.urls = @('https://raw.githubusercontent.com/abgox/PSCompletions/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
+            $PSCompletions.url = 'https://github.com/abgox/PSCompletions/raw/main'
+            $PSCompletions.urls = @('https://abgox.github.io/PSCompletions', 'https://github.com/abgox/PSCompletions/raw/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
         }
     }
 
@@ -1250,11 +1250,11 @@ if (!(Test-Path $PSCompletions.path.temp)) {
         }
         if ($PSUICulture -eq 'zh-CN') {
             $language = 'zh-CN'
-            $urls = @('https://gitee.com/abgox/PSCompletions/raw/main', 'https://raw.githubusercontent.com/abgox/PSCompletions/main')
+            $urls = @('https://gitee.com/abgox/PSCompletions/raw/main', 'https://github.com/abgox/PSCompletions/raw/main')
         }
         else {
             $language = 'en-US'
-            $urls = @('https://raw.githubusercontent.com/abgox/PSCompletions/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
+            $urls = @('https://github.com/abgox/PSCompletions/raw/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
         }
 
         $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")

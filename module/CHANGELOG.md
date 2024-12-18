@@ -3,6 +3,15 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.2.3 (2024/12/18)
+
+- Use `https://abgox.github.io/PSCompletions` as the primary source for module and completion updates.
+- This is a fix specifically for those users whose language is `zh-CN` or set to `zh-CN`.
+- The order to try now is:
+  1.  `https://abgox.github.io/PSCompletions`
+  2.  `https://github.com/abgox/PSCompletions/raw/main`
+  3.  `https://gitee.com/abgox/PSCompletions/raw/main`
+
 ## 5.2.2 (2024/12/18)
 
 - Optimize the display of menus, making the menu items and command help more reasonable.

@@ -3,6 +3,16 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.2.3 (2024/12/18)
+
+- 对于语言为 `zh-CN` 或设置为 `zh-CN` 的用户，之前默认会使用 Gitee 源 `https://gitee.com/abgox/PSCompletions/raw/main`
+- 但是 Gitee 源经常将版本号文件(如 `5.2.2`) 或者 16 位的 Guid 当做违规内容，这会让 `PSCompletions` 的功能受限。
+- 因此，现在使用 `https://abgox.github.io/PSCompletions` 作为模块和补全更新的默认首选源。
+- 现在尝试的顺序是:
+  1.  `https://abgox.github.io/PSCompletions`
+  2.  `https://gitee.com/abgox/PSCompletions/raw/main`
+  3.  `https://github.com/abgox/PSCompletions/raw/main`
+
 ## 5.2.2 (2024/12/18)
 
 - 优化菜单的显示，让菜单项和命令帮助的显示更合理。

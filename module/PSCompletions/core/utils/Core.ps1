@@ -233,9 +233,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
 
             # check version
+            $urls = @('https://pscompletions.pages.dev/version.txt', 'https://abgox.github.io/PSCompletions/module/version.txt') + $PSCompletions.urls
             try {
                 if ($PSCompletions.config.enable_module_update -eq 1) {
-                    foreach ($url in $PSCompletions.urls) {
+                    foreach ($url in $urls) {
                         try {
                             $response = Invoke-WebRequest -Uri "$url/module/version.txt"
                             break
@@ -244,11 +245,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     }
 
                     $content = $response.Content.Trim()
-                    $versions = @($PSCompletions.version, $content) | Sort-Object { [Version] $_ }
-                    if ($versions[-1] -ne $PSCompletions.version) {
-                        $data = get_raw_content $PSCompletions.path.data | ConvertFrom-Json -AsHashtable
-                        $data.config.enable_module_update = $versions[-1]
-                        $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                    if ($content -match "^[\d\.]+$") {
+                        $versions = @($PSCompletions.version, $content) | Sort-Object { [Version] $_ }
+                        if ($versions[-1] -ne $PSCompletions.version) {
+                            $data = get_raw_content $PSCompletions.path.data | ConvertFrom-Json -AsHashtable
+                            $data.config.enable_module_update = $versions[-1]
+                            $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                        }
                     }
                 }
             }
