@@ -353,7 +353,7 @@
 |[fmt](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(12%)**|Reformat paragraphs from input files (or stdin) to stdout.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[fnm](https://github.com/Schniz/fnm)|**en-US**<br>**zh-CN(12%)**|Fast and simple Node.js version manager, built in Rust.|
 |[fold](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(33%)**|Writes each file (or standard input if no files are given) to standard output whilst breaking long lines.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[git](https://git-scm.com)|**en-US**<br>**zh-CN(100%)**|Git - Version control system.|
+|[git](https://git-scm.com)|**en-US**<br>**zh-CN(98%)**|Git - Version control system.|
 |[hashsum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(6%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[head](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(25%)**|Print the first 10 lines of each 'FILE' to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[join](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(12%)**|For each pair of input lines with identical join fields, write a line to standard output.<br> The default join field is the first, delimited by blanks.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
