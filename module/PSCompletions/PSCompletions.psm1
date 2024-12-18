@@ -513,7 +513,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
             if ($PSCompletions.config.comp_config[$_]) {
                 $_keys = @()
                 foreach ($k in $PSCompletions.config.comp_config.$_.keys) {
-                    if ($k -notin $config_list) {
+                    if ($k -notin $config_list -and $k -ne 'enable_hooks') {
                         $_keys += $k
                     }
                 }
@@ -883,8 +883,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                     param([string]$cmd)
                     $PSCompletions.config.comp_config[$cmd] = @{}
                     $path = "$($PSCompletions.path.completions)/$cmd/config.json"
-                    $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
-                    $path = "$($PSCompletions.path.completions)/$cmd/language/$($json.language[0]).json"
+                    $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
+                    $path = "$($PSCompletions.path.completions)/$cmd/language/$($json_config.language[0]).json"
                     $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
                     foreach ($item in $json.config) {
                         $PSCompletions.config.comp_config[$cmd].$($item.name) = $item.value
@@ -904,6 +904,15 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                                     new_value = $null
                                 })
                         }
+                    }
+                    if ($json_config.hooks -ne $null) {
+                        $PSCompletions.config.comp_config[$cmd].enable_hooks = [int]$json_config.hooks
+                        $change_list.Add(@{
+                                cmd       = $cmd
+                                item      = $item
+                                old_value = $old_comp_config[$cmd].enable_hooks
+                                new_value = [int]$json_config.hooks
+                            })
                     }
                     $PSCompletions._need_update_data = $true
                 }

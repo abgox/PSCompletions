@@ -3,6 +3,13 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.2.2 (2024/12/18)
+
+- Optimize the display of menus, making the menu items and command help more reasonable.
+- Optimize the display effect of PowerShell built-in command help prompts.
+- Fix a bug where all configuration items may be reset after module updates.
+- Other fixes and optimizations.
+
 ## 5.2.1 (2024/12/13)
 
 - Fix an issue where some completion items were missing due to errors during parsing of completions.
