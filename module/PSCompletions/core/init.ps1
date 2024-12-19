@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.2.3'
+    version                 = '5.2.4'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -1036,6 +1036,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod new_data {
         foreach ($_ in $json.config) {
             $data.config.comp_config.$name.$($_.name) = $_.value
         }
+        if ($config.hooks -ne $null) {
+            $data.config.comp_config.$name.enable_hooks = [int]$config.hooks
+        }
     }
     $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
     $PSCompletions.data = $data
@@ -1174,22 +1177,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
 }
 
 if (!(Test-Path $PSCompletions.path.temp)) {
-    $PSCompletions.ensure_dir($PSCompletions.path.temp)
-    $PSCompletions.ensure_dir($PSCompletions.path.order)
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
         $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue | Where-Object { $_ -match '^\d+\.\d.*' }
         if ($version -is [array]) {
             $old_version = $version[-2]
             if ($old_version -match '^\d+\.\d.*' -and $old_version -ge '4') {
                 $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $old_version
-                $PSCompletions.ensure_dir($PSCompletions.path.completions)
 
                 if (Test-Path "$old_version_dir/data.json") {
-                    foreach ($_ in Get-ChildItem "$old_version_dir/completions" -Directory -ErrorAction SilentlyContinue) {
-                        if ($_.Name -ne 'psc') {
-                            Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
-                        }
-                    }
                     Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction SilentlyContinue
                 }
                 else {
@@ -1232,9 +1227,10 @@ if (!(Test-Path $PSCompletions.path.temp)) {
                     }
                     $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                 }
-                Move-Item "$old_version_dir/temp/update.txt" $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
-                Move-Item "$old_version_dir/temp/change.txt" $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
-                Move-Item "$old_version_dir/temp/completions.json" $PSCompletions.path.completions_json -Force -ErrorAction SilentlyContinue
+
+                foreach ($f in @('temp', 'completions')) {
+                    Move-Item "$old_version_dir/$f" $PSCompletions.path.root -Force -ErrorAction SilentlyContinue
+                }
             }
         }
         else {
@@ -1257,6 +1253,7 @@ if (!(Test-Path $PSCompletions.path.temp)) {
             $urls = @('https://github.com/abgox/PSCompletions/raw/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
         }
 
+        $PSCompletions.ensure_dir($PSCompletions.path.completions)
         $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
         $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc/language")
 
@@ -1284,6 +1281,8 @@ if (!(Test-Path $PSCompletions.path.temp)) {
         $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
     }
     $PSCompletions.move_old_version()
+    $PSCompletions.ensure_dir($PSCompletions.path.temp)
+    $PSCompletions.ensure_dir($PSCompletions.path.order)
     $PSCompletions.is_init = $true
 }
 

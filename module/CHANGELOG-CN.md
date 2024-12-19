@@ -3,6 +3,10 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.2.4 (2024/12/19)
+
+- 优化模块版本迁移
+
 ## 5.2.3 (2024/12/18)
 
 - 对于语言为 `zh-CN` 或设置为 `zh-CN` 的用户，之前默认会使用 Gitee 源 `https://gitee.com/abgox/PSCompletions/raw/main`

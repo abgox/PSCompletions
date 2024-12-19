@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.2.4 (2024/12/19)
+
+- Optimize module version migration.
+
 ## 5.2.3 (2024/12/18)
 
 - Use `https://abgox.github.io/PSCompletions` as the primary source for module and completion updates.
