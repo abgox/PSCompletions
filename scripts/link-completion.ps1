@@ -24,3 +24,20 @@ if (!(Test-Path $completion_dir)) {
 $completion_dir = "$($PSCompletions.path.completions)\$completion_name"
 Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
 New-Item -ItemType SymbolicLink -Path $completion_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
+
+$language = $PSCompletions.get_language($completion_name)
+
+$config = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\config.json"))
+
+$PSCompletions.data.config.comp_config.$completion_name = @{}
+if ($config.hooks -ne $null) {
+    $PSCompletions.data.config.comp_config.$completion_name.enable_hooks = [int]$config.hooks
+}
+
+$json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\language\$language.json"))
+
+foreach ($c in $json.config) {
+    $PSCompletions.data.config.comp_config.$completion_name.$($c.name) = $c.value
+}
+
+$PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force
