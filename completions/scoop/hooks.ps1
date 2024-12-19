@@ -149,10 +149,21 @@ function handleCompletions($completions) {
                     $current_value = $c.Name
                     $info = $PSCompletions.completions_data.scoop.root.config.$($PSCompletions.guid).Where({ $_.CompletionText -eq $current_value })[0].ToolTip
                     if (!$info) {
-                        $info = @($PSCompletions.info.current_value + ': ' + $current_value)
+                        $info = @($PSCompletions.info.current_value + ': ' + ($c.Definition -replace '^.+=', ''))
                     }
                     if ($current_value -notin $completions_list) {
                         $tempList += $PSCompletions.return_completion($current_value, $PSCompletions.replace_content($info))
+                    }
+                }
+            }
+        }
+        'alias' {
+            switch ($filter_input_arr[1]) {
+                'rm' {
+                    if ($filter_input_arr.Count -eq 2) {
+                        foreach ($a in (Get-Member -InputObject (scoop config alias) -MemberType NoteProperty)) {
+                            $tempList += $PSCompletions.return_completion($a.Name, ($a.Definition -replace '^.+=', ''))
+                        }
                     }
                 }
             }
