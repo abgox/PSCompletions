@@ -376,6 +376,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_pos {
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_buffer {
+    if (!$PSCompletions.is_show_tip) {
+        return
+    }
     if ($PSCompletions.config.enable_tip_cover_buffer -eq 1) {
         $box = @()
         $line = ' ' * $Host.UI.RawUI.BufferSize.Width
@@ -453,11 +456,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
 
     $Host.UI.RawUI.SetBufferContents($PSCompletions.menu.pos, $Host.UI.RawUI.NewBufferCellArray($border_box, $PSCompletions.config.border_text, $PSCompletions.config.border_back))
 
-    $pos = @{
-        X = $PSCompletions.menu.pos.X + 1
-        Y = $PSCompletions.menu.pos.Y + 1
-    }
-    $Host.UI.RawUI.SetBufferContents($pos, $Host.UI.RawUI.NewBufferCellArray($content_box, $PSCompletions.config.item_text, $PSCompletions.config.item_back))
+    $Host.UI.RawUI.SetBufferContents(@{
+            X = $PSCompletions.menu.pos.X + 1
+            Y = $PSCompletions.menu.pos.Y + 1
+        }, $Host.UI.RawUI.NewBufferCellArray($content_box, $PSCompletions.config.item_text, $PSCompletions.config.item_back))
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_buffer {
     param([int]$offset)
@@ -732,13 +734,16 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_comp
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
-    param([bool]$clearAll)
+    param(
+        [bool]$clearAll = $true,
+        [bool]$clearMenu = $true
+    )
 
     if ($PSCompletions.menu.old_tip_buffer) {
         $Host.UI.RawUI.SetBufferContents($PSCompletions.menu.old_tip_buffer.top, $PSCompletions.menu.old_tip_buffer.buffer)
     }
 
-    if ($PSCompletions.menu.old_menu_buffer) {
+    if ($clearMenu -and $PSCompletions.menu.old_menu_buffer) {
         $Host.UI.RawUI.SetBufferContents($PSCompletions.menu.old_menu_buffer.top, $PSCompletions.menu.old_menu_buffer.buffer)
     }
 
@@ -823,7 +828,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $PSCompletions.menu.offset = 0  # 索引的偏移量，用于滚动翻页
 
-    $PSCompletions.menu.reset($true)
+    $PSCompletions.menu.reset()
 
     $PSCompletions.menu.handle_list_first($filter_list)
 
@@ -880,7 +885,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             switch ($PressKey.VirtualKeyCode) {
                 67 {
                     # 67: Ctrl + c
-                    $PSCompletions.menu.reset($true)
+                    $PSCompletions.menu.reset()
                     ''
                     break loop
                 }
@@ -904,7 +909,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                 # 9: Tab
                 # 32: Space
                 if ($PSCompletions.menu.filter_list.Count -eq 1) {
-                    $PSCompletions.menu.reset($true)
+                    $PSCompletions.menu.reset()
                     $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index].CompletionText
                     break loop
                 }
@@ -920,14 +925,14 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             }
             27 {
                 # 27: ESC
-                $PSCompletions.menu.reset($true)
+                $PSCompletions.menu.reset()
                 ''
                 break loop
             }
             13 {
                 # 13: Enter
                 handleOutput $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index]
-                $PSCompletions.menu.reset($true)
+                $PSCompletions.menu.reset()
                 break loop
             }
 
@@ -953,7 +958,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                     if ($PSCompletions.menu.filter -eq $PSCompletions.menu.filter_by_auto_pick) {
                         $PSCompletions.menu.filter = ''
                         $PSCompletions.menu.filter_by_auto_pick = ''
-                        $PSCompletions.menu.reset($true)
+                        $PSCompletions.menu.reset()
                         ''
                         break loop
                     }
@@ -961,12 +966,12 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                         $PSCompletions.menu.filter = $PSCompletions.menu.filter.Substring(0, $PSCompletions.menu.filter.Length - 1)
                     }
                     else {
-                        $PSCompletions.menu.reset($true)
+                        $PSCompletions.menu.reset()
                         ''
                         break loop
                     }
                     $PSCompletions.menu.new_cover_buffer()
-                    $PSCompletions.menu.reset()
+                    $PSCompletions.menu.reset($false, $PSCompletions.menu.is_show_tip)
                     $PSCompletions.menu.filter_completions($PSCompletions.menu.origin_filter_list)
                     $PSCompletions.menu.parse_list()
                     $PSCompletions.menu.new_buffer()
@@ -984,7 +989,35 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                     }
                     else {
                         $PSCompletions.menu.new_cover_buffer()
-                        $PSCompletions.menu.reset()
+
+                        # XXX: 处理补全项过滤时菜单消失后出现的背景闪烁问题
+                        if (!$PSCompletions.menu.is_show_tip) {
+                            if ($PSCompletions.menu.page_current_index -eq 0) {
+                                $box = @(' ' * $PSCompletions.menu.list_max_width)
+                                $Host.UI.RawUI.SetBufferContents(@{
+                                        X = $PSCompletions.menu.pos.X + 1
+                                        Y = $PSCompletions.menu.pos.Y + 1
+                                    }, $Host.UI.RawUI.NewBufferCellArray($box, $PSCompletions.config.selected_text, $PSCompletions.config.selected_back))
+                                $pos = @{
+                                    X = $PSCompletions.menu.pos.X + 1
+                                    Y = $PSCompletions.menu.pos.Y + 2
+                                }
+                            }
+                            else {
+                                $box = @()
+                                $line = ' ' * $PSCompletions.menu.list_max_width
+                                foreach ($l in $PSCompletions.menu.ui_size.Height - 2) {
+                                    $box += $line
+                                }
+                                $pos = @{
+                                    X = $PSCompletions.menu.pos.X + 1
+                                    Y = $PSCompletions.menu.pos.Y + 1
+                                }
+                            }
+                            $Host.UI.RawUI.SetBufferContents($pos, $Host.UI.RawUI.NewBufferCellArray($box, $PSCompletions.config.item_back, $PSCompletions.config.item_back))
+                        }
+
+                        $PSCompletions.menu.reset($false)
                         $PSCompletions.menu.parse_list()
                         $PSCompletions.menu.new_buffer()
                         if ($PSCompletions.menu.is_show_tip) { $PSCompletions.menu.new_tip_buffer($PSCompletions.menu.selected_index) }

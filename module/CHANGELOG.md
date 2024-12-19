@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.2.5 (2024/12/19)
+
+- Fix a bug where filtering completions would cause an error when the configuration item `enable_tip` is set to 0, and reduce the flashing of completion menu.
+
 ## 5.2.4 (2024/12/19)
 
 - Optimize module version migration.
