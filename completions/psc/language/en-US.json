@@ -1422,11 +1422,9 @@
         "{{ ",
         "$version_list=$PSCompletions.get_raw_content(\"$($PSCompletions.path.temp)\\CHANGELOG.json\") | ConvertFrom-Json;",
         "$lang = if($PSCompletions.language -eq 'zh-CN'){ 'zh-CN' }else{ 'en-US' };",
-        "$num=1;",
         "foreach($_ in $version_list) {",
         "   if($_.version -eq $PSCompletions.version){ break }",
-        "   if($num){ \"<@Blue>$($_.version) : $($_.info.$($lang))\";$num = 0 }",
-        "   else{ \"`n $($_.version) : $($_.info.$($lang))\" }",
+        "   \"`n<@Blue>$($_.version) : $($_.info.$($lang))\"",
         "}",
         "}}\n",
         "<@Cyan>Press <@Magenta>Enter<@Cyan> key to update or <@Magenta>other key(Without Ctrl)<@Cyan> to cancel!"
