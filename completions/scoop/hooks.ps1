@@ -156,6 +156,16 @@ function handleCompletions($completions) {
                     }
                 }
             }
+            else {
+                if ($filter_input_arr[1] -eq 'rm') {
+                    $configs = Get-Member -InputObject $config -MemberType NoteProperty
+                    foreach ($c in $configs) {
+                        $current_value = $c.Name
+                        $info = @($PSCompletions.info.current_value + ': ' + ($c.Definition -replace '^.+=', ''))
+                        $tempList += $PSCompletions.return_completion($current_value, $PSCompletions.replace_content($info))
+                    }
+                }
+            }
         }
         'alias' {
             switch ($filter_input_arr[1]) {
