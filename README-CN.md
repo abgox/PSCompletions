@@ -353,7 +353,7 @@
 |[cut](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(16%)**|Print specified byte or field columns from each line of stdin or the input files.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[date](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(15%)**|Print or set the system date and time.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[dd](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|复制并转换文件系统资源。<br> 补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
-|[deno](https://deno.com/)|**en-US**<br>**zh-CN(99%)**|Deno - 安全的 JavaScript 和 TypeScript 运行时。|
+|[deno](https://deno.com/)|**en-US**<br>**zh-CN(100%)**|Deno - 安全的 JavaScript 和 TypeScript 运行时。|
 |[df](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(5%)**|Show information about the file system on which each FILE resides, or all file systems by default.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[dircolors](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(28%)**|Output commands to set the LS_COLORS environment variable.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[dirname](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(50%)**|Strip last component from file name.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
