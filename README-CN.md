@@ -268,7 +268,7 @@
   ```txt
   U: install|add [-g|-u] [options] <app>
   这里是命令的描述说明
-  在 U: 和 E: 之间的内容都是命令描述
+  (在 U: 和 E: 之间的内容都是命令描述)
   E: install xxx
      add -g xxx
   ```
@@ -317,6 +317,8 @@
 - 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 
 ## 赞赏支持
+
+<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ![赞赏支持](https://abgox.pages.dev/support.png)
 
