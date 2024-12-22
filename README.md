@@ -34,13 +34,11 @@
 
 ## Introduce
 
-> [!Note]
+> [!Tip]
 >
 > - [`PowerShell`](https://github.com/PowerShell/PowerShell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
 > - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
 > - They can both use `PSCompletions`, but [`PowerShell`](https://github.com/PowerShell/PowerShell) is more recommended.
-
----
 
 - A completion manager in `PowerShell` for better and simpler use completions.
 - [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added.")
@@ -78,12 +76,12 @@
    ```powershell
    Import-Module PSCompletions
    ```
-   - If you don't want to import the `PSCompletions` module every time when you start `PowerShell`, you can write it to `$PROFILE`.
+   - Add it to your `$PROFILE` to make it permanent by running the following command.
      ```powershell
      echo "Import-Module PSCompletions" >> $PROFILE
      ```
 
-> [!warning]
+> [!Warning]
 >
 > - When using `PSCompletions`, don't use `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete`.
 > - Because `PSCompletions` uses it, if it's used again, it will overwrite the settings in `PSCompletions`, causing the `PSCompletions` completion menu to not work properly.
@@ -91,9 +89,9 @@
 > - For detail configuration, see [About the completion trigger key](#about-the-completion-trigger-key).
 >
 > ```diff
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
->
 > + Import-Module PSCompletions
+>
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 > ```
 
 ## How to uninstall
@@ -106,12 +104,11 @@
 
 ## How to use
 
-### [Available Completions](#available-completions-list "All completions that can be added at present. More completions are adding!")
-
-> [!Note]
-> If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
+> [!Tip]
 >
-> You can also [combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
+> - [Available Completions.](#available-completions-list "All completions that can be added at present. More completions are adding!")
+> - If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
+> - You can also [combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
 
 - Take `git` as an example.
 
@@ -134,15 +131,15 @@
 - `PSCompletions` uses the `Tab` key by default.
 - You can set it by running `psc menu config trigger_key <key>`.
 
-> [!warning]
+> [!Warning]
 >
 > - When using `PSCompletions`, don't use `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete`.
 > - Because `PSCompletions` uses it, if it's used again, it will overwrite the settings in `PSCompletions`, causing the `PSCompletions` completion menu to not work properly.
 >
 > ```diff
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
->
 > + Import-Module PSCompletions
+>
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 > ```
 
 ### About completion update
@@ -215,7 +212,7 @@
 
 ### About special symbols
 
-> [!NOTE]
+> [!Tip]
 >
 > - Due to future changes in Windows Terminal, 😄🤔😎 will not be displayed properly in the completion menu, so these three default special symbols will change.
 > - Related issue: https://github.com/microsoft/terminal/issues/18242

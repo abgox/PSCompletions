@@ -34,13 +34,11 @@
 
 ## 介绍
 
-> [!Note]
+> [!Tip]
 >
 > - [`PowerShell`](https://github.com/PowerShell/PowerShell): 跨平台的 PowerShell。运行 `pwsh`/`pwsh.exe` 启动
 > - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。运行 `powershell`/`powershell.exe` 启动
 > - 它们都可以使用 `PSCompletions`, 但是更推荐 [`PowerShell`](https://github.com/PowerShell/PowerShell)
-
----
 
 - 一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
 - [集中管理补全](#补全列表 "点击查看可添加补全列表！")
@@ -81,12 +79,12 @@
    ```powershell
    Import-Module PSCompletions
    ```
-   - 如果不想每次启动 `PowerShell` 都需要导入 `PSCompletions` 模块，你可以将导入语句写入 `$PROFILE` 中
+   - 如果不想每次启动 `PowerShell` 都需要导入 `PSCompletions` 模块，你可以使用以下命令将导入语句写入 `$PROFILE` 中
    ```powershell
    echo "Import-Module PSCompletions" >> $PROFILE
    ```
 
-> [!warning]
+> [!Warning]
 >
 > - 导入 `PSCompletions` 后，就不要使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了
 > - 因为 `PSCompletions` 使用了它，如果再次使用，会覆盖 `PSCompletions` 中的设置，导致 `PSCompletions` 补全菜单无法正常工作
@@ -94,9 +92,9 @@
 > - 详细配置请参考 [关于补全触发按键](#关于补全触发按键)
 >
 > ```diff
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
->
 > + Import-Module PSCompletions
+>
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 > ```
 
 ## 卸载
@@ -109,12 +107,11 @@
 
 ## 使用
 
-### [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
-
-> [!Note]
-> 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
+> [!Tip]
 >
-> 也可以 [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
+> - [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
+> - 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
+> - 也可以 [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
 
 - 以 `git` 补全为例
 
@@ -137,15 +134,15 @@
 - 模块默认使用 `Tab` 键作为补全菜单触发按键
 - 你可以使用 `psc menu config trigger_key <key>` 去设置它
 
-> [!warning]
+> [!Warning]
 >
 > - 导入 `PSCompletions` 后，就不要使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了
 > - 因为 `PSCompletions` 使用了它，如果再次使用，会覆盖 `PSCompletions` 中的设置，导致 `PSCompletions` 补全菜单无法正常工作
 >
 > ```diff
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
->
 > + Import-Module PSCompletions
+>
+> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
 > ```
 
 ### 关于补全更新
@@ -218,7 +215,7 @@
 
 ### 关于特殊符号
 
-> [!NOTE]
+> [!Tip]
 >
 > - 由于未来的 Windows Terminal 的变化，将导致在补全菜单中无法正常显示 😄🤔😎，因此这三个默认特殊符号将改变。
 > - 相关的 issue: https://github.com/microsoft/terminal/issues/18242
