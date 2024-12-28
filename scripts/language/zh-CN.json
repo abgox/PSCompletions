@@ -1,0 +1,126 @@
+{
+  "need-admin": "运行这个脚本需要管理员权限",
+  "need-pwsh": "这个脚本需要 PowerShell Core (pwsh 7+) 才能运行。",
+  "import-psc": "在运行此脚本前，你应该安装 PSCompletions 模块并导入它。",
+  "check-guid-valid": {
+    "invalidParams": [
+      "<@Yellow>你应该使用一些正确的选项参数，如下:\n",
+      "e.g. <@Magenta>.\\scripts\\check-guid-valid.ps1 -gitee\n",
+      "     .\\scripts\\check-guid-valid.ps1 -github\n",
+      "     .\\scripts\\check-guid-valid.ps1 -gitee -github"
+    ],
+    "invalidGuid": [
+      "<@Yellow>------------------------------------\n",
+      "以下 <@Magenta>{{ $repo.name }}<@Yellow> 的 guid.txt 无效:"
+    ],
+    "validGuid": [
+      "<@Green>------------------------------------\n",
+      "所有 <@Magenta>{{ $repo.name }}<@Green> 的 guid.txt 有效。"
+    ]
+  },
+  "compare-json": {
+    "invalidParams": [
+      "<@Yellow>你应该输入一个有效的 json 路径或补全名称。\n",
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 psc\n",
+      "     .\\scripts\\compare-json.ps1 .\\completions\\psc\\language\\zh-CN.json\n",
+      "     .\\scripts\\compare-json.ps1 .\\completions\\psc\\language\\zh-CN.json .\\completions\\psc\\language\\en-US.json"
+    ],
+    "progress": "<@Blue>完成进度: <@Magenta>{{ $completionRate }}%",
+    "hr": [
+      "<@Cyan>--------------------"
+    ],
+    "pos": [
+      "<@Cyan>--------------------\n位置: <@Magenta>{{ $item.pos }}"
+    ],
+    "prop": [
+      "<@Cyan>属性: <@Magenta>{{ $item.name }}"
+    ],
+    "value": [
+      "<@Cyan>值: <@>{{ $item.value }}"
+    ],
+    "diffList": {
+      "tip": [
+        "\n<@Yellow>以下是不同的属性值或类型(个数: <@Magenta>{{ $count.diffList.Count }}<@Yellow>):"
+      ],
+      "base": [
+        "<@Cyan>{{ $baseShortPath }}: <@Magenta>{{ $item.base }}"
+      ],
+      "diff": [
+        "<@Cyan>{{ $diffShortPath }}: <@Magenta>{{ $item.diff }}"
+      ]
+    },
+    "untranslatedList": {
+      "tip": [
+        "\n<@Yellow>以下是未翻译的提示(个数: <@Magenta>{{ $count.untranslatedList.Count }}<@Yellow>):"
+      ]
+    },
+    "missingList": {
+      "tip": [
+        "<@Red>以下是 <@Magenta>{{ $diffShortPath }}<@Red> 文件中缺失的属性(个数: <@Magenta>{{ $count.missingList.Count }}<@Red>):"
+      ],
+      "pos": [
+        "<@Cyan>--------------------<@Magenta>\n{{ $item.pos }}"
+      ]
+    },
+    "extraList": {
+      "tip": [
+        "<@Red>以下是 <@Magenta>{{ $diffShortPath }}<@Red> 文件中多余的属性(个数: <@Magenta>{{ $count.extraList.Count }}<@Red>):"
+      ],
+      "pos": [
+        "<@Cyan>--------------------<@Magenta>\n{{ $item.pos }}"
+      ]
+    }
+  },
+  "create-completion": {
+    "invalidParams": [
+      "<@Red>你应该输入一个有效的补全名称.\n",
+      "e.g. <@Magenta>.\\scripts\\create-completion.ps1 test"
+    ],
+    "exist": "<@Red>补全目录已经存在!",
+    "success": [
+      "<@Green>补全目录创建完成!\n",
+      "已将补全目录链接到 PSCompletions 模块中,方便在编写时进行测试\n",
+      "已自动添加 hooks，如果不需要，请删除 <@Magenta>config.json<@Green> 中的 <@Magenta>hooks<@Green> 属性，并删除 <@Magenta>hooks.ps1<@Green> 文件\n",
+      "链接目录: <@Magenta>{{ $test_dir }}<@Green>\n",
+      "<@Yellow>注意: 这个链接操作只用于补全的编写测试，完成后请立即移除它。\n",
+      "命令: <@Magenta>{{ \"psc rm \" + $completion_name }}"
+    ],
+    "err": {
+      "name": "<@Red>补全名称不能为空!"
+    }
+  },
+  "link-completion": {
+    "invalidParams": [
+      "<@Red>你应该输入一个有效的补全名称。\n",
+      "e.g. <@Magenta>.\\scripts\\link-completion.ps1 psc"
+    ],
+    "invalidName": [
+      "<@Magenta>{{ $completion_name }}<@Red> 不是一个有效的补全名称。\n",
+      "<@Cyan>有效的补全名称列表如下: \n<@Blue>{{ $completions_list }}"
+    ],
+    "noExist": "<@Magenta>{{ $completion_name }}<@Red> 不存在。",
+    "linkDone": [
+      "<@Green>补全 <@Magenta>{{ $completion_name }}<@Green> 已经链接到 PSCompletions 模块的补全目录中。\n",
+      "<@Yellow>注意: 这个链接操作只用于补全的编写测试，完成后请立即移除它。\n",
+      "命令: <@Magenta>{{ \"psc rm \" + $completion_name }}"
+    ]
+  },
+  "publish-module": {
+    "requireKey": [
+      "<@Red>需要参数 <@Magenta>NuGetApiKey<@Red>"
+    ]
+  },
+  "update-guid": {
+    "invalidParams": [
+      "<@Yellow>你应该输入一个有效的补全列表。\n",
+      "e.g. <@Magenta>.\\scripts\\update-guid.ps1 psc\n",
+      "     .\\scripts\\update-guid.ps1 psc,git"
+    ],
+    "updateGuid": [
+      "正在更新 <@Magenta>{{ Split-Path $path -Leaf }}<@> 的 guid.txt 文件。"
+    ],
+    "GridViewTip": [
+      "选择一个或多个补全, 选中的补全的 \"Guid.txt\" 文件(按住 Ctrl 或 Shift 键选择多个)"
+    ]
+  }
+}

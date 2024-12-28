@@ -1,49 +1,66 @@
-﻿param([string]$repo)
+param(
+    [switch]$github,
+    [switch]$gitee
+)
+
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
+
 
 if (!$PSCompletions) {
-    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
-    return
-}
-if (!$repo) {
-    $PSCompletions.write_with_color("<@Yellow>You should enter an available repo name.`ne.g. <@Magenta>.\scripts\check-guid-valid.ps1 gitee`n     .\scripts\check-guid-valid.ps1 github")
+    Write-Host $text."import-psc" -ForegroundColor Red
     return
 }
 
-$repo_list = @("github", 'gitee')
-if ($repo -notin $repo_list) {
-    $PSCompletions.write_with_color("<@Magenta>$repo<@Red> isn't an available repo.`ne.g. <@Magenta>.\scripts\check-guid-valid.ps1 gitee`n     .\scripts\check-guid-valid.ps1 github")
+$text = $text."check-guid-valid"
+
+if (!$github -and !$gitee) {
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidParams))
     return
 }
 
-$invalideGuid = @()
+$repoList = @()
 
-if ($repo -eq "Github") {
-    $prefix_url = "https://raw.githubusercontent.com/abgox/PSCompletions/main/completions"
-}
-else {
-    $prefix_url = "https://gitee.com/abgox/PSCompletions/raw/main/completions"
+if ($gitee) {
+    $repoList += @{
+        name = "Gitee"
+        url  = "https://gitee.com/abgox/PSCompletions/raw/main/completions"
+    }
 }
 
-Get-ChildItem -Path "$PSScriptRoot\..\completions\" -Directory | ForEach-Object {
-    $url = "$prefix_url/$($_.Name)/guid.txt"
-    try {
-        $content = Invoke-WebRequest -Uri $url
-        $content = $content.Content.Trim()
-        $content
-        if (!($content -match "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")) {
-            $invalideGuid += $_.Name
+if ($github) {
+    $repoList += @{
+        name = "Github"
+        url  = "https://github.com/abgox/PSCompletions/raw/main/completions"
+    }
+}
+
+foreach ($repo in $repoList) {
+    $invalidGuid = @()
+    foreach ($item in $PSCompletions.list) {
+        $url = "$($repo.url)/$item/guid.txt"
+        try {
+            $content = Invoke-WebRequest -Uri $url
+            $content = $content.Content.Trim()
+            $content
+            if (!($content -match "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")) {
+                $invalidGuid += $item
+            }
+        }
+        catch {
+            $invalidGuid += $item
         }
     }
-    catch {}
-}
-if ($invalideGuid) {
-    write-host "------------------------------------" -ForegroundColor Yellow
-    $PSCompletions.write_with_color("<@Yellow>The following guid.txt of <@Magenta>$repo<@Yellow> are invalid:")
-    foreach ($item in $invalideGuid) {
-        Write-Host $item -ForegroundColor Red
+    if ($invalidGuid) {
+        $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidGuid))
+        foreach ($item in $invalidGuid) {
+            Write-Host $item -ForegroundColor Red
+        }
     }
-}
-else {
-    write-host "------------------------------------" -ForegroundColor Green
-    $PSCompletions.write_with_color("<@Green>All guid.txt of <@Magenta>$repo<@Green> are valid.")
+    else {
+        $PSCompletions.write_with_color($PSCompletions.replace_content($text.validGuid))
+    }
 }

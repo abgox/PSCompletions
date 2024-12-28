@@ -1,0 +1,126 @@
+{
+  "need-admin": "Require admin permissions.",
+  "need-pwsh": "Require PowerShell Core (pwsh 7+).",
+  "import-psc": "Before running this script, you should install the PSCompletions module and import it.",
+  "check-guid-valid": {
+    "invalidParams": [
+      "<@Yellow>You should use some of the available option parameters.\n",
+      "e.g. <@Magenta>.\\scripts\\check-guid-valid.ps1 -gitee\n",
+      "     .\\scripts\\check-guid-valid.ps1 -github\n",
+      "     .\\scripts\\check-guid-valid.ps1 -gitee -github"
+    ],
+    "invalidGuid": [
+      "<@Yellow>------------------------------------\n",
+      "The following guid.txt of <@Magenta>{{ $repo.name }}<@Yellow> are invalid:"
+    ],
+    "validGuid": [
+      "<@Green>------------------------------------\n",
+      "All guid.txt of <@Magenta>{{ $repo.name }}<@Green> are valid."
+    ]
+  },
+  "compare-json": {
+    "invalidParams": [
+      "<@Yellow>You should enter available json path or completion name.\n",
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 psc\n",
+      "     .\\scripts\\compare-json.ps1 .\\completions\\psc\\language\\zh-CN.json\n",
+      "     .\\scripts\\compare-json.ps1 .\\completions\\psc\\language\\zh-CN.json .\\completions\\psc\\language\\en-US.json"
+    ],
+    "progress": "<@Blue>Progress: <@Magenta>{{ $completionRate }}%",
+    "hr": [
+      "<@Cyan>--------------------"
+    ],
+    "pos": [
+      "<@Cyan>--------------------\nLocation: <@Magenta>{{ $item.pos }}"
+    ],
+    "prop": [
+      "<@Cyan>Property: <@Magenta>{{ $item.name }}"
+    ],
+    "value": [
+      "<@Cyan>Value: {{ $item.value }}"
+    ],
+    "diffList": {
+      "tip": [
+        "\n<@Yellow>The following are different property values or types (count: <@Magenta>{{ $count.diffList.Count }}<@Yellow>):"
+      ],
+      "base": [
+        "<@Cyan>{{ $baseShortPath }}: <@Magenta>{{ $item.base }}"
+      ],
+      "diff": [
+        "<@Cyan>{{ $diffShortPath }}: <@Magenta>{{ $item.diff }}"
+      ]
+    },
+    "untranslatedList": {
+      "tip": [
+        "\n<@Yellow>The following tips are not translated (count: <@Magenta>{{ $count.untranslatedList.Count }}<@Yellow>):"
+      ]
+    },
+    "missingList": {
+      "tip": [
+        "<@Red>The following tips are missing property in the <@Magenta>{{ $diffShortPath }}<@Red> file (count: <@Magenta>{{ $count.missingList.Count }}<@Red>):"
+      ],
+      "pos": [
+        "<@Cyan>--------------------<@Magenta>\n{{ $item.pos }}"
+      ]
+    },
+    "extraList": {
+      "tip": [
+        "<@Red>The following tips are extra property in the <@Magenta>{{ $diffShortPath }}<@Red> file (count: <@Magenta>{{ $count.extraList.Count }}<@Red>):"
+      ],
+      "pos": [
+        "<@Cyan>--------------------<@Magenta>\n{{ $item.pos }}"
+      ]
+    }
+  },
+  "create-completion": {
+    "invalidParams": [
+      "<@Red>You should enter an available completion name.\n",
+      "e.g. <@Magenta>.\\scripts\\create-completion.ps1 test"
+    ],
+    "exist": "<@Red>The completion directory already exists!",
+    "success": [
+      "<@Green>Create completion successfully!\n",
+      "The completion directory has been linked to the PSCompletions module for easy testing at write time.\n",
+      "Hooks have been added automatically, if not needed, please delete the <@Magenta>hooks<@Green> attribute in <@Magenta>config.json<@Green> and delete the <@Magenta>hooks.ps1<@Green> file.\n",
+      "Link Directory: <@Magenta>{{ $test_dir }}<@Green>\n",
+      "<@Yellow>Note: This link operation is only for the test or development of completion, and should be removed after completing the work.\n",
+      "Command: <@Magenta>{{ \"psc rm \" + $completion_name }}"
+    ],
+    "err": {
+      "name": "<@Red>The completion name cannot be empty!"
+    }
+  },
+  "link-completion": {
+    "invalidParams": [
+      "<@Red>You should enter an available completion name.\n",
+      "e.g. <@Magenta>.\\scripts\\link-completion.ps1 psc"
+    ],
+    "invalidName": [
+      "<@Magenta>{{ $completion_name }}<@Red> isn't an available completion name.\n",
+      "<@Cyan>Available completions are: \n<@Blue>{{ $completions_list }}"
+    ],
+    "noExist": "<@Magenta>{{ $completion_name }}<@Red> isn't exist.",
+    "linkDone": [
+      "<@Green>Completion <@Magenta>{{ $completion_name }}<@Green> has been linked to the completions directory of the PSCompletions module.\n",
+      "<@Yellow>Note: This link operation is only for the test or development of completion, and should be removed after completing the work.\n",
+      "Command: <@Magenta>{{ \"psc rm \" + $completion_name }}"
+    ]
+  },
+  "publish-module": {
+    "requireKey": [
+      "<@Red>The parameter <@Magenta>NuGetApiKey<@Red> is required."
+    ]
+  },
+  "update-guid": {
+    "invalidParams": [
+      "<@Yellow>You should enter an available completion list.\n",
+      "e.g. <@Magenta>.\\scripts\\update-guid.ps1 psc\n",
+      "     .\\scripts\\update-guid.ps1 psc,git"
+    ],
+    "updateGuid": [
+      "Updating Guid.txt file of <@Magenta>{{ Split-Path $path -Leaf }}<@>."
+    ],
+    "GridViewTip": [
+      "Select one or more completions. The \"Guid.txt\" file of the selected completions will be updated. (Hold down the Ctrl or Shift key to select multiple)"
+    ]
+  }
+}

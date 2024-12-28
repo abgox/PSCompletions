@@ -57,60 +57,13 @@
           "$ref": "#/definitions/array_items",
           "description": "command alias"
         },
-        "symbol": {
-          "description": "Symbol",
-          "anyOf": [
-            {
-              "$ref": "#/definitions/array",
-              "description": "It must be an array.",
-              "enum": [
-                []
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "When using hooks to dynamically generate some completions, you need to specify SpaceTab.",
-              "enum": [
-                [
-                  "SpaceTab"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "You can also use PowerShell syntax, which requires {{ }} wraps.",
-              "enum": [
-                [
-                  "{{",
-                  "if($true){ 'SpaceTab' }",
-                  "}}"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "items": {
-                "$ref": "#/definitions/string",
-                "oneOf": [
-                  {
-                    "description": "Specify SpaceTab",
-                    "enum": [
-                      "SpaceTab"
-                    ]
-                  },
-                  {}
-                ]
-              }
-            }
-          ]
-        },
         "tip": {
           "$ref": "#/definitions/completion_tip"
         },
         "next": {
           "type": "array",
           "uniqueItems": true,
-          "description": "Next command completion, it's used to define the completion that can be obtained after entering the command by pressing the Tab key",
+          "description": "Next command completion, it's used to define the completion that can be obtained after entering the command by pressing the Tab key.\nThe items in the array are automatically added to the completions, or dynamically if there are hooks.",
           "items": {
             "$ref": "#/definitions/root_item"
           }
@@ -140,72 +93,32 @@
           "$ref": "#/definitions/array_items",
           "description": "command alias"
         },
-        "symbol": {
-          "description": "Symbol.(OptionTab is added by default)",
-          "anyOf": [
-            {
-              "$ref": "#/definitions/array",
-              "description": "It must be an array.",
-              "enum": [
-                []
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "Specify Symbol",
-              "enum": [
-                [
-                  "WriteSpaceTab"
-                ],
-                [
-                  "SpaceTab"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "You can also use PowerShell syntax, which requires {{ }} wraps.",
-              "enum": [
-                [
-                  "{{",
-                  "if($true){'WriteSpaceTab'}",
-                  "}}"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "items": {
-                "$ref": "#/definitions/string",
-                "anyOf": [
-                  {
-                    "description": "Specify WriteSpaceTab",
-                    "enum": [
-                      "WriteSpaceTab"
-                    ]
-                  },
-                  {
-                    "description": "Specify SpaceTab",
-                    "enum": [
-                      "SpaceTab"
-                    ]
-                  },
-                  {}
-                ]
-              }
-            }
-          ]
-        },
         "tip": {
           "$ref": "#/definitions/completion_tip"
         },
         "next": {
           "type": "array",
           "uniqueItems": true,
-          "description": "Next command completion, it's used to define the completion that can be obtained after entering the command by pressing the Tab key.\nIf next is added, WriteSpaceTab is automatically added to the symbol of the current.",
-          "items": {
-            "$ref": "#/definitions/root_item"
-          }
+          "description": "Next command completion, it's used to define the completion that can be obtained after entering the command by pressing the Tab key.\nIt can be an array or the number 0.\nIf it's an array, the items in the array will be automatically added to the completions, or dynamically added if there are hooks.\nWhen there is some completions, you can select one of the completion item without entering the content.\n If it's the number 0, it means that you should enter a content at this point, but PSCompletions is unable to provide some completions, you need to enter the content yourself.",
+          "examples": [
+            [],
+            0
+          ],
+          "oneOf": [
+            {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/definitions/root_item"
+              }
+            },
+            {
+              "type": "number",
+              "enum": [
+                0
+              ]
+            }
+          ]
         }
       },
       "additionalProperties": false

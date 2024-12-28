@@ -1,27 +1,33 @@
 param([string]$completion_name)
 
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
+
+$isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
+if (!$isAdmin) {
+    Write-Host $text."need-admin" -ForegroundColor Red
+    return
+}
+
 if (!$PSCompletions) {
-    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+    Write-Host $text."import-psc" -ForegroundColor Red
     return
 }
+
+$text = $text."create-completion"
+
 if (!$completion_name.Trim()) {
-    $PSCompletions.write_with_color("<@Red>You should enter an available completion name.`ne.g. <@Magenta>.\scripts\create-completion.ps1 test")
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidParams))
     return
-}
-
-$path_guide = "$($PSScriptRoot)/template/guide/$($PSCompletions.language).json"
-
-if (Test-Path $path_guide) {
-    $guide = Get-Content -Path $path_guide -Encoding utf8 | ConvertFrom-Json
-}
-else {
-    $guide = Get-Content -Path "$($PSScriptRoot)/template/guide/en-US.json" -Encoding utf8 | ConvertFrom-Json
 }
 
 $root_dir = Split-Path $PSScriptRoot -Parent
 $completion_dir = "$root_dir/completions/$completion_name"
 if (Test-Path $completion_dir) {
-    $PSCompletions.write_with_color($guide.exist)
+    $PSCompletions.write_with_color($text.exist)
     return
 }
 
@@ -39,8 +45,8 @@ Copy-Item "$($PSScriptRoot)/template/hooks.ps1" "$completion_dir/hooks.ps1" -For
 
 $test_dir = Join-Path $PSCompletions.path.completions $completion_name
 Remove-Item $test_dir -Recurse -Force -ErrorAction SilentlyContinue
-New-Item -ItemType SymbolicLink -Path $test_dir -Target $completion_dir > $null
-$PSCompletions.write_with_color($PSCompletions.replace_content($guide.success))
+$null = New-Item -ItemType SymbolicLink -Path $test_dir -Target $completion_dir
+$PSCompletions.write_with_color($PSCompletions.replace_content($text.success))
 
 $PSCompletions.data.list += $completion_name
 $PSCompletions.data.alias.$completion_name = $completion_name

@@ -1,12 +1,20 @@
-﻿param([string]$NuGetApiKey, [switch]$Verbose)
+param([string]$NuGetApiKey, [switch]$Verbose)
+
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+    Write-Host $text."import-psc" -ForegroundColor Red
     return
 }
 
+$text = $text."publish-module"
+
 if (!$NuGetApiKey) {
-    $PSCompletions.write_with_color("<@Red>The parameter <@Magenta>NuGetApiKey<@Red> is required.")
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.requireKey))
     return
 }
 

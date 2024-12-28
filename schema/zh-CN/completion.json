@@ -57,60 +57,13 @@
           "$ref": "#/definitions/array_items",
           "description": "命令别名"
         },
-        "symbol": {
-          "description": "特殊符号",
-          "anyOf": [
-            {
-              "$ref": "#/definitions/array",
-              "description": "它必须是一个数组",
-              "enum": [
-                []
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "当使用 hooks 去动态生成一些补全项时，需要指定 SpaceTab",
-              "enum": [
-                [
-                  "SpaceTab"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "你也可以使用 PowerShell 语法，需要 使用 {{ }} 包裹",
-              "enum": [
-                [
-                  "{{",
-                  "if($true){ 'SpaceTab' }",
-                  "}}"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "items": {
-                "$ref": "#/definitions/string",
-                "oneOf": [
-                  {
-                    "description": "指定 SpaceTab",
-                    "enum": [
-                      "SpaceTab"
-                    ]
-                  },
-                  {}
-                ]
-              }
-            }
-          ]
-        },
         "tip": {
           "$ref": "#/definitions/completion_tip"
         },
         "next": {
           "type": "array",
           "uniqueItems": true,
-          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全",
+          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全\n数组中的项会自动添加到补全中，如果有 hooks，会动态添加",
           "items": {
             "$ref": "#/definitions/root_item"
           }
@@ -140,72 +93,30 @@
           "$ref": "#/definitions/array_items",
           "description": "命令别名"
         },
-        "symbol": {
-          "description": "特殊符号\n默认就指定了 OptionTab,不需要再次指定它，只需要指定其他的特殊符号",
-          "anyOf": [
-            {
-              "$ref": "#/definitions/array",
-              "description": "它必须是一个数组",
-              "enum": [
-                []
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "指定符号",
-              "enum": [
-                [
-                  "WriteSpaceTab"
-                ],
-                [
-                  "SpaceTab"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "description": "你也可以使用 PowerShell 语法，需要 使用 {{ }} 包裹",
-              "enum": [
-                [
-                  "{{",
-                  "if($true){'WriteSpaceTab'}",
-                  "}}"
-                ]
-              ]
-            },
-            {
-              "$ref": "#/definitions/array",
-              "items": {
-                "$ref": "#/definitions/string",
-                "anyOf": [
-                  {
-                    "description": "指定 WriteSpaceTab",
-                    "enum": [
-                      "WriteSpaceTab"
-                    ]
-                  },
-                  {
-                    "description": "指定 SpaceTab",
-                    "enum": [
-                      "SpaceTab"
-                    ]
-                  },
-                  {}
-                ]
-              }
-            }
-          ]
-        },
         "tip": {
           "$ref": "#/definitions/completion_tip"
         },
         "next": {
-          "type": "array",
-          "uniqueItems": true,
-          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全\n如果添加了 next, 会给当前命令的 symbol 自动添加 WriteSpaceTab",
-          "items": {
-            "$ref": "#/definitions/root_item"
-          }
+          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全\n它可以是一个数组或数字 0\n如果是数组，数组中的项会自动添加到补全中，如果有 hooks，会动态添加。当有补全项时，就可以选择其中一个补全项，而不输入内容\n如果是数字 0，则表示此时应该输入一个内容，但是 PSCompletions 无力提供补全，需要自己输入内容",
+          "examples": [
+            [],
+            0
+          ],
+          "oneOf": [
+            {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/definitions/root_item"
+              }
+            },
+            {
+              "type": "number",
+              "enum": [
+                0
+              ]
+            }
+          ]
         }
       },
       "additionalProperties": false
