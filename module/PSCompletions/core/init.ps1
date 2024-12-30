@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.2.5'
+    version                 = '5.3.0'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -138,20 +138,25 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             foreach ($cmd in $cmds) {
                 $symbols = @()
                 if ($isOption) {
-                    $symbols += 'OptionTab'
-                }
-                if ($cmd.next -is [array] -or $cmd.options -is [array]) {
-                    if ($isOption) {
-                        $symbols += 'WriteSpaceTab'
+                    if ($cmd.next -eq $null -and $cmd.options -eq $null) {
+                        $symbols += 'OptionTab'
                     }
-                    if ($cmd.next.Count -or $cmd.options.Count) {
+                    else {
+                        $symbols += 'WriteSpaceTab'
+                        if ($cmd.next -is [array] -or $cmd.options -is [array]) {
+                            $symbols += 'SpaceTab'
+                        }
+                    }
+                }
+                else {
+                    if ($cmd.next -is [array] -or $cmd.options -is [array]) {
                         $symbols += 'SpaceTab'
                     }
                 }
-                if ($cmd.symbol) {
-                    $symbols += $PSCompletions.replace_content($cmd.symbol, ' ') -split ' '
-                    $symbols = $symbols | Select-Object -Unique
+                if ($cmd.name -eq $null) {
+                    continue
                 }
+
                 $alias_list = $cmd.alias + $cmd.name
 
                 $obj.$cmdO.$guid += @{
@@ -626,28 +631,28 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color {
     param([string]$str)
     $color_list = @()
-    $str = $str -replace "`n", 'n&&_n_n&&'
+    $str = $str -replace "`n", $PSCompletions.guid
     $str_list = foreach ($_ in ($str -split '(<\@[^>]+>.*?(?=<\@|$))').Where({ $_ -ne '' })) {
         if ($_ -match '<\@([\s\w]+)>(.*)') {
-            ($matches[2] -replace 'n&&_n_n&&', "`n") -replace '^<\@>', ''
+            ($matches[2] -replace $PSCompletions.guid, "`n") -replace '^<\@>', ''
             $color = $matches[1] -split ' '
             $color_list += @{
                 color   = $color[0]
-                bgcolor = $color[1]
+                bgColor = $color[1]
             }
         }
         else {
-            ($_ -replace 'n&&_n_n&&', "`n") -replace '^<\@>', ''
+            ($_ -replace $PSCompletions.guid, "`n") -replace '^<\@>', ''
             $color_list += @{}
         }
     }
     $str_list = [array]$str_list
     for ($i = 0; $i -lt $str_list.Count; $i++) {
         $color = $color_list[$i].color
-        $bgcolor = $color_list[$i].bgcolor
+        $bgColor = $color_list[$i].bgColor
         if ($color) {
-            if ($bgcolor) {
-                Write-Host $str_list[$i] -f $color -b $bgcolor -NoNewline
+            if ($bgColor) {
+                Write-Host $str_list[$i] -f $color -b $bgColor -NoNewline
             }
             else {
                 Write-Host $str_list[$i] -f $color -NoNewline
@@ -1133,11 +1138,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
     param(
-        [array]$completions, # The list of completions.
-        [bool]$isShowTip = $PSCompletions.config.enable_tip_when_enhance # Set whether to display the tooltip or not.
+        [array]$completions # The list of completions.
     )
-
-    $PSCompletions.menu.is_show_tip = $isShowTip
     foreach ($_ in $completions) {
         Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
             param($wordToComplete, $commandAst, $cursorPosition)
@@ -1164,7 +1166,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
             @((argc --argc-compgen powershell $emptyS $words) -split "`n") | ForEach-Object {
                 $parts = ($_ -split "`t")
 
-                if ($PSCompletions.menu.is_show_tip) {
+                if ($PSCompletions.config.enable_tip_when_enhance) {
                     $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
                     [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, $tip)
                 }

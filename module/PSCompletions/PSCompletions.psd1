@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '5.2.5'
+    ModuleVersion        = '5.3.0'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -22,7 +22,7 @@
     CompatiblePSEditions = @('Core', 'Desktop')
 
     Description          = 'A completion manager for better and simpler use PowerShell completions.
- It provides a better GUI-style tab-completion menu to enhance the command line experience.
+ It provides a better tab-completion menu to enhance the command line experience.
  For more information, please visit the project or website:
   - Website: https://pscompletions.pages.dev
   - Github:  https://github.com/abgox/PSCompletions
@@ -35,13 +35,13 @@
 
         PSData = @{
 
-            Tags         = @('psc', 'Tab', 'Completion', 'Prompt', 'TabExpansion', 'Completions', 'Dynamic', 'Multi-Language', 'Base-in-json', 'Completion-Manager', 'TabExpansion2', 'PowerShell', 'pwsh', 'PSEdition_Core', 'PSEdition_Desktop', 'Windows', 'Linux', 'MacOS')
+            Tags         = @('psc', 'Tab', 'Completion', 'Prompt', 'TabExpansion', 'Completions', 'Dynamic', 'Multi-Language', 'Base-in-json', 'Completion-Manager', 'TabExpansion2', 'Menu', 'GUI' , 'PowerShell', 'pwsh', 'PSEdition_Core', 'PSEdition_Desktop', 'Windows', 'Linux', 'MacOS')
 
             LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
             ProjectUri   = 'https://github.com/abgox/PSCompletions'
 
-            # IconUri = ''
+            # IconUri      = 'https://github.com/PowerShell/PowerShell/raw/master/assets/ps_black_128.svg'
 
             ReleaseNotes = 'https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md'
 

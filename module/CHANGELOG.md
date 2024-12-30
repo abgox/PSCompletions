@@ -3,6 +3,15 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.3.0 (2025/1/1)
+
+- Optimize the property structure and parsing of json completion files.
+  - This is a minor breaking update for completion files.
+  - After updating `PSCompletions` module, please run the `psc update * --force` command to update all completions.
+- Simplify the display rules of special symbols(`»?!`).
+- Add more built-in border themes.
+- Other fixes and optimizations.
+
 ## 5.2.5 (2024/12/19)
 
 - Fix a bug where filtering completions would cause an error when the configuration item `enable_tip` is set to 0, and reduce the flashing of completion menu.
