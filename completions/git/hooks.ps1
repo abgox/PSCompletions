@@ -152,21 +152,23 @@ function handleCompletions($completions) {
                 }
             }
         }
-        'reset' {
-            $head_list = return_head
-            foreach ($_ in $head_list.Keys) {
-                $info = $head_list.$_
-                $tempList += $PSCompletions.return_completion($_, $info)
-            }
-            $commit_info = return_commit
-            foreach ($_ in $commit_info) {
-                $hash = $_[0]
-                $date = $_[1]
-                $author = $_[2]
-                $commit = $_[3..($_.Length - 1)]
-                $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
+        { 'reset' -in $PSCompletions.input_arr } {
+            if ($last_item -in @('reset', '--hard', '--soft', '--mixed')) {
+                $head_list = return_head
+                foreach ($_ in $head_list.Keys) {
+                    $info = $head_list.$_
+                    $tempList += $PSCompletions.return_completion($_, $info)
+                }
+                $commit_info = return_commit
+                foreach ($_ in $commit_info) {
+                    $hash = $_[0]
+                    $date = $_[1]
+                    $author = $_[2]
+                    $commit = $_[3..($_.Length - 1)]
+                    $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                $tempList += $PSCompletions.return_completion($hash, $content)
+                    $tempList += $PSCompletions.return_completion($hash, $content)
+                }
             }
         }
         'show' {
