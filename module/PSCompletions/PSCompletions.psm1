@@ -561,7 +561,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                 }
             }
             'line_theme' {
-                $cmd_list = @('double_line_rect_border', 'single_line_rect_border', 'single_line_round_border', 'bold_line_rect_border')
+                $cmd_list = @('double_line_rect_border', 'bold_line_rect_border', 'single_line_rect_border', 'single_line_round_border', 'boldTB_slimLR_border', 'slimTB_boldLR_border', 'doubleTB_singleLR_border', 'singleTB_doubleLR_border')
                 if ($arg.Length -lt 3) {
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.line_theme.example
                     return
@@ -584,6 +584,14 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                         $PSCompletions.config.top_right = [string][char]9559 # ╗
                         $PSCompletions.config.bottom_right = [string][char]9565 # ╝
                     }
+                    'bold_line_rect_border' {
+                        $PSCompletions.config.horizontal = [string][char]9473 # ━
+                        $PSCompletions.config.vertical = [string][char]9475 # ┃
+                        $PSCompletions.config.top_left = [string][char]9487 # ┏
+                        $PSCompletions.config.bottom_left = [string][char]9495 # ┗
+                        $PSCompletions.config.top_right = [string][char]9491 # ┓
+                        $PSCompletions.config.bottom_right = [string][char]9499 # ┛
+                    }
                     'single_line_rect_border' {
                         $PSCompletions.config.horizontal = [string][char]9472 # ─
                         $PSCompletions.config.vertical = [string][char]9474 # │
@@ -600,13 +608,39 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                         $PSCompletions.config.top_right = [string][char]9582 # ╮
                         $PSCompletions.config.bottom_right = [string][char]9583 # ╯
                     }
-                    'bold_line_rect_border' {
+                    # TB: top and bottom
+                    # LR: left and right
+                    'boldTB_slimLR_border' {
                         $PSCompletions.config.horizontal = [string][char]9473 # ━
+                        $PSCompletions.config.vertical = [string][char]9474 # │
+                        $PSCompletions.config.top_left = [string][char]9485 # ┍
+                        $PSCompletions.config.bottom_left = [string][char]9493 # ┕
+                        $PSCompletions.config.top_right = [string][char]9489 # ┑
+                        $PSCompletions.config.bottom_right = [string][char]9497 # ┙
+                    }
+                    'slimTB_boldLR_border' {
+                        $PSCompletions.config.horizontal = [string][char]9472 # ─
                         $PSCompletions.config.vertical = [string][char]9475 # ┃
-                        $PSCompletions.config.top_left = [string][char]9487 # ┏
-                        $PSCompletions.config.bottom_left = [string][char]9495 # ┗
-                        $PSCompletions.config.top_right = [string][char]9491 # ┓
-                        $PSCompletions.config.bottom_right = [string][char]9499 # ┛
+                        $PSCompletions.config.top_left = [string][char]9486 # ┎
+                        $PSCompletions.config.bottom_left = [string][char]9494 # ┖
+                        $PSCompletions.config.top_right = [string][char]9490 # ┒
+                        $PSCompletions.config.bottom_right = [string][char]9498 # ┚
+                    }
+                    'doubleTB_singleLR_border' {
+                        $PSCompletions.config.horizontal = [string][char]9552 # ═
+                        $PSCompletions.config.vertical = [string][char]9474 # │
+                        $PSCompletions.config.top_left = [string][char]9554 # ╒
+                        $PSCompletions.config.bottom_left = [string][char]9560 # ╘
+                        $PSCompletions.config.top_right = [string][char]9557 # ╕
+                        $PSCompletions.config.bottom_right = [string][char]9563 # ╛
+                    }
+                    'singleTB_doubleLR_border' {
+                        $PSCompletions.config.horizontal = [string][char]9472 # ─
+                        $PSCompletions.config.vertical = [string][char]9553 # ║
+                        $PSCompletions.config.top_left = [string][char]9555 # ╓
+                        $PSCompletions.config.bottom_left = [string][char]9561 # ╙
+                        $PSCompletions.config.top_right = [string][char]9558 # ╖
+                        $PSCompletions.config.bottom_right = [string][char]9564 # ╜
                     }
                 }
                 $PSCompletions._need_update_data = $true

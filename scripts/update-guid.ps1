@@ -1,11 +1,21 @@
-﻿param([array]$completion_list)
+param([array]$completion_list)
+
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+    Write-Host $text."import-psc" -ForegroundColor Red
     return
 }
+
+$text = $text."update-guid"
+
+
 if (!$completion_list) {
-    $PSCompletions.write_with_color("<@Yellow>You should enter an available completion list.`ne.g. <@Magenta>.\scripts\update-guid.ps1 psc`n     .\scripts\update-guid.ps1 psc,git")
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidParams))
     return
 }
 
@@ -18,21 +28,12 @@ $path_list = $completion_list | ForEach-Object {
 }
 if ($path_list) {
     foreach ($path in $path_list) {
-        Write-Host "Updating Guid.txt file of " -NoNewline
-        Write-Host $(Split-Path $path -Leaf) -ForegroundColor Magenta -NoNewline
-        Write-Host "."
+        $PSCompletions.write_with_color($PSCompletions.replace_content($text.updateGuid))
         (New-Guid).Guid | Out-File "$path/guid.txt" -Force
     }
     return
 }
 
-if ($PSUICulture -eq 'zh-CN') {
-    $select = '选择一个或多个补全, 选中的补全的 "Guid.txt" 文件(按住 Ctrl 或 Shift 键选择多个)'
-}
-else {
-    $select = 'Select one or more completions. The "Guid.txt" file of the selected completions will be updated. (Hold down the Ctrl or Shift key to select multiple)'
-}
-
-(Get-ChildItem "$PSScriptRoot/../completions").BaseName | Out-GridView -OutputMode Multiple -Title $select | ForEach-Object {
+(Get-ChildItem "$PSScriptRoot/../completions").BaseName | Out-GridView -OutputMode Multiple -Title $PSCompletions.replace_content($text.GridViewTip) | ForEach-Object {
     (New-Guid).Guid | Out-File "$PSScriptRoot/../completions/$_/guid.txt" -Force
 }

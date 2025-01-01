@@ -48,7 +48,7 @@
 - [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
   - [argc-completions 仓库](https://github.com/sigoden/argc-completions)
 
-**如果 `PSCompletions` 对你有所帮助，请在此项目点个 Star ⭐**
+**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star ⭐**
 
 ## 新的变化
 
@@ -226,7 +226,7 @@
 
 - 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全项
 
-  - 这些符号目前只在通过 `psc add` 添加的补全中存在
+  - 只有通过 `psc add` 添加的补全中才存在
 
   - 你可以将它们替换成空字符串来隐藏它们
     - `psc menu symbol SpaceTab ""`
@@ -236,19 +236,18 @@
 - `»`,`?`,`!` : 如果出现多个, 表示符合多个条件, 可以选择其中一个效果
 
   - 定义:
-    - `Normal Completion`: 子命令，例如在 `git` 中的 `add`/`pull`/`push`/`commit`/...
-    - `Optional Completion`: 可选参数，例如在 `git add` 中的 `-g`/`-u`/...
-    - `General Optional Completion`: 可以用在任何地方的通用可选参数，例如在 `git` 中的 `--help`/...
-  - `»` : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取 `Normal Completion` 或者 `Optional Completion`
-    - 仅在有 `Normal Completion` 或 `Optional Completion` 时才会显示此符号
+    - `Normal Completions`: 子命令，例如在 `git` 中的 `add`/`pull`/`push`/`commit`/...
+    - `Optional Completions`: 可选参数，例如在 `git add` 中的 `-g`/`-u`/...
+    - `General Optional Completions`: 可以用在任何地方的通用可选参数，例如在 `git` 中的 `--help`/...
+    - `Current Completions`: 当前的补全项列表
+  - `»` : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取补全
     - 可通过 `psc menu symbol SpaceTab <symbol>` 自定义此符号
-  - `?` : 表示选用当前选中的补全(`Optional Completion`)后, 你可以按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion`
-    - `General Optional Completion` 也使用此符号
+  - `?` : 表示选用当前选中的补全(`Optional Completions` 或 `General Optional Completions`)后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取 `Current Completions`
     - 可通过 `psc menu symbol OptionTab <symbol>` 自定义此符号
-  - `!` : 表示选用当前选中的补全(`Optional Completion` 或者 `General Optional Completion`)后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取其他的 `Optional Completion` 或者 `General Optional Completion`
+  - `!` : 表示选用当前选中的补全(`Optional Completions` 或 `General Optional Completions`)后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取补全
 
     - 如果字符串有空格, 请使用 `"`(引号) 或 `'`(单引号) 包裹，如 `"test content"`
-    - 如果同时还有 `»`, 表示有几个预设的字符串(`Normal Completion`)可以补全, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取它们
+    - 如果同时还有 `»`, 表示有预设的补全项, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取它们
     - 可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
 
   - 所有补全都可以在输入部分字符后按下 `Tab` 键触发补全
@@ -322,10 +321,13 @@
 ## 补全列表
 
 - 说明
+
   - **`Completion`** ：可添加的补全。点击跳转命令官方网站，按照数字字母排序(0-9,a-z)。
     - 特殊情况: `abc(a)`，这表示你需要通过 `psc add abc` 去下载它，但默认使用 `a` 而不是 `abc` 去触发补全
-  - **`Language`**: 支持的语言，以及翻译进度
-    - 翻译进度是相较于 `en-US` 的
+  - **`Language`**: 支持的语言，以及完成进度
+
+    - 这个进度是和 `config.json` 中定义的第一个语言相比，一般是 `en-US`
+
   - **`Description`**: 命令描述
 
 <!-- prettier-ignore-start -->

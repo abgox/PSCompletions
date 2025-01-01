@@ -1,48 +1,73 @@
 param(
-    [string]$DifferenceJsonPath, # 差异文件
-    [string]$ReferenceJsonPath # 参考文件
+    [string]$diffJson, # 比对文件，也可以简写补全名
+    [string]$baseJson # 基准文件
 )
+
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
+
+if ($PSEdition -ne 'Core') {
+    Write-Host $text."need-pwsh" -ForegroundColor Red
+    return
+}
+
 if (!$PSCompletions) {
-    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+    Write-Host $text."import-psc" -ForegroundColor Red
     return
 }
 
-if (!$DifferenceJsonPath -or !(Test-Path $DifferenceJsonPath)) {
-    $PSCompletions.write_with_color("<@Yellow>You should enter available json path.`ne.g. <@Magenta>.\scripts\compare-json.ps1 .\completions\psc\language\zh-CN.json`n     .\scripts\compare-json.ps1 .\completions\psc\language\zh-CN.json .\completions\psc\language\en-US.json")
+$text = $text."compare-json"
+
+function outText {
+    param($text)
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text))
+}
+
+if ($diffJson -notmatch '\.json$') {
+    $diffJson = Resolve-Path "$PSScriptRoot\..\completions\$diffJson\language\zh-CN.json"
+}
+
+if (!$diffJson -or !(Test-Path $diffJson)) {
+    outText $text.invalidParams
     return
 }
 
-if (!$ReferenceJsonPath) {
-    $completion_dir = Split-Path (Split-Path $DifferenceJsonPath -Parent) -Parent
+if (!$baseJson) {
+    $completion_dir = Split-Path (Split-Path $diffJson -Parent) -Parent
     $path_config = Join-Path $completion_dir "config.json"
     $lang_list = (Get-Content -Path $path_config -Raw -Encoding utf8 | ConvertFrom-Json).language
 
-    $ReferenceJsonPath = "$($completion_dir)/language/$($lang_list[0]).json"
+    $baseJson = "$($completion_dir)/language/$($lang_list[0]).json"
 }
 
 function Compare-JsonProperty {
     param (
-        [string]$DifferenceJsonPath,
-        [string]$ReferenceJsonPath
+        [string]$diffJson,
+        [string]$baseJson
     )
 
     # 读取 JSON 文件
-    $DifferenceContent = Get-Content -Path $DifferenceJsonPath -Raw | ConvertFrom-Json -AsHashtable
-    $ReferenceContent = Get-Content -Path $ReferenceJsonPath -Raw | ConvertFrom-Json -AsHashtable
+    $diffContent = Get-Content -Path $diffJson -Raw | ConvertFrom-Json -AsHashtable
+    $baseContent = Get-Content -Path $baseJson -Raw | ConvertFrom-Json -AsHashtable
 
-    # 初始化统计变量
+    # 统计
     $count = @{
-        totalTips        = 0
+        totalTips        = 0   # 总的 tip 数量
+
+        diffList         = @() # 不同的属性值或类型
         untranslatedList = @() # 未翻译的
         missingList      = @() # 缺少的
         extraList        = @() # 多余的
     }
 
     function noTranslated() {
-        param($Difference, $Reference)
+        param($diffStr, $baseStr)
         # XXX: 以中文为例，可以通过判断是否存在中文字符
         # 直接判断是否相等，目前也可用
-        return $Difference -eq $Reference
+        return $diffStr -eq $baseStr
     }
     function _replace {
         param ($data, $separator = '')
@@ -55,211 +80,429 @@ function Compare-JsonProperty {
         if ($data -match $pattern) { (_replace $data) }else { return $data }
     }
 
+    function isExist {
+        param($v)
+        # XXX: 在 PowerShell 中，对于空数组，以下两种判断都返回空，而非布尔。空又会被当做 false
+        # @() -eq $null # 返回空，也就是 false
+        # @() -ne $null # 返回空，也就是 false
+        # 因此，如果它的类型是一个数组，就应该认为它存在
+        return $v -is [array] -or $v -ne $null
+    }
+
     # 定义递归函数以遍历
-    function Traverse {
+    function traverseArr {
         param (
-            [array]$ReferenceArray,
-            [array]$DifferenceArray,
-            $attr = ''
+            [array]$diffArr, # 比对
+            [array]$baseArr, # 基准
+            [string]$pos = ''
         )
-        for ($i = 0; $i -lt [Math]::Max($ReferenceArray.Count, $DifferenceArray.Count); $i++) {
-            if ($ReferenceArray[$i]) {
-                if (!$DifferenceArray[$i]) {
-                    $count.missingList += "$($attr)[$($i)]"
+        for ($i = 0; $i -lt [Math]::Max($baseArr.Count, $diffArr.Count); $i++) {
+            if (isExist $baseArr[$i]) {
+                if (!(isExist $diffArr[$i])) {
+                    $count.missingList += @{
+                        pos = "$pos[$i]"
+                    }
                 }
 
-                if ($ReferenceArray[$i].tip) {
-                    $count.totalTips++
-                    if ($DifferenceArray[$i].tip) {
-                        $json = $DifferenceContent
-                        $info = $json.info
-                        $Difference = _replace $DifferenceArray[$i].tip
-
-                        $json = $ReferenceContent
-                        $info = $json.info
-                        $Reference = _replace $ReferenceArray[$i].tip
-                        if (noTranslated $Difference $Reference) {
-                            $count.untranslatedList += @{
-                                name  = $ReferenceArray[$i].name
-                                value = $DifferenceArray[$i].tip
-                                attr  = "$($attr)[$($i)].tip"
+                # name
+                if (isExist $baseArr[$i].name) {
+                    if (isExist $diffArr[$i].name) {
+                        if ($baseArr[$i].name -ne $diffArr[$i].name) {
+                            $count.diffList += @{
+                                base = $baseArr[$i].name
+                                diff = $diffArr[$i].name
+                                pos  = "$pos[$i].name"
                             }
                         }
                     }
                     else {
-                        $count.missingList += "$($attr)[$($i)].tip"
+                        $count.missingList += @{
+                            pos   = "$pos[$i].name"
+                            value = $baseArr[$i].name
+                        }
                     }
                 }
                 else {
-                    if ($DifferenceArray[$i].tip) {
-                        $count.extraList += "$($attr)[$($i)].tip"
+                    if (isExist $diffArr[$i].name) {
+                        $count.extraList += @{
+                            pos   = "$pos[$i].name"
+                            value = $diffArr[$i].name
+                        }
                     }
                 }
-            }
-            else {
-                if ($DifferenceArray[$i]) {
-                    $count.extraList += "$($attr)[$($i)]"
-                }
-            }
 
-            # 处理 next 属性
-            if ($ReferenceArray[$i].next -and $DifferenceArray[$i].next) {
-                Traverse $ReferenceArray[$i].next $DifferenceArray[$i].next "$($attr)[$($i)].next"
-            }
-
-            # 处理 options 属性
-            if ($ReferenceArray[$i].options -and $DifferenceArray[$i].options) {
-                Traverse $ReferenceArray[$i].options $DifferenceArray[$i].options "$($attr)[$($i)].options"
-            }
-        }
-    }
-
-    if ($ReferenceContent.root) {
-        Traverse $ReferenceContent.root $DifferenceContent.root 'root'
-    }
-    if ($ReferenceContent.options) {
-        Traverse $ReferenceContent.options $DifferenceContent.options 'options'
-    }
-    if ($ReferenceContent.common_options) {
-        Traverse $ReferenceContent.common_options $DifferenceContent.common_options 'common_options'
-    }
-
-    if ($ReferenceContent.config) {
-        for ($i = 0; $i -lt [Math]::Max($ReferenceContent.config.Count, $DifferenceContent.config.Count); $i++) {
-            if ($ReferenceContent.config[$i].name -eq 'enable_hooks') {
-                continue
-            }
-            if ($ReferenceContent.config[$i]) {
-                if (!$DifferenceContent.config[$i]) {
-                    $count.missingList += "config[$($i)]"
-                }
-
-                if ($ReferenceContent.config[$i].tip) {
-                    $count.totalTips++
-                    if ($DifferenceContent.config[$i].tip) {
-                        $Difference = $DifferenceContent.config[$i].tip -join ''
-                        $Reference = $ReferenceContent.config[$i].tip -join ''
-                        if (noTranslated $Difference $Reference) {
-                            $count.untranslatedList += @{
-                                name  = $ReferenceContent.config[$i].name
-                                value = $DifferenceContent.config[$i].tip
-                                attr  = "config[$($i)].tip"
+                # alias
+                if (isExist $baseArr[$i].alias) {
+                    if (isExist $diffArr[$i].alias) {
+                        if (Compare-Object $baseArr[$i].alias $diffArr[$i].alias -PassThru) {
+                            $count.diffList += @{
+                                base = $baseArr[$i].alias -join ' '
+                                diff = $diffArr[$i].alias -join ' '
+                                pos  = "$pos[$i].alias"
                             }
                         }
                     }
                     else {
-                        $count.missingList += "config[$($i)].tip"
+                        $count.missingList += @{
+                            pos   = "$pos[$i].alias"
+                            value = $baseArr[$i].alias -join ' '
+                        }
                     }
                 }
                 else {
-                    if ($DifferenceContent.config[$i].tip) {
-                        $count.extraList += "config[$($i)].tip"
+                    if (isExist $diffArr[$i].alias) {
+                        $count.extraList += @{
+                            pos   = "$pos[$i].alias"
+                            value = $diffArr[$i].alias -join ' '
+                        }
+                    }
+                }
+
+                # tip
+                if (isExist $baseArr[$i].tip) {
+                    $count.totalTips++
+                    if (isExist $diffArr[$i].tip) {
+                        $json = $diffContent
+                        $info = $json.info
+                        $diffStr = _replace $diffArr[$i].tip
+
+                        $json = $baseContent
+                        $info = $json.info
+                        $baseStr = _replace $baseArr[$i].tip
+                        if (noTranslated $diffStr $baseStr) {
+                            $count.untranslatedList += @{
+                                name  = $diffArr[$i].name
+                                value = $diffArr[$i].tip
+                                pos   = "$pos[$i].tip"
+                            }
+                        }
+                    }
+                    else {
+                        $count.missingList += @{
+                            pos   = "$pos[$i].tip"
+                            value = $baseArr[$i].tip
+                        }
+                    }
+                }
+                else {
+                    if (isExist $diffArr[$i].tip) {
+                        $count.extraList += @{
+                            pos   = "$pos[$i].tip"
+                            value = $diffArr[$i].tip
+                        }
                     }
                 }
             }
             else {
-                if ($DifferenceContent.config[$i]) {
-                    $count.extraList += "config[$($i)]"
+                if (isExist $diffArr[$i]) {
+                    $count.extraList += @{
+                        pos = "$pos[$i]"
+                    }
+                }
+            }
+
+            # next
+            # options
+            foreach ($item in @('next', 'options')) {
+                if (isExist $baseArr[$i].$item) {
+                    if (isExist $diffArr[$i].$item) {
+                        $baseType = $baseArr[$i].$item.GetType().Name
+                        $diffType = $diffArr[$i].$item.GetType().Name
+                        if ($baseType -ne $diffType) {
+                            $count.diffList += @{
+                                base = "$($baseArr[$i].$item)"
+                                diff = "$($diffArr[$i].$item)"
+                                pos  = "$pos[$i].$item"
+                            }
+                        }
+                    }
+                    else {
+                        $count.missingList += @{
+                            pos = "$pos[$i].$item"
+                        }
+                    }
+                }
+                else {
+                    if (isExist $diffArr[$i].$item) {
+                        $count.extraList += @{
+                            pos = "$pos[$i].$item"
+                        }
+                    }
+                }
+                if ($baseArr[$i].$item -is [array] -and $diffArr[$i].$item -is [array]) {
+                    traverseArr $diffArr[$i].$item $baseArr[$i].$item "$pos[$i].$item"
                 }
             }
         }
     }
 
-    if ($ReferenceContent.info) {
-        if ($ReferenceContent.info.completion_info.description) {
-            $count.totalTips++
-            if ($DifferenceContent.info.completion_info.description) {
-                $Difference = $DifferenceContent.info.completion_info.description -join ''
-                $Reference = $ReferenceContent.info.completion_info.description -join ''
-                if (noTranslated $Difference $Reference) {
-                    $count.untranslatedList += @{
-                        name  = 'description'
-                        value = $DifferenceContent.info.completion_info.description
-                        attr  = "info.completion_info.description"
-                    }
-                }
+    foreach ($item in @('root', 'options', 'common_options')) {
+        if ($baseContent.$item.Count) {
+            if ($diffContent.$item.Count) {
+                traverseArr $diffContent.$item $baseContent.$item $item
             }
             else {
-                $count.missingList += "info.completion_info.description"
+                $count.missingList += @{
+                    pos = $item
+                }
             }
         }
         else {
-            if ($DifferenceContent.info.completion_info.description) {
-                $count.extraList += "info.completion_info.description"
+            if ($diffContent.$item.Count) {
+                $count.extraList += @{
+                    pos = $item
+                }
             }
         }
     }
 
+    if ($baseContent.config.Count) {
+        for ($i = 0; $i -lt [Math]::Max($baseContent.config.Count, $diffContent.config.Count); $i++) {
+            if ($baseContent.config[$i]) {
+                if (!(isExist $diffContent.config)) {
+                    $count.missingList += @{
+                        pos = "config"
+                    }
+                }
+
+                if (!(isExist $diffContent.config[$i])) {
+                    $count.missingList += @{
+                        pos = "config[$i]"
+                    }
+                }
+
+                # name
+                # value
+                foreach ($item in @('name', 'value')) {
+                    if (isExist $baseContent.config[$i].$item) {
+                        if (isExist $diffContent.config[$i].$item) {
+                            $baseType = $baseContent.config[$i].$item.GetType().Name
+                            $diffType = $diffContent.config[$i].$item.GetType().Name
+                            if (($baseType -ne $diffType) -or ($baseContent.config[$i].$item -ne $diffContent.config[$i].$item)) {
+                                $count.diffList += @{
+                                    base = $baseContent.config[$i].$item
+                                    diff = $diffContent.config[$i].$item
+                                    pos  = "config[$i].$item"
+                                }
+                            }
+                        }
+                        else {
+                            $count.missingList += @{
+                                pos   = "config[$i].$item"
+                                value = $baseContent.config[$i].$item
+                            }
+                        }
+                    }
+                    else {
+                        if (isExist $diffContent.config[$i].$item) {
+                            $count.extraList += @{
+                                pos   = "config[$i].$item"
+                                value = $diffContent.config[$i].$item
+                            }
+                        }
+                    }
+                }
+                # values
+                if (isExist $baseContent.config[$i].values) {
+                    if (isExist $diffContent.config[$i].values) {
+                        if (Compare-Object $baseContent.config[$i].values $diffContent.config[$i].values -PassThru) {
+                            $count.diffList += @{
+                                base = $baseContent.config[$i].values -join ' '
+                                diff = $diffContent.config[$i].values -join ' '
+                                pos  = "config[$i].values"
+                            }
+                        }
+                    }
+                    else {
+                        $count.missingList += @{
+                            pos   = "config[$i].values"
+                            value = $baseContent.config[$i].values -join ' '
+                        }
+                    }
+                }
+                else {
+                    if (isExist $diffContent.config[$i].values) {
+                        $count.extraList += @{
+                            pos   = "config[$i].values"
+                            value = $diffContent.config[$i].values -join ' '
+                        }
+                    }
+                }
+                # tip
+                if ($baseContent.config[$i].tip) {
+                    $count.totalTips++
+
+                    if (isExist $diffContent.config[$i].tip) {
+                        $json = $diffContent
+                        $info = $json.info
+                        $diffStr = _replace $diffContent.config[$i].tip
+
+                        $json = $baseContent
+                        $info = $json.info
+                        $baseStr = _replace $baseContent.config[$i].tip
+                        if (noTranslated $diffStr $baseStr) {
+                            $count.untranslatedList += @{
+                                name  = $diffContent.config[$i].name
+                                value = $diffContent.config[$i].tip
+                                pos   = "$pos[$i].tip"
+                            }
+                        }
+                    }
+                    else {
+                        $count.missingList += @{
+                            pos   = "config[$i].tip"
+                            value = $baseContent.config[$i].tip
+                        }
+                    }
+                }
+                else {
+                    if ($diffContent.config[$i].tip) {
+                        $count.extraList += @{
+                            pos   = "config[$i].tip"
+                            value = $diffContent.config[$i].tip
+                        }
+                    }
+                }
+            }
+            else {
+                if ($diffContent.config[$i]) {
+                    $count.extraList += @{
+                        pos = "config[$i]"
+                    }
+                }
+            }
+        }
+    }
+
+    if ($baseContent.info) {
+        function traverseObj {
+            param($diffObj, $baseObj, $pos)
+
+            $keys = @() + $diffObj.Keys + $baseObj.Keys | Sort-Object -Unique
+
+            foreach ($key in $keys) {
+                if (isExist $baseObj[$key]) {
+                    if (isExist $diffObj[$key]) {
+                        $baseType = $baseObj[$key].GetType().Name
+                        $diffType = $diffObj[$key].GetType().Name
+                        if ($baseType -ne $diffType) {
+                            $count.diffList += @{
+                                base = $baseObj[$key]
+                                diff = $diffObj[$key]
+                                pos  = "$pos.$key"
+                            }
+                        }
+                        else {
+                            switch ($baseObj[$key]) {
+                                { $_ -is [string] -or $_ -is [array] } {
+                                    $diffStr = $diffObj[$key] -join ' '
+                                    $baseStr = $baseObj[$key] -join ' '
+                                    if ($diffStr -match '^https?://.+') {
+                                        continue
+                                    }
+                                    if (noTranslated $diffStr $baseStr) {
+                                        $count.totalTips++
+                                        $count.untranslatedList += @{
+                                            name  = $key
+                                            value = $diffObj[$key]
+                                            pos   = "$pos.$key"
+                                        }
+                                    }
+                                }
+                                { $_ -is [int] -or $_ -is [bool] } {
+                                    if ($baseObj[$key] -ne $diffObj[$key]) {
+                                        $count.diffList += @{
+                                            base = $baseObj[$key]
+                                            diff = $diffObj[$key]
+                                            pos  = "$pos.$key"
+                                        }
+                                    }
+                                }
+                                { $_ -is [array] } {
+                                    if (Compare-Object $baseObj[$key] $diffObj[$key] -PassThru) {
+                                        $count.diffList += @{
+                                            base = $baseObj[$key] -join ' '
+                                            diff = $diffObj[$key] -join ' '
+                                            pos  = "$pos.$key"
+                                        }
+                                    }
+                                }
+                                # 对象
+                                Default {
+                                    traverseObj $diffObj[$key] $baseObj[$key] "$pos.$key"
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        $count.missingList += @{
+                            pos = "$pos.$key"
+                        }
+                    }
+                }
+                else {
+                    if (isExist $diffObj[$key]) {
+                        $count.extraList += @{
+                            pos = "$pos.$key"
+                        }
+                    }
+                }
+            }
+        }
+        traverseObj $diffContent.info $baseContent.info 'info'
+    }
+
     if ($count.totalTips -gt 0) {
-        $completionRate = 100 - (($count.untranslatedList.Count + $count.missingList.Count) / $count.totalTips) * 100
+        $completionRate = 100 - (($count.diffList.Count + $count.untranslatedList.Count + $count.missingList.Count + $count.extraList.Count) / $count.totalTips) * 100
     }
     else {
         $completionRate = 100
     }
+    $completionRate = [Math]::Max([Math]::Round($completionRate, 2), 0.01)
+
+    $baseShortPath = Split-Path $baseJson -Leaf
+    $diffShortPath = Split-Path $diffJson -Leaf
+
+    outText $text.progress
+
+    if ($count.diffList) {
+        outText $text.diffList.tip
+        foreach ($item in $count.diffList) {
+            outText $text.pos
+            outText $text.diffList.base
+            outText $text.diffList.diff
+        }
+        outText $text.hr
+    }
+
+    if ($count.untranslatedList) {
+        outText $text.untranslatedList.tip
+        foreach ($item in $count.untranslatedList) {
+            outText $text.pos
+            outText $text.prop
+            outText $text.value
+        }
+        outText $text.hr
+    }
+    if ($count.missingList.Count) {
+        outText $text.missingList.tip
+        foreach ($item in $count.missingList) {
+            outText $text.missingList.pos
+            if (isExist $item.value) {
+                outText $text.value
+            }
+        }
+        outText $text.hr
+    }
     if ($count.extraList.Count) {
-        $completionRate += ($count.extraList.Count / $count.totalTips) * 100
-    }
-    if ($completionRate -gt 100) {
-        $completionRate = [Math]::Ceiling($completionRate)
-    }
-    else {
-        $completionRate = [Math]::Floor($completionRate)
-    }
-
-    if ($PSUICulture -eq "zh-CN") {
-        $PSCompletions.write_with_color("<@Blue>tip 的翻译进度: <@Magenta>$($completionRate)%")
-
-        if ($count.untranslatedList) {
-            $PSCompletions.write_with_color("`n<@Yellow>以下是未翻译的提示(个数: <@Magenta>$($count.untranslatedList.Count)<@Yellow>):")
-            foreach ($o in $count.untranslatedList) {
-                $PSCompletions.write_with_color("<@Cyan>--------------------`n位置: <@Magenta>$($o.attr)")
-                $PSCompletions.write_with_color("<@Cyan>属性: <@Magenta>$($o.name)")
-                $PSCompletions.write_with_color("<@Cyan>当前的属性值:")
-                $o.value
+        outText $text.extraList.tip
+        foreach ($item in $count.extraList) {
+            outText $text.extraList.pos
+            if (isExist $item.value) {
+                outText $text.value
             }
-            $PSCompletions.write_with_color("<@Cyan>--------------------`n")
         }
-        if ($count.missingList.Count) {
-            $PSCompletions.write_with_color("<@Red>以下是 <@Magenta>$($DifferenceJsonPath)<@Red> 文件中缺失的属性(个数: <@Magenta>$($count.missingList.Count)<@Red>):")
-            foreach ($item in $count.missingList) {
-                $PSCompletions.write_with_color("<@Cyan>--------------------<@Magenta>`n$($item)")
-            }
-            $PSCompletions.write_with_color("<@Cyan>--------------------")
-        }
-        if ($count.extraList.Count) {
-            $PSCompletions.write_with_color("<@Red>以下是 <@Magenta>$($DifferenceJsonPath)<@Red> 文件中多余的属性(个数: <@Magenta>$($count.extraList.Count)<@Red>):")
-            foreach ($item in $count.extraList) {
-                $PSCompletions.write_with_color("<@Cyan>--------------------<@Magenta>`n$($item)")
-            }
-            $PSCompletions.write_with_color("<@Cyan>--------------------")
-        }
-    }
-    else {
-        $PSCompletions.write_with_color("<@Blue>Tip translation progress: <@Magenta>$($completionRate)%")
-        if ($count.untranslatedList) {
-            $PSCompletions.write_with_color("`n<@Yellow>The following tips are not translated (count: <@Magenta>$($count.untranslatedList.Count)<@Yellow>):")
-            foreach ($o in $count.untranslatedList) {
-                $PSCompletions.write_with_color("<@Cyan>--------------------`nLocation: <@Magenta>$($o.attr)")
-                $PSCompletions.write_with_color("<@Cyan>Property: <@Magenta>$($o.name)")
-                $PSCompletions.write_with_color("<@Cyan>Current value:")
-                $o.value
-            }
-            $PSCompletions.write_with_color("<@Cyan>--------------------`n")
-        }
-        if ($count.missingList.Count) {
-            $PSCompletions.write_with_color("<@Red>The following tips are missing property in the <@Magenta>$($DifferenceJsonPath)<@Red> file (count: <@Magenta>$($count.missingList.Count)<@Red>):")
-            foreach ($item in $count.missingList) {
-                $PSCompletions.write_with_color("<@Cyan>--------------------<@Magenta>`n$($item)")
-            }
-            $PSCompletions.write_with_color("<@Cyan>--------------------")
-        }
-        if ($count.extraList.Count) {
-            $PSCompletions.write_with_color("<@Red>The following tips are extra property in the <@Magenta>$($DifferenceJsonPath)<@Red> file (count: <@Magenta>$($count.extraList.Count)<@Red>):")
-            foreach ($item in $count.extraList) {
-                $PSCompletions.write_with_color("<@Cyan>--------------------<@Magenta>`n$($item)")
-            }
-            $PSCompletions.write_with_color("<@Cyan>--------------------")
-        }
+        outText $text.hr
     }
 }
-Compare-JsonProperty $DifferenceJsonPath $ReferenceJsonPath
+Compare-JsonProperty $diffJson $baseJson

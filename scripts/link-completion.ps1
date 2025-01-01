@@ -1,29 +1,44 @@
 param([string]$completion_name)
 
-if (!$PSCompletions) {
-    Write-Host "You should install PSCompletions module and import it." -ForegroundColor Red
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
+
+$isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
+if (!$isAdmin) {
+    Write-Host $text."need-admin" -ForegroundColor Red
     return
 }
-if (!$completion_name) {
-    $PSCompletions.write_with_color("<@Red>You should enter an available completion name.`ne.g. <@Magenta>.\scripts\create-completion.ps1 psc")
+
+if (!$PSCompletions) {
+    Write-Host $text."import-psc" -ForegroundColor Red
+    return
+}
+
+$text = $text."link-completion"
+
+if (!$completion_name.Trim()) {
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidParams))
     return
 }
 
 $completions_list = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
 if ($completion_name -notin $completions_list) {
-    $PSCompletions.write_with_color("<@Magenta>$completion_name<@Red> isn't an available completion name.`n<@Cyan>Available completions are: `n<@Blue>$completions_list")
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
     return
 }
 $root_dir = Split-Path $PSScriptRoot -Parent
 $completion_dir = "$root_dir/completions/$completion_name"
 if (!(Test-Path $completion_dir)) {
-    $PSCompletions.write_with_color("<@Red><@Magenta>$completion_name<@Red> isn't exist.")
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.noExist))
     return
 }
 
 $completion_dir = "$($PSCompletions.path.completions)\$completion_name"
 Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
-New-Item -ItemType SymbolicLink -Path $completion_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
+$null = New-Item -ItemType SymbolicLink -Path $completion_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
 
 $language = $PSCompletions.get_language($completion_name)
 
@@ -41,3 +56,6 @@ foreach ($c in $json.config) {
 }
 
 $PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force
+
+
+$PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))

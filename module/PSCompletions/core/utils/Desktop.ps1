@@ -206,11 +206,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
             ## config.comp_config
             $completion = $cmd
-            if ($data.config.comp_config[$completion] -eq $null) {
-                $data.config.comp_config.$completion = [ordered]@{}
-            }
-            foreach ($c in $PSCompletions.config.comp_config.$completion.Keys) {
-                $data.config.comp_config.$completion.$c = $PSCompletions.config.comp_config.$completion.$c
+            $data.config.comp_config.$completion = [ordered]@{}
+            if ($PSCompletions.config.comp_config[$completion]) {
+                foreach ($c in $PSCompletions.config.comp_config.$completion.Keys) {
+                    $data.config.comp_config.$completion.$c = $PSCompletions.config.comp_config.$completion.$c
+                }
             }
         }
 
@@ -225,6 +225,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         }
 
         foreach ($_ in $PSCompletions.data.list) {
+            if ($data.config.comp_config[$_] -eq $null) {
+                $data.config.comp_config[$_] = [ordered]@{}
+            }
             $path = "$($PSCompletions.path.completions)/$_/config.json"
             if (!(Test-Path $path)) {
                 try {
@@ -247,20 +250,20 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 if (!(Test-Path $path_hooks)) {
                     download_file "completions/$_/hooks.ps1" $path_hooks $PSCompletions.urls
                 }
+                if ($data.config.comp_config[$_].enable_hooks -eq $null) {
+                    $data.config.comp_config[$_].enable_hooks = [int]$json_config.hooks
+                }
             }
             $path = "$($PSCompletions.path.completions)/$_/language/$($json_config.language[0]).json"
             $json = get_raw_content $path | ConvertFrom_JsonToHashtable
             $config_list = $PSCompletions.default_completion_item
             foreach ($item in $config_list) {
-                if ($data.config.comp_config[$_].$($item.name) -eq '') {
-                    $data.config.comp_config[$_].Remove($item.name)
+                if ($data.config.comp_config[$_].$item -eq '') {
+                    $data.config.comp_config[$_].Remove($item)
                 }
             }
             foreach ($item in $json.config) {
                 $config_list += $item.name
-                if ($data.config.comp_config[$_] -eq $null) {
-                    $data.config.comp_config[$_] = [ordered]@{}
-                }
                 if ($data.config.comp_config[$_].$($item.name) -eq $null) {
                     $data.config.comp_config[$_].$($item.name) = $item.value
                 }
@@ -362,26 +365,33 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 WriteSpaceTab_and_SpaceTab = @()
             }
             function parseJson($cmds, $obj, $cmdO, [switch]$isOption) {
-                $obj.$cmdO = @{
-                    $guid = @()
+                if ($obj[$cmdO].$guid -eq $null) {
+                    $obj[$cmdO] = @{
+                        $guid = @()
+                    }
                 }
                 foreach ($cmd in $cmds) {
                     $symbols = @()
                     if ($isOption) {
-                        $symbols += 'OptionTab'
-                    }
-                    if ($cmd.next -is [array] -or $cmd.options -is [array]) {
-                        if ($isOption) {
-                            $symbols += 'WriteSpaceTab'
+                        if ($cmd.next -eq $null -and $cmd.options -eq $null) {
+                            $symbols += 'OptionTab'
                         }
-                        if ($cmd.next.Count -or $cmd.options.Count) {
+                        else {
+                            $symbols += 'WriteSpaceTab'
+                            if ($cmd.next -is [array] -or $cmd.options -is [array]) {
+                                $symbols += 'SpaceTab'
+                            }
+                        }
+                    }
+                    else {
+                        if ($cmd.next -is [array] -or $cmd.options -is [array]) {
                             $symbols += 'SpaceTab'
                         }
                     }
-                    if ($cmd.symbol) {
-                        $symbols += (replace_content $cmd.symbol ' ') -split ' '
-                        $symbols = $symbols | Select-Object -Unique
+                    if ($cmd.name -eq $null) {
+                        continue
                     }
+
                     $alias_list = $cmd.alias + $cmd.name
 
                     $obj.$cmdO.$guid += @{

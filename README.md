@@ -149,7 +149,7 @@
 
 ### About option completion
 
-- `Optional Completion`: some command completions that like `-*`, such as `--global` in `git config --global`.
+- `Optional Completions`: some command completions that like `-*`, such as `--global` in `git config --global`.
 - You should use option completion first.
 - Taking `git` as an example, if you want to enter `git config user.name --global xxx`, you should use `--global` completion first, and then use `user.name`, and then enter the name `xxx` .
 
@@ -231,18 +231,17 @@
 
 - `»`,`?`,`!` : If there are multiple, you can choose the effect of one of them.
   - Define them:
-    - `Normal Completion`: Sub-commands. Such as `add`/`pull`/`push`/`commit`/... in `git`.
-    - `Optional Completion`: Optional parameters. Such as `-g`/`-u`/... in `git add`.
-    - `General Optional Completion`: General optional parameters that can be used with any command. Such as `--help`/... in `git`.
-  - `»` : It means that after you apply it, you can press `Space` and `Tab` key to continue to get `Normal Completion` or `Optional Completion`.
-    - It will appear only when there's `Normal Completion` or `Optional Completion`.
+    - `Normal Completions`: Sub-commands. Such as `add`/`pull`/`push`/`commit`/... in `git`.
+    - `Optional Completions`: Optional parameters. Such as `-g`/`-u`/... in `git add`.
+    - `General Optional Completions`: General optional parameters that can be used with any command. Such as `--help`/... in `git`.
+    - `Current Completions`: Current completion items in completion menu.
+  - `»` : It means that after you apply it, you can press `Space` and `Tab` key to continue to get completions.
     - It can be customized by running `psc menu symbol SpaceTab <symbol>`
-  - `?` : It means that after you apply it (`Optional Completion`), you can press `Space` and `Tab` key to continue to get other `Optional Completion`.
-    - `General Optional Completion` use also this symbol.
+  - `?` : It means that after you apply it (`Optional Completions` or `General Optional Completions`), you can press `Space` and `Tab` key to continue to get `Current Completions`.
     - It can be customized by running `psc menu symbol OptionTab <symbol>`
-  - `!` : It means that after you apply it (`Optional Completion` or `General Optional Completion`), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get other `Optional Completion` or `General Optional Completion`.
+  - `!` : It means that after you apply it (`Optional Completions` or `General Optional Completions`), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get completions.
     - If the string has Spaces, Please use `"`(quote) or `'`(single quote) to wrap it. e.g. `"test content"`
-    - If there's also `»`, it means that there's `Normal Completion`, you can press `Space` and `Tab` key to continue to get them without entering a string.
+    - If there's also `»`, it means that there's some preset completions, you can press `Space` and `Tab` key to continue to get them without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
   - All completions can be triggered by pressing the `Tab` key after entering a part.
 
@@ -315,8 +314,8 @@
 - Guide
   - **`Completion`** ：Click to view to the official website of the command. Sort by first letter(0-9,a-z).
     - Special case: `abc(a)`, it means that you need to download it by `psc add abc`, but by default `a` is used instead of `abc` to trigger the completion.
-  - **`Language`**: Supported Languages, and Translation Progress.
-    - The translation progress is compared to `en-US`.
+  - **`Language`**: Supported Languages, and Progress.
+    - This progress is compared to the first language defined in `config.json` (usually `en-US`).
   - **`Description`**: Command Description.
 
 <!-- prettier-ignore-start -->
