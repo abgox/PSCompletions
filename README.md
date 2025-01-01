@@ -323,61 +323,61 @@
 |:-:|-|-|
 |[7z](https://7-zip.org/)|**en-US**<br>**zh-CN(100%)**|The command line cli of 7-Zip|
 |[arch](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|Display machine architecture.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(14%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(14%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(33%)**|Encode/decode data and print to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(33%)**|Encode/decode data and print to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[basename](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(33%)**|Print NAME with any leading directory components removed.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[basenc](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(14%)**|Encode/decode data and print to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[b2sum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(13.33%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[b3sum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(13.33%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[base32](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(28.57%)**|Encode/decode data and print to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[base64](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(28.57%)**|Encode/decode data and print to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[basename](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(28.57%)**|Print NAME with any leading directory components removed.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[basenc](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(13.33%)**|Encode/decode data and print to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[bun](https://bun.sh)|**en-US**<br>**zh-CN(100%)**|Bun - JavaScript all-in-one toolkit.|
 |[cargo](https://rustwiki.org/en/cargo)|**en-US**<br>**zh-CN(100%)**|cargo - Rust package manager.|
 |[chfs](http://iscute.cn/chfs)|**en-US**<br>**zh-CN(100%)**|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server.|
 |[choco](https://chocolatey.org/)|**en-US**<br>**zh-CN(100%)**|choco(chocolatey) - Software Manager.|
-|[cksum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(22%)**|Print CRC and size for each file.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[comm](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(22%)**|Compare two sorted files line by line.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[cksum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(20%)**|Print CRC and size for each file.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[comm](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(20%)**|Compare two sorted files line by line.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[conda](https://github.com/conda/conda)|**en-US**<br>**zh-CN(100%)**|conda - binary package and environment manager.|
-|[csplit](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(20%)**|Split a file into sections determined by context lines.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[cut](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(16%)**|Print specified byte or field columns from each line of stdin or the input files.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[date](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(15%)**|Print or set the system date and time.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[csplit](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(18.18%)**|Split a file into sections determined by context lines.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[cut](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(15.38%)**|Print specified byte or field columns from each line of stdin or the input files.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[date](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(14.29%)**|Print or set the system date and time.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[dd](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|Copy, and optionally convert, a file system resource.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[deno](https://deno.com/)|**en-US**<br>**zh-CN(100%)**|Deno - A secure runtime for JavaScript and TypeScript.|
-|[df](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(5%)**|Show information about the file system on which each FILE resides, or all file systems by default.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[dircolors](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(28%)**|Output commands to set the LS_COLORS environment variable.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[dirname](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(50%)**|Strip last component from file name.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[df](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(5.71%)**|Show information about the file system on which each FILE resides, or all file systems by default.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[dircolors](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(25%)**|Output commands to set the LS_COLORS environment variable.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[dirname](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(40%)**|Strip last component from file name.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[docker](https://www.docker.com)|**en-US**<br>**zh-CN(100%)**|docker - Container Application Development.|
-|[du](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(4%)**|Estimate file space usage.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[env](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(18%)**|Set each NAME to VALUE in the environment and run COMMAND.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[factor](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(50%)**|Print the prime factors of the given NUMBER(s).<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[fmt](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(12%)**|Reformat paragraphs from input files (or stdin) to stdout.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[fnm](https://github.com/Schniz/fnm)|**en-US**<br>**zh-CN(12%)**|Fast and simple Node.js version manager, built in Rust.|
-|[fold](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(33%)**|Writes each file (or standard input if no files are given) to standard output whilst breaking long lines.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[git](https://git-scm.com)|**en-US**<br>**zh-CN(98%)**|Git - Version control system.|
-|[hashsum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(6%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[head](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(25%)**|Print the first 10 lines of each 'FILE' to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[join](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(12%)**|For each pair of input lines with identical join fields, write a line to standard output.<br> The default join field is the first, delimited by blanks.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[du](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(2.17%)**|Estimate file space usage.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[env](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(16.67%)**|Set each NAME to VALUE in the environment and run COMMAND.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[factor](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(20%)**|Print the prime factors of the given NUMBER(s).<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[fmt](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(11.76%)**|Reformat paragraphs from input files (or stdin) to stdout.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[fnm](https://github.com/Schniz/fnm)|**en-US**<br>**zh-CN(8.33%)**|Fast and simple Node.js version manager, built in Rust.|
+|[fold](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(28.57%)**|Writes each file (or standard input if no files are given) to standard output whilst breaking long lines.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[git](https://git-scm.com)|**en-US**<br>**zh-CN(98.8%)**|Git - Version control system.|
+|[hashsum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(6.45%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[head](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(22.22%)**|Print the first 10 lines of each 'FILE' to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[join](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(11.11%)**|For each pair of input lines with identical join fields, write a line to standard output.<br> The default join field is the first, delimited by blanks.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[kubectl](https://kubernetes.io/docs/reference/kubectl/)|**en-US**<br>**zh-CN(100%)**|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br> kubectl is its command-line tool.|
 |[link](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(100%)**|Call the link function to create a link named FILE2 to an existing FILE1.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[ln](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(12%)**|Make links between files.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[md5sum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(15%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[mktemp](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(22%)**|Create a temporary file or directory.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[ln](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(11.76%)**|Make links between files.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[md5sum](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(14.29%)**|Compute and check message digests.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[mktemp](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(20%)**|Create a temporary file or directory.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[ngrok](https://ngrok.com/)|**en-US**<br>**zh-CN(100%)**|ngrok - Unified Ingress Platform for developers.<br> Connect localhost to the internet for testing applications and APIs.|
-|[nl](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(6%)**|Number lines of files.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[nl](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(6.67%)**|Number lines of files.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[npm](https://www.npmjs.com/)|**en-US**<br>**zh-CN(100%)**|npm - package manager.|
-|[nproc](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(40%)**|Print the number of cores available to the current process.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[nproc](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(33.33%)**|Print the number of cores available to the current process.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[nrm](https://github.com/Pana/nrm)|**en-US**<br>**zh-CN(100%)**|nrm - npm registry manager.|
-|[numfmt](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(8%)**|Convert numbers from/to human-readable strings.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[numfmt](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(7.69%)**|Convert numbers from/to human-readable strings.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[nvm](https://github.com/nvm-sh/nvm)|**en-US**<br>**zh-CN(100%)**|nvm - Node Version Manager.|
-|[od](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(4%)**|Dump files in octal and other formats.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[paste](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(33%)**|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[pdm](https://github.com/pdm-project/pdm)|**en-US**<br>**zh-CN(0%)**|A modern Python package and dependency manager supporting the latest PEP standards.|
-|[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(99%)**|pip - Python Package Manager.|
+|[od](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(4.65%)**|Dump files in octal and other formats.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[paste](https://github.com/uutils/coreutils)|**en-US**<br>**zh-CN(28.57%)**|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br> Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[pdm](https://github.com/pdm-project/pdm)|**en-US**<br>**zh-CN(0.31%)**|A modern Python package and dependency manager supporting the latest PEP standards.|
+|[pip](https://github.com/pypa/pip)|**en-US**<br>**zh-CN(99.42%)**|pip - Python Package Manager.|
 |[pnpm](https://pnpm.io/)|**en-US**<br>**zh-CN(100%)**|pnpm - Package Manager.|
 |[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|**en-US**<br>**zh-CN(100%)**|Windows PowerShell CLI. (powershell.exe)|
-|[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(100%)**|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
+|[psc](https://github.com/abgox/PSCompletions)|**en-US**<br>**zh-CN(97.55%)**|PSCompletions module's completion tips.<br> It can only be updated, not removed.<br> If removed, it will be automatically added again.|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|**en-US**<br>**zh-CN(100%)**|PowerShell CLI. (pwsh.exe)|
 |[python](https://www.python.org)|**en-US**<br>**zh-CN(100%)**|python - command-line.|
 |[scoop](https://scoop.sh)|**en-US**<br>**zh-CN(100%)**|Scoop - Software Manager.|
-|[sfsu](https://github.com/winpax/sfsu)|**en-US**<br>**zh-CN(6%)**|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
+|[sfsu](https://github.com/winpax/sfsu)|**en-US**<br>**zh-CN(6.67%)**|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
 |[volta](https://volta.sh)|**en-US**<br>**zh-CN(100%)**|volta - Accessible JavaScript Tool Manager.|
 |[winget](https://github.com/microsoft/winget-cli)|**en-US**<br>**zh-CN(100%)**|WinGet - Windows package manager.|
 |[wsl](https://github.com/microsoft/WSL)|**en-US**<br>**zh-CN(100%)**|WSL - Windows Subsystem for Linux.|
