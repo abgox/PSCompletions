@@ -48,7 +48,7 @@
 - [Combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
   - [sigoden/argc-completions](https://github.com/sigoden/argc-completions)
 
-**If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**
+[**If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**](#stars)
 
 ## What's new
 
@@ -303,9 +303,20 @@
   - More examples: `~/` / `../../` ...
 - So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
+## Stars
+
+**If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**
+
+<a href="https://github.com/abgox/PSCompletions">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://reporoster.com/stars/abgox/PSCompletions"> <!-- light theme -->
+    <img alt="stargazer-widget" src="https://reporoster.com/stars/dark/abgox/PSCompletions"> <!-- dark theme -->
+  </picture>
+</a>
+
 ## Support
 
-<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://abgox.pages.dev/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ![Support](https://abgox.pages.dev/support.png)
 

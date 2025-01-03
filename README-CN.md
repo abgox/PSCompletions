@@ -48,7 +48,7 @@
 - [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
   - [argc-completions 仓库](https://github.com/sigoden/argc-completions)
 
-**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star ⭐**
+[**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star ⭐**](#stars)
 
 ## 新的变化
 
@@ -312,9 +312,20 @@
 
 - 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 
+## Stars
+
+**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star ⭐**
+
+<a href="https://github.com/abgox/PSCompletions">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://reporoster.com/stars/abgox/PSCompletions"> <!-- light theme -->
+    <img alt="stargazer-widget" src="https://reporoster.com/stars/dark/abgox/PSCompletions"> <!-- dark theme -->
+  </picture>
+</a>
+
 ## 赞赏支持
 
-<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi5.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://abgox.pages.dev/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ![赞赏支持](https://abgox.pages.dev/support.png)
 
