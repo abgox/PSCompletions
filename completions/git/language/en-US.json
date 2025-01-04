@@ -2824,8 +2824,185 @@
         "-v"
       ],
       "tip": [
-        "Show the version of git."
+        "Prints the Git suite version that the git program came from.\n",
+        "If --help is also given, it takes precedence over --version."
       ]
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "U: -C <path>\n",
+        "Run as if git was started in <path> instead of the current working directory.\n",
+        "If <path> is present but empty, e.g. -C \"\", then the current working directory is left unchanged."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "U: -c <name>=<value>\n",
+        "Pass a configuration parameter to the command. The value given will override values from configuration files.\n",
+        "The <name> is expected in the same format as listed by git config (subkeys separated by dots)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exec-path",
+      "tip": [
+        "U: --exec-path[=<path>]\n",
+        "Path to wherever your core Git programs are installed.\n",
+        "This can also be controlled by setting the GIT_EXEC_PATH environment variable.\n",
+        "If no path is given, git will print the current setting and then exit."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--html-path",
+      "tip": [
+        "Print the path, without trailing slash, where Git's HTML documentation is installed and exit."
+      ]
+    },
+    {
+      "name": "--man-path",
+      "tip": [
+        "Print the manpath for the man pages for this version of Git and exit."
+      ]
+    },
+    {
+      "name": "--info-path",
+      "tip": [
+        "Print the path where the Info files documenting this version of Git are installed and exit."
+      ]
+    },
+    {
+      "name": "-p",
+      "alias": [
+        "--paginate"
+      ],
+      "tip": [
+        "Pipe all output into less (or if set, $PAGER) if standard output is a terminal.\n",
+        "This overrides the pager.<cmd> configuration options."
+      ]
+    },
+    {
+      "name": "-P",
+      "alias": [
+        "--no-pager"
+      ],
+      "tip": [
+        "Do not pipe Git output into a pager."
+      ]
+    },
+    {
+      "name": "--git-dir=",
+      "tip": [
+        "U: --git-dir=<path>\n",
+        "Set the path to the repository (\".git\" directory).\n",
+        "This can also be controlled by setting the GIT_DIR environment variable.\n",
+        "It can be an absolute path or relative path to current working directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--work-tree=",
+      "tip": [
+        "U: --work-tree=<path>\n",
+        "Set the path to the working tree. It can be an absolute path or a path relative to the current working directory.\n",
+        "This can also be controlled by setting the GIT_WORK_TREE environment variable and the core.worktree configuration variable"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--namespace=",
+      "tip": [
+        "U: --namespace=<path>\n",
+        "Set the Git namespace.\n",
+        "Equivalent to setting the GIT_NAMESPACE environment variable."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bare",
+      "tip": [
+        "Treat the repository as a bare repository.\n",
+        "If GIT_DIR environment is not set, it is set to the current working directory."
+      ]
+    },
+    {
+      "name": "--no-replace-objects",
+      "tip": [
+        "Do not use replacement refs to replace Git objects.\n",
+        "This is equivalent to exporting the GIT_NO_REPLACE_OBJECTS environment variable with any value."
+      ]
+    },
+    {
+      "name": "--no-lazy-fetch",
+      "tip": [
+        "Do not fetch missing objects from the promisor remote on demand.\n",
+        "Useful together with git cat-file -e <object> to see if the object is locally available.\n",
+        "This is equivalent to setting the GIT_NO_LAZY_FETCH environment variable to 1."
+      ]
+    },
+    {
+      "name": "--no-optional-locks",
+      "tip": [
+        "Do not perform optional operations that require locks.\n",
+        "This is equivalent to setting the GIT_OPTIONAL_LOCKS to 0."
+      ]
+    },
+    {
+      "name": "--no-advice",
+      "tip": [
+        "Disable all advice hints from being printed."
+      ]
+    },
+    {
+      "name": "--literal-pathspecs",
+      "tip": [
+        "Treat pathspecs literally (i.e. no globbing, no pathspec magic).\n",
+        "This is equivalent to setting the GIT_LITERAL_PATHSPECS environment variable to 1."
+      ]
+    },
+    {
+      "name": "--glob-pathspecs",
+      "tip": [
+        "Add \"glob\" magic to all pathspec.\n",
+        "This is equivalent to setting the GIT_GLOB_PATHSPECS environment variable to 1.\n",
+        "Disabling globbing on individual pathspecs can be done using pathspec magic \":(literal)\""
+      ]
+    },
+    {
+      "name": "--noglob-pathspecs",
+      "tip": [
+        "Add \"literal\" magic to all pathspec.\n",
+        "This is equivalent to setting the GIT_NOGLOB_PATHSPECS environment variable to 1.\n",
+        "Enabling globbing on individual pathspecs can be done using pathspec magic \":(glob)\""
+      ]
+    },
+    {
+      "name": "--icase-pathspecs",
+      "tip": [
+        "Add \"icase\" magic to all pathspec. \n",
+        "This is equivalent to setting the GIT_ICASE_PATHSPECS environment variable to 1."
+      ]
+    },
+    {
+      "name": "--list-cmds=",
+      "tip": [
+        "U: --list-cmds=<group>[,<group>…​]\n",
+        "List commands by group.\n",
+        "This is an internal/experimental option and may change or be removed in the future."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--attr-source=",
+      "tip": [
+        "U: --attr-source=<tree-ish>\n",
+        "Read gitattributes from <tree-ish> instead of the worktree.\n",
+        "This is equivalent to setting the GIT_ATTR_SOURCE environment variable."
+      ],
+      "next": 0
     }
   ],
   "common_options": [
@@ -2836,7 +3013,9 @@
       ],
       "tip": [
         "U: --help|-h\n",
-        "Print help."
+        "Prints the synopsis and a list of the most commonly used commands.\n",
+        "If the option --all or -a is given then all available commands are printed.\n",
+        "If a Git command is named this option will bring up the manual page for that command."
       ]
     }
   ],

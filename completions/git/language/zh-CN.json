@@ -265,37 +265,35 @@
         {
           "name": "--reset-author",
           "tip": [
-            "When used with -C/-c/--amend options, or when committing after a conflicting cherry-pick, declare that the authorship of the resulting commit now belongs to the committer.\n",
-            "This also renews the author timestamp."
+            "当与 -C/-c/--amend 选项一起使用时，或者当在一个冲突的 cherry-pick 之后提交时，声明所产生的提交的作者身份现在属于提交者。\n",
+            "这也是对作者时间戳的更新。"
           ]
         },
         {
           "name": "--short",
           "tip": [
-            "When doing a dry-run, give the output in the short-format.\n",
-            "See https://git-scm.com/docs/git-status for details.\n",
-            "Implies `--dry-run`."
+            "当做干运行的时候，以简短的形式给出输出。\n",
+            "意味着 --dry-run"
           ]
         },
         {
           "name": "--branch",
           "tip": [
-            "Show the branch and tracking info even in short-format."
+            "即使在短文中也要显示分支和跟踪信息。"
           ]
         },
         {
           "name": "--porcelain",
           "tip": [
-            "When doing a dry-run, give the output in a porcelain-ready format.\n",
-            "See https://git-scm.com/docs/git-status for details.\n",
-            "Implies `--dry-run`."
+            "在做干运行的时候，要把输出结果以可瓷器的格式给出。\n",
+            "意味着 --dry-run。"
           ]
         },
         {
           "name": "--long",
           "tip": [
-            "When doing a dry-run, give the output in the long-format.\n",
-            "Implies `--dry-run`."
+            "当做干运行时，以长格式给出输出。\n",
+            "意味着 --dry-run。"
           ]
         },
         {
@@ -2824,8 +2822,184 @@
         "-v"
       ],
       "tip": [
-        "显示 Git 版本信息。"
+        "打印 git 程序的 Git 套件版本。\n",
+        "如果 --version 后接 --help 选项，则会优先展示 --version 选项的帮助信息。"
       ]
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "U: -C <启动路径>\n",
+        "运行时就像 git 命令在 <启动路径> 而不是在当前工作目录下启动一样。\n",
+        "如果 <启动路径> 存在但为空，例如 -C \"\"，那么命令就在当前工作目录启动。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "U: -c <配置名>=<配置值>\n",
+        "向命令传递一个配置参数。给出的值将覆盖配置文件的值。\n",
+        "<配置名> 的格式应与 git config 列出的格式相同（子键由 . 分隔）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exec-path",
+      "tip": [
+        "U: --exec-path[=<核心程序路径>]\n",
+        "安装 Git 核心程序的路径。\n",
+        "这也可以通过设置 GIT_EXEC_PATH 环境变量来控制。如果没有给出路径，git 会打印当前的设置，然后退出。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--html-path",
+      "tip": [
+        "打印 Git 的 HTML 文档的安装路径（尾部不带斜杠）然后退出。"
+      ]
+    },
+    {
+      "name": "--man-path",
+      "tip": [
+        "打印该版本 Git man page 的 manpath 之后退出。"
+      ]
+    },
+    {
+      "name": "--info-path",
+      "tip": [
+        "打印记录该版本 Git 信息文件的安装路径并退出。"
+      ]
+    },
+    {
+      "name": "-p",
+      "alias": [
+        "--paginate"
+      ],
+      "tip": [
+        "如果标准输出是一个终端，则将所有的输出输出到 less（git 默认的分页器）（或者是 $PAGER 变量设置的值）中。\n",
+        "这会覆盖 pager.<cmd> 配置选项。"
+      ]
+    },
+    {
+      "name": "-P",
+      "alias": [
+        "--no-pager"
+      ],
+      "tip": [
+        "不使用分页器进行 Git 的输出。"
+      ]
+    },
+    {
+      "name": "--git-dir=",
+      "tip": [
+        "U: --git-dir=<仓库路径>\n",
+        "设置仓库的路径（\".git\" 目录）。\n",
+        "这也可以通过设置 GIT_DIR 环境变量来控制。\n",
+        "<仓库路径> 可以是绝对路径或是当前工作目录的相对路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--work-tree=",
+      "tip": [
+        "U: --work-tree=<工作区路径>\n",
+        "设置工作树的路径。<工作区路径> 可以是一个绝对路径或与当前工作目录相对的路径。\n",
+        "这也可以通过设置 GIT_WORK_TREE 环境变量和 core.worktree 配置变量来控制"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--namespace=",
+      "tip": [
+        "U: --namespace=<路径>\n",
+        "设置 Git 命名空间。\n",
+        "这相当于设置 GIT_NAMESPACE 环境变量。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bare",
+      "tip": [
+        "将该仓库视为裸仓库。\n",
+        "如果没有设置 GIT_DIR 环境变量，它将在当前工作目录生成仓库。"
+      ]
+    },
+    {
+      "name": "--no-replace-objects",
+      "tip": [
+        "Do not use replacement refs to replace Git objects.\n",
+        "This is equivalent to exporting the GIT_NO_REPLACE_OBJECTS environment variable with any value."
+      ]
+    },
+    {
+      "name": "--no-lazy-fetch",
+      "tip": [
+        "不要按需从承诺远程获取缺失的对象。\n",
+        "与 git cat-file -e <object> 一起使用很有用，以查看对象是否在本地可用。\n",
+        "这相当于将 GIT_NO_LAZY_FETCH 环境变量设置为 1。"
+      ]
+    },
+    {
+      "name": "--no-optional-locks",
+      "tip": [
+        "禁止执行需要文件锁的可选操作。\n",
+        "这相当于将 GIT_OPTIONAL_LOCKS 设置为 0。"
+      ]
+    },
+    {
+      "name": "--no-advice",
+      "tip": [
+        "禁止打印所有建议提示。"
+      ]
+    },
+    {
+      "name": "--literal-pathspecs",
+      "tip": [
+        "按字面意思处理路径规格（即不使用通配符，不使用路径规范功能）。\n",
+        "这相当于将 GIT_LITERAL_PATHSPECS 环境变量设置为 1。"
+      ]
+    },
+    {
+      "name": "--glob-pathspecs",
+      "tip": [
+        "在所有的路径规范中添加 \"glob\" 模式匹配功能。\n",
+        "这相当于将 GIT_GLOB_PATHSPECS 环境变量设置为 1。\n",
+        "可以用路径规范字符 \":(literal)\" 在单个路径规格上禁用 \"glob\" 模式匹配功能。"
+      ]
+    },
+    {
+      "name": "--noglob-pathspecs",
+      "tip": [
+        "在所有路径规范中添加 \"literal\" 模式匹配功能。\n",
+        "这相当于将 GIT_NOGLOB_PATHSPECS 环境变量设为 1。\n",
+        "可以使用路径规范字符 \":(glob)\" 在单个路径规范上启用通配符模式匹配功能。"
+      ]
+    },
+    {
+      "name": "--icase-pathspecs",
+      "tip": [
+        "在所有的路径规范中添加 \"icase\" 模式匹配功能。\n",
+        "这相当于将 GIT_ICASE_PATHSPECS 环境变量设置为 1。"
+      ]
+    },
+    {
+      "name": "--list-cmds=",
+      "tip": [
+        "U: --list-cmds=<命令组>[,<命令组>…​]\n",
+        "按组列出命令。\n",
+        "这是一个内部/实验性的选项，将来可能会改变或删除。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--attr-source=",
+      "tip": [
+        "U: --attr-source=<树对象>\n",
+        "从 <树对象> 而不是工作区中读取 gitattributes。\n",
+        "这相当于设置 GIT_ATTR_SOURCE 环境变量。"
+      ],
+      "next": 0
     }
   ],
   "common_options": [
@@ -2836,7 +3010,9 @@
       ],
       "tip": [
         "U: --help|-h\n",
-        "显示帮助信息。"
+        "打印概要和最常用的命令列表。\n",
+        "如果给出选项 --all 或 -a，则打印所有可用的命令。\n",
+        "如果给出某个命令，该选项将调出该命令的手册页面。"
       ]
     }
   ],
