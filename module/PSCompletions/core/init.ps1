@@ -481,46 +481,42 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
     $filter_list = [array]$filter_list
 
-    $return = @()
     if ($space_tab) {
-        foreach ($item in $filter_list) {
-            if ($item -ne $null) {
-                $has_alias = $false
-                if ($item.alias) {
-                    foreach ($a in $item.alias) {
-                        if ($a -in $PSCompletions.input_arr) {
-                            $has_alias = $true
-                            break
-                        }
-                    }
-                }
-                if (!$has_alias) {
-                    $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
-                    $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-                    $return += @{
-                        ListItemText   = $item.ListItemText + $padSymbols
-                        CompletionText = $item.CompletionText
-                        ToolTip        = $item.ToolTip
-                    }
-                }
-            }
-        }
-        return $return
+        $_input_arr = $PSCompletions.input_arr
     }
     else {
-        foreach ($item in $filter_list) {
-            if ($item -ne $null) {
-                $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
-                $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-                $return += @{
-                    ListItemText   = $item.ListItemText + $padSymbols
-                    CompletionText = $item.CompletionText
-                    ToolTip        = $item.ToolTip
+        $_input_arr = [System.Collections.Generic.List[string]]$PSCompletions.input_arr.Clone()
+        $_input_arr.RemoveAt(($_input_arr.Count - 1))
+    }
+    $return = @()
+
+    foreach ($item in $filter_list) {
+        if ($item -ne $null) {
+            if ($item.CompletionText -in $_input_arr) {
+                continue
+            }
+            $isContinue = $false
+            if ($item.alias) {
+                foreach ($a in $item.alias) {
+                    if ($a -in $_input_arr) {
+                        $isContinue = $true
+                        break
+                    }
                 }
             }
+            if ($isContinue) {
+                continue
+            }
+            $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
+            $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
+            $return += @{
+                ListItemText   = $item.ListItemText + $padSymbols
+                CompletionText = $item.CompletionText
+                ToolTip        = $item.ToolTip
+            }
         }
-        return $return
     }
+    return $return
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_runspace {
     param(
