@@ -14,19 +14,132 @@
           ],
           "tip": [
             "U: -q|--quiet\n",
-            "Initialize without printing any information."
+            "Only print error and warning messages; all other output will be suppressed."
           ]
         },
         {
           "name": "--bare",
           "tip": [
-            "Initialize a bare repository without creating the .git folder, placing all contents directly in the current directory."
+            "Create a bare repository.\n",
+            "If GIT_DIR environment is not set, it is set to the current working directory."
+          ]
+        },
+        {
+          "name": "--object-format=",
+          "tip": [
+            "U: --object-format=<format>\n",
+            "Specify the given object <format> (hash algorithm) for the repository.\n",
+            "The valid values are sha1 and (if enabled) sha256. sha1 is the default."
+          ],
+          "next": [
+            {
+              "name": "sha1"
+            },
+            {
+              "name": "sha256"
+            }
+          ]
+        },
+        {
+          "name": "--ref-format=",
+          "tip": [
+            "Specify the given ref storage <format> for the repository."
+          ],
+          "next": [
+            {
+              "name": "files",
+              "tip": [
+                "files for loose files with packed-refs.\n",
+                "This is the default."
+              ]
+            },
+            {
+              "name": "reftable",
+              "tip": [
+                "reftable for the reftable format.\n",
+                "This format is experimental and its internals are subject to change."
+              ]
+            }
           ]
         },
         {
           "name": "--template=",
           "tip": [
+            "U: --template=<template-directory>\n",
             "Specify a custom template directory for repository initialization."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--separate-git-dir=",
+          "tip": [
+            "U: --separate-git-dir=<git-dir>\n",
+            "Instead of initializing the repository as a directory to either $GIT_DIR or ./.git/, create a text file there containing the path to the actual repository.\n",
+            "This file acts as a filesystem-agnostic Git symbolic link to the repository.\n",
+            "If this is a reinitialization, the repository will be moved to the specified path."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--initial-branch="
+          ],
+          "tip": [
+            "U: -b <branch-name> | --initial-branch=<branch-name>\n",
+            "Use <branch-name> for the initial branch in the newly created repository.\n",
+            "If not specified, fall back to the default name."
+          ],
+          "next": [
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            }
+          ]
+        },
+        {
+          "name": "--shared"
+        },
+        {
+          "name": "--shared=",
+          "tip": [
+            "U: --shared[=(false|true|umask|group|all|world|everybody|<perm>)]\n",
+            "Specify that the Git repository is to be shared amongst several users.\n",
+            "This allows users belonging to the same group to push into that repository."
+          ],
+          "next": [
+            {
+              "name": "umask",
+              "alias": [
+                "false"
+              ],
+              "tip": [
+                "Use permissions reported by umask.\n",
+                "The default, when --shared is not specified."
+              ]
+            },
+            {
+              "name": "group",
+              "alias": [
+                "true"
+              ],
+              "tip": [
+                "Make the repository group-writable, (and g+sx, since the git group may not be the primary group of all users).\n",
+                "This is used to loosen the permissions of an otherwise safe umask value."
+              ]
+            },
+            {
+              "name": "all",
+              "alias": [
+                "world",
+                "everybody"
+              ],
+              "tip": [
+                "Same as group, but make the repository readable by all users."
+              ]
+            }
           ]
         }
       ]
@@ -38,6 +151,84 @@
       ],
       "options": [
         {
+          "name": "-l",
+          "alias": [
+            "--local"
+          ]
+        },
+        {
+          "name": "--no-hardlinks"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--shared"
+          ]
+        },
+        {
+          "name": "--reference"
+        },
+        {
+          "name": "--reference-if-able"
+        },
+        {
+          "name": "--dissociate"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verbose"
+          ]
+        },
+        {
+          "name": "--progress"
+        },
+        {
+          "name": "--server-option="
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--no-checkout"
+          ]
+        },
+        {
+          "name": "--reject-shallow"
+        },
+        {
+          "name": "--no-reject-shallow"
+        },
+        {
+          "name": "--bare"
+        },
+        {
+          "name": "--sparse",
+          "tip": [
+            "Employ a sparse-checkout, with only files in the toplevel directory initially being present."
+          ]
+        },
+        {
+          "name": "--filter="
+        },
+        {
+          "name": "--also-filter-submodules"
+        },
+        {
+          "name": "--mirror"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--origin"
+          ]
+        },
+        {
           "name": "-b",
           "tip": [
             "U: -b <branch>\n",
@@ -45,6 +236,21 @@
             "By default, git clone clones the main branch of the remote repository."
           ],
           "next": 0
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--upload-pack"
+          ]
+        },
+        {
+          "name": "--template="
+        },
+        {
+          "name": "-c",
+          "alias": [
+            "--config"
+          ]
         },
         {
           "name": "--depth",
@@ -62,7 +268,46 @@
           ]
         },
         {
+          "name": "--shallow-since="
+        },
+        {
+          "name": "--shallow-exclude="
+        },
+        {
+          "name": "--single-branch"
+        },
+        {
+          "name": "--no-single-branch"
+        },
+        {
+          "name": "--no-tags"
+        },
+        {
+          "name": "--recurse-submodules"
+        },
+        {
+          "name": "--shallow-submodules"
+        },
+        {
+          "name": "--no-shallow-submodules"
+        },
+        {
+          "name": "--remote-submodules"
+        },
+        {
+          "name": "--no-remote-submodules"
+        },
+        {
+          "name": "--separate-git-dir="
+        },
+        {
+          "name": "--ref-format="
+        },
+        {
           "name": "-j",
+          "alias": [
+            "--jobs"
+          ],
           "tip": [
             "U: -j <n>\n",
             "Specify the number of threads for parallel cloning to speed up the process."
@@ -70,10 +315,7 @@
           "next": 0
         },
         {
-          "name": "--sparse",
-          "tip": [
-            "Employ a sparse-checkout, with only files in the toplevel directory initially being present."
-          ]
+          "name": "--bundle-uri="
         }
       ]
     },
@@ -332,6 +574,12 @@
           "name": "--all",
           "tip": [
             "fetch from all remotes"
+          ]
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--rebase"
           ]
         }
       ]
@@ -964,6 +1212,9 @@
             "Configure the email.\n",
             "E: [--global] user.email xxx@outlook.com"
           ]
+        },
+        {
+          "name": "init.defaultBranch"
         },
         {
           "name": "core.editor",

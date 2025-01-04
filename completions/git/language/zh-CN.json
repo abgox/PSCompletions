@@ -14,19 +14,131 @@
           ],
           "tip": [
             "U: -q|--quiet\n",
-            "初始化时不打印任何信息。"
+            "仅打印错误和警告消息；所有其他输出将不会显示。"
           ]
         },
         {
           "name": "--bare",
           "tip": [
-            "初始化一个裸仓库, 不创建 .git 文件夹, 直接将所有内容放在当前目录中。"
+            "创建一个裸仓库。如果未设置 GIT_DIR 环境变量，则将其设置为当前工作目录。"
+          ]
+        },
+        {
+          "name": "--object-format=",
+          "tip": [
+            "U: --object-format=<format>\n",
+            "指定仓库的对象格式（哈希算法）。\n",
+            "有效值为 sha1 和（如果启用）sha256。sha1 是默认值。"
+          ],
+          "next": [
+            {
+              "name": "sha1"
+            },
+            {
+              "name": "sha256"
+            }
+          ]
+        },
+        {
+          "name": "--ref-format=",
+          "tip": [
+            "Specify the given ref storage <format> for the repository."
+          ],
+          "next": [
+            {
+              "name": "files",
+              "tip": [
+                "files for loose files with packed-refs.\n",
+                "This is the default."
+              ]
+            },
+            {
+              "name": "reftable",
+              "tip": [
+                "reftable for the reftable format.\n",
+                "This format is experimental and its internals are subject to change."
+              ]
+            }
           ]
         },
         {
           "name": "--template=",
           "tip": [
+            "U: --template=<template-directory>\n",
             "指定一个自定义模板目录用于仓库初始化。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--separate-git-dir=",
+          "tip": [
+            "U: --separate-git-dir=<git-dir>\n",
+            "并不将存储库初始化至 $GIT_DIR 或 ./.git/ 目录，而是在其中创建一个包含实际仓库路径的文本文件。\n",
+            "此文件作为连接到仓库的 Git 符号链接，其与文件系统无关。\n",
+            "如果为重新初始化操作，则将仓库移动到指定的路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--initial-branch="
+          ],
+          "tip": [
+            "U: -b <branch-name> | --initial-branch=<branch-name>\n",
+            "在新创建的仓库中使用指定的名称作为初始分支。\n",
+            "如果未指定，则返回默认名称"
+          ],
+          "next": [
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            }
+          ]
+        },
+        {
+          "name": "--shared"
+        },
+        {
+          "name": "--shared=",
+          "tip": [
+            "U: --shared[=(false|true|umask|group|all|world|everybody|<perm>)]\n",
+            "指定 Git 仓库在多个用户之间共享。\n",
+            "这允许属于同一组的用户推送到该仓库。"
+          ],
+          "next": [
+            {
+              "name": "umask",
+              "alias": [
+                "false"
+              ],
+              "tip": [
+                "使用 umask 返回的权限\n",
+                "未指定 --shared 时，此为默认值。"
+              ]
+            },
+            {
+              "name": "group",
+              "alias": [
+                "true"
+              ],
+              "tip": [
+                "使仓库组可写（并且 g+sx，因为 git 组可能不是所有用户的主要组）。\n",
+                "这用于放宽原本安全的 umask 值的权限。"
+              ]
+            },
+            {
+              "name": "all",
+              "alias": [
+                "world",
+                "everybody"
+              ],
+              "tip": [
+                "与使用 group 选项相同，但使仓库对所有用户可读。"
+              ]
+            }
           ]
         }
       ]
@@ -38,6 +150,84 @@
       ],
       "options": [
         {
+          "name": "-l",
+          "alias": [
+            "--local"
+          ]
+        },
+        {
+          "name": "--no-hardlinks"
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--shared"
+          ]
+        },
+        {
+          "name": "--reference"
+        },
+        {
+          "name": "--reference-if-able"
+        },
+        {
+          "name": "--dissociate"
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verbose"
+          ]
+        },
+        {
+          "name": "--progress"
+        },
+        {
+          "name": "--server-option="
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--no-checkout"
+          ]
+        },
+        {
+          "name": "--reject-shallow"
+        },
+        {
+          "name": "--no-reject-shallow"
+        },
+        {
+          "name": "--bare"
+        },
+        {
+          "name": "--sparse",
+          "tip": [
+            "采用稀疏检出(sparse-checkout)，只检出顶层目录中的文件。"
+          ]
+        },
+        {
+          "name": "--filter="
+        },
+        {
+          "name": "--also-filter-submodules"
+        },
+        {
+          "name": "--mirror"
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--origin"
+          ]
+        },
+        {
           "name": "-b",
           "tip": [
             "U: -b <branch>\n",
@@ -45,6 +235,21 @@
             "默认情况下, git clone 克隆远程仓库的主分支。"
           ],
           "next": 0
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--upload-pack"
+          ]
+        },
+        {
+          "name": "--template="
+        },
+        {
+          "name": "-c",
+          "alias": [
+            "--config"
+          ]
         },
         {
           "name": "--depth",
@@ -62,7 +267,46 @@
           ]
         },
         {
+          "name": "--shallow-since="
+        },
+        {
+          "name": "--shallow-exclude="
+        },
+        {
+          "name": "--single-branch"
+        },
+        {
+          "name": "--no-single-branch"
+        },
+        {
+          "name": "--no-tags"
+        },
+        {
+          "name": "--recurse-submodules"
+        },
+        {
+          "name": "--shallow-submodules"
+        },
+        {
+          "name": "--no-shallow-submodules"
+        },
+        {
+          "name": "--remote-submodules"
+        },
+        {
+          "name": "--no-remote-submodules"
+        },
+        {
+          "name": "--separate-git-dir="
+        },
+        {
+          "name": "--ref-format="
+        },
+        {
           "name": "-j",
+          "alias": [
+            "--jobs"
+          ],
           "tip": [
             "U: -j <n>\n",
             "指定用于并行克隆的线程数以加速过程。"
@@ -70,10 +314,7 @@
           "next": 0
         },
         {
-          "name": "--sparse",
-          "tip": [
-            "采用稀疏检出(sparse-checkout)，只检出顶层目录中的文件。"
-          ]
+          "name": "--bundle-uri="
         }
       ]
     },
@@ -331,6 +572,12 @@
           "name": "--all",
           "tip": [
             "从所有远程分支获取并合并"
+          ]
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--rebase"
           ]
         }
       ]
@@ -964,6 +1211,9 @@
             "配置邮箱。\n",
             "E: [--global] user.email xxx@outlook.com"
           ]
+        },
+        {
+          "name": "init.defaultBranch"
         },
         {
           "name": "core.editor",
