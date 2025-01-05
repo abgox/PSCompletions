@@ -3,6 +3,12 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.3.1 (2025/1/5)
+
+- Fix an issue where when option completion had been used, it wasn't filtered out on the next completion.
+- Support options ending with `=` to directly get next completion items.
+  - Requires completion definition.
+
 ## 5.3.0 (2025/1/1)
 
 - Optimize the property structure and parsing of json completion files.

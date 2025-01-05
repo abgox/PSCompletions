@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.3.0'
+    version                 = '5.3.1'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -305,7 +305,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             # 1. 没有选项
             # 2. 最后一个是选项
 
-            if ($space_tab) {
+            if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
                 $filter_input_arr = [array](filterInput $input_arr)
             }
             else {
@@ -437,7 +437,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $completions = $PSCompletions.completions_data.$root
     $filter_list = [array](filterCompletions)
     $filter_list = [array](handleCompletions $filter_list)
-    if ($space_tab) {
+    if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
         $filter_list = $filter_list.Where({ $_.CompletionText -notlike "-*" -or $_.CompletionText -notin $input_arr })
     }
     else {
@@ -481,46 +481,42 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
     $filter_list = [array]$filter_list
 
-    $return = @()
     if ($space_tab) {
-        foreach ($item in $filter_list) {
-            if ($item -ne $null) {
-                $has_alias = $false
-                if ($item.alias) {
-                    foreach ($a in $item.alias) {
-                        if ($a -in $PSCompletions.input_arr) {
-                            $has_alias = $true
-                            break
-                        }
-                    }
-                }
-                if (!$has_alias) {
-                    $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
-                    $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-                    $return += @{
-                        ListItemText   = $item.ListItemText + $padSymbols
-                        CompletionText = $item.CompletionText
-                        ToolTip        = $item.ToolTip
-                    }
-                }
-            }
-        }
-        return $return
+        $_input_arr = $PSCompletions.input_arr
     }
     else {
-        foreach ($item in $filter_list) {
-            if ($item -ne $null) {
-                $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
-                $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-                $return += @{
-                    ListItemText   = $item.ListItemText + $padSymbols
-                    CompletionText = $item.CompletionText
-                    ToolTip        = $item.ToolTip
+        $_input_arr = [System.Collections.Generic.List[string]]$PSCompletions.input_arr.Clone()
+        $_input_arr.RemoveAt(($_input_arr.Count - 1))
+    }
+    $return = @()
+
+    foreach ($item in $filter_list) {
+        if ($item -ne $null) {
+            if ($item.CompletionText -in $_input_arr) {
+                continue
+            }
+            $isContinue = $false
+            if ($item.alias) {
+                foreach ($a in $item.alias) {
+                    if ($a -in $_input_arr) {
+                        $isContinue = $true
+                        break
+                    }
                 }
             }
+            if ($isContinue) {
+                continue
+            }
+            $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
+            $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
+            $return += @{
+                ListItemText   = $item.ListItemText + $padSymbols
+                CompletionText = $item.CompletionText
+                ToolTip        = $item.ToolTip
+            }
         }
-        return $return
     }
+    return $return
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_runspace {
     param(
@@ -1125,14 +1121,25 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             }
             $padSymbols = foreach ($c in $_.symbols) { $PSCompletions.config.$c }
             $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-            [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+
+            if ($PSCompletions.input_arr[-1] -like "-*=") {
+                [CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+            }
+            else {
+                [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+            }
         }
     }
     else {
         foreach ($_ in $filter_list) {
             $padSymbols = foreach ($c in $_.symbols) { $PSCompletions.config.$c }
             $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-            [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+            if ($PSCompletions.input_arr[-1] -like "-*=") {
+                [CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+            }
+            else {
+                [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+            }
         }
     }
 }
