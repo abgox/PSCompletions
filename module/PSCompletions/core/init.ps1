@@ -305,7 +305,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             # 1. 没有选项
             # 2. 最后一个是选项
 
-            if ($space_tab) {
+            if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
                 $filter_input_arr = [array](filterInput $input_arr)
             }
             else {
@@ -437,7 +437,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $completions = $PSCompletions.completions_data.$root
     $filter_list = [array](filterCompletions)
     $filter_list = [array](handleCompletions $filter_list)
-    if ($space_tab) {
+    if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
         $filter_list = $filter_list.Where({ $_.CompletionText -notlike "-*" -or $_.CompletionText -notin $input_arr })
     }
     else {
@@ -1121,14 +1121,25 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             }
             $padSymbols = foreach ($c in $_.symbols) { $PSCompletions.config.$c }
             $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-            [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+
+            if ($PSCompletions.input_arr[-1] -like "-*=") {
+                [CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+            }
+            else {
+                [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+            }
         }
     }
     else {
         foreach ($_ in $filter_list) {
             $padSymbols = foreach ($c in $_.symbols) { $PSCompletions.config.$c }
             $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-            [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+            if ($PSCompletions.input_arr[-1] -like "-*=") {
+                [CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+            }
+            else {
+                [CompletionResult]::new($_.CompletionText, ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+            }
         }
     }
 }
