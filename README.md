@@ -244,6 +244,7 @@
     - If there's also `»`, it means that there's some preset completions, you can press `Space` and `Tab` key to continue to get them without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
   - All completions can be triggered by pressing the `Tab` key after entering a part.
+  - For options ending with `=`, if there's completion definition, you can directly press the `Tab` key to get the completions.
 
 ### About completion tip
 
