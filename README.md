@@ -392,6 +392,7 @@
 |[sfsu](https://github.com/winpax/sfsu)|[**en-US**](/completions/sfsu/language/en-US.json)<br>[**zh-CN(6.67%)**](/completions/sfsu/language/zh-CN.json)|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
 |[volta](https://volta.sh)|[**en-US**](/completions/volta/language/en-US.json)<br>[**zh-CN(100%)**](/completions/volta/language/zh-CN.json)|volta - Accessible JavaScript Tool Manager.|
 |[winget](https://github.com/microsoft/winget-cli)|[**en-US**](/completions/winget/language/en-US.json)<br>[**zh-CN(100%)**](/completions/winget/language/zh-CN.json)|WinGet - Windows package manager.|
+|[wsh](https://github.com/wavetermdev/waveterm)|[**en-US**](/completions/wsh/language/en-US.json)<br>[**zh-CN(3.45%)**](/completions/wsh/language/zh-CN.json)|wsh is a small utility that lets you do cool things with Wave Terminal, right from the command line.|
 |[wsl](https://github.com/microsoft/WSL)|[**en-US**](/completions/wsl/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wsl/language/zh-CN.json)|WSL - Windows Subsystem for Linux.|
 |[wt](https://github.com/microsoft/terminal)|[**en-US**](/completions/wt/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wt/language/zh-CN.json)|Windows Terminal command line.<br> You can use it to start a terminal.|
 |[yarn](https://classic.yarnpkg.com/)|[**en-US**](/completions/yarn/language/en-US.json)<br>[**zh-CN(100%)**](/completions/yarn/language/zh-CN.json)|yarn - package manager.|
