@@ -2,6 +2,9 @@ function handleCompletions([array]$completions) {
     $tempList = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
+    if ($PSCompletions.config.disable_cache) {
+        $PSCompletions.info = $PSCompletions.completions.psc.info
+    }
 
     switch ($filter_input_arr[0]) {
         'add' {
@@ -96,13 +99,15 @@ function handleCompletions([array]$completions) {
                 'rm' {
                     if ($filter_input_arr.Count -le 2) {
                         foreach ($completion in $PSCompletions.data.list) {
-                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip), @('SpaceTab'))
+                            $symbol = @()
+                            if ($PSCompletions.data.alias.$completion.Count -gt 1) {
+                                $symbol = @('SpaceTab')
+                            }
+                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip), $symbol)
                         }
                     }
                     else {
                         $cmd = $filter_input_arr[2]
-
-                        $symbol = @()
                         if ($filter_input_arr.Count -le 3) {
                             $alias = @()
                             $rest = $PSCompletions.data.alias.$cmd
@@ -114,6 +119,9 @@ function handleCompletions([array]$completions) {
                         if ($rest.Count -gt 1) {
                             if ($rest.Count -gt 2) {
                                 $symbol = @('SpaceTab')
+                            }
+                            else {
+                                $symbol = @()
                             }
                             foreach ($completion in $rest) {
                                 $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
@@ -143,7 +151,7 @@ function handleCompletions([array]$completions) {
                         if ($PSCompletions.config.comp_config[$completion].Count) {
                             if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
                                 $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
-                                $tempList += $PSCompletions.return_completion('enable_hooks', $tip, $symbol)
+                                $tempList += $PSCompletions.return_completion('enable_hooks', $tip, @('SpaceTab'))
                             }
                         }
                         foreach ($c in $json.config) {
@@ -167,14 +175,15 @@ function handleCompletions([array]$completions) {
                                 }
                             }
                             'enable_tip' {
-                                $tempList += $PSCompletions.return_completion('1', $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip_v1))
-                                $tempList += $PSCompletions.return_completion('0', $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip_v0))
+                                foreach ($value in 0..1) {
+                                    $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
+                                }
                             }
                             'enable_hooks' {
                                 if ($PSCompletions.config.comp_config[$completion].Count) {
                                     if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
                                         foreach ($value in 0..1) {
-                                            $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.completion.tip_v))
+                                            $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
                                         }
                                     }
                                 }
@@ -182,14 +191,13 @@ function handleCompletions([array]$completions) {
                             Default {
                                 $c = $json.config.Where({ $_.name -eq $filter_input_arr[2] })
                                 foreach ($value in $c.values) {
-                                    $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.completion.tip_v))
+                                    $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
                                 }
                             }
                         }
                     }
                 }
             }
-
         }
         'menu' {
             if ($filter_input_arr.Count -eq 4 -and $filter_input_arr[1] -eq 'custom' -and $filter_input_arr[2] -eq 'color' -and $filter_input_arr[3] -in $PSCompletions.menu.const.color_item) {
@@ -197,7 +205,6 @@ function handleCompletions([array]$completions) {
                     $tempList += $PSCompletions.return_completion($color, $PSCompletions.replace_content($PSCompletions.info.menu.custom.color.tip))
                 }
             }
-
         }
         'reset' {
             if ('*' -in $filter_input_arr) {
