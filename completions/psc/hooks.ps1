@@ -112,10 +112,12 @@ function handleCompletions([array]$completions) {
                             $rest = $PSCompletions.data.alias.$cmd.Where({ $_ -notin $alias })
                         }
                         if ($rest.Count -gt 1) {
-                            $symbol = @('SpaceTab')
-                        }
-                        foreach ($completion in $rest) {
-                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
+                            if ($rest.Count -gt 2) {
+                                $symbol = @('SpaceTab')
+                            }
+                            foreach ($completion in $rest) {
+                                $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
+                            }
                         }
                     }
                 }
@@ -249,7 +251,6 @@ function handleCompletions([array]$completions) {
                     }
                 }
             }
-
         }
         Default {
             return $completions
