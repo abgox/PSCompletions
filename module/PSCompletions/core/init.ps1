@@ -25,6 +25,8 @@ New-Variable -Name PSCompletions -Value @{
         # 在 hooks 中，将其设置为 $true 即可。
         # 用于那些大量动态生成的补全，忽略不必要的 tip，加快解析速度
         ignore_tip = $false
+        # 存放临时数据，仅当使用 Esc 退出补全菜单时清除
+        temp       = @{}
         const      = @{
             symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
             line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
@@ -1155,6 +1157,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         }
     }
     $PSCompletions.menu.ignore_tip = $false
+    $PSCompletions.menu.temp = @{}
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
     param(
@@ -1163,7 +1166,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
     foreach ($_ in $completions) {
         Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
             param($wordToComplete, $commandAst, $cursorPosition)
-            $words = @($commandAst.CommandElements | Where { $_.Extent.StartOffset -lt $cursorPosition } | ForEach-Object {
+            $words = @($commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition }) | ForEach-Object {
                     $word = $_.ToString()
                     if ($word.Length -gt 2) {
                         if (($word.StartsWith('"') -and $word.EndsWith('"')) -or ($word.StartsWith("'") -and $word.EndsWith("'"))) {
@@ -1183,15 +1186,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
             if ($commandAst.CommandElements[$lastElemIndex].Extent.EndOffset -lt $cursorPosition) {
                 $words += $emptyS
             }
-            @((argc --argc-compgen powershell $emptyS $words) -split "`n") | ForEach-Object {
-                $parts = ($_ -split "`t")
 
+            foreach ($_ in @((argc --argc-compgen powershell $emptyS $words) -split "`n")) {
+                $parts = ($_ -split "`t")
                 if ($PSCompletions.config.enable_tip_when_enhance) {
                     $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
-                    [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, $tip)
+                    [CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $tip)
                 }
                 else {
-                    [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, ' ')
+                    [CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', ' ')
                 }
             }
         }

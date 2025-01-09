@@ -926,6 +926,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             27 {
                 # 27: ESC
                 $PSCompletions.menu.reset()
+                $PSCompletions.menu.temp = @{}
                 ''
                 break loop
             }
