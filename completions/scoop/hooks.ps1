@@ -28,6 +28,36 @@ function handleCompletions($completions) {
                 }
             }
         }
+        'install' {
+            $dir = @()
+            Get-ChildItem "$root_path\buckets" -Directory | ForEach-Object {
+                $dir += @{
+                    bucket = $_.BaseName
+                    path   = "$($_.FullName)\bucket"
+                }
+            }
+            $return = $PSCompletions.handle_data_by_runspace($dir, {
+                    param ($items, $PSCompletions, $Host_UI)
+                    $return = @()
+                    foreach ($item in $items) {
+                        Get-ChildItem $item.path -File -Depth 1 | ForEach-Object {
+                            $app = "$($item.bucket)/$($_.BaseName)"
+                            if ($app -notin $PSCompletions.input_arr) {
+                                $return += @{
+                                    ListItemText   = $app
+                                    CompletionText = $app
+                                    symbols        = @("SpaceTab")
+                                }
+                            }
+                        }
+                    }
+                    return $return
+                }, {
+                    param($results)
+                    return $results
+                })
+            $tempList += $return
+        }
         'uninstall' {
             if ($filter_input_arr.Count -gt 1) {
                 $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
