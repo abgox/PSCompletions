@@ -1,7 +1,14 @@
 <p align="center">
-    <a href="./CHANGELOG-CN.md">简体中文</a>|
+    <a href="./CHANGELOG-CN.md">简体中文</a> |
     <a href="./CHANGELOG.md">English</a>
 </p>
+
+## 5.3.2 (2025/1/10)
+
+- Optimize completion filtering.
+- Add some properties in `$PSCompletions` for `hooks` to use to improve parsing speed.
+- Fix an issue where background jobs could cause completion errors.
+- Other fixes and optimizations.
 
 ## 5.3.1 (2025/1/5)
 
