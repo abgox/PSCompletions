@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.3.1'
+    version                 = '5.3.2'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -22,7 +22,12 @@ New-Variable -Name PSCompletions -Value @{
     separator               = [System.IO.Path]::DirectorySeparatorChar
     wc                      = New-Object System.Net.WebClient
     menu                    = @{
-        const = @{
+        # 在 hooks 中，将其设置为 $true 即可。
+        # 用于那些大量动态生成的补全，忽略不必要的 tip，加快解析速度
+        ignore_tip = $false
+        # 存放临时数据，仅当使用 Esc 退出补全菜单时清除
+        temp       = @{}
+        const      = @{
             symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
             line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
             color_item  = @('item_text', 'item_back', 'selected_text', 'selected_back', 'filter_text', 'filter_back', 'border_text', 'border_back', 'status_text', 'status_back', 'tip_text', 'tip_back')
@@ -436,14 +441,61 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     }
     $completions = $PSCompletions.completions_data.$root
     $filter_list = [array](filterCompletions)
-    $filter_list = [array](handleCompletions $filter_list)
+    $_filter_list = [array](handleCompletions $filter_list)
+
+    $filter_list = [System.Collections.Generic.List[object]]@()
     if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
-        $filter_list = $filter_list.Where({ $_.CompletionText -notlike "-*" -or $_.CompletionText -notin $input_arr })
+        foreach ($item in $_filter_list) {
+            if ($item.CompletionText -notlike "-*" -or $item.CompletionText -notin $input_arr) {
+                $isContinue = $false
+                if ($item.alias) {
+                    foreach ($a in $item.alias) {
+                        if ($a -in $input_arr) {
+                            $isContinue = $true
+                            break
+                        }
+                    }
+                }
+                if ($isContinue) {
+                    continue
+                }
+                $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
+                $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
+                $filter_list.Add(@{
+                        ListItemText   = $item.ListItemText + $padSymbols
+                        CompletionText = $item.CompletionText
+                        ToolTip        = $item.ToolTip
+                    })
+            }
+        }
     }
     else {
-        $filter_list = $filter_list.Where({ $_.CompletionText -like "$([WildcardPattern]::Escape($input_arr[-1]))*" })
+        $_input_arr = [System.Collections.Generic.List[string]]$PSCompletions.input_arr.Clone()
+        $_input_arr.RemoveAt(($_input_arr.Count - 1))
+        foreach ($item in $_filter_list) {
+            if ($item.CompletionText -like "$([WildcardPattern]::Escape($input_arr[-1]))*") {
+                $isContinue = $false
+                if ($item.alias) {
+                    foreach ($a in $item.alias) {
+                        if ($a -in $_input_arr) {
+                            $isContinue = $true
+                            break
+                        }
+                    }
+                }
+                if ($isContinue) {
+                    continue
+                }
+                $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
+                $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
+                $filter_list.Add(@{
+                        ListItemText   = $item.ListItemText + $padSymbols
+                        CompletionText = $item.CompletionText
+                        ToolTip        = $item.ToolTip
+                    })
+            }
+        }
     }
-
     if ($PSCompletions.config.enable_completions_sort -eq 1) {
         $path_order = "$($PSCompletions.path.order)/$root.json"
         if ($PSCompletions.order."$($root)_job") {
@@ -478,45 +530,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         }
         $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
     }
-
-    $filter_list = [array]$filter_list
-
-    if ($space_tab) {
-        $_input_arr = $PSCompletions.input_arr
-    }
-    else {
-        $_input_arr = [System.Collections.Generic.List[string]]$PSCompletions.input_arr.Clone()
-        $_input_arr.RemoveAt(($_input_arr.Count - 1))
-    }
-    $return = @()
-
-    foreach ($item in $filter_list) {
-        if ($item -ne $null) {
-            if ($item.CompletionText -in $_input_arr) {
-                continue
-            }
-            $isContinue = $false
-            if ($item.alias) {
-                foreach ($a in $item.alias) {
-                    if ($a -in $_input_arr) {
-                        $isContinue = $true
-                        break
-                    }
-                }
-            }
-            if ($isContinue) {
-                continue
-            }
-            $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
-            $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-            $return += @{
-                ListItemText   = $item.ListItemText + $padSymbols
-                CompletionText = $item.CompletionText
-                ToolTip        = $item.ToolTip
-            }
-        }
-    }
-    return $return
+    return $filter_list
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_runspace {
     param(
@@ -1111,7 +1125,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1
     }
 
-    if ($PSCompletions.menu.is_show_tip) {
+    if ($PSCompletions.menu.is_show_tip -and !$PSCompletions.menu.ignore_tip) {
         foreach ($_ in $filter_list) {
             if ($_.ToolTip -ne $null) {
                 $tip = $PSCompletions.replace_content($_.ToolTip)
@@ -1142,6 +1156,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             }
         }
     }
+    $PSCompletions.menu.ignore_tip = $false
+    $PSCompletions.menu.temp = @{}
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
     param(
@@ -1150,7 +1166,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
     foreach ($_ in $completions) {
         Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
             param($wordToComplete, $commandAst, $cursorPosition)
-            $words = @($commandAst.CommandElements | Where { $_.Extent.StartOffset -lt $cursorPosition } | ForEach-Object {
+            $words = @($commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition }) | ForEach-Object {
                     $word = $_.ToString()
                     if ($word.Length -gt 2) {
                         if (($word.StartsWith('"') -and $word.EndsWith('"')) -or ($word.StartsWith("'") -and $word.EndsWith("'"))) {
@@ -1170,15 +1186,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
             if ($commandAst.CommandElements[$lastElemIndex].Extent.EndOffset -lt $cursorPosition) {
                 $words += $emptyS
             }
-            @((argc --argc-compgen powershell $emptyS $words) -split "`n") | ForEach-Object {
-                $parts = ($_ -split "`t")
 
+            foreach ($_ in @((argc --argc-compgen powershell $emptyS $words) -split "`n")) {
+                $parts = ($_ -split "`t")
                 if ($PSCompletions.config.enable_tip_when_enhance) {
                     $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
-                    [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, $tip)
+                    [CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $tip)
                 }
                 else {
-                    [CompletionResult]::new($parts[0], $parts[0], [CompletionResultType]::ParameterValue, ' ')
+                    [CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', ' ')
                 }
             }
         }

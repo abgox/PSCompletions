@@ -775,10 +775,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     else {
         $enable_tip = $PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_tip
         if ($enable_tip -ne $null) {
-            $PSCompletions.menu.is_show_tip = $enable_tip -eq 1
+            $PSCompletions.menu.is_show_tip = $enable_tip -eq 1 -and !$PSCompletions.menu.ignore_tip
         }
         else {
-            $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1
+            $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1 -and !$PSCompletions.menu.ignore_tip
         }
     }
 }
@@ -926,6 +926,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             27 {
                 # 27: ESC
                 $PSCompletions.menu.reset()
+                $PSCompletions.menu.temp = @{}
                 ''
                 break loop
             }
@@ -1040,4 +1041,5 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         }
     }
     [console]::OutputEncoding = $current_encoding
+    $PSCompletions.menu.ignore_tip = $false
 }

@@ -4,7 +4,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
     foreach ($_ in $PSCompletions.data.aliasMap.keys) {
-        Register-ArgumentCompleter -CommandName $_ -ScriptBlock {
+        Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
             param($word_to_complete, $command_ast, $cursor_position)
 
             $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }

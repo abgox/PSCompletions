@@ -57,29 +57,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 param([string]$path)
                 if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
             }
-            function ensure_psc {
-                ensure_dir "$($PSCompletions.path.completions)/psc"
-                ensure_dir "$($PSCompletions.path.completions)/psc/language"
-
-                $path_config = "$($PSCompletions.path.completions)/psc/config.json"
-                download_file "completions/psc/config.json" $path_config $PSCompletions.urls
-
-                $config = get_raw_content $path_config | ConvertFrom-Json
-
-                $file_list = @('guid.txt')
-                if ($config.hooks -ne $null) {
-                    $file_list += 'hooks.ps1'
-                }
-                foreach ($lang in $config.language) {
-                    $file_list += "language/$lang.json"
-                }
-                foreach ($path in $file_list) {
-                    $path_file = "$($PSCompletions.path.completions)/psc/$path"
-                    if (!(Test-Path $path_file)) {
-                        download_file "completions/psc/$path" $path_file $PSCompletions.urls
-                    }
-                }
-            }
             function download_list {
                 ensure_dir $PSCompletions.path.temp
                 if (!(Test-Path $PSCompletions.path.completions_json)) {
@@ -110,8 +87,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
 
             ensure_dir $PSCompletions.path.order
-
-            ensure_psc
+            ensure_dir "$($PSCompletions.path.completions)/psc"
 
             $null = download_list
 
