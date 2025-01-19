@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">✨<a href="https://pscompletions.pages.dev">PSCompletions(psc)</a>✨</h1>
+    <h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
 </p>
 
 <p align="center">
@@ -45,7 +45,7 @@
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
 - [Provide a more powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
-- [Combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
+- [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
   - [sigoden/argc-completions](https://github.com/sigoden/argc-completions)
 
 [**If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**](#stars)
@@ -56,7 +56,7 @@
 
 ## FAQ
 
-- See the [FAQ](https://pscompletions.pages.dev/FAQ).
+- See the [FAQ](https://pscompletions.abgox.com/FAQ).
 
 ## How to install
 
@@ -108,7 +108,7 @@
 >
 > - [Available Completions.](#available-completions-list "All completions that can be added at present. More completions are adding!")
 > - If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
-> - You can also [combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
+> - You can also [combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
 
 - Take `git` as an example.
 
@@ -118,7 +118,7 @@
 
 ## Demo
 
-![demo](https://pscompletions.pages.dev/demo.gif)
+![demo](https://pscompletions.abgox.com/demo.gif)
 
 ## Contribution
 
@@ -206,7 +206,7 @@
          - Path completion such as `cd`/`.\`/`..\`/`~\`/... in `PowerShell`.
          - Build-in commands such as `Get-*`/`Set-*`/`New-*`/... in `PowerShell`.
          - Completion registered by [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
-         - [Combined with argc-completions.](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
+         - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
          - Completion registered by cli or module.
          - ...
 
@@ -317,9 +317,9 @@
 
 ## Support
 
-<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://abgox.pages.dev/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://me.abgox.com/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-![Support](https://abgox.pages.dev/support.png)
+![Support](https://me.abgox.com/support.png)
 
 ## Available Completions List
 

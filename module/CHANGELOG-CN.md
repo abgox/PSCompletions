@@ -102,7 +102,7 @@
 ## 5.1.0 (2024/11/21)
 
 - 添加方法 `$PSCompletions.argc_completions()` 用于 [argc-completions](https://github.com/sigoden/argc-completions)。
-  - 详情请查看: [PSCompletions and argc-completions](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
+  - 详情请查看: [PSCompletions and argc-completions](https://pscompletions.abgox.com//tips/pscompletions-and-argc-completions)
 - 优化了模块目录结构，将不重要的临时文件统一放置到 `temp` 目录下。
 - 减少不必要的重复解析，让第二次及之后的补全更快。
 - 其他的优化和修复。

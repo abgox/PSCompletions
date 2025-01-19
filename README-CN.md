@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">✨<a href="https://pscompletions.pages.dev">PSCompletions(psc)</a>✨</h1>
+    <h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
 </p>
 
 <p align="center">
@@ -45,7 +45,7 @@
 - `en-US`,`zh-CN`,... 多语言切换
 - 动态排序补全项(根据使用频次)
 - [提供了一个更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
-- [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
+- [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
   - [argc-completions 仓库](https://github.com/sigoden/argc-completions)
 
 [**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star ⭐**](#stars)
@@ -56,7 +56,7 @@
 
 ## 常见问题
 
-- 请查阅 [常见问题](https://pscompletions.pages.dev/FAQ)
+- 请查阅 [常见问题](https://pscompletions.abgox.com/FAQ)
 
 ## 安装
 
@@ -111,7 +111,7 @@
 >
 > - [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
 > - 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
-> - 也可以 [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions "点击查看如何实现")
+> - 也可以 [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
 
 - 以 `git` 补全为例
 
@@ -121,7 +121,7 @@
 
 ## Demo
 
-![demo](https://pscompletions.pages.dev/demo-CN.gif)
+![demo](https://pscompletions.abgox.com/demo-CN.gif)
 
 ## 贡献
 
@@ -209,7 +209,7 @@
          - `cd`/`.\`/`..\`/`~\`/... 这样的路径补全
          - `Get-*`/`Set-*`/`New-*`/... 这样的内置命令补全
          - 通过 [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
-         - [与 argc-completions 结合使用](https://pscompletions.pages.dev/tips/pscompletions-and-argc-completions)
+         - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
          - 由 cli 或模块注册的补全
          - ...
 
@@ -326,9 +326,9 @@
 
 ## 赞赏支持
 
-<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://abgox.pages.dev/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://me.abgox.com/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-![赞赏支持](https://abgox.pages.dev/support.png)
+![赞赏支持](https://me.abgox.com/support.png)
 
 ## 补全列表
 
