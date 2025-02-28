@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '5.3.2'
+    ModuleVersion        = '5.3.3'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -24,7 +24,7 @@
     Description          = 'A completion manager for better and simpler use PowerShell completions.
  It provides a better tab-completion menu to enhance the command line experience.
  For more information, please visit the project or website:
-  - Website: https://pscompletions.pages.dev
+  - Website: https://pscompletions.abgox.com
   - Github:  https://github.com/abgox/PSCompletions
   - Gitee:   https://gitee.com/abgox/PSCompletions
  '
@@ -39,16 +39,16 @@
 
             LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
-            ProjectUri   = 'https://github.com/abgox/PSCompletions'
+            ProjectUri   = 'https://pscompletions.abgox.com'
 
-            # IconUri      = 'https://github.com/PowerShell/PowerShell/raw/master/assets/ps_black_128.svg'
+            IconUri      = 'https://pscompletions.abgox.com/logo.svg'
 
-            ReleaseNotes = 'https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md'
+            ReleaseNotes = 'https://pscompletions.abgox.com/module/CHANGELOG.md'
 
         }
 
     }
 
-    HelpInfoUri          = 'https://pscompletions.pages.dev'
+    HelpInfoUri          = 'https://pscompletions.abgox.com'
 }
 

@@ -37,7 +37,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_Json
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
     $PSCompletions.job = Start-Job -ScriptBlock {
         param($PSCompletions)
-        $wc = New-Object System.Net.WebClient
+
         function ConvertFrom_JsonToHashtable {
             param(
                 [Parameter(ValueFromPipeline = $true)]
@@ -150,6 +150,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 catch {}
             }
         }
+
+        $wc = New-Object System.Net.WebClient
 
         ensure_dir $PSCompletions.path.order
         ensure_dir "$($PSCompletions.path.completions)/psc"
@@ -277,20 +279,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         }
 
         # check version
-        $urls = @('https://pscompletions.pages.dev/version.txt', 'https://abgox.github.io/PSCompletions/module/version.txt') + $PSCompletions.urls
         try {
             if ($PSCompletions.config.enable_module_update -eq 1) {
-                foreach ($url in $urls) {
-                    try {
-                        $response = Invoke-WebRequest -Uri "$url/module/version.txt"
-                        break
-                    }
-                    catch {}
+                try {
+                    $newVersion = (Invoke-WebRequest -Uri "https://pscompletions.abgox.com/version.json" | ConvertFrom-Json).version
                 }
-
-                $content = $response.Content.Trim()
-                if ($content -match "^[\d\.]+$") {
-                    $versions = @($PSCompletions.version, $content) | Sort-Object { [Version] $_ }
+                catch {
+                    foreach ($url in $PSCompletions.urls) {
+                        try {
+                            $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" | ConvertFrom-Json).version
+                            break
+                        }
+                        catch {}
+                    }
+                }
+                $newVersion = $newVersion -replace 'v', ''
+                if ($newVersion -match "^[\d\.]+$") {
+                    $versions = @($PSCompletions.version, $newVersion) | Sort-Object { [Version] $_ }
                     if ($versions[-1] -ne $PSCompletions.version) {
                         $data = get_raw_content $PSCompletions.path.data | ConvertFrom_JsonToHashtable
                         $data.config.enable_module_update = $versions[-1]

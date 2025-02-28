@@ -3,6 +3,15 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.3.3 (2025/2/28)
+
+- Optimized some key function in the completion menu.
+  - `Space` is equivalent to `Enter`.
+  - `Shift + Space` is removed.
+- Fix a completion error triggered when an empty string appears in a completion item.
+- Fix some issues in the module update.
+- Other fixes and optimizations.
+
 ## 5.3.2 (2025/1/10)
 
 - Optimize completion filtering.

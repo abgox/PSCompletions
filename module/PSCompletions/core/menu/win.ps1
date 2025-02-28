@@ -81,6 +81,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                 $return = @()
                 if ($PSCompletions.menu.is_show_tip) {
                     foreach ($result in $results) {
+                        if ($result.ListItemText -eq '') {
+                            continue
+                        }
                         $PSCompletions.menu.tip_max_height = [Math]::Max($PSCompletions.menu.tip_max_height, $result.ToolTip.Count)
                         $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($result.ListItemText))
                         $return += @{
@@ -92,6 +95,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                 }
                 else {
                     foreach ($result in $results) {
+                        if ($result.ListItemText -eq '') {
+                            continue
+                        }
                         $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($result.ListItemText))
                         $return += @{
                             ListItemText   = $result.ListItemText
@@ -157,6 +163,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
 
         if ($PSCompletions.menu.is_show_tip) {
             foreach ($item in $filter_list) {
+                if ($item.ListItemText -eq '') {
+                    continue
+                }
                 $tip_arr = @()
                 if ($item.ToolTip -ne $null) {
                     $tip = _replace $item.ToolTip
@@ -175,6 +184,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
         }
         else {
             foreach ($item in $filter_list) {
+                if ($item.ListItemText -eq '') {
+                    continue
+                }
                 $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($item.ListItemText))
                 $results += @{
                     ListItemText   = $item.ListItemText
@@ -868,7 +880,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         @{
             X = $Host.ui.RawUI.BufferSize.Width
             Y = $PSCompletions.menu.pos.Y + $PSCompletions.menu.ui_size.Height - $PSCompletions.menu.is_show_above
-        })
+        }
+    )
 
     if ($PSCompletions.menu.is_show_tip) { $PSCompletions.menu.get_old_tip_buffer($PSCompletions.menu.pos_tip.X, $PSCompletions.menu.pos_tip.Y) }
     # 显示菜单
@@ -879,58 +892,32 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $PSCompletions.menu.new_status_buffer()
     $PSCompletions.menu.set_selection()
     $old_filter_list = $PSCompletions.menu.filter_list
-    :loop while (($PressKey = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode) {
-        $shift_pressed = 0x10 -band [int]$PressKey.ControlKeyState
-        if ($PressKey.ControlKeyState -like '*CtrlPressed*') {
-            switch ($PressKey.VirtualKeyCode) {
-                67 {
-                    # 67: Ctrl + c
-                    $PSCompletions.menu.reset()
-                    ''
-                    break loop
-                }
-                { $_ -eq 85 -or $_ -eq 80 } {
-                    # 85: Ctrl + u
-                    # 80: Ctrl + p
-                    $PSCompletions.menu.move_selection($false)
-                    break
-                }
 
-                { $_ -eq 68 -or $_ -eq 78 } {
-                    # 68: Ctrl + d
-                    # 78: Ctrl + n
-                    $PSCompletions.menu.move_selection($true)
-                    break
-                }
-            }
-        }
+    :loop while (($PressKey = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode) {
+        $pressShift = 0x10 -band [int]$PressKey.ControlKeyState
+        $pressCtrl = $PressKey.ControlKeyState -like '*CtrlPressed*'
+
         switch ($PressKey.VirtualKeyCode) {
-            { $_ -in @(9, 32) } {
+            9 {
                 # 9: Tab
-                # 32: Space
                 if ($PSCompletions.menu.filter_list.Count -eq 1) {
                     $PSCompletions.menu.reset()
                     $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index].CompletionText
                     break loop
                 }
-                if ($shift_pressed) {
-                    # Up
-                    $PSCompletions.menu.move_selection($false)
-                }
-                else {
-                    # Down
-                    $PSCompletions.menu.move_selection($true)
-                }
+                $PSCompletions.menu.move_selection(!$pressShift)
                 break
             }
-            27 {
+            { $_ -eq 27 -or ($pressCtrl -and $_ -eq 67) } {
                 # 27: ESC
+                # 67: Ctrl + c
                 $PSCompletions.menu.reset()
                 $PSCompletions.menu.temp = @{}
                 ''
                 break loop
             }
-            13 {
+            { $_ -in @(32, 13) } {
+                # 32: Space
                 # 13: Enter
                 handleOutput $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index]
                 $PSCompletions.menu.reset()
@@ -940,14 +927,18 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             # 向上
             # 37: Up
             # 38: Left
-            { $_ -in @(37, 38) } {
+            # 85: Ctrl + u
+            # 80: Ctrl + p
+            { $_ -in @(37, 38) -or ($pressCtrl -and ($_ -eq 85 -or $_ -eq 80)) } {
                 $PSCompletions.menu.move_selection($false)
                 break
             }
             # 向下
             # 39: Right
             # 40: Down
-            { $_ -in @(39, 40) } {
+            # 68: Ctrl + d
+            # 78: Ctrl + n
+            { $_ -in @(39, 40) -or ($pressCtrl -and ($_ -eq 68 -or $_ -eq 78)) } {
                 $PSCompletions.menu.move_selection($true)
                 break
             }

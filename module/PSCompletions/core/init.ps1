@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.3.2'
+    version                 = '5.3.3'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -1102,6 +1102,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length {
     param([string]$str)
+    if ($str -eq '') {
+        return 0
+    }
     $Host.UI.RawUI.NewBufferCellArray($str, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
@@ -1341,7 +1344,7 @@ foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction SilentlyContinue
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
-        $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), $PSCompletions.urls)
+        $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), @('https://pscompletions.abgox.com') + $PSCompletions.urls)
 
         # XXX: 这里是为了避免 CompletionPredictor 模块引起的多次确认
         if (!$PSCompletions._write_update_confirm) {

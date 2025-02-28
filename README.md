@@ -168,8 +168,8 @@
       - If you need to customize it, use `PowerShell`.
 - Some keys in the module's completion menu.
 
-  1. Apply the selected completion item: `Enter`
-     - You can also use `Tab` or `Space` when there's only one completion.
+  1. Apply the selected completion item: `Enter` / `Space`
+     - You can also use `Tab` when there's only one completion.
   2. Delete filter characters: `Backspace`
   3. Exit the completion menu: `Esc` / `Ctrl + c`
      - You can also use `Backspace` when there're no characters in the filter area.
@@ -180,7 +180,6 @@
      |         `Up`         |      `Down`      |
      |        `Left`        |     `Right`      |
      |    `Shift + Tab`     |      `Tab`       |
-     |   `Shift + Space`    |     `Space`      |
      |      `Ctrl + u`      |    `Ctrl + d`    |
      |      `Ctrl + p`      |    `Ctrl + n`    |
 
@@ -310,8 +309,8 @@
 
 <a href="https://github.com/abgox/PSCompletions">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://reporoster.com/stars/abgox/PSCompletions"> <!-- light theme -->
-    <img alt="stargazer-widget" src="https://reporoster.com/stars/dark/abgox/PSCompletions"> <!-- dark theme -->
+    <source media="(prefers-color-scheme: light)" srcset="http://reporoster.com/stars/abgox/PSCompletions"> <!-- light theme -->
+    <img alt="stargazer-widget" src="http://reporoster.com/stars/dark/abgox/PSCompletions"> <!-- dark theme -->
   </picture>
 </a>
 

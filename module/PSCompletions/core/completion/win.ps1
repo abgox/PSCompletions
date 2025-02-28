@@ -52,8 +52,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         return
                     }
 
-                    $filter_list = @()
-                    foreach ($item in $completion.CompletionMatches) {
+                    $filter_list = foreach ($item in $completion.CompletionMatches) {
                         # XXX: 像 Get-*、Set-* 等内置命令的 ToolTip 会在每个示例的开头添加 4 个(空格或换行)，末尾添加 2 个(空格或换行)
                         # 因此，其他命令的 tip 不能在开头添加 4 个(空格或换行)，或者末尾添加 2 个(空格或换行)
                         # 这里通过 \s 去匹配空格或换行
@@ -70,7 +69,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                             $tip += $item.ToolTip
                         }
 
-                        $filter_list += @{
+                        @{
                             CompletionText = $item.CompletionText
                             ListItemText   = $item.ListItemText
                             ToolTip        = $tip
