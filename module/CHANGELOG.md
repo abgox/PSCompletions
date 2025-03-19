@@ -3,6 +3,15 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.4.0 (2025/3/19)
+
+- Add a configuration item `enable_path_with_trailing_separator` for path completion.
+  - `psc menu config enable_path_with_trailing_separator`
+  - It controls whether path completion requires a trailing separator, and defaults to `1`.
+    - With: `C:\Users\abgox\`
+    - Without: `C:\Users\abgox`
+- Other fixes and optimizations.
+
 ## 5.3.3 (2025/2/28)
 
 - Optimized some key function in the completion menu.

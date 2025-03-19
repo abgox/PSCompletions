@@ -3,6 +3,15 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.4.0 (2025/3/19)
+
+- 为路径补全添加一个配置项 `enable_path_with_trailing_separator`
+  - `psc menu config enable_path_with_trailing_separator`
+  - 它控制路径补全是否需要带有末尾的分隔符，默认值为 `1`。
+    - 带有: `C:\Users\abgox\`
+    - 不带有: `C:\Users\abgox`
+- 其他修复与优化。
+
 ## 5.3.3 (2025/2/28)
 
 - 优化了在补全菜单中的一些按键。

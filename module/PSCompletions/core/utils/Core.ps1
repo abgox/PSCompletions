@@ -215,17 +215,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             # check version
             try {
                 if ($PSCompletions.config.enable_module_update -eq 1) {
-                    try {
-                        $newVersion = (Invoke-WebRequest -Uri "https://pscompletions.abgox.com/version.json" | ConvertFrom-Json).version
-                    }
-                    catch {
-                        foreach ($url in $PSCompletions.urls) {
-                            try {
-                                $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" | ConvertFrom-Json).version
-                                break
-                            }
-                            catch {}
+                    $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
+                    foreach ($url in $urls) {
+                        try {
+                            $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" | ConvertFrom-Json).version
+                            break
                         }
+                        catch {}
                     }
                     $newVersion = $newVersion -replace 'v', ''
                     if ($newVersion -match "^[\d\.]+$") {

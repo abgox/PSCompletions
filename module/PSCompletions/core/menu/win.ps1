@@ -805,7 +805,13 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     if (!$filter_list) { return }
     function handleOutput($item) {
         $out = $item.CompletionText
+        if ($PSCompletions.config.enable_path_with_trailing_separator -ne 1) {
+            return $out
+        }
         try {
+            if ($item.ToolTip.Trim() -eq '') {
+                return $out
+            }
             if ((Get-ItemProperty ($item.ToolTip)).Attributes -like '*Directory*') {
                 if ($out[-1] -match "^['`"]$") {
                     if ($out[-2] -match "^[/\\]$") {

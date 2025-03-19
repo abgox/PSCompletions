@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.3.3'
+    version                 = '5.4.0'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -33,7 +33,7 @@ New-Variable -Name PSCompletions -Value @{
             color_item  = @('item_text', 'item_back', 'selected_text', 'selected_back', 'filter_text', 'filter_back', 'border_text', 'border_back', 'status_text', 'status_back', 'tip_text', 'tip_back')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_tip_cover_buffer', 'enable_list_cover_buffer', 'enable_list_loop', 'enable_selection_with_margin', 'enable_enter_when_single', 'enable_prefix_match_in_filter', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_tip_cover_buffer', 'enable_list_cover_buffer', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_selection_with_margin', 'enable_enter_when_single', 'enable_prefix_match_in_filter', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above'
             )
         }
     }
@@ -88,6 +88,8 @@ New-Variable -Name PSCompletions -Value @{
         enable_list_follow_cursor                    = 1
         enable_tip_cover_buffer                      = 1
         enable_list_cover_buffer                     = 0
+
+        enable_path_with_trailing_separator          = 1
 
         enable_list_loop                             = 1
         enable_selection_with_margin                 = 1
@@ -1344,7 +1346,7 @@ foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction SilentlyContinue
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
-        $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), @('https://pscompletions.abgox.com') + $PSCompletions.urls)
+        $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), $PSCompletions.urls + 'https://pscompletions.abgox.com')
 
         # XXX: 这里是为了避免 CompletionPredictor 模块引起的多次确认
         if (!$PSCompletions._write_update_confirm) {
