@@ -1352,10 +1352,14 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
         if (!$PSCompletions._write_update_confirm) {
             $PSCompletions._write_update_confirm = $true
             $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
-            while (($PSCompletions._PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
-                if ($PSCompletions._PressKey.ControlKeyState -notlike '*CtrlPressed*') {
-                    if ($write_empty_line) { Write-Host '' }
-                    if ($PSCompletions._PressKey.VirtualKeyCode -eq 13) {
+
+            $PSCompletions._timeout = 30 # 设置超时时间为30秒
+            $PSCompletions._stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+
+            while ($PSCompletions._stopwatch.Elapsed.TotalSeconds -lt $PSCompletions._timeout) {
+                if ([Console]::KeyAvailable) {
+                    $PSCompletions._key = [Console]::ReadKey($true)
+                    if ($PSCompletions._key.Key -eq 'Enter') {
                         # 13: Enter
                         $PSCompletions._cmd_list = @(
                             "Update-Module PSCompletions -RequiredVersion $($PSCompletions.version_list[0]) -Force -ErrorAction Stop",
@@ -1378,6 +1382,7 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
                     }
                     break
                 }
+                Start-Sleep -Milliseconds 100
             }
         }
     }
