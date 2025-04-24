@@ -63,13 +63,26 @@
 1. Start `PowerShell`.
 2. Install module:
 
-   - Don't omit `-Scope CurrentUser` unless you're sure you'll always start `PowerShell` with administrator permissions.
+   - Normal:
+
+     - Don't omit `-Scope CurrentUser` unless you're sure you'll always start `PowerShell` with administrator permissions.
+
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser
      ```
+
    - Install silently:
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+     ```
+   - Use [Scoop](https://scoop.sh/)
+
+     ```shell
+     scoop bucket add abgox-bucket https://github.com/abgox/abgox-bucket
+     ```
+
+     ```shell
+     scoop install abgox-bucket/PSCompletions
      ```
 
 3. Import module:

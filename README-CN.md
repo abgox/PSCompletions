@@ -63,17 +63,29 @@
 1. 打开 `PowerShell`
 2. 安装模块:
 
-   - 除非你确定始终会使用管理员权限打开 `PowerShell`，否则不要省略 `-Scope CurrentUser`
+   - 普通安装
 
-   ```powershell
-   Install-Module PSCompletions -Scope CurrentUser
-   ```
+     - 除非你确定始终会使用管理员权限打开 `PowerShell`，否则不要省略 `-Scope CurrentUser`
+
+     ```powershell
+     Install-Module PSCompletions -Scope CurrentUser
+     ```
 
    - 静默安装:
 
-   ```powershell
-   Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
-   ```
+     ```powershell
+     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+     ```
+
+   - 使用 [Scoop](https://scoop.sh/) 安装
+
+     ```shell
+     scoop bucket add abgox-bucket https://github.com/abgox/abgox-bucket
+     ```
+
+     ```shell
+     scoop install abgox-bucket/PSCompletions
+     ```
 
 3. 导入模块:
    ```powershell
