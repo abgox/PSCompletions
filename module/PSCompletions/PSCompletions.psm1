@@ -408,7 +408,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
         }
 
         function handle_done {
-            param([bool]$is_can, [switch]$common_err)
+            param([bool]$is_can, $err_info, $example = $PSCompletions.info.config.$($arg[1]).example)
             if ($arg.Length -eq 3) {
                 if ($is_can) {
                     $old_value = $PSCompletions.config.$config_item
@@ -418,34 +418,32 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.config.done))
                 }
                 else {
-                    if ($common_err) {
-                        Show-ParamError 'err' '' $PSCompletions.info.config.err.value $PSCompletions.info.config.$($arg[1]).example
-                    }
-                    else {
-                        Show-ParamError 'err' '' $PSCompletions.info.config.$($arg[1]).err.max $PSCompletions.info.config.$($arg[1]).example
-                    }
+                    Show-ParamError 'err' '' $err_info $example
                 }
             }
         }
         switch ($arg[1]) {
             'language' {
-                handle_done ($arg[2] -is [string] -and $arg[2] -ne '')
+                handle_done ($arg[2] -is [string] -and $arg[2] -ne '') $PSCompletions.info.config.language.err
             }
             'disable_cache' {
-                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) -common_err
+                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }
             'enable_completions_update' {
-                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) -common_err
+                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }
             'enable_module_update' {
-                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) -common_err
+                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }
             'url' {
-                handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '')
+                handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '') $PSCompletions.info.config.url.err
             }
             'function_name' {
-                handle_done ($arg[2] -ne '' -and !(Get-Command $arg[2] -ErrorAction SilentlyContinue))
+                handle_done ($arg[2] -ne '' -and !(Get-Command $arg[2] -ErrorAction SilentlyContinue)) $PSCompletions.info.config.function_name.err
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
+            }
+            'module_update_confirm_duration' {
+                handle_done ($arg[2] -is [int] -and $arg[2] -ge 0) $PSCompletions.info.config.module_update_confirm_duration.err
             }
         }
     }
