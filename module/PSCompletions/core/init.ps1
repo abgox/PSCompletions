@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.4.0'
+    version                 = '5.5.0'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -45,6 +45,7 @@ New-Variable -Name PSCompletions -Value @{
         enable_module_update                         = 1
         disable_cache                                = 0
         function_name                                = 'PSCompletions'
+        module_update_confirm_duration               = 15000
 
         # menu symbol
         SpaceTab                                     = '»'
@@ -105,7 +106,7 @@ New-Variable -Name PSCompletions -Value @{
     }
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip')
-    config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'disable_cache', 'function_name')
+    config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'disable_cache', 'function_name', 'module_update_confirm_duration')
 } -Option ReadOnly
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
@@ -1352,10 +1353,13 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
         if (!$PSCompletions._write_update_confirm) {
             $PSCompletions._write_update_confirm = $true
             $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
-            while (($PSCompletions._PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
-                if ($PSCompletions._PressKey.ControlKeyState -notlike '*CtrlPressed*') {
-                    if ($write_empty_line) { Write-Host '' }
-                    if ($PSCompletions._PressKey.VirtualKeyCode -eq 13) {
+
+            $PSCompletions._stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+
+            while ($PSCompletions._stopwatch.Elapsed.TotalMilliseconds -lt $PSCompletions.config.module_update_confirm_duration) {
+                if ([Console]::KeyAvailable) {
+                    $PSCompletions._key = [Console]::ReadKey($true)
+                    if ($PSCompletions._key.Key -eq 'Enter') {
                         # 13: Enter
                         $PSCompletions._cmd_list = @(
                             "Update-Module PSCompletions -RequiredVersion $($PSCompletions.version_list[0]) -Force -ErrorAction Stop",
@@ -1378,6 +1382,7 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
                     }
                     break
                 }
+                Start-Sleep -Milliseconds 100
             }
         }
     }

@@ -3,6 +3,14 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.5.0 (2025/5/1)
+
+- 添加一个配置项 `module_update_confirm_duration`
+  - `psc config module_update_confirm_duration`
+  - 当模块有版本更新时，模块更新确认的持续时间(毫秒)，默认值为 `15000`。
+  - 当超过这个时间后，将自动取消，避免因为更新确认导致进程卡住。
+- 其他修复与优化。
+
 ## 5.4.0 (2025/3/19)
 
 - 为路径补全添加一个配置项 `enable_path_with_trailing_separator`

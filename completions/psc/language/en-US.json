@@ -295,6 +295,22 @@
               ]
             }
           ]
+        },
+        {
+          "name": "module_update_confirm_duration",
+          "tip": [
+            "Current Value: {{ $PSCompletions.config.module_update_confirm_duration }}\n",
+            "When the module has version update, the duration of the module update confirmation (milliseconds).\n",
+            "When it's exceeded, it will be automatically cancelled to avoid the process being stuck due to update confirmation."
+          ],
+          "next": [
+            {
+              "name": "15000",
+              "tip": [
+                "Set to 15000 ms (Default)"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1548,7 +1564,8 @@
         "   \"`n<@Blue>$($_.version) : $($_.info.$($lang))\"",
         "}",
         "}}\n",
-        "<@Cyan>Press <@Magenta>Enter<@Cyan> key to update or <@Magenta>other key(Without Ctrl)<@Cyan> to cancel!"
+        "<@Cyan>Press <@Magenta>Enter<@Cyan> key to update or <@Magenta>other key(Without Ctrl)<@Cyan> to cancel!\n",
+        "<@Yellow>Automatically cancel if no keypress is received within {{ $PSCompletions.config.module_update_confirm_duration  }} milliseconds."
       ],
       "updating": "<@Cyan>Try to run the command: <@Magenta>{{ $update_cmd }}<@Cyan>\nTrying to update PSCompletions module...",
       "restart": "<@Yellow>The change takes effect after restarting PowerShell and reimporting PSCompletions module."
@@ -1799,17 +1816,13 @@
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
       ],
       "err": {
-        "value": [
+        "one_or_zero": [
           "<@Magenta>{{ $config_item }}<@Yellow> just need a value, number 1 or 0.\n",
           "1 mean enabled, and 0 mean disabled."
         ]
       },
       "language": {
-        "err": {
-          "max": [
-            "<@Magenta>{{ $config_item }}<@Yellow> just need a value, like <@Magenta>zh-CN<@Yellow>"
-          ]
-        },
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> just need a value, like <@Magenta>zh-CN<@Yellow>",
         "example": [
           "E: psc config language           --- Get language\n",
           "   psc config language zh-CN     --- Set to zh-CN"
@@ -1834,24 +1847,27 @@
         ]
       },
       "url": {
-        "err": {
-          "max": [
-            "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a url. (https://xxx)\n",
-            "The url must be valid, and its directory structure should be the same as that of the repository."
-          ]
-        },
+        "err": [
+          "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a url. (https://xxx)\n",
+          "The url must be valid, and its directory structure should be the same as that of the repository."
+        ],
         "example": [
           "E: psc config url                                           --- Get current url\n",
           "   psc config url https://abgox.github.io/PSCompletions     --- Set url"
         ]
       },
       "function_name": {
-        "err": {
-          "max": "<@Magenta>{{ $config_item }}<@Yellow> need a value, and it cannot be an existing command."
-        },
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> need a value, and it cannot be an existing command.",
         "example": [
           "E: psc config function_name                   --- Get current function name\n",
           "   psc config function_name PSCompletions     --- Set function name"
+        ]
+      },
+      "module_update_confirm_duration": {
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> need a number greater than or equal to 0.",
+        "example": [
+          "E: psc config module_update_confirm_duration\n",
+          "   psc config module_update_confirm_duration 15000"
         ]
       }
     },

@@ -293,6 +293,22 @@
               ]
             }
           ]
+        },
+        {
+          "name": "module_update_confirm_duration",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.module_update_confirm_duration }}\n",
+            "当模块有版本更新时，模块更新确认的持续时间(毫秒)\n",
+            "当超过这个时间后，将自动取消，避免因为更新确认导致进程卡住。"
+          ],
+          "next": [
+            {
+              "name": "15000",
+              "tip": [
+                "设置为 15000 毫秒 (默认值)"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1557,7 +1573,8 @@
         "   \"`n<@Blue>$($_.version) : $($_.info.$($lang))\"",
         "}",
         "}}\n",
-        "<@Cyan>按下 <@Magenta>Enter(回车键)<@Cyan> 进行更新，<@Magenta>其他任意键(不包含 Ctrl 键)<@Cyan> 取消更新!"
+        "<@Cyan>按下 <@Magenta>Enter(回车键)<@Cyan> 进行更新，<@Magenta>其他任意键(不包含 Ctrl 键)<@Cyan> 取消更新!\n",
+        "<@Yellow>如果 {{ $PSCompletions.config.module_update_confirm_duration  }} 毫秒内没有按键输入, 则自动取消。"
       ],
       "updating": "<@Cyan>尝试运行命令: <@Magenta>{{ $update_cmd }}<@Cyan>\nPSCompletions 模块正在尝试更新...",
       "restart": "<@Yellow>请重启 PowerShell 并重新导入 PSCompletions 模块来使更改生效"
@@ -1808,17 +1825,13 @@
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $old_value }}<@Green> => <@Magenta>{{ $new_value }}"
       ],
       "err": {
-        "value": [
+        "one_or_zero": [
           "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 数字 1 或 0\n",
           "1 表示启用, 0 表示禁用"
         ]
       },
       "language": {
-        "err": {
-          "max": [
-            "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 像 <@Magenta>zh-CN<@Yellow> 这样的区域语言标识符"
-          ]
-        },
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 像 <@Magenta>zh-CN<@Yellow> 这样的区域语言标识符",
         "example": [
           "E: psc config language           --- 获取语言设置\n",
           "   psc config language en-US     --- 设置为英文"
@@ -1843,24 +1856,27 @@
         ]
       },
       "url": {
-        "err": {
-          "max": [
-            "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 url 地址(https://xxx)\n",
-            "这个 url 必须是可用的, 且其目录结构应该与仓库相同"
-          ]
-        },
+        "err": [
+          "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 url 地址(https://xxx)\n",
+          "这个 url 必须是可用的, 且其目录结构应该与仓库相同"
+        ],
         "example": [
           "E: psc config url                                           --- 获取当前使用的 url\n",
           "   psc config url https://abgox.github.io/PSCompletions     --- 设置 url 地址"
         ]
       },
       "function_name": {
-        "err": {
-          "max": "<@Magenta>{{ $config_item }}<@Yellow> 配置项需要一个值, 且它不是已存在的命令"
-        },
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项需要一个值, 且它不是已存在的命令",
         "example": [
           "E: psc config function_name                   --- 获取当前使用的函数名\n",
           "   psc config function_name PSCompletions     --- 设置函数名"
+        ]
+      },
+      "module_update_confirm_duration": {
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项需要一个大于等于 0 的整数",
+        "example": [
+          "E: psc config module_update_confirm_duration\n",
+          "   psc config module_update_confirm_duration 15000"
         ]
       }
     },

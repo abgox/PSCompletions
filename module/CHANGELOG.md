@@ -3,6 +3,14 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.5.0 (2025/5/1)
+
+- Add a configuration item `module_update_confirm_duration`
+  - `psc config module_update_confirm_duration`.
+  - The duration of the module update confirmation (milliseconds), default value is `15000`.
+  - When the duration is exceeded, the update confirmation will be automatically cancelled to avoid the process being stuck due to the update confirmation.
+- Other fixes and optimizations.
+
 ## 5.4.0 (2025/3/19)
 
 - Add a configuration item `enable_path_with_trailing_separator` for path completion.
