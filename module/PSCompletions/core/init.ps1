@@ -45,7 +45,7 @@ New-Variable -Name PSCompletions -Value @{
         enable_module_update                         = 1
         disable_cache                                = 0
         function_name                                = 'PSCompletions'
-        module_update_confirm_duration               = 3000
+        module_update_confirm_duration               = 15000
 
         # menu symbol
         SpaceTab                                     = '»'
