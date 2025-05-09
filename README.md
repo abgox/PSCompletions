@@ -36,19 +36,19 @@
 
 > [!Tip]
 >
-> - [`PowerShell`](https://github.com/PowerShell/PowerShell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
+> - [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
 > - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
-> - They can both use `PSCompletions`, but [`PowerShell`](https://github.com/PowerShell/PowerShell) is more recommended.
+> - They can both use `PSCompletions`, but [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview) is more recommended.
 
 - A completion manager in `PowerShell` for better and simpler use completions.
 - [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added.")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
-- [Provide a more powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
+- [More powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
 - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
   - [sigoden/argc-completions](https://github.com/sigoden/argc-completions)
 
-[**If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**](#stars)
+[**If `PSCompletions` is helpful to you, please consider giving it a star.**](#stars)
 
 ## What's new
 
@@ -60,20 +60,23 @@
 
 ## How to install
 
+> [!Warning]
+>
+> - [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview): Don't add `-Scope AllUsers` unless you're sure you'll always use administrator permissions.
+> - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Don't omit `-Scope CurrentUser` unless you're sure you'll always use administrator permissions.
+
 1. Start `PowerShell`.
 2. Install module:
 
    - Normal:
 
-     - Don't omit `-Scope CurrentUser` unless you're sure you'll always start `PowerShell` with administrator permissions.
-
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser
+     Install-Module PSCompletions
      ```
 
    - Install silently:
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+     Install-Module PSCompletions -Repository PSGallery -Force
      ```
    - Use [Scoop](https://scoop.sh/)
 
@@ -93,19 +96,8 @@
      ```powershell
      echo "Import-Module PSCompletions" >> $PROFILE
      ```
-
-> [!Warning]
->
-> - When using `PSCompletions`, don't use `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete`.
-> - Because `PSCompletions` uses it, if it's used again, it will overwrite the settings in `PSCompletions`, causing the `PSCompletions` completion menu to not work properly.
-> - You should set it by the configuration in `PSCompletions`.
-> - For detail configuration, see [About the completion trigger key](#about-the-completion-trigger-key).
->
-> ```diff
-> + Import-Module PSCompletions
->
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
-> ```
+   - Note: Recommend add `Import-Module PSCompletions` early in `$PROFILE` to void [the encoding issue](https://pscompletions.abgox.com/en-US/FAQ/#about-the-output-encoding).
+   - [About the completion trigger key](#about-the-completion-trigger-key).
 
 ## How to uninstall
 
@@ -146,14 +138,15 @@
 
 > [!Warning]
 >
-> - When using `PSCompletions`, don't use `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete`.
-> - Because `PSCompletions` uses it, if it's used again, it will overwrite the settings in `PSCompletions`, causing the `PSCompletions` completion menu to not work properly.
+> - If you need to set `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>`
+> - Please add it before `Import-Module PSCompletions`
+> - Example:
 >
-> ```diff
-> + Import-Module PSCompletions
+>   ```powershell
+>   Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 >
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
-> ```
+>   Import-Module PSCompletions
+>   ```
 
 ### About completion update
 
@@ -165,6 +158,7 @@
 - `Optional Completions`: some command completions that like `-*`, such as `--global` in `git config --global`.
 - You should use option completion first.
 - Taking `git` as an example, if you want to enter `git config user.name --global xxx`, you should use `--global` completion first, and then use `user.name`, and then enter the name `xxx` .
+- For options ending with `=`, if there's completion definition, you can directly press the `Tab` key to get the completions.
 
 ### About completion menu
 
@@ -175,8 +169,8 @@
 - The module's completion menu is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
 
 - Available Windows environment:
-  - `PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.0.0+-4CAF50" alt="v4.0.0+ support" />
-  - `Windows PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.1.0+-4CAF50" alt="v4.1.0+ support" />
+  - `PowerShell`
+  - `Windows PowerShell`
     - Due to rendering problems of `Windows PowerShell`, the border style of the completion menu cannot be customized.
       - If you need to customize it, use `PowerShell`.
 - Some keys in the module's completion menu.
@@ -199,28 +193,27 @@
 - All configurations of it, you can trigger completion by running `psc menu`, then learn about them by [the completion tip](#about-completion-tip).
   - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
 
-#### About menu enhance <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />
+#### About menu enhance
 
 - Setting: `psc menu config enable_menu_enhance 1` (Default: `1`)
 - Now, `PSCompletions` has two completion implementations.
 
-  1. [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
-     - <img src="https://img.shields.io/badge/module%20version-v4.1.0-4CAF50" alt="v4.1.0 support" /> : It's used.
-     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's optional.
-       - You can use it by running `psc menu config enable_menu_enhance 0`.
-       - It's not recommended. It only works for completions added by `psc add`.
-  2. [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
-     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: It's used by default.
-       - Requires: `enable_menu` and `enable_menu_enhance` both set to `1`.
-     - It no longer needs to loop through registering `Register-ArgumentCompleter` for all completions, which theoretically makes loading faster.
-     - It use [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
-       - For example:
-         - Path completion such as `cd`/`.\`/`..\`/`~\`/... in `PowerShell`.
-         - Build-in commands such as `Get-*`/`Set-*`/`New-*`/... in `PowerShell`.
-         - Completion registered by [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
-         - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
-         - Completion registered by cli or module.
-         - ...
+  - [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
+    - It's used by default.
+      - Requires: `enable_menu` and `enable_menu_enhance` both set to `1`.
+    - It no longer needs to loop through registering `Register-ArgumentCompleter` for all completions, which theoretically makes loading faster.
+    - It use [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
+      - For example:
+        - Path completion such as `cd`/`.\`/`..\`/`~\`/... in `PowerShell`.
+        - Build-in commands such as `Get-*`/`Set-*`/`New-*`/... in `PowerShell`.
+        - Completion registered by [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
+        - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
+        - Completion registered by cli or module.
+        - ...
+  - [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
+    - You can use it by running `psc menu config enable_menu_enhance 0`.
+    - It only works for completions added by `psc add`.
+    - Other completions are controlled by `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>`.
 
 ### About special symbols
 
@@ -256,7 +249,6 @@
     - If there's also `»`, it means that there's some preset completions, you can press `Space` and `Tab` key to continue to get them without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
   - All completions can be triggered by pressing the `Tab` key after entering a part.
-  - For options ending with `=`, if there's completion definition, you can directly press the `Tab` key to get the completions.
 
 ### About completion tip
 
@@ -318,7 +310,7 @@
 
 ## Stars
 
-**If `PSCompletions` is helpful to you, please consider giving it a star ⭐.**
+**If `PSCompletions` is helpful to you, please consider giving it a star.**
 
 <a href="https://github.com/abgox/PSCompletions">
   <picture>

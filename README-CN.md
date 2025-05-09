@@ -36,19 +36,19 @@
 
 > [!Tip]
 >
-> - [`PowerShell`](https://github.com/PowerShell/PowerShell): 跨平台的 PowerShell。运行 `pwsh`/`pwsh.exe` 启动
+> - [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview): 跨平台的 PowerShell。运行 `pwsh`/`pwsh.exe` 启动
 > - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。运行 `powershell`/`powershell.exe` 启动
-> - 它们都可以使用 `PSCompletions`, 但是更推荐 [`PowerShell`](https://github.com/PowerShell/PowerShell)
+> - 它们都可以使用 `PSCompletions`, 但是更推荐 [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview)
 
 - 一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
 - [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 - `en-US`,`zh-CN`,... 多语言切换
 - 动态排序补全项(根据使用频次)
-- [提供了一个更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
+- [更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
 - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
   - [argc-completions 仓库](https://github.com/sigoden/argc-completions)
 
-[**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star ⭐**](#stars)
+[**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star**](#stars)
 
 ## 新的变化
 
@@ -60,21 +60,24 @@
 
 ## 安装
 
+> [!Warning]
+>
+> - [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview): 除非你确定始终会使用管理员权限，否则不要添加 `-Scope AllUsers`
+> - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): 除非你确定始终会使用管理员权限，否则不要省略 `-Scope CurrentUser`
+
 1. 打开 `PowerShell`
 2. 安装模块:
 
    - 普通安装
 
-     - 除非你确定始终会使用管理员权限打开 `PowerShell`，否则不要省略 `-Scope CurrentUser`
-
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser
+     Install-Module PSCompletions
      ```
 
    - 静默安装:
 
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+     Install-Module PSCompletions -Repository PSGallery -Force
      ```
 
    - 使用 [Scoop](https://scoop.sh/) 安装
@@ -92,22 +95,11 @@
    Import-Module PSCompletions
    ```
    - 如果不想每次启动 `PowerShell` 都需要导入 `PSCompletions` 模块，你可以使用以下命令将导入语句写入 `$PROFILE` 中
-   ```powershell
-   echo "Import-Module PSCompletions" >> $PROFILE
-   ```
-
-> [!Warning]
->
-> - 导入 `PSCompletions` 后，就不要使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了
-> - 因为 `PSCompletions` 使用了它，如果再次使用，会覆盖 `PSCompletions` 中的设置，导致 `PSCompletions` 补全菜单无法正常工作
-> - 你应该通过 `PSCompletions` 中的配置去设置它
-> - 详细配置请参考 [关于补全触发按键](#关于补全触发按键)
->
-> ```diff
-> + Import-Module PSCompletions
->
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
-> ```
+     ```powershell
+     echo "Import-Module PSCompletions" >> $PROFILE
+     ```
+   - 推荐将 `Import-Module PSCompletions` 添加到 `$PROFILE` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/zh-CN/FAQ/#输出编码)
+   - [关于补全触发按键](#关于补全触发按键)
 
 ## 卸载
 
@@ -148,14 +140,15 @@
 
 > [!Warning]
 >
-> - 导入 `PSCompletions` 后，就不要使用 `Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete` 了
-> - 因为 `PSCompletions` 使用了它，如果再次使用，会覆盖 `PSCompletions` 中的设置，导致 `PSCompletions` 补全菜单无法正常工作
+> - 如果需要指定 `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>`
+> - 请放在 `Import-Module PSCompletions` 之前
+> - 例如:
 >
-> ```diff
-> + Import-Module PSCompletions
+>   ```powershell
+>   Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 >
-> - Set-PSReadLineKeyHandler -Key <key> -Function MenuComplete
-> ```
+>   Import-Module PSCompletions
+>   ```
 
 ### 关于补全更新
 
@@ -168,6 +161,7 @@
 - 你应该优先使用选项类补全
 - 以 `git` 补全为例，如果你想要输入 `git config user.name --global xxx`
 - 你应该先补全 `--global`，然后再补全 `user.name`，最后输入名称 `xxx`
+- 对于以 `=` 结尾的选项，如果有相关补全定义，则可以直接按下 `Tab` 键触发补全
 
 ### 关于补全菜单
 
@@ -175,8 +169,8 @@
   - 配置: `psc menu config enable_menu 1` (默认开启)
 - 模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
 - 模块提供的补全菜单可用的 Windows 环境：
-  - `PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.0.0+-4CAF50" alt="v4.0.0+ support" />
-  - `Windows PowerShell` <img src="https://img.shields.io/badge/module%20version-v4.1.0+-4CAF50" alt="v4.1.0+ support" />
+  - `PowerShell`
+  - `Windows PowerShell`
     - 由于 `Windows PowerShell` 渲染问题，补全菜单的边框样式无法自定义
     - 如果需要自定义，请使用 `PowerShell`
 - 模块提供的补全菜单中的按键
@@ -199,30 +193,30 @@
 - 补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)
 
-#### 关于菜单增强 <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />
+#### 关于菜单增强
 
 - 配置: `psc menu config enable_menu_enhance 1` (默认开启)
-- 现在，`PSCompletions` 对于补全有两种实现
+- `PSCompletions` 对于补全有两种实现
 
-  1. [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
+  - [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
 
-     - <img src="https://img.shields.io/badge/module%20version-v4.1.0-4CAF50" alt="v4.1.0 support" /> 及之前版本都使用此实现
-     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 此实现变为可选
-       - 你可以运行 `psc menu config enable_menu_enhance 0` 来继续使用它
-       - 但并不推荐，它只能用于 `psc add` 添加的补全
+    - 默认使用此实现
+      - 前提: 配置项 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
+    - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
+    - 同时使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
+      - 例如:
+        - 路径补全: `cd`/`.\`/`..\`/`~\`/...
+        - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...
+        - 通过 [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
+        - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
+        - 由 cli 或模块注册的补全
+        - ...
 
-  2. [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
-     - <img src="https://img.shields.io/badge/module%20version-v4.2.0+-4CAF50" alt="v4.2.0+ support" />: 默认使用此实现
-       - 需要 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
-     - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
-     - 同时使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
-       - 例如:
-         - `cd`/`.\`/`..\`/`~\`/... 这样的路径补全
-         - `Get-*`/`Set-*`/`New-*`/... 这样的内置命令补全
-         - 通过 [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
-         - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
-         - 由 cli 或模块注册的补全
-         - ...
+  - [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
+
+    - 可以通过配置 `psc menu config enable_menu_enhance 0` 来使用它
+    - `PSCompletions` 只对通过 `psc add` 添加的补全生效
+    - 其他补全由 `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>` 控制
 
 ### 关于特殊符号
 
@@ -262,7 +256,6 @@
     - 可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
 
   - 所有补全都可以在输入部分字符后按下 `Tab` 键触发补全
-  - 对于以 `=` 结尾的选项，如果有相关补全定义，则可以直接按下 `Tab` 键触发补全
 
 ### 关于补全提示信息
 
@@ -326,7 +319,7 @@
 
 ## Stars
 
-**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star ⭐**
+**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star**
 
 <a href="https://github.com/abgox/PSCompletions">
   <picture>
