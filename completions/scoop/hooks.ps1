@@ -20,7 +20,8 @@ function handleCompletions($completions) {
                 }
                 'rm' {
                     if ($filter_input_arr.Count -eq 2) {
-                        foreach ($_ in Get-ChildItem "$root_path\buckets" 2>$null) {
+                        $items = Get-ChildItem "$root_path\buckets" 2>$null
+                        foreach ($_ in $items) {
                             $bucket = $_.Name
                             $tempList += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm))
                         }
@@ -159,7 +160,8 @@ function handleCompletions($completions) {
             }
             if ($filter_input_arr.Count -ge 2 -and $filter_input_arr[1] -eq "rm") {
                 $selected = $filter_input_arr[2..($filter_input_arr.Count - 1)]
-                foreach ($_ in Get-ChildItem "$root_path\cache" -ErrorAction SilentlyContinue) {
+                $items = Get-ChildItem "$root_path\cache" -ErrorAction SilentlyContinue
+                foreach ($_ in $items) {
                     $match = $_.BaseName -match '^([^#]+#[^#]+)'
                     if ($match) {
                         $part = $_.Name -split "#"
