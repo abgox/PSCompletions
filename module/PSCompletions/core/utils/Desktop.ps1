@@ -166,7 +166,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             config   = [ordered]@{}
         }
         $data.config.comp_config = [ordered]@{}
-        foreach ($_ in Get-ChildItem $PSCompletions.path.completions -Directory) {
+        $items = Get-ChildItem -Path $PSCompletions.path.completions
+        foreach ($_ in $items) {
             $cmd = $_.Name
             $data.list += $cmd
 
