@@ -30,7 +30,8 @@ function handleCompletions($completions) {
         }
         'install' {
             $dir = @()
-            Get-ChildItem "$root_path\buckets" -Directory | ForEach-Object {
+            $PSCompletions.temp_scoop_installed_apps = Get-ChildItem "$root_path\apps" | ForEach-Object { $_.BaseName }
+            Get-ChildItem "$root_path\buckets" | ForEach-Object {
                 $dir += @{
                     bucket = $_.BaseName
                     path   = "$($_.FullName)\bucket"
@@ -40,9 +41,9 @@ function handleCompletions($completions) {
                     param ($items, $PSCompletions, $Host_UI)
                     $return = @()
                     foreach ($item in $items) {
-                        Get-ChildItem $item.path -File -Depth 1 | ForEach-Object {
+                        Get-ChildItem $item.path | ForEach-Object {
                             $app = "$($item.bucket)/$($_.BaseName)"
-                            if ($app -notin $PSCompletions.input_arr) {
+                            if ($app -notin $PSCompletions.input_arr -and $_.BaseName -notin $PSCompletions.temp_scoop_installed_apps) {
                                 $return += @{
                                     ListItemText   = $app
                                     CompletionText = $app
