@@ -180,10 +180,9 @@ function handleCompletions($completions) {
                 $completions_list = $completions.CompletionText
                 foreach ($c in $configs) {
                     $current_value = $c.Name
-                    $info = $PSCompletions.completions_data.scoop.root.config.$($PSCompletions.guid).Where({ $_.CompletionText -eq $current_value })[0].ToolTip
-                    if (!$info) {
-                        $info = @($PSCompletions.info.current_value + ': ' + ($c.Definition -replace '^.+=', ''))
-                    }
+                    $value = $c.Definition -replace '^.+=', ''
+                    # $info = $PSCompletions.completions_data.scoop.root.config.$($PSCompletions.guid).Where({ $_.CompletionText -eq $current_value })[0].ToolTip
+                    $info = @($PSCompletions.info.current_value + ': ' + $value)
                     if ($current_value -notin $completions_list) {
                         $tempList += $PSCompletions.return_completion($current_value, $PSCompletions.replace_content($info))
                     }
