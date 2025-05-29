@@ -10,7 +10,8 @@ on:
 jobs:
   sync-repos:
     runs-on: windows-latest
-
+    env:
+      REPO_NAME: PSCompletions
     steps:
     - name: Setup SSH
       shell: pwsh
@@ -51,10 +52,13 @@ jobs:
     - name: Clone from GitHub and Push to Gitee
       shell: pwsh
       run: |
-        git clone --mirror git@github.com:abgox/PSCompletions.git
-        cd PSCompletions.git
-        git remote add gitee git@gitee.com:abgox/PSCompletions.git
-        git push --mirror gitee --force
+        $repo_name = $env:REPO_NAME
+        $temp_dir = "temp_$(Get-Date -Format 'yyyyMMddHHmmss')"
+        git clone "git@github.com:abgox/$repo_name.git" $temp_dir
+        cd $temp_dir
+        git remote add gitee "git@gitee.com:abgox/$repo_name.git"
+        git push gitee --force
+        git push gitee --tags --force
 
     - name: Cleanup SSH
       if: always()
