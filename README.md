@@ -41,7 +41,7 @@
 > - They can both use `PSCompletions`, but [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview) is more recommended.
 
 - A completion manager in `PowerShell` for better and simpler use completions.
-- [Manage completions together.](#available-completions-list "Click it to view the completion list that can be added.")
+- [Manage completions together.](#available-completions "Click it to view the completion list that can be added.")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
 - [More powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
@@ -111,7 +111,7 @@
 
 > [!Tip]
 >
-> - [Available Completions.](#available-completions-list "All completions that can be added at present. More completions are adding!")
+> - [Available Completions.](#available-completions "All completions that can be added at present. More completions are adding!")
 > - If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
 > - You can also [combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
 
@@ -325,11 +325,10 @@
 
 ![Support](https://me.abgox.com/support.png)
 
-## Available Completions List
+## Available Completions
 
 - Guide
   - **`Completion`** ：Click to view to the official website of the command. Sort by first letter(0-9,a-z).
-    - Special case: `abc(a)`, it means that you need to download it by `psc add abc`, but by default `a` is used instead of `abc` to trigger the completion.
   - **`Language`**: Supported Languages, and Progress.
     - This progress is compared to the first language defined in `config.json` (usually `en-US`).
   - **`Description`**: Command Description.

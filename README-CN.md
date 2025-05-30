@@ -339,11 +339,8 @@
 - 说明
 
   - **`Completion`** ：可添加的补全。点击跳转命令官方网站，按照数字字母排序(0-9,a-z)。
-    - 特殊情况: `abc(a)`，这表示你需要通过 `psc add abc` 去下载它，但默认使用 `a` 而不是 `abc` 去触发补全
   - **`Language`**: 支持的语言，以及完成进度
-
     - 这个进度是和 `config.json` 中定义的第一个语言相比，一般是 `en-US`
-
   - **`Description`**: 命令描述
 
 <!-- prettier-ignore-start -->
