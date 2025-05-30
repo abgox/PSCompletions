@@ -988,6 +988,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         }
     }
 
+    if ($config.alias) {
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.add.show_alias))
+    }
     if ($PSCompletions._alias_conflict) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.alias_conflict))
     }
