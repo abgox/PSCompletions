@@ -6,11 +6,11 @@ if (!(Test-Path $textPath)) {
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
-$isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
-if (!$isAdmin) {
-    Write-Host $text."need-admin" -ForegroundColor Red
-    return
-}
+# $isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
+# if (!$isAdmin) {
+#     Write-Host $text."need-admin" -ForegroundColor Red
+#     return
+# }
 
 if (!$PSCompletions) {
     Write-Host $text."import-psc" -ForegroundColor Red
@@ -45,7 +45,7 @@ Copy-Item "$($PSScriptRoot)/template/hooks.ps1" "$completion_dir/hooks.ps1" -For
 
 $test_dir = Join-Path $PSCompletions.path.completions $completion_name
 Remove-Item $test_dir -Recurse -Force -ErrorAction SilentlyContinue
-$null = New-Item -ItemType SymbolicLink -Path $test_dir -Target $completion_dir
+$null = New-Item -ItemType Junction -Path $test_dir -Target $completion_dir
 $PSCompletions.write_with_color($PSCompletions.replace_content($text.success))
 
 $PSCompletions.data.list += $completion_name

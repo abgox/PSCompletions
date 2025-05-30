@@ -444,8 +444,8 @@ function handle_language {
 }
 
 function generate_list {
-    $content_EN = @()
-    $content_CN = @()
+    $content_EN = @("|Completion|Language|Description|", "|:-:|-|-|")
+    $content_CN = @("|Completion|Language|Description|", "|:-:|-|-|")
     Get-ChildItem "$PSScriptRoot\..\completions" | ForEach-Object {
         $info_EN = @()
         $info_CN = @()
@@ -467,19 +467,10 @@ function generate_list {
 
         # Completion
         ## EN
-        if ($json_config.alias) {
-            $info_EN += "[$($_.Name)($($json_config.alias))]($($completion."en-US".info.completion_info.url))"
-        }
-        else {
-            $info_EN += "[$($_.Name)]($($completion."en-US".info.completion_info.url))"
-        }
+        $info_EN += "[$($_.Name)]($($completion."en-US".info.completion_info.url))"
+
         ## CN
-        if ($json_config.alias) {
-            $info_CN += "[$($_.Name)($($json_config.alias))]($($completion."zh-CN".info.completion_info.url))"
-        }
-        else {
-            $info_CN += "[$($_.Name)]($($completion."zh-CN".info.completion_info.url))"
-        }
+        $info_CN += "[$($_.Name)]($($completion."zh-CN".info.completion_info.url))"
 
         # Language
         $lang_info = handle_language $_.BaseName $lang_list
@@ -520,7 +511,7 @@ function handle($lang) {
     function get_static_content($path) {
         $content = Get-Content -Path $path -Encoding UTF8
 
-        $match = $content | Select-String -Pattern "\|:-:\|-\|-\|"
+        $match = $content | Select-String -Pattern "<!-- prettier-ignore-start -->"
 
         if ($match) {
             $matchLineNumber = ([array]$match.LineNumber)[0]

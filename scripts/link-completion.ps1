@@ -6,11 +6,11 @@ if (!(Test-Path $textPath)) {
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
-$isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
-if (!$isAdmin) {
-    Write-Host $text."need-admin" -ForegroundColor Red
-    return
-}
+# $isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
+# if (!$isAdmin) {
+#     Write-Host $text."need-admin" -ForegroundColor Red
+#     return
+# }
 
 if (!$PSCompletions) {
     Write-Host $text."import-psc" -ForegroundColor Red
@@ -38,7 +38,7 @@ if (!(Test-Path $completion_dir)) {
 
 $completion_dir = "$($PSCompletions.path.completions)\$completion_name"
 Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
-$null = New-Item -ItemType SymbolicLink -Path $completion_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
+$null = New-Item -ItemType Junction -Path $completion_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
 
 $language = $PSCompletions.get_language($completion_name)
 
