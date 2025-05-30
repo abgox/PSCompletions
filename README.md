@@ -394,6 +394,7 @@
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|[**en-US**](/completions/pwsh/language/en-US.json)<br>[**zh-CN(100%)**](/completions/pwsh/language/zh-CN.json)|PowerShell CLI. (pwsh.exe)|
 |[python](https://www.python.org)|[**en-US**](/completions/python/language/en-US.json)<br>[**zh-CN(100%)**](/completions/python/language/zh-CN.json)|python - command-line.|
 |[scoop](https://scoop.sh)|[**en-US**](/completions/scoop/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop/language/zh-CN.json)|Scoop - Software Manager.|
+|[scoop-install](https://github.com/abgox/scoop-install)|[**en-US**](/completions/scoop-install/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop-install/language/zh-CN.json)|A PowerShell script that allows you to add Scoop configurations to use a replaced url instead of the original url when installing the app in Scoop.|
 |[sfsu](https://github.com/winpax/sfsu)|[**en-US**](/completions/sfsu/language/en-US.json)<br>[**zh-CN(6.67%)**](/completions/sfsu/language/zh-CN.json)|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
 |[volta](https://volta.sh)|[**en-US**](/completions/volta/language/en-US.json)<br>[**zh-CN(100%)**](/completions/volta/language/zh-CN.json)|volta - Accessible JavaScript Tool Manager.|
 |[winget](https://github.com/microsoft/winget-cli)|[**en-US**](/completions/winget/language/en-US.json)<br>[**zh-CN(100%)**](/completions/winget/language/zh-CN.json)|WinGet - Windows package manager.|

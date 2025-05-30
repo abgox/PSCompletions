@@ -404,6 +404,7 @@
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|[**en-US**](/completions/pwsh/language/en-US.json)<br>[**zh-CN(100%)**](/completions/pwsh/language/zh-CN.json)|PowerShell 命令行 CLI。(pwsh.exe)|
 |[python](https://www.python.org)|[**en-US**](/completions/python/language/en-US.json)<br>[**zh-CN(100%)**](/completions/python/language/zh-CN.json)|python - 命令行。|
 |[scoop](https://scoop.sh)|[**en-US**](/completions/scoop/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop/language/zh-CN.json)|Scoop - 软件管理|
+|[scoop-install](https://gitee.com/abgox/scoop-install)|[**en-US**](/completions/scoop-install/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop-install/language/zh-CN.json)|一个 PowerShell 脚本，它允许你添加 Scoop 配置，在 Scoop 安装应用时使用替换后的 url 而不是原始的 url。|
 |[sfsu](https://github.com/winpax/sfsu)|[**en-US**](/completions/sfsu/language/en-US.json)<br>[**zh-CN(6.67%)**](/completions/sfsu/language/zh-CN.json)|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
 |[volta](https://volta.sh)|[**en-US**](/completions/volta/language/en-US.json)<br>[**zh-CN(100%)**](/completions/volta/language/zh-CN.json)|volta - 无障碍 JavaScript 工具管理器。|
 |[winget](https://github.com/microsoft/winget-cli)|[**en-US**](/completions/winget/language/en-US.json)<br>[**zh-CN(100%)**](/completions/winget/language/zh-CN.json)|WinGet - Windows 程序包管理器。|
