@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.5.0'
+    version                 = '5.5.1'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -988,6 +988,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         }
     }
 
+    if ($config.alias) {
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.add.show_alias))
+    }
     if ($PSCompletions._alias_conflict) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.alias_conflict))
     }
@@ -1029,7 +1032,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod new_data {
         config   = $PSCompletions.default_config
     }
     $data.config.comp_config = @{}
-    foreach ($_ in Get-ChildItem -Path $PSCompletions.path.completions -Directory) {
+    $items = Get-ChildItem -Path $PSCompletions.path.completions
+    foreach ($_ in $items) {
         $name = $_.Name
         $data.list += $name
         $data.alias.$name = @()
@@ -1226,7 +1230,8 @@ if (!(Test-Path $PSCompletions.path.temp)) {
                         config   = $PSCompletions.default_config
                     }
                     $data.config.comp_config = @{}
-                    foreach ($_ in Get-ChildItem "$old_version_dir/completions" -Directory -ErrorAction SilentlyContinue) {
+                    $items = Get-ChildItem -Path "$old_version_dir/completions" -ErrorAction SilentlyContinue
+                    foreach ($_ in $items) {
                         $name = $_.Name
                         $data.list += $name
                         $data.alias.$name = @()

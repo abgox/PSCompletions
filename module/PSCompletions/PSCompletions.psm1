@@ -322,7 +322,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.exist
                         return
                     }
-                    if (Get-Command $alias -ErrorAction SilentlyContinue) {
+                    if (($alias -notmatch ".*\.\w+$") -and (Get-Command $alias -ErrorAction SilentlyContinue)) {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
                     }
