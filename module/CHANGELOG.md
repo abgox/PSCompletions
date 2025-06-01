@@ -3,6 +3,13 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.5.1 (2025/6/1)
+
+- Fix an internal method that may cause errors.
+- Display the aliases that can trigger completions when adding completions.
+- Lower the restriction on setting aliases. Allow adding aliases like xxx.exe when there is a xxx command.
+- Other fixes and optimizations.
+
 ## 5.5.0 (2025/5/1)
 
 - Add a configuration item `module_update_confirm_duration`
