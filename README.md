@@ -81,11 +81,11 @@
    - Use [Scoop](https://scoop.sh/)
 
      ```shell
-     scoop bucket add abgox-bucket https://github.com/abgox/abgox-bucket
+     scoop bucket add abyss https://github.com/abgox/abyss.git
      ```
 
      ```shell
-     scoop install abgox-bucket/PSCompletions
+     scoop install abyss/PSCompletions
      ```
 
 3. Import module:
