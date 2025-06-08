@@ -175,16 +175,41 @@ function handleCompletions($completions) {
             }
         }
         'config' {
+            $configList = @(
+                'alias',
+                'aria2-enabled',
+                'aria2-max-connection-per-server',
+                'aria2-min-split-size',
+                'aria2-retry-wait',
+                'aria2-split',
+                'aria2-warning-enabled',
+                'global_path',
+                'proxy',
+                'root_path',
+                'scoop_branch',
+                'scoop_repo'
+            )
+
             if ($filter_input_arr.Count -eq 1) {
                 $configs = Get-Member -InputObject $config -MemberType NoteProperty
                 $completions_list = $completions.CompletionText
+
+                $add = @()
+
                 foreach ($c in $configs) {
-                    $current_value = $c.Name
-                    $value = $c.Definition -replace '^.+=', ''
-                    # $info = $PSCompletions.completions_data.scoop.root.config.$($PSCompletions.guid).Where({ $_.CompletionText -eq $current_value })[0].ToolTip
-                    $info = @($PSCompletions.info.current_value + ': ' + $value)
-                    if ($current_value -notin $completions_list) {
-                        $tempList += $PSCompletions.return_completion($current_value, $PSCompletions.replace_content($info))
+                    $configName = $c.Name
+                    $add += $configName
+                    $configValue = $c.Definition -replace '^.+=', ''
+                    # $info = $PSCompletions.completions_data.scoop.root.config.$($PSCompletions.guid).Where({ $_.CompletionText -eq $configName })[0].ToolTip
+                    $info = @($PSCompletions.info.current_value + ': ' + $configValue)
+                    if ($configName -notin $completions_list) {
+                        $tempList += $PSCompletions.return_completion($configName, $PSCompletions.replace_content($info))
+                    }
+                }
+
+                foreach ($c in $configList) {
+                    if ($c -notin $add) {
+                        $tempList += $PSCompletions.return_completion($c, '')
                     }
                 }
             }
@@ -192,9 +217,9 @@ function handleCompletions($completions) {
                 if ($filter_input_arr[1] -eq 'rm') {
                     $configs = Get-Member -InputObject $config -MemberType NoteProperty
                     foreach ($c in $configs) {
-                        $current_value = $c.Name
+                        $configName = $c.Name
                         $info = @($PSCompletions.info.current_value + ': ' + ($c.Definition -replace '^.+=', ''))
-                        $tempList += $PSCompletions.return_completion($current_value, $PSCompletions.replace_content($info))
+                        $tempList += $PSCompletions.return_completion($configName, $PSCompletions.replace_content($info))
                     }
                 }
             }
