@@ -2,7 +2,8 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: [Update]
+    workflows:
+      - "Update Content"
     types: [completed]
   workflow_dispatch:
 
@@ -18,15 +19,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
