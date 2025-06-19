@@ -87,7 +87,7 @@
      ```
 
      ```shell
-     scoop install abyss/PSCompletions
+     scoop install abyss/abgox.PSCompletions
      ```
 
 3. 导入模块:

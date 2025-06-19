@@ -78,14 +78,14 @@
      ```powershell
      Install-Module PSCompletions -Repository PSGallery -Force
      ```
-   - Use [Scoop](https://scoop.sh/)
+   - Use [Scoop](https://scoop.sh/):
 
      ```shell
      scoop bucket add abyss https://github.com/abgox/abyss.git
      ```
 
      ```shell
-     scoop install abyss/PSCompletions
+     scoop install abyss/abgox.PSCompletions
      ```
 
 3. Import module:
