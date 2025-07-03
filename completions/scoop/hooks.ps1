@@ -30,19 +30,18 @@
             }
         }
         'install' {
-            $dir = @()
             $PSCompletions.temp_scoop_installed_apps = Get-ChildItem "$root_path\apps" | ForEach-Object { $_.BaseName }
-            Get-ChildItem "$root_path\buckets" | ForEach-Object {
-                $dir += @{
+            $dir = Get-ChildItem "$root_path\buckets" | ForEach-Object {
+                @{
                     bucket = $_.BaseName
                     path   = "$($_.FullName)\bucket"
                 }
             }
-            $return = $PSCompletions.handle_data_by_runspace($dir, {
+            $tempList += $PSCompletions.handle_data_by_runspace($dir, {
                     param ($items, $PSCompletions, $Host_UI)
                     $return = @()
                     foreach ($item in $items) {
-                        Get-ChildItem $item.path | ForEach-Object {
+                        Get-ChildItem $item.path -Recurse -Filter *.json | ForEach-Object {
                             $app = "$($item.bucket)/$($_.BaseName)"
                             if ($app -notin $PSCompletions.input_arr -and $_.BaseName -notin $PSCompletions.temp_scoop_installed_apps) {
                                 $return += @{
