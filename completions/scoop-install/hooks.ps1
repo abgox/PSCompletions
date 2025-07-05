@@ -1,46 +1,31 @@
-function handleCompletions($completions) {
+﻿function handleCompletions($completions) {
     $tempList = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
 
-
     # $PSCompletions.input_arr
-    $config = scoop config
+    try {
+        $config = scoop config
+    }
+    catch {
+        return $completions
+    }
     $root_path = $config.root_path
     $global_path = $config.global_path
+    $CN = $PSUICulture -like 'zh*'
 
-    if ($filter_input_arr.Count -eq 0) {
-        $dir = @()
-        $PSCompletions.temp_scoop_installed_apps = Get-ChildItem "$root_path\apps" | ForEach-Object { $_.BaseName }
-        Get-ChildItem "$root_path\buckets" | ForEach-Object {
-            $dir += @{
-                bucket = $_.BaseName
-                path   = "$($_.FullName)\bucket"
-            }
-        }
-        $return = $PSCompletions.handle_data_by_runspace($dir, {
-                param ($items, $PSCompletions, $Host_UI)
-                $return = @()
-                foreach ($item in $items) {
-                    Get-ChildItem $item.path | ForEach-Object {
-                        $app = "$($item.bucket)/$($_.BaseName)"
-                        if ($app -notin $PSCompletions.input_arr -and $_.BaseName -notin $PSCompletions.temp_scoop_installed_apps) {
-                            $return += @{
-                                ListItemText   = $app
-                                CompletionText = $app
-                                symbols        = @()
-                            }
-                        }
-                    }
-                }
-                return $return
-            }, {
-                param($results)
-                return $results
-            })
-        $tempList += $return
+    # 是否需要添加应用补全
+    $addApp = $true
+
+    if ($CN) {
+        $resetTip = "撤销所有 Scoop bucket 中的本地文件更改`n通过 git stash 命令实现"
     }
-    elseif ($filter_input_arr[-1] -notlike '-*') {
+    else {
+        $resetTip = "Undo all local file changes in Scoop buckets.`nIt use 'git stash'"
+    }
+    $tempList += $PSCompletions.return_completion('-reset', $resetTip, @('OptionTab'))
+
+    if ($filter_input_arr[-1] -notlike '-*') {
         $paramList = @(
             '-g', '--global',
             '-i', '--independent',
@@ -65,14 +50,15 @@ function handleCompletions($completions) {
         }
 
         if ($PSCompletions.input_arr[-1] -in @('-a', '--arch')) {
+            $addApp = $false
             $paramList = @('64bit', '32bit', 'arm64')
             foreach ($param in $paramList) {
                 $tempList += $PSCompletions.return_completion($param)
             }
         }
         else {
-            if ($PSUICulture -eq 'zh-CN') {
-                $tips_cn = @{
+            if ($CN) {
+                $tips = @{
                     '-g'                = "U: -g|--global`n全局安装程序"
                     '--global'          = "U: -g|--global`n全局安装程序"
                     '-i'                = "U: -i|--independent`n不自动安装依赖项"
@@ -86,19 +72,9 @@ function handleCompletions($completions) {
                     '-a'                = "U: -a|--arch`n使用指定的体系结构，如果程序支持"
                     '--arch'            = "U: -a|--arch`n使用指定的体系结构，如果程序支持"
                 }
-                foreach ($param in $paramList) {
-                    $shouldAdd = $true
-                    if ($param -in $PSCompletions.input_arr -or $paramAliases[$param] -in $PSCompletions.input_arr) {
-                        $shouldAdd = $false
-                    }
-                    if ($shouldAdd) {
-                        $symbol = if ($param -in @('-a', '--arch')) { @('SpaceTab') } else { @('OptionTab') }
-                        $tempList += $PSCompletions.return_completion($param, $tips_cn[$param], $symbol)
-                    }
-                }
             }
             else {
-                $tips_en = @{
+                $tips = @{
                     '-g'                = "U: -g|--global`nInstall the app globally."
                     '--global'          = "U: -g|--global`nInstall the app globally."
                     '-i'                = "U: -i|--independent`nDon't install dependencies automatically."
@@ -112,22 +88,49 @@ function handleCompletions($completions) {
                     '-a'                = "U: -a|--arch`nUse the specified architecture, if the app supports it."
                     '--arch'            = "U: -a|--arch`nUse the specified architecture, if the app supports it."
                 }
-                foreach ($param in $paramList) {
-                    $shouldAdd = $true
-                    if ($param -in $PSCompletions.input_arr -or $paramAliases[$param] -in $PSCompletions.input_arr) {
-                        $shouldAdd = $false
-                    }
-                    if ($shouldAdd) {
-                        $symbol = if ($param -in @('-a', '--arch')) { @('SpaceTab') } else { @('OptionTab') }
-                        $tempList += $PSCompletions.return_completion($param, $tips_cn[$param], $symbol)
-                    }
-                    # if ($param -notin $PSCompletions.input_arr) {
-                    #     $symbol = if ($param -in @('-a', '--arch')) { @('SpaceTab') } else { @('OptionTab') }
-                    #     $tempList += $PSCompletions.return_completion($param, $tips_cn[$param], $symbol)
-                    # }
+            }
+            foreach ($param in $paramList) {
+                $shouldAdd = $true
+                if ($param -in $PSCompletions.input_arr -or $paramAliases[$param] -in $PSCompletions.input_arr) {
+                    $shouldAdd = $false
+                }
+                if ($shouldAdd) {
+                    $symbol = if ($param -in @('-a', '--arch')) { @('SpaceTab') } else { @('OptionTab') }
+                    $tempList += $PSCompletions.return_completion($param, $tips[$param], $symbol)
                 }
             }
         }
     }
+
+    if ($addApp) {
+        $PSCompletions.temp_scoop_installed_apps = Get-ChildItem "$root_path\apps" | ForEach-Object { $_.BaseName }
+        $dir = Get-ChildItem "$root_path\buckets" | ForEach-Object {
+            @{
+                bucket = $_.BaseName
+                path   = "$($_.FullName)\bucket"
+            }
+        }
+        $tempList += $PSCompletions.handle_data_by_runspace($dir, {
+                param ($items, $PSCompletions, $Host_UI)
+                $return = @()
+                foreach ($item in $items) {
+                    Get-ChildItem $item.path -Recurse -Filter *.json | ForEach-Object {
+                        $app = "$($item.bucket)/$($_.BaseName)"
+                        if ($app -notin $PSCompletions.input_arr -and $_.BaseName -notin $PSCompletions.temp_scoop_installed_apps) {
+                            $return += @{
+                                ListItemText   = $app
+                                CompletionText = $app
+                                symbols        = @("SpaceTab")
+                            }
+                        }
+                    }
+                }
+                return $return
+            }, {
+                param($results)
+                return $results
+            })
+    }
+
     return $tempList + $completions
 }
