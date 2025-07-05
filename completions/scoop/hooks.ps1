@@ -3,7 +3,12 @@
 
     $filter_input_arr = $PSCompletions.filter_input_arr
 
-    $config = scoop config
+    try {
+        $config = scoop config
+    }
+    catch {
+        return $completions
+    }
     $root_path = $config.root_path
     $global_path = $config.global_path
 
@@ -193,7 +198,7 @@
                 }
                 'scoop_repo'                      = @{
                     'en-US' = @('Default Value: http://github.com/ScoopInstaller/Scoop', 'Git repository containining scoop source code.', 'This configuration is useful for custom forks.')
-                    'zh-CN' = @('默认值: http://github.com/ScoopInstaller/Scoop', 'Scoop 源代码仓库', '这个配置是可用的，对于自定义分支很有用。')
+                    'zh-CN' = @('默认值: http://github.com/ScoopInstaller/Scoop', 'Scoop 源代码仓库', '对于自定义分支很有用。')
                 }
                 'scoop_branch'                    = @{
                     'en-US' = @('Allow to use different branch than master.', 'Could be used for testing specific functionalities before released into all users.', 'If you want to receive updates earlier to test new functionalities use develop')
@@ -312,12 +317,12 @@
 
                 # scoop-install config
                 'scoop-install-url-replace-from'  = @{
-                    'zh-CN' = @('需要被替换的 URL 前缀。', '详情参考: https://gitee.com/abgox/scoop-install')
-                    'en-US' = @('The URL prefix to be replaced.', 'See https://github.com/abgox/scoop-install for details.')
+                    'zh-CN' = @('需要被替换的 URL 前缀。', '详情参考: https://gitee.com/abgox/scoop-tools')
+                    'en-US' = @('The URL prefix to be replaced.', 'See https://github.com/abgox/scoop-tools for details.')
                 }
                 'scoop-install-url-replace-to'    = @{
-                    'zh-CN' = @('需要替换成的 URL 前缀。', '详情参考: https://gitee.com/abgox/scoop-install')
-                    'en-US' = @('The URL prefix to be replaced with.', 'See https://github.com/abgox/scoop-install for details.')
+                    'zh-CN' = @('需要替换成的 URL 前缀。', '详情参考: https://gitee.com/abgox/scoop-tools')
+                    'en-US' = @('The URL prefix to be replaced with.', 'See https://github.com/abgox/scoop-tools for details.')
                 }
             }
 
