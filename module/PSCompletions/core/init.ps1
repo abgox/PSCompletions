@@ -46,7 +46,6 @@ New-Variable -Name PSCompletions -Value @{
         enable_module_update                         = 1
         enable_cache                                 = 1
         function_name                                = 'PSCompletions'
-        module_update_confirm_duration               = 15000
 
         # menu symbol
         SpaceTab                                     = '~'
@@ -107,7 +106,7 @@ New-Variable -Name PSCompletions -Value @{
     }
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip')
-    config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name', 'module_update_confirm_duration')
+    config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name')
 } -Option ReadOnly
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {

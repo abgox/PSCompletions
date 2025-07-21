@@ -445,9 +445,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
                 handle_done ($arg[2] -ne '' -and !(Get-Command $arg[2] -ErrorAction SilentlyContinue)) $PSCompletions.info.config.function_name.err
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
             }
-            'module_update_confirm_duration' {
-                handle_done ($arg[2] -is [int] -and $arg[2] -ge 0) $PSCompletions.info.config.module_update_confirm_duration.err
-            }
         }
     }
     function _completion {
