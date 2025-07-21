@@ -1368,37 +1368,6 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
         if (!$PSCompletions._write_update_confirm) {
             $PSCompletions._write_update_confirm = $true
             $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
-
-            $PSCompletions._stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
-
-            while ($PSCompletions._stopwatch.Elapsed.TotalMilliseconds -lt $PSCompletions.config.module_update_confirm_duration) {
-                if ([Console]::KeyAvailable) {
-                    $PSCompletions._key = [Console]::ReadKey($true)
-                    if ($PSCompletions._key.Key -eq 'Enter') {
-                        # 13: Enter
-                        $PSCompletions._cmd_list = @(
-                            "Update-Module PSCompletions -RequiredVersion $($PSCompletions.version_list[0]) -Force -ErrorAction Stop",
-                            "Update-PSResource PSCompletions -Version $($PSCompletions.version_list[0]) -Force -ErrorAction Stop",
-                            "Scoop update pscompletions"
-                        )
-                        foreach ($update_cmd in $PSCompletions._cmd_list) {
-                            try {
-                                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.updating))
-                                Invoke-Expression $update_cmd
-                                break
-                            }
-                            catch {
-                                Write-Host $_ -ForegroundColor Red
-                            }
-                        }
-                    }
-                    else {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.confirm_cancel))
-                    }
-                    break
-                }
-                Start-Sleep -Milliseconds 100
-            }
         }
     }
     else {
