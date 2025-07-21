@@ -3,6 +3,17 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.6.0 (2025/7/21)
+
+- Add a configuration item `enable_auto_alias_setup`.
+  - `psc config enable_auto_alias_setup`
+- Change the configuration item `disable_cache` to `enable_cache`.
+- Change the default special symbol `»` to `~`.
+  - The special symbols that are now the default are: `~?!`
+  - They are all ASCII characters and cannot cause rendering compatibility issues anymore.
+- Fix the issue where `Esc`/`Ctrl + C`/`Backspace` would clear the entire path when using path completion.
+- Other fixes and optimizations.
+
 ## 5.5.1 (2025/6/1)
 
 - Fix an internal method that may cause errors.
