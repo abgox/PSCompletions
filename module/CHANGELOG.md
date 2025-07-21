@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.6.3 (2025/7/21)
+
+- Add missing caching logic.
+
 ## 5.6.2 (2025/7/21)
 
 - Change the order of remote url addresses.

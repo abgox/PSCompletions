@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.6.2'
+    version                 = '5.6.3'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
