@@ -30,7 +30,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
 
                     $filter_list = $PSCompletions.get_completion()
                     $result = $PSCompletions.menu.show_module_menu($filter_list)
-                    if ($result -ne $null) {
+                    if ($result) {
                         if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
                             [Microsoft.PowerShell.PSConsoleReadLine]::Insert($result)
                         }
@@ -114,7 +114,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     $PSCompletions.menu.by_TabExpansion2 = $true
                     $result = $PSCompletions.menu.show_module_menu($filter_list)
                     # apply the completion
-                    if ($result -ne $null) {
+                    if ($result) {
                         [Microsoft.PowerShell.PSConsoleReadLine]::Replace($completion.ReplacementIndex, $completion.ReplacementLength, $result)
                     }
                 }
