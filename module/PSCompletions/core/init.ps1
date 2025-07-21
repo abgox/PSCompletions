@@ -1,7 +1,7 @@
 using namespace System.Management.Automation
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.5.1'
+    version                 = '5.6.0'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'
@@ -41,14 +41,15 @@ New-Variable -Name PSCompletions -Value @{
         # config
         url                                          = ''
         language                                     = $PSUICulture
+        enable_auto_alias_setup                      = 1
         enable_completions_update                    = 1
         enable_module_update                         = 1
-        disable_cache                                = 0
+        enable_cache                                 = 1
         function_name                                = 'PSCompletions'
         module_update_confirm_duration               = 15000
 
         # menu symbol
-        SpaceTab                                     = '»'
+        SpaceTab                                     = '~'
         WriteSpaceTab                                = '!'
         OptionTab                                    = '?'
 
@@ -106,7 +107,7 @@ New-Variable -Name PSCompletions -Value @{
     }
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip')
-    config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'disable_cache', 'function_name', 'module_update_confirm_duration')
+    config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name', 'module_update_confirm_duration')
 } -Option ReadOnly
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
@@ -167,21 +168,25 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
                 $alias_list = $cmd.alias + $cmd.name
 
-                $obj.$cmdO.$guid += @{
-                    CompletionText = $cmd.name
-                    ListItemText   = $cmd.name
-                    ToolTip        = $cmd.tip
-                    symbols        = $symbols
-                    alias          = $alias_list
-                }
-
-                foreach ($alias in $cmd.alias) {
+                # hide 值为 true 的补全将被过滤掉，用于配合 hooks.ps1 中添加动态补全
+                # 如果不过滤掉，会和 hooks.ps1 中添加的动态补全产生重复
+                if (!$cmd.hide) {
                     $obj.$cmdO.$guid += @{
-                        CompletionText = $alias
-                        ListItemText   = $alias
+                        CompletionText = $cmd.name
+                        ListItemText   = $cmd.name
                         ToolTip        = $cmd.tip
                         symbols        = $symbols
                         alias          = $alias_list
+                    }
+
+                    foreach ($alias in $cmd.alias) {
+                        $obj.$cmdO.$guid += @{
+                            CompletionText = $alias
+                            ListItemText   = $alias
+                            ToolTip        = $cmd.tip
+                            symbols        = $symbols
+                            alias          = $alias_list
+                        }
                     }
                 }
 
@@ -421,7 +426,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         Remove-Job $PSCompletions.job
         $PSCompletions.job = $null
     }
-    if ($PSCompletions.config.disable_cache -eq 1) {
+    if ($PSCompletions.config.enable_cache -ne 1) {
         $PSCompletions.completions.$root = $null
         $PSCompletions.completions_data.$root = $null
     }
@@ -1338,15 +1343,20 @@ if (!$PSCompletions.config.enable_menu) {
 $PSCompletions.generate_completion()
 $PSCompletions.handle_completion()
 
-foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
-    if ($PSCompletions.data.aliasMap[$_] -eq 'psc') {
-        Set-Alias $_ $PSCompletions.config.function_name -ErrorAction SilentlyContinue
-    }
-    else {
-        if ($_ -ne $PSCompletions.data.aliasMap.$_) {
-            Set-Alias $_ $PSCompletions.data.aliasMap.$_ -ErrorAction SilentlyContinue
+if ($PSCompletions.config.enable_auto_alias_setup) {
+    foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
+        if ($PSCompletions.data.aliasMap[$_] -eq 'psc') {
+            Set-Alias $_ $PSCompletions.config.function_name -ErrorAction SilentlyContinue
+        }
+        else {
+            if ($_ -ne $PSCompletions.data.aliasMap.$_) {
+                Set-Alias $_ $PSCompletions.data.aliasMap.$_ -ErrorAction SilentlyContinue
+            }
         }
     }
+}
+else {
+    Set-Alias psc $PSCompletions.config.function_name -ErrorAction SilentlyContinue
 }
 
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {

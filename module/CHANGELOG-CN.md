@@ -3,6 +3,17 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.6.0 (2025/7/21)
+
+- 添加配置项 `enable_auto_alias_setup`
+  - `psc config enable_auto_alias_setup`
+- 将配置项 `disable_cache` 更改为 `enable_cache`
+- 将默认的特殊符号 `»` 更改为 `~`
+  - 现在默认的 3 个特殊符号是: `~?!`
+  - 它们都是 ascii 字符，不可能再造成渲染的兼容性问题
+- 修复了使用路径补全时，`Esc`/`Ctrl + C`/`Backspace` 会清除整个路径的问题
+- 其他修复与优化
+
 ## 5.5.1 (2025/6/1)
 
 - 修复了一个内部方法可能造成的错误。

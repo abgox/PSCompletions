@@ -165,29 +165,48 @@
           ]
         },
         {
-          "name": "disable_cache",
+          "name": "enable_cache",
           "tip": [
-            "Current Value: {{ $PSCompletions.config.disable_cache }}\n",
-            "Set whether to disable completion cache.\n",
-            "It usually does not need to be modified.\n",
-            "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
+            "Current Value: {{ $PSCompletions.config.enable_cache }}\n",
+            "Set whether to enable completion cache. (Default: 1)\n"
           ],
           "next": [
             {
               "name": "1",
               "tip": [
-                "Set to 1\n",
-                "Disable completion cache.\n",
-                "It usually does not need to be modified.\n",
-                "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
+                "Set to 1 (Default)\n",
+                "Enable completion cache.\n",
+                "It will make the completion load faster, and it's recommended to keep the default."
               ]
             },
             {
               "name": "0",
               "tip": [
-                "Set to 0 (Default)\n",
-                "Enable completion cache.\n",
-                "It will make the completion load faster, and it's recommended to keep the default."
+                "Set to 0\n",
+                "Disable completion cache.\n",
+                "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_auto_alias_setup",
+          "tip": [
+            "Current Value: {{ $PSCompletions.config.enable_auto_alias_setup }}\n",
+            "Set whether to automatically use 'Set-Alias' to add aliases defined by 'psc alias'. Default to 1.\n",
+            "If set to 0, you need to use 'Set-Alias' to set it manually."
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "Set to 1 (Default)"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "Set to 0"
               ]
             }
           ]
@@ -333,7 +352,7 @@
         {
           "name": "symbol",
           "tip": [
-            "Set some special symbols(»?!) in the completion tip.\n",
+            "Set some special symbols(~?!) in the completion tip.\n",
             "They only exist in completions added via `psc add`.\n",
             "For detail: https://pscompletions.abgox.com/command/#menu-symbol"
           ],
@@ -346,9 +365,9 @@
               ],
               "next": [
                 {
-                  "name": "»",
+                  "name": "~",
                   "tip": [
-                    "Set to » (Default)."
+                    "Set to ~ (Default)."
                   ]
                 },
                 {
@@ -1458,7 +1477,7 @@
               "name": "symbol",
               "tip": [
                 "Reset symbols to default values.\n",
-                "SpaceTab      => »\n",
+                "SpaceTab      => ~\n",
                 "WriteSpaceTab => !\n",
                 "OptionTab     => ?"
               ]
@@ -1829,10 +1848,10 @@
           "   psc config language zh-CN     --- Set to zh-CN"
         ]
       },
-      "disable_cache": {
+      "enable_cache": {
         "example": [
-          "E: psc config disable_cache 1     --- Disable cache\n",
-          "   psc config disable_cache 0     --- Enable cache"
+          "E: psc config enable_cache 1     --- Enable cache\n",
+          "   psc config enable_cache 0     --- Disable cache"
         ]
       },
       "update": {
@@ -1941,7 +1960,7 @@
       ],
       "symbol": {
         "example": [
-          "E: psc menu symbol SpaceTab »\n",
+          "E: psc menu symbol SpaceTab ~\n",
           "   psc menu symbol OptionTab ?\n",
           "   psc menu symbol WriteSpaceTab !"
         ],
@@ -1998,7 +2017,7 @@
     "reset": {
       "example": [
         "E: psc reset *                --- Reset PSCompletions module\n",
-        "   psc reset menu symbol      --- Reset all symbols(»?!)\n",
+        "   psc reset menu symbol      --- Reset all symbols(~?!)\n",
         "   psc reset alias psc        --- Reset psc alias\n",
         "   psc reset completion psc   --- Reset(Remove) this special configuration(language) of psc\n"
       ],

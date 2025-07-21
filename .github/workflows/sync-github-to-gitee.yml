@@ -45,13 +45,21 @@ jobs:
           git config --global user.name $env:USER_NAME
           git config --global user.email $env:USER_EMAIL
 
-      - name: Clone from GitHub and Push to Gitee
+      - name: Verify SSH
+        shell: pwsh
+        run: |
+          # ssh -T git@github.com
+          ssh -T git@gitee.com
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Gitee
         shell: pwsh
         run: |
           $repo = $env:REPO
-          $temp_dir = "temp_$(Get-Date -Format 'yyyyMMddHHmmss')"
-          git clone "git@github.com:$repo.git" $temp_dir
-          cd $temp_dir
           git remote add gitee "git@gitee.com:$repo.git"
           git push gitee --force
           git push gitee --tags --force

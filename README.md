@@ -1,6 +1,4 @@
-<p align="center">
-    <h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
-</p>
+<h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
 
 <p align="center">
     <a href="README-CN.md">简体中文</a> |
@@ -222,7 +220,7 @@
 > - Due to future changes in Windows Terminal, 😄🤔😎 will not be displayed properly in the completion menu, so these three default special symbols will change.
 > - Related issue: https://github.com/microsoft/terminal/issues/18242
 > - The changes are as follows:
->   - `😄` => `»`
+>   - `😄` => `~`
 >   - `🤔` => `?`
 >   - `😎` => `!`
 
@@ -234,19 +232,19 @@
     - `psc menu symbol OptionTab ""`
     - `psc menu symbol WriteSpaceTab ""`
 
-- `»`,`?`,`!` : If there are multiple, you can choose the effect of one of them.
+- `~`,`?`,`!` : If there are multiple, you can choose the effect of one of them.
   - Define them:
     - `Normal Completions`: Sub-commands. Such as `add`/`pull`/`push`/`commit`/... in `git`.
     - `Optional Completions`: Optional parameters. Such as `-g`/`-u`/... in `git add`.
     - `General Optional Completions`: General optional parameters that can be used with any command. Such as `--help`/... in `git`.
     - `Current Completions`: Current completion items in completion menu.
-  - `»` : It means that after you apply it, you can press `Space` and `Tab` key to continue to get completions.
+  - `~` : It means that after you apply it, you can press `Space` and `Tab` key to continue to get completions.
     - It can be customized by running `psc menu symbol SpaceTab <symbol>`
   - `?` : It means that after you apply it (`Optional Completions` or `General Optional Completions`), you can press `Space` and `Tab` key to continue to get `Current Completions`.
     - It can be customized by running `psc menu symbol OptionTab <symbol>`
   - `!` : It means that after you apply it (`Optional Completions` or `General Optional Completions`), you can press `Space` and enter a string, then press `Space` and `Tab` key to continue to get completions.
     - If the string has Spaces, Please use `"`(quote) or `'`(single quote) to wrap it. e.g. `"test content"`
-    - If there's also `»`, it means that there's some preset completions, you can press `Space` and `Tab` key to continue to get them without entering a string.
+    - If there's also `~`, it means that there's some preset completions, you can press `Space` and `Tab` key to continue to get them without entering a string.
     - It can be customized by running `psc menu symbol WriteSpaceTab <symbol>`
   - All completions can be triggered by pressing the `Tab` key after entering a part.
 

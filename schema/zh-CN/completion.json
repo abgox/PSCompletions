@@ -5,28 +5,7 @@
   "required": [
     "info"
   ],
-  "anyOf": [
-    {
-      "required": [
-        "root"
-      ]
-    },
-    {
-      "required": [
-        "options"
-      ]
-    },
-    {
-      "required": [
-        "common_options"
-      ]
-    }
-  ],
   "definitions": {
-    "completion_tip": {
-      "$ref": "#/definitions/array_items",
-      "description": "补全提示信息。\n第一项的内容不能符合此正则表达式: ^\\s{4,}\n- 即第一项不能以 4+ 个空格或 `n 开头。\n最后一项的内容不能符合此正则表达式: \\s{2,}$\n- 即最后一项不能以 2+ 个空格或 `n 结尾。"
-    },
     "string": {
       "type": "string",
       "minLength": 1
@@ -36,11 +15,59 @@
       "minItems": 1,
       "uniqueItems": true
     },
-    "array_items": {
+    "array-items": {
       "$ref": "#/definitions/array",
       "items": {
         "type": "string",
         "minLength": 1
+      }
+    },
+    "completion-name": {
+      "description": "命令名称",
+      "$ref": "#/definitions/string"
+    },
+    "completion-alias": {
+      "description": "命令别名",
+      "$ref": "#/definitions/array-items"
+    },
+    "completion-hide": {
+      "description": "隐藏当前级的补全项\n - 如果子项没有设置 hide 属性，则不受影响\n - 主要用于配合 hook 动态添加补全项，因为动态添加可能导致重复，所以需要隐藏掉原有的补全项",
+      "type": "boolean",
+      "enum": [
+        true
+      ]
+    },
+    "completion-tip": {
+      "$ref": "#/definitions/array-items",
+      "markdownDescription": "补全的提示信息。\n- 第一项的内容不能以 4+ 个空格或 `n 开头。\n- 最后一项的内容不能以 2+ 个空格或 `n 结尾。"
+    },
+    "completion-next": {
+      "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全\n- 数组中的项会自动添加到补全中，如果有 hooks，还会动态添加一些\n- 它可以是一个数组或数字 0\n- 如果是数组，数组中的项会自动添加到补全中，如果有 hooks，会动态添加。当有补全项时，就可以选择其中一个补全项，而不输入内容\n- 如果是数字 0，则表示此时应该输入一个内容，但是 PSCompletions 无力提供补全，需要自己输入内容",
+      "type": [
+        "array",
+        "number"
+      ],
+      "examples": [
+        []
+      ],
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/root_item"
+      },
+      "if": {
+        "type": "array"
+      },
+      "else": {
+        "const": 0,
+        "errorMessage": "Tip 必须是一个数组或数字 0"
+      }
+    },
+    "completion-options": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "可用的选项类补全",
+      "items": {
+        "$ref": "#/definitions/options_item"
       }
     },
     "root_item": {
@@ -50,31 +77,22 @@
       ],
       "properties": {
         "name": {
-          "$ref": "#/definitions/string",
-          "description": "命令名称"
+          "$ref": "#/definitions/completion-name"
         },
         "alias": {
-          "$ref": "#/definitions/array_items",
-          "description": "命令别名"
+          "$ref": "#/definitions/completion-alias"
+        },
+        "hide": {
+          "$ref": "#/definitions/completion-hide"
         },
         "tip": {
-          "$ref": "#/definitions/completion_tip"
+          "$ref": "#/definitions/completion-tip"
         },
         "next": {
-          "type": "array",
-          "uniqueItems": true,
-          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全\n数组中的项会自动添加到补全中，如果有 hooks，会动态添加",
-          "items": {
-            "$ref": "#/definitions/root_item"
-          }
+          "$ref": "#/definitions/completion-next"
         },
         "options": {
-          "type": "array",
-          "uniqueItems": true,
-          "description": "可用的选项类补全",
-          "items": {
-            "$ref": "#/definitions/options_item"
-          }
+          "$ref": "#/definitions/completion-options"
         }
       },
       "additionalProperties": false
@@ -86,37 +104,19 @@
       ],
       "properties": {
         "name": {
-          "$ref": "#/definitions/string",
-          "description": "命令名称"
+          "$ref": "#/definitions/completion-name"
         },
         "alias": {
-          "$ref": "#/definitions/array_items",
-          "description": "命令别名"
+          "$ref": "#/definitions/completion-alias"
+        },
+        "hide": {
+          "$ref": "#/definitions/completion-hide"
         },
         "tip": {
-          "$ref": "#/definitions/completion_tip"
+          "$ref": "#/definitions/completion-tip"
         },
         "next": {
-          "description": "下一个命令补全, 这用来定义输入命令后按下 Tab 键后可以获取到的补全\n它可以是一个数组或数字 0\n如果是数组，数组中的项会自动添加到补全中，如果有 hooks，会动态添加。当有补全项时，就可以选择其中一个补全项，而不输入内容\n如果是数字 0，则表示此时应该输入一个内容，但是 PSCompletions 无力提供补全，需要自己输入内容",
-          "examples": [
-            [],
-            0
-          ],
-          "oneOf": [
-            {
-              "type": "array",
-              "uniqueItems": true,
-              "items": {
-                "$ref": "#/definitions/root_item"
-              }
-            },
-            {
-              "type": "number",
-              "enum": [
-                0
-              ]
-            }
-          ]
+          "$ref": "#/definitions/completion-next"
         }
       },
       "additionalProperties": false
@@ -124,28 +124,28 @@
   },
   "properties": {
     "root": {
-      "$ref": "#/definitions/array",
       "description": "命令的根节点",
+      "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/root_item"
       }
     },
     "options": {
-      "$ref": "#/definitions/array",
       "description": "根命令的选项类补全",
+      "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/options_item"
       }
     },
     "common_options": {
-      "$ref": "#/definitions/array",
       "description": "通用选项类补全\n这些选项会在任何情况下都出现",
+      "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/options_item"
       }
     },
     "info": {
-      "description": "一些补全的信息\n这些信息可以在此 json 文件任何地方使用 {{ $info.xxx }} 进行访问",
+      "description": "一些补全的信息\n这些信息可以在此 json 文件中使用 {{ $info.xxx }} 进行访问",
       "type": "object",
       "minProperties": 1,
       "required": [
@@ -165,7 +165,7 @@
               "description": "命令的主页网址"
             },
             "description": {
-              "$ref": "#/definitions/array_items",
+              "$ref": "#/definitions/array-items",
               "description": "命令的描述"
             }
           },
@@ -174,8 +174,8 @@
       }
     },
     "config": {
-      "$ref": "#/definitions/array",
       "description": "定义一些特别的配置项",
+      "$ref": "#/definitions/array",
       "items": {
         "type": "object",
         "required": [
@@ -185,10 +185,11 @@
         ],
         "properties": {
           "name": {
-            "$ref": "#/definitions/string",
-            "description": "配置项的名称"
+            "description": "配置项的名称",
+            "$ref": "#/definitions/string"
           },
           "value": {
+            "description": "配置项的初始值",
             "oneOf": [
               {
                 "$ref": "#/definitions/string"
@@ -196,10 +197,10 @@
               {
                 "type": "number"
               }
-            ],
-            "description": "配置项的初始值"
+            ]
           },
           "values": {
+            "description": "配置项的可选值\n这里填写的值会在 completion 命令补全中显示",
             "$ref": "#/definitions/array",
             "items": {
               "oneOf": [
@@ -210,12 +211,11 @@
                   "type": "number"
                 }
               ]
-            },
-            "description": "配置项的可选值\n这里填写的值会在 completion 命令补全中显示"
+            }
           },
           "tip": {
-            "$ref": "#/definitions/array_items",
-            "description": "配置项的提示信息"
+            "description": "配置项的提示信息",
+            "$ref": "#/definitions/array-items"
           }
         }
       }

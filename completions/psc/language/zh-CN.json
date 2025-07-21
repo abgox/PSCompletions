@@ -166,26 +166,48 @@
           ]
         },
         {
-          "name": "disable_cache",
+          "name": "enable_cache",
           "tip": [
-            "当前值: {{ $PSCompletions.config.disable_cache }}\n",
-            "设置是否禁用补全缓存。\n",
+            "当前值: {{ $PSCompletions.config.enable_cache }}\n",
+            "设置是否启用补全缓存，默认启用\n",
             "这个配置通常不需要修改, 主要用于补全数据文件的更新调试(每次补全都会重新读取 json)。"
           ],
           "next": [
             {
               "name": "1",
               "tip": [
-                "设置为 1\n",
-                "禁用补全缓存, 主要用于更新调试补全数据文件。\n",
-                "禁用后, 每次补全都会重新去读取补全数据文件(json)。"
+                "设置为 1 (默认值)\n",
+                "启用补全缓存, 这会让补全的加载速度更快, 建议保持启用。"
               ]
             },
             {
               "name": "0",
               "tip": [
-                "设置为 0 (默认值)\n",
-                "启用补全缓存, 这会让补全的加载速度更快, 建议保持默认。"
+                "设置为 0\n",
+                "禁用补全缓存, 主要用于更新调试补全数据文件。\n",
+                "禁用后, 每次补全都会重新去读取补全数据文件(json)。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_auto_alias_setup",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_auto_alias_setup }}\n",
+            "设置是否自动使用 Set-Alias 添加 psc alias 定义的别名，默认为 1\n",
+            "如果设置为 0，则需要手动使用 Set-Alias 设置"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0"
               ]
             }
           ]
@@ -331,7 +353,7 @@
         {
           "name": "symbol",
           "tip": [
-            "设置补全提示中的特殊符号(»?!)。\n",
+            "设置补全提示中的特殊符号(~?!)。\n",
             "这些符号只在通过 psc add 添加的补全中存在。\n",
             "详情: https://pscompletions.abgox.com/command/#menu-symbol"
           ],
@@ -344,9 +366,9 @@
               ],
               "next": [
                 {
-                  "name": "»",
+                  "name": "~",
                   "tip": [
-                    "设置为 » (默认值)。"
+                    "设置为 ~ (默认值)。"
                   ]
                 },
                 {
@@ -1468,7 +1490,7 @@
               "name": "symbol",
               "tip": [
                 "重置符号为默认值。\n",
-                "SpaceTab      => »\n",
+                "SpaceTab      => ~\n",
                 "WriteSpaceTab => !\n",
                 "OptionTab     => ?"
               ]
@@ -1838,10 +1860,10 @@
           "   psc config language en-US     --- 设置为英文"
         ]
       },
-      "disable_cache": {
+      "enable_cache": {
         "example": [
-          "E: psc config disable_cache 1     --- 禁用补全缓存\n",
-          "   psc config disable_cache 0     --- 启用补全缓存"
+          "E: psc config enable_cache 1     --- 启用补全缓存\n",
+          "   psc config enable_cache 0     --- 禁用补全缓存"
         ]
       },
       "update": {
@@ -1950,7 +1972,7 @@
       ],
       "symbol": {
         "example": [
-          "E: psc menu symbol SpaceTab »        --- 设置符号为 »\n",
+          "E: psc menu symbol SpaceTab ~        --- 设置符号为 ~\n",
           "   psc menu symbol OptionTab ?       --- 设置符号为 ?\n",
           "   psc menu symbol WriteSpaceTab !   --- 设置符号为 !"
         ],
@@ -2007,7 +2029,7 @@
     "reset": {
       "example": [
         "E: psc reset *                --- 重置所有配置\n",
-        "   psc reset menu symbol      --- 重置所有符号配置(»?!)\n",
+        "   psc reset menu symbol      --- 重置所有符号配置(~?!)\n",
         "   psc reset alias psc        --- 将 psc 恢复为默认补全名\n",
         "   psc reset completion psc   --- 重置(移除) psc 的特殊配置"
       ],

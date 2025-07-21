@@ -2,7 +2,7 @@ function handleCompletions([array]$completions) {
     $tempList = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
-    if ($PSCompletions.config.disable_cache) {
+    if ($PSCompletions.config.enable_cache) {
         $PSCompletions.info = $PSCompletions.completions.psc.info
     }
 
