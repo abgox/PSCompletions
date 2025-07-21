@@ -43,7 +43,7 @@ New-Variable -Name PSCompletions -Value @{
         language                                     = $PSUICulture
         enable_completions_update                    = 1
         enable_module_update                         = 1
-        disable_cache                                = 0
+        enable_cache                                 = 1
         function_name                                = 'PSCompletions'
         module_update_confirm_duration               = 15000
 
@@ -106,7 +106,7 @@ New-Variable -Name PSCompletions -Value @{
     }
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip')
-    config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'disable_cache', 'function_name', 'module_update_confirm_duration')
+    config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name', 'module_update_confirm_duration')
 } -Option ReadOnly
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
@@ -421,7 +421,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         Remove-Job $PSCompletions.job
         $PSCompletions.job = $null
     }
-    if ($PSCompletions.config.disable_cache -eq 1) {
+    if ($PSCompletions.config.enable_cache -ne 1) {
         $PSCompletions.completions.$root = $null
         $PSCompletions.completions_data.$root = $null
     }

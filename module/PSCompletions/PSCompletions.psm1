@@ -426,7 +426,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
             'language' {
                 handle_done ($arg[2] -is [string] -and $arg[2] -ne '') $PSCompletions.info.config.language.err
             }
-            'disable_cache' {
+            'enable_cache' {
                 handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }
             'enable_completions_update' {
