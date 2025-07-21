@@ -315,22 +315,6 @@
               ]
             }
           ]
-        },
-        {
-          "name": "module_update_confirm_duration",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.module_update_confirm_duration }}\n",
-            "当模块有版本更新时，模块更新确认的持续时间(毫秒)\n",
-            "当超过这个时间后，将自动取消，避免因为更新确认导致进程卡住。"
-          ],
-          "next": [
-            {
-              "name": "15000",
-              "tip": [
-                "设置为 15000 毫秒 (默认值)"
-              ]
-            }
-          ]
         }
       ]
     },
@@ -1595,8 +1579,12 @@
         "   \"`n<@Blue>$($_.version) : $($_.info.$($lang))\"",
         "}",
         "}}\n",
-        "<@Cyan>按下 <@Magenta>Enter(回车键)<@Cyan> 进行更新，<@Magenta>其他任意键(不包含 Ctrl 键)<@Cyan> 取消更新!\n",
-        "<@Yellow>如果 {{ $PSCompletions.config.module_update_confirm_duration  }} 毫秒内没有按键输入, 则自动取消。"
+        "------------------------------\n",
+        "请手动更新 PSCompletions，以下是可能需要的命令:\n\n",
+        "<@Magenta>Update-Module PSCompletions\n\n",
+        "Update-PSResource PSCompletions\n\n",
+        "Scoop update abgox.PSCompletions\n\n",
+        "Scoop update pscompletions\n\n"
       ],
       "updating": "<@Cyan>尝试运行命令: <@Magenta>{{ $update_cmd }}<@Cyan>\nPSCompletions 模块正在尝试更新...",
       "restart": "<@Yellow>请重启 PowerShell 并重新导入 PSCompletions 模块来使更改生效"
@@ -1893,13 +1881,6 @@
         "example": [
           "E: psc config function_name                   --- 获取当前使用的函数名\n",
           "   psc config function_name PSCompletions     --- 设置函数名"
-        ]
-      },
-      "module_update_confirm_duration": {
-        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项需要一个大于等于 0 的整数",
-        "example": [
-          "E: psc config module_update_confirm_duration\n",
-          "   psc config module_update_confirm_duration 15000"
         ]
       }
     },

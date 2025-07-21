@@ -314,22 +314,6 @@
               ]
             }
           ]
-        },
-        {
-          "name": "module_update_confirm_duration",
-          "tip": [
-            "Current Value: {{ $PSCompletions.config.module_update_confirm_duration }}\n",
-            "When the module has version update, the duration of the module update confirmation (milliseconds).\n",
-            "When it's exceeded, it will be automatically cancelled to avoid the process being stuck due to update confirmation."
-          ],
-          "next": [
-            {
-              "name": "15000",
-              "tip": [
-                "Set to 15000 ms (Default)"
-              ]
-            }
-          ]
         }
       ]
     },
@@ -1583,8 +1567,12 @@
         "   \"`n<@Blue>$($_.version) : $($_.info.$($lang))\"",
         "}",
         "}}\n",
-        "<@Cyan>Press <@Magenta>Enter<@Cyan> key to update or <@Magenta>other key(Without Ctrl)<@Cyan> to cancel!\n",
-        "<@Yellow>Automatically cancel if no keypress is received within {{ $PSCompletions.config.module_update_confirm_duration  }} milliseconds."
+        "------------------------------\n",
+        "Please manually update PSCompletions.\nThe following are the commands that may be needed.\n\n",
+        "<@Magenta>Update-Module PSCompletions\n\n",
+        "Update-PSResource PSCompletions\n\n",
+        "Scoop update abgox.PSCompletions\n\n",
+        "Scoop update pscompletions\n\n"
       ],
       "updating": "<@Cyan>Try to run the command: <@Magenta>{{ $update_cmd }}<@Cyan>\nTrying to update PSCompletions module...",
       "restart": "<@Yellow>The change takes effect after restarting PowerShell and reimporting PSCompletions module."
@@ -1881,13 +1869,6 @@
         "example": [
           "E: psc config function_name                   --- Get current function name\n",
           "   psc config function_name PSCompletions     --- Set function name"
-        ]
-      },
-      "module_update_confirm_duration": {
-        "err": "<@Magenta>{{ $config_item }}<@Yellow> need a number greater than or equal to 0.",
-        "example": [
-          "E: psc config module_update_confirm_duration\n",
-          "   psc config module_update_confirm_duration 15000"
         ]
       }
     },
