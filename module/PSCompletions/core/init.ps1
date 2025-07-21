@@ -48,7 +48,7 @@ New-Variable -Name PSCompletions -Value @{
         module_update_confirm_duration               = 15000
 
         # menu symbol
-        SpaceTab                                     = '»'
+        SpaceTab                                     = '~'
         WriteSpaceTab                                = '!'
         OptionTab                                    = '?'
 
