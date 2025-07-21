@@ -429,6 +429,9 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
             'enable_cache' {
                 handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }
+            'enable_auto_alias_setup' {
+                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
+            }
             'enable_completions_update' {
                 handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }

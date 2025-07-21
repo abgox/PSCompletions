@@ -41,6 +41,7 @@ New-Variable -Name PSCompletions -Value @{
         # config
         url                                          = ''
         language                                     = $PSUICulture
+        enable_auto_alias_setup                      = 1
         enable_completions_update                    = 1
         enable_module_update                         = 1
         enable_cache                                 = 1
@@ -106,7 +107,7 @@ New-Variable -Name PSCompletions -Value @{
     }
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip')
-    config_item             = @('url', 'language', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name', 'module_update_confirm_duration')
+    config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name', 'module_update_confirm_duration')
 } -Option ReadOnly
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
@@ -1342,15 +1343,20 @@ if (!$PSCompletions.config.enable_menu) {
 $PSCompletions.generate_completion()
 $PSCompletions.handle_completion()
 
-foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
-    if ($PSCompletions.data.aliasMap[$_] -eq 'psc') {
-        Set-Alias $_ $PSCompletions.config.function_name -ErrorAction SilentlyContinue
-    }
-    else {
-        if ($_ -ne $PSCompletions.data.aliasMap.$_) {
-            Set-Alias $_ $PSCompletions.data.aliasMap.$_ -ErrorAction SilentlyContinue
+if ($PSCompletions.config.enable_auto_alias_setup) {
+    foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
+        if ($PSCompletions.data.aliasMap[$_] -eq 'psc') {
+            Set-Alias $_ $PSCompletions.config.function_name -ErrorAction SilentlyContinue
+        }
+        else {
+            if ($_ -ne $PSCompletions.data.aliasMap.$_) {
+                Set-Alias $_ $PSCompletions.data.aliasMap.$_ -ErrorAction SilentlyContinue
+            }
         }
     }
+}
+else {
+    Set-Alias psc $PSCompletions.config.function_name -ErrorAction SilentlyContinue
 }
 
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
