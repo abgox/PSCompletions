@@ -3,6 +3,10 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.6.2 (2025/7/21)
+
+- Change the order of remote url addresses.
+
 ## 5.6.1 (2025/7/21)
 
 - Remove the module update confirmation.
