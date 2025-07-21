@@ -3,6 +3,12 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.6.1 (2025/7/21)
+
+- Remove the module update confirmation.
+  - Future versions will require manual updates of PSCompletions
+  - Remove an unused configuration item `module_update_confirm_duration`
+
 ## 5.6.0 (2025/7/21)
 
 - Add a configuration item `enable_auto_alias_setup`.

@@ -3,6 +3,12 @@
     <a href="./CHANGELOG-CN.md">简体中文</a>
 </p>
 
+## 5.6.1 (2025/7/21)
+
+- 移除了模块更新确认
+  - 后续版本将需要手动更新 PSCompletions
+  - 移除了一个无用的配置项 `module_update_confirm_duration`
+
 ## 5.6.0 (2025/7/21)
 
 - 添加配置项 `enable_auto_alias_setup`
