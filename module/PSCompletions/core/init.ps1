@@ -1088,11 +1088,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     else {
         if ($PSCompletions.language -eq 'zh-CN') {
             $PSCompletions.url = 'https://gitee.com/abgox/PSCompletions/raw/main'
-            $PSCompletions.urls = @('https://abgox.github.io/PSCompletions', 'https://gitee.com/abgox/PSCompletions/raw/main', 'https://github.com/abgox/PSCompletions/raw/main')
+            $PSCompletions.urls = @('https://gitee.com/abgox/PSCompletions/raw/main', 'https://github.com/abgox/PSCompletions/raw/main', 'https://abgox.github.io/PSCompletions' )
         }
         else {
             $PSCompletions.url = 'https://github.com/abgox/PSCompletions/raw/main'
-            $PSCompletions.urls = @('https://abgox.github.io/PSCompletions', 'https://github.com/abgox/PSCompletions/raw/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
+            $PSCompletions.urls = @('https://github.com/abgox/PSCompletions/raw/main', 'https://gitee.com/abgox/PSCompletions/raw/main', 'https://abgox.github.io/PSCompletions')
         }
     }
 
