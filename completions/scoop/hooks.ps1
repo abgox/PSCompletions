@@ -62,7 +62,26 @@
                     param($results)
                     return $results
                 })
-            $tempList += $return
+
+            <#
+            使用 Scoop内部实现的 use_sqlite_cache 功能，查询数据库
+            实测速度和直接遍历文件夹差不多
+            # https://github.com/ScoopInstaller/Scoop/blob/master/libexec/scoop-search.ps1#L182
+            #>
+
+            # $scoopdir = $root_path
+            # . "$scoopdir\apps\scoop\current\lib\database.ps1"
+            # Select-ScoopDBItem $query -From @('name', 'binary', 'shortcut') |
+            # Select-Object -Property name, version, bucket, binary |
+            # ForEach-Object {
+            #     $app = $_.bucket + "/" + $_.name
+            #     $tempList += @{
+            #         ListItemText   = $app
+            #         CompletionText = $app
+            #         symbols        = @("SpaceTab")
+            #         # ToolTip        = $_.version # 不显示帮助信息，加快补全速度
+            #     }
+            # }
         }
         'uninstall' {
             if ($filter_input_arr.Count -gt 1) {
@@ -371,7 +390,9 @@
                 foreach ($c in $configItemList) {
                     if ($c -notin $add) {
                         $info = if ($configList.$c.tip) { $configList.$c.tip + "`n" + ($configList.$c[$language] -join "`n") } else { $configList.$c[$language] -join "`n" }
-                        $tempList += $PSCompletions.return_completion($c, $PSCompletions.replace_content($info))
+
+                        $symbol = if ($configList.$c.next -is [int]) { '' } else { @("SpaceTab") }
+                        $tempList += $PSCompletions.return_completion($c, $PSCompletions.replace_content($info), $symbol)
                     }
                 }
             }
