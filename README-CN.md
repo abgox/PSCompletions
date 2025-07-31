@@ -405,6 +405,7 @@
 |[scoop-install](https://gitee.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-install/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop-install/language/zh-CN.json)|一个 PowerShell 脚本，它允许你添加 Scoop 配置，在 Scoop 安装应用时使用替换后的 url 而不是原始的 url。|
 |[scoop-update](https://gitee.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-update/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop-update/language/zh-CN.json)|一个 PowerShell 脚本，它允许你添加 Scoop 配置，在 Scoop 更新应用时使用替换后的 url 而不是原始的 url。|
 |[sfsu](https://github.com/winpax/sfsu)|[**en-US**](/completions/sfsu/language/en-US.json)<br>[**zh-CN(6.67%)**](/completions/sfsu/language/zh-CN.json)|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
+|[uv](https://docs.astral.sh/uv/)|[**en-US**](/completions/uv/language/en-US.json)<br>[**zh-CN(10%)**](/completions/uv/language/zh-CN.json)|一个极其快速的 Python 包和项目管理器，用 Rust 编写。|
 |[volta](https://volta.sh)|[**en-US**](/completions/volta/language/en-US.json)<br>[**zh-CN(100%)**](/completions/volta/language/zh-CN.json)|volta - 无障碍 JavaScript 工具管理器。|
 |[winget](https://github.com/microsoft/winget-cli)|[**en-US**](/completions/winget/language/en-US.json)<br>[**zh-CN(100%)**](/completions/winget/language/zh-CN.json)|WinGet - Windows 程序包管理器。|
 |[wsh](https://github.com/wavetermdev/waveterm)|[**en-US**](/completions/wsh/language/en-US.json)<br>[**zh-CN(3.45%)**](/completions/wsh/language/zh-CN.json)|wsh is a small utility that lets you do cool things with Wave Terminal, right from the command line.|
