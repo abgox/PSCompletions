@@ -2,7 +2,17 @@ function handleCompletions($completions) {
     $tempList = @()
 
     $voltaBinDir = Split-Path (Get-Command volta).Source -Parent
-    $toolsDir = "$(Split-Path $voltaBinDir -Parent)\tools\image"
+    $toolsDir = "$voltaBinDir\tools\image"
+    if (!(Test-Path $toolsDir)) {
+        $toolsDir = "$(Split-Path $voltaBinDir -Parent)\tools\image"
+    }
+    if (!(Test-Path $toolsDir)) {
+        $toolsDir = "$($env:LocalAppData)\Volta\tools\image"
+    }
+    if (!(Test-Path $toolsDir)) {
+        return $completions
+    }
+
     $list = @("node", "npm", "pnpm", "yarn")
 
     $filter_input_arr = $PSCompletions.filter_input_arr
@@ -14,6 +24,19 @@ function handleCompletions($completions) {
                 foreach ($v in $versionList) {
                     $tempList += $PSCompletions.return_completion("$l@$($v.BaseName)", "pin - $l@$($v.BaseName)")
                 }
+            }
+        }
+        'uninstall' {
+            foreach ($l in $list) {
+                $versionList = Get-ChildItem "$toolsDir\$l" -Directory
+                foreach ($v in $versionList) {
+                    $tempList += $PSCompletions.return_completion("$l@$($v.BaseName)", "uninstall - $l@$($v.BaseName)")
+                }
+            }
+        }
+        'which' {
+            foreach ($l in $list) {
+                $tempList += $PSCompletions.return_completion("$l", "which - $l")
             }
         }
     }
