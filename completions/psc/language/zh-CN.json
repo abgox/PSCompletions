@@ -146,8 +146,8 @@
           "tip": [
             "当前值: {{ $PSCompletions.language }}\n",
             "读取/设置当前配置语言。\n",
-            "配置语言会影响所有添加的补全语言。\n",
-            "通过 psc completion 单独设置了补全语言的不受影响。\n",
+            "配置语言会影响所有添加的补全。\n",
+            "通过 psc completion 单独设置了语言的补全不受影响。\n",
             "更多信息请访问: https://gitee.com/abgox/PSCompletions/blob/main/README-CN.md#关于语言"
           ],
           "next": [
@@ -169,8 +169,8 @@
           "name": "enable_cache",
           "tip": [
             "当前值: {{ $PSCompletions.config.enable_cache }}\n",
-            "设置是否启用补全缓存，默认启用\n",
-            "这个配置通常不需要修改, 主要用于补全数据文件的更新调试(每次补全都会重新读取 json)。"
+            "设置是否启用补全缓存，默认启用，用于提高补全的加载速度。\n",
+            "通常不需要修改它, 除非每次补全触发都需要重新读取 json 文件，如补全调试。"
           ],
           "next": [
             {
@@ -185,7 +185,7 @@
               "tip": [
                 "设置为 0\n",
                 "禁用补全缓存, 主要用于更新调试补全数据文件。\n",
-                "禁用后, 每次补全都会重新去读取补全数据文件(json)。"
+                "禁用后, 每次补全触发都会重新去读取补全数据文件(json)。"
               ]
             }
           ]
@@ -216,7 +216,8 @@
           "name": "enable_completions_update",
           "tip": [
             "当前值: {{ $PSCompletions.config.enable_completions_update }}\n",
-            "设置首次加载 PSCompletions 模块时是否显示补全更新(更新包括更新补全、新增补全)。"
+            "设置首次加载 PSCompletions 模块时是否显示补全更新(更新包括更新补全、新增补全)。\n",
+            "注意: 不推荐禁用它, 因为及时获取更新信息能避免一些意外错误。"
           ],
           "next": [
             {
@@ -241,7 +242,7 @@
           "tip": [
             "当前值: {{ $PSCompletions.config.enable_module_update }}\n",
             "当模块有了新版本后, 是否在首次加载模块后显示更新提示。\n",
-            "注意: 远程仓库始终匹配 PSCompletions 最新版本, 不建议关闭它。\n",
+            "注意: 不推荐关闭它，因为远程仓库始终匹配 PSCompletions 最新版本。\n",
             "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
           ],
           "next": [
@@ -267,7 +268,7 @@
           "name": "url",
           "tip": [
             "当前值: \"{{ $PSCompletions.config.url }}\"\n",
-            "设置远程补全信息的地址。\n",
+            "设置远程补全数据的 url 地址。\n",
             "默认值为 \"\"，表示根据语言自动选择仓库(Github/Gitee)。\n",
             "{{ $info.config.url.example }}"
           ],
