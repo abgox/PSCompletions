@@ -717,9 +717,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
     $PSCompletions.menu.set_selection()
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_prefix {
-    $prefix = $PSCompletions.menu.filter_list[-1].CompletionText
+    $prefix = $PSCompletions.menu.filter_list[-1].ListItemText
     for ($i = $PSCompletions.menu.filter_list.count - 2; $i -ge 0 -and $prefix; --$i) {
-        $text = $PSCompletions.menu.filter_list[$i].CompletionText
+        $text = $PSCompletions.menu.filter_list[$i].ListItemText
         if ($text -ne $null) {
             while ($prefix -and !$text.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
                 $prefix = $prefix.Substring(0, $prefix.Length - 1)
@@ -740,7 +740,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_comp
     $PSCompletions.menu.filter_list = @()
 
     foreach ($f in $filter_list) {
-        if ($f.CompletionText -and $f.CompletionText -like $match) {
+        if ($f.ListItemText -and $f.ListItemText -like $match) {
             $PSCompletions.menu.filter_list += $f
         }
     }
