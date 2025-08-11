@@ -1,4 +1,8 @@
 function handleCompletions($completions) {
+    if (!(Get-Command volta -ErrorAction SilentlyContinue)) {
+        return $completions
+    }
+
     $tempList = @()
 
     $voltaBinDir = Split-Path (Get-Command volta).Source -Parent
