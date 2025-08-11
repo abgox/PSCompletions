@@ -3,6 +3,11 @@
     <a href="./CHANGELOG.md">English</a>
 </p>
 
+## 5.6.4 (2025/8/11)
+
+- Fix the filter bug of the completion menu.
+- Other fixes and optimizations.
+
 ## 5.6.3 (2025/7/21)
 
 - Add missing caching logic.
