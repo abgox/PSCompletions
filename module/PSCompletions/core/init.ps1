@@ -1345,17 +1345,17 @@ $PSCompletions.handle_completion()
 if ($PSCompletions.config.enable_auto_alias_setup) {
     foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
         if ($PSCompletions.data.aliasMap[$_] -eq 'psc') {
-            Set-Alias $_ $PSCompletions.config.function_name -ErrorAction SilentlyContinue
+            Set-Alias $_ $PSCompletions.config.function_name -Force -ErrorAction SilentlyContinue
         }
         else {
             if ($_ -ne $PSCompletions.data.aliasMap.$_) {
-                Set-Alias $_ $PSCompletions.data.aliasMap.$_ -ErrorAction SilentlyContinue
+                Set-Alias $_ $PSCompletions.data.aliasMap.$_ -Force -ErrorAction SilentlyContinue
             }
         }
     }
 }
 else {
-    Set-Alias psc $PSCompletions.config.function_name -ErrorAction SilentlyContinue
+    Set-Alias psc $PSCompletions.config.function_name -Force -ErrorAction SilentlyContinue
 }
 
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
