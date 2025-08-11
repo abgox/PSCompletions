@@ -33,6 +33,12 @@ function handleCompletions($completions) {
                     $tempList += $PSCompletions.return_completion("$l@$($v.BaseName)", "uninstall - $l@$($v.BaseName)")
                 }
             }
+
+            $packages = Get-ChildItem "$toolsDir\packages" -Directory
+            foreach ($p in $packages) {
+                $name = $p.BaseName
+                $tempList += $PSCompletions.return_completion($name, "uninstall - $name")
+            }
         }
         'which' {
             foreach ($l in $list) {
