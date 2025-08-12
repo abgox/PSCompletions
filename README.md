@@ -1,7 +1,7 @@
 <h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
 
 <p align="center">
-    <a href="README-CN.md">简体中文</a> |
+    <a href="README.zh-CN.md">简体中文</a> |
     <a href="README.md">English</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
@@ -29,6 +29,10 @@
 </p>
 
 ---
+
+<p align="center">
+  <strong>If you like this project, please give it a star ⭐️</strong>
+</p>
 
 ## Introduce
 

@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="README.md">English</a> |
-    <a href="README-CN.md">简体中文</a> |
+    <a href="README.zh-CN.md">简体中文</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
 </p>
@@ -30,6 +30,10 @@
 
 ---
 
+<p align="center">
+  <strong>如果你喜欢这个项目，请给它一个 ⭐️</strong>
+</p>
+
 ## 介绍
 
 > [!Tip]
@@ -50,7 +54,7 @@
 
 ## 新的变化
 
-- 请查阅 [更新日志](./module/CHANGELOG-CN.md)
+- 请查阅 [更新日志](./module/CHANGELOG.zh-CN.md)
 
 ## 常见问题
 
@@ -201,7 +205,7 @@
     - 默认使用此实现
       - 前提: 配置项 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
     - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
-    - 同时使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
+    - 它使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
       - 例如:
         - 路径补全: `cd`/`.\`/`..\`/`~\`/...
         - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...

@@ -505,7 +505,7 @@ function handle($lang) {
         $content = $content."en-US"
     }
     else {
-        $path = "$PSScriptRoot\..\README-CN.md"
+        $path = "$PSScriptRoot\..\README.zh-CN.md"
         $content = $content."zh-CN"
     }
     function get_static_content($path) {

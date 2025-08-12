@@ -1,7 +1,4 @@
-<p align="center">
-    <a href="./CHANGELOG-CN.md">简体中文</a> |
-    <a href="./CHANGELOG.md">English</a>
-</p>
+[简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
 ## 5.6.4 (2025/8/11)
 

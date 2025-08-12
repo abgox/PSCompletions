@@ -1,7 +1,4 @@
-<p align="center">
-    <a href="./CHANGELOG.md">English</a> |
-    <a href="./CHANGELOG-CN.md">简体中文</a>
-</p>
+[English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## 5.6.4 (2025/8/11)
 
@@ -327,7 +324,7 @@
      - 开启后，`PSCompletions` 会拦截所有补全，并使用 `PSCompletions` 提供的补全菜单渲染补全
      - 比如，`PowerShell` 中的 `Get-*`,`Set-*` 等命令都会使用 `PSCompletions` 提供的补全菜单渲染补全
      - 需要注意，此配置项生效的前提是启用了 `menu_enable`
-     - [关于菜单增强](../README-CN.md#关于菜单增强)
+     - [关于菜单增强](../README.zh-CN.md#关于菜单增强)
 
   3. `menu_show_tip_when_enhance`: 默认值为 `1`, 设置不是通过 `psc add` 添加的补全，是否显示命令提示信息
 
