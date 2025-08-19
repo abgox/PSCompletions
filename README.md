@@ -24,14 +24,14 @@
         <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="repo size" />
     </a>
     <a href="https://github.com/abgox/PSCompletions">
-        <img src="https://img.shields.io/badge/created-2023--8--15-blue" alt="created" />
+        <img src="https://img.shields.io/github/created-at/abgox/PSCompletions" alt="created" />
     </a>
 </p>
 
 ---
 
 <p align="center">
-  <strong>If you like this project, please give it a star ⭐️</strong>
+  <strong>Star ⭐️ or <a href="https://abgox.com/donate" target="_blank">Donate 💰</a> if you like it!</strong>
 </p>
 
 ## Introduce
@@ -49,8 +49,6 @@
 - [More powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
 - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
   - [sigoden/argc-completions](https://github.com/sigoden/argc-completions)
-
-[**If `PSCompletions` is helpful to you, please consider giving it a star.**](#stars)
 
 ## What's new
 
@@ -124,6 +122,10 @@
 3. For more usages on `psc`, you just need to enter `psc`, press `Space` and `Tab` key, and you will get all usages of `psc` by reading [the completion tip](#about-completion-tip).
 
 ## Demo
+
+> [!Tip]
+>
+> If it cannot be displayed here, you can visit it on [the official website](https://pscompletions.abgox.com/).
 
 ![demo](https://pscompletions.abgox.com/demo.gif)
 
@@ -309,23 +311,6 @@
   - Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
   - More examples: `~/` / `../../` ...
 - So you can enter `git add ./` and then press `Tab` key to get the path completion.
-
-## Stars
-
-**If `PSCompletions` is helpful to you, please consider giving it a star.**
-
-<a href="https://github.com/abgox/PSCompletions">
-  <picture>
-    <source media="(prefers-color-scheme: light)" srcset="http://reporoster.com/stars/abgox/PSCompletions"> <!-- light theme -->
-    <img alt="stargazer-widget" src="http://reporoster.com/stars/dark/abgox/PSCompletions"> <!-- dark theme -->
-  </picture>
-</a>
-
-## Support
-
-<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://me.abgox.com/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-![Support](https://me.abgox.com/support.png)
 
 ## Available Completions
 

@@ -24,14 +24,14 @@
         <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="repo size" />
     </a>
     <a href="https://github.com/abgox/PSCompletions">
-        <img src="https://img.shields.io/badge/created-2023--8--15-blue" alt="created" />
+        <img src="https://img.shields.io/github/created-at/abgox/PSCompletions" alt="created" />
     </a>
 </p>
 
 ---
 
 <p align="center">
-  <strong>如果你喜欢这个项目，请给它一个 ⭐️</strong>
+  <strong>如果你喜欢这个项目，请给它一个 ⭐️ 或 <a href="https://abgox.com/donate" target="_blank">赞赏 💰</a></strong>
 </p>
 
 ## 介绍
@@ -49,8 +49,6 @@
 - [更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
 - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
   - [argc-completions 仓库](https://github.com/sigoden/argc-completions)
-
-[**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star**](#stars)
 
 ## 新的变化
 
@@ -126,6 +124,10 @@
 3. 关于 `psc` 的更多命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
 
 ## Demo
+
+> [!Tip]
+>
+> 如果这里无法正常显示，[可前往官网查看](https://pscompletions.abgox.com/)
 
 ![demo](https://pscompletions.abgox.com/demo-CN.gif)
 
@@ -318,23 +320,6 @@
   - 更多的: `~/` / `../../` ...
 
 - 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
-
-## Stars
-
-**如果 `PSCompletions` 对你有所帮助，请考虑给它一个 Star**
-
-<a href="https://github.com/abgox/PSCompletions">
-  <picture>
-    <source media="(prefers-color-scheme: light)" srcset="http://reporoster.com/stars/abgox/PSCompletions"> <!-- light theme -->
-    <img alt="stargazer-widget" src="http://reporoster.com/stars/dark/abgox/PSCompletions"> <!-- dark theme -->
-  </picture>
-</a>
-
-## 赞赏支持
-
-<a href='https://ko-fi.com/W7W817R6Z3' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://me.abgox.com/buy-me-a-coffee.png' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-![赞赏支持](https://me.abgox.com/support.png)
 
 ## 补全列表
 
