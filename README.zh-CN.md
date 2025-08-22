@@ -31,7 +31,7 @@
 ---
 
 <p align="center">
-  <strong>如果你喜欢这个项目，请给它一个 ⭐️ 或 <a href="https://abgox.com/donate" target="_blank">赞赏 💰</a></strong>
+  <strong>喜欢这个项目？请给它一个 ⭐️ 或 <a href="https://abgox.com/donate">赞赏 💰</a></strong>
 </p>
 
 ## 介绍
@@ -56,7 +56,7 @@
 
 ## 常见问题
 
-- 请查阅 [常见问题](https://pscompletions.abgox.com/FAQ)
+- 请查阅 [常见问题](https://pscompletions.abgox.com/faq)
 
 ## 安装
 
@@ -98,7 +98,7 @@
      ```powershell
      echo "Import-Module PSCompletions" >> $PROFILE
      ```
-   - 推荐将 `Import-Module PSCompletions` 添加到 `$PROFILE` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/zh-CN/FAQ/#输出编码)
+   - 推荐将 `Import-Module PSCompletions` 添加到 `$PROFILE` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/zh-CN/faq/#输出编码)
    - [关于补全触发按键](#关于补全触发按键)
 
 ## 卸载
@@ -129,7 +129,7 @@
 >
 > 如果这里无法正常显示，[可前往官网查看](https://pscompletions.abgox.com/)
 
-![demo](https://pscompletions.abgox.com/demo-CN.gif)
+![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
 
 ## 贡献
 

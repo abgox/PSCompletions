@@ -31,7 +31,7 @@
 ---
 
 <p align="center">
-  <strong>Star ⭐️ or <a href="https://abgox.com/donate" target="_blank">Donate 💰</a> if you like it!</strong>
+  <strong>Star ⭐️ or <a href="https://abgox.com/donate">Donate 💰</a> if you like it!</strong>
 </p>
 
 ## Introduce
@@ -56,7 +56,7 @@
 
 ## FAQ
 
-- See the [FAQ](https://pscompletions.abgox.com/FAQ).
+- See the [FAQ](https://pscompletions.abgox.com/faq).
 
 ## How to install
 
@@ -96,7 +96,7 @@
      ```powershell
      echo "Import-Module PSCompletions" >> $PROFILE
      ```
-   - Note: Recommend add `Import-Module PSCompletions` early in `$PROFILE` to void [the encoding issue](https://pscompletions.abgox.com/en-US/FAQ/#about-the-output-encoding).
+   - Note: Recommend add `Import-Module PSCompletions` early in `$PROFILE` to void [the encoding issue](https://pscompletions.abgox.com/en-US/faq/#about-the-output-encoding).
    - [About the completion trigger key](#about-the-completion-trigger-key).
 
 ## How to uninstall
