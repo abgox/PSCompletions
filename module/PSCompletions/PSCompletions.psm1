@@ -1,4 +1,4 @@
-Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
+Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly -Value {
     $arg = $args
 
     function _replace {
@@ -11,7 +11,9 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
         }
         if ($data -match $pattern) { (_replace $data) }else { return $data }
     }
-    function Show-ParamError($flag, $cmd, $err_info = $PSCompletions.info.$cmd.err.$flag, $example = $PSCompletions.info.$cmd.example) {
+    function Show-ParamError {
+        param($flag, $cmd, $err_info = $PSCompletions.info.$cmd.err.$flag, $example = $PSCompletions.info.$cmd.example)
+
         $err = if ($flag -eq 'min') { $PSCompletions.info.param_min }
         elseif ($flag -eq 'max') { $PSCompletions.info.param_max }
         else { $PSCompletions.info.param_err }
@@ -24,7 +26,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
             $PSCompletions.write_with_color($PSCompletions.info.example_color + (_replace $example))
         }
     }
-    function Show-List() {
+    function Show-List {
         $max_len = ($PSCompletions.data.list | Measure-Object -Maximum Length).Maximum
         $max_len = [Math]::Max($max_len, 10)
         foreach ($_ in $PSCompletions.data.list) {
@@ -1115,6 +1117,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
     }
     Out-Data
     if ($need_init) { $PSCompletions.init_data() }
-} -Option ReadOnly
+}
 
 Export-ModuleMember -Function $PSCompletions.config.function_name
