@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '5.6.4'
+    ModuleVersion        = '5.6.5'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -43,7 +43,7 @@
 
             IconUri      = 'https://pscompletions.abgox.com/logo.svg'
 
-            ReleaseNotes = 'https://pscompletions.abgox.com/module/CHANGELOG'
+            ReleaseNotes = 'https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md'
 
         }
 

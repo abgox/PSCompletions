@@ -1,5 +1,10 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.6.5 (2025/9/11)
+
+- Fix the path completion sorting.
+- Other fixes and optimizations.
+
 ## 5.6.4 (2025/8/11)
 
 - Fix the filter bug of the completion menu.
