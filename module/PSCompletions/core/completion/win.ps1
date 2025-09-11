@@ -105,7 +105,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                                 $PSCompletions._i --
                                 # 不能使用 $order.($_.CompletionText)，它可能获取到对象中的 OverloadDefinitions
                                 $o = $order[$_.CompletionText]
-                                if ($o) { $o }else { $PSCompletions._i }
+                                if ($o) { $o }
+                                else {
+                                    $o = $order[$_.CompletionText + $PSCompletions.separator]
+                                    if ($o) { $o }else { $PSCompletions._i }
+                                }
                             } -Descending -CaseSensitive
                         }
                         $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
