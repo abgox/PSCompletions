@@ -48,7 +48,14 @@
 - 动态排序补全项(根据使用频次)
 - [更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
 - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
-  - [argc-completions 仓库](https://github.com/sigoden/argc-completions)
+
+## Demo
+
+> [!Tip]
+>
+> 如果这里无法正常显示，[可前往官网查看](https://pscompletions.abgox.com/)
+
+![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
 
 ## 新的变化
 
@@ -122,14 +129,6 @@
 1. `psc add git`
 2. 然后你就可以输入 `git`, 按下 `Space`(空格键) `Tab` 键来获得命令补全
 3. 关于 `psc` 的更多命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
-
-## Demo
-
-> [!Tip]
->
-> 如果这里无法正常显示，[可前往官网查看](https://pscompletions.abgox.com/)
-
-![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
 
 ## 贡献
 

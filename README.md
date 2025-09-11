@@ -48,7 +48,14 @@
 - Sort completion items dynamically by frequency of use.
 - [More powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
 - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
-  - [sigoden/argc-completions](https://github.com/sigoden/argc-completions)
+
+## Demo
+
+> [!Tip]
+>
+> If it cannot be displayed here, you can visit it on [the official website](https://pscompletions.abgox.com/).
+
+![demo](https://pscompletions.abgox.com/demo.gif)
 
 ## What's new
 
@@ -120,14 +127,6 @@
 1. `psc add git`
 2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
 3. For more usages on `psc`, you just need to enter `psc`, press `Space` and `Tab` key, and you will get all usages of `psc` by reading [the completion tip](#about-completion-tip).
-
-## Demo
-
-> [!Tip]
->
-> If it cannot be displayed here, you can visit it on [the official website](https://pscompletions.abgox.com/).
-
-![demo](https://pscompletions.abgox.com/demo.gif)
 
 ## Contribution
 
