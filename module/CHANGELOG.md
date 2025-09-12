@@ -1,5 +1,10 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.6.6 (2025/9/12)
+
+- Optimize the frequency of network requests for update checks.
+- Other fixes and optimizations.
+
 ## 5.6.5 (2025/9/11)
 
 - Fix the path completion sorting.
