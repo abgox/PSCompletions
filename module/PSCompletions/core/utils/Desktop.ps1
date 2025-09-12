@@ -301,61 +301,77 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
         }
 
-        # check version
-        try {
-            if ($PSCompletions.config.enable_module_update -eq 1) {
-                $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
-                foreach ($url in $urls) {
-                    try {
-                        $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" | ConvertFrom-Json).version
-                        break
-                    }
-                    catch {}
-                }
-                $newVersion = $newVersion -replace 'v', ''
-                if ($newVersion -match "^[\d\.]+$") {
-                    $versions = @($PSCompletions.version, $newVersion) | Sort-Object { [Version] $_ }
-                    if ($versions[-1] -ne $PSCompletions.version) {
-                        $data = get_raw_content $PSCompletions.path.data | ConvertFrom_JsonToHashtable
-                        $data.config.enable_module_update = $versions[-1]
-                        $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
-                    }
-                }
-            }
-        }
-        catch {}
+        function check_update {
+            $currentTime = Get-Date
+            $updateInterval = [TimeSpan]::FromDays(1)
 
-        # check update
-        if (!(Test-Path $PSCompletions.path.update)) {
-            New-Item $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
-        }
-        if ($PSCompletions.config.enable_completions_update -eq 1) {
-            $update_list = @()
-            foreach ($_ in (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })) {
-                $isErr = $true
-                foreach ($url in $PSCompletions.urls) {
+            if (Test-Path $PSCompletions.path.last_update) {
+                $lastUpdate = Get-Content $PSCompletions.path.last_update | Get-Date
+                if ($lastUpdate) {
+                    $timeSinceLast = $currentTime - $lastUpdate
+                    if ($timeSinceLast -lt $updateInterval) {
+                        return
+                    }
+                }
+            }
+
+            # check module version
+            try {
+                if ($PSCompletions.config.enable_module_update -eq 1) {
+                    $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
+                    foreach ($url in $urls) {
+                        try {
+                            $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" | ConvertFrom-Json).version
+                            break
+                        }
+                        catch {}
+                    }
+                    $newVersion = $newVersion -replace 'v', ''
+                    if ($newVersion -match "^[\d\.]+$") {
+
+                        $currentTime.ToString('o') | Out-File $PSCompletions.path.last_update -Force -Encoding utf8
+
+                        $versions = @($PSCompletions.version, $newVersion) | Sort-Object { [Version] $_ }
+                        if ($versions[-1] -ne $PSCompletions.version) {
+                            $data = get_raw_content $PSCompletions.path.data | ConvertFrom_JsonToHashtable
+                            $data.config.enable_module_update = $versions[-1]
+                            $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                        }
+                    }
+                }
+            }
+            catch {}
+
+            # check completions update
+            if ($PSCompletions.config.enable_completions_update -eq 1) {
+                $update_list = @()
+                foreach ($_ in (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })) {
+                    $isErr = $true
+                    foreach ($url in $PSCompletions.urls) {
+                        try {
+                            $response = Invoke-WebRequest -Uri "$url/completions/$($_.Name)/guid.txt"
+                            $isErr = $false
+                            break
+                        }
+                        catch {}
+                    }
+                    if ($isErr) {
+                        continue
+                    }
                     try {
-                        $response = Invoke-WebRequest -Uri "$url/completions/$($_.Name)/guid.txt"
-                        $isErr = $false
-                        break
+                        $content = $response.Content.Trim()
+                        $guid = get_raw_content "$($PSCompletions.path.completions)/$($_.Name)/guid.txt"
+                        if ($guid -ne $content -and $content -match "^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$") {
+                            $update_list += $_.Name
+                        }
                     }
                     catch {}
                 }
-                if ($isErr) {
-                    continue
-                }
-                try {
-                    $content = $response.Content.Trim()
-                    $guid = get_raw_content "$($PSCompletions.path.completions)/$($_.Name)/guid.txt"
-                    if ($guid -ne $content -and $content -match "^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$") {
-                        $update_list += $_.Name
-                    }
-                }
-                catch {}
+                if ($update_list) { $update_list | Out-File $PSCompletions.path.update -Force -Encoding utf8 }
+                else { Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue }
             }
-            if ($update_list) { $update_list | Out-File $PSCompletions.path.update -Force -Encoding utf8 }
-            else { Clear-Content $PSCompletions.path.update -Force }
         }
+        check_update
 
         function getCompletions {
             $guid = $PSCompletions.guid

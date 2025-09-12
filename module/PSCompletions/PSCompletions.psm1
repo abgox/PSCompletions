@@ -111,7 +111,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             Show-ParamError 'min' 'rm'
             return
         }
-        Clear-Content $PSCompletions.path.update -Force
+        Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
         $PSCompletions.update = @()
 
         $data = [ordered]@{

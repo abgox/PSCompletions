@@ -12,6 +12,7 @@ New-Variable -Name PSCompletions -Value @{
         completions_json = Join-Path $_ 'temp\completions.json'
         update           = Join-Path $_ 'temp\update.txt'
         change           = Join-Path $_ 'temp\change.txt'
+        last_update      = Join-Path $_ 'temp\last-update.txt'
     }
     order                   = [ordered]@{}
     root_cmd                = ''
