@@ -53,7 +53,8 @@
 
 > [!Tip]
 >
-> If it cannot be displayed here, you can visit it on [the official website](https://pscompletions.abgox.com/).
+> - If it cannot be displayed here, you can visit it on [the official website](https://pscompletions.abgox.com/).
+> - [Click to view the videos on Bilibili](https://www.bilibili.com/video/BV15Gp7zmE2e)
 
 ![demo](https://pscompletions.abgox.com/demo.gif)
 
@@ -82,18 +83,20 @@
      ```
 
    - Install silently:
+
      ```powershell
      Install-Module PSCompletions -Repository PSGallery -Force
      ```
+
    - Use [Scoop](https://scoop.sh/):
 
-     ```shell
-     scoop bucket add abyss https://github.com/abgox/abyss.git
-     ```
+     - Add [abyss](https://abyss.abgox.com) with [Github](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss) repository.
 
-     ```shell
-     scoop install abyss/abgox.PSCompletions
-     ```
+     - Install it.
+
+       ```shell
+       scoop install abyss/abgox.PSCompletions
+       ```
 
 3. Import module:
    ```powershell
@@ -103,7 +106,7 @@
      ```powershell
      echo "Import-Module PSCompletions" >> $PROFILE
      ```
-   - Note: Recommend add `Import-Module PSCompletions` early in `$PROFILE` to void [the encoding issue](https://pscompletions.abgox.com/en-US/faq/#about-the-output-encoding).
+   - Note: Recommend add `Import-Module PSCompletions` early in `$PROFILE` to avoid [the encoding issue](https://pscompletions.abgox.com/en-US/faq/#about-the-output-encoding).
    - [About the completion trigger key](#about-the-completion-trigger-key).
 
 ## How to uninstall
@@ -122,7 +125,7 @@
 > - If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
 > - You can also [combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
 
-- Take `git` as an example.
+Take `git` as an example.
 
 1. `psc add git`
 2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
@@ -168,8 +171,6 @@
 - In addition to the built-in completion menu of `PowerShell`, `PSCompletions` module also provides a more powerful completion menu.
 
   - Setting: `psc menu config enable_menu 1` (Default: `1`)
-
-- The module's completion menu is based on [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) realization idea, thanks!
 
 - Available Windows environment:
   - `PowerShell`
@@ -310,6 +311,10 @@
   - Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
   - More examples: `~/` / `../../` ...
 - So you can enter `git add ./` and then press `Tab` key to get the path completion.
+
+## Acknowledgements
+
+- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): The completion menu provided by the module is inspired by it.
 
 ## Available Completions
 

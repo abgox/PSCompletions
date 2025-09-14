@@ -53,7 +53,8 @@
 
 > [!Tip]
 >
-> 如果这里无法正常显示，[可前往官网查看](https://pscompletions.abgox.com/)
+> - 如果这里无法正常显示，[可前往官网查看](https://pscompletions.abgox.com/)
+> - [点击查看 Bilibili 中的介绍及教学视频](https://www.bilibili.com/video/BV15Gp7zmE2e)
 
 ![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
 
@@ -89,13 +90,12 @@
 
    - 使用 [Scoop](https://scoop.sh/) 安装
 
-     ```shell
-     scoop bucket add abyss https://github.com/abgox/abyss.git
-     ```
+     - 添加 [abyss](https://abyss.abgox.com) bucket ([Github](https://github.com/abgox/abyss) 或 [Gitee](https://gitee.com/abgox/abyss))
+     - 安装它
 
-     ```shell
-     scoop install abyss/abgox.PSCompletions
-     ```
+       ```shell
+       scoop install abyss/abgox.PSCompletions
+       ```
 
 3. 导入模块:
    ```powershell
@@ -124,7 +124,7 @@
 > - 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
 > - 也可以 [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
 
-- 以 `git` 补全为例
+以 `git` 补全为例
 
 1. `psc add git`
 2. 然后你就可以输入 `git`, 按下 `Space`(空格键) `Tab` 键来获得命令补全
@@ -170,7 +170,6 @@
 
 - 除了 `PowerShell` 内置的补全菜单，`PSCompletions` 模块还提供了一个更强大的补全菜单。
   - 配置: `psc menu config enable_menu 1` (默认开启)
-- 模块提供的补全菜单基于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的实现思路，感谢 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) !
 - 模块提供的补全菜单可用的 Windows 环境：
   - `PowerShell`
   - `Windows PowerShell`
@@ -319,6 +318,10 @@
   - 更多的: `~/` / `../../` ...
 
 - 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
+
+## 致谢
+
+- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): 模块的补全菜单受到它的启发
 
 ## 补全列表
 
