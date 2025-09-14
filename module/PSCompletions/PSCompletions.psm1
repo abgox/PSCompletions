@@ -561,6 +561,11 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 }
             }
             'line_theme' {
+                if ($PSEdition -eq 'Desktop') {
+                    $PSCompletions.write_with_color((_replace $PSCompletions.info.err.deny_change_menu_line_style))
+                    return
+                }
+
                 $cmd_list = @('double_line_rect_border', 'bold_line_rect_border', 'single_line_rect_border', 'single_line_round_border', 'boldTB_slimLR_border', 'slimTB_boldLR_border', 'doubleTB_singleLR_border', 'singleTB_doubleLR_border')
                 if ($arg.Length -lt 3) {
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.line_theme.example
@@ -702,6 +707,10 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 }
                 if ($arg[2] -notin $cmd_list) {
                     Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
+                    return
+                }
+                if ($arg[2] -eq 'line' -and $PSEdition -eq 'Desktop') {
+                    $PSCompletions.write_with_color((_replace $PSCompletions.info.err.deny_change_menu_line_style))
                     return
                 }
                 if ($arg.Length -lt 4) {
