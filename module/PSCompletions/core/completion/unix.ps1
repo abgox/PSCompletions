@@ -7,11 +7,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
         Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
             param($word_to_complete, $command_ast, $cursor_position)
 
-            $space_tab = if (!$word_to_complete.length) { 1 }else { 0 }
+            $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
 
             $input_arr = @()
             $matches = [regex]::Matches($command_ast.CommandElements, "(?:`"[^`"]*`"|'[^']*'|\S)+")
             foreach ($match in $matches) { $input_arr += $match.Value }
+
+            if (!$input_arr) {
+                return
+            }
 
             $alias = $input_arr[0]
 
