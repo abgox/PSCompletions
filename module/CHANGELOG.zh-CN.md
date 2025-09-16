@@ -1,5 +1,9 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 5.6.8 (2025/9/16)
+
+- 为 `Invoke-WebRequest` 添加 `-UseBasicParsing` 参数
+
 ## 5.6.7 (2025/9/16)
 
 - 移除无意义的错误包装，让错误信息更清晰

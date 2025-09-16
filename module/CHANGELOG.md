@@ -1,5 +1,9 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.6.8 (2025/9/16)
+
+- Add the `-UseBasicParsing` parameter to `Invoke-WebRequest`
+
 ## 5.6.7 (2025/9/16)
 
 - Remove meaningless error wrappers to make error messages clearer.

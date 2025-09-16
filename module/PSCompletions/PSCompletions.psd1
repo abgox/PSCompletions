@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '5.6.7'
+    ModuleVersion        = '5.6.8'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
