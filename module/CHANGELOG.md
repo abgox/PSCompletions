@@ -1,5 +1,12 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.6.7 (2025/9/16)
+
+- Remove meaningless error wrappers to make error messages clearer.
+- Deny the change of line style of the completion menu in Windows PowerShell 5.1
+- Suppress errors caused by completing with only spaces.
+- Other fixes and optimizations.
+
 ## 5.6.6 (2025/9/12)
 
 - Optimize the frequency of network requests for update checks.
