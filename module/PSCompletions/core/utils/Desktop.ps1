@@ -152,7 +152,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
             foreach ($url in $PSCompletions.urls) {
                 try {
-                    $response = Invoke-WebRequest -Uri "$url/completions.json" -ErrorAction Stop
+                    $response = Invoke-WebRequest -Uri "$url/completions.json" -UseBasicParsing -ErrorAction Stop
                     $content = $response.Content | ConvertFrom-Json
 
                     $remote_list = $content.list
@@ -322,7 +322,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
                     foreach ($url in $urls) {
                         try {
-                            $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" | ConvertFrom-Json).version
+                            $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" -UseBasicParsing | ConvertFrom-Json).version
                             break
                         }
                         catch {}
@@ -350,7 +350,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $isErr = $true
                     foreach ($url in $PSCompletions.urls) {
                         try {
-                            $response = Invoke-WebRequest -Uri "$url/completions/$($_.Name)/guid.txt"
+                            $response = Invoke-WebRequest -Uri "$url/completions/$($_.Name)/guid.txt" -UseBasicParsing
                             $isErr = $false
                             break
                         }

@@ -802,7 +802,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
     $isErr = $true
     foreach ($url in $PSCompletions.urls) {
         try {
-            $response = Invoke-WebRequest -Uri "$url/completions.json" -ErrorAction Stop
+            $response = Invoke-WebRequest -Uri "$url/completions.json" -UseBasicParsing -ErrorAction Stop
             $content = $response.Content | ConvertFrom-Json
         }
         catch {
