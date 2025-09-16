@@ -53,8 +53,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
         if ($arg.Length -eq 2) {
             if ($arg[1] -eq '--remote') {
                 if (!($PSCompletions.download_list())) {
-                    $PSCompletions.write_with_color((_replace $PSCompletions.info.err.download_list))
-                    $PSCompletions._invalid_url = $null
                     return
                 }
                 $max_len = ($PSCompletions.list | Measure-Object -Maximum Length).Maximum
@@ -83,8 +81,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             return
         }
         if (!($PSCompletions.download_list())) {
-            $PSCompletions.write_with_color((_replace $PSCompletions.info.err.download_list))
-            $PSCompletions._invalid_url = $null
             return
         }
 
@@ -236,8 +232,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             return
         }
         if (!($PSCompletions.download_list())) {
-            $PSCompletions.write_with_color((_replace $PSCompletions.info.err.download_list))
-            $PSCompletions._invalid_url = $null
             return
         }
         $result = $PSCompletions.list.Where({ $_ -like $arg[1] })

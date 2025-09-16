@@ -152,7 +152,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
             foreach ($url in $PSCompletions.urls) {
                 try {
-                    $content = (Invoke-WebRequest -Uri "$url/completions.json").Content | ConvertFrom-Json
+                    $response = Invoke-WebRequest -Uri "$url/completions.json" -ErrorAction Stop
+                    $content = $response.Content | ConvertFrom-Json
 
                     $remote_list = $content.list
 
@@ -166,11 +167,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         Clear-Content $PSCompletions.path.change -Force
                         $PSCompletions.list = $current_list
                     }
-                    $isErr = $false
                     return $remote_list
                 }
                 catch {}
             }
+            throw
         }
 
         $wc = New-Object System.Net.WebClient

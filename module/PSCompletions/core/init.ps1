@@ -802,30 +802,37 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
     $isErr = $true
     foreach ($url in $PSCompletions.urls) {
         try {
-            $content = (Invoke-WebRequest -Uri "$url/completions.json").Content | ConvertFrom-Json
-
-            $remote_list = $content.list
-
-            $diff = Compare-Object $remote_list $current_list -PassThru
-            if ($diff) {
-                $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
-                $PSCompletions.list = $remote_list
-            }
-            else {
-                Clear-Content $PSCompletions.path.change -Force
-                $PSCompletions.list = $current_list
-            }
-            $isErr = $false
-            return $remote_list
+            $response = Invoke-WebRequest -Uri "$url/completions.json" -ErrorAction Stop
+            $content = $response.Content | ConvertFrom-Json
         }
         catch {
-            $PSCompletions.list = $current_list
-            $PSCompletions._invalid_url += "`n$url/completions.json"
+            Write-Host $_.Exception.Message -ForegroundColor Red
+            continue
         }
+
+        $remote_list = $content.list
+
+        $diff = Compare-Object $remote_list $current_list -PassThru
+        if ($diff) {
+            try {
+                $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
+                $jsonData = $content | ConvertTo-Json -Depth 100 -Compress
+                $jsonData | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                $PSCompletions.list = $remote_list
+            }
+            catch {
+                Write-Host $_.Exception.Message -ForegroundColor Red
+                return $false
+            }
+        }
+        else {
+            Clear-Content $PSCompletions.path.change -Force
+            $PSCompletions.list = $current_list
+        }
+        $isErr = $false
+        return $remote_list
     }
     if ($isErr) {
-        $PSCompletions._invalid_url = $PSCompletions._invalid_url | Sort-Object -Unique
         return $false
     }
 }
@@ -836,48 +843,20 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
         [array]$baseUrl
     )
 
-    $isErr = $true
-    $errList = @()
-
     for ($i = 0; $i -lt $baseUrl.Count; $i++) {
         $item = $baseUrl[$i]
         $url = $item + '/' + $path
         try {
             $PSCompletions.wc.DownloadFile($url, $file)
-            $isErr = $false
             break
         }
         catch {
-            $errList += @{
-                url  = $url
-                file = $file
-                err  = $_
-            }
-        }
-    }
-    if ($isErr) {
-        for ($i = 0; $i -lt $errList.Count; $i++) {
-            $item = $errList[$i]
-            if ($PSCompletions.info) {
-                $download_info = @{
-                    url  = $item.url
-                    file = $item.file
-                }
-                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.download_file))
+            if ($i -eq $baseUrl.Count - 1) {
+                throw
             }
             else {
-                Write-Host "File ($(Split-Path $item.url -Leaf)) download failed, please check your network connection or try again later." -ForegroundColor Red
-                Write-Host "File download Url: $($item.url)" -ForegroundColor Red
-                Write-Host "File save path: $($item.file)" -ForegroundColor Red
-                Write-Host "If you are sure that it is not a network problem, please submit an issue`n" -ForegroundColor Red
+                Write-Host $_.Exception.Message -ForegroundColor Red
             }
-            if ($i -eq $errList.Count - 1) {
-                throw $item.err
-            }
-            else {
-                Write-Host $item.err -f Red
-            }
-            Write-Host ''
         }
     }
 }
