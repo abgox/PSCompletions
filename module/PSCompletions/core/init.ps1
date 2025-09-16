@@ -670,10 +670,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color
         $bgColor = $color_list[$i].bgColor
         if ($color) {
             if ($bgColor) {
-                Write-Host $str_list[$i] -f $color -b $bgColor -NoNewline
+                Write-Host $str_list[$i] -ForegroundColor $color -BackgroundColor $bgColor -NoNewline
             }
             else {
-                Write-Host $str_list[$i] -f $color -NoNewline
+                Write-Host $str_list[$i] -ForegroundColor $color -NoNewline
             }
         }
         else {
@@ -697,7 +697,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less {
         $lines = $str_list.Count - $show_line
         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.less_tip))
         while ($i -lt $str_list.Count -and $i -lt $show_line) {
-            Write-Host $str_list[$i] -f $color
+            Write-Host $str_list[$i] -ForegroundColor $color
             $i++
         }
         while ($i -lt $str_list.Count) {
@@ -705,13 +705,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less {
             if ($keyCode -ne 13) {
                 break
             }
-            Write-Host $str_list[$i] -f $color
+            Write-Host $str_list[$i] -ForegroundColor $color
             $i++
         }
         $end = if ($i -lt $str_list.Count) { $false }else { $true }
         if ($end) {
             Write-Host ' '
-            Write-Host '(End)' -f Black -b White -NoNewline
+            Write-Host '(End)' -ForegroundColor Black -BackgroundColor White -NoNewline
             while ($end) {
                 $keyCode = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').VirtualKeyCode
                 if ($keyCode -ne 13) {
@@ -722,7 +722,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less {
         }
     }
     else {
-        foreach ($_ in $str_list) { Write-Host $_ -f $color }
+        foreach ($_ in $str_list) { Write-Host $_ -ForegroundColor $color }
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less_table {
@@ -750,10 +750,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less_t
         & $do
         while ($i -lt $str_list.Count -and $i -lt $show_line) {
             if ($str_list[$i].bgColor) {
-                Write-Host $str_list[$i].content -f $str_list[$i].color -b $str_list[$i].bgColor
+                Write-Host $str_list[$i].content -ForegroundColor $str_list[$i].color -BackgroundColor $str_list[$i].bgColor
             }
             else {
-                Write-Host $str_list[$i].content -f $str_list[$i].color
+                Write-Host $str_list[$i].content -ForegroundColor $str_list[$i].color
             }
             $i++
         }
@@ -763,15 +763,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less_t
                 break
             }
             if ($str_list[$i].bgColor) {
-                Write-Host $str_list[$i].content -f $str_list[$i].color -b $str_list[$i].bgColor
+                Write-Host $str_list[$i].content -ForegroundColor $str_list[$i].color -BackgroundColor $str_list[$i].bgColor
             }
-            else { Write-Host $str_list[$i].content -f $str_list[$i].color }
+            else { Write-Host $str_list[$i].content -ForegroundColor $str_list[$i].color }
             $i++
         }
         $end = if ($i -lt $str_list.Count) { $false }else { $true }
         if ($end) {
             Write-Host ' '
-            Write-Host '(End)' -f Black -b White -NoNewline
+            Write-Host '(End)' -ForegroundColor Black -BackgroundColor White -NoNewline
             while ($end) {
                 $keyCode = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown').VirtualKeyCode
                 if ($keyCode -ne 13) {
@@ -785,10 +785,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod show_with_less_t
         & $do
         foreach ($_ in $str_list) {
             if ($_.bgColor) {
-                Write-Host $_.content -f $_.color -b $_.bgColor[2]
+                Write-Host $_.content -ForegroundColor $_.color -BackgroundColor $_.bgColor[2]
             }
             else {
-                Write-Host $_.content -f $_.color
+                Write-Host $_.content -ForegroundColor $_.color
             }
         }
     }
