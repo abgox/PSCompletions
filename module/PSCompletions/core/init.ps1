@@ -1,4 +1,7 @@
 using namespace System.Management.Automation
+
+Set-StrictMode -Off
+
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
     version                 = '5.6.8'
