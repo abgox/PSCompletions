@@ -1,5 +1,9 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 5.6.9 (2025/9/20)
+
+- 在模块中禁用严格模式 ([#88](https://github.com/abgox/PSCompletions/issues/88))
+
 ## 5.6.8 (2025/9/16)
 
 - 为 `Invoke-WebRequest` 添加 `-UseBasicParsing` 参数

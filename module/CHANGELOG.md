@@ -1,5 +1,9 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.6.9 (2025/9/20)
+
+- Disable strict mode in the module. ([#88](https://github.com/abgox/PSCompletions/issues/88))
+
 ## 5.6.8 (2025/9/16)
 
 - Add the `-UseBasicParsing` parameter to `Invoke-WebRequest`
