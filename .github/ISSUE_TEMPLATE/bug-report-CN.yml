@@ -1,14 +1,8 @@
 name: "🐞 Bug 报告"
 description: 提交一个 Bug 报告
 title: "[Bug]: "
-labels:
-  [
-    "bug",
-  ]
-assignees:
-  [
-    abgox,
-  ]
+labels: ["bug"]
+assignees: [abgox]
 body:
   - type: checkboxes
     id: checks
@@ -23,24 +17,33 @@ body:
         - label: 你已经在 [Issues](https://github.com/abgox/PSCompletions/issues) 中搜索了相关问题。
           required: true
         - label: 你已经查看了 https://pscompletions.abgox.com/
-  - type: dropdown
-    id: powershell-version
+  - type: textarea
     attributes:
-      label: 你正在使用什么 Powershell 版本?
-      description:
-        |
+      label: Powershell 版本
+      description: |
         - [PowerShell (pwsh)](https://learn.microsoft.com/powershell/scripting/overview)
-        - [Windows PowerShell (Windows 内置版本)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell)
-      options:
-        - PowerShell
-        - Windows PowerShell
-      multiple: true
+        - [Windows PowerShell 5.1 (Windows 内置版本)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell)
+      render: console
+      placeholder: |
+        PS> $PSVersionTable
+
+        Name                           Value
+        ----                           -----
+        PSVersion                      7.5.0
+        PSEdition                      Core
+        GitCommitId                    7.5.0
+        OS                             Microsoft Windows 10.0.26100
+        Platform                       Win32NT
+        PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}
+        PSRemotingProtocolVersion      2.3
+        SerializationVersion           1.1.0.1
+        WSManStackVersion              3.0
     validations:
       required: true
   - type: dropdown
     id: system
     attributes:
-      label: 你正在使用什么系统环境?
+      label: 系统环境?
       options:
         - Windows
         - 其他系统
@@ -51,8 +54,7 @@ body:
     id: steps-to-reproduce
     attributes:
       label: bug 复现步骤
-      placeholder:
-        |
+      placeholder: |
         如何复现这个 bug?
         描述尽量简单易懂。
         如果可以，请提供截图、动图、录屏等来帮助理解这个问题发生的全过程。
@@ -62,15 +64,13 @@ body:
     id: expected
     attributes:
       label: 期望结果
-      placeholder:
-        |
+      placeholder: |
         你认为它应该是什么样的?
   - type: textarea
     id: actually-happening
     attributes:
       label: 实际发生了什么?
-      placeholder:
-        |
+      placeholder: |
         实际发生了什么?
     validations:
       required: true
