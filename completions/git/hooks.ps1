@@ -134,6 +134,11 @@ function handleCompletions($completions) {
             }
         }
         { 'rebase' -in $PSCompletions.input_arr } {
+            $branch_list = return_branch
+            foreach ($_ in $branch_list) {
+                $tempList += $PSCompletions.return_completion("origin/$_", "")
+            }
+
             if ($last_item -in @('-i', '--interactive')) {
                 $head_list = return_head
                 foreach ($_ in $head_list.Keys) {
