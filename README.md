@@ -53,8 +53,8 @@
 
 > [!Tip]
 >
-> - If it cannot be displayed here, you can visit it on [the official website](https://pscompletions.abgox.com/).
-> - [Click to view the videos on Bilibili](https://www.bilibili.com/video/BV15Gp7zmE2e)
+> - If it cannot be displayed here, [you can check it on the official website.](https://pscompletions.abgox.com).
+> - [Click to view the videos on Bilibili.](https://www.bilibili.com/video/BV15Gp7zmE2e)
 
 ![demo](https://pscompletions.abgox.com/demo.gif)
 
@@ -68,29 +68,24 @@
 
 ## How to install
 
-> [!Warning]
->
-> - [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview): Don't add `-Scope AllUsers` unless you're sure you'll always use administrator permissions.
-> - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Don't omit `-Scope CurrentUser` unless you're sure you'll always use administrator permissions.
-
 1. Start `PowerShell`.
 2. Install module:
 
    - Normal:
 
      ```powershell
-     Install-Module PSCompletions
+     Install-Module PSCompletions -Scope CurrentUser
      ```
 
    - Install silently:
 
      ```powershell
-     Install-Module PSCompletions -Repository PSGallery -Force
+     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
      ```
 
    - Use [Scoop](https://scoop.sh/):
 
-     - Add [abyss](https://abyss.abgox.com) with [Github](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss) repository.
+     - Add the [abyss](https://abyss.abgox.com) bucket via [Github](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss).
 
      - Install it.
 

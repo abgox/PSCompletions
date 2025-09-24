@@ -53,7 +53,7 @@
 
 > [!Tip]
 >
-> - 如果这里无法正常显示，[可前往官网查看](https://pscompletions.abgox.com/)
+> - 如果这里无法显示，[可前往官网查看](https://pscompletions.abgox.com)
 > - [点击查看 Bilibili 中的介绍及教学视频](https://www.bilibili.com/video/BV15Gp7zmE2e)
 
 ![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
@@ -68,24 +68,19 @@
 
 ## 安装
 
-> [!Warning]
->
-> - [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview): 除非你确定始终会使用管理员权限，否则不要添加 `-Scope AllUsers`
-> - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): 除非你确定始终会使用管理员权限，否则不要省略 `-Scope CurrentUser`
-
 1. 打开 `PowerShell`
 2. 安装模块:
 
    - 普通安装
 
      ```powershell
-     Install-Module PSCompletions
+     Install-Module PSCompletions -Scope CurrentUser
      ```
 
    - 静默安装:
 
      ```powershell
-     Install-Module PSCompletions -Repository PSGallery -Force
+     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
      ```
 
    - 使用 [Scoop](https://scoop.sh/) 安装
