@@ -15,14 +15,6 @@
     switch ($filter_input_arr[0]) {
         'bucket' {
             switch ($filter_input_arr[1]) {
-                'add' {
-                    if ($filter_input_arr.Count -eq 2) {
-                        foreach ($_ in scoop bucket known) {
-                            $bucket = $_
-                            $tempList += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.add))
-                        }
-                    }
-                }
                 'rm' {
                     if ($filter_input_arr.Count -eq 2) {
                         $items = Get-ChildItem "$root_path\buckets" 2>$null
