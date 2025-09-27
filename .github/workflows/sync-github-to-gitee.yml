@@ -22,22 +22,23 @@ jobs:
           SSH_ID_RSA_GITHUB: ${{ secrets.SSH_ID_RSA_GITHUB }}
           SSH_ID_RSA_GITEE: ${{ secrets.SSH_ID_RSA_GITEE }}
         run: |
-          # Create secure directory
-          $sshDir = "$HOME\.ssh"
+          $sshDir = "$env:UserProfile\.ssh"
           New-Item -Path $sshDir -ItemType Directory -Force
-          attrib +h $sshDir
 
           # Write key files
-          $env:SSH_CONFIG | Out-File "$sshDir\config" -Encoding utf8NoBOM
-          $env:SSH_ID_RSA_GITHUB | Out-File "$sshDir\id_rsa_github" -Encoding utf8NoBOM
-          $env:SSH_ID_RSA_GITEE | Out-File "$sshDir\id_rsa_gitee" -Encoding utf8NoBOM
+          $env:SSH_CONFIG | Out-File "$sshDir\config" -Encoding utf8NoBOM -NoNewline
+          $env:SSH_ID_RSA_GITHUB | Out-File "$sshDir\id_rsa_github" -Encoding utf8NoBOM -NoNewline
+          $env:SSH_ID_RSA_GITEE | Out-File "$sshDir\id_rsa_gitee" -Encoding utf8NoBOM -NoNewline
 
-          # Set strict permissions
-          icacls "$sshDir\id_rsa_github" /reset /grant:r "$env:USERNAME`:F" /inheritance:r
-          icacls "$sshDir\id_rsa_gitee" /reset /grant:r "$env:USERNAME`:F" /inheritance:r
-
-          # Add host fingerprints to known_hosts
-          ssh-keyscan github.com gitee.com >> "$sshDir\known_hosts"
+          try {
+              ssh-keyscan github.com gitee.com 2>$null | Out-File "$sshDir\known_hosts" -Encoding utf8NoBOM
+              if (-not (Test-Path "$sshDir\known_hosts") -or (Get-Content "$sshDir\known_hosts" -Raw).Trim().Length -eq 0) {
+                  throw "ssh-keyscan failed"
+              }
+          } catch {
+              Write-Host "::error::Failed to generate known_hosts, disabling host key verification..." -ForegroundColor Red
+              git config --global core.sshCommand "ssh -o StrictHostKeyChecking=no"
+          }
 
       - name: Configure Git
         shell: pwsh
