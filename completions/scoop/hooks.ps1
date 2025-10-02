@@ -109,7 +109,7 @@
                 }
             }
         }
-        'info' {
+        { $_ -in 'info', 'cat', 'reset' } {
             $dir = Get-ChildItem "$root_path\buckets" | ForEach-Object {
                 @{
                     bucket = $_.BaseName
