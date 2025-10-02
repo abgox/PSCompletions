@@ -501,11 +501,11 @@ function generate_list {
 function handle($lang) {
     $content = generate_list
     if ($lang -eq "en-US") {
-        $path = "$PSScriptRoot\..\README.md"
+        $path = "$PSScriptRoot\..\completions.md"
         $content = $content."en-US"
     }
     else {
-        $path = "$PSScriptRoot\..\README.zh-CN.md"
+        $path = "$PSScriptRoot\..\completions.zh-CN.md"
         $content = $content."zh-CN"
     }
     function get_static_content($path) {
