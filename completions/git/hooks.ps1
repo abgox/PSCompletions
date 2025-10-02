@@ -136,6 +136,7 @@ function handleCompletions($completions) {
         { 'rebase' -in $PSCompletions.input_arr } {
             $branch_list = return_branch
             foreach ($_ in $branch_list) {
+                $tempList += $PSCompletions.return_completion($_, "")
                 $tempList += $PSCompletions.return_completion("origin/$_", "")
             }
 
