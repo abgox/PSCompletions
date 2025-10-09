@@ -3,6 +3,7 @@
 <p align="center">
     <a href="README.md">English</a> |
     <a href="README.zh-CN.md">简体中文</a> |
+    <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
 </p>
@@ -15,13 +16,13 @@
         <img src="https://img.shields.io/powershellgallery/v/PSCompletions?label=version" alt="module version" />
     </a>
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
-        <img src="https://img.shields.io/powershellgallery/dt/PSCompletions?color=%23008FC7" alt="PowerShell Gallery" />
+        <img src="https://img.shields.io/powershellgallery/dt/PSCompletions" alt="PowerShell Gallery" />
     </a>
-    <a href="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg">
-        <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions.svg" alt="code size" />
+    <a href="https://github.com/abgox/PSCompletions">
+        <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions" alt="code size" />
     </a>
-    <a href="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg">
-        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions.svg" alt="repo size" />
+    <a href="https://github.com/abgox/PSCompletions">
+        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions" alt="repo size" />
     </a>
     <a href="https://github.com/abgox/PSCompletions">
         <img src="https://img.shields.io/github/created-at/abgox/PSCompletions" alt="created" />
@@ -33,7 +34,7 @@
 ![socialify](https://abgox.com/github-socialify-PSCompletions.svg)
 
 <p align="center">
-  <strong>喜欢这个项目？请给它一个 ⭐️ 或 <a href="https://abgox.com/donate">赞赏 💰</a></strong>
+  <strong>喜欢这个项目？请给它一个 Star ⭐️ 或 <a href="https://abgox.com/donate">赞赏 💰</a></strong>
 </p>
 
 ## 介绍
