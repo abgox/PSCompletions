@@ -34,7 +34,7 @@
 ![socialify](https://abgox.com/github-socialify-PSCompletions.svg)
 
 <p align="center">
-  <strong>喜欢这个项目？请给它一个 Star ⭐️ 或 <a href="https://abgox.com/donate">赞赏 💰</a></strong>
+  <strong>喜欢这个项目？请给它 Star ⭐️ 或 <a href="https://abgox.com/donate">赞赏 💰</a></strong>
 </p>
 
 ## 介绍
@@ -50,6 +50,8 @@
 - `en-US`,`zh-CN`,... 多语言切换
 - 动态排序补全项(根据使用频次)
 - [更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
+  - 灵活的配置可以控制它的相关行为
+  - 通过 `psc menu config` 查看
 - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
 
 ## Demo
@@ -192,6 +194,11 @@
 
 - 补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)
+  - 一些常见的菜单行为:
+    - 只有一个补全项时自动应用: `psc menu config enable_enter_when_single 1`
+    - 隐藏补全提示信息: `psc menu config enable_tip 0`
+    - 使用前缀匹配进行过滤: `psc menu config enable_prefix_match_in_filter 1`
+    - ...
 
 #### 关于菜单增强
 

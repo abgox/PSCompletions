@@ -50,6 +50,8 @@
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
 - [More powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
+  - Flexible configurations can control its behaviors.
+  - Check them via `psc menu config`.
 - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
 
 ## Demo
@@ -194,6 +196,11 @@ Take `git` as an example.
 
 - All configurations of it, you can trigger completion by running `psc menu`, then learn about them by [the completion tip](#about-completion-tip).
   - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
+  - Some common menu behaviors:
+    - Auto-apply when there's only one completion item: `psc menu config enable_enter_when_single 1`
+    - Hide the completion tip: `psc menu config enable_tip 0`
+    - Use prefix matching for filtering: `psc menu config enable_prefix_match_in_filter 1`
+    - ...
 
 #### About menu enhance
 
