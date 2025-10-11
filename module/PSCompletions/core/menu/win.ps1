@@ -803,16 +803,25 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         return
     }
     if (!$filter_list) { return }
+
+    $suffix = $PSCompletions.config.completion_suffix
+
     function handleOutput($item) {
         $out = $item.CompletionText
         if ($PSCompletions.config.enable_path_with_trailing_separator -ne 1) {
-            return $out
-        }
-        try {
-            if ($item.ToolTip.Trim() -eq '') {
+            if ($suffix -eq '') {
                 return $out
             }
-            if ((Get-ItemProperty ($item.ToolTip)).Attributes -like '*Directory*') {
+            try {
+                if ((Get-ItemProperty $item.ToolTip).Attributes -like '*Directory*') {
+                    return $out
+                }
+            }
+            catch {}
+            return "$out$suffix"
+        }
+        try {
+            if ((Get-ItemProperty $item.ToolTip).Attributes -like '*Directory*') {
                 if ($out[-1] -match "^['`"]$") {
                     if ($out[-2] -match "^[/\\]$") {
                         return $out
@@ -826,7 +835,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             }
         }
         catch {}
-        return $out
+        return "$out$suffix"
     }
 
     $PSCompletions.menu.pos = @{ X = 0; Y = 0 }
@@ -908,7 +917,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                 # 9: Tab
                 if ($PSCompletions.menu.filter_list.Count -eq 1) {
                     $PSCompletions.menu.reset()
-                    $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index].CompletionText
+                    handleOutput $PSCompletions.menu.filter_list[$PSCompletions.menu.selected_index]
                     break loop
                 }
                 $PSCompletions.menu.move_selection(!$pressShift)
