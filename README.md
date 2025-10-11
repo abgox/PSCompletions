@@ -200,6 +200,7 @@ Take `git` as an example.
     - Auto-apply when there's only one completion item: `psc menu config enable_enter_when_single 1`
     - Hide the completion tip: `psc menu config enable_tip 0`
     - Use prefix matching for filtering: `psc menu config enable_prefix_match_in_filter 1`
+    - Set the completion suffix: `psc menu config completion_suffix " "`
     - ...
 
 #### About menu enhance

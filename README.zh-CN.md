@@ -198,6 +198,7 @@
     - 只有一个补全项时自动应用: `psc menu config enable_enter_when_single 1`
     - 隐藏补全提示信息: `psc menu config enable_tip 0`
     - 使用前缀匹配进行过滤: `psc menu config enable_prefix_match_in_filter 1`
+    - 设置补全后缀: `psc menu config completion_suffix " "`
     - ...
 
 #### 关于菜单增强
