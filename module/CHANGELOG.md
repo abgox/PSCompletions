@@ -1,5 +1,10 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.7.0 (2025/10/11)
+
+- Add the `completion_suffix` configuration item ([#91](https://github.com/abgox/PSCompletions/issues/91))
+- Command: `psc menu config completion_suffix " "`
+
 ## 5.6.9 (2025/9/20)
 
 - Disable strict mode in the module. ([#88](https://github.com/abgox/PSCompletions/issues/88))

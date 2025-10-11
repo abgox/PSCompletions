@@ -1,5 +1,10 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 5.7.0 (2025/10/11)
+
+- 添加配置项 `completion_suffix` ([#91](https://github.com/abgox/PSCompletions/issues/91))
+- 命令: `psc menu config completion_suffix " "`
+
 ## 5.6.9 (2025/9/20)
 
 - 在模块中禁用严格模式 ([#88](https://github.com/abgox/PSCompletions/issues/88))
