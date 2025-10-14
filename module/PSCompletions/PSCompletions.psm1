@@ -1111,9 +1111,14 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
         }
         default {
             if ($arg[0]) {
-                $sub_cmd = $arg[0]
-                $cmd_list = @('list', 'add', 'rm', 'update', 'search', 'which', 'alias', 'config', 'completion', 'menu', 'reset')
-                $PSCompletions.write_with_color((_replace $PSCompletions.info.sub_cmd))
+                if ($arg[0] -in @('-?', '-h', '--help')) {
+                    _help
+                }
+                else {
+                    $sub_cmd = $arg[0]
+                    $cmd_list = @('list', 'add', 'rm', 'update', 'search', 'which', 'alias', 'config', 'completion', 'menu', 'reset')
+                    $PSCompletions.write_with_color((_replace $PSCompletions.info.sub_cmd))
+                }
             }
             else { _help }
         }
