@@ -1,0 +1,266 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "required": [
+    "info"
+  ],
+  "definitions": {
+    "string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "array": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "array-items-string": {
+      "$ref": "#/definitions/array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "name": {
+      "description": "命令名称",
+      "$ref": "#/definitions/string"
+    },
+    "alias": {
+      "description": "命令别名",
+      "$ref": "#/definitions/array-items-string"
+    },
+    "hide": {
+      "markdownDescription": "隐藏当前级的补全项\n - 子项不会被隐藏，除非子项也设置 hide 属性\n - 主要用于配合 hook 动态添加补全项，因为动态添加可能导致重复，所以需要隐藏掉原有的补全项",
+      "type": "boolean",
+      "enum": [
+        true
+      ]
+    },
+    "tip": {
+      "$ref": "#/definitions/array-items-string",
+      "markdownDescription": "补全的提示信息\n- 第一项的内容不能以 4+ 个空格或 `n 开头\n- 最后一项的内容不能以 2+ 个空格或 `n 结尾"
+    },
+    "item": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/name"
+        },
+        "alias": {
+          "$ref": "#/definitions/alias"
+        },
+        "hide": {
+          "$ref": "#/definitions/hide"
+        },
+        "tip": {
+          "$ref": "#/definitions/tip"
+        },
+        "next": {
+          "$ref": "#/definitions/next"
+        },
+        "options": {
+          "$ref": "#/definitions/options"
+        }
+      },
+      "additionalProperties": false
+    },
+    "item_without_options": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/name"
+        },
+        "alias": {
+          "$ref": "#/definitions/alias"
+        },
+        "hide": {
+          "$ref": "#/definitions/hide"
+        },
+        "tip": {
+          "$ref": "#/definitions/tip"
+        },
+        "next": {
+          "$ref": "#/definitions/options-next"
+        }
+      },
+      "additionalProperties": false
+    },
+    "item_without_options_next": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/name"
+        },
+        "alias": {
+          "$ref": "#/definitions/alias"
+        },
+        "hide": {
+          "$ref": "#/definitions/hide"
+        },
+        "tip": {
+          "$ref": "#/definitions/tip"
+        }
+      },
+      "additionalProperties": false
+    },
+    "next": {
+      "markdownDescription": "下一个命令补全\n- 它可以是一个数组或数字 `0`\n- 如果是数组\n  - 数组中的项会自动添加到补全中\n  - 如果有 `hooks`，会动态添加\n- 如果是数字 `0`\n  - 它表示此时应该输入一个内容\n  - 但是 [PSCompletions](https://pscompletions.abgox.com) 无力提供补全，需要用户自行输入\n  - `0` 就是告诉 [PSCompletions](https://pscompletions.abgox.com) 应该显示 `WriteSpaceTab` 类型的符号，以实现符号预测",
+      "type": [
+        "array",
+        "number"
+      ],
+      "examples": [
+        []
+      ],
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/item"
+      },
+      "if": {
+        "type": "number",
+        "not": {
+          "const": 0
+        }
+      },
+      "then": {
+        "not": true,
+        "errorMessage": "next 必须是一个数组或数字 0"
+      }
+    },
+    "options": {
+      "type": "array",
+      "uniqueItems": true,
+      "markdownDescription": "选项类补全\n - 通常以 `-` 或 `--` 开头\n - 例如 `--list`",
+      "items": {
+        "$ref": "#/definitions/item_without_options"
+      }
+    },
+    "options-next": {
+      "markdownDescription": "下一个命令补全\n- 它可以是一个数组或数字 `0`\n- 如果是数组\n  - 数组中的项会自动添加到补全中\n  - 如果有 `hooks`，会动态添加\n- 如果是数字 `0`\n  - 它表示此时应该输入一个内容\n  - 但是 [PSCompletions](https://pscompletions.abgox.com) 无力提供补全，需要用户自行输入\n  - `0` 就是告诉 [PSCompletions](https://pscompletions.abgox.com) 应该显示 `WriteSpaceTab` 类型的符号，以实现符号预测",
+      "type": [
+        "array",
+        "number"
+      ],
+      "examples": [
+        []
+      ],
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/item_without_options_next"
+      },
+      "if": {
+        "type": "number",
+        "not": {
+          "const": 0
+        }
+      },
+      "then": {
+        "not": true,
+        "errorMessage": "next 必须是一个数组或数字 0"
+      }
+    }
+  },
+  "properties": {
+    "root": {
+      "description": "根命令",
+      "$ref": "#/definitions/array",
+      "items": {
+        "$ref": "#/definitions/item"
+      }
+    },
+    "options": {
+      "markdownDescription": "根命令的选项类补全\n- 如果除了选项类补全以外，只有一个根命令，就会显示它们\n- 除非你已经使用过它或它的别名了",
+      "$ref": "#/definitions/array",
+      "items": {
+        "$ref": "#/definitions/item_without_options"
+      }
+    },
+    "common_options": {
+      "markdownDescription": "通用的选项类补全\n- 任何情况下触发补全，都会显示它们\n- 除非你已经使用过它或它的别名了",
+      "$ref": "#/definitions/array",
+      "items": {
+        "$ref": "#/definitions/item_without_options"
+      }
+    },
+    "info": {
+      "markdownDescription": "一些额外的信息\n- 它们可以在此 json 文件的 `tip` 字段中使用 `{{ $info.xxx }}` 进行访问",
+      "type": "object",
+      "minProperties": 1,
+      "required": [
+        "completion_info"
+      ],
+      "properties": {
+        "completion_info": {
+          "type": "object",
+          "description": "补全命令的相关信息",
+          "required": [
+            "url",
+            "description"
+          ],
+          "properties": {
+            "url": {
+              "$ref": "#/definitions/string",
+              "description": "命令的主页或仓库地址",
+              "pattern": "^https?://",
+              "errorMessage": "它必须是一个有效的 http/https URL"
+            },
+            "description": {
+              "$ref": "#/definitions/array-items-string",
+              "description": "命令的描述"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "config": {
+      "description": "补全的特殊配置项",
+      "$ref": "#/definitions/array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "value",
+          "tip"
+        ],
+        "properties": {
+          "name": {
+            "description": "配置项的名称",
+            "$ref": "#/definitions/string"
+          },
+          "value": {
+            "description": "配置项的默认值",
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "values": {
+            "markdownDescription": "配置项的可选值\n- 这里填写的值会在触发命令补全时显示\n - 假设命令补全是 `xxx`，配置项名称是 `enable_xxx`\n - 则当你输入 `psc completion xxx enable_xxx` 后触发补全，会获取 `values` 数组中的值，并显示在补全列表中",
+            "$ref": "#/definitions/array",
+            "items": {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          },
+          "tip": {
+            "description": "配置项的提示信息",
+            "$ref": "#/definitions/array-items-string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

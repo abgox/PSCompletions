@@ -13,19 +13,12 @@
       "type": "array",
       "minItems": 1,
       "uniqueItems": true
-    },
-    "array_items": {
-      "$ref": "#/definitions/array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
     }
   },
   "properties": {
     "language": {
       "$ref": "#/definitions/array",
-      "description": "设置可用的语言\n如果有效值不包括你想要指定的语言, 请提交一个 issue",
+      "markdownDescription": "可用的语言\n- 它应该与 `language` 目录下的 json 文件相对应\n- 如果有效值不包括你想要指定的语言，请提交一个 issue",
       "examples": [
         [
           "en-US",
@@ -648,14 +641,18 @@
       }
     },
     "hooks": {
-      "description": "是否使用 hooks",
+      "markdownDescription": "是否使用 hooks\n- 如果启用，需要创建一个 `hooks.ps1`",
       "type": "boolean",
       "examples": [
         true
       ]
     },
     "alias": {
-      "$ref": "#/definitions/array_items",
+      "$ref": "#/definitions/array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
       "description": "补全的默认触发别名，如果没有设置，则使用目录名"
     }
   },
