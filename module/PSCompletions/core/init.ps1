@@ -37,7 +37,7 @@ New-Variable -Name PSCompletions -Value @{
             color_item  = @('item_text', 'item_back', 'selected_text', 'selected_back', 'filter_text', 'filter_back', 'border_text', 'border_back', 'status_text', 'status_back', 'tip_text', 'tip_back')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_tip_cover_buffer', 'enable_list_cover_buffer', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_selection_with_margin', 'enable_enter_when_single', 'enable_prefix_match_in_filter', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_tip_cover_buffer', 'enable_list_cover_buffer', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_selection_with_margin', 'enable_enter_when_single', 'enable_prefix_match_in_filter', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above'
             )
         }
     }
@@ -89,6 +89,7 @@ New-Variable -Name PSCompletions -Value @{
         enable_menu                                  = 1
         enable_menu_enhance                          = 1
         enable_tip                                   = 1
+        enable_hooks_tip                             = 1
         enable_tip_when_enhance                      = 1
         enable_completions_sort                      = 1
         enable_tip_follow_cursor                     = 1
