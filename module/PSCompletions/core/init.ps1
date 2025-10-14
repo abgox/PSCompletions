@@ -111,7 +111,7 @@ New-Variable -Name PSCompletions -Value @{
         height_from_menu_bottom_to_cursor_when_above = 0
     }
     # 每个补全都默认带有的配置项
-    default_completion_item = @('language', 'enable_tip')
+    default_completion_item = @('language', 'enable_tip', 'enable_hooks_tip')
     config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name')
 } -Option ReadOnly
 
@@ -128,6 +128,9 @@ else {
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
+    if ($PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_hooks_tip -ne 1) {
+        $tip = ''
+    }
     @{
         ListItemText   = $name
         CompletionText = $name

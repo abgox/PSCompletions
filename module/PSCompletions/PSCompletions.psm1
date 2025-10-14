@@ -932,7 +932,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                                 new_value = $item.value
                             })
                     }
-                    foreach ($item in @('language', 'enable_tip')) {
+                    foreach ($item in $PSCompletions.default_completion_item) {
                         if ($old_comp_config[$cmd].$item -ne $null) {
                             $change_list.Add(@{
                                     cmd       = $cmd
@@ -979,7 +979,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
 
                         foreach ($config in $config_list) {
-                            if ($config -in @('language', 'enable_tip')) {
+                            if ($config -in $PSCompletions.default_completion_item) {
                                 $change_list.Add(@{
                                         cmd       = $arg[2]
                                         item      = $config
