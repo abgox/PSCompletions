@@ -35,6 +35,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 
                     $filter_list = $PSCompletions.get_completion()
+
+                    if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
+                        $count = $filter_list.Count
+                        $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
+                        $_filter_list = $PSCompletions.info.module.too_many_completions.text | ForEach-Object {
+                            $text = $PSCompletions.replace_content($_)
+                            @{
+                                CompletionText = $text
+                                ListItemText   = $text
+                                ToolTip        = [array]$tip
+                            }
+                        }
+                        $result = $PSCompletions.menu.show_module_menu($_filter_list)
+                        if (!$result) {
+                            return ''
+                        }
+                    }
                     $result = $PSCompletions.menu.show_module_menu($filter_list)
                     if ($result) {
                         if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
@@ -63,6 +80,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                             CompletionText = $item.CompletionText
                             ListItemText   = $item.ListItemText
                             ToolTip        = [array]$item.ToolTip
+                        }
+                    }
+
+                    if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
+                        $count = $filter_list.Count
+                        $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
+                        $_filter_list = $PSCompletions.info.module.too_many_completions.text | ForEach-Object {
+                            $text = $PSCompletions.replace_content($_)
+                            @{
+                                CompletionText = $text
+                                ListItemText   = $text
+                                ToolTip        = [array]$tip
+                            }
+                        }
+                        $result = $PSCompletions.menu.show_module_menu($_filter_list)
+                        if (!$result) {
+                            return ''
                         }
                     }
 
@@ -116,6 +150,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
         }
     }
     else {
+        if (!$PSCompletions.config.enable_menu_enhance) {
+            Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
+        }
+
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
             foreach ($_ in $PSCompletions.data.aliasMap.keys) {
                 Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
@@ -142,6 +180,22 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     $PSCompletions.menu.by_TabExpansion2 = $false
 
                     if ($PSCompletions.config.enable_menu) {
+                        if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
+                            $count = $filter_list.Count
+                            $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
+                            $_filter_list = $PSCompletions.info.module.too_many_completions.text | ForEach-Object {
+                                $text = $PSCompletions.replace_content($_)
+                                @{
+                                    CompletionText = $text
+                                    ListItemText   = $text
+                                    ToolTip        = [array]$tip
+                                }
+                            }
+                            $result = $PSCompletions.menu.show_module_menu($_filter_list)
+                            if (!$result) {
+                                return ''
+                            }
+                        }
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }
                     else {
