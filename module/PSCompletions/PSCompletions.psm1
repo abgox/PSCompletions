@@ -89,6 +89,10 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 $PSCompletions.add_completion($_)
                 $PSCompletions._need_update_data = $true
             }
+            # 如果没有使用模块提供的补全菜单，需要重启 PowerShell 并重新导入模块
+            if (!$PSCompletions.use_menu) {
+                $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
+            }
             return
         }
         $completions_list = $arg[1..($arg.Length - 1)]
@@ -100,6 +104,9 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             else {
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.add.err.no))
             }
+        }
+        if (!$PSCompletions.use_menu) {
+            $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
         }
     }
     function _rm {

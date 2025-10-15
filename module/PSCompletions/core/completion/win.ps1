@@ -1,4 +1,6 @@
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
+    $PSCompletions.use_menu = $PSCompletions.config.enable_menu
+
     if ($PSCompletions.config.enable_menu_enhance -and $PSCompletions.config.enable_menu) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
             Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock {

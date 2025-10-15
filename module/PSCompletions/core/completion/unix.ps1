@@ -1,4 +1,6 @@
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
+    $PSCompletions.use_menu = 0
+
     # XXX: 非 Windows 平台，暂时只能使用默认的补全菜单
     Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
 }
