@@ -16,7 +16,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
 
                         $lineWidth = $Host_UI.RawUI.BufferSize.Width
 
-                        if ($PSCompletions.config.enable_tip_follow_cursor -eq 1) {
+                        if ($PSCompletions.config.enable_tip_follow_cursor) {
                             $lineWidth -= $Host_UI.RawUI.CursorPosition.X
                         }
 
@@ -115,7 +115,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
 
             $lineWidth = $Host_UI.RawUI.BufferSize.Width
 
-            if ($PSCompletions.config.enable_tip_follow_cursor -eq 1) {
+            if ($PSCompletions.config.enable_tip_follow_cursor) {
                 $lineWidth -= $Host_UI.RawUI.CursorPosition.X
             }
 
@@ -202,7 +202,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list {
     # X
-    if ($PSCompletions.config.enable_list_follow_cursor -eq 1) {
+    if ($PSCompletions.config.enable_list_follow_cursor) {
         $PSCompletions.menu.pos.X = $Host.UI.RawUI.CursorPosition.X
         # 如果跟随鼠标，且超过右侧边界，则向左偏移
         $PSCompletions.menu.pos.X = [Math]::Min($PSCompletions.menu.pos.X, $Host.UI.RawUI.BufferSize.Width - 1 - $PSCompletions.menu.ui_size.Width)
@@ -211,7 +211,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         $PSCompletions.menu.pos.X = 0
     }
 
-    if ($PSCompletions.config.enable_tip_follow_cursor -eq 1) {
+    if ($PSCompletions.config.enable_tip_follow_cursor) {
         $PSCompletions.menu.pos_tip.X = $PSCompletions.menu.pos.X
     }
     else {
@@ -391,7 +391,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_b
     if (!$PSCompletions.is_show_tip) {
         return
     }
-    if ($PSCompletions.config.enable_tip_cover_buffer -eq 1) {
+    if ($PSCompletions.config.enable_tip_cover_buffer) {
         $box = @()
         $line = ' ' * $Host.UI.RawUI.BufferSize.Width
         if ($PSCompletions.menu.is_show_above) {
@@ -415,7 +415,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_cover_b
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer {
     # XXX: 在 Windows PowerShell 5.x 中，始终覆盖菜单缓冲区，以处理兼容性问题
-    if ($PSCompletions.config.enable_list_cover_buffer -eq 1 -or $PSEdition -ne 'Core') {
+    if ($PSCompletions.config.enable_list_cover_buffer -or $PSEdition -ne 'Core') {
         $box = @()
         $line = ' ' * $Host.UI.RawUI.BufferSize.Width
         foreach ($_ in 0..$PSCompletions.menu.ui_size.Height) {
@@ -543,7 +543,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_old_tip_buffer {
     param([int]$X, [int]$Y)
-    if ($PSCompletions.config.enable_tip_cover_buffer -eq 1) {
+    if ($PSCompletions.config.enable_tip_cover_buffer) {
         if ($PSCompletions.menu.is_show_above) {
             $Y = 0
             $to_Y = $PSCompletions.menu.pos.Y
@@ -568,7 +568,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
     param([int]$index)
     $box = @()
     $line = ' ' * $Host.UI.RawUI.BufferSize.Width
-    if ($PSCompletions.config.enable_tip_cover_buffer -eq 1) {
+    if ($PSCompletions.config.enable_tip_cover_buffer) {
         if ($PSCompletions.menu.is_show_above) {
             foreach ($_ in 0..($PSCompletions.menu.pos.Y - 1)) {
                 $box += $line
@@ -629,7 +629,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
     $X = $PSCompletions.menu.pos.X + 1
     $to_X = $X + $PSCompletions.menu.list_max_width - 1
     # 如果选中高亮需要包含 margin
-    if ($PSCompletions.config.enable_selection_with_margin -eq 1) {
+    if ($PSCompletions.config.enable_selection_with_margin) {
         $to_X += $PSCompletions.config.width_from_menu_left_to_item + $PSCompletions.config.width_from_menu_right_to_item
     }
     else {
@@ -676,7 +676,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
 
     $new_selected_index = $PSCompletions.menu.selected_index + $moveDirection
 
-    if ($PSCompletions.config.enable_list_loop -eq 1) {
+    if ($PSCompletions.config.enable_list_loop) {
         $PSCompletions.menu.selected_index = ($new_selected_index + $PSCompletions.menu.filter_list.Count) % $PSCompletions.menu.filter_list.Count
     }
     else {
@@ -698,7 +698,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_select
             $PSCompletions.menu.page_current_index += $PSCompletions.menu.page_max_index + 1
         }
     }
-    elseif ($PSCompletions.config.enable_list_loop -eq 1 -or ($new_selected_index -ge 0 -and $new_selected_index -lt $PSCompletions.menu.filter_list.Count)) {
+    elseif ($PSCompletions.config.enable_list_loop -or ($new_selected_index -ge 0 -and $new_selected_index -lt $PSCompletions.menu.filter_list.Count)) {
         if (!$isDown -and $PSCompletions.menu.selected_index -eq $PSCompletions.menu.filter_list.Count - 1) {
             $PSCompletions.menu.page_current_index += $PSCompletions.menu.page_max_index
         }
@@ -731,7 +731,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_prefix 
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_completions {
     param([array]$filter_list)
     # 如果是前缀匹配
-    if ($PSCompletions.config.enable_prefix_match_in_filter -eq 1) {
+    if ($PSCompletions.config.enable_prefix_match_in_filter) {
         $match = "$([WildcardPattern]::Escape($PSCompletions.menu.filter))*"
     }
     else {
@@ -782,15 +782,15 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset {
     $PSCompletions.menu.page_current_index = 0
 
     if ($PSCompletions.menu.by_TabExpansion2) {
-        $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip_when_enhance -eq 1
+        $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip_when_enhance
     }
     else {
         $enable_tip = $PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_tip
         if ($enable_tip -ne $null) {
-            $PSCompletions.menu.is_show_tip = $enable_tip -eq 1 -and !$PSCompletions.menu.ignore_tip
+            $PSCompletions.menu.is_show_tip = $enable_tip -and !$PSCompletions.menu.ignore_tip
         }
         else {
-            $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1 -and !$PSCompletions.menu.ignore_tip
+            $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -and !$PSCompletions.menu.ignore_tip
         }
     }
 }
@@ -808,7 +808,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     function handleOutput($item) {
         $out = $item.CompletionText
-        if ($PSCompletions.config.enable_path_with_trailing_separator -ne 1) {
+        if (!$PSCompletions.config.enable_path_with_trailing_separator) {
             if ($suffix -eq '') {
                 return $out
             }
@@ -859,7 +859,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $PSCompletions.menu.handle_list_first($filter_list)
 
-    if ($PSCompletions.config.enable_enter_when_single -eq 1 -and $PSCompletions.menu.filter_list.Count -eq 1) {
+    if ($PSCompletions.config.enable_enter_when_single -and $PSCompletions.menu.filter_list.Count -eq 1) {
         return handleOutput $PSCompletions.menu.filter_list[0]
     }
 
@@ -902,7 +902,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     # 显示菜单
     $PSCompletions.menu.new_buffer()
     if ($PSCompletions.menu.is_show_tip) { $PSCompletions.menu.new_tip_buffer($PSCompletions.menu.selected_index) }
-    if ($PSCompletions.config.enable_prefix_match_in_filter -eq 1) { $PSCompletions.menu.get_prefix() }
+    if ($PSCompletions.config.enable_prefix_match_in_filter) { $PSCompletions.menu.get_prefix() }
     $PSCompletions.menu.new_filter_buffer($PSCompletions.menu.filter)
     $PSCompletions.menu.new_status_buffer()
     $PSCompletions.menu.set_selection()

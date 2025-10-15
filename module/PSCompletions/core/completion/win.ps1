@@ -66,7 +66,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         }
                     }
 
-                    if ($PSCompletions.config.enable_completions_sort -eq 1 -and (Get-Command $alias -ErrorAction SilentlyContinue)) {
+                    if ($PSCompletions.config.enable_completions_sort -and (Get-Command $alias -ErrorAction SilentlyContinue)) {
                         $path_order = "$($PSCompletions.path.order)/$root.json"
                         if ($PSCompletions.order."$($root)_job") {
                             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
@@ -141,7 +141,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
 
                     $PSCompletions.menu.by_TabExpansion2 = $false
 
-                    if ($PSCompletions.config.enable_menu -eq 1) {
+                    if ($PSCompletions.config.enable_menu) {
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }
                     else {
