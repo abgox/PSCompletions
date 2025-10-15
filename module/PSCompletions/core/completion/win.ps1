@@ -80,6 +80,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                             CompletionText = $item.CompletionText
                             ListItemText   = $item.ListItemText
                             ToolTip        = [array]$item.ToolTip
+                            ResultType     = $item.ResultType
                         }
                     }
 

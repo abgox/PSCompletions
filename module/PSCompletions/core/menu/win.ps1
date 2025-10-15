@@ -69,6 +69,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                             ListItemText   = $item.ListItemText
                             CompletionText = $item.CompletionText
                             ToolTip        = $tip_arr
+                            ResultType     = $item.ResultType
                         }
                     }
                 }
@@ -90,6 +91,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                             ListItemText   = $result.ListItemText
                             CompletionText = $result.CompletionText
                             ToolTip        = $result.ToolTip
+                            ResultType     = $result.ResultType
                         }
                     }
                 }
@@ -103,6 +105,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                             ListItemText   = $result.ListItemText
                             CompletionText = $result.CompletionText
                             ToolTip        = $result.ToolTip
+                            ResultType     = $result.ResultType
                         }
                     }
                 }
@@ -179,6 +182,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                     ListItemText   = $item.ListItemText
                     CompletionText = $item.CompletionText
                     ToolTip        = $tip_arr
+                    ResultType     = $item.ResultType
                 }
             }
         }
@@ -191,6 +195,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_list
                 $results += @{
                     ListItemText   = $item.ListItemText
                     CompletionText = $item.CompletionText
+                    ResultType     = $item.ResultType
                 }
             }
         }
@@ -808,33 +813,30 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     function handleOutput($item) {
         $out = $item.CompletionText
+
+        # File or other leaf items (e.g., registry values)
+        # $isItemType = $item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderItem
+
+        # Directory, registry key, or other container types
+        $isContainerType = $item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer
+
         if (!$PSCompletions.config.enable_path_with_trailing_separator) {
-            if ($suffix -eq '') {
+            if ($isContainerType) {
                 return $out
             }
-            try {
-                if ((Get-ItemProperty $item.ToolTip).Attributes -like '*Directory*') {
-                    return $out
-                }
-            }
-            catch {}
             return "$out$suffix"
         }
-        try {
-            if ((Get-ItemProperty $item.ToolTip).Attributes -like '*Directory*') {
-                if ($out[-1] -match "^['`"]$") {
-                    if ($out[-2] -match "^[/\\]$") {
-                        return $out
-                    }
-                    return $out.Insert($out.Length - 1, $PSCompletions.separator)
-                }
-                if ($out[-1] -match "^[/\\]$") {
+
+        if ($isContainerType) {
+            if ($out.Length -ge 1 -and $out[-1] -match "^['`"]$") {
+                if ($out.Length -ge 2 -and $out[-2] -match "^[/\\]$") {
                     return $out
                 }
-                return $out + $PSCompletions.separator
+                return $out.Insert($out.Length - 1, $PSCompletions.separator)
             }
+            return $out + $PSCompletions.separator
         }
-        catch {}
+
         return "$out$suffix"
     }
 
