@@ -1205,6 +1205,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
         }
     }
 }
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod quote_if_only_whitespace {
+    param(
+        [string]$String
+    )
+    if ([string]::IsNullOrWhiteSpace($String)) {
+        return "`"$String`""
+    }
+    return $String
+}
 
 if (!(Test-Path $PSCompletions.path.temp)) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
