@@ -4,7 +4,7 @@ Set-StrictMode -Off
 
 $_ = Split-Path $PSScriptRoot -Parent
 New-Variable -Name PSCompletions -Value @{
-    version                 = '5.7.0'
+    version                 = '5.8.0'
     path                    = @{
         root             = $_
         completions      = Join-Path $_ 'completions'

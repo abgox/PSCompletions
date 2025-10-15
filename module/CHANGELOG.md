@@ -1,5 +1,18 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.8.0 (2025/10/15)
+
+- Add the `enable_hooks_tip` configuration item. ([#96](https://github.com/abgox/PSCompletions/issues/96))
+  - For global settings: `psc menu config enable_hooks_tip 1`
+  - For specific completion: `psc completion git enable_hooks_tip 1`
+- Add the `completions_confirm_limit` configuration item. ([#83](https://github.com/abgox/PSCompletions/issues/83))
+  - Command: `psc menu config completions_confirm_limit 1000`
+- Support for `-?`, `-h`, `--help` parameters.
+  - Command: `psc` | `psc -?` | `psc -h` | `psc --help`
+  - All four commands output the same result.
+- Remove the special handling of tip for built-in commands. ([#97](https://github.com/abgox/PSCompletions/issues/97))
+- Other optimizations and fixes.
+
 ## 5.7.0 (2025/10/11)
 
 - Add the `completion_suffix` configuration item ([#91](https://github.com/abgox/PSCompletions/issues/91))
