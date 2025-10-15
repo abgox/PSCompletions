@@ -1,7 +1,11 @@
+#Requires -Version 7.0
+
 param(
     [string]$diffJson, # 比对文件，也可以简写补全名
     [string]$baseJson # 基准文件
 )
+
+Set-StrictMode -Off
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {

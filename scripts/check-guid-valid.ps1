@@ -3,6 +3,8 @@ param(
     [switch]$gitee
 )
 
+Set-StrictMode -Off
+
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"

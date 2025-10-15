@@ -1,3 +1,5 @@
+Set-StrictMode -Off
+
 $completions = @{
     list = @()
 }
