@@ -26,8 +26,8 @@ New-Variable -Name PSCompletions -Value @{
     separator               = [System.IO.Path]::DirectorySeparatorChar
     wc                      = New-Object System.Net.WebClient
     menu                    = @{
-        # 在 hooks 中，将其设置为 $true 即可。
         # 用于那些大量动态生成的补全，忽略不必要的 tip，加快解析速度
+        # 和 enable_hooks_tip 的区别: enable_hooks_tip 由模块使用者通过配置决定，而 ignore_tip 由补全编写者在 hooks.ps1 中设置
         ignore_tip = $false
         # 存放临时数据，仅当使用 Esc 退出补全菜单时清除
         temp       = @{}
