@@ -406,7 +406,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 return
             }
             if ($arg.Length -eq 2) {
-                Write-Output $PSCompletions.config.$($arg[1])
+                Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$($arg[1]))
             }
         }
 
@@ -483,7 +483,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             return
         }
         if ($arg.Length -eq 3) {
-            Write-Output $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])
+            Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.comp_config.$($arg[1]).$($arg[2]))
             return
         }
 
@@ -551,7 +551,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 }
                 $config_item = $arg[2]
                 if ($arg.Length -eq 3) {
-                    Write-Output $PSCompletions.config.$config_item
+                    Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$config_item)
                 }
                 if ($arg.Length -eq 4) {
                     $old_value = $PSCompletions.config.$config_item
@@ -725,7 +725,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                     return
                 }
                 if ($arg.Length -lt 5) {
-                    Write-Host $PSCompletions.config[$arg[3]]
+                    Write-Host $PSCompletions.quote_if_only_whitespace($PSCompletions.config[$arg[3]])
                     return
                 }
                 if ($arg.Length -gt 5) {
@@ -757,7 +757,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                     return
                 }
                 if ($arg.Length -eq 3) {
-                    $PSCompletions.config.$($arg[2])
+                    Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$($arg[2]))
                     return
                 }
                 if ($arg.Length -gt 4) {
