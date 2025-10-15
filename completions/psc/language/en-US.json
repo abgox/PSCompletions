@@ -168,7 +168,7 @@
           "name": "enable_cache",
           "tip": [
             "Current Value: {{ $PSCompletions.config.enable_cache }}\n",
-            "Set whether to enable completion cache. (Default: 1)\n"
+            "Set whether to enable completion cache. (Default: 1)"
           ],
           "next": [
             {
@@ -1352,7 +1352,7 @@
                 "Current Value: {{ $PSCompletions.config.enable_menu_enhance }} (Default 1, it means enabled)\n",
                 "Set whether to override PowerShell's built-in completion menu.\n",
                 "More info: https://github.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n",
-                "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n"
+                "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance"
               ],
               "next": [
                 {
@@ -1360,7 +1360,7 @@
                   "tip": [
                     "Set to 0\n",
                     "More info: https://github.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n",
-                    "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n"
+                    "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance"
                   ]
                 },
                 {
@@ -1368,7 +1368,7 @@
                   "tip": [
                     "Set to 1 (Default)\n",
                     "More info: https://github.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n",
-                    "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance\n"
+                    "           https://gitee.com/abgox/PSCompletions/blob/main/README.md#about-menu-enhance"
                   ]
                 }
               ]
@@ -1392,6 +1392,24 @@
                   "tip": [
                     "Set to 1 (Default)\n",
                     "Show the completion tip."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "completions_confirm_limit",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.completions_confirm_limit }} (Default -1, it means no limit.)\n",
+                "Set the number of completion items beyond which a secondary confirmation box will pop up.\n",
+                "Only after confirmation and these completion items will be obtained."
+              ],
+              "next": [
+                {
+                  "name": "-1",
+                  "tip": [
+                    "Set to -1 (Default)。\n",
+                    "It means no limit.\n",
+                    "No matter how many completion items there are, they will be obtained directly."
                   ]
                 }
               ]
@@ -1609,7 +1627,19 @@
         "scoop update pscompletions\n\n"
       ],
       "updating": "<@Cyan>Try to run the command: <@Magenta>{{ $update_cmd }}<@Cyan>\nTrying to update PSCompletions module...",
-      "restart": "<@Yellow>The change takes effect after restarting PowerShell and reimporting PSCompletions module."
+      "restart": "<@Yellow>The change takes effect after restarting PowerShell and reimporting PSCompletions module.",
+      "too_many_completions": {
+        "text": [
+          "Too many items: {{ $count}}",
+          "Need more loading time.",
+          "Please confirm or cancel."
+        ],
+        "tip": [
+          "Apply any items to confirm and obtain; otherwise, cancel.\n",
+          "You can use 'psc menu config completions_confirm_limit -1' to remove the limit.\n",
+          "You can also set a higher value to limit the number of completions."
+        ]
+      }
     },
     "current_value": "Current Value",
     "set_value": "Set to {{ $value }}.",
@@ -1852,7 +1882,7 @@
       ],
       "done": [
         "<@Green>PSCompletions's configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>\"{{ $old_value }}\"<@Green> => <@Magenta>\"{{ $new_value }}\""
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
       ],
       "err": {
         "one_or_zero": [
@@ -1915,7 +1945,7 @@
       ],
       "done": [
         "<@Magenta>{{ $completion }}<@Green>'s special configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>\"{{ $old_value }}\"<@Green> => <@Magenta>\"{{ $new_value }}\""
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
       ],
       "err": {
         "min": [
@@ -1968,7 +1998,7 @@
       ],
       "done": [
         "<@Green>Configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>\"{{ $old_value }}\"<@Green> => <@Magenta>\"{{ $new_value }}\""
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
       ],
       "symbol": {
         "example": [
@@ -2031,7 +2061,7 @@
         "E: psc reset *                --- Reset PSCompletions module\n",
         "   psc reset menu symbol      --- Reset all symbols(~?!)\n",
         "   psc reset alias psc        --- Reset psc alias\n",
-        "   psc reset completion psc   --- Reset(Remove) this special configuration(language) of psc\n"
+        "   psc reset completion psc   --- Reset(Remove) this special configuration(language) of psc"
       ],
       "init_confirm": [
         "<@Yellow>Reset the PSCompletions module, are you sure?\n",
@@ -2048,7 +2078,7 @@
         "  \"<@Green>Reset successfully!`n<@Cyan>Here are the changes from old to new:`n------------------------------`n\";",
         "  ($change_list | ForEach-Object {",
         "$str = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" }",
-        " \"$($str): <@Magenta>$($_.old_value)<@Blue> => <@Magenta>$($_.new_value)<@Blue>\" }) -join \"`n\";",
+        " \"$($str): <@Magenta>$PSCompletions.quote_if_only_whitespace($_.old_value)<@Blue> => <@Magenta>$PSCompletions.quote_if_only_whitespace($_.new_value)<@Blue>\" }) -join \"`n\";",
         "  \"<@Cyan>`n------------------------------\"",
         "}",
         "}}"
