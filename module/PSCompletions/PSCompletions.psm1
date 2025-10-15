@@ -799,7 +799,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                             return
                         }
                     }
-                    { $_ -in @('list_max_count_when_above', 'list_max_count_when_below') } {
+                    { $_ -in @('list_max_count_when_above', 'list_max_count_when_below', 'completions_confirm_limit') } {
                         $cmd_list = $null
                         $sub_cmd = $value
                         $cmd_info = $PSCompletions.info.menu.config.err.v_2
