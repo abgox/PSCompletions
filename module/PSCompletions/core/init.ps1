@@ -129,7 +129,7 @@ else {
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
-    if ($PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_hooks_tip -ne 1) {
+    if (!$PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_hooks_tip) {
         $tip = ''
     }
     @{
@@ -435,7 +435,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         Remove-Job $PSCompletions.job
         $PSCompletions.job = $null
     }
-    if ($PSCompletions.config.enable_cache -ne 1) {
+    if (!$PSCompletions.config.enable_cache) {
         $PSCompletions.completions.$root = $null
         $PSCompletions.completions_data.$root = $null
     }
@@ -449,7 +449,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $PSCompletions.input_arr = $input_arr
 
     # 使用 hooks 覆盖默认的函数，实现一些特殊的需求，比如一些补全的动态加载
-    if ($PSCompletions.config.comp_config[$root].enable_hooks -eq 1) {
+    if ($PSCompletions.config.comp_config[$root].enable_hooks) {
         . "$($PSCompletions.path.completions)/$root/hooks.ps1"
     }
     if (!$PSCompletions.completions_data[$root]) {
@@ -513,7 +513,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             }
         }
     }
-    if ($PSCompletions.config.enable_completions_sort -eq 1) {
+    if ($PSCompletions.config.enable_completions_sort) {
         $path_order = "$($PSCompletions.path.order)/$root.json"
         if ($PSCompletions.order."$($root)_job") {
             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
@@ -1124,10 +1124,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     # is_show_tip
     $enable_tip = $PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_tip
     if ($enable_tip -ne $null) {
-        $PSCompletions.menu.is_show_tip = $enable_tip -eq 1
+        $PSCompletions.menu.is_show_tip = $enable_tip
     }
     else {
-        $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip -eq 1
+        $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip
     }
 
     if ($PSCompletions.menu.is_show_tip -and !$PSCompletions.menu.ignore_tip) {
@@ -1377,7 +1377,7 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
 else {
     if (!$PSCompletions._show_update_info) {
         $PSCompletions._show_update_info = $true
-        if ($PSCompletions.config.enable_completions_update -eq 1) {
+        if ($PSCompletions.config.enable_completions_update) {
             if (($PSCompletions.update -or $PSCompletions.get_content($PSCompletions.path.change) -and !$PScompletions.is_init)) {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
             }

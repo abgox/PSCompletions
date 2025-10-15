@@ -233,7 +233,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
                 # check module version
                 try {
-                    if ($PSCompletions.config.enable_module_update -eq 1) {
+                    if ($PSCompletions.config.enable_module_update) {
                         $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
                         foreach ($url in $urls) {
                             try {
@@ -259,7 +259,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 catch {}
 
                 # check completions update
-                if ($PSCompletions.config.enable_completions_update -eq 1) {
+                if ($PSCompletions.config.enable_completions_update) {
                     $update_list = @()
                     foreach ($_ in (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })) {
                         $isErr = $true

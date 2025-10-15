@@ -491,6 +491,19 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
         $config_item = $arg[2]
         $old_value = $PSCompletions.config.comp_config.$completion.$config_item
         $new_value = $arg[3]
+        if ($new_value -match '^-?\d+$') {
+            $new_value = [int]$new_value
+        }
+
+        if ($config_item -in @('enable_hooks', 'enable_tip', 'enable_hooks_tip')) {
+            if ($new_value -notin @(1, 0)) {
+                $cmd_list = $null
+                $sub_cmd = $value
+                $cmd_info = $PSCompletions.info.menu.config.err.v_3
+                Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.completion.example
+                return
+            }
+        }
         $PSCompletions.config.comp_config.$completion.$config_item = $new_value
         $PSCompletions._need_update_data = $true
         foreach ($_ in $PSCompletions.data.list) {
@@ -725,7 +738,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                     return
                 }
                 if ($arg.Length -lt 5) {
-                    Write-Host $PSCompletions.quote_if_only_whitespace($PSCompletions.config[$arg[3]])
+                    Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config[$arg[3]])
                     return
                 }
                 if ($arg.Length -gt 5) {
@@ -765,14 +778,15 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                     return
                 }
 
-                try {
+                if ($arg[3] -match '^-?\d+$') {
                     $value = [int]$arg[3]
                     $is_num = $true
                 }
-                catch {
+                else {
                     $value = $arg[3]
                     $is_num = $false
                 }
+
                 switch ($arg[2]) {
                     'trigger_key' {
                         try {
@@ -785,29 +799,28 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                             return
                         }
                     }
-
                     { $_ -in @('list_max_count_when_above', 'list_max_count_when_below') } {
                         $cmd_list = $null
-                        $sub_cmd = $arg[3]
+                        $sub_cmd = $value
                         $cmd_info = $PSCompletions.info.menu.config.err.v_2
-                        if (!$is_num -or ($arg[3] -ne -1 -and $arg[3] -le 0)) {
+                        if (!$is_num -or ($value -ne -1 -and $value -le 0)) {
                             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }
                     }
                     { $_ -in @('list_min_width', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above') } {
-                        if (!$is_num -or $arg[3] -lt 0) {
+                        if (!$is_num -or $value -lt 0) {
                             $cmd_list = $null
-                            $sub_cmd = $arg[3]
+                            $sub_cmd = $value
                             $cmd_info = $PSCompletions.info.menu.config.err.v_0
                             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }
                     }
                     { $_ -in ($PSCompletions.menu.const.config_item | Where-Object { $_ -match "(enable_*)|(disable_*)" }) } {
-                        if (!$is_num -or $arg[3] -notin @(1, 0)) {
+                        if (!$is_num -or $value -notin @(1, 0)) {
                             $cmd_list = $null
-                            $sub_cmd = $arg[3]
+                            $sub_cmd = $value
                             $cmd_info = $PSCompletions.info.menu.config.err.v_3
                             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
@@ -816,7 +829,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 }
                 $config_item = $arg[2]
                 $old_value = $PSCompletions.config.$config_item
-                $new_value = $arg[3]
+                $new_value = $value
                 $PSCompletions.config.$config_item = $new_value
                 $PSCompletions._need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
@@ -1045,7 +1058,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.reset.init_confirm))
                 while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
                     if ($PressKey.ControlKeyState -notlike '*CtrlPressed*') {
-                        if ($write_empty_line) { Write-Host '' }
                         if ($PressKey.VirtualKeyCode -eq 13) {
                             # 13: Enter
                             Remove-Item $PSCompletions.path.temp -Force -Recurse -ErrorAction SilentlyContinue
