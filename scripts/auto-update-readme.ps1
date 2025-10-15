@@ -1,3 +1,7 @@
+#Requires -Version 7.0
+
+Set-StrictMode -Off
+
 function Compare-JsonProperty {
     param (
         [string]$diffJson,

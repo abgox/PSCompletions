@@ -1,4 +1,9 @@
-param([string]$NuGetApiKey, [switch]$Verbose)
+param(
+    [string]$NuGetApiKey,
+    [switch]$Verbose
+)
+
+Set-StrictMode -Off
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
@@ -17,7 +22,6 @@ if (!$NuGetApiKey) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.requireKey))
     return
 }
-
 
 $path = @{
     module = "$PSScriptRoot\..\module\PSCompletions"

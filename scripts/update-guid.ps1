@@ -1,4 +1,8 @@
-param([array]$completion_list)
+param(
+    [array]$completion_list
+)
+
+Set-StrictMode -Off
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
