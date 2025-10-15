@@ -184,8 +184,8 @@
               "name": "0",
               "tip": [
                 "设置为 0\n",
-                "禁用补全缓存, 主要用于更新调试补全数据文件。\n",
-                "禁用后, 每次补全触发都会重新去读取补全数据文件(json)。"
+                "禁用补全缓存, 主要用于更新调试补全文件。\n",
+                "禁用后, 每次补全触发都会重新去读取补全文件(json)。"
               ]
             }
           ]
@@ -1332,7 +1332,6 @@
             },
             {
               "name": "enable_completions_sort",
-
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_completions_sort }} (默认值为 1, 表示启用)\n",
                 "设置是否根据命令历史记录动态排序补全列表。"
@@ -1356,12 +1355,11 @@
             },
             {
               "name": "enable_menu_enhance",
-
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_menu_enhance }} (默认值为 1, 表示启用)\n",
                 "设置是否增强补全菜单的功能。\n",
                 "详细信息: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强\n",
-                "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强\n"
+                "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
               ],
               "next": [
                 {
@@ -1369,7 +1367,7 @@
                   "tip": [
                     "设置为 0。\n",
                     "详细信息: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强\n",
-                    "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强\n"
+                    "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
                   ]
                 },
                 {
@@ -1377,14 +1375,13 @@
                   "tip": [
                     "设置为 1 (默认值)。\n",
                     "详细信息: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强\n",
-                    "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强\n"
+                    "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
                   ]
                 }
               ]
             },
             {
               "name": "enable_tip_when_enhance",
-
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_tip_when_enhance }} (默认值为 1, 表示启用)\n",
                 "对于不是通过 'psc add' 添加的补全，如果有命令提示信息，是否显示。"
@@ -1405,6 +1402,22 @@
                   ]
                 }
               ]
+            },
+            {
+              "name": "completions_confirm_limit",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.completions_confirm_limit }} (默认值为 -1, 表示无限制)\n",
+                "设置当补全项超过多少个时弹出二次确认框，确认后再获取补全。"
+              ],
+              "next": [
+                {
+                  "name": "-1",
+                  "tip": [
+                    "设置为 -1 (默认值)。\n",
+                    "它表示无限制，不管补全项有多少个，都会直接获取。"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -1412,7 +1425,6 @@
     },
     {
       "name": "reset",
-
       "tip": [
         "将指定的配置重置为默认值。\n",
         "{{ $info.reset.example }}"
@@ -1622,7 +1634,19 @@
         "scoop update pscompletions\n\n"
       ],
       "updating": "<@Cyan>尝试运行命令: <@Magenta>{{ $update_cmd }}<@Cyan>\nPSCompletions 模块正在尝试更新...",
-      "restart": "<@Yellow>请重启 PowerShell 并重新导入 PSCompletions 模块来使更改生效"
+      "restart": "<@Yellow>请重启 PowerShell 并重新导入 PSCompletions 模块来使更改生效",
+      "too_many_completions": {
+        "text": [
+          "补全项过多: {{ $count }}",
+          "需要更多加载时间",
+          "请确认获取或取消"
+        ],
+        "tip": [
+          "选用任意一项表示确认获取，否则表示取消\n",
+          "你可以使用 psc menu config completions_confirm_limit -1 来取消限制\n",
+          "也可以设置更高的值来限制补全数量"
+        ]
+      }
     },
     "current_value": "当前值",
     "set_value": "设置为 {{ $value }}。",
@@ -1865,7 +1889,7 @@
       ],
       "done": [
         "<@Green>PSCompletions 的配置修改成功!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>\"{{ $old_value }}\"<@Green> => <@Magenta>\"{{ $new_value }}\""
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
       ],
       "err": {
         "one_or_zero": [
@@ -1928,7 +1952,7 @@
       ],
       "done": [
         "<@Magenta>{{ $completion }}<@Green> 的特殊配置修改成功!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>\"{{ $old_value }}\"<@Green> => <@Magenta>\"{{ $new_value }}\""
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
       ],
       "err": {
         "min": [
@@ -1981,7 +2005,7 @@
       ],
       "done": [
         "<@Green>配置修改成功!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>\"{{ $old_value }}\"<@Green> => <@Magenta>\"{{ $new_value }}\""
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
       ],
       "symbol": {
         "example": [
@@ -2061,7 +2085,7 @@
         "  \"<@Green>重置完成!`n<@Cyan>以下是重置前后的新旧对比:`n------------------------------`n\";",
         "  ($change_list | ForEach-Object {",
         "$str = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" }",
-        " \"$($str): <@Magenta>$($_.old_value)<@Blue> => <@Magenta>$($_.new_value)<@Blue>\" }) -join \"`n\";",
+        " \"$($str): <@Magenta>$PSCompletions.quote_if_only_whitespace($_.old_value)<@Blue> => <@Magenta>$PSCompletions.quote_if_only_whitespace($_.new_value)<@Blue>\" }) -join \"`n\";",
         "  \"<@Cyan>`n------------------------------\"",
         "}",
         "}}"
