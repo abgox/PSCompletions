@@ -740,7 +740,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod filter_comp
         $match = "$([WildcardPattern]::Escape($PSCompletions.menu.filter))*"
     }
     else {
-        $match = "*$([WildcardPattern]::Escape($PSCompletions.menu.filter))*"
+        $match = "*$($PSCompletions.menu.filter.Replace('[','`[').Replace(']','`]'))*"
     }
     $PSCompletions.menu.filter_list = @()
 
