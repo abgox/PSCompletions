@@ -1,5 +1,13 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.9.0 (2025/10/18)
+
+- Wildcards `*` and `?` are allowed in filtering.
+  - Command: `psc menu config enable_prefix_match_in_filter 0`
+  - Cost: unable to match original `*` and `?` characters.
+- Optimize the logic for handling different completion types.
+  - It makes the effective scope of the `completion_suffix` configuration more precise.
+
 ## 5.8.0 (2025/10/15)
 
 - Add the `enable_hooks_tip` configuration item. ([#96](https://github.com/abgox/PSCompletions/issues/96))

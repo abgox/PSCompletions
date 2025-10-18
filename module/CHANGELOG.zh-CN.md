@@ -1,5 +1,13 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 5.9.0 (2025/10/18)
+
+- 允许在过滤中使用通配符 `*` 和 `?`
+  - 命令: `psc menu config enable_prefix_match_in_filter 0`
+  - 代价: 无法匹配原始的 `*` 和 `?` 字符
+- 优化了不同补全类型的处理逻辑
+  - 这让 `completion_suffix` 配置项的生效范围更加精确
+
 ## 5.8.0 (2025/10/15)
 
 - 添加配置项 `enable_hooks_tip` ([#96](https://github.com/abgox/PSCompletions/issues/96))
