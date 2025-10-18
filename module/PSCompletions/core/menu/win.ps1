@@ -814,28 +814,48 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     function handleOutput($item) {
         $out = $item.CompletionText
 
-        # File or other leaf items (e.g., registry values)
-        # $isItemType = $item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderItem
-
-        # Directory, registry key, or other container types
-        $isContainerType = $item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer
-
-        if (!$PSCompletions.config.enable_path_with_trailing_separator) {
-            if ($isContainerType) {
-                return $out
-            }
+        # 不是由 TabExpansion2 获取的补全，即通过 psc add 添加的补全
+        if ($null -eq $item.ResultType) {
             return "$out$suffix"
         }
 
-        if ($isContainerType) {
-            if ($out.Length -ge 1 -and $out[-1] -match "^['`"]$") {
-                if ($out.Length -ge 2 -and $out[-2] -match "^[/\\]$") {
-                    return $out
-                }
-                return $out.Insert($out.Length - 1, $PSCompletions.separator)
-            }
-            return $out + $PSCompletions.separator
+        if ($item.ResultType -in @(
+                [System.Management.Automation.CompletionResultType]::Method,
+                [System.Management.Automation.CompletionResultType]::Property,
+                [System.Management.Automation.CompletionResultType]::Variable,
+                [System.Management.Automation.CompletionResultType]::Type,
+                [System.Management.Automation.CompletionResultType]::Namespace
+            )) {
+            return $out
         }
+
+        # Directory, registry key, or other container types
+        if ($item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer) {
+            if ($PSCompletions.config.enable_path_with_trailing_separator) {
+                if ($out.Length -ge 1 -and $out[-1] -match "^['`"]$") {
+                    if ($out.Length -ge 2 -and $out[-2] -match "^[/\\]$") {
+                        return $out
+                    }
+                    return $out.Insert($out.Length - 1, $PSCompletions.separator)
+                }
+                return $out + $PSCompletions.separator
+            }
+            return $out
+        }
+
+        # File or other leaf items (e.g., registry values)
+        # [System.Management.Automation.CompletionResultType]::ProviderItem
+
+        # [System.Management.Automation.CompletionResultType]::Command
+
+        # [System.Management.Automation.CompletionResultType]::ParameterName
+
+        # [System.Management.Automation.CompletionResultType]::ParameterValue
+
+        # if foreach switch ...
+        # [System.Management.Automation.CompletionResultType]::Keyword
+
+        # [System.Management.Automation.CompletionResultType]::Text
 
         return "$out$suffix"
     }

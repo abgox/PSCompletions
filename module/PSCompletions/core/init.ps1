@@ -20,7 +20,7 @@ New-Variable -Name PSCompletions -Value @{
     order                   = [ordered]@{}
     root_cmd                = ''
     completions_data        = @{}
-    guid                    = [guid]::NewGuid().Guid
+    guid                    = [System.Guid]::NewGuid().Guid
     language                = $PSUICulture
     encoding                = [console]::OutputEncoding
     separator               = [System.IO.Path]::DirectorySeparatorChar
@@ -1144,10 +1144,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
 
             if ($PSCompletions.input_arr[-1] -like "-*=") {
-                [CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
             }
             else {
-                [CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
             }
         }
     }
@@ -1156,10 +1156,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             $padSymbols = foreach ($c in $_.symbols) { $PSCompletions.config.$c }
             $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
             if ($PSCompletions.input_arr[-1] -like "-*=") {
-                [CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
             }
             else {
-                [CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
             }
         }
     }
@@ -1198,10 +1198,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
                 $parts = ($_ -split "`t")
                 if ($PSCompletions.config.enable_tip_when_enhance) {
                     $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
-                    [CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $tip)
+                    [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $tip)
                 }
                 else {
-                    [CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', ' ')
+                    [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', ' ')
                 }
             }
         }
