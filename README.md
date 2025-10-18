@@ -45,7 +45,8 @@
 > - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
 > - They can both use `PSCompletions`, but [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview) is more recommended.
 
-- A completion manager in `PowerShell` for better and simpler use completions.
+A completion manager for better and simpler use completions in `PowerShell`.
+
 - [Manage completions together.](#available-completions "Click it to view the completion list that can be added.")
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
 - Sort completion items dynamically by frequency of use.
@@ -163,7 +164,7 @@ Take `git` as an example.
 
 - `Optional Completions`: some command completions that like `-*`, such as `--global` in `git config --global`.
 - You should use option completion first.
-- Taking `git` as an example, if you want to enter `git config user.name --global xxx`, you should use `--global` completion first, and then use `user.name`, and then enter the name `xxx` .
+- Taking `git` as an example, if you want to enter `git config user.name --global xxx`, you should use `--global` completion first, and then use `user.name`, and then enter the name `xxx`.
 - For options ending with `=`, if there's completion definition, you can directly press the `Tab` key to get the completions.
 
 ### About completion menu
@@ -200,6 +201,7 @@ Take `git` as an example.
     - Auto-apply when there's only one completion item: `psc menu config enable_enter_when_single 1`
     - Hide the completion tip: `psc menu config enable_tip 0`
     - Use prefix matching for filtering: `psc menu config enable_prefix_match_in_filter 1`
+      - If it is `0`, fuzzy matching is used, and the `*` and `?` wildcards are supported.
     - Set the completion suffix: `psc menu config completion_suffix " "`
     - ...
 

@@ -45,7 +45,8 @@
 > - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。运行 `powershell`/`powershell.exe` 启动
 > - 它们都可以使用 `PSCompletions`, 但是更推荐 [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview)
 
-- 一个 `PowerShell` 补全管理模块，更好、更简单、更方便的使用和管理补全
+一个命令补全管理模块，用于在 `PowerShell` 中更简单、更方便地使用命令补全。
+
 - [集中管理补全](#补全列表 "点击查看可添加补全列表！")
 - `en-US`,`zh-CN`,... 多语言切换
 - 动态排序补全项(根据使用频次)
@@ -198,6 +199,7 @@
     - 只有一个补全项时自动应用: `psc menu config enable_enter_when_single 1`
     - 隐藏补全提示信息: `psc menu config enable_tip 0`
     - 使用前缀匹配进行过滤: `psc menu config enable_prefix_match_in_filter 1`
+      - 如果为 `0`，则使用模糊匹配，支持使用 `*` 和 `?` 通配符
     - 设置补全后缀: `psc menu config completion_suffix " "`
     - ...
 
