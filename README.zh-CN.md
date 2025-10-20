@@ -41,18 +41,16 @@
 
 > [!Tip]
 >
-> - [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview): 跨平台的 PowerShell。运行 `pwsh`/`pwsh.exe` 启动
-> - [`Windows PowerShell`](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell。运行 `powershell`/`powershell.exe` 启动
-> - 它们都可以使用 `PSCompletions`, 但是更推荐 [`PowerShell(pwsh)`](https://learn.microsoft.com/powershell/scripting/overview)
+> - [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview): 跨平台的 PowerShell (Core)。运行 `pwsh`/`pwsh.exe` 启动
+> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell (Desktop)。运行 `powershell`/`powershell.exe` 启动
+> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview)
 
 一个命令补全管理模块，用于在 `PowerShell` 中更简单、更方便地使用命令补全。
 
-- [集中管理补全](#补全列表 "点击查看可添加补全列表！")
-- `en-US`,`zh-CN`,... 多语言切换
-- 动态排序补全项(根据使用频次)
 - [更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
-  - 灵活的配置可以控制它的相关行为
-  - 通过 `psc menu config` 查看
+- [集中管理补全](./completions.zh-CN.md "点击查看可添加补全列表！")
+- 动态排序补全项(根据使用频次)
+- `en-US`,`zh-CN`,... 多语言切换
 - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
 
 ## Demo
@@ -72,10 +70,13 @@
 
 - 请查阅 [常见问题](https://pscompletions.abgox.com/faq)
 
+## 贡献
+
+- 请查阅 [贡献指南](./.github/contributing.md)
+
 ## 安装
 
-1. 打开 `PowerShell`
-2. 安装模块:
+1. 安装模块:
 
    - 普通安装
 
@@ -98,42 +99,35 @@
        scoop install abyss/abgox.PSCompletions
        ```
 
-3. 导入模块:
+2. 导入模块:
    ```powershell
    Import-Module PSCompletions
    ```
-   - 如果不想每次启动 `PowerShell` 都需要导入 `PSCompletions` 模块，你可以使用以下命令将导入语句写入 `$PROFILE` 中
+   - 如果不想每次启动 `PowerShell` 都需要导入 `PSCompletions` 模块，你可以使用以下命令将导入语句写入 `$Profile` 中
      ```powershell
-     echo "Import-Module PSCompletions" >> $PROFILE
+     "Import-Module PSCompletions" >> $Profile
      ```
-   - 推荐将 `Import-Module PSCompletions` 添加到 `$PROFILE` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/zh-CN/faq/#输出编码)
-   - [关于补全触发按键](#关于补全触发按键)
+   - 推荐将 `Import-Module PSCompletions` 添加到 `$Profile` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/zh-CN/faq/#输出编码)
 
 ## 卸载
 
-1. 打开 `PowerShell`
-2. 卸载模块:
-   ```powershell
-   Uninstall-Module PSCompletions
-   ```
+```powershell
+Uninstall-Module PSCompletions
+```
 
 ## 使用
 
 > [!Tip]
 >
-> - [可用补全列表](#补全列表 "当前可添加的所有补全，更多的补全正在添加中！")
-> - 如果补全列表里没有你想要的补全，你可以 [提交 issues](https://github.com/abgox/PSCompletions/issues "点击提交 issues")
+> - [可用补全列表](./completions.zh-CN.md "当前可添加的所有补全，更多的补全正在添加中！")
+> - 如果补全列表里没有你想要的补全，你可以 [提交 issue](https://github.com/abgox/PSCompletions/issues "点击提交 issue")
 > - 也可以 [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
 
 以 `git` 补全为例
 
-1. `psc add git`
-2. 然后你就可以输入 `git`, 按下 `Space`(空格键) `Tab` 键来获得命令补全
-3. 关于 `psc` 的更多命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
-
-## 贡献
-
-- 请查阅 [CONTRIBUTING](./.github/contributing.md)
+1. 添加补全: `psc add git`
+2. 然后你就可以输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
+3. 关于 `psc` 的命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) 和 `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
 
 ## Tips
 
@@ -146,37 +140,17 @@
 >
 > - 如果需要指定 `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>`
 > - 请放在 `Import-Module PSCompletions` 之前
-> - 例如:
->
->   ```powershell
->   Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
->
->   Import-Module PSCompletions
->   ```
-
-### 关于补全更新
-
-- 当打开 `PowerShell` 并导入 `PSCompletions` 模块后，`PSCompletions` 会开启一个后台作业去检查远程仓库中补全的状态
-- 获取到更新后，会在下一次打开 `PowerShell` 并导入 `PSCompletions` 后显示补全更新提示
-
-### 关于选项类补全
-
-- 选项类补全，指的是像 `-*` 的命令补全，例如 `git config --global` 中的 `--global`
-- 你应该优先使用选项类补全
-- 以 `git` 补全为例，如果你想要输入 `git config user.name --global xxx`
-- 你应该先补全 `--global`，然后再补全 `user.name`，最后输入名称 `xxx`
-- 对于以 `=` 结尾的选项，如果有相关补全定义，则可以直接按下 `Tab` 键触发补全
 
 ### 关于补全菜单
 
 - 除了 `PowerShell` 内置的补全菜单，`PSCompletions` 模块还提供了一个更强大的补全菜单。
+
   - 配置: `psc menu config enable_menu 1` (默认开启)
-- 模块提供的补全菜单可用的 Windows 环境：
-  - `PowerShell`
-  - `Windows PowerShell`
-    - 由于 `Windows PowerShell` 渲染问题，补全菜单的边框样式无法自定义
-    - 如果需要自定义，请使用 `PowerShell`
-- 模块提供的补全菜单中的按键
+  - 可通过 `psc menu config` 中的其他配置项控制它的相关行为
+
+- 它只在 Windows 中可用，因为在 Linux/MacOS 中 [PowerShell 没有实现相关底层方法](https://github.com/cspotcode/PS-GuiCompletion/issues/13#issuecomment-620084134)
+
+- 相关的按键绑定:
 
   1. 选用当前选中的补全项: `Enter`(回车) / `Space`(空格)
      - 当只有一个补全项时，也可以使用 `Tab`
@@ -193,14 +167,12 @@
      |  `Ctrl + u`   | `Ctrl + d` |
      |  `Ctrl + p`   | `Ctrl + n` |
 
-- 补全菜单的所有配置, 你可以输入 `psc menu` 然后按下 `Space`(空格键) `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
+- 补全菜单的所有配置，你可以输入 `psc menu` 然后按下 `Space`(空格键) 和 `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)
   - 一些常见的菜单行为:
     - 只有一个补全项时自动应用: `psc menu config enable_enter_when_single 1`
-    - 隐藏补全提示信息: `psc menu config enable_tip 0`
     - 使用前缀匹配进行过滤: `psc menu config enable_prefix_match_in_filter 1`
       - 如果为 `0`，则使用模糊匹配，支持使用 `*` 和 `?` 通配符
-    - 设置补全后缀: `psc menu config completion_suffix " "`
     - ...
 
 #### 关于菜单增强
@@ -208,31 +180,36 @@
 - 配置: `psc menu config enable_menu_enhance 1` (默认开启)
 - `PSCompletions` 对于补全有两种实现
 
-  - [`Set-PSReadLineKeyHandler`](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
+  - [Set-PSReadLineKeyHandler](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
 
     - 默认使用此实现
       - 前提: 配置项 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
-    - 它不再需要循环为所有补全命令注册 `Register-ArgumentCompleter`，理论上加载速度会更快
-    - 它使用 [`TabExpansion2`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
-      - 例如:
-        - 路径补全: `cd`/`.\`/`..\`/`~\`/...
-        - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...
-        - 通过 [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
-        - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
-        - 由 cli 或模块注册的补全
-        - ...
+    - 它不再需要循环为所有补全命令注册 [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)，理论上加载速度会更快
+    - 它使用 [TabExpansion2](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
+      - 路径补全: `cd`/`.\`/`..\`/`~\`/...
+      - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...
+      - 通过 [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
+      - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
+      - 由 cli 或模块注册的补全
+      - ...
 
-  - [`Register-ArgumentCompleter`](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
+  - [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
 
-    - 可以通过配置 `psc menu config enable_menu_enhance 0` 来使用它
-    - `PSCompletions` 只对通过 `psc add` 添加的补全生效
-    - 其他补全由 `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>` 控制
+    - 可以通过运行 `psc menu config enable_menu_enhance 0` 来使用它
+    - 则模块的补全菜单只对通过 `psc add` 添加的补全生效
+
+### 关于选项类补全
+
+- 选项类补全，指的是像 `-*` 的命令补全，例如 `git config --global` 中的 `--global`
+- 你应该优先使用选项类补全
+- 以 `git` 补全为例，如果你想要输入 `git config user.name --global xxx`
+- 你应该先补全 `--global`，然后再补全 `user.name`，最后输入名称 `xxx`
 
 ### 关于特殊符号
 
 > [!Tip]
 >
-> - 由于未来的 Windows Terminal 的变化，将导致在补全菜单中无法正常显示 😄🤔😎，因此这三个默认特殊符号将改变。
+> - 由于 Windows Terminal 的变更导致在补全菜单中无法正常显示 😄🤔😎，因此将更换它们。
 > - 相关的 issue: https://github.com/microsoft/terminal/issues/18242
 > - 变化如下:
 >   - `😄` => `~`
@@ -242,38 +219,28 @@
 - 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全项
 
   - 只有通过 `psc add` 添加的补全中才存在
-
-  - 你可以将它们替换成空字符串来隐藏它们
+  - 你可以使用 `psc menu symbol <type> <symbol>` 来自定义
+  - 例如，你可以替换成空字符串来隐藏它们
     - `psc menu symbol SpaceTab ""`
     - `psc menu symbol OptionTab ""`
     - `psc menu symbol WriteSpaceTab ""`
 
-- `~`,`?`,`!` : 如果出现多个, 表示符合多个条件, 可以选择其中一个效果
+- `~`,`?`,`!` : 如果出现多个，表示符合多个条件
 
-  - 定义:
-    - `Normal Completions`: 子命令，例如在 `git` 中的 `add`/`pull`/`push`/`commit`/...
-    - `Optional Completions`: 可选参数，例如在 `git add` 中的 `-g`/`-u`/...
-    - `General Optional Completions`: 可以用在任何地方的通用可选参数，例如在 `git` 中的 `--help`/...
-    - `Current Completions`: 当前的补全项列表
-  - `~` : 表示选用当前选中的补全后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取补全
-    - 可通过 `psc menu symbol SpaceTab <symbol>` 自定义此符号
-  - `?` : 表示选用当前选中的补全(`Optional Completions` 或 `General Optional Completions`)后, 可以按下 `Space`(空格键) 和 `Tab` 键继续获取 `Current Completions`
-    - 可通过 `psc menu symbol OptionTab <symbol>` 自定义此符号
-  - `!` : 表示选用当前选中的补全(`Optional Completions` 或 `General Optional Completions`)后, 你可以按下 `Space`(空格键), 再输入一个字符串, 然后按下 `Space`(空格键) 和 `Tab` 键继续获取补全
+  - `~` : 表示选用当前选中的补全后，可以按下 `Tab` 键继续获取补全
+  - `?` : 表示选用当前选中的 [(通用)选项类补全](#关于选项类补全) 后，可以按下 `Tab` 键继续获取当前的补全项列表
+  - `!` : 表示选用当前选中的 [(通用)选项类补全](#关于选项类补全) 后，你可以再输入一个字符串，然后按下 `Tab` 键继续获取当前的补全项列表
 
-    - 如果字符串有空格, 请使用 `"`(引号) 或 `'`(单引号) 包裹，如 `"test content"`
-    - 如果同时还有 `~`, 表示有预设的补全项, 你可以不输入字符串, 直接按下 `Space`(空格键) 和 `Tab` 键继续获取它们
-    - 可通过 `psc menu symbol WriteSpaceTab <symbol>` 自定义此符号
-
-  - 所有补全都可以在输入部分字符后按下 `Tab` 键触发补全
+    - 如果字符串有空格，请使用 `"` 或 `'` 包裹，如 `"test content"`
+    - 如果同时还有 `~`，表示有预设的补全项，你可以不输入字符串，直接按下 `Tab` 键继续获取它们
 
 ### 关于补全提示信息
 
-- 补全提示信息只是辅助, 你也可以使用 `psc menu config enable_tip 0` 来禁用补全提示信息
+- 补全提示信息只是辅助，你也可以使用 `psc menu config enable_tip 0` 全局禁用补全提示信息
 
-  - 启用补全提示信息: `psc menu config enable_tip 1`
-  - 也可以禁用特定补全的提示信息，如 `psc`
-    - `psc completion psc enable_tip 0`
+  - 默认启用补全提示信息: `psc menu config enable_tip 1`
+  - 也可以禁用特定补全的提示信息，如 `git`
+    - `psc completion git enable_tip 0`
 
 - 补全提示信息一般由三部分组成: 用法(Usage) + 描述(Description) + 举例(Example)
   ```txt
@@ -308,7 +275,7 @@
 
 #### 确定语言
 
-1. 确定指定的语言: 如果有 `Completion language`，优先使用它，没有则使用 `Global language`
+1. 如果有 `Completion language`，优先使用它，没有则使用 `Global language`
 2. 确定最终使用的语言:
    - 判断第一步确定的值是否存在于 `Available language` 中
    - 如果存在，则使用它
@@ -316,7 +283,7 @@
 
 ### 关于路径补全
 
-- 以 `git` 为例，当输入 `git add`，此时按下 `Space` 和 `Tab` 键，不会触发路径补全，只会触发模块提供的命令补全
+- 以 `git` 为例，当输入 `git add`，此时按下 `Space`(空格键) 和 `Tab` 键，不会触发路径补全，只会触发模块提供的命令补全
 - 如果你希望触发路径补全，你需要输入内容，且内容符合正则 `^(?:\.\.?|~)?(?:[/\\]).*`
 - 比如:
 
