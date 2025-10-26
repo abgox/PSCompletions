@@ -15,30 +15,10 @@ jobs:
       USER_NAME: "abgox"
       USER_EMAIL: "abgohxf@outlook.com"
     steps:
-      - name: Setup SSH
-        shell: pwsh
-        env:
-          SSH_CONFIG: ${{ secrets.SSH_CONFIG }}
-          SSH_ID_RSA_GITHUB: ${{ secrets.SSH_ID_RSA_GITHUB }}
-          SSH_ID_RSA_GITEE: ${{ secrets.SSH_ID_RSA_GITEE }}
-        run: |
-          $sshDir = "$env:UserProfile\.ssh"
-          New-Item -Path $sshDir -ItemType Directory -Force
-
-          # Write key files
-          $env:SSH_CONFIG | Out-File "$sshDir\config" -Encoding utf8NoBOM -NoNewline
-          $env:SSH_ID_RSA_GITHUB | Out-File "$sshDir\id_rsa_github" -Encoding utf8NoBOM -NoNewline
-          $env:SSH_ID_RSA_GITEE | Out-File "$sshDir\id_rsa_gitee" -Encoding utf8NoBOM -NoNewline
-
-          try {
-              ssh-keyscan github.com gitee.com 2>$null | Out-File "$sshDir\known_hosts" -Encoding utf8NoBOM
-              if (-not (Test-Path "$sshDir\known_hosts") -or (Get-Content "$sshDir\known_hosts" -Raw).Trim().Length -eq 0) {
-                  throw "ssh-keyscan failed"
-              }
-          } catch {
-              Write-Host "::error::Failed to generate known_hosts, disabling host key verification..." -ForegroundColor Red
-              git config --global core.sshCommand "ssh -o StrictHostKeyChecking=no"
-          }
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Configure Git
         shell: pwsh
@@ -46,31 +26,9 @@ jobs:
           git config --global user.name $env:USER_NAME
           git config --global user.email $env:USER_EMAIL
 
-      - name: Verify SSH
-        shell: pwsh
-        run: |
-          # ssh -T git@github.com
-          ssh -T git@gitee.com
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Push to Gitee
         shell: pwsh
         run: |
-          $repo = $env:REPO
-          git remote add gitee "git@gitee.com:$repo.git"
+          git remote add gitee https://oauth2:${{ secrets.PAT_TOKEN_GITEE }}@gitee.com/$env:REPO.git
           git push gitee --force
           git push gitee --tags --force
-
-          git checkout dev
-          git push gitee dev --force
-          git push gitee dev --tags --force
-
-      - name: Cleanup SSH
-        if: always()
-        shell: pwsh
-        run: |
-          Remove-Item "$HOME\.ssh" -Recurse -Force -ErrorAction SilentlyContinue
