@@ -22,7 +22,7 @@
           "name": "*",
           "tip": [
             "Add all completions.\n",
-            "Note: Add many completions may cause PowerShell to load slowly for the start up.\n",
+            "Note: Add all completions may cause PowerShell to load slowly for the start up.\n",
             "      It's recommended to add as needed rather than adding all completions."
           ]
         }
@@ -322,7 +322,7 @@
       "name": "completion",
       "tip": [
         "Specify a configuration for a completion. (These configurations have the highest priority.)\n",
-        "By default, each completion has two configurations. (language|enable_tip)\n",
+        "By default, each completion comes with multiple special configurations. ({{ $PSCompletions.default_completion_item -join '|' }})\n",
         "{{ $info.completion.example }}"
       ],
       "next": []
@@ -1001,8 +1001,30 @@
               "name": "enable_tip",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_tip }} (Default: 1, it means enabled.)\n",
-                "Set whether to show the completion tip.\n",
-                "(If the display area of the PowerShell is too small, it automatically hides the completion tip.)"
+                "Set whether to show the completion tip."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0\n",
+                    "Don't show the completion tip."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)\n",
+                    "Show the completion tip."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_hooks_tip",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enable_hooks_tip }} (Default: 1, it means enabled.)\n",
+                "Set whether the completion items dynamically added via hooks display completion tip."
               ],
               "next": [
                 {
@@ -1763,7 +1785,10 @@
         " if($json.config -or $config.hooks -ne $null){",
         "\"<@Blue>---------- The special configuration of $($completion)---------- \";",
         "$configList = @();",
-        "if($config.hooks -ne $null){$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};};",
+        "if($config.hooks -ne $null){",
+        "$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};",
+        "$configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip};",
+        "};",
         "if($json.config){$configList += $json.config;};",
         " $config_list = $configList | ForEach-Object {",
         "  \"`n<@Magenta>$($_.name)<@Blue>:`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
@@ -1953,9 +1978,9 @@
         "min": [
           "<@Yellow>",
           "You should continue to enter the configuration items to be set\n",
-          "By default, each completion comes with two special configurations. (<@Magenta>language<@Yellow>|<@Magenta>enable_tip<@Yellow>)\n",
+          "By default, each completion comes with multiple special configurations. (<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
           "{{",
-          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin @('language','enable_tip') };",
+          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
           "if($config){ \"$($arg[1])'s additional special configuration: <@Magenta>$($config -join ' ')\" }",
           "}}"
         ]
@@ -1977,6 +2002,15 @@
           "if($v -notin @('',$null)){ \"Current Value: $($v)`n\" }",
           "}}",
           "Set whether to display completion tip for {{ $completion }}."
+        ]
+      },
+      "enable_hooks_tip": {
+        "tip": [
+          "{{",
+          "$v = $PSCompletions.config.comp_config.$completion.enable_hooks_tip;",
+          "if($v -notin @('',$null)){ \"Current Value: $($v)`n\" }",
+          "}}",
+          "Set whether the completion items dynamically added for {{ $completion }} via hooks display completion tip."
         ]
       },
       "enable_hooks": {

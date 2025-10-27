@@ -152,6 +152,8 @@ function handleCompletions([array]$completions) {
                             if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
                                 $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
                                 $tempList += $PSCompletions.return_completion('enable_hooks', $tip, @('SpaceTab'))
+
+                                $tempList += $PSCompletions.return_completion("enable_hooks_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip), @('SpaceTab'))
                             }
                         }
                         foreach ($c in $json.config) {

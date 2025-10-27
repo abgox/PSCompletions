@@ -22,7 +22,7 @@
           "name": "*",
           "tip": [
             "添加所有的补全。\n",
-            "注意：添加大量的补全可能会导致 PowerShell 启动加载速度变得慢一点。\n",
+            "注意：添加所有补全可能会导致 PowerShell 启动加载速度变慢。\n",
             "      推荐按需添加，而不是添加所有补全。"
           ]
         }
@@ -323,7 +323,7 @@
       "name": "completion",
       "tip": [
         "指定单个补全的特殊配置(特殊配置优先级最高)。\n",
-        "每个补全默认带有两个可设置的特殊配置(language|enable_tip)。\n",
+        "每个补全默认带有多个特殊配置({{ $PSCompletions.default_completion_item -join '|' }})。\n",
         "{{ $info.completion.example }}"
       ],
       "next": []
@@ -995,8 +995,30 @@
               "name": "enable_tip",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_tip }} (默认值为 1, 表示启用)\n",
-                "设置是否需要补全提示信息。\n",
-                "当启用时, 如果 PowerShell 显示区域过小, 会自动隐藏补全提示信息, 以便能正常显示补全项。"
+                "设置是否需要补全提示信息。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0\n",
+                    "不显示补全提示信息。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)\n",
+                    "显示补全提示信息。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_hooks_tip",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_hooks_tip }} (默认值为 1, 表示启用)\n",
+                "设置通过 hooks 动态添加的补全项是否需要补全提示信息。"
               ],
               "next": [
                 {
@@ -1770,7 +1792,10 @@
         "if($json.config -or $config.hooks -ne $null){",
         " \"<@Blue>---------- $($completion) 补全特殊配置 ---------- \";",
         "$configList = @();",
-        "if($config.hooks -ne $null){$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};};",
+        "if($config.hooks -ne $null){",
+        "$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};",
+        "$configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip};",
+        "};",
         "if($json.config){$configList += $json.config;};",
         " $config_list = $configList | ForEach-Object {",
         "   \"`n<@Magenta>$($_.name)<@Blue>:`n默认值: $($_.value)`n$($PSCompletions.replace_content($_.tip))\"",
@@ -1960,9 +1985,9 @@
         "min": [
           "<@Yellow>",
           "你应该继续输入要设置的配置项\n",
-          "每个补全默认带有两个可设置的特殊配置(<@Magenta>language<@Yellow>|<@Magenta>enable_tip<@Yellow>)\n",
+          "每个补全默认带有多个特殊配置(<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
           "{{",
-          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin @('language','enable_tip') };",
+          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
           "if($config){ \"$($arg[1]) 额外的可用配置项: <@Magenta>$($config -join ' ')\" }",
           "}}"
         ]
@@ -1984,6 +2009,15 @@
           "if($v -notin @('',$null)){ \"当前值: $($v)`n\" }",
           "}}",
           "设置 {{ $completion }} 是否显示补全提示信息"
+        ]
+      },
+      "enable_hooks_tip": {
+        "tip": [
+          "{{",
+          "$v = $PSCompletions.config.comp_config.$completion.enable_hooks_tip;",
+          "if($v -notin @('',$null)){ \"当前值: $($v)`n\" }",
+          "}}",
+          "设置 {{ $completion }} 通过 hooks 动态添加的补全项是否显示补全提示信息"
         ]
       },
       "enable_hooks": {
