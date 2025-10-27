@@ -51,7 +51,7 @@ A completion manager for better and simpler use completions in `PowerShell`.
 - [Manage completions together.](./completions.md "Click it to view the completion list that can be added.")
 - Sort completion items dynamically by frequency of use.
 - Switch between languages(`en-US`,`zh-CN`,...) freely.
-- [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
+- [Combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "Click to see what you need to do.")
 
 ## Demo
 
@@ -108,7 +108,7 @@ A completion manager for better and simpler use completions in `PowerShell`.
      ```powershell
      "Import-Module PSCompletions" >> $Profile
      ```
-   - Note: Recommend add `Import-Module PSCompletions` early in `$Profile` to avoid [the encoding issue](https://pscompletions.abgox.com/en-US/faq/#about-the-output-encoding).
+   - Note: Recommend add `Import-Module PSCompletions` early in `$Profile` to avoid [the encoding issue](https://pscompletions.abgox.com/faq/output-encoding).
 
 ## How to uninstall
 
@@ -122,7 +122,7 @@ Uninstall-Module PSCompletions
 >
 > - [Available Completions.](./completions.md "All completions that can be added at present. More completions are adding!")
 > - If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
-> - You can also [combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "Click to see what you need to do.")
+> - You can also [combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "Click to see what you need to do.")
 
 Take `git` as an example.
 
@@ -189,7 +189,7 @@ Take `git` as an example.
       - Path completion such as `cd`/`.\`/`..\`/`~\`/...
       - Build-in commands such as `Get-*`/`Set-*`/`New-*`/...
       - Completion registered by [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
-      - [Combined with argc-completions.](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
+      - [Combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
       - Completion registered by cli or module.
       - ...
   - [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)

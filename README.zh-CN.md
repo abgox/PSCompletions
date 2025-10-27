@@ -51,7 +51,7 @@
 - [集中管理补全](./completions.zh-CN.md "点击查看可添加补全列表！")
 - 动态排序补全项(根据使用频次)
 - `en-US`,`zh-CN`,... 多语言切换
-- [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
+- [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "点击查看如何实现")
 
 ## Demo
 
@@ -107,7 +107,7 @@
      ```powershell
      "Import-Module PSCompletions" >> $Profile
      ```
-   - 推荐将 `Import-Module PSCompletions` 添加到 `$Profile` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/zh-CN/faq/#输出编码)
+   - 推荐将 `Import-Module PSCompletions` 添加到 `$Profile` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/faq/output-encoding)
 
 ## 卸载
 
@@ -121,7 +121,7 @@ Uninstall-Module PSCompletions
 >
 > - [可用补全列表](./completions.zh-CN.md "当前可添加的所有补全，更多的补全正在添加中！")
 > - 如果补全列表里没有你想要的补全，你可以 [提交 issue](https://github.com/abgox/PSCompletions/issues "点击提交 issue")
-> - 也可以 [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions "点击查看如何实现")
+> - 也可以 [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "点击查看如何实现")
 
 以 `git` 补全为例
 
@@ -189,7 +189,7 @@ Uninstall-Module PSCompletions
       - 路径补全: `cd`/`.\`/`..\`/`~\`/...
       - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...
       - 通过 [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
-      - [与 argc-completions 结合使用](https://pscompletions.abgox.com/tips/pscompletions-and-argc-completions)
+      - [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
       - 由 cli 或模块注册的补全
       - ...
 
