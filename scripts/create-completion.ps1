@@ -1,20 +1,16 @@
 param(
-    [string]$completion_name
+    [string]$Name
 )
 
 Set-StrictMode -Off
+
+$completion_name = $Name
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
-
-# $isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
-# if (!$isAdmin) {
-#     Write-Host $text."need-admin" -ForegroundColor Red
-#     return
-# }
 
 if (!$PSCompletions) {
     Write-Host $text."import-psc" -ForegroundColor Red

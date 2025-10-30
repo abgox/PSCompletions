@@ -1,20 +1,16 @@
 param(
-    [string]$completion_name
+    [string]$Name
 )
 
 Set-StrictMode -Off
+
+$completion_name = $Name
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
-
-# $isAdmin = [bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
-# if (!$isAdmin) {
-#     Write-Host $text."need-admin" -ForegroundColor Red
-#     return
-# }
 
 if (!$PSCompletions) {
     Write-Host $text."import-psc" -ForegroundColor Red
@@ -41,22 +37,39 @@ if (!(Test-Path $completion_dir)) {
 }
 
 $completion_dir = "$($PSCompletions.path.completions)\$completion_name"
-Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+
+if (Test-Path $completion_dir) {
+    $temp_completion_dir = "$($PSCompletions.path.temp)\completions"
+    if (!(Test-Path $temp_completion_dir)) {
+        New-Item -ItemType Directory -Path $temp_completion_dir -Force | Out-Null
+    }
+
+    Move-Item $completion_dir $temp_completion_dir
+}
 $null = New-Item -ItemType Junction -Path $completion_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
 
 $language = $PSCompletions.get_language($completion_name)
 
 $config = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\config.json"))
 
-$PSCompletions.data.config.comp_config.$completion_name = @{}
 if ($config.hooks -ne $null) {
-    $PSCompletions.data.config.comp_config.$completion_name.enable_hooks = [int]$config.hooks
+    if ($null -eq $PSCompletions.data.config.comp_config.$completion_name) {
+        $PSCompletions.data.config.comp_config.$completion_name = @{}
+    }
+    if ($null -eq $PSCompletions.data.config.comp_config.$completion_name.enable_hooks) {
+        $PSCompletions.data.config.comp_config.$completion_name.enable_hooks = [int]$config.hooks
+    }
+    if ($null -eq $PSCompletions.data.config.comp_config.$completion_name.enable_hooks_tip) {
+        $PSCompletions.data.config.comp_config.$completion_name.enable_hooks_tip = 1
+    }
 }
 
 $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\language\$language.json"))
 
 foreach ($c in $json.config) {
-    $PSCompletions.data.config.comp_config.$completion_name.$($c.name) = $c.value
+    if ($null -eq $PSCompletions.data.config.comp_config.$completion_name.$($c.name)) {
+        $PSCompletions.data.config.comp_config.$completion_name.$($c.name) = $c.value
+    }
 }
 
 $PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force

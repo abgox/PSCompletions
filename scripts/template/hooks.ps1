@@ -1,14 +1,15 @@
 function handleCompletions($completions) {
-    $tempList = @()
+    $list = @()
 
-    $filter_input_arr = $PSCompletions.filter_input_arr
+    # $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr # Without -*
 
-    # Example
+    # example
     switch ($filter_input_arr[-1]) {
         'add' {
-            $tempList += $PSCompletions.return_completion('abc', "Add a new item.")
+            $list += $PSCompletions.return_completion('abc', "Add abc")
         }
     }
 
-    return $tempList + $completions
+    return $list + $completions
 }
