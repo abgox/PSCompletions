@@ -244,7 +244,7 @@ Uninstall-Module PSCompletions
 
 - 补全提示信息一般由三部分组成: 用法(Usage) + 描述(Description) + 举例(Example)
   ```txt
-  U: install|add [-g|-u] [options] <app>
+  U: install, add [-g, -u] [options] <app>
   这里是命令的描述说明
   (在 U: 和 E: 之间的内容都是命令描述)
   E: install xxx

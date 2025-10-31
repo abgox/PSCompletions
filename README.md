@@ -241,7 +241,7 @@ Take `git` as an example.
 - General structure of the completion tip: `Usage` + `Description` + `Example`
 
   ```txt
-  U: install|add [-g|-u] [options] <app>
+  U: install, add [-g, -u] [options] <app>
   This is a description of the command.
   E: install xxx
      add -g xxx
