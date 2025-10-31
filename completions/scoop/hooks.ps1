@@ -28,7 +28,12 @@
         }
         'install' {
             $PSCompletions.temp_scoop_installed_apps = Get-ChildItem "$root_path\apps" | ForEach-Object { $_.BaseName }
+
+            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
             $dir = Get-ChildItem "$root_path\buckets" | ForEach-Object {
+                if ($_.Name -in $exclude_buckets) {
+                    return
+                }
                 @{
                     bucket = $_.BaseName
                     path   = "$($_.FullName)\bucket"
@@ -110,7 +115,11 @@
             }
         }
         { $_ -in 'info', 'cat', 'reset' } {
+            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
             $dir = Get-ChildItem "$root_path\buckets" | ForEach-Object {
+                if ($_.Name -in $exclude_buckets) {
+                    return
+                }
                 @{
                     bucket = $_.BaseName
                     path   = "$($_.FullName)\bucket"
