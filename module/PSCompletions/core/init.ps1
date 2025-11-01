@@ -149,11 +149,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             WriteSpaceTab              = @()
             WriteSpaceTab_and_SpaceTab = @()
         }
-        function parseJson($cmds, $obj, $cmdO, [switch]$isOption) {
+        function parseJson($cmds, $obj, [string]$cmdO, [switch]$isOption) {
             if ($obj[$cmdO].$guid -eq $null) {
-                $obj[$cmdO] = @{
-                    $guid = @()
-                }
+                $obj[$cmdO] = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
+                $obj[$cmdO].$guid = @()
             }
             foreach ($cmd in $cmds) {
                 $symbols = @()
@@ -217,15 +216,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     }
                 }
                 if ($cmd.options) {
-                    parseJson $cmd.options $obj.$cmdO "$($cmd.name)" -isOption
+                    parseJson $cmd.options $obj.$cmdO $cmd.name -isOption
                     foreach ($alias in $cmd.alias) {
-                        parseJson $cmd.options $obj.$cmdO "$($alias)" -isOption
+                        parseJson $cmd.options $obj.$cmdO $alias -isOption
                     }
                 }
                 if ($cmd.next -or 'WriteSpaceTab' -in $symbols) {
-                    parseJson $cmd.next $obj.$cmdO "$($cmd.name)"
+                    parseJson $cmd.next $obj.$cmdO $cmd.name
                     foreach ($alias in $cmd.alias) {
-                        parseJson $cmd.next $obj.$cmdO "$($alias)"
+                        parseJson $cmd.next $obj.$cmdO $alias
                     }
                 }
             }
@@ -281,7 +280,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             foreach ($_ in $input_arr) {
                 if ($need_skip) {
                     if ($_ -like '-*') {
-                        if ($_ -eq $last_item) {
+                        if ($_ -ceq $last_item) {
                             $filter_input_arr += $_
                         }
                     }
@@ -291,12 +290,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     }
                 }
                 else {
-                    $pad = if ($_ -in $commonOptions) { '' } else { $pre_cmd }
+                    $pad = if ($_ -cin $commonOptions) { '' } else { $pre_cmd }
                     if ($_ -like '-*') {
-                        if ("$pad $_" -in $WriteSpaceTab) {
-                            if ("$pad $_" -in $WriteSpaceTab_and_SpaceTab) {
+                        if ("$pad $_" -cin $WriteSpaceTab) {
+                            if ("$pad $_" -cin $WriteSpaceTab_and_SpaceTab) {
                                 # 如果选项是最后一个
-                                if ($_ -eq $last_item) {
+                                if ($_ -ceq $last_item) {
                                     $filter_input_arr += $_
                                 }
                                 else {
@@ -397,7 +396,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     }
                 }
                 else {
-                    if ($last_item -in $PSCompletions.completions_data."$($root)_common_options") {
+                    if ($last_item -cin $PSCompletions.completions_data."$($root)_common_options") {
                         $filter_list = $PSCompletions.completions_data.$root.commonOptions.$last_item.$guid
                     }
                     else {
@@ -465,11 +464,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $filter_list = [System.Collections.Generic.List[object]]@()
     if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
         foreach ($item in $_filter_list) {
-            if ($item.CompletionText -notlike "-*" -or $item.CompletionText -notin $input_arr) {
+            if ($item.CompletionText -notlike "-*" -or $item.CompletionText -cnotin $input_arr) {
                 $isContinue = $false
                 if ($item.alias) {
                     foreach ($a in $item.alias) {
-                        if ($a -in $input_arr) {
+                        if ($a -cin $input_arr) {
                             $isContinue = $true
                             break
                         }
@@ -496,7 +495,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 $isContinue = $false
                 if ($item.alias) {
                     foreach ($a in $item.alias) {
-                        if ($a -in $_input_arr) {
+                        if ($a -cin $_input_arr) {
                             $isContinue = $true
                             break
                         }
