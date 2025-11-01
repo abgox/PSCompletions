@@ -24,7 +24,88 @@
         "b"
       ],
       "tip": [
+        "U: bookmark [OPTIONS] <COMMAND>\n",
         "管理书签"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "c"
+          ],
+          "tip": [
+            "创建一个新的书签"
+          ]
+        },
+        {
+          "name": "delete",
+          "alias": [
+            "d"
+          ],
+          "tip": [
+            "删除一个已存在的书签并将删除传播到远程仓库的下一次推送"
+          ]
+        },
+        {
+          "name": "forget",
+          "alias": [
+            "f"
+          ],
+          "tip": [
+            "忘记一个书签而不将其标记为删除以进行推送"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "l"
+          ],
+          "tip": [
+            "列出所有书签及其目标"
+          ]
+        },
+        {
+          "name": "move",
+          "alias": [
+            "m"
+          ],
+          "tip": [
+            "将已存在的书签移动到目标修订"
+          ]
+        },
+        {
+          "name": "rename",
+          "alias": [
+            "r"
+          ],
+          "tip": [
+            "将书签 `old` 重命名为 `new`"
+          ]
+        },
+        {
+          "name": "set",
+          "alias": [
+            "s"
+          ],
+          "tip": [
+            "创建或更新书签以指向特定提交"
+          ]
+        },
+        {
+          "name": "track",
+          "alias": [
+            "t"
+          ],
+          "tip": [
+            "开始跟踪给定远程书签"
+          ]
+        },
+        {
+          "name": "untrack",
+          "tip": [
+            "停止跟踪给定远程书签"
+          ]
+        }
       ]
     },
     {
@@ -33,13 +114,105 @@
         "ci"
       ],
       "tip": [
+        "U: ci, commit [OPTIONS] [FILESETS]...",
         "更新变更描述并创建一个新的变更"
+      ],
+      "options": [
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": [
+            "交互式选择要包含在第一个提交中的变更"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>\n",
+            "指定要使用的 diff 编辑器（隐含 --interactive）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--message"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>\n",
+            "要使用的变更描述（不打开编辑器）"
+          ],
+          "next": [
+            {
+              "name": "\"update\""
+            }
+          ]
+        }
       ]
     },
     {
       "name": "config",
       "tip": [
+        "U: config [OPTIONS] <COMMAND>\n",
         "管理配置选项"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "alias": [
+            "e"
+          ],
+          "tip": [
+            "开始在 jj 配置文件上编辑"
+          ]
+        },
+        {
+          "name": "get",
+          "alias": [
+            "g"
+          ],
+          "tip": [
+            "获取给定配置选项的值"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "l"
+          ],
+          "tip": [
+            "列出配置文件中设置的变量及其值"
+          ]
+        },
+        {
+          "name": "path",
+          "alias": [
+            "p"
+          ],
+          "tip": [
+            "打印配置文件的路径"
+          ]
+        },
+        {
+          "name": "set",
+          "alias": [
+            "s"
+          ],
+          "tip": [
+            "更新配置文件以将给定选项设置为给定值"
+          ]
+        },
+        {
+          "name": "unset",
+          "alias": [
+            "u"
+          ],
+          "tip": [
+            "从配置文件中删除给定选项"
+          ]
+        }
       ]
     },
     {
@@ -48,7 +221,37 @@
         "desc"
       ],
       "tip": [
+        "U: describe [OPTIONS] [REVSETS]...\n",
         "更新变更描述或其他元数据"
+      ],
+      "options": [
+        {
+          "name": "-m",
+          "alias": [
+            "--message"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>\n",
+            "要使用的变更描述（不打开编辑器）"
+          ],
+          "next": [
+            {
+              "name": "\"update\""
+            }
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从 stdin 读取变更描述"
+          ]
+        },
+        {
+          "name": "--edit",
+          "tip": [
+            "打开编辑器"
+          ]
+        }
       ]
     },
     {
@@ -72,7 +275,19 @@
     {
       "name": "edit",
       "tip": [
+        "U: edit [OPTIONS] <REVSET>\n",
         "将指定的修订设置为工作副本修订"
+      ],
+      "next": [
+        {
+          "name": "`@"
+        },
+        {
+          "name": "`@-"
+        },
+        {
+          "name": "`@+"
+        }
       ]
     },
     {
@@ -106,6 +321,111 @@
       "name": "git",
       "tip": [
         "与 Git 远程和底层 Git 仓库交互的命令"
+      ],
+      "next": [
+        {
+          "name": "clone",
+          "tip": [
+            "U: clone [OPTIONS] <SOURCE> [DESTINATION]\n",
+            "创建一个新的仓库，该仓库由 Git 仓库的克隆支持"
+          ],
+          "options": [
+            {
+              "name": "--remote",
+              "tip": [
+                "U: --remote <REMOTE_NAME>\n",
+                "新创建的远程的名称。[默认值：origin]"
+              ],
+              "next": [
+                {
+                  "name": "main"
+                },
+                {
+                  "name": "dev"
+                },
+                {
+                  "name": "master"
+                }
+              ]
+            },
+            {
+              "name": "--colocate",
+              "tip": [
+                "是否 jj 代码仓库与 git 代码仓库共存"
+              ]
+            },
+            {
+              "name": "--no-colocate",
+              "tip": [
+                "禁用 jj 代码仓库与 git 代码仓库共存"
+              ]
+            },
+            {
+              "name": "--depth",
+              "tip": [
+                "U: --depth <DEPTH>\n",
+                "创建给定深度的浅表克隆"
+              ]
+            },
+            {
+              "name": "--fetch-tags",
+              "tip": [
+                "U: --fetch-tags <FETCH_TAGS>\n",
+                "配置何时获取标签\n",
+                "除非另有指定，否则初始克隆将获取所有标签，而所有后续获取仅获取包含的标签。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "始终获取所有标签"
+                  ]
+                },
+                {
+                  "name": "included",
+                  "tip": [
+                    "仅获取指向已传输对象的标签"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "不获取任何标签"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "U: init [OPTIONS] [DESTINATION]\n",
+            "创建一个新的 Git 支持的仓库"
+          ],
+          "options": [
+            {
+              "name": "--colocate",
+              "tip": [
+                "指定 `jj` 仓库也应该是一个有效的 `git` 仓库，允许在相同目录中使用 `jj` 和 `git` 命令"
+              ]
+            },
+            {
+              "name": "--no-colocate",
+              "tip": [
+                "禁用 `jj` 仓库与 `git` 仓库共存"
+              ]
+            },
+            {
+              "name": "--git-repo",
+              "tip": [
+                "U: --git-repo <GIT_REPO>\n",
+                "指定一个指向现有 `git` 仓库的路径，该仓库将作为新创建的 `jj` 仓库的后端 `git` 仓库"
+              ],
+              "next": 0
+            }
+          ]
+        }
       ]
     },
     {
@@ -124,6 +444,47 @@
       "name": "log",
       "tip": [
         "显示修订历史记录"
+      ],
+      "options": [
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "要显示的修订版本"
+          ],
+          "next": [
+            {
+              "name": "::"
+            },
+            {
+              "name": "`@"
+            },
+            {
+              "name": "`@-"
+            },
+            {
+              "name": "`@+"
+            }
+          ]
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--limit"
+          ],
+          "tip": [
+            "U: -n, --limit <LIMIT>\n",
+            "要显示的修订版本数量"
+          ],
+          "next": [
+            {
+              "name": "5"
+            }
+          ]
+        }
       ]
     },
     {
@@ -151,6 +512,44 @@
       ],
       "tip": [
         "操作日志命令"
+      ],
+      "next": [
+        {
+          "name": "abandon",
+          "tip": [
+            "放弃操作历史记录"
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "比较两个操作之间的变更"
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "显示操作日志"
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "创建一个新操作，将仓库恢复到之前的状态"
+          ]
+        },
+        {
+          "name": "revert",
+          "tip": [
+            "创建一个新操作，撤销之前的操作"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "显示操作中的变更"
+          ]
+        }
       ]
     },
     {

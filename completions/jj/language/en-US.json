@@ -24,7 +24,88 @@
         "b"
       ],
       "tip": [
+        "U: bookmark [OPTIONS] <COMMAND>\n",
         "Manage bookmarks"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "c"
+          ],
+          "tip": [
+            "Create a new bookmark"
+          ]
+        },
+        {
+          "name": "delete",
+          "alias": [
+            "d"
+          ],
+          "tip": [
+            "Delete an existing bookmark and propagate the deletion to remotes on the next push"
+          ]
+        },
+        {
+          "name": "forget",
+          "alias": [
+            "f"
+          ],
+          "tip": [
+            "Forget a bookmark without marking it as a deletion to be pushed"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "l"
+          ],
+          "tip": [
+            "List bookmarks and their targets"
+          ]
+        },
+        {
+          "name": "move",
+          "alias": [
+            "m"
+          ],
+          "tip": [
+            "Move existing bookmarks to target revision"
+          ]
+        },
+        {
+          "name": "rename",
+          "alias": [
+            "r"
+          ],
+          "tip": [
+            "Rename `old` bookmark name to `new` bookmark name"
+          ]
+        },
+        {
+          "name": "set",
+          "alias": [
+            "s"
+          ],
+          "tip": [
+            "Create or update a bookmark to point to a certain commit"
+          ]
+        },
+        {
+          "name": "track",
+          "alias": [
+            "t"
+          ],
+          "tip": [
+            "Start tracking given remote bookmarks"
+          ]
+        },
+        {
+          "name": "untrack",
+          "tip": [
+            "Stop tracking given remote bookmarks"
+          ]
+        }
       ]
     },
     {
@@ -33,13 +114,105 @@
         "ci"
       ],
       "tip": [
+        "U: ci, commit [OPTIONS] [FILESETS]...",
         "Update the description and create a new change on top"
+      ],
+      "options": [
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": [
+            "Interactively choose which changes to include in the first commit"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>\n",
+            "Specify diff editor to be used (implies --interactive)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-m",
+          "alias": [
+            "--message"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>\n",
+            "The change description to use (don't open editor)"
+          ],
+          "next": [
+            {
+              "name": "\"update\""
+            }
+          ]
+        }
       ]
     },
     {
       "name": "config",
       "tip": [
+        "U: config [OPTIONS] <COMMAND>\n",
         "Manage config options"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "alias": [
+            "e"
+          ],
+          "tip": [
+            "Start an editor on a jj config file"
+          ]
+        },
+        {
+          "name": "get",
+          "alias": [
+            "g"
+          ],
+          "tip": [
+            "Get the value of a given config option"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "l"
+          ],
+          "tip": [
+            "List variables set in config files, along with their values"
+          ]
+        },
+        {
+          "name": "path",
+          "alias": [
+            "p"
+          ],
+          "tip": [
+            "Print the paths to the config files"
+          ]
+        },
+        {
+          "name": "set",
+          "alias": [
+            "s"
+          ],
+          "tip": [
+            "Update a config file to set the given option to a given value"
+          ]
+        },
+        {
+          "name": "unset",
+          "alias": [
+            "u"
+          ],
+          "tip": [
+            "Update a config file to unset the given option"
+          ]
+        }
       ]
     },
     {
@@ -48,7 +221,37 @@
         "desc"
       ],
       "tip": [
+        "U: describe [OPTIONS] [REVSETS]...\n",
         "Update the change description or other metadata"
+      ],
+      "options": [
+        {
+          "name": "-m",
+          "alias": [
+            "--message"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>\n",
+            "The change description to use (don't open editor)"
+          ],
+          "next": [
+            {
+              "name": "\"update\""
+            }
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "Read the change description from stdin"
+          ]
+        },
+        {
+          "name": "--edit",
+          "tip": [
+            "Open an editor"
+          ]
+        }
       ]
     },
     {
@@ -72,7 +275,19 @@
     {
       "name": "edit",
       "tip": [
+        "U: edit [OPTIONS] <REVSET>\n",
         "Sets the specified revision as the working-copy revision"
+      ],
+      "next": [
+        {
+          "name": "`@"
+        },
+        {
+          "name": "`@-"
+        },
+        {
+          "name": "`@+"
+        }
       ]
     },
     {
@@ -106,6 +321,111 @@
       "name": "git",
       "tip": [
         "Commands for working with Git remotes and the underlying Git repo"
+      ],
+      "next": [
+        {
+          "name": "clone",
+          "tip": [
+            "U: clone [OPTIONS] <SOURCE> [DESTINATION]\n",
+            "Create a new repo backed by a clone of a Git repo"
+          ],
+          "options": [
+            {
+              "name": "--remote",
+              "tip": [
+                "U: --remote <REMOTE_NAME>\n",
+                "Name of the newly created remote. [default: origin]"
+              ],
+              "next": [
+                {
+                  "name": "main"
+                },
+                {
+                  "name": "dev"
+                },
+                {
+                  "name": "master"
+                }
+              ]
+            },
+            {
+              "name": "--colocate",
+              "tip": [
+                "Whether or not to colocate the Jujutsu repo with the git repo"
+              ]
+            },
+            {
+              "name": "--no-colocate",
+              "tip": [
+                "Disable colocation of the Jujutsu repo with the git repo"
+              ]
+            },
+            {
+              "name": "--depth",
+              "tip": [
+                "U: --depth <DEPTH>\n",
+                "Create a shallow clone of the given depth"
+              ]
+            },
+            {
+              "name": "--fetch-tags",
+              "tip": [
+                "U: --fetch-tags <FETCH_TAGS>\n",
+                "Configure when to fetch tags\n",
+                "Unless otherwise specified, the initial clone will fetch all tags, while all subsequent fetches will only fetch included tags."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Always fetch all tags"
+                  ]
+                },
+                {
+                  "name": "included",
+                  "tip": [
+                    "Only fetch tags that point to objects that are already being transmitted"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "Do not fetch any tags"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "U: init [OPTIONS] [DESTINATION]\n",
+            "Create a new Git backed repo"
+          ],
+          "options": [
+            {
+              "name": "--colocate",
+              "tip": [
+                "Specifies that the `jj` repo should also be a valid `git` repo, allowing the use of both `jj` and `git` commands in the same directory"
+              ]
+            },
+            {
+              "name": "--no-colocate",
+              "tip": [
+                "Disable colocation of the Jujutsu repo with the git repo"
+              ]
+            },
+            {
+              "name": "--git-repo",
+              "tip": [
+                "U: --git-repo <GIT_REPO>\n",
+                "Specifies a path to an **existing** git repository to be used as the backing git repo for the newly created `jj` repo"
+              ],
+              "next": 0
+            }
+          ]
+        }
       ]
     },
     {
@@ -124,6 +444,47 @@
       "name": "log",
       "tip": [
         "Show revision history"
+      ],
+      "options": [
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "Which revisions to show"
+          ],
+          "next": [
+            {
+              "name": "::"
+            },
+            {
+              "name": "`@"
+            },
+            {
+              "name": "`@-"
+            },
+            {
+              "name": "`@+"
+            }
+          ]
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--limit"
+          ],
+          "tip": [
+            "U: -n, --limit <LIMIT>\n",
+            "Limit number of revisions to show"
+          ],
+          "next": [
+            {
+              "name": "5"
+            }
+          ]
+        }
       ]
     },
     {
@@ -151,6 +512,44 @@
       ],
       "tip": [
         "Commands for working with the operation log"
+      ],
+      "next": [
+        {
+          "name": "abandon",
+          "tip": [
+            "Abandon operation history"
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "Compare changes to the repository between two operations"
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "Show the operation log"
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "Create a new operation that restores the repo to an earlier state"
+          ]
+        },
+        {
+          "name": "revert",
+          "tip": [
+            "Create a new operation that reverts an earlier operation"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show changes to the repository in an operation"
+          ]
+        }
       ]
     },
     {
