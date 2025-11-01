@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '5.9.0'
+    ModuleVersion        = '5.9.1'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -26,8 +26,7 @@
  For more information, please visit the project or website:
   - Website: https://pscompletions.abgox.com
   - Github:  https://github.com/abgox/PSCompletions
-  - Gitee:   https://gitee.com/abgox/PSCompletions
- '
+  - Gitee:   https://gitee.com/abgox/PSCompletions'
 
     ScriptsToProcess     = 'core\init.ps1'
 

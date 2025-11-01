@@ -1,5 +1,9 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.9.1 (2025/11/01)
+
+- Fix the issue of parameter overlap when names are the same but case differs.
+
 ## 5.9.0 (2025/10/18)
 
 - Wildcards `*` and `?` are allowed in filtering.
