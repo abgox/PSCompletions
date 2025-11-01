@@ -307,12 +307,14 @@ function Compare-JsonProperty {
                     }
                 }
                 # values
-                if (isExist $baseContent.config[$i].values) {
-                    if (isExist $diffContent.config[$i].values) {
-                        if (Compare-Object $baseContent.config[$i].values $diffContent.config[$i].values -PassThru) {
+                $baseValues = $baseContent.config[$i]['values']
+                $diffValues = $diffContent.config[$i]['values']
+                if (isExist $baseValues) {
+                    if (isExist $diffValues) {
+                        if (Compare-Object $baseValues $diffValues -PassThru) {
                             $count.diffList += @{
-                                base = $baseContent.config[$i].values -join ' '
-                                diff = $diffContent.config[$i].values -join ' '
+                                base = $baseValues -join ' '
+                                diff = $diffValues -join ' '
                                 pos  = "config[$i].values"
                             }
                         }
@@ -320,34 +322,37 @@ function Compare-JsonProperty {
                     else {
                         $count.missingList += @{
                             pos   = "config[$i].values"
-                            value = $baseContent.config[$i].values -join ' '
+                            value = $baseValues -join ' '
                         }
                     }
                 }
                 else {
-                    if (isExist $diffContent.config[$i].values) {
+                    if (isExist $diffValues) {
                         $count.extraList += @{
                             pos   = "config[$i].values"
-                            value = $diffContent.config[$i].values -join ' '
+                            value = $diffValues -join ' '
                         }
                     }
                 }
                 # tip
-                if ($baseContent.config[$i].tip) {
+
+                $baseTip = $baseContent.config[$i]['tip']
+                $diffTip = $diffContent.config[$i]['tip']
+                if ($baseTip) {
                     $count.totalTips++
 
-                    if (isExist $diffContent.config[$i].tip) {
+                    if (isExist $diffTip) {
                         $json = $diffContent
                         $info = $json.info
-                        $diffStr = _replace $diffContent.config[$i].tip
+                        $diffStr = _replace $diffTip
 
                         $json = $baseContent
                         $info = $json.info
-                        $baseStr = _replace $baseContent.config[$i].tip
+                        $baseStr = _replace $baseTip
                         if (noTranslated $diffStr $baseStr) {
                             $count.untranslatedList += @{
                                 name  = $diffContent.config[$i].name
-                                value = $diffContent.config[$i].tip
+                                value = $diffTip
                                 pos   = "$pos[$i].tip"
                             }
                         }
@@ -355,15 +360,15 @@ function Compare-JsonProperty {
                     else {
                         $count.missingList += @{
                             pos   = "config[$i].tip"
-                            value = $baseContent.config[$i].tip
+                            value = $baseTip
                         }
                     }
                 }
                 else {
-                    if ($diffContent.config[$i].tip) {
+                    if ($diffTip) {
                         $count.extraList += @{
                             pos   = "config[$i].tip"
-                            value = $diffContent.config[$i].tip
+                            value = $diffTip
                         }
                     }
                 }
