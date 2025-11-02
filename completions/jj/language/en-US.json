@@ -35,6 +35,30 @@
           ],
           "tip": [
             "Create a new bookmark"
+          ],
+          "options": [
+            {
+              "name": "-r",
+              "alias": [
+                "--revision",
+                "--to"
+              ],
+              "tip": [
+                "U: -r, --revision, --to <REVSET>\n",
+                "The bookmark's target revision [default: @]"
+              ],
+              "next": [
+                {
+                  "name": "\"@\""
+                },
+                {
+                  "name": "\"@-\""
+                },
+                {
+                  "name": "\"@+\""
+                }
+              ]
+            }
           ]
         },
         {
@@ -44,7 +68,8 @@
           ],
           "tip": [
             "Delete an existing bookmark and propagate the deletion to remotes on the next push"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "forget",
@@ -53,7 +78,8 @@
           ],
           "tip": [
             "Forget a bookmark without marking it as a deletion to be pushed"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "list",
@@ -71,7 +97,8 @@
           ],
           "tip": [
             "Move existing bookmarks to target revision"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "rename",
@@ -80,7 +107,8 @@
           ],
           "tip": [
             "Rename `old` bookmark name to `new` bookmark name"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "set",
@@ -89,6 +117,39 @@
           ],
           "tip": [
             "Create or update a bookmark to point to a certain commit"
+          ],
+          "options": [
+            {
+              "name": "-r",
+              "alias": [
+                "--revision",
+                "--to"
+              ],
+              "tip": [
+                "U: -r, --revision, --to <REVSET>\n",
+                "The bookmark's target revision [default: @]"
+              ],
+              "next": [
+                {
+                  "name": "\"@\""
+                },
+                {
+                  "name": "\"@-\""
+                },
+                {
+                  "name": "\"@+\""
+                }
+              ]
+            },
+            {
+              "name": "-B",
+              "alias": [
+                "--allow-backwards"
+              ],
+              "tip": [
+                "Allow moving the bookmark backwards or sideways"
+              ]
+            }
           ]
         },
         {
@@ -147,6 +208,9 @@
           "next": [
             {
               "name": "\"update\""
+            },
+            {
+              "name": "\"todo\""
             }
           ]
         }
@@ -226,6 +290,23 @@
       ],
       "options": [
         {
+          "name": "-r",
+          "alias": [
+            "--revision"
+          ],
+          "next": [
+            {
+              "name": "\"@\""
+            },
+            {
+              "name": "\"@-\""
+            },
+            {
+              "name": "\"@+\""
+            }
+          ]
+        },
+        {
           "name": "-m",
           "alias": [
             "--message"
@@ -237,6 +318,9 @@
           "next": [
             {
               "name": "\"update\""
+            },
+            {
+              "name": "\"todo\""
             }
           ]
         },
@@ -280,13 +364,13 @@
       ],
       "next": [
         {
-          "name": "`@"
+          "name": "\"@\""
         },
         {
-          "name": "`@-"
+          "name": "\"@-\""
         },
         {
-          "name": "`@+"
+          "name": "\"@+\""
         }
       ]
     },
@@ -398,6 +482,24 @@
           ]
         },
         {
+          "name": "export",
+          "tip": [
+            "Update the underlying Git repo with changes made in the repo"
+          ]
+        },
+        {
+          "name": "fetch",
+          "tip": [
+            "Fetch from a Git remote"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "Update repo with changes made in the underlying Git repo"
+          ]
+        },
+        {
           "name": "init",
           "tip": [
             "U: init [OPTIONS] [DESTINATION]\n",
@@ -424,6 +526,24 @@
               ],
               "next": 0
             }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Push to a Git remote"
+          ]
+        },
+        {
+          "name": "remote",
+          "tip": [
+            "Manage Git remotes"
+          ]
+        },
+        {
+          "name": "root",
+          "tip": [
+            "Show the underlying Git directory of a repository using the Git backend"
           ]
         }
       ]
@@ -460,13 +580,13 @@
               "name": "::"
             },
             {
-              "name": "`@"
+              "name": "\"@\""
             },
             {
-              "name": "`@-"
+              "name": "\"@-\""
             },
             {
-              "name": "`@+"
+              "name": "\"@+\""
             }
           ]
         },
@@ -497,6 +617,57 @@
       "name": "new",
       "tip": [
         "Create a new, empty change and (by default) edit it in the working copy"
+      ],
+      "next": [
+        {
+          "name": "\"@\""
+        },
+        {
+          "name": "\"@-\""
+        },
+        {
+          "name": "\"@+\""
+        }
+      ],
+      "options": [
+        {
+          "name": "-m",
+          "alias": [
+            "--message"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>\n",
+            "The change description to use"
+          ]
+        },
+        {
+          "name": "--no-edit",
+          "tip": [
+            "Do not edit the newly created change"
+          ]
+        },
+        {
+          "name": "-A",
+          "alias": [
+            "--insert-after",
+            "--after"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>\n",
+            "Insert the new change after the given commit(s)"
+          ]
+        },
+        {
+          "name": "-B",
+          "alias": [
+            "--insert-before",
+            "--before"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>\n",
+            "Insert the new change before the given commit(s)"
+          ]
+        }
       ]
     },
     {
@@ -568,6 +739,98 @@
       "name": "rebase",
       "tip": [
         "Move revisions to different parent(s)"
+      ],
+      "options": [
+        {
+          "name": "-b",
+          "alias": [
+            "--branch"
+          ],
+          "tip": [
+            "U: -b, --branch <REVSETS>\n",
+            "Rebase the whole branch relative to destination's ancestors (can be repeated)"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "tip": [
+            "U: -s, --source <REVSETS>\n",
+            "Rebase specified revision(s) together with their trees of descendants (can be repeated)"
+          ]
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "Rebase the given revisions, rebasing descendants onto this revision's parent(s)"
+          ],
+          "next": [
+            {
+              "name": "::"
+            },
+            {
+              "name": "\"@\""
+            },
+            {
+              "name": "\"@-\""
+            },
+            {
+              "name": "\"@+\""
+            }
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--destination"
+          ],
+          "tip": [
+            "U: -d, --destination <REVSETS>\n",
+            "The revision(s) to rebase onto (can be repeated to create a merge commit)"
+          ]
+        },
+        {
+          "name": "-A",
+          "alias": [
+            "--insert-after",
+            "--after"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>\n",
+            "The revision(s) to insert after (can be repeated to create a merge commit)"
+          ]
+        },
+        {
+          "name": "-B",
+          "alias": [
+            "--insert-before",
+            "--before"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>\n",
+            "The revision(s) to insert before (can be repeated to create a merge commit)"
+          ]
+        },
+        {
+          "name": "--skip-emptied",
+          "tip": [
+            "If true, when rebasing would produce an empty commit, the commit is abandoned.\n",
+            "It will not be abandoned if it was already empty before the rebase.\n",
+            "Will never skip merge commits with multiple non-empty parents"
+          ]
+        },
+        {
+          "name": "--keep-divergent",
+          "tip": [
+            "Keep divergent commits while rebasing"
+          ]
+        }
       ]
     },
     {
@@ -634,6 +897,64 @@
       "name": "squash",
       "tip": [
         "Move changes from a revision into another revision"
+      ],
+      "options": [
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "Revision to squash into its parent (default: @).\n",
+            "Incompatible with the experimental `-d`/`-A`/`-B` options"
+          ],
+          "next": [
+            {
+              "name": "::"
+            },
+            {
+              "name": "\"@\""
+            },
+            {
+              "name": "\"@-\""
+            },
+            {
+              "name": "\"@+\""
+            }
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--from"
+          ],
+          "tip": [
+            "U: -f, --from <REVSETS>\n",
+            "Revision(s) to squash from (default: @)"
+          ]
+        },
+        {
+          "name": "-t",
+          "alias": [
+            "--into",
+            "--to"
+          ],
+          "tip": [
+            "U: -t, --into, --to <REVSET>\n",
+            "Revision to squash into (default: @)"
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--destination"
+          ],
+          "tip": [
+            "U: -d, --destination <REVSETS>\n",
+            "(Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)"
+          ]
+        }
       ]
     },
     {

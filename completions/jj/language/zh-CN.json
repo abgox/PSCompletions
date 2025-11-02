@@ -35,6 +35,30 @@
           ],
           "tip": [
             "创建一个新的书签"
+          ],
+          "options": [
+            {
+              "name": "-r",
+              "alias": [
+                "--revision",
+                "--to"
+              ],
+              "tip": [
+                "U: -r, --revision, --to <REVSET>\n",
+                "书签的目标修订版本 [默认: @]"
+              ],
+              "next": [
+                {
+                  "name": "\"@\""
+                },
+                {
+                  "name": "\"@-\""
+                },
+                {
+                  "name": "\"@+\""
+                }
+              ]
+            }
           ]
         },
         {
@@ -44,7 +68,8 @@
           ],
           "tip": [
             "删除一个已存在的书签并将删除传播到远程仓库的下一次推送"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "forget",
@@ -53,7 +78,8 @@
           ],
           "tip": [
             "忘记一个书签而不将其标记为删除以进行推送"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "list",
@@ -71,7 +97,8 @@
           ],
           "tip": [
             "将已存在的书签移动到目标修订"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "rename",
@@ -80,7 +107,8 @@
           ],
           "tip": [
             "将书签 `old` 重命名为 `new`"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "set",
@@ -89,6 +117,39 @@
           ],
           "tip": [
             "创建或更新书签以指向特定提交"
+          ],
+          "options": [
+            {
+              "name": "-r",
+              "alias": [
+                "--revision",
+                "--to"
+              ],
+              "tip": [
+                "U: -r, --revision, --to <REVSET>\n",
+                "书签的目标修订版本 [默认: @]"
+              ],
+              "next": [
+                {
+                  "name": "\"@\""
+                },
+                {
+                  "name": "\"@-\""
+                },
+                {
+                  "name": "\"@+\""
+                }
+              ]
+            },
+            {
+              "name": "-B",
+              "alias": [
+                "--allow-backwards"
+              ],
+              "tip": [
+                "允许将书签向后或向侧面移动"
+              ]
+            }
           ]
         },
         {
@@ -147,6 +208,9 @@
           "next": [
             {
               "name": "\"update\""
+            },
+            {
+              "name": "\"todo\""
             }
           ]
         }
@@ -226,6 +290,23 @@
       ],
       "options": [
         {
+          "name": "-r",
+          "alias": [
+            "--revision"
+          ],
+          "next": [
+            {
+              "name": "\"@\""
+            },
+            {
+              "name": "\"@-\""
+            },
+            {
+              "name": "\"@+\""
+            }
+          ]
+        },
+        {
           "name": "-m",
           "alias": [
             "--message"
@@ -237,6 +318,9 @@
           "next": [
             {
               "name": "\"update\""
+            },
+            {
+              "name": "\"todo\""
             }
           ]
         },
@@ -280,13 +364,13 @@
       ],
       "next": [
         {
-          "name": "`@"
+          "name": "\"@\""
         },
         {
-          "name": "`@-"
+          "name": "\"@-\""
         },
         {
-          "name": "`@+"
+          "name": "\"@+\""
         }
       ]
     },
@@ -398,6 +482,24 @@
           ]
         },
         {
+          "name": "export",
+          "tip": [
+            "将变更导出到底层 Git 仓库"
+          ]
+        },
+        {
+          "name": "fetch",
+          "tip": [
+            "从 Git 远程获取变更"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "将底层 Git 仓库中的变更导入到 jj 仓库"
+          ]
+        },
+        {
           "name": "init",
           "tip": [
             "U: init [OPTIONS] [DESTINATION]\n",
@@ -424,6 +526,24 @@
               ],
               "next": 0
             }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "将变更推送到 Git 远程"
+          ]
+        },
+        {
+          "name": "remote",
+          "tip": [
+            "管理 Git 远程"
+          ]
+        },
+        {
+          "name": "root",
+          "tip": [
+            "显示使用 Git 后端的仓库的底层 Git 目录"
           ]
         }
       ]
@@ -460,13 +580,13 @@
               "name": "::"
             },
             {
-              "name": "`@"
+              "name": "\"@\""
             },
             {
-              "name": "`@-"
+              "name": "\"@-\""
             },
             {
-              "name": "`@+"
+              "name": "\"@+\""
             }
           ]
         },
@@ -497,6 +617,57 @@
       "name": "new",
       "tip": [
         "创建一个新的、空的变更并（默认）在工作副本中编辑它"
+      ],
+      "next": [
+        {
+          "name": "\"@\""
+        },
+        {
+          "name": "\"@-\""
+        },
+        {
+          "name": "\"@+\""
+        }
+      ],
+      "options": [
+        {
+          "name": "-m",
+          "alias": [
+            "--message"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>\n",
+            "要使用的变更描述"
+          ]
+        },
+        {
+          "name": "--no-edit",
+          "tip": [
+            "不编辑新创建的变更"
+          ]
+        },
+        {
+          "name": "-A",
+          "alias": [
+            "--insert-after",
+            "--after"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>\n",
+            "在给定提交之后插入新变更"
+          ]
+        },
+        {
+          "name": "-B",
+          "alias": [
+            "--insert-before",
+            "--before"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>\n",
+            "在给定提交之前插入新变更"
+          ]
+        }
       ]
     },
     {
@@ -568,6 +739,98 @@
       "name": "rebase",
       "tip": [
         "将修订移动到不同的父修订"
+      ],
+      "options": [
+        {
+          "name": "-b",
+          "alias": [
+            "--branch"
+          ],
+          "tip": [
+            "U: -b, --branch <REVSETS>\n",
+            "相对于目标的祖先重新调整整个分支的基准（可重复）"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--source"
+          ],
+          "tip": [
+            "U: -s, --source <REVSETS>\n",
+            "变基指定的修订版本及其后代树（可重复）"
+          ]
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
+          ],
+          "next": [
+            {
+              "name": "::"
+            },
+            {
+              "name": "\"@\""
+            },
+            {
+              "name": "\"@-\""
+            },
+            {
+              "name": "\"@+\""
+            }
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--destination"
+          ],
+          "tip": [
+            "U: -d, --destination <REVSETS>\n",
+            "变基目标（可重复以创建合并提交）"
+          ]
+        },
+        {
+          "name": "-A",
+          "alias": [
+            "--insert-after",
+            "--after"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>\n",
+            "在给定提交之后插入新变更（可重复以创建合并提交）"
+          ]
+        },
+        {
+          "name": "-B",
+          "alias": [
+            "--insert-before",
+            "--before"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>\n",
+            "在给定提交之前插入新变更（可重复以创建合并提交）"
+          ]
+        },
+        {
+          "name": "--skip-emptied",
+          "tip": [
+            "如果为 true，当变基操作会产生空提交时，该提交将被舍弃。\n",
+            "如果它在变基之前就已经是空的，那么它不会被丢弃。\n",
+            "永远不会跳过具有多个非空父节点的合并提交"
+          ]
+        },
+        {
+          "name": "--keep-divergent",
+          "tip": [
+            "变基时保留分歧提交"
+          ]
+        }
       ]
     },
     {
@@ -634,6 +897,64 @@
       "name": "squash",
       "tip": [
         "将一个修订的变更移动到另一个修订"
+      ],
+      "options": [
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "合并到其父提交的修订 (默认: @)\n",
+            "与实验性的 `-d`/`-A`/`-B` 选项不兼容"
+          ],
+          "next": [
+            {
+              "name": "::"
+            },
+            {
+              "name": "\"@\""
+            },
+            {
+              "name": "\"@-\""
+            },
+            {
+              "name": "\"@+\""
+            }
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--from"
+          ],
+          "tip": [
+            "U: -f, --from <REVSETS>\n",
+            "从其变基的修订 (默认: @)"
+          ]
+        },
+        {
+          "name": "-t",
+          "alias": [
+            "--into",
+            "--to"
+          ],
+          "tip": [
+            "U: -t, --into, --to <REVSET>\n",
+            "合并到的修订 (默认: @)"
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--destination"
+          ],
+          "tip": [
+            "U: -d, --destination <REVSETS>\n",
+            "（实验性）用作新提交的父提交的修订版本（可重复使用以创建合并提交）"
+          ]
+        }
       ]
     },
     {
