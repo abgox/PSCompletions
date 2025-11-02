@@ -553,7 +553,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             New-Item -ItemType Directory -Path $order_dir -Force | Out-Null
         }
 
-        $order = [ordered]@{}
+        $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
         $index = 0
         foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
             $alias = $PSCompletions.data.alias.$root
@@ -578,7 +578,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         }
 
         $index = 0
-        $result = [ordered]@{}
+        $result = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
         $sorted = $order.Keys | Sort-Object { $order.$_ } -CaseSensitive
         foreach ($_ in $sorted) {
             $index++
