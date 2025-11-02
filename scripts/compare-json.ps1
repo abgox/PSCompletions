@@ -104,7 +104,8 @@ function Compare-JsonProperty {
             if (isExist $baseArr[$i]) {
                 if (!(isExist $diffArr[$i])) {
                     $count.missingList += @{
-                        pos = "$pos[$i]"
+                        name = $baseArr[$i].name
+                        pos  = "$pos[$i]"
                     }
                 }
 
@@ -121,6 +122,7 @@ function Compare-JsonProperty {
                     }
                     else {
                         $count.missingList += @{
+                            name  = $baseArr[$i].name
                             pos   = "$pos[$i].name"
                             value = $baseArr[$i].name
                         }
@@ -129,6 +131,7 @@ function Compare-JsonProperty {
                 else {
                     if (isExist $diffArr[$i].name) {
                         $count.extraList += @{
+                            name  = $diffArr[$i].name
                             pos   = "$pos[$i].name"
                             value = $diffArr[$i].name
                         }
@@ -148,6 +151,7 @@ function Compare-JsonProperty {
                     }
                     else {
                         $count.missingList += @{
+                            name  = $baseArr[$i].name
                             pos   = "$pos[$i].alias"
                             value = $baseArr[$i].alias -join ' '
                         }
@@ -156,6 +160,7 @@ function Compare-JsonProperty {
                 else {
                     if (isExist $diffArr[$i].alias) {
                         $count.extraList += @{
+                            name  = $diffArr[$i].name
                             pos   = "$pos[$i].alias"
                             value = $diffArr[$i].alias -join ' '
                         }
@@ -183,6 +188,7 @@ function Compare-JsonProperty {
                     }
                     else {
                         $count.missingList += @{
+                            name  = $baseArr[$i].name
                             pos   = "$pos[$i].tip"
                             value = $baseArr[$i].tip
                         }
@@ -191,6 +197,7 @@ function Compare-JsonProperty {
                 else {
                     if (isExist $diffArr[$i].tip) {
                         $count.extraList += @{
+                            name  = $diffArr[$i].name
                             pos   = "$pos[$i].tip"
                             value = $diffArr[$i].tip
                         }
@@ -200,7 +207,8 @@ function Compare-JsonProperty {
             else {
                 if (isExist $diffArr[$i]) {
                     $count.extraList += @{
-                        pos = "$pos[$i]"
+                        name = $diffArr[$i].name
+                        pos  = "$pos[$i]"
                     }
                 }
             }
@@ -222,14 +230,16 @@ function Compare-JsonProperty {
                     }
                     else {
                         $count.missingList += @{
-                            pos = "$pos[$i].$item"
+                            name = $baseArr[$i].name
+                            pos  = "$pos[$i].$item"
                         }
                     }
                 }
                 else {
                     if (isExist $diffArr[$i].$item) {
                         $count.extraList += @{
-                            pos = "$pos[$i].$item"
+                            name = $diffArr[$i].name
+                            pos  = "$pos[$i].$item"
                         }
                     }
                 }
@@ -247,14 +257,16 @@ function Compare-JsonProperty {
             }
             else {
                 $count.missingList += @{
-                    pos = $item
+                    name = $baseContent.$item[$i].name
+                    pos  = $item
                 }
             }
         }
         else {
             if ($diffContent.$item.Count) {
                 $count.extraList += @{
-                    pos = $item
+                    name = $diffContent.config[$i].name
+                    pos  = $item
                 }
             }
         }
@@ -265,13 +277,15 @@ function Compare-JsonProperty {
             if ($baseContent.config[$i]) {
                 if (!(isExist $diffContent.config)) {
                     $count.missingList += @{
-                        pos = "config"
+                        name = $baseContent.config[$i].name
+                        pos  = "config"
                     }
                 }
 
                 if (!(isExist $diffContent.config[$i])) {
                     $count.missingList += @{
-                        pos = "config[$i]"
+                        name = $baseContent.config[$i].name
+                        pos  = "config[$i]"
                     }
                 }
 
@@ -292,6 +306,7 @@ function Compare-JsonProperty {
                         }
                         else {
                             $count.missingList += @{
+                                name  = $baseContent.config[$i].name
                                 pos   = "config[$i].$item"
                                 value = $baseContent.config[$i].$item
                             }
@@ -300,6 +315,7 @@ function Compare-JsonProperty {
                     else {
                         if (isExist $diffContent.config[$i].$item) {
                             $count.extraList += @{
+                                name  = $diffContent.config[$i].name
                                 pos   = "config[$i].$item"
                                 value = $diffContent.config[$i].$item
                             }
@@ -321,6 +337,7 @@ function Compare-JsonProperty {
                     }
                     else {
                         $count.missingList += @{
+                            name  = $baseContent.config[$i].name
                             pos   = "config[$i].values"
                             value = $baseValues -join ' '
                         }
@@ -329,6 +346,7 @@ function Compare-JsonProperty {
                 else {
                     if (isExist $diffValues) {
                         $count.extraList += @{
+                            name  = $diffContent.config[$i].name
                             pos   = "config[$i].values"
                             value = $diffValues -join ' '
                         }
@@ -359,6 +377,7 @@ function Compare-JsonProperty {
                     }
                     else {
                         $count.missingList += @{
+                            name  = $baseContent.config[$i].name
                             pos   = "config[$i].tip"
                             value = $baseTip
                         }
@@ -367,6 +386,7 @@ function Compare-JsonProperty {
                 else {
                     if ($diffTip) {
                         $count.extraList += @{
+                            name  = $diffContent.config[$i].name
                             pos   = "config[$i].tip"
                             value = $diffTip
                         }
@@ -376,7 +396,8 @@ function Compare-JsonProperty {
             else {
                 if ($diffContent.config[$i]) {
                     $count.extraList += @{
-                        pos = "config[$i]"
+                        name = $diffContent.config[$i].name
+                        pos  = "config[$i]"
                     }
                 }
             }
@@ -445,14 +466,16 @@ function Compare-JsonProperty {
                     }
                     else {
                         $count.missingList += @{
-                            pos = "$pos.$key"
+                            name = $key
+                            pos  = "$pos.$key"
                         }
                     }
                 }
                 else {
                     if (isExist $diffObj[$key]) {
                         $count.extraList += @{
-                            pos = "$pos.$key"
+                            name = $key
+                            pos  = "$pos.$key"
                         }
                     }
                 }
@@ -496,7 +519,8 @@ function Compare-JsonProperty {
     if ($count.missingList.Count) {
         outText $text.missingList.tip
         foreach ($item in $count.missingList) {
-            outText $text.missingList.pos
+            $prop = if ($null -eq $item.name) { "" }else { " (name: $($item.name))" }
+            outText ($text.missingList.pos + $prop)
             if (isExist $item.value) {
                 outText $text.value
             }
@@ -506,7 +530,8 @@ function Compare-JsonProperty {
     if ($count.extraList.Count) {
         outText $text.extraList.tip
         foreach ($item in $count.extraList) {
-            outText $text.extraList.pos
+            $prop = if ($null -eq $item.name) { "" }else { " (name: $($item.name))" }
+            outText ($text.extraList.pos + $prop)
             if (isExist $item.value) {
                 outText $text.value
             }
