@@ -1,5 +1,9 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.9.2 (2025/11/02)
+
+- Fix the completion sorting error caused by default case insensitivity.
+
 ## 5.9.1 (2025/11/01)
 
 - Fix the issue of parameter overlap when names are the same but case differs.
