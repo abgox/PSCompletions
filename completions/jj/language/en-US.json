@@ -49,13 +49,13 @@
               ],
               "next": [
                 {
-                  "name": "\"@\""
+                  "name": "'@'"
                 },
                 {
-                  "name": "\"@-\""
+                  "name": "'@-'"
                 },
                 {
-                  "name": "\"@+\""
+                  "name": "'@+'"
                 }
               ]
             }
@@ -131,13 +131,13 @@
               ],
               "next": [
                 {
-                  "name": "\"@\""
+                  "name": "'@'"
                 },
                 {
-                  "name": "\"@-\""
+                  "name": "'@-'"
                 },
                 {
-                  "name": "\"@+\""
+                  "name": "'@+'"
                 }
               ]
             },
@@ -257,6 +257,20 @@
           ],
           "tip": [
             "Print the paths to the config files"
+          ],
+          "next": [
+            {
+              "name": "--user",
+              "tip": [
+                "Target the user-level config"
+              ]
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "Target the repo-level config"
+              ]
+            }
           ]
         },
         {
@@ -296,13 +310,13 @@
           ],
           "next": [
             {
-              "name": "\"@\""
+              "name": "'@'"
             },
             {
-              "name": "\"@-\""
+              "name": "'@-'"
             },
             {
-              "name": "\"@+\""
+              "name": "'@+'"
             }
           ]
         },
@@ -364,13 +378,13 @@
       ],
       "next": [
         {
-          "name": "\"@\""
+          "name": "'@'"
         },
         {
-          "name": "\"@-\""
+          "name": "'@-'"
         },
         {
-          "name": "\"@+\""
+          "name": "'@+'"
         }
       ]
     },
@@ -580,13 +594,13 @@
               "name": "::"
             },
             {
-              "name": "\"@\""
+              "name": "'@'"
             },
             {
-              "name": "\"@-\""
+              "name": "'@-'"
             },
             {
-              "name": "\"@+\""
+              "name": "'@+'"
             }
           ]
         },
@@ -611,6 +625,52 @@
       "name": "metaedit",
       "tip": [
         "Modify the metadata of a revision without changing its content"
+      ],
+      "options": [
+        {
+          "name": "--update-change-id",
+          "tip": [
+            "Generate a new change-id"
+          ]
+        },
+        {
+          "name": "--update-author-timestamp",
+          "tip": [
+            "Update the author timestamp"
+          ]
+        },
+        {
+          "name": "--update-author",
+          "tip": [
+            "Update the author to the configured user"
+          ]
+        },
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <AUTHOR>\n",
+            "Set author to the provided string"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--author-timestamp",
+          "tip": [
+            "U: --author-timestamp <AUTHOR_TIMESTAMP>\n",
+            "Set the author date to the given date either human readable, eg Sun, 23 Jan 2000 01:23:45 JST) or as a time stamp, eg 2000-01-23T01:23:45+09:00)"
+          ],
+          "next": [
+            {
+              "name": "2000-01-23T01:23:45+09:00"
+            }
+          ]
+        },
+        {
+          "name": "--update-committer-timestamp",
+          "tip": [
+            "Update the committer timestamp"
+          ]
+        }
       ]
     },
     {
@@ -620,13 +680,13 @@
       ],
       "next": [
         {
-          "name": "\"@\""
+          "name": "'@'"
         },
         {
-          "name": "\"@-\""
+          "name": "'@-'"
         },
         {
-          "name": "\"@+\""
+          "name": "'@+'"
         }
       ],
       "options": [
@@ -775,13 +835,13 @@
               "name": "::"
             },
             {
-              "name": "\"@\""
+              "name": "'@'"
             },
             {
-              "name": "\"@-\""
+              "name": "'@-'"
             },
             {
-              "name": "\"@+\""
+              "name": "'@+'"
             }
           ]
         },
@@ -867,6 +927,100 @@
       "name": "show",
       "tip": [
         "Show commit description and changes in a revision"
+      ],
+      "options": [
+        {
+          "name": "-T",
+          "alias": [
+            "--template"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>\n",
+            "Render a revision using the given template"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--summary"
+          ],
+          "tip": [
+            "U: -s, --summary\n",
+            "For each path, show only whether it was modified, added, or deleted"
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show a histogram of the changes"
+          ]
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "For each path, show only its type before and after"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "For each path, show only its path"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "Show a Git-format diff"
+          ]
+        },
+        {
+          "name": "--color-words",
+          "tip": [
+            "Show a word-level diff with changes indicated only by color"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>\n",
+            "Generate diff by external command"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>\n",
+            "Number of lines of context to show"
+          ]
+        },
+        {
+          "name": "-w",
+          "alias": [
+            "--ignore-all-space"
+          ],
+          "tip": [
+            "U: -w, --ignore-all-space\n",
+            "Ignore whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--ignore-space-change"
+          ],
+          "tip": [
+            "U: -b, --ignore-space-change\n",
+            "Ignore changes in amount of whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "--no-patch",
+          "tip": [
+            "Do not show the patch"
+          ]
+        }
       ]
     },
     {
@@ -914,13 +1068,13 @@
               "name": "::"
             },
             {
-              "name": "\"@\""
+              "name": "'@'"
             },
             {
-              "name": "\"@-\""
+              "name": "'@-'"
             },
             {
-              "name": "\"@+\""
+              "name": "'@+'"
             }
           ]
         },
