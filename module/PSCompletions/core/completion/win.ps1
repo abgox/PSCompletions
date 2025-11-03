@@ -10,6 +10,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                 if (!$cursorPosition) {
                     return
                 }
+                # 只获取当前光标位置之前的内容
+                $buffer = $buffer.Substring(0, [Math]::Min($cursorPosition, $buffer.Length))
 
                 # 是否是按下空格键触发的补全
                 $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
