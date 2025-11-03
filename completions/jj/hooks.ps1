@@ -31,7 +31,7 @@ function handleCompletions($completions) {
         }
     }
 
-    if ($input_arr[-1] -cin '-r', '--revisions', '-b', '--branch') {
+    if ($input_arr[-1] -cin '-r', '--revisions', '-b', '--branch', '--bookmark') {
         $bookmark_list = return_bookmark
         foreach ($_ in $bookmark_list) {
             $list += $PSCompletions.return_completion($_, "bookmark")
