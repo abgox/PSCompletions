@@ -23,11 +23,39 @@
     },
     "name": {
       "description": "命令名称",
-      "$ref": "#/definitions/string"
+      "allOf": [
+        {
+          "$ref": "#/definitions/string"
+        },
+        {
+          "if": {
+            "pattern": " "
+          },
+          "then": {
+            "pattern": "(^\".+\"$)|(^'.+'$)",
+            "errorMessage": "如果需要空格，请使用 \" 或 ' 包裹，例如: 'hello world'"
+          }
+        }
+      ]
     },
     "alias": {
       "description": "命令别名",
-      "$ref": "#/definitions/array-items-string"
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-string"
+        },
+        {
+          "items": {
+            "if": {
+              "pattern": " "
+            },
+            "then": {
+              "pattern": "(^\".+\"$)|(^'.+'$)",
+              "errorMessage": "如果需要空格，请使用 \" 或 ' 包裹，例如: 'hello world'"
+            }
+          }
+        }
+      ]
     },
     "hide": {
       "markdownDescription": "隐藏当前级的补全项\n - 子项不会被隐藏，除非子项也设置 hide 属性\n - 主要用于配合 hook 动态添加补全项，因为动态添加可能导致重复，所以需要隐藏掉原有的补全项",
@@ -38,7 +66,7 @@
     },
     "tip": {
       "$ref": "#/definitions/array-items-string",
-      "markdownDescription": "补全的提示信息"
+      "markdownDescription": "补全的提示信息\n- 它一般由三部分组成: 用法(Usage) + 描述(Description) + 举例(Example)\n- 这里有一个示例:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\\n\",\n    \"xxx (这里是描述信息)\\n\",\n    \"E: -r '@-'   --- xxx (示例说明)\\n\"\n    \"   -r 'x-'   --- xxx (示例说明)\"\n  ]\n  ```"
     },
     "item": {
       "type": "object",

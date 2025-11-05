@@ -23,11 +23,39 @@
     },
     "name": {
       "description": "Command name",
-      "$ref": "#/definitions/string"
+      "allOf": [
+        {
+          "$ref": "#/definitions/string"
+        },
+        {
+          "if": {
+            "pattern": " "
+          },
+          "then": {
+            "pattern": "(^\".+\"$)|(^'.+'$)",
+            "errorMessage": "If spaces are needed, please use \" or ' to wrap them, for example: 'hello world'"
+          }
+        }
+      ]
     },
     "alias": {
       "description": "Command alias",
-      "$ref": "#/definitions/array-items-string"
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-string"
+        },
+        {
+          "items": {
+            "if": {
+              "pattern": " "
+            },
+            "then": {
+              "pattern": "(^\".+\"$)|(^'.+'$)",
+              "errorMessage": "If spaces are needed, please use \" or ' to wrap them, for example: 'hello world'"
+            }
+          }
+        }
+      ]
     },
     "hide": {
       "markdownDescription": "Hide the current level of completion items\n - Sub-items will not be hidden unless they also set the `hide` property\n - Mainly used to cooperate with hooks to dynamically add completion items, as dynamic addition may cause duplication, so it is necessary to hide the original completion items",
@@ -38,7 +66,7 @@
     },
     "tip": {
       "$ref": "#/definitions/array-items-string",
-      "markdownDescription": "Completion item tip"
+      "markdownDescription": "Completion item tip\n- General structure of the completion tip: `Usage` + `Description` + `Example`\n- Here is an example:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\\n\",\n    \"xxx (Here is the description)\\n\",\n    \"E: -r '@-'   --- xxx (Example description)\\n\"\n    \"   -r 'x-'   --- xxx (Example description)\"\n  ]\n  ```"
     },
     "item": {
       "type": "object",
