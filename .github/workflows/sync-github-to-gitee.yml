@@ -9,26 +9,13 @@ on:
 
 jobs:
   sync-repos:
-    runs-on: windows-latest
-    env:
-      REPO: ${{ github.repository }}
-      USER_NAME: "abgox"
-      USER_EMAIL: "abgohxf@outlook.com"
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - uses: Yikun/hub-mirror-action@master
         with:
-          fetch-depth: 0
-
-      - name: Configure Git
-        shell: pwsh
-        run: |
-          git config --global user.name $env:USER_NAME
-          git config --global user.email $env:USER_EMAIL
-
-      - name: Push to Gitee
-        shell: pwsh
-        run: |
-          git remote add gitee https://oauth2:${{ secrets.PAT_TOKEN_GITEE }}@gitee.com/$env:REPO.git
-          git push gitee --force
-          git push gitee --tags --force
+          src: github/abgox
+          dst: gitee/abgox
+          dst_key: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+          dst_token: ""
+          force_update: true
+          static_list: ${{ github.event.repository.name }}
