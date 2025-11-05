@@ -1,5 +1,17 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.10.0 (2025/11/05)
+
+It's allowed to get completions after any subcommand in the completion menu provided by the module. ([#102](https://github.com/abgox/PSCompletions/issues/102))
+
+- For example:
+  - If you have already entered `git clone git@github.com:abgox/PSCompletions.git`
+  - You want to complete `--depth 1 `,
+  - Then, you can move the cursor after `clone`, and get `--depth`
+- Note:
+  - It only works in the completion menu provided by the module
+  - Its implementation method is to take the content before the cursor as input, so it will not filter duplicate completion items after the cursor
+
 ## 5.9.2 (2025/11/02)
 
 - Fix the completion sorting error caused by default case insensitivity.
