@@ -1,5 +1,17 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 5.10.0 (2025/11/05)
+
+在模块提供的补全菜单中，允许在任意子命令之后获取补全 ([#102](https://github.com/abgox/PSCompletions/issues/102))
+
+- 举个例子
+  - 如果已经输入了 `git clone git@github.com:abgox/PSCompletions.git`
+  - 此时，还想去补全 `--depth 1 `，
+  - 那么，可以将光标移动到 `clone` 之后，然后就可以正常获取 `--depth`
+- 需要注意:
+  - 它只在模块提供的补全菜单中有效
+  - 它的实现方式是通过将光标之前的内容作为输入，因此不会过滤光标之后的重复补全项
+
 ## 5.9.2 (2025/11/02)
 
 - 修复了默认忽略大小写导致的补全排序错误
