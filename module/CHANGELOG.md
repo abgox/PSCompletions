@@ -1,6 +1,6 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
-## 5.10.0 (2025/11/05)
+## 5.10.1 (2025/11/05)
 
 It's allowed to get completions after any subcommand in the completion menu provided by the module. ([#102](https://github.com/abgox/PSCompletions/issues/102))
 

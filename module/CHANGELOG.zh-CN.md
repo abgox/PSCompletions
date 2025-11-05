@@ -1,6 +1,6 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
-## 5.10.0 (2025/11/05)
+## 5.10.1 (2025/11/05)
 
 在模块提供的补全菜单中，允许在任意子命令之后获取补全 ([#102](https://github.com/abgox/PSCompletions/issues/102))
 
