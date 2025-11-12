@@ -3,19 +3,85 @@
     {
       "name": "abandon",
       "tip": [
+        "U: abandon [OPTIONS] [REVSETS]...\n",
         "丢弃一个修订"
+      ],
+      "options": [
+        {
+          "name": "--retain-bookmarks",
+          "tip": [
+            "不删除指向要放弃的修订版本的书签"
+          ]
+        },
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "不修改被放弃提交的子提交的内容"
+          ]
+        }
       ]
     },
     {
       "name": "absorb",
       "tip": [
+        "U: absorb [OPTIONS] [FILESETS]...\n",
         "将一个修订的变更移动到可变修订的栈中"
+      ],
+      "options": [
+        {
+          "name": "-f",
+          "alias": [
+            "--from"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>\n",
+            "要从中吸收变更的源修订版本 [默认: @]"
+          ]
+        },
+        {
+          "name": "-t",
+          "alias": [
+            "--into"
+          ],
+          "tip": [
+            "U: -t, --into <REVSETS>\n",
+            "要吸收变更的目标修订版本 [默认: mutable()]"
+          ]
+        }
       ]
     },
     {
       "name": "bisect",
       "tip": [
         "通过二分查找找到一个错误的修订"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "U: run [OPTIONS] --range <REVSETS> [COMMAND] [ARGS]...\n",
+            "运行一个给定的命令来找到第一个错误的修订"
+          ],
+          "options": [
+            {
+              "name": "-r",
+              "alias": [
+                "--range"
+              ],
+              "tip": [
+                "U: -r, --range <REVSETS>\n",
+                "要二分查找的修订版本范围"
+              ],
+              "next": []
+            },
+            {
+              "name": "--find-good",
+              "tip": [
+                "是否转而寻找第一个好的修订版本"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -47,17 +113,7 @@
                 "U: -r, --revision, --to <REVSET>\n",
                 "书签的目标修订版本 [默认: @]"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             }
           ]
         },
@@ -79,6 +135,14 @@
           "tip": [
             "忘记一个书签而不将其标记为删除以进行推送"
           ],
+          "options": [
+            {
+              "name": "--include-remotes",
+              "tip": [
+                "忘记本地书签时，也忘记所有对应的远程书签"
+              ]
+            }
+          ],
           "next": []
         },
         {
@@ -88,6 +152,72 @@
           ],
           "tip": [
             "列出所有书签及其目标"
+          ],
+          "options": [
+            {
+              "name": "-a",
+              "alias": [
+                "--all-remotes"
+              ],
+              "tip": [
+                "显示所有跟踪和非跟踪远程书签，包括那些其目标与本地书签同步的书签"
+              ]
+            },
+            {
+              "name": "--remote",
+              "tip": [
+                "U: --remote <REMOTE>\n",
+                "显示所有属于此远程仓库的跟踪和非跟踪远程书签"
+              ],
+              "next": 0
+            },
+            {
+              "name": "-t",
+              "alias": [
+                "--tracked"
+              ],
+              "tip": [
+                "仅显示远程跟踪书签。默认情况下省略本地 Git 跟踪书签"
+              ]
+            },
+            {
+              "name": "-c",
+              "alias": [
+                "--conflicted"
+              ],
+              "tip": [
+                "仅显示冲突书签"
+              ]
+            },
+            {
+              "name": "-r",
+              "alias": [
+                "--revisions"
+              ],
+              "tip": [
+                "U: -r, --revisions <REVSETS>\n",
+                "仅显示本地目标在给定修订版本中的书签"
+              ],
+              "next": []
+            },
+            {
+              "name": "-T",
+              "alias": [
+                "--template"
+              ],
+              "tip": [
+                "U: -T, --template <TEMPLATE>\n",
+                "使用给定模板渲染每个书签"
+              ]
+            },
+            {
+              "name": "--sort",
+              "tip": [
+                "U: --sort <SORT_KEY>\n",
+                "根据给定键（或多个键）对书签进行排序\n",
+                "[可能的值: name, name-, author-name, author-name-, author-email, author-email-, author-date, author-date-, committer-name, committer-name-, committer-email, committer-email-, committer-date, committer-date-]"
+              ]
+            }
           ]
         },
         {
@@ -129,17 +259,7 @@
                 "U: -r, --revision, --to <REVSET>\n",
                 "书签的目标修订版本 [默认: @]"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             },
             {
               "name": "-B",
@@ -160,14 +280,7 @@
           "tip": [
             "开始跟踪给定远程书签"
           ],
-          "next": [
-            {
-              "name": "main@origin"
-            },
-            {
-              "name": "dev@origin"
-            }
-          ]
+          "next": []
         },
         {
           "name": "untrack",
@@ -402,17 +515,7 @@
           "alias": [
             "--revision"
           ],
-          "next": [
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-m",
@@ -450,6 +553,124 @@
       "name": "diff",
       "tip": [
         "比较两个修订之间文件内容的差异"
+      ],
+      "options": [
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "比较这些修订之间的文件内容差异"
+          ],
+          "next": []
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--from"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>\n",
+            "显示从该修订开始的更改"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "alias": [
+            "--to"
+          ],
+          "tip": [
+            "U: -t, --to <REVSET>\n",
+            "显示到该修订的更改"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "alias": [
+            "--template"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>\n",
+            "使用给定模板渲染每个文件差异条目"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--summary"
+          ],
+          "tip": [
+            "U: -s, --summary\n",
+            "对于每个路径，仅显示是否修改、添加或删除"
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "显示变更统计直方图"
+          ]
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "对于每个路径，仅显示其类型之前和之后"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "对于每个路径，仅显示其路径"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "显示 Git 格式的差异"
+          ]
+        },
+        {
+          "name": "--color-words",
+          "tip": [
+            "显示单词级差异，仅用颜色指示更改"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>\n",
+            "使用外部命令生成差异"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>\n",
+            "显示的上下文行数"
+          ]
+        },
+        {
+          "name": "-w",
+          "alias": [
+            "--ignore-all-space"
+          ],
+          "tip": [
+            "忽略比较行时的空格"
+          ]
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--ignore-space-change"
+          ],
+          "tip": [
+            "忽略比较行时的空格变化"
+          ]
+        }
       ]
     },
     {
@@ -470,17 +691,7 @@
         "U: edit [OPTIONS] <REVSET>\n",
         "将指定的修订设置为工作副本修订"
       ],
-      "next": [
-        {
-          "name": "'@'"
-        },
-        {
-          "name": "'@-'"
-        },
-        {
-          "name": "'@+'"
-        }
-      ]
+      "next": []
     },
     {
       "name": "evolog",
@@ -813,17 +1024,7 @@
                 "U: -r, --revisions <REVSETS>\n",
                 "推送指向这些提交的书签（可以重复）"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             },
             {
               "name": "-c",
@@ -834,17 +1035,7 @@
                 "U: -c, --change <REVSETS>\n",
                 "通过创建书签推送此提交（可以重复）"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             },
             {
               "name": "--named",
@@ -958,23 +1149,7 @@
             "U: -r, --revisions <REVSETS>\n",
             "要显示的修订版本"
           ],
-          "next": [
-            {
-              "name": "::",
-              "tip": [
-                "所有修订版本"
-              ]
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-n",
@@ -1050,23 +1225,7 @@
       "tip": [
         "创建一个新的、空的变更并（默认）在工作副本中编辑它"
       ],
-      "next": [
-        {
-          "name": "main@origin",
-          "tip": [
-            "将新变更创建为 main@origin 的子变更"
-          ]
-        },
-        {
-          "name": "'@'"
-        },
-        {
-          "name": "'@-'"
-        },
-        {
-          "name": "'@+'"
-        }
-      ],
+      "next": [],
       "options": [
         {
           "name": "-m",
@@ -1102,20 +1261,7 @@
             "U: -A, --insert-after, --after <REVSETS>\n",
             "在给定提交之后插入新变更"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-B",
@@ -1127,20 +1273,7 @@
             "U: -B, --insert-before, --before <REVSETS>\n",
             "在给定提交之前插入新变更"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         }
       ]
     },
@@ -1224,20 +1357,7 @@
             "U: -b, --branch <REVSETS>\n",
             "相对于目标的祖先重新调整整个分支的基准（可重复）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-s",
@@ -1248,20 +1368,7 @@
             "U: -s, --source <REVSETS>\n",
             "变基指定的修订版本及其后代树（可重复）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-r",
@@ -1272,20 +1379,7 @@
             "U: -r, --revisions <REVSETS>\n",
             "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-d",
@@ -1296,20 +1390,7 @@
             "U: -d, --destination <REVSETS>\n",
             "变基目标（可重复以创建合并提交）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-A",
@@ -1321,20 +1402,7 @@
             "U: -A, --insert-after, --after <REVSETS>\n",
             "在给定提交之后插入新变更（可重复以创建合并提交）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-B",
@@ -1346,20 +1414,7 @@
             "U: -B, --insert-before, --before <REVSETS>\n",
             "在给定提交之前插入新变更（可重复以创建合并提交）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "--skip-emptied",
@@ -1418,17 +1473,7 @@
           "alias": [
             "--revision"
           ],
-          "next": [
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-T",
@@ -1565,20 +1610,7 @@
             "合并到其父提交的修订 (默认: @)\n",
             "与实验性的 `-d`/`-A`/`-B` 选项不兼容"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-f",
@@ -1589,20 +1621,7 @@
             "U: -f, --from <REVSETS>\n",
             "从其变基的修订 (默认: @)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-t",
@@ -1614,20 +1633,7 @@
             "U: -t, --into, --to <REVSET>\n",
             "合并到的修订 (默认: @)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-d",
@@ -1638,20 +1644,7 @@
             "U: -d, --destination <REVSETS>\n",
             "（实验性）用作新提交的父提交的修订版本（可重复使用以创建合并提交）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-A",
@@ -1663,20 +1656,7 @@
             "U: -A, --insert-after, --after <REVSETS>\n",
             "（实验性）要在其后插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-B",
@@ -1688,20 +1668,7 @@
             "U: -B, --insert-before, --before <REVSETS>\n",
             "（实验性）要在其之前插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-m",

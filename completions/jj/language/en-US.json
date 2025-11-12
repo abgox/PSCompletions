@@ -3,19 +3,85 @@
     {
       "name": "abandon",
       "tip": [
+        "U: abandon [OPTIONS] [REVSETS]...\n",
         "Abandon a revision"
+      ],
+      "options": [
+        {
+          "name": "--retain-bookmarks",
+          "tip": [
+            "Do not delete bookmarks pointing to the revisions to abandon"
+          ]
+        },
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "Do not modify the content of the children of the abandoned commits"
+          ]
+        }
       ]
     },
     {
       "name": "absorb",
       "tip": [
+        "U: absorb [OPTIONS] [FILESETS]...\n",
         "Move changes from a revision into the stack of mutable revisions"
+      ],
+      "options": [
+        {
+          "name": "-f",
+          "alias": [
+            "--from"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>\n",
+            "Source revision to absorb from [default: @]"
+          ]
+        },
+        {
+          "name": "-t",
+          "alias": [
+            "--into"
+          ],
+          "tip": [
+            "U: -t, --into <REVSETS>\n",
+            "Destination revisions to absorb into [default: mutable()]"
+          ]
+        }
       ]
     },
     {
       "name": "bisect",
       "tip": [
         "Find a bad revision by bisection"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "U: run [OPTIONS] --range <REVSETS> [COMMAND] [ARGS]...\n",
+            "Run a given command to find the first bad revision"
+          ],
+          "options": [
+            {
+              "name": "-r",
+              "alias": [
+                "--range"
+              ],
+              "tip": [
+                "U: -r, --range <REVSETS>\n",
+                "Range of revisions to bisect"
+              ],
+              "next": []
+            },
+            {
+              "name": "--find-good",
+              "tip": [
+                "Whether to find the first good revision instead"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -47,17 +113,7 @@
                 "U: -r, --revision, --to <REVSET>\n",
                 "The bookmark's target revision [default: @]"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             }
           ]
         },
@@ -79,6 +135,14 @@
           "tip": [
             "Forget a bookmark without marking it as a deletion to be pushed"
           ],
+          "options": [
+            {
+              "name": "--include-remotes",
+              "tip": [
+                "When forgetting a local bookmark, also forget any corresponding remote bookmarks"
+              ]
+            }
+          ],
           "next": []
         },
         {
@@ -88,6 +152,72 @@
           ],
           "tip": [
             "List bookmarks and their targets"
+          ],
+          "options": [
+            {
+              "name": "-a",
+              "alias": [
+                "--all-remotes"
+              ],
+              "tip": [
+                "Show all tracking and non-tracking remote bookmarks including the ones whose targets are synchronized with the local bookmarks"
+              ]
+            },
+            {
+              "name": "--remote",
+              "tip": [
+                "U: --remote <REMOTE>\n",
+                "Show all tracking and non-tracking remote bookmarks belonging to this remote"
+              ],
+              "next": 0
+            },
+            {
+              "name": "-t",
+              "alias": [
+                "--tracked"
+              ],
+              "tip": [
+                "Show remote tracked bookmarks only. Omits local Git-tracking bookmarks by default"
+              ]
+            },
+            {
+              "name": "-c",
+              "alias": [
+                "--conflicted"
+              ],
+              "tip": [
+                "Show conflicted bookmarks only"
+              ]
+            },
+            {
+              "name": "-r",
+              "alias": [
+                "--revisions"
+              ],
+              "tip": [
+                "U: -r, --revisions <REVSETS>\n",
+                "Show bookmarks whose local targets are in the given revisions"
+              ],
+              "next": []
+            },
+            {
+              "name": "-T",
+              "alias": [
+                "--template"
+              ],
+              "tip": [
+                "U: -T, --template <TEMPLATE>\n",
+                "Render each bookmark using the given template"
+              ]
+            },
+            {
+              "name": "--sort",
+              "tip": [
+                "U: --sort <SORT_KEY>\n",
+                "Sort bookmarks based on the given key (or multiple keys)\n",
+                "[possible values: name, name-, author-name, author-name-, author-email, author-email-, author-date, author-date-, committer-name, committer-name-, committer-email, committer-email-, committer-date, committer-date-]"
+              ]
+            }
           ]
         },
         {
@@ -129,17 +259,7 @@
                 "U: -r, --revision, --to <REVSET>\n",
                 "The bookmark's target revision [default: @]"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             },
             {
               "name": "-B",
@@ -160,14 +280,7 @@
           "tip": [
             "Start tracking given remote bookmarks"
           ],
-          "next": [
-            {
-              "name": "main@origin"
-            },
-            {
-              "name": "dev@origin"
-            }
-          ]
+          "next": []
         },
         {
           "name": "untrack",
@@ -402,17 +515,7 @@
           "alias": [
             "--revision"
           ],
-          "next": [
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-m",
@@ -450,6 +553,124 @@
       "name": "diff",
       "tip": [
         "Compare file contents between two revisions"
+      ],
+      "options": [
+        {
+          "name": "-r",
+          "alias": [
+            "--revisions"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>\n",
+            "Show changes in these revisions"
+          ],
+          "next": []
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--from"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>\n",
+            "Show changes from this revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "-t",
+          "alias": [
+            "--to"
+          ],
+          "tip": [
+            "U: -t, --to <REVSET>\n",
+            "Show changes to this revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "-T",
+          "alias": [
+            "--template"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>\n",
+            "Render each file diff entry using the given template"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--summary"
+          ],
+          "tip": [
+            "U: -s, --summary\n",
+            "For each path, show only whether it was modified, added, or deleted"
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show a histogram of the changes"
+          ]
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "For each path, show only its type before and after"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "For each path, show only its path"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "Show a Git-format diff"
+          ]
+        },
+        {
+          "name": "--color-words",
+          "tip": [
+            "Show a word-level diff with changes indicated only by color"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>\n",
+            "Generate diff by external command"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>\n",
+            "Number of lines of context to show"
+          ]
+        },
+        {
+          "name": "-w",
+          "alias": [
+            "--ignore-all-space"
+          ],
+          "tip": [
+            "Ignore whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--ignore-space-change"
+          ],
+          "tip": [
+            "Ignore changes in amount of whitespace when comparing lines"
+          ]
+        }
       ]
     },
     {
@@ -470,17 +691,7 @@
         "U: edit [OPTIONS] <REVSET>\n",
         "Sets the specified revision as the working-copy revision"
       ],
-      "next": [
-        {
-          "name": "'@'"
-        },
-        {
-          "name": "'@-'"
-        },
-        {
-          "name": "'@+'"
-        }
-      ]
+      "next": []
     },
     {
       "name": "evolog",
@@ -813,17 +1024,7 @@
                 "U: -r, --revisions <REVSETS>\n",
                 "Push bookmarks pointing to these commits (can be repeated)"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             },
             {
               "name": "-c",
@@ -834,17 +1035,7 @@
                 "U: -c, --change <REVSETS>\n",
                 "Push this commit by creating a bookmark (can be repeated)"
               ],
-              "next": [
-                {
-                  "name": "'@'"
-                },
-                {
-                  "name": "'@-'"
-                },
-                {
-                  "name": "'@+'"
-                }
-              ]
+              "next": []
             },
             {
               "name": "--named",
@@ -958,23 +1149,7 @@
             "U: -r, --revisions <REVSETS>\n",
             "Which revisions to show"
           ],
-          "next": [
-            {
-              "name": "::",
-              "tip": [
-                "All revisions"
-              ]
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-n",
@@ -1050,23 +1225,7 @@
       "tip": [
         "Create a new, empty change and (by default) edit it in the working copy"
       ],
-      "next": [
-        {
-          "name": "main@origin",
-          "tip": [
-            "Create a new change as a child of main@origin"
-          ]
-        },
-        {
-          "name": "'@'"
-        },
-        {
-          "name": "'@-'"
-        },
-        {
-          "name": "'@+'"
-        }
-      ],
+      "next": [],
       "options": [
         {
           "name": "-m",
@@ -1102,20 +1261,7 @@
             "U: -A, --insert-after, --after <REVSETS>\n",
             "Insert the new change after the given commit(s)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-B",
@@ -1127,20 +1273,7 @@
             "U: -B, --insert-before, --before <REVSETS>\n",
             "Insert the new change before the given commit(s)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         }
       ]
     },
@@ -1224,20 +1357,7 @@
             "U: -b, --branch <REVSETS>\n",
             "Rebase the whole branch relative to destination's ancestors (can be repeated)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-s",
@@ -1248,20 +1368,7 @@
             "U: -s, --source <REVSETS>\n",
             "Rebase specified revision(s) together with their trees of descendants (can be repeated)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-r",
@@ -1272,20 +1379,7 @@
             "U: -r, --revisions <REVSETS>\n",
             "Rebase the given revisions, rebasing descendants onto this revision's parent(s)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-d",
@@ -1296,20 +1390,7 @@
             "U: -d, --destination <REVSETS>\n",
             "The revision(s) to rebase onto (can be repeated to create a merge commit)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-A",
@@ -1321,20 +1402,7 @@
             "U: -A, --insert-after, --after <REVSETS>\n",
             "The revision(s) to insert after (can be repeated to create a merge commit)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-B",
@@ -1346,20 +1414,7 @@
             "U: -B, --insert-before, --before <REVSETS>\n",
             "The revision(s) to insert before (can be repeated to create a merge commit)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "--skip-emptied",
@@ -1418,17 +1473,7 @@
           "alias": [
             "--revision"
           ],
-          "next": [
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-T",
@@ -1565,20 +1610,7 @@
             "Revision to squash into its parent (default: @).\n",
             "Incompatible with the experimental `-d`/`-A`/`-B` options"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-f",
@@ -1589,20 +1621,7 @@
             "U: -f, --from <REVSETS>\n",
             "Revision(s) to squash from (default: @)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-t",
@@ -1614,20 +1633,7 @@
             "U: -t, --into, --to <REVSET>\n",
             "Revision to squash into (default: @)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-d",
@@ -1638,20 +1644,7 @@
             "U: -d, --destination <REVSETS>\n",
             "(Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-A",
@@ -1663,20 +1656,7 @@
             "U: -A, --insert-after, --after <REVSETS>\n",
             "(Experimental) The revision(s) to insert the new commit after (can be repeated to create a merge commit)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-B",
@@ -1688,20 +1668,7 @@
             "U: -B, --insert-before, --before <REVSETS>\n",
             "(Experimental) The revision(s) to insert the new commit before (can be repeated to create a merge commit)"
           ],
-          "next": [
-            {
-              "name": "::"
-            },
-            {
-              "name": "'@'"
-            },
-            {
-              "name": "'@-'"
-            },
-            {
-              "name": "'@+'"
-            }
-          ]
+          "next": []
         },
         {
           "name": "-m",
