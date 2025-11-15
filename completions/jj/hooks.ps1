@@ -21,6 +21,23 @@ if(remote,
         }
     }
 
+    function return_tag {
+        $t = @"
+if(remote,
+  if(tracked,
+    separate(" ",
+      label("bookmark", name ++ "@" ++ remote),
+    ),
+    label("bookmark", name ++ "@" ++ remote),
+  ),
+  label("bookmark", name)
+) ++ "\n"
+"@
+        jj tag list --template $t | ForEach-Object {
+            $PSCompletions.return_completion($_, "tag")
+        }
+    }
+
     function return_common_revsets {
         "'..'", "'::'", "'@'", "'@-'", "'@+'", "'all()'"  | ForEach-Object {
             $PSCompletions.return_completion($_, "revsets")
