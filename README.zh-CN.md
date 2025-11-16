@@ -149,25 +149,9 @@ Uninstall-Module PSCompletions
 
   - 配置: `psc menu config enable_menu 1` (默认开启)
   - 可通过 `psc menu config` 中的其他配置项控制它的相关行为
+  - 相关的按键绑定可运行 `psc` 查看
 
 - 它只在 Windows 中可用，因为在 Linux/MacOS 中 [PowerShell 没有实现相关底层方法](https://github.com/cspotcode/PS-GuiCompletion/issues/13#issuecomment-620084134)
-
-- 相关的按键绑定:
-
-  1. 选用当前选中的补全项: `Enter`(回车) / `Space`(空格)
-     - 当只有一个补全项时，也可以使用 `Tab`
-  2. 删除过滤字符: `Backspace`(退格)
-  3. 退出补全菜单: `Esc` / `Ctrl + c`
-     - 当过滤区域没有字符时，也可以使用 `Backspace`(退格) 退出补全菜单
-  4. 选择补全项:
-
-     |  选择上一项   | 选择下一项 |
-     | :-----------: | :--------: |
-     |     `Up`      |   `Down`   |
-     |    `Left`     |  `Right`   |
-     | `Shift + Tab` |   `Tab`    |
-     |  `Ctrl + u`   | `Ctrl + d` |
-     |  `Ctrl + p`   | `Ctrl + n` |
 
 - 补全菜单的所有配置，你可以输入 `psc menu` 然后按下 `Space`(空格键) 和 `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)

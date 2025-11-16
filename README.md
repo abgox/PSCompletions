@@ -150,25 +150,9 @@ Uninstall-Module PSCompletions
 
   - Setting: `psc menu config enable_menu 1` (Default: `1`)
   - Its related behaviors can be controlled via other configuration items in `psc menu config`.
+  - You can run `psc` to view the related key bindings.
 
 - It is only available in Windows, because [PowerShell in Linux/MacOS does not implement the relevant methods](https://github.com/cspotcode/PS-GuiCompletion/issues/13#issuecomment-620084134).
-
-- Some key bindings in the module's completion menu.
-
-  1. Apply the selected completion item: `Enter` / `Space`
-     - You can also use `Tab` when there's only one completion.
-  2. Delete filter characters: `Backspace`
-  3. Exit the completion menu: `Esc` / `Ctrl + c`
-     - You can also use `Backspace` when there're no characters in the filter area.
-  4. Select completion item:
-
-     | Select previous item | Select next item |
-     | :------------------: | :--------------: |
-     |         `Up`         |      `Down`      |
-     |        `Left`        |     `Right`      |
-     |    `Shift + Tab`     |      `Tab`       |
-     |      `Ctrl + u`      |    `Ctrl + d`    |
-     |      `Ctrl + p`      |    `Ctrl + n`    |
 
 - All configurations of it, you can trigger completion by running `psc menu`, then learn about them by [the completion tip](#about-completion-tip).
   - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
