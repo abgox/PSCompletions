@@ -1,5 +1,12 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.11.0 (2025/11/16)
+
+- Add key bindings for the PSCompletions' completion menu. ([#107](https://github.com/abgox/PSCompletions/issues/107))
+
+  - Up: `Ctrl + k`
+  - Down: `Ctrl + j`
+
 ## 5.10.1 (2025/11/05)
 
 It's allowed to get completions after any subcommand in the completion menu provided by the module. ([#102](https://github.com/abgox/PSCompletions/issues/102))

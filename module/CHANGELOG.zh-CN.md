@@ -1,5 +1,12 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 5.11.0 (2025/11/16)
+
+- 为 PSCompletions 的补全菜单添加按键绑定 ([#107](https://github.com/abgox/PSCompletions/issues/107))
+
+  - 向上: `Ctrl + k`
+  - 向下: `Ctrl + j`
+
 ## 5.10.1 (2025/11/05)
 
 在模块提供的补全菜单中，允许在任意子命令之后获取补全 ([#102](https://github.com/abgox/PSCompletions/issues/102))
