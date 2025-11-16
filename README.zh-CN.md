@@ -45,7 +45,7 @@
 > - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell (Desktop)。运行 `powershell`/`powershell.exe` 启动
 > - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview)
 
-一个命令补全管理模块，用于在 `PowerShell` 中更简单、更方便地使用命令补全。
+一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
 
 - [更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
 - [集中管理补全](./completions.zh-CN.md "点击查看可添加补全列表！")
@@ -64,15 +64,15 @@
 
 ## 新的变化
 
-- 请查阅 [更新日志](./module/CHANGELOG.zh-CN.md)
+请查阅 [更新日志](./module/CHANGELOG.zh-CN.md)
 
 ## 常见问题
 
-- 请查阅 [常见问题](https://pscompletions.abgox.com/faq)
+请查阅 [常见问题](https://pscompletions.abgox.com/faq)
 
 ## 贡献
 
-- 请查阅 [贡献指南](./.github/contributing.md)
+请查阅 [贡献指南](./.github/contributing.md)
 
 ## 安装
 
@@ -100,14 +100,10 @@
        ```
 
 2. 导入模块:
+
    ```powershell
    Import-Module PSCompletions
    ```
-   - 如果不想每次启动 `PowerShell` 都需要导入 `PSCompletions` 模块，你可以使用以下命令将导入语句写入 `$Profile` 中
-     ```powershell
-     "Import-Module PSCompletions" >> $Profile
-     ```
-   - 推荐将 `Import-Module PSCompletions` 添加到 `$Profile` 中靠前的位置，避免出现 [编码问题](https://pscompletions.abgox.com/faq/output-encoding)
 
 ## 卸载
 
@@ -117,17 +113,23 @@ Uninstall-Module PSCompletions
 
 ## 使用
 
-> [!Tip]
->
-> - [可用补全列表](./completions.zh-CN.md "当前可添加的所有补全，更多的补全正在添加中！")
-> - 如果补全列表里没有你想要的补全，你可以 [提交 issue](https://github.com/abgox/PSCompletions/issues "点击提交 issue")
-> - 也可以 [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "点击查看如何实现")
+- 以 `git` 补全为例
 
-以 `git` 补全为例
+  1. 添加补全: `psc add git`
+  2. 然后你就可以输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
+  3. 关于 `psc` 的命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) 和 `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
 
-1. 添加补全: `psc add git`
-2. 然后你就可以输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
-3. 关于 `psc` 的命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) 和 `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
+- 不使用 `PSCompletions` 中提供的补全，只将它作为一个更好的补全菜单
+
+  - 如果存在官方补全，可运行类似的命令
+
+    ```powershell
+    xxx completion powershell | Out-String | Invoke-Expression
+    ```
+
+  - [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "点击查看如何实现")
+
+  - 更多详情，参考 [菜单增强](#关于菜单增强)
 
 ## Tips
 

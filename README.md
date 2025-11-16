@@ -45,7 +45,7 @@
 > - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell (Desktop) which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
 > - They can both use `PSCompletions`, but [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview) is more recommended.
 
-A completion manager for better and simpler use completions in `PowerShell`.
+A completion manager for a better and simpler tab-completion experience in `PowerShell`.
 
 - [More powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
 - [Manage completions together.](./completions.md "Click it to view the completion list that can be added.")
@@ -64,15 +64,15 @@ A completion manager for better and simpler use completions in `PowerShell`.
 
 ## What's new
 
-- See the [Changelog](./module/CHANGELOG.md) for details.
+See the [Changelog](./module/CHANGELOG.md) for details.
 
 ## FAQ
 
-- See the [FAQ](https://pscompletions.abgox.com/faq).
+See the [FAQ](https://pscompletions.abgox.com/faq).
 
 ## Contribution
 
-- See the [Contribution Guide](./.github/contributing.md) for details.
+See the [Contribution Guide](./.github/contributing.md) for details.
 
 ## How to install
 
@@ -101,14 +101,10 @@ A completion manager for better and simpler use completions in `PowerShell`.
        ```
 
 2. Import module:
+
    ```powershell
    Import-Module PSCompletions
    ```
-   - Add it to your `$Profile` to make it permanent by running the following command.
-     ```powershell
-     "Import-Module PSCompletions" >> $Profile
-     ```
-   - Note: Recommend add `Import-Module PSCompletions` early in `$Profile` to avoid [the encoding issue](https://pscompletions.abgox.com/faq/output-encoding).
 
 ## How to uninstall
 
@@ -118,17 +114,23 @@ Uninstall-Module PSCompletions
 
 ## How to use
 
-> [!Tip]
->
-> - [Available Completions.](./completions.md "All completions that can be added at present. More completions are adding!")
-> - If it doesn't include the completion you want, you can [submit an issue](https://github.com/abgox/PSCompletions/issues "Click to submit an issue.").
-> - You can also [combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "Click to see what you need to do.")
+- Take `git` as an example.
 
-Take `git` as an example.
+  1. Add completion: `psc add git`
+  2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
+  3. For more usages on `psc`, you just need to enter `psc`, press `Space` and `Tab` key, and you will get all usages of `psc` by reading [the completion tip](#about-completion-tip).
 
-1. Add completion: `psc add git`
-2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
-3. For more usages on `psc`, you just need to enter `psc`, press `Space` and `Tab` key, and you will get all usages of `psc` by reading [the completion tip](#about-completion-tip).
+- Only use `PSCompletions` as a better completion menu without `psc add`.
+
+  - If there is an official completion for `xxx`, a similar command can be run:
+
+    ```powershell
+    xxx completion powershell | Out-String | Invoke-Expression
+    ```
+
+  - [Combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "Click to see what you need to do.")
+
+  - For more details, please refer to [About menu enhance](#about-menu-enhance).
 
 ## Tips
 
