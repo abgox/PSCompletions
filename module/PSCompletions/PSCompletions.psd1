@@ -21,8 +21,8 @@
 
     CompatiblePSEditions = @('Core', 'Desktop')
 
-    Description          = 'A completion manager for better and simpler use completions in PowerShell.
- It provides a better tab-completion menu to enhance the command line experience.
+    Description          = 'A completion manager for a better and simpler experience in PowerShell.
+ It provides a better completion menu to enhance the command line experience.
  For more information, please visit the project or website:
   - Website: https://pscompletions.abgox.com
   - Github:  https://github.com/abgox/PSCompletions
