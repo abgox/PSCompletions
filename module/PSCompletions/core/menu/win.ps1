@@ -966,7 +966,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             # 38: Left
             # 85: Ctrl + u
             # 80: Ctrl + p
-            { $_ -in @(37, 38) -or ($pressCtrl -and ($_ -eq 85 -or $_ -eq 80)) } {
+            # 75: Ctrl + k
+            { $_ -in @(37, 38) -or ($pressCtrl -and $_ -in @(85, 80, 75)) } {
                 $PSCompletions.menu.move_selection($false)
                 break
             }
@@ -975,7 +976,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             # 40: Down
             # 68: Ctrl + d
             # 78: Ctrl + n
-            { $_ -in @(39, 40) -or ($pressCtrl -and ($_ -eq 68 -or $_ -eq 78)) } {
+            # 74: Ctrl + j
+            { $_ -in @(39, 40) -or ($pressCtrl -and $_ -in @(68, 78, 74)) } {
                 $PSCompletions.menu.move_selection($true)
                 break
             }
