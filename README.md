@@ -78,16 +78,16 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 1. Install module:
 
-   - Normal:
+   - Use [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser
      ```
 
-   - Install silently:
+   - Use [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
 
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+     Install-PSResource PSCompletions -Scope CurrentUser
      ```
 
    - Use [Scoop](https://scoop.sh/):
@@ -106,19 +106,12 @@ See the [Contribution Guide](./.github/contributing.md) for details.
    Import-Module PSCompletions
    ```
 
-## How to uninstall
-
-```powershell
-Uninstall-Module PSCompletions
-```
-
 ## How to use
 
 - Take `git` as an example.
 
   1. Add completion: `psc add git`
   2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
-  3. For more usages on `psc`, you just need to enter `psc`, press `Space` and `Tab` key, and you will get all usages of `psc` by reading [the completion tip](#about-completion-tip).
 
 - Only use `PSCompletions` as a better completion menu without `psc add`.
 
@@ -149,7 +142,6 @@ Uninstall-Module PSCompletions
 - In addition to the built-in completion menu of `PowerShell`, `PSCompletions` module also provides a more powerful completion menu.
 
   - Setting: `psc menu config enable_menu 1` (Default: `1`)
-  - Its related behaviors can be controlled via other configuration items in `psc menu config`.
   - You can run `psc` to view the related key bindings.
 
 - It is only available in Windows, because [PowerShell in Linux/MacOS does not implement the relevant methods](https://github.com/cspotcode/PS-GuiCompletion/issues/13#issuecomment-620084134).
@@ -170,7 +162,6 @@ Uninstall-Module PSCompletions
   - [Set-PSReadLineKeyHandler](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
     - It's used by default.
       - Requires: `enable_menu` and `enable_menu_enhance` both set to `1`.
-    - It no longer needs to loop through registering [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) for all completions, which theoretically makes loading faster.
     - It use [TabExpansion2](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
       - Path completion such as `cd`/`.\`/`..\`/`~\`/...
       - Build-in commands such as `Get-*`/`Set-*`/`New-*`/...
@@ -188,6 +179,17 @@ Uninstall-Module PSCompletions
 - You should use option completion first.
 - Taking `git` as an example, if you want to enter `git config user.name --global xxx`, you should use `--global` completion first, and then use `user.name`, and then enter the name `xxx`.
 - For options ending with `=`, if there's completion definition, you can directly press the `Tab` key to get the completions.
+
+### About path completion
+
+- Take `git` for example, when entering `git add`, pressing the `Space` and `Tab` keys, path completion will not be triggered, only completion provided by the module will be triggered.
+- If you want to trigger path completion, you need to enter a content which matches `^(?:\.\.?|~)?(?:[/\\]).*`.
+- e.g.
+  - Enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
+  - Enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
+  - Enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
+  - More examples: `~/` / `../../` ...
+- So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ### About special symbols
 
@@ -211,18 +213,17 @@ Uninstall-Module PSCompletions
 
 - `~`,`?`,`!` : If there are multiple, you can choose the effect of one of them.
   - `~` : It means that after you apply it, you can press `Tab` key to continue to get completions.
-  - `?` : It means that after you apply the [(General) option completion](#about-option-completion), you can press `Tab` key to continue to get current completion items in completion menu.
-  - `!` : It means that after you apply the [(General) option completion](#about-option-completion), you can press enter a string, then press `Tab` key to continue to get current completion items in completion menu.
+  - `?` : It means that after you apply the [option completion](#about-option-completion), you can press `Tab` key to continue to get current list of completion items.
+  - `!` : It means that after you apply the [option completion](#about-option-completion), you should enter a string, then press `Tab` key to continue to get current list of completion items.
     - If the string has spaces, please use `"` or `'` to wrap it. e.g. `"test content"`
     - If there's also `~`, it means that there's some preset completions, you can press `Tab` key to continue to get them without entering a string.
 
 ### About completion tip
 
-- The completion tip is only a helper, you can also disable the tip by running `psc menu config enable_tip 0`
+- The completion tip is only a helper and can be used as needed.
 
-  - It's enabled by default: `psc menu config enable_tip 1`
-  - You can also disable the tip for a specific completion, such as `git`.
-    - `psc completion git enable_tip 0`
+  - Disable it for all completions: `psc menu config enable_tip 0`
+  - Disable it for a specific completion: `psc completion git enable_tip 0`
 
 - General structure of the completion tip: `Usage` + `Description` + `Example`
 
@@ -260,17 +261,6 @@ Uninstall-Module PSCompletions
    - Determine whether the value of the first step exists in `Available language`.
    - If it exists, use it.
    - If not, use the first of the `Available language`. (It's usually `en-US`)
-
-### About path completion
-
-- Take `git` for example, when entering `git add`, pressing the `Space` and `Tab` keys, path completion will not be triggered, only completion provided by the module will be triggered.
-- If you want to trigger path completion, you need to enter a content which matches `^(?:\.\.?|~)?(?:[/\\]).*`.
-- e.g.
-  - Please enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
-  - Please enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
-  - Please enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
-  - More examples: `~/` / `../../` ...
-- So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ## Acknowledgements
 

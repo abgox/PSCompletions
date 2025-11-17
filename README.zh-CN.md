@@ -53,7 +53,7 @@
 - `en-US`,`zh-CN`,... 多语言切换
 - [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "点击查看如何实现")
 
-## Demo
+## 演示
 
 > [!Tip]
 >
@@ -78,16 +78,16 @@
 
 1. 安装模块:
 
-   - 普通安装
+   - 使用 [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser
      ```
 
-   - 静默安装:
+   - 使用 [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
 
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser -Repository PSGallery -Force
+     Install-PSResource PSCompletions -Scope CurrentUser
      ```
 
    - 使用 [Scoop](https://scoop.sh/) 安装
@@ -105,19 +105,12 @@
    Import-Module PSCompletions
    ```
 
-## 卸载
-
-```powershell
-Uninstall-Module PSCompletions
-```
-
 ## 使用
 
 - 以 `git` 补全为例
 
-  1. 添加补全: `psc add git`
-  2. 然后你就可以输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
-  3. 关于 `psc` 的命令用法，你只需要输入 `psc` 然后按下 `Space`(空格键) 和 `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
+  1. 使用 `psc add git` 添加补全
+  2. 输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
 
 - 不使用 `PSCompletions` 中提供的补全，只将它作为一个更好的补全菜单
 
@@ -148,7 +141,6 @@ Uninstall-Module PSCompletions
 - 除了 `PowerShell` 内置的补全菜单，`PSCompletions` 模块还提供了一个更强大的补全菜单。
 
   - 配置: `psc menu config enable_menu 1` (默认开启)
-  - 可通过 `psc menu config` 中的其他配置项控制它的相关行为
   - 相关的按键绑定可运行 `psc` 查看
 
 - 它只在 Windows 中可用，因为在 Linux/MacOS 中 [PowerShell 没有实现相关底层方法](https://github.com/cspotcode/PS-GuiCompletion/issues/13#issuecomment-620084134)
@@ -170,7 +162,6 @@ Uninstall-Module PSCompletions
 
     - 默认使用此实现
       - 前提: 配置项 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
-    - 它不再需要循环为所有补全命令注册 [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)，理论上加载速度会更快
     - 它使用 [TabExpansion2](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
       - 路径补全: `cd`/`.\`/`..\`/`~\`/...
       - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...
@@ -190,6 +181,19 @@ Uninstall-Module PSCompletions
 - 你应该优先使用选项类补全
 - 以 `git` 补全为例，如果你想要输入 `git config user.name --global xxx`
 - 你应该先补全 `--global`，然后再补全 `user.name`，最后输入名称 `xxx`
+
+### 关于路径补全
+
+- 以 `git` 为例，当输入 `git add`，此时按下 `Space`(空格键) 和 `Tab` 键，不会触发路径补全，只会触发模块提供的命令补全
+- 如果你希望触发路径补全，你需要输入内容，且内容符合正则 `^(?:\.\.?|~)?(?:[/\\]).*`
+- 比如:
+
+  - 输入 `./` 或 `.\` 后按下 `Tab` 以获取 **子目录** 或 **文件** 的路径补全
+  - 输入 `../` 或 `..\` 后按下 `Tab` 以获取 **父级目录** 或 **文件** 的路径补全
+  - 输入 `/` 或 `\` 后按下 `Tab` 以获取 **同级目录** 的路径补全
+  - 更多的: `~/` / `../../` ...
+
+- 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 
 ### 关于特殊符号
 
@@ -214,19 +218,18 @@ Uninstall-Module PSCompletions
 - `~`,`?`,`!` : 如果出现多个，表示符合多个条件
 
   - `~` : 表示选用当前选中的补全后，可以按下 `Tab` 键继续获取补全
-  - `?` : 表示选用当前选中的 [(通用)选项类补全](#关于选项类补全) 后，可以按下 `Tab` 键继续获取当前的补全项列表
-  - `!` : 表示选用当前选中的 [(通用)选项类补全](#关于选项类补全) 后，你可以再输入一个字符串，然后按下 `Tab` 键继续获取当前的补全项列表
+  - `?` : 表示选用当前选中的 [选项类补全](#关于选项类补全) 后，可以按下 `Tab` 键继续获取当前的补全项列表
+  - `!` : 表示选用当前选中的 [选项类补全](#关于选项类补全) 后，你应该输入一个字符串，然后按下 `Tab` 键继续获取当前的补全项列表
 
     - 如果字符串有空格，请使用 `"` 或 `'` 包裹，如 `"test content"`
     - 如果同时还有 `~`，表示有预设的补全项，你可以不输入字符串，直接按下 `Tab` 键继续获取它们
 
 ### 关于补全提示信息
 
-- 补全提示信息只是辅助，你也可以使用 `psc menu config enable_tip 0` 全局禁用补全提示信息
+- 补全提示信息只是辅助，可按需使用
 
-  - 默认启用补全提示信息: `psc menu config enable_tip 1`
-  - 也可以禁用特定补全的提示信息，如 `git`
-    - `psc completion git enable_tip 0`
+  - 禁用所有补全的提示信息: `psc menu config enable_tip 0`
+  - 禁用特定补全的提示信息: `psc completion git enable_tip 0`
 
 - 补全提示信息一般由三部分组成: 用法(Usage) + 描述(Description) + 举例(Example)
   ```txt
@@ -266,19 +269,6 @@ Uninstall-Module PSCompletions
    - 判断第一步确定的值是否存在于 `Available language` 中
    - 如果存在，则使用它
    - 如果不存在，直接使用 `Available language` 中的第一种语言(一般为 `en-US`)
-
-### 关于路径补全
-
-- 以 `git` 为例，当输入 `git add`，此时按下 `Space`(空格键) 和 `Tab` 键，不会触发路径补全，只会触发模块提供的命令补全
-- 如果你希望触发路径补全，你需要输入内容，且内容符合正则 `^(?:\.\.?|~)?(?:[/\\]).*`
-- 比如:
-
-  - 输入 `./` 或 `.\` 后按下 `Tab` 以获取 **子目录** 或 **文件** 的路径补全
-  - 输入 `../` 或 `..\` 后按下 `Tab` 以获取 **父级目录** 或 **文件** 的路径补全
-  - 输入 `/` 或 `\` 后按下 `Tab` 以获取 **同级目录** 的路径补全
-  - 更多的: `~/` / `../../` ...
-
-- 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 
 ## 致谢
 
