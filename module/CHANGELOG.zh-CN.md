@@ -1,5 +1,10 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 5.11.1 (2025/11/19)
+
+- 修复了重绘 buffer 的问题 ([#93](https://github.com/abgox/PSCompletions/issues/93))
+- 修复了在补全菜单中过滤时的菜单闪烁问题
+
 ## 5.11.0 (2025/11/16)
 
 - 为 PSCompletions 的补全菜单添加按键绑定 ([#107](https://github.com/abgox/PSCompletions/issues/107))

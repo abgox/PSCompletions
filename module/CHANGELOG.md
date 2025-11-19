@@ -1,5 +1,10 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 5.11.1 (2025/11/19)
+
+- Fix the issue with redrawing the buffer. ([#93](https://github.com/abgox/PSCompletions/issues/93))
+- Fix the issue of menu flashing when filtering in the completion menu.
+
 ## 5.11.0 (2025/11/16)
 
 - Add key bindings for the PSCompletions' completion menu. ([#107](https://github.com/abgox/PSCompletions/issues/107))
