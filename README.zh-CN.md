@@ -78,13 +78,13 @@
 
 1. 安装模块:
 
-   - 使用 [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
+   - 使用 [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module):
 
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser
      ```
 
-   - 使用 [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
+   - 使用 [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource):
 
      ```powershell
      Install-PSResource PSCompletions -Scope CurrentUser
@@ -201,10 +201,7 @@
 >
 > - 由于 Windows Terminal 的变更导致在补全菜单中无法正常显示 😄🤔😎，因此将更换它们。
 > - 相关的 issue: https://github.com/microsoft/terminal/issues/18242
-> - 变化如下:
->   - `😄` => `~`
->   - `🤔` => `?`
->   - `😎` => `!`
+> - 更改为: `~`,`?`,`!`
 
 - 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全项
 

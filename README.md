@@ -78,13 +78,13 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 1. Install module:
 
-   - Use [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
+   - Use [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module):
 
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser
      ```
 
-   - Use [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
+   - Use [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource):
 
      ```powershell
      Install-PSResource PSCompletions -Scope CurrentUser
@@ -197,10 +197,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 >
 > - Due to changes in Windows Terminal, 😄🤔😎 cannot be displayed properly in the completion menu, so they will be replaced.
 > - Related issue: https://github.com/microsoft/terminal/issues/18242
-> - The changes are as follows:
->   - `😄` => `~`
->   - `🤔` => `?`
->   - `😎` => `!`
+> - New symbols: `~`,`?`,`!`
 
 - Special symbols after the completion item are used to let you know in advance if completions are available before you press the `Tab` key.
 
