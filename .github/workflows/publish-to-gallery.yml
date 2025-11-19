@@ -2,8 +2,9 @@ name: Publish to PowerShell Gallery
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
 
 jobs:
   publish:
@@ -14,8 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate module manifest
-        run:
-          |
+        run: |
           $manifestPath = "./module/PSCompletions/PSCompletions.psd1"
           Test-ModuleManifest -Path $manifestPath
           Write-Output "Module manifest validation passed"
@@ -23,8 +23,7 @@ jobs:
       - name: Publish to Gallery
         env:
           PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
-        run:
-          |
+        run: |
           $publishParams = @{
             Path        = "./module/PSCompletions"
             NuGetApiKey = $env:PSGALLERY_API_KEY
