@@ -1,4 +1,6 @@
 function handleCompletions($completions) {
+    return $completions # Remove this line if require hooks.
+
     $list = @()
 
     # $input_arr = $PSCompletions.input_arr
