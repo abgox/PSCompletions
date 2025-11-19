@@ -1735,7 +1735,7 @@
         "if($config.hooks -ne $null){$configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};};",
         "if($json.config){$configList += $json.config;};",
         " $config_list = $configList | ForEach-Object {",
-        "  \"`n<@Magenta>$($_.name)<@Blue>:`nDefault Value: $($_.value)`n$($PSCompletions.replace_content($_.tip))\" ",
+        "  \"`n<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:`nDefault Value: $($PSCompletions.quote_if_only_whitespace($_.value))`n$($PSCompletions.replace_content($_.tip))\" ",
         " };",
         " $config_list -join \"`n\";",
         " \"`n<@Blue>-------------------------------------------\";",
