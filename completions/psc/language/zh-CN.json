@@ -945,53 +945,6 @@
               ]
             },
             {
-              "name": "enable_list_cover_buffer",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_list_cover_buffer }} (默认值为 0, 表示禁用)\n",
-                "设置当显示补全列表时, 是否覆盖它所在区域每一行的原有内容(退出补全菜单时恢复)。\n",
-                "如果禁用, 则只覆盖显示所需要的一小块区域内容。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0 (默认值)\n",
-                    "不覆盖所在区域每一行的原有内容, 只覆盖显示所需要的一小块区域内容。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1\n",
-                    "覆盖所在区域每一行的原有内容。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_tip_cover_buffer",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_tip_cover_buffer }} (默认值为 1, 表示启用)\n",
-                "设置当显示补全提示信息时, 是否覆盖它所在区域及其附近区域每一行的原有内容(退出补全菜单时恢复)。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0 \n",
-                    "不覆盖它所在区域及其上方区域每一行的原有内容, 只覆盖显示所需要的那几行区域。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)\n",
-                    "覆盖它所在区域及其上方区域每一行的原有内容。"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "enable_tip",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_tip }} (默认值为 1, 表示启用)\n",
@@ -1099,38 +1052,11 @@
               ]
             },
             {
-              "name": "enable_prefix_match_in_filter",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_prefix_match_in_filter }} (默认值为 0, 表示使用模糊匹配)\n",
-                "设置菜单是否使用前缀匹配进行补全过滤。\n",
-                "如果你开启了前缀匹配(设置为1), 将会自动提取当前所有补全项的公共前缀。\n",
-                "否则使用模糊匹配，它支持使用 * 和 ? 作为通配符。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0 (默认值)\n",
-                    "使用模糊匹配, 你只需要输入部分字符即可匹配到相关的补全项。\n",
-                    "它支持使用 * 和 ? 作为通配符。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1\n",
-                    "使用前缀匹配, 你只需要输入前缀即可匹配到相关的补全项。\n",
-                    "如果存在共用的前缀, 会自动提取。"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "enable_path_with_trailing_separator",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (默认值为 1)\n",
                 "设置路径完成是否带有末尾的分隔符。\n",
-                "有: C:\\Users\\abgox\\\n",
+                "有: C:\\Users\\abgox{{ $PSCompletions.separator }}\n",
                 "无: C:\\Users\\abgox"
               ],
               "next": [
@@ -1147,7 +1073,7 @@
                   "tip": [
                     "设置为 1 (默认值)\n",
                     "带有末尾的分隔符。\n",
-                    "如: C:\\Users\\abgox\\"
+                    "如: C:\\Users\\abgox{{ $PSCompletions.separator }}"
                   ]
                 }
               ]
@@ -1180,14 +1106,14 @@
               "tip": [
                 "当前值: {{ $PSCompletions.config.list_max_count_when_above }} (默认值为 -1)\n",
                 "设置当补全菜单显示在光标上方时, 第一页显示的补全项的最大个数。\n",
-                "如果值为 -1, 则表示根据光标上方可用的高度尽量显示更多的补全个数。"
+                "如果值为 -1, 则表示它由 PSCompletions 自行决定"
               ],
               "next": [
                 {
                   "name": "-1",
                   "tip": [
                     "设置为 -1 (默认值)\n",
-                    "根据光标上方可用的高度尽量显示更多的补全个数。"
+                    "由 PSCompletions 自行决定"
                   ]
                 }
               ]
@@ -1198,14 +1124,14 @@
               "tip": [
                 "当前值: {{ $PSCompletions.config.list_max_count_when_below }} (默认值为 -1)\n",
                 "设置当补全菜单显示在光标下方时, 第一页显示的补全项的最大个数。\n",
-                "如果值为 -1, 则表示根据光标下方可用的高度尽量显示更多的补全个数。"
+                "如果值为 -1, 则表示它由 PSCompletions 自行决定"
               ],
               "next": [
                 {
                   "name": "-1",
                   "tip": [
                     "设置为 -1 (默认值)\n",
-                    "根据光标下方可用的高度尽量显示更多的补全个数。"
+                    "由 PSCompletions 自行决定"
                   ]
                 }
               ]
@@ -1223,30 +1149,6 @@
                   "tip": [
                     "设置为 \" \" (默认值)\n",
                     "每一个补全项和符号之间都加入一个空格作为间隔。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_selection_with_margin",
-
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_selection_with_margin }} (默认值为 1, 表示启用)\n",
-                "当设置了补全列表的 margin (间距)时, 当前选中项的选中样式是否包含 margin。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0\n",
-                    "当前选中项的选中样式不包含 margin。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)\n",
-                    "当前选中项的选中样式包含 margin。"
                   ]
                 }
               ]
@@ -1272,42 +1174,7 @@
               ]
             },
             {
-              "name": "width_from_menu_left_to_item",
-
-              "tip": [
-                "当前值: {{ $PSCompletions.config.width_from_menu_left_to_item }} (默认值为 0)\n",
-                "设置补全菜单中, 补全项区域和左边框的之间的间距。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0 (默认值)\n",
-                    "没有额外的间距。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "width_from_menu_right_to_item",
-
-              "tip": [
-                "当前值: {{ $PSCompletions.config.width_from_menu_right_to_item }} (默认值为 0)\n",
-                "设置补全菜单中, 补全列表和右边框的之间的间距。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0 (默认值)\n",
-                    "没有额外的间距。"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "status_symbol",
-
               "tip": [
                 "当前值: \"{{ $PSCompletions.config.status_symbol }}\" (默认值为 \"/\")\n",
                 "设置底部边框上的补全个数显示区域, 当前补全数以及总补全数之间的间隔符。"
@@ -1323,7 +1190,6 @@
             },
             {
               "name": "filter_symbol",
-
               "tip": [
                 "当前值: \"{{ $PSCompletions.config.filter_symbol }}\" (默认值为 \"[]\")\n",
                 "设置顶部边框上的过滤区域, 左侧和右侧的符号。\n",
@@ -1566,7 +1432,7 @@
         "-h"
       ],
       "tip": [
-        "U: psc [-h|--help|-?]\n",
+        "U: -?, -h, --help\n",
         "显示 PSCompletions(psc) 的帮助信息"
       ]
     }
@@ -1589,14 +1455,19 @@
       "\n",
       "<@Blue>PSCompletions<@Cyan> 命令简单, 输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法。\n",
       "\n",
-      "<@Blue>PSCompletions<@Cyan> 拥有一个强大的补全菜单，以下是相关的按键绑定:\n",
-      "  - 选用当前选中的补全项: <@Magenta>Enter<@Cyan> (回车) | <@Magenta>Space<@Cyan> (空格)\n",
-      "      - 当只有一个补全项时，也可以使用 <@Magenta>Tab<@Cyan>\n",
-      "  - 删除过滤字符: <@Magenta>Backspace<@Cyan> (退格)\n",
-      "  - 退出补全菜单: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
-      "      - 当过滤区域没有字符时，也可以使用 <@Magenta>Backspace<@Cyan> (退格) 退出补全菜单\n",
-      "  - 选择上一个补全项:  <@Magenta>Up<@Cyan>  | <@Magenta>Left<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
-      "  - 选择下一个补全项: <@Magenta>Down<@Cyan> | <@Magenta>Right<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
+      "<@Blue>PSCompletions<@Cyan> 提供了一个强大的补全菜单\n",
+      "  - 在这个补全菜单中，你可以输入字符进行过滤，支持三个匹配符:\n",
+      "    - <@Magenta>^<@Cyan>: 匹配开头\n",
+      "    - <@Magenta>?<@Cyan>: 匹配一个任意字符\n",
+      "    - <@Magenta>*<@Cyan>: 匹配一个或多个任意字符\n",
+      "  - 以下是补全菜单的按键绑定:\n",
+      "    - 选用当前选中的补全项: <@Magenta>Enter<@Cyan> (回车) | <@Magenta>Space<@Cyan> (空格)\n",
+      "        - 当只有一个补全项时，也可以使用 <@Magenta>Tab<@Cyan>\n",
+      "    - 删除过滤字符: <@Magenta>Backspace<@Cyan> (退格)\n",
+      "    - 退出补全菜单: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
+      "        - 当过滤区域没有字符时，也可以使用 <@Magenta>Backspace<@Cyan> (退格) 退出补全菜单\n",
+      "    - 选择上一个补全项:  <@Magenta>Up<@Cyan>  | <@Magenta>Left<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
+      "    - 选择下一个补全项: <@Magenta>Down<@Cyan> | <@Magenta>Right<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
       "\n",
       "<@Blue>PSCompletions<@Cyan> 模块只会占用两个全局命名\n",
       "  <@Magenta>PSCompletions<@Cyan>: 函数名, 模块导出的核心函数 (<@Magenta>psc<@Cyan> 其实就是它的别名)\n",
@@ -1612,7 +1483,7 @@
       "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@>"
     ],
     "description": [
-      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell 补全管理模块\n",
+      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell 补全管理器\n",
       "\n",
       "{{ $PSCompletions.info.desc }}"
     ],

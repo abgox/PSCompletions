@@ -949,55 +949,6 @@
               ]
             },
             {
-              "name": "enable_list_cover_buffer",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_list_cover_buffer }} (Default: 0, it means disabled.)\n",
-                "Set whether to overwrite the original content of each line in the area where the completion list is displayed.\n",
-                "(Restores when exiting the complete menu)\n",
-                "If set to 0, only a small area of the content needed for display is overwritten."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0 (Default)\n",
-                    "Only a small area of the content needed for display is overwritten."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1\n",
-                    "Overwrite the original content of each line in the region."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_tip_cover_buffer",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_tip_cover_buffer }} (Default: 1, it means enabled.)\n",
-                "Set whether to overwrite the original content of each line in the area where it is located and its neighboring areas when displaying a completion tip.\n",
-                "(Restores when exiting the complete menu)"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0\n",
-                    "Only a small area of the content needed for display is overwritten."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1 (Default)\n",
-                    "Overwrite the original content of each line in the area where it is located and its neighboring areas."
-                  ]
-                }
-              ]
-            },
-            {
               "name": "enable_tip",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_tip }} (Default: 1, it means enabled.)\n",
@@ -1105,38 +1056,11 @@
               ]
             },
             {
-              "name": "enable_prefix_match_in_filter",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_prefix_match_in_filter }} (Default: 0, it means using fuzzy matching.)\n",
-                "Set whether the menu uses prefix matching for completion filtering.\n",
-                "If use prefix matching (set to 1), the common prefix of the current completions will be automatically extracted.\n",
-                "Otherwise, use fuzzy matching, which supports the use of * and ? as wildcards."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0 (Default)\n",
-                    "It means using fuzzy matching.\n",
-                    "It supports the use of * and ? as wildcards."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1\n",
-                    "It means using prefix matching.\n",
-                    "The common prefix of the current completions will be automatically extracted."
-                  ]
-                }
-              ]
-            },
-            {
               "name": "enable_path_with_trailing_separator",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (Default: 1)\n",
                 "Set whether path completion has a trailing separator.\n",
-                "With: C:\\Users\\abgox\\\n",
+                "With: C:\\Users\\abgox{{ $PSCompletions.separator }}\n",
                 "Without: C:\\Users\\abgox"
               ],
               "next": [
@@ -1153,7 +1077,7 @@
                   "tip": [
                     "Set to 1 (Default)\n",
                     "With a trailing separator.\n",
-                    "e.g. C:\\Users\\abgox\\"
+                    "e.g. C:\\Users\\abgox{{ $PSCompletions.separator }}"
                   ]
                 }
               ]
@@ -1186,14 +1110,14 @@
               "tip": [
                 "Current Value: {{ $PSCompletions.config.list_max_count_when_above }} (Default: -1)\n",
                 "Set the maximum number of completion items to be displayed on the first page when the completion menu is displayed above the cursor.\n",
-                "If it's -1, it means to display as many completions as possible according to the available height."
+                "If it's -1, it means that it's determined by PSCompletions itself."
               ],
               "next": [
                 {
                   "name": "-1",
                   "tip": [
                     "Set to -1 (Default)\n",
-                    "Display as many completions as possible according to the available height."
+                    "It's determined by PSCompletions itself."
                   ]
                 }
               ]
@@ -1203,14 +1127,14 @@
               "tip": [
                 "Current Value: {{ $PSCompletions.config.list_max_count_when_below }} (Default: -1)\n",
                 "Set the maximum number of completion items to be displayed on the first page when the completion menu is displayed below the cursor.\n",
-                "If it's -1, it means to display as many completions as possible according to the available height."
+                "If it's -1, it means that it's determined by PSCompletions itself."
               ],
               "next": [
                 {
                   "name": "-1",
                   "tip": [
                     "Set to -1 (Default)\n",
-                    "Display as many completions as possible according to the available height."
+                    "It's determined by PSCompletions itself."
                   ]
                 }
               ]
@@ -1232,29 +1156,6 @@
               ]
             },
             {
-              "name": "enable_selection_with_margin",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_selection_with_margin }} (Default: 1, it means enabled.)\n",
-                "When the margin of the completion list is set, whether the selection style of the currently selected item contains margin."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0\n",
-                    "Don't include margin in the selection style of the currently selected item."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1 (Default)\n",
-                    "Include margin in the selection style of the currently selected item."
-                  ]
-                }
-              ]
-            },
-            {
               "name": "list_min_width",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.list_min_width }} (Default: 10)\n",
@@ -1266,36 +1167,6 @@
                   "tip": [
                     "Set 10 (Default)\n",
                     "When the width of the completion list area is less than 10, the width will be filled with 10 to avoid menu display errors."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "width_from_menu_left_to_item",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.width_from_menu_left_to_item }} (Default: 0)\n",
-                "Set the spacing between the completion item area and the left border in the completion menu."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0 (Default)"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "width_from_menu_right_to_item",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.width_from_menu_right_to_item }} (Default: 0)\n",
-                "Set the spacing between the completion item area and the right border in the completion menu."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0 (Default)"
                   ]
                 }
               ]
@@ -1559,7 +1430,7 @@
         "-h"
       ],
       "tip": [
-        "U: psc [-h|--help|-?]\n",
+        "U: -?, -h, --help\n",
         "Display the help information for PSCompletions(psc)"
       ]
     }
@@ -1582,14 +1453,19 @@
       "\n",
       "<@Blue>PSCompletions<@Cyan> is simple, enter <@Magenta>psc<@Cyan>, press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key, you will quickly learn all usages by reading the completion tip.\n",
       "\n",
-      "<@Blue>PSCompletions<@Cyan> has a powerful completion menu, and here are some key bindings:\n",
-      "  - Apply the selected completion item: <@Magenta>Enter<@Cyan> | <@Magenta>Space<@Cyan>\n",
-      "      - You can also use <@Magenta>Tab<@Cyan> when there's only one completion.\n",
-      "  - Delete filter characters: <@Magenta>Backspace<@Cyan>\n",
-      "  - Exit the completion menu: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
-      "      - You can also use <@Magenta>Backspace<@Cyan> when there're no characters in the filter area.\n",
-      "  - Select previous completion item:  <@Magenta>Up<@Cyan>  | <@Magenta>Left<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
-      "  - Select   next   completion item: <@Magenta>Down<@Cyan> | <@Magenta>Right<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
+      "<@Blue>PSCompletions<@Cyan> has a powerful completion menu.\n",
+      "  - You can enter characters to filter, and three matching symbols are supported:\n",
+      "    - <@Magenta>^<@Cyan>: Match the beginning.\n",
+      "    - <@Magenta>?<@Cyan>: Match any single character.\n",
+      "    - <@Magenta>*<@Cyan>: Match one or more any characters.\n",
+      "  - Here are some key bindings:\n",
+      "    - Apply the selected completion item: <@Magenta>Enter<@Cyan> | <@Magenta>Space<@Cyan>\n",
+      "        - You can also use <@Magenta>Tab<@Cyan> when there's only one completion.\n",
+      "    - Delete filter characters: <@Magenta>Backspace<@Cyan>\n",
+      "    - Exit the completion menu: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
+      "        - You can also use <@Magenta>Backspace<@Cyan> when there're no characters in the filter area.\n",
+      "    - Select previous completion item:  <@Magenta>Up<@Cyan>  | <@Magenta>Left<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
+      "    - Select   next   completion item: <@Magenta>Down<@Cyan> | <@Magenta>Right<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
       "\n",
       "<@Blue>PSCompletions<@Cyan> will take up two global names.\n",
       "  <@Magenta>PSCompletions<@Cyan>: A function name. The core function of the module export. (<@Magenta>psc<@Cyan> is actually its alias.)\n",
@@ -1605,7 +1481,7 @@
       "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>."
     ],
     "description": [
-      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell Completions Manager Module\n",
+      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell Completions Manager\n",
       "\n",
       "{{ $PSCompletions.info.desc }}"
     ],
