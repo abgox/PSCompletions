@@ -1,6 +1,6 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
-# 6.0.0 (2025/11/22)
+## 6.0.0 (2025/11/22)
 
 - 重构了补全菜单，补全响应速度大幅提升
 - 移除了 `enable_prefix_match_in_filter`

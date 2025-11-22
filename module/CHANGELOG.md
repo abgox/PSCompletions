@@ -1,6 +1,6 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
-# 6.0.0 (2025/11/22)
+## 6.0.0 (2025/11/22)
 
 - Refactor the completion menu, which significantly improves the completion response speed.
 - Remove the `enable_prefix_match_in_filter` configuration.
