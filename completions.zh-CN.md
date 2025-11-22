@@ -68,7 +68,7 @@
 |[pip](https://github.com/pypa/pip)|[**en-US**](/completions/pip/language/en-US.json)<br>[**zh-CN(99.42%)**](/completions/pip/language/zh-CN.json)|pip - Python 包管理器。|
 |[pnpm](https://pnpm.io/zh/)|[**en-US**](/completions/pnpm/language/en-US.json)<br>[**zh-CN(100%)**](/completions/pnpm/language/zh-CN.json)|pnpm - 软件包管理器。|
 |[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|[**en-US**](/completions/powershell/language/en-US.json)<br>[**zh-CN(100%)**](/completions/powershell/language/zh-CN.json)|Windows PowerShell 命令行 CLI. (powershell.exe)|
-|[psc](https://github.com/abgox/PSCompletions)|[**en-US**](/completions/psc/language/en-US.json)<br>[**zh-CN(97.74%)**](/completions/psc/language/zh-CN.json)|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
+|[psc](https://github.com/abgox/PSCompletions)|[**en-US**](/completions/psc/language/en-US.json)<br>[**zh-CN(97.52%)**](/completions/psc/language/zh-CN.json)|PSCompletions 模块的补全提示<br> 它只能更新，不能移除<br> 如果移除它，将会自动重新添加|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|[**en-US**](/completions/pwsh/language/en-US.json)<br>[**zh-CN(100%)**](/completions/pwsh/language/zh-CN.json)|PowerShell 命令行 CLI。(pwsh.exe)|
 |[python](https://www.python.org)|[**en-US**](/completions/python/language/en-US.json)<br>[**zh-CN(100%)**](/completions/python/language/zh-CN.json)|python - 命令行。|
 |[scoop](https://scoop.sh)|[**en-US**](/completions/scoop/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop/language/zh-CN.json)|Scoop - 软件管理|
