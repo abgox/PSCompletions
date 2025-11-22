@@ -1,5 +1,19 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+# 6.0.0 (2025/11/22)
+
+- 重构了补全菜单，补全响应速度大幅提升
+- 移除了 `enable_prefix_match_in_filter`
+  - 现在过滤使用模糊匹配，支持三个匹配符: `^?*`
+  - 使用 `^` 替代以前的前缀匹配
+- 移除了一些不常用的配置
+  - `enable_list_cover_buffer`
+  - `enable_tip_cover_buffer`
+  - `enable_selection_with_margin`
+  - `width_from_menu_left_to_item`
+  - `width_from_menu_right_to_item`
+- 其他的优化和修复
+
 ## 5.11.1 (2025/11/19)
 
 - 修复了重绘 buffer 的问题 ([#93](https://github.com/abgox/PSCompletions/issues/93))

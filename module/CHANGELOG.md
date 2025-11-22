@@ -1,5 +1,19 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+# 6.0.0 (2025/11/22)
+
+- Refactor the completion menu, which significantly improves the completion response speed.
+- Remove the `enable_prefix_match_in_filter` configuration.
+  - Now the filtering uses fuzzy matching, supporting three matchers: `^?*`
+  - Use `^` instead of the previous prefix matcher.
+- Remove some less commonly used configurations.
+  - `enable_list_cover_buffer`
+  - `enable_tip_cover_buffer`
+  - `enable_selection_with_margin`
+  - `width_from_menu_left_to_item`
+  - `width_from_menu_right_to_item`
+- Other optimizations and fixes.
+
 ## 5.11.1 (2025/11/19)
 
 - Fix the issue with redrawing the buffer. ([#93](https://github.com/abgox/PSCompletions/issues/93))
