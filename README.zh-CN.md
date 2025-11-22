@@ -149,8 +149,6 @@
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)
   - 一些常见的菜单行为:
     - 只有一个补全项时自动应用: `psc menu config enable_enter_when_single 1`
-    - 使用前缀匹配进行过滤: `psc menu config enable_prefix_match_in_filter 1`
-      - 如果为 `0`，则使用模糊匹配，支持使用 `*` 和 `?` 通配符
     - ...
 
 #### 关于菜单增强

@@ -150,8 +150,6 @@ See the [Contribution Guide](./.github/contributing.md) for details.
   - For configured values, `1` means `true` and `0` means `false`. (It applies to all configurations of `PSCompletions`)
   - Some common menu behaviors:
     - Auto-apply when there's only one completion item: `psc menu config enable_enter_when_single 1`
-    - Use prefix matching for filtering: `psc menu config enable_prefix_match_in_filter 1`
-      - If it is `0`, fuzzy matching is used, and the `*` and `?` wildcards are supported.
     - ...
 
 #### About menu enhance
