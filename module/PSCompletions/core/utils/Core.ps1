@@ -21,10 +21,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 }
                 ''
             }
+
+            $pattern = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
             function replace_content {
                 param ($data, $separator = '')
                 $data = $data -join $separator
-                $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
                 $matches = [regex]::Matches($data, $pattern)
                 foreach ($match in $matches) {
                     $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
@@ -300,10 +301,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
             ''
         }
+
+        $pattern = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
         function replace_content {
             param ($data, $separator = '')
             $data = $data -join $separator
-            $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
             $matches = [regex]::Matches($data, $pattern)
             foreach ($match in $matches) {
                 $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )

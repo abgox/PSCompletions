@@ -4,12 +4,11 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
     function _replace {
         param ($data, $separator = '')
         $data = $data -join $separator
-        $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
-        $matches = [regex]::Matches($data, $pattern)
+        $matches = [regex]::Matches($data, $PSCompletions.replace_pattern)
         foreach ($match in $matches) {
             $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
         }
-        if ($data -match $pattern) { (_replace $data) }else { return $data }
+        if ($data -match $PSCompletions.replace_pattern) { (_replace $data) }else { return $data }
     }
     function Show-ParamError {
         param($flag, $cmd, $err_info = $PSCompletions.info.$cmd.err.$flag, $example = $PSCompletions.info.$cmd.example)
@@ -808,7 +807,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                             return
                         }
                     }
-                    { $_ -in @('list_min_width', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above') } {
+                    { $_ -in @('list_min_width', 'height_from_menu_bottom_to_cursor_when_above') } {
                         if (!$is_num -or $value -lt 0) {
                             $cmd_list = $null
                             $sub_cmd = $value

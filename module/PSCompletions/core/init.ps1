@@ -25,19 +25,17 @@ New-Variable -Name PSCompletions -Value @{
     encoding                = [console]::OutputEncoding
     separator               = [System.IO.Path]::DirectorySeparatorChar
     wc                      = New-Object System.Net.WebClient
+    replace_pattern         = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     menu                    = @{
-        # 用于那些大量动态生成的补全，忽略不必要的 tip，加快解析速度
-        # 和 enable_hooks_tip 的区别: enable_hooks_tip 由模块使用者通过配置决定，而 ignore_tip 由补全编写者在 hooks.ps1 中设置
-        ignore_tip = $false
         # 存放临时数据，仅当使用 Esc 退出补全菜单时清除
-        temp       = @{}
-        const      = @{
+        temp  = @{}
+        const = @{
             symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
             line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
             color_item  = @('item_text', 'item_back', 'selected_text', 'selected_back', 'filter_text', 'filter_back', 'border_text', 'border_back', 'status_text', 'status_back', 'tip_text', 'tip_back')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_tip_cover_buffer', 'enable_list_cover_buffer', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_selection_with_margin', 'enable_enter_when_single', 'enable_prefix_match_in_filter', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'width_from_menu_left_to_item', 'width_from_menu_right_to_item', 'height_from_menu_bottom_to_cursor_when_above', 'completions_confirm_limit'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'completions_confirm_limit'
             )
         }
     }
@@ -94,21 +92,15 @@ New-Variable -Name PSCompletions -Value @{
         enable_completions_sort                      = 1
         enable_tip_follow_cursor                     = 1
         enable_list_follow_cursor                    = 1
-        enable_tip_cover_buffer                      = 1
-        enable_list_cover_buffer                     = 0
 
         enable_path_with_trailing_separator          = 1
 
         enable_list_loop                             = 1
-        enable_selection_with_margin                 = 1
         enable_enter_when_single                     = 0
-        enable_prefix_match_in_filter                = 0
 
         list_min_width                               = 10
         list_max_count_when_above                    = -1
         list_max_count_when_below                    = -1
-        width_from_menu_left_to_item                 = 0
-        width_from_menu_right_to_item                = 0
         height_from_menu_bottom_to_cursor_when_above = 0
 
         completions_confirm_limit                    = -1
@@ -649,12 +641,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content {
     param ($data, $separator = '')
     $data = $data -join $separator
-    $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
-    $matches = [regex]::Matches($data, $pattern)
+    $matches = [regex]::Matches($data, $PSCompletions.replace_pattern)
     foreach ($match in $matches) {
         $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
     }
-    if ($data -match $pattern) { $PSCompletions.replace_content($data) }else { return $data }
+    if ($data -match $PSCompletions.replace_pattern) { $PSCompletions.replace_content($data) }else { return $data }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color {
     param([string]$str)
@@ -1113,8 +1104,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     if ($Host.UI.RawUI.BufferSize.Height -lt 5) {
         [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.info.min_area)
-        ''
-        return
+        return ''
     }
 
     $json = $PSCompletions.completions.$($PSCompletions.root_cmd)
@@ -1131,7 +1121,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip
     }
 
-    if ($PSCompletions.menu.is_show_tip -and !$PSCompletions.menu.ignore_tip) {
+    if ($PSCompletions.menu.is_show_tip) {
         foreach ($_ in $filter_list) {
             if ($_.ToolTip -ne $null) {
                 $tip = $PSCompletions.replace_content($_.ToolTip)
@@ -1162,8 +1152,6 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             }
         }
     }
-    $PSCompletions.menu.ignore_tip = $false
-    $PSCompletions.menu.temp = @{}
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
     param(
