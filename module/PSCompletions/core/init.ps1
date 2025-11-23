@@ -39,6 +39,7 @@ New-Variable -Name PSCompletions -Value @{
             )
         }
     }
+    config                  = @{ function_name = 'PSCompletions' }
     default_config          = [ordered]@{
         # config
         url                                          = ''
@@ -111,6 +112,16 @@ New-Variable -Name PSCompletions -Value @{
 } -Option ReadOnly
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
+    try {
+        if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
+            if (-not (New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+                Write-Host "PSCompletions is installed in a system-level directory, so you must run PowerShell as administrator to use it.`nReference: https://pscompletions.abgox.com/faq/require-admin" -ForegroundColor Red
+                return
+            }
+        }
+    }
+    catch {}
+
     # Windows...
     . $PSScriptRoot\completion\win.ps1
     . $PSScriptRoot\menu\win.ps1
