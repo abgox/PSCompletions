@@ -508,7 +508,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     if ($PSCompletions.menu.is_show_above) {
         $startY = 0
-        $endY = $Host.UI.RawUI.CursorPosition.Y - 1
+        $endY = $PSCompletions.menu.cursor_to_top
     }
     else {
         $startY = $Host.UI.RawUI.CursorPosition.Y + 1
