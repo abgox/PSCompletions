@@ -1,5 +1,9 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.0.1
+
+- Reduce the redraw range of the buffer.
+
 ## 6.0.0 (2025/11/22)
 
 - Refactor the completion menu, which significantly improves the completion response speed.
