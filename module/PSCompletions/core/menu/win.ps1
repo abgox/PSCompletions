@@ -205,7 +205,11 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
 
             $tip_arr = @()
             foreach ($v in ($PSCompletions.replace_content($tip).Split("`n"))) {
-                $tip_arr += (Get-MultilineTruncatedString $v).Split("`n")
+                $tip_arr += (Get-MultilineTruncatedString $v).Split("`n").Where({ $_ -ne '' })
+            }
+
+            if ($tip_arr.Count -eq 0) {
+                return
             }
 
             $pos = @{
