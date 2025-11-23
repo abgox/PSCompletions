@@ -1453,7 +1453,7 @@
       "\n",
       "<@Blue>PSCompletions<@Cyan> is simple, enter <@Magenta>psc<@Cyan>, press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key, you will quickly learn all usages by reading the completion tip.\n",
       "\n",
-      "<@Blue>PSCompletions<@Cyan> has a powerful completion menu.\n",
+      "<@Blue>PSCompletions<@Cyan> has a more powerful completion menu.\n",
       "  - You can enter characters to filter, and three matching symbols are supported:\n",
       "    - <@Magenta>^<@Cyan>: Match the beginning.\n",
       "    - <@Magenta>?<@Cyan>: Match any single character.\n",
@@ -1478,7 +1478,12 @@
       "\n",
       "If you have a problem using it, you can submit an issue: https://github.com/abgox/PSCompletions/issues\n",
       "\n",
-      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>."
+      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@>.",
+      "{{ if($PSCompletions.path.root -like \"$env:ProgramFiles*\") {",
+      "$info = '', '', '<@Yellow>PSCompletions warning:', '  Currently, it has been installed in the system-level directory, and to use it, you must run PowerShell with administrator mode.', '  Otherwise, please reinstall the module and specify <@Magenta>-Scope CurrentUser<@Yellow>', '';",
+      "$info -join \"`n\"",
+      "};",
+      "}}"
     ],
     "description": [
       "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell Completions Manager\n",
@@ -1486,18 +1491,11 @@
       "{{ $PSCompletions.info.desc }}"
     ],
     "init_info": [
-      "\n<@Yellow>PSCompletions module install warning (The display is initialized for the first time only):\n",
-      "You should not be in the following case:\n",
-      "  1. Install the PSCompletions module in the built-in Windows PowerShell on the Windows system started in administrator mode.\n",
-      "  2. The installation is accidentally using <@Magenta>-Scope AllUser<@Yellow>\n",
-      "If you are in the case, you should use <@Magenta>-Scope CurrentUser<@Yellow> to reinstall the module, unless you are in the following case:\n",
-      "  1. You already know that the PSCompletions module installed in administrator mode can have permission issues when used with user mode.\n",
-      "  2. You always use the administrator mode to open PowerShell, and never use the user mode.\n\n",
-      "<@Blue>Full installation command: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Cyan>\n\n",
-      "---------------------------------------------------------------------\n",
-      "<@Cyan>✨✨✨PSCompletions(<@Magenta>psc<@Cyan>) --- init successfully!✨✨✨\n",
-      "<@Yellow>The following is displayed for the first time only, you can also see it by running <@Magenta>psc<@Yellow><@Cyan>\n",
-      "{{ $PSCompletions.info.desc }}"
+      "\n",
+      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- init successfully! ✨✨✨\n",
+      "<@Yellow>The following is displayed for the first time only, you can also see it by running <@Magenta>psc<@Yellow>.\n\n",
+      "{{ $PSCompletions.info.description }}",
+      "\n"
     ],
     "err": {
       "alias_conflict": [

@@ -1455,7 +1455,7 @@
       "\n",
       "<@Blue>PSCompletions<@Cyan> 命令简单, 输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>空格<@Cyan> 和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法。\n",
       "\n",
-      "<@Blue>PSCompletions<@Cyan> 提供了一个强大的补全菜单\n",
+      "<@Blue>PSCompletions<@Cyan> 有一个非常强大的补全菜单\n",
       "  - 在这个补全菜单中，你可以输入字符进行过滤，支持三个匹配符:\n",
       "    - <@Magenta>^<@Cyan>: 匹配开头\n",
       "    - <@Magenta>?<@Cyan>: 匹配一个任意字符\n",
@@ -1480,7 +1480,12 @@
       "\n",
       "如果有使用问题, 请提交 issue: https://github.com/abgox/PSCompletions/issues\n",
       "\n",
-      "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@>"
+      "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@>",
+      "{{ if($PSCompletions.path.root -like \"$env:ProgramFiles*\") {",
+      "$info = '', '', '<@Yellow>PSCompletions 模块警告:', '  当前，它被安装到了系统级目录中，使用它必须以管理员权限运行 PowerShell', '  否则，请重新安装模块，并指定 <@Magenta>-Scope CurrentUser<@Yellow>', '';",
+      "$info -join \"`n\"",
+      "};",
+      "}}"
     ],
     "description": [
       "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell 补全管理器\n",
@@ -1488,18 +1493,11 @@
       "{{ $PSCompletions.info.desc }}"
     ],
     "init_info": [
-      "\n<@Yellow>PSCompletions 模块安装警告(仅首次初始化显示):\n",
-      "你不应该属于以下情况:\n",
-      "  1. 在以管理员模式启动的 Windows 系统内置的 Windows PowerShell 中安装 PSCompletions 模块\n",
-      "  2. 安装时意外使用了 <@Magenta>-Scope AllUser<@Yellow>\n",
-      "如果属于以上情况, 你应该重新安装模块, 使用 <@Magenta>-Scope CurrentUser<@Yellow>, 除非你符合以下前提:\n",
-      "  1. 你已知晓以管理员模式安装的 PSCompletions 模块在用户权限下使用会出现权限问题\n",
-      "  2. 你始终使用管理员模式打开 PowerShell, 从不使用用户权限打开 PowerShell\n\n",
-      "<@Blue>完整安装命令: <@Magenta>Install-Module PSCompletions -Scope CurrentUser<@Cyan>\n\n",
-      "---------------------------------------------------------------------\n",
-      "<@Cyan>✨✨✨PSCompletions(<@Magenta>psc<@Cyan>) --- 初始化成功！✨✨✨\n",
-      "<@Yellow>以下内容仅首次初始化显示, 你也可以通过运行 <@Magenta>psc<@Yellow> 来看到这些内容<@Cyan>\n",
-      "{{ $PSCompletions.info.desc }}"
+      "\n",
+      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- 初始化成功！ ✨✨✨\n",
+      "<@Yellow>以下内容仅首次初始化显示, 你可以通过运行 <@Magenta>psc<@Yellow> 来查看它们\n\n",
+      "{{ $PSCompletions.info.description }}",
+      "\n"
     ],
     "err": {
       "alias_conflict": [
