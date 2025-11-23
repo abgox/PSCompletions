@@ -114,6 +114,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         function replace_content {
             param ($data, $separator = '')
             $data = $data -join $separator
+            if ($data -notlike '*{{*') { return $data }
             $matches = [regex]::Matches($data, $pattern)
             foreach ($match in $matches) {
                 $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )

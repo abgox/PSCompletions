@@ -4,6 +4,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
     function _replace {
         param ($data, $separator = '')
         $data = $data -join $separator
+        if ($data -notlike '*{{*') { return $data }
         $matches = [regex]::Matches($data, $PSCompletions.replace_pattern)
         foreach ($match in $matches) {
             $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )

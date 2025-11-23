@@ -641,6 +641,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content {
     param ($data, $separator = '')
     $data = $data -join $separator
+    if ($data -notlike '*{{*') { return $data }
     $matches = [regex]::Matches($data, $PSCompletions.replace_pattern)
     foreach ($match in $matches) {
         $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
