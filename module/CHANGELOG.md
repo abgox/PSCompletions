@@ -1,5 +1,9 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.0.3
+
+- Handle empty tip in menu rendering.
+
 ## 6.0.2
 
 - Reduce unnecessary string matching and parsing.
