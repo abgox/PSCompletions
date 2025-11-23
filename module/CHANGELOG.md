@@ -1,5 +1,12 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.0.2
+
+- Reduce unnecessary string matching and parsing.
+- Check administrator permission.
+  - If `-Scope AllUsers` is specified when installing the module, the module will be installed in the system-level directory.
+  - In this case, the module can only be run with administrator permission.
+
 ## 6.0.1
 
 - Reduce the redraw range of the buffer.
