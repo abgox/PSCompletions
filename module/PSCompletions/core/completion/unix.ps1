@@ -13,7 +13,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
             $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
 
             $input_arr = @()
-            $matches = [regex]::Matches($command_ast.CommandElements, "(?:`"[^`"]*`"|'[^']*'|\S)+")
+            $matches = [regex]::Matches($command_ast.CommandElements, $PSCompletions.input_pattern)
             foreach ($match in $matches) { $input_arr += $match.Value }
 
             if (!$input_arr) {

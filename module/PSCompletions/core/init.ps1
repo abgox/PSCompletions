@@ -26,6 +26,7 @@ New-Variable -Name PSCompletions -Value @{
     separator               = [System.IO.Path]::DirectorySeparatorChar
     wc                      = New-Object System.Net.WebClient
     replace_pattern         = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
+    input_pattern           = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
     menu                    = @{
         # 存放临时数据，仅当使用 Esc 退出补全菜单时清除
         temp  = @{}

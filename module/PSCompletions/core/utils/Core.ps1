@@ -529,7 +529,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
                 if ($_ -match "^[^\S\n]*$a\s+.+") {
                     $_ = $_ -replace '^\w+\s+', ''
                     $input_arr = @()
-                    $matches = [regex]::Matches($_, "(?:`"[^`"]*`"|'[^']*'|\S)+")
+                    $matches = [regex]::Matches($_, $PSCompletions.input_pattern)
                     foreach ($match in $matches) { $input_arr += $match.Value }
                     $index += $input_arr.Count
                     $i = 0

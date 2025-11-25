@@ -17,7 +17,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                 $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                 # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组，引号包裹的内容会被当作一个参数，且数组会包含 "--"
                 $input_arr = @()
-                $matches = [regex]::Matches($buffer, "(?:`"[^`"]*`"|'[^']*'|\S)+")
+                $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
                 foreach ($match in $matches) { $input_arr += $match.Value }
 
                 if (!$input_arr) {
@@ -160,7 +160,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
 
                     $input_arr = @()
-                    $matches = [regex]::Matches($command_ast.CommandElements, "(?:`"[^`"]*`"|'[^']*'|\S)+")
+                    $matches = [regex]::Matches($command_ast.CommandElements, $PSCompletions.input_pattern)
                     foreach ($match in $matches) { $input_arr += $match.Value }
 
                     if (!$input_arr) {
