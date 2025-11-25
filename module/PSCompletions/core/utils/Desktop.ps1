@@ -1,50 +1,82 @@
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
     param([string]$json)
-    $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
-    foreach ($match in $matches) {
-        $json = $json -replace $match.Value, "`"empty_key_$([System.Guid]::NewGuid().Guid)`":"
-    }
-    $json = [regex]::Replace($json, ",`n?(\s*`n)?\}", "}")
 
-    function ProcessArray {
-        param($array)
-        $nestedArr = @()
-        foreach ($item in $array) {
-            if ($item -is [System.Collections.IEnumerable] -and $item -isnot [string]) {
-                $nestedArr += , (ProcessArray $item)
-            }
-            elseif ($item -is [System.Management.Automation.PSCustomObject]) {
-                $nestedArr += ConvertToHashtable $item
-            }
-            else { $nestedArr += $item }
+    # https://github.com/abgox/ConvertFrom-JsonAsHashtable
+    function ConvertFrom-JsonAsHashtable {
+        [CmdletBinding()]
+        param(
+            [Parameter(ValueFromPipeline = $true)]
+            $InputObject
+        )
+
+        begin {
+            $buffer = [System.Text.StringBuilder]::new()
         }
-        return , $nestedArr
-    }
 
-    function ConvertToHashtable {
-        param($obj)
-        $hash = @{}
-        if ($obj -is [System.Management.Automation.PSCustomObject]) {
-            $props = $obj | Get-Member -MemberType Properties
-            foreach ($_ in $props) {
-                $k = $_.Name # Key
-                $v = $obj.$k # Value
-                if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
-                    # Handle array (preserve nested structure)
-                    $hash[$k] = ProcessArray $v
-                }
-                elseif ($v -is [System.Management.Automation.PSCustomObject]) {
-                    # Handle object
-                    $hash[$k] = ConvertToHashtable $v
-                }
-                else { $hash[$k] = $v }
+        process {
+            if ($InputObject -is [array]) {
+                [void]$buffer.AppendLine(($InputObject -join "`n"))
+            }
+            else {
+                [void]$buffer.AppendLine($InputObject)
             }
         }
-        else { $hash = $obj }
-        $hash
+
+        end {
+            $jsonString = $buffer.ToString().Trim()
+            if (-not $jsonString) { return $null }
+
+            if ($PSVersionTable.PSVersion.Major -ge 7) {
+                return ConvertFrom-Json $jsonString -AsHashtable
+            }
+
+            $jsonString = [regex]::Replace($jsonString, '(?<!\\)""\s*:', { '"emptyKey_' + [Guid]::NewGuid() + '":' })
+
+            $jsonString = [regex]::Replace($jsonString, ',\s*(?=[}\]]\s*$)', '')
+
+            $parsed = ConvertFrom-Json $jsonString
+
+            function ConvertRecursively {
+                param($obj)
+
+                if ($null -eq $obj) { return $null }
+
+                # IDictionary (Hashtable, Dictionary<,>) -> @{ }
+                if ($obj -is [System.Collections.IDictionary]) {
+                    $ht = @{}
+                    foreach ($k in $obj.Keys) {
+                        $ht[$k] = ConvertRecursively $obj[$k]
+                    }
+                    return $ht
+                }
+
+                # PSCustomObject -> @{ }
+                if ($obj -is [System.Management.Automation.PSCustomObject]) {
+                    $ht = @{}
+                    foreach ($p in $obj.PSObject.Properties) {
+                        $ht[$p.Name] = ConvertRecursively $p.Value
+                    }
+                    return $ht
+                }
+
+                # IEnumerable (array、ArrayList), exclude string and byte[]
+                if ($obj -is [System.Collections.IEnumerable] -and -not ($obj -is [string]) -and -not ($obj -is [byte[]])) {
+                    $list = [System.Collections.Generic.List[object]]::new()
+                    foreach ($item in $obj) {
+                        $list.Add((ConvertRecursively $item))
+                    }
+                    return , $list.ToArray()
+                }
+
+                # ohter types (string, int, bool, datetime...)
+                return $obj
+            }
+
+            return ConvertRecursively $parsed
+        }
     }
-    # Recurse
-    ConvertToHashtable ($json | ConvertFrom-Json)
+
+    ConvertFrom-JsonAsHashtable $json
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
     $PSCompletions.job = Start-Job -ScriptBlock {
@@ -560,6 +592,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             New-Item -ItemType Directory -Path $order_dir -Force | Out-Null
         }
 
+        # XXX 这里不能直接使用 $PSCompletions.input_pattern，实测会导致排序失效
+        $input_pattern = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
+
         $index = 0
         $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
         $contents = Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue
@@ -572,7 +607,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
                 if ($_ -match "^[^\S\n]*$a\s+.+") {
                     $_ = $_ -replace '^\w+\s+', ''
                     $input_arr = @()
-                    $matches = [regex]::Matches($_, $PSCompletions.input_pattern)
+                    $matches = [regex]::Matches($_, $input_pattern)
                     foreach ($match in $matches) { $input_arr += $match.Value }
                     $index += $input_arr.Count
                     $i = 0
