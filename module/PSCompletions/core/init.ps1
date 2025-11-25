@@ -817,22 +817,20 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
     $isErr = $true
     foreach ($url in $PSCompletions.urls) {
         try {
-            $response = Invoke-WebRequest -Uri "$url/completions.json" -UseBasicParsing -ErrorAction Stop
-            $content = $response.Content | ConvertFrom-Json
+            $response = Invoke-RestMethod -Uri "$url/completions.json" -ErrorAction Stop
         }
         catch {
             Write-Host $_.Exception.Message -ForegroundColor Red
             continue
         }
 
-        $remote_list = $content.list
+        $remote_list = $response.list
 
         $diff = Compare-Object $remote_list $current_list -PassThru
         if ($diff) {
             try {
                 $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
-                $jsonData = $content | ConvertTo-Json -Depth 100 -Compress
-                $jsonData | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                $response | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                 $PSCompletions.list = $remote_list
             }
             catch {
@@ -908,8 +906,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
 
     $files = @(
         @{
-            Uri     = "$url/guid.txt"
-            OutFile = Join-Path $completion_dir 'guid.txt'
+            Uri     = "$url/guid.json"
+            OutFile = Join-Path $completion_dir 'guid.json'
         }
     )
     foreach ($_ in $config.language) {
@@ -1307,7 +1305,7 @@ if (!(Test-Path $PSCompletions.path.temp)) {
         $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
         $config | ConvertTo-Json -Compress -Depth 100 | Out-File $path_config -Encoding utf8 -Force
 
-        $file_list = @('guid.txt')
+        $file_list = @('guid.json')
         if ($config.hooks -ne $null) {
             $file_list += 'hooks.ps1'
         }

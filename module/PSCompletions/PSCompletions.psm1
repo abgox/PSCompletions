@@ -180,10 +180,11 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
                 try {
-                    $response = Invoke-WebRequest -Uri "$($PSCompletions.url)/completions/$completion/guid.txt" -UseBasicParsing
-                    $content = $response.Content.Trim()
-                    $guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/guid.txt")
-                    if ($guid -ne $content -and $content -match '^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$') { $need_update_list.Add($completion) }
+                    $response = Invoke-RestMethod -Uri "$($PSCompletions.url)/completions/$completion/guid.json"
+                    $old_guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/guid.json") | ConvertFrom-Json | Select-Object -ExpandProperty guid
+                    if ($response.guid -ne $old_guid) {
+                        $need_update_list.Add($completion)
+                    }
                 }
                 catch {  }
             }

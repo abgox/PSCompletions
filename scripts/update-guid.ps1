@@ -33,11 +33,6 @@ $path_list = $completion_list | ForEach-Object {
 if ($path_list) {
     foreach ($path in $path_list) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.updateGuid))
-        (New-Guid).Guid | Out-File "$path/guid.txt" -Force
+        @{ guid = [System.Guid]::NewGuid().Guid } | ConvertTo-Json | Out-File "$path/guid.json" -Encoding utf8 -Force
     }
-    return
-}
-
-(Get-ChildItem "$PSScriptRoot/../completions").BaseName | Out-GridView -OutputMode Multiple -Title $PSCompletions.replace_content($text.GridViewTip) | ForEach-Object {
-    (New-Guid).Guid | Out-File "$PSScriptRoot/../completions/$_/guid.txt" -Force
 }

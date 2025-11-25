@@ -35,7 +35,7 @@ if (Test-Path $completion_dir) {
 $PSCompletions.ensure_dir($completion_dir)
 $PSCompletions.ensure_dir("$completion_dir/language")
 
-[System.Guid]::NewGuid().Guid | Out-File "$completion_dir\guid.txt" -Encoding utf8 -Force
+@{ guid = [System.Guid]::NewGuid().Guid } | ConvertTo-Json | Out-File "$completion_dir/guid.json" -Encoding utf8 -Force
 
 Copy-Item "$($PSScriptRoot)/template/config.json" "$completion_dir/config.json" -Force
 

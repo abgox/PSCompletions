@@ -156,15 +156,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
             foreach ($url in $PSCompletions.urls) {
                 try {
-                    $response = Invoke-WebRequest -Uri "$url/completions.json" -UseBasicParsing -ErrorAction Stop
-                    $content = $response.Content | ConvertFrom-Json
+                    $response = Invoke-RestMethod -Uri "$url/completions.json" -ErrorAction Stop
 
-                    $remote_list = $content.list
+                    $remote_list = $response.list
 
                     $diff = Compare-Object $remote_list $current_list -PassThru
                     if ($diff) {
                         $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                        $content | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+                        $response | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                         $PSCompletions.list = $remote_list
                     }
                     else {
@@ -327,7 +326,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
                     foreach ($url in $urls) {
                         try {
-                            $newVersion = (Invoke-WebRequest -Uri "$url/module/version.json" -UseBasicParsing | ConvertFrom-Json).version
+                            $newVersion = (Invoke-RestMethod -Uri "$url/module/version.json").version
                             break
                         }
                         catch {}
@@ -355,7 +354,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $isErr = $true
                     foreach ($url in $PSCompletions.urls) {
                         try {
-                            $response = Invoke-WebRequest -Uri "$url/completions/$($_.Name)/guid.txt" -UseBasicParsing
+                            $response = Invoke-RestMethod -Uri "$url/completions/$($_.Name)/guid.json"
                             $isErr = $false
                             break
                         }
@@ -365,9 +364,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         continue
                     }
                     try {
-                        $content = $response.Content.Trim()
-                        $guid = get_raw_content "$($PSCompletions.path.completions)/$($_.Name)/guid.txt"
-                        if ($guid -ne $content -and $content -match "^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$") {
+                        $guid_path = "$($PSCompletions.path.completions)/$($_.Name)/guid.json"
+                        if (Test-Path $guid_path) {
+                            $old_guid = get_raw_content $guid_path | ConvertFrom-Json | Select-Object -ExpandProperty guid
+                            if ($response.guid -ne $old_guid) {
+                                $update_list += $_.Name
+                            }
+                        }
+                        else {
                             $update_list += $_.Name
                         }
                     }
