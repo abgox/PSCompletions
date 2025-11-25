@@ -1,5 +1,5 @@
 function handleCompletions($completions) {
-    $tempList = @()
+    $list = @()
 
     function return_branch {
         return git branch --format='%(refname:lstrip=2)' 2>$null
@@ -50,7 +50,7 @@ function handleCompletions($completions) {
 
             foreach ($_ in $branch_head_list) {
                 $info = if ($head_list[$_]) { $head_list[$_] }else { 'branch --- ' + $_ }
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
             $commit_info = return_commit
             foreach ($_ in $commit_info) {
@@ -60,14 +60,14 @@ function handleCompletions($completions) {
                 $commit = $_[3..($_.Length - 1)]
                 $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                $tempList += $PSCompletions.return_completion($hash, $content)
+                $list += $PSCompletions.return_completion($hash, $content)
             }
         }
         'switch' {
             $branch_list = return_branch
             foreach ($_ in $branch_list) {
                 $info = 'branch --- ' + $_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
         }
         { 'stash' -in $PSCompletions.input_arr } {
@@ -75,7 +75,7 @@ function handleCompletions($completions) {
                 foreach ($_ in git stash list --encoding=gbk 2>$null) {
                     if ($_ -match 'stash@\{(\d+)\}') {
                         $stashId = $matches[1]
-                        $tempList += $PSCompletions.return_completion($stashId, $_)
+                        $list += $PSCompletions.return_completion($stashId, $_)
                     }
                 }
             }
@@ -85,7 +85,7 @@ function handleCompletions($completions) {
                 $branch_list = return_branch
                 foreach ($_ in $branch_list) {
                     $info = 'branch --- ' + $_
-                    $tempList += $PSCompletions.return_completion($_, $info)
+                    $list += $PSCompletions.return_completion($_, $info)
                 }
             }
         }
@@ -99,7 +99,7 @@ function handleCompletions($completions) {
                     $commit = $_[3..($_.Length - 1)]
                     $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                    $tempList += $PSCompletions.return_completion($hash, $content)
+                    $list += $PSCompletions.return_completion($hash, $content)
                 }
             }
         }
@@ -107,19 +107,19 @@ function handleCompletions($completions) {
             $branch_list = return_branch
             foreach ($_ in $branch_list) {
                 $info = 'branch --- ' + $_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
         }
         'diff' {
             $branch_list = return_branch
             foreach ($_ in $branch_list) {
                 $info = 'branch --- ' + $_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
             $head_list = return_head
             foreach ($_ in $head_list.Keys) {
                 $info = $head_list.$_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
 
             $commit_info = return_commit
@@ -130,21 +130,21 @@ function handleCompletions($completions) {
                 $commit = $_[3..($_.Length - 1)]
                 $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                $tempList += $PSCompletions.return_completion($hash, $content)
+                $list += $PSCompletions.return_completion($hash, $content)
             }
         }
         { 'rebase' -in $PSCompletions.input_arr } {
             $branch_list = return_branch
             foreach ($_ in $branch_list) {
-                $tempList += $PSCompletions.return_completion($_, "")
-                $tempList += $PSCompletions.return_completion("origin/$_", "")
+                $list += $PSCompletions.return_completion($_, "")
+                $list += $PSCompletions.return_completion("origin/$_", "")
             }
 
             if ($last_item -in @('-i', '--interactive')) {
                 $head_list = return_head
                 foreach ($_ in $head_list.Keys) {
                     $info = $head_list.$_
-                    $tempList += $PSCompletions.return_completion($_, $info)
+                    $list += $PSCompletions.return_completion($_, $info)
                 }
                 $commit_info = return_commit
                 foreach ($_ in $commit_info) {
@@ -154,7 +154,7 @@ function handleCompletions($completions) {
                     $commit = $_[3..($_.Length - 1)]
                     $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                    $tempList += $PSCompletions.return_completion($hash, $content)
+                    $list += $PSCompletions.return_completion($hash, $content)
                 }
             }
         }
@@ -163,7 +163,7 @@ function handleCompletions($completions) {
                 $head_list = return_head
                 foreach ($_ in $head_list.Keys) {
                     $info = $head_list.$_
-                    $tempList += $PSCompletions.return_completion($_, $info)
+                    $list += $PSCompletions.return_completion($_, $info)
                 }
                 $commit_info = return_commit
                 foreach ($_ in $commit_info) {
@@ -173,7 +173,7 @@ function handleCompletions($completions) {
                     $commit = $_[3..($_.Length - 1)]
                     $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                    $tempList += $PSCompletions.return_completion($hash, $content)
+                    $list += $PSCompletions.return_completion($hash, $content)
                 }
             }
         }
@@ -181,7 +181,7 @@ function handleCompletions($completions) {
             $head_list = return_head
             foreach ($_ in $head_list.Keys) {
                 $info = $head_list.$_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
             $commit_info = return_commit
             foreach ($_ in $commit_info) {
@@ -191,28 +191,28 @@ function handleCompletions($completions) {
                 $commit = $_[3..($_.Length - 1)]
                 $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                $tempList += $PSCompletions.return_completion($hash, $content)
+                $list += $PSCompletions.return_completion($hash, $content)
             }
         }
         'push' {
             $remote_list = git remote 2>$null
             foreach ($_ in $remote_list) {
                 $info = 'remote --- ' + $_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
         }
         'pull' {
             $remote_list = git remote 2>$null
             foreach ($_ in $remote_list) {
                 $info = 'remote --- ' + $_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
         }
         'fetch' {
             $remote_list = git remote 2>$null
             foreach ($_ in $remote_list) {
                 $info = 'remote --- ' + $_
-                $tempList += $PSCompletions.return_completion($_, $info)
+                $list += $PSCompletions.return_completion($_, $info)
             }
         }
         { 'remote' -in $PSCompletions.input_arr } {
@@ -220,7 +220,7 @@ function handleCompletions($completions) {
                 $remote_list = git remote 2>$null
                 foreach ($_ in $remote_list) {
                     $info = 'remote --- ' + $_
-                    $tempList += $PSCompletions.return_completion($_, $info)
+                    $list += $PSCompletions.return_completion($_, $info)
                 }
             }
         }
@@ -233,17 +233,17 @@ function handleCompletions($completions) {
                 $commit = $_[3..($_.Length - 1)]
                 $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
 
-                $tempList += $PSCompletions.return_completion($hash, $content)
+                $list += $PSCompletions.return_completion($hash, $content)
             }
         }
         { 'tag' -in $PSCompletions.input_arr } {
             if ($last_item -in @('-d', '-v')) {
                 $tag_list = git tag 2>$null
                 foreach ($_ in $tag_list) {
-                    $tempList += $PSCompletions.return_completion($_, "tag --- $($_)")
+                    $list += $PSCompletions.return_completion($_, "tag --- $($_)")
                 }
             }
         }
     }
-    return $tempList + $completions
+    return $list + $completions
 }

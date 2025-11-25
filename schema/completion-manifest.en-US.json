@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
   "required": [
-    "info"
+    "meta"
   ],
   "definitions": {
     "string": {
@@ -228,33 +228,28 @@
     "info": {
       "markdownDescription": "Additional information\n- They can be accessed in the `tip` field of this json file using `{{ $info.xxx }}`",
       "type": "object",
-      "minProperties": 1,
+      "minProperties": 1
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional information for the completion command",
       "required": [
-        "completion_info"
+        "url",
+        "description"
       ],
       "properties": {
-        "completion_info": {
-          "type": "object",
-          "description": "Additional information for the completion command",
-          "required": [
-            "url",
-            "description"
-          ],
-          "properties": {
-            "url": {
-              "$ref": "#/definitions/string",
-              "description": "Homepage or repository address of the completion command",
-              "pattern": "^https?://",
-              "errorMessage": "It must be a valid http/https URL"
-            },
-            "description": {
-              "$ref": "#/definitions/array-items-string",
-              "description": "Description of the completion command"
-            }
-          },
-          "additionalProperties": false
+        "url": {
+          "$ref": "#/definitions/string",
+          "description": "Homepage or repository address of the completion command",
+          "pattern": "^https?://",
+          "errorMessage": "It must be a valid http/https URL"
+        },
+        "description": {
+          "$ref": "#/definitions/array-items-string",
+          "description": "Description of the completion command"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "config": {
       "description": "Special configuration items for the completion command",

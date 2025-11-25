@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
   "required": [
-    "info"
+    "meta"
   ],
   "definitions": {
     "string": {
@@ -228,33 +228,28 @@
     "info": {
       "markdownDescription": "一些额外的信息\n- 它们可以在此 json 文件的 `tip` 字段中使用 `{{ $info.xxx }}` 进行访问",
       "type": "object",
-      "minProperties": 1,
+      "minProperties": 1
+    },
+    "meta": {
+      "type": "object",
+      "description": "补全命令的相关信息",
       "required": [
-        "completion_info"
+        "url",
+        "description"
       ],
       "properties": {
-        "completion_info": {
-          "type": "object",
-          "description": "补全命令的相关信息",
-          "required": [
-            "url",
-            "description"
-          ],
-          "properties": {
-            "url": {
-              "$ref": "#/definitions/string",
-              "description": "命令的主页或仓库地址",
-              "pattern": "^https?://",
-              "errorMessage": "它必须是一个有效的 http/https URL"
-            },
-            "description": {
-              "$ref": "#/definitions/array-items-string",
-              "description": "命令的描述"
-            }
-          },
-          "additionalProperties": false
+        "url": {
+          "$ref": "#/definitions/string",
+          "description": "命令的主页或仓库地址",
+          "pattern": "^https?://",
+          "errorMessage": "它必须是一个有效的 http/https URL"
+        },
+        "description": {
+          "$ref": "#/definitions/array-items-string",
+          "description": "命令的描述"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "config": {
       "description": "补全的特殊配置项",

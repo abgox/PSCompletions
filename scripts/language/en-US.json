@@ -78,11 +78,10 @@
     "exist": "<@Red>The completion directory already exists!",
     "success": [
       "<@Green>Create completion successfully!\n",
-      "The completion directory has been linked to the PSCompletions module for easy testing at write time.\n",
+      "The completion directory has been linked to the PSCompletions module.\n",
       "Hooks have been added automatically, if not needed, please delete the <@Magenta>hooks<@Green> attribute in <@Magenta>config.json<@Green> and delete the <@Magenta>hooks.ps1<@Green> file.\n",
       "Link Directory: <@Magenta>{{ $test_dir }}<@Green>\n",
-      "<@Yellow>Note: This link operation is only for the test or development of completion, and should be removed after completing the work.\n",
-      "Command: <@Magenta>{{ \"psc rm \" + $completion_name }}"
+      "<@Yellow>Note: This link operation is only for the test or development of completion, and remove it via <@Magenta>psc rm {{ $completion_name }} <@Yellow>in time."
     ],
     "err": {
       "name": "<@Red>The completion name cannot be empty!"
@@ -93,15 +92,15 @@
       "<@Red>You should enter an available completion name.\n",
       "e.g. <@Magenta>.\\scripts\\link-completion.ps1 psc"
     ],
+    "exist": "<@Red>The completion directory already exists, please use <@Magenta>psc rm {{ $completion_name }}<@Red> to remove it first.",
     "invalidName": [
       "<@Magenta>{{ $completion_name }}<@Red> isn't an available completion name.\n",
-      "<@Cyan>Available completions are: \n<@Blue>{{ $completions_list }}"
+      "<@Cyan>Available completions are: \n<@Blue>{{ $completions_list -join ' ' }}"
     ],
     "noExist": "<@Magenta>{{ $completion_name }}<@Red> isn't exist.",
     "linkDone": [
       "<@Green>Completion <@Magenta>{{ $completion_name }}<@Green> has been linked to the completions directory of the PSCompletions module.\n",
-      "<@Yellow>Note: This link operation is only for the test or development of completion, and unlink it in time after completion.\n",
-      "Command: <@Magenta>.\\scripts\\unlink-completion.ps1 {{ $completion_name }}"
+      "<@Yellow>Note: This link operation is only for the test or development of completion, and remove it via <@Magenta>psc rm {{ $completion_name }} <@Yellow>in time."
     ]
   },
   "publish-module": {

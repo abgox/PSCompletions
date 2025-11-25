@@ -1,6 +1,6 @@
 function handleCompletions($completions) {
     if (!(Test-Path 'package.json')) { return $completions }
-    $tempList = @()
+    $list = @()
 
     $packageJson = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content('package.json'))
     $scripts = $packageJson.scripts
@@ -14,34 +14,34 @@ function handleCompletions($completions) {
         'run' {
             if ($scripts) {
                 foreach ($script in $scripts.Keys) {
-                    $tempList += $PSCompletions.return_completion($script, "package.json scripts:`n$($scripts.$script)")
+                    $list += $PSCompletions.return_completion($script, "package.json scripts:`n$($scripts.$script)")
                 }
             }
         }
         'remove' {
             if ($dependencies) {
                 foreach ($dependency in $dependencies.Keys) {
-                    $tempList += $PSCompletions.return_completion($dependency, "Remove dependency: $($dependency) ($($dependencies.$dependency))")
+                    $list += $PSCompletions.return_completion($dependency, "Remove dependency: $($dependency) ($($dependencies.$dependency))")
                 }
             }
             if ($devDependencies) {
                 foreach ($devDependency in $devDependencies.Keys) {
-                    $tempList += $PSCompletions.return_completion($devDependency, "Remove devDependency: $($devDependency) ($($devDependencies.$devDependency))")
+                    $list += $PSCompletions.return_completion($devDependency, "Remove devDependency: $($devDependency) ($($devDependencies.$devDependency))")
                 }
             }
         }
         'upgrade' {
             if ($dependencies) {
                 foreach ($dependency in $dependencies.Keys) {
-                    $tempList += $PSCompletions.return_completion($dependency, "Current Version: $($dependencies.$dependency)")
+                    $list += $PSCompletions.return_completion($dependency, "Current Version: $($dependencies.$dependency)")
                 }
             }
             if ($devDependencies) {
                 foreach ($devDependency in $devDependencies.Keys) {
-                    $tempList += $PSCompletions.return_completion($devDependency, "Current Version: $($devDependencies.$devDependency)")
+                    $list += $PSCompletions.return_completion($devDependency, "Current Version: $($devDependencies.$devDependency)")
                 }
             }
         }
     }
-    return $tempList + $completions
+    return $list + $completions
 }

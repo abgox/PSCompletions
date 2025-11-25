@@ -1,5 +1,5 @@
 ﻿function handleCompletions($completions) {
-    $tempList = @()
+    $list = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
 
@@ -20,7 +20,7 @@
                         $items = Get-ChildItem "$root_path\buckets" 2>$null
                         foreach ($_ in $items) {
                             $bucket = $_.Name
-                            $tempList += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm))
+                            $list += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm))
                         }
                     }
                 }
@@ -39,7 +39,7 @@
                     path   = "$($_.FullName)\bucket"
                 }
             }
-            $tempList += $PSCompletions.handle_data_by_runspace($dir, {
+            $list += $PSCompletions.handle_data_by_runspace($dir, {
                     param ($items, $PSCompletions, $Host_UI)
                     $return = @()
                     foreach ($item in $items) {
@@ -72,7 +72,7 @@
             # Select-Object -Property name, version, bucket, binary |
             # ForEach-Object {
             #     $app = $_.bucket + "/" + $_.name
-            #     $tempList += @{
+            #     $list += @{
             #         ListItemText   = $app
             #         CompletionText = $app
             #         symbols        = @("SpaceTab")
@@ -92,7 +92,7 @@
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.uninstall), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.uninstall), @('SpaceTab'))
                     }
                 }
             }
@@ -109,7 +109,7 @@
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update), @('SpaceTab'))
                     }
                 }
             }
@@ -125,7 +125,7 @@
                     path   = "$($_.FullName)\bucket"
                 }
             }
-            $tempList += $PSCompletions.handle_data_by_runspace($dir, {
+            $list += $PSCompletions.handle_data_by_runspace($dir, {
                     param ($items, $PSCompletions, $Host_UI)
                     $return = @()
                     foreach ($item in $items) {
@@ -158,7 +158,7 @@
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cleanup), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cleanup), @('SpaceTab'))
                     }
                 }
             }
@@ -174,7 +174,7 @@
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     $path = $item.FullName
-                    $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.hold), @('SpaceTab'))
+                    $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.hold), @('SpaceTab'))
                 }
             }
         }
@@ -190,7 +190,7 @@
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.unhold), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.unhold), @('SpaceTab'))
                     }
                 }
             }
@@ -201,7 +201,7 @@
                     foreach ($item in (Get-ChildItem $_ 2>$null)) {
                         $app = $item.Name
                         $path = $item.FullName
-                        $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.prefix))
+                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.prefix))
                     }
                 }
             }
@@ -220,7 +220,7 @@
                         $path = $_.FullName
                         $cache = $part[0..1] -join "#"
                         if ($cache -notin $selected) {
-                            $tempList += $PSCompletions.return_completion($cache, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm), @('SpaceTab'))
+                            $list += $PSCompletions.return_completion($cache, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm), @('SpaceTab'))
                         }
                     }
                 }
@@ -440,7 +440,7 @@
                             $configList.$($configName).tip = $info
                         }
                         else {
-                            $tempList += $PSCompletions.return_completion($configName, $PSCompletions.replace_content($info))
+                            $list += $PSCompletions.return_completion($configName, $PSCompletions.replace_content($info))
                             $add += $configName
                         }
                     }
@@ -452,7 +452,7 @@
                     if ($c -notin $add) {
                         $info = if ($configList.$c.tip) { $configList.$c.tip + "`n" + ($configList.$c[$language] -join "`n") } else { $configList.$c[$language] -join "`n" }
 
-                        $tempList += $PSCompletions.return_completion($c, $PSCompletions.replace_content($info), $configList.$c.symbol)
+                        $list += $PSCompletions.return_completion($c, $PSCompletions.replace_content($info), $configList.$c.symbol)
                     }
                 }
             }
@@ -462,7 +462,7 @@
                     foreach ($c in $configs) {
                         $configName = $c.Name
                         $info = @($PSCompletions.info.current_value + ': ' + ($c.Definition -replace '^.+=', ''))
-                        $tempList += $PSCompletions.return_completion($configName, $PSCompletions.replace_content($info))
+                        $list += $PSCompletions.return_completion($configName, $PSCompletions.replace_content($info))
                     }
                 }
             }
@@ -472,12 +472,12 @@
                 'rm' {
                     if ($filter_input_arr.Count -eq 2) {
                         foreach ($a in (Get-Member -InputObject (scoop config alias) -MemberType NoteProperty)) {
-                            $tempList += $PSCompletions.return_completion($a.Name, ($a.Definition -replace '^.+=', ''))
+                            $list += $PSCompletions.return_completion($a.Name, ($a.Definition -replace '^.+=', ''))
                         }
                     }
                 }
             }
         }
     }
-    return $tempList + $completions
+    return $list + $completions
 }

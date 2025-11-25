@@ -1,5 +1,5 @@
 ﻿function handleCompletions($completions) {
-    $tempList = @()
+    $list = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
 
@@ -23,7 +23,7 @@
     else {
         $resetTip = "Undo all local file changes in Scoop buckets.`nIt use 'git stash'"
     }
-    $tempList += $PSCompletions.return_completion('-reset', $resetTip, @('OptionTab'))
+    $list += $PSCompletions.return_completion('-reset', $resetTip, @('OptionTab'))
 
     if ($filter_input_arr[-1] -notlike '-*') {
         $paramList = @(
@@ -53,7 +53,7 @@
             $addApp = $false
             $paramList = @('64bit', '32bit', 'arm64')
             foreach ($param in $paramList) {
-                $tempList += $PSCompletions.return_completion($param)
+                $list += $PSCompletions.return_completion($param)
             }
         }
         else {
@@ -96,7 +96,7 @@
                 }
                 if ($shouldAdd) {
                     $symbol = if ($param -in @('-a', '--arch')) { @('SpaceTab') } else { @('OptionTab') }
-                    $tempList += $PSCompletions.return_completion($param, $tips[$param], $symbol)
+                    $list += $PSCompletions.return_completion($param, $tips[$param], $symbol)
                 }
             }
         }
@@ -110,7 +110,7 @@
                 path   = "$($_.FullName)\bucket"
             }
         }
-        $tempList += $PSCompletions.handle_data_by_runspace($dir, {
+        $list += $PSCompletions.handle_data_by_runspace($dir, {
                 param ($items, $PSCompletions, $Host_UI)
                 $return = @()
                 foreach ($item in $items) {
@@ -132,5 +132,6 @@
             })
     }
 
-    return $tempList + $completions
+    # return $list + $completions
+    return $list
 }

@@ -1,5 +1,5 @@
 ﻿function handleCompletions($completions) {
-    $tempList = @()
+    $list = @()
 
     function CleanNul($data) {
         $res = [System.Collections.Generic.List[byte]]::new()
@@ -18,7 +18,7 @@
             foreach ($_ in wsl -l -q) {
                 $Distro = CleanNul $_
                 if ($Distro -ne '') {
-                    $tempList += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution'))
+                    $list += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--distribution'))
                 }
             }
         }
@@ -26,7 +26,7 @@
             foreach ($_ in wsl -l -q) {
                 $Distro = CleanNul $_
                 if ($Distro -ne '') {
-                    $tempList += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--set-default'))
+                    $list += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--set-default'))
                 }
             }
         }
@@ -34,7 +34,7 @@
             foreach ($_ in wsl -l -q) {
                 $Distro = CleanNul $_
                 if ($Distro -ne '') {
-                    $tempList += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--terminate'))
+                    $list += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--terminate'))
                 }
             }
         }
@@ -43,7 +43,7 @@
             foreach ($_ in wsl -l -q) {
                 $Distro = CleanNul $_
                 if ($Distro -ne '') {
-                    $tempList += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--unregister'))
+                    $list += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--unregister'))
                 }
             }
         }
@@ -51,10 +51,10 @@
             foreach ($_ in wsl -l -q) {
                 $Distro = CleanNul $_
                 if ($Distro -ne '') {
-                    $tempList += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--export'))
+                    $list += $PSCompletions.return_completion($Distro, $PSCompletions.replace_content($PSCompletions.completions.wsl.info.tip.'--export'))
                 }
             }
         }
     }
-    return $tempList + $completions
+    return $list + $completions
 }

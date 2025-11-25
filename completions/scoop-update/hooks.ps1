@@ -1,5 +1,5 @@
 ﻿function handleCompletions($completions) {
-    $tempList = @()
+    $list = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
 
@@ -23,7 +23,7 @@
     else {
         $resetTip = "Undo all local file changes in Scoop buckets.`nIt use 'git stash'"
     }
-    $tempList += $PSCompletions.return_completion('-reset', $resetTip, @('OptionTab'))
+    $list += $PSCompletions.return_completion('-reset', $resetTip, @('OptionTab'))
 
     if ($filter_input_arr[-1] -notlike '-*') {
         $paramList = @(
@@ -94,7 +94,7 @@
                 $shouldAdd = $false
             }
             if ($shouldAdd) {
-                $tempList += $PSCompletions.return_completion($param, $tips[$param], @('OptionTab'))
+                $list += $PSCompletions.return_completion($param, $tips[$param], @('OptionTab'))
             }
         }
     }
@@ -105,11 +105,11 @@
                 $app = $item.Name
                 $path = $item.FullName
                 if ($app -notin $PSCompletions.input_arr) {
-                    $tempList += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update), @('SpaceTab'))
+                    $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update), @('SpaceTab'))
                 }
             }
         }
     }
 
-    return $tempList + $completions
+    return $list
 }
