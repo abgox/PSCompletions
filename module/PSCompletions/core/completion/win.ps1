@@ -109,7 +109,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         else {
                             if (Test-Path $path_order) {
                                 try {
-                                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_order))
+                                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                                 }
                                 catch {
                                     $PSCompletions.order.$root = $null

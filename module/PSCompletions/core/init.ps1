@@ -447,7 +447,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
     if (!$PSCompletions.completions[$root]) {
         $language = $PSCompletions.get_language($root)
-        $PSCompletions.completions.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
+        $PSCompletions.completions.$root = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
     }
 
     $input_arr = [array]$input_arr
@@ -530,7 +530,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         else {
             if (Test-Path $path_order) {
                 try {
-                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path_order))
+                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                 }
                 catch {
                     $PSCompletions.order.$root = $null
@@ -993,7 +993,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     }
 
     $language = $PSCompletions.get_language($completion)
-    $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
+    $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
     if (!$PSCompletions.completions) {
         $PSCompletions.completions = @{}
     }
@@ -1050,7 +1050,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod new_data {
             $data.aliasMap.$name = $name
         }
         $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
-        $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
+        $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
         $data.config.comp_config.$name = @{}
         foreach ($_ in $json.config) {
             $data.config.comp_config.$name.$($_.name) = $_.value
@@ -1066,7 +1066,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod new_data {
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.completions = @{}
     if ((Test-Path $PSCompletions.path.data) -and !$PSCompletions.is_first_init) {
-        $PSCompletions.data = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
+        $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
     }
     else {
         $PSCompletions.new_data()
@@ -1101,7 +1101,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     }
     else {
         $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
-        $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
+        $PSCompletions.info = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
     }
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_length {
@@ -1319,7 +1319,7 @@ if (!(Test-Path $PSCompletions.path.temp)) {
                 $PSCompletions.get_raw_content($outFile) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $outFile -Encoding utf8 -Force
             }
         }
-        $PSCompletions.info = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
+        $PSCompletions.info = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
     }
     $PSCompletions.move_old_version()
     $PSCompletions.ensure_dir($PSCompletions.path.temp)

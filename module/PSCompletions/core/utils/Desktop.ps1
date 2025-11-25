@@ -1,4 +1,4 @@
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonToHashtable {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
     param([string]$json)
     $matches = [regex]::Matches($json, '\s*"\s*"\s*:')
     foreach ($match in $matches) {
@@ -50,7 +50,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
     $PSCompletions.job = Start-Job -ScriptBlock {
         param($PSCompletions)
 
-        function ConvertFrom_JsonToHashtable {
+        function ConvertFrom_JsonAsHashtable {
             param(
                 [Parameter(ValueFromPipeline = $true)]
                 [string]$json
@@ -260,7 +260,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 }
             }
             $path = "$($PSCompletions.path.completions)/$_/language/$($json_config.language[0]).json"
-            $json = get_raw_content $path | ConvertFrom_JsonToHashtable
+            $json = get_raw_content $path | ConvertFrom_JsonAsHashtable
             $config_list = $PSCompletions.default_completion_item
             foreach ($item in $config_list) {
                 if ($data.config.comp_config[$_].$item -eq '') {
@@ -338,7 +338,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
 
                         $versions = @($PSCompletions.version, $newVersion) | Sort-Object { [Version] $_ }
                         if ($versions[-1] -ne $PSCompletions.version) {
-                            $data = get_raw_content $PSCompletions.path.data | ConvertFrom_JsonToHashtable
+                            $data = get_raw_content $PSCompletions.path.data | ConvertFrom_JsonAsHashtable
                             $data.config.enable_module_update = $versions[-1]
                             $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                         }
@@ -539,7 +539,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 }
                 $path_language = "$($PSCompletions.path.completions)/$root/language/$language.json"
                 if (Test-Path $path_language) {
-                    $_completions.$root = get_raw_content $path_language | ConvertFrom_JsonToHashtable
+                    $_completions.$root = get_raw_content $path_language | ConvertFrom_JsonAsHashtable
                     $_completions_data.$root = getCompletions
                 }
             }

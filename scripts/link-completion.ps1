@@ -47,7 +47,7 @@ $null = New-Item -ItemType Junction -Path $completion_dir -Target "$PSScriptRoot
 
 $language = $PSCompletions.get_language($completion_name)
 
-$config = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\config.json"))
+$config = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\config.json"))
 
 if ($config.hooks -ne $null) {
     if ($null -eq $PSCompletions.data.config.comp_config.$completion_name) {
@@ -58,7 +58,7 @@ if ($config.hooks -ne $null) {
     }
 }
 
-$json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\language\$language.json"))
+$json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\language\$language.json"))
 
 foreach ($c in $json.config) {
     if ($null -eq $PSCompletions.data.config.comp_config.$completion_name.$($c.name)) {

@@ -516,7 +516,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             $path = "$($PSCompletions.path.completions)/$_/config.json"
             $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
             $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
-            $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
+            $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path))
             $config_list = $PSCompletions.default_completion_item
             if ($json.config) {
                 foreach ($item in $json.config) {
@@ -945,7 +945,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                     $path = "$($PSCompletions.path.completions)/$cmd/config.json"
                     $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                     $path = "$($PSCompletions.path.completions)/$cmd/language/$($json_config.language[0]).json"
-                    $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
+                    $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path))
                     foreach ($item in $json.config) {
                         $PSCompletions.config.comp_config[$cmd].$($item.name) = $item.value
                         $change_list.Add(@{
@@ -999,7 +999,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         $path = "$($PSCompletions.path.completions)/$($arg[2])/config.json"
                         $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                         $path = "$($PSCompletions.path.completions)/$($arg[2])/language/$($json.language[0]).json"
-                        $json = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content($path))
+                        $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path))
 
                         foreach ($config in $config_list) {
                             if ($config -in $PSCompletions.default_completion_item) {

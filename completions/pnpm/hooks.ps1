@@ -2,7 +2,7 @@ function handleCompletions($completions) {
     if (!(Test-Path 'package.json')) { return $completions }
     $list = @()
 
-    $packageJson = $PSCompletions.ConvertFrom_JsonToHashtable($PSCompletions.get_raw_content('package.json'))
+    $packageJson = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content('package.json'))
     $scripts = $packageJson.scripts
     $dependencies = $packageJson.dependencies
     $devDependencies = $packageJson.devDependencies
