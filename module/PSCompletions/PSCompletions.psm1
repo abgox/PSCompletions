@@ -325,7 +325,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.exist
                         return
                     }
-                    if (($alias -notmatch ".*\.\w+$") -and (Get-Command $alias -ErrorAction SilentlyContinue)) {
+                    $has_command = try { Get-Command $alias -ErrorAction Stop } catch { $null }
+                    if (($alias -notmatch ".*\.\w+$") -and $has_command) {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
                     }
@@ -445,7 +446,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '') $PSCompletions.info.config.url.err
             }
             'function_name' {
-                handle_done ($arg[2] -ne '' -and !(Get-Command $arg[2] -ErrorAction SilentlyContinue)) $PSCompletions.info.config.function_name.err
+                $has_command = try { Get-Command $arg[2] -ErrorAction Stop } catch { $null }
+                handle_done ($arg[2] -ne '' -and !$has_command) $PSCompletions.info.config.function_name.err
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
             }
         }
