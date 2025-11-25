@@ -192,7 +192,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         }
                     }
                 }
-                foreach ($r in $data.config.comp_config[$_].Keys.Where({ $_ -notin $config_list })) {
+                $keys = $data.config.comp_config[$_].Keys.Where({ $_ -notin $config_list })
+                foreach ($r in $keys) {
                     if ($r -eq 'enable_hooks') {
                         if ($json_config.hooks -eq $null) {
                             $data.config.comp_config[$_].Remove($r)
@@ -343,56 +344,61 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         function getCompletions {
             $guid = $PSCompletions.guid
             $obj = @{}
-            $special_options = @{
-                WriteSpaceTab              = @()
-                WriteSpaceTab_and_SpaceTab = @()
-            }
-            function parseJson($cmds, $obj, $cmdO, [switch]$isOption) {
+
+            $WriteSpaceTab = @()
+            $WriteSpaceTab_and_SpaceTab = @()
+            function parseJson($cmds, $obj, [string]$cmdO, [switch]$isOption) {
                 if ($obj[$cmdO].$guid -eq $null) {
-                    $obj[$cmdO] = @{
-                        $guid = @()
-                    }
+                    $obj[$cmdO] = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
+                    $obj[$cmdO].$guid = @()
                 }
                 foreach ($cmd in $cmds) {
+                    $name = $cmd.name
+                    $next = $cmd.next
+                    $options = $cmd.options
+
                     $symbols = @()
                     if ($isOption) {
-                        if ($cmd.next -eq $null -and $cmd.options -eq $null) {
+                        if ($next -eq $null -and $options -eq $null) {
                             $symbols += 'OptionTab'
                         }
                         else {
                             $symbols += 'WriteSpaceTab'
-                            if ($cmd.next -is [array] -or $cmd.options -is [array]) {
+                            if ($next -is [array] -or $options -is [array]) {
                                 $symbols += 'SpaceTab'
                             }
                         }
                     }
                     else {
-                        if ($cmd.next -is [array] -or $cmd.options -is [array]) {
+                        if ($next -is [array] -or $options -is [array]) {
                             $symbols += 'SpaceTab'
                         }
                     }
-                    if ($cmd.name -eq $null) {
+                    if ($name -eq $null) {
                         continue
                     }
 
-                    $alias_list = $cmd.alias + $cmd.name
+                    $tip = $cmd.tip
+                    $alias = $cmd.alias
+
+                    $alias_list = $alias + $name
 
                     # hide 值为 true 的补全将被过滤掉，用于配合 hooks.ps1 中添加动态补全
                     # 如果不过滤掉，会和 hooks.ps1 中添加的动态补全产生重复
                     if (!$cmd.hide) {
                         $obj.$cmdO.$guid += @{
-                            CompletionText = $cmd.name
-                            ListItemText   = $cmd.name
-                            ToolTip        = $cmd.tip
+                            CompletionText = $name
+                            ListItemText   = $name
+                            ToolTip        = $tip
                             symbols        = $symbols
                             alias          = $alias_list
                         }
 
-                        foreach ($alias in $cmd.alias) {
+                        foreach ($a in $alias) {
                             $obj.$cmdO.$guid += @{
-                                CompletionText = $alias
-                                ListItemText   = $alias
-                                ToolTip        = $cmd.tip
+                                CompletionText = $a
+                                ListItemText   = $a
+                                ToolTip        = $tip
                                 symbols        = $symbols
                                 alias          = $alias_list
                             }
@@ -402,28 +408,24 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     if ($symbols) {
                         if ('WriteSpaceTab' -in $symbols) {
                             $pad = if ($cmdO -in @('rootOptions', 'commonOptions')) { ' ' }else { $cmdO + ' ' }
-                            $special_options.WriteSpaceTab += $pad + $cmd.name
-                            if ($cmd.alias) {
-                                foreach ($a in $cmd.alias) { $special_options.WriteSpaceTab += $pad + $a }
-                            }
+                            $WriteSpaceTab += $pad + $name
+                            foreach ($a in $alias) { $WriteSpaceTab += $pad + $a }
                             if ('SpaceTab' -in $symbols) {
-                                $special_options.WriteSpaceTab_and_SpaceTab += $pad + $cmd.name
-                                if ($cmd.alias) {
-                                    foreach ($a in $cmd.alias) { $special_options.WriteSpaceTab_and_SpaceTab += $pad + $a }
-                                }
+                                $WriteSpaceTab_and_SpaceTab += $pad + $name
+                                foreach ($a in $alias) { $WriteSpaceTab_and_SpaceTab += $pad + $a }
                             }
                         }
                     }
-                    if ($cmd.options) {
-                        parseJson $cmd.options $obj.$cmdO "$($cmd.name)" -isOption
-                        foreach ($alias in $cmd.alias) {
-                            parseJson $cmd.options $obj.$cmdO "$($alias)" -isOption
+                    if ($options) {
+                        parseJson $options $obj.$cmdO $name -isOption
+                        foreach ($a in $alias) {
+                            parseJson $options $obj.$cmdO $a -isOption
                         }
                     }
-                    if ($cmd.next -or 'WriteSpaceTab' -in $symbols) {
-                        parseJson $cmd.next $obj.$cmdO "$($cmd.name)"
-                        foreach ($alias in $cmd.alias) {
-                            parseJson $cmd.next $obj.$cmdO "$($alias)"
+                    if ($next -or 'WriteSpaceTab' -in $symbols) {
+                        parseJson $next $obj.$cmdO $name
+                        foreach ($a in $alias) {
+                            parseJson $next $obj.$cmdO $a
                         }
                     }
                 }
@@ -437,8 +439,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             if ($_completions[$root].common_options) {
                 parseJson $_completions[$root].common_options $obj 'commonOptions' -isOption
             }
-            $_completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
-            $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
+            $_completions_data."$($root)_WriteSpaceTab" = $WriteSpaceTab | Select-Object -Unique
+            $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $WriteSpaceTab_and_SpaceTab | Select-Object -Unique
             $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid | ForEach-Object { $_.CompletionText }
             return $obj
         }
@@ -518,11 +520,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
             New-Item -ItemType Directory -Path $order_dir -Force | Out-Null
         }
 
-        $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
         $index = 0
-        foreach ($_ in Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue) {
+        $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
+        $contents = Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue
+        foreach ($_ in $contents) {
             $alias = $PSCompletions.data.alias.$root
-            if (!$alias) {
+            if ($null -eq $alias) {
                 $alias = @($root)
             }
             foreach ($a in $alias) {

@@ -11,12 +11,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     return
                 }
                 # 只获取当前光标位置之前的内容
-                $end = if ($cursorPosition -lt $buffer.Length) { $cursorPosition } else { $buffer.Length }
-                $buffer = $buffer.Substring(0, $end)
+                $buffer = $buffer.Substring(0, $cursorPosition)
 
                 # 是否是按下空格键触发的补全
                 $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
-                # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组， 引号包裹的内容会被当作一个参数，且数组会包含 "--"
+                # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组，引号包裹的内容会被当作一个参数，且数组会包含 "--"
                 $input_arr = @()
                 $matches = [regex]::Matches($buffer, "(?:`"[^`"]*`"|'[^']*'|\S)+")
                 foreach ($match in $matches) { $input_arr += $match.Value }
@@ -31,7 +30,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                 $PSCompletions.menu.by_TabExpansion2 = $false
 
                 if ($PSCompletions.data.aliasMap[$alias] -ne $null -and ($space_tab -or $input_arr.Count -gt 1) -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
-                    if ($buffer -eq $alias) { return }
                     # 原始的命令名，也是 completions 目录下的命令目录名
                     $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap.$alias
 
@@ -74,11 +72,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     catch {
                         return
                     }
-                    if (!$completion.CompletionMatches) {
+
+                    $completions = $completion.CompletionMatches
+
+                    if (!$completions) {
                         return
                     }
 
-                    $filter_list = foreach ($item in $completion.CompletionMatches) {
+                    # $filter_list = $completions
+
+                    $filter_list = foreach ($item in $completions) {
                         @{
                             CompletionText = $item.CompletionText
                             ListItemText   = $item.ListItemText
@@ -160,7 +163,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
         }
 
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
-            foreach ($_ in $PSCompletions.data.aliasMap.keys) {
+            $keys = $PSCompletions.data.aliasMap.keys
+            foreach ($_ in $keys) {
                 Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
                     param($word_to_complete, $command_ast, $cursor_position)
 
