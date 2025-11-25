@@ -58,6 +58,18 @@ if ($config.hooks -ne $null) {
     }
 }
 
+if ($config.alias -ne $null) {
+    $PSCompletions.data.alias.$completion_name = $config.alias
+
+    foreach ($a in $config.alias) {
+        $PSCompletions.data.aliasMap.$a = $completion_name
+    }
+}
+else {
+    $PSCompletions.data.alias.$completion_name = @($completion_name)
+}
+$PSCompletions.data.list += $completion_name
+
 $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\language\$language.json"))
 
 foreach ($c in $json.config) {
@@ -65,10 +77,6 @@ foreach ($c in $json.config) {
         $PSCompletions.data.config.comp_config.$completion_name.$($c.name) = $c.value
     }
 }
-
-$PSCompletions.data.list += $completion_name
-$PSCompletions.data.alias.$completion_name = @($completion_name)
-$PSCompletions.data.aliasMap.$completion_name = $completion_name
 
 $PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force
 
