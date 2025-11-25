@@ -1503,7 +1503,7 @@
     },
     "module": {
       "update": [
-        "<@Yellow>PSCompletions module has new version: <@Magenta>{{ $PSCompletions.version }}<@Yellow> => <@Magenta>{{ $PSCompletions.config.enable_module_update }}<@Blue>\n\n",
+        "<@Yellow>PSCompletions module update: <@Magenta>{{ $PSCompletions.version }}<@Yellow> => <@Magenta>{{ $PSCompletions.config.enable_module_update }}<@Blue>\n\n",
         "{{ ",
         "$version_list=$PSCompletions.get_raw_content(\"$($PSCompletions.path.temp)\\CHANGELOG.json\") | ConvertFrom-Json;",
         "$lang = if($PSCompletions.language -eq 'zh-CN'){ 'zh-CN' }else{ 'en-US' };",
@@ -1885,6 +1885,7 @@
           "$v = $PSCompletions.config.comp_config.$completion.enable_hooks_tip;",
           "if($v -notin @('',$null)){ \"Current Value: $($v)`n\" }",
           "}}",
+          "Default Value: 1\n",
           "Set whether the completion items dynamically added for {{ $completion }} via hooks display completion tip."
         ]
       },

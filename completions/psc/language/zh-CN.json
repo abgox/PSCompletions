@@ -1505,7 +1505,7 @@
     },
     "module": {
       "update": [
-        "<@Yellow>PSCompletions 模块有新版本: <@Magenta>{{ $PSCompletions.version }}<@Yellow> => <@Magenta>{{ $PSCompletions.config.enable_module_update }}<@Blue>\n\n",
+        "<@Yellow>PSCompletions 模块更新: <@Magenta>{{ $PSCompletions.version }}<@Yellow> => <@Magenta>{{ $PSCompletions.config.enable_module_update }}<@Blue>\n\n",
         "{{ ",
         "$version_list=$PSCompletions.get_raw_content(\"$($PSCompletions.path.temp)\\CHANGELOG.json\") | ConvertFrom-Json;",
         "$lang = if($PSCompletions.language -eq 'zh-CN'){ 'zh-CN' }else{ 'en-US' };",
@@ -1887,6 +1887,7 @@
           "$v = $PSCompletions.config.comp_config.$completion.enable_hooks_tip;",
           "if($v -notin @('',$null)){ \"当前值: $($v)`n\" }",
           "}}",
+          "默认值: 1\n",
           "设置 {{ $completion }} 通过 hooks 动态添加的补全项是否显示补全提示信息"
         ]
       },

@@ -1,5 +1,5 @@
 function handleCompletions([array]$completions) {
-    $tempList = @()
+    $list = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
     if ($PSCompletions.config.enable_cache) {
@@ -24,7 +24,7 @@ function handleCompletions([array]$completions) {
                 $symbol = @('SpaceTab')
             }
             foreach ($completion in $rest) {
-                $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.add.tip), $symbol)
+                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.add.tip), $symbol)
             }
         }
         'rm' {
@@ -44,7 +44,7 @@ function handleCompletions([array]$completions) {
                 $symbol = @('SpaceTab')
             }
             foreach ($completion in $rest) {
-                $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.rm.tip), $symbol)
+                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.rm.tip), $symbol)
             }
         }
         'update' {
@@ -64,7 +64,7 @@ function handleCompletions([array]$completions) {
                 $symbol = @('SpaceTab')
             }
             foreach ($completion in $rest) {
-                $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.update.tip), $symbol)
+                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.update.tip), $symbol)
             }
         }
         'which' {
@@ -84,7 +84,7 @@ function handleCompletions([array]$completions) {
                 $symbol = @('SpaceTab')
             }
             foreach ($completion in $rest) {
-                $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.which.tip), $symbol)
+                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.which.tip), $symbol)
             }
         }
         'alias' {
@@ -92,7 +92,7 @@ function handleCompletions([array]$completions) {
                 'add' {
                     if ($filter_input_arr.Count -eq 2) {
                         foreach ($completion in $PSCompletions.data.list) {
-                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.add.tip))
+                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.add.tip))
                         }
                     }
                 }
@@ -103,7 +103,7 @@ function handleCompletions([array]$completions) {
                             if ($PSCompletions.data.alias.$completion.Count -gt 1) {
                                 $symbol = @('SpaceTab')
                             }
-                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip), $symbol)
+                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip), $symbol)
                         }
                     }
                     else {
@@ -124,7 +124,7 @@ function handleCompletions([array]$completions) {
                                 $symbol = @()
                             }
                             foreach ($completion in $rest) {
-                                $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
+                                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
                             }
                         }
                     }
@@ -134,7 +134,7 @@ function handleCompletions([array]$completions) {
         'completion' {
             if ($filter_input_arr.Count -le 1) {
                 foreach ($completion in $PSCompletions.data.list) {
-                    $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.completion.tip), @('SpaceTab'))
+                    $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.completion.tip), @('SpaceTab'))
                 }
             }
             else {
@@ -145,15 +145,15 @@ function handleCompletions([array]$completions) {
 
                 switch ($filter_input_arr.Count) {
                     2 {
-                        $tempList += $PSCompletions.return_completion("language", $PSCompletions.replace_content($PSCompletions.info.completion.language.tip), @('SpaceTab'))
-                        $tempList += $PSCompletions.return_completion("enable_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion("language", $PSCompletions.replace_content($PSCompletions.info.completion.language.tip), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion("enable_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip), @('SpaceTab'))
 
                         if ($PSCompletions.config.comp_config[$completion].Count) {
                             if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
                                 $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
-                                $tempList += $PSCompletions.return_completion('enable_hooks', $tip, @('SpaceTab'))
+                                $list += $PSCompletions.return_completion('enable_hooks', $tip, @('SpaceTab'))
 
-                                $tempList += $PSCompletions.return_completion("enable_hooks_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip), @('SpaceTab'))
+                                $list += $PSCompletions.return_completion("enable_hooks_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip), @('SpaceTab'))
                             }
                         }
                         foreach ($c in $json.config) {
@@ -164,7 +164,7 @@ function handleCompletions([array]$completions) {
                                 $symbol = @('SpaceTab')
                             }
                             if ($filter_input_arr.Count -eq 2) {
-                                $tempList += $PSCompletions.return_completion($c.name, $tip, $symbol)
+                                $list += $PSCompletions.return_completion($c.name, $tip, $symbol)
                             }
                         }
                     }
@@ -173,27 +173,18 @@ function handleCompletions([array]$completions) {
                             'language' {
                                 $config = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/config.json") | ConvertFrom-Json
                                 foreach ($language in $config.language) {
-                                    $tempList += $PSCompletions.return_completion($language, $PSCompletions.replace_content($PSCompletions.info.completion.language.tip_v))
+                                    $list += $PSCompletions.return_completion($language, $PSCompletions.replace_content($PSCompletions.info.completion.language.tip_v))
                                 }
                             }
-                            'enable_tip' {
+                            { $_ -in 'enable_tip', 'enable_hooks', 'enable_hooks_tip' } {
                                 foreach ($value in 0..1) {
-                                    $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
-                                }
-                            }
-                            'enable_hooks' {
-                                if ($PSCompletions.config.comp_config[$completion].Count) {
-                                    if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
-                                        foreach ($value in 0..1) {
-                                            $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
-                                        }
-                                    }
+                                    $list += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
                                 }
                             }
                             Default {
                                 $c = $json.config.Where({ $_.name -eq $filter_input_arr[2] })
                                 foreach ($value in $c.values) {
-                                    $tempList += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
+                                    $list += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
                                 }
                             }
                         }
@@ -204,7 +195,7 @@ function handleCompletions([array]$completions) {
         'menu' {
             if ($filter_input_arr.Count -eq 4 -and $filter_input_arr[1] -eq 'custom' -and $filter_input_arr[2] -eq 'color' -and $filter_input_arr[3] -in $PSCompletions.menu.const.color_item) {
                 foreach ($color in $PSCompletions.menu.const.color_value) {
-                    $tempList += $PSCompletions.return_completion($color, $PSCompletions.replace_content($PSCompletions.info.menu.custom.color.tip))
+                    $list += $PSCompletions.return_completion($color, $PSCompletions.replace_content($PSCompletions.info.menu.custom.color.tip))
                 }
             }
         }
@@ -227,7 +218,7 @@ function handleCompletions([array]$completions) {
                         $symbol = @('SpaceTab')
                     }
                     foreach ($completion in $rest) {
-                        $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.reset.alias.tip), $symbol)
+                        $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.reset.alias.tip), $symbol)
                     }
                 }
                 'completion' {
@@ -239,7 +230,7 @@ function handleCompletions([array]$completions) {
                             else {
                                 $symbol = @()
                             }
-                            $tempList += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip), $symbol )
+                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip), $symbol )
                         }
                     }
                     if ($filter_input_arr.Count -ge 3) {
@@ -254,7 +245,7 @@ function handleCompletions([array]$completions) {
                             }
                             $symbol = if ($add.Count -gt 1) { @('SpaceTab') }else { , @() }
                             foreach ($config_item in $add) {
-                                $tempList += $PSCompletions.return_completion($config_item, $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip_v), $symbol)
+                                $list += $PSCompletions.return_completion($config_item, $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip_v), $symbol)
                             }
                         }
                     }
@@ -265,5 +256,5 @@ function handleCompletions([array]$completions) {
             return $completions
         }
     }
-    return $completions + $tempList
+    return $completions + $list
 }
