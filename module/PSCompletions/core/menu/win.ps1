@@ -363,7 +363,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_data
                     selected_index     = $menu.selected_index
                     offset             = $menu.offset
                     filter             = $menu.filter
-                    filter_list        = $menu.filter_list.Clone()
+                    filter_list        = $menu.filter_list
                     old_selection      = $menu.old_selection.Clone()
                     old_full_buffer    = $menu.get_buffer($menu.buffer_start, $menu.buffer_end)
 
@@ -394,7 +394,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_data
                 selected_index     = $menu.selected_index
                 offset             = $menu.offset
                 filter             = $menu.filter
-                filter_list        = $menu.filter_list.Clone()
+                filter_list        = $menu.filter_list
                 old_selection      = $menu.old_selection.Clone()
                 old_full_buffer    = $menu.get_buffer($menu.buffer_start, $menu.buffer_end)
 

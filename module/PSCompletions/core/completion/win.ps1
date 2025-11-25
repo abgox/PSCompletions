@@ -45,7 +45,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                             @{
                                 CompletionText = $text
                                 ListItemText   = $text
-                                ToolTip        = [array]$tip
+                                ToolTip        = $tip
                             }
                         }
                         $result = $PSCompletions.menu.show_module_menu($_filter_list)
@@ -73,21 +73,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         return
                     }
 
-                    $completions = $completion.CompletionMatches
+                    $filter_list = $completion.CompletionMatches
 
-                    if (!$completions) {
+                    if (!$filter_list) {
                         return
-                    }
-
-                    # $filter_list = $completions
-
-                    $filter_list = foreach ($item in $completions) {
-                        @{
-                            CompletionText = $item.CompletionText
-                            ListItemText   = $item.ListItemText
-                            ToolTip        = [array]$item.ToolTip
-                            ResultType     = $item.ResultType
-                        }
                     }
 
                     if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
@@ -98,7 +87,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                             @{
                                 CompletionText = $text
                                 ListItemText   = $text
-                                ToolTip        = [array]$tip
+                                ToolTip        = $tip
                             }
                         }
                         $result = $PSCompletions.menu.show_module_menu($_filter_list)
@@ -197,7 +186,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                                 @{
                                     CompletionText = $text
                                     ListItemText   = $text
-                                    ToolTip        = [array]$tip
+                                    ToolTip        = $tip
                                 }
                             }
                             $result = $PSCompletions.menu.show_module_menu($_filter_list)
