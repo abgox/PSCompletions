@@ -97,7 +97,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_bu
 
     $lines = $offset..($menu.ui_height - 3 + $offset)
     $content_box = foreach ($_ in $lines) {
-        $text = $menu.filter_list[$_].ListItemText
+        $item = $menu.filter_list[$_]
+        $text = $item.ListItemText + $item.padSymbols
         $text + ' ' * ($menu.list_max_width - $menu.get_length($text))
     }
     $rawUI.SetBufferContents(@{
@@ -504,7 +505,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $menu.filter_list = [System.Collections.Generic.List[System.Object]]::new()
     $maxWidth = $menu.list_max_width
     foreach ($item in $filter_list) {
-        $len = $menu.get_length($item.ListItemText)
+        $len = $menu.get_length($item.ListItemText + $item.padSymbols)
         if ($len -gt $maxWidth) {
             $maxWidth = $len
         }

@@ -28,8 +28,6 @@ New-Variable -Name PSCompletions -Value @{
     replace_pattern         = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     input_pattern           = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
     menu                    = @{
-        # 存放临时数据，仅当使用 Esc 退出补全菜单时清除
-        temp  = @{}
         const = @{
             symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
             line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
@@ -486,7 +484,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
                 $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
                 $filter_list.Add(@{
-                        ListItemText   = $item.ListItemText + $padSymbols
+                        ListItemText   = $item.ListItemText
+                        padSymbols     = $padSymbols
                         CompletionText = $item.CompletionText
                         ToolTip        = $item.ToolTip
                     })
@@ -511,7 +510,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
                 $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
                 $filter_list.Add(@{
-                        ListItemText   = $item.ListItemText + $padSymbols
+                        ListItemText   = $item.ListItemText
+                        padSymbols     = $padSymbols
                         CompletionText = $item.CompletionText
                         ToolTip        = $item.ToolTip
                     })
