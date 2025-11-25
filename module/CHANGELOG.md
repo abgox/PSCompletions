@@ -1,5 +1,14 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.1.0
+
+- Completion library has some breaking changes, please update all completions after updating the module.
+  - Update command: `psc update * --force`
+- When filtering, ignore the special symbols (`~?!`) provided by the module in the completion items.
+- Fix the issue where including `[` triggers a completion error.
+- Fix the completion trigger timing of the root command.
+- Many performance optimizations.
+
 ## 6.0.3
 
 - Handle empty tip in menu rendering.
