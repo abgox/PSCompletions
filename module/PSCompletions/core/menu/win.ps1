@@ -3,7 +3,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     if ($PSCompletions.config.enable_list_follow_cursor) {
         $PSCompletions.menu.pos.X = $Host.UI.RawUI.CursorPosition.X
         # 如果跟随鼠标，且超过右侧边界，则向左偏移
-        $PSCompletions.menu.pos.X = [Math]::Min($PSCompletions.menu.pos.X, $Host.UI.RawUI.BufferSize.Width - 1 - $PSCompletions.menu.ui_width)
+        $edge = $Host.UI.RawUI.BufferSize.Width - 1 - $PSCompletions.menu.ui_width
+        if ($edge -lt $PSCompletions.menu.pos.X) {
+            $PSCompletions.menu.pos.X = $edge
+        }
     }
     else {
         $PSCompletions.menu.pos.X = 0
@@ -12,15 +15,23 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
     # Y
     $PSCompletions.menu.ui_height = $PSCompletions.menu.filter_list.Count + 2
     if ($PSCompletions.menu.is_show_above) {
-        $PSCompletions.menu.ui_height = [Math]::Min($PSCompletions.menu.cursor_to_top, $PSCompletions.menu.ui_height)
+        if ($PSCompletions.menu.cursor_to_top -lt $PSCompletions.menu.ui_height) {
+            $PSCompletions.menu.ui_height = $PSCompletions.menu.cursor_to_top
+        }
         $list_limit = if ($PSCompletions.config.list_max_count_when_above -eq -1) { 12 }else { $PSCompletions.config.list_max_count_when_above + 2 }
-        $PSCompletions.menu.ui_height = [Math]::Min($list_limit, $PSCompletions.menu.ui_height)
+        if ($list_limit -lt $PSCompletions.menu.ui_height) {
+            $PSCompletions.menu.ui_height = $list_limit
+        }
         $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y - $PSCompletions.menu.ui_height - $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above
     }
     else {
-        $PSCompletions.menu.ui_height = [Math]::Min($PSCompletions.menu.cursor_to_bottom, $PSCompletions.menu.ui_height)
+        if ($PSCompletions.menu.cursor_to_bottom -lt $PSCompletions.menu.ui_height) {
+            $PSCompletions.menu.ui_height = $PSCompletions.menu.cursor_to_bottom
+        }
         $list_limit = if ($PSCompletions.config.list_max_count_when_below -eq -1) { 12 }else { $PSCompletions.config.list_max_count_when_below + 2 }
-        $PSCompletions.menu.ui_height = [Math]::Min($list_limit, $PSCompletions.menu.ui_height)
+        if ($list_limit -lt $PSCompletions.menu.ui_height) {
+            $PSCompletions.menu.ui_height = $list_limit
+        }
         $PSCompletions.menu.pos.Y = $Host.UI.RawUI.CursorPosition.Y + 1
     }
     $PSCompletions.menu.page_max_index = $PSCompletions.menu.ui_height - 3
@@ -492,11 +503,16 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     }
 
     $PSCompletions.menu.filter_list = [System.Collections.Generic.List[System.Object]]::new()
+    $maxWidth = $PSCompletions.menu.list_max_width
     foreach ($item in $filter_list) {
-        $PSCompletions.menu.list_max_width = [Math]::Max($PSCompletions.menu.list_max_width, $PSCompletions.menu.get_length($item.ListItemText))
+        $len = $PSCompletions.menu.get_length($item.ListItemText)
+        if ($len -gt $maxWidth) {
+            $maxWidth = $len
+        }
         $PSCompletions.menu.filter_list.Add($item)
     }
-    $PSCompletions.menu.ui_width = $PSCompletions.menu.list_max_width + 2
+    $PSCompletions.menu.list_max_width = $maxWidth
+    $PSCompletions.menu.ui_width = $maxWidth + 2
 
     if ($PSCompletions.config.enable_enter_when_single -and $PSCompletions.menu.filter_list.Count -eq 1) {
         return handleOutput $PSCompletions.menu.filter_list[0]
