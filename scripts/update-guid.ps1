@@ -32,6 +32,7 @@ $path_list = $completion_list | ForEach-Object {
 }
 if ($path_list) {
     foreach ($path in $path_list) {
+        $completion = Split-Path $path -Leaf
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.updateGuid))
         @{ guid = [System.Guid]::NewGuid().Guid } | ConvertTo-Json | Out-File "$path/guid.json" -Encoding utf8 -Force
     }

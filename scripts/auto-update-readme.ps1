@@ -2,6 +2,18 @@
 
 Set-StrictMode -Off
 
+$pattern = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
+function replace_content {
+    param ($data, $separator = '')
+    $data = $data -join $separator
+    if ($data -notlike '*{{*') { return $data }
+    $matches = [regex]::Matches($data, $pattern)
+    foreach ($match in $matches) {
+        $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
+    }
+    if ($data -match $pattern) { (replace_content $data) }else { return $data }
+}
+
 function Compare-JsonProperty {
     param (
         [string]$diffJson,
@@ -27,16 +39,6 @@ function Compare-JsonProperty {
         # XXX: 以中文为例，可以通过判断是否存在中文字符
         # 直接判断是否相等，目前也可用
         return $diffStr -eq $baseStr
-    }
-    function _replace {
-        param ($data, $separator = '')
-        $data = $data -join $separator
-        $pattern = '\{\{(.*?(\})*)(?=\}\})\}\}'
-        $matches = [regex]::Matches($data, $pattern)
-        foreach ($match in $matches) {
-            $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
-        }
-        if ($data -match $pattern) { (_replace $data) }else { return $data }
     }
 
     function isExist {
@@ -123,11 +125,11 @@ function Compare-JsonProperty {
                     if (isExist $diffArr[$i].tip) {
                         $json = $diffContent
                         $info = $json.info
-                        $diffStr = _replace $diffArr[$i].tip
+                        $diffStr = replace_content $diffArr[$i].tip
 
                         $json = $baseContent
                         $info = $json.info
-                        $baseStr = _replace $baseArr[$i].tip
+                        $baseStr = replace_content $baseArr[$i].tip
                         if (noTranslated $diffStr $baseStr) {
                             $count.untranslatedList += @{
                                 name  = $diffArr[$i].name
@@ -299,11 +301,11 @@ function Compare-JsonProperty {
                     if (isExist $diffTip) {
                         $json = $diffContent
                         $info = $json.info
-                        $diffStr = _replace $diffTip
+                        $diffStr = replace_content $diffTip
 
                         $json = $baseContent
                         $info = $json.info
-                        $baseStr = _replace $baseTip
+                        $baseStr = replace_content $baseTip
                         if (noTranslated $diffStr $baseStr) {
                             $count.untranslatedList += @{
                                 name  = $diffContent.config[$i].name
@@ -476,10 +478,10 @@ function generate_list {
 
         # Completion
         ## EN
-        $info_EN += "[$($_.Name)]($($completion."en-US".info.completion_info.url))"
+        $info_EN += "[$($_.Name)]($($completion."en-US".meta.url))"
 
         ## CN
-        $info_CN += "[$($_.Name)]($($completion."zh-CN".info.completion_info.url))"
+        $info_CN += "[$($_.Name)]($($completion."zh-CN".meta.url))"
 
         # Language
         $lang_info = handle_language $_.BaseName $lang_list
@@ -488,9 +490,9 @@ function generate_list {
 
         # Description
         ## EN
-        $info_EN += ($completion."en-US".info.completion_info.description -join ' ') -replace '\n', '<br>'
+        $info_EN += ($completion."en-US".meta.description -join ' ') -replace '\n', '<br>'
         ## CN
-        $info_CN += ($completion."zh-CN".info.completion_info.description -join ' ') -replace '\n', '<br>'
+        $info_CN += ($completion."zh-CN".meta.description -join ' ') -replace '\n', '<br>'
 
         $content_EN += "|" + ($info_EN -join "|") + "|"
         $content_CN += "|" + ($info_CN -join "|") + "|"
