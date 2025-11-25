@@ -259,9 +259,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 if ($data.config.comp_config[$_].enable_hooks -eq $null) {
                     $data.config.comp_config[$_].enable_hooks = [int]$json_config.hooks
                 }
-                if ($data.config.comp_config[$_].enable_hooks_tip -eq $null) {
-                    $data.config.comp_config[$_].enable_hooks_tip = 1
-                }
             }
             $path = "$($PSCompletions.path.completions)/$_/language/$($json_config.language[0]).json"
             $json = get_raw_content $path | ConvertFrom_JsonToHashtable

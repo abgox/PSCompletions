@@ -134,7 +134,7 @@ else {
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
-    if (!$PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_hooks_tip) {
+    if ($PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_hooks_tip -eq 0) {
         $tip = ''
     }
     @{
