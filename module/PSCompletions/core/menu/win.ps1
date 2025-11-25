@@ -643,7 +643,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                     }
                     $menu.filter += $PressKey.Character
 
-                    $escapedFilter = $menu.filter.Replace('[', '`[').Replace(']', '`]')
+                    $escapedFilter = $menu.filter -replace '(\[|\])', '`$1'
                     if ($escapedFilter.StartsWith('^')) {
                         $comparison = {
                             param($text)
@@ -659,7 +659,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                     $resultList = [System.Collections.Generic.List[System.Object]]::new()
                     $list = $menu.filter_list
                     foreach ($f in $list) {
-                        if ($f.ListItemText -and $comparison.Invoke($f.ListItemText)) {
+                        if ($comparison.Invoke($f.ListItemText)) {
                             $resultList.Add($f)
                         }
                     }
