@@ -47,7 +47,7 @@ if (!$baseJson) {
     $baseJson = "$($completion_dir)/language/$($lang_list[0]).json"
 }
 
-$pattern = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
+$pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
 function replace_content {
     param ($data, $separator = '')
     $data = $data -join $separator

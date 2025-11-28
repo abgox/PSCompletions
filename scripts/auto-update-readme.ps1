@@ -2,7 +2,7 @@
 
 Set-StrictMode -Off
 
-$pattern = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
+$pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
 function replace_content {
     param ($data, $separator = '')
     $data = $data -join $separator
@@ -490,9 +490,9 @@ function generate_list {
 
         # Description
         ## EN
-        $info_EN += ($completion."en-US".meta.description -join ' ') -replace '\n', '<br>'
+        $info_EN += $completion."en-US".meta.description -join '<br>'
         ## CN
-        $info_CN += ($completion."zh-CN".meta.description -join ' ') -replace '\n', '<br>'
+        $info_CN += $completion."zh-CN".meta.description -join '<br>'
 
         $content_EN += "|" + ($info_EN -join "|") + "|"
         $content_CN += "|" + ($info_CN -join "|") + "|"

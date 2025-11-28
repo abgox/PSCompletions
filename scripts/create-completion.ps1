@@ -49,8 +49,8 @@ $null = New-Item -ItemType Junction -Path $test_dir -Target $completion_dir
 $PSCompletions.write_with_color($PSCompletions.replace_content($text.success))
 
 $PSCompletions.data.list += $completion_name
-$PSCompletions.data.alias.$completion_name = @($completion_name)
-$PSCompletions.data.aliasMap.$completion_name = $completion_name
+$PSCompletions.data.alias[$completion_name] = @($completion_name)
+$PSCompletions.data.aliasMap[$completion_name] = $completion_name
 
 $PSCompletions.data.config.comp_config.$completion_name = @{
     enable_hooks = 1
