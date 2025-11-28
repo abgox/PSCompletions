@@ -72,7 +72,13 @@
     },
     "tip": {
       "$ref": "#/definitions/array-items-string",
-      "markdownDescription": "Completion item tip\n- General structure of the completion tip: `Usage` + `Description` + `Example`\n- Here is an example:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\\n\",\n    \"xxx (Here is the description)\\n\",\n    \"E: -r '@-'   --- xxx (Example description)\\n\"\n    \"   -r 'x-'   --- xxx (Example description)\"\n  ]\n  ```"
+      "markdownDescription": "Completion item tip\n- General structure of the completion tip: `Usage` + `Description` + `Example`\n- Here is an example:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\",\n    \"xxx (Here is the description)\",\n    \"E: -r '@-'   --- xxx (Example description)\"\n    \"   -r 'x-'   --- xxx (Example description)\"\n  ]\n  ```",
+      "not": {
+        "contains": {
+          "pattern": "\\n"
+        }
+      },
+      "errorMessage": "Each item in the array will automatically add a line break at the end when displayed, so line breaks are not allowed."
     },
     "item": {
       "type": "object",
@@ -204,6 +210,33 @@
     }
   },
   "properties": {
+    "meta": {
+      "type": "object",
+      "description": "Additional information for the completion command",
+      "required": [
+        "url",
+        "description"
+      ],
+      "properties": {
+        "url": {
+          "$ref": "#/definitions/string",
+          "description": "Homepage or repository address of the completion command",
+          "pattern": "^https?://",
+          "errorMessage": "It must be a valid http/https URL"
+        },
+        "description": {
+          "$ref": "#/definitions/array-items-string",
+          "description": "Description of the completion command",
+          "not": {
+            "contains": {
+              "pattern": "\\n"
+            }
+          },
+          "errorMessage": "Each item in the array will automatically add a line break at the end when displayed, so line breaks are not allowed."
+        }
+      },
+      "additionalProperties": false
+    },
     "root": {
       "description": "Root command",
       "$ref": "#/definitions/array",
@@ -224,32 +257,6 @@
       "items": {
         "$ref": "#/definitions/item_without_options"
       }
-    },
-    "info": {
-      "markdownDescription": "Additional information\n- They can be accessed in the `tip` field of this json file using `{{ $info.xxx }}`",
-      "type": "object",
-      "minProperties": 1
-    },
-    "meta": {
-      "type": "object",
-      "description": "Additional information for the completion command",
-      "required": [
-        "url",
-        "description"
-      ],
-      "properties": {
-        "url": {
-          "$ref": "#/definitions/string",
-          "description": "Homepage or repository address of the completion command",
-          "pattern": "^https?://",
-          "errorMessage": "It must be a valid http/https URL"
-        },
-        "description": {
-          "$ref": "#/definitions/array-items-string",
-          "description": "Description of the completion command"
-        }
-      },
-      "additionalProperties": false
     },
     "config": {
       "description": "Special configuration items for the completion command",
@@ -289,6 +296,11 @@
           }
         }
       }
+    },
+    "info": {
+      "markdownDescription": "Additional information\n- They can be accessed in the `tip` field of this json file using `{{ $info.xxx }}`\n- If you need to add line breaks, please use `\\n`",
+      "type": "object",
+      "minProperties": 1
     }
   },
   "additionalProperties": false
