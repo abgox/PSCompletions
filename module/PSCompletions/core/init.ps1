@@ -1269,6 +1269,8 @@ if (!(Test-Path $PSCompletions.path.temp)) {
                 foreach ($f in @('temp', 'completions')) {
                     Move-Item "$old_version_dir/$f" $PSCompletions.path.root -Force -ErrorAction SilentlyContinue
                 }
+
+                Join-Path $PSCompletions.path.temp 'last-update.txt' | Remove-Item -Force -ErrorAction SilentlyContinue
             }
         }
         else {
