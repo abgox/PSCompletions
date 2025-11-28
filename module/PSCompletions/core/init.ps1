@@ -25,7 +25,7 @@ New-Variable -Name PSCompletions -Value @{
     encoding                = [console]::OutputEncoding
     separator               = [System.IO.Path]::DirectorySeparatorChar
     wc                      = New-Object System.Net.WebClient
-    replace_pattern         = [regex]::new('\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
+    replace_pattern         = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     input_pattern           = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
     menu                    = @{
         const = @{
@@ -176,9 +176,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     if ($next -is [array] -or $options -is [array]) {
                         $symbols += 'SpaceTab'
                     }
-                }
-                if ($name -eq $null) {
-                    continue
                 }
 
                 $tip = $cmd.tip
@@ -1141,7 +1138,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     if ($PSCompletions.menu.is_show_tip) {
         foreach ($_ in $filter_list) {
             if ($_.ToolTip -ne $null) {
-                $tip = $PSCompletions.replace_content($_.ToolTip)
+                $tip = $PSCompletions.replace_content($_.ToolTip -join "`n")
             }
             else {
                 $tip = ' '

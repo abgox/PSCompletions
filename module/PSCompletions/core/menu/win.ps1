@@ -170,7 +170,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
             return
         }
 
-        $tip = $menu.filter_list[$index].ToolTip
+        $tip = $menu.filter_list[$index].ToolTip -join "`n"
         if ($tip -ne $null) {
             $json = $PSCompletions.completions[$PSCompletions.root_cmd]
             $info = $json.info
