@@ -169,6 +169,13 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 }
             }
         }
+
+        $data.config.comp_config.keys.Clone() | ForEach-Object {
+            if ($_ -notin $data.list) {
+                $data.config.comp_config.Remove($_)
+            }
+        }
+
         $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PScompletions.path.data -Force -Encoding utf8
         $PSCompletions.data = $data
     }
@@ -219,7 +226,14 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                     }
                 }
             }
-            $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update).Where({ $_ -notin $updated_list })
+
+            $updated_list = $updated_list.Where({ Test-Path "$($PSCompletions.path.completions)/$_/config.json" })
+            if ($updated_list) {
+                $PSCompletions.update = $PSCompletions.update.Where({ $_ -notin $updated_list })
+            }
+            else {
+                $PSCompletions._need_update_data = $false
+            }
         }
 
         if ($PSCompletions.update) {
@@ -327,7 +341,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         return
                     }
                     $has_command = try { Get-Command $alias -ErrorAction Stop } catch { $null }
-                    if (($alias -notmatch ".*\.\w+$") -and $has_command) {
+                    if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
                     }
@@ -409,6 +423,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             }
             if ($arg.Length -eq 2) {
                 Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$($arg[1]))
+                return
             }
         }
 
@@ -444,6 +459,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }
             'url' {
+                $arg[2] = $arg[2].TrimEnd('/')
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '') $PSCompletions.info.config.url.err
             }
             'function_name' {
@@ -568,6 +584,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 $config_item = $arg[2]
                 if ($arg.Length -eq 3) {
                     Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$config_item)
+                    return
                 }
                 if ($arg.Length -eq 4) {
                     $old_value = $PSCompletions.config.$config_item
