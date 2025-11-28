@@ -22,7 +22,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completio
 
             $alias = $input_arr[0]
 
-            $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap.$alias
+            $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
 
             $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 

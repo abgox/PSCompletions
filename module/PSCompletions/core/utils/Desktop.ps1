@@ -115,7 +115,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $props = $obj | Get-Member -MemberType Properties
                     foreach ($_ in $props) {
                         $k = $_.Name # Key
-                        $v = $obj.$k # Value
+                        $v = $obj[$k] # Value
                         if ($v -is [System.Collections.IEnumerable] -and $v -isnot [string]) {
                             # Handle array (preserve nested structure)
                             $hash[$k] = ProcessArray $v
@@ -229,24 +229,24 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $cmd = $_.Name
             $data.list += $cmd
 
-            $data.alias.$cmd = @()
+            $data.alias[$cmd] = @()
             if ($PSCompletions.data.alias[$cmd] -ne $null) {
-                foreach ($a in $PSCompletions.data.alias.$cmd) {
-                    $data.alias.$cmd += $a
-                    $data.aliasMap.$a = $cmd
+                foreach ($a in $PSCompletions.data.alias[$cmd]) {
+                    $data.alias[$cmd] += $a
+                    $data.aliasMap[$a] = $cmd
                 }
             }
             else {
-                $data.alias.$cmd += $cmd
-                $data.aliasMap.$cmd = $cmd
+                $data.alias[$cmd] += $cmd
+                $data.aliasMap[$cmd] = $cmd
             }
 
             ## config.comp_config
             $completion = $cmd
-            $data.config.comp_config.$completion = [ordered]@{}
+            $data.config.comp_config[$completion] = [ordered]@{}
             if ($PSCompletions.config.comp_config[$completion]) {
-                foreach ($c in $PSCompletions.config.comp_config.$completion.Keys) {
-                    $data.config.comp_config.$completion.$c = $PSCompletions.config.comp_config.$completion.$c
+                foreach ($c in $PSCompletions.config.comp_config[$completion].Keys) {
+                    $data.config.comp_config[$completion].$c = $PSCompletions.config.comp_config[$completion].$c
                 }
             }
         }
@@ -254,10 +254,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         ## config
         foreach ($c in $PSCompletions.default_config.Keys) {
             if ($PSCompletions.config[$c] -ne $null) {
-                $data.config.$c = $PSCompletions.config.$c
+                $data.config[$c] = $PSCompletions.config[$c]
             }
             else {
-                $data.config.$c = $PSCompletions.default_config.$c
+                $data.config[$c] = $PSCompletions.default_config[$c]
             }
         }
 
@@ -460,7 +460,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     # hide 值为 true 的补全将被过滤掉，用于配合 hooks.ps1 中添加动态补全
                     # 如果不过滤掉，会和 hooks.ps1 中添加的动态补全产生重复
                     if (!$cmd.hide) {
-                        $obj.$cmdO.$guid += @{
+                        $obj[$cmdO].$guid += @{
                             CompletionText = $name
                             ListItemText   = $name
                             ToolTip        = $tip
@@ -469,7 +469,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         }
 
                         foreach ($a in $alias) {
-                            $obj.$cmdO.$guid += @{
+                            $obj[$cmdO].$guid += @{
                                 CompletionText = $a
                                 ListItemText   = $a
                                 ToolTip        = $tip
@@ -491,15 +491,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         }
                     }
                     if ($options) {
-                        parseJson $options $obj.$cmdO $name -isOption
+                        parseJson $options $obj[$cmdO] $name -isOption
                         foreach ($a in $alias) {
-                            parseJson $options $obj.$cmdO $a -isOption
+                            parseJson $options $obj[$cmdO] $a -isOption
                         }
                     }
                     if ($next -or 'WriteSpaceTab' -in $symbols) {
-                        parseJson $next $obj.$cmdO $name
+                        parseJson $next $obj[$cmdO] $name
                         foreach ($a in $alias) {
-                            parseJson $next $obj.$cmdO $a
+                            parseJson $next $obj[$cmdO] $a
                         }
                     }
                 }
@@ -541,8 +541,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     download_file "completions/$completion/hooks.ps1" $path_hooks $PSCompletions.urls
                 }
             }
-            if ($PSCompletions.config.comp_config[$completion].language) {
-                $config_language = $PSCompletions.config.comp_config.$completion.language
+            $lang = $PSCompletions.config.comp_config[$completion].language
+            if ($lang) {
+                $config_language = $lang
             }
             else {
                 $config_language = $null
@@ -571,8 +572,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 }
                 $path_language = "$($PSCompletions.path.completions)/$root/language/$language.json"
                 if (Test-Path $path_language) {
-                    $_completions.$root = get_raw_content $path_language | ConvertFrom_JsonAsHashtable
-                    $_completions_data.$root = getCompletions
+                    $_completions[$root] = get_raw_content $path_language | ConvertFrom_JsonAsHashtable
+                    $_completions_data[$root] = getCompletions
                 }
             }
         }
@@ -599,7 +600,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
         $contents = Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue
         foreach ($_ in $contents) {
-            $alias = $PSCompletions.data.alias.$root
+            $alias = $PSCompletions.data.alias[$root]
             if ($null -eq $alias) {
                 $alias = @($root)
             }
@@ -612,7 +613,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
                     $index += $input_arr.Count
                     $i = 0
                     foreach ($completion in $input_arr) {
-                        $order.$completion = $index + $i
+                        $order[$completion] = $index + $i
                         $i--
                     }
                     break
@@ -622,10 +623,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
 
         $index = 0
         $result = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
-        $sorted = $order.Keys | Sort-Object { $order.$_ } -CaseSensitive
+        $sorted = $order.Keys | Sort-Object { $order[$_] } -CaseSensitive
         foreach ($_ in $sorted) {
             $index++
-            $result.$_ = $index
+            $result[$_] = $index
         }
 
         $old = Get-Content -Raw $path_order -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress

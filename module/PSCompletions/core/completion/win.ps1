@@ -31,7 +31,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
 
                 if ($PSCompletions.data.aliasMap[$alias] -ne $null -and ($space_tab -or $input_arr.Count -gt 1) -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
                     # 原始的命令名，也是 completions 目录下的命令目录名
-                    $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap.$alias
+                    $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
 
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 
@@ -101,7 +101,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         $path_order = "$($PSCompletions.path.order)/$root.json"
                         if ($PSCompletions.order."$($root)_job") {
                             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
-                                $PSCompletions.order.$root = Receive-Job $PSCompletions.order."$($root)_job"
+                                $PSCompletions.order[$root] = Receive-Job $PSCompletions.order."$($root)_job"
                                 Remove-Job $PSCompletions.order."$($root)_job"
                                 $PSCompletions.order.Remove("$($root)_job")
                             }
@@ -109,17 +109,17 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         else {
                             if (Test-Path $path_order) {
                                 try {
-                                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
+                                    $PSCompletions.order[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                                 }
                                 catch {
-                                    $PSCompletions.order.$root = $null
+                                    $PSCompletions.order[$root] = $null
                                 }
                             }
                             else {
-                                $PSCompletions.order.$root = $null
+                                $PSCompletions.order[$root] = $null
                             }
                         }
-                        $order = $PSCompletions.order.$root
+                        $order = $PSCompletions.order[$root]
                         if ($order) {
                             $PSCompletions._i = 0 # 这里使用 $PSCompletions._i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
                             $filter_list = $filter_list | Sort-Object {
@@ -169,7 +169,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
 
                     $alias = $input_arr[0]
 
-                    $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap.$alias
+                    $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
 
                     $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
 

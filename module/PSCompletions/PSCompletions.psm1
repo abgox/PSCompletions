@@ -289,16 +289,16 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
         $data_alias = [ordered]@{}
         $data_aliasMap = [ordered]@{}
         foreach ($_ in $PSCompletions.data.list) {
-            $data_alias.$_ = [System.Collections.Generic.List[string]]@()
+            $data_alias[$_] = [System.Collections.Generic.List[string]]@()
             if ($PSCompletions.data.alias[$_]) {
-                foreach ($a in $PSCompletions.data.alias.$_) {
-                    $data_alias.$_.Add($a)
-                    $data_aliasMap.$a = $_
+                foreach ($a in $PSCompletions.data.alias[$_]) {
+                    $data_alias[$_].Add($a)
+                    $data_aliasMap[$a] = $_
                 }
             }
             else {
-                $data_alias.$_.Add($_)
-                $data_aliasMap.$_ = $_
+                $data_alias[$_].Add($_)
+                $data_aliasMap[$_] = $_
             }
         }
         switch ($arg[1]) {
@@ -322,7 +322,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 $add_list = @()
                 foreach ($alias in $arg[3..($arg.Length - 1)]) {
                     $alias = ($alias -split ' ')[0]
-                    if ($alias -in $data_alias.$completion) {
+                    if ($alias -in $data_alias[$completion]) {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.exist
                         return
                     }
@@ -331,8 +331,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
                     }
-                    $data_alias.$completion.Add($alias)
-                    $data_aliasMap.$alias = $completion
+                    $data_alias[$completion].Add($alias)
+                    $data_aliasMap[$alias] = $completion
                     $add_list += $alias
                 }
                 if ($add_list.Count) {
@@ -362,7 +362,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 foreach ($alias in $arg[3..($arg.Length - 1)]) {
                     if ($alias -in $PSCompletions.data.aliasMap.Keys) {
                         if ($data_alias[$completion].Count -gt 1) {
-                            $null = $data_alias.$completion.Remove($alias)
+                            $null = $data_alias[$completion].Remove($alias)
                             $null = $data_aliasMap.Remove($alias)
                             $rm_list += $alias
                         }
@@ -492,7 +492,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
 
         $completion = $arg[1]
         $config_item = $arg[2]
-        $old_value = $PSCompletions.config.comp_config.$completion.$config_item
+        $old_value = $PSCompletions.config.comp_config[$completion].$config_item
         $new_value = $arg[3]
         if ($new_value -match '^-?\d+$') {
             $new_value = [int]$new_value
@@ -507,7 +507,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 return
             }
         }
-        $PSCompletions.config.comp_config.$completion.$config_item = $new_value
+        $PSCompletions.config.comp_config[$completion].$config_item = $new_value
         $PSCompletions._need_update_data = $true
         foreach ($_ in $PSCompletions.data.list) {
             if (!$PSCompletions.config.comp_config[$_]) {
@@ -901,11 +901,11 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 $del_list = if ($arg[2] -eq '*') { , $PSCompletions.data.list }else { , $arg[2..($arg.Length - 1)] }
                 foreach ($completion in $del_list) {
                     if ($completion -in $PSCompletions.data.list) {
-                        $old_value = $PSCompletions.data.alias.$completion -join ' '
+                        $old_value = $PSCompletions.data.alias[$completion] -join ' '
                         $PSCompletions.data.alias.Remove($completion)
                         $alias = ($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/config.json") | ConvertFrom-Json).alias
                         $new_value = if ($alias) { $alias }else { $completion }
-                        $PSCompletions.data.alias.$completion = , $new_value
+                        $PSCompletions.data.alias[$completion] = , $new_value
                         $PSCompletions._need_update_data = $true
                         $change_list.Add(@{
                                 item      = $completion

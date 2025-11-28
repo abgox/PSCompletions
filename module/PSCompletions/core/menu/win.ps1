@@ -172,7 +172,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
 
         $tip = $menu.filter_list[$index].ToolTip
         if ($tip -ne $null) {
-            $json = $PSCompletions.completions.$($PSCompletions.root_cmd)
+            $json = $PSCompletions.completions[$PSCompletions.root_cmd]
             $info = $json.info
 
             $tip_arr = @()
@@ -493,7 +493,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         $menu.is_show_tip = $config.enable_tip_when_enhance
     }
     else {
-        $enable_tip = $config.comp_config.$($PSCompletions.root_cmd).enable_tip
+        $enable_tip = $config.comp_config[$PSCompletions.root_cmd].enable_tip
         if ($null -eq $enable_tip) {
             $menu.is_show_tip = $config.enable_tip
         }

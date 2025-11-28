@@ -133,7 +133,7 @@ else {
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
-    if ($PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_hooks_tip -eq 0) {
+    if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
         $tip = ''
     }
     @{
@@ -189,7 +189,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 # hide 值为 true 的补全将被过滤掉，用于配合 hooks.ps1 中添加动态补全
                 # 如果不过滤掉，会和 hooks.ps1 中添加的动态补全产生重复
                 if (!$cmd.hide) {
-                    $obj.$cmdO.$guid += @{
+                    $obj[$cmdO].$guid += @{
                         CompletionText = $name
                         ListItemText   = $name
                         ToolTip        = $tip
@@ -198,7 +198,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     }
 
                     foreach ($a in $alias) {
-                        $obj.$cmdO.$guid += @{
+                        $obj[$cmdO].$guid += @{
                             CompletionText = $a
                             ListItemText   = $a
                             ToolTip        = $tip
@@ -220,15 +220,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     }
                 }
                 if ($options) {
-                    parseJson $options $obj.$cmdO $name -isOption
+                    parseJson $options $obj[$cmdO] $name -isOption
                     foreach ($a in $alias) {
-                        parseJson $options $obj.$cmdO $a -isOption
+                        parseJson $options $obj[$cmdO] $a -isOption
                     }
                 }
                 if ($next -or 'WriteSpaceTab' -in $symbols) {
-                    parseJson $next $obj.$cmdO $name
+                    parseJson $next $obj[$cmdO] $name
                     foreach ($a in $alias) {
-                        parseJson $next $obj.$cmdO $a
+                        parseJson $next $obj[$cmdO] $a
                     }
                 }
             }
@@ -344,14 +344,17 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 $PSCompletions.filter_input_arr = $filter_input_arr
             }
             else {
-                if ($completions.root.$guid) {
-                    $filter_list += $completions.root.$guid
+                $c = $completions.root.$guid
+                if ($c) {
+                    $filter_list += $c
                 }
-                if ($completions.rootOptions.$guid) {
-                    $filter_list += $completions.rootOptions.$guid
+                $c = $completions.rootOptions.$guid
+                if ($c) {
+                    $filter_list += $c
                 }
-                if ($completions.commonOptions.$guid) {
-                    $filter_list += $completions.commonOptions.$guid
+                $c = $completions.commonOptions.$guid
+                if ($c) {
+                    $filter_list += $c
                 }
                 return $filter_list
             }
@@ -374,9 +377,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             if ($last_item -like '-*') {
                 if ($all_options) {
                     # 如果全是选项，只可能是根选项或通用选项
-                    $data = $PSCompletions.completions_data.$root.commonOptions.$last_item.$guid
+                    $data = $PSCompletions.completions_data[$root].commonOptions.$last_item.$guid
                     if (!$data.Count) {
-                        $data = $PSCompletions.completions_data.$root.rootOptions.$last_item.$guid
+                        $data = $PSCompletions.completions_data[$root].rootOptions.$last_item.$guid
                     }
                     if ($data.Count) {
                         $filter_list = $data
@@ -387,21 +390,24 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                             $filter_list += $data
                         }
                         else {
-                            if ($completions.root.$guid) {
-                                $filter_list += $completions.root.$guid
+                            $c = $completions.root.$guid
+                            if ($c) {
+                                $filter_list += $c
                             }
-                            if ($completions.rootOptions.$guid) {
-                                $filter_list += $completions.rootOptions.$guid
+                            $c = $completions.rootOptions.$guid
+                            if ($c) {
+                                $filter_list += $c
                             }
-                            if ($completions.commonOptions.$guid) {
-                                $filter_list += $completions.commonOptions.$guid
+                            $c = $completions.commonOptions.$guid
+                            if ($c) {
+                                $filter_list += $c
                             }
                         }
                     }
                 }
                 else {
                     if ($last_item -cin $PSCompletions.completions_data."$($root)_common_options") {
-                        $filter_list = $PSCompletions.completions_data.$root.commonOptions.$last_item.$guid
+                        $filter_list = $PSCompletions.completions_data[$root].commonOptions.$last_item.$guid
                     }
                     else {
                         $filter_list = readObject $completions.root ($filter_input_arr + $guid) (, @())
@@ -441,13 +447,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $PSCompletions.job = $null
     }
     if (!$PSCompletions.config.enable_cache) {
-        $PSCompletions.completions.$root = $null
-        $PSCompletions.completions_data.$root = $null
+        $PSCompletions.completions[$root] = $null
+        $PSCompletions.completions_data[$root] = $null
     }
 
     if (!$PSCompletions.completions[$root]) {
         $language = $PSCompletions.get_language($root)
-        $PSCompletions.completions.$root = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
+        $PSCompletions.completions[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
     }
 
     $input_arr = [array]$input_arr
@@ -458,10 +464,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         . "$($PSCompletions.path.completions)/$root/hooks.ps1"
     }
     if (!$PSCompletions.completions_data[$root]) {
-        $PSCompletions.completions_data.$root = getCompletions
-        $PSCompletions.completions_data."$($root)_common_options" = $PSCompletions.completions_data.$root.commonOptions.$guid | ForEach-Object { $_.CompletionText }
+        $PSCompletions.completions_data[$root] = getCompletions
+        $PSCompletions.completions_data."$($root)_common_options" = $PSCompletions.completions_data[$root].commonOptions.$guid | ForEach-Object { $_.CompletionText }
     }
-    $completions = $PSCompletions.completions_data.$root
+    $completions = $PSCompletions.completions_data[$root]
     $filter_list = [array](filterCompletions)
     $_filter_list = [array](handleCompletions $filter_list)
 
@@ -522,7 +528,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $path_order = "$($PSCompletions.path.order)/$root.json"
         if ($PSCompletions.order."$($root)_job") {
             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
-                $PSCompletions.order.$root = Receive-Job $PSCompletions.order."$($root)_job"
+                $PSCompletions.order[$root] = Receive-Job $PSCompletions.order."$($root)_job"
                 Remove-Job $PSCompletions.order."$($root)_job"
                 $PSCompletions.order.Remove("$($root)_job")
             }
@@ -530,17 +536,17 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         else {
             if (Test-Path $path_order) {
                 try {
-                    $PSCompletions.order.$root = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
+                    $PSCompletions.order[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                 }
                 catch {
-                    $PSCompletions.order.$root = $null
+                    $PSCompletions.order[$root] = $null
                 }
             }
             else {
-                $PSCompletions.order.$root = $null
+                $PSCompletions.order[$root] = $null
             }
         }
-        $order = $PSCompletions.order.$root
+        $order = $PSCompletions.order[$root]
         if ($order) {
             $PSCompletions._i = 0 # 这里使用 $PSCompletions._i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
             $filter_list = $filter_list | Sort-Object {
@@ -622,8 +628,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
         $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
         $content_config | ConvertTo-Json -Compress -Depth 100 | Out-File $path_config -Encoding utf8 -Force
     }
-    if ($PSCompletions.config.comp_config[$completion].language) {
-        $config_language = $PSCompletions.config.comp_config.$completion.language
+    $lang = $PSCompletions.config.comp_config[$completion].language
+    if ($lang) {
+        $config_language = $lang
     }
     else {
         $config_language = $null
@@ -951,15 +958,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         $PSCompletions._need_update_data = $true
     }
     if (!$PSCompletions.data.alias[$completion]) {
-        $PSCompletions.data.alias.$completion = @()
+        $PSCompletions.data.alias[$completion] = @()
     }
 
     $PSCompletions._alias_conflict = $false
     $conflict_alias_list = @()
     if ($config.alias) {
         foreach ($a in $config.alias) {
-            if ($a -notin $PSCompletions.data.alias.$completion) {
-                $PSCompletions.data.alias.$completion += $a
+            if ($a -notin $PSCompletions.data.alias[$completion]) {
+                $PSCompletions.data.alias[$completion] += $a
                 if ($PSCompletions.data.aliasMap[$a]) {
                     $PSCompletions._alias_conflict = $true
                     $conflict_alias_list += $a
@@ -972,14 +979,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         }
     }
     else {
-        if ($completion -notin $PSCompletions.data.alias.$completion) {
-            $PSCompletions.data.alias.$completion += $completion
+        if ($completion -notin $PSCompletions.data.alias[$completion]) {
+            $PSCompletions.data.alias[$completion] += $completion
             if ($PSCompletions.data.aliasMap[$completion]) {
                 $PSCompletions._alias_conflict = $true
                 $conflict_alias_list += $completion
             }
             else {
-                $PSCompletions.data.aliasMap.$completion = $completion
+                $PSCompletions.data.aliasMap[$completion] = $completion
             }
             $PSCompletions._need_update_data = $true
         }
@@ -997,27 +1004,27 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     if (!$PSCompletions.completions) {
         $PSCompletions.completions = @{}
     }
-    $PSCompletions.completions.$completion = $json
+    $PSCompletions.completions[$completion] = $json
 
     if ($log) { $PSCompletions.write_with_color($PSCompletions.replace_content($done)) }
 
     if ($json.config) {
         if (!$PSCompletions.config.comp_config[$completion]) {
-            $PSCompletions.config.comp_config.$completion = @{}
+            $PSCompletions.config.comp_config[$completion] = @{}
         }
         foreach ($_ in $json.config) {
-            if (!($PSCompletions.config.comp_config.$completion.$($_.name))) {
-                $PSCompletions.config.comp_config.$completion.$($_.name) = $_.value
+            if (!$PSCompletions.config.comp_config[$completion].$($_.name)) {
+                $PSCompletions.config.comp_config[$completion].$($_.name) = $_.value
                 $PSCompletions._need_update_data = $true
             }
         }
     }
     if ($config.hooks -ne $null) {
         if (!$PSCompletions.config.comp_config[$completion]) {
-            $PSCompletions.config.comp_config.$completion = @{}
+            $PSCompletions.config.comp_config[$completion] = @{}
         }
-        if ($PSCompletions.config.comp_config.$completion.enable_hooks -eq $null) {
-            $PSCompletions.config.comp_config.$completion.enable_hooks = [int]$config.hooks
+        if ($PSCompletions.config.comp_config[$completion].enable_hooks -eq $null) {
+            $PSCompletions.config.comp_config[$completion].enable_hooks = [int]$config.hooks
         }
     }
 }
