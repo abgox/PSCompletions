@@ -1139,26 +1139,21 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             else {
                 $tip = ' '
             }
-            $padSymbols = foreach ($c in $_.symbols) { $PSCompletions.config.$c }
-            $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-
             if ($PSCompletions.input_arr[-1] -like "-*=") {
-                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', $tip)
             }
             else {
-                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', $tip)
+                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', $tip)
             }
         }
     }
     else {
         foreach ($_ in $filter_list) {
-            $padSymbols = foreach ($c in $_.symbols) { $PSCompletions.config.$c }
-            $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
             if ($PSCompletions.input_arr[-1] -like "-*=") {
-                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', ' ')
             }
             else {
-                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $padSymbols), 'ParameterValue', ' ')
+                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', ' ')
             }
         }
     }
