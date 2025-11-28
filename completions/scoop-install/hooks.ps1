@@ -132,6 +132,5 @@
             })
     }
 
-    # return $list + $completions
-    return $list
+    return $list + $completions
 }

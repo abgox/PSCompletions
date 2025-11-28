@@ -1551,8 +1551,8 @@
       "if($rm){ \"删除补全: <@Magenta>$($rm)<@Cyan>`n`n\" };",
       "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update *<@Cyan> 进行更新`n`n\" };",
       "}}",
-      "你可以运行命令 <@Blue>psc config enable_completions_update 0<@Cyan> 隐藏这个远程仓库状态提示。\n",
-      "但是不建议你这样做, 它是一个很恰当的提示"
+      "你可以运行 <@Blue>psc config enable_completions_update 0<@Cyan> 隐藏这个远程仓库状态提示。\n",
+      "但是不建议你这样做, 它是一个很恰当的提示。"
     ],
     "update_has": [
       "<@Cyan>可以更新的补全: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
@@ -1597,21 +1597,25 @@
         "   psc add git docker     --- 添加 git 和 docker 补全"
       ],
       "doing": "<@Cyan>正在添加补全 --- <@Magenta>{{ $completion }}",
-      "show_alias": "<@Yellow>这个补全默认的触发别名有: <@Magenta>{{ $config.alias -join ' ' }}",
+      "show_alias": "<@Yellow>默认的触发别名: <@Magenta>{{ $config.alias -join ' ' }}",
       "done": [
         "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 添加成功\n",
-        "补全文件所在目录: <@Blue>{{ $completion_dir }}\n",
         "{{",
         "if($json.config -or $config.hooks -ne $null){",
-        " \"<@Blue>---------- $($completion) 补全特殊配置 ---------- \";",
+        " \"<@Blue>---------- 特殊配置 --------------\";",
         "$configList = @();",
         "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip};",
+        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
+        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
-        "   \"`n<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:`n默认值: $($PSCompletions.quote_if_only_whitespace($_.value))`n$($PSCompletions.replace_content($_.tip))\"",
+        "   '';",
+        "   \"<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:\";",
+        "   '默认值: ' + $PSCompletions.quote_if_only_whitespace($_.value);",
+        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   if ($v -ne $null){ '当前值: <@Magenta>' + $v + '<@Blue>'; }",
+        "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
         " \"`n<@Blue>----------------------------------\";",
@@ -1656,18 +1660,22 @@
       "doing": "<@Cyan>正在更新补全 ---<@Magenta> {{ $completion }}",
       "done": [
         "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 更新成功\n",
-        "补全文件所在目录: <@Blue>{{ $completion_dir }}\n",
         "{{",
         "if($json.config -or $config.hooks -ne $null){",
-        " \"<@Blue>---------- $($completion) 补全特殊配置 ---------- \";",
+        " \"<@Blue>---------- 特殊配置 --------------\";",
         "$configList = @();",
         "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip};",
+        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
+        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
-        "   \"`n<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:`n默认值: $($PSCompletions.quote_if_only_whitespace($_.value))`n$($PSCompletions.replace_content($_.tip))\"",
+        "   '';",
+        "   \"<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:\";",
+        "   '默认值: ' + $PSCompletions.quote_if_only_whitespace($_.value);",
+        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   if ($v -ne $null){ '当前值: <@Magenta>' + $v + '<@Blue>'; }",
+        "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
         " \"`n<@Blue>----------------------------------\";",
@@ -1864,39 +1872,22 @@
       },
       "language": {
         "tip": [
-          "{{",
-          "$v = $PSCompletions.config.comp_config.$completion.language;",
-          "if($v -notin @('',$null)){ \"当前值: $($v)`n\" }",
-          "}}",
           "设置 {{ $completion }} 的语言"
         ],
         "tip_v": "设置语言为 {{ $language }}。"
       },
       "enable_tip": {
         "tip": [
-          "{{",
-          "$v = $PSCompletions.config.comp_config.$completion.enable_tip;",
-          "if($v -notin @('',$null)){ \"当前值: $($v)`n\" }",
-          "}}",
           "设置 {{ $completion }} 是否显示补全提示信息"
         ]
       },
       "enable_hooks_tip": {
         "tip": [
-          "{{",
-          "$v = $PSCompletions.config.comp_config.$completion.enable_hooks_tip;",
-          "if($v -notin @('',$null)){ \"当前值: $($v)`n\" }",
-          "}}",
-          "默认值: 1\n",
-          "设置 {{ $completion }} 通过 hooks 动态添加的补全项是否显示补全提示信息"
+          "设置 {{ $completion }} 通过 hooks 动态添加的补全项是否显示补全提示信息。"
         ]
       },
       "enable_hooks": {
         "tip": [
-          "{{",
-          "$_value = $PSCompletions.config.comp_config.$completion.enable_hooks;",
-          "if($_value -ne $null){ \"当前值: <@Magenta>$_value<@Blue>`n\" }",
-          "}}",
           "设置是否启用 hooks。\n",
           "hooks 将解析或生成补全数据，然后动态添加到命令补全中。\n",
           "你可以通过运行 <@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue> 来禁用它。"
@@ -1988,13 +1979,17 @@
       ],
       "done": [
         "{{",
+        "$out = @();",
+        "$end = '';",
         "if($change_list){",
-        "  \"<@Green>重置完成!`n<@Cyan>以下是重置前后的新旧对比:`n------------------------------`n\";",
-        "  ($change_list | ForEach-Object {",
-        "$str = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" }",
-        " \"$($str): <@Magenta>$PSCompletions.quote_if_only_whitespace($_.old_value)<@Blue> => <@Magenta>$PSCompletions.quote_if_only_whitespace($_.new_value)<@Blue>\" }) -join \"`n\";",
-        "  \"<@Cyan>`n------------------------------\"",
-        "}",
+        "  $out += '<@Green>重置完成!', '<@Cyan>以下是重置前后的新旧对比:', '------------------------------';",
+        "  $end = '------------------------------';",
+        "};",
+        "$change_list | ForEach-Object {",
+        "  $c = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" };",
+        "  $out += \"$($c): <@Magenta>$($PSCompletions.quote_if_only_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.quote_if_only_whitespace($_.new_value))<@Blue>\";",
+        "};",
+        "($out + $end) -join \"`n\";",
         "}}"
       ],
       "order": {

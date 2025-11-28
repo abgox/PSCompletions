@@ -1,4 +1,4 @@
-function handleCompletions([array]$completions) {
+function handleCompletions($completions) {
     $list = @()
 
     $filter_input_arr = $PSCompletions.filter_input_arr
@@ -158,7 +158,7 @@ function handleCompletions([array]$completions) {
                         }
                         foreach ($c in $json.config) {
                             $config_item = $c.name
-                            $tip = $PSCompletions.replace_content($c.tip) -replace '<\@\w+>', ''
+                            $tip = $PSCompletions.replace_content($c.tip -join "`n") -replace '<\@\w+>', ''
                             $symbol = @()
                             if ($c.values) {
                                 $symbol = @('SpaceTab')

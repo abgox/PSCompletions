@@ -1595,21 +1595,25 @@
         "   psc add git docker     --- Add git,docker"
       ],
       "doing": "<@Cyan>Adding completion --- <@Magenta>{{ $completion }}",
-      "show_alias": "<@Yellow>The default trigger alias for this completion are: <@Magenta>{{ $config.alias -join ' ' }}",
+      "show_alias": "<@Yellow>The default trigger alias: <@Magenta>{{ $config.alias -join ' ' }}",
       "done": [
         "<@Green>Completion <@Magenta>{{ $completion }}<@Green> add completed.\n",
-        "Completion file directory: <@Blue>{{ $completion_dir }}\n",
         "{{",
         " if($json.config -or $config.hooks -ne $null){",
-        "\"<@Blue>---------- The special configuration of $($completion)---------- \";",
+        "\"<@Blue>---------- Special Configuration ----------\";",
         "$configList = @();",
         "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip};",
+        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
+        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
-        "  \"`n<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:`nDefault Value: $($PSCompletions.quote_if_only_whitespace($_.value))`n$($PSCompletions.replace_content($_.tip))\" ",
+        "   '';",
+        "   \"<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:\";",
+        "   'Default Value: ' + $PSCompletions.quote_if_only_whitespace($_.value);",
+        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $v + '<@Blue>'; }",
+        "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
         " \"`n<@Blue>-------------------------------------------\";",
@@ -1654,18 +1658,22 @@
       "doing": "<@Cyan>Updating completion ---<@Magenta> {{ $completion }}",
       "done": [
         "<@Green>Completion <@Magenta>{{ $completion }}<@Green> update completed.\n",
-        "Completion file directory: <@Blue>{{ $completion_dir }}\n",
         "{{",
         " if($json.config -or $config.hooks -ne $null){",
-        "\"<@Blue>---------- The special configuration of $($completion)---------- \";",
+        "\"<@Blue>---------- Special Configuration ----------\";",
         "$configList = @();",
         "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip};",
+        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
+        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
-        "  \"`n<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:`nDefault Value: $($PSCompletions.quote_if_only_whitespace($_.value))`n$($PSCompletions.replace_content($_.tip))\" ",
+        "   '';",
+        "   \"<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:\";",
+        "   'Default Value: ' + $PSCompletions.quote_if_only_whitespace($_.value);",
+        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $v + '<@Blue>'; }",
+        "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
         " \"`n<@Blue>-------------------------------------------\";",
@@ -1862,39 +1870,22 @@
       },
       "language": {
         "tip": [
-          "{{",
-          "$v = $PSCompletions.config.comp_config.$completion.language;",
-          "if($v -notin @('',$null)){ \"Current Value: $($v)`n\" }",
-          "}}",
           "Set the language of {{ $completion }}."
         ],
         "tip_v": "Set language to {{ $language }}."
       },
       "enable_tip": {
         "tip": [
-          "{{",
-          "$v = $PSCompletions.config.comp_config.$completion.enable_tip;",
-          "if($v -notin @('',$null)){ \"Current Value: $($v)`n\" }",
-          "}}",
           "Set whether to display completion tip for {{ $completion }}."
         ]
       },
       "enable_hooks_tip": {
         "tip": [
-          "{{",
-          "$v = $PSCompletions.config.comp_config.$completion.enable_hooks_tip;",
-          "if($v -notin @('',$null)){ \"Current Value: $($v)`n\" }",
-          "}}",
-          "Default Value: 1\n",
           "Set whether the completion items dynamically added for {{ $completion }} via hooks display completion tip."
         ]
       },
       "enable_hooks": {
         "tip": [
-          "{{",
-          "$_value = $PSCompletions.config.comp_config.$completion.enable_hooks;",
-          "if($_value -ne $null){ \"Current Value: <@Magenta>$_value<@Blue>`n\" }",
-          "}}",
           "Set whether to enable hooks.\n",
           "The hooks will parse or generate some completion data and add them dynamically.\n",
           "You can disable it by running the command (<@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue>)."
@@ -1986,13 +1977,17 @@
       ],
       "done": [
         "{{",
+        "$out = @();",
+        "$end = '';",
         "if($change_list){",
-        "  \"<@Green>Reset successfully!`n<@Cyan>Here are the changes from old to new:`n------------------------------`n\";",
-        "  ($change_list | ForEach-Object {",
-        "$str = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" }",
-        " \"$($str): <@Magenta>$PSCompletions.quote_if_only_whitespace($_.old_value)<@Blue> => <@Magenta>$PSCompletions.quote_if_only_whitespace($_.new_value)<@Blue>\" }) -join \"`n\";",
-        "  \"<@Cyan>`n------------------------------\"",
-        "}",
+        "  $out += '<@Green>Reset successfully!', '<@Cyan>Here are the changes from old to new:', '------------------------------';",
+        "  $end = '------------------------------';",
+        "};",
+        "$change_list | ForEach-Object {",
+        "  $c = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" };",
+        "  $out += \"$($c): <@Magenta>$($PSCompletions.quote_if_only_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.quote_if_only_whitespace($_.new_value))<@Blue>\";",
+        "};",
+        "($out + $end) -join \"`n\";",
         "}}"
       ],
       "order": {

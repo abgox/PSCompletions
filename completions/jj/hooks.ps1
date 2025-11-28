@@ -49,7 +49,7 @@ if(remote,
             $part = $_.Split(":", 2)
             $tip = $part[1].Trim()
             if (!$tip) {
-                $tip = 'revsets'
+                $tip = '(no description set)'
             }
             $PSCompletions.return_completion($part[0], $tip)
         }
