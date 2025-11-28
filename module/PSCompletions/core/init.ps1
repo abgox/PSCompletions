@@ -1095,8 +1095,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     if ('psc' -notin $PSCompletions.data.list) {
         $PSCompletions.add_completion('psc', $false)
         $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
-    }
-    if ($PSCompletions.completions.psc.info) {
         $PSCompletions.info = $PSCompletions.completions.psc.info
     }
     else {
