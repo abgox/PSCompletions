@@ -145,7 +145,7 @@
     {
       "name": "config",
       "tip": [
-        "读写/更改配置。",
+        "读取/更改模块相关的配置。",
         "{{ $info.config.example }}"
       ],
       "next": [
@@ -291,20 +291,19 @@
             {
               "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "使用 Github 地址。"
+                "使用 Github 作为补全库的源"
               ]
             },
             {
               "name": "\"https://gitee.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "使用 Gitee 地址。"
+                "使用 Gitee 作为补全库的源"
               ]
             },
             {
               "name": "\"https://abgox.github.io/PSCompletions\"",
               "tip": [
-                "一个可用的地址。",
-                "(通过 Github Pages 生成)"
+                "使用 Github Pages 作为补全库的源"
               ]
             }
           ]
@@ -1596,7 +1595,7 @@
         "E: psc add git            --- 添加 git 补全\n",
         "   psc add git docker     --- 添加 git 和 docker 补全"
       ],
-      "doing": "<@Cyan>正在添加补全 --- <@Magenta>{{ $completion }}",
+      "doing": "<@Green>正在添加补全 --- <@Magenta>{{ $completion }}",
       "show_alias": "<@Yellow>默认的触发别名: <@Magenta>{{ $config.alias -join ' ' }}",
       "done": [
         "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 添加成功\n",
@@ -1657,7 +1656,7 @@
         "   psc update psc             --- 更新 psc 补全\n",
         "   psc update psc git bun     --- 更新 psc、git 和 bun 补全"
       ],
-      "doing": "<@Cyan>正在更新补全 ---<@Magenta> {{ $completion }}",
+      "doing": "<@Green>正在更新补全 ---<@Magenta> {{ $completion }}",
       "done": [
         "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 更新成功\n",
         "{{",
@@ -1957,7 +1956,8 @@
           "v_1": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字",
           "v_2": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字, 或者 <@Magenta>-1<@Red>",
           "v_3": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用",
-          "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> 不是一个可用的按键映射，修改失败"
+          "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> 不是一个可用的按键映射，修改失败",
+          "completion_suffix": "<@Magenta>{{ $arg[2] }}<@Red> 只能是一个或多个空格"
         }
       }
     },
