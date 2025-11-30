@@ -34,7 +34,7 @@ New-Variable -Name PSCompletions -Value @{
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'completions_confirm_limit'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
             )
         }
     }
@@ -78,6 +78,7 @@ New-Variable -Name PSCompletions -Value @{
         status_symbol                                = '/'
         between_item_and_symbol                      = ' '
         height_from_menu_bottom_to_cursor_when_above = 0
+        height_from_menu_top_to_cursor_when_below    = 0
 
         enable_menu                                  = 1
         enable_menu_enhance                          = 1

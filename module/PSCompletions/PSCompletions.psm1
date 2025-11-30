@@ -820,7 +820,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                             return
                         }
                     }
-                    { $_ -in @('list_min_width', 'height_from_menu_bottom_to_cursor_when_above') } {
+                    { $_ -in @('list_min_width', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below') } {
                         if (!$is_num -or $value -lt 0) {
                             $cmd_list = $null
                             $sub_cmd = $value

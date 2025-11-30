@@ -32,7 +32,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         if ($list_limit -lt $menu.ui_height) {
             $menu.ui_height = $list_limit
         }
-        $menu.pos.Y = $rawUI.CursorPosition.Y + 1
+        $menu.pos.Y = $rawUI.CursorPosition.Y + 1 + $config.height_from_menu_top_to_cursor_when_below
     }
     $menu.page_max_index = $menu.ui_height - 3
 }
@@ -536,7 +536,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $current_encoding = [console]::OutputEncoding
     [console]::OutputEncoding = $PSCompletions.encoding
 
-    $menu.cursor_to_bottom = $rawUI.BufferSize.Height - $rawUI.CursorPosition.Y - 1
+    $menu.cursor_to_bottom = $rawUI.BufferSize.Height - $rawUI.CursorPosition.Y - 1 - $config.height_from_menu_top_to_cursor_when_below
     $menu.cursor_to_top = $rawUI.CursorPosition.Y - $config.height_from_menu_bottom_to_cursor_when_above - 1
 
     $menu.is_show_above = $menu.cursor_to_bottom -lt $menu.cursor_to_top
