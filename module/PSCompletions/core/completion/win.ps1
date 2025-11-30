@@ -43,7 +43,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                         $count = $filter_list.Count
                         $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                        $_filter_list = $PSCompletions.info.module.too_many_completions.text | ForEach-Object {
+                        $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
                             $text = $PSCompletions.replace_content($_)
                             @{
                                 CompletionText = $text
@@ -85,7 +85,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                         $count = $filter_list.Count
                         $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                        $_filter_list = $PSCompletions.info.module.too_many_completions.text | ForEach-Object {
+                        $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
                             $text = $PSCompletions.replace_content($_)
                             @{
                                 CompletionText = $text
@@ -184,7 +184,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                             $count = $filter_list.Count
                             $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                            $_filter_list = $PSCompletions.info.module.too_many_completions.text | ForEach-Object {
+                            $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
                                 $text = $PSCompletions.replace_content($_)
                                 @{
                                     CompletionText = $text

@@ -170,7 +170,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             }
         }
 
-        $data.config.comp_config.keys.Clone() | ForEach-Object {
+        foreach ($_ in $data.config.comp_config.keys.Clone()) {
             if ($_ -notin $data.list) {
                 $data.config.comp_config.Remove($_)
             }
@@ -955,7 +955,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 }
             }
             'order' {
-                Get-ChildItem $PSCompletions.path.order | ForEach-Object {
+                foreach ($_ in Get-ChildItem $PSCompletions.path.order) {
                     Remove-Item $_.FullName -Force -Recurse -ErrorAction SilentlyContinue
                 }
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.order.done))
@@ -1088,7 +1088,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                             # 13: Enter
                             Remove-Item $PSCompletions.path.temp -Force -Recurse -ErrorAction SilentlyContinue
                             '{}' | Out-File $PSCompletions.path.data -Encoding utf8 -ErrorAction SilentlyContinue
-                            Get-ChildItem $PSCompletions.path.completions -Force -Recurse | ForEach-Object {
+
+                            foreach ($_ in Get-ChildItem $PSCompletions.path.completions -Force -Recurse) {
                                 Remove-Item $_.FullName -Force -Recurse -ErrorAction SilentlyContinue
                             }
 

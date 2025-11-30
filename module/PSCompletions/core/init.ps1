@@ -465,7 +465,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     }
     if (!$PSCompletions.completions_data[$root]) {
         $PSCompletions.completions_data[$root] = getCompletions
-        $PSCompletions.completions_data."$($root)_common_options" = $PSCompletions.completions_data[$root].commonOptions.$guid | ForEach-Object { $_.CompletionText }
+        $PSCompletions.completions_data."$($root)_common_options" = foreach ($_ in $PSCompletions.completions_data[$root].commonOptions.$guid) { $_.CompletionText }
     }
     $completions = $PSCompletions.completions_data[$root]
     $filter_list = handleCompletions ([array](filterCompletions))
@@ -1178,15 +1178,17 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
     foreach ($_ in $completions) {
         Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
             param($wordToComplete, $commandAst, $cursorPosition)
-            $words = @($commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition }) | ForEach-Object {
+            $words = @(
+                foreach ($_ in $commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition })) {
                     $word = $_.ToString()
                     if ($word.Length -gt 2) {
                         if (($word.StartsWith('"') -and $word.EndsWith('"')) -or ($word.StartsWith("'") -and $word.EndsWith("'"))) {
                             $word = $word.Substring(1, $word.Length - 2)
                         }
                     }
-                    return $word
-                })
+                    $word
+                }
+            )
             $emptyS = ''
             if ($PSVersionTable.PSVersion.Major -eq 5) {
                 $emptyS = '""'
@@ -1351,8 +1353,9 @@ if (!$PSCompletions.config.enable_menu) {
 $PSCompletions.generate_completion()
 $PSCompletions.handle_completion()
 if ($PSCompletions.config.enable_auto_alias_setup) {
-    foreach ($_ in $PSCompletions.data.aliasMap.Keys) {
-        # 使用特殊变量(如: $_,$args,$Matches,...)，避免污染全局
+    # 使用特殊变量作为临时变量(如: $_,$args,$Matches,...)，避免污染全局
+    $Matches = $PSCompletions.data.aliasMap.Keys
+    foreach ($_ in $Matches) {
         $args = $PSCompletions.data.aliasMap[$_]
         if ($args -eq 'psc') {
             Set-Alias $_ $PSCompletions.config.function_name -Force -ErrorAction SilentlyContinue
@@ -1363,6 +1366,8 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
             }
         }
     }
+    $args = $null
+    $Matches = $null
 }
 else {
     Set-Alias psc $PSCompletions.config.function_name -Force -ErrorAction SilentlyContinue
