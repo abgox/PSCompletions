@@ -148,8 +148,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     function getCompletions {
         $obj = @{}
 
-        $WriteSpaceTab = @()
-        $WriteSpaceTab_and_SpaceTab = @()
+        # XXX: 这里必须是引用类型
+        $special_options = @{
+            WriteSpaceTab              = @()
+            WriteSpaceTab_and_SpaceTab = @()
+        }
         function parseJson($cmds, $obj, [string]$cmdO, [switch]$isOption) {
             if ($obj[$cmdO].$guid -eq $null) {
                 $obj[$cmdO] = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
@@ -208,11 +211,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 if ($symbols) {
                     if ('WriteSpaceTab' -in $symbols) {
                         $pad = if ($cmdO -in @('rootOptions', 'commonOptions')) { ' ' }else { $cmdO + ' ' }
-                        $WriteSpaceTab += $pad + $name
-                        foreach ($a in $alias) { $WriteSpaceTab += $pad + $a }
+                        $special_options.WriteSpaceTab += $pad + $name
+                        foreach ($a in $alias) { $special_options.WriteSpaceTab += $pad + $a }
                         if ('SpaceTab' -in $symbols) {
-                            $WriteSpaceTab_and_SpaceTab += $pad + $name
-                            foreach ($a in $alias) { $WriteSpaceTab_and_SpaceTab += $pad + $a }
+                            $special_options.WriteSpaceTab_and_SpaceTab += $pad + $name
+                            foreach ($a in $alias) { $special_options.WriteSpaceTab_and_SpaceTab += $pad + $a }
                         }
                     }
                 }
@@ -239,8 +242,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         if ($PSCompletions.completions[$root].common_options) {
             parseJson $PSCompletions.completions[$root].common_options $obj 'commonOptions' -isOption
         }
-        $PSCompletions.completions_data."$($root)_WriteSpaceTab" = $WriteSpaceTab | Select-Object -Unique
-        $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $WriteSpaceTab_and_SpaceTab | Select-Object -Unique
+        $PSCompletions.completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
+        $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
         return $obj
     }
     function handleCompletions {

@@ -442,8 +442,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $guid = $PSCompletions.guid
             $obj = @{}
 
-            $WriteSpaceTab = @()
-            $WriteSpaceTab_and_SpaceTab = @()
+            # XXX: 这里必须是引用类型
+            $special_options = @{
+                WriteSpaceTab              = @()
+                WriteSpaceTab_and_SpaceTab = @()
+            }
             function parseJson($cmds, $obj, [string]$cmdO, [switch]$isOption) {
                 if ($obj[$cmdO].$guid -eq $null) {
                     $obj[$cmdO] = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
@@ -470,9 +473,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         if ($next -is [array] -or $options -is [array]) {
                             $symbols += 'SpaceTab'
                         }
-                    }
-                    if ($name -eq $null) {
-                        continue
                     }
 
                     $tip = $cmd.tip
@@ -505,11 +505,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     if ($symbols) {
                         if ('WriteSpaceTab' -in $symbols) {
                             $pad = if ($cmdO -in @('rootOptions', 'commonOptions')) { ' ' }else { $cmdO + ' ' }
-                            $WriteSpaceTab += $pad + $name
-                            foreach ($a in $alias) { $WriteSpaceTab += $pad + $a }
+                            $special_options.WriteSpaceTab += $pad + $name
+                            foreach ($a in $alias) { $special_options.WriteSpaceTab += $pad + $a }
                             if ('SpaceTab' -in $symbols) {
-                                $WriteSpaceTab_and_SpaceTab += $pad + $name
-                                foreach ($a in $alias) { $WriteSpaceTab_and_SpaceTab += $pad + $a }
+                                $special_options.WriteSpaceTab_and_SpaceTab += $pad + $name
+                                foreach ($a in $alias) { $special_options.WriteSpaceTab_and_SpaceTab += $pad + $a }
                             }
                         }
                     }
@@ -536,8 +536,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             if ($_completions[$root].common_options) {
                 parseJson $_completions[$root].common_options $obj 'commonOptions' -isOption
             }
-            $_completions_data."$($root)_WriteSpaceTab" = $WriteSpaceTab | Select-Object -Unique
-            $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $WriteSpaceTab_and_SpaceTab | Select-Object -Unique
+            $_completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
+            $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
             $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid | ForEach-Object { $_.CompletionText }
             return $obj
         }
