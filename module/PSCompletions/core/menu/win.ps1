@@ -426,6 +426,10 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     function handleOutput($item) {
         $out = $item.CompletionText
 
+        if ($PSCompletions.need_ignore_suffix) {
+            return $out
+        }
+
         # 不是由 TabExpansion2 获取的补全，即通过 psc add 添加的补全
         if ($null -eq $item.ResultType) {
             return "$out$suffix"

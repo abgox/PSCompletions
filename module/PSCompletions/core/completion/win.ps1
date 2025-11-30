@@ -10,6 +10,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                 if (!$cursorPosition) {
                     return
                 }
+
+                $PSCompletions.need_ignore_suffix = $buffer[$cursorPosition] -eq ' '
+
                 # 只获取当前光标位置之前的内容
                 $buffer = $buffer.Substring(0, $cursorPosition)
 
