@@ -846,6 +846,12 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                             return
                         }
                     }
+                    'completion_suffix' {
+                        if ($value -notmatch '^\s+$') {
+                            Show-ParamError 'err' 'completion_suffix' $PSCompletions.info.menu.config.err.completion_suffix
+                            return
+                        }
+                    }
                 }
                 $config_item = $arg[2]
                 $old_value = $PSCompletions.config.$config_item
