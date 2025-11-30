@@ -1,15 +1,15 @@
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list {
     # X
-    if ($config.enable_list_follow_cursor) {
+    if ($config.enable_list_full_width -or !$config.enable_list_follow_cursor) {
+        $menu.pos.X = 0
+    }
+    else {
         $menu.pos.X = $rawUI.CursorPosition.X
         # 如果跟随鼠标，且超过右侧边界，则向左偏移
         $edge = $rawUI.BufferSize.Width - 1 - $menu.ui_width
         if ($edge -lt $menu.pos.X) {
             $menu.pos.X = $edge
         }
-    }
-    else {
-        $menu.pos.X = 0
     }
 
     # Y
@@ -99,7 +99,13 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_bu
     $content_box = foreach ($_ in $lines) {
         $item = $menu.filter_list[$_]
         $text = $item.ListItemText + $item.padSymbols
-        $text + ' ' * ($menu.list_max_width - $menu.get_length($text))
+        $rest = $menu.list_max_width - $menu.get_length($text)
+        if ($rest -ge 0) {
+            $text + ' ' * $rest
+        }
+        else {
+            $text.Substring(0, $text.Length + $rest)
+        }
     }
     $rawUI.SetBufferContents(@{
             X = $menu.pos.X + 1
@@ -177,9 +183,9 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
 
             $tip_arr = @()
 
-            $lineWidth = $rawUI.BufferSize.Width
-            if ($config.enable_tip_follow_cursor) {
-                $lineWidth -= $rawUI.CursorPosition.X
+            $lineWidth = $rawUI.BufferSize.Width - 1
+            if (!$config.enable_list_full_width -and $config.enable_tip_follow_cursor) {
+                $lineWidth -= $rawUI.CursorPosition.X + 1
             }
 
             $tips = $PSCompletions.replace_content($tip).Split("`n").Where({ $_ -ne '' })
@@ -217,7 +223,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
             }
 
             $pos = @{
-                X = if ($config.enable_tip_follow_cursor) { $menu.pos.X }else { 0 }
+                X = if (!$config.enable_list_full_width -and $config.enable_tip_follow_cursor) { $menu.pos.X + 1 }else { 1 }
                 Y = $menu.pos.Y + $menu.ui_height + 1
             }
             $full = $rest_line - $tip_arr.Count
@@ -478,9 +484,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
 
     $menu.pos = @{ X = 0; Y = 0 }
 
-    $menu.ui_width = 0
     $menu.ui_height = 0
-    $menu.list_max_width = $config.list_min_width
 
     $menu.filter = ''  # 过滤的关键词
 
@@ -506,17 +510,24 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         }
     }
 
-    $menu.filter_list = [System.Collections.Generic.List[System.Object]]::new()
-    $maxWidth = $menu.list_max_width
-    foreach ($item in $filter_list) {
-        $len = $menu.get_length($item.ListItemText + $item.padSymbols)
-        if ($len -gt $maxWidth) {
-            $maxWidth = $len
-        }
-        $menu.filter_list.Add($item)
+    if ($config.enable_list_full_width) {
+        $menu.filter_list = @($filter_list)
+        $menu.ui_width = $rawUI.BufferSize.Width
+        $menu.list_max_width = $menu.ui_width - 2
     }
-    $menu.list_max_width = $maxWidth
-    $menu.ui_width = $maxWidth + 2
+    else {
+        $menu.filter_list = [System.Collections.Generic.List[System.Object]]::new($filter_list.Count)
+        $maxWidth = $config.list_min_width
+        foreach ($item in $filter_list) {
+            $len = $menu.get_length($item.ListItemText + $item.padSymbols)
+            if ($len -gt $maxWidth) {
+                $maxWidth = $len
+            }
+            $menu.filter_list.Add($item)
+        }
+        $menu.ui_width = $maxWidth + 2
+        $menu.list_max_width = $maxWidth
+    }
 
     if ($config.enable_enter_when_single -and $menu.filter_list.Count -eq 1) {
         return handleOutput $menu.filter_list[0]
@@ -545,7 +556,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
     $menu.parse_list()
 
     # 如果解析后的菜单高度小于 3 (上下边框 + 1个补全项)
-    if ($menu.ui_height -lt 3 -or $menu.ui_width -gt $rawUI.BufferSize.Width - 2) {
+    if ($menu.ui_height -lt 3 -or $menu.ui_width -gt $rawUI.BufferSize.Width) {
         [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.info.min_area)
         return ''
@@ -661,8 +672,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
                             $text -like "*$escapedFilter*"
                         }
                     }
-                    $resultList = [System.Collections.Generic.List[System.Object]]::new()
                     $list = $menu.filter_list
+                    $resultList = [System.Collections.Generic.List[System.Object]]::new($list.Count)
                     foreach ($f in $list) {
                         if ($comparison.Invoke($f.ListItemText)) {
                             $resultList.Add($f)
