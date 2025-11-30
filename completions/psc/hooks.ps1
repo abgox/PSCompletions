@@ -116,16 +116,14 @@ function handleCompletions($completions) {
                             $alias = $filter_input_arr[3..($filter_input_arr.Count - 1)]
                             $rest = $PSCompletions.data.alias.$cmd.Where({ $_ -notin $alias })
                         }
-                        if ($rest.Count -gt 1) {
-                            if ($rest.Count -gt 2) {
-                                $symbol = @('SpaceTab')
-                            }
-                            else {
-                                $symbol = @()
-                            }
-                            foreach ($completion in $rest) {
-                                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
-                            }
+                        if ($rest.Count -gt 2) {
+                            $symbol = @('SpaceTab')
+                        }
+                        else {
+                            $symbol = @()
+                        }
+                        foreach ($completion in $rest) {
+                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
                         }
                     }
                 }

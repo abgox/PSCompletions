@@ -25,6 +25,10 @@
     },
     {
       "name": "add",
+      "tip": [
+        "添加补全(一个或多个)。",
+        "{{ $info.add.example }}"
+      ],
       "next": [
         {
           "name": "*",
@@ -34,14 +38,14 @@
             "      推荐按需添加，而不是添加所有补全。"
           ]
         }
-      ],
-      "tip": [
-        "添加补全(一个或多个)。",
-        "{{ $info.add.example }}"
       ]
     },
     {
       "name": "rm",
+      "tip": [
+        "移除补全(一个或多个)。",
+        "{{ $info.rm.example }}"
+      ],
       "next": [
         {
           "name": "*",
@@ -50,10 +54,6 @@
             "注意: psc 作为 PSCompletions 模块的补全，会在移除后自动重新添加。"
           ]
         }
-      ],
-      "tip": [
-        "移除补全(一个或多个)。",
-        "{{ $info.rm.example }}"
       ]
     },
     {
@@ -150,129 +150,6 @@
       ],
       "next": [
         {
-          "name": "language",
-          "tip": [
-            "当前值: {{ $PSCompletions.language }}",
-            "读取/设置当前配置语言。",
-            "配置语言会影响所有添加的补全。",
-            "通过 psc completion 单独设置了语言的补全不受影响。",
-            "更多信息请访问: https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于语言"
-          ],
-          "next": [
-            {
-              "name": "en-US",
-              "tip": [
-                "设置为英文。",
-                "{{",
-                "if(!$PSCompletions.config.url){",
-                "  $github=$PSCompletions.config.github;",
-                "  if($github){ \"`n设置为 en-US 后, 添加补全时, 将从 Github 仓库($($github))中获取\" }",
-                "}",
-                "}}"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_cache",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_cache }}",
-            "设置是否启用补全缓存，默认启用，用于提高补全的加载速度。",
-            "通常不需要修改它, 除非每次补全触发都需要重新读取 json 文件，如补全调试。"
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "设置为 1 (默认值)",
-                "启用补全缓存, 这会让补全的加载速度更快, 建议保持启用。"
-              ]
-            },
-            {
-              "name": "0",
-              "tip": [
-                "设置为 0",
-                "禁用补全缓存, 主要用于更新调试补全文件。",
-                "禁用后, 每次补全触发都会重新去读取补全文件(json)。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_auto_alias_setup",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_auto_alias_setup }}",
-            "设置是否自动使用 Set-Alias 添加 psc alias 定义的别名，默认为 1",
-            "如果设置为 0，则需要手动使用 Set-Alias 设置"
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "设置为 1 (默认值)"
-              ]
-            },
-            {
-              "name": "0",
-              "tip": [
-                "设置为 0"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_completions_update",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_completions_update }}",
-            "设置首次加载 PSCompletions 模块时是否显示补全更新(更新包括更新补全、新增补全)。",
-            "注意: 不推荐禁用它, 因为及时获取更新信息能避免一些意外错误。"
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "设置为 1 (默认值)",
-                "首次加载模块时显示补全更新。"
-              ]
-            },
-            {
-              "name": "0",
-              "tip": [
-                "设置为 0",
-                "首次加载模块时不显示补全更新。",
-                "注意: 这并不推荐, 因为及时获取更新信息能避免一些意外错误。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_module_update",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_module_update }}",
-            "当模块有了新版本后, 是否在首次加载模块后显示更新提示。",
-            "注意: 不推荐关闭它，因为远程仓库始终匹配 PSCompletions 最新版本。",
-            "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "设置为 1 (默认值)",
-                "显示更新提示。"
-              ]
-            },
-            {
-              "name": "0",
-              "tip": [
-                "设置为 0",
-                "不显示更新提示。",
-                "注意: 远程仓库始终匹配 PSCompletions 最新版本, 不建议关闭它。",
-                "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
-              ]
-            }
-          ]
-        },
-        {
           "name": "url",
           "tip": [
             "当前值: \"{{ $PSCompletions.config.url }}\"",
@@ -309,9 +186,132 @@
           ]
         },
         {
+          "name": "language",
+          "tip": [
+            "当前值: {{ $PSCompletions.language }}",
+            "读取/设置当前配置语言。",
+            "配置语言会影响所有添加的补全。",
+            "通过 psc completion 单独设置了语言的补全不受影响。",
+            "参考: https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于语言"
+          ],
+          "next": [
+            {
+              "name": "en-US",
+              "tip": [
+                "设置为英文。",
+                "{{",
+                "if(!$PSCompletions.config.url){",
+                "  $github=$PSCompletions.config.github;",
+                "  if($github){ \"`n设置为 en-US 后, 添加补全时, 将从 Github 仓库($($github))中获取\" }",
+                "}",
+                "}}"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_auto_alias_setup",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_auto_alias_setup }} (默认值: 1)",
+            "设置是否自动使用 Set-Alias 添加 psc alias 定义的别名",
+            "如果设置为 0，则需要手动使用 Set-Alias 设置"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_completions_update",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_completions_update }} (默认值: 1)",
+            "设置首次加载 PSCompletions 模块时是否显示补全更新(更新包括更新补全、新增补全)。",
+            "注意: 不推荐禁用它, 因为及时获取更新信息能避免一些意外错误。"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)",
+                "首次加载模块时显示补全更新。"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0",
+                "首次加载模块时不显示补全更新。",
+                "注意: 这并不推荐, 因为及时获取更新信息能避免一些意外错误。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_module_update",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_module_update }} (默认值: 1)",
+            "当模块有了新版本后, 是否在首次加载模块后显示更新提示。",
+            "注意: 不推荐关闭它，因为远程仓库始终匹配 PSCompletions 最新版本。",
+            "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)",
+                "显示更新提示。"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0",
+                "不显示更新提示。",
+                "注意: 远程仓库始终匹配 PSCompletions 最新版本, 不建议关闭它。",
+                "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_cache",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_cache }} (默认值: 1)",
+            "设置是否启用补全缓存，默认启用，用于提高补全的加载速度。",
+            "通常不需要修改它, 除非每次补全触发都需要重新读取 json 文件，如补全调试。"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)",
+                "启用补全缓存, 这会让补全的加载速度更快, 建议保持启用。"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0",
+                "禁用补全缓存, 主要用于更新调试补全文件。",
+                "禁用后, 每次补全触发都会重新去读取补全文件(json)。"
+              ]
+            }
+          ]
+        },
+        {
           "name": "function_name",
           "tip": [
-            "当前值: {{ $PSCompletions.config.function_name }}",
+            "当前值: {{ $PSCompletions.config.function_name }} (默认值: PSCompletions)",
             "设置模块导出的核心函数名。",
             "当你需要定义一个函数，且必须命名为 PSCompletions 时，你可以通过此配置修改 PSCompletions 模块默认导出的函数名以解决冲突。"
           ],
@@ -374,16 +374,16 @@
               ]
             },
             {
-              "name": "WriteSpaceTab",
+              "name": "OptionTab",
               "tip": [
-                "当前值: {{ $PSCompletions.config.WriteSpaceTab }}",
-                "使用 psc menu symbol WriteSpaceTab \"\" 可以隐藏这个符号。"
+                "当前值: {{ $PSCompletions.config.OptionTab }}",
+                "使用 psc menu symbol OptionTab \"\" 可以隐藏这个符号。"
               ],
               "next": [
                 {
-                  "name": "!",
+                  "name": "?",
                   "tip": [
-                    "设置为 ! (默认值)。"
+                    "设置为 ? (默认值)。"
                   ]
                 },
                 {
@@ -397,16 +397,16 @@
               ]
             },
             {
-              "name": "OptionTab",
+              "name": "WriteSpaceTab",
               "tip": [
-                "当前值: {{ $PSCompletions.config.OptionTab }}",
-                "使用 psc menu symbol OptionTab \"\" 可以隐藏这个符号。"
+                "当前值: {{ $PSCompletions.config.WriteSpaceTab }}",
+                "使用 psc menu symbol WriteSpaceTab \"\" 可以隐藏这个符号。"
               ],
               "next": [
                 {
-                  "name": "?",
+                  "name": "!",
                   "tip": [
-                    "设置为 ? (默认值)。"
+                    "设置为 ! (默认值)。"
                   ]
                 },
                 {
@@ -535,115 +535,62 @@
             {
               "name": "color",
               "tip": [
-                "颜色相关的自定义配置。",
-                "{{ $info.example.menu_custom_color }}"
+                "颜色相关的自定义配置。"
               ],
               "next": [
                 {
-                  "name": "border_text",
+                  "name": "filter_color",
                   "tip": [
-                    "当前值: {{ $PSCompletions.config.border_text }}",
-                    "边框的前景色。",
-                    "{{ $info.example.menu_custom_color_border_text }}"
+                    "当前值: {{ $PSCompletions.config.filter_color }}",
+                    "过滤框(左上角)的前景色。"
                   ],
                   "next": []
                 },
                 {
-                  "name": "border_back",
+                  "name": "border_color",
                   "tip": [
-                    "当前值: {{ $PSCompletions.config.border_back }}",
-                    "边框的背景色。",
-                    "{{ $info.example.menu_custom_color_border_back }}"
+                    "当前值: {{ $PSCompletions.config.border_color }}",
+                    "边框的前景色。"
                   ],
                   "next": []
                 },
                 {
-                  "name": "item_text",
+                  "name": "item_color",
                   "tip": [
-                    "当前值: {{ $PSCompletions.config.item_text }}",
-                    "补全项的前景色。",
-                    "{{ $info.example.menu_custom_color_item_text }}"
+                    "当前值: {{ $PSCompletions.config.item_color }}",
+                    "补全项的前景色。"
                   ],
                   "next": []
                 },
                 {
-                  "name": "item_back",
+                  "name": "status_color",
                   "tip": [
-                    "当前值: {{ $PSCompletions.config.item_back }}",
-                    "补全项的背景色。",
-                    "{{ $info.example.menu_custom_color_item_back }}"
+                    "当前值: {{ $PSCompletions.config.status_color }}",
+                    "补全个数状态(左下角)的前景色。"
                   ],
                   "next": []
                 },
                 {
-                  "name": "selected_text",
+                  "name": "tip_color",
                   "tip": [
-                    "当前值: {{ $PSCompletions.config.selected_text }}",
-                    "选中项的前景色。",
-                    "{{ $info.example.menu_custom_color_selected_text }}"
+                    "当前值: {{ $PSCompletions.config.tip_color }}",
+                    "补全提示信息的前景色。"
                   ],
                   "next": []
                 },
                 {
-                  "name": "selected_back",
+                  "name": "selected_color",
                   "tip": [
-                    "当前值: {{ $PSCompletions.config.selected_back }}",
-                    "选中项的背景色。",
-                    "{{ $info.example.menu_custom_color_selected_back }}"
+                    "当前值: {{ $PSCompletions.config.selected_color }}",
+                    "选中项的前景色。"
                   ],
                   "next": []
                 },
                 {
-                  "name": "filter_text",
+                  "name": "selected_bgcolor",
                   "tip": [
-                    "当前值: {{ $PSCompletions.config.filter_text }}",
-                    "过滤框(左上角)的前景色。",
-                    "{{ $info.example.menu_custom_color_filter_text }}"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "filter_back",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.filter_back }}",
-                    "过滤框(左上角)的背景色。",
-                    "{{ $info.example.menu_custom_color_filter_back }}"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "status_text",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.status_text }}",
-                    "补全个数显示(左下角)的前景色。",
-                    "{{ $info.example.menu_custom_color_status_text }}"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "status_back",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.status_back }}",
-                    "补全个数显示(左下角)的背景色。",
-                    "{{ $info.example.menu_custom_color_status_back }}"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "tip_text",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.tip_text }}",
-                    "补全提示信息的前景色。",
-                    "{{ $info.example.menu_custom_color_tip_text }}"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "tip_back",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.tip_back }}",
-                    "补全提示信息的背景色。",
-                    "{{ $info.example.menu_custom_color_tip_back }}"
+                    "当前值: {{ $PSCompletions.config.selected_bgcolor }}",
+                    "选中项的背景色。"
                   ],
                   "next": []
                 }
@@ -652,16 +599,14 @@
             {
               "name": "line",
               "tip": [
-                "补全菜单的边框线相关的自定义配置。",
-                "{{ $info.example.menu_custom_line }}"
+                "补全菜单的边框线相关的自定义配置。"
               ],
               "next": [
                 {
                   "name": "horizontal",
                   "tip": [
                     "当前值: \"{{ $PSCompletions.config.horizontal }}\"",
-                    "边框的横线。",
-                    "{{ $info.example.menu_custom_line_horizontal }}"
+                    "边框的横线。"
                   ],
                   "next": [
                     {
@@ -694,8 +639,7 @@
                   "name": "vertical",
                   "tip": [
                     "当前值: \"{{ $PSCompletions.config.vertical }}\"",
-                    "边框的竖线。",
-                    "{{ $info.example.menu_custom_line_vertical }}"
+                    "边框的竖线。"
                   ],
                   "next": [
                     {
@@ -728,8 +672,7 @@
                   "name": "top_left",
                   "tip": [
                     "当前值: \"{{ $PSCompletions.config.top_left }}\"",
-                    "边框的左上角。",
-                    "{{ $info.example.menu_custom_line_top_left }}"
+                    "边框的左上角。"
                   ],
                   "next": [
                     {
@@ -765,8 +708,7 @@
                   "name": "bottom_left",
                   "tip": [
                     "当前值: \"{{ $PSCompletions.config.bottom_left }}\"",
-                    "边框的左下角。",
-                    "{{ $info.example.menu_custom_line_bottom_left }}"
+                    "边框的左下角。"
                   ],
                   "next": [
                     {
@@ -802,8 +744,7 @@
                   "name": "top_right",
                   "tip": [
                     "当前值: \"{{ $PSCompletions.config.top_right }}\"",
-                    "边框的右上角。",
-                    "{{ $info.example.menu_custom_line_top_right }}"
+                    "边框的右上角。"
                   ],
                   "next": [
                     {
@@ -839,8 +780,7 @@
                   "name": "bottom_right",
                   "tip": [
                     "当前值: \"{{ $PSCompletions.config.bottom_right }}\"",
-                    "边框的右下角。",
-                    "{{ $info.example.menu_custom_line_bottom_right }}"
+                    "边框的右下角。"
                   ],
                   "next": [
                     {
@@ -884,32 +824,114 @@
           ],
           "next": [
             {
-              "name": "enable_enter_when_single",
+              "name": "trigger_key",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_enter_when_single }} (默认值为 0, 表示禁用)",
-                "当候选补全项只有一个时, 是否直接输入, 而不是显示补全菜单。"
+                "当前值: \"{{ $PSCompletions.config.trigger_key }}\" (默认值: \"Tab\")",
+                "设置触发补全的按键。"
+              ],
+              "next": [
+                {
+                  "name": "Tab",
+                  "tip": [
+                    "设置为 Tab (默认值)。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "filter_symbol",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.filter_symbol }}\" (默认值: \"[]\")",
+                "设置顶部边框上的过滤区域, 左侧和右侧的符号。",
+                "设置此配置项需要两个字符。"
+              ],
+              "next": [
+                {
+                  "name": "[]",
+                  "tip": [
+                    "设置为 \"[]\" (默认值)。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "status_symbol",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.status_symbol }}\" (默认值: \"/\")",
+                "设置底部边框上的补全个数显示区域, 当前补全数以及总补全数之间的间隔符。"
+              ],
+              "next": [
+                {
+                  "name": "/",
+                  "tip": [
+                    "设置为 \"/\" (默认值)。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "between_item_and_symbol",
+              "tip": [
+                "当前值: \"{{ $PSCompletions.config.between_item_and_symbol }}\" (默认值: \" \")",
+                "设置当补全项后面有符号时, 补全项与符号之间的间隔符。"
+              ],
+              "next": [
+                {
+                  "name": "\" \"",
+                  "tip": [
+                    "设置为 \" \" (默认值)",
+                    "每一个补全项和符号之间都加入一个空格作为间隔。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "height_from_menu_bottom_to_cursor_when_above",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above }} (默认值: 0)",
+                "设置当补全菜单显示在上方时, 菜单底部和光标之间的高度。",
+                "通常会设置它去跳过提示符主题 (oh-my-posh/starship/...) 所在的行，避免重绘差异。"
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "设置为 0 (默认值)",
-                    "即使只有一个候选补全项, 也会先显示菜单, 此时, 你可以再次按下 Tab 或 空格键输入此候选补全项。"
+                    "设置为 0 (默认值)。"
                   ]
                 },
                 {
-                  "name": "1",
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                }
+              ]
+            },
+            {
+              "name": "height_from_menu_top_to_cursor_when_below",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.height_from_menu_top_to_cursor_when_below }} (默认值: 0)",
+                "设置当补全菜单显示在下方时, 菜单顶部和光标之间的高度。"
+              ],
+              "next": [
+                {
+                  "name": "0",
                   "tip": [
-                    "设置为 1",
-                    "当候选补全项只有一个时, 会直接输入, 不会显示补全菜单。"
+                    "设置为 0 (默认值)。"
                   ]
+                },
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
                 }
               ]
             },
             {
               "name": "enable_menu",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_menu }} (默认值为 1, 表示启用)",
+                "当前值: {{ $PSCompletions.config.enable_menu }} (默认值: 1)",
                 "设置是否使用 PSCompletions 模块提供的补全菜单。",
                 "如果你不是在 Windows 系统下使用 PowerShell(pwsh), 你无法使用模块提供的补全菜单, 此配置无效。"
               ],
@@ -931,30 +953,127 @@
               ]
             },
             {
-              "name": "height_from_menu_bottom_to_cursor_when_above",
+              "name": "enable_menu_enhance",
               "tip": [
-                "当前值: {{ $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above }} (默认值为 0,必须大于等于 0)",
-                "设置当补全菜单显示在上方时, 菜单底部和输入光标之间的高度。"
+                "当前值: {{ $PSCompletions.config.enable_menu_enhance }} (默认值: 1)",
+                "设置是否增强补全菜单的功能。",
+                "参考: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强",
+                "      https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "设置为 0 (默认值)。"
+                    "设置为 0。"
                   ]
                 },
                 {
-                  "name": "2"
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_enter_when_single",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_enter_when_single }} (默认值: 0)",
+                "当候选补全项只有一个时, 是否直接输入, 而不是显示补全菜单。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)",
+                    "即使只有一个候选补全项, 也会先显示菜单, 此时, 你可以再次按下 Tab 或 空格键输入此候选补全项。"
+                  ]
                 },
                 {
-                  "name": "3"
+                  "name": "1",
+                  "tip": [
+                    "设置为 1",
+                    "当候选补全项只有一个时, 会直接输入, 不会显示补全菜单。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_loop",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_list_loop }} (默认值: 1)",
+                "设置补全菜单列表是否循环显示。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "补全菜单列表不循环显示。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "补全菜单列表循环显示。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_full_width",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_list_full_width }} (默认值: 1)",
+                "设置补全菜单列表是否铺满窗口宽度。",
+                "启用它，补全菜单的性能会更好。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "补全菜单列表不铺满窗口宽度。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "补全菜单列表铺满窗口宽度。",
+                    "启用它，补全菜单的性能会更好。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_follow_cursor",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_list_follow_cursor }} (默认值: 1)",
+                "设置补全菜单列表是否跟随输入光标显示。",
+                "如果 enable_list_full_width 为 1，则它无效。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "补全列表不跟随输入光标显示, 从 PowerShell 最左侧开始显示。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "补全列表跟随输入光标显示。"
+                  ]
                 }
               ]
             },
             {
               "name": "enable_tip",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_tip }} (默认值为 1, 表示启用)",
+                "当前值: {{ $PSCompletions.config.enable_tip }} (默认值: 1)",
                 "设置是否需要补全提示信息。"
               ],
               "next": [
@@ -977,7 +1096,7 @@
             {
               "name": "enable_hooks_tip",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_hooks_tip }} (默认值为 1, 表示启用)",
+                "当前值: {{ $PSCompletions.config.enable_hooks_tip }} (默认值: 1)",
                 "设置通过 hooks 动态添加的补全项是否需要补全提示信息。"
               ],
               "next": [
@@ -998,16 +1117,24 @@
               ]
             },
             {
-              "name": "trigger_key",
+              "name": "enable_tip_when_enhance",
               "tip": [
-                "当前值: \"{{ $PSCompletions.config.trigger_key }}\" (默认值为 \"Tab\")",
-                "设置触发补全的按键。"
+                "当前值: {{ $PSCompletions.config.enable_tip_when_enhance }} (默认值: 1)",
+                "对于不是通过 'psc add' 添加的补全，如果有命令提示信息，是否显示。"
               ],
               "next": [
                 {
-                  "name": "Tab",
+                  "name": "0",
                   "tip": [
-                    "设置为 Tab (默认值)。"
+                    "设置为 0",
+                    "不显示命令提示信息。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "显示命令提示信息。"
                   ]
                 }
               ]
@@ -1015,8 +1142,9 @@
             {
               "name": "enable_tip_follow_cursor",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_tip_follow_cursor }} (默认值为 1, 表示启用)",
-                "设置补全菜单命令提示信息是否跟随输入光标显示。"
+                "当前值: {{ $PSCompletions.config.enable_tip_follow_cursor }} (默认值: 1)",
+                "设置补全菜单命令提示信息是否跟随输入光标显示。",
+                "如果 enable_list_full_width 为 1，则它无效。"
               ],
               "next": [
                 {
@@ -1036,24 +1164,24 @@
               ]
             },
             {
-              "name": "enable_list_follow_cursor",
+              "name": "enable_completions_sort",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_list_follow_cursor }} (默认值为 1, 表示启用)",
-                "设置补全菜单列表是否跟随输入光标显示。"
+                "当前值: {{ $PSCompletions.config.enable_completions_sort }} (默认值: 1)",
+                "设置是否根据命令历史记录动态排序补全列表。"
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
                     "设置为 0",
-                    "补全列表不跟随输入光标显示, 从 PowerShell 最左侧开始显示。"
+                    "不再根据命令历史记录动态排序补全列表。"
                   ]
                 },
                 {
                   "name": "1",
                   "tip": [
                     "设置为 1 (默认值)",
-                    "补全列表跟随输入光标显示。"
+                    "根据命令历史记录动态排序补全列表。"
                   ]
                 }
               ]
@@ -1061,7 +1189,7 @@
             {
               "name": "enable_path_with_trailing_separator",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (默认值为 1)",
+                "当前值: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (默认值: 1)",
                 "设置路径完成是否带有末尾的分隔符。",
                 "有: C:\\Users\\abgox{{ $PSCompletions.separator }}",
                 "无: C:\\Users\\abgox"
@@ -1086,24 +1214,17 @@
               ]
             },
             {
-              "name": "enable_list_loop",
+              "name": "list_min_width",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_list_loop }} (默认值为 1)",
-                "设置补全菜单列表是否循环显示。"
+                "当前值: {{ $PSCompletions.config.list_min_width }} (默认值: 10)",
+                "设置补全菜单中, 补全项区域的最小宽度。",
+                "如果 enable_list_full_width 为 1，则它无效。"
               ],
               "next": [
                 {
-                  "name": "0",
+                  "name": "10",
                   "tip": [
-                    "设置为 0",
-                    "补全菜单列表不循环显示。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "补全菜单列表循环显示。"
+                    "设置为 10 (默认值)"
                   ]
                 }
               ]
@@ -1111,15 +1232,15 @@
             {
               "name": "list_max_count_when_above",
               "tip": [
-                "当前值: {{ $PSCompletions.config.list_max_count_when_above }} (默认值为 -1)",
+                "当前值: {{ $PSCompletions.config.list_max_count_when_above }} (默认值: 0)",
                 "设置当补全菜单显示在光标上方时, 第一页显示的补全项的最大个数。",
-                "如果值为 -1, 则表示它由 PSCompletions 自行决定"
+                "如果值为 0, 则表示它由 PSCompletions 自行决定"
               ],
               "next": [
                 {
-                  "name": "-1",
+                  "name": "0",
                   "tip": [
-                    "设置为 -1 (默认值)",
+                    "设置为 0 (默认值)",
                     "由 PSCompletions 自行决定"
                   ]
                 }
@@ -1127,86 +1248,17 @@
             },
             {
               "name": "list_max_count_when_below",
-
               "tip": [
-                "当前值: {{ $PSCompletions.config.list_max_count_when_below }} (默认值为 -1)",
+                "当前值: {{ $PSCompletions.config.list_max_count_when_below }} (默认值: 0)",
                 "设置当补全菜单显示在光标下方时, 第一页显示的补全项的最大个数。",
-                "如果值为 -1, 则表示它由 PSCompletions 自行决定"
+                "如果值为 0, 则表示它由 PSCompletions 自行决定"
               ],
               "next": [
                 {
-                  "name": "-1",
+                  "name": "0",
                   "tip": [
-                    "设置为 -1 (默认值)",
+                    "设置为 0 (默认值)",
                     "由 PSCompletions 自行决定"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "between_item_and_symbol",
-
-              "tip": [
-                "当前值: \"{{ $PSCompletions.config.between_item_and_symbol }}\" (默认值: \" \")",
-                "设置当补全项后面有符号时, 补全项与符号之间的间隔符。"
-              ],
-              "next": [
-                {
-                  "name": "\" \"",
-                  "tip": [
-                    "设置为 \" \" (默认值)",
-                    "每一个补全项和符号之间都加入一个空格作为间隔。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "list_min_width",
-
-              "tip": [
-                "当前值: {{ $PSCompletions.config.list_min_width }} (默认值为 10)",
-                "设置补全菜单中, 补全项区域的最小宽度。",
-                "如果补全项的宽度小于 10, 会用空格填充补全项的宽度为 10, 避免菜单显示错误。",
-                "这里的填充不会影响最终选择的补全项。"
-              ],
-              "next": [
-                {
-                  "name": "10",
-                  "tip": [
-                    "设置为 10 (默认值)",
-                    "当所有可选的补全项的宽度低于 10, 会填充宽度为 10, 避免菜单显示错误。",
-                    "此值不建议设置太低, 10 是一个比较合适的值。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "status_symbol",
-              "tip": [
-                "当前值: \"{{ $PSCompletions.config.status_symbol }}\" (默认值为 \"/\")",
-                "设置底部边框上的补全个数显示区域, 当前补全数以及总补全数之间的间隔符。"
-              ],
-              "next": [
-                {
-                  "name": "/",
-                  "tip": [
-                    "设置为 \"/\" (默认值)。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "filter_symbol",
-              "tip": [
-                "当前值: \"{{ $PSCompletions.config.filter_symbol }}\" (默认值为 \"[]\")",
-                "设置顶部边框上的过滤区域, 左侧和右侧的符号。",
-                "设置此配置项需要两个字符。"
-              ],
-              "next": [
-                {
-                  "name": "[]",
-                  "tip": [
-                    "设置为 \"[]\" (默认值)。"
                   ]
                 }
               ]
@@ -1214,7 +1266,7 @@
             {
               "name": "completion_suffix",
               "tip": [
-                "当前值: \"{{ $PSCompletions.config.completion_suffix }}\" (默认值为 \" \")",
+                "当前值: \"{{ $PSCompletions.config.completion_suffix }}\" (默认值: \" \")",
                 "设置补全后缀，当应用补全后，会自动补充这个后缀。",
                 "默认为一个空格，用于简化不必要的空格按键。"
               ],
@@ -1228,89 +1280,17 @@
               ]
             },
             {
-              "name": "enable_completions_sort",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_completions_sort }} (默认值为 1, 表示启用)",
-                "设置是否根据命令历史记录动态排序补全列表。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "不再根据命令历史记录动态排序补全列表。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "根据命令历史记录动态排序补全列表。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_menu_enhance",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_menu_enhance }} (默认值为 1, 表示启用)",
-                "设置是否增强补全菜单的功能。",
-                "详细信息: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强",
-                "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0。",
-                    "详细信息: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强",
-                    "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)。",
-                    "详细信息: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强",
-                    "          https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_tip_when_enhance",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_tip_when_enhance }} (默认值为 1, 表示启用)",
-                "对于不是通过 'psc add' 添加的补全，如果有命令提示信息，是否显示。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "不显示命令提示信息。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "显示命令提示信息。"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "completions_confirm_limit",
               "tip": [
-                "当前值: {{ $PSCompletions.config.completions_confirm_limit }} (默认值为 -1, 表示无限制)",
-                "设置当补全项超过多少个时弹出二次确认框，确认后再获取补全。"
+                "当前值: {{ $PSCompletions.config.completions_confirm_limit }} (默认值: 0)",
+                "设置当补全项超过多少个时弹出二次确认框，确认后再获取补全。",
+                "如果值为 0, 则表示它无限制"
               ],
               "next": [
                 {
-                  "name": "-1",
+                  "name": "0",
                   "tip": [
-                    "设置为 -1 (默认值)。",
+                    "设置为 0 (默认值)。",
                     "它表示无限制，不管补全项有多少个，都会直接获取。"
                   ]
                 }
@@ -1343,7 +1323,6 @@
         },
         {
           "name": "alias",
-
           "tip": [
             "将所有补全或指定的补全恢复为默认补全名。",
             "{{ $info.reset.alias.example }}"
@@ -1383,7 +1362,6 @@
         },
         {
           "name": "menu",
-
           "tip": [
             "重置补全菜单的配置。",
             "{{ $info.reset.menu.example }}"
@@ -1488,7 +1466,7 @@
     ],
     "init_info": [
       "\n",
-      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- 初始化成功！ ✨✨✨\n",
+      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- 初始化成功 ✨✨✨\n",
       "<@Yellow>以下内容仅首次初始化显示, 你可以通过运行 <@Magenta>psc<@Yellow> 来查看它们\n\n",
       "{{ $PSCompletions.info.description }}",
       "\n"
@@ -1532,7 +1510,7 @@
         ],
         "tip": [
           "选用任意一项表示确认获取，否则表示取消\n",
-          "你可以使用 psc menu config completions_confirm_limit -1 来取消限制\n",
+          "你可以使用 psc menu config completions_confirm_limit 0 来取消限制\n",
           "也可以设置更高的值来限制补全数量"
         ]
       }
@@ -1938,8 +1916,8 @@
       },
       "custom": {
         "example": [
-          "E: psc menu custom color border_text DarkGray     --- 设置边框的前景色为 DarkGray\n",
-          "   psc menu custom line horizontal ─              --- 设置边框的横线为 \"-\""
+          "E: psc menu custom color border_color DarkGray     --- 设置边框的前景色为 DarkGray\n",
+          "   psc menu custom line horizontal ─               --- 设置边框的横线为 \"-\""
         ],
         "color": {
           "tip": "设置颜色为 {{ $color }}"
@@ -1952,10 +1930,8 @@
           "   psc menu config filter_symbol []   --- 设置过滤区域(左上角), 左侧和右侧的符号, 默认为 []"
         ],
         "err": {
-          "v_0": "<@Red>应该是一个大于等于 <@Magenta>0<@Red> 的整数数字",
-          "v_1": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字",
-          "v_2": "<@Red>应该是一个大于等于 <@Magenta>1<@Red> 的整数数字, 或者 <@Magenta>-1<@Red>",
-          "v_3": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用",
+          "v_ge": "<@Red>应该是一个大于等于 <@Magenta>{{ $min }}<@Red> 的整数数字",
+          "v_1_or_0": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用",
           "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> 不是一个可用的按键映射，修改失败",
           "completion_suffix": "<@Magenta>{{ $arg[2] }}<@Red> 只能是一个或多个空格"
         }
