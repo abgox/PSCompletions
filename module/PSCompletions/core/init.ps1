@@ -55,12 +55,12 @@ New-Variable -Name PSCompletions -Value @{
         WriteSpaceTab                                = '!'
 
         # menu line
-        horizontal                                   = [string][char]9552 # ═
-        vertical                                     = [string][char]9553 # ║
-        top_left                                     = [string][char]9556 # ╔
-        bottom_left                                  = [string][char]9562 # ╚
-        top_right                                    = [string][char]9559 # ╗
-        bottom_right                                 = [string][char]9565 # ╝
+        horizontal                                   = [string][char]9472 # ─
+        vertical                                     = [string][char]9474 # │
+        top_left                                     = [string][char]9581 # ╭
+        bottom_left                                  = [string][char]9584 # ╰
+        top_right                                    = [string][char]9582 # ╮
+        bottom_right                                 = [string][char]9583 # ╯
 
         # menu color
         filter_color                                 = 'Yellow'
