@@ -31,7 +31,7 @@ New-Variable -Name PSCompletions -Value @{
         const = @{
             symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
             line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
-            color_item  = @('item_text', 'item_back', 'selected_text', 'selected_back', 'filter_text', 'filter_back', 'border_text', 'border_back', 'status_text', 'status_back', 'tip_text', 'tip_back')
+            color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
                 'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'completions_confirm_limit'
@@ -51,8 +51,8 @@ New-Variable -Name PSCompletions -Value @{
 
         # menu symbol
         SpaceTab                                     = '~'
-        WriteSpaceTab                                = '!'
         OptionTab                                    = '?'
+        WriteSpaceTab                                = '!'
 
         # menu line
         horizontal                                   = [string][char]9552 # ═
@@ -63,47 +63,42 @@ New-Variable -Name PSCompletions -Value @{
         bottom_right                                 = [string][char]9565 # ╝
 
         # menu color
-        item_text                                    = 'Blue'
-        item_back                                    = 'Black'
-        selected_text                                = 'white'
-        selected_back                                = 'DarkGray'
-        filter_text                                  = 'Yellow'
-        filter_back                                  = 'Black'
-        border_text                                  = 'DarkGray'
-        border_back                                  = 'Black'
-        status_text                                  = 'Blue'
-        status_back                                  = 'Black'
-        tip_text                                     = 'Cyan'
-        tip_back                                     = 'Black'
+        filter_color                                 = 'Yellow'
+        border_color                                 = 'DarkGray'
+        item_color                                   = 'Blue'
+        status_color                                 = 'Blue'
+        tip_color                                    = 'Cyan'
+
+        selected_color                               = 'White'
+        selected_bgcolor                             = 'DarkGray'
 
         # menu config
         trigger_key                                  = 'Tab'
-        between_item_and_symbol                      = ' '
-        status_symbol                                = '/'
         filter_symbol                                = '[]'
-
-        completion_suffix                            = ' '
+        status_symbol                                = '/'
+        between_item_and_symbol                      = ' '
+        height_from_menu_bottom_to_cursor_when_above = 0
 
         enable_menu                                  = 1
         enable_menu_enhance                          = 1
+        enable_enter_when_single                     = 0
+        enable_list_loop                             = 1
+        enable_list_full_width                       = 1
+        enable_list_follow_cursor                    = 1
+
         enable_tip                                   = 1
         enable_hooks_tip                             = 1
         enable_tip_when_enhance                      = 1
-        enable_completions_sort                      = 1
         enable_tip_follow_cursor                     = 1
-        enable_list_follow_cursor                    = 1
 
+        enable_completions_sort                      = 1
         enable_path_with_trailing_separator          = 1
 
-        enable_list_loop                             = 1
-        enable_enter_when_single                     = 0
-
-        enable_list_full_width                       = 1
         list_min_width                               = 10
         list_max_count_when_above                    = -1
         list_max_count_when_below                    = -1
-        height_from_menu_bottom_to_cursor_when_above = 0
 
+        completion_suffix                            = ' '
         completions_confirm_limit                    = -1
     }
     # 每个补全都默认带有的配置项

@@ -701,33 +701,25 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                     return
                 }
                 switch ($arg[2]) {
-                    'magenta' {
-                        $PSCompletions.config.item_text = 'Magenta'
-                        $PSCompletions.config.item_back = 'White'
-                        $PSCompletions.config.selected_text = 'white'
-                        $PSCompletions.config.selected_back = 'DarkMagenta'
-                        $PSCompletions.config.filter_text = 'Magenta'
-                        $PSCompletions.config.filter_back = 'White'
-                        $PSCompletions.config.border_text = 'Magenta'
-                        $PSCompletions.config.border_back = 'White'
-                        $PSCompletions.config.status_text = 'Magenta'
-                        $PSCompletions.config.status_back = 'White'
-                        $PSCompletions.config.tip_text = 'Magenta'
-                        $PSCompletions.config.tip_back = 'White'
-                    }
                     'default' {
-                        $PSCompletions.config.item_text = 'Blue'
-                        $PSCompletions.config.item_back = 'Black'
-                        $PSCompletions.config.selected_text = 'white'
-                        $PSCompletions.config.selected_back = 'DarkGray'
-                        $PSCompletions.config.filter_text = 'Yellow'
-                        $PSCompletions.config.filter_back = 'Black'
-                        $PSCompletions.config.border_text = 'DarkGray'
-                        $PSCompletions.config.border_back = 'Black'
-                        $PSCompletions.config.status_text = 'Blue'
-                        $PSCompletions.config.status_back = 'Black'
-                        $PSCompletions.config.tip_text = 'Cyan'
-                        $PSCompletions.config.tip_back = 'Black'
+                        $PSCompletions.config.filter_color = 'Yellow'
+                        $PSCompletions.config.border_color = 'DarkGray'
+                        $PSCompletions.config.item_color = 'Blue'
+                        $PSCompletions.config.status_color = 'Blue'
+                        $PSCompletions.config.tip_color = 'Cyan'
+
+                        $PSCompletions.config.selected_color = 'white'
+                        $PSCompletions.config.selected_bgcolor = 'DarkGray'
+                    }
+                    'magenta' {
+                        $PSCompletions.config.filter_color = 'Magenta'
+                        $PSCompletions.config.border_color = 'Magenta'
+                        $PSCompletions.config.item_color = 'Magenta'
+                        $PSCompletions.config.status_color = 'Magenta'
+                        $PSCompletions.config.tip_color = 'Magenta'
+
+                        $PSCompletions.config.selected_color = 'white'
+                        $PSCompletions.config.selected_bgcolor = 'DarkMagenta'
                     }
                 }
                 $PSCompletions._need_update_data = $true

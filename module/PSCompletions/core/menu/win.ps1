@@ -84,12 +84,12 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_buffer 
 
     $border_box += [string]$bottom_left + $horizontal * 2 + ' ' * ($status.Length + 1) + $horizontal * ($list_area - $status.Length - 3) + $bottom_right
 
-    $rawUI.SetBufferContents($menu.pos, $rawUI.NewBufferCellArray($border_box, $config.border_text, $config.border_back))
+    $rawUI.SetBufferContents($menu.pos, $rawUI.NewBufferCellArray($border_box, $config.border_color, $bgColor))
 
     $rawUI.SetBufferContents(@{
             X = $menu.pos.X + 1
             Y = $menu.pos.Y + 1
-        }, $rawUI.NewBufferCellArray($content_box, $config.item_text, $config.item_back)
+        }, $rawUI.NewBufferCellArray($content_box, $config.item_color, $bgColor)
     )
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_buffer {
@@ -111,7 +111,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_list_bu
             X = $menu.pos.X + 1
             Y = $menu.pos.Y + 1
         },
-        $rawUI.NewBufferCellArray($content_box, $config.item_text, $config.item_back)
+        $rawUI.NewBufferCellArray($content_box, $config.item_color, $bgColor)
     )
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_filter_buffer {
@@ -127,7 +127,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_filter_
             X = $menu.pos.X + 2
             Y = $menu.pos.Y
         },
-        $rawUI.NewBufferCellArray(@(@($start, $filter, $end) -join ''), $config.filter_text, $config.filter_back)
+        $rawUI.NewBufferCellArray(@(@($start, $filter, $end) -join ''), $config.filter_color, $bgColor)
     )
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_buffer {
@@ -140,7 +140,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_status_
     }
 
     $current = "$(([string]($menu.selected_index + 1)).PadLeft($menu.filter_list.Count.ToString().Length, ' '))"
-    $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@("$current$($config.status_symbol)$($menu.filter_list.Count)"), $config.status_text, $config.status_back))
+    $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@("$current$($config.status_symbol)$($menu.filter_list.Count)"), $config.status_color, $bgColor))
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buffer {
     param([int]$index)
@@ -244,7 +244,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_tip_buf
                     return
                 }
             }
-            $rawUI.SetBufferContents($pos, $rawUI.NewBufferCellArray($tip_arr, $config.tip_text, $config.tip_back))
+            $rawUI.SetBufferContents($pos, $rawUI.NewBufferCellArray($tip_arr, $config.tip_color, $bgColor))
         }
     }
 }
@@ -275,7 +275,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_selecti
     # XXX: 对于多字节字符，需要过滤掉 Trailing 类型字符以确保正确渲染
     $LineBuffer = $LineBuffer.Where({ $_.BufferCellType -ne 'Trailing' })
     $content = foreach ($i in $LineBuffer) { $i.Character }
-    $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@([string]::Join('', $content)), $config.selected_text, $config.selected_back))
+    $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@([string]::Join('', $content)), $config.selected_color, $config.selected_bgcolor))
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_selection {
     param([bool]$isDown)
