@@ -18,7 +18,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         if ($menu.cursor_to_top -lt $menu.ui_height) {
             $menu.ui_height = $menu.cursor_to_top
         }
-        $list_limit = if ($config.list_max_count_when_above -eq -1) { 12 }else { $config.list_max_count_when_above + 2 }
+        $list_limit = if ($config.list_max_count_when_above -gt 0) { $config.list_max_count_when_above + 2 }else { 12 }
         if ($list_limit -lt $menu.ui_height) {
             $menu.ui_height = $list_limit
         }
@@ -28,7 +28,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_list 
         if ($menu.cursor_to_bottom -lt $menu.ui_height) {
             $menu.ui_height = $menu.cursor_to_bottom
         }
-        $list_limit = if ($config.list_max_count_when_below -eq -1) { 12 }else { $config.list_max_count_when_below + 2 }
+        $list_limit = if ($config.list_max_count_when_below -gt 0) { $config.list_max_count_when_below + 2 }else { 12 }
         if ($list_limit -lt $menu.ui_height) {
             $menu.ui_height = $list_limit
         }

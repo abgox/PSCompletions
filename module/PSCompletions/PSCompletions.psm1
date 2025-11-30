@@ -514,11 +514,11 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             $new_value = [int]$new_value
         }
 
-        if ($config_item -in @('enable_hooks', 'enable_tip', 'enable_hooks_tip')) {
+        if ($config_item -match "(enable_*)|(disable_*)") {
             if ($new_value -notin @(1, 0)) {
                 $cmd_list = $null
                 $sub_cmd = $value
-                $cmd_info = $PSCompletions.info.menu.config.err.v_3
+                $cmd_info = $PSCompletions.info.menu.config.err.v_1_or_0
                 Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.completion.example
                 return
             }
@@ -811,20 +811,12 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                             return
                         }
                     }
-                    { $_ -in @('list_max_count_when_above', 'list_max_count_when_below', 'completions_confirm_limit') } {
-                        $cmd_list = $null
-                        $sub_cmd = $value
-                        $cmd_info = $PSCompletions.info.menu.config.err.v_2
-                        if (!$is_num -or ($value -ne -1 -and $value -le 0)) {
-                            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
-                            return
-                        }
-                    }
-                    { $_ -in @('list_min_width', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below') } {
-                        if (!$is_num -or $value -lt 0) {
+                    { $_ -in @('list_min_width', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'list_max_count_when_above', 'list_max_count_when_below', 'completions_confirm_limit') } {
+                        $min = 0
+                        if (!$is_num -or $value -lt $min) {
                             $cmd_list = $null
                             $sub_cmd = $value
-                            $cmd_info = $PSCompletions.info.menu.config.err.v_0
+                            $cmd_info = _replace $PSCompletions.info.menu.config.err.v_ge
                             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }
@@ -833,7 +825,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         if (!$is_num -or $value -notin @(1, 0)) {
                             $cmd_list = $null
                             $sub_cmd = $value
-                            $cmd_info = $PSCompletions.info.menu.config.err.v_3
+                            $cmd_info = $PSCompletions.info.menu.config.err.v_1_or_0
                             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }

@@ -96,11 +96,11 @@ New-Variable -Name PSCompletions -Value @{
         enable_path_with_trailing_separator          = 1
 
         list_min_width                               = 10
-        list_max_count_when_above                    = -1
-        list_max_count_when_below                    = -1
+        list_max_count_when_above                    = 0
+        list_max_count_when_below                    = 0
 
         completion_suffix                            = ' '
-        completions_confirm_limit                    = -1
+        completions_confirm_limit                    = 0
     }
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip', 'enable_hooks_tip')
