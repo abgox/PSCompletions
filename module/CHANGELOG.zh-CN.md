@@ -1,5 +1,24 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.2.0
+
+- 添加 `enable_list_full_width` 配置项，用于控制补全菜单是否铺满窗口宽度
+  - 参考: [#117](https://github.com/abgox/PSCompletions/issues/117)
+  - 它是默认启用的
+  - 它能够让补全菜单的相关计算复杂度从 `O(n)` 降低到 `O(1)`，媲美原生补全菜单的响应性能
+  - 如果你不喜欢它的效果，请运行 `psc menu config enable_list_full_width 0`
+- 为补全菜单添加 `height_from_menu_top_to_cursor_when_below` 配置项
+- 简化了补全菜单的颜色主题
+  - 移除了一些冗余的颜色配置项
+  - 变更了一些颜色配置项的名称，如果你有自定义，可能需要重新设置
+- 使用 `single_line_round_border` 作为补全菜单的默认线条主题
+- 移除所有补全文件的 `tip` 字段中的换行符，由补全加载时自动添加
+- 当光标后有空格时，禁用补全后缀
+- 限制 `completion_suffix` 的值，它只能是一个或多个空格
+- 修复当 `enable_tip` 为 `0` 时，模块提供的特殊符号(`~?!`)缺失的问题
+- 修复了 `WriteSpaceTab` 类型补全失效的问题
+- 其他性能优化和修复
+
 ## 6.1.0
 
 - 补全库存在部分破坏性变更，请在更新模块后及时更新所有补全

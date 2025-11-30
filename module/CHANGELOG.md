@@ -1,5 +1,24 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.2.0
+
+- Add `enable_list_full_width` configuration item, used to control whether the completion menu is displayed in full width.
+  - Refer to: [#117](https://github.com/abgox/PSCompletions/issues/117)
+  - It is enabled by default.
+  - It can reduce the complexity of related calculations from `O(n)` to `O(1)`, comparable to the response performance of the native completion menu.
+  - If you don't like the full-width display, please run `psc menu config enable_list_full_width 0`.
+- Add `height_from_menu_top_to_cursor_when_below` configuration item for completion menu.
+- Simplify the color theme of the completion menu.
+  - Remove some redundant color configuration items.
+  - Change the names of some color configuration items, you may need to re-set them if you have customizations.
+- Use `single_line_round_border` as the default line theme for the completion menu.
+- Remove newline characters in `tip` fields of all completion files, added automatically when loading completions.
+- Disable completion suffix when there is a space after the cursor.
+- Limit the value of `completion_suffix` to be one or more spaces.
+- Fix the issue where special symbols (`~?!`) provided by the module are missing when `enable_tip` is `0`.
+- Fix the issue where the completions of the `WriteSpaceTab` type are not working.
+- Other performance optimizations and fixes.
+
 ## 6.1.0
 
 - Completion library has some breaking changes, please update all completions after updating the module.
