@@ -468,8 +468,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $PSCompletions.completions_data."$($root)_common_options" = $PSCompletions.completions_data[$root].commonOptions.$guid | ForEach-Object { $_.CompletionText }
     }
     $completions = $PSCompletions.completions_data[$root]
-    $filter_list = [array](filterCompletions)
-    $_filter_list = [array](handleCompletions $filter_list)
+    $filter_list = handleCompletions ([array](filterCompletions))
+
+    if ($filter_list.Count -gt 1) {
+        $_filter_list = foreach ($_ in $filter_list) { if ($null -ne $_.ListItemText) { $_ } }
+    }
+    else {
+        $_filter_list = $filter_list.Where({ $null -ne $_.ListItemText })
+    }
 
     $filter_list = [System.Collections.Generic.List[object]]@()
     if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
