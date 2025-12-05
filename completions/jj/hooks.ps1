@@ -72,7 +72,6 @@ if(remote,
 
     $argList = @(
         '-r', '--revisions',
-        '-d', '--destination', # TODO: jj 的未来版本废弃了它，需要移除
         '-o', '--onto',
         '-A', '--insert-after',
         '-B', '--insert-before',

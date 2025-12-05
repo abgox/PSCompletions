@@ -549,9 +549,9 @@
           ]
         },
         {
-          "name": "--edit",
+          "name": "--editor",
           "tip": [
-            "打开编辑器"
+            "打开编辑器以编辑变更描述"
           ]
         }
       ]
@@ -1003,15 +1003,6 @@
               ]
             },
             {
-              "name": "-N",
-              "alias": [
-                "--allow-new"
-              ],
-              "tip": [
-                "允许推送新书签"
-              ]
-            },
-            {
               "name": "--allow-empty-description",
               "tip": [
                 "允许推送提交描述为空的提交"
@@ -1391,12 +1382,12 @@
           "next": []
         },
         {
-          "name": "-d",
+          "name": "-o",
           "alias": [
-            "--destination"
+            "--onto"
           ],
           "tip": [
-            "U: -d, --destination <REVSETS>",
+            "U: -o, --onto <REVSETS>",
             "变基目标（可重复以创建合并提交）"
           ],
           "next": []
@@ -1635,7 +1626,36 @@
     {
       "name": "split",
       "tip": [
+        "U: split [OPTIONS] [FILESETS]...",
         "将一个修订分为两个"
+      ],
+      "options": [
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": [
+            "交互式选择要拆分的部分"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>",
+            "指定要使用的差异编辑器（隐含 --interactive）"
+          ]
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--revision"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSET>",
+            "要拆分的修订版本 [默认：@]"
+          ]
+        }
       ]
     },
     {
@@ -1680,12 +1700,12 @@
           "next": []
         },
         {
-          "name": "-d",
+          "name": "-o",
           "alias": [
-            "--destination"
+            "--onto"
           ],
           "tip": [
-            "U: -d, --destination <REVSETS>",
+            "U: -o, --onto <REVSETS>",
             "（实验性）用作新提交的父提交的修订版本（可重复使用以创建合并提交）"
           ],
           "next": []
