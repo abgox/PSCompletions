@@ -47,11 +47,12 @@
 
 一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
 
-- [更强大的补全菜单](#关于补全菜单 "点击查看相关详情")
-- [集中管理补全](./completions.zh-CN.md "点击查看可添加补全列表！")
-- 动态排序补全项(根据使用频次)
-- `en-US`,`zh-CN`,... 多语言切换
-- [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "点击查看如何实现")
+- [内置的补全库](./completions.zh-CN.md)
+- [更强大的补全菜单](#关于补全菜单)
+- 根据命令历史动态排序补全项
+- [支持多种语言: en-US, zh-CN 等](#关于语言)
+- [与 PSFzf 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+- [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
 
 ## 演示
 
@@ -76,21 +77,21 @@
 
 ## 安装
 
-1. 安装模块:
+1. 安装模块
 
-   - 使用 [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module):
+   - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser
      ```
 
-   - 使用 [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource):
+   - [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
 
      ```powershell
      Install-PSResource PSCompletions -Scope CurrentUser
      ```
 
-   - 使用 [Scoop](https://scoop.sh/) 安装
+   - [Scoop](https://scoop.sh/)
 
      - 添加 [abyss](https://abyss.abgox.com) bucket ([Github](https://github.com/abgox/abyss) 或 [Gitee](https://gitee.com/abgox/abyss))
      - 安装它
@@ -99,7 +100,7 @@
        scoop install abyss/abgox.PSCompletions
        ```
 
-2. 导入模块:
+2. 导入模块
 
    ```powershell
    Import-Module PSCompletions
@@ -112,7 +113,7 @@
   1. 使用 `psc add git` 添加补全
   2. 输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
 
-- 不使用 `PSCompletions` 中提供的补全，只将它作为一个更好的补全菜单
+- 不使用 `PSCompletions` 的补全库，只将它作为一个更好的补全菜单
 
   - 如果存在官方补全，可运行类似的命令
 
@@ -120,21 +121,13 @@
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "点击查看如何实现")
+  - [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
 
   - 更多详情，参考 [菜单增强](#关于菜单增强)
 
+- 使用 [PSFzf](https://github.com/kelleyma49/PSFzf) 作为补全菜单，参考 [与 PSFzf 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+
 ## Tips
-
-### 关于补全触发按键
-
-- 模块默认使用 `Tab` 键作为补全菜单触发按键
-- 你可以使用 `psc menu config trigger_key <key>` 去设置它
-
-> [!Warning]
->
-> - 如果需要指定 `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>`
-> - 请放在 `Import-Module PSCompletions` 之前
 
 ### 关于补全菜单
 

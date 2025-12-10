@@ -47,11 +47,12 @@
 
 A completion manager for a better and simpler tab-completion experience in `PowerShell`.
 
-- [More powerful completion menu.](#about-completion-menu "Click it to learn more about it.")
-- [Manage completions together.](./completions.md "Click it to view the completion list that can be added.")
-- Sort completion items dynamically by frequency of use.
-- Switch between languages(`en-US`,`zh-CN`,...) freely.
-- [Combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "Click to see what you need to do.")
+- [Built-in completion library.](./completions.md)
+- [More powerful completion menu.](#about-completion-menu)
+- Sort completion items dynamically based on command history.
+- [Support multiple languages: en-US, zh-CN, etc.](#about-language)
+- [Combine with PSFzf.](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+- [Combine with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
 
 ## Demo
 
@@ -76,21 +77,21 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 ## How to install
 
-1. Install module:
+1. Install the module.
 
-   - Use [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module):
+   - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
      Install-Module PSCompletions -Scope CurrentUser
      ```
 
-   - Use [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource):
+   - [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
 
      ```powershell
      Install-PSResource PSCompletions -Scope CurrentUser
      ```
 
-   - Use [Scoop](https://scoop.sh/):
+   - [Scoop](https://scoop.sh/)
 
      - Add the [abyss](https://abyss.abgox.com) bucket via [Github](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss).
 
@@ -100,7 +101,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
        scoop install abyss/abgox.PSCompletions
        ```
 
-2. Import module:
+2. Import the module.
 
    ```powershell
    Import-Module PSCompletions
@@ -113,29 +114,21 @@ See the [Contribution Guide](./.github/contributing.md) for details.
   1. Add completion: `psc add git`
   2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
 
-- Only use `PSCompletions` as a better completion menu without `psc add`.
+- Use `PSCompletions` as a better completion menu without `psc add`.
 
-  - If there is an official completion for `xxx`, a similar command can be run:
+  - If there is an official completion for `xxx`, a similar command may be run:
 
     ```powershell
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - [Combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions "Click to see what you need to do.")
+  - [Combine with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
 
   - For more details, please refer to [About menu enhance](#about-menu-enhance).
 
+- Use [PSFzf](https://github.com/kelleyma49/PSFzf) as the completion menu, refer to [Combine with PSFzf.](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+
 ## Tips
-
-### About the completion trigger key
-
-- `PSCompletions` uses the `Tab` key by default.
-- You can set it by running `psc menu config trigger_key <key>`.
-
-> [!Warning]
->
-> - If you need `Set-PSReadLineKeyHandler -Key <key> -Function <MenuComplete|Complete>`
-> - Please add it before `Import-Module PSCompletions`
 
 ### About completion menu
 
@@ -164,7 +157,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
       - Path completion such as `cd`/`.\`/`..\`/`~\`/...
       - Build-in commands such as `Get-*`/`Set-*`/`New-*`/...
       - Completion registered by [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
-      - [Combined with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+      - [Combine with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
       - Completion registered by cli or module.
       - ...
   - [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
