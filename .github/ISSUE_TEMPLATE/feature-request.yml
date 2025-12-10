@@ -9,8 +9,6 @@ body:
     attributes:
       label: Before Start
       options:
-        - label: You are using the latest version of PSCompletions.
-          required: true
         - label: You have read this repository's README file.
           required: true
         - label: You have search for related issues in [Issues](https://github.com/abgox/PSCompletions/issues).
@@ -28,27 +26,32 @@ body:
         - What use cases support your request?
     validations:
       required: true
-  - type: dropdown
-    id: powershell-version
+  - type: input
+    id: version
     attributes:
-      label: What Powershell version are you using?
-      description: |
-        - [PowerShell (pwsh)](https://learn.microsoft.com/powershell/scripting/overview)
-        - [Windows PowerShell 5.1 (Windows builtin version)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell)
-      options:
-        - PowerShell
-        - Windows PowerShell
-      multiple: true
+      label: Current version of PSCompletions
+      description: Run `psc` to get the current version
+      placeholder: v6.2.0
     validations:
       required: true
-  - type: dropdown
-    id: system
+  - type: textarea
     attributes:
-      label: What system are you using?
-      options:
-        - Windows
-        - Other system
-      multiple: true
+      label: PowerShell Version
+      render: console
+      placeholder: |
+        PS> $PSVersionTable
+
+        Name                           Value
+        ----                           -----
+        PSVersion                      7.5.0
+        PSEdition                      Core
+        GitCommitId                    7.5.0
+        OS                             Microsoft Windows 10.0.26100
+        Platform                       Win32NT
+        PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0…}
+        PSRemotingProtocolVersion      2.3
+        SerializationVersion           1.1.0.1
+        WSManStackVersion              3.0
     validations:
       required: true
   - type: textarea
