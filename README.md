@@ -58,7 +58,7 @@ A completion manager for a better and simpler tab-completion experience in `Powe
 
 > [!Tip]
 >
-> - If it cannot be displayed here, [you can check it on the official website.](https://pscompletions.abgox.com).
+> - If it cannot be displayed here, [you can check it on the official website](https://pscompletions.abgox.com).
 > - [Click to view the videos on Bilibili.](https://www.bilibili.com/video/BV15Gp7zmE2e)
 
 ![demo](https://pscompletions.abgox.com/demo.gif)
@@ -153,6 +153,9 @@ See the [Contribution Guide](./.github/contributing.md) for details.
   - [Set-PSReadLineKeyHandler](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
     - It's used by default.
       - Requires: `enable_menu` and `enable_menu_enhance` both set to `1`.
+      - It will use `Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock { ... }`.
+      - The default `trigger_key` is `Tab`.
+      - So, you cannot use `Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { ... }`.
     - It use [TabExpansion2](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
       - Path completion such as `cd`/`.\`/`..\`/`~\`/...
       - Build-in commands such as `Get-*`/`Set-*`/`New-*`/...

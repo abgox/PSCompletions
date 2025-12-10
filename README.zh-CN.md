@@ -153,6 +153,9 @@
 
     - 默认使用此实现
       - 前提: 配置项 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
+      - 它会使用 `Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock { ... }`
+      - 而默认的 `trigger_key` 是 `Tab`
+      - 因此，你不能再使用 `Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { ... }`
     - 它使用 [TabExpansion2](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
       - 路径补全: `cd`/`.\`/`..\`/`~\`/...
       - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...
