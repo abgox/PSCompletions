@@ -181,13 +181,23 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
     }
     function _update {
         $completion_list = $PSCompletions.data.list.Where({ $_ -in $PSCompletions.list })
+        $params = @{
+            ErrorAction = 'Stop'
+        }
+        if ($PSEdition -eq 'Core') {
+            $params['OperationTimeoutSeconds'] = 30
+        }
+        else {
+            $params['TimeoutSec'] = 30
+        }
 
         if ($arg.Length -lt 2) {
             # 如果只是使用 psc update 则检查更新
             $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
+                $params['Uri'] = "$($PSCompletions.url)/completions/$completion/guid.json"
                 try {
-                    $response = Invoke-RestMethod -Uri "$($PSCompletions.url)/completions/$completion/guid.json"
+                    $response = Invoke-RestMethod @params
                     $old_guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/guid.json") | ConvertFrom-Json | Select-Object -ExpandProperty guid
                     if ($response.guid -ne $old_guid) {
                         $need_update_list.Add($completion)

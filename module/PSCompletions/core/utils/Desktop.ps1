@@ -189,7 +189,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 $item = $baseUrl[$i]
                 $url = $item + '/' + $path
                 try {
-                    $wc.DownloadFile($url, $file)
+                    Invoke-RestMethod -Uri $url -OutFile $file -TimeoutSec 30 -ErrorAction Stop
                     $isErr = $false
                     break
                 }
@@ -211,7 +211,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
             foreach ($url in $PSCompletions.urls) {
                 try {
-                    $response = Invoke-RestMethod -Uri "$url/completions.json" -ErrorAction Stop
+                    $response = Invoke-RestMethod -Uri "$url/completions.json" -TimeoutSec 30 -ErrorAction Stop
 
                     $remote_list = $response.list
 
@@ -231,8 +231,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
             throw
         }
-
-        $wc = New-Object System.Net.WebClient
 
         ensure_dir $PSCompletions.path.order
         ensure_dir "$($PSCompletions.path.completions)/psc"
@@ -381,7 +379,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
                     foreach ($url in $urls) {
                         try {
-                            $newVersion = (Invoke-RestMethod -Uri "$url/module/version.json").version
+                            $res = Invoke-RestMethod -Uri "$url/module/version.json" -TimeoutSec 30 -ErrorAction Stop
+                            $newVersion = $res.version
                             break
                         }
                         catch {}
@@ -409,7 +408,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $isErr = $true
                     foreach ($url in $PSCompletions.urls) {
                         try {
-                            $response = Invoke-RestMethod -Uri "$url/completions/$($_.Name)/guid.json"
+                            $response = Invoke-RestMethod -Uri "$url/completions/$($_.Name)/guid.json" -TimeoutSec 30 -ErrorAction Stop
                             $isErr = $false
                             break
                         }

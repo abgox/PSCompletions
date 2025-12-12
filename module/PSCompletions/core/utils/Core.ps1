@@ -44,7 +44,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $item = $baseUrl[$i]
                     $url = $item + '/' + $path
                     try {
-                        $wc.DownloadFile($url, $file)
+                        Invoke-RestMethod -Uri $url -OutFile $file -OperationTimeoutSeconds 30 -ErrorAction Stop
                         $isErr = $false
                         break
                     }
@@ -66,8 +66,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
                 foreach ($url in $PSCompletions.urls) {
                     try {
-                        $response = Invoke-RestMethod -Uri "$url/completions.json" -ErrorAction Stop
-
+                        $response = Invoke-RestMethod -Uri "$url/completions.json" -OperationTimeoutSeconds 30 -ErrorAction Stop
                         $remote_list = $response.list
 
                         $diff = Compare-Object $remote_list $current_list -PassThru
@@ -86,8 +85,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 }
                 throw
             }
-
-            $wc = New-Object System.Net.WebClient
 
             ensure_dir $PSCompletions.path.order
             ensure_dir "$($PSCompletions.path.completions)/psc"
@@ -236,7 +233,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
                         foreach ($url in $urls) {
                             try {
-                                $newVersion = (Invoke-RestMethod -Uri "$url/module/version.json").version
+                                $res = Invoke-RestMethod -Uri "$url/module/version.json" -OperationTimeoutSeconds 30 -ErrorAction Stop
+                                $newVersion = $res.version
                                 break
                             }
                             catch {}
@@ -264,7 +262,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                         $isErr = $true
                         foreach ($url in $PSCompletions.urls) {
                             try {
-                                $response = Invoke-RestMethod -Uri "$url/completions/$($_.Name)/guid.json"
+                                $response = Invoke-RestMethod -Uri "$url/completions/$($_.Name)/guid.json" -OperationTimeoutSeconds 30 -ErrorAction Stop
                                 $isErr = $false
                                 break
                             }
@@ -294,7 +292,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             check_update
         } -ArgumentList $PSCompletions
 
-        $wc = New-Object System.Net.WebClient
         function get_raw_content {
             param ([string]$path, [bool]$trim = $true)
             $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
@@ -328,7 +325,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 $item = $baseUrl[$i]
                 $url = $item + '/' + $path
                 try {
-                    $wc.DownloadFile($url, $file)
+                    Invoke-RestMethod -Uri $url -OutFile $file -OperationTimeoutSeconds 30 -ErrorAction Stop
                     $isErr = $false
                     break
                 }

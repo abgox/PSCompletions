@@ -24,7 +24,6 @@ New-Variable -Name PSCompletions -Value @{
     language                = $PSUICulture
     encoding                = [console]::OutputEncoding
     separator               = [System.IO.Path]::DirectorySeparatorChar
-    wc                      = New-Object System.Net.WebClient
     replace_pattern         = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     input_pattern           = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
     menu                    = @{
@@ -831,9 +830,21 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
     }
     $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
     $isErr = $true
+
+    $params = @{
+        ErrorAction = 'Stop'
+    }
+    if ($PSEdition -eq 'Core') {
+        $params['OperationTimeoutSeconds'] = 30
+    }
+    else {
+        $params['TimeoutSec'] = 30
+    }
+
     foreach ($url in $PSCompletions.urls) {
+        $params['Uri'] = "$url/completions.json"
         try {
-            $response = Invoke-RestMethod -Uri "$url/completions.json" -ErrorAction Stop
+            $response = Invoke-RestMethod @params
         }
         catch {
             Write-Host $_.Exception.Message -ForegroundColor Red
@@ -872,11 +883,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
         [array]$baseUrl
     )
 
+    $params = @{
+        ErrorAction = 'Stop'
+    }
+    if ($PSEdition -eq 'Core') {
+        $params['OperationTimeoutSeconds'] = 30
+    }
+    else {
+        $params['TimeoutSec'] = 30
+    }
+
     for ($i = 0; $i -lt $baseUrl.Count; $i++) {
         $item = $baseUrl[$i]
         $url = $item + '/' + $path
+        $params['Uri'] = $url
+        $params['OutFile'] = $file
         try {
-            $PSCompletions.wc.DownloadFile($url, $file)
+            Invoke-RestMethod @params
             break
         }
         catch {
