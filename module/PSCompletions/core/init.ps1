@@ -1178,40 +1178,53 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
     param(
         [array]$completions # The list of completions.
     )
-    foreach ($_ in $completions) {
-        Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
-            param($wordToComplete, $commandAst, $cursorPosition)
-            $words = @(
-                foreach ($_ in $commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition })) {
-                    $word = $_.ToString()
-                    if ($word.Length -gt 2) {
-                        if (($word.StartsWith('"') -and $word.EndsWith('"')) -or ($word.StartsWith("'") -and $word.EndsWith("'"))) {
-                            $word = $word.Substring(1, $word.Length - 2)
+    foreach ($c in $completions) {
+        $aliasList = @($c)
+        $alias = Get-Alias -Definition $c -ErrorAction SilentlyContinue
+        if ($alias) {
+            $aliasList += $alias.Name
+        }
+        foreach ($a in $aliasList) {
+            Register-ArgumentCompleter -Native -CommandName $a -ScriptBlock {
+                param($wordToComplete, $commandAst, $cursorPosition)
+                $words = @(
+                    foreach ($_ in $commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition })) {
+                        $word = $_.ToString()
+                        if ($word.Length -gt 2) {
+                            if (($word.StartsWith('"') -and $word.EndsWith('"')) -or ($word.StartsWith("'") -and $word.EndsWith("'"))) {
+                                $word = $word.Substring(1, $word.Length - 2)
+                            }
                         }
+                        $word
                     }
-                    $word
-                }
-            )
-            $emptyS = ''
-            if ($PSVersionTable.PSVersion.Major -eq 5) {
-                $emptyS = '""'
-            }
-            $lastElemIndex = -1
-            if ($words.Count -lt $commandAst.CommandElements.Count) {
-                $lastElemIndex = $words.Count - 1
-            }
-            if ($commandAst.CommandElements[$lastElemIndex].Extent.EndOffset -lt $cursorPosition) {
-                $words += $emptyS
-            }
+                )
 
-            foreach ($_ in @((argc --argc-compgen powershell $emptyS $words) -split "`n")) {
-                $parts = ($_ -split "`t")
-                if ($PSCompletions.config.enable_tip_when_enhance) {
-                    $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
-                    [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $tip)
+                $alias = Get-Alias -Name $words[0] -ErrorAction SilentlyContinue
+                if ($alias) {
+                    $words[0] = $alias.Definition
                 }
-                else {
-                    [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', ' ')
+
+                $emptyS = ''
+                if ($PSVersionTable.PSVersion.Major -eq 5) {
+                    $emptyS = '""'
+                }
+                $lastElemIndex = -1
+                if ($words.Count -lt $commandAst.CommandElements.Count) {
+                    $lastElemIndex = $words.Count - 1
+                }
+                if ($commandAst.CommandElements[$lastElemIndex].Extent.EndOffset -lt $cursorPosition) {
+                    $words += $emptyS
+                }
+
+                foreach ($_ in @((argc --argc-compgen powershell $emptyS $words) -split "`n")) {
+                    $parts = ($_ -split "`t")
+                    if ($PSCompletions.config.enable_tip_when_enhance) {
+                        $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
+                        [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $tip)
+                    }
+                    else {
+                        [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', ' ')
+                    }
                 }
             }
         }
