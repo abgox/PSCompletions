@@ -850,7 +850,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         }
                     }
                     'completion_suffix' {
-                        if ($value -notmatch '^\s+$') {
+                        if ($value -notmatch '^\s*$') {
                             Show-ParamError 'err' 'completion_suffix' $PSCompletions.info.menu.config.err.completion_suffix
                             return
                         }
