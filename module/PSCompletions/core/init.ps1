@@ -527,7 +527,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             }
         }
     }
-    if ($PSCompletions.config.enable_completions_sort) {
+    if ($root -eq 'PSCompletions') {
+        $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $root) { $c; break } }
+    }
+    else {
+        $has_command = Get-Command $root -ErrorAction SilentlyContinue
+    }
+    if ($PSCompletions.config.enable_completions_sort -and $has_command) {
         $path_order = "$($PSCompletions.path.order)/$root.json"
         if ($PSCompletions.order."$($root)_job") {
             if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {

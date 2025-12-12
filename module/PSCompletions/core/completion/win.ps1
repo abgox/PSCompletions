@@ -99,7 +99,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         }
                     }
 
-                    $has_command = try { Get-Command $alias -ErrorAction Stop } catch { $null }
+                    if ($root -eq 'PSCompletions') {
+                        $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $root) { $c; break } }
+                    }
+                    else {
+                        $has_command = Get-Command $root -ErrorAction SilentlyContinue
+                    }
                     if ($PSCompletions.config.enable_completions_sort -and $has_command) {
                         $path_order = "$($PSCompletions.path.order)/$root.json"
                         if ($PSCompletions.order."$($root)_job") {

@@ -340,7 +340,12 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.exist
                         return
                     }
-                    $has_command = try { Get-Command $alias -ErrorAction Stop } catch { $null }
+                    if ($alias -eq 'PSCompletions') {
+                        $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $alias) { $c; break } }
+                    }
+                    else {
+                        $has_command = Get-Command $alias -ErrorAction SilentlyContinue
+                    }
                     if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
@@ -463,7 +468,12 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '') $PSCompletions.info.config.url.err
             }
             'function_name' {
-                $has_command = try { Get-Command $arg[2] -ErrorAction Stop } catch { $null }
+                if ($arg[2] -eq 'PSCompletions') {
+                    $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $arg[2]) { $c; break } }
+                }
+                else {
+                    $has_command = Get-Command $arg[2] -ErrorAction SilentlyContinue
+                }
                 handle_done ($arg[2] -ne '' -and !$has_command) $PSCompletions.info.config.function_name.err
             }
         }
