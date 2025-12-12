@@ -465,7 +465,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
             'function_name' {
                 $has_command = try { Get-Command $arg[2] -ErrorAction Stop } catch { $null }
                 handle_done ($arg[2] -ne '' -and !$has_command) $PSCompletions.info.config.function_name.err
-                $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
             }
         }
     }
