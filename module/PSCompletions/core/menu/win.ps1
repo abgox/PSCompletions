@@ -1,12 +1,12 @@
 $PSCompletions.menu_methods = @{
-    get_length        = {
+    get_length_in_buffer   = {
         param([string]$str)
         if ($str -eq '') {
             return 0
         }
         $Host.UI.RawUI.NewBufferCellArray($str, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
     }
-    parse_list        = {
+    parse_menu_list        = {
         # X
         if ($config.enable_list_full_width -or !$config.enable_list_follow_cursor) {
             $menu.pos.X = 0
@@ -44,7 +44,7 @@ $PSCompletions.menu_methods = @{
         }
         $menu.page_max_index = $menu.ui_height - 3
     }
-    get_buffer        = {
+    get_menu_buffer        = {
         param($startPos, $endPos)
 
         $top = New-Object System.Management.Automation.Host.Coordinates $startPos.X, $startPos.Y
@@ -56,7 +56,7 @@ $PSCompletions.menu_methods = @{
             buffer = $buffer
         }
     }
-    new_buffer        = {
+    new_menu_buffer        = {
         # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
         if ($PSEdition -ne 'Core') {
             $horizontal = '-'
@@ -98,14 +98,14 @@ $PSCompletions.menu_methods = @{
             }, $rawUI.NewBufferCellArray($content_box, $config.item_color, $bgColor)
         )
     }
-    new_list_buffer   = {
+    new_menu_list_buffer   = {
         param([int]$offset)
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
         $content_box = foreach ($l in $lines) {
             $item = $menu.filter_list[$l]
             $text = $item.ListItemText + $item.padSymbols
-            $rest = $menu.list_max_width - $menu.get_length($text)
+            $rest = $menu.list_max_width - $menu.get_length_in_buffer($text)
             if ($rest -ge 0) {
                 $text + ' ' * $rest
             }
@@ -120,7 +120,7 @@ $PSCompletions.menu_methods = @{
             $rawUI.NewBufferCellArray($content_box, $config.item_color, $bgColor)
         )
     }
-    new_filter_buffer = {
+    new_menu_filter_buffer = {
         param([string]$filter)
 
         $char = $config.filter_symbol
@@ -136,7 +136,7 @@ $PSCompletions.menu_methods = @{
             $rawUI.NewBufferCellArray(@(@($start, $filter, $end) -join ''), $config.filter_color, $bgColor)
         )
     }
-    new_status_buffer = {
+    new_menu_status_buffer = {
         $X = $menu.pos.X + 3
         if ($menu.is_show_above) {
             $Y = $rawUI.CursorPosition.Y - 1 - $config.height_from_menu_bottom_to_cursor_when_above
@@ -148,7 +148,7 @@ $PSCompletions.menu_methods = @{
         $current = "$(([string]($menu.selected_index + 1)).PadLeft($menu.filter_list.Count.ToString().Length, ' '))"
         $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@("$current$($config.status_symbol)$($menu.filter_list.Count)"), $config.status_color, $bgColor))
     }
-    new_tip_buffer    = {
+    new_menu_tip_buffer    = {
         param([int]$index)
 
         if ($menu.is_show_above) {
@@ -254,7 +254,7 @@ $PSCompletions.menu_methods = @{
             }
         }
     }
-    set_selection     = {
+    set_menu_selection     = {
         if ($menu.old_selection) {
             $rawUI.SetBufferContents($menu.old_selection.pos, $menu.old_selection.buffer)
         }
@@ -283,7 +283,7 @@ $PSCompletions.menu_methods = @{
         $content = foreach ($i in $LineBuffer) { $i.Character }
         $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@([string]::Join('', $content)), $config.selected_color, $config.selected_bgcolor))
     }
-    move_selection    = {
+    move_menu_selection    = {
         param([bool]$isDown)
 
         $moveDirection = if ($isDown) { 1 } else { -1 }
@@ -317,10 +317,10 @@ $PSCompletions.menu_methods = @{
             if ($menu.page_current_index -lt 0) {
                 $menu.page_current_index += $menu.page_max_index + 1
             }
-            $menu.set_selection()
-            $menu.new_status_buffer()
-            $menu.new_tip_buffer($menu.selected_index)
-            $menu.handle_data('edit')
+            $menu.set_menu_selection()
+            $menu.new_menu_status_buffer()
+            $menu.new_menu_tip_buffer($menu.selected_index)
+            $menu.handle_menu_data('edit')
             return
         }
 
@@ -342,15 +342,15 @@ $PSCompletions.menu_methods = @{
             }
 
             $menu.old_selection = $null
-            $menu.new_list_buffer($menu.offset)
-            $menu.set_selection()
-            $menu.new_filter_buffer($menu.filter)
-            $menu.new_status_buffer()
-            $menu.new_tip_buffer($menu.selected_index)
-            $menu.handle_data('edit')
+            $menu.new_menu_list_buffer($menu.offset)
+            $menu.set_menu_selection()
+            $menu.new_menu_filter_buffer($menu.filter)
+            $menu.new_menu_status_buffer()
+            $menu.new_menu_tip_buffer($menu.selected_index)
+            $menu.handle_menu_data('edit')
         }
     }
-    reset             = {
+    reset_menu             = {
         param([bool]$clearAll = $true)
         if ($clearAll) {
             $menu.data.Clear()
@@ -364,7 +364,7 @@ $PSCompletions.menu_methods = @{
         $menu.selected_index = 0
         $menu.page_current_index = 0
     }
-    handle_data       = {
+    handle_menu_data       = {
         param([string]$type)
 
         switch ($type) {
@@ -378,7 +378,7 @@ $PSCompletions.menu_methods = @{
                         filter             = $menu.filter
                         filter_list        = $menu.filter_list
                         old_selection      = $menu.old_selection.Clone()
-                        old_full_buffer    = $menu.get_buffer($menu.buffer_start, $menu.buffer_end)
+                        old_full_buffer    = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
 
                         # XXX: 这里必须使用基础类型，否则有可能出现数据不一致，导致菜单塌陷
                         ui_height          = $menu.ui_height
@@ -409,7 +409,7 @@ $PSCompletions.menu_methods = @{
                     filter             = $menu.filter
                     filter_list        = $menu.filter_list
                     old_selection      = $menu.old_selection.Clone()
-                    old_full_buffer    = $menu.get_buffer($menu.buffer_start, $menu.buffer_end)
+                    old_full_buffer    = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
 
                     # XXX: 这里必须使用基础类型，否则有可能出现数据不一致，导致菜单塌陷
                     ui_height          = $menu.ui_height
@@ -418,7 +418,61 @@ $PSCompletions.menu_methods = @{
             }
         }
     }
-    show_module_menu  = {
+    handle_menu_output     = {
+        param($item)
+
+        $out = $item.CompletionText
+
+        if ($PSCompletions.need_ignore_suffix) {
+            return $out
+        }
+
+        # 不是由 TabExpansion2 获取的补全，即通过 psc add 添加的补全
+        if ($null -eq $item.ResultType) {
+            return "$out$suffix"
+        }
+
+        if ($item.ResultType -in @(
+                [System.Management.Automation.CompletionResultType]::Method,
+                [System.Management.Automation.CompletionResultType]::Property,
+                [System.Management.Automation.CompletionResultType]::Variable,
+                [System.Management.Automation.CompletionResultType]::Type,
+                [System.Management.Automation.CompletionResultType]::Namespace
+            )) {
+            return $out
+        }
+
+        # Directory, registry key, or other container types
+        if ($item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer) {
+            if ($config.enable_path_with_trailing_separator) {
+                if ($out.Length -ge 1 -and $out[-1] -match "^['`"]$") {
+                    if ($out.Length -ge 2 -and $out[-2] -match "^[/\\]$") {
+                        return $out
+                    }
+                    return $out.Insert($out.Length - 1, $PSCompletions.separator)
+                }
+                return $out + $PSCompletions.separator
+            }
+            return $out
+        }
+
+        # File or other leaf items (e.g., registry values)
+        # [System.Management.Automation.CompletionResultType]::ProviderItem
+
+        # [System.Management.Automation.CompletionResultType]::Command
+
+        # [System.Management.Automation.CompletionResultType]::ParameterName
+
+        # [System.Management.Automation.CompletionResultType]::ParameterValue
+
+        # if foreach switch ...
+        # [System.Management.Automation.CompletionResultType]::Keyword
+
+        # [System.Management.Automation.CompletionResultType]::Text
+
+        return "$out$suffix"
+    }
+    show_module_menu       = {
         param($filter_list)
 
         $menu = $PSCompletions.menu
@@ -434,59 +488,6 @@ $PSCompletions.menu_methods = @{
         if (!$filter_list) { return '' }
 
         $suffix = $config.completion_suffix
-
-        function handleOutput($item) {
-            $out = $item.CompletionText
-
-            if ($PSCompletions.need_ignore_suffix) {
-                return $out
-            }
-
-            # 不是由 TabExpansion2 获取的补全，即通过 psc add 添加的补全
-            if ($null -eq $item.ResultType) {
-                return "$out$suffix"
-            }
-
-            if ($item.ResultType -in @(
-                    [System.Management.Automation.CompletionResultType]::Method,
-                    [System.Management.Automation.CompletionResultType]::Property,
-                    [System.Management.Automation.CompletionResultType]::Variable,
-                    [System.Management.Automation.CompletionResultType]::Type,
-                    [System.Management.Automation.CompletionResultType]::Namespace
-                )) {
-                return $out
-            }
-
-            # Directory, registry key, or other container types
-            if ($item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer) {
-                if ($config.enable_path_with_trailing_separator) {
-                    if ($out.Length -ge 1 -and $out[-1] -match "^['`"]$") {
-                        if ($out.Length -ge 2 -and $out[-2] -match "^[/\\]$") {
-                            return $out
-                        }
-                        return $out.Insert($out.Length - 1, $PSCompletions.separator)
-                    }
-                    return $out + $PSCompletions.separator
-                }
-                return $out
-            }
-
-            # File or other leaf items (e.g., registry values)
-            # [System.Management.Automation.CompletionResultType]::ProviderItem
-
-            # [System.Management.Automation.CompletionResultType]::Command
-
-            # [System.Management.Automation.CompletionResultType]::ParameterName
-
-            # [System.Management.Automation.CompletionResultType]::ParameterValue
-
-            # if foreach switch ...
-            # [System.Management.Automation.CompletionResultType]::Keyword
-
-            # [System.Management.Automation.CompletionResultType]::Text
-
-            return "$out$suffix"
-        }
 
         $menu.pos = @{ X = 0; Y = 0 }
 
@@ -525,7 +526,7 @@ $PSCompletions.menu_methods = @{
             $menu.filter_list = [System.Collections.Generic.List[System.Object]]::new($filter_list.Count)
             $maxWidth = $config.list_min_width
             foreach ($item in $filter_list) {
-                $len = $menu.get_length($item.ListItemText + $item.padSymbols)
+                $len = $menu.get_length_in_buffer($item.ListItemText + $item.padSymbols)
                 if ($len -gt $maxWidth) {
                     $maxWidth = $len
                 }
@@ -536,7 +537,7 @@ $PSCompletions.menu_methods = @{
         }
 
         if ($config.enable_enter_when_single -and $menu.filter_list.Count -eq 1) {
-            return handleOutput $menu.filter_list[0]
+            return $menu.handle_menu_output($menu.filter_list[0])
         }
 
         $current_encoding = [console]::OutputEncoding
@@ -559,7 +560,7 @@ $PSCompletions.menu_methods = @{
         $menu.buffer_start = New-Object System.Management.Automation.Host.Coordinates 0, $startY
         $menu.buffer_end = New-Object System.Management.Automation.Host.Coordinates ($rawUI.BufferSize.Width - 1), $endY
 
-        $menu.parse_list()
+        $menu.parse_menu_list()
 
         # 如果解析后的菜单高度小于 3 (上下边框 + 1个补全项)
         if ($menu.ui_height -lt 3 -or $menu.ui_width -gt $rawUI.BufferSize.Width) {
@@ -569,17 +570,17 @@ $PSCompletions.menu_methods = @{
         }
 
         # 显示菜单之前，记录 buffer
-        $menu.origin_full_buffer = $menu.get_buffer($menu.buffer_start, $menu.buffer_end)
+        $menu.origin_full_buffer = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
 
         # 显示菜单
-        $menu.new_buffer()
-        $menu.new_list_buffer($menu.offset)
-        $menu.set_selection()
-        $menu.new_filter_buffer($menu.filter)
-        $menu.new_status_buffer()
-        $menu.new_tip_buffer($menu.selected_index)
+        $menu.new_menu_buffer()
+        $menu.new_menu_list_buffer($menu.offset)
+        $menu.set_menu_selection()
+        $menu.new_menu_filter_buffer($menu.filter)
+        $menu.new_menu_status_buffer()
+        $menu.new_menu_tip_buffer($menu.selected_index)
 
-        $menu.handle_data('add')
+        $menu.handle_menu_data('add')
 
         :loop while (($PressKey = $rawUI.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode) {
             $pressShift = 0x10 -band [int]$PressKey.ControlKeyState
@@ -589,25 +590,25 @@ $PSCompletions.menu_methods = @{
                 9 {
                     # 9: Tab
                     if ($menu.filter_list.Count -eq 1) {
-                        $menu.reset()
-                        handleOutput $menu.filter_list[$menu.selected_index]
+                        $menu.reset_menu()
+                        $menu.handle_menu_output($menu.filter_list[$menu.selected_index])
                         break loop
                     }
-                    $menu.move_selection(!$pressShift)
+                    $menu.move_menu_selection(!$pressShift)
                     break
                 }
                 { $_ -eq 27 -or ($pressCtrl -and $_ -eq 67) } {
                     # 27: ESC
                     # 67: Ctrl + c
-                    $menu.reset()
+                    $menu.reset_menu()
                     ''
                     break loop
                 }
                 { $_ -in @(32, 13) } {
                     # 32: Space
                     # 13: Enter
-                    handleOutput $menu.filter_list[$menu.selected_index]
-                    $menu.reset()
+                    $menu.handle_menu_output($menu.filter_list[$menu.selected_index])
+                    $menu.reset_menu()
                     break loop
                 }
 
@@ -618,7 +619,7 @@ $PSCompletions.menu_methods = @{
                 # 80: Ctrl + p
                 # 75: Ctrl + k
                 { $_ -in @(37, 38) -or ($pressCtrl -and $_ -in @(85, 80, 75)) } {
-                    $menu.move_selection($false)
+                    $menu.move_menu_selection($false)
                     break
                 }
                 # 向下
@@ -628,7 +629,7 @@ $PSCompletions.menu_methods = @{
                 # 78: Ctrl + n
                 # 74: Ctrl + j
                 { $_ -in @(39, 40) -or ($pressCtrl -and $_ -in @(68, 78, 74)) } {
-                    $menu.move_selection($true)
+                    $menu.move_menu_selection($true)
                     break
                 }
                 # filter character
@@ -640,7 +641,7 @@ $PSCompletions.menu_methods = @{
                             $menu.filter = $menu.filter.Substring(0, $menu.filter.Length - 1)
                         }
                         else {
-                            $menu.reset()
+                            $menu.reset_menu()
                             ''
                             break loop
                         }
@@ -656,7 +657,7 @@ $PSCompletions.menu_methods = @{
                             $menu.data.Clear()
                         }
 
-                        $menu.handle_data('get')
+                        $menu.handle_menu_data('get')
                     }
                     else {
                         # add
@@ -692,16 +693,16 @@ $PSCompletions.menu_methods = @{
                             $menu.filter_list = $menu.data[-1].filter_list
                         }
                         else {
-                            $menu.reset($false)
-                            $menu.parse_list()
-                            $menu.new_buffer()
-                            $menu.new_list_buffer($menu.offset)
-                            $menu.new_tip_buffer($menu.selected_index)
-                            $menu.new_status_buffer()
-                            $menu.new_filter_buffer($menu.filter)
-                            $menu.set_selection(0)
+                            $menu.reset_menu($false)
+                            $menu.parse_menu_list()
+                            $menu.new_menu_buffer()
+                            $menu.new_menu_list_buffer($menu.offset)
+                            $menu.new_menu_tip_buffer($menu.selected_index)
+                            $menu.new_menu_status_buffer()
+                            $menu.new_menu_filter_buffer($menu.filter)
+                            $menu.set_menu_selection(0)
 
-                            $menu.handle_data('add')
+                            $menu.handle_menu_data('add')
                         }
                     }
                     break
