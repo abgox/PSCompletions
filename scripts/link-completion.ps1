@@ -38,6 +38,13 @@ if (!(Test-Path $completion_dir)) {
 
 $test_dir = "$($PSCompletions.path.completions)\$completion_name"
 
+if ($completion_name -eq 'psc') {
+    Remove-Item $test_dir -Recurse -Force
+    $null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
+    return
+}
+
 if (Test-Path $test_dir) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.exist))
     return
