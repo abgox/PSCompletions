@@ -47,8 +47,8 @@ if ($PSCompletions.config.enable_menu_enhance -and $PSCompletions.config.enable_
                 if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                     $count = $filter_list.Count
                     $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                    $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
-                        $text = $PSCompletions.replace_content($_)
+                    $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
+                        $text = $PSCompletions.replace_content($t)
                         @{
                             CompletionText = $text
                             ListItemText   = $text
@@ -89,8 +89,8 @@ if ($PSCompletions.config.enable_menu_enhance -and $PSCompletions.config.enable_
                 if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                     $count = $filter_list.Count
                     $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                    $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
-                        $text = $PSCompletions.replace_content($_)
+                    $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
+                        $text = $PSCompletions.replace_content($t)
                         @{
                             CompletionText = $text
                             ListItemText   = $text
@@ -161,8 +161,8 @@ if ($PSCompletions.config.enable_menu_enhance -and $PSCompletions.config.enable_
 else {
     $PSCompletions.methods['handle_completion'] = {
         $keys = $PSCompletions.data.aliasMap.keys
-        foreach ($_ in $keys) {
-            Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
+        foreach ($k in $keys) {
+            Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                 param($word_to_complete, $command_ast, $cursor_position)
 
                 $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
@@ -189,8 +189,8 @@ else {
                     if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                         $count = $filter_list.Count
                         $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                        $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
-                            $text = $PSCompletions.replace_content($_)
+                        $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
+                            $text = $PSCompletions.replace_content($t)
                             @{
                                 CompletionText = $text
                                 ListItemText   = $text

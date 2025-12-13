@@ -6,8 +6,8 @@ $PSCompletions.methods['generate_completion'] = {
 }
 $PSCompletions.methods['handle_completion'] = {
     $keys = $PSCompletions.data.aliasMap.keys
-    foreach ($_ in $keys) {
-        Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
+    foreach ($k in $keys) {
+        Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
             param($word_to_complete, $command_ast, $cursor_position)
 
             $space_tab = if ($word_to_complete.length) { 0 }else { 1 }

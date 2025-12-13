@@ -83,10 +83,8 @@ $PSCompletions.menu_methods = @{
 
         $line = [string]$vertical + ' ' * $list_area + [string]$vertical
         $content = ' ' * $list_area
-        foreach ($_ in 0..($menu.ui_height - 3)) {
-            $border_box += $line
-            $content_box += $content
-        }
+        $border_box += @($line) * ($menu.ui_height - 2)
+        $content_box += @($content) * ($menu.ui_height - 2)
 
         $status = "$(([string]($menu.selected_index + 1)).PadLeft($menu.filter_list.Count.ToString().Length, ' '))"
 
@@ -104,8 +102,8 @@ $PSCompletions.menu_methods = @{
         param([int]$offset)
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
-        $content_box = foreach ($_ in $lines) {
-            $item = $menu.filter_list[$_]
+        $content_box = foreach ($l in $lines) {
+            $item = $menu.filter_list[$l]
             $text = $item.ListItemText + $item.padSymbols
             $rest = $menu.list_max_width - $menu.get_length($text)
             if ($rest -ge 0) {
@@ -163,7 +161,7 @@ $PSCompletions.menu_methods = @{
         }
         if ($line -gt 0) {
             $content = ' ' * $rawUI.BufferSize.Width
-            $box = foreach ($_ in 1..$line) { $content }
+            $box = @($content) * $line
             $rawUI.SetBufferContents(
                 @{
                     X = 0

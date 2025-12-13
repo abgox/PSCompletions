@@ -537,7 +537,7 @@ $PSCompletions.methods['start_job'] = {
             }
             $_completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
             $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
-            $_completions_data."$($root)_common_options" = foreach ($_ in $obj.commonOptions.$guid) { $_.CompletionText }
+            $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid.CompletionText
             return $obj
         }
         function get_language {

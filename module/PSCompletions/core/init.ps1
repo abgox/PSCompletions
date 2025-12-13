@@ -253,9 +253,9 @@ $PSCompletions.methods = @{
                 $last_item = $input_arr[-1]
                 $pre_cmd = ''
 
-                $commonOptions = $PSCompletions.completions_data."$($root)_common_options"
-                $WriteSpaceTab = $PSCompletions.completions_data."$($root)_WriteSpaceTab"
-                $WriteSpaceTab_and_SpaceTab = $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab"
+                $commonOptions = @($PSCompletions.completions_data."$($root)_common_options")
+                $WriteSpaceTab = @($PSCompletions.completions_data."$($root)_WriteSpaceTab")
+                $WriteSpaceTab_and_SpaceTab = @($PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab")
 
                 foreach ($_ in $input_arr) {
                     if ($need_skip) {
@@ -441,7 +441,7 @@ $PSCompletions.methods = @{
         }
         if (!$PSCompletions.completions_data[$root]) {
             $PSCompletions.completions_data[$root] = getCompletions
-            $PSCompletions.completions_data."$($root)_common_options" = foreach ($_ in $PSCompletions.completions_data[$root].commonOptions.$guid) { $_.CompletionText }
+            $PSCompletions.completions_data."$($root)_common_options" = $PSCompletions.completions_data[$root].commonOptions.$guid.CompletionText
         }
         $completions = $PSCompletions.completions_data[$root]
         $filter_list = handleCompletions ([array](filterCompletions))
@@ -1241,7 +1241,18 @@ if ($IsWindows -or $PSEdition -eq 'Desktop') {
     try {
         if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
             if (-not (New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-                Write-Host "PSCompletions is installed in a system-level directory, so you must run PowerShell as administrator to use it.`nReference: https://pscompletions.abgox.com/faq/require-admin" -ForegroundColor Red
+                Write-Host -ForegroundColor Red @"
+[PSCompletions] Administrator Rights Required
+-------------------------------------------------
+PSCompletions is installed in a system-level directory.
+Location: $($PSCompletions.path.root)
+
+To use PSCompletions normally, please:
+1. Run PowerShell as Administrator.
+2. Or reinstall the module in a user-writable location. (Without '-Scope AllUsers')
+
+Refer to: https://pscompletions.abgox.com/faq/require-admin
+"@
                 return
             }
         }

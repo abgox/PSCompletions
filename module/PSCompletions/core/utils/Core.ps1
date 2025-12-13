@@ -241,7 +241,6 @@ $PSCompletions.methods['start_job'] = {
                         }
                         $newVersion = $newVersion -replace 'v', ''
                         if ($newVersion -match "^[\d\.]+$") {
-
                             $currentTime.ToString('o') | Out-File $PSCompletions.path.last_update -Force -Encoding utf8
 
                             $versions = @($PSCompletions.version, $newVersion) | Sort-Object { [Version] $_ }
@@ -439,7 +438,7 @@ $PSCompletions.methods['start_job'] = {
             }
             $_completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
             $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
-            $_completions_data."$($root)_common_options" = foreach ($_ in $obj.commonOptions.$guid) { $_.CompletionText }
+            $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid.CompletionText
             return $obj
         }
         function get_language {
