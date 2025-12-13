@@ -1,10 +1,12 @@
-$PSCompletions.methods['generate_completion'] = {
+# XXX: 必须使用 Add-Member
+
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
     $PSCompletions.use_module_menu = 0
 
     # XXX: 非 Windows 平台，暂时只能使用默认的补全菜单
     Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
 }
-$PSCompletions.methods['handle_completion'] = {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
     $keys = $PSCompletions.data.aliasMap.keys
     foreach ($k in $keys) {
         Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
