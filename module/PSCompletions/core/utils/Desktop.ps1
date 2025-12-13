@@ -1,4 +1,4 @@
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
+$PSCompletions.methods['ConvertFrom_JsonAsHashtable'] = {
     param([string]$json)
 
     # https://github.com/abgox/ConvertFrom-JsonAsHashtable
@@ -78,7 +78,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_Json
 
     ConvertFrom-JsonAsHashtable $json
 }
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
+$PSCompletions.methods['start_job'] = {
     $PSCompletions.job = Start-Job -ScriptBlock {
         param($PSCompletions)
 
@@ -167,17 +167,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             ''
         }
 
-        $pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
-        function replace_content {
-            param ($data, $separator = '')
-            $data = $data -join $separator
-            if ($data -notlike '*{{*') { return $data }
-            $matches = [regex]::Matches($data, $pattern)
-            foreach ($match in $matches) {
-                $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
-            }
-            if ($data -match $pattern) { (replace_content $data) }else { return $data }
-        }
         function download_file {
             param(
                 [string]$path, # 相对于 $baseUrl 的文件路径
@@ -189,7 +178,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                 $item = $baseUrl[$i]
                 $url = $item + '/' + $path
                 try {
-                    $wc.DownloadFile($url, $file)
+                    Invoke-RestMethod -Uri $url -OutFile $file -TimeoutSec 30 -ErrorAction Stop
                     $isErr = $false
                     break
                 }
@@ -211,7 +200,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
             foreach ($url in $PSCompletions.urls) {
                 try {
-                    $response = Invoke-RestMethod -Uri "$url/completions.json" -ErrorAction Stop
+                    $response = Invoke-RestMethod -Uri "$url/completions.json" -TimeoutSec 30 -ErrorAction Stop
 
                     $remote_list = $response.list
 
@@ -231,8 +220,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
             throw
         }
-
-        $wc = New-Object System.Net.WebClient
 
         ensure_dir $PSCompletions.path.order
         ensure_dir "$($PSCompletions.path.completions)/psc"
@@ -381,7 +368,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
                     foreach ($url in $urls) {
                         try {
-                            $newVersion = (Invoke-RestMethod -Uri "$url/module/version.json").version
+                            $res = Invoke-RestMethod -Uri "$url/module/version.json" -TimeoutSec 30 -ErrorAction Stop
+                            $newVersion = $res.version
                             break
                         }
                         catch {}
@@ -409,7 +397,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
                     $isErr = $true
                     foreach ($url in $PSCompletions.urls) {
                         try {
-                            $response = Invoke-RestMethod -Uri "$url/completions/$($_.Name)/guid.json"
+                            $response = Invoke-RestMethod -Uri "$url/completions/$($_.Name)/guid.json" -TimeoutSec 30 -ErrorAction Stop
                             $isErr = $false
                             break
                         }
@@ -538,7 +526,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
             }
             $_completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
             $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
-            $_completions_data."$($root)_common_options" = foreach ($_ in $obj.commonOptions.$guid) { $_.CompletionText }
+            $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid.CompletionText
             return $obj
         }
         function get_language {
@@ -606,7 +594,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         }
     } -ArgumentList $PSCompletions
 }
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
+$PSCompletions.methods['order_job'] = {
     param([string]$history_path, [string]$root, [string]$path_order)
     $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
         param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)

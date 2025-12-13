@@ -1,4 +1,4 @@
-Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly -Value {
+Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant -Force -Value {
     $arg = $args
 
     function _replace {
@@ -90,7 +90,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 $PSCompletions._need_update_data = $true
             }
             # 如果没有使用模块提供的补全菜单，需要重启 PowerShell 并重新导入模块
-            if (!$PSCompletions.use_menu) {
+            if (!$PSCompletions.use_module_menu) {
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
             }
             return
@@ -105,7 +105,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.add.err.no))
             }
         }
-        if (!$PSCompletions.use_menu) {
+        if (!$PSCompletions.use_module_menu) {
             $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
         }
     }
@@ -181,13 +181,23 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
     }
     function _update {
         $completion_list = $PSCompletions.data.list.Where({ $_ -in $PSCompletions.list })
+        $params = @{
+            ErrorAction = 'Stop'
+        }
+        if ($PSEdition -eq 'Core') {
+            $params['OperationTimeoutSeconds'] = 30
+        }
+        else {
+            $params['TimeoutSec'] = 30
+        }
 
         if ($arg.Length -lt 2) {
             # 如果只是使用 psc update 则检查更新
             $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
+                $params['Uri'] = "$($PSCompletions.url)/completions/$completion/guid.json"
                 try {
-                    $response = Invoke-RestMethod -Uri "$($PSCompletions.url)/completions/$completion/guid.json"
+                    $response = Invoke-RestMethod @params
                     $old_guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/guid.json") | ConvertFrom-Json | Select-Object -ExpandProperty guid
                     if ($response.guid -ne $old_guid) {
                         $need_update_list.Add($completion)
@@ -340,7 +350,12 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.exist
                         return
                     }
-                    $has_command = try { Get-Command $alias -ErrorAction Stop } catch { $null }
+                    if ($alias -eq 'PSCompletions') {
+                        $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $alias) { $c; break } }
+                    }
+                    else {
+                        $has_command = Get-Command $alias -ErrorAction SilentlyContinue
+                    }
                     if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         return
@@ -463,9 +478,13 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '') $PSCompletions.info.config.url.err
             }
             'function_name' {
-                $has_command = try { Get-Command $arg[2] -ErrorAction Stop } catch { $null }
+                if ($arg[2] -eq 'PSCompletions') {
+                    $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $arg[2]) { $c; break } }
+                }
+                else {
+                    $has_command = Get-Command $arg[2] -ErrorAction SilentlyContinue
+                }
                 handle_done ($arg[2] -ne '' -and !$has_command) $PSCompletions.info.config.function_name.err
-                $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
             }
         }
     }
@@ -831,7 +850,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly 
                         }
                     }
                     'completion_suffix' {
-                        if ($value -notmatch '^\s+$') {
+                        if ($value -notmatch '^\s*$') {
                             Show-ParamError 'err' 'completion_suffix' $PSCompletions.info.menu.config.err.completion_suffix
                             return
                         }

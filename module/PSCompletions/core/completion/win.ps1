@@ -1,5 +1,7 @@
+# XXX: 必须使用 Add-Member
+
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
-    $PSCompletions.use_menu = $PSCompletions.config.enable_menu
+    $PSCompletions.use_module_menu = $PSCompletions.config.enable_menu
 
     if ($PSCompletions.config.enable_menu_enhance -and $PSCompletions.config.enable_menu) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
@@ -43,8 +45,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                         $count = $filter_list.Count
                         $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                        $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
-                            $text = $PSCompletions.replace_content($_)
+                        $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
+                            $text = $PSCompletions.replace_content($t)
                             @{
                                 CompletionText = $text
                                 ListItemText   = $text
@@ -85,8 +87,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                         $count = $filter_list.Count
                         $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                        $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
-                            $text = $PSCompletions.replace_content($_)
+                        $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
+                            $text = $PSCompletions.replace_content($t)
                             @{
                                 CompletionText = $text
                                 ListItemText   = $text
@@ -99,7 +101,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         }
                     }
 
-                    $has_command = try { Get-Command $alias -ErrorAction Stop } catch { $null }
+                    if ($root -eq 'PSCompletions') {
+                        $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $root) { $c; break } }
+                    }
+                    else {
+                        $has_command = Get-Command $root -ErrorAction SilentlyContinue
+                    }
                     if ($PSCompletions.config.enable_completions_sort -and $has_command) {
                         $path_order = "$($PSCompletions.path.order)/$root.json"
                         if ($PSCompletions.order."$($root)_job") {
@@ -156,8 +163,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
 
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
             $keys = $PSCompletions.data.aliasMap.keys
-            foreach ($_ in $keys) {
-                Register-ArgumentCompleter -Native -CommandName $_ -ScriptBlock {
+            foreach ($k in $keys) {
+                Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                     param($word_to_complete, $command_ast, $cursor_position)
 
                     $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
@@ -184,8 +191,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
                             $count = $filter_list.Count
                             $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                            $_filter_list = foreach ($_ in $PSCompletions.info.module.too_many_completions.text) {
-                                $text = $PSCompletions.replace_content($_)
+                            $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
+                                $text = $PSCompletions.replace_content($t)
                                 @{
                                     CompletionText = $text
                                     ListItemText   = $text
@@ -200,7 +207,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                         $PSCompletions.menu.show_module_menu($filter_list)
                     }
                     else {
-                        $PSCompletions.menu.show_powershell_menu($filter_list)
+                        $PSCompletions.show_powershell_menu($filter_list)
                     }
                 }
             }
