@@ -3,7 +3,7 @@ using namespace System.Management.Automation
 Set-StrictMode -Off
 
 $_ = Split-Path $PSScriptRoot -Parent
-New-Variable -Name PSCompletions -Value @{
+New-Variable -Name PSCompletions -Option Constant -Force -Value @{
     version                 = '6.2.0'
     path                    = @{
         root             = $_
@@ -104,7 +104,7 @@ New-Variable -Name PSCompletions -Value @{
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip', 'enable_hooks_tip')
     config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name')
-} -Option ReadOnly -Force
+}
 
 $PSCompletions.methods = @{
     return_completion        = {

@@ -1,4 +1,4 @@
-Set-Item -Path Function:$($PSCompletions.config.function_name) -Option ReadOnly -Value {
+Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant -Force -Value {
     $arg = $args
 
     function _replace {
