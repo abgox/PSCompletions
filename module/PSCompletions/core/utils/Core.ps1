@@ -12,58 +12,12 @@ $PSCompletions.methods['start_job'] = {
         $null = Start-ThreadJob -ScriptBlock {
             param($PSCompletions)
 
-            function get_raw_content {
-                param ([string]$path, [bool]$trim = $true)
-                $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-                if ($res) {
-                    if ($trim) { return $res.Trim() }
-                    return $res
-                }
-                ''
-            }
-
-            $pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
-            function replace_content {
-                param ($data, $separator = '')
-                $data = $data -join $separator
-                if ($data -notlike '*{{*') { return $data }
-                $matches = [regex]::Matches($data, $pattern)
-                foreach ($match in $matches) {
-                    $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
-                }
-                if ($data -match $pattern) { (replace_content $data) }else { return $data }
-            }
-            function download_file {
-                param(
-                    [string]$path, # 相对于 $baseUrl 的文件路径
-                    [string]$file,
-                    [array]$baseUrl
-                )
-                $isErr = $true
-                for ($i = 0; $i -lt $baseUrl.Count; $i++) {
-                    $item = $baseUrl[$i]
-                    $url = $item + '/' + $path
-                    try {
-                        Invoke-RestMethod -Uri $url -OutFile $file -OperationTimeoutSeconds 30 -ErrorAction Stop
-                        $isErr = $false
-                        break
-                    }
-                    catch {}
-                }
-                if ($isErr) {
-                    throw
-                }
-            }
-            function ensure_dir {
-                param([string]$path)
-                if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
-            }
             function download_list {
-                ensure_dir $PSCompletions.path.temp
+                $PSCompletions.ensure_dir($PSCompletions.path.temp)
                 if (!(Test-Path $PSCompletions.path.completions_json)) {
                     @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
-                $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
+                $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
                 foreach ($url in $PSCompletions.urls) {
                     try {
                         $response = Invoke-RestMethod -Uri "$url/completions.json" -OperationTimeoutSeconds 30 -ErrorAction Stop
@@ -86,8 +40,8 @@ $PSCompletions.methods['start_job'] = {
                 throw
             }
 
-            ensure_dir $PSCompletions.path.order
-            ensure_dir "$($PSCompletions.path.completions)/psc"
+            $PSCompletions.ensure_dir($PSCompletions.path.order)
+            $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
 
             $null = download_list
 
@@ -143,31 +97,31 @@ $PSCompletions.methods['start_job'] = {
                 $path = "$($PSCompletions.path.completions)/$_/config.json"
                 if (!(Test-Path $path)) {
                     try {
-                        download_file "completions/$_/config.json" $path $PSCompletions.urls
+                        $PSCompletions.download_file("completions/$_/config.json", $path, $PSCompletions.urls)
                     }
                     catch {
                         continue
                     }
                 }
-                ensure_dir "$($PSCompletions.path.completions)/$_/language"
-                $json_config = get_raw_content $path | ConvertFrom-Json
+                $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/$_/language")
+                $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                 foreach ($lang in $json_config.language) {
                     $path_lang = "$($PSCompletions.path.completions)/$_/language/$lang.json"
                     if (!(Test-Path $path_lang)) {
-                        download_file "completions/$_/language/$lang.json" $path_lang $PSCompletions.urls
+                        $PSCompletions.download_file("completions/$_/language/$lang.json", $path_lang, $PSCompletions.urls)
                     }
                 }
                 if ($json_config.hooks -ne $null) {
                     $path_hooks = "$($PSCompletions.path.completions)/$_/hooks.ps1"
                     if (!(Test-Path $path_hooks)) {
-                        download_file "completions/$_/hooks.ps1" $path_hooks $PSCompletions.urls
+                        $PSCompletions.download_file("completions/$_/hooks.ps1", $path_hooks, $PSCompletions.urls)
                     }
                     if ($data.config.comp_config[$_].enable_hooks -eq $null) {
                         $data.config.comp_config[$_].enable_hooks = [int]$json_config.hooks
                     }
                 }
                 $path = "$($PSCompletions.path.completions)/$_/language/$($json_config.language[0]).json"
-                $json = get_raw_content $path | ConvertFrom-Json -AsHashtable
+                $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json -AsHashtable
                 $config_list = $PSCompletions.default_completion_item
                 foreach ($item in $config_list) {
                     if ($data.config.comp_config[$_].$item -eq '') {
@@ -208,7 +162,7 @@ $PSCompletions.methods['start_job'] = {
             }
 
             $new_data = $data | ConvertTo-Json -Depth 100 -Compress
-            $old_data = get_raw_content $PSCompletions.path.data | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
+            $old_data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
             if ($new_data -ne $old_data) {
                 $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
             }
@@ -245,7 +199,7 @@ $PSCompletions.methods['start_job'] = {
 
                             $versions = @($PSCompletions.version, $newVersion) | Sort-Object { [Version] $_ }
                             if ($versions[-1] -ne $PSCompletions.version) {
-                                $data = get_raw_content $PSCompletions.path.data | ConvertFrom-Json -AsHashtable
+                                $data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json -AsHashtable
                                 $data.config.enable_module_update = $versions[-1]
                                 $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                             }
@@ -273,7 +227,7 @@ $PSCompletions.methods['start_job'] = {
                         try {
                             $guid_path = "$($PSCompletions.path.completions)/$($_.Name)/guid.json"
                             if (Test-Path $guid_path) {
-                                $old_guid = get_raw_content $guid_path | ConvertFrom-Json | Select-Object -ExpandProperty guid
+                                $old_guid = $PSCompletions.get_raw_content($guid_path) | ConvertFrom-Json | Select-Object -ExpandProperty guid
                                 if ($response.guid -ne $old_guid) {
                                     $update_list += $_.Name
                                 }
@@ -291,53 +245,6 @@ $PSCompletions.methods['start_job'] = {
             check_update
         } -ArgumentList $PSCompletions
 
-        function get_raw_content {
-            param ([string]$path, [bool]$trim = $true)
-            $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
-            if ($res) {
-                if ($trim) { return $res.Trim() }
-                return $res
-            }
-            ''
-        }
-
-        $pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
-        function replace_content {
-            param ($data, $separator = '')
-            $data = $data -join $separator
-            if ($data -notlike '*{{*') { return $data }
-            $matches = [regex]::Matches($data, $pattern)
-            foreach ($match in $matches) {
-                $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
-            }
-            if ($data -match $pattern) { (replace_content $data) }else { return $data }
-        }
-        function download_file {
-            param(
-                [string]$path, # 相对于 $baseUrl 的文件路径
-                [string]$file,
-                [array]$baseUrl
-            )
-            $isErr = $true
-
-            for ($i = 0; $i -lt $baseUrl.Count; $i++) {
-                $item = $baseUrl[$i]
-                $url = $item + '/' + $path
-                try {
-                    Invoke-RestMethod -Uri $url -OutFile $file -OperationTimeoutSeconds 30 -ErrorAction Stop
-                    $isErr = $false
-                    break
-                }
-                catch {}
-            }
-            if ($isErr) {
-                throw
-            }
-        }
-        function ensure_dir {
-            param([string]$path)
-            if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
-        }
         function getCompletions {
             $guid = $PSCompletions.guid
             $obj = @{}
@@ -445,23 +352,23 @@ $PSCompletions.methods['start_job'] = {
             param ([string]$completion)
 
             $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
-            $content_config = get_raw_content $path_config | ConvertFrom-Json
+            $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
 
             if (!$content_config.language) {
-                download_file "completions/$completion/config.json" $path_config $PSCompletions.urls
-                $content_config = get_raw_content $path_config | ConvertFrom-Json
+                $PSCompletions.download_file("completions/$completion/config.json", $path_config, $PSCompletions.urls)
+                $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
             }
-            ensure_dir "$($PSCompletions.path.completions)/$completion/language"
+            $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/$completion/language")
             foreach ($lang in $content_config.language) {
                 $path_lang = "$($PSCompletions.path.completions)/$completion/language/$lang.json"
                 if (!(Test-Path $path_lang)) {
-                    download_file "completions/$completion/language/$lang.json" $path_lang $PSCompletions.urls
+                    $PSCompletions.download_file("completions/$completion/language/$lang.json", $path_lang, $PSCompletions.urls)
                 }
             }
             if ($content_config.hooks -ne $null) {
                 $path_hooks = "$($PSCompletions.path.completions)/$completion/hooks.ps1"
                 if (!(Test-Path $path_hooks)) {
-                    download_file "completions/$completion/hooks.ps1" $path_hooks $PSCompletions.urls
+                    $PSCompletions.download_file("completions/$completion/hooks.ps1", $path_hooks, $PSCompletions.urls)
                 }
             }
             $lang = $PSCompletions.config.comp_config[$completion].language
@@ -496,7 +403,7 @@ $PSCompletions.methods['start_job'] = {
                 }
                 $path_language = "$($PSCompletions.path.completions)/$root/language/$language.json"
                 if (Test-Path $path_language) {
-                    $_completions[$root] = get_raw_content $path_language | ConvertFrom-Json -AsHashtable
+                    $_completions[$root] = $PSCompletions.get_raw_content($path_language) | ConvertFrom-Json -AsHashtable
                     $_completions_data[$root] = getCompletions
                 }
             }

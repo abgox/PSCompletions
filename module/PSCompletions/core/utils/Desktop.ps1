@@ -167,17 +167,6 @@ $PSCompletions.methods['start_job'] = {
             ''
         }
 
-        $pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
-        function replace_content {
-            param ($data, $separator = '')
-            $data = $data -join $separator
-            if ($data -notlike '*{{*') { return $data }
-            $matches = [regex]::Matches($data, $pattern)
-            foreach ($match in $matches) {
-                $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
-            }
-            if ($data -match $pattern) { (replace_content $data) }else { return $data }
-        }
         function download_file {
             param(
                 [string]$path, # 相对于 $baseUrl 的文件路径
