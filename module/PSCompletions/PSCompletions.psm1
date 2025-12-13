@@ -1,6 +1,9 @@
 Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant -Force -Value {
     $arg = $args
 
+    Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
+    Set-Alias Write-Output Microsoft.PowerShell.Utility\Write-Output -ErrorAction SilentlyContinue
+
     function _replace {
         param ($data, $separator = '')
         $data = $data -join $separator

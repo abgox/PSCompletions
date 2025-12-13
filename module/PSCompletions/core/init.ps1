@@ -658,6 +658,9 @@ $PSCompletions.methods = @{
     }
     write_with_color         = {
         param([string]$str)
+
+        Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
+
         $color_list = @()
         $str = $str -replace "`n", $PSCompletions.guid
         $str_list = foreach ($_ in ($str -split '(<\@[^>]+>.*?(?=<\@|$))').Where({ $_ -ne '' })) {
@@ -698,6 +701,9 @@ $PSCompletions.methods = @{
             [string]$color = 'Green',
             [int]$show_line = [System.Console]::WindowHeight - 7
         )
+
+        Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
+
         if ($str_list -is [string]) {
             $str_list = $str_list -split "`n"
         }
@@ -742,6 +748,9 @@ $PSCompletions.methods = @{
             [scriptblock]$do = {},
             [int]$show_line = [System.Console]::WindowHeight - 7
         )
+
+        Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
+
         $str_list = @(
             @{
                 content = "`n{0,-$($header[2] + 3)} {1}" -f $header[0], $header[1]
@@ -1241,7 +1250,7 @@ if ($IsWindows -or $PSEdition -eq 'Desktop') {
     try {
         if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
             if (-not (New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-                Write-Host -ForegroundColor Red @"
+                Microsoft.PowerShell.Utility\Write-Host -ForegroundColor Red @"
 [PSCompletions] Administrator Rights Required
 -------------------------------------------------
 PSCompletions is installed in a system-level directory.
