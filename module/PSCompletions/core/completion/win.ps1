@@ -102,7 +102,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
                     }
 
                     if ($root -eq 'PSCompletions') {
-                        $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $root) { $c; break } }
+                        $cmds = Get-Command
+                        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
                     }
                     else {
                         $has_command = Get-Command $root -ErrorAction SilentlyContinue

@@ -59,8 +59,9 @@ $PSCompletions.methods['start_job'] = {
                 $data.list += $cmd
 
                 $data.alias[$cmd] = @()
-                if ($PSCompletions.data.alias[$cmd] -ne $null) {
-                    foreach ($a in $PSCompletions.data.alias[$cmd]) {
+                $alias = $PSCompletions.data.alias[$cmd]
+                if ($null -ne $alias) {
+                    foreach ($a in $alias) {
                         $data.alias[$cmd] += $a
                         $data.aliasMap[$a] = $cmd
                     }
@@ -72,16 +73,19 @@ $PSCompletions.methods['start_job'] = {
 
                 ## config.comp_config
                 $completion = $cmd
+                $config = $PSCompletions.config.comp_config[$completion]
                 $data.config.comp_config[$completion] = [ordered]@{}
-                if ($PSCompletions.config.comp_config[$completion]) {
-                    foreach ($c in $PSCompletions.config.comp_config[$completion].Keys) {
-                        $data.config.comp_config[$completion].$c = $PSCompletions.config.comp_config[$completion].$c
+                if ($config) {
+                    $keys = $config.Keys
+                    foreach ($c in $keys) {
+                        $data.config.comp_config[$completion].$c = $config.$c
                     }
                 }
             }
 
             ## config
-            foreach ($c in $PSCompletions.default_config.Keys) {
+            $keys = $PSCompletions.default_config.Keys
+            foreach ($c in $keys) {
                 if ($PSCompletions.config[$c] -ne $null) {
                     $data.config[$c] = $PSCompletions.config[$c]
                 }
@@ -151,13 +155,14 @@ $PSCompletions.methods['start_job'] = {
                     }
                 }
             }
-            $_keys = @()
-            foreach ($k in $data.config.comp_config.Keys) {
+            $keys = $data.config.comp_config.Keys
+            $need_rm = @()
+            foreach ($k in $keys) {
                 if (!$data.config.comp_config[$k].Count) {
-                    $_keys += $k
+                    $need_rm += $k
                 }
             }
-            foreach ($_ in $_keys) {
+            foreach ($_ in $need_rm) {
                 $data.config.comp_config.Remove($_)
             }
 
@@ -211,7 +216,8 @@ $PSCompletions.methods['start_job'] = {
                 # check completions update
                 if ($PSCompletions.config.enable_completions_update) {
                     $update_list = @()
-                    foreach ($_ in (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })) {
+                    $check_list = (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })
+                    foreach ($_ in $check_list) {
                         $isErr = $true
                         foreach ($url in $PSCompletions.urls) {
                             try {

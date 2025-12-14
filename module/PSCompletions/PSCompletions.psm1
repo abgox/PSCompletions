@@ -354,7 +354,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                         return
                     }
                     if ($alias -eq 'PSCompletions') {
-                        $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $alias) { $c; break } }
+                        $cmds = Get-Command
+                        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $alias) { $c; break } }
                     }
                     else {
                         $has_command = Get-Command $alias -ErrorAction SilentlyContinue
@@ -482,7 +483,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
             }
             'function_name' {
                 if ($arg[2] -eq 'PSCompletions') {
-                    $has_command = foreach ($c in Get-Command) { if ($c.Name -eq $arg[2]) { $c; break } }
+                    $cmds = Get-Command
+                    $has_command = foreach ($c in $cmds) { if ($c.Name -eq $arg[2]) { $c; break } }
                 }
                 else {
                     $has_command = Get-Command $arg[2] -ErrorAction SilentlyContinue
