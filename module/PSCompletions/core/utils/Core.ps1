@@ -26,7 +26,7 @@ $PSCompletions.methods['start_job'] = {
                         $diff = Compare-Object $remote_list $current_list -PassThru
                         if ($diff) {
                             $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                            $response | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+                            $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                             $PSCompletions.list = $remote_list
                         }
                         else {
@@ -166,8 +166,8 @@ $PSCompletions.methods['start_job'] = {
                 $data.config.comp_config.Remove($_)
             }
 
-            $new_data = $data | ConvertTo-Json -Depth 100 -Compress
-            $old_data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
+            $new_data = $data | ConvertTo-Json -Depth 5 -Compress
+            $old_data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json | ConvertTo-Json -Depth 5 -Compress
             if ($new_data -ne $old_data) {
                 $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
             }
@@ -206,7 +206,7 @@ $PSCompletions.methods['start_job'] = {
                             if ($versions[-1] -ne $PSCompletions.version) {
                                 $data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json -AsHashtable
                                 $data.config.enable_module_update = $versions[-1]
-                                $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                                $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                             }
                         }
                     }
@@ -464,8 +464,8 @@ $PSCompletions.methods['order_job'] = {
             $result[$_] = $index
         }
 
-        $old = Get-Content -Raw $path_order -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Depth 100 -Compress
-        $new = $result | ConvertTo-Json -Depth 100 -Compress
+        $old = Get-Content -Raw $path_order -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Compress
+        $new = $result | ConvertTo-Json -Compress
         if ($new -ne $old) {
             $new | Out-File $path_order -Force -Encoding utf8
         }

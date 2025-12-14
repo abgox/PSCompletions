@@ -615,7 +615,7 @@ $PSCompletions.methods = @{
         if (!$content_config.language) {
             $PSCompletions.download_file("completions/$completion/config.json", $path_config, $PSCompletions.urls)
             $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
-            $content_config | ConvertTo-Json -Compress -Depth 100 | Out-File $path_config -Encoding utf8 -Force
+            $content_config | ConvertTo-Json -Compress | Out-File $path_config -Encoding utf8 -Force
         }
         $lang = $PSCompletions.config.comp_config[$completion].language
         if ($lang) {
@@ -847,7 +847,7 @@ $PSCompletions.methods = @{
             if ($diff) {
                 try {
                     $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
-                    $response | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                    $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                     $PSCompletions.list = $remote_list
                 }
                 catch {
@@ -931,7 +931,7 @@ $PSCompletions.methods = @{
         $PSCompletions.download_file($download_info.url, $download_info.file, $PSCompletions.urls)
 
         $config = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json
-        $config | ConvertTo-Json -Compress -Depth 100 | Out-File $download_info.file -Encoding utf8 -Force
+        $config | ConvertTo-Json -Compress | Out-File $download_info.file -Encoding utf8 -Force
 
         $files = @(
             @{
@@ -1088,7 +1088,7 @@ $PSCompletions.methods = @{
                 $data.config.comp_config.$name.enable_hooks = [int]$config.hooks
             }
         }
-        $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
         $PSCompletions.data = $data
         $null = $PSCompletions.download_list()
     }
@@ -1123,7 +1123,7 @@ $PSCompletions.methods = @{
         $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
         if ('psc' -notin $PSCompletions.data.list) {
             $PSCompletions.add_completion('psc', $false)
-            $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+            $PSCompletions.data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
             $PSCompletions.info = $PSCompletions.completions.psc.info
         }
         else {
@@ -2051,7 +2051,7 @@ if (!(Test-Path $PSCompletions.path.temp)) {
                             Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
                         }
                     }
-                    $data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                    $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                 }
 
                 foreach ($f in @('temp', 'completions')) {
@@ -2090,7 +2090,7 @@ if (!(Test-Path $PSCompletions.path.temp)) {
         $PSCompletions.download_file("completions/psc/config.json", $path_config, $urls)
 
         $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
-        $config | ConvertTo-Json -Compress -Depth 100 | Out-File $path_config -Encoding utf8 -Force
+        $config | ConvertTo-Json -Compress | Out-File $path_config -Encoding utf8 -Force
 
         $file_list = @('guid.json')
         if ($config.hooks -ne $null) {
@@ -2161,7 +2161,7 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     }
     else {
         $PSCompletions.config.enable_module_update = 1
-        $PSCompletions.data | ConvertTo-Json -Depth 100 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $PSCompletions.data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
     }
 }
 else {
