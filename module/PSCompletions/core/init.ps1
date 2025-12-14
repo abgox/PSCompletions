@@ -1273,13 +1273,6 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     . $PSScriptRoot\completion\win.ps1
 
     $PSCompletions.menu_methods = @{
-        get_length_in_buffer   = {
-            param([string]$str)
-            if ($str -eq '') {
-                return 0
-            }
-            $Host.UI.RawUI.NewBufferCellArray($str, $Host.UI.RawUI.BackgroundColor, $Host.UI.RawUI.BackgroundColor).LongLength
-        }
         parse_menu_list        = {
             # X
             if ($config.enable_list_full_width -or !$config.enable_list_follow_cursor) {
@@ -1379,7 +1372,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             $content_box = foreach ($l in $lines) {
                 $item = $menu.filter_list[$l]
                 $text = $item.ListItemText + $item.padSymbols
-                $rest = $menu.list_max_width - $menu.get_length_in_buffer($text)
+                $rest = $menu.list_max_width - $rawUI.LengthInBufferCells($text)
                 if ($rest -ge 0) {
                     $text + ' ' * $rest
                 }
@@ -1800,7 +1793,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 $menu.filter_list = [System.Collections.Generic.List[System.Object]]::new($filter_list.Count)
                 $maxWidth = $config.list_min_width
                 foreach ($item in $filter_list) {
-                    $len = $menu.get_length_in_buffer($item.ListItemText + $item.padSymbols)
+                    $len = $rawUI.LengthInBufferCells($item.ListItemText + $item.padSymbols)
                     if ($len -gt $maxWidth) {
                         $maxWidth = $len
                     }
