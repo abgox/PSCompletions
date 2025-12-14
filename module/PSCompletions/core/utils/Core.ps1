@@ -86,7 +86,7 @@ $PSCompletions.methods['start_job'] = {
             ## config
             $keys = $PSCompletions.default_config.Keys
             foreach ($c in $keys) {
-                if ($PSCompletions.config[$c] -ne $null) {
+                if ($null -ne $PSCompletions.config[$c]) {
                     $data.config[$c] = $PSCompletions.config[$c]
                 }
                 else {
@@ -95,7 +95,7 @@ $PSCompletions.methods['start_job'] = {
             }
 
             foreach ($_ in $PSCompletions.data.list) {
-                if ($data.config.comp_config[$_] -eq $null) {
+                if ($null -eq $data.config.comp_config[$_]) {
                     $data.config.comp_config[$_] = [ordered]@{}
                 }
                 $path = "$($PSCompletions.path.completions)/$_/config.json"
@@ -115,12 +115,12 @@ $PSCompletions.methods['start_job'] = {
                         $PSCompletions.download_file("completions/$_/language/$lang.json", $path_lang, $PSCompletions.urls)
                     }
                 }
-                if ($json_config.hooks -ne $null) {
+                if ($null -ne $json_config.hooks) {
                     $path_hooks = "$($PSCompletions.path.completions)/$_/hooks.ps1"
                     if (!(Test-Path $path_hooks)) {
                         $PSCompletions.download_file("completions/$_/hooks.ps1", $path_hooks, $PSCompletions.urls)
                     }
-                    if ($data.config.comp_config[$_].enable_hooks -eq $null) {
+                    if ($null -eq $data.config.comp_config[$_].enable_hooks) {
                         $data.config.comp_config[$_].enable_hooks = [int]$json_config.hooks
                     }
                 }
@@ -134,7 +134,7 @@ $PSCompletions.methods['start_job'] = {
                 }
                 foreach ($item in $json.config) {
                     $config_list += $item.name
-                    if ($data.config.comp_config[$_].$($item.name) -eq $null) {
+                    if ($null -eq $data.config.comp_config[$_].$($item.name)) {
                         $data.config.comp_config[$_].$($item.name) = $item.value
                     }
                     else {
@@ -146,7 +146,7 @@ $PSCompletions.methods['start_job'] = {
                 $keys = $data.config.comp_config[$_].Keys.Where({ $_ -notin $config_list })
                 foreach ($r in $keys) {
                     if ($r -eq 'enable_hooks') {
-                        if ($json_config.hooks -eq $null) {
+                        if ($null -eq $json_config.hooks) {
                             $data.config.comp_config[$_].Remove($r)
                         }
                     }
@@ -261,7 +261,7 @@ $PSCompletions.methods['start_job'] = {
                 WriteSpaceTab_and_SpaceTab = @()
             }
             function parseJson($cmds, $obj, [string]$cmdO, [switch]$isOption) {
-                if ($obj[$cmdO].$guid -eq $null) {
+                if ($null -eq $obj[$cmdO].$guid) {
                     $obj[$cmdO] = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
                     $obj[$cmdO].$guid = @()
                 }
@@ -272,7 +272,7 @@ $PSCompletions.methods['start_job'] = {
 
                     $symbols = @()
                     if ($isOption) {
-                        if ($next -eq $null -and $options -eq $null) {
+                        if ($null -eq $next -and $null -eq $options) {
                             $symbols += 'OptionTab'
                         }
                         else {
@@ -371,7 +371,7 @@ $PSCompletions.methods['start_job'] = {
                     $PSCompletions.download_file("completions/$completion/language/$lang.json", $path_lang, $PSCompletions.urls)
                 }
             }
-            if ($content_config.hooks -ne $null) {
+            if ($null -ne $content_config.hooks) {
                 $path_hooks = "$($PSCompletions.path.completions)/$completion/hooks.ps1"
                 if (!(Test-Path $path_hooks)) {
                     $PSCompletions.download_file("completions/$completion/hooks.ps1", $path_hooks, $PSCompletions.urls)

@@ -331,7 +331,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
         switch ($arg[1]) {
             'add' {
                 $completion = $arg[2]
-                if ($arg[2] -eq $null) {
+                if ($null -eq $arg[2]) {
                     $cmd_list = $PSCompletions.data.list
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.add.example
                     return
@@ -342,7 +342,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                         return
                     }
                 }
-                if ($arg[3] -eq $null) {
+                if ($null -eq $arg[3]) {
                     Show-ParamError 'min' '' $PSCompletions.info.alias.add.err.min_v $PSCompletions.info.alias.add.example
                     return
                 }
@@ -375,7 +375,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
             }
             'rm' {
                 $completion = $arg[2]
-                if ($arg[2] -eq $null) {
+                if ($null -eq $arg[2]) {
                     $cmd_list = $PSCompletions.data.list
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.rm.example
                     return
@@ -386,7 +386,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                         return
                     }
                 }
-                if ($arg[3] -eq $null) {
+                if ($null -eq $arg[3]) {
                     Show-ParamError 'min' '' $PSCompletions.info.alias.rm.err.min_v $PSCompletions.info.alias.rm.example
                     return
                 }
@@ -511,11 +511,11 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
         }
         $config_list = $PSCompletions.default_completion_item
 
-        if ($PSCompletions.config.comp_config.$($arg[1]) -eq $null) {
+        if ($null -eq $PSCompletions.config.comp_config.$($arg[1])) {
             $PSCompletions.config.comp_config.$($arg[1]) = @{}
         }
 
-        if ($arg[2] -notin $config_list -and $PSCompletions.config.comp_config.$($arg[1]).$($arg[2]) -eq $null) {
+        if ($arg[2] -notin $config_list -and $null -eq $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])) {
             $cmd_list = $config_list + ($PSCompletions.config.comp_config.$($arg[1]).keys.Where({ $_ -notin $config_list }))
             $sub_cmd = $arg[2]
             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
@@ -987,7 +987,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                             })
                     }
                     foreach ($item in $PSCompletions.default_completion_item) {
-                        if ($old_comp_config[$cmd].$item -ne $null) {
+                        if ($null -ne $old_comp_config[$cmd].$item) {
                             $change_list.Add(@{
                                     cmd       = $cmd
                                     item      = $item
@@ -996,7 +996,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                                 })
                         }
                     }
-                    if ($json_config.hooks -ne $null) {
+                    if ($null -ne $json_config.hooks) {
                         $PSCompletions.config.comp_config[$cmd].enable_hooks = [int]$json_config.hooks
                         $change_list.Add(@{
                                 cmd       = $cmd

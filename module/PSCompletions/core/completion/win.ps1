@@ -34,7 +34,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_complet
 
                 $PSCompletions.menu.by_TabExpansion2 = $false
 
-                if ($PSCompletions.data.aliasMap[$alias] -ne $null -and ($space_tab -or $input_arr.Count -gt 1) -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
+                if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($space_tab -or $input_arr.Count -gt 1) -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
                     # 原始的命令名，也是 completions 目录下的命令目录名
                     $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
 

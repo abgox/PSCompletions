@@ -130,7 +130,7 @@ $PSCompletions.methods = @{
                 WriteSpaceTab_and_SpaceTab = @()
             }
             function parseJson($cmds, $obj, [string]$cmdO, [switch]$isOption) {
-                if ($obj[$cmdO].$guid -eq $null) {
+                if ($null -eq $obj[$cmdO].$guid) {
                     $obj[$cmdO] = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
                     $obj[$cmdO].$guid = @()
                 }
@@ -141,7 +141,7 @@ $PSCompletions.methods = @{
 
                     $symbols = @()
                     if ($isOption) {
-                        if ($next -eq $null -and $options -eq $null) {
+                        if ($null -eq $next -and $null -eq $options) {
                             $symbols += 'OptionTab'
                         }
                         else {
@@ -945,7 +945,7 @@ $PSCompletions.methods = @{
                 OutFile = Join-Path $language_dir "$_.json"
             }
         }
-        if ($config.hooks -ne $null) {
+        if ($null -ne $config.hooks) {
             $files += @{
                 Uri     = "$url/hooks.ps1"
                 OutFile = Join-Path $completion_dir 'hooks.ps1'
@@ -1041,11 +1041,11 @@ $PSCompletions.methods = @{
                 }
             }
         }
-        if ($config.hooks -ne $null) {
+        if ($null -ne $config.hooks) {
             if (!$PSCompletions.config.comp_config[$completion]) {
                 $PSCompletions.config.comp_config[$completion] = @{}
             }
-            if ($PSCompletions.config.comp_config[$completion].enable_hooks -eq $null) {
+            if ($null -eq $PSCompletions.config.comp_config[$completion].enable_hooks) {
                 $PSCompletions.config.comp_config[$completion].enable_hooks = [int]$config.hooks
             }
         }
@@ -1084,7 +1084,7 @@ $PSCompletions.methods = @{
             foreach ($_ in $json.config) {
                 $data.config.comp_config.$name.$($_.name) = $_.value
             }
-            if ($config.hooks -ne $null) {
+            if ($null -ne $config.hooks) {
                 $data.config.comp_config.$name.enable_hooks = [int]$config.hooks
             }
         }
@@ -1146,7 +1146,7 @@ $PSCompletions.methods = @{
 
         # is_show_tip
         $enable_tip = $PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_tip
-        if ($enable_tip -ne $null) {
+        if ($null -ne $enable_tip) {
             $PSCompletions.menu.is_show_tip = $enable_tip
         }
         else {
@@ -1155,7 +1155,7 @@ $PSCompletions.methods = @{
 
         if ($PSCompletions.menu.is_show_tip) {
             foreach ($_ in $filter_list) {
-                if ($_.ToolTip -ne $null) {
+                if ($null -ne $_.ToolTip) {
                     $tip = $PSCompletions.replace_content($_.ToolTip -join "`n")
                 }
                 else {
@@ -1457,7 +1457,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 }
 
                 $tip = $menu.filter_list[$index].ToolTip -join "`n"
-                if ($tip -ne $null) {
+                if ($null -ne $tip) {
                     $json = $PSCompletions.completions[$PSCompletions.root_cmd]
                     $info = $json.info
 
@@ -2093,7 +2093,7 @@ if (!(Test-Path $PSCompletions.path.temp)) {
         $config | ConvertTo-Json -Compress | Out-File $path_config -Encoding utf8 -Force
 
         $file_list = @('guid.json')
-        if ($config.hooks -ne $null) {
+        if ($null -ne $config.hooks) {
             $file_list += 'hooks.ps1'
         }
         foreach ($lang in $config.language) {
@@ -2135,13 +2135,10 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
         if ($args -eq 'psc') {
             Set-Alias $_ $PSCompletions.config.function_name -Force -ErrorAction SilentlyContinue
         }
-        else {
-            if ($_ -ne $args) {
-                Set-Alias $_ $args -Force -ErrorAction SilentlyContinue
-            }
+        elseif ($_ -ne $args) {
+            Set-Alias $_ $args -Force -ErrorAction SilentlyContinue
         }
     }
-    $args = $null
     $Matches = $null
 }
 else {
