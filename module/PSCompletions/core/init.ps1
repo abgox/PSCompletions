@@ -1371,7 +1371,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             $lines = $offset..($menu.ui_height - 3 + $offset)
             $content_box = foreach ($l in $lines) {
                 $item = $menu.filter_list[$l]
-                $text = $item.ListItemText + $item.padSymbols
+                $text = $item.ListItemText -replace '\e\[[\d;]*[a-zA-Z]', ''
+                $text = $text + $item.padSymbols
                 $rest = $menu.list_max_width - $rawUI.LengthInBufferCells($text)
                 if ($rest -ge 0) {
                     $text + ' ' * $rest
