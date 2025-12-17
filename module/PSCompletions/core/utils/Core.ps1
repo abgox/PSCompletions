@@ -349,8 +349,8 @@ $PSCompletions.methods['start_job'] = {
             if ($_completions[$root].common_options) {
                 parseJson $_completions[$root].common_options $obj 'commonOptions' -isOption
             }
-            $_completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
-            $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
+            $_completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab)
+            $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab_and_SpaceTab)
             $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid.CompletionText
             return $obj
         }

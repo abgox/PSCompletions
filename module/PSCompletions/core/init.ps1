@@ -218,8 +218,8 @@ $PSCompletions.methods = @{
             if ($PSCompletions.completions[$root].common_options) {
                 parseJson $PSCompletions.completions[$root].common_options $obj 'commonOptions' -isOption
             }
-            $PSCompletions.completions_data."$($root)_WriteSpaceTab" = $special_options.WriteSpaceTab | Select-Object -Unique
-            $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = $special_options.WriteSpaceTab_and_SpaceTab | Select-Object -Unique
+            $PSCompletions.completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab)
+            $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab_and_SpaceTab)
             return $obj
         }
         function handleCompletions {
@@ -254,8 +254,8 @@ $PSCompletions.methods = @{
                 $pre_cmd = ''
 
                 $commonOptions = @($PSCompletions.completions_data."$($root)_common_options")
-                $WriteSpaceTab = @($PSCompletions.completions_data."$($root)_WriteSpaceTab")
-                $WriteSpaceTab_and_SpaceTab = @($PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab")
+                $WriteSpaceTab = $PSCompletions.completions_data."$($root)_WriteSpaceTab"
+                $WriteSpaceTab_and_SpaceTab = $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab"
 
                 foreach ($_ in $input_arr) {
                     if ($need_skip) {
