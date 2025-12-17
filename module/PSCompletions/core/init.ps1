@@ -1162,20 +1162,20 @@ $PSCompletions.methods = @{
                     $tip = ' '
                 }
                 if ($PSCompletions.input_arr[-1] -like "-*=") {
-                    [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', $tip)
+                    [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
                 }
                 else {
-                    [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', $tip)
+                    [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
                 }
             }
         }
         else {
             foreach ($_ in $filter_list) {
                 if ($PSCompletions.input_arr[-1] -like "-*=") {
-                    [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', ' ')
+                    [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
                 }
                 else {
-                    [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), 'ParameterValue', ' ')
+                    [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
                 }
             }
         }
@@ -1226,10 +1226,10 @@ $PSCompletions.methods = @{
                         $parts = ($_ -split "`t")
                         if ($PSCompletions.config.enable_tip_when_enhance) {
                             $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
-                            [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', $tip)
+                            [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
                         }
                         else {
-                            [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], 'ParameterValue', ' ')
+                            [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
                         }
                     }
                 }
