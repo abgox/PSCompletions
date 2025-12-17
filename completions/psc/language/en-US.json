@@ -152,7 +152,7 @@
         {
           "name": "url",
           "tip": [
-            "Current Value: \"{{ $PSCompletions.config.url }}\"",
+            "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
             "Set the url of the current remote completion data.",
             "The default value is \"\", which means use the default repository (Github/Gitee)",
             "{{ $info.config.url.example }}"
@@ -359,7 +359,7 @@
                 {
                   "name": "~",
                   "tip": [
-                    "Set to ~ (Default)."
+                    "Set to ~ (Default)"
                   ]
                 },
                 {
@@ -383,7 +383,7 @@
                 {
                   "name": "?",
                   "tip": [
-                    "Set to ? (Default)."
+                    "Set to ? (Default)"
                   ]
                 },
                 {
@@ -407,7 +407,7 @@
                 {
                   "name": "!",
                   "tip": [
-                    "Set to ! (Default)."
+                    "Set to ! (Default)"
                   ]
                 },
                 {
@@ -608,7 +608,7 @@
                 {
                   "name": "horizontal",
                   "tip": [
-                    "Current Value: \"{{ $PSCompletions.config.horizontal }}\"",
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.horizontal) }}",
                     "The horizontal line of the border."
                   ],
                   "next": [
@@ -641,7 +641,7 @@
                 {
                   "name": "vertical",
                   "tip": [
-                    "Current Value: \"{{ $PSCompletions.config.vertical }}\"",
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.vertical) }}",
                     "The vertical line of the border."
                   ],
                   "next": [
@@ -674,7 +674,7 @@
                 {
                   "name": "top_left",
                   "tip": [
-                    "Current Value: \"{{ $PSCompletions.config.top_left }}\"",
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_left) }}",
                     "Top left corner of the border."
                   ],
                   "next": [
@@ -710,7 +710,7 @@
                 {
                   "name": "bottom_left",
                   "tip": [
-                    "Current Value: \"{{ $PSCompletions.config.bottom_left }}\"",
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_left) }}",
                     "Bottom left corner of the border."
                   ],
                   "next": [
@@ -746,7 +746,7 @@
                 {
                   "name": "top_right",
                   "tip": [
-                    "Current Value: \"{{ $PSCompletions.config.top_right }}\"",
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_right) }}",
                     "Top right corner of the border."
                   ],
                   "next": [
@@ -782,7 +782,7 @@
                 {
                   "name": "bottom_right",
                   "tip": [
-                    "Current Value: \"{{ $PSCompletions.config.bottom_right }}\"",
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_right) }}",
                     "Bottom right corner of the border."
                   ],
                   "next": [
@@ -829,7 +829,7 @@
             {
               "name": "trigger_key",
               "tip": [
-                "Current Value: \"{{ $PSCompletions.config.trigger_key }}\" (Default: \"Tab\")",
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.trigger_key) }} (Default: \"Tab\")",
                 "Setting the key that triggers the completion menu."
               ],
               "next": [
@@ -1546,7 +1546,7 @@
             {
               "name": "filter_symbol",
               "tip": [
-                "Current Value: \"{{ $PSCompletions.config.filter_symbol }}\" (Default: \"[]\")",
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.filter_symbol) }} (Default: \"[]\")",
                 "Set the symbols on the left and right of the filter area, which is in the top left corner.",
                 "It requires two characters."
               ],
@@ -1562,7 +1562,7 @@
             {
               "name": "status_symbol",
               "tip": [
-                "Current Value: \"{{ $PSCompletions.config.status_symbol }}\" (Default: \"/\")",
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.status_symbol) }} (Default: \"/\")",
                 "Set the spacer between the current and total count, which is in the bottom left corner."
               ],
               "next": [
@@ -1577,7 +1577,7 @@
             {
               "name": "between_item_and_symbol",
               "tip": [
-                "Current Value: \"{{ $PSCompletions.config.between_item_and_symbol }}\" (Default: \" \")",
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.between_item_and_symbol) }} (Default: \" \")",
                 "Set the separator between the completion item and the symbol when there is a symbol after the completion item."
               ],
               "next": [
@@ -1896,9 +1896,9 @@
               "name": "enable_path_with_trailing_separator",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (Default: 1)",
-                "Set whether path completion has a trailing separator.",
-                "With: C:\\Users\\abgox{{ $PSCompletions.separator }}",
-                "Without: C:\\Users\\abgox"
+                "Set whether path completion with a trailing separator.",
+                "C:\\Users\\abgox{{ $PSCompletions.separator }}     (With)",
+                "C:\\Users\\abgox      (Without)"
               ],
               "next": [
                 {
@@ -1972,7 +1972,7 @@
             {
               "name": "completion_suffix",
               "tip": [
-                "Current Value: \"{{ $PSCompletions.config.completion_suffix }}\" (Default: \" \")",
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.completion_suffix) }} (Default: \" \")",
                 "Set the completion suffix, which will be automatically added after applying the completion.",
                 "The default is a space, which is used to simplify unnecessary space key presses."
               ],
@@ -2296,8 +2296,8 @@
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
         "   '';",
-        "   \"<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:\";",
-        "   'Default Value: ' + $PSCompletions.quote_if_only_whitespace($_.value);",
+        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
+        "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
         "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
         "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $v + '<@Blue>'; }",
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
@@ -2356,8 +2356,8 @@
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
         "   '';",
-        "   \"<@Magenta>$($PSCompletions.quote_if_only_whitespace($_.name))<@Blue>:\";",
-        "   'Default Value: ' + $PSCompletions.quote_if_only_whitespace($_.value);",
+        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
+        "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
         "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
         "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $v + '<@Blue>'; }",
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
@@ -2478,7 +2478,7 @@
       ],
       "done": [
         "<@Green>PSCompletions's configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}\n",
         "<@Yellow>It may be necessary to restart PowerShell and re-import the PSCompletions module for the changes to take effect."
       ],
       "err": {
@@ -2542,7 +2542,7 @@
       ],
       "done": [
         "<@Magenta>{{ $completion }}<@Green>'s special configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
       ],
       "err": {
         "min": [
@@ -2588,7 +2588,7 @@
       ],
       "done": [
         "<@Green>Configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.quote_if_only_whitespace($new_value) }}"
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
       ],
       "symbol": {
         "example": [
@@ -2672,7 +2672,7 @@
         "};",
         "$change_list | ForEach-Object {",
         "  $c = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" };",
-        "  $out += \"$($c): <@Magenta>$($PSCompletions.quote_if_only_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.quote_if_only_whitespace($_.new_value))<@Blue>\";",
+        "  $out += \"$($c): <@Magenta>$($PSCompletions.wrap_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.wrap_whitespace($_.new_value))<@Blue>\";",
         "};",
         "($out + $end) -join \"`n\";",
         "}}"
