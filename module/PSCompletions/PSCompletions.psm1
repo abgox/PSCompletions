@@ -441,7 +441,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                 return
             }
             if ($arg.Length -eq 2) {
-                Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$($arg[1]))
+                Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.$($arg[1]))
                 return
             }
         }
@@ -526,7 +526,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
             return
         }
         if ($arg.Length -eq 3) {
-            Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.comp_config.$($arg[1]).$($arg[2]))
+            Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.comp_config.$($arg[1]).$($arg[2]))
             return
         }
 
@@ -607,7 +607,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                 }
                 $config_item = $arg[2]
                 if ($arg.Length -eq 3) {
-                    Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$config_item)
+                    Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.$config_item)
                     return
                 }
                 if ($arg.Length -eq 4) {
@@ -774,7 +774,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                     return
                 }
                 if ($arg.Length -lt 5) {
-                    Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config[$arg[3]])
+                    Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config[$arg[3]])
                     return
                 }
                 if ($arg.Length -gt 5) {
@@ -806,7 +806,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                     return
                 }
                 if ($arg.Length -eq 3) {
-                    Write-Output $PSCompletions.quote_if_only_whitespace($PSCompletions.config.$($arg[2]))
+                    Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.$($arg[2]))
                     return
                 }
                 if ($arg.Length -gt 4) {

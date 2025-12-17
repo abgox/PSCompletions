@@ -107,7 +107,7 @@ New-Variable -Name PSCompletions -Option Constant -Force -Value @{
 }
 
 $PSCompletions.methods = @{
-    return_completion        = {
+    return_completion       = {
         param([string]$name, $tip = ' ', [array]$symbols)
         if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
             $tip = ''
@@ -119,7 +119,7 @@ $PSCompletions.methods = @{
             symbols        = $symbols
         }
     }
-    get_completion           = {
+    get_completion          = {
         $guid = $PSCompletions.guid
         function getCompletions {
             $obj = @{}
@@ -549,7 +549,7 @@ $PSCompletions.methods = @{
         }
         return $filter_list
     }
-    handle_data_by_runspace  = {
+    handle_data_by_runspace = {
         param(
             [array]$list, # 需要处理的数据
             # 处理逻辑，可以获取三个参数
@@ -581,7 +581,7 @@ $PSCompletions.methods = @{
         $runspacePool.Dispose()
         return $return
     }
-    split_array              = {
+    split_array             = {
         <#
         .Synopsis
             分割数组
@@ -603,11 +603,11 @@ $PSCompletions.methods = @{
         }
         $chunks
     }
-    ensure_dir               = {
+    ensure_dir              = {
         param([string]$path)
         if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
     }
-    get_language             = {
+    get_language            = {
         param ([string]$completion)
         $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
 
@@ -632,13 +632,13 @@ $PSCompletions.methods = @{
         }
         $language
     }
-    get_content              = {
+    get_content             = {
         param ([string]$path)
         $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
         if ($res) { return $res }
         , @()
     }
-    get_raw_content          = {
+    get_raw_content         = {
         param ([string]$path, [bool]$trim = $true)
         $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
         if ($res) {
@@ -647,7 +647,7 @@ $PSCompletions.methods = @{
         }
         ''
     }
-    replace_content          = {
+    replace_content         = {
         param ($data, $separator = '')
         $data = $data -join $separator
         if ($data -notlike '*{{*') { return $data }
@@ -657,7 +657,7 @@ $PSCompletions.methods = @{
         }
         if ($data -match $PSCompletions.replace_pattern) { $PSCompletions.replace_content($data) }else { return $data }
     }
-    write_with_color         = {
+    write_with_color        = {
         param([string]$str)
 
         Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
@@ -696,7 +696,7 @@ $PSCompletions.methods = @{
         }
         Write-Host ''
     }
-    show_with_less           = {
+    show_with_less          = {
         param (
             $str_list,
             [string]$color = 'Green',
@@ -742,7 +742,7 @@ $PSCompletions.methods = @{
             foreach ($_ in $str_list) { Write-Host $_ -ForegroundColor $color }
         }
     }
-    show_with_less_table     = {
+    show_with_less_table    = {
         param (
             [array]$str_list,
             [array]$header = @('key', 'value', 5),
@@ -813,7 +813,7 @@ $PSCompletions.methods = @{
             }
         }
     }
-    download_list            = {
+    download_list           = {
         $PSCompletions.ensure_dir($PSCompletions.path.temp)
         if (!(Test-Path $PSCompletions.path.completions_json)) {
             @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
@@ -866,7 +866,7 @@ $PSCompletions.methods = @{
             return $false
         }
     }
-    download_file            = {
+    download_file           = {
         param(
             [string]$path, # 相对于 $baseUrl 的文件路径
             [string]$file,
@@ -902,7 +902,7 @@ $PSCompletions.methods = @{
             }
         }
     }
-    add_completion           = {
+    add_completion          = {
         param (
             [string]$completion,
             [bool]$log = $true
@@ -1050,7 +1050,7 @@ $PSCompletions.methods = @{
             }
         }
     }
-    new_data                 = {
+    new_data                = {
         $data = @{
             list     = @()
             alias    = @{}
@@ -1092,7 +1092,7 @@ $PSCompletions.methods = @{
         $PSCompletions.data = $data
         $null = $PSCompletions.download_list()
     }
-    init_data                = {
+    init_data               = {
         $PSCompletions.completions = @{}
         if ((Test-Path $PSCompletions.path.data) -and !$PSCompletions.is_first_init) {
             $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
@@ -1131,7 +1131,7 @@ $PSCompletions.methods = @{
             $PSCompletions.info = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
         }
     }
-    show_powershell_menu     = {
+    show_powershell_menu    = {
         param([array]$filter_list)
         if ($Host.UI.RawUI.BufferSize.Height -lt 5) {
             [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
@@ -1180,7 +1180,7 @@ $PSCompletions.methods = @{
             }
         }
     }
-    argc_completions         = {
+    argc_completions        = {
         param(
             [array]$completions # The list of completions.
         )
@@ -1236,12 +1236,25 @@ $PSCompletions.methods = @{
             }
         }
     }
-    quote_if_only_whitespace = {
+    wrap_whitespace         = {
         param(
             [string]$String
         )
         if ([string]::IsNullOrWhiteSpace($String)) {
             return "`"$String`""
+        }
+        if ($String.StartsWith(' ') -or $String.EndsWith(' ')) {
+            if ($String.Contains('"')) {
+                if ($String.Contains("'")) {
+                    return $String
+                }
+                else {
+                    return "'$String'"
+                }
+            }
+            else {
+                return "`"$String`""
+            }
         }
         return $String
     }
