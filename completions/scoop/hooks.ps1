@@ -50,6 +50,7 @@
                                     ListItemText   = $app
                                     CompletionText = $app
                                     symbols        = @("SpaceTab")
+                                    ToolTip        = "{{ `$c = (Get-Content $($_.FullName) | ConvertFrom-Json); `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
                                 }
                             }
                         }
@@ -136,6 +137,7 @@
                                     ListItemText   = $app
                                     CompletionText = $app
                                     symbols        = @("SpaceTab")
+                                    ToolTip        = "{{ `$c = (Get-Content $($_.FullName) | ConvertFrom-Json); `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
                                 }
                             }
                         }
@@ -392,13 +394,13 @@
                 # abyss bucket config
                 'abgox-abyss-app-uninstall-action'     = @{
                     symbol  = 'SpaceTab'
-                    'zh-CN' = @('默认值: 1', '应用卸载操作行为。', '它是 abyss bucket (https://gitee.com/abgox/abyss) 中的一个配置项', '详情参考: https://gitee.com/abgox/abyss#config')
-                    'en-US' = @('Default Value: 1', 'The action of app uninstall.', 'It is a config in abyss bucket (https://github.com/abgox/abyss).', 'See https://github.com/abgox/abyss#config for details.')
+                    'zh-CN' = @('默认值: 1', '应用卸载操作行为。', '它是 abyss bucket (https://gitee.com/abgox/abyss) 中的一个配置项', '详情参考: https://abyss.abgox.com/features/extra-features#abgox-abyss-app-uninstall-action')
+                    'en-US' = @('Default Value: 1', 'The action of app uninstall.', 'It is a config in abyss bucket (https://github.com/abgox/abyss).', 'See https://abyss.abgox.com/features/extra-features#abgox-abyss-app-uninstall-action for details.')
                 }
                 'abgox-abyss-app-shortcuts-action'     = @{
                     symbol  = 'SpaceTab'
-                    'zh-CN' = @('默认值: 1', '快捷方式的创建行为。', '它是 abyss bucket (https://gitee.com/abgox/abyss) 中的一个配置项', '详情参考: https://gitee.com/abgox/abyss#config')
-                    'en-US' = @('Default Value: 1', 'The action of shortcut creation.', 'It is a config in abyss bucket (https://github.com/abgox/abyss).', 'See https://github.com/abgox/abyss#config for details.')
+                    'zh-CN' = @('默认值: 1', '快捷方式的创建行为。', '它是 abyss bucket (https://gitee.com/abgox/abyss) 中的一个配置项', '详情参考: https://abyss.abgox.com/features/extra-features#abgox-abyss-app-shortcuts-action')
+                    'en-US' = @('Default Value: 1', 'The action of shortcut creation.', 'It is a config in abyss bucket (https://github.com/abgox/abyss).', 'See https://abyss.abgox.com/features/extra-features#abgox-abyss-app-shortcuts-action for details.')
                 }
 
                 # scoop-install config
