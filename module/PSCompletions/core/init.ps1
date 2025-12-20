@@ -1426,7 +1426,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 $Y = $menu.pos.Y + $menu.ui_height - 1
             }
 
-            $current = "$(([string]($menu.selected_index + 1)).PadLeft($menu.filter_list.Count.ToString().Length, ' '))"
+            $current = "$(([string]($menu.selected_index + 1)).PadLeft($menu.filter_list.Count.ToString().Length, '0'))"
             $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@("$current$($config.status_symbol)$($menu.filter_list.Count)"), $config.status_color, $bgColor))
         }
         new_menu_tip_buffer    = {
