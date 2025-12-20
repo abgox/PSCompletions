@@ -14,7 +14,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Install module
+        shell: pwsh
+        run: |
+          Install-Module PSCompletions -Repository PSGallery -Force
+          Import-Module -Name PSCompletions -Force
 
       - name: Generate list and update content
         shell: pwsh
