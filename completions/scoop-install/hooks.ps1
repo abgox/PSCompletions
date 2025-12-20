@@ -121,6 +121,7 @@
                                 ListItemText   = $app
                                 CompletionText = $app
                                 symbols        = @("SpaceTab")
+                                ToolTip        = "{{ `$c = (Get-Content $($_.FullName) | ConvertFrom-Json); `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
                             }
                         }
                     }
