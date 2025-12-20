@@ -1,5 +1,15 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.2.1
+
+- Add alias support for `$PSCompletions.argc_completions()`
+  - Refer to: [Combine with argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions).
+- Strip possible ANSI escape codes from the completion items.
+  - Refer to: [#121](https://github.com/abgox/PSCompletions/issues/121)
+  - [PSCompletions can work normally with Carapace.](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+- Optimize command and alias checking.
+- Other optimizations and fixes.
+
 ## 6.2.0
 
 - Add `enable_list_full_width` configuration item, used to control whether the completion menu is displayed in full width.

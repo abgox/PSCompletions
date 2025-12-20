@@ -1,5 +1,15 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.2.1
+
+- 为 `$PSCompletions.argc_completions()` 添加了别名支持
+  - 参考: [结合 argc-completions 使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+- 移除了补全项中可能存在的 ANSI 转义码
+  - 参考: [#121](https://github.com/abgox/PSCompletions/issues/121)
+  - [PSCompletions 可以正常和 Carapace 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+- 优化了命令及别名检查
+- 其他的优化和修复
+
 ## 6.2.0
 
 - 添加 `enable_list_full_width` 配置项，用于控制补全菜单是否铺满窗口宽度
@@ -414,12 +424,12 @@
 
 - 对 PowerShell 内置命令的 ToolTip 提示信息简单处理，优化显示
 - 当菜单显示后，输入字符进行过滤不再更改菜单的宽度
-- 修复了可以设置一个已存在的命令为别名的bug
+- 修复了可以设置一个已存在的命令为别名的 bug
 - 优化逻辑运算，移除一些多余的运算
 
 ## 4.2.6 (2024/8/10)
 
-- 修复补全项列表为空的bug
+- 修复补全项列表为空的 bug
 - 如果使用 `Windows PowerShell`，且使用了命令行主题(如: oh-my-posh)，当补全菜单显示在上方时，可能会导致当前行附近的文字及图标错乱
   - 解决方案:
     1. 禁用命令行主题
