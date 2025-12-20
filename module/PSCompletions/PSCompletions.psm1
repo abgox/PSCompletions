@@ -173,10 +173,14 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
             }
         }
 
-        foreach ($_ in $data.config.comp_config.keys.Clone()) {
+        $remove = @()
+        foreach ($_ in $data.config.comp_config.keys) {
             if ($_ -notin $data.list) {
-                $data.config.comp_config.Remove($_)
+                $remove += $_
             }
+        }
+        foreach ($_ in $remove) {
+            $data.config.comp_config.Remove($_)
         }
 
         $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PScompletions.path.data -Force -Encoding utf8
