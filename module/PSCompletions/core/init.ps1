@@ -1336,48 +1336,6 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 buffer = $buffer
             }
         }
-        new_menu_buffer        = {
-            # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
-            if ($PSEdition -ne 'Core') {
-                $horizontal = '-'
-                $vertical = '|'
-                $top_left = '+'
-                $bottom_left = '+'
-                $top_right = '+'
-                $bottom_right = '+'
-            }
-            else {
-                $horizontal = $config.horizontal
-                $vertical = $config.vertical
-                $top_left = $config.top_left
-                $bottom_left = $config.bottom_left
-                $top_right = $config.top_right
-                $bottom_right = $config.bottom_right
-            }
-
-            $border_box = @()
-            $content_box = @()
-            $list_area = $menu.list_max_width
-
-            $border_box += [string]$top_left + $horizontal * $list_area + $top_right
-
-            $line = [string]$vertical + ' ' * $list_area + [string]$vertical
-            $content = ' ' * $list_area
-            $border_box += @($line) * ($menu.ui_height - 2)
-            $content_box += @($content) * ($menu.ui_height - 2)
-
-            $status = "$(([string]($menu.selected_index + 1)).PadLeft($menu.filter_list.Count.ToString().Length, ' '))"
-
-            $border_box += [string]$bottom_left + $horizontal * 2 + ' ' * ($status.Length + 1) + $horizontal * ($list_area - $status.Length - 3) + $bottom_right
-
-            $rawUI.SetBufferContents($menu.pos, $rawUI.NewBufferCellArray($border_box, $config.border_color, $bgColor))
-
-            $rawUI.SetBufferContents(@{
-                    X = $menu.pos.X + 1
-                    Y = $menu.pos.Y + 1
-                }, $rawUI.NewBufferCellArray($content_box, $config.item_color, $bgColor)
-            )
-        }
         new_menu_list_buffer   = {
             param([int]$offset)
 
@@ -1391,7 +1349,13 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                     $text + ' ' * $rest
                 }
                 else {
-                    $text.Substring(0, $text.Length + $rest)
+                    $w = $text.Length + $rest
+                    if ($w -gt 0) {
+                        $text.Substring(0, $w)
+                    }
+                    else {
+                        $text.Substring(0, 25)
+                    }
                 }
             }
             $rawUI.SetBufferContents(@{
@@ -1487,7 +1451,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                                 $charWidth = $char_record[$char]
                             }
                             else {
-                                $charWidth = $rawUI.NewBufferCellArray($char, $bgColor, $bgColor).LongLength
+                                $charWidth = $rawUI.LengthInBufferCells($char)
                                 $char_record[$char] = $charWidth
                             }
 
@@ -1854,7 +1818,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             $menu.origin_full_buffer = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
 
             # 显示菜单
-            $menu.new_menu_buffer()
+            $menu.new_menu_border_buffer()
             $menu.new_menu_list_buffer($menu.offset)
             $menu.set_menu_selection()
             $menu.new_menu_filter_buffer($menu.filter)
@@ -1976,7 +1940,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                             else {
                                 $menu.reset_menu($false)
                                 $menu.parse_menu_list()
-                                $menu.new_menu_buffer()
+                                $menu.new_menu_border_buffer()
                                 $menu.new_menu_list_buffer($menu.offset)
                                 $menu.new_menu_tip_buffer($menu.selected_index)
                                 $menu.new_menu_status_buffer()
@@ -1991,6 +1955,44 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 }
             }
             [console]::OutputEncoding = $current_encoding
+        }
+    }
+
+    if ($PSEdition -eq 'Core') {
+        $PSCompletions.menu_methods.new_menu_border_buffer = {
+            $horizontal = $config.horizontal
+            $vertical = $config.vertical
+            $top_left = $config.top_left
+            $bottom_left = $config.bottom_left
+            $top_right = $config.top_right
+            $bottom_right = $config.bottom_right
+
+            $list_area = $menu.list_max_width
+            $border_box = @(
+                [string]$top_left + $horizontal * $list_area + $top_right
+                @([string]$vertical + ' ' * $list_area + [string]$vertical) * ($menu.ui_height - 2)
+                [string]$bottom_left + $horizontal * $list_area + $bottom_right
+            )
+            $rawUI.SetBufferContents($menu.pos, $rawUI.NewBufferCellArray($border_box, $config.border_color, $bgColor))
+        }
+    }
+    else {
+        $PSCompletions.menu_methods.new_menu_border_buffer = {
+            # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
+            $horizontal = '-'
+            $vertical = '|'
+            $top_left = '+'
+            $bottom_left = '+'
+            $top_right = '+'
+            $bottom_right = '+'
+
+            $list_area = $menu.list_max_width
+            $border_box = @(
+                [string]$top_left + $horizontal * $list_area + $top_right
+                @([string]$vertical + ' ' * $list_area + [string]$vertical) * ($menu.ui_height - 2)
+                [string]$bottom_left + $horizontal * $list_area + $bottom_right
+            )
+            $rawUI.SetBufferContents($menu.pos, $rawUI.NewBufferCellArray($border_box, $config.border_color, $bgColor))
         }
     }
 
