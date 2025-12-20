@@ -55,6 +55,14 @@ if(remote,
         }
     }
 
+    function return_remote {
+        jj git remote list | ForEach-Object {
+            $part = $_.Split(' ', 2)
+            $tip = $part[1].Trim()
+            $PSCompletions.return_completion($part[0], $part[1])
+        }
+    }
+
     switch ($filter_input_arr[0]) {
         'new' {
             $list += return_common_revsets
@@ -65,6 +73,17 @@ if(remote,
             switch ($filter_input_arr[1]) {
                 { $_ -in 'set', 'rename', 'move', 'forget', 'delete', 'track' } {
                     $list += return_bookmark
+                }
+            }
+        }
+        'git' {
+            switch ($filter_input_arr[1]) {
+                'remote' {
+                    switch ($filter_input_arr[2]) {
+                        { $_ -in 'remove', 'rename', 'set-url' } {
+                            $list += return_remote
+                        }
+                    }
                 }
             }
         }
