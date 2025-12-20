@@ -41,9 +41,9 @@
 
 > [!Tip]
 >
-> - [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview): A cross-platform PowerShell (Core). Start it by running `pwsh`/`pwsh.exe`.
+> - [PowerShell(pwsh)](https://microsoft.com/powershell): A cross-platform PowerShell (Core). Start it by running `pwsh`/`pwsh.exe`.
 > - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell (Desktop) which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
-> - They can both use `PSCompletions`, but [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview) is more recommended.
+> - They can both use `PSCompletions`, but [PowerShell(pwsh)](https://microsoft.com/powershell) is more recommended.
 
 A completion manager for a better and simpler tab-completion experience in `PowerShell`.
 
@@ -51,8 +51,10 @@ A completion manager for a better and simpler tab-completion experience in `Powe
 - [More powerful completion menu.](#about-completion-menu)
 - Sort completion items dynamically based on command history.
 - [Support multiple languages: en-US, zh-CN, etc.](#about-language)
-- [Combine with PSFzf.](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
-- [Combine with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+- Work with other tools.
+  - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+  - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+  - [PSFzf](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
 
 ## Demo
 
@@ -122,11 +124,14 @@ See the [Contribution Guide](./.github/contributing.md) for details.
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - [Combine with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+  - Work with other completion libraries.
+
+    - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+    - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
 
   - For more details, please refer to [About menu enhance](#about-menu-enhance).
 
-- Use [PSFzf](https://github.com/kelleyma49/PSFzf) as the completion menu, refer to [Combine with PSFzf.](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+- Use [PSFzf](https://github.com/kelleyma49/PSFzf) as the completion menu, refer to [Work with PSFzf](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf).
 
 ## Tips
 
@@ -160,7 +165,6 @@ See the [Contribution Guide](./.github/contributing.md) for details.
       - Path completion such as `cd`/`.\`/`..\`/`~\`/...
       - Build-in commands such as `Get-*`/`Set-*`/`New-*`/...
       - Completion registered by [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
-      - [Combine with argc-completions.](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
       - Completion registered by cli or module.
       - ...
   - [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter)
@@ -255,7 +259,8 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 ## Acknowledgements
 
-- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): The completion menu provided by the module is inspired by it.
+- `PSCompletions` depends on [PSReadLine](https://github.com/PowerShell/PSReadLine), which is a built-in module in PowerShell.
+- [The completion menu](#about-completion-menu) is inspired by [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion).
 
 ## Available Completions
 

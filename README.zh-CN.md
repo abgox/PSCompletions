@@ -41,9 +41,9 @@
 
 > [!Tip]
 >
-> - [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview): 跨平台的 PowerShell (Core)。运行 `pwsh`/`pwsh.exe` 启动
-> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell (Desktop)。运行 `powershell`/`powershell.exe` 启动
-> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell(pwsh)](https://learn.microsoft.com/powershell/scripting/overview)
+> - [PowerShell(pwsh)](https://microsoft.com/powershell): 跨平台的 PowerShell (Core)，运行 `pwsh`/`pwsh.exe` 启动
+> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell (Desktop)，运行 `powershell`/`powershell.exe` 启动
+> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell(pwsh)](https://microsoft.com/powershell)
 
 一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
 
@@ -51,8 +51,10 @@
 - [更强大的补全菜单](#关于补全菜单)
 - 根据命令历史动态排序补全项
 - [支持多种语言: en-US, zh-CN 等](#关于语言)
-- [与 PSFzf 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
-- [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+- 与其他工具协作
+  - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+  - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+  - [PSFzf](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
 
 ## 演示
 
@@ -121,7 +123,10 @@
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+  - 使用其他的补全库
+
+    - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+    - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
 
   - 更多详情，参考 [菜单增强](#关于菜单增强)
 
@@ -160,7 +165,6 @@
       - 路径补全: `cd`/`.\`/`..\`/`~\`/...
       - 内置命令补全: `Get-*`/`Set-*`/`New-*`/...
       - 通过 [Register-ArgumentCompleter](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/register-argumentcompleter) 注册的补全
-      - [与 argc-completions 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
       - 由 cli 或模块注册的补全
       - ...
 
@@ -263,7 +267,8 @@
 
 ## 致谢
 
-- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): 模块的补全菜单受到它的启发
+- `PSCompletions` 依赖于 [PSReadLine](https://github.com/PowerShell/PSReadLine)，它是 PowerShell 的一个内置模块
+- 而它的 [补全菜单](#关于补全菜单) 则来自于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的启发
 
 ## 补全列表
 
