@@ -2,16 +2,15 @@
 
 Set-StrictMode -Off
 
-$pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
-function replace_content {
-    param ($data, $separator = '')
-    $data = $data -join $separator
-    if ($data -notlike '*{{*') { return $data }
-    $matches = [regex]::Matches($data, $pattern)
-    foreach ($match in $matches) {
-        $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
-    }
-    if ($data -match $pattern) { (replace_content $data) }else { return $data }
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
+
+if (!$PSCompletions) {
+    Write-Host $text."import-psc" -ForegroundColor Red
+    return
 }
 
 function Compare-JsonProperty {
@@ -125,11 +124,11 @@ function Compare-JsonProperty {
                     if (isExist $diffArr[$i].tip) {
                         $json = $diffContent
                         $info = $json.info
-                        $diffStr = replace_content $diffArr[$i].tip
+                        $diffStr = $PSCompletions.replace_content($diffArr[$i].tip)
 
                         $json = $baseContent
                         $info = $json.info
-                        $baseStr = replace_content $baseArr[$i].tip
+                        $baseStr = $PSCompletions.replace_content($baseArr[$i].tip)
                         if (noTranslated $diffStr $baseStr) {
                             $count.untranslatedList += @{
                                 name  = $diffArr[$i].name
@@ -301,11 +300,11 @@ function Compare-JsonProperty {
                     if (isExist $diffTip) {
                         $json = $diffContent
                         $info = $json.info
-                        $diffStr = replace_content $diffTip
+                        $diffStr = $PSCompletions.replace_content($diffTip)
 
                         $json = $baseContent
                         $info = $json.info
-                        $baseStr = replace_content $baseTip
+                        $baseStr = $PSCompletions.replace_content($baseTip)
                         if (noTranslated $diffStr $baseStr) {
                             $count.untranslatedList += @{
                                 name  = $diffContent.config[$i].name
