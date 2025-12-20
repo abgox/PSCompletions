@@ -9,8 +9,7 @@ if (!(Test-Path $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    Write-Host $text."import-psc" -ForegroundColor Red
-    return
+    Import-Module PSCompletions
 }
 
 function Compare-JsonProperty {
