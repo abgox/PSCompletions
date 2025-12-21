@@ -117,11 +117,17 @@
                     Get-ChildItem $item.path -Recurse -Filter *.json | ForEach-Object {
                         $app = "$($item.bucket)/$($_.BaseName)"
                         if ($app -notin $PSCompletions.input_arr -and $_.BaseName -notin $PSCompletions.temp_scoop_installed_apps) {
+                            if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
+                                $tip = ''
+                            }
+                            else {
+                                $tip = "{{ `$c = (Get-Content $($_.FullName) | ConvertFrom-Json); `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
+                            }
                             $return += @{
                                 ListItemText   = $app
                                 CompletionText = $app
                                 symbols        = @("SpaceTab")
-                                ToolTip        = "{{ `$c = (Get-Content $($_.FullName) | ConvertFrom-Json); `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
+                                ToolTip        = $tip
                             }
                         }
                     }
