@@ -1,5 +1,12 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.2.2
+
+- Improve the width check to avoid some special cases when `enable_list_full_width` is `0`.
+  - Recommend setting `enable_list_full_width` to `1`, as it is the current optimal experience.
+  - Set: `psc menu config enable_list_full_width 1`
+- Other optimizations and fixes.
+
 ## 6.2.1
 
 - Add alias support for `$PSCompletions.argc_completions()`

@@ -1,5 +1,12 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.2.2
+
+- 改进了当 `enable_list_full_width` 为 `0` 时的宽度校验，避免一些异常情况
+  - 推荐将 `enable_list_full_width` 设置为 `1`, 它是目前的最优体验
+  - 设置: `psc menu config enable_list_full_width 1`
+- 其他的优化和修复
+
 ## 6.2.1
 
 - 为 `$PSCompletions.argc_completions()` 添加了别名支持
