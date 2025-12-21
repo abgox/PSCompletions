@@ -1265,6 +1265,7 @@ if ($IsWindows -or $PSEdition -eq 'Desktop') {
         if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
             if (-not (New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
                 Microsoft.PowerShell.Utility\Write-Host -ForegroundColor Red @"
+
 [PSCompletions] Administrator Rights Required
 -------------------------------------------------
 PSCompletions is installed in a system-level directory.
@@ -1272,9 +1273,10 @@ Location: $($PSCompletions.path.root)
 
 To use PSCompletions normally, please:
 1. Run PowerShell as Administrator.
-2. Or reinstall the module in a user-writable location. (Without '-Scope AllUsers')
+2. Or reinstall the module to a user-writable location via '-Scope CurrentUser'.
 
 Refer to: https://pscompletions.abgox.com/faq/require-admin
+
 "@
                 return
             }
