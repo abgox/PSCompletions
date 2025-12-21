@@ -1290,7 +1290,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     $PSCompletions.menu_methods = @{
         parse_menu_list        = {
             # X
-            if ($config.enable_list_full_width -or !$config.enable_list_follow_cursor) {
+            if ($menu.need_full_width -or !$config.enable_list_follow_cursor) {
                 $menu.pos.X = 0
             }
             else {
@@ -1437,8 +1437,17 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                     $tip_arr = @()
 
                     $lineWidth = $rawUI.BufferSize.Width - 1
-                    if (!$config.enable_list_full_width -and $config.enable_tip_follow_cursor) {
-                        $lineWidth -= $rawUI.CursorPosition.X + 1
+                    if ($menu.need_full_width) {
+                        $x = 1
+                    }
+                    else {
+                        if ($config.enable_tip_follow_cursor) {
+                            $x = $menu.pos.X + 1
+                            $lineWidth -= $rawUI.CursorPosition.X + 1
+                        }
+                        else {
+                            $x = 1
+                        }
                     }
 
                     $tips = $PSCompletions.replace_content($tip).Split("`n").Where({ $_ -ne '' })
@@ -1476,7 +1485,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                     }
 
                     $pos = @{
-                        X = if (!$config.enable_list_full_width -and $config.enable_tip_follow_cursor) { $menu.pos.X + 1 }else { 1 }
+                        X = $x
                         Y = $menu.pos.Y + $menu.ui_height + 1
                     }
                     $full = $rest_line - $tip_arr.Count
@@ -1722,17 +1731,12 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         show_module_menu       = {
             param($filter_list)
 
+            if (!$filter_list) { return '' }
+
             $menu = $PSCompletions.menu
             $config = $PSCompletions.config
             $rawUI = $Host.UI.RawUI
             $bgColor = $rawUI.BackgroundColor
-
-            if ($rawUI.BufferSize.Height -lt 5) {
-                [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
-                [Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.info.min_area)
-                return ''
-            }
-            if (!$filter_list) { return '' }
 
             $suffix = $config.completion_suffix
 
@@ -1768,6 +1772,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 $menu.filter_list = @($filter_list)
                 $menu.ui_width = $rawUI.BufferSize.Width
                 $menu.list_max_width = $menu.ui_width - 2
+                $menu.need_full_width = $true
             }
             else {
                 $menu.filter_list = [System.Collections.Generic.List[System.Object]]::new($filter_list.Count)
@@ -1781,6 +1786,14 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 }
                 $menu.ui_width = $maxWidth + 2
                 $menu.list_max_width = $maxWidth
+                if ($menu.ui_width -gt $rawUI.BufferSize.Width) {
+                    $menu.ui_width = $rawUI.BufferSize.Width
+                    $menu.list_max_width = $menu.ui_width - 2
+                    $menu.need_full_width = $true
+                }
+                else {
+                    $menu.need_full_width = $null
+                }
             }
 
             if ($config.enable_enter_when_single -and $menu.filter_list.Count -eq 1) {
@@ -1810,7 +1823,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             $menu.parse_menu_list()
 
             # 如果解析后的菜单高度小于 3 (上下边框 + 1个补全项)
-            if ($menu.ui_height -lt 3 -or $menu.ui_width -gt $rawUI.BufferSize.Width) {
+            if ($menu.ui_height -lt 3) {
                 [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
                 [Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.info.min_area)
                 return ''
