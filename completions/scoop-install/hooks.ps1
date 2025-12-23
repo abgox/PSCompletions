@@ -121,7 +121,7 @@
                                 $tip = ''
                             }
                             else {
-                                $tip = "{{ `$c = (Get-Content $($_.FullName) | ConvertFrom-Json); `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
+                                $tip = "{{ `$c = Get-Content -Raw $($_.FullName) | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
                             }
                             $return += @{
                                 ListItemText   = $app
