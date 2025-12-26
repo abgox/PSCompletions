@@ -11,6 +11,7 @@
 
 - 为 `$PSCompletions.argc_completions()` 添加了别名支持
   - 参考: [结合 argc-completions 使用](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
+  - 感谢来自 [@CallMeLaNN](https://github.com/CallMeLaNN) 的 [实现参考](https://github.com/sigoden/argc-completions/issues/65#issuecomment-3642388096)
 - 移除了补全项中可能存在的 ANSI 转义码
   - 参考: [#121](https://github.com/abgox/PSCompletions/issues/121)
   - [PSCompletions 可以正常和 Carapace 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
