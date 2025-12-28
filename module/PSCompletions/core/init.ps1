@@ -511,7 +511,7 @@ $PSCompletions.methods = @{
             $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
         }
         else {
-            $has_command = Get-Command $root -ErrorAction SilentlyContinue
+            $has_command = Get-Command [regex]::Escape($root) -ErrorAction SilentlyContinue
         }
         if ($PSCompletions.config.enable_completions_sort -and $has_command) {
             $path_order = "$($PSCompletions.path.order)/$root.json"

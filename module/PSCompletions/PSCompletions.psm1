@@ -362,7 +362,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                         $has_command = foreach ($c in $cmds) { if ($c.Name -eq $alias) { $c; break } }
                     }
                     else {
-                        $has_command = Get-Command $alias -ErrorAction SilentlyContinue
+                        $has_command = Get-Command [regex]::Escape($alias) -ErrorAction SilentlyContinue
                     }
                     if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
@@ -491,7 +491,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                     $has_command = foreach ($c in $cmds) { if ($c.Name -eq $arg[2]) { $c; break } }
                 }
                 else {
-                    $has_command = Get-Command $arg[2] -ErrorAction SilentlyContinue
+                    $has_command = Get-Command [regex]::Escape($arg[2]) -ErrorAction SilentlyContinue
                 }
                 handle_done ($arg[2] -ne '' -and !$has_command) $PSCompletions.info.config.function_name.err
             }
