@@ -9,25 +9,11 @@ on:
 jobs:
   publish:
     runs-on: windows-latest
-
+    env:
+      PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Validate module manifest
-        run: |
-          $manifestPath = "./module/PSCompletions/PSCompletions.psd1"
-          Test-ModuleManifest -Path $manifestPath
-          Write-Output "Module manifest validation passed"
-
-      - name: Publish to Gallery
-        env:
-          PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
-        run: |
-          $publishParams = @{
-            Path        = "./module/PSCompletions"
-            NuGetApiKey = $env:PSGALLERY_API_KEY
-            ErrorAction = 'Stop'
-          }
-          Publish-Module @publishParams
-          Write-Output "Published to PowerShell Gallery successfully"
+      - name: Validate and Publish
+        run: .\scripts\publish-to-gallery.ps1
