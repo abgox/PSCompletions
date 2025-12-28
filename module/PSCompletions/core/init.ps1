@@ -2025,7 +2025,7 @@ foreach ($_ in $PSCompletions.methods.Keys) {
     $PSCompletions.PSObject.Members.Add([System.Management.Automation.PSScriptMethod]::new($_, $PSCompletions.methods[$_]))
 }
 
-if (!(Test-Path $PSCompletions.path.temp)) {
+if (!(Test-Path $PSCompletions.path.order)) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
         $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue | Where-Object { $_ -match '^\d+\.\d.*' }
         if ($version -is [array]) {
@@ -2071,18 +2071,20 @@ if (!(Test-Path $PSCompletions.path.temp)) {
                                 $data.aliasMap.$name = $name
                             }
                         }
-                        if ($_.Name -ne 'psc') {
-                            Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
-                        }
                     }
                     $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
                 }
 
-                foreach ($f in @('temp', 'completions')) {
-                    Move-Item "$old_version_dir/$f" $PSCompletions.path.root -Force -ErrorAction SilentlyContinue
+                Get-ChildItem "$old_version_dir/completions" -Directory | ForEach-Object {
+                    if ($_.Name -ne 'psc') {
+                        Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
+                    }
                 }
-
-                Join-Path $PSCompletions.path.temp 'last-update.txt' | Remove-Item -Force -ErrorAction SilentlyContinue
+                Get-ChildItem "$old_version_dir/temp" | ForEach-Object {
+                    if ($_.Name -ne 'completions.json') {
+                        Move-Item $_.FullName $PSCompletions.path.temp -Force -ErrorAction SilentlyContinue
+                    }
+                }
             }
         }
         else {
@@ -2096,42 +2098,8 @@ if (!(Test-Path $PSCompletions.path.temp)) {
                 $PSCompletions.is_first_init = $true
             }
         }
-        if ($PSUICulture -eq 'zh-CN') {
-            $language = 'zh-CN'
-            $urls = @('https://gitee.com/abgox/PSCompletions/raw/main', 'https://github.com/abgox/PSCompletions/raw/main')
-        }
-        else {
-            $language = 'en-US'
-            $urls = @('https://github.com/abgox/PSCompletions/raw/main', 'https://gitee.com/abgox/PSCompletions/raw/main')
-        }
-
-        $PSCompletions.ensure_dir($PSCompletions.path.completions)
-        $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
-        $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc/language")
-
-        $path_config = "$($PSCompletions.path.completions)/psc/config.json"
-
-        $PSCompletions.download_file("completions/psc/config.json", $path_config, $urls)
-
-        $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
-        $config | ConvertTo-Json -Compress | Out-File $path_config -Encoding utf8 -Force
-
-        $file_list = @('guid.json')
-        if ($null -ne $config.hooks) {
-            $file_list += 'hooks.ps1'
-        }
-        foreach ($lang in $config.language) {
-            $file_list += "language/$lang.json"
-        }
-        foreach ($_ in $file_list) {
-            $outFile = "$($PSCompletions.path.completions)/psc/$_"
-            $PSCompletions.download_file("completions/psc/$_", $outFile, $urls)
-            if ($outFile -match '\.json$') {
-                $PSCompletions.get_raw_content($outFile) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $outFile -Encoding utf8 -Force
-            }
-        }
-        $PSCompletions.info = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
     }
+    $PSCompletions.ensure_dir($PSCompletions.path.completions)
     $PSCompletions.move_old_version()
     $PSCompletions.ensure_dir($PSCompletions.path.temp)
     $PSCompletions.ensure_dir($PSCompletions.path.order)
@@ -2141,7 +2109,6 @@ if (!(Test-Path $PSCompletions.path.temp)) {
 $PSCompletions.init_data()
 
 if ($PSCompletions.is_init) {
-    $null = $PSCompletions.download_list()
     if ($PSCompletions.is_first_init) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
     }
