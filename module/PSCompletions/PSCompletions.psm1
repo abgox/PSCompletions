@@ -1,4 +1,4 @@
-Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant -Force -Value {
+Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant -Value {
     $arg = $args
 
     Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue

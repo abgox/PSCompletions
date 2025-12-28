@@ -1,5 +1,3 @@
-# XXX: 必须使用 Add-Member
-
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
     $PSCompletions.use_module_menu = 0
 

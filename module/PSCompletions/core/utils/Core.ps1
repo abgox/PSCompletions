@@ -1,8 +1,8 @@
-$PSCompletions.methods['ConvertFrom_JsonAsHashtable'] = {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
     param([string]$json)
     ConvertFrom-Json $json -AsHashtable
 }
-$PSCompletions.methods['start_job'] = {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
     # Start-Job 传入的对象的方法会丢失
     # Start-ThreadJob 不会，但是耗时方法执行会卡住主线程
 
@@ -421,7 +421,7 @@ $PSCompletions.methods['start_job'] = {
     } -ArgumentList $PSCompletions
 }
 
-$PSCompletions.methods['order_job'] = {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
     param([string]$history_path, [string]$root, [string]$path_order)
     $PSCompletions.order."$($root)_job" = Start-ThreadJob -ScriptBlock {
         param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)

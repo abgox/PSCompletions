@@ -1,4 +1,4 @@
-$PSCompletions.methods['ConvertFrom_JsonAsHashtable'] = {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
     param([string]$json)
 
     # https://github.com/abgox/ConvertFrom-JsonAsHashtable
@@ -80,7 +80,7 @@ $PSCompletions.methods['ConvertFrom_JsonAsHashtable'] = {
 
     ConvertFrom-JsonAsHashtable $json
 }
-$PSCompletions.methods['start_job'] = {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
     $PSCompletions.job = Start-Job -ScriptBlock {
         param($PSCompletions)
 
@@ -604,7 +604,7 @@ $PSCompletions.methods['start_job'] = {
     } -ArgumentList $PSCompletions
 }
 
-$PSCompletions.methods['order_job'] = {
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
     param([string]$history_path, [string]$root, [string]$path_order)
     $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
         param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
