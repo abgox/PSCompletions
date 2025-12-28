@@ -839,12 +839,23 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                             return
                         }
                     }
-                    { $_ -in @('list_min_width', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'list_max_count_when_above', 'list_max_count_when_below', 'completions_confirm_limit') } {
+                    { $_ -in @('list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'completions_confirm_limit') } {
                         $min = 0
                         if (!$is_num -or $value -lt $min) {
                             $cmd_list = $null
                             $sub_cmd = $value
                             $cmd_info = _replace $PSCompletions.info.menu.config.err.v_ge
+                            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
+                            return
+                        }
+                    }
+                    { $_ -in 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below' } {
+                        $min = 0
+                        $max = 5
+                        if (!$is_num -or $value -lt $min -or $value -gt $max) {
+                            $cmd_list = $null
+                            $sub_cmd = $value
+                            $cmd_info = _replace $PSCompletions.info.menu.config.err.v_ge_le
                             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }
