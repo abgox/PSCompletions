@@ -27,7 +27,7 @@
   - Github:  https://github.com/abgox/PSCompletions
   - Gitee:   https://gitee.com/abgox/PSCompletions'
 
-    ScriptsToProcess     = 'core\init.ps1'
+    ScriptsToProcess     = 'core.ps1'
 
     PrivateData          = @{
 

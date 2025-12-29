@@ -2,7 +2,7 @@ using namespace System.Management.Automation
 
 Set-StrictMode -Off
 
-$_ = Split-Path $PSScriptRoot -Parent
+$_ = $PSScriptRoot
 New-Variable -Name PSCompletions -Option Constant -Value @{
     version                 = '6.2.2'
     path                    = @{
