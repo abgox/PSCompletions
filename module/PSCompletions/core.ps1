@@ -1885,7 +1885,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_output {
         param($item)
 
-        $out = $item.CompletionText
+        $out = $item.CompletionText.Trim()
 
         if ($PSCompletions.need_ignore_suffix) {
             return $out
