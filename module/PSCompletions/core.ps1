@@ -2246,43 +2246,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                     $null = download_list
 
                     # data.json
-                    $data = [ordered]@{
-                        list     = @()
-                        alias    = [ordered]@{}
-                        aliasMap = [ordered]@{}
-                        config   = [ordered]@{}
-                    }
-                    $data.config.comp_config = [ordered]@{}
-                    $items = Get-ChildItem -Path $PSCompletions.path.completions
-                    foreach ($_ in $items) {
-                        $cmd = $_.Name
-                        $data.list += $cmd
-
-                        $data.alias[$cmd] = @()
-                        $alias = $PSCompletions.data.alias[$cmd]
-                        if ($null -ne $alias) {
-                            foreach ($a in $alias) {
-                                $data.alias[$cmd] += $a
-                                $data.aliasMap[$a] = $cmd
-                            }
-                        }
-                        else {
-                            $data.alias[$cmd] += $cmd
-                            $data.aliasMap[$cmd] = $cmd
-                        }
-
-                        ## config.comp_config
-                        $completion = $cmd
-                        $config = $PSCompletions.config.comp_config[$completion]
-                        $data.config.comp_config[$completion] = [ordered]@{}
-                        if ($config) {
-                            $keys = $config.Keys
-                            foreach ($c in $keys) {
-                                $data.config.comp_config[$completion].$c = $config.$c
-                            }
-                        }
-                    }
-
+                    $data = $PSCompletions.data.Clone()
                     ## config
                     $keys = $PSCompletions.default_config.Keys
                     foreach ($c in $keys) {
@@ -2928,42 +2892,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 $null = download_list
 
                 # data.json
-                $data = [ordered]@{
-                    list     = @()
-                    alias    = [ordered]@{}
-                    aliasMap = [ordered]@{}
-                    config   = [ordered]@{}
-                }
-                $data.config.comp_config = [ordered]@{}
-                $items = Get-ChildItem -Path $PSCompletions.path.completions
-                foreach ($_ in $items) {
-                    $cmd = $_.Name
-                    $data.list += $cmd
-
-                    $data.alias[$cmd] = @()
-                    $alias = $PSCompletions.data.alias[$cmd]
-                    if ($null -ne $alias) {
-                        foreach ($a in $alias) {
-                            $data.alias[$cmd] += $a
-                            $data.aliasMap[$a] = $cmd
-                        }
-                    }
-                    else {
-                        $data.alias[$cmd] += $cmd
-                        $data.aliasMap[$cmd] = $cmd
-                    }
-
-                    ## config.comp_config
-                    $completion = $cmd
-                    $config = $PSCompletions.config.comp_config[$completion]
-                    $data.config.comp_config[$completion] = [ordered]@{}
-                    if ($config) {
-                        $keys = $config.Keys
-                        foreach ($c in $keys) {
-                            $data.config.comp_config[$completion].$c = $config.$c
-                        }
-                    }
-                }
+                $data = $PSCompletions.data.Clone()
 
                 ## config
                 $keys = $PSCompletions.default_config.Keys
