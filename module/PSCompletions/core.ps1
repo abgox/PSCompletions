@@ -2448,6 +2448,9 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                             else { Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue }
                         }
                     }
+
+                    Start-Sleep -Seconds 1
+
                     check_update
                 } -ArgumentList $PSCompletions
 
@@ -3127,6 +3130,9 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                         else { Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue }
                     }
                 }
+
+                Start-Sleep -Seconds 1
+
                 check_update
 
                 function getCompletions {
