@@ -569,6 +569,32 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
         # 1. $results: $handler 脚本块返回的结果
         [scriptblock]$handleResult
     )
+    Add-Member -InputObject $PSCompletions -Force -MemberType ScriptMethod split_array {
+        <#
+        .Synopsis
+            分割数组
+        .Description
+            三个参数:
+            $array: 数组
+            $count: 每个数组中的元素个数
+            $by_count: 如果此值为 $true, 则 $count 为分割的数组个数，否则为每个数组中的元素个数
+        #>
+        param(
+            [array]$array,
+            [int]$count,
+            [bool]$by_count
+        )
+        if ($by_count) {
+            $ChunkSize = [math]::Ceiling($array.Length / $count)
+        }
+        else {
+            $ChunkSize = $count
+        }
+        $chunks = for ($i = 0; $i -lt $array.Length; $i += $ChunkSize) {
+            , ($array[$i..([math]::Min($i + $ChunkSize - 1, $array.Length - 1))])
+        }
+        $chunks
+    }
     $runspaces = @()
     $runspacePool = [runspacefactory]::CreateRunspacePool(1, [Environment]::ProcessorCount)
     $runspacePool.Open()
@@ -588,28 +614,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
     $runspacePool.Close()
     $runspacePool.Dispose()
     return $return
-}
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod split_array {
-    <#
-    .Synopsis
-        分割数组
-    .Description
-        三个参数:
-        $array: 数组
-        $count: 每个数组中的元素个数
-        $by_count: 如果此值为 $true, 则 $count 为分割的数组个数，否则为每个数组中的元素个数
-    #>
-    param ([array]$array, [int]$count, [bool]$by_count)
-    if ($by_count) {
-        $ChunkSize = [math]::Ceiling($array.Length / $count)
-    }
-    else {
-        $ChunkSize = $count
-    }
-    $chunks = for ($i = 0; $i -lt $array.Length; $i += $ChunkSize) {
-        , ($array[$i..([math]::Min($i + $ChunkSize - 1, $array.Length - 1))])
-    }
-    $chunks
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
     param([string]$path)
@@ -703,59 +707,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color
         }
     }
     Write-Host ''
-}
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_list {
-    $PSCompletions.ensure_dir($PSCompletions.path.temp)
-    if (!(Test-Path $PSCompletions.path.completions_json)) {
-        @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
-    }
-    $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
-    $isErr = $true
-
-    $params = @{
-        ErrorAction = 'Stop'
-    }
-    if ($PSEdition -eq 'Core') {
-        $params['OperationTimeoutSeconds'] = 30
-    }
-    else {
-        $params['TimeoutSec'] = 30
-    }
-
-    foreach ($url in $PSCompletions.urls) {
-        $params['Uri'] = "$url/completions.json"
-        try {
-            $response = Invoke-RestMethod @params
-        }
-        catch {
-            Write-Host $_.Exception.Message -ForegroundColor Red
-            continue
-        }
-
-        $remote_list = $response.list
-
-        $diff = Compare-Object $remote_list $current_list -PassThru
-        if ($diff) {
-            try {
-                $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
-                $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
-                $PSCompletions.list = $remote_list
-            }
-            catch {
-                Write-Host $_.Exception.Message -ForegroundColor Red
-                return $false
-            }
-        }
-        else {
-            Clear-Content $PSCompletions.path.change -Force
-            $PSCompletions.list = $current_list
-        }
-        $isErr = $false
-        return $remote_list
-    }
-    if ($isErr) {
-        return $false
-    }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
     param(
@@ -941,53 +892,111 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         }
     }
 }
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod new_data {
-    $data = @{
-        list     = @()
-        alias    = @{}
-        aliasMap = @{}
-        config   = $PSCompletions.default_config
-    }
-    $data.config.comp_config = @{}
-    $items = Get-ChildItem -Path $PSCompletions.path.completions
-    foreach ($_ in $items) {
-        $name = $_.Name
-        $data.list += $name
-        $data.alias.$name = @()
-        $path_config = Join-Path $_.FullName 'config.json'
-        if (!(Test-Path $path_config)) {
-            continue
-        }
-        $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
-        if ($config.alias) {
-            foreach ($a in $config.alias) {
-                $data.alias.$name += $a
-                $data.aliasMap.$a = $name
-            }
-        }
-        else {
-            $data.alias.$name += $name
-            $data.aliasMap.$name = $name
-        }
-        $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
-        $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
-        $data.config.comp_config.$name = @{}
-        foreach ($_ in $json.config) {
-            $data.config.comp_config.$name.$($_.name) = $_.value
-        }
-        if ($null -ne $config.hooks) {
-            $data.config.comp_config.$name.enable_hooks = [int]$config.hooks
-        }
-    }
-    $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
-    $PSCompletions.data = $data
-    $null = $PSCompletions.download_list()
-}
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.completions = @{}
     $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
     if ($null -eq $PSCompletions.data.config) {
-        $PSCompletions.new_data()
+        function new_data {
+            $data = @{
+                list     = @()
+                alias    = @{}
+                aliasMap = @{}
+                config   = $PSCompletions.default_config
+            }
+            $data.config.comp_config = @{}
+            $items = Get-ChildItem -Path $PSCompletions.path.completions
+            foreach ($_ in $items) {
+                $name = $_.Name
+                $data.list += $name
+                $data.alias.$name = @()
+                $path_config = Join-Path $_.FullName 'config.json'
+                if (!(Test-Path $path_config)) {
+                    continue
+                }
+                $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
+                if ($config.alias) {
+                    foreach ($a in $config.alias) {
+                        $data.alias.$name += $a
+                        $data.aliasMap.$a = $name
+                    }
+                }
+                else {
+                    $data.alias.$name += $name
+                    $data.aliasMap.$name = $name
+                }
+                $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
+                $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
+                $data.config.comp_config.$name = @{}
+                foreach ($_ in $json.config) {
+                    $data.config.comp_config.$name.$($_.name) = $_.value
+                }
+                if ($null -ne $config.hooks) {
+                    $data.config.comp_config.$name.enable_hooks = [int]$config.hooks
+                }
+            }
+            $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+            $PSCompletions.data = $data
+
+            function download_list {
+                $PSCompletions.ensure_dir($PSCompletions.path.temp)
+                if (!(Test-Path $PSCompletions.path.completions_json)) {
+                    @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+                }
+                $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
+                $isErr = $true
+
+                $params = @{
+                    ErrorAction = 'Stop'
+                }
+                if ($PSEdition -eq 'Core') {
+                    $params['OperationTimeoutSeconds'] = 30
+                }
+                else {
+                    $params['TimeoutSec'] = 30
+                }
+
+                $errMsg = @()
+
+                foreach ($url in $PSCompletions.urls) {
+                    $params['Uri'] = "$url/completions.json"
+                    try {
+                        $response = Invoke-RestMethod @params
+                    }
+                    catch {
+                        $errMsg += $_.Exception.Message
+                        continue
+                    }
+
+                    $remote_list = $response.list
+
+                    $diff = Compare-Object $remote_list $current_list -PassThru
+                    if ($diff) {
+                        try {
+                            $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
+                            $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                            $PSCompletions.list = $remote_list
+                        }
+                        catch {
+                            Write-Host $_.Exception.Message -ForegroundColor Red
+                            return $false
+                        }
+                    }
+                    else {
+                        Clear-Content $PSCompletions.path.change -Force
+                        $PSCompletions.list = $current_list
+                    }
+                    $isErr = $false
+                    return $remote_list
+                }
+                if ($isErr) {
+                    $errMsg | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+                    return $false
+                }
+            }
+
+            $null = download_list
+        }
+        new_data
     }
     $PSCompletions.config = $PSCompletions.data.config
     $PSCompletions.language = $PSCompletions.config.language

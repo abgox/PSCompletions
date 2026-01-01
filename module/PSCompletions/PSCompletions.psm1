@@ -14,6 +14,62 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
         }
         if ($data -match $PSCompletions.replace_pattern) { (_replace $data) }else { return $data }
     }
+    function download_list {
+        $PSCompletions.ensure_dir($PSCompletions.path.temp)
+        if (!(Test-Path $PSCompletions.path.completions_json)) {
+            @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+        }
+        $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
+        $isErr = $true
+
+        $params = @{
+            ErrorAction = 'Stop'
+        }
+        if ($PSEdition -eq 'Core') {
+            $params['OperationTimeoutSeconds'] = 30
+        }
+        else {
+            $params['TimeoutSec'] = 30
+        }
+
+        $errMsg = @()
+
+        foreach ($url in $PSCompletions.urls) {
+            $params['Uri'] = "$url/completions.json"
+            try {
+                $response = Invoke-RestMethod @params
+            }
+            catch {
+                $errMsg += $_.Exception.Message
+                continue
+            }
+
+            $remote_list = $response.list
+
+            $diff = Compare-Object $remote_list $current_list -PassThru
+            if ($diff) {
+                try {
+                    $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
+                    $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                    $PSCompletions.list = $remote_list
+                }
+                catch {
+                    Write-Host $_.Exception.Message -ForegroundColor Red
+                    return $false
+                }
+            }
+            else {
+                Clear-Content $PSCompletions.path.change -Force
+                $PSCompletions.list = $current_list
+            }
+            $isErr = $false
+            return $remote_list
+        }
+        if ($isErr) {
+            $errMsg | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+            return $false
+        }
+    }
     function Show-ParamError {
         param($flag, $cmd, $err_info = $PSCompletions.info.$cmd.err.$flag, $example = $PSCompletions.info.$cmd.example)
 
@@ -55,7 +111,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
         $data = [System.Collections.Generic.List[System.Object]]@()
         if ($arg.Length -eq 2) {
             if ($arg[1] -eq '--remote') {
-                if (!($PSCompletions.download_list())) {
+                if (!(download_list)) {
                     return
                 }
                 $max_len = ($PSCompletions.list | Measure-Object -Maximum Length).Maximum
@@ -81,7 +137,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
             Show-ParamError 'min' 'add'
             return
         }
-        if (!($PSCompletions.download_list())) {
+        if (!(download_list)) {
             return
         }
 
@@ -268,7 +324,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
             Show-ParamError 'max' 'search'
             return
         }
-        if (!($PSCompletions.download_list())) {
+        if (!(download_list)) {
             return
         }
         $result = $PSCompletions.list.Where({ $_ -like $arg[1] })
@@ -1125,7 +1181,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                             }
 
                             $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_done))
-                            $PSCompletions.new_data()
+                            $PSCompletions.init_data()
                         }
                         else {
                             $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.confirm_cancel))
