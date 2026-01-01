@@ -355,18 +355,24 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                     $alias = ($alias -split ' ')[0]
                     if ($alias -in $data_alias[$completion]) {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.exist
-                        return
+                        Write-Host
+                        continue
+                    }
+                    if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($alias)) {
+                        Show-ParamError 'err' '' $PSCompletions.info.err.has_wildcard
+                        Write-Host
+                        continue
                     }
                     if ($alias -eq 'PSCompletions') {
                         $cmds = Get-Command
                         $has_command = foreach ($c in $cmds) { if ($c.Name -eq $alias) { $c; break } }
                     }
                     else {
-                        $has_command = Get-Command [regex]::Escape($alias) -ErrorAction SilentlyContinue
+                        $has_command = Get-Command $alias -ErrorAction SilentlyContinue
                     }
                     if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
-                        return
+                        continue
                     }
                     $data_alias[$completion].Add($alias)
                     $data_aliasMap[$alias] = $completion
@@ -486,12 +492,16 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '') $PSCompletions.info.config.url.err
             }
             'function_name' {
+                if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($arg[2])) {
+                    Show-ParamError 'err' '' $PSCompletions.info.err.has_wildcard
+                    return
+                }
                 if ($arg[2] -eq 'PSCompletions') {
                     $cmds = Get-Command
                     $has_command = foreach ($c in $cmds) { if ($c.Name -eq $arg[2]) { $c; break } }
                 }
                 else {
-                    $has_command = Get-Command [regex]::Escape($arg[2]) -ErrorAction SilentlyContinue
+                    $has_command = Get-Command $arg[2] -ErrorAction SilentlyContinue
                 }
                 handle_done ($arg[2] -ne '' -and !$has_command) $PSCompletions.info.config.function_name.err
             }

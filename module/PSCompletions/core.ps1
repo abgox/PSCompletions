@@ -505,12 +505,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             }
         }
     }
+    if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($root)) {
+        return $filter_list
+    }
+
     if ($root -eq 'PSCompletions') {
         $cmds = Get-Command
         $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
     }
     else {
-        $has_command = Get-Command [regex]::Escape($root) -ErrorAction SilentlyContinue
+        $has_command = Get-Command $root -ErrorAction SilentlyContinue
     }
     if ($PSCompletions.config.enable_completions_sort -and $has_command) {
         $path_order = "$($PSCompletions.path.order)/$root.json"
@@ -1380,50 +1384,52 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                         }
                     }
 
-                    if ($root -eq 'PSCompletions') {
-                        $cmds = Get-Command
-                        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
-                    }
-                    else {
-                        $has_command = Get-Command [regex]::Escape($root) -ErrorAction SilentlyContinue
-                    }
-                    if ($PSCompletions.config.enable_completions_sort -and $has_command) {
-                        $path_order = "$($PSCompletions.path.order)/$root.json"
-                        if ($PSCompletions.order."$($root)_job") {
-                            if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
-                                $PSCompletions.order[$root] = Receive-Job $PSCompletions.order."$($root)_job"
-                                Remove-Job $PSCompletions.order."$($root)_job"
-                                $PSCompletions.order.Remove("$($root)_job")
-                            }
+                    if (-not [System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($root)) {
+                        if ($root -eq 'PSCompletions') {
+                            $cmds = Get-Command
+                            $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
                         }
                         else {
-                            if (Test-Path $path_order) {
-                                try {
-                                    $PSCompletions.order[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
-                                }
-                                catch {
-                                    $PSCompletions.order[$root] = $null
+                            $has_command = Get-Command $root -ErrorAction SilentlyContinue
+                        }
+                        if ($PSCompletions.config.enable_completions_sort -and $has_command) {
+                            $path_order = "$($PSCompletions.path.order)/$root.json"
+                            if ($PSCompletions.order."$($root)_job") {
+                                if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
+                                    $PSCompletions.order[$root] = Receive-Job $PSCompletions.order."$($root)_job"
+                                    Remove-Job $PSCompletions.order."$($root)_job"
+                                    $PSCompletions.order.Remove("$($root)_job")
                                 }
                             }
                             else {
-                                $PSCompletions.order[$root] = $null
-                            }
-                        }
-                        $order = $PSCompletions.order[$root]
-                        if ($order) {
-                            $PSCompletions._i = 0 # 这里使用 $PSCompletions._i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
-                            $filter_list = $filter_list | Sort-Object {
-                                $PSCompletions._i --
-                                # 不能使用 $order.($_.CompletionText)，它可能获取到对象中的 OverloadDefinitions
-                                $o = $order[$_.CompletionText]
-                                if ($o) { $o }
-                                else {
-                                    $o = $order[$_.CompletionText + $PSCompletions.separator]
-                                    if ($o) { $o }else { $PSCompletions._i }
+                                if (Test-Path $path_order) {
+                                    try {
+                                        $PSCompletions.order[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
+                                    }
+                                    catch {
+                                        $PSCompletions.order[$root] = $null
+                                    }
                                 }
-                            } -Descending -CaseSensitive
+                                else {
+                                    $PSCompletions.order[$root] = $null
+                                }
+                            }
+                            $order = $PSCompletions.order[$root]
+                            if ($order) {
+                                $PSCompletions._i = 0 # 这里使用 $PSCompletions._i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
+                                $filter_list = $filter_list | Sort-Object {
+                                    $PSCompletions._i --
+                                    # 不能使用 $order.($_.CompletionText)，它可能获取到对象中的 OverloadDefinitions
+                                    $o = $order[$_.CompletionText]
+                                    if ($o) { $o }
+                                    else {
+                                        $o = $order[$_.CompletionText + $PSCompletions.separator]
+                                        if ($o) { $o }else { $PSCompletions._i }
+                                    }
+                                } -Descending -CaseSensitive
+                            }
+                            $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
                         }
-                        $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
                     }
 
                     $PSCompletions.menu.by_TabExpansion2 = $true
