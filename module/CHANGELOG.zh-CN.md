@@ -1,5 +1,17 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.2.3
+
+- 重新使用 `Add-Member` 以避免缓冲区访问错误 ([#122](https://github.com/abgox/PSCompletions/issues/122), [#124](https://github.com/abgox/PSCompletions/issues/124))
+  - [CompletionPredictor](https://www.powershellgallery.com/packages/completionpredictor) 模块会阻止 `PSCompletions` 访问缓冲区，包括公共的相关变量和方法
+  - 使用 `Add-Member` 可以避免这个问题，但是具体原因还不清楚
+- 后台检查更新前等待 1 秒，以避免覆盖版本状态
+  - [CompletionPredictor](https://www.powershellgallery.com/packages/completionpredictor) 模块会干预 `PSCompletions` 的后台作业
+  - 这可能导致后台作业同时运行多个，触发意外的并行数据竞争
+- 在 `Get-Command` 调用中对输入进行转义，以处理特殊字符
+  - 现在 `[xxx]` 这样的输入，如 `[env]` 也可以获取到相关的补全项了
+- 其他的优化和修复
+
 ## 6.2.2
 
 - 改进了当 `enable_list_full_width` 为 `0` 时的宽度校验，避免一些异常情况

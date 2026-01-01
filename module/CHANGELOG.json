@@ -1,5 +1,32 @@
 [
   {
+    "version": "6.2.3",
+    "info": {
+      "zh-CN": [
+        "- 重新使用 Add-Member 以避免缓冲区访问错误",
+        "    - CompletionPredictor 模块会阻止 PSCompletions 访问缓冲区，包括公共的相关变量和方法",
+        "    - 使用 Add-Member 可以避免这个问题，但是具体原因还不清楚",
+        "- 后台检查更新前等待 1 秒，以避免覆盖版本状态",
+        "    - CompletionPredictor 模块会干预后台作业",
+        "    - 这可能导致后台作业同时运行多次，触发意外的并行数据竞争",
+        "- 在 Get-Command 调用中对输入进行转义，以处理特殊字符",
+        "    - 现在，像 [xxx] 这样的输入，如 [env] 也可以获取到相关的补全项了",
+        "- 其他的优化和修复"
+      ],
+      "en-US": [
+        "- Reuse 'Add-Member' to avoid buffer access error.",
+        "    - The CompletionPredictor module will prevent PSCompletions from accessing the buffer, including public related variables and methods.",
+        "    - Using 'Add-Member' can avoid it, but the specific reason is not quite clear.",
+        "- Wait for 1 second before background check update to avoid overwriting version status.",
+        "    - The CompletionPredictor module will interfere with background jobs.",
+        "    - It may cause background jobs to run multiple times at the same time, which may trigger unexpected parallel data races.",
+        "- Escape inputs in Get-Command calls to handle special characters.",
+        "    - Now, inputs like '[xxx]', such as '[env]', can also get relevant completion items.",
+        "- Other optimizations and fixes."
+      ]
+    }
+  },
+  {
     "version": "6.2.2",
     "info": {
       "zh-CN": [

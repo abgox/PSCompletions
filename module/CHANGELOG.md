@@ -1,5 +1,17 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.2.3
+
+- Reuse `Add-Member` to avoid buffer access error. ([#122](https://github.com/abgox/PSCompletions/issues/122), [#124](https://github.com/abgox/PSCompletions/issues/124))
+  - The [CompletionPredictor](https://www.powershellgallery.com/packages/completionpredictor) module will prevent PSCompletions from accessing the buffer, including related variables and methods.
+  - Using `Add-Member` can avoid it, but the specific reason is not quite clear.
+- Wait for 1 second before background check update to avoid overwriting version status.
+  - The [CompletionPredictor](https://www.powershellgallery.com/packages/completionpredictor) module will interfere with background jobs.
+  - It may cause background jobs to run multiple times at the same time, which may trigger unexpected parallel data races.
+- Escape inputs in Get-Command calls to handle special characters.
+  - Now, inputs like `[xxx]`, such as `[env]`, can also get relevant completion items.
+- Other optimizations and fixes.
+
 ## 6.2.2
 
 - Improve the width check to avoid some special cases when `enable_list_full_width` is `0`.
