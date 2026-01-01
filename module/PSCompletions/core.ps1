@@ -1417,6 +1417,9 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             if ($list_limit -lt $menu.ui_height) {
                 $menu.ui_height = $list_limit
             }
+            if ($menu.is_show_tip -and $menu.cursor_to_top -lt $menu.ui_height + 6 -and $menu.ui_height -gt 9) {
+                $menu.ui_height -= 5
+            }
             $menu.pos.Y = $rawUI.CursorPosition.Y - $menu.ui_height - $config.height_from_menu_bottom_to_cursor_when_above
         }
         else {
@@ -1426,6 +1429,9 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             $list_limit = if ($config.list_max_count_when_below -gt 0) { $config.list_max_count_when_below + 2 }else { 12 }
             if ($list_limit -lt $menu.ui_height) {
                 $menu.ui_height = $list_limit
+            }
+            if ($menu.is_show_tip -and $menu.cursor_to_bottom -lt $menu.ui_height + 6 -and $menu.ui_height -gt 9) {
+                $menu.ui_height -= 5
             }
             $menu.pos.Y = $rawUI.CursorPosition.Y + 1 + $config.height_from_menu_top_to_cursor_when_below
         }
