@@ -2,6 +2,11 @@ using namespace System.Management.Automation
 
 Set-StrictMode -Off
 
+if ($PSCompletions.guid) {
+    # XXX: CompletionPredictor 模块会导致 core.ps1 被重复加载多次，这里去阻止它
+    return
+}
+
 $_ = $PSScriptRoot
 New-Variable -Name PSCompletions -Option Constant -Value @{
     version                 = '6.2.2'
@@ -2433,9 +2438,6 @@ if ($PSEdition -eq 'Core') {
                         else { Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue }
                     }
                 }
-
-                Start-Sleep -Seconds 1
-
                 check_update
             } -ArgumentList $PSCompletions
 
@@ -3065,9 +3067,6 @@ else {
                     else { Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue }
                 }
             }
-
-            Start-Sleep -Seconds 1
-
             check_update
 
             function getCompletions {
@@ -3406,11 +3405,7 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
         $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), $PSCompletions.urls + 'https://pscompletions.abgox.com')
 
-        # XXX: 这里是为了避免 CompletionPredictor 模块引起的多次确认
-        if (!$PSCompletions._write_update_confirm) {
-            $PSCompletions._write_update_confirm = $true
-            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
-        }
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
     }
     else {
         $PSCompletions.config.enable_module_update = 1
@@ -3418,12 +3413,9 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     }
 }
 else {
-    if (!$PSCompletions._show_update_info) {
-        $PSCompletions._show_update_info = $true
-        if ($PSCompletions.config.enable_completions_update) {
-            if (($PSCompletions.update -or $PSCompletions.get_content($PSCompletions.path.change) -and !$PScompletions.is_init)) {
-                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
-            }
+    if ($PSCompletions.config.enable_completions_update) {
+        if (($PSCompletions.update -or $PSCompletions.get_content($PSCompletions.path.change) -and !$PScompletions.is_init)) {
+            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
         }
     }
 }
