@@ -53,7 +53,7 @@
 |[link](https://github.com/uutils/coreutils)|[**en-US**](/completions/link/language/en-US.json)<br>[**zh-CN(100%)**](/completions/link/language/zh-CN.json)|调用 link 函数为现有的 FILE1 创建名为 FILE2 的链接。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[ln](https://github.com/uutils/coreutils)|[**en-US**](/completions/ln/language/en-US.json)<br>[**zh-CN(13.33%)**](/completions/ln/language/zh-CN.json)|Make links between files.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[md5sum](https://github.com/uutils/coreutils)|[**en-US**](/completions/md5sum/language/en-US.json)<br>[**zh-CN(16.67%)**](/completions/md5sum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[mise](https://github.com/jdx/mise)|[**en-US**](/completions/mise/language/en-US.json)<br>[**zh-CN(3.45%)**](/completions/mise/language/zh-CN.json)|mise is a task runner and dev tools manager for any language.|
+|[mise](https://mise.jdx.dev/)|[**en-US**](/completions/mise/language/en-US.json)<br>[**zh-CN(3.08%)**](/completions/mise/language/zh-CN.json)|mise - Polyglot tool version manager, env vars manager and task runner|
 |[mktemp](https://github.com/uutils/coreutils)|[**en-US**](/completions/mktemp/language/en-US.json)<br>[**zh-CN(25%)**](/completions/mktemp/language/zh-CN.json)|Create a temporary file or directory.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[ngrok](https://ngrok.com/)|[**en-US**](/completions/ngrok/language/en-US.json)<br>[**zh-CN(100%)**](/completions/ngrok/language/zh-CN.json)|ngrok - 面向开发人员的统一入口平台。<br>将 localhost 连接到 Internet 以测试应用程序和 API。|
 |[nl](https://github.com/uutils/coreutils)|[**en-US**](/completions/nl/language/en-US.json)<br>[**zh-CN(7.14%)**](/completions/nl/language/zh-CN.json)|Number lines of files.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
@@ -84,5 +84,6 @@
 |[wsl](https://github.com/microsoft/WSL)|[**en-US**](/completions/wsl/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wsl/language/zh-CN.json)|WSL - 适用于 Linux 的 Windows 子系统。|
 |[wt](https://github.com/microsoft/terminal)|[**en-US**](/completions/wt/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wt/language/zh-CN.json)|Windows Terminal 命令行终端。<br>你可以使用此命令启动一个终端。|
 |[yarn](https://classic.yarnpkg.com/)|[**en-US**](/completions/yarn/language/en-US.json)<br>[**zh-CN(100%)**](/completions/yarn/language/zh-CN.json)|yarn - 快速、可靠且安全的依赖管理。|
+|[zoxide](https://github.com/ajeetdsouza/zoxide)|[**en-US**](/completions/zoxide/language/en-US.json)<br>[**zh-CN(100%)**](/completions/zoxide/language/zh-CN.json)|一个更智能的终端 cd 命令|
 |...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
 <!-- prettier-ignore-end -->
