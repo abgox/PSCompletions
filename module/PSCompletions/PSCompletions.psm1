@@ -34,12 +34,12 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
         $max_len = [Math]::Max($max_len, 10)
         foreach ($_ in $PSCompletions.data.list) {
             $alias = $PSCompletions.data.alias.$_ -join ' '
-            $data.Add(@{
-                    content = "{0,-$($max_len + 3)} {1}" -f ($_, $alias)
-                    color   = 'Green'
+            $data.Add([PSCustomObject]@{
+                    Completion = $_
+                    Alias      = $alias
                 })
         }
-        $PSCompletions.show_with_less_table($data, ('Completion', 'Alias', $max_len))
+        $data
     }
     function Out-Data {
         if ($PSCompletions._need_update_data) {
@@ -60,15 +60,13 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                 }
                 $max_len = ($PSCompletions.list | Measure-Object -Maximum Length).Maximum
                 foreach ($_ in $PSCompletions.list) {
-                    $status = if ($PSCompletions.data.alias[$_]) { $PSCompletions.info.list.added_symbol }else { $PSCompletions.info.list.add_symbol }
-                    $data.Add(@{
-                            content = "{0,-$($max_len + 3)} {1}" -f ($_, $status)
-                            color   = 'Green'
+                    $status = if ($PSCompletions.data.alias[$_]) { $PSCompletions.info.list.added }else { $PSCompletions.info.list.add }
+                    $data.Add([PSCustomObject]@{
+                            Completion = $_
+                            Status     = $status
                         })
                 }
-                $PSCompletions.show_with_less_table($data, ('Completion', 'Status', $max_len), {
-                        $PSCompletions.write_with_color((_replace $PSCompletions.info.list.symbol_tip))
-                    })
+                $data
             }
             else {
                 Show-ParamError 'err' 'list'
@@ -275,7 +273,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
         }
         $result = $PSCompletions.list.Where({ $_ -like $arg[1] })
         if ($result) {
-            $PSCompletions.show_with_less($result, 'Cyan')
+            $result
         }
         else {
             $PSCompletions.write_with_color((_replace $PSCompletions.info.search.err.no))
