@@ -1,9 +1,6 @@
 ﻿function handleCompletions($completions) {
     $list = @()
 
-    $filter_input_arr = $PSCompletions.filter_input_arr
-
-    # $PSCompletions.input_arr
     try {
         $config = scoop config
     }
@@ -13,6 +10,9 @@
     $root_path = $config.root_path
     $global_path = $config.global_path
     $CN = $PSUICulture -like 'zh*'
+
+    # $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr
 
     # 是否需要添加应用补全
     $addApp = $true
@@ -121,7 +121,7 @@
                                 $tip = ''
                             }
                             else {
-                                $tip = "{{ `$c = Get-Content -Raw $($_.FullName) | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
+                                $tip = "{{ `$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
                             }
                             $return += @{
                                 ListItemText   = $app

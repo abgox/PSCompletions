@@ -1,8 +1,6 @@
 ﻿function handleCompletions($completions) {
     $list = @()
 
-    $filter_input_arr = $PSCompletions.filter_input_arr
-
     try {
         $config = scoop config
     }
@@ -11,6 +9,9 @@
     }
     $root_path = $config.root_path
     $global_path = $config.global_path
+
+    # $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr
 
     switch ($filter_input_arr[0]) {
         'bucket' {
@@ -50,7 +51,7 @@
                                     $tip = ''
                                 }
                                 else {
-                                    $tip = "{{ `$c = Get-Content -Raw $($_.FullName) | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
+                                    $tip = "{{ `$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
                                 }
                                 $return += @{
                                     ListItemText   = $app
@@ -143,7 +144,7 @@
                                     $tip = ''
                                 }
                                 else {
-                                    $tip = "{{ `$c = Get-Content -Raw $($_.FullName) | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
+                                    $tip = "{{ `$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
                                 }
                                 $return += @{
                                     ListItemText   = $app

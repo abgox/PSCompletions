@@ -1,9 +1,6 @@
 ﻿function handleCompletions($completions) {
     $list = @()
 
-    $filter_input_arr = $PSCompletions.filter_input_arr
-
-    # $PSCompletions.input_arr
     try {
         $config = scoop config
     }
@@ -12,7 +9,11 @@
     }
     $root_path = $config.root_path
     $global_path = $config.global_path
+
     $CN = $PSUICulture -like 'zh*'
+
+    # $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr
 
     # 是否需要添加应用补全
     $addApp = $true
