@@ -1283,13 +1283,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     catch {}
 
     # Windows...
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
-        $PSCompletions.use_module_menu = $PSCompletions.config.enable_menu
-        if (!$PSCompletions.config.enable_menu_enhance) {
-            Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
-        }
-    }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
+        $PSCompletions.use_module_menu = $PSCompletions.config.enable_menu
         if ($PSCompletions.config.enable_menu -and $PSCompletions.config.enable_menu_enhance) {
             Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock {
                 $buffer = ''
@@ -1443,6 +1438,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             }
         }
         else {
+            Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
             $keys = $PSCompletions.data.aliasMap.keys
             foreach ($k in $keys) {
                 Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
@@ -2182,13 +2178,11 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 }
 else {
     # WSL/Unix...
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod generate_completion {
+    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
         $PSCompletions.use_module_menu = 0
-
         # XXX: 非 Windows 平台，暂时只能使用默认的补全菜单
         Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
-    }
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
+
         $keys = $PSCompletions.data.aliasMap.keys
         foreach ($k in $keys) {
             Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
@@ -3413,10 +3407,6 @@ if ($PSCompletions.is_init) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
     }
 }
-if (!$PSCompletions.config.enable_menu) {
-    Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
-}
-$PSCompletions.generate_completion()
 $PSCompletions.handle_completion()
 if ($PSCompletions.config.enable_auto_alias_setup) {
     # 使用特殊变量作为临时变量(如: $_,$args,$Matches,...)，避免污染全局
