@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "url": "https://github.com/ajeetdsouza/zoxide",
+    "description": [
+      "A smarter cd command for your terminal"
+    ]
+  },
+  "root": [
+    {
+      "name": "add",
+      "tip": [
+        "U: add [OPTIONS] <PATHS>...",
+        "Add a new directory or increment its rank"
+      ],
+      "options": [
+        {
+          "name": "-s",
+          "alias": [
+            "--score"
+          ],
+          "tip": [
+            "U: -s, --score <SCORE>",
+            "The rank to increment the entry if it exists or initialize it with if it doesn't"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "tip": [
+        "Edit the database"
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import [OPTIONS] --from <FROM> <PATH>",
+        "Import entries from another application"
+      ],
+      "options": [
+        {
+          "name": "--from",
+          "tip": [
+            "U: --from <FROM>",
+            "Application to import from [possible values: autojump, z]"
+          ],
+          "next": [
+            {
+              "name": "autojump"
+            },
+            {
+              "name": "z"
+            }
+          ]
+        },
+        {
+          "name": "--merge",
+          "tip": [
+            "Merge into existing database"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [OPTIONS] <SHELL>",
+        "Generate shell configuration"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "elvish"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "nushell"
+        },
+        {
+          "name": "posix"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "tcsh"
+        },
+        {
+          "name": "xonsh"
+        },
+        {
+          "name": "zsh"
+        }
+      ],
+      "options": [
+        {
+          "name": "--no-cmd",
+          "tip": [
+            "Prevents zoxide from defining the `z` and `zi` commands"
+          ]
+        },
+        {
+          "name": "--cmd",
+          "tip": [
+            "U: --cmd <CMD>",
+            "Changes the prefix of the `z` and `zi` commands [default: z]"
+          ],
+          "next": [
+            {
+              "name": "z",
+              "tip": [
+                "default"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--hook",
+          "tip": [
+            "U: --hook <HOOK>",
+            "Changes how often zoxide increments a directory's score [default: pwd]"
+          ],
+          "next": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "prompt"
+            },
+            {
+              "name": "pwd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "tip": [
+        "U: query [OPTIONS] [KEYWORDS]...",
+        "Search for a directory in the database"
+      ],
+      "options": [
+        {
+          "name": "-a",
+          "tip": [
+            "U: -a, --all",
+            "Show unavailable directories"
+          ]
+        },
+        {
+          "name": "-i",
+          "tip": [
+            "U: -i, --interactive",
+            "Use interactive selection"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "U: -l, --list",
+            "List all matching directories"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "U: -s, --score",
+            "Print score with results"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <path>",
+            "Exclude the current directory"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "U: remove [PATHS]...",
+        "Remove a directory from the database"
+      ],
+      "next": []
+    }
+  ],
+  "options": [
+    {
+      "name": "--version",
+      "tip": [
+        "Show the version."
+      ]
+    }
+  ],
+  "common_options": [
+    {
+      "name": "--help",
+      "tip": [
+        "Show the help."
+      ]
+    }
+  ]
+}

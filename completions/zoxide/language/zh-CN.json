@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "url": "https://github.com/ajeetdsouza/zoxide",
+    "description": [
+      "一个更智能的终端 cd 命令"
+    ]
+  },
+  "root": [
+    {
+      "name": "add",
+      "tip": [
+        "U: add [OPTIONS] <PATHS>...",
+        "添加一个新目录或增加其排名"
+      ],
+      "options": [
+        {
+          "name": "-s",
+          "alias": [
+            "--score"
+          ],
+          "tip": [
+            "U: -s, --score <SCORE>",
+            "如果条目存在，则增加其排名；如果不存在，则初始化其排名"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "tip": [
+        "编辑数据库"
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import [OPTIONS] --from <FROM> <PATH>",
+        "从另一个应用程序导入条目"
+      ],
+      "options": [
+        {
+          "name": "--from",
+          "tip": [
+            "U: --from <FROM>",
+            "从哪个应用程序导入条目"
+          ],
+          "next": [
+            {
+              "name": "autojump"
+            },
+            {
+              "name": "z"
+            }
+          ]
+        },
+        {
+          "name": "--merge",
+          "tip": [
+            "合并到现有数据库"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [OPTIONS] <SHELL>",
+        "生成 shell 配置"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "elvish"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "nushell"
+        },
+        {
+          "name": "posix"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "tcsh"
+        },
+        {
+          "name": "xonsh"
+        },
+        {
+          "name": "zsh"
+        }
+      ],
+      "options": [
+        {
+          "name": "--no-cmd",
+          "tip": [
+            "U: --no-cmd",
+            "防止 zoxide 定义 z 和 zi 命令"
+          ]
+        },
+        {
+          "name": "--cmd",
+          "tip": [
+            "U: --cmd <CMD>",
+            "更改 z 和 zi 命令的前缀 [默认值: z]"
+          ],
+          "next": [
+            {
+              "name": "z",
+              "tip": [
+                "默认值"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--hook",
+          "tip": [
+            "U: --hook <HOOK>",
+            "更改 zoxide 增加目录排名的频率 [默认值: pwd]"
+          ],
+          "next": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "prompt"
+            },
+            {
+              "name": "pwd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "tip": [
+        "U: query [OPTIONS] [KEYWORDS]...",
+        "在数据库中搜索目录"
+      ],
+      "options": [
+        {
+          "name": "-a",
+          "tip": [
+            "U: -a, --all",
+            "显示不可用目录"
+          ]
+        },
+        {
+          "name": "-i",
+          "tip": [
+            "U: -i, --interactive",
+            "使用交互式选择"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "U: -l, --list",
+            "列出所有匹配目录"
+          ]
+        },
+        {
+          "name": "-s",
+          "tip": [
+            "U: -s, --score",
+            "打印结果的分数"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <path>",
+            "排除当前目录"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "U: remove [PATHS]...",
+        "从数据库中删除目录"
+      ],
+      "next": []
+    }
+  ],
+  "options": [
+    {
+      "name": "--version",
+      "tip": [
+        "显示版本信息。"
+      ]
+    }
+  ],
+  "common_options": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示帮助信息。"
+      ]
+    }
+  ]
+}
