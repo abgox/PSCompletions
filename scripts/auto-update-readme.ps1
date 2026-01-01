@@ -9,7 +9,7 @@ if (!(Test-Path $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    . $PSScriptRoot\..\module\PSCompletions\core\init.ps1
+    . $PSScriptRoot\..\module\PSCompletions\core.ps1
 }
 
 function Compare-JsonProperty {
