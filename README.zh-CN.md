@@ -267,8 +267,10 @@
 
 ## 致谢
 
-- `PSCompletions` 依赖于 [PSReadLine](https://github.com/PowerShell/PSReadLine)，它是 PowerShell 的一个内置模块
-- 而它的 [补全菜单](#关于补全菜单) 则来自于 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) 的启发
+- [PSReadLine](https://github.com/PowerShell/PSReadLine): PowerShell 的一个内置模块，增强命令行编辑体验
+  - PSCompletions 使用了 `Set-PSReadLineKeyHandler` 和 `Get-PSReadLineOption`
+- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): 适用于 PowerShell 的 GUI 风格的制表符补全菜单
+  - PSCompletions 的 [补全菜单](#关于补全菜单) 受到了它的启发
 
 ## 补全列表
 

@@ -259,8 +259,10 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 ## Acknowledgements
 
-- `PSCompletions` depends on [PSReadLine](https://github.com/PowerShell/PSReadLine), which is a built-in module in PowerShell.
-- [The completion menu](#about-completion-menu) is inspired by [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion).
+- [PSReadLine](https://github.com/PowerShell/PSReadLine): A built-in module in PowerShell, which is used to enhance command line editing experience.
+  - PSCompletions uses `Set-PSReadLineKeyHandler` and `Get-PSReadLineOption`.
+- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): GUI-style tab-completion menu for PowerShell.
+  - [The completion menu](#about-completion-menu) of PSCompletions is inspired by it.
 
 ## Available Completions
 
