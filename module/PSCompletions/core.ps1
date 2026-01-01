@@ -1093,10 +1093,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod new_data {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.completions = @{}
-    if ((Test-Path $PSCompletions.path.data) -and !$PSCompletions.is_first_init) {
-        $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
-    }
-    else {
+    $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
+    if ($null -eq $PSCompletions.data.config) {
         $PSCompletions.new_data()
     }
     $PSCompletions.config = $PSCompletions.data.config
@@ -1117,9 +1115,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         }
     }
 
-    $PSCompletions.list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
-
+    $PSCompletions.list = (ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)).list
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
+
     if ('psc' -notin $PSCompletions.data.list) {
         $PSCompletions.add_completion('psc', $false)
         $PSCompletions.data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
@@ -2281,10 +2279,7 @@ if ($PSEdition -eq 'Core') {
                 ## config
                 $keys = $PSCompletions.default_config.Keys
                 foreach ($c in $keys) {
-                    if ($null -ne $PSCompletions.config[$c]) {
-                        $data.config[$c] = $PSCompletions.config[$c]
-                    }
-                    else {
+                    if ($null -eq $data.config[$c]) {
                         $data.config[$c] = $PSCompletions.default_config[$c]
                     }
                 }
@@ -2339,31 +2334,20 @@ if ($PSEdition -eq 'Core') {
                         }
                     }
                     $keys = $data.config.comp_config[$_].Keys.Where({ $_ -notin $config_list })
-                    foreach ($r in $keys) {
-                        if ($r -eq 'enable_hooks') {
+                    foreach ($k in $keys) {
+                        if ($k -eq 'enable_hooks') {
                             if ($null -eq $json_config.hooks) {
-                                $data.config.comp_config[$_].Remove($r)
+                                $data.config.comp_config[$_].Remove($k)
                             }
                         }
                         else {
-                            $data.config.comp_config[$_].Remove($r)
+                            $data.config.comp_config[$_].Remove($k)
                         }
                     }
                 }
-                $keys = $data.config.comp_config.Keys
-                $need_rm = @()
-                foreach ($k in $keys) {
-                    if (!$data.config.comp_config[$k].Count) {
-                        $need_rm += $k
-                    }
-                }
-                foreach ($_ in $need_rm) {
-                    $data.config.comp_config.Remove($_)
-                }
-
                 $new_data = $data | ConvertTo-Json -Depth 5 -Compress
                 $old_data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json | ConvertTo-Json -Depth 5 -Compress
-                if ($new_data -ne $old_data) {
+                if ($new_data -and $new_data -ne $old_data) {
                     $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
                 }
 
@@ -2924,14 +2908,10 @@ else {
 
             # data.json
             $data = $PSCompletions.data.Clone()
-
             ## config
             $keys = $PSCompletions.default_config.Keys
             foreach ($c in $keys) {
-                if ($null -ne $PSCompletions.config[$c]) {
-                    $data.config[$c] = $PSCompletions.config[$c]
-                }
-                else {
+                if ($null -eq $data.config[$c]) {
                     $data.config[$c] = $PSCompletions.default_config[$c]
                 }
             }
@@ -2986,31 +2966,20 @@ else {
                     }
                 }
                 $keys = $data.config.comp_config[$_].Keys.Where({ $_ -notin $config_list })
-                foreach ($r in $keys) {
-                    if ($r -eq 'enable_hooks') {
+                foreach ($k in $keys) {
+                    if ($k -eq 'enable_hooks') {
                         if ($null -eq $json_config.hooks) {
-                            $data.config.comp_config[$_].Remove($r)
+                            $data.config.comp_config[$_].Remove($k)
                         }
                     }
                     else {
-                        $data.config.comp_config[$_].Remove($r)
+                        $data.config.comp_config[$_].Remove($k)
                     }
                 }
             }
-            $keys = $data.config.comp_config.Keys
-            $need_rm = @()
-            foreach ($k in $keys) {
-                if (!$data.config.comp_config[$k].Count) {
-                    $need_rm += $k
-                }
-            }
-            foreach ($_ in $need_rm) {
-                $data.config.comp_config.Remove($_)
-            }
-
             $new_data = $data | ConvertTo-Json -Depth 5 -Compress
             $old_data = get_raw_content $PSCompletions.path.data | ConvertFrom-Json | ConvertTo-Json -Depth 5 -Compress
-            if ($new_data -ne $old_data) {
+            if ($new_data -and $new_data -ne $old_data) {
                 $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
             }
 
