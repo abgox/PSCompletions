@@ -1,5 +1,9 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.2.6
+
+- 清空 change.txt 时静默处理错误
+
 ## 6.2.5
 
 - 在获取 buffer 之前设置编码，以确保重绘的一致性
