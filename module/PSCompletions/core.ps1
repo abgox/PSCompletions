@@ -1159,7 +1159,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod wrap_whitespace 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
     try {
         if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
-            if (-not (New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+            if (-not [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
                 Microsoft.PowerShell.Utility\Write-Host -ForegroundColor Red @"
 
 [PSCompletions] Administrator Rights Required
@@ -1439,9 +1439,9 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_menu_buffer {
         param($startPos, $endPos)
 
-        $top = New-Object System.Management.Automation.Host.Coordinates $startPos.X, $startPos.Y
-        $bottom = New-Object System.Management.Automation.Host.Coordinates $endPos.X , $endPos.Y
-        $buffer = $rawUI.GetBufferContents((New-Object System.Management.Automation.Host.Rectangle $top, $bottom))
+        $top = [System.Management.Automation.Host.Coordinates]::new($startPos.X, $startPos.Y)
+        $bottom = [System.Management.Automation.Host.Coordinates]::new($endPos.X , $endPos.Y)
+        $buffer = $rawUI.GetBufferContents([System.Management.Automation.Host.Rectangle]::new($top, $bottom))
         @{
             top    = $top
             bottom = $bottom
@@ -1632,7 +1632,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         $Y = $menu.pos.Y + 1 + $menu.page_current_index
 
         # 根据坐标，生成需要被改变内容的矩形，也就是要被选中的项
-        $Rectangle = New-Object System.Management.Automation.Host.Rectangle $X, $Y, $to_X, $Y
+        $Rectangle = [System.Management.Automation.Host.Rectangle]::new($X, $Y, $to_X, $Y)
 
         # 通过矩形，获取到这个矩形中的原本的内容
         $LineBuffer = $rawUI.GetBufferContents($Rectangle)
@@ -1923,9 +1923,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             $startY = $rawUI.CursorPosition.Y + 1
             $endY = $rawUI.BufferSize.Height - 1
         }
-
-        $menu.buffer_start = New-Object System.Management.Automation.Host.Coordinates 0, $startY
-        $menu.buffer_end = New-Object System.Management.Automation.Host.Coordinates ($rawUI.BufferSize.Width - 1), $endY
+        $menu.buffer_start = [System.Management.Automation.Host.Coordinates]::new(0, $startY)
+        $menu.buffer_end = [System.Management.Automation.Host.Coordinates]::new($rawUI.BufferSize.Width - 1, $endY)
 
         $menu.parse_menu_list()
 
