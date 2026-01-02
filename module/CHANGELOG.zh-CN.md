@@ -1,5 +1,12 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.2.4
+
+- 优化了获取原始输出编码的方式
+  - 以前必须先导入 `PSCompletions` 模块，才能修改编码，否则可能导致编码问题
+  - 由于新的获取方式，不再有先后顺序限制
+- 其他的优化和修复
+
 ## 6.2.3
 
 - 重新使用 `Add-Member` 以避免缓冲区访问错误 ([#122](https://github.com/abgox/PSCompletions/issues/122), [#124](https://github.com/abgox/PSCompletions/issues/124))

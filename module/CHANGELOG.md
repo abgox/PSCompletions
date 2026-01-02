@@ -1,5 +1,12 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.2.4
+
+- Optimize the way to obtain the original output encoding.
+  - Previously, you had to import the `PSCompletions` module first to modify the encoding, otherwise it may cause encoding issues.
+  - With the new way, there is no order limitation anymore.
+- Other optimizations and fixes.
+
 ## 6.2.3
 
 - Reuse `Add-Member` to avoid buffer access error. ([#122](https://github.com/abgox/PSCompletions/issues/122), [#124](https://github.com/abgox/PSCompletions/issues/124))
