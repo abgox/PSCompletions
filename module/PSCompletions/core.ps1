@@ -1935,11 +1935,11 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             return ''
         }
 
-        # 显示菜单之前，记录 buffer
-        $menu.origin_full_buffer = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
-
         $current_encoding = [console]::OutputEncoding
         [console]::OutputEncoding = [System.Text.Encoding]::GetEncoding([System.Globalization.CultureInfo]::CurrentCulture.TextInfo.OEMCodePage)
+
+        # 显示菜单之前，记录 buffer
+        $menu.origin_full_buffer = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
 
         # 显示菜单
         $menu.new_menu_border_buffer()
