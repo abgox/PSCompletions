@@ -981,7 +981,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                         }
                     }
                     else {
-                        Clear-Content $PSCompletions.path.change -Force
+                        Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
                         $PSCompletions.list = $current_list
                     }
                     $isErr = $false
@@ -2166,7 +2166,7 @@ if ($PSEdition -eq 'Core') {
                                 $PSCompletions.list = $remote_list
                             }
                             else {
-                                Clear-Content $PSCompletions.path.change -Force
+                                Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
                                 $PSCompletions.list = $current_list
                             }
                             return $remote_list
@@ -2795,7 +2795,7 @@ else {
                             $PSCompletions.list = $remote_list
                         }
                         else {
-                            Clear-Content $PSCompletions.path.change -Force
+                            Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
                             $PSCompletions.list = $current_list
                         }
                         return $remote_list

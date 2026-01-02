@@ -59,7 +59,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                 }
             }
             else {
-                Clear-Content $PSCompletions.path.change -Force
+                Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
                 $PSCompletions.list = $current_list
             }
             $isErr = $false
