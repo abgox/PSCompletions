@@ -1,5 +1,9 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.2.5
+
+- Set the encoding before getting the buffer to ensure the consistency of redrawing.
+
 ## 6.2.4
 
 - Optimize the way to obtain the original output encoding.
