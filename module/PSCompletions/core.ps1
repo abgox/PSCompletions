@@ -27,7 +27,6 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
     completions_data        = @{}
     guid                    = '00929632-527d-4dab-a5b3-21197faccd05'
     language                = $PSUICulture
-    encoding                = [console]::OutputEncoding
     separator               = [System.IO.Path]::DirectorySeparatorChar
     replace_pattern         = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     input_pattern           = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
@@ -1911,9 +1910,6 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             return $menu.handle_menu_output($menu.filter_list[0])
         }
 
-        $current_encoding = [console]::OutputEncoding
-        [console]::OutputEncoding = $PSCompletions.encoding
-
         $menu.cursor_to_bottom = $rawUI.BufferSize.Height - $rawUI.CursorPosition.Y - 1 - $config.height_from_menu_top_to_cursor_when_below
         $menu.cursor_to_top = $rawUI.CursorPosition.Y - $config.height_from_menu_bottom_to_cursor_when_above - 1
 
@@ -1942,6 +1938,9 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
         # 显示菜单之前，记录 buffer
         $menu.origin_full_buffer = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
+
+        $current_encoding = [console]::OutputEncoding
+        [console]::OutputEncoding = [System.Text.Encoding]::GetEncoding([System.Globalization.CultureInfo]::CurrentCulture.TextInfo.OEMCodePage)
 
         # 显示菜单
         $menu.new_menu_border_buffer()
