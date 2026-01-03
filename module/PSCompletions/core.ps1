@@ -31,7 +31,8 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
     replace_pattern         = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     input_pattern           = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
     menu                    = @{
-        const = @{
+        encoding = [System.Text.Encoding]::GetEncoding(0)
+        const    = @{
             symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
             line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
@@ -1936,7 +1937,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         }
 
         $current_encoding = [console]::OutputEncoding
-        [console]::OutputEncoding = [System.Text.Encoding]::GetEncoding([System.Globalization.CultureInfo]::CurrentCulture.TextInfo.OEMCodePage)
+        [console]::OutputEncoding = $PSCompletions.menu.encoding
 
         # 显示菜单之前，记录 buffer
         $menu.origin_full_buffer = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
