@@ -649,6 +649,10 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
             }
         }
         $PSCompletions.write_with_color((_replace $PSCompletions.info.completion.done))
+
+        if ($config_item -eq 'language' -and $PSCompletions.config.enable_cache) {
+            $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
+        }
     }
     function _menu {
         $cmd_list = @('symbol', 'line_theme', 'color_theme', 'custom', 'config')
