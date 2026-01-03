@@ -1,5 +1,12 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.3.0
+
+- 现在，运行 `psc` 将重新加载模块的按键绑定和数据，然后打印帮助信息
+  - 在旧版本中，使用 `. $Profile` 会导致模块的按键绑定失效
+  - 现在，只需要运行一次 `psc` 即可恢复模块的正常使用
+- 渲染补全菜单时使用正确的区域编码 ([#127](https://github.com/abgox/PSCompletions/issues/127))
+
 ## 6.2.6
 
 - 清空 change.txt 时静默处理错误

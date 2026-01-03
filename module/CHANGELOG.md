@@ -1,5 +1,12 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.3.0
+
+- Now, run `psc` will reload the key bindings and data of the module, then print the help information.
+  - In older versions, using `. $Profile` would invalidate the key bindings of the module.
+  - Now, just run `psc` to restore the normal use of the module.
+- Use the correct regional encoding when rendering the completion menu. ([#127](https://github.com/abgox/PSCompletions/issues/127))
+
 ## 6.2.6
 
 - Handle errors silently when clearing change.txt file.
