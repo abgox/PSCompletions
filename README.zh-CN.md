@@ -84,13 +84,13 @@
    - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser
+     Install-Module PSCompletions
      ```
 
    - [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
 
      ```powershell
-     Install-PSResource PSCompletions -Scope CurrentUser
+     Install-PSResource PSCompletions
      ```
 
    - [Scoop](https://scoop.sh/)
@@ -107,6 +107,10 @@
    ```powershell
    Import-Module PSCompletions
    ```
+
+> [!Tip]
+>
+> 如果使用了 `. $Profile`，请运行 `psc` 以重载模块的按键绑定及数据
 
 ## 使用
 

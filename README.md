@@ -84,13 +84,13 @@ See the [Contribution Guide](./.github/contributing.md) for details.
    - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
-     Install-Module PSCompletions -Scope CurrentUser
+     Install-Module PSCompletions
      ```
 
    - [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
 
      ```powershell
-     Install-PSResource PSCompletions -Scope CurrentUser
+     Install-PSResource PSCompletions
      ```
 
    - [Scoop](https://scoop.sh/)
@@ -108,6 +108,10 @@ See the [Contribution Guide](./.github/contributing.md) for details.
    ```powershell
    Import-Module PSCompletions
    ```
+
+> [!Tip]
+>
+> If you use `. $Profile`, please run `psc` to reload the module's key bindings and data.
 
 ## How to use
 
