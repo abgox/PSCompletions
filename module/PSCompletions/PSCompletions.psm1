@@ -146,9 +146,8 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                 $PSCompletions.add_completion($_)
                 $PSCompletions._need_update_data = $true
             }
-            # 如果没有使用模块提供的补全菜单，需要重启 PowerShell 并重新导入模块
             if (!$PSCompletions.use_module_menu) {
-                $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
+                $PSCompletions.handle_completion()
             }
             return
         }
@@ -163,7 +162,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
             }
         }
         if (!$PSCompletions.use_module_menu) {
-            $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
+            $PSCompletions.handle_completion()
         }
     }
     function _rm {
@@ -947,7 +946,7 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                 $PSCompletions._need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
                 if ($config_item -in @('enable_menu', 'enable_menu_enhance', 'trigger_key')) {
-                    $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
+                    $PSCompletions.handle_completion()
                 }
             }
         }
