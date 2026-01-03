@@ -113,6 +113,8 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
+    Set-StrictMode -Off
+
     if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
         $tip = ''
     }
@@ -124,6 +126,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completio
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
+    Set-StrictMode -Off
+
     $guid = $PSCompletions.guid
     function getCompletions {
         $obj = @{}
@@ -569,6 +573,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
         # 1. $results: $handler 脚本块返回的结果
         [scriptblock]$handleResult
     )
+    Set-StrictMode -Off
+
     Add-Member -InputObject $PSCompletions -Force -MemberType ScriptMethod split_array {
         <#
         .Synopsis
@@ -584,6 +590,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
             [int]$count,
             [bool]$by_count
         )
+        Set-StrictMode -Off
+
         if ($by_count) {
             $ChunkSize = [math]::Ceiling($array.Length / $count)
         }
@@ -617,10 +625,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
     param([string]$path)
+    Set-StrictMode -Off
+
     if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
+    Set-StrictMode -Off
+
     $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
 
     $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
@@ -646,12 +658,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
     param ([string]$path)
+    Set-StrictMode -Off
+
     $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
     if ($res) { return $res }
     , @()
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content {
     param ([string]$path, [bool]$trim = $true)
+    Set-StrictMode -Off
+
     $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
     if ($res) {
         if ($trim) { return $res.Trim() }
@@ -661,6 +677,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content {
     param ($data, $separator = '')
+    Set-StrictMode -Off
+
     $data = $data -join $separator
     if ($data -notlike '*{{*') { return $data }
     $matches = [regex]::Matches($data, $PSCompletions.replace_pattern)
@@ -671,6 +689,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content 
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color {
     param([string]$str)
+    Set-StrictMode -Off
 
     Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
 
@@ -714,6 +733,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
         [string]$file,
         [array]$baseUrl
     )
+    Set-StrictMode -Off
 
     $params = @{
         ErrorAction = 'Stop'
@@ -749,6 +769,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         [string]$completion,
         [bool]$log = $true
     )
+    Set-StrictMode -Off
 
     $PSCompletions._has_add_completion = $log -and $true
 
@@ -893,6 +914,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
+    Set-StrictMode -Off
+
     $PSCompletions.completions = @{}
     $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
     if ($null -eq $PSCompletions.data.config) {
@@ -1031,6 +1054,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
     param([array]$filter_list)
+    Set-StrictMode -Off
+
     if ($Host.UI.RawUI.BufferSize.Height -lt 5) {
         [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($PSCompletions.info.min_area)
@@ -1082,6 +1107,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
     param(
         [array]$completions # The list of completions.
     )
+    Set-StrictMode -Off
+
     foreach ($c in $completions) {
         $aliasList = @($c)
         $alias = Get-Alias -Definition $c -ErrorAction SilentlyContinue
@@ -1091,6 +1118,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
         foreach ($a in $aliasList) {
             Register-ArgumentCompleter -Native -CommandName $a -ScriptBlock {
                 param($wordToComplete, $commandAst, $cursorPosition)
+                Set-StrictMode -Off
+
                 $words = @(
                     foreach ($_ in $commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition })) {
                         $word = $_.ToString()
@@ -1138,6 +1167,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod wrap_whitespace 
     param(
         [string]$String
     )
+    Set-StrictMode -Off
+
     if ([string]::IsNullOrWhiteSpace($String)) {
         return "`"$String`""
     }
@@ -1183,9 +1214,13 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
     # Windows...
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
+        Set-StrictMode -Off
+
         $PSCompletions.use_module_menu = $PSCompletions.config.enable_menu
         if ($PSCompletions.config.enable_menu -and $PSCompletions.config.enable_menu_enhance) {
             Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock {
+                Set-StrictMode -Off
+
                 $buffer = ''
                 $cursorPosition = 0
                 [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursorPosition)
@@ -1344,6 +1379,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             foreach ($k in $keys) {
                 Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                     param($word_to_complete, $command_ast, $cursor_position)
+                    Set-StrictMode -Off
 
                     $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
 
@@ -1394,6 +1430,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
     # menu
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_menu_list {
+        Set-StrictMode -Off
+
         # X
         if ($menu.need_full_width -or !$config.enable_list_follow_cursor) {
             $menu.pos.X = 0
@@ -1439,6 +1477,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_menu_buffer {
         param($startPos, $endPos)
+        Set-StrictMode -Off
 
         $top = [System.Management.Automation.Host.Coordinates]::new($startPos.X, $startPos.Y)
         $bottom = [System.Management.Automation.Host.Coordinates]::new($endPos.X , $endPos.Y)
@@ -1451,6 +1490,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_list_buffer {
         param([int]$offset)
+        Set-StrictMode -Off
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
         $content_box = foreach ($l in $lines) {
@@ -1480,6 +1520,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_filter_buffer {
         param([string]$filter)
+        Set-StrictMode -Off
 
         $char = $config.filter_symbol
         $middle = [System.Math]::Ceiling($char.Length / 2)
@@ -1495,6 +1536,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         )
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_status_buffer {
+        Set-StrictMode -Off
+
         $X = $menu.pos.X + 3
         if ($menu.is_show_above) {
             $Y = $rawUI.CursorPosition.Y - 1 - $config.height_from_menu_bottom_to_cursor_when_above
@@ -1508,6 +1551,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_tip_buffer {
         param([int]$index)
+        Set-StrictMode -Off
 
         if ($menu.is_show_above) {
             $start = 0
@@ -1622,6 +1666,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         }
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_menu_selection {
+        Set-StrictMode -Off
+
         if ($menu.old_selection) {
             $rawUI.SetBufferContents($menu.old_selection.pos, $menu.old_selection.buffer)
         }
@@ -1652,6 +1698,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_menu_selection {
         param([bool]$isDown)
+        Set-StrictMode -Off
 
         $moveDirection = if ($isDown) { 1 } else { -1 }
 
@@ -1719,6 +1766,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset_menu {
         param([bool]$clearAll = $true)
+        Set-StrictMode -Off
+
         if ($clearAll) {
             $menu.data.Clear()
             if ($menu.origin_full_buffer) {
@@ -1733,6 +1782,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_data {
         param([string]$type)
+        Set-StrictMode -Off
 
         switch ($type) {
             add {
@@ -1787,6 +1837,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_output {
         param($item)
+        Set-StrictMode -Off
 
         $out = $item.CompletionText.Trim()
 
@@ -1841,6 +1892,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
         param($filter_list)
+        Set-StrictMode -Off
 
         if (!$filter_list) { return '' }
 
@@ -2085,6 +2137,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 else {
     # WSL/Unix...
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
+        Set-StrictMode -Off
+
         $PSCompletions.use_module_menu = 0
         # XXX: 非 Windows 平台，暂时只能使用默认的补全菜单
         Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
@@ -2093,6 +2147,7 @@ else {
         foreach ($k in $keys) {
             Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                 param($word_to_complete, $command_ast, $cursor_position)
+                Set-StrictMode -Off
 
                 $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
 
@@ -2119,6 +2174,8 @@ else {
 
 if ($PSEdition -eq 'Core') {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
+        Set-StrictMode -Off
+
         $horizontal = $config.horizontal
         $vertical = $config.vertical
         $top_left = $config.top_left
@@ -2137,6 +2194,8 @@ if ($PSEdition -eq 'Core') {
 
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
         param([string]$json)
+        Set-StrictMode -Off
+
         ConvertFrom-Json $json -AsHashtable
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
@@ -2509,6 +2568,8 @@ if ($PSEdition -eq 'Core') {
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         param([string]$history_path, [string]$root, [string]$path_order)
+        Set-StrictMode -Off
+
         $PSCompletions.order."$($root)_job" = Start-ThreadJob -ScriptBlock {
             param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
 
@@ -2562,6 +2623,8 @@ if ($PSEdition -eq 'Core') {
 }
 else {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
+        Set-StrictMode -Off
+
         # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
         $horizontal = '-'
         $vertical = '|'
@@ -2581,6 +2644,7 @@ else {
 
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
         param([string]$json)
+        Set-StrictMode -Off
 
         # https://github.com/abgox/ConvertFrom-JsonAsHashtable
         function ConvertFrom-JsonAsHashtable {
@@ -3136,6 +3200,8 @@ else {
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         param([string]$history_path, [string]$root, [string]$path_order)
+        Set-StrictMode -Off
+
         $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
             param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
 

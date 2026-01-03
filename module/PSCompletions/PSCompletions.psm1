@@ -1,4 +1,6 @@
-Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant -Value {
+Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
+    Set-StrictMode -Off
+
     $arg = $args
 
     Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
@@ -1252,7 +1254,14 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Option Constant 
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.sub_cmd))
                 }
             }
-            else { _help }
+            else {
+                # 运行 psc 以重载模块的按键绑定
+                # 这用于解决 . $Profile 后按键绑定失效的问题
+                $PSCompletions.init_data()
+                $PSCompletions.handle_completion()
+                _help
+                return
+            }
         }
     }
     Out-Data
