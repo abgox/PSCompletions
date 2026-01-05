@@ -10,30 +10,14 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  update-content:
     runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Install module
-        shell: pwsh
-        run: Install-Module PSCompletions -Repository PSGallery -Force
-
-      - name: Generate list and update content
+      - name: Update Content
         shell: pwsh
         run: |
-          .\scripts\auto-update-readme.ps1
-
-      - name: Update completions.json
-        shell: pwsh
-        run: |
-          .\scripts\auto-update-completions.json.ps1
-
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -u
-          git commit -m "chore: automatically update some content"
+          .\scripts\update-content.ps1
           git push
