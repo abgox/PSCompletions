@@ -1,10 +1,12 @@
+#Requires -Version 7.0
+
 param(
-    [string]$Name
+    [string]$CompletionName
 )
 
 Set-StrictMode -Off
 
-$completion_name = $Name
+$completion_name = $CompletionName
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
@@ -56,3 +58,6 @@ $PSCompletions.data.config.comp_config.$completion_name = @{
     enable_hooks = 1
 }
 $PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force
+
+# update completions.json
+@{ list = (Get-ChildItem "$PSScriptRoot\..\completions").Name } | ConvertTo-Json -Compress | Out-File "$PSScriptRoot\..\completions.json"

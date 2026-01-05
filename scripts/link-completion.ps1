@@ -1,10 +1,12 @@
+#Requires -Version 7.0
+
 param(
-    [string]$Name
+    [string]$CompletionName
 )
 
 Set-StrictMode -Off
 
-$completion_name = $Name
+$completion_name = $CompletionName
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {

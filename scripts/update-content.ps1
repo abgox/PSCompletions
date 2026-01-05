@@ -1,17 +1,6 @@
 #Requires -Version 7.0
 
-param(
-    [Parameter(Mandatory = $true)]
-    [string]$CompletionName, # 完成项名称
-    [string]$TargetLang = "zh-CN",
-    [string]$BaseLang = "en-US",
-    [ValidateSet("diff", "untranslated")]
-    [string[]]$Show = @("diff", "untranslated")
-)
-
 Set-StrictMode -Off
-
-$completion_name = $CompletionName
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
@@ -20,28 +9,8 @@ if (!(Test-Path $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    Write-Host $text."import-psc" -ForegroundColor Red
-    return
+    . $PSScriptRoot\..\module\PSCompletions\core.ps1
 }
-
-$text = $text."compare-json"
-
-function outText {
-    param($text)
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text))
-}
-
-$completion_dir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'completions', $completion_name)
-
-$diffJson = [System.IO.Path]::Combine($completion_dir, 'language', $TargetLang + '.json')
-if (!(Test-Path $diffJson)) {
-    outText $text.invalidParams
-    return
-}
-
-$baseJson = [System.IO.Path]::Combine($completion_dir, 'language', $BaseLang + '.json')
-
-& $PSScriptRoot\sort-completion.ps1 $completion_name
 
 function Compare-JsonProperty {
     param (
@@ -476,4 +445,120 @@ function Compare-JsonProperty {
         outText $text.hr
     }
 }
-Compare-JsonProperty $diffJson $baseJson
+
+function handle_language {
+    param(
+        [string]$name,
+        [array]$lang_list = $lang_list
+    )
+    function getCompletionRate {
+        param($lang)
+        Compare-JsonProperty "$($_.FullName)/language/$($lang).json" "$($_.FullName)/language/$($lang_list[0]).json" -ReturnRate
+    }
+
+    $lang_info = @("[**$($lang_list[0])**](/completions/$($name)/language/$($lang_list[0]).json)")
+    if ($lang_list.Count -gt 1) {
+        foreach ($lang in $lang_list[1..($lang_list.Count - 1)]) {
+            $percentage = getCompletionRate $lang
+            if ($lang -in $json_config.language) {
+                $lang_info += "[**$($lang)($($percentage)%)**](/completions/$($name)/language/$($lang).json)"
+            }
+            else {
+                $lang_info += "[**~~$($lang)($($percentage)%)~~**](/completions/$($name)/language/$($lang).json)"
+            }
+        }
+    }
+    return $lang_info
+}
+
+function generate_list {
+    $content_EN = @("|Completion|Language|Description|", "|:-:|-|-|")
+    $content_CN = @("|Completion|Language|Description|", "|:-:|-|-|")
+    Get-ChildItem "$PSScriptRoot\..\completions" | ForEach-Object {
+        $info_EN = @()
+        $info_CN = @()
+        $completion = @{}
+        $json_config = Get-Content "$($_.FullName)/config.json" -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
+
+        $lang_list = Get-ChildItem "$($_.FullName)/language" | ForEach-Object { $_.BaseName }
+        foreach ($lang in $lang_list) {
+            $completion.$lang = Get-Content "$($_.FullName)/language/$($lang).json" -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
+        }
+        if ("zh-CN" -notin $completion.Keys) {
+            $completion."zh-CN" = $completion.($lang_list[0])
+        }
+        if ("en-US" -notin $completion.Keys) {
+            $completion."en-US" = $completion.($lang_list[0])
+        }
+        if (!$completion."en-US".info) { $completion."en-US".info = $completion.($lang_list[0]).info }
+        if (!$completion."zh-CN".info) { $completion."zh-CN".info = $completion.($lang_list[0]).info }
+
+        # Completion
+        ## EN
+        $info_EN += "[$($_.Name)]($($completion."en-US".meta.url))"
+
+        ## CN
+        $info_CN += "[$($_.Name)]($($completion."zh-CN".meta.url))"
+
+        # Language
+        $lang_info = handle_language $_.BaseName $lang_list
+        $info_EN += $lang_info -join '<br>'
+        $info_CN += $lang_info -join '<br>'
+
+        # Description
+        ## EN
+        $info_EN += $completion."en-US".meta.description -join '<br>'
+        ## CN
+        $info_CN += $completion."zh-CN".meta.description -join '<br>'
+
+        $content_EN += "|" + ($info_EN -join "|") + "|"
+        $content_CN += "|" + ($info_CN -join "|") + "|"
+    }
+
+    $footer = '|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|'
+
+    $content_EN += $footer + "`n<!-- prettier-ignore-end -->"
+    $content_CN += $footer + "`n<!-- prettier-ignore-end -->"
+
+    return @{
+        "en-US" = $content_EN
+        "zh-CN" = $content_CN
+    }
+}
+
+function update_readme($lang) {
+    $content = generate_list
+    if ($lang -eq "en-US") {
+        $path = "$PSScriptRoot\..\completions.md"
+        $content = $content."en-US"
+    }
+    else {
+        $path = "$PSScriptRoot\..\completions.zh-CN.md"
+        $content = $content."zh-CN"
+    }
+    function get_static_content($path) {
+        $content = Get-Content -Path $path -Encoding UTF8
+
+        $match = $content | Select-String -Pattern "<!-- prettier-ignore-start -->"
+
+        if ($match) {
+            $matchLineNumber = ([array]$match.LineNumber)[0]
+            $result = $content | Select-Object -First $matchLineNumber
+            $result
+        }
+    }
+    (get_static_content $path) + $content | Out-File $path -Encoding UTF8 -Force
+}
+
+update_readme "en-US"
+update_readme "zh-CN"
+
+& $PSScriptRoot\sort-completion.ps1
+
+@{ list = (Get-ChildItem "$PSScriptRoot\..\completions").Name } | ConvertTo-Json -Compress | Out-File "$PSScriptRoot\..\completions.json"
+
+git -c core.safecrlf=false add -u
+
+if (git status --porcelain) {
+    git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit --no-gpg-sign -m "chore: automatically update some content [skip ci]"
+}

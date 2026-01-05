@@ -1,5 +1,7 @@
+#Requires -Version 7.0
+
 param(
-    [array]$completion_list
+    [string[]]$CompletionList
 )
 
 Set-StrictMode -Off
@@ -18,22 +20,18 @@ if (!$PSCompletions) {
 $text = $text."update-guid"
 
 
-if (!$completion_list) {
+if (!$CompletionList) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidParams))
     return
 }
 
 $root_dir = Split-Path $PSScriptRoot -Parent
-$path_list = $completion_list | ForEach-Object {
-    $completion_dir = $root_dir + "/completions/" + $_
+
+foreach ($completion in $CompletionList) {
+    $completion_dir = [System.IO.Path]::Combine($root_dir, 'completions', $completion)
     if (Test-Path $completion_dir) {
-        $completion_dir
-    }
-}
-if ($path_list) {
-    foreach ($path in $path_list) {
-        $completion = Split-Path $path -Leaf
+        $completion = Split-Path $completion_dir -Leaf
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.updateGuid))
-        @{ guid = [System.Guid]::NewGuid().Guid } | ConvertTo-Json | Out-File "$path/guid.json" -Encoding utf8 -Force
+        @{ guid = [System.Guid]::NewGuid().Guid } | ConvertTo-Json | Out-File "$completion_dir/guid.json" -Encoding utf8 -Force
     }
 }

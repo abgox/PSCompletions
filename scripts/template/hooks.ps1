@@ -5,13 +5,13 @@ function handleCompletions($completions) {
     # $input_arr = $PSCompletions.input_arr
     $filter_input_arr = $PSCompletions.filter_input_arr # Without -*
 
-    # switch ($filter_input_arr[-1]) {
+    # switch ($filter_input_arr[0]) {
     #     'add' {
     #         $list += $PSCompletions.return_completion('aaa', "Add aaa")
     #     }
     # }
 
-    $list += $PSCompletions.return_completion('example', "It's from hooks.ps1")
+    # $list += $PSCompletions.return_completion('example', "It's from hooks.ps1")
 
     return $list + $completions
 }
