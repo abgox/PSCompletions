@@ -71,14 +71,20 @@
       ]
     },
     "tip": {
-      "$ref": "#/definitions/array-items-string",
       "markdownDescription": "补全的提示信息\n- 它一般由三部分组成: 用法(Usage) + 描述(Description) + 举例(Example)\n- 这里有一个示例:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\",\n    \"xxx (这里是描述信息)\",\n    \"E: -r '@-'   --- xxx (示例说明)\"\n    \"   -r 'x-'   --- xxx (示例说明)\"\n  ]\n  ```",
-      "not": {
-        "contains": {
-          "pattern": "\\n"
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-string"
+        },
+        {
+          "not": {
+            "contains": {
+              "pattern": "\\n"
+            }
+          },
+          "errorMessage": "数组中的每个项会在显示时末尾自动添加换行符，因此不允许使用换行符"
         }
-      },
-      "errorMessage": "数组中的每个项会在显示时末尾自动添加换行符，因此不允许使用换行符"
+      ]
     },
     "item": {
       "type": "object",
@@ -219,20 +225,32 @@
       ],
       "properties": {
         "url": {
-          "$ref": "#/definitions/string",
           "description": "命令的主页或仓库地址",
-          "pattern": "^https?://",
-          "errorMessage": "它必须是一个有效的 http/https URL"
+          "allOf": [
+            {
+              "$ref": "#/definitions/string"
+            },
+            {
+              "pattern": "^https?://",
+              "errorMessage": "它必须是一个有效的 http/https URL"
+            }
+          ]
         },
         "description": {
-          "$ref": "#/definitions/array-items-string",
           "description": "命令的描述",
-          "not": {
-            "contains": {
-              "pattern": "\\n"
+          "allOf": [
+            {
+              "$ref": "#/definitions/array-items-string"
+            },
+            {
+              "not": {
+                "contains": {
+                  "pattern": "\\n"
+                }
+              },
+              "errorMessage": "数组中的每个项会在显示时末尾自动添加换行符，因此不允许使用换行符"
             }
-          },
-          "errorMessage": "数组中的每个项会在显示时末尾自动添加换行符，因此不允许使用换行符"
+          ]
         }
       },
       "additionalProperties": false

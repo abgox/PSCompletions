@@ -71,14 +71,20 @@
       ]
     },
     "tip": {
-      "$ref": "#/definitions/array-items-string",
       "markdownDescription": "Completion item tip\n- General structure of the completion tip: `Usage` + `Description` + `Example`\n- Here is an example:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\",\n    \"xxx (Here is the description)\",\n    \"E: -r '@-'   --- xxx (Example description)\"\n    \"   -r 'x-'   --- xxx (Example description)\"\n  ]\n  ```",
-      "not": {
-        "contains": {
-          "pattern": "\\n"
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-string"
+        },
+        {
+          "not": {
+            "contains": {
+              "pattern": "\\n"
+            }
+          },
+          "errorMessage": "Each item in the array will automatically add a line break at the end when displayed, so line breaks are not allowed."
         }
-      },
-      "errorMessage": "Each item in the array will automatically add a line break at the end when displayed, so line breaks are not allowed."
+      ]
     },
     "item": {
       "type": "object",
@@ -219,20 +225,32 @@
       ],
       "properties": {
         "url": {
-          "$ref": "#/definitions/string",
           "description": "Homepage or repository address of the completion command",
-          "pattern": "^https?://",
-          "errorMessage": "It must be a valid http/https URL"
+          "allOf": [
+            {
+              "$ref": "#/definitions/string"
+            },
+            {
+              "pattern": "^https?://",
+              "errorMessage": "It must be a valid http/https URL"
+            }
+          ]
         },
         "description": {
-          "$ref": "#/definitions/array-items-string",
           "description": "Description of the completion command",
-          "not": {
-            "contains": {
-              "pattern": "\\n"
+          "allOf": [
+            {
+              "$ref": "#/definitions/array-items-string"
+            },
+            {
+              "not": {
+                "contains": {
+                  "pattern": "\\n"
+                }
+              },
+              "errorMessage": "Each item in the array will automatically add a line break at the end when displayed, so line breaks are not allowed."
             }
-          },
-          "errorMessage": "Each item in the array will automatically add a line break at the end when displayed, so line breaks are not allowed."
+          ]
         }
       },
       "additionalProperties": false
