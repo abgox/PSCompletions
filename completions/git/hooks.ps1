@@ -2,15 +2,15 @@ function handleCompletions($completions) {
     $list = @()
 
     function return_branch {
-        return git branch --format='%(refname:lstrip=2)' 2>$null
+        return git branch --format='%(refname:lstrip=2)' 2>$null | Where-Object { $_ -notlike '(HEAD detached from*' }
     }
 
     function return_head {
         $head_list = @{
-            HEAD       = (git show HEAD --relative-date -q --encoding=gbk 2>$null) -join "`n"
-            FETCH_HEAD = (git show FETCH_HEAD --relative-date -q --encoding=gbk 2>$null) -join "`n"
-            ORIG_HEAD  = (git show ORIG_HEAD --relative-date -q --encoding=gbk 2>$null) -join "`n"
-            MERGE_HEAD = (git show MERGE_HEAD --relative-date -q --encoding=gbk 2>$null) -join "`n"
+            HEAD       = (git show HEAD --relative-date -q 2>$null) -join "`n"
+            FETCH_HEAD = (git show FETCH_HEAD --relative-date -q 2>$null) -join "`n"
+            ORIG_HEAD  = (git show ORIG_HEAD --relative-date -q 2>$null) -join "`n"
+            MERGE_HEAD = (git show MERGE_HEAD --relative-date -q 2>$null) -join "`n"
         }
         foreach ($_ in @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD')) {
             if (!$head_list[$_]) {
@@ -25,7 +25,7 @@ function handleCompletions($completions) {
             $PSCompletions.config.comp_config.git.max_commit = 20
         }
         $guid = [guid]::NewGuid().Guid
-        $git_info = git log --pretty="format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n$($guid)" -n $PSCompletions.config.comp_config.git.max_commit --encoding=gbk 2>$null
+        $git_info = git log --pretty="format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n$($guid)" -n $PSCompletions.config.comp_config.git.max_commit 2>$null
         $current_commit = @()
         foreach ($_ in $git_info) {
             if ($_ -ne $guid) {
@@ -72,7 +72,7 @@ function handleCompletions($completions) {
         }
         { 'stash' -in $PSCompletions.input_arr } {
             if ($last_item -in @('show', 'pop', 'apply', 'drop')) {
-                foreach ($_ in git stash list --encoding=gbk 2>$null) {
+                foreach ($_ in git stash list 2>$null) {
                     if ($_ -match 'stash@\{(\d+)\}') {
                         $stashId = $matches[1]
                         $list += $PSCompletions.return_completion($stashId, $_)
