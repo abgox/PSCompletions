@@ -51,7 +51,7 @@
             '--arch'            = '-a'
         }
 
-        if ($PSCompletions.input_arr[-1] -in @('-a', '--arch')) {
+        if ($input_arr[-1] -in @('-a', '--arch')) {
             $addApp = $false
             $paramList = @('64bit', '32bit', 'arm64')
             foreach ($param in $paramList) {
@@ -93,7 +93,7 @@
             }
             foreach ($param in $paramList) {
                 $shouldAdd = $true
-                if ($param -in $PSCompletions.input_arr -or $paramAliases[$param] -in $PSCompletions.input_arr) {
+                if ($param -in $input_arr -or $paramAliases[$param] -in $input_arr) {
                     $shouldAdd = $false
                 }
                 if ($shouldAdd) {

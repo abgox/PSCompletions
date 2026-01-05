@@ -10,10 +10,12 @@
     $root_path = $config.root_path
     $global_path = $config.global_path
 
-    # $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr
+    $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude options parameters
+    $first_item = $filter_input_arr[0] # The first subcommand
+    $last_item = $filter_input_arr[-1] # The last subcommand
 
-    switch ($filter_input_arr[0]) {
+    switch ($first_item) {
         'bucket' {
             switch ($filter_input_arr[1]) {
                 'rm' {
@@ -28,6 +30,10 @@
             }
         }
         'install' {
+            if ($input_arr[-1] -in @('-a', '--arch')) {
+                break
+            }
+
             $PSCompletions.temp_scoop_installed_apps = Get-ChildItem "$root_path\apps" | ForEach-Object { $_.BaseName }
 
             $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
