@@ -40,9 +40,20 @@ function handleCompletions($completions) {
         return $commit_info
     }
 
+    $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr
+
     $last_item = $PSCompletions.filter_input_arr[-1]
 
-    switch ($last_item) {
+    switch ($filter_input_arr[0]) {
+        'add' {
+            git status --porcelain | Where-Object { $_ -match '^.[MD] ' -or $_ -match '^\?\? ' } | ForEach-Object {
+                $path = $_.Substring(3)
+                if ($path -notin $input_arr) {
+                    $PSCompletions.return_completion($path, $_)
+                }
+            }
+        }
         'checkout' {
             $branch_list = return_branch
             $head_list = return_head
@@ -70,7 +81,7 @@ function handleCompletions($completions) {
                 $list += $PSCompletions.return_completion($_, $info)
             }
         }
-        { 'stash' -in $PSCompletions.input_arr } {
+        'stash' {
             if ($last_item -in @('show', 'pop', 'apply', 'drop')) {
                 foreach ($_ in git stash list 2>$null) {
                     if ($_ -match 'stash@\{(\d+)\}') {
@@ -80,7 +91,7 @@ function handleCompletions($completions) {
                 }
             }
         }
-        { 'branch' -in $PSCompletions.input_arr } {
+        'branch' {
             if ($last_item -in @('-m', '-d')) {
                 $branch_list = return_branch
                 foreach ($_ in $branch_list) {
@@ -89,7 +100,7 @@ function handleCompletions($completions) {
                 }
             }
         }
-        { 'commit' -in $PSCompletions.input_arr } {
+        'commit' {
             if ($last_item -in @('-C')) {
                 $commit_info = return_commit
                 foreach ($_ in $commit_info) {
@@ -133,7 +144,7 @@ function handleCompletions($completions) {
                 $list += $PSCompletions.return_completion($hash, $content)
             }
         }
-        { 'rebase' -in $PSCompletions.input_arr } {
+        'rebase' {
             $branch_list = return_branch
             foreach ($_ in $branch_list) {
                 $list += $PSCompletions.return_completion($_, "")
@@ -158,7 +169,7 @@ function handleCompletions($completions) {
                 }
             }
         }
-        { 'reset' -in $PSCompletions.input_arr } {
+        'reset' {
             if ($last_item -in @('reset', '--hard', '--soft', '--mixed')) {
                 $head_list = return_head
                 foreach ($_ in $head_list.Keys) {
@@ -215,7 +226,7 @@ function handleCompletions($completions) {
                 $list += $PSCompletions.return_completion($_, $info)
             }
         }
-        { 'remote' -in $PSCompletions.input_arr } {
+        'remote' {
             if ($last_item -in @('rename', 'rm')) {
                 $remote_list = git remote 2>$null
                 foreach ($_ in $remote_list) {
@@ -236,7 +247,7 @@ function handleCompletions($completions) {
                 $list += $PSCompletions.return_completion($hash, $content)
             }
         }
-        { 'tag' -in $PSCompletions.input_arr } {
+        'tag' {
             if ($last_item -in @('-d', '-v')) {
                 $tag_list = git tag 2>$null
                 foreach ($_ in $tag_list) {
@@ -245,5 +256,6 @@ function handleCompletions($completions) {
             }
         }
     }
+
     return $list + $completions
 }
