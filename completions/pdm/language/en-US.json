@@ -13,34 +13,28 @@
       ],
       "options": [
         {
-          "name": "-g",
+          "name": "--config-setting",
           "alias": [
-            "--global"
+            "-c"
           ],
           "tip": [
-            "Use the global project, supply the project root with `-p` option"
+            "U: --config-setting, -c <CONFIG_SETTING>",
+            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
           ]
         },
         {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
+          "name": "--dry-run",
           "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+            "Show the difference only and don't perform any action"
           ]
         },
         {
-          "name": "-L",
+          "name": "--fail-fast",
           "alias": [
-            "--lockfile"
+            "-x"
           ],
-          "next": 0,
           "tip": [
-            "U: -L, --lockfile <LOCKFILE>",
-            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+            "Abort on first installation error"
           ]
         },
         {
@@ -53,15 +47,42 @@
           ]
         },
         {
-          "name": "--save-compatible",
+          "name": "--no-editable",
           "tip": [
-            "Save compatible version specifiers"
+            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
           ]
         },
         {
-          "name": "--save-wildcard",
+          "name": "--no-isolation",
           "tip": [
-            "Save wildcard version specifiers"
+            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
+          ]
+        },
+        {
+          "name": "--no-self",
+          "tip": [
+            "Don't install the project itself. [env var: PDM_NO_SELF]"
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Only write pyproject.toml and do not sync the working set"
+          ]
+        },
+        {
+          "name": "--pre",
+          "alias": [
+            "--prerelease"
+          ],
+          "tip": [
+            "Allow prereleases to be pinned"
+          ]
+        },
+        {
+          "name": "--save-compatible",
+          "tip": [
+            "Save compatible version specifiers"
           ]
         },
         {
@@ -77,36 +98,9 @@
           ]
         },
         {
-          "name": "--update-reuse",
+          "name": "--save-wildcard",
           "tip": [
-            "Reuse pinned versions already present in lock file if possible"
-          ]
-        },
-        {
-          "name": "--update-eager",
-          "tip": [
-            "Try to update the packages and their dependencies recursively"
-          ]
-        },
-        {
-          "name": "--update-all",
-          "tip": [
-            "Update all dependencies and sub-dependencies"
-          ]
-        },
-        {
-          "name": "--update-reuse-installed",
-          "tip": [
-            "Reuse installed packages if possible"
-          ]
-        },
-        {
-          "name": "--pre",
-          "alias": [
-            "--prerelease"
-          ],
-          "tip": [
-            "Allow prereleases to be pinned"
+            "Save wildcard version specifiers"
           ]
         },
         {
@@ -116,18 +110,27 @@
           ]
         },
         {
-          "name": "-u",
-          "alias": [
-            "--unconstrained"
-          ],
+          "name": "--update-all",
           "tip": [
-            "Ignore the version constraints in pyproject.toml and overwrite with new ones from the resolution result"
+            "Update all dependencies and sub-dependencies"
           ]
         },
         {
-          "name": "--dry-run",
+          "name": "--update-eager",
           "tip": [
-            "Show the difference only and don't perform any action"
+            "Try to update the packages and their dependencies recursively"
+          ]
+        },
+        {
+          "name": "--update-reuse",
+          "tip": [
+            "Reuse pinned versions already present in lock file if possible"
+          ]
+        },
+        {
+          "name": "--update-reuse-installed",
+          "tip": [
+            "Reuse installed packages if possible"
           ]
         },
         {
@@ -135,18 +138,6 @@
           "tip": [
             "U: --venv [NAME]",
             "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
-          ]
-        },
-        {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
           ]
         },
         {
@@ -159,68 +150,77 @@
           ]
         },
         {
-          "name": "-G",
-          "alias": [
-            "--group"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -G, --group <GROUP>",
-            "Specify the target dependency group to add into."
-          ]
-        },
-        {
-          "name": "--no-sync",
-          "tip": [
-            "Only write pyproject.toml and do not sync the working set"
-          ]
-        },
-        {
           "name": "-e",
           "alias": [
             "--editable"
           ],
-          "next": 0,
           "tip": [
             "U: -e, --editable <EDITABLES>",
             "Specify editable packages"
-          ]
+          ],
+          "next": 0
         },
         {
-          "name": "--no-editable",
-          "tip": [
-            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
-          ]
-        },
-        {
-          "name": "--no-self",
-          "tip": [
-            "Don't install the project itself. [env var: PDM_NO_SELF]"
-          ]
-        },
-        {
-          "name": "--fail-fast",
+          "name": "-g",
           "alias": [
-            "-x"
+            "--global"
           ],
           "tip": [
-            "Abort on first installation error"
+            "Use the global project, supply the project root with `-p` option"
           ]
         },
         {
-          "name": "--no-isolation",
-          "tip": [
-            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
-          ]
-        },
-        {
-          "name": "--config-setting",
+          "name": "-G",
           "alias": [
-            "-c"
+            "--group"
           ],
           "tip": [
-            "U: --config-setting, -c <CONFIG_SETTING>",
-            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
+            "U: -G, --group <GROUP>",
+            "Specify the target dependency group to add into."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-L",
+          "alias": [
+            "--lockfile"
+          ],
+          "tip": [
+            "U: -L, --lockfile <LOCKFILE>",
+            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--unconstrained"
+          ],
+          "tip": [
+            "Ignore the version constraints in pyproject.toml and overwrite with new ones from the resolution result"
           ]
         }
       ]
@@ -232,35 +232,6 @@
       ],
       "options": [
         {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--no-isolation",
-          "tip": [
-            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
-          ]
-        },
-        {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
-          ]
-        },
-        {
           "name": "--config-setting",
           "alias": [
             "-c"
@@ -268,6 +239,18 @@
           "tip": [
             "U: --config-setting, -c <CONFIG_SETTING>",
             "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
+          ]
+        },
+        {
+          "name": "--no-clean",
+          "tip": [
+            "Do not clean the target directory"
+          ]
+        },
+        {
+          "name": "--no-isolation",
+          "tip": [
+            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
           ]
         },
         {
@@ -287,17 +270,34 @@
           "alias": [
             "--dest"
           ],
-          "next": 0,
           "tip": [
             "U: -d, --dest <DEST>",
             "Target directory to put artifacts"
-          ]
+          ],
+          "next": 0
         },
         {
-          "name": "--no-clean",
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
           "tip": [
-            "Do not clean the target directory"
-          ]
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
         }
       ]
     },
@@ -326,12 +326,6 @@
               ]
             },
             {
-              "name": "wheels",
-              "tip": [
-                "Clean the wheel cache"
-              ]
-            },
-            {
               "name": "metadata",
               "tip": [
                 "Clean the metadata cache"
@@ -342,14 +336,19 @@
               "tip": [
                 "Clean the package cache"
               ]
+            },
+            {
+              "name": "wheels",
+              "tip": [
+                "Clean the wheel cache"
+              ]
             }
           ]
         },
         {
-          "name": "remove",
+          "name": "info",
           "tip": [
-            "U: remove <PATTERN>",
-            "Remove files matching the given pattern"
+            "Show the info and current size of caches"
           ]
         },
         {
@@ -360,9 +359,10 @@
           ]
         },
         {
-          "name": "info",
+          "name": "remove",
           "tip": [
-            "Show the info and current size of caches"
+            "U: remove <PATTERN>",
+            "Remove files matching the given pattern"
           ]
         }
       ]
@@ -382,35 +382,6 @@
       ],
       "options": [
         {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "Use the global project, supply the project root with `-p` option"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--local"
-          ],
-          "tip": [
-            "Set config in the project's local configuration file"
-          ]
-        },
-        {
           "name": "-d",
           "alias": [
             "--delete"
@@ -427,15 +398,7 @@
           "tip": [
             "Edit the configuration file in the default editor(defined by EDITOR env var)"
           ]
-        }
-      ]
-    },
-    {
-      "name": "export",
-      "tip": [
-        "Export the locked packages set to other formats"
-      ],
-      "options": [
+        },
         {
           "name": "-g",
           "alias": [
@@ -446,40 +409,55 @@
           ]
         },
         {
+          "name": "-l",
+          "alias": [
+            "--local"
+          ],
+          "tip": [
+            "Set config in the project's local configuration file"
+          ]
+        },
+        {
           "name": "-p",
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "Export the locked packages set to other formats"
+      ],
+      "options": [
+        {
+          "name": "--editable-self",
+          "tip": [
+            "Include the project itself as an editable dependency"
           ]
         },
         {
-          "name": "-L",
-          "alias": [
-            "--lockfile"
-          ],
-          "next": 0,
+          "name": "--expandvars",
           "tip": [
-            "U: -L, --lockfile <LOCKFILE>",
-            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+            "Expand environment variables in requirements"
           ]
         },
         {
-          "name": "-f",
-          "alias": [
-            "--format"
-          ],
+          "name": "--no-default",
           "tip": [
-            "U: -f, --format <FORMAT>",
-            "Only requirements.txt is supported for now."
-          ],
-          "next": [
-            {
-              "name": "requirements"
-            }
+            "Don't include dependencies from the default group"
+          ]
+        },
+        {
+          "name": "--no-extras",
+          "tip": [
+            "Strip extras from the requirements"
           ]
         },
         {
@@ -498,19 +476,12 @@
           ]
         },
         {
-          "name": "--no-extras",
-          "tip": [
-            "Strip extras from the requirements"
-          ]
-        },
-        {
-          "name": "-o",
+          "name": "--prod",
           "alias": [
-            "--output"
+            "--production"
           ],
-          "next": 0,
           "tip": [
-            "Write output to the given file, or print to stdout if not given"
+            "Unselect dev dependencies"
           ]
         },
         {
@@ -520,46 +491,15 @@
           ]
         },
         {
-          "name": "--expandvars",
-          "tip": [
-            "Expand environment variables in requirements"
-          ]
-        },
-        {
           "name": "--self",
           "tip": [
             "Include the project itself"
           ]
         },
         {
-          "name": "--editable-self",
-          "tip": [
-            "Include the project itself as an editable dependency"
-          ]
-        },
-        {
-          "name": "-G",
-          "alias": [
-            "--group",
-            "--with"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -G, --group, --with <GROUP>",
-            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
-            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
-          ]
-        },
-        {
           "name": "--without",
           "tip": [
             "Exclude groups of optional-dependencies or dev-dependencies"
-          ]
-        },
-        {
-          "name": "--no-default",
-          "tip": [
-            "Don't include dependencies from the default group"
           ]
         },
         {
@@ -572,13 +512,73 @@
           ]
         },
         {
-          "name": "--prod",
+          "name": "-f",
           "alias": [
-            "--production"
+            "--format"
           ],
           "tip": [
-            "Unselect dev dependencies"
+            "U: -f, --format <FORMAT>",
+            "Only requirements.txt is supported for now."
+          ],
+          "next": [
+            {
+              "name": "requirements"
+            }
           ]
+        },
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "Use the global project, supply the project root with `-p` option"
+          ]
+        },
+        {
+          "name": "-G",
+          "alias": [
+            "--group",
+            "--with"
+          ],
+          "tip": [
+            "U: -G, --group, --with <GROUP>",
+            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
+            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-L",
+          "alias": [
+            "--lockfile"
+          ],
+          "tip": [
+            "U: -L, --lockfile <LOCKFILE>",
+            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--output"
+          ],
+          "tip": [
+            "Write output to the given file, or print to stdout if not given"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
         }
       ]
     },
@@ -589,6 +589,12 @@
       ],
       "options": [
         {
+          "name": "--dry-run",
+          "tip": [
+            "Only show the problems"
+          ]
+        },
+        {
           "name": "-g",
           "alias": [
             "--global"
@@ -602,17 +608,11 @@
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "Only show the problems"
-          ]
+          ],
+          "next": 0
         }
       ]
     },
@@ -623,43 +623,12 @@
       ],
       "options": [
         {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "Use the global project, supply the project root with `-p` option"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
           "name": "-d",
           "alias": [
             "--dev"
           ],
           "tip": [
             "import packages into dev dependencies"
-          ]
-        },
-        {
-          "name": "-G",
-          "alias": [
-            "--group"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -G, --group <GROUP>",
-            "Specify the target dependency group to import into"
           ]
         },
         {
@@ -673,30 +642,22 @@
           ],
           "next": [
             {
+              "name": "flit"
+            },
+            {
               "name": "pipfile"
             },
             {
               "name": "poetry"
             },
             {
-              "name": "flit"
+              "name": "requirements"
             },
             {
               "name": "setuppy"
-            },
-            {
-              "name": "requirements"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "info",
-      "tip": [
-        "Show the project information"
-      ],
-      "options": [
+        },
         {
           "name": "-g",
           "alias": [
@@ -707,41 +668,35 @@
           ]
         },
         {
+          "name": "-G",
+          "alias": [
+            "--group"
+          ],
+          "tip": [
+            "U: -G, --group <GROUP>",
+            "Specify the target dependency group to import into"
+          ],
+          "next": 0
+        },
+        {
           "name": "-p",
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--venv",
-          "tip": [
-            "U: --venv [NAME]",
-            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
-          ]
-        },
-        {
-          "name": "--python",
-          "tip": [
-            "Show the interpreter path"
-          ]
-        },
-        {
-          "name": "--where",
-          "tip": [
-            "Show the project root path"
-          ]
-        },
-        {
-          "name": "--packages",
-          "tip": [
-            "Show the local packages root"
-          ]
-        },
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "Show the project information"
+      ],
+      "options": [
         {
           "name": "--env",
           "tip": [
@@ -753,15 +708,32 @@
           "tip": [
             "Dump the information in JSON"
           ]
-        }
-      ]
-    },
-    {
-      "name": "init",
-      "tip": [
-        "Initialize a pyproject.toml for PDM"
-      ],
-      "options": [
+        },
+        {
+          "name": "--packages",
+          "tip": [
+            "Show the local packages root"
+          ]
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "Show the interpreter path"
+          ]
+        },
+        {
+          "name": "--venv",
+          "tip": [
+            "U: --venv [NAME]",
+            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
+          ]
+        },
+        {
+          "name": "--where",
+          "tip": [
+            "Show the project root path"
+          ]
+        },
         {
           "name": "-g",
           "alias": [
@@ -776,28 +748,39 @@
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "-k",
-          "alias": [
-            "--skip"
           ],
-          "next": 0,
-          "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
-          ]
-        },
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "Initialize a pyproject.toml for PDM"
+      ],
+      "options": [
         {
-          "name": "--copier",
+          "name": "--backend",
           "tip": [
-            "Use Copier to generate project"
+            "U: --backend <BACKEND>",
+            "Specify the build backend, which implies --dist"
+          ],
+          "next": [
+            {
+              "name": "flit-core"
+            },
+            {
+              "name": "hatchling"
+            },
+            {
+              "name": "pdm-backend"
+            },
+            {
+              "name": "setuptools"
+            }
           ]
         },
         {
@@ -807,29 +790,9 @@
           ]
         },
         {
-          "name": "-r",
-          "alias": [
-            "--overwrite"
-          ],
+          "name": "--copier",
           "tip": [
-            "Overwrite existing files"
-          ]
-        },
-        {
-          "name": "-n",
-          "alias": [
-            "--non-interactive"
-          ],
-          "tip": [
-            "Don't ask questions but use default values"
-          ]
-        },
-        {
-          "name": "--python",
-          "next": 0,
-          "tip": [
-            "U: --python <PYTHON>",
-            "Specify the Python version/path to use"
+            "Use Copier to generate project"
           ]
         },
         {
@@ -842,24 +805,61 @@
           ]
         },
         {
-          "name": "--backend",
+          "name": "--python",
           "tip": [
-            "U: --backend <BACKEND>",
-            "Specify the build backend, which implies --dist"
+            "U: --python <PYTHON>",
+            "Specify the Python version/path to use"
           ],
-          "next": [
-            {
-              "name": "pdm-backend"
-            },
-            {
-              "name": "setuptools"
-            },
-            {
-              "name": "flit-core"
-            },
-            {
-              "name": "hatchling"
-            }
+          "next": 0
+        },
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "Use the global project, supply the project root with `-p` option"
+          ]
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--non-interactive"
+          ],
+          "tip": [
+            "Don't ask questions but use default values"
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--overwrite"
+          ],
+          "tip": [
+            "Overwrite existing files"
           ]
         }
       ]
@@ -871,135 +871,25 @@
       ],
       "options": [
         {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "Use the global project, supply the project root with `-p` option"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "Show the difference only and don't perform any action"
-          ]
-        },
-        {
-          "name": "-L",
-          "alias": [
-            "--lockfile"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -L, --lockfile <LOCKFILE>",
-            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
-          ]
-        },
-        {
-          "name": "--frozen-lockfile",
-          "alias": [
-            "--no-lock"
-          ],
-          "tip": [
-            "Don't try to create or update the lockfile. [env var: PDM_FROZEN_LOCKFILE]"
-          ]
-        },
-        {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
-          ]
-        },
-        {
-          "name": "--venv",
-          "tip": [
-            "U: --venv [NAME]",
-            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
-          ]
-        },
-        {
           "name": "--check",
           "tip": [
             "Check if the lock file is up to date and fail otherwise"
           ]
         },
         {
-          "name": "--plugins",
-          "tip": [
-            "Install the plugins specified in pyproject.toml"
-          ]
-        },
-        {
-          "name": "-G",
+          "name": "--config-setting",
           "alias": [
-            "--group",
-            "--with"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -G, --group, --with <GROUP>",
-            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
-            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
-          ]
-        },
-        {
-          "name": "--without",
-          "tip": [
-            "Exclude groups of optional-dependencies or dev-dependencies"
-          ]
-        },
-        {
-          "name": "--no-default",
-          "tip": [
-            "Don't include dependencies from the default group"
-          ]
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--dev"
+            "-c"
           ],
           "tip": [
-            "Select dev dependencies"
+            "U: --config-setting, -c <CONFIG_SETTING>",
+            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
           ]
         },
         {
-          "name": "--prod",
-          "alias": [
-            "--production"
-          ],
+          "name": "--dry-run",
           "tip": [
-            "Unselect dev dependencies"
-          ]
-        },
-        {
-          "name": "--no-editable",
-          "tip": [
-            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
-          ]
-        },
-        {
-          "name": "--no-self",
-          "tip": [
-            "Don't install the project itself. [env var: PDM_NO_SELF]"
+            "Show the difference only and don't perform any action"
           ]
         },
         {
@@ -1012,47 +902,51 @@
           ]
         },
         {
+          "name": "--frozen-lockfile",
+          "alias": [
+            "--no-lock"
+          ],
+          "tip": [
+            "Don't try to create or update the lockfile. [env var: PDM_FROZEN_LOCKFILE]"
+          ]
+        },
+        {
+          "name": "--no-default",
+          "tip": [
+            "Don't include dependencies from the default group"
+          ]
+        },
+        {
+          "name": "--no-editable",
+          "tip": [
+            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
+          ]
+        },
+        {
           "name": "--no-isolation",
           "tip": [
             "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
           ]
         },
         {
-          "name": "--config-setting",
-          "alias": [
-            "-c"
-          ],
+          "name": "--no-self",
           "tip": [
-            "U: --config-setting, -c <CONFIG_SETTING>",
-            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "list",
-      "tip": [
-        "List packages installed in the current working set"
-      ],
-      "options": [
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "Use the global project, supply the project root with `-p` option"
+            "Don't install the project itself. [env var: PDM_NO_SELF]"
           ]
         },
         {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
+          "name": "--plugins",
           "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+            "Install the plugins specified in pyproject.toml"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "--production"
+          ],
+          "tip": [
+            "Unselect dev dependencies"
           ]
         },
         {
@@ -1063,34 +957,97 @@
           ]
         },
         {
-          "name": "--freeze",
+          "name": "--without",
           "tip": [
-            "Show the installed dependencies in pip's requirements.txt format"
+            "Exclude groups of optional-dependencies or dev-dependencies"
           ]
         },
         {
-          "name": "--tree",
+          "name": "-d",
           "alias": [
-            "--graph"
+            "--dev"
           ],
           "tip": [
-            "Display a tree of dependencies"
+            "Select dev dependencies"
           ]
         },
         {
-          "name": "-r",
+          "name": "-g",
           "alias": [
-            "--reverse"
+            "--global"
           ],
           "tip": [
-            "Reverse the dependency tree"
+            "Use the global project, supply the project root with `-p` option"
           ]
         },
         {
-          "name": "--resolve",
+          "name": "-G",
+          "alias": [
+            "--group",
+            "--with"
+          ],
           "tip": [
-            "Resolve all requirements to output licenses (instead of just showing those currently installed)"
+            "U: -G, --group, --with <GROUP>",
+            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
+            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-L",
+          "alias": [
+            "--lockfile"
+          ],
+          "tip": [
+            "U: -L, --lockfile <LOCKFILE>",
+            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "List packages installed in the current working set"
+      ],
+      "options": [
+        {
+          "name": "--csv",
+          "tip": [
+            "Output dependencies in CSV document format"
           ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <EXCLUDE>",
+            "Exclude dependency groups from the output"
+          ],
+          "next": 0
         },
         {
           "name": "--fields",
@@ -1121,19 +1078,19 @@
           ]
         },
         {
-          "name": "--sort",
-          "next": 0,
+          "name": "--freeze",
           "tip": [
-            "U: --sort <SORT>",
-            "Sort the output using a given field name.",
-            "If nothing is set, no sort is applied. Multiple fields can be combined with ','."
+            "Show the installed dependencies in pip's requirements.txt format"
           ]
         },
         {
-          "name": "--csv",
+          "name": "--include",
           "tip": [
-            "Output dependencies in CSV document format"
-          ]
+            "U: --include <INCLUDE>",
+            "Dependency groups to include in the output.",
+            "By default all are included"
+          ],
+          "next": 0
         },
         {
           "name": "--json",
@@ -1148,30 +1105,36 @@
           ]
         },
         {
-          "name": "--include",
-          "next": 0,
+          "name": "--resolve",
           "tip": [
-            "U: --include <INCLUDE>",
-            "Dependency groups to include in the output.",
-            "By default all are included"
+            "Resolve all requirements to output licenses (instead of just showing those currently installed)"
           ]
         },
         {
-          "name": "--exclude",
-          "next": 0,
+          "name": "--sort",
           "tip": [
-            "U: --exclude <EXCLUDE>",
-            "Exclude dependency groups from the output"
+            "U: --sort <SORT>",
+            "Sort the output using a given field name.",
+            "If nothing is set, no sort is applied. Multiple fields can be combined with ','."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "--graph"
+          ],
+          "tip": [
+            "Display a tree of dependencies"
           ]
-        }
-      ]
-    },
-    {
-      "name": "lock",
-      "tip": [
-        "Resolve and lock dependencies"
-      ],
-      "options": [
+        },
+        {
+          "name": "--venv",
+          "tip": [
+            "U: --venv [NAME]",
+            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
+          ]
+        },
         {
           "name": "-g",
           "alias": [
@@ -1186,27 +1149,33 @@
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "-L",
-          "alias": [
-            "--lockfile"
           ],
-          "next": 0,
-          "tip": [
-            "U: -L, --lockfile <LOCKFILE>",
-            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
-          ]
+          "next": 0
         },
         {
-          "name": "--no-isolation",
+          "name": "-r",
+          "alias": [
+            "--reverse"
+          ],
           "tip": [
-            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
+            "Reverse the dependency tree"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "Resolve and lock dependencies"
+      ],
+      "options": [
+        {
+          "name": "--check",
+          "tip": [
+            "Check if the lock file is up to date and quit"
           ]
         },
         {
@@ -1220,67 +1189,12 @@
           ]
         },
         {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
-          ]
-        },
-        {
-          "name": "--refresh",
-          "tip": [
-            "Refresh the content hash and file hashes in the lock file"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "Check if the lock file is up to date and quit"
-          ]
-        },
-        {
-          "name": "--update-reuse",
-          "tip": [
-            "Reuse pinned versions already present in lock file if possible"
-          ]
-        },
-        {
-          "name": "--update-reuse-installed",
-          "tip": [
-            "Reuse installed packages if possible"
-          ]
-        },
-        {
           "name": "--exclude-newer",
-          "next": 0,
           "tip": [
             "U: --exclude-newer <EXCLUDE_NEWER>",
             "Exclude packages newer than the given UTC date in format `YYYY-MM-DD[THH:MM:SSZ]`"
-          ]
-        },
-        {
-          "name": "-G",
-          "alias": [
-            "--group",
-            "--with"
           ],
-          "next": 0,
-          "tip": [
-            "U: -G, --group, --with <GROUP>",
-            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
-            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
-          ]
-        },
-        {
-          "name": "--without",
-          "tip": [
-            "Exclude groups of optional-dependencies or dev-dependencies"
-          ]
+          "next": 0
         },
         {
           "name": "--no-default",
@@ -1289,12 +1203,9 @@
           ]
         },
         {
-          "name": "-d",
-          "alias": [
-            "--dev"
-          ],
+          "name": "--no-isolation",
           "tip": [
-            "Select dev dependencies"
+            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
           ]
         },
         {
@@ -1304,6 +1215,12 @@
           ],
           "tip": [
             "Unselect dev dependencies"
+          ]
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "Refresh the content hash and file hashes in the lock file"
           ]
         },
         {
@@ -1321,12 +1238,6 @@
               "name": "cross_platform",
               "tip": [
                 "Use cross_platform strategy"
-              ]
-            },
-            {
-              "name": "static_urls",
-              "tip": [
-                "Use static_urls strategy"
               ]
             },
             {
@@ -1348,12 +1259,6 @@
               ]
             },
             {
-              "name": "no_static_urls",
-              "tip": [
-                "Disable static_urls strategy"
-              ]
-            },
-            {
               "name": "no_direct_minimal_versions",
               "tip": [
                 "Disable direct_minimal_versions strategy"
@@ -1364,8 +1269,103 @@
               "tip": [
                 "Disable inherit_metadata strategy"
               ]
+            },
+            {
+              "name": "no_static_urls",
+              "tip": [
+                "Disable static_urls strategy"
+              ]
+            },
+            {
+              "name": "static_urls",
+              "tip": [
+                "Use static_urls strategy"
+              ]
             }
           ]
+        },
+        {
+          "name": "--update-reuse",
+          "tip": [
+            "Reuse pinned versions already present in lock file if possible"
+          ]
+        },
+        {
+          "name": "--update-reuse-installed",
+          "tip": [
+            "Reuse installed packages if possible"
+          ]
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "Exclude groups of optional-dependencies or dev-dependencies"
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--dev"
+          ],
+          "tip": [
+            "Select dev dependencies"
+          ]
+        },
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "Use the global project, supply the project root with `-p` option"
+          ]
+        },
+        {
+          "name": "-G",
+          "alias": [
+            "--group",
+            "--with"
+          ],
+          "tip": [
+            "U: -G, --group, --with <GROUP>",
+            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
+            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-L",
+          "alias": [
+            "--lockfile"
+          ],
+          "tip": [
+            "U: -L, --lockfile <LOCKFILE>",
+            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
         }
       ]
     },
@@ -1375,6 +1375,12 @@
         "Check for outdated packages and list the latest versions on indexes."
       ],
       "options": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output in JSON format"
+          ]
+        },
         {
           "name": "-g",
           "alias": [
@@ -1389,17 +1395,11 @@
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--json",
-          "tip": [
-            "Output in JSON format"
-          ]
+          ],
+          "next": 0
         }
       ]
     },
@@ -1410,60 +1410,109 @@
       ],
       "options": [
         {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
+          "name": "--ca-certs",
           "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+            "U: --ca-certs <CA_CERTS>",
+            "The path to a PEM-encoded Certificate Authority bundle to use for publish server validation. [env var: PDM_PUBLISH_CA_CERTS]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-build",
+          "tip": [
+            "Don't build the package before publishing"
           ]
+        },
+        {
+          "name": "--no-very-ssl",
+          "tip": [
+            "Disable SSL verification"
+          ]
+        },
+        {
+          "name": "--skip-existing",
+          "tip": [
+            "Skip uploading files that already exist.",
+            "This may not work with some repository implementations."
+          ]
+        },
+        {
+          "name": "-c",
+          "alias": [
+            "--comment"
+          ],
+          "tip": [
+            "U: -c, --comment <COMMENT>",
+            "The comment to include with the distribution file."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--dest"
+          ],
+          "tip": [
+            "U: -d, --dest <DEST>",
+            "The directory to upload the package from"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--identity"
+          ],
+          "tip": [
+            "U: -i, --identity <IDENTITY>",
+            "GPG identity used to sign files."
+          ],
+          "next": 0
         },
         {
           "name": "-k",
           "alias": [
             "--skip"
           ],
-          "next": 0,
           "tip": [
             "U: -k, --skip <SKIP>",
             "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
             "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
-          ]
+          ],
+          "next": 0
         },
         {
-          "name": "-r",
+          "name": "-p",
           "alias": [
-            "--repository"
+            "--project"
           ],
-          "next": 0,
           "tip": [
-            "U: -r, --repository <REPOSITORY>",
-            "The repository name or url to publish the package to [env var: PDM_PUBLISH_REPO]"
-          ]
-        },
-        {
-          "name": "-u",
-          "alias": [
-            "--username"
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
           ],
-          "next": 0,
-          "tip": [
-            "U: -u, --username <USERNAME>",
-            "The username to access the repository [env var: PDM_PUBLISH_USERNAME]"
-          ]
+          "next": 0
         },
         {
           "name": "-p",
           "alias": [
             "--password"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --password <PASSWORD>",
             "The password to access the repository [env var: PDM_PUBLISH_PASSWORD]"
-          ]
+          ],
+          "next": 0
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--repository"
+          ],
+          "tip": [
+            "U: -r, --repository <REPOSITORY>",
+            "The repository name or url to publish the package to [env var: PDM_PUBLISH_REPO]"
+          ],
+          "next": 0
         },
         {
           "name": "-S",
@@ -1475,64 +1524,15 @@
           ]
         },
         {
-          "name": "-i",
+          "name": "-u",
           "alias": [
-            "--identity"
+            "--username"
           ],
-          "next": 0,
           "tip": [
-            "U: -i, --identity <IDENTITY>",
-            "GPG identity used to sign files."
-          ]
-        },
-        {
-          "name": "-c",
-          "alias": [
-            "--comment"
+            "U: -u, --username <USERNAME>",
+            "The username to access the repository [env var: PDM_PUBLISH_USERNAME]"
           ],
-          "next": 0,
-          "tip": [
-            "U: -c, --comment <COMMENT>",
-            "The comment to include with the distribution file."
-          ]
-        },
-        {
-          "name": "--no-build",
-          "tip": [
-            "Don't build the package before publishing"
-          ]
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--dest"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -d, --dest <DEST>",
-            "The directory to upload the package from"
-          ]
-        },
-        {
-          "name": "--skip-existing",
-          "tip": [
-            "Skip uploading files that already exist.",
-            "This may not work with some repository implementations."
-          ]
-        },
-        {
-          "name": "--no-very-ssl",
-          "tip": [
-            "Disable SSL verification"
-          ]
-        },
-        {
-          "name": "--ca-certs",
-          "next": 0,
-          "tip": [
-            "U: --ca-certs <CA_CERTS>",
-            "The path to a PEM-encoded Certificate Authority bundle to use for publish server validation. [env var: PDM_PUBLISH_CA_CERTS]"
-          ]
+          "next": 0
         }
       ]
     },
@@ -1546,18 +1546,6 @@
         "Manage installed Python interpreters"
       ],
       "next": [
-        {
-          "name": "list",
-          "tip": [
-            "List all Python interpreters installed with PDM"
-          ]
-        },
-        {
-          "name": "remove",
-          "tip": [
-            "Remove a Python interpreter installed with PDM"
-          ]
-        },
         {
           "name": "install",
           "tip": [
@@ -1580,6 +1568,18 @@
               ]
             }
           ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all Python interpreters installed with PDM"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove a Python interpreter installed with PDM"
+          ]
         }
       ]
     },
@@ -1590,23 +1590,13 @@
       ],
       "options": [
         {
-          "name": "-g",
+          "name": "--config-setting",
           "alias": [
-            "--global"
+            "-c"
           ],
           "tip": [
-            "Use the global project, supply the project root with `-p` option"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+            "U: --config-setting, -c <CONFIG_SETTING>",
+            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
           ]
         },
         {
@@ -1616,14 +1606,12 @@
           ]
         },
         {
-          "name": "-L",
+          "name": "--fail-fast",
           "alias": [
-            "--lockfile"
+            "-x"
           ],
-          "next": 0,
           "tip": [
-            "U: -L, --lockfile <LOCKFILE>",
-            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+            "Abort on first installation error"
           ]
         },
         {
@@ -1636,15 +1624,27 @@
           ]
         },
         {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
+          "name": "--no-editable",
           "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
+          ]
+        },
+        {
+          "name": "--no-isolation",
+          "tip": [
+            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
+          ]
+        },
+        {
+          "name": "--no-self",
+          "tip": [
+            "Don't install the project itself. [env var: PDM_NO_SELF]"
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Only write pyproject.toml and do not uninstall packages"
           ]
         },
         {
@@ -1664,59 +1664,58 @@
           ]
         },
         {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "Use the global project, supply the project root with `-p` option"
+          ]
+        },
+        {
           "name": "-G",
           "alias": [
             "--group"
           ],
-          "next": 0,
           "tip": [
             "U: -G, --group <GROUP>",
             "Specify the target dependency group to remove from"
-          ]
+          ],
+          "next": 0
         },
         {
-          "name": "--no-sync",
-          "tip": [
-            "Only write pyproject.toml and do not uninstall packages"
-          ]
-        },
-
-        {
-          "name": "--no-editable",
-          "tip": [
-            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
-          ]
-        },
-        {
-          "name": "--no-self",
-          "tip": [
-            "Don't install the project itself. [env var: PDM_NO_SELF]"
-          ]
-        },
-        {
-          "name": "--fail-fast",
+          "name": "-k",
           "alias": [
-            "-x"
+            "--skip"
           ],
           "tip": [
-            "Abort on first installation error"
-          ]
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
         },
         {
-          "name": "--no-isolation",
-          "tip": [
-            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
-          ]
-        },
-        {
-          "name": "--config-setting",
+          "name": "-L",
           "alias": [
-            "-c"
+            "--lockfile"
           ],
           "tip": [
-            "U: --config-setting, -c <CONFIG_SETTING>",
-            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
-          ]
+            "U: -L, --lockfile <LOCKFILE>",
+            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
         }
       ]
     },
@@ -1727,35 +1726,9 @@
       ],
       "options": [
         {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
+          "name": "--reuse-env",
           "tip": [
-            "Use the global project, supply the project root with `-p` option"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+            "Reuse the script environment for self-contained scripts"
           ]
         },
         {
@@ -1766,12 +1739,12 @@
           ]
         },
         {
-          "name": "-l",
+          "name": "-g",
           "alias": [
-            "--list"
+            "--global"
           ],
           "tip": [
-            "Show all available scripts defined in pyproject.toml"
+            "Use the global project, supply the project root with `-p` option"
           ]
         },
         {
@@ -1784,18 +1757,44 @@
           ]
         },
         {
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-l",
+          "alias": [
+            "--list"
+          ],
+          "tip": [
+            "Show all available scripts defined in pyproject.toml"
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
+        },
+        {
           "name": "-s",
           "alias": [
             "--site-packages"
           ],
           "tip": [
             "Load site-packages from the selected interpreter"
-          ]
-        },
-        {
-          "name": "--reuse-env",
-          "tip": [
-            "Reuse the script environment for self-contained scripts"
           ]
         }
       ]
@@ -1817,6 +1816,22 @@
       ],
       "next": [
         {
+          "name": "add",
+          "tip": [
+            "Install packages to the PDM's environment"
+          ],
+          "options": [
+            {
+              "name": "--pip-args",
+              "tip": [
+                "U: --pip-args <PIP_ARGS>",
+                "Arguments that will be passed to pip install"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
           "name": "list",
           "tip": [
             "List all packages installed with PDM"
@@ -1831,22 +1846,6 @@
           ]
         },
         {
-          "name": "add",
-          "tip": [
-            "Install packages to the PDM's environment"
-          ],
-          "options": [
-            {
-              "name": "--pip-args",
-              "next": 0,
-              "tip": [
-                "U: --pip-args <PIP_ARGS>",
-                "Arguments that will be passed to pip install"
-              ]
-            }
-          ]
-        },
-        {
           "name": "remove",
           "tip": [
             "Remove packages from PDM's environment"
@@ -1854,11 +1853,11 @@
           "options": [
             {
               "name": "--pip-args",
-              "next": 0,
               "tip": [
                 "U: --pip-args <PIP_ARGS>",
                 "Arguments that will be passed to pip uninstall"
-              ]
+              ],
+              "next": 0
             },
             {
               "name": "-y",
@@ -1884,17 +1883,17 @@
               ]
             },
             {
-              "name": "--pre",
-              "tip": [
-                "Update to the latest prerelease version"
-              ]
-            },
-            {
               "name": "--pip-args",
-              "next": 0,
               "tip": [
                 "U: --pip-args <PIP_ARGS>",
                 "Additional arguments that will be passed to pip install"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--pre",
+              "tip": [
+                "Update to the latest prerelease version"
               ]
             }
           ]
@@ -1908,6 +1907,49 @@
       ],
       "options": [
         {
+          "name": "--keywords",
+          "tip": [
+            "Show keywords"
+          ]
+        },
+        {
+          "name": "--license",
+          "tip": [
+            "Show license"
+          ]
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "Show name"
+          ]
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "Show platform"
+          ]
+        },
+        {
+          "name": "--summary",
+          "tip": [
+            "Show summary"
+          ]
+        },
+        {
+          "name": "--venv",
+          "tip": [
+            "U: --venv [NAME]",
+            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "Show version"
+          ]
+        },
+        {
           "name": "-g",
           "alias": [
             "--global"
@@ -1921,54 +1963,11 @@
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--venv",
-          "tip": [
-            "U: --venv [NAME]",
-            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
-          ]
-        },
-        {
-          "name": "--name",
-          "tip": [
-            "Show name"
-          ]
-        },
-        {
-          "name": "--version",
-          "tip": [
-            "Show version"
-          ]
-        },
-        {
-          "name": "--summary",
-          "tip": [
-            "Show summary"
-          ]
-        },
-        {
-          "name": "--license",
-          "tip": [
-            "Show license"
-          ]
-        },
-        {
-          "name": "--platform",
-          "tip": [
-            "Show platform"
-          ]
-        },
-        {
-          "name": "--keywords",
-          "tip": [
-            "Show keywords"
-          ]
+          ],
+          "next": 0
         }
       ]
     },
@@ -1979,135 +1978,25 @@
       ],
       "options": [
         {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "Use the global project, supply the project root with `-p` option"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "Show the difference only and don't perform any action"
-          ]
-        },
-        {
-          "name": "-L",
-          "alias": [
-            "--lockfile"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -L, --lockfile <LOCKFILE>",
-            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
-          ]
-        },
-        {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
-          ]
-        },
-        {
           "name": "--clean",
           "tip": [
             "Clean packages not in the lockfile"
           ]
         },
         {
-          "name": "--only-keep",
-          "tip": [
-            "Only keep the selected packages"
-          ]
-        },
-        {
-          "name": "--venv",
-          "tip": [
-            "U: --venv [NAME]",
-            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
-          ]
-        },
-        {
-          "name": "-r",
+          "name": "--config-setting",
           "alias": [
-            "--reinstall"
+            "-c"
           ],
           "tip": [
-            "Force reinstall existing dependencies"
+            "U: --config-setting, -c <CONFIG_SETTING>",
+            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
           ]
         },
         {
-          "name": "-G",
-          "alias": [
-            "--group",
-            "--with"
-          ],
-          "next": 0,
+          "name": "--dry-run",
           "tip": [
-            "U: -G, --group, --with <GROUP>",
-            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
-            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
-          ]
-        },
-        {
-          "name": "--without",
-          "tip": [
-            "Exclude groups of optional-dependencies or dev-dependencies"
-          ]
-        },
-        {
-          "name": "--no-default",
-          "tip": [
-            "Don't include dependencies from the default group"
-          ]
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--dev"
-          ],
-          "tip": [
-            "Select dev dependencies"
-          ]
-        },
-        {
-          "name": "--prod",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "Unselect dev dependencies"
-          ]
-        },
-        {
-          "name": "--no-editable",
-          "tip": [
-            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
-          ]
-        },
-        {
-          "name": "--no-self",
-          "tip": [
-            "Don't install the project itself. [env var: PDM_NO_SELF]"
+            "Show the difference only and don't perform any action"
           ]
         },
         {
@@ -2120,19 +2009,129 @@
           ]
         },
         {
+          "name": "--no-default",
+          "tip": [
+            "Don't include dependencies from the default group"
+          ]
+        },
+        {
+          "name": "--no-editable",
+          "tip": [
+            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
+          ]
+        },
+        {
           "name": "--no-isolation",
           "tip": [
             "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
           ]
         },
         {
-          "name": "--config-setting",
+          "name": "--no-self",
+          "tip": [
+            "Don't install the project itself. [env var: PDM_NO_SELF]"
+          ]
+        },
+        {
+          "name": "--only-keep",
+          "tip": [
+            "Only keep the selected packages"
+          ]
+        },
+        {
+          "name": "--prod",
           "alias": [
-            "-c"
+            "--production"
           ],
           "tip": [
-            "U: --config-setting, -c <CONFIG_SETTING>",
-            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
+            "Unselect dev dependencies"
+          ]
+        },
+        {
+          "name": "--venv",
+          "tip": [
+            "U: --venv [NAME]",
+            "Run the command in the virtual environment with the given key. [env var: PDM_IN_VENV]"
+          ]
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "Exclude groups of optional-dependencies or dev-dependencies"
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--dev"
+          ],
+          "tip": [
+            "Select dev dependencies"
+          ]
+        },
+        {
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
+          "tip": [
+            "Use the global project, supply the project root with `-p` option"
+          ]
+        },
+        {
+          "name": "-G",
+          "alias": [
+            "--group",
+            "--with"
+          ],
+          "tip": [
+            "U: -G, --group, --with <GROUP>",
+            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
+            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
+          "tip": [
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-L",
+          "alias": [
+            "--lockfile"
+          ],
+          "tip": [
+            "U: -L, --lockfile <LOCKFILE>",
+            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-r",
+          "alias": [
+            "--reinstall"
+          ],
+          "tip": [
+            "Force reinstall existing dependencies"
           ]
         }
       ]
@@ -2144,34 +2143,31 @@
       ],
       "options": [
         {
-          "name": "-g",
+          "name": "--config-setting",
           "alias": [
-            "--global"
+            "-c"
           ],
           "tip": [
-            "Use the global project, supply the project root with `-p` option"
+            "U: --config-setting, -c <CONFIG_SETTING>",
+            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
           ]
         },
         {
-          "name": "-p",
+          "name": "--dry-run",
           "alias": [
-            "--project"
+            "--outdated"
           ],
-          "next": 0,
           "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+            "Show the difference only without modifying the lockfile content"
           ]
         },
         {
-          "name": "-L",
+          "name": "--fail-fast",
           "alias": [
-            "--lockfile"
+            "-x"
           ],
-          "next": 0,
           "tip": [
-            "U: -L, --lockfile <LOCKFILE>",
-            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+            "Abort on first installation error"
           ]
         },
         {
@@ -2184,15 +2180,57 @@
           ]
         },
         {
-          "name": "--save-compatible",
+          "name": "--no-default",
           "tip": [
-            "Save compatible version specifiers"
+            "Don't include dependencies from the default group"
           ]
         },
         {
-          "name": "--save-wildcard",
+          "name": "--no-editable",
           "tip": [
-            "Save wildcard version specifiers"
+            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
+          ]
+        },
+        {
+          "name": "--no-isolation",
+          "tip": [
+            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
+          ]
+        },
+        {
+          "name": "--no-self",
+          "tip": [
+            "Don't install the project itself. [env var: PDM_NO_SELF]"
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Only update lock file but do not sync packages"
+          ]
+        },
+        {
+          "name": "--pre",
+          "alias": [
+            "--prerelease"
+          ],
+          "tip": [
+            "Allow prereleases to be pinned"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "--production"
+          ],
+          "tip": [
+            "Unselect dev dependencies"
+          ]
+        },
+        {
+          "name": "--save-compatible",
+          "tip": [
+            "Save compatible version specifiers"
           ]
         },
         {
@@ -2208,36 +2246,9 @@
           ]
         },
         {
-          "name": "--update-reuse",
+          "name": "--save-wildcard",
           "tip": [
-            "Reuse pinned versions already present in lock file if possible"
-          ]
-        },
-        {
-          "name": "--update-eager",
-          "tip": [
-            "Try to update the packages and their dependencies recursively"
-          ]
-        },
-        {
-          "name": "--update-all",
-          "tip": [
-            "Update all dependencies and sub-dependencies"
-          ]
-        },
-        {
-          "name": "--update-reuse-installed",
-          "tip": [
-            "Reuse installed packages if possible"
-          ]
-        },
-        {
-          "name": "--pre",
-          "alias": [
-            "--prerelease"
-          ],
-          "tip": [
-            "Allow prereleases to be pinned"
+            "Save wildcard version specifiers"
           ]
         },
         {
@@ -2247,24 +2258,27 @@
           ]
         },
         {
-          "name": "-u",
-          "alias": [
-            "--unconstrained"
-          ],
+          "name": "--update-all",
           "tip": [
-            "Ignore the version constraints in pyproject.toml and overwrite with new ones from the resolution result"
+            "Update all dependencies and sub-dependencies"
           ]
         },
         {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
+          "name": "--update-eager",
           "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+            "Try to update the packages and their dependencies recursively"
+          ]
+        },
+        {
+          "name": "--update-reuse",
+          "tip": [
+            "Reuse pinned versions already present in lock file if possible"
+          ]
+        },
+        {
+          "name": "--update-reuse-installed",
+          "tip": [
+            "Reuse installed packages if possible"
           ]
         },
         {
@@ -2275,52 +2289,9 @@
           ]
         },
         {
-          "name": "-t",
-          "alias": [
-            "--top"
-          ],
-          "tip": [
-            "Only update those listed in pyproject.toml"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "alias": [
-            "--outdated"
-          ],
-          "tip": [
-            "Show the difference only without modifying the lockfile content"
-          ]
-        },
-        {
-          "name": "--no-sync",
-          "tip": [
-            "Only update lock file but do not sync packages"
-          ]
-        },
-        {
-          "name": "-G",
-          "alias": [
-            "--group",
-            "--with"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -G, --group, --with <GROUP>",
-            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
-            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
-          ]
-        },
-        {
           "name": "--without",
           "tip": [
             "Exclude groups of optional-dependencies or dev-dependencies"
-          ]
-        },
-        {
-          "name": "--no-default",
-          "tip": [
-            "Don't include dependencies from the default group"
           ]
         },
         {
@@ -2333,49 +2304,77 @@
           ]
         },
         {
-          "name": "--prod",
+          "name": "-g",
           "alias": [
-            "--production"
+            "--global"
           ],
           "tip": [
-            "Unselect dev dependencies"
+            "Use the global project, supply the project root with `-p` option"
           ]
         },
         {
-          "name": "--no-editable",
-          "tip": [
-            "Install non-editable versions for all packages. [env var: PDM_NO_EDITABLE]"
-          ]
-        },
-        {
-          "name": "--no-self",
-          "tip": [
-            "Don't install the project itself. [env var: PDM_NO_SELF]"
-          ]
-        },
-        {
-          "name": "--fail-fast",
+          "name": "-G",
           "alias": [
-            "-x"
+            "--group",
+            "--with"
           ],
           "tip": [
-            "Abort on first installation error"
-          ]
+            "U: -G, --group, --with <GROUP>",
+            "Select group of optional-dependencies separated by comma or dev-dependencies (with `-d`).",
+            "Can be supplied multiple times, use \":all\" to include all groups under the same species."
+          ],
+          "next": 0
         },
         {
-          "name": "--no-isolation",
-          "tip": [
-            "Disable isolation when building a source distribution that follows PEP 517, as in: build dependencies specified by PEP 518 must be already installed if this option is used."
-          ]
-        },
-        {
-          "name": "--config-setting",
+          "name": "-k",
           "alias": [
-            "-c"
+            "--skip"
           ],
           "tip": [
-            "U: --config-setting, -c <CONFIG_SETTING>",
-            "Pass options to the builder. options with a value must be specified after \"=\": `--config-setting=key(=value)` or `-Ckey(=value)`"
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-L",
+          "alias": [
+            "--lockfile"
+          ],
+          "tip": [
+            "U: -L, --lockfile <LOCKFILE>",
+            "Specify another lockfile path. Default: pdm.lock. [env var: PDM_LOCKFILE]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-t",
+          "alias": [
+            "--top"
+          ],
+          "tip": [
+            "Only update those listed in pyproject.toml"
+          ]
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--unconstrained"
+          ],
+          "tip": [
+            "Ignore the version constraints in pyproject.toml and overwrite with new ones from the resolution result"
           ]
         }
       ]
@@ -2387,36 +2386,24 @@
       ],
       "options": [
         {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
+          "name": "--auto-install-max",
           "tip": [
-            "Use the global project, supply the project root with `-p` option"
+            "If `python` argument not given, auto install maximum best match - otherwise has no effect"
           ]
         },
         {
-          "name": "-p",
-          "alias": [
-            "--project"
-          ],
-          "next": 0,
+          "name": "--auto-install-min",
           "tip": [
-            "U: -p, --project <PROJECT_PATH>",
-            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+            "If `python` argument not given, auto install minimal best match - otherwise has no effect"
           ]
         },
         {
-          "name": "-k",
-          "alias": [
-            "--skip"
-          ],
-          "next": 0,
+          "name": "--venv",
           "tip": [
-            "U: -k, --skip <SKIP>",
-            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
-            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
-          ]
+            "U: --venv <VENV>",
+            "Use the interpreter in the virtual environment with the given name"
+          ],
+          "next": 0
         },
         {
           "name": "-f",
@@ -2428,15 +2415,12 @@
           ]
         },
         {
-          "name": "--auto-install-min",
+          "name": "-g",
+          "alias": [
+            "--global"
+          ],
           "tip": [
-            "If `python` argument not given, auto install minimal best match - otherwise has no effect"
-          ]
-        },
-        {
-          "name": "--auto-install-max",
-          "tip": [
-            "If `python` argument not given, auto install maximum best match - otherwise has no effect"
+            "Use the global project, supply the project root with `-p` option"
           ]
         },
         {
@@ -2449,12 +2433,27 @@
           ]
         },
         {
-          "name": "--venv",
-          "next": 0,
+          "name": "-k",
+          "alias": [
+            "--skip"
+          ],
           "tip": [
-            "U: --venv <VENV>",
-            "Use the interpreter in the virtual environment with the given name"
-          ]
+            "U: -k, --skip <SKIP>",
+            "Skip some tasks and/or hooks by their comma-separated names. Can be supplied multiple times.",
+            "Use \":all\" to skip all hooks. Use \":pre\" and \":post\" to skip all pre or post hooks."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--project"
+          ],
+          "tip": [
+            "U: -p, --project <PROJECT_PATH>",
+            "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
+          ],
+          "next": 0
         }
       ]
     },
@@ -2465,34 +2464,40 @@
       ],
       "options": [
         {
+          "name": "--path",
+          "tip": [
+            "U: --path <PATH>",
+            "Show the path to the given virtualenv"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "U: --python <PYTHON>",
+            "Show the python interpreter path for the given virtualenv"
+          ],
+          "next": 0
+        },
+        {
           "name": "-p",
           "alias": [
             "--project"
           ],
-          "next": 0,
           "tip": [
             "U: -p, --project <PROJECT_PATH>",
             "Specify another path as the project root, which changes the base of pyproject.toml and __pypackages__ [env var: PDM_PROJECT]"
-          ]
-        },
-        {
-          "name": "--path",
-          "next": 0,
-          "tip": [
-            "U: --path <PATH>",
-            "Show the path to the given virtualenv"
-          ]
-        },
-        {
-          "name": "--python",
-          "next": 0,
-          "tip": [
-            "U: --python <PYTHON>",
-            "Show the python interpreter path for the given virtualenv"
-          ]
+          ],
+          "next": 0
         }
       ],
       "next": [
+        {
+          "name": "activate",
+          "tip": [
+            "Print the command to activate the virtualenv with the given name"
+          ]
+        },
         {
           "name": "create",
           "tip": [
@@ -2500,24 +2505,9 @@
           ],
           "options": [
             {
-              "name": "-w",
-              "alias": [
-                "--with"
-              ],
+              "name": "--with-pip",
               "tip": [
-                "U: -w, --with <BACKEND>",
-                "Specify the backend to create the virtualenv"
-              ],
-              "next": [
-                {
-                  "name": "virtualenv"
-                },
-                {
-                  "name": "venv"
-                },
-                {
-                  "name": "conda"
-                }
+                "Install pip with the virtualenv"
               ]
             },
             {
@@ -2534,16 +2524,31 @@
               "alias": [
                 "--name"
               ],
-              "next": 0,
               "tip": [
                 "U: -n, --name <NAME>",
                 "Specify the name of the virtualenv"
-              ]
+              ],
+              "next": 0
             },
             {
-              "name": "--with-pip",
+              "name": "-w",
+              "alias": [
+                "--with"
+              ],
               "tip": [
-                "Install pip with the virtualenv"
+                "U: -w, --with <BACKEND>",
+                "Specify the backend to create the virtualenv"
+              ],
+              "next": [
+                {
+                  "name": "conda"
+                },
+                {
+                  "name": "venv"
+                },
+                {
+                  "name": "virtualenv"
+                }
               ]
             }
           ]
@@ -2552,29 +2557,6 @@
           "name": "list",
           "tip": [
             "List all virtualenvs associated with this project"
-          ]
-        },
-        {
-          "name": "remove",
-          "tip": [
-            "Remove the virtualenv with the given name"
-          ],
-          "options": [
-            {
-              "name": "-y",
-              "alias": [
-                "--yes"
-              ],
-              "tip": [
-                "Answer yes on the following question"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "activate",
-          "tip": [
-            "Print the command to activate the virtualenv with the given name"
           ]
         },
         {
@@ -2599,6 +2581,23 @@
               ],
               "tip": [
                 "Interactively purge selected Virtualenvs"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove the virtualenv with the given name"
+          ],
+          "options": [
+            {
+              "name": "-y",
+              "alias": [
+                "--yes"
+              ],
+              "tip": [
+                "Answer yes on the following question"
               ]
             }
           ]
@@ -2628,14 +2627,45 @@
       ]
     },
     {
+      "name": "--no-cache",
+      "tip": [
+        "Disable the cache for the current command. [env var: PDM_NO_CACHE]"
+      ]
+    },
+    {
+      "name": "--pep582",
+      "tip": [
+        "U: --pep582 [SHELL]",
+        "Print the command line to be eval'd by the shell."
+      ]
+    },
+    {
       "name": "-c",
       "alias": [
         "--config"
       ],
-      "next": 0,
       "tip": [
         "U: -c, --config <CONFIG>",
         "Specify another config file path. [env var: PDM_CONFIG_FILE]"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-I",
+      "alias": [
+        "--ignore-python"
+      ],
+      "tip": [
+        "Ignore the Python path saved in .pdm-python. [env var: PDM_IGNORE_SAVED_PYTHON]"
+      ]
+    },
+    {
+      "name": "-q",
+      "alias": [
+        "--quiet"
+      ],
+      "tip": [
+        "Suppress output"
       ]
     },
     {
@@ -2651,37 +2681,6 @@
       "name": "-vv",
       "tip": [
         "more detailed output"
-      ]
-    },
-    {
-      "name": "-q",
-      "alias": [
-        "--quiet"
-      ],
-      "tip": [
-        "Suppress output"
-      ]
-    },
-    {
-      "name": "--no-cache",
-      "tip": [
-        "Disable the cache for the current command. [env var: PDM_NO_CACHE]"
-      ]
-    },
-    {
-      "name": "-I",
-      "alias": [
-        "--ignore-python"
-      ],
-      "tip": [
-        "Ignore the Python path saved in .pdm-python. [env var: PDM_IGNORE_SAVED_PYTHON]"
-      ]
-    },
-    {
-      "name": "--pep582",
-      "tip": [
-        "U: --pep582 [SHELL]",
-        "Print the command line to be eval'd by the shell."
       ]
     }
   ]

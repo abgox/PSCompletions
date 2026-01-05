@@ -282,68 +282,32 @@
   ],
   "common_options": [
     {
-      "name": "-h",
-      "alias": [
-        "--help"
-      ],
-      "tip": [
-        "U: -h, --help",
-        "显示帮助信息"
-      ]
-    },
-    {
-      "name": "-A",
-      "tip": [
-        "在所有 yarn 命令上启用审计。"
-      ]
-    },
-    {
       "name": "--audit",
       "tip": [
         "对您的项目的依赖项进行安全审计。"
       ]
     },
     {
-      "name": "--no-default-rc",
+      "name": "--cache-folder",
       "tip": [
-        "阻止 Yarn 使用默认的 .yarnrc 文件。"
-      ]
-    },
-    {
-      "name": "--use-yarnrc",
-      "next": 0,
-      "tip": [
-        "U: --use-yarnrc <path>",
-        "使用特定的 .yarnrc 文件。"
-      ]
-    },
-    {
-      "name": "--verbose",
-      "tip": [
-        "启用详细日志。"
-      ]
-    },
-    {
-      "name": "--offline",
-      "tip": [
-        "强制离线模式(无互联网访问)。"
-      ]
-    },
-    {
-      "name": "--prefer-offline",
-      "tip": [
-        "使用离线镜像进行依赖项。"
-      ]
-    },
-    {
-      "name": "--pnp",
-      "alias": [
-        "--enable-pnp"
+        "U: --cache-folder <path>",
+        "指定缓存文件夹。"
       ],
+      "next": 0
+    },
+    {
+      "name": "--check-files",
       "tip": [
-        "U: --pnp, --enable-pnp",
-        "启用 Plug'n'Play (PnP) 模式。"
+        "检查文件时间戳。"
       ]
+    },
+    {
+      "name": "--cwd",
+      "tip": [
+        "U: --cwd <path>",
+        "指定当前工作目录。"
+      ],
+      "next": 0
     },
     {
       "name": "--disable-pnp",
@@ -352,22 +316,42 @@
       ]
     },
     {
-      "name": "--strict-semver",
+      "name": "--emoji",
       "tip": [
-        "强制语义版本。"
+        "启用 Yarn 输出中的表情符号。"
       ]
     },
     {
-      "name": "--json",
+      "name": "--flat",
       "tip": [
-        "输出 JSON 数据。"
+        "不使用安装依赖项的层次结构。"
       ]
     },
     {
-      "name": "--ignore-scripts",
+      "name": "--focus",
       "tip": [
-        "忽略包脚本。"
+        "专注于一个工作区。"
       ]
+    },
+    {
+      "name": "--force",
+      "tip": [
+        "强制安装和构建包。"
+      ]
+    },
+    {
+      "name": "--frozen-lockfile",
+      "tip": [
+        "不更新锁文件。"
+      ]
+    },
+    {
+      "name": "--global-folder",
+      "tip": [
+        "U: --global-folder <path>",
+        "指定全局包的文件夹。"
+      ],
+      "next": 0
     },
     {
       "name": "--har",
@@ -376,10 +360,12 @@
       ]
     },
     {
-      "name": "--ignore-platform",
+      "name": "--https-proxy",
       "tip": [
-        "忽略平台检查。"
-      ]
+        "U: --https-proxy <host>",
+        "指定 HTTPS 代理服务器。"
+      ],
+      "next": 0
     },
     {
       "name": "--ignore-engines",
@@ -394,67 +380,21 @@
       ]
     },
     {
-      "name": "--force",
+      "name": "--ignore-platform",
       "tip": [
-        "强制安装和构建包。"
+        "忽略平台检查。"
       ]
     },
     {
-      "name": "--skip-integrity-check",
+      "name": "--ignore-scripts",
       "tip": [
-        "跳过完整性验证。"
+        "忽略包脚本。"
       ]
     },
     {
-      "name": "--check-files",
+      "name": "--json",
       "tip": [
-        "检查文件时间戳。"
-      ]
-    },
-    {
-      "name": "--no-bin-links",
-      "tip": [
-        "禁用 bin 目录的符号链接创建。"
-      ]
-    },
-    {
-      "name": "--flat",
-      "tip": [
-        "不使用安装依赖项的层次结构。"
-      ]
-    },
-    {
-      "name": "--prod",
-      "alias": [
-        "--production"
-      ],
-      "tip": [
-        "U: --prod, --production",
-        "仅安装生产依赖项。"
-      ]
-    },
-    {
-      "name": "--no-lockfile",
-      "tip": [
-        "跳过创建锁文件。"
-      ]
-    },
-    {
-      "name": "--pure-lockfile",
-      "tip": [
-        "创建纯净的锁文件(仅精确版本)。"
-      ]
-    },
-    {
-      "name": "--frozen-lockfile",
-      "tip": [
-        "不更新锁文件。"
-      ]
-    },
-    {
-      "name": "--update-checksums",
-      "tip": [
-        "更新锁文件中的包校验和。"
+        "输出 JSON 数据。"
       ]
     },
     {
@@ -465,102 +405,24 @@
     },
     {
       "name": "--link-folder",
-      "next": 0,
       "tip": [
         "U: --link-folder <path>",
         "指定要创建包链接的文件夹。"
-      ]
-    },
-    {
-      "name": "--global-folder",
-      "next": 0,
-      "tip": [
-        "U: --global-folder <path>",
-        "指定全局包的文件夹。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "--modules-folder",
-      "next": 0,
       "tip": [
         "U: --modules-folder <path>",
         "指定模块的文件夹。"
-      ]
-    },
-    {
-      "name": "--preferred-cache-folder",
-      "next": 0,
-      "tip": [
-        "U: --preferred-cache-folder <path>",
-        "指定首选缓存文件夹。"
-      ]
-    },
-    {
-      "name": "--cache-folder",
-      "next": 0,
-      "tip": [
-        "U: --cache-folder <path>",
-        "指定缓存文件夹。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "--mutex",
       "tip": [
         "使用互斥锁确保只有一个 Yarn 实例正在运行。"
-      ]
-    },
-    {
-      "name": "--emoji",
-      "tip": [
-        "启用 Yarn 输出中的表情符号。"
-      ]
-    },
-    {
-      "name": "-s",
-      "alias": [
-        "--silent"
-      ],
-      "tip": [
-        "U: -s, --silent",
-        "静默模式, 禁用日志。"
-      ]
-    },
-    {
-      "name": "--cwd",
-      "next": 0,
-      "tip": [
-        "U: --cwd <path>",
-        "指定当前工作目录。"
-      ]
-    },
-    {
-      "name": "--proxy",
-      "next": 0,
-      "tip": [
-        "U: --proxy <host>",
-        "指定代理服务器。"
-      ]
-    },
-    {
-      "name": "--https-proxy",
-      "next": 0,
-      "tip": [
-        "U: --https-proxy <host>",
-        "指定 HTTPS 代理服务器。"
-      ]
-    },
-    {
-      "name": "--registry",
-      "next": 0,
-      "tip": [
-        "U: --registry <url>",
-        "指定要使用的注册表。"
-      ]
-    },
-    {
-      "name": "--no-progress",
-      "tip": [
-        "禁用进度条。"
       ]
     },
     {
@@ -576,15 +438,21 @@
       ]
     },
     {
-      "name": "--non-interactive",
+      "name": "--no-bin-links",
       "tip": [
-        "禁用交互式提示。"
+        "禁用 bin 目录的符号链接创建。"
       ]
     },
     {
-      "name": "--scripts-prepend-node-path",
+      "name": "--no-default-rc",
       "tip": [
-        "在脚本调用前添加 Node.js 二进制路径。"
+        "阻止 Yarn 使用默认的 .yarnrc 文件。"
+      ]
+    },
+    {
+      "name": "--no-lockfile",
+      "tip": [
+        "跳过创建锁文件。"
       ]
     },
     {
@@ -594,17 +462,149 @@
       ]
     },
     {
-      "name": "--focus",
+      "name": "--no-progress",
       "tip": [
-        "专注于一个工作区。"
+        "禁用进度条。"
+      ]
+    },
+    {
+      "name": "--non-interactive",
+      "tip": [
+        "禁用交互式提示。"
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "强制离线模式(无互联网访问)。"
       ]
     },
     {
       "name": "--otp",
-      "next": 0,
       "tip": [
         "U: --otp <password>",
         "指定用于认证的一次性密码。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pnp",
+      "alias": [
+        "--enable-pnp"
+      ],
+      "tip": [
+        "U: --pnp, --enable-pnp",
+        "启用 Plug'n'Play (PnP) 模式。"
+      ]
+    },
+    {
+      "name": "--prefer-offline",
+      "tip": [
+        "使用离线镜像进行依赖项。"
+      ]
+    },
+    {
+      "name": "--preferred-cache-folder",
+      "tip": [
+        "U: --preferred-cache-folder <path>",
+        "指定首选缓存文件夹。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prod",
+      "alias": [
+        "--production"
+      ],
+      "tip": [
+        "U: --prod, --production",
+        "仅安装生产依赖项。"
+      ]
+    },
+    {
+      "name": "--proxy",
+      "tip": [
+        "U: --proxy <host>",
+        "指定代理服务器。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pure-lockfile",
+      "tip": [
+        "创建纯净的锁文件(仅精确版本)。"
+      ]
+    },
+    {
+      "name": "--registry",
+      "tip": [
+        "U: --registry <url>",
+        "指定要使用的注册表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--scripts-prepend-node-path",
+      "tip": [
+        "在脚本调用前添加 Node.js 二进制路径。"
+      ]
+    },
+    {
+      "name": "--skip-integrity-check",
+      "tip": [
+        "跳过完整性验证。"
+      ]
+    },
+    {
+      "name": "--strict-semver",
+      "tip": [
+        "强制语义版本。"
+      ]
+    },
+    {
+      "name": "--update-checksums",
+      "tip": [
+        "更新锁文件中的包校验和。"
+      ]
+    },
+    {
+      "name": "--use-yarnrc",
+      "tip": [
+        "U: --use-yarnrc <path>",
+        "使用特定的 .yarnrc 文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "启用详细日志。"
+      ]
+    },
+    {
+      "name": "-A",
+      "tip": [
+        "在所有 yarn 命令上启用审计。"
+      ]
+    },
+    {
+      "name": "-h",
+      "alias": [
+        "--help"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示帮助信息"
+      ]
+    },
+    {
+      "name": "-s",
+      "alias": [
+        "--silent"
+      ],
+      "tip": [
+        "U: -s, --silent",
+        "静默模式, 禁用日志。"
       ]
     }
   ]

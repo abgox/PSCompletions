@@ -7,6 +7,12 @@
   },
   "root": [
     {
+      "name": "completions",
+      "tip": [
+        "Generate Volta completions"
+      ]
+    },
+    {
       "name": "fetch",
       "tip": [
         "Fetches a tool to the local machine"
@@ -52,62 +58,10 @@
       ]
     },
     {
-      "name": "pin",
+      "name": "help",
       "tip": [
-        "Pin your project's runtime or package manager",
-        "E: pin node@lts"
-      ],
-      "next": []
-    },
-    {
-      "name": "list",
-      "tip": [
-        "Display the current toolchain"
-      ],
-      "next": [
-        {
-          "name": "all",
-          "tip": [
-            "List all installed tools(include different version)"
-          ]
-        }
-      ],
-      "options": [
-        {
-          "name": "-c",
-          "alias": [
-            "--current"
-          ],
-          "tip": [
-            "U: -c, --current",
-            "Show the currently-active tool(s)"
-          ]
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--default"
-          ],
-          "tip": [
-            "U: -d, --default",
-            "Show your default tool(s)"
-          ]
-        },
-        {
-          "name": "--format",
-          "tip": [
-            "U: --format <format>",
-            "Specify the output format [possible values: human, plain]"
-          ],
-          "next": [
-            {
-              "name": "human"
-            },
-            {
-              "name": "plain"
-            }
-          ]
-        }
+        "U: help <command>",
+        "Prints this message or the help of the given subcommand(s)"
       ]
     },
     {
@@ -144,6 +98,12 @@
           ]
         },
         {
+          "name": "typescript",
+          "tip": [
+            "Install the latest version of TypeScript"
+          ]
+        },
+        {
           "name": "yarn",
           "tip": [
             "Install the latest version of yarn",
@@ -155,13 +115,124 @@
           "tip": [
             "Install the v1 version of yarn"
           ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "Display the current toolchain"
+      ],
+      "options": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "Specify the output format [possible values: human, plain]"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "plain"
+            }
+          ]
         },
         {
-          "name": "typescript",
+          "name": "-c",
+          "alias": [
+            "--current"
+          ],
           "tip": [
-            "Install the latest version of TypeScript"
+            "U: -c, --current",
+            "Show the currently-active tool(s)"
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--default"
+          ],
+          "tip": [
+            "U: -d, --default",
+            "Show your default tool(s)"
           ]
         }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "List all installed tools(include different version)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "tip": [
+        "Pin your project's runtime or package manager",
+        "E: pin node@lts"
+      ],
+      "next": []
+    },
+    {
+      "name": "run",
+      "tip": [
+        "Run a command with custom node/npm/pnpm/yarn versions"
+      ],
+      "options": [
+        {
+          "name": "--bundled-npm",
+          "tip": [
+            "Force npm to be the version bundled with Node"
+          ]
+        },
+        {
+          "name": "--env",
+          "tip": [
+            "U: --env <NAME=value>",
+            "Set an environment variable (can be used multiple times)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-yarn",
+          "tip": [
+            "Disable Yarn"
+          ]
+        },
+        {
+          "name": "--node",
+          "tip": [
+            "U: --node <version> <command>",
+            "Set the custom Node version"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--npm",
+          "tip": [
+            "U: --npm <version> <command>",
+            "Set the custom Npm version"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yarn",
+          "tip": [
+            "U: --yarn <version> <command>",
+            "Set the custom Yarn version"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "Enable Volta for the current user / shell"
       ]
     },
     {
@@ -180,77 +251,6 @@
         "Locate the actual binary that will be called by Volta"
       ],
       "next": []
-    },
-    {
-      "name": "run",
-      "tip": [
-        "Run a command with custom node/npm/pnpm/yarn versions"
-      ],
-      "options": [
-        {
-          "name": "--node",
-          "next": 0,
-          "tip": [
-            "U: --node <version> <command>",
-            "Set the custom Node version"
-          ]
-        },
-        {
-          "name": "--npm",
-          "next": 0,
-          "tip": [
-            "U: --npm <version> <command>",
-            "Set the custom Npm version"
-          ]
-        },
-        {
-          "name": "--yarn",
-          "next": 0,
-          "tip": [
-            "U: --yarn <version> <command>",
-            "Set the custom Yarn version"
-          ]
-        },
-        {
-          "name": "--env",
-          "next": 0,
-          "tip": [
-            "U: --env <NAME=value>",
-            "Set an environment variable (can be used multiple times)"
-          ]
-        },
-        {
-          "name": "--no-yarn",
-          "tip": [
-            "Disable Yarn"
-          ]
-        },
-        {
-          "name": "--bundled-npm",
-          "tip": [
-            "Force npm to be the version bundled with Node"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "setup",
-      "tip": [
-        "Enable Volta for the current user / shell"
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "U: help <command>",
-        "Prints this message or the help of the given subcommand(s)"
-      ]
-    },
-    {
-      "name": "completions",
-      "tip": [
-        "Generate Volta completions"
-      ]
     }
   ],
   "options": [
@@ -267,13 +267,9 @@
   ],
   "common_options": [
     {
-      "name": "-h",
-      "alias": [
-        "--help"
-      ],
+      "name": "--quiet",
       "tip": [
-        "U: -h, --help",
-        "Show help"
+        "Prevents unnecessary output"
       ]
     },
     {
@@ -289,9 +285,13 @@
       ]
     },
     {
-      "name": "--quiet",
+      "name": "-h",
+      "alias": [
+        "--help"
+      ],
       "tip": [
-        "Prevents unnecessary output"
+        "U: -h, --help",
+        "Show help"
       ]
     }
   ]

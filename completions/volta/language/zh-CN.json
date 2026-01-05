@@ -7,6 +7,12 @@
   },
   "root": [
     {
+      "name": "completions",
+      "tip": [
+        "生成 Volta 补全"
+      ]
+    },
+    {
       "name": "fetch",
       "tip": [
         "将工具获取到本地"
@@ -52,62 +58,10 @@
       ]
     },
     {
-      "name": "pin",
+      "name": "help",
       "tip": [
-        "锁定项目运行时或包管理器",
-        "E: pin node@lts"
-      ],
-      "next": []
-    },
-    {
-      "name": "list",
-      "tip": [
-        "显示当前工具链"
-      ],
-      "next": [
-        {
-          "name": "all",
-          "tip": [
-            "列出所有已安装的工具(包括不同版本)"
-          ]
-        }
-      ],
-      "options": [
-        {
-          "name": "-c",
-          "alias": [
-            "--current"
-          ],
-          "tip": [
-            "U: -c, --current",
-            "显示当前激活的工具"
-          ]
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--default"
-          ],
-          "tip": [
-            "U: -d, --default",
-            "显示您的默认工具"
-          ]
-        },
-        {
-          "name": "--format",
-          "tip": [
-            "U: --format <format>",
-            "指定输出格式 [可能的值: human, plain]"
-          ],
-          "next": [
-            {
-              "name": "human"
-            },
-            {
-              "name": "plain"
-            }
-          ]
-        }
+        "U: help <command>",
+        "打印给定子命令的帮助"
       ]
     },
     {
@@ -144,6 +98,12 @@
           ]
         },
         {
+          "name": "typescript",
+          "tip": [
+            "安装 TypeScript 的最新版本"
+          ]
+        },
+        {
           "name": "yarn",
           "tip": [
             "安装 yarn 的最新版本",
@@ -155,13 +115,124 @@
           "tip": [
             "安装 yarn 的 v1 版本"
           ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "显示当前工具链"
+      ],
+      "options": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "指定输出格式 [可能的值: human, plain]"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "plain"
+            }
+          ]
         },
         {
-          "name": "typescript",
+          "name": "-c",
+          "alias": [
+            "--current"
+          ],
           "tip": [
-            "安装 TypeScript 的最新版本"
+            "U: -c, --current",
+            "显示当前激活的工具"
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--default"
+          ],
+          "tip": [
+            "U: -d, --default",
+            "显示您的默认工具"
           ]
         }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "列出所有已安装的工具(包括不同版本)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "tip": [
+        "锁定项目运行时或包管理器",
+        "E: pin node@lts"
+      ],
+      "next": []
+    },
+    {
+      "name": "run",
+      "tip": [
+        "使用自定义的 node/npm/pnpm/yarn 版本运行命令"
+      ],
+      "options": [
+        {
+          "name": "--bundled-npm",
+          "tip": [
+            "强制 npm 使用与 Node 捆绑的版本"
+          ]
+        },
+        {
+          "name": "--env",
+          "tip": [
+            "U: --env <NAME=value>",
+            "设置环境变量(可以多次使用)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-yarn",
+          "tip": [
+            "禁用 Yarn"
+          ]
+        },
+        {
+          "name": "--node",
+          "tip": [
+            "U: --node <version> <command>",
+            "设置自定义 Node 版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--npm",
+          "tip": [
+            "U: --npm <version> <command>",
+            "设置自定义 Npm 版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yarn",
+          "tip": [
+            "U: --yarn <version> <command>",
+            "设置自定义 Yarn 版本"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "为当前用户 / shell 启用 Volta"
       ]
     },
     {
@@ -180,77 +251,6 @@
         "定位 Volta 将调用的实际二进制文件"
       ],
       "next": []
-    },
-    {
-      "name": "run",
-      "tip": [
-        "使用自定义的 node/npm/pnpm/yarn 版本运行命令"
-      ],
-      "options": [
-        {
-          "name": "--node",
-          "next": 0,
-          "tip": [
-            "U: --node <version> <command>",
-            "设置自定义 Node 版本"
-          ]
-        },
-        {
-          "name": "--npm",
-          "next": 0,
-          "tip": [
-            "U: --npm <version> <command>",
-            "设置自定义 Npm 版本"
-          ]
-        },
-        {
-          "name": "--yarn",
-          "next": 0,
-          "tip": [
-            "U: --yarn <version> <command>",
-            "设置自定义 Yarn 版本"
-          ]
-        },
-        {
-          "name": "--env",
-          "next": 0,
-          "tip": [
-            "U: --env <NAME=value>",
-            "设置环境变量(可以多次使用)"
-          ]
-        },
-        {
-          "name": "--no-yarn",
-          "tip": [
-            "禁用 Yarn"
-          ]
-        },
-        {
-          "name": "--bundled-npm",
-          "tip": [
-            "强制 npm 使用与 Node 捆绑的版本"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "setup",
-      "tip": [
-        "为当前用户 / shell 启用 Volta"
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "U: help <command>",
-        "打印给定子命令的帮助"
-      ]
-    },
-    {
-      "name": "completions",
-      "tip": [
-        "生成 Volta 补全"
-      ]
     }
   ],
   "options": [
@@ -267,13 +267,9 @@
   ],
   "common_options": [
     {
-      "name": "-h",
-      "alias": [
-        "--help"
-      ],
+      "name": "--quiet",
       "tip": [
-        "U: -h, --help",
-        "显示帮助信息"
+        "避免不必要的输出"
       ]
     },
     {
@@ -289,9 +285,13 @@
       ]
     },
     {
-      "name": "--quiet",
+      "name": "-h",
+      "alias": [
+        "--help"
+      ],
       "tip": [
-        "避免不必要的输出"
+        "U: -h, --help",
+        "显示帮助信息"
       ]
     }
   ]

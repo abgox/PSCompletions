@@ -7,334 +7,23 @@
   },
   "root": [
     {
-      "name": "init",
-      "tip": [
-        "U: init [options]",
-        "Create an empty Git repository or reinitialize an existing repository."
-      ],
-      "options": [
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ],
-          "tip": [
-            "U: -q, --quiet",
-            "Only print error and warning messages; all other output will be suppressed."
-          ]
-        },
-        {
-          "name": "--bare",
-          "tip": [
-            "Create a bare repository.",
-            "If GIT_DIR environment is not set, it is set to the current working directory."
-          ]
-        },
-        {
-          "name": "--object-format",
-          "tip": [
-            "U: --object-format <format>",
-            "Specify the given object <format> (hash algorithm) for the repository.",
-            "The valid values are sha1 and (if enabled) sha256. sha1 is the default."
-          ],
-          "next": [
-            {
-              "name": "sha1"
-            },
-            {
-              "name": "sha256"
-            }
-          ]
-        },
-        {
-          "name": "--ref-format=",
-          "tip": [
-            "Specify the given ref storage <format> for the repository."
-          ],
-          "next": [
-            {
-              "name": "files",
-              "tip": [
-                "files for loose files with packed-refs.",
-                "This is the default."
-              ]
-            },
-            {
-              "name": "reftable",
-              "tip": [
-                "reftable for the reftable format.",
-                "This format is experimental and its internals are subject to change."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "--template",
-          "tip": [
-            "U: --template <template-directory>",
-            "Specify a custom template directory for repository initialization."
-          ],
-          "next": 0
-        },
-        {
-          "name": "--separate-git-dir",
-          "tip": [
-            "U: --separate-git-dir <git-dir>",
-            "Instead of initializing the repository as a directory to either $GIT_DIR or ./.git/, create a text file there containing the path to the actual repository.",
-            "This file acts as a filesystem-agnostic Git symbolic link to the repository.",
-            "If this is a reinitialization, the repository will be moved to the specified path."
-          ],
-          "next": 0
-        },
-        {
-          "name": "-b",
-          "alias": [
-            "--initial-branch"
-          ],
-          "tip": [
-            "U: -b, --initial-branch <branch-name>",
-            "Use <branch-name> for the initial branch in the newly created repository.",
-            "If not specified, fall back to the default name."
-          ],
-          "next": [
-            {
-              "name": "main"
-            },
-            {
-              "name": "master"
-            }
-          ]
-        },
-        {
-          "name": "--shared"
-        },
-        {
-          "name": "--shared=",
-          "tip": [
-            "U: --shared[=(false|true|umask|group|all|world|everybody|<perm>)]",
-            "Specify that the Git repository is to be shared amongst several users.",
-            "This allows users belonging to the same group to push into that repository."
-          ],
-          "next": [
-            {
-              "name": "umask",
-              "alias": [
-                "false"
-              ],
-              "tip": [
-                "Use permissions reported by umask.",
-                "The default, when --shared is not specified."
-              ]
-            },
-            {
-              "name": "group",
-              "alias": [
-                "true"
-              ],
-              "tip": [
-                "Make the repository group-writable, (and g+sx, since the git group may not be the primary group of all users).",
-                "This is used to loosen the permissions of an otherwise safe umask value."
-              ]
-            },
-            {
-              "name": "all",
-              "alias": [
-                "world",
-                "everybody"
-              ],
-              "tip": [
-                "Same as group, but make the repository readable by all users."
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "clone",
-      "tip": [
-        "Clone a repository into a new directory."
-      ],
-      "options": [
-        {
-          "name": "-l",
-          "alias": [
-            "--local"
-          ]
-        },
-        {
-          "name": "--no-hardlinks"
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--shared"
-          ]
-        },
-        {
-          "name": "--reference"
-        },
-        {
-          "name": "--reference-if-able"
-        },
-        {
-          "name": "--dissociate"
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verbose"
-          ]
-        },
-        {
-          "name": "--progress"
-        },
-        {
-          "name": "--server-option="
-        },
-        {
-          "name": "-n",
-          "alias": [
-            "--no-checkout"
-          ]
-        },
-        {
-          "name": "--reject-shallow"
-        },
-        {
-          "name": "--no-reject-shallow"
-        },
-        {
-          "name": "--bare"
-        },
-        {
-          "name": "--sparse",
-          "tip": [
-            "Employ a sparse-checkout, with only files in the toplevel directory initially being present."
-          ]
-        },
-        {
-          "name": "--filter="
-        },
-        {
-          "name": "--also-filter-submodules"
-        },
-        {
-          "name": "--mirror"
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--origin"
-          ]
-        },
-        {
-          "name": "-b",
-          "tip": [
-            "U: -b <branch>",
-            "Specify the branch to clone.",
-            "By default, git clone clones the main branch of the remote repository."
-          ],
-          "next": 0
-        },
-        {
-          "name": "-u",
-          "alias": [
-            "--upload-pack"
-          ]
-        },
-        {
-          "name": "--template="
-        },
-        {
-          "name": "-c",
-          "alias": [
-            "--config"
-          ]
-        },
-        {
-          "name": "--depth",
-          "tip": [
-            "U: --depth <n>",
-            "Specify the depth of commit history to clone."
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "Clone only the latest commit without historical commit records."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "--shallow-since="
-        },
-        {
-          "name": "--shallow-exclude="
-        },
-        {
-          "name": "--single-branch"
-        },
-        {
-          "name": "--no-single-branch"
-        },
-        {
-          "name": "--no-tags"
-        },
-        {
-          "name": "--recurse-submodules"
-        },
-        {
-          "name": "--shallow-submodules"
-        },
-        {
-          "name": "--no-shallow-submodules"
-        },
-        {
-          "name": "--remote-submodules"
-        },
-        {
-          "name": "--no-remote-submodules"
-        },
-        {
-          "name": "--separate-git-dir="
-        },
-        {
-          "name": "--ref-format="
-        },
-        {
-          "name": "-j",
-          "alias": [
-            "--jobs"
-          ],
-          "tip": [
-            "U: -j <n>",
-            "Specify the number of threads for parallel cloning to speed up the process."
-          ],
-          "next": 0
-        },
-        {
-          "name": "--bundle-uri="
-        }
-      ]
-    },
-    {
       "name": "add",
       "tip": [
         "Add file changes to the index."
       ],
       "options": [
         {
-          "name": ".",
+          "name": "--ignore-errors",
           "tip": [
-            "Add all changes in the current directory and its subdirectories (including new, modified, and deleted files) to the index."
+            "If some files could not be added because of errors indexing them, do not abort the operation, but continue adding the others.",
+            "The command shall still exit with non-zero status.",
+            "The configuration variable add.ignoreErrors can be set to true to make this the default behaviour."
+          ]
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "Don't add the file(s), but only refresh their stat() information in the index."
           ]
         },
         {
@@ -345,6 +34,16 @@
           "tip": [
             "U: -A, --all",
             "Add all changes in the current working tree (including new, modified, and deleted files) to the index."
+          ]
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--edit"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Open the diff and the index in an editor for further editing."
           ]
         },
         {
@@ -379,16 +78,6 @@
           ]
         },
         {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "Open the diff and the index in an editor for further editing."
-          ]
-        },
-        {
           "name": "-u",
           "alias": [
             "--update"
@@ -399,475 +88,194 @@
           ]
         },
         {
-          "name": "--refresh",
+          "name": ".",
           "tip": [
-            "Don't add the file(s), but only refresh their stat() information in the index."
-          ]
-        },
-        {
-          "name": "--ignore-errors",
-          "tip": [
-            "If some files could not be added because of errors indexing them, do not abort the operation, but continue adding the others.",
-            "The command shall still exit with non-zero status.",
-            "The configuration variable add.ignoreErrors can be set to true to make this the default behaviour."
+            "Add all changes in the current directory and its subdirectories (including new, modified, and deleted files) to the index."
           ]
         }
       ]
     },
     {
-      "name": "commit",
+      "name": "am",
       "tip": [
-        "Record changes to the repository."
+        "Apply patches."
       ],
       "options": [
-        {
-          "name": "-m",
-          "tip": [
-            "U: -m <message>",
-            "Specify a descriptive message for the commit."
-          ],
-          "next": 0
-        },
-        {
-          "name": "-a",
-          "alias": [
-            "--all"
-          ],
-          "tip": [
-            "U: -a, --all",
-            "Automatically stage changes to tracked files in the index."
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "Launch an editor to edit the commit message."
-          ]
-        },
-        {
-          "name": "--no-edit",
-          "tip": [
-            "Use the selected commit message without launching an editor."
-          ]
-        },
-        {
-          "name": "--amend",
-          "tip": [
-            "Modify the message of the last commit(Create a new commit, replacing the last one)"
-          ]
-        },
-        {
-          "name": "—allow-empty",
-          "tip": [
-            "Usually recording a commit that has the exact same tree as its sole parent commit is a mistake, and the command prevents you from making such a commit.",
-            "This option bypasses the safety, and is primarily for use by foreign SCM interface scripts."
-          ]
-        },
-        {
-          "name": "--date",
-          "tip": [
-            "U: --date <date>",
-            "Set the author date for the commit."
-          ],
-          "next": [
-            {
-              "name": "(Get-Date)",
-              "tip": [
-                "Use the current date and time."
-              ]
-            },
-            {
-              "name": "'2025-01-01'",
-              "tip": [
-                "Specify a date."
-              ]
-            },
-            {
-              "name": "'2025-01-01 12:00:00'",
-              "tip": [
-                "Specify a date and time."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "--fixup",
-          "tip": [
-            "Create a new commit which \"fixes up\" <commit> when applied with `git rebase --autosquash.`"
-          ],
-          "next": []
-        },
-        {
-          "name": "--squash",
-          "tip": [
-            "Construct a commit message for use with `rebase --autosquash`."
-          ],
-          "next": []
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--patch"
-          ],
-          "tip": [
-            "U: -p, --patch",
-            "Interactively choose which changes to commit."
-          ]
-        },
-        {
-          "name": "-t",
-          "tip": [
-            "U: -t <file>",
-            "Get the commit message from the given file and launch an editor for editing."
-          ],
-          "next": 0
-        },
-        {
-          "name": "-F",
-          "tip": [
-            "U: -F <file>",
-            "Get the commit message from the given file."
-          ],
-          "next": 0
-        },
-        {
-          "name": "-C",
-          "tip": [
-            "U: -C <commit>",
-            "Take an existing commit object and reuse the log message and author information when creating a commit (including timestamps)"
-          ],
-          "next": []
-        },
-        {
-          "name": "--reset-author",
-          "tip": [
-            "When used with -C/-c/--amend options, or when committing after a conflicting cherry-pick, declare that the authorship of the resulting commit now belongs to the committer.",
-            "This also renews the author timestamp."
-          ]
-        },
-        {
-          "name": "--short",
-          "tip": [
-            "When doing a dry-run, give the output in the short-format.",
-            "See https://git-scm.com/docs/git-status for details.",
-            "Implies `--dry-run`."
-          ]
-        },
-        {
-          "name": "--branch",
-          "tip": [
-            "Show the branch and tracking info even in short-format."
-          ]
-        },
-        {
-          "name": "--porcelain",
-          "tip": [
-            "When doing a dry-run, give the output in a porcelain-ready format.",
-            "See https://git-scm.com/docs/git-status for details.",
-            "Implies `--dry-run`."
-          ]
-        },
-        {
-          "name": "--long",
-          "tip": [
-            "When doing a dry-run, give the output in the long-format.",
-            "Implies `--dry-run`."
-          ]
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--signoff"
-          ]
-        },
-        {
-          "name": "--no-signoff"
-        }
-      ]
-    },
-    {
-      "name": "push",
-      "tip": [
-        "Update remote references and associated objects."
-      ],
-      "options": [
-        {
-          "name": "--all",
-          "tip": [
-            "push all branches"
-          ]
-        },
-        {
-          "name": "--tags",
-          "tip": [
-            "push all tags"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "pull",
-      "tip": [
-        "Fetch and merge from another repository or local branch."
-      ],
-      "options": [
-        {
-          "name": "--all",
-          "tip": [
-            "fetch from all remotes"
-          ]
-        },
-        {
-          "name": "-r",
-          "alias": [
-            "--rebase"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "fetch",
-      "tip": [
-        "Download objects and references from another repository."
-      ],
-      "options": [
-        {
-          "name": "--all",
-          "tip": [
-            "fetch from all remotes"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "status",
-      "tip": [
-        "Show the status of the working tree."
-      ],
-      "options": [
-        {
-          "name": "-s",
-          "alias": [
-            "--short"
-          ],
-          "tip": [
-            "U: -s, --short",
-            "Show the output in a short format."
-          ]
-        },
-        {
-          "name": "-b",
-          "alias": [
-            "--branch"
-          ],
-          "tip": [
-            "U: -b, --branch",
-            "Show branch and tracking information, even in short format."
-          ]
-        },
-        {
-          "name": "--show-stash",
-          "tip": [
-            "Show the number of hidden entries in the stash."
-          ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verbose"
-          ],
-          "tip": [
-            "U: -v, --verbose",
-            "Show additional text changes to be committed."
-          ]
-        },
-        {
-          "name": "-vv",
-          "tip": [
-            "Show uncommitted changes in the working tree."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "log",
-      "tip": [
-        "Show commit logs."
-      ],
-      "options": [
-        {
-          "name": "-n",
-          "tip": [
-            "U: -n <n>",
-            "Show the last n commit messages."
-          ],
-          "next": 0
-        },
-        {
-          "name": "--show-signature",
-          "tip": [
-            "Show the signature of each commit."
-          ]
-        },
-        {
-          "name": "--graph",
-          "tip": [
-            "Display branch and merge history in ASCII art alongside the log."
-          ]
-        },
-        {
-          "name": "--oneline",
-          "tip": [
-            "Display each commit message on one line."
-          ]
-        },
-        {
-          "name": "--stat",
-          "tip": [
-            "Show statistics about file modifications in each commit.",
-            "Each commit lists the modified files, added and removed lines, and a summary of all line changes at the end."
-          ]
-        },
-        {
-          "name": "--shortstat",
-          "tip": [
-            "Show only the summary line for --stat"
-          ]
-        },
-        {
-          "name": "-p",
-          "tip": [
-            "Show each update's differences in patch format, more detailed than --stat"
-          ]
-        },
-        {
-          "name": "--name-only",
-          "tip": [
-            "Show a list of modified files after the commit messages."
-          ]
-        },
-        {
-          "name": "--name-status",
-          "tip": [
-            "Show a list of added, modified, and deleted files."
-          ]
-        },
-        {
-          "name": "--abbrev-commit",
-          "tip": [
-            "Show only the first few characters of the SHA-1 checksum instead of the full 40 characters."
-          ]
-        },
-        {
-          "name": "--relative-date",
-          "tip": [
-            "Display dates in a shorter relative format instead of the full format (e.g. 2 weeks ago)"
-          ]
-        },
-        {
-          "name": "--pretty",
-          "tip": [
-            "Display commit history in a custom format."
-          ]
-        },
-        {
-          "name": "--pretty=oneline",
-          "tip": [
-            "Display each commit message on one line, showing only the hash and commit message."
-          ]
-        },
-        {
-          "name": "--pretty=short",
-          "tip": [
-            "Display hash, Author, and commit info."
-          ]
-        },
-        {
-          "name": "--pretty=full",
-          "tip": [
-            "Display hash, Author, Commit, and commit info."
-          ]
-        },
-        {
-          "name": "--pretty=fuller",
-          "tip": [
-            "Display hash, Author, AuthorDate, Commit, CommitDate, and commit info."
-          ]
-        },
-        {
-          "name": "--pretty=format:\"\"",
-          "tip": [
-            "Control the format of displayed information."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "rebase",
-      "tip": [
-        "Move local commits to the tip of an updated upstream branch.",
-        "Used to modify commit history, often to integrate commits from one branch into another."
-      ],
-      "options": [
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "U: -i, --interactive",
-            "Allows interactive rebase, enabling editing, merging, deleting, and more for each commit."
-          ],
-          "next": []
-        },
-        {
-          "name": "--onto",
-          "tip": [
-            "U: --onto <new_base_branch>",
-            "Specify a new base branch to apply commits from the current branch onto."
-          ],
-          "next": 0
-        },
         {
           "name": "--abort",
           "tip": [
-            "Cancel the ongoing rebase operation and return to the state before the rebase started."
+            "Abort applying patches and restore the original state."
           ]
         },
         {
           "name": "--continue",
+          "alias": [
+            "--resolved"
+          ],
           "tip": [
-            "Continue the rebase operation, typically used after resolving conflicts."
+            "U: --continue, --resolved",
+            "Continue applying patches (you should have resolved conflicts before using this command)."
+          ]
+        },
+        {
+          "name": "--show-current-patch=diff",
+          "tip": [
+            "View failed patches."
           ]
         },
         {
           "name": "--skip",
           "tip": [
-            "Skip the current commit and continue the rebase operation."
+            "Skip this patch."
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "annotate",
+      "alias": [
+        "blame"
+      ],
+      "tip": [
+        "Display authorship and last modification commit information for each line in a file, along with the line's content"
+      ]
+    },
+    {
+      "name": "apply",
+      "tip": [
+        "Apply patches to files and/or the index."
+      ],
+      "options": [
         {
-          "name": "--merge",
+          "name": "--reject",
           "tip": [
-            "Merge a branch into the target branch instead of applying commits sequentially."
-          ]
-        },
-        {
-          "name": "-x",
-          "tip": [
-            "U: -x <cmd>",
-            "Execute a specified command after each commit is applied, useful for automation such as testing and linting."
+            "U: --reject <patch_file>",
+            "Automatically merge non-conflicting code changes from the patch while generating conflicting content as xxx.rej files."
           ],
           "next": 0
+        }
+      ]
+    },
+    {
+      "name": "archimport",
+      "tip": [
+        "Import an Arch repository into Git."
+      ]
+    },
+    {
+      "name": "archive",
+      "tip": [
+        "Create a file archive from a named tree."
+      ]
+    },
+    {
+      "name": "bisect",
+      "tip": [
+        "Find changes introducing errors using binary search."
+      ],
+      "next": [
+        {
+          "name": "bad",
+          "tip": [
+            "Mark the current or given revision as bad."
+          ]
         },
         {
-          "name": "-p",
+          "name": "good",
           "tip": [
-            "Preserve the structure of merge commits to maintain merge history."
+            "Mark the current or given revision as good."
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "Display help messages."
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "Display the log of the current bisection."
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "Mark the current or given revision as new, indicating a good state."
+          ]
+        },
+        {
+          "name": "next",
+          "tip": [
+            "Find and check out the next revision to test."
+          ]
+        },
+        {
+          "name": "old",
+          "tip": [
+            "Mark the current or given revision as old, indicating a bad state."
+          ]
+        },
+        {
+          "name": "replay",
+          "tip": [
+            "Replay the bisect log."
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "Finish the bisect and return to the given branch."
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run the evaluation script."
+          ]
+        },
+        {
+          "name": "skip",
+          "tip": [
+            "Choose the nearby commit."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Reset the bisect state and start a new bisect."
+          ]
+        },
+        {
+          "name": "terms",
+          "tip": [
+            "Display the terms used for old and new commits (default is bad, good)."
+          ],
+          "next": [
+            {
+              "name": "--term-bad",
+              "tip": [
+                "Change the terms used for old and new commits (default is bad)."
+              ]
+            },
+            {
+              "name": "--term-good",
+              "tip": [
+                "Change the terms used for old and new commits (default is good)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "view",
+          "tip": [
+            "Display the remaining revisions in gitk."
+          ]
+        },
+        {
+          "name": "visualize",
+          "tip": [
+            "Display the remaining revisions in gitk."
           ]
         }
       ]
@@ -931,6 +339,106 @@
       ]
     },
     {
+      "name": "bugreport",
+      "tip": [
+        "Collect information for user-submitted bug reports."
+      ],
+      "options": [
+        {
+          "name": "-o",
+          "alias": [
+            "--output-directory"
+          ],
+          "tip": [
+            "U: -o, --output-directory <path>",
+            "Specify the target location for the bugreport files."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--suffix"
+          ],
+          "tip": [
+            "U: -s, --suffix <suffix>",
+            "Specify a strftime format suffix for the filenames."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "bundle",
+      "tip": [
+        "Move objects and references via archive."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a bundle."
+          ]
+        },
+        {
+          "name": "list-heads",
+          "tip": [
+            "List references defined in the bundle."
+          ]
+        },
+        {
+          "name": "unbundle",
+          "tip": [
+            "Unpack a bundle into a repository."
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "Check if a bundle is valid and can be cleanly applied."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat-file",
+      "tip": [
+        "Show content or type information of repository objects."
+      ]
+    },
+    {
+      "name": "check-attr",
+      "tip": [
+        "Display gitattributes information."
+      ]
+    },
+    {
+      "name": "check-ignore",
+      "tip": [
+        "Debug .gitignore/.gitexclude files."
+      ]
+    },
+    {
+      "name": "check-mailmap",
+      "tip": [
+        "Display canonical names and email addresses of contacts."
+      ],
+      "options": [
+        {
+          "name": "--stdin",
+          "tip": [
+            "Read one contact per line from standard input."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check-ref-format",
+      "tip": [
+        "Ensure reference names are well-formed."
+      ]
+    },
+    {
       "name": "checkout",
       "tip": [
         "Switch branches or paths in the working tree.",
@@ -943,6 +451,13 @@
           "name": "-",
           "tip": [
             "Switch to the previous branch."
+          ]
+        },
+        {
+          "name": "--orphan",
+          "tip": [
+            "U: --orphan <new_branch>",
+            "Create a new orphan branch"
           ]
         },
         {
@@ -960,10 +475,9 @@
           ]
         },
         {
-          "name": "--orphan",
+          "name": "-f",
           "tip": [
-            "U: --orphan <new_branch>",
-            "Create a new orphan branch"
+            "Forcefully discard changes in both the index and the working directory."
           ]
         },
         {
@@ -971,783 +485,13 @@
           "tip": [
             "Discard all changes in the working directory; the index is preserved."
           ]
-        },
-        {
-          "name": "-f",
-          "tip": [
-            "Forcefully discard changes in both the index and the working directory."
-          ]
         }
       ]
     },
     {
-      "name": "switch",
+      "name": "checkout-index",
       "tip": [
-        "Switch branches."
-      ],
-      "options": [
-        {
-          "name": "-c",
-          "alias": [
-            "--create"
-          ],
-          "tip": [
-            "U: -c, --create <new_branch>",
-            "Create a new branch and switch to it."
-          ]
-        },
-        {
-          "name": "-",
-          "tip": [
-            "Switch to the previously switched branch."
-          ]
-        },
-        {
-          "name": "-f",
-          "alias": [
-            "--force",
-            "--discard-changes"
-          ],
-          "tip": [
-            "Proceed even if the index or the working tree differs from HEAD.",
-            "Both the index and working tree are restored to match the switching target.",
-            "If --recurse-submodules is specified, submodule content is also restored to match the switching target.",
-            "This is used to throw away local changes."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "merge",
-      "tip": [
-        "Merge two or more development histories."
-      ],
-      "options": [
-        {
-          "name": "--squash",
-          "tip": [
-            "Compresses the merge result into a single commit and does not preserve the commit history of the source branch.",
-            "Then you need to specify a new commit message."
-          ]
-        },
-        {
-          "name": "--continue",
-          "tip": [
-            "Continue the current merge operation."
-          ]
-        },
-        {
-          "name": "--abort",
-          "tip": [
-            "Abort the merge and return to the original state."
-          ]
-        },
-        {
-          "name": "--quit",
-          "tip": [
-            "Keep the current conflicts and exit the merge."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "diff",
-      "tip": [
-        "Display changes between commits, changes between commits and the working tree, and more.",
-        "E: diff <file>                --- Show differences between the specified file in the working directory and the index.",
-        "   diff <commit1> <commit2>   --- Compare differences between two commits.",
-        "   diff <branch1> <branch2>   --- Compare differences between two branches."
-      ],
-      "options": [
-        {
-          "name": "--staged",
-          "tip": [
-            "Compare differences between the index and the latest commit."
-          ]
-        },
-        {
-          "name": "--color-words",
-          "tip": [
-            "Compare word differences between the working directory and the latest commit."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "reflog",
-      "tip": [
-        "Manage reflog information."
-      ],
-      "next": [
-        {
-          "name": "show",
-          "tip": [
-            "Display the commit history in the reflog."
-          ]
-        },
-        {
-          "name": "delete",
-          "tip": [
-            "Remove entries from the reflog."
-          ]
-        },
-        {
-          "name": "expire",
-          "tip": [
-            "Remove older reflog entries."
-          ]
-        },
-        {
-          "name": "exists",
-          "tip": [
-            "Check if a ref has an associated reflog entry."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "remote",
-      "tip": [
-        "Manage remote repositories in a Git repository."
-      ],
-      "next": [
-        {
-          "name": "add",
-          "tip": [
-            "Add a new remote repository."
-          ]
-        },
-        {
-          "name": "rename",
-          "tip": [
-            "Rename a remote repository."
-          ],
-          "options": [
-            {
-              "name": "--progress",
-              "tip": [
-                "force progress reporting"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "rm",
-          "alias": [
-            "remove"
-          ],
-          "tip": [
-            "U: rm, remove <repository>",
-            "Remove a remote repository."
-          ],
-          "next": []
-        },
-        {
-          "name": "set-head",
-          "tip": [
-            "Set the default branch on a remote repository."
-          ]
-        },
-        {
-          "name": "set-branches",
-          "tip": [
-            "Set the list of branches to track on a remote repository."
-          ]
-        },
-        {
-          "name": "get-url",
-          "tip": [
-            "Display the URL of a remote repository."
-          ]
-        },
-        {
-          "name": "set-url",
-          "tip": [
-            "Change the URL of a remote repository."
-          ]
-        },
-        {
-          "name": "show",
-          "tip": [
-            "Display information about remote repositories."
-          ]
-        },
-        {
-          "name": "prune",
-          "tip": [
-            "Remove stale references from remote repositories."
-          ]
-        },
-        {
-          "name": "update",
-          "tip": [
-            "Fetch updates from remote repositories."
-          ]
-        }
-      ],
-      "options": [
-        {
-          "name": "-v",
-          "tip": [
-            "List the currently configured remote repositories and display their URLs."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "tag",
-      "tip": [
-        "Create, list, delete, or verify tags with or without GPG signatures.",
-        "E: tag [-l|--list]   --- List tags",
-        "   tag v1.0.0        --- Create a tag",
-        "   tag  -d v1.0.0    --- Delete a tag"
-      ],
-      "options": [
-        {
-          "name": "-l",
-          "alias": [
-            "--list"
-          ],
-          "tip": [
-            "U: -l, --list [pattern]",
-            "List tags (can use wildcards)",
-            "E: -l v1.0*"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-n",
-          "tip": [
-            "U: -n[num]",
-            "[num] specifies how many lines from the annotation, if any, are printed when using -l. Implies --list.",
-            "The default is not to print any annotation lines. If no number is given to -n, only the first line is printed. If the tag is not annotated, the commit message is displayed instead."
-          ]
-        },
-        {
-          "name": "-a",
-          "alias": [
-            "--annotate"
-          ],
-          "tip": [
-            "U: -a, --annotate <tag>",
-            "Create an annotated tag object.",
-            "E: -a v1.0.0"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--delete"
-          ],
-          "tip": [
-            "U: -d, --delete <tag>",
-            "Delete tags."
-          ],
-          "next": []
-        },
-        {
-          "name": "-m"
-        },
-        {
-          "name": "-e"
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verify"
-          ],
-          "tip": [
-            "U: -v, --verify <tag>",
-            "Verify tags"
-          ],
-          "next": []
-        }
-      ]
-    },
-    {
-      "name": "config",
-      "tip": [
-        "Retrieve and configure repository or global options."
-      ],
-      "next": [
-        {
-          "name": "user.name",
-          "tip": [
-            "Configure the username.",
-            "E: [--global] user.name xxx"
-          ]
-        },
-        {
-          "name": "user.email",
-          "tip": [
-            "Configure the email.",
-            "E: [--global] user.email xxx@outlook.com"
-          ]
-        },
-        {
-          "name": "init.defaultBranch"
-        },
-        {
-          "name": "core.editor",
-          "tip": [
-            "Configure the default editor."
-          ],
-          "next": [
-            {
-              "name": "\"code --wait\"",
-              "tip": [
-                "Configure the default editor as vscode."
-              ]
-            },
-            {
-              "name": "vim",
-              "tip": [
-                "Configure the default editor as vim."
-              ]
-            },
-            {
-              "name": "nvim",
-              "tip": [
-                "Configure the default editor as nvim."
-              ]
-            },
-            {
-              "name": "notepad",
-              "tip": [
-                "Configure the default editor as Notepad (Microsoft Notepad)."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "core.ignorecase",
-          "tip": [
-            "Configure the case-sensitivity of file names.",
-            "The default is false, except git-clone or git-init will probe and set core.ignoreCase true if appropriate when the repository is created."
-          ],
-          "next": [
-            {
-              "name": "false"
-            },
-            {
-              "name": "true"
-            }
-          ]
-        },
-        {
-          "name": "https.proxy",
-          "tip": [
-            "Configure the Git https proxy.",
-            "E: [--global] https.proxy 127.0.0.1:10810   --- Set proxy",
-            "   [--global] --unset https.proxy           --- Unset proxy"
-          ]
-        },
-        {
-          "name": "user.signingkey",
-          "tip": [
-            "Configure the GPG signing key."
-          ]
-        },
-        {
-          "name": "gpg.program",
-          "tip": [
-            "Configure the GPG program path."
-          ]
-        },
-        {
-          "name": "commit.gpgsign",
-          "tip": [
-            "Configure whether to sign commits with GPG."
-          ],
-          "next": [
-            {
-              "name": "true",
-              "tip": [
-                "Sign commits with GPG."
-              ]
-            },
-            {
-              "name": "false",
-              "tip": [
-                "Don't sign commits with GPG."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "commit.template",
-          "tip": [
-            "Configure the default commit template.",
-            "E: [--global] commit.template ~/.gitmessage"
-          ]
-        },
-        {
-          "name": "color.ui",
-          "tip": [
-            "Configure the command auto-coloring."
-          ],
-          "next": [
-            {
-              "name": "true",
-              "tip": [
-                "Enable command auto-coloring configuration."
-              ]
-            },
-            {
-              "name": "false",
-              "tip": [
-                "Disable command auto-coloring configuration."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "color.status",
-          "tip": [
-            "Configure the auto-coloring for the status command."
-          ],
-          "next": [
-            {
-              "name": "auto",
-              "tip": [
-                "Default value.",
-                "Automatically determine whether to enable color display based on terminal support."
-              ]
-            },
-            {
-              "name": "always",
-              "tip": [
-                "Always enable color display, regardless of terminal support."
-              ]
-            },
-            {
-              "name": "never",
-              "tip": [
-                "Never enable color display, even if the terminal supports it."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "color.diff",
-          "tip": [
-            "Configure the auto-coloring for the diff command."
-          ],
-          "next": [
-            {
-              "name": "auto",
-              "tip": [
-                "Default value.",
-                "Automatically determine whether to enable color display based on terminal support."
-              ]
-            },
-            {
-              "name": "always",
-              "tip": [
-                "Always enable color display, regardless of terminal support."
-              ]
-            },
-            {
-              "name": "never",
-              "tip": [
-                "Never enable color display, even if the terminal supports it."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "color.branch",
-          "tip": [
-            "Configure the auto-coloring for the branch command."
-          ],
-          "next": [
-            {
-              "name": "auto",
-              "tip": [
-                "Default value.",
-                "Automatically determine whether to enable color display based on terminal support."
-              ]
-            },
-            {
-              "name": "always",
-              "tip": [
-                "Always enable color display, regardless of terminal support."
-              ]
-            },
-            {
-              "name": "never",
-              "tip": [
-                "Never enable color display, even if the terminal supports it."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "color.interactive",
-          "tip": [
-            "Configure the auto-coloring for the -i (interactive) command."
-          ],
-          "next": [
-            {
-              "name": "auto",
-              "tip": [
-                "Default value.",
-                "Automatically determine whether to enable color display based on terminal support."
-              ]
-            },
-            {
-              "name": "always",
-              "tip": [
-                "Always enable color display, regardless of terminal support."
-              ]
-            },
-            {
-              "name": "never",
-              "tip": [
-                "Never enable color display, even if the terminal supports it."
-              ]
-            }
-          ]
-        }
-      ],
-      "options": [
-        {
-          "name": "--global",
-          "tip": [
-            "Perform global settings."
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "Edit the configuration for the current repository."
-          ]
-        },
-        {
-          "name": "--unset",
-          "tip": [
-            "Remove config.",
-            "E: [--global] --unset user.name"
-          ],
-          "next": [
-            {
-              "name": "user.name",
-              "tip": [
-                "Remove config --- the username."
-              ]
-            },
-            {
-              "name": "user.email",
-              "tip": [
-                "Remove config --- the email."
-              ]
-            },
-            {
-              "name": "core.editor",
-              "tip": [
-                "Remove config --- the default editor."
-              ]
-            },
-            {
-              "name": "https.proxy",
-              "tip": [
-                "Remove config --- the Git https proxy."
-              ]
-            },
-            {
-              "name": "user.signingkey",
-              "tip": [
-                "Remove config --- the GPG signing key."
-              ]
-            },
-            {
-              "name": "gpg.program",
-              "tip": [
-                "Remove config --- the GPG program path."
-              ]
-            },
-            {
-              "name": "commit.gpgsign",
-              "tip": [
-                "Remove config --- whether to sign commits with GPG."
-              ]
-            },
-            {
-              "name": "commit.template",
-              "tip": [
-                "Remove config --- the default commit template."
-              ]
-            },
-            {
-              "name": "color.ui",
-              "tip": [
-                "Remove config --- the command auto-coloring."
-              ]
-            },
-            {
-              "name": "color.status",
-              "tip": [
-                "Remove config --- the auto-coloring for the status command."
-              ]
-            },
-            {
-              "name": "color.diff",
-              "tip": [
-                "Remove config --- the auto-coloring for the diff command."
-              ]
-            },
-            {
-              "name": "color.branch",
-              "tip": [
-                "Remove config --- the auto-coloring for the branch command."
-              ]
-            },
-            {
-              "name": "color.interactive",
-              "tip": [
-                "Remove config --- the auto-coloring for the -i (interactive) command."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "--get",
-          "tip": [
-            "Get config value (Usually can be omitted)",
-            "E: [--global] [--get] user.name"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "stash",
-      "tip": [
-        "Stash changes in the stash.",
-        "Note: When there're multiple stashes, they're ordered from newest to oldest, and the index is starting from 0.",
-        "      If the index is omitted, the first stash is operated by default. (stash@{0})"
-      ],
-      "next": [
-        {
-          "name": "list",
-          "tip": [
-            "List all stashes."
-          ]
-        },
-        {
-          "name": "show",
-          "tip": [
-            "U: show [<index>]",
-            "To show other stashes, specify an index.",
-            "index: Represents the index of the stash, starting from 0.",
-            "E: show 1   --- Show the second stash. (stash@{1})"
-          ],
-          "options": [
-            {
-              "name": "-p",
-              "alias": [
-                "--patch"
-              ],
-              "tip": [
-                "Show the diff of the stash."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "pop",
-          "tip": [
-            "U: pop [<index>]",
-            "Apply and remove changes from the stash.",
-            "The difference from 'apply' is that 'pop' removes the stash after applying.",
-            "E: pop 1   --- Pop the second stash. (stash@{1})"
-          ],
-          "next": []
-        },
-        {
-          "name": "apply",
-          "tip": [
-            "U: apply [<index>]",
-            "Apply changes from the stash.",
-            "The difference from 'pop' is that 'apply' doesn't remove the stash.",
-            "E: apply 1   --- Apply the second stash. (stash@{1})"
-          ],
-          "next": []
-        },
-        {
-          "name": "push",
-          "tip": [
-            "Stash changes (equivalent to 'git stash')."
-          ],
-          "options": [
-            {
-              "name": "-m",
-              "tip": [
-                "Specify a descriptive message for this stash.",
-                "E: -m \"Remark\" (equivalent to 'git stash -m \"Remark\"')"
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "name": "drop",
-          "tip": [
-            "U: drop [<index>]",
-            "Remove a single stash.",
-            "E: drop 1   ---  Remove the second stash. (stash@{1})"
-          ],
-          "next": []
-        },
-        {
-          "name": "clear",
-          "tip": [
-            "Clear the stash."
-          ]
-        }
-      ],
-      "options": [
-        {
-          "name": "-m",
-          "tip": [
-            "Specify a descriptive message for this stash.",
-            "E: -m \"Remark\""
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "reset",
-      "tip": [
-        "Reset the current HEAD to a specified commit."
-      ],
-      "options": [
-        {
-          "name": "--soft",
-          "tip": [
-            "Move HEAD to a specified commit, keeping changes in both the working directory and the staging area (index)."
-          ],
-          "next": []
-        },
-        {
-          "name": "--mixed",
-          "tip": [
-            "Default behavior: Move HEAD to a specified commit and move changes from both the working directory and the staging area to the working directory."
-          ],
-          "next": []
-        },
-        {
-          "name": "--hard",
-          "tip": [
-            "Move HEAD to a specified commit and remove all changes, including those in the working directory and the index. Be cautious, as this is irreversible."
-          ],
-          "next": []
-        }
+        "Copy files from the index to the working directory."
       ]
     },
     {
@@ -1774,15 +518,15 @@
       ],
       "options": [
         {
-          "name": "--continue",
-          "tip": [
-            "Continue the merge (you should have resolved conflicts before using this command)."
-          ]
-        },
-        {
           "name": "--abort",
           "tip": [
             "Abort the cherry-pick operation and return to the original state."
+          ]
+        },
+        {
+          "name": "--continue",
+          "tip": [
+            "Continue the merge (you should have resolved conflicts before using this command)."
           ]
         },
         {
@@ -1794,148 +538,736 @@
       ]
     },
     {
-      "name": "rm",
+      "name": "citool",
       "tip": [
-        "Delete the specified file from the working directory and stage the deletion."
-      ],
-      "options": [
-        {
-          "name": "-f",
-          "tip": [
-            "Forcefully delete the specified file from the working directory, even if it has been modified and staged."
-          ]
-        },
-        {
-          "name": "--cached",
-          "tip": [
-            "Stop tracking the specified file (remove the specified file from the index), but keep it in the working directory."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "mv",
-      "tip": [
-        "Move or rename a file, directory, or symbolic link, and stage the change."
-      ],
-      "options": [
-        {
-          "name": "-f",
-          "tip": [
-            "Forcefully move or rename a file, directory, or symbolic link, and stage the change."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "show",
-      "tip": [
-        "Show information related to the current commit and changes to files",
-        "E: show                 --- Show HEAD",
-        "   show <commit_hash>   --- Show the commit"
-      ],
-      "options": [
-        {
-          "name": "-s"
-        },
-        {
-          "name": "--format=fuller"
-        }
-      ],
-      "next": []
-    },
-    {
-      "name": "shortlog",
-      "tip": [
-        "Summarize Git log output."
-      ]
-    },
-    {
-      "name": "show-branch",
-      "tip": [
-        "Display branches and their commits."
-      ]
-    },
-    {
-      "name": "revert",
-      "tip": [
-        "U: revert <commit-hash>",
-        "Undo changes made by a specified commit (creates a new commit)."
-      ],
-      "next": []
-    },
-    {
-      "name": "annotate",
-      "alias": [
-        "blame"
-      ],
-      "tip": [
-        "Display authorship and last modification commit information for each line in a file, along with the line's content"
-      ]
-    },
-    {
-      "name": "format-patch",
-      "tip": [
-        "Create patches, where N represents how many patches to generate (one patch per commit).",
-        "E: format-patch -2   ---  Generate two patch files (xxx.patch) from the latest two commits."
-      ]
-    },
-    {
-      "name": "am",
-      "tip": [
-        "Apply patches."
-      ],
-      "options": [
-        {
-          "name": "--show-current-patch=diff",
-          "tip": [
-            "View failed patches."
-          ]
-        },
-        {
-          "name": "--continue",
-          "alias": [
-            "--resolved"
-          ],
-          "tip": [
-            "U: --continue, --resolved",
-            "Continue applying patches (you should have resolved conflicts before using this command)."
-          ]
-        },
-        {
-          "name": "--skip",
-          "tip": [
-            "Skip this patch."
-          ]
-        },
-        {
-          "name": "--abort",
-          "tip": [
-            "Abort applying patches and restore the original state."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "apply",
-      "tip": [
-        "Apply patches to files and/or the index."
-      ],
-      "options": [
-        {
-          "name": "--reject",
-          "tip": [
-            "U: --reject <patch_file>",
-            "Automatically merge non-conflicting code changes from the patch while generating conflicting content as xxx.rej files."
-          ],
-          "next": 0
-        }
+        "Graphical alternative to Git commit."
       ]
     },
     {
       "name": "clean",
       "tip": [
         "Remove untracked files from the working tree."
+      ]
+    },
+    {
+      "name": "clone",
+      "tip": [
+        "Clone a repository into a new directory."
+      ],
+      "options": [
+        {
+          "name": "--also-filter-submodules"
+        },
+        {
+          "name": "--bare"
+        },
+        {
+          "name": "--bundle-uri="
+        },
+        {
+          "name": "--depth",
+          "tip": [
+            "U: --depth <n>",
+            "Specify the depth of commit history to clone."
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "Clone only the latest commit without historical commit records."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dissociate"
+        },
+        {
+          "name": "--filter="
+        },
+        {
+          "name": "--mirror"
+        },
+        {
+          "name": "--no-hardlinks"
+        },
+        {
+          "name": "--no-reject-shallow"
+        },
+        {
+          "name": "--no-remote-submodules"
+        },
+        {
+          "name": "--no-shallow-submodules"
+        },
+        {
+          "name": "--no-single-branch"
+        },
+        {
+          "name": "--no-tags"
+        },
+        {
+          "name": "--progress"
+        },
+        {
+          "name": "--recurse-submodules"
+        },
+        {
+          "name": "--ref-format="
+        },
+        {
+          "name": "--reference"
+        },
+        {
+          "name": "--reference-if-able"
+        },
+        {
+          "name": "--reject-shallow"
+        },
+        {
+          "name": "--remote-submodules"
+        },
+        {
+          "name": "--separate-git-dir="
+        },
+        {
+          "name": "--server-option="
+        },
+        {
+          "name": "--shallow-exclude="
+        },
+        {
+          "name": "--shallow-since="
+        },
+        {
+          "name": "--shallow-submodules"
+        },
+        {
+          "name": "--single-branch"
+        },
+        {
+          "name": "--sparse",
+          "tip": [
+            "Employ a sparse-checkout, with only files in the toplevel directory initially being present."
+          ]
+        },
+        {
+          "name": "--template="
+        },
+        {
+          "name": "-b",
+          "tip": [
+            "U: -b <branch>",
+            "Specify the branch to clone.",
+            "By default, git clone clones the main branch of the remote repository."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-c",
+          "alias": [
+            "--config"
+          ]
+        },
+        {
+          "name": "-j",
+          "alias": [
+            "--jobs"
+          ],
+          "tip": [
+            "U: -j <n>",
+            "Specify the number of threads for parallel cloning to speed up the process."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-l",
+          "alias": [
+            "--local"
+          ]
+        },
+        {
+          "name": "-n",
+          "alias": [
+            "--no-checkout"
+          ]
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--origin"
+          ]
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--shared"
+          ]
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--upload-pack"
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verbose"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "tip": [
+        "Record changes to the repository."
+      ],
+      "options": [
+        {
+          "name": "--amend",
+          "tip": [
+            "Modify the message of the last commit(Create a new commit, replacing the last one)"
+          ]
+        },
+        {
+          "name": "--branch",
+          "tip": [
+            "Show the branch and tracking info even in short-format."
+          ]
+        },
+        {
+          "name": "--date",
+          "tip": [
+            "U: --date <date>",
+            "Set the author date for the commit."
+          ],
+          "next": [
+            {
+              "name": "'2025-01-01 12:00:00'",
+              "tip": [
+                "Specify a date and time."
+              ]
+            },
+            {
+              "name": "'2025-01-01'",
+              "tip": [
+                "Specify a date."
+              ]
+            },
+            {
+              "name": "(Get-Date)",
+              "tip": [
+                "Use the current date and time."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--fixup",
+          "tip": [
+            "Create a new commit which \"fixes up\" <commit> when applied with `git rebase --autosquash.`"
+          ],
+          "next": []
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "When doing a dry-run, give the output in the long-format.",
+            "Implies `--dry-run`."
+          ]
+        },
+        {
+          "name": "--no-edit",
+          "tip": [
+            "Use the selected commit message without launching an editor."
+          ]
+        },
+        {
+          "name": "--no-signoff"
+        },
+        {
+          "name": "--porcelain",
+          "tip": [
+            "When doing a dry-run, give the output in a porcelain-ready format.",
+            "See https://git-scm.com/docs/git-status for details.",
+            "Implies `--dry-run`."
+          ]
+        },
+        {
+          "name": "--reset-author",
+          "tip": [
+            "When used with -C/-c/--amend options, or when committing after a conflicting cherry-pick, declare that the authorship of the resulting commit now belongs to the committer.",
+            "This also renews the author timestamp."
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "When doing a dry-run, give the output in the short-format.",
+            "See https://git-scm.com/docs/git-status for details.",
+            "Implies `--dry-run`."
+          ]
+        },
+        {
+          "name": "--squash",
+          "tip": [
+            "Construct a commit message for use with `rebase --autosquash`."
+          ],
+          "next": []
+        },
+        {
+          "name": "-a",
+          "alias": [
+            "--all"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "Automatically stage changes to tracked files in the index."
+          ]
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "U: -C <commit>",
+            "Take an existing commit object and reuse the log message and author information when creating a commit (including timestamps)"
+          ],
+          "next": []
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--edit"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Launch an editor to edit the commit message."
+          ]
+        },
+        {
+          "name": "-F",
+          "tip": [
+            "U: -F <file>",
+            "Get the commit message from the given file."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-m",
+          "tip": [
+            "U: -m <message>",
+            "Specify a descriptive message for the commit."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-p",
+          "alias": [
+            "--patch"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Interactively choose which changes to commit."
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--signoff"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "U: -t <file>",
+            "Get the commit message from the given file and launch an editor for editing."
+          ],
+          "next": 0
+        },
+        {
+          "name": "—allow-empty",
+          "tip": [
+            "Usually recording a commit that has the exact same tree as its sole parent commit is a mistake, and the command prevents you from making such a commit.",
+            "This option bypasses the safety, and is primarily for use by foreign SCM interface scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit-graph",
+      "tip": [
+        "Write and verify Git commit graph files."
+      ]
+    },
+    {
+      "name": "commit-tree",
+      "tip": [
+        "Create a new commit object."
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "Retrieve and configure repository or global options."
+      ],
+      "options": [
+        {
+          "name": "--get",
+          "tip": [
+            "Get config value (Usually can be omitted)",
+            "E: [--global] [--get] user.name"
+          ]
+        },
+        {
+          "name": "--global",
+          "tip": [
+            "Perform global settings."
+          ]
+        },
+        {
+          "name": "--unset",
+          "tip": [
+            "Remove config.",
+            "E: [--global] --unset user.name"
+          ],
+          "next": [
+            {
+              "name": "color.branch",
+              "tip": [
+                "Remove config --- the auto-coloring for the branch command."
+              ]
+            },
+            {
+              "name": "color.diff",
+              "tip": [
+                "Remove config --- the auto-coloring for the diff command."
+              ]
+            },
+            {
+              "name": "color.interactive",
+              "tip": [
+                "Remove config --- the auto-coloring for the -i (interactive) command."
+              ]
+            },
+            {
+              "name": "color.status",
+              "tip": [
+                "Remove config --- the auto-coloring for the status command."
+              ]
+            },
+            {
+              "name": "color.ui",
+              "tip": [
+                "Remove config --- the command auto-coloring."
+              ]
+            },
+            {
+              "name": "commit.gpgsign",
+              "tip": [
+                "Remove config --- whether to sign commits with GPG."
+              ]
+            },
+            {
+              "name": "commit.template",
+              "tip": [
+                "Remove config --- the default commit template."
+              ]
+            },
+            {
+              "name": "core.editor",
+              "tip": [
+                "Remove config --- the default editor."
+              ]
+            },
+            {
+              "name": "gpg.program",
+              "tip": [
+                "Remove config --- the GPG program path."
+              ]
+            },
+            {
+              "name": "https.proxy",
+              "tip": [
+                "Remove config --- the Git https proxy."
+              ]
+            },
+            {
+              "name": "user.email",
+              "tip": [
+                "Remove config --- the email."
+              ]
+            },
+            {
+              "name": "user.name",
+              "tip": [
+                "Remove config --- the username."
+              ]
+            },
+            {
+              "name": "user.signingkey",
+              "tip": [
+                "Remove config --- the GPG signing key."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-e",
+          "alias": [
+            "--edit"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Edit the configuration for the current repository."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "color.branch",
+          "tip": [
+            "Configure the auto-coloring for the branch command."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always enable color display, regardless of terminal support."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Default value.",
+                "Automatically determine whether to enable color display based on terminal support."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never enable color display, even if the terminal supports it."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.diff",
+          "tip": [
+            "Configure the auto-coloring for the diff command."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always enable color display, regardless of terminal support."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Default value.",
+                "Automatically determine whether to enable color display based on terminal support."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never enable color display, even if the terminal supports it."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.interactive",
+          "tip": [
+            "Configure the auto-coloring for the -i (interactive) command."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always enable color display, regardless of terminal support."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Default value.",
+                "Automatically determine whether to enable color display based on terminal support."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never enable color display, even if the terminal supports it."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.status",
+          "tip": [
+            "Configure the auto-coloring for the status command."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always enable color display, regardless of terminal support."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Default value.",
+                "Automatically determine whether to enable color display based on terminal support."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never enable color display, even if the terminal supports it."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "color.ui",
+          "tip": [
+            "Configure the command auto-coloring."
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "Disable command auto-coloring configuration."
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "Enable command auto-coloring configuration."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "commit.gpgsign",
+          "tip": [
+            "Configure whether to sign commits with GPG."
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "Don't sign commits with GPG."
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "Sign commits with GPG."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "commit.template",
+          "tip": [
+            "Configure the default commit template.",
+            "E: [--global] commit.template ~/.gitmessage"
+          ]
+        },
+        {
+          "name": "core.editor",
+          "tip": [
+            "Configure the default editor."
+          ],
+          "next": [
+            {
+              "name": "\"code --wait\"",
+              "tip": [
+                "Configure the default editor as vscode."
+              ]
+            },
+            {
+              "name": "notepad",
+              "tip": [
+                "Configure the default editor as Notepad (Microsoft Notepad)."
+              ]
+            },
+            {
+              "name": "nvim",
+              "tip": [
+                "Configure the default editor as nvim."
+              ]
+            },
+            {
+              "name": "vim",
+              "tip": [
+                "Configure the default editor as vim."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "core.ignorecase",
+          "tip": [
+            "Configure the case-sensitivity of file names.",
+            "The default is false, except git-clone or git-init will probe and set core.ignoreCase true if appropriate when the repository is created."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "gpg.program",
+          "tip": [
+            "Configure the GPG program path."
+          ]
+        },
+        {
+          "name": "https.proxy",
+          "tip": [
+            "Configure the Git https proxy.",
+            "E: [--global] https.proxy 127.0.0.1:10810   --- Set proxy",
+            "   [--global] --unset https.proxy           --- Unset proxy"
+          ]
+        },
+        {
+          "name": "init.defaultBranch"
+        },
+        {
+          "name": "user.email",
+          "tip": [
+            "Configure the email.",
+            "E: [--global] user.email xxx@outlook.com"
+          ]
+        },
+        {
+          "name": "user.name",
+          "tip": [
+            "Configure the username.",
+            "E: [--global] user.name xxx"
+          ]
+        },
+        {
+          "name": "user.signingkey",
+          "tip": [
+            "Configure the GPG signing key."
+          ]
+        }
       ]
     },
     {
@@ -1967,15 +1299,118 @@
       ]
     },
     {
+      "name": "daemon",
+      "tip": [
+        "Run a very simple Git repository server."
+      ]
+    },
+    {
+      "name": "describe",
+      "tip": [
+        "Display the most recent tag reachable from a commit."
+      ]
+    },
+    {
+      "name": "diff",
+      "tip": [
+        "Display changes between commits, changes between commits and the working tree, and more.",
+        "E: diff <file>                --- Show differences between the specified file in the working directory and the index.",
+        "   diff <commit1> <commit2>   --- Compare differences between two commits.",
+        "   diff <branch1> <branch2>   --- Compare differences between two branches."
+      ],
+      "options": [
+        {
+          "name": "--color-words",
+          "tip": [
+            "Compare word differences between the working directory and the latest commit."
+          ]
+        },
+        {
+          "name": "--staged",
+          "tip": [
+            "Compare differences between the index and the latest commit."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diff-files",
+      "tip": [
+        "Compare files between the working tree and the index."
+      ]
+    },
+    {
+      "name": "diff-index",
+      "tip": [
+        "Compare the contents and modes of blobs between the index and the repository."
+      ]
+    },
+    {
+      "name": "diff-tree",
+      "tip": [
+        "Compare the contents and modes of blobs found via two tree objects."
+      ]
+    },
+    {
+      "name": "difftool",
+      "tip": [
+        "Display changes using common diff tools."
+      ]
+    },
+    {
+      "name": "fast-export",
+      "tip": [
+        "Data exporter."
+      ]
+    },
+    {
+      "name": "fast-import",
+      "tip": [
+        "Directly import information into Git."
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": [
+        "Download objects and references from another repository."
+      ],
+      "options": [
+        {
+          "name": "--all",
+          "tip": [
+            "fetch from all remotes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fetch-pack",
+      "tip": [
+        "Receive missing objects from another repository."
+      ]
+    },
+    {
+      "name": "filter-branch",
+      "tip": [
+        "Rewrite branches."
+      ]
+    },
+    {
       "name": "flow",
       "tip": [
         "Manage branches and development workflows."
       ],
       "next": [
         {
-          "name": "init",
+          "name": "bugfix",
           "tip": [
-            "Initialize a new Git repository with a branching model."
+            "Manage bugfix branches."
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "Manage Git-flow configuration."
           ]
         },
         {
@@ -1985,21 +1420,27 @@
           ]
         },
         {
-          "name": "bugfix",
+          "name": "hotfix",
           "tip": [
-            "Manage bugfix branches."
+            "Manage hotfix branches."
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "Initialize a new Git repository with a branching model."
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "Display logs that don't match the base branch."
           ]
         },
         {
           "name": "release",
           "tip": [
             "Manage release branches."
-          ]
-        },
-        {
-          "name": "hotfix",
-          "tip": [
-            "Manage hotfix branches."
           ]
         },
         {
@@ -2013,19 +1454,260 @@
           "tip": [
             "Display version information."
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "fmt-merge-msg",
+      "tip": [
+        "Generate a merge commit message."
+      ]
+    },
+    {
+      "name": "for-each-ref",
+      "tip": [
+        "Output information on each reference."
+      ]
+    },
+    {
+      "name": "for-each-repo",
+      "tip": [
+        "Run Git command on a group of repositories."
+      ]
+    },
+    {
+      "name": "format-patch",
+      "tip": [
+        "Create patches, where N represents how many patches to generate (one patch per commit).",
+        "E: format-patch -2   ---  Generate two patch files (xxx.patch) from the latest two commits."
+      ]
+    },
+    {
+      "name": "fsck",
+      "tip": [
+        "Verify the connectivity and validity of objects in the database."
+      ]
+    },
+    {
+      "name": "gc",
+      "tip": [
+        "Clean unnecessary files and optimize the local repository."
+      ]
+    },
+    {
+      "name": "get-tar-commit-id",
+      "tip": [
+        "Extract commit ID from an archive created using git archive."
+      ]
+    },
+    {
+      "name": "grep",
+      "tip": [
+        "Print lines matching a pattern."
+      ]
+    },
+    {
+      "name": "gui",
+      "tip": [
+        "Portable graphical interface for Git."
+      ]
+    },
+    {
+      "name": "hash-object",
+      "tip": [
+        "Compute object ID and optionally create a blob from a file."
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Display help information about Git."
+      ]
+    },
+    {
+      "name": "http-backend",
+      "tip": [
+        "Run the server-side implementation for Git repositories."
+      ]
+    },
+    {
+      "name": "http-fetch",
+      "tip": [
+        "Download from a remote Git repository over HTTP."
+      ]
+    },
+    {
+      "name": "http-push",
+      "tip": [
+        "Push objects to another repository over HTTP/DAV."
+      ]
+    },
+    {
+      "name": "imap-send",
+      "tip": [
+        "Send a collection of patches to an IMAP folder."
+      ]
+    },
+    {
+      "name": "index-pack",
+      "tip": [
+        "Build pack index file for an existing packed archive."
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [options]",
+        "Create an empty Git repository or reinitialize an existing repository."
+      ],
+      "options": [
         {
-          "name": "config",
+          "name": "--bare",
           "tip": [
-            "Manage Git-flow configuration."
+            "Create a bare repository.",
+            "If GIT_DIR environment is not set, it is set to the current working directory."
           ]
         },
         {
-          "name": "log",
+          "name": "--object-format",
           "tip": [
-            "Display logs that don't match the base branch."
+            "U: --object-format <format>",
+            "Specify the given object <format> (hash algorithm) for the repository.",
+            "The valid values are sha1 and (if enabled) sha256. sha1 is the default."
+          ],
+          "next": [
+            {
+              "name": "sha1"
+            },
+            {
+              "name": "sha256"
+            }
+          ]
+        },
+        {
+          "name": "--ref-format=",
+          "tip": [
+            "Specify the given ref storage <format> for the repository."
+          ],
+          "next": [
+            {
+              "name": "files",
+              "tip": [
+                "files for loose files with packed-refs.",
+                "This is the default."
+              ]
+            },
+            {
+              "name": "reftable",
+              "tip": [
+                "reftable for the reftable format.",
+                "This format is experimental and its internals are subject to change."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--separate-git-dir",
+          "tip": [
+            "U: --separate-git-dir <git-dir>",
+            "Instead of initializing the repository as a directory to either $GIT_DIR or ./.git/, create a text file there containing the path to the actual repository.",
+            "This file acts as a filesystem-agnostic Git symbolic link to the repository.",
+            "If this is a reinitialization, the repository will be moved to the specified path."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shared"
+        },
+        {
+          "name": "--shared=",
+          "tip": [
+            "U: --shared[=(false|true|umask|group|all|world|everybody|<perm>)]",
+            "Specify that the Git repository is to be shared amongst several users.",
+            "This allows users belonging to the same group to push into that repository."
+          ],
+          "next": [
+            {
+              "name": "all",
+              "alias": [
+                "world",
+                "everybody"
+              ],
+              "tip": [
+                "Same as group, but make the repository readable by all users."
+              ]
+            },
+            {
+              "name": "group",
+              "alias": [
+                "true"
+              ],
+              "tip": [
+                "Make the repository group-writable, (and g+sx, since the git group may not be the primary group of all users).",
+                "This is used to loosen the permissions of an otherwise safe umask value."
+              ]
+            },
+            {
+              "name": "umask",
+              "alias": [
+                "false"
+              ],
+              "tip": [
+                "Use permissions reported by umask.",
+                "The default, when --shared is not specified."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "tip": [
+            "U: --template <template-directory>",
+            "Specify a custom template directory for repository initialization."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--initial-branch"
+          ],
+          "tip": [
+            "U: -b, --initial-branch <branch-name>",
+            "Use <branch-name> for the initial branch in the newly created repository.",
+            "If not specified, fall back to the default name."
+          ],
+          "next": [
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            }
+          ]
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Only print error and warning messages; all other output will be suppressed."
           ]
         }
+      ]
+    },
+    {
+      "name": "instaweb",
+      "tip": [
+        "Instantly browse working repository in gitweb."
+      ]
+    },
+    {
+      "name": "interpret-trailers",
+      "tip": [
+        "Add or parse structured information in commit messages."
       ]
     },
     {
@@ -2186,419 +1868,116 @@
       ]
     },
     {
-      "name": "prune",
+      "name": "log",
       "tip": [
-        "Remove all unreachable objects from the object database."
-      ]
-    },
-    {
-      "name": "grep",
-      "tip": [
-        "Print lines matching a pattern."
-      ]
-    },
-    {
-      "name": "gc",
-      "tip": [
-        "Clean unnecessary files and optimize the local repository."
-      ]
-    },
-    {
-      "name": "archimport",
-      "tip": [
-        "Import an Arch repository into Git."
-      ]
-    },
-    {
-      "name": "archive",
-      "tip": [
-        "Create a file archive from a named tree."
-      ]
-    },
-    {
-      "name": "bisect",
-      "tip": [
-        "Find changes introducing errors using binary search."
-      ],
-      "next": [
-        {
-          "name": "bad",
-          "tip": [
-            "Mark the current or given revision as bad."
-          ]
-        },
-        {
-          "name": "good",
-          "tip": [
-            "Mark the current or given revision as good."
-          ]
-        },
-        {
-          "name": "help",
-          "tip": [
-            "Display help messages."
-          ]
-        },
-        {
-          "name": "log",
-          "tip": [
-            "Display the log of the current bisection."
-          ]
-        },
-        {
-          "name": "next",
-          "tip": [
-            "Find and check out the next revision to test."
-          ]
-        },
-        {
-          "name": "new",
-          "tip": [
-            "Mark the current or given revision as new, indicating a good state."
-          ]
-        },
-        {
-          "name": "old",
-          "tip": [
-            "Mark the current or given revision as old, indicating a bad state."
-          ]
-        },
-        {
-          "name": "replay",
-          "tip": [
-            "Replay the bisect log."
-          ]
-        },
-        {
-          "name": "reset",
-          "tip": [
-            "Finish the bisect and return to the given branch."
-          ]
-        },
-        {
-          "name": "run",
-          "tip": [
-            "Run the evaluation script."
-          ]
-        },
-        {
-          "name": "skip",
-          "tip": [
-            "Choose the nearby commit."
-          ]
-        },
-        {
-          "name": "start",
-          "tip": [
-            "Reset the bisect state and start a new bisect."
-          ]
-        },
-        {
-          "name": "terms",
-          "tip": [
-            "Display the terms used for old and new commits (default is bad, good)."
-          ],
-          "next": [
-            {
-              "name": "--term-good",
-              "tip": [
-                "Change the terms used for old and new commits (default is good)."
-              ]
-            },
-            {
-              "name": "--term-bad",
-              "tip": [
-                "Change the terms used for old and new commits (default is bad)."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "view",
-          "tip": [
-            "Display the remaining revisions in gitk."
-          ]
-        },
-        {
-          "name": "visualize",
-          "tip": [
-            "Display the remaining revisions in gitk."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "bugreport",
-      "tip": [
-        "Collect information for user-submitted bug reports."
+        "Show commit logs."
       ],
       "options": [
         {
-          "name": "-o",
-          "alias": [
-            "--output-directory"
-          ],
+          "name": "--abbrev-commit",
           "tip": [
-            "U: -o, --output-directory <path>",
-            "Specify the target location for the bugreport files."
+            "Show only the first few characters of the SHA-1 checksum instead of the full 40 characters."
+          ]
+        },
+        {
+          "name": "--graph",
+          "tip": [
+            "Display branch and merge history in ASCII art alongside the log."
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "Show a list of modified files after the commit messages."
+          ]
+        },
+        {
+          "name": "--name-status",
+          "tip": [
+            "Show a list of added, modified, and deleted files."
+          ]
+        },
+        {
+          "name": "--oneline",
+          "tip": [
+            "Display each commit message on one line."
+          ]
+        },
+        {
+          "name": "--pretty",
+          "tip": [
+            "Display commit history in a custom format."
+          ]
+        },
+        {
+          "name": "--pretty=format:\"\"",
+          "tip": [
+            "Control the format of displayed information."
+          ]
+        },
+        {
+          "name": "--pretty=full",
+          "tip": [
+            "Display hash, Author, Commit, and commit info."
+          ]
+        },
+        {
+          "name": "--pretty=fuller",
+          "tip": [
+            "Display hash, Author, AuthorDate, Commit, CommitDate, and commit info."
+          ]
+        },
+        {
+          "name": "--pretty=oneline",
+          "tip": [
+            "Display each commit message on one line, showing only the hash and commit message."
+          ]
+        },
+        {
+          "name": "--pretty=short",
+          "tip": [
+            "Display hash, Author, and commit info."
+          ]
+        },
+        {
+          "name": "--relative-date",
+          "tip": [
+            "Display dates in a shorter relative format instead of the full format (e.g. 2 weeks ago)"
+          ]
+        },
+        {
+          "name": "--shortstat",
+          "tip": [
+            "Show only the summary line for --stat"
+          ]
+        },
+        {
+          "name": "--show-signature",
+          "tip": [
+            "Show the signature of each commit."
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show statistics about file modifications in each commit.",
+            "Each commit lists the modified files, added and removed lines, and a summary of all line changes at the end."
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "U: -n <n>",
+            "Show the last n commit messages."
           ],
           "next": 0
         },
         {
-          "name": "-s",
-          "alias": [
-            "--suffix"
-          ],
+          "name": "-p",
           "tip": [
-            "U: -s, --suffix <suffix>",
-            "Specify a strftime format suffix for the filenames."
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "bundle",
-      "tip": [
-        "Move objects and references via archive."
-      ],
-      "next": [
-        {
-          "name": "create",
-          "tip": [
-            "Create a bundle."
-          ]
-        },
-        {
-          "name": "list-heads",
-          "tip": [
-            "List references defined in the bundle."
-          ]
-        },
-        {
-          "name": "unbundle",
-          "tip": [
-            "Unpack a bundle into a repository."
-          ]
-        },
-        {
-          "name": "verify",
-          "tip": [
-            "Check if a bundle is valid and can be cleanly applied."
+            "Show each update's differences in patch format, more detailed than --stat"
           ]
         }
-      ]
-    },
-    {
-      "name": "cat-file",
-      "tip": [
-        "Show content or type information of repository objects."
-      ]
-    },
-    {
-      "name": "check-attr",
-      "tip": [
-        "Display gitattributes information."
-      ]
-    },
-    {
-      "name": "check-ignore",
-      "tip": [
-        "Debug .gitignore/.gitexclude files."
-      ]
-    },
-    {
-      "name": "check-mailmap",
-      "tip": [
-        "Display canonical names and email addresses of contacts."
-      ],
-      "options": [
-        {
-          "name": "--stdin",
-          "tip": [
-            "Read one contact per line from standard input."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "checkout-index",
-      "tip": [
-        "Copy files from the index to the working directory."
-      ]
-    },
-    {
-      "name": "check-ref-format",
-      "tip": [
-        "Ensure reference names are well-formed."
-      ]
-    },
-    {
-      "name": "citool",
-      "tip": [
-        "Graphical alternative to Git commit."
-      ]
-    },
-    {
-      "name": "commit-graph",
-      "tip": [
-        "Write and verify Git commit graph files."
-      ]
-    },
-    {
-      "name": "commit-tree",
-      "tip": [
-        "Create a new commit object."
-      ]
-    },
-    {
-      "name": "difftool",
-      "tip": [
-        "Display changes using common diff tools."
-      ]
-    },
-    {
-      "name": "daemon",
-      "tip": [
-        "Run a very simple Git repository server."
-      ]
-    },
-    {
-      "name": "describe",
-      "tip": [
-        "Display the most recent tag reachable from a commit."
-      ]
-    },
-    {
-      "name": "diff-files",
-      "tip": [
-        "Compare files between the working tree and the index."
-      ]
-    },
-    {
-      "name": "diff-index",
-      "tip": [
-        "Compare the contents and modes of blobs between the index and the repository."
-      ]
-    },
-    {
-      "name": "diff-tree",
-      "tip": [
-        "Compare the contents and modes of blobs found via two tree objects."
-      ]
-    },
-    {
-      "name": "fast-export",
-      "tip": [
-        "Data exporter."
-      ]
-    },
-    {
-      "name": "fast-import",
-      "tip": [
-        "Directly import information into Git."
-      ]
-    },
-    {
-      "name": "fetch-pack",
-      "tip": [
-        "Receive missing objects from another repository."
-      ]
-    },
-    {
-      "name": "filter-branch",
-      "tip": [
-        "Rewrite branches."
-      ]
-    },
-    {
-      "name": "fmt-merge-msg",
-      "tip": [
-        "Generate a merge commit message."
-      ]
-    },
-    {
-      "name": "for-each-ref",
-      "tip": [
-        "Output information on each reference."
-      ]
-    },
-    {
-      "name": "for-each-repo",
-      "tip": [
-        "Run Git command on a group of repositories."
-      ]
-    },
-    {
-      "name": "fsck",
-      "tip": [
-        "Verify the connectivity and validity of objects in the database."
-      ]
-    },
-    {
-      "name": "get-tar-commit-id",
-      "tip": [
-        "Extract commit ID from an archive created using git archive."
-      ]
-    },
-    {
-      "name": "gui",
-      "tip": [
-        "Portable graphical interface for Git."
-      ]
-    },
-    {
-      "name": "hash-object",
-      "tip": [
-        "Compute object ID and optionally create a blob from a file."
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "Display help information about Git."
-      ]
-    },
-    {
-      "name": "http-backend",
-      "tip": [
-        "Run the server-side implementation for Git repositories."
-      ]
-    },
-    {
-      "name": "http-fetch",
-      "tip": [
-        "Download from a remote Git repository over HTTP."
-      ]
-    },
-    {
-      "name": "http-push",
-      "tip": [
-        "Push objects to another repository over HTTP/DAV."
-      ]
-    },
-    {
-      "name": "imap-send",
-      "tip": [
-        "Send a collection of patches to an IMAP folder."
-      ]
-    },
-    {
-      "name": "index-pack",
-      "tip": [
-        "Build pack index file for an existing packed archive."
-      ]
-    },
-    {
-      "name": "instaweb",
-      "tip": [
-        "Instantly browse working repository in gitweb."
-      ]
-    },
-    {
-      "name": "interpret-trailers",
-      "tip": [
-        "Add or parse structured information in commit messages."
       ]
     },
     {
@@ -2638,6 +2017,39 @@
       ]
     },
     {
+      "name": "merge",
+      "tip": [
+        "Merge two or more development histories."
+      ],
+      "options": [
+        {
+          "name": "--abort",
+          "tip": [
+            "Abort the merge and return to the original state."
+          ]
+        },
+        {
+          "name": "--continue",
+          "tip": [
+            "Continue the current merge operation."
+          ]
+        },
+        {
+          "name": "--quit",
+          "tip": [
+            "Keep the current conflicts and exit the merge."
+          ]
+        },
+        {
+          "name": "--squash",
+          "tip": [
+            "Compresses the merge result into a single commit and does not preserve the commit history of the source branch.",
+            "Then you need to specify a new commit message."
+          ]
+        }
+      ]
+    },
+    {
       "name": "merge-base",
       "tip": [
         "Find common ancestors as merge bases as cheaply as possible."
@@ -2662,15 +2074,15 @@
       ]
     },
     {
-      "name": "mergetool",
-      "tip": [
-        "Run merge conflict resolution tools to resolve merge conflicts."
-      ]
-    },
-    {
       "name": "merge-tree",
       "tip": [
         "Show three-way merge without touching the index."
+      ]
+    },
+    {
+      "name": "mergetool",
+      "tip": [
+        "Run merge conflict resolution tools to resolve merge conflicts."
       ]
     },
     {
@@ -2689,6 +2101,26 @@
       "name": "multi-pack-index",
       "tip": [
         "Write and verify multi-pack-indexes."
+      ]
+    },
+    {
+      "name": "mv",
+      "tip": [
+        "Move or rename a file, directory, or symbolic link, and stage the change."
+      ],
+      "options": [
+        {
+          "name": "-f",
+          "tip": [
+            "Forcefully move or rename a file, directory, or symbolic link, and stage the change."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "name-rev",
+      "tip": [
+        "Find symbolic names for given refs."
       ]
     },
     {
@@ -2760,12 +2192,6 @@
       ]
     },
     {
-      "name": "name-rev",
-      "tip": [
-        "Find symbolic names for given refs."
-      ]
-    },
-    {
       "name": "pack-objects",
       "tip": [
         "Create a packed archive of objects."
@@ -2796,65 +2222,61 @@
       ]
     },
     {
+      "name": "prune",
+      "tip": [
+        "Remove all unreachable objects from the object database."
+      ]
+    },
+    {
       "name": "prune-packed",
       "tip": [
         "Remove extra objects that are already in pack files."
       ]
     },
     {
-      "name": "quiltimport",
+      "name": "pull",
       "tip": [
-        "Apply a quilt patchset."
-      ]
-    },
-    {
-      "name": "rerere",
-      "tip": [
-        "Reuse recorded resolution of conflicted merges."
+        "Fetch and merge from another repository or local branch."
       ],
-      "next": [
+      "options": [
         {
-          "name": "clear",
+          "name": "--all",
           "tip": [
-            "Clear the rerere database."
+            "fetch from all remotes"
           ]
         },
         {
-          "name": "forget",
-          "tip": [
-            "Forget about conflicts resolved."
-          ]
-        },
-        {
-          "name": "diff",
-          "tip": [
-            "Show conflict diff."
-          ]
-        },
-        {
-          "name": "remaining",
-          "tip": [
-            "Show remaining conflicts."
-          ]
-        },
-        {
-          "name": "status",
-          "tip": [
-            "Show the status of the rerere cache."
-          ]
-        },
-        {
-          "name": "gc",
-          "tip": [
-            "Garbage collect the rerere database."
+          "name": "-r",
+          "alias": [
+            "--rebase"
           ]
         }
       ]
     },
     {
-      "name": "restore",
+      "name": "push",
       "tip": [
-        "Restore working tree files."
+        "Update remote references and associated objects."
+      ],
+      "options": [
+        {
+          "name": "--all",
+          "tip": [
+            "push all branches"
+          ]
+        },
+        {
+          "name": "--tags",
+          "tip": [
+            "push all tags"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "quiltimport",
+      "tip": [
+        "Apply a quilt patchset."
       ]
     },
     {
@@ -2870,9 +2292,196 @@
       ]
     },
     {
+      "name": "rebase",
+      "tip": [
+        "Move local commits to the tip of an updated upstream branch.",
+        "Used to modify commit history, often to integrate commits from one branch into another."
+      ],
+      "options": [
+        {
+          "name": "--abort",
+          "tip": [
+            "Cancel the ongoing rebase operation and return to the state before the rebase started."
+          ]
+        },
+        {
+          "name": "--continue",
+          "tip": [
+            "Continue the rebase operation, typically used after resolving conflicts."
+          ]
+        },
+        {
+          "name": "--merge",
+          "tip": [
+            "Merge a branch into the target branch instead of applying commits sequentially."
+          ]
+        },
+        {
+          "name": "--onto",
+          "tip": [
+            "U: --onto <new_base_branch>",
+            "Specify a new base branch to apply commits from the current branch onto."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip",
+          "tip": [
+            "Skip the current commit and continue the rebase operation."
+          ]
+        },
+        {
+          "name": "-i",
+          "alias": [
+            "--interactive"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Allows interactive rebase, enabling editing, merging, deleting, and more for each commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "Preserve the structure of merge commits to maintain merge history."
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "U: -x <cmd>",
+            "Execute a specified command after each commit is applied, useful for automation such as testing and linting."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
       "name": "receive-pack",
       "tip": [
         "Receive what is pushed into the repository."
+      ]
+    },
+    {
+      "name": "reflog",
+      "tip": [
+        "Manage reflog information."
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "Remove entries from the reflog."
+          ]
+        },
+        {
+          "name": "exists",
+          "tip": [
+            "Check if a ref has an associated reflog entry."
+          ]
+        },
+        {
+          "name": "expire",
+          "tip": [
+            "Remove older reflog entries."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Display the commit history in the reflog."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remote",
+      "tip": [
+        "Manage remote repositories in a Git repository."
+      ],
+      "options": [
+        {
+          "name": "-v",
+          "tip": [
+            "List the currently configured remote repositories and display their URLs."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add a new remote repository."
+          ]
+        },
+        {
+          "name": "get-url",
+          "tip": [
+            "Display the URL of a remote repository."
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Remove stale references from remote repositories."
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "Rename a remote repository."
+          ],
+          "options": [
+            {
+              "name": "--progress",
+              "tip": [
+                "force progress reporting"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "alias": [
+            "remove"
+          ],
+          "tip": [
+            "U: rm, remove <repository>",
+            "Remove a remote repository."
+          ],
+          "next": []
+        },
+        {
+          "name": "set-branches",
+          "tip": [
+            "Set the list of branches to track on a remote repository."
+          ]
+        },
+        {
+          "name": "set-head",
+          "tip": [
+            "Set the default branch on a remote repository."
+          ]
+        },
+        {
+          "name": "set-url",
+          "tip": [
+            "Change the URL of a remote repository."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Display information about remote repositories."
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "Fetch updates from remote repositories."
+          ]
+        }
       ]
     },
     {
@@ -2894,6 +2503,85 @@
       ]
     },
     {
+      "name": "rerere",
+      "tip": [
+        "Reuse recorded resolution of conflicted merges."
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "Clear the rerere database."
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "Show conflict diff."
+          ]
+        },
+        {
+          "name": "forget",
+          "tip": [
+            "Forget about conflicts resolved."
+          ]
+        },
+        {
+          "name": "gc",
+          "tip": [
+            "Garbage collect the rerere database."
+          ]
+        },
+        {
+          "name": "remaining",
+          "tip": [
+            "Show remaining conflicts."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show the status of the rerere cache."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "Reset the current HEAD to a specified commit."
+      ],
+      "options": [
+        {
+          "name": "--hard",
+          "tip": [
+            "Move HEAD to a specified commit and remove all changes, including those in the working directory and the index. Be cautious, as this is irreversible."
+          ],
+          "next": []
+        },
+        {
+          "name": "--mixed",
+          "tip": [
+            "Default behavior: Move HEAD to a specified commit and move changes from both the working directory and the staging area to the working directory."
+          ],
+          "next": []
+        },
+        {
+          "name": "--soft",
+          "tip": [
+            "Move HEAD to a specified commit, keeping changes in both the working directory and the staging area (index)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "restore",
+      "tip": [
+        "Restore working tree files."
+      ]
+    },
+    {
       "name": "rev-list",
       "tip": [
         "List commit objects in reverse chronological order."
@@ -2903,6 +2591,34 @@
       "name": "rev-parse",
       "tip": [
         "Pick out and massage parameters and messages from Git."
+      ]
+    },
+    {
+      "name": "revert",
+      "tip": [
+        "U: revert <commit-hash>",
+        "Undo changes made by a specified commit (creates a new commit)."
+      ],
+      "next": []
+    },
+    {
+      "name": "rm",
+      "tip": [
+        "Delete the specified file from the working directory and stage the deletion."
+      ],
+      "options": [
+        {
+          "name": "--cached",
+          "tip": [
+            "Stop tracking the specified file (remove the specified file from the index), but keep it in the working directory."
+          ]
+        },
+        {
+          "name": "-f",
+          "tip": [
+            "Forcefully delete the specified file from the working directory, even if it has been modified and staged."
+          ]
+        }
       ]
     },
     {
@@ -2924,6 +2640,35 @@
       ]
     },
     {
+      "name": "shortlog",
+      "tip": [
+        "Summarize Git log output."
+      ]
+    },
+    {
+      "name": "show",
+      "tip": [
+        "Show information related to the current commit and changes to files",
+        "E: show                 --- Show HEAD",
+        "   show <commit_hash>   --- Show the commit"
+      ],
+      "options": [
+        {
+          "name": "--format=fuller"
+        },
+        {
+          "name": "-s"
+        }
+      ],
+      "next": []
+    },
+    {
+      "name": "show-branch",
+      "tip": [
+        "Display branches and their commits."
+      ]
+    },
+    {
       "name": "show-index",
       "tip": [
         "Show packed archive index."
@@ -2939,6 +2684,153 @@
       "name": "sparse-checkout",
       "tip": [
         "Initialize and modify the sparse-checkout."
+      ]
+    },
+    {
+      "name": "stash",
+      "tip": [
+        "Stash changes in the stash.",
+        "Note: When there're multiple stashes, they're ordered from newest to oldest, and the index is starting from 0.",
+        "      If the index is omitted, the first stash is operated by default. (stash@{0})"
+      ],
+      "options": [
+        {
+          "name": "-m",
+          "tip": [
+            "Specify a descriptive message for this stash.",
+            "E: -m \"Remark\""
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "U: apply [<index>]",
+            "Apply changes from the stash.",
+            "The difference from 'pop' is that 'apply' doesn't remove the stash.",
+            "E: apply 1   --- Apply the second stash. (stash@{1})"
+          ],
+          "next": []
+        },
+        {
+          "name": "clear",
+          "tip": [
+            "Clear the stash."
+          ]
+        },
+        {
+          "name": "drop",
+          "tip": [
+            "U: drop [<index>]",
+            "Remove a single stash.",
+            "E: drop 1   ---  Remove the second stash. (stash@{1})"
+          ],
+          "next": []
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all stashes."
+          ]
+        },
+        {
+          "name": "pop",
+          "tip": [
+            "U: pop [<index>]",
+            "Apply and remove changes from the stash.",
+            "The difference from 'apply' is that 'pop' removes the stash after applying.",
+            "E: pop 1   --- Pop the second stash. (stash@{1})"
+          ],
+          "next": []
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Stash changes (equivalent to 'git stash')."
+          ],
+          "options": [
+            {
+              "name": "-m",
+              "tip": [
+                "Specify a descriptive message for this stash.",
+                "E: -m \"Remark\" (equivalent to 'git stash -m \"Remark\"')"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show [<index>]",
+            "To show other stashes, specify an index.",
+            "index: Represents the index of the stash, starting from 0.",
+            "E: show 1   --- Show the second stash. (stash@{1})"
+          ],
+          "options": [
+            {
+              "name": "-p",
+              "alias": [
+                "--patch"
+              ],
+              "tip": [
+                "Show the diff of the stash."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Show the status of the working tree."
+      ],
+      "options": [
+        {
+          "name": "--show-stash",
+          "tip": [
+            "Show the number of hidden entries in the stash."
+          ]
+        },
+        {
+          "name": "-b",
+          "alias": [
+            "--branch"
+          ],
+          "tip": [
+            "U: -b, --branch",
+            "Show branch and tracking information, even in short format."
+          ]
+        },
+        {
+          "name": "-s",
+          "alias": [
+            "--short"
+          ],
+          "tip": [
+            "U: -s, --short",
+            "Show the output in a short format."
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verbose"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Show additional text changes to be committed."
+          ]
+        },
+        {
+          "name": "-vv",
+          "tip": [
+            "Show uncommitted changes in the working tree."
+          ]
+        }
       ]
     },
     {
@@ -2960,33 +2852,9 @@
           ]
         },
         {
-          "name": "status",
-          "tip": [
-            "Show the status of submodules in the current project."
-          ]
-        },
-        {
-          "name": "init",
-          "tip": [
-            "Initialize submodules for the current project."
-          ]
-        },
-        {
           "name": "deinit",
           "tip": [
             "Un-initialize submodules for the current project."
-          ]
-        },
-        {
-          "name": "update",
-          "tip": [
-            "Update submodules in the current project."
-          ]
-        },
-        {
-          "name": "summary",
-          "tip": [
-            "Show submodule summary status."
           ]
         },
         {
@@ -2996,9 +2864,33 @@
           ]
         },
         {
+          "name": "init",
+          "tip": [
+            "Initialize submodules for the current project."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show the status of submodules in the current project."
+          ]
+        },
+        {
+          "name": "summary",
+          "tip": [
+            "Show submodule summary status."
+          ]
+        },
+        {
           "name": "sync",
           "tip": [
             "Synchronize submodules' remote URL configuration."
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "Update submodules in the current project."
           ]
         }
       ]
@@ -3016,93 +2908,9 @@
       ],
       "next": [
         {
-          "name": "init",
+          "name": "blame",
           "tip": [
-            "Initialize a Git repository for Subversion(SVN) integration."
-          ]
-        },
-        {
-          "name": "fetch",
-          "tip": [
-            "Fetch revisions from a Subversion(SVN) repository."
-          ]
-        },
-        {
-          "name": "clone",
-          "tip": [
-            "Clone a Subversion(SVN) repository into Git."
-          ]
-        },
-        {
-          "name": "rebase",
-          "tip": [
-            "Rebase the current branch onto SVN commits."
-          ]
-        },
-        {
-          "name": "dcommit",
-          "tip": [
-            "Commit Git changes to a Subversion(SVN) repository."
-          ]
-        },
-        {
-          "name": "log",
-          "tip": [
-            "Show Subversion(SVN) commit logs."
-          ]
-        },
-        {
-          "name": "find-rev",
-          "tip": [
-            "Find the SVN revision corresponding to a Git commit."
-          ]
-        },
-        {
-          "name": "set-tree",
-          "tip": [
-            "Set the current Git tree to be equivalent to an SVN checkout."
-          ]
-        },
-        {
-          "name": "commit-diff",
-          "tip": [
-            "Commit changes from Git diffs to Subversion(SVN)."
-          ]
-        },
-        {
-          "name": "info",
-          "tip": [
-            "Display information about the Subversion(SVN) repository."
-          ]
-        },
-        {
-          "name": "create-ignore",
-          "tip": [
-            "Create ignore files from Subversion(SVN) properties."
-          ]
-        },
-        {
-          "name": "propget",
-          "tip": [
-            "Get Subversion(SVN) properties from the repository."
-          ]
-        },
-        {
-          "name": "proplist",
-          "tip": [
-            "List Subversion(SVN) properties."
-          ]
-        },
-        {
-          "name": "show-ignore",
-          "tip": [
-            "Show ignore patterns from Subversion(SVN) properties."
-          ]
-        },
-        {
-          "name": "show-externals",
-          "tip": [
-            "Show Subversion(SVN) externals definitions."
+            "Show blame annotations from a Subversion(SVN) repository."
           ]
         },
         {
@@ -3112,15 +2920,63 @@
           ]
         },
         {
-          "name": "tag",
+          "name": "clone",
           "tip": [
-            "Create a new tag in a Subversion(SVN) repository."
+            "Clone a Subversion(SVN) repository into Git."
           ]
         },
         {
-          "name": "blame",
+          "name": "commit-diff",
           "tip": [
-            "Show blame annotations from a Subversion(SVN) repository."
+            "Commit changes from Git diffs to Subversion(SVN)."
+          ]
+        },
+        {
+          "name": "create-ignore",
+          "tip": [
+            "Create ignore files from Subversion(SVN) properties."
+          ]
+        },
+        {
+          "name": "dcommit",
+          "tip": [
+            "Commit Git changes to a Subversion(SVN) repository."
+          ]
+        },
+        {
+          "name": "fetch",
+          "tip": [
+            "Fetch revisions from a Subversion(SVN) repository."
+          ]
+        },
+        {
+          "name": "find-rev",
+          "tip": [
+            "Find the SVN revision corresponding to a Git commit."
+          ]
+        },
+        {
+          "name": "gc",
+          "tip": [
+            "Perform maintenance operations on a Git-SVN repository."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Display information about the Subversion(SVN) repository."
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "Initialize a Git repository for Subversion(SVN) integration."
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "Show Subversion(SVN) commit logs."
           ]
         },
         {
@@ -3136,15 +2992,88 @@
           ]
         },
         {
+          "name": "propget",
+          "tip": [
+            "Get Subversion(SVN) properties from the repository."
+          ]
+        },
+        {
+          "name": "proplist",
+          "tip": [
+            "List Subversion(SVN) properties."
+          ]
+        },
+        {
+          "name": "rebase",
+          "tip": [
+            "Rebase the current branch onto SVN commits."
+          ]
+        },
+        {
           "name": "reset",
           "tip": [
             "Reset the current branch to the last fetched state."
           ]
         },
         {
-          "name": "gc",
+          "name": "set-tree",
           "tip": [
-            "Perform maintenance operations on a Git-SVN repository."
+            "Set the current Git tree to be equivalent to an SVN checkout."
+          ]
+        },
+        {
+          "name": "show-externals",
+          "tip": [
+            "Show Subversion(SVN) externals definitions."
+          ]
+        },
+        {
+          "name": "show-ignore",
+          "tip": [
+            "Show ignore patterns from Subversion(SVN) properties."
+          ]
+        },
+        {
+          "name": "tag",
+          "tip": [
+            "Create a new tag in a Subversion(SVN) repository."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "tip": [
+        "Switch branches."
+      ],
+      "options": [
+        {
+          "name": "-",
+          "tip": [
+            "Switch to the previously switched branch."
+          ]
+        },
+        {
+          "name": "-c",
+          "alias": [
+            "--create"
+          ],
+          "tip": [
+            "U: -c, --create <new_branch>",
+            "Create a new branch and switch to it."
+          ]
+        },
+        {
+          "name": "-f",
+          "alias": [
+            "--force",
+            "--discard-changes"
+          ],
+          "tip": [
+            "Proceed even if the index or the working tree differs from HEAD.",
+            "Both the index and working tree are restored to match the switching target.",
+            "If --recurse-submodules is specified, submodule content is also restored to match the switching target.",
+            "This is used to throw away local changes."
           ]
         }
       ]
@@ -3156,9 +3085,74 @@
       ]
     },
     {
-      "name": "update-git-for-windows",
+      "name": "tag",
       "tip": [
-        "Update Git for Windows."
+        "Create, list, delete, or verify tags with or without GPG signatures.",
+        "E: tag [-l|--list]   --- List tags",
+        "   tag v1.0.0        --- Create a tag",
+        "   tag  -d v1.0.0    --- Delete a tag"
+      ],
+      "options": [
+        {
+          "name": "-a",
+          "alias": [
+            "--annotate"
+          ],
+          "tip": [
+            "U: -a, --annotate <tag>",
+            "Create an annotated tag object.",
+            "E: -a v1.0.0"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-d",
+          "alias": [
+            "--delete"
+          ],
+          "tip": [
+            "U: -d, --delete <tag>",
+            "Delete tags."
+          ],
+          "next": []
+        },
+        {
+          "name": "-e"
+        },
+        {
+          "name": "-l",
+          "alias": [
+            "--list"
+          ],
+          "tip": [
+            "U: -l, --list [pattern]",
+            "List tags (can use wildcards)",
+            "E: -l v1.0*"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-m"
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "U: -n[num]",
+            "[num] specifies how many lines from the annotation, if any, are printed when using -l. Implies --list.",
+            "The default is not to print any annotation lines. If no number is given to -n, only the first line is printed. If the tag is not annotated, the commit message is displayed instead."
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verify"
+          ],
+          "tip": [
+            "U: -v, --verify <tag>",
+            "Verify tags"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -3171,6 +3165,12 @@
       "name": "unpack-objects",
       "tip": [
         "Unpack objects from a packed repository archive."
+      ]
+    },
+    {
+      "name": "update-git-for-windows",
+      "tip": [
+        "Update Git for Windows."
       ]
     },
     {
@@ -3212,12 +3212,6 @@
       ]
     },
     {
-      "name": "version",
-      "tip": [
-        "Display Git version information."
-      ]
-    },
-    {
       "name": "var",
       "tip": [
         "Display Git logical variables."
@@ -3242,6 +3236,12 @@
       ]
     },
     {
+      "name": "version",
+      "tip": [
+        "Display Git version information."
+      ]
+    },
+    {
       "name": "whatchanged",
       "tip": [
         "Show commit logs with differences introduced."
@@ -3260,6 +3260,12 @@
           ]
         },
         {
+          "name": "checkout",
+          "tip": [
+            "Checkout a branch into a working tree."
+          ]
+        },
+        {
           "name": "list",
           "tip": [
             "List all working trees in the current repository."
@@ -3269,6 +3275,12 @@
           "name": "lock",
           "tip": [
             "Lock the current working tree to prevent concurrent access."
+          ]
+        },
+        {
+          "name": "merge",
+          "tip": [
+            "Merge a branch into a working tree."
           ]
         },
         {
@@ -3284,21 +3296,15 @@
           ]
         },
         {
+          "name": "rebase",
+          "tip": [
+            "Rebase a branch onto another branch in the working tree."
+          ]
+        },
+        {
           "name": "remove",
           "tip": [
             "Remove a working tree from the current repository."
-          ]
-        },
-        {
-          "name": "unlock",
-          "tip": [
-            "Unlock the current working tree to allow concurrent access."
-          ]
-        },
-        {
-          "name": "checkout",
-          "tip": [
-            "Checkout a branch into a working tree."
           ]
         },
         {
@@ -3308,27 +3314,151 @@
           ]
         },
         {
-          "name": "merge",
-          "tip": [
-            "Merge a branch into a working tree."
-          ]
-        },
-        {
-          "name": "rebase",
-          "tip": [
-            "Rebase a branch onto another branch in the working tree."
-          ]
-        },
-        {
           "name": "status",
           "tip": [
             "Show the status of a working tree."
+          ]
+        },
+        {
+          "name": "unlock",
+          "tip": [
+            "Unlock the current working tree to allow concurrent access."
           ]
         }
       ]
     }
   ],
   "options": [
+    {
+      "name": "--attr-source",
+      "tip": [
+        "U: --attr-source <tree-ish>",
+        "Read gitattributes from <tree-ish> instead of the worktree.",
+        "This is equivalent to setting the GIT_ATTR_SOURCE environment variable."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bare",
+      "tip": [
+        "Treat the repository as a bare repository.",
+        "If GIT_DIR environment is not set, it is set to the current working directory."
+      ]
+    },
+    {
+      "name": "--exec-path",
+      "tip": [
+        "U: --exec-path [<path>]",
+        "Path to wherever your core Git programs are installed.",
+        "This can also be controlled by setting the GIT_EXEC_PATH environment variable.",
+        "If no path is given, git will print the current setting and then exit."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--git-dir",
+      "tip": [
+        "U: --git-dir <path>",
+        "Set the path to the repository (\".git\" directory).",
+        "This can also be controlled by setting the GIT_DIR environment variable.",
+        "It can be an absolute path or relative path to current working directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--glob-pathspecs",
+      "tip": [
+        "Add \"glob\" magic to all pathspec.",
+        "This is equivalent to setting the GIT_GLOB_PATHSPECS environment variable to 1.",
+        "Disabling globbing on individual pathspecs can be done using pathspec magic \":(literal)\""
+      ]
+    },
+    {
+      "name": "--html-path",
+      "tip": [
+        "Print the path, without trailing slash, where Git's HTML documentation is installed and exit."
+      ]
+    },
+    {
+      "name": "--icase-pathspecs",
+      "tip": [
+        "Add \"icase\" magic to all pathspec. ",
+        "This is equivalent to setting the GIT_ICASE_PATHSPECS environment variable to 1."
+      ]
+    },
+    {
+      "name": "--info-path",
+      "tip": [
+        "Print the path where the Info files documenting this version of Git are installed and exit."
+      ]
+    },
+    {
+      "name": "--list-cmds",
+      "tip": [
+        "U: --list-cmds <group>[,<group>…​]",
+        "List commands by group.",
+        "This is an internal/experimental option and may change or be removed in the future."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--literal-pathspecs",
+      "tip": [
+        "Treat pathspecs literally (i.e. no globbing, no pathspec magic).",
+        "This is equivalent to setting the GIT_LITERAL_PATHSPECS environment variable to 1."
+      ]
+    },
+    {
+      "name": "--man-path",
+      "tip": [
+        "Print the manpath for the man pages for this version of Git and exit."
+      ]
+    },
+    {
+      "name": "--namespace",
+      "tip": [
+        "U: --namespace <path>",
+        "Set the Git namespace.",
+        "Equivalent to setting the GIT_NAMESPACE environment variable."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-advice",
+      "tip": [
+        "Disable all advice hints from being printed."
+      ]
+    },
+    {
+      "name": "--no-lazy-fetch",
+      "tip": [
+        "Do not fetch missing objects from the promisor remote on demand.",
+        "Useful together with git cat-file -e <object> to see if the object is locally available.",
+        "This is equivalent to setting the GIT_NO_LAZY_FETCH environment variable to 1."
+      ]
+    },
+    {
+      "name": "--no-optional-locks",
+      "tip": [
+        "Do not perform optional operations that require locks.",
+        "This is equivalent to setting the GIT_OPTIONAL_LOCKS to 0."
+      ]
+    },
+    {
+      "name": "--no-replace-objects",
+      "tip": [
+        "Do not use replacement refs to replace Git objects.",
+        "This is equivalent to exporting the GIT_NO_REPLACE_OBJECTS environment variable with any value."
+      ]
+    },
+    {
+      "name": "--noglob-pathspecs",
+      "tip": [
+        "Add \"literal\" magic to all pathspec.",
+        "This is equivalent to setting the GIT_NOGLOB_PATHSPECS environment variable to 1.",
+        "Enabling globbing on individual pathspecs can be done using pathspec magic \":(glob)\""
+      ]
+    },
     {
       "name": "--version",
       "alias": [
@@ -3340,11 +3470,11 @@
       ]
     },
     {
-      "name": "-C",
+      "name": "--work-tree",
       "tip": [
-        "U: -C <path>",
-        "Run as if git was started in <path> instead of the current working directory.",
-        "If <path> is present but empty, e.g. -C \"\", then the current working directory is left unchanged."
+        "U: --work-tree <path>",
+        "Set the path to the working tree. It can be an absolute path or a path relative to the current working directory.",
+        "This can also be controlled by setting the GIT_WORK_TREE environment variable and the core.worktree configuration variable"
       ],
       "next": 0
     },
@@ -3358,32 +3488,13 @@
       "next": 0
     },
     {
-      "name": "--exec-path",
+      "name": "-C",
       "tip": [
-        "U: --exec-path [<path>]",
-        "Path to wherever your core Git programs are installed.",
-        "This can also be controlled by setting the GIT_EXEC_PATH environment variable.",
-        "If no path is given, git will print the current setting and then exit."
+        "U: -C <path>",
+        "Run as if git was started in <path> instead of the current working directory.",
+        "If <path> is present but empty, e.g. -C \"\", then the current working directory is left unchanged."
       ],
       "next": 0
-    },
-    {
-      "name": "--html-path",
-      "tip": [
-        "Print the path, without trailing slash, where Git's HTML documentation is installed and exit."
-      ]
-    },
-    {
-      "name": "--man-path",
-      "tip": [
-        "Print the manpath for the man pages for this version of Git and exit."
-      ]
-    },
-    {
-      "name": "--info-path",
-      "tip": [
-        "Print the path where the Info files documenting this version of Git are installed and exit."
-      ]
     },
     {
       "name": "-p",
@@ -3403,117 +3514,6 @@
       "tip": [
         "Do not pipe Git output into a pager."
       ]
-    },
-    {
-      "name": "--git-dir",
-      "tip": [
-        "U: --git-dir <path>",
-        "Set the path to the repository (\".git\" directory).",
-        "This can also be controlled by setting the GIT_DIR environment variable.",
-        "It can be an absolute path or relative path to current working directory."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--work-tree",
-      "tip": [
-        "U: --work-tree <path>",
-        "Set the path to the working tree. It can be an absolute path or a path relative to the current working directory.",
-        "This can also be controlled by setting the GIT_WORK_TREE environment variable and the core.worktree configuration variable"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--namespace",
-      "tip": [
-        "U: --namespace <path>",
-        "Set the Git namespace.",
-        "Equivalent to setting the GIT_NAMESPACE environment variable."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--bare",
-      "tip": [
-        "Treat the repository as a bare repository.",
-        "If GIT_DIR environment is not set, it is set to the current working directory."
-      ]
-    },
-    {
-      "name": "--no-replace-objects",
-      "tip": [
-        "Do not use replacement refs to replace Git objects.",
-        "This is equivalent to exporting the GIT_NO_REPLACE_OBJECTS environment variable with any value."
-      ]
-    },
-    {
-      "name": "--no-lazy-fetch",
-      "tip": [
-        "Do not fetch missing objects from the promisor remote on demand.",
-        "Useful together with git cat-file -e <object> to see if the object is locally available.",
-        "This is equivalent to setting the GIT_NO_LAZY_FETCH environment variable to 1."
-      ]
-    },
-    {
-      "name": "--no-optional-locks",
-      "tip": [
-        "Do not perform optional operations that require locks.",
-        "This is equivalent to setting the GIT_OPTIONAL_LOCKS to 0."
-      ]
-    },
-    {
-      "name": "--no-advice",
-      "tip": [
-        "Disable all advice hints from being printed."
-      ]
-    },
-    {
-      "name": "--literal-pathspecs",
-      "tip": [
-        "Treat pathspecs literally (i.e. no globbing, no pathspec magic).",
-        "This is equivalent to setting the GIT_LITERAL_PATHSPECS environment variable to 1."
-      ]
-    },
-    {
-      "name": "--glob-pathspecs",
-      "tip": [
-        "Add \"glob\" magic to all pathspec.",
-        "This is equivalent to setting the GIT_GLOB_PATHSPECS environment variable to 1.",
-        "Disabling globbing on individual pathspecs can be done using pathspec magic \":(literal)\""
-      ]
-    },
-    {
-      "name": "--noglob-pathspecs",
-      "tip": [
-        "Add \"literal\" magic to all pathspec.",
-        "This is equivalent to setting the GIT_NOGLOB_PATHSPECS environment variable to 1.",
-        "Enabling globbing on individual pathspecs can be done using pathspec magic \":(glob)\""
-      ]
-    },
-    {
-      "name": "--icase-pathspecs",
-      "tip": [
-        "Add \"icase\" magic to all pathspec. ",
-        "This is equivalent to setting the GIT_ICASE_PATHSPECS environment variable to 1."
-      ]
-    },
-    {
-      "name": "--list-cmds",
-      "tip": [
-        "U: --list-cmds <group>[,<group>…​]",
-        "List commands by group.",
-        "This is an internal/experimental option and may change or be removed in the future."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--attr-source",
-      "tip": [
-        "U: --attr-source <tree-ish>",
-        "Read gitattributes from <tree-ish> instead of the worktree.",
-        "This is equivalent to setting the GIT_ATTR_SOURCE environment variable."
-      ],
-      "next": 0
     }
   ],
   "common_options": [

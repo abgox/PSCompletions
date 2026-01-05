@@ -7,6 +7,100 @@
   },
   "root": [
     {
+      "name": "add",
+      "tip": [
+        "U: add [options] <package>[@<version>]",
+        "Add a package and any packages that it depends on",
+        "By default, any new package is installed as a prod dependency",
+        "E: add -D sass"
+      ],
+      "options": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Add a package globally"
+          ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --save-dev",
+            "Install the specified packages as devDependencies"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --save-exact",
+            "Saved dependencies will be configured with an exact version rather than using pnpm's default semver range operator"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "tip": [
+            "U: -O, --save-optional",
+            "Install the specified packages as optionalDependencies"
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "Add one or more packages to peerDependencies and install them as dev dependencies"
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --save-prod",
+            "(Default)Install the specified packages as regular dependencies"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "Only adds the new dependency if it is found in the workspace"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "Checks for known security issues with the installed packages"
+      ]
+    },
+    {
+      "name": "cat-file",
+      "tip": [
+        "Prints the contents of a file based on the hash value stored in the index file"
+      ]
+    },
+    {
+      "name": "cat-index",
+      "tip": [
+        "Prints the index file of a specific package from the store"
+      ]
+    },
+    {
       "name": "create",
       "tip": [
         "Create a project from a create-* or @foo/create-* starter kit.",
@@ -28,6 +122,24 @@
       ]
     },
     {
+      "name": "exec",
+      "tip": [
+        "Executes a shell command in scope of a project"
+      ]
+    },
+    {
+      "name": "find-hash",
+      "tip": [
+        "Experimental! Lists the packages that include the file with the specified hash"
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "Generates a pnpm-lock.yaml from an npm package-lock.json (or npm-shrinkwrap.json) file"
+      ]
+    },
+    {
       "name": "install",
       "alias": [
         "i"
@@ -38,101 +150,29 @@
       ]
     },
     {
-      "name": "add",
-      "tip": [
-        "U: add [options] <package>[@<version>]",
-        "Add a package and any packages that it depends on",
-        "By default, any new package is installed as a prod dependency",
-        "E: add -D sass"
+      "name": "install-test",
+      "alias": [
+        "it"
       ],
-      "options": [
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Add a package globally"
-          ]
-        },
-        {
-          "name": "--save-prod",
-          "alias": [
-            "-P"
-          ],
-          "tip": [
-            "U: -P, --save-prod",
-            "(Default)Install the specified packages as regular dependencies"
-          ]
-        },
-        {
-          "name": "--save-dev",
-          "alias": [
-            "-D"
-          ],
-          "tip": [
-            "U: -D, --save-dev",
-            "Install the specified packages as devDependencies"
-          ]
-        },
-        {
-          "name": "--save-optional",
-          "alias": [
-            "-O"
-          ],
-          "tip": [
-            "U: -O, --save-optional",
-            "Install the specified packages as optionalDependencies"
-          ]
-        },
-        {
-          "name": "--save-exact",
-          "alias": [
-            "-E"
-          ],
-          "tip": [
-            "U: -E, --save-exact",
-            "Saved dependencies will be configured with an exact version rather than using pnpm's default semver range operator"
-          ]
-        },
-        {
-          "name": "--save-peer",
-          "tip": [
-            "Add one or more packages to peerDependencies and install them as dev dependencies"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "alias": [
-            "-w"
-          ],
-          "tip": [
-            "Only adds the new dependency if it is found in the workspace"
-          ]
-        }
+      "tip": [
+        "U: install-test|it",
+        "Runs a pnpm install followed immediately by a pnpm test"
       ]
     },
     {
-      "name": "remove",
+      "name": "licenses",
+      "tip": [
+        "Check licenses in consumed packages"
+      ]
+    },
+    {
+      "name": "link",
       "alias": [
-        "rm"
+        "ln"
       ],
       "tip": [
-        "U: remove|rm",
-        "Removes packages from node_modules and from the projects package.json"
-      ],
-      "options": [
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Remove globally"
-          ]
-        }
+        "U: link|ln",
+        "Connect the local project to another one"
       ]
     },
     {
@@ -158,65 +198,27 @@
       ]
     },
     {
-      "name": "update",
-      "alias": [
-        "up",
-        "upgrade"
-      ],
-      "tip": [
-        "U: update, up, upgrade",
-        "Update packages to their latest version based on the specified range",
-        "When used without arguments, updates all dependencies"
-      ],
-      "options": [
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Update globally"
-          ]
-        }
-      ]
-    },
-    {
       "name": "outdated",
       "tip": [
         "Check for outdated packages"
       ]
     },
     {
-      "name": "import",
+      "name": "pack",
       "tip": [
-        "Generates a pnpm-lock.yaml from an npm package-lock.json (or npm-shrinkwrap.json) file"
-      ]
-    },
-    {
-      "name": "install-test",
-      "alias": [
-        "it"
-      ],
-      "tip": [
-        "U: install-test|it",
-        "Runs a pnpm install followed immediately by a pnpm test"
-      ]
-    },
-    {
-      "name": "link",
-      "alias": [
-        "ln"
-      ],
-      "tip": [
-        "U: link|ln",
-        "Connect the local project to another one"
+        "Create a tarball from a package"
       ]
     },
     {
       "name": "prune",
       "tip": [
         "Removes extraneous packages"
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "Publishes a package to the registry"
       ]
     },
     {
@@ -230,27 +232,31 @@
       ]
     },
     {
-      "name": "unlink",
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
       "tip": [
-        "Unlinks a package. Like yarn unlink but pnpm re-installs the dependency after removing the external link"
+        "U: remove|rm",
+        "Removes packages from node_modules and from the projects package.json"
+      ],
+      "options": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Remove globally"
+          ]
+        }
       ]
     },
     {
-      "name": "audit",
+      "name": "root",
       "tip": [
-        "Checks for known security issues with the installed packages"
-      ]
-    },
-    {
-      "name": "licenses",
-      "tip": [
-        "Check licenses in consumed packages"
-      ]
-    },
-    {
-      "name": "exec",
-      "tip": [
-        "Executes a shell command in scope of a project"
+        "Prints the effective modules directory"
       ]
     },
     {
@@ -264,52 +270,6 @@
       "name": "start",
       "tip": [
         "Runs an arbitrary command specified in the package's \"start\" property of its \"scripts\" object"
-      ]
-    },
-    {
-      "name": "test",
-      "alias": [
-        "t"
-      ],
-      "tip": [
-        "U: test|t",
-        "Runs a package's \"test\" script, if one was provided"
-      ]
-    },
-    {
-      "name": "cat-file",
-      "tip": [
-        "Prints the contents of a file based on the hash value stored in the index file"
-      ]
-    },
-    {
-      "name": "cat-index",
-      "tip": [
-        "Prints the index file of a specific package from the store"
-      ]
-    },
-    {
-      "name": "find-hash",
-      "tip": [
-        "Experimental! Lists the packages that include the file with the specified hash"
-      ]
-    },
-    {
-      "name": "pack",
-      "tip": [
-        "Create a tarball from a package"
-      ]
-    },
-    {
-      "name": "publish",
-      "tip": [
-        "Publishes a package to the registry"
-      ]
-    },
-    {
-      "name": "root",
-      "tip": [
-        "Prints the effective modules directory"
       ]
     },
     {
@@ -350,6 +310,46 @@
           "name": "status",
           "tip": [
             "Checks for modified packages in the store"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: test|t",
+        "Runs a package's \"test\" script, if one was provided"
+      ]
+    },
+    {
+      "name": "unlink",
+      "tip": [
+        "Unlinks a package. Like yarn unlink but pnpm re-installs the dependency after removing the external link"
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up",
+        "upgrade"
+      ],
+      "tip": [
+        "U: update, up, upgrade",
+        "Update packages to their latest version based on the specified range",
+        "When used without arguments, updates all dependencies"
+      ],
+      "options": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Update globally"
           ]
         }
       ]

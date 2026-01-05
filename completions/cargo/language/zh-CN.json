@@ -7,6 +7,369 @@
   },
   "root": [
     {
+      "name": "add",
+      "tip": [
+        "向清单文件中添加依赖项。"
+      ],
+      "options": [
+        {
+          "name": "--branch",
+          "tip": [
+            "从中下载 crate 的 Git 分支。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            }
+          ]
+        },
+        {
+          "name": "--build",
+          "tip": [
+            "作为构建依赖项添加。"
+          ]
+        },
+        {
+          "name": "--default-features",
+          "tip": [
+            "重新启用默认功能。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "作为开发依赖项添加。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "实际上不写入清单。"
+          ]
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的功能的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "U: --git <git-url>",
+            "Git 存储库位置。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-default-features",
+          "tip": [
+            "禁用默认功能。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "将依赖项标记为必需。"
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "将依赖项标记为可选。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要修改的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <path>",
+            "要添加的本地 crate 的文件系统路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <registry>",
+            "此依赖项的包注册表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--rename",
+          "tip": [
+            "U: --rename <name>",
+            "重命名依赖项。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--rev",
+          "tip": [
+            "U: --rev <rev>",
+            "从中下载 crate 的 Git 引用。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <tag>",
+            "从中下载 crate 的 Git 标签。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "添加到给定目标平台的依赖项。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "bench",
+      "tip": [
+        "运行基准测试。"
+      ],
+      "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用的特性。"
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": [
+            "对所有目标进行基准测试。"
+          ]
+        },
+        {
+          "name": "--bench",
+          "tip": [
+            "U: --bench <bench>",
+            "仅对指定的基准目标进行基准测试。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--benches",
+          "tip": [
+            "对所有基准进行基准测试。"
+          ]
+        },
+        {
+          "name": "--bin",
+          "tip": [
+            "U: --bin <bin>",
+            "仅对指定的二进制文件进行基准测试。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "对所有二进制文件进行基准测试。"
+          ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "仅对指定的示例进行基准测试。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "对所有示例进行基准测试。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "从基准测试中排除的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": [
+            "在构建结束时输出未来不兼容性报告。"
+          ]
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 规范。"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业数, 默认为CPU数。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "发生错误时不中止基准测试(不稳定)。"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "仅对此包的库进行基准测试。"
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--no-default-features",
+          "tip": [
+            "不激活 'default' 特性。"
+          ]
+        },
+        {
+          "name": "--no-fail-fast",
+          "tip": [
+            "运行所有基准测试, 无论是否失败。"
+          ]
+        },
+        {
+          "name": "--no-run",
+          "tip": [
+            "编译但不运行基准测试。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要运行基准测试的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件进行基准测试。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "为指定的目标平台进行基准测试。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-dir",
+          "tip": [
+            "U: --target-dir <directory>",
+            "所有生成的构件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "U: --test <test>",
+            "仅对指定的测试目标进行基准测试。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tests",
+          "tip": [
+            "对所有测试进行基准测试。"
+          ]
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": [
+            "计时输出格式。(不稳定)(逗号分隔): html,json"
+          ]
+        },
+        {
+          "name": "--unit-graph",
+          "tip": [
+            "以JSON格式输出构建图(不稳定)。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "测试工作区中的所有包。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "build",
       "alias": [
         "b"
@@ -17,119 +380,9 @@
       ],
       "options": [
         {
-          "name": "--ignore-rust-version",
+          "name": "--all-features",
           "tip": [
-            "忽略包中的 `rust-version` 规范。"
-          ]
-        },
-        {
-          "name": "--future-incompat-report",
-          "tip": [
-            "在构建结束时输出未来不兼容性报告。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要构建的包 (查看 'cargo help pkgid')。"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "构建工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "从构建中排除的包。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "仅构建此包的库。"
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "构建所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅构建指定的二进制文件。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "构建所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "仅构建指定的示例。"
-          ]
-        },
-        {
-          "name": "--tests",
-          "tip": [
-            "构建所有测试。"
-          ]
-        },
-        {
-          "name": "--test",
-          "next": 0,
-          "tip": [
-            "U: --test <test>",
-            "仅构建指定的测试目标。"
-          ]
-        },
-        {
-          "name": "--benches",
-          "tip": [
-            "构建所有基准测试。"
-          ]
-        },
-        {
-          "name": "--bench",
-          "next": 0,
-          "tip": [
-            "U: --bench <bench>",
-            "仅构建指定的基准测试目标。"
+            "激活所有可用的特性。"
           ]
         },
         {
@@ -139,36 +392,122 @@
           ]
         },
         {
-          "name": "--target",
-          "next": 0,
+          "name": "--bench",
           "tip": [
-            "U: --target <triple>",
-            "为目标三元组构建。"
+            "U: --bench <bench>",
+            "仅构建指定的基准测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--benches",
+          "tip": [
+            "构建所有基准测试。"
           ]
         },
         {
-          "name": "--target-dir",
-          "next": 0,
+          "name": "--bin",
           "tip": [
-            "U: --target-dir <directory>",
-            "生成所有生成的工件的目录。"
+            "U: --bin <bin>",
+            "仅构建指定的二进制文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "构建所有二进制文件。"
           ]
+        },
+        {
+          "name": "--build-plan",
+          "tip": [
+            "以 JSON 输出构建计划 (不稳定)。"
+          ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "仅构建指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "构建所有示例。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "从构建中排除的包。"
+          ],
+          "next": 0
         },
         {
           "name": "--features",
-          "next": 0,
           "alias": [
             "-F"
           ],
           "tip": [
             "U: --features, -F <features>",
             "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": [
+            "在构建结束时输出未来不兼容性报告。"
           ]
         },
         {
-          "name": "--all-features",
+          "name": "--ignore-rust-version",
           "tip": [
-            "激活所有可用的特性。"
+            "忽略包中的 `rust-version` 规范。"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业数, 默认为 CPU 核心数。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "在发生错误时不中止构建 (不稳定)。"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "仅构建此包的库。"
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
           ]
         },
         {
@@ -176,6 +515,33 @@
           "tip": [
             "不激活 'default' 特性。"
           ]
+        },
+        {
+          "name": "--out-dir",
+          "tip": [
+            "U: --out-dir <directory>",
+            "将最终工件复制到此目录 (不稳定)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要构建的包 (查看 'cargo help pkgid')。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件构建工件。"
+          ],
+          "next": 0
         },
         {
           "name": "--release",
@@ -188,28 +554,33 @@
           ]
         },
         {
-          "name": "--profile",
-          "next": 0,
+          "name": "--target",
           "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件构建工件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
+            "U: --target <triple>",
+            "为目标三元组构建。"
           ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业数, 默认为 CPU 核心数。"
-          ]
+          "next": 0
         },
         {
-          "name": "--keep-going",
+          "name": "--target-dir",
           "tip": [
-            "在发生错误时不中止构建 (不稳定)。"
+            "U: --target-dir <directory>",
+            "生成所有生成的工件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "U: --test <test>",
+            "仅构建指定的测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tests",
+          "tip": [
+            "构建所有测试。"
           ]
         },
         {
@@ -219,23 +590,15 @@
           ]
         },
         {
-          "name": "--out-dir",
-          "next": 0,
-          "tip": [
-            "U: --out-dir <directory>",
-            "将最终工件复制到此目录 (不稳定)。"
-          ]
-        },
-        {
-          "name": "--build-plan",
-          "tip": [
-            "以 JSON 输出构建计划 (不稳定)。"
-          ]
-        },
-        {
           "name": "--unit-graph",
           "tip": [
             "以 JSON 输出构建图 (不稳定)。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "构建工作区中的所有包。"
           ]
         }
       ]
@@ -251,119 +614,9 @@
       ],
       "options": [
         {
-          "name": "--ignore-rust-version",
+          "name": "--all-features",
           "tip": [
-            "忽略包中的 `rust-version` 规范。"
-          ]
-        },
-        {
-          "name": "--future-incompat-report",
-          "tip": [
-            "在构建结束时输出未来不兼容性报告。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要检查的包 (查看 'cargo help pkgid')。"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "检查工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "从检查中排除的包。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "仅检查此包的库。"
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "检查所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅检查指定的二进制文件。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "检查所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "仅检查指定的示例。"
-          ]
-        },
-        {
-          "name": "--tests",
-          "tip": [
-            "检查所有测试。"
-          ]
-        },
-        {
-          "name": "--test",
-          "next": 0,
-          "tip": [
-            "U: --test <test>",
-            "仅检查指定的测试目标。"
-          ]
-        },
-        {
-          "name": "--benches",
-          "tip": [
-            "检查所有基准测试。"
-          ]
-        },
-        {
-          "name": "--bench",
-          "next": 0,
-          "tip": [
-            "U: --bench <bench>",
-            "仅检查指定的基准测试目标。"
+            "激活所有可用的特性。"
           ]
         },
         {
@@ -373,36 +626,116 @@
           ]
         },
         {
-          "name": "--target",
-          "next": 0,
+          "name": "--bench",
           "tip": [
-            "U: --target <triple>",
-            "检查目标三元组。"
+            "U: --bench <bench>",
+            "仅检查指定的基准测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--benches",
+          "tip": [
+            "检查所有基准测试。"
           ]
         },
         {
-          "name": "--target-dir",
-          "next": 0,
+          "name": "--bin",
           "tip": [
-            "U: --target-dir <directory>",
-            "生成所有生成的工件的目录。"
+            "U: --bin <bin>",
+            "仅检查指定的二进制文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "检查所有二进制文件。"
           ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "仅检查指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "检查所有示例。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "从检查中排除的包。"
+          ],
+          "next": 0
         },
         {
           "name": "--features",
-          "next": 0,
           "alias": [
             "-F"
           ],
           "tip": [
             "U: --features, -F <features>",
             "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": [
+            "在构建结束时输出未来不兼容性报告。"
           ]
         },
         {
-          "name": "--all-features",
+          "name": "--ignore-rust-version",
           "tip": [
-            "激活所有可用的特性。"
+            "忽略包中的 `rust-version` 规范。"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业数, 默认为 CPU 核心数。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "在发生错误时不中止检查 (不稳定)。"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "仅检查此包的库。"
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
           ]
         },
         {
@@ -410,6 +743,25 @@
           "tip": [
             "不激活 'default' 特性。"
           ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要检查的包 (查看 'cargo help pkgid')。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件检查工件。"
+          ],
+          "next": 0
         },
         {
           "name": "--release",
@@ -422,28 +774,33 @@
           ]
         },
         {
-          "name": "--profile",
-          "next": 0,
+          "name": "--target",
           "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件检查工件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
+            "U: --target <triple>",
+            "检查目标三元组。"
           ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业数, 默认为 CPU 核心数。"
-          ]
+          "next": 0
         },
         {
-          "name": "--keep-going",
+          "name": "--target-dir",
           "tip": [
-            "在发生错误时不中止检查 (不稳定)。"
+            "U: --target-dir <directory>",
+            "生成所有生成的工件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "U: --test <test>",
+            "仅检查指定的测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tests",
+          "tip": [
+            "检查所有测试。"
           ]
         },
         {
@@ -457,6 +814,12 @@
           "tip": [
             "以 JSON 输出检查图 (不稳定)。"
           ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "检查工作区中的所有包。"
+          ]
         }
       ]
     },
@@ -467,21 +830,23 @@
       ],
       "options": [
         {
-          "name": "-doc",
-          "tip": [
-            "是否仅清理文档目录。"
-          ]
-        },
-        {
           "name": "--package",
           "alias": [
             "-p"
           ],
-          "next": 0,
           "tip": [
             "U: --package, -p <package>",
             "要清理工件的包。"
-          ]
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件清理工件。"
+          ],
+          "next": 0
         },
         {
           "name": "--release",
@@ -494,1664 +859,25 @@
           ]
         },
         {
-          "name": "--profile",
-          "next": 0,
-          "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件清理工件。"
-          ]
-        },
-        {
           "name": "--target",
-          "next": 0,
           "tip": [
             "U: --target <triple>",
             "要清理输出的目标三元组。"
-          ]
+          ],
+          "next": 0
         },
         {
           "name": "--target-dir",
-          "next": 0,
           "tip": [
             "U: --target-dir <directory>",
             "生成所有生成的工件的目录。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "doc",
-      "alias": [
-        "d"
-      ],
-      "tip": [
-        "U: doc|d",
-        "构建此包及其依赖项的文档。"
-      ],
-      "options": [
-        {
-          "name": "--open",
-          "tip": [
-            "操作后在浏览器中打开文档。"
-          ]
-        },
-        {
-          "name": "--no-deps",
-          "tip": [
-            "不为依赖项构建文档。"
-          ]
-        },
-        {
-          "name": "--document-private-items",
-          "tip": [
-            "文档化私有项。"
-          ]
-        },
-        {
-          "name": "--ignore-rust-version",
-          "tip": [
-            "忽略包中的 `rust-version` 规范。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
           ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
+          "next": 0
         },
         {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
+          "name": "-doc",
           "tip": [
-            "U: --package, -p <package>",
-            "要文档化的包。"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "文档化工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "从文档中排除的包。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "仅文档化此包的库。"
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "文档化所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅文档化指定的二进制文件。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "文档化所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "仅文档化指定的示例。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为目标三元组文档化。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成工件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的功能的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用功能。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 功能。"
-          ]
-        },
-        {
-          "name": "--release",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "U: --release, -r",
-            "以优化的发布模式文档化工件。"
-          ]
-        },
-        {
-          "name": "--profile",
-          "next": 0,
-          "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件文档化工件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
-          ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业的数量, 默认为 CPU 数。"
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "即使出现错误也不中止文档化过程(不稳定)。"
-          ]
-        },
-        {
-          "name": "--timings[=<FMTS>",
-          "tip": [
-            "时间输出格式。(不稳定)(逗号分隔): html,json"
-          ]
-        },
-        {
-          "name": "--unit-graph",
-          "tip": [
-            "以 JSON 输出文档化图(不稳定)。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "new",
-      "tip": [
-        "创建一个新的 cargo 包。"
-      ],
-      "options": [
-        {
-          "name": "--vcs",
-          "tip": [
-            "为给定的版本控制系统(git、hg、pijul 或 fossil)初始化一个新的存储库, ",
-            "或者完全不初始化任何版本控制(none), 覆盖全局配置。",
-            "[可能的值: git、hg、pijul、fossil、none]"
-          ],
-          "next": [
-            {
-              "name": "git"
-            },
-            {
-              "name": "hg"
-            },
-            {
-              "name": "pijul"
-            },
-            {
-              "name": "fossil"
-            },
-            {
-              "name": "none"
-            }
-          ]
-        },
-        {
-          "name": "--bin",
-          "tip": [
-            "使用二进制(应用程序)模板 [默认]。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "使用库模板。"
-          ]
-        },
-        {
-          "name": "--edition",
-          "tip": [
-            "为生成的 crate 设置版本。 [可能的值: 2015、2018、2021]"
-          ],
-          "next": [
-            {
-              "name": "2015"
-            },
-            {
-              "name": "2018"
-            },
-            {
-              "name": "2021"
-            }
-          ]
-        },
-        {
-          "name": "--name",
-          "next": 0,
-          "tip": [
-            "U: --name <name>",
-            "设置结果包名, 默认为目录名。"
-          ]
-        },
-        {
-          "name": "--registry",
-          "next": 0,
-          "tip": [
-            "U: --registry <registry>",
-            "要使用的注册表。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "init",
-      "tip": [
-        "在现有目录中创建一个新的 cargo 包。"
-      ],
-      "options": [
-        {
-          "name": "--vcs",
-          "tip": [
-            "为给定的版本控制系统(git、hg、pijul 或 fossil)初始化一个新的存储库, ",
-            "或者完全不初始化任何版本控制(none), 覆盖全局配置。",
-            "[可能的值: git、hg、pijul、fossil、none]"
-          ],
-          "next": [
-            {
-              "name": "git"
-            },
-            {
-              "name": "hg"
-            },
-            {
-              "name": "pijul"
-            },
-            {
-              "name": "fossil"
-            },
-            {
-              "name": "none"
-            }
-          ]
-        },
-        {
-          "name": "--bin",
-          "tip": [
-            "使用二进制(应用程序)模板 [默认]。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "使用库模板。"
-          ]
-        },
-        {
-          "name": "--edition",
-          "tip": [
-            "为生成的 crate 设置版本。 [可能的值: 2015、2018、2021]"
-          ],
-          "next": [
-            {
-              "name": "2015"
-            },
-            {
-              "name": "2018"
-            },
-            {
-              "name": "2021"
-            }
-          ]
-        },
-        {
-          "name": "--name",
-          "next": 0,
-          "tip": [
-            "U: --name <name>",
-            "设置结果包名, 默认为目录名。"
-          ]
-        },
-        {
-          "name": "--registry",
-          "next": 0,
-          "tip": [
-            "U: --registry <registry>",
-            "要使用的注册表。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "add",
-      "tip": [
-        "向清单文件中添加依赖项。"
-      ],
-      "options": [
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "禁用默认功能。"
-          ]
-        },
-        {
-          "name": "--default-features",
-          "tip": [
-            "重新启用默认功能。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的功能的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--optional",
-          "tip": [
-            "将依赖项标记为可选。"
-          ]
-        },
-        {
-          "name": "--no-optional",
-          "tip": [
-            "将依赖项标记为必需。"
-          ]
-        },
-        {
-          "name": "--rename",
-          "next": 0,
-          "tip": [
-            "U: --rename <name>",
-            "重命名依赖项。"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "实际上不写入清单。"
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要修改的包。"
-          ]
-        },
-        {
-          "name": "--path",
-          "next": 0,
-          "tip": [
-            "U: --path <path>",
-            "要添加的本地 crate 的文件系统路径。"
-          ]
-        },
-        {
-          "name": "--git",
-          "next": 0,
-          "tip": [
-            "U: --git <git-url>",
-            "Git 存储库位置。"
-          ]
-        },
-        {
-          "name": "--branch",
-          "tip": [
-            "从中下载 crate 的 Git 分支。"
-          ],
-          "next": [
-            {
-              "name": "main"
-            },
-            {
-              "name": "master"
-            },
-            {
-              "name": "dev"
-            }
-          ]
-        },
-        {
-          "name": "--tag",
-          "next": 0,
-          "tip": [
-            "U: --tag <tag>",
-            "从中下载 crate 的 Git 标签。"
-          ]
-        },
-        {
-          "name": "--rev",
-          "next": 0,
-          "tip": [
-            "U: --rev <rev>",
-            "从中下载 crate 的 Git 引用。"
-          ]
-        },
-        {
-          "name": "--registry",
-          "next": 0,
-          "tip": [
-            "U: --registry <registry>",
-            "此依赖项的包注册表。"
-          ]
-        },
-        {
-          "name": "--dev",
-          "tip": [
-            "作为开发依赖项添加。"
-          ]
-        },
-        {
-          "name": "--build",
-          "tip": [
-            "作为构建依赖项添加。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "添加到给定目标平台的依赖项。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "remove",
-      "tip": [
-        "从清单文件中删除依赖项。"
-      ],
-      "options": [
-        {
-          "name": "--dry-run",
-          "tip": [
-            "不实际写入清单。"
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要修改的包。"
-          ]
-        },
-        {
-          "name": "--dev",
-          "tip": [
-            "作为开发依赖项删除。"
-          ]
-        },
-        {
-          "name": "--build",
-          "tip": [
-            "作为构建依赖项删除。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "从给定目标平台的依赖项中删除。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "run",
-      "alias": [
-        "r"
-      ],
-      "tip": [
-        "U: run|r",
-        "运行本地包的二进制文件或示例。"
-      ],
-      "options": [
-        {
-          "name": "--ignore-rust-version",
-          "tip": [
-            "忽略包中的 `rust-version` 规范。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要运行的包(查看 'cargo help pkgid')。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "要运行的二进制目标的名称。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "要运行的示例目标的名称。"
-          ]
-        },
-        {
-          "name": "--all-targets",
-          "tip": [
-            "构建所有目标(lib、bins、examples、tests 和 benches)。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为目标三元组构建。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成的工件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的功能的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用功能。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 功能。"
-          ]
-        },
-        {
-          "name": "--release",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "U: --release, -r",
-            "以优化模式运行工件。"
-          ]
-        },
-        {
-          "name": "--profile",
-          "next": 0,
-          "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件运行工件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
-          ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业的数量, 默认为CPU数量。"
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "当出现错误时不立即中止运行(不稳定)。"
-          ]
-        },
-        {
-          "name": "--timings[=<FMTS>",
-          "tip": [
-            "定时输出格式。(不稳定)(逗号分隔): html,json"
-          ]
-        },
-        {
-          "name": "--out-dir",
-          "next": 0,
-          "tip": [
-            "U: --out-dir <directory>",
-            "将最终工件复制到此目录(不稳定)。"
-          ]
-        },
-        {
-          "name": "--build-plan",
-          "tip": [
-            "以JSON格式输出构建计划(不稳定)。"
-          ]
-        },
-        {
-          "name": "--unit-graph",
-          "tip": [
-            "以JSON格式输出构建图(不稳定)。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "test",
-      "alias": [
-        "t"
-      ],
-      "tip": [
-        "U: test|t",
-        "运行测试。"
-      ],
-      "options": [
-        {
-          "name": "--doc",
-          "tip": [
-            "运行文档测试。"
-          ]
-        },
-        {
-          "name": "--no-run",
-          "tip": [
-            "编译但不运行测试。"
-          ]
-        },
-        {
-          "name": "--no-fail-fast",
-          "tip": [
-            "无论失败与否都运行所有测试。"
-          ]
-        },
-        {
-          "name": "--ignore-rust-version",
-          "tip": [
-            "忽略包中的 `rust-version` 规范。"
-          ]
-        },
-        {
-          "name": "--future-incompat-report",
-          "tip": [
-            "在构建结束时输出未来不兼容性报告。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要为其运行测试的包。"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "测试工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "从测试中排除的包。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "仅测试此包的库单元测试。"
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "测试所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅测试指定的二进制目标。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "测试所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "仅测试指定的示例。"
-          ]
-        },
-        {
-          "name": "--tests",
-          "tip": [
-            "测试所有测试。"
-          ]
-        },
-        {
-          "name": "--test",
-          "next": 0,
-          "tip": [
-            "U: --test <test>",
-            "仅测试指定的测试目标。"
-          ]
-        },
-        {
-          "name": "--benches",
-          "tip": [
-            "测试所有工作台。"
-          ]
-        },
-        {
-          "name": "--bench",
-          "next": 0,
-          "tip": [
-            "U: --bench <bench>",
-            "仅测试指定的工作台目标。"
-          ]
-        },
-        {
-          "name": "--all-targets",
-          "tip": [
-            "测试所有目标(不包括文档测试)。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为目标三元组进行测试。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成的工件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的功能的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用功能。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 功能。"
-          ]
-        },
-        {
-          "name": "--release",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "U: --release, -r",
-            "以优化模式运行测试工件。"
-          ]
-        },
-        {
-          "name": "--profile",
-          "next": 0,
-          "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件运行测试工件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
-          ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业的数量, 默认为CPU数量。"
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "当出现错误时不立即中止测试(不稳定)。"
-          ]
-        },
-        {
-          "name": "--timings[=<FMTS>",
-          "tip": [
-            "定时输出格式。(不稳定)(逗号分隔): html,json"
-          ]
-        },
-        {
-          "name": "--unit-graph",
-          "tip": [
-            "以JSON格式输出构建图(不稳定)。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "bench",
-      "tip": [
-        "运行基准测试。"
-      ],
-      "options": [
-        {
-          "name": "--no-run",
-          "tip": [
-            "编译但不运行基准测试。"
-          ]
-        },
-        {
-          "name": "--no-fail-fast",
-          "tip": [
-            "运行所有基准测试, 无论是否失败。"
-          ]
-        },
-        {
-          "name": "--ignore-rust-version",
-          "tip": [
-            "忽略包中的 `rust-version` 规范。"
-          ]
-        },
-        {
-          "name": "--future-incompat-report",
-          "tip": [
-            "在构建结束时输出未来不兼容性报告。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要运行基准测试的包。"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "测试工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "从基准测试中排除的包。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "仅对此包的库进行基准测试。"
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "对所有二进制文件进行基准测试。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅对指定的二进制文件进行基准测试。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "对所有示例进行基准测试。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "仅对指定的示例进行基准测试。"
-          ]
-        },
-        {
-          "name": "--tests",
-          "tip": [
-            "对所有测试进行基准测试。"
-          ]
-        },
-        {
-          "name": "--test",
-          "next": 0,
-          "tip": [
-            "U: --test <test>",
-            "仅对指定的测试目标进行基准测试。"
-          ]
-        },
-        {
-          "name": "--benches",
-          "tip": [
-            "对所有基准进行基准测试。"
-          ]
-        },
-        {
-          "name": "--bench",
-          "next": 0,
-          "tip": [
-            "U: --bench <bench>",
-            "仅对指定的基准目标进行基准测试。"
-          ]
-        },
-        {
-          "name": "--all-targets",
-          "tip": [
-            "对所有目标进行基准测试。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为指定的目标平台进行基准测试。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成的构件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的特性的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用的特性。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 特性。"
-          ]
-        },
-        {
-          "name": "--profile",
-          "next": 0,
-          "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件进行基准测试。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
-          ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业数, 默认为CPU数。"
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "发生错误时不中止基准测试(不稳定)。"
-          ]
-        },
-        {
-          "name": "--timings[=<FMTS>",
-          "tip": [
-            "计时输出格式。(不稳定)(逗号分隔): html,json"
-          ]
-        },
-        {
-          "name": "--unit-graph",
-          "tip": [
-            "以JSON格式输出构建图(不稳定)。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "update",
-      "tip": [
-        "更新 Cargo.lock 中列出的依赖项。"
-      ],
-      "options": [
-        {
-          "name": "--dry-run",
-          "tip": [
-            "不实际写入锁文件。"
-          ]
-        },
-        {
-          "name": "--aggressive",
-          "tip": [
-            "当与 -p 一起使用时, 强制更新 SPEC 的所有依赖项。"
-          ]
-        },
-        {
-          "name": "--precise",
-          "next": 0,
-          "tip": [
-            "当与 -p 一起使用时, 将单个依赖项精确更新为 PRECISE。"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "alias": [
-            "-w"
-          ],
-          "tip": [
-            "U: --workspace, -w",
-            "仅更新工作区中的包。"
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要更新的包。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "search",
-      "tip": [
-        "在注册表中搜索 crates。"
-      ],
-      "options": [
-        {
-          "name": "--limit",
-          "next": 0,
-          "tip": [
-            "U: --limit <limit>",
-            "限制结果数量(默认: 10, 最大: 100)。"
-          ]
-        },
-        {
-          "name": "--index",
-          "next": 0,
-          "tip": [
-            "U: --index <index>",
-            "要上传包的注册索引 URL。"
-          ]
-        },
-        {
-          "name": "--registry",
-          "next": 0,
-          "tip": [
-            "U: --registry <registry>",
-            "要使用的注册表。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "publish",
-      "tip": [
-        "打包并将此包上传到注册表。"
-      ],
-      "options": [
-        {
-          "name": "--dry-run",
-          "tip": [
-            "执行所有检查但不上传。"
-          ]
-        },
-        {
-          "name": "--index",
-          "next": 0,
-          "tip": [
-            "U: --index <index>",
-            "要上传包的注册表索引 URL。"
-          ]
-        },
-        {
-          "name": "--registry",
-          "next": 0,
-          "tip": [
-            "U: --registry <registry>",
-            "要发布到的注册表。"
-          ]
-        },
-        {
-          "name": "--token",
-          "next": 0,
-          "tip": [
-            "U: --token <token>",
-            "上传时要使用的令牌。"
-          ]
-        },
-        {
-          "name": "--no-verify",
-          "tip": [
-            "不通过构建来验证内容。"
-          ]
-        },
-        {
-          "name": "--allow-dirty",
-          "tip": [
-            "允许将工作目录标记为脏并进行打包。"
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要发布的包。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为目标三元组发布。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成的构件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的特性的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用的特性。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 特性。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
-          ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业数, 默认为 CPU 数量。"
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "不要在出现错误时立即中止。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "install",
-      "tip": [
-        "安装一个 Rust 二进制文件。默认位置是 $HOME/.cargo/bin。"
-      ],
-      "options": [
-        {
-          "name": "--version",
-          "next": 0,
-          "tip": [
-            "U: --version <version>",
-            "指定要安装的版本。"
-          ]
-        },
-        {
-          "name": "--index",
-          "next": 0,
-          "tip": [
-            "U: --index <index>",
-            "要从中安装的注册表索引。"
-          ]
-        },
-        {
-          "name": "--registry",
-          "next": 0,
-          "tip": [
-            "U: --registry <registry>",
-            "要使用的注册表。"
-          ]
-        },
-        {
-          "name": "--git",
-          "next": 0,
-          "tip": [
-            "U: --git <git>",
-            "Git 仓库位置。"
-          ]
-        },
-        {
-          "name": "--branch",
-          "tip": [
-            "从中下载 crate 的 Git 分支。"
-          ],
-          "next": [
-            {
-              "name": "main"
-            },
-            {
-              "name": "master"
-            },
-            {
-              "name": "dev"
-            }
-          ]
-        },
-        {
-          "name": "--tag",
-          "next": 0,
-          "tip": [
-            "U: --tag <tag>",
-            "从中下载 crate 的 Git 标签。"
-          ]
-        },
-        {
-          "name": "--rev",
-          "next": 0,
-          "tip": [
-            "U: --rev <rev>",
-            "从中下载 crate 的 Git 引用。"
-          ]
-        },
-        {
-          "name": "--path",
-          "next": 0,
-          "tip": [
-            "U: --path <path>",
-            "要添加的本地 crate 的文件系统路径。"
-          ]
-        },
-        {
-          "name": "--root",
-          "next": 0,
-          "tip": [
-            "U: --root <path>",
-            "要将包安装到的目录。"
-          ]
-        },
-        {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "U: --force, -f",
-            "强制覆盖现有 crate 或二进制文件。"
-          ]
-        },
-        {
-          "name": "--no-track",
-          "tip": [
-            "不保存跟踪信息。"
-          ]
-        },
-        {
-          "name": "--list",
-          "tip": [
-            "列出所有已安装的包及其版本。"
-          ]
-        },
-        {
-          "name": "--ignore-rust-version",
-          "tip": [
-            "忽略包中的 `rust-version` 规范。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "安装所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅安装指定的二进制文件。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "安装所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "仅安装指定的示例。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为目标三元组安装。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成的构件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的特性的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用的特性。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 特性。"
-          ]
-        },
-        {
-          "name": "--profile",
-          "next": 0,
-          "tip": [
-            "使用指定的配置文件安装构件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
-          ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业数, 默认为 CPU 数量。"
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "不要在出现错误时立即中止安装(不稳定)。"
-          ]
-        },
-        {
-          "name": "--timings[=<FMTS>",
-          "tip": [
-            "计时输出格式。(不稳定)(逗号分隔): html,json"
-          ]
-        },
-        {
-          "name": "--unit-graph",
-          "tip": [
-            "以 JSON 格式输出构建图(不稳定)。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "uninstall",
-      "tip": [
-        "卸载一个 Rust 二进制文件。"
-      ],
-      "options": [
-        {
-          "name": "--root",
-          "next": 0,
-          "tip": [
-            "U: --root <path>",
-            "要从中卸载包的目录。"
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要卸载的包。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅卸载二进制文件名称。"
+            "是否仅清理文档目录。"
           ]
         }
       ]
@@ -2163,10 +889,34 @@
       ],
       "options": [
         {
-          "name": "--no-deps",
+          "name": "--allow",
+          "alias": [
+            "-A"
+          ],
           "tip": [
-            "仅在给定的 crate 上运行 Clippy, 而不对依赖项进行 lint。"
-          ]
+            "U: --allow, -A <allow>",
+            "设置 lint 允许列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--deny",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: --deny, -D <deny>",
+            "设置 lint 拒绝列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--explain",
+          "tip": [
+            "U: --explain <lint>",
+            "打印给定 lint 的文档。"
+          ],
+          "next": 0
         },
         {
           "name": "--fix",
@@ -2175,11 +925,20 @@
           ]
         },
         {
-          "name": "--explain",
-          "next": 0,
+          "name": "--forbid",
+          "alias": [
+            "-F"
+          ],
           "tip": [
-            "U: --explain <lint>",
-            "打印给定 lint 的文档。"
+            "U: --forbid, -F <forbid>",
+            "设置 lint 禁止列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "仅在给定的 crate 上运行 Clippy, 而不对依赖项进行 lint。"
           ]
         },
         {
@@ -2187,44 +946,11 @@
           "alias": [
             "-W"
           ],
-          "next": 0,
           "tip": [
             "U: --warn, -W <warn>",
             "设置 lint 警告。"
-          ]
-        },
-        {
-          "name": "--allow",
-          "alias": [
-            "-A"
           ],
-          "next": 0,
-          "tip": [
-            "U: --allow, -A <allow>",
-            "设置 lint 允许列表。"
-          ]
-        },
-        {
-          "name": "--deny",
-          "alias": [
-            "-D"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --deny, -D <deny>",
-            "设置 lint 拒绝列表。"
-          ]
-        },
-        {
-          "name": "--forbid",
-          "alias": [
-            "-F"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --forbid, -F <forbid>",
-            "设置 lint 禁止列表。"
-          ]
+          "next": 0
         }
       ]
     },
@@ -2244,6 +970,204 @@
       ]
     },
     {
+      "name": "doc",
+      "alias": [
+        "d"
+      ],
+      "tip": [
+        "U: doc|d",
+        "构建此包及其依赖项的文档。"
+      ],
+      "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用功能。"
+          ]
+        },
+        {
+          "name": "--bin",
+          "tip": [
+            "U: --bin <bin>",
+            "仅文档化指定的二进制文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "文档化所有二进制文件。"
+          ]
+        },
+        {
+          "name": "--document-private-items",
+          "tip": [
+            "文档化私有项。"
+          ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "仅文档化指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "文档化所有示例。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "从文档中排除的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的功能的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 规范。"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业的数量, 默认为 CPU 数。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "即使出现错误也不中止文档化过程(不稳定)。"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "仅文档化此包的库。"
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--no-default-features",
+          "tip": [
+            "不激活 'default' 功能。"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "不为依赖项构建文档。"
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "操作后在浏览器中打开文档。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要文档化的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件文档化工件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release, -r",
+            "以优化的发布模式文档化工件。"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "为目标三元组文档化。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-dir",
+          "tip": [
+            "U: --target-dir <directory>",
+            "所有生成工件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": [
+            "时间输出格式。(不稳定)(逗号分隔): html,json"
+          ]
+        },
+        {
+          "name": "--unit-graph",
+          "tip": [
+            "以 JSON 输出文档化图(不稳定)。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "文档化工作区中的所有包。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "fetch",
       "tip": [
         "从网络获取包的依赖项。"
@@ -2251,11 +1175,11 @@
       "options": [
         {
           "name": "--target",
-          "next": 0,
           "tip": [
             "U: --target <triple>",
             "为目标三元组获取依赖项。"
-          ]
+          ],
+          "next": 0
         }
       ]
     },
@@ -2265,6 +1189,70 @@
         "自动修复由rustc报告的lint警告。"
       ],
       "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用的功能。"
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": [
+            "修复所有目标(lib、bins、examples、tests和benches)。"
+          ]
+        },
+        {
+          "name": "--allow-dirty",
+          "tip": [
+            "即使工作目录不干净, 也要修复代码。"
+          ]
+        },
+        {
+          "name": "--allow-no-vcs",
+          "tip": [
+            "即使未检测到VCS, 也要修复代码。"
+          ]
+        },
+        {
+          "name": "--allow-staged",
+          "tip": [
+            "即使工作目录有暂存更改, 也要修复代码。"
+          ]
+        },
+        {
+          "name": "--bench",
+          "tip": [
+            "U: --bench <bench>",
+            "仅修复指定的bench目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--benches",
+          "tip": [
+            "修复所有benches。"
+          ]
+        },
+        {
+          "name": "--bin",
+          "tip": [
+            "U: --bin <bin>",
+            "仅修复指定的二进制文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "修复所有二进制文件。"
+          ]
+        },
+        {
+          "name": "--broken-code",
+          "tip": [
+            "即使代码已经有编译器错误, 也要修复代码。"
+          ]
+        },
         {
           "name": "--edition",
           "tip": [
@@ -2278,28 +1266,37 @@
           ]
         },
         {
-          "name": "--broken-code",
+          "name": "--example",
           "tip": [
-            "即使代码已经有编译器错误, 也要修复代码。"
+            "U: --example <example>",
+            "仅修复指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "修复所有示例。"
           ]
         },
         {
-          "name": "--allow-no-vcs",
+          "name": "--exclude",
           "tip": [
-            "即使未检测到VCS, 也要修复代码。"
-          ]
+            "U: --exclude <package>",
+            "从修复中排除的包。"
+          ],
+          "next": 0
         },
         {
-          "name": "--allow-dirty",
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
           "tip": [
-            "即使工作目录不干净, 也要修复代码。"
-          ]
-        },
-        {
-          "name": "--allow-staged",
-          "tip": [
-            "即使工作目录有暂存更改, 也要修复代码。"
-          ]
+            "U: --features, -F <features>",
+            "要激活的功能的空格或逗号分隔列表。"
+          ],
+          "next": 0
         },
         {
           "name": "--ignore-rust-version",
@@ -2308,45 +1305,20 @@
           ]
         },
         {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--package",
+          "name": "--jobs",
           "alias": [
-            "p"
+            "-j"
           ],
-          "next": 0,
           "tip": [
-            "U: --package, -p <package>",
-            "要修复的包。"
-          ]
+            "U: --jobs, -j <N>",
+            "并行作业数, 默认为CPU数。"
+          ],
+          "next": 0
         },
         {
-          "name": "--workspace",
+          "name": "--keep-going",
           "tip": [
-            "修复工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "从修复中排除的包。"
+            "即使有错误也不要中止修复(不稳定)。"
           ]
         },
         {
@@ -2356,98 +1328,20 @@
           ]
         },
         {
-          "name": "--bins",
+          "name": "--message-format",
           "tip": [
-            "修复所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "仅修复指定的二进制文件。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "修复所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "仅修复指定的示例。"
-          ]
-        },
-        {
-          "name": "--tests",
-          "tip": [
-            "修复所有测试。"
-          ]
-        },
-        {
-          "name": "--test",
-          "next": 0,
-          "tip": [
-            "U: --test <test>",
-            "仅修复指定的测试目标。"
-          ]
-        },
-        {
-          "name": "--benches",
-          "tip": [
-            "修复所有benches。"
-          ]
-        },
-        {
-          "name": "--bench",
-          "next": 0,
-          "tip": [
-            "U: --bench <bench>",
-            "仅修复指定的bench目标。"
-          ]
-        },
-        {
-          "name": "--all-targets",
-          "tip": [
-            "修复所有目标(lib、bins、examples、tests和benches)。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为目标三元组修复。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成的构件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
+            "指定消息格式: short|json|human。"
           ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的功能的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用的功能。"
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
           ]
         },
         {
@@ -2455,6 +1349,25 @@
           "tip": [
             "不要激活'default'功能。"
           ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要修复的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件修复构件。"
+          ],
+          "next": 0
         },
         {
           "name": "--release",
@@ -2467,34 +1380,45 @@
           ]
         },
         {
-          "name": "--profile",
-          "next": 0,
+          "name": "--target",
           "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置文件修复构件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
+            "U: --target <triple>",
+            "为目标三元组修复。"
           ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业数, 默认为CPU数。"
-          ]
+          "next": 0
         },
         {
-          "name": "--keep-going",
+          "name": "--target-dir",
           "tip": [
-            "即使有错误也不要中止修复(不稳定)。"
+            "U: --target-dir <directory>",
+            "所有生成的构件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "U: --test <test>",
+            "仅修复指定的测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tests",
+          "tip": [
+            "修复所有测试。"
           ]
         },
         {
           "name": "--timings[=<FMTS>",
           "tip": [
             "定时输出格式。(不稳定)(逗号分隔): html,json"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "修复工作区中的所有包。"
           ]
         }
       ]
@@ -2506,34 +1430,6 @@
       ],
       "options": [
         {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "指定要格式化的包。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
           "name": "--all",
           "tip": [
             "格式化所有包, 以及它们的基于本地路径的依赖。"
@@ -2544,6 +1440,34 @@
           "tip": [
             "以检查模式运行rustfmt。"
           ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "指定要格式化的包。"
+          ],
+          "next": 0
         }
       ]
     },
@@ -2554,15 +1478,211 @@
       ]
     },
     {
-      "name": "locate-project",
+      "name": "help",
       "tip": [
-        "打印Cargo.toml文件位置的JSON表示。"
+        "U: help <cmd>",
+        "显示 cargo 子命令的帮助。"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "在现有目录中创建一个新的 cargo 包。"
       ],
       "options": [
         {
-          "name": "--workspace",
+          "name": "--bin",
           "tip": [
-            "定位工作区根目录的Cargo.toml。"
+            "使用二进制(应用程序)模板 [默认]。"
+          ]
+        },
+        {
+          "name": "--edition",
+          "tip": [
+            "为生成的 crate 设置版本。 [可能的值: 2015、2018、2021]"
+          ],
+          "next": [
+            {
+              "name": "2015"
+            },
+            {
+              "name": "2018"
+            },
+            {
+              "name": "2021"
+            }
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "使用库模板。"
+          ]
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <name>",
+            "设置结果包名, 默认为目录名。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <registry>",
+            "要使用的注册表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vcs",
+          "tip": [
+            "为给定的版本控制系统(git、hg、pijul 或 fossil)初始化一个新的存储库, ",
+            "或者完全不初始化任何版本控制(none), 覆盖全局配置。",
+            "[可能的值: git、hg、pijul、fossil、none]"
+          ],
+          "next": [
+            {
+              "name": "fossil"
+            },
+            {
+              "name": "git"
+            },
+            {
+              "name": "hg"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "pijul"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "安装一个 Rust 二进制文件。默认位置是 $HOME/.cargo/bin。"
+      ],
+      "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用的特性。"
+          ]
+        },
+        {
+          "name": "--bin",
+          "tip": [
+            "U: --bin <bin>",
+            "仅安装指定的二进制文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "安装所有二进制文件。"
+          ]
+        },
+        {
+          "name": "--branch",
+          "tip": [
+            "从中下载 crate 的 Git 分支。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            }
+          ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "仅安装指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "安装所有示例。"
+          ]
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: --force, -f",
+            "强制覆盖现有 crate 或二进制文件。"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "U: --git <git>",
+            "Git 仓库位置。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 规范。"
+          ]
+        },
+        {
+          "name": "--index",
+          "tip": [
+            "U: --index <index>",
+            "要从中安装的注册表索引。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业数, 默认为 CPU 数量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "不要在出现错误时立即中止安装(不稳定)。"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "列出所有已安装的包及其版本。"
           ]
         },
         {
@@ -2572,14 +1692,140 @@
           ],
           "next": [
             {
-              "name": "short"
+              "name": "human"
             },
             {
               "name": "json"
             },
             {
-              "name": "human"
+              "name": "short"
             }
+          ]
+        },
+        {
+          "name": "--no-default-features",
+          "tip": [
+            "不激活 'default' 特性。"
+          ]
+        },
+        {
+          "name": "--no-track",
+          "tip": [
+            "不保存跟踪信息。"
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <path>",
+            "要添加的本地 crate 的文件系统路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "使用指定的配置文件安装构件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <registry>",
+            "要使用的注册表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--rev",
+          "tip": [
+            "U: --rev <rev>",
+            "从中下载 crate 的 Git 引用。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "U: --root <path>",
+            "要将包安装到的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <tag>",
+            "从中下载 crate 的 Git 标签。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "为目标三元组安装。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-dir",
+          "tip": [
+            "U: --target-dir <directory>",
+            "所有生成的构件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": [
+            "计时输出格式。(不稳定)(逗号分隔): html,json"
+          ]
+        },
+        {
+          "name": "--unit-graph",
+          "tip": [
+            "以 JSON 格式输出构建图(不稳定)。"
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "U: --version <version>",
+            "指定要安装的版本。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "locate-project",
+      "tip": [
+        "打印Cargo.toml文件位置的JSON表示。"
+      ],
+      "options": [
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "定位工作区根目录的Cargo.toml。"
           ]
         }
       ]
@@ -2592,11 +1838,11 @@
       "options": [
         {
           "name": "--registry",
-          "next": 0,
           "tip": [
             "U: --registry <registry>",
             "要使用的注册表。"
-          ]
+          ],
+          "next": 0
         }
       ]
     },
@@ -2608,11 +1854,11 @@
       "options": [
         {
           "name": "--registry",
-          "next": 0,
           "tip": [
             "U: --registry <registry>",
             "要使用的注册表。"
-          ]
+          ],
+          "next": 0
         }
       ]
     },
@@ -2623,18 +1869,29 @@
       ],
       "options": [
         {
-          "name": "--filter-platform",
-          "next": 0,
+          "name": "--all-features",
           "tip": [
-            "U: --filter-platform <triple>",
-            "仅包含与给定目标三元匹配的已解析依赖关系。"
+            "激活所有可用的特性。"
           ]
         },
         {
-          "name": "--no-deps",
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
           "tip": [
-            "仅输出有关工作区成员的信息, 不获取依赖项。"
-          ]
+            "U: --features, -F <features>",
+            "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter-platform",
+          "tip": [
+            "U: --filter-platform <triple>",
+            "仅包含与给定目标三元匹配的已解析依赖关系。"
+          ],
+          "next": 0
         },
         {
           "name": "--format-version",
@@ -2648,26 +1905,93 @@
           ]
         },
         {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的特性的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用的特性。"
-          ]
-        },
-        {
           "name": "--no-default-features",
           "tip": [
             "不激活“default”特性。"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "仅输出有关工作区成员的信息, 不获取依赖项。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "new",
+      "tip": [
+        "创建一个新的 cargo 包。"
+      ],
+      "options": [
+        {
+          "name": "--bin",
+          "tip": [
+            "使用二进制(应用程序)模板 [默认]。"
+          ]
+        },
+        {
+          "name": "--edition",
+          "tip": [
+            "为生成的 crate 设置版本。 [可能的值: 2015、2018、2021]"
+          ],
+          "next": [
+            {
+              "name": "2015"
+            },
+            {
+              "name": "2018"
+            },
+            {
+              "name": "2021"
+            }
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "使用库模板。"
+          ]
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <name>",
+            "设置结果包名, 默认为目录名。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <registry>",
+            "要使用的注册表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vcs",
+          "tip": [
+            "为给定的版本控制系统(git、hg、pijul 或 fossil)初始化一个新的存储库, ",
+            "或者完全不初始化任何版本控制(none), 覆盖全局配置。",
+            "[可能的值: git、hg、pijul、fossil、none]"
+          ],
+          "next": [
+            {
+              "name": "fossil"
+            },
+            {
+              "name": "git"
+            },
+            {
+              "name": "hg"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "pijul"
+            }
           ]
         }
       ]
@@ -2683,22 +2007,19 @@
           "alias": [
             "-a"
           ],
-          "next": 0,
           "tip": [
             "U: --add, -a <owner>",
             "邀请作为所有者的用户或团队的名称。"
-          ]
+          ],
+          "next": 0
         },
         {
-          "name": "--remove",
-          "alias": [
-            "-r"
-          ],
-          "next": 0,
+          "name": "--index",
           "tip": [
-            "U: --remove, -r <owner>",
-            "要移除为所有者的用户或团队的名称。"
-          ]
+            "U: --index <index>",
+            "要修改所有者的注册表索引。"
+          ],
+          "next": 0
         },
         {
           "name": "--list",
@@ -2711,28 +2032,31 @@
           ]
         },
         {
-          "name": "--index",
-          "next": 0,
-          "tip": [
-            "U: --index <index>",
-            "要修改所有者的注册表索引。"
-          ]
-        },
-        {
-          "name": "--token",
-          "next": 0,
-          "tip": [
-            "U: --token <token>",
-            "在进行身份验证时使用的 API 令牌。"
-          ]
-        },
-        {
           "name": "--registry",
-          "next": 0,
           "tip": [
             "U: --registry <registry>",
             "要使用的注册表。"
-          ]
+          ],
+          "next": 0
+        },
+        {
+          "name": "--remove",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --remove, -r <owner>",
+            "要移除为所有者的用户或团队的名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "在进行身份验证时使用的 API 令牌。"
+          ],
+          "next": 0
         }
       ]
     },
@@ -2742,6 +2066,54 @@
         "将本地包装成可分发的 tarball。"
       ],
       "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用的特性。"
+          ]
+        },
+        {
+          "name": "--allow-dirty",
+          "tip": [
+            "允许打包脏的工作目录。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "不打包指定的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业数, 默认为 CPU 数。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "发生错误时不中止打包(不稳定)。"
+          ]
+        },
         {
           "name": "--list",
           "alias": [
@@ -2753,9 +2125,9 @@
           ]
         },
         {
-          "name": "--no-verify",
+          "name": "--no-default-features",
           "tip": [
-            "在构建时不验证内容。"
+            "不激活 'default' 特性。"
           ]
         },
         {
@@ -2765,9 +2137,9 @@
           ]
         },
         {
-          "name": "--allow-dirty",
+          "name": "--no-verify",
           "tip": [
-            "允许打包脏的工作目录。"
+            "在构建时不验证内容。"
           ]
         },
         {
@@ -2775,80 +2147,32 @@
           "alias": [
             "-p"
           ],
-          "next": 0,
           "tip": [
             "U: --package, -p <package>",
             "要打包的包。"
-          ]
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "为目标三元组打包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-dir",
+          "tip": [
+            "U: --target-dir <directory>",
+            "所有生成的构件的目录。"
+          ],
+          "next": 0
         },
         {
           "name": "--workspace",
           "tip": [
             "打包工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "不打包指定的包。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "为目标三元组打包。"
-          ]
-        },
-        {
-          "name": "--target-dir",
-          "next": 0,
-          "tip": [
-            "U: --target-dir <directory>",
-            "所有生成的构件的目录。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
-          "alias": [
-            "-F"
-          ],
-          "tip": [
-            "U: --features, -F <features>",
-            "要激活的特性的空格或逗号分隔列表。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用的特性。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 特性。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
-          ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业数, 默认为 CPU 数。"
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "发生错误时不中止打包(不稳定)。"
           ]
         }
       ]
@@ -2864,11 +2188,128 @@
           "alias": [
             "-p"
           ],
-          "next": 0,
           "tip": [
             "U: --package, -p <package>",
             "要获取包 ID 规范的参数。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "打包并将此包上传到注册表。"
+      ],
+      "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用的特性。"
           ]
+        },
+        {
+          "name": "--allow-dirty",
+          "tip": [
+            "允许将工作目录标记为脏并进行打包。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行所有检查但不上传。"
+          ]
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--index",
+          "tip": [
+            "U: --index <index>",
+            "要上传包的注册表索引 URL。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业数, 默认为 CPU 数量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "不要在出现错误时立即中止。"
+          ]
+        },
+        {
+          "name": "--no-default-features",
+          "tip": [
+            "不激活 'default' 特性。"
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "不通过构建来验证内容。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要发布的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <registry>",
+            "要发布到的注册表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "为目标三元组发布。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-dir",
+          "tip": [
+            "U: --target-dir <directory>",
+            "所有生成的构件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "上传时要使用的令牌。"
+          ],
+          "next": 0
         }
       ]
     },
@@ -2876,6 +2317,51 @@
       "name": "read-manifest",
       "tip": [
         "印 Cargo.toml 清单的 JSON 表示形式。"
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "从清单文件中删除依赖项。"
+      ],
+      "options": [
+        {
+          "name": "--build",
+          "tip": [
+            "作为构建依赖项删除。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "作为开发依赖项删除。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不实际写入清单。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要修改的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "从给定目标平台的依赖项中删除。"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -2893,37 +2379,81 @@
       ]
     },
     {
-      "name": "rustc",
+      "name": "run",
+      "alias": [
+        "r"
+      ],
       "tip": [
-        "编译一个包, 并向编译器传递额外的选项。"
+        "U: run|r",
+        "运行本地包的二进制文件或示例。"
       ],
       "options": [
         {
-          "name": "--print",
-          "next": 0,
+          "name": "--all-features",
           "tip": [
-            "U: --print <output>",
-            "不编译而输出编译器信息。"
+            "激活所有可用功能。"
           ]
         },
         {
-          "name": "--crate-type",
-          "next": 0,
+          "name": "--all-targets",
           "tip": [
-            "U: --crate-type <type>",
-            "编译器应生成的 crate 类型列表, 用逗号分隔。"
+            "构建所有目标(lib、bins、examples、tests 和 benches)。"
           ]
+        },
+        {
+          "name": "--bin",
+          "tip": [
+            "U: --bin <bin>",
+            "要运行的二进制目标的名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--build-plan",
+          "tip": [
+            "以JSON格式输出构建计划(不稳定)。"
+          ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "要运行的示例目标的名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的功能的空格或逗号分隔列表。"
+          ],
+          "next": 0
         },
         {
           "name": "--ignore-rust-version",
           "tip": [
-            "忽略包中的 `rust-version` 指定。"
+            "忽略包中的 `rust-version` 规范。"
           ]
         },
         {
-          "name": "--future-incompat-report",
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
           "tip": [
-            "在构建结束时输出未来不兼容性报告。"
+            "U: --jobs, -j <N>",
+            "并行作业的数量, 默认为CPU数量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "当出现错误时不立即中止运行(不稳定)。"
           ]
         },
         {
@@ -2933,101 +2463,99 @@
           ],
           "next": [
             {
-              "name": "short"
+              "name": "human"
             },
             {
               "name": "json"
             },
             {
-              "name": "human"
+              "name": "short"
             }
           ]
+        },
+        {
+          "name": "--no-default-features",
+          "tip": [
+            "不激活 'default' 功能。"
+          ]
+        },
+        {
+          "name": "--out-dir",
+          "tip": [
+            "U: --out-dir <directory>",
+            "将最终工件复制到此目录(不稳定)。"
+          ],
+          "next": 0
         },
         {
           "name": "--package",
           "alias": [
             "-p"
           ],
-          "next": 0,
           "tip": [
             "U: --package, -p <package>",
-            "要编译的包。"
+            "要运行的包(查看 'cargo help pkgid')。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件运行工件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release, -r",
+            "以优化模式运行工件。"
           ]
         },
         {
-          "name": "--workspace",
+          "name": "--target",
           "tip": [
-            "构建工作区中的所有包。"
+            "U: --target <triple>",
+            "为目标三元组构建。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-dir",
+          "tip": [
+            "U: --target-dir <directory>",
+            "所有生成的工件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": [
+            "定时输出格式。(不稳定)(逗号分隔): html,json"
           ]
         },
         {
-          "name": "--exclude",
-          "next": 0,
+          "name": "--unit-graph",
           "tip": [
-            "U: --exclude <package>",
-            "从构建中排除包。"
+            "以JSON格式输出构建图(不稳定)。"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "rustc",
+      "tip": [
+        "编译一个包, 并向编译器传递额外的选项。"
+      ],
+      "options": [
         {
-          "name": "--lib",
+          "name": "--all-features",
           "tip": [
-            "只构建此包的库。"
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "构建所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "只构建指定的二进制文件。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "构建所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "只构建指定的示例。"
-          ]
-        },
-        {
-          "name": "--tests",
-          "tip": [
-            "构建所有测试。"
-          ]
-        },
-        {
-          "name": "--test",
-          "next": 0,
-          "tip": [
-            "U: --test <test>",
-            "只构建指定的测试目标。"
-          ]
-        },
-        {
-          "name": "--benches",
-          "tip": [
-            "构建所有基准测试。"
-          ]
-        },
-        {
-          "name": "--bench",
-          "next": 0,
-          "tip": [
-            "U: --bench <bench>",
-            "只构建指定的基准测试目标。"
+            "激活所有可用的功能。"
           ]
         },
         {
@@ -3037,36 +2565,124 @@
           ]
         },
         {
-          "name": "--target",
-          "next": 0,
+          "name": "--bench",
           "tip": [
-            "U: --target <triple>",
-            "为目标 triple 构建。"
+            "U: --bench <bench>",
+            "只构建指定的基准测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--benches",
+          "tip": [
+            "构建所有基准测试。"
           ]
         },
         {
-          "name": "--target-dir",
-          "next": 0,
+          "name": "--bin",
           "tip": [
-            "U: --target-dir <directory>",
-            "生成所有生成工件的目录。"
+            "U: --bin <bin>",
+            "只构建指定的二进制文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "构建所有二进制文件。"
           ]
+        },
+        {
+          "name": "--crate-type",
+          "tip": [
+            "U: --crate-type <type>",
+            "编译器应生成的 crate 类型列表, 用逗号分隔。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "只构建指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "构建所有示例。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "从构建中排除包。"
+          ],
+          "next": 0
         },
         {
           "name": "--features",
-          "next": 0,
           "alias": [
             "-F"
           ],
           "tip": [
             "U: --features, -F <features>",
             "激活的功能列表, 用空格或逗号分隔。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": [
+            "在构建结束时输出未来不兼容性报告。"
           ]
         },
         {
-          "name": "--all-features",
+          "name": "--ignore-rust-version",
           "tip": [
-            "激活所有可用的功能。"
+            "忽略包中的 `rust-version` 指定。"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业的数量, 默认为 CPU 数量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "即使遇到错误也不立即停止构建(不稳定)。"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "只构建此包的库。"
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
           ]
         },
         {
@@ -3074,6 +2690,33 @@
           "tip": [
             "不激活 'default' 功能。"
           ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要编译的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--print",
+          "tip": [
+            "U: --print <output>",
+            "不编译而输出编译器信息。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置构建工件。"
+          ],
+          "next": 0
         },
         {
           "name": "--release",
@@ -3086,28 +2729,33 @@
           ]
         },
         {
-          "name": "--profile",
-          "next": 0,
+          "name": "--target",
           "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置构建工件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
+            "U: --target <triple>",
+            "为目标 triple 构建。"
           ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业的数量, 默认为 CPU 数量。"
-          ]
+          "next": 0
         },
         {
-          "name": "--keep-going",
+          "name": "--target-dir",
           "tip": [
-            "即使遇到错误也不立即停止构建(不稳定)。"
+            "U: --target-dir <directory>",
+            "生成所有生成工件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "U: --test <test>",
+            "只构建指定的测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tests",
+          "tip": [
+            "构建所有测试。"
           ]
         },
         {
@@ -3121,6 +2769,12 @@
           "tip": [
             "以 JSON 格式输出构建图(不稳定)。"
           ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "构建工作区中的所有包。"
+          ]
         }
       ]
     },
@@ -3131,105 +2785,9 @@
       ],
       "options": [
         {
-          "name": "--open",
+          "name": "--all-features",
           "tip": [
-            "在操作完成后在浏览器中打开文档。"
-          ]
-        },
-        {
-          "name": "--ignore-rust-version",
-          "tip": [
-            "忽略包中的 `rust-version` 指定。"
-          ]
-        },
-        {
-          "name": "--message-format",
-          "tip": [
-            "指定消息格式: short|json|human。"
-          ],
-          "next": [
-            {
-              "name": "short"
-            },
-            {
-              "name": "json"
-            },
-            {
-              "name": "human"
-            }
-          ]
-        },
-        {
-          "name": "--package",
-          "alias": [
-            "-p"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --package, -p <package>",
-            "要编写的包。"
-          ]
-        },
-        {
-          "name": "--lib",
-          "tip": [
-            "只构建此包的库。"
-          ]
-        },
-        {
-          "name": "--bins",
-          "tip": [
-            "构建所有二进制文件。"
-          ]
-        },
-        {
-          "name": "--bin",
-          "next": 0,
-          "tip": [
-            "U: --bin <bin>",
-            "只构建指定的二进制文件。"
-          ]
-        },
-        {
-          "name": "--examples",
-          "tip": [
-            "构建所有示例。"
-          ]
-        },
-        {
-          "name": "--example",
-          "next": 0,
-          "tip": [
-            "U: --example <example>",
-            "只构建指定的示例。"
-          ]
-        },
-        {
-          "name": "--tests",
-          "tip": [
-            "构建所有测试。"
-          ]
-        },
-        {
-          "name": "--test",
-          "next": 0,
-          "tip": [
-            "U: --test <test>",
-            "只构建指定的测试目标。"
-          ]
-        },
-        {
-          "name": "--benches",
-          "tip": [
-            "构建所有基准测试。"
-          ]
-        },
-        {
-          "name": "--bench",
-          "next": 0,
-          "tip": [
-            "U: --bench <bench>",
-            "只构建指定的基准测试目标。"
+            "激活所有可用的功能。"
           ]
         },
         {
@@ -3239,36 +2797,102 @@
           ]
         },
         {
-          "name": "--target",
-          "next": 0,
+          "name": "--bench",
           "tip": [
-            "U: --target <triple>",
-            "为目标 triple 构建。"
+            "U: --bench <bench>",
+            "只构建指定的基准测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--benches",
+          "tip": [
+            "构建所有基准测试。"
           ]
         },
         {
-          "name": "--target-dir",
-          "next": 0,
+          "name": "--bin",
           "tip": [
-            "U: --target-dir <directory>",
-            "生成所有生成工件的目录。"
+            "U: --bin <bin>",
+            "只构建指定的二进制文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "构建所有二进制文件。"
+          ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "只构建指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "构建所有示例。"
           ]
         },
         {
           "name": "--features",
-          "next": 0,
           "alias": [
             "-F"
           ],
           "tip": [
             "U: --features, -F <features>",
             "激活的功能列表, 用空格或逗号分隔。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 指定。"
           ]
         },
         {
-          "name": "--all-features",
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
           "tip": [
-            "激活所有可用的功能。"
+            "U: --jobs, -j <N>",
+            "并行作业的数量, 默认为 CPU 数量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "即使遇到错误也不立即停止构建(不稳定)。"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "只构建此包的库。"
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
           ]
         },
         {
@@ -3276,6 +2900,31 @@
           "tip": [
             "不激活 'default' 功能。"
           ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "在操作完成后在浏览器中打开文档。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要编写的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置构建工件。"
+          ],
+          "next": 0
         },
         {
           "name": "--release",
@@ -3288,28 +2937,33 @@
           ]
         },
         {
-          "name": "--profile",
-          "next": 0,
+          "name": "--target",
           "tip": [
-            "U: --profile <profile>",
-            "使用指定的配置构建工件。"
-          ]
-        },
-        {
-          "name": "--jobs",
-          "next": 0,
-          "alias": [
-            "-j"
+            "U: --target <triple>",
+            "为目标 triple 构建。"
           ],
-          "tip": [
-            "U: --jobs, -j <N>",
-            "并行作业的数量, 默认为 CPU 数量。"
-          ]
+          "next": 0
         },
         {
-          "name": "--keep-going",
+          "name": "--target-dir",
           "tip": [
-            "即使遇到错误也不立即停止构建(不稳定)。"
+            "U: --target-dir <directory>",
+            "生成所有生成工件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "U: --test <test>",
+            "只构建指定的测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tests",
+          "tip": [
+            "构建所有测试。"
           ]
         },
         {
@@ -3321,11 +2975,319 @@
       ]
     },
     {
+      "name": "search",
+      "tip": [
+        "在注册表中搜索 crates。"
+      ],
+      "options": [
+        {
+          "name": "--index",
+          "tip": [
+            "U: --index <index>",
+            "要上传包的注册索引 URL。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <limit>",
+            "限制结果数量(默认: 10, 最大: 100)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <registry>",
+            "要使用的注册表。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: test|t",
+        "运行测试。"
+      ],
+      "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用功能。"
+          ]
+        },
+        {
+          "name": "--all-targets",
+          "tip": [
+            "测试所有目标(不包括文档测试)。"
+          ]
+        },
+        {
+          "name": "--bench",
+          "tip": [
+            "U: --bench <bench>",
+            "仅测试指定的工作台目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--benches",
+          "tip": [
+            "测试所有工作台。"
+          ]
+        },
+        {
+          "name": "--bin",
+          "tip": [
+            "U: --bin <bin>",
+            "仅测试指定的二进制目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bins",
+          "tip": [
+            "测试所有二进制文件。"
+          ]
+        },
+        {
+          "name": "--doc",
+          "tip": [
+            "运行文档测试。"
+          ]
+        },
+        {
+          "name": "--example",
+          "tip": [
+            "U: --example <example>",
+            "仅测试指定的示例。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--examples",
+          "tip": [
+            "测试所有示例。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "从测试中排除的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "要激活的功能的空格或逗号分隔列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--future-incompat-report",
+          "tip": [
+            "在构建结束时输出未来不兼容性报告。"
+          ]
+        },
+        {
+          "name": "--ignore-rust-version",
+          "tip": [
+            "忽略包中的 `rust-version` 规范。"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: --jobs, -j <N>",
+            "并行作业的数量, 默认为CPU数量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-going",
+          "tip": [
+            "当出现错误时不立即中止测试(不稳定)。"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "仅测试此包的库单元测试。"
+          ]
+        },
+        {
+          "name": "--message-format",
+          "tip": [
+            "指定消息格式: short|json|human。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--no-default-features",
+          "tip": [
+            "不激活 'default' 功能。"
+          ]
+        },
+        {
+          "name": "--no-fail-fast",
+          "tip": [
+            "无论失败与否都运行所有测试。"
+          ]
+        },
+        {
+          "name": "--no-run",
+          "tip": [
+            "编译但不运行测试。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: --package, -p <package>",
+            "要为其运行测试的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <profile>",
+            "使用指定的配置文件运行测试工件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--release",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: --release, -r",
+            "以优化模式运行测试工件。"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "为目标三元组进行测试。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-dir",
+          "tip": [
+            "U: --target-dir <directory>",
+            "所有生成的工件的目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "U: --test <test>",
+            "仅测试指定的测试目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tests",
+          "tip": [
+            "测试所有测试。"
+          ]
+        },
+        {
+          "name": "--timings[=<FMTS>",
+          "tip": [
+            "定时输出格式。(不稳定)(逗号分隔): html,json"
+          ]
+        },
+        {
+          "name": "--unit-graph",
+          "tip": [
+            "以JSON格式输出构建图(不稳定)。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "测试工作区中的所有包。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "tree",
       "tip": [
         "显示依赖关系图的树可视化效果。"
       ],
       "options": [
+        {
+          "name": "--all-features",
+          "tip": [
+            "激活所有可用的功能。"
+          ]
+        },
+        {
+          "name": "--charset",
+          "tip": [
+            "用于输出的字符集 [默认: utf8] [可能值: utf8, ascii]。"
+          ],
+          "next": [
+            {
+              "name": "ascii"
+            },
+            {
+              "name": "utf8"
+            }
+          ]
+        },
+        {
+          "name": "--depth",
+          "tip": [
+            "U: --depth <depth>",
+            "显示依赖树的最大深度。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--duplicates",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: --duplicates, -d",
+            "只显示多个版本依赖关系(隐含 -i)。"
+          ]
+        },
         {
           "name": "--edges",
           "alias": [
@@ -3337,10 +3299,7 @@
           ],
           "next": [
             {
-              "name": "features"
-            },
-            {
-              "name": "normal"
+              "name": "all"
             },
             {
               "name": "build"
@@ -3349,10 +3308,7 @@
               "name": "dev"
             },
             {
-              "name": "all"
-            },
-            {
-              "name": "no-normal"
+              "name": "features"
             },
             {
               "name": "no-build"
@@ -3361,8 +3317,39 @@
               "name": "no-dev"
             },
             {
+              "name": "no-normal"
+            },
+            {
               "name": "no-proc-macro"
+            },
+            {
+              "name": "normal"
             }
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "排除特定的工作区成员。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--features",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: --features, -F <features>",
+            "激活的功能列表, 用空格或逗号分隔。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "用于打印依赖关系的格式字符串 [默认: {p}]。"
           ]
         },
         {
@@ -3370,27 +3357,34 @@
           "alias": [
             "-i"
           ],
-          "next": 0,
           "tip": [
             "U: --invert, -i",
             "反转树的方向并专注于给定的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-dedupe",
+          "tip": [
+            "不要去重。 (重复所有共享的依赖关系)"
           ]
         },
         {
-          "name": "--prune",
-          "next": 0,
+          "name": "--no-default-features",
           "tip": [
-            "U: --prune <package>",
-            "从依赖树显示中剪除给定的包。"
+            "不激活 'default' 功能。"
           ]
         },
         {
-          "name": "--depth",
-          "next": 0,
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
           "tip": [
-            "U: --depth <depth>",
-            "显示依赖树的最大深度。"
-          ]
+            "U: --package, -p <package>",
+            "作为树根使用的包。"
+          ],
+          "next": 0
         },
         {
           "name": "--prefix",
@@ -3410,39 +3404,80 @@
           ]
         },
         {
-          "name": "--no-dedupe",
+          "name": "--prune",
           "tip": [
-            "不要去重。 (重复所有共享的依赖关系)"
-          ]
+            "U: --prune <package>",
+            "从依赖树显示中剪除给定的包。"
+          ],
+          "next": 0
         },
         {
-          "name": "--duplicates",
+          "name": "--target",
+          "tip": [
+            "U: --target <triple>",
+            "过滤与给定目标 triple 匹配的依赖关系(默认为主机平台)。通过传递 `all` 来包括所有目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "显示工作区中所有包的树。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "卸载一个 Rust 二进制文件。"
+      ],
+      "options": [
+        {
+          "name": "--bin",
+          "tip": [
+            "U: --bin <bin>",
+            "仅卸载二进制文件名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
           "alias": [
-            "-d"
+            "-p"
           ],
           "tip": [
-            "U: --duplicates, -d",
-            "只显示多个版本依赖关系(隐含 -i)。"
+            "U: --package, -p <package>",
+            "要卸载的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "U: --root <path>",
+            "要从中卸载包的目录。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "更新 Cargo.lock 中列出的依赖项。"
+      ],
+      "options": [
+        {
+          "name": "--aggressive",
+          "tip": [
+            "当与 -p 一起使用时, 强制更新 SPEC 的所有依赖项。"
           ]
         },
         {
-          "name": "--charset",
+          "name": "--dry-run",
           "tip": [
-            "用于输出的字符集 [默认: utf8] [可能值: utf8, ascii]。"
-          ],
-          "next": [
-            {
-              "name": "utf8"
-            },
-            {
-              "name": "ascii"
-            }
-          ]
-        },
-        {
-          "name": "--format",
-          "tip": [
-            "用于打印依赖关系的格式字符串 [默认: {p}]。"
+            "不实际写入锁文件。"
           ]
         },
         {
@@ -3450,55 +3485,27 @@
           "alias": [
             "-p"
           ],
-          "next": 0,
           "tip": [
             "U: --package, -p <package>",
-            "作为树根使用的包。"
-          ]
+            "要更新的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--precise",
+          "tip": [
+            "当与 -p 一起使用时, 将单个依赖项精确更新为 PRECISE。"
+          ],
+          "next": 0
         },
         {
           "name": "--workspace",
-          "tip": [
-            "显示工作区中所有包的树。"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "U: --exclude <package>",
-            "排除特定的工作区成员。"
-          ]
-        },
-        {
-          "name": "--features",
-          "next": 0,
           "alias": [
-            "-F"
+            "-w"
           ],
           "tip": [
-            "U: --features, -F <features>",
-            "激活的功能列表, 用空格或逗号分隔。"
-          ]
-        },
-        {
-          "name": "--all-features",
-          "tip": [
-            "激活所有可用的功能。"
-          ]
-        },
-        {
-          "name": "--no-default-features",
-          "tip": [
-            "不激活 'default' 功能。"
-          ]
-        },
-        {
-          "name": "--target",
-          "next": 0,
-          "tip": [
-            "U: --target <triple>",
-            "过滤与给定目标 triple 匹配的依赖关系(默认为主机平台)。通过传递 `all` 来包括所有目标。"
+            "U: --workspace, -w",
+            "仅更新工作区中的包。"
           ]
         }
       ]
@@ -3516,21 +3523,21 @@
           ]
         },
         {
-          "name": "--sync",
-          "alias": [
-            "-s"
-          ],
-          "next": 0,
-          "tip": [
-            "U: --sync, -s <path>",
-            "要同步和供应商的额外 `Cargo.toml` 文件。"
-          ]
-        },
-        {
           "name": "--respect-source-config",
           "tip": [
             "在 `.cargo/config` 中尊重 `[source]` 配置。"
           ]
+        },
+        {
+          "name": "--sync",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: --sync, -s <path>",
+            "要同步和供应商的额外 `Cargo.toml` 文件。"
+          ],
+          "next": 0
         },
         {
           "name": "--versioned-dirs",
@@ -3559,12 +3566,20 @@
       ],
       "options": [
         {
-          "name": "--version",
-          "next": 0,
+          "name": "--index",
           "tip": [
-            "U: --version <version>",
-            "要 yank 或取消 yank 的版本。"
-          ]
+            "U: --index <index>",
+            "要从中 yank 的注册表索引。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "用于认证的 API 令牌。"
+          ],
+          "next": 0
         },
         {
           "name": "--undo",
@@ -3573,28 +3588,13 @@
           ]
         },
         {
-          "name": "--index",
-          "next": 0,
+          "name": "--version",
           "tip": [
-            "U: --index <index>",
-            "要从中 yank 的注册表索引。"
-          ]
-        },
-        {
-          "name": "--token",
-          "next": 0,
-          "tip": [
-            "U: --token <token>",
-            "用于认证的 API 令牌。"
-          ]
+            "U: --version <version>",
+            "要 yank 或取消 yank 的版本。"
+          ],
+          "next": 0
         }
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "U: help <cmd>",
-        "显示 cargo 子命令的帮助。"
       ]
     }
   ],
@@ -3612,11 +3612,44 @@
   ],
   "common_options": [
     {
-      "name": "--manifest-path",
-      "next": 0,
+      "name": "--color",
       "tip": [
-        "U: --manifest-path <path>",
-        "指定 Cargo.toml 的路径。"
+        "U: --color <when>",
+        "控制输出的着色: auto, always, never。",
+        "E: --color always"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <FILE>",
+        "指定配置文件路径以覆盖配置值。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--explain",
+      "tip": [
+        "U: --explain <CODE>",
+        "运行 'rustc --explain CODE'。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--frozen",
+      "tip": [
+        "要求 Cargo.lock 和缓存是最新的。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: --help, -h",
+        "打印帮助信息。"
       ]
     },
     {
@@ -3626,27 +3659,23 @@
       ]
     },
     {
-      "name": "--explain",
-      "next": 0,
+      "name": "--locked",
       "tip": [
-        "U: --explain <CODE>",
-        "运行 'rustc --explain CODE'。"
+        "要求 Cargo.lock 是最新的。"
       ]
     },
     {
-      "name": "--verbose",
-      "alias": [
-        "-v"
+      "name": "--manifest-path",
+      "tip": [
+        "U: --manifest-path <path>",
+        "指定 Cargo.toml 的路径。"
       ],
-      "tip": [
-        "U: --verbose, -v",
-        "使用详细输出 (-vv 极其详细/build.rs 输出)。"
-      ]
+      "next": 0
     },
     {
-      "name": "-vv",
+      "name": "--offline",
       "tip": [
-        "使用极其详细的输出。"
+        "在不访问网络的情况下运行。"
       ]
     },
     {
@@ -3660,65 +3689,36 @@
       ]
     },
     {
-      "name": "--color",
-      "next": 0,
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
       "tip": [
-        "U: --color <when>",
-        "控制输出的着色: auto, always, never。",
-        "E: --color always"
+        "U: --verbose, -v",
+        "使用详细输出 (-vv 极其详细/build.rs 输出)。"
       ]
     },
     {
       "name": "-C",
-      "next": 0,
       "tip": [
         "U: -C <DIRECTORY>",
         "在执行任何操作之前切换到 DIRECTORY (仅限 nightly)。"
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "--frozen",
+      "name": "-vv",
       "tip": [
-        "要求 Cargo.lock 和缓存是最新的。"
-      ]
-    },
-    {
-      "name": "--locked",
-      "tip": [
-        "要求 Cargo.lock 是最新的。"
-      ]
-    },
-    {
-      "name": "--offline",
-      "tip": [
-        "在不访问网络的情况下运行。"
-      ]
-    },
-    {
-      "name": "--config",
-      "next": 0,
-      "tip": [
-        "U: --config <FILE>",
-        "指定配置文件路径以覆盖配置值。"
+        "使用极其详细的输出。"
       ]
     },
     {
       "name": "-Z",
-      "next": 0,
       "tip": [
         "U: -Z <FLAG>",
         "Cargo 的不稳定 (仅限 nightly) 标志, 查看详细信息请参阅 'cargo -Z help'。"
-      ]
-    },
-    {
-      "name": "--help",
-      "alias": [
-        "-h"
       ],
-      "tip": [
-        "U: --help, -h",
-        "打印帮助信息。"
-      ]
+      "next": 0
     }
   ]
 }

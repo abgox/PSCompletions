@@ -8,31 +8,20 @@
   },
   "options": [
     {
-      "name": "-d",
-      "alias": [
-        "--delimiter"
-      ],
-      "next": 0,
-      "tip": [
-        "U: -d, --delimiter <X>",
-        "use X instead of whitespace for field delimiter"
-      ]
-    },
-    {
       "name": "--field",
-      "next": 0,
       "tip": [
         "U: --field <FIELDS>",
         "replace the numbers in these input fields; see FIELDS below [default: 1]"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "--format",
-      "next": 0,
       "tip": [
         "U: --format <FORMAT>",
         "use printf style floating-point FORMAT; see FORMAT below for details"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "--from",
@@ -42,23 +31,10 @@
       ],
       "next": [
         {
-          "name": "none",
-          "tip": [
-            "no auto-scaling is done; suffixes will trigger an error"
-          ]
-        },
-        {
           "name": "auto",
           "tip": [
             "accept optional single/two letter suffix:",
             "1K = 1000, 1Ki = 1024, 1M = 1000000, 1Mi = 1048576"
-          ]
-        },
-        {
-          "name": "si",
-          "tip": [
-            "accept optional single letter suffix:",
-            "1K = 1000, 1M = 1000000, ..."
           ]
         },
         {
@@ -73,120 +49,38 @@
           "tip": [
             "accept optional two-letter suffix:",
             "1Ki = 1024, 1Mi = 1048576, ..."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "no auto-scaling is done; suffixes will trigger an error"
+          ]
+        },
+        {
+          "name": "si",
+          "tip": [
+            "accept optional single letter suffix:",
+            "1K = 1000, 1M = 1000000, ..."
           ]
         }
       ]
     },
     {
       "name": "--from-unit",
-      "next": 0,
       "tip": [
         "U: --from-unit <N>",
         "specify the input unit size [default: 1]"
-      ]
-    },
-    {
-      "name": "--to",
-      "tip": [
-        "U: --to <UNIT>",
-        "auto-scale output numbers to UNITs; see UNIT below [default: none]"
       ],
-      "next": [
-        {
-          "name": "none",
-          "tip": [
-            "no auto-scaling is done; suffixes will trigger an error"
-          ]
-        },
-        {
-          "name": "auto",
-          "tip": [
-            "accept optional single/two letter suffix:",
-            "1K = 1000, 1Ki = 1024, 1M = 1000000, 1Mi = 1048576"
-          ]
-        },
-        {
-          "name": "si",
-          "tip": [
-            "accept optional single letter suffix:",
-            "1K = 1000, 1M = 1000000, ..."
-          ]
-        },
-        {
-          "name": "iec",
-          "tip": [
-            "accept optional single letter suffix:",
-            "1K = 1024, 1M = 1048576, ..."
-          ]
-        },
-        {
-          "name": "iec-i",
-          "tip": [
-            "accept optional two-letter suffix:",
-            "1Ki = 1024, 1Mi = 1048576, ..."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "--to-unit",
-      "next": 0,
-      "tip": [
-        "U: --to-unit <N> ",
-        "the output unit size [default: 1]"
-      ]
-    },
-    {
-      "name": "--padding",
-      "next": 0,
-      "tip": [
-        "U: --padding <N>",
-        "pad the output to N characters;",
-        "positive N will right-align; negative N will left-align;",
-        "padding is ignored if the output is wider than N;",
-        "the default is to automatically pad if a whitespace is found"
-      ]
+      "next": 0
     },
     {
       "name": "--header",
-      "next": 0,
       "tip": [
         "U: --header [<N>]",
         "print (without converting) the first N header lines; N defaults to 1 if not specified"
-      ]
-    },
-    {
-      "name": "--round",
-      "tip": [
-        "U: --round <METHOD>",
-        "use METHOD for rounding when scaling [default: from-zero]",
-        "[possible values: up, down, from-zero, towards-zero, nearest]"
       ],
-      "next": [
-        {
-          "name": "up"
-        },
-        {
-          "name": "down"
-        },
-        {
-          "name": "from-zero"
-        },
-        {
-          "name": "towards-zero"
-        },
-        {
-          "name": "nearest"
-        }
-      ]
-    },
-    {
-      "name": "--suffix",
-      "next": 0,
-      "tip": [
-        "U: --suffix <SUFFIX>",
-        "print SUFFIX after each formatted number, and accept inputs optionally ending with SUFFIX"
-      ]
+      "next": 0
     },
     {
       "name": "--invalid",
@@ -203,12 +97,107 @@
           "name": "fail"
         },
         {
-          "name": "warn"
+          "name": "ignore"
         },
         {
-          "name": "ignore"
+          "name": "warn"
         }
       ]
+    },
+    {
+      "name": "--padding",
+      "tip": [
+        "U: --padding <N>",
+        "pad the output to N characters;",
+        "positive N will right-align; negative N will left-align;",
+        "padding is ignored if the output is wider than N;",
+        "the default is to automatically pad if a whitespace is found"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--round",
+      "tip": [
+        "U: --round <METHOD>",
+        "use METHOD for rounding when scaling [default: from-zero]",
+        "[possible values: up, down, from-zero, towards-zero, nearest]"
+      ],
+      "next": [
+        {
+          "name": "down"
+        },
+        {
+          "name": "from-zero"
+        },
+        {
+          "name": "nearest"
+        },
+        {
+          "name": "towards-zero"
+        },
+        {
+          "name": "up"
+        }
+      ]
+    },
+    {
+      "name": "--suffix",
+      "tip": [
+        "U: --suffix <SUFFIX>",
+        "print SUFFIX after each formatted number, and accept inputs optionally ending with SUFFIX"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--to",
+      "tip": [
+        "U: --to <UNIT>",
+        "auto-scale output numbers to UNITs; see UNIT below [default: none]"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "accept optional single/two letter suffix:",
+            "1K = 1000, 1Ki = 1024, 1M = 1000000, 1Mi = 1048576"
+          ]
+        },
+        {
+          "name": "iec",
+          "tip": [
+            "accept optional single letter suffix:",
+            "1K = 1024, 1M = 1048576, ..."
+          ]
+        },
+        {
+          "name": "iec-i",
+          "tip": [
+            "accept optional two-letter suffix:",
+            "1Ki = 1024, 1Mi = 1048576, ..."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "no auto-scaling is done; suffixes will trigger an error"
+          ]
+        },
+        {
+          "name": "si",
+          "tip": [
+            "accept optional single letter suffix:",
+            "1K = 1000, 1M = 1000000, ..."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--to-unit",
+      "tip": [
+        "U: --to-unit <N> ",
+        "the output unit size [default: 1]"
+      ],
+      "next": 0
     },
     {
       "name": "--version",
@@ -218,6 +207,17 @@
       "tip": [
         "显示版本信息。"
       ]
+    },
+    {
+      "name": "-d",
+      "alias": [
+        "--delimiter"
+      ],
+      "tip": [
+        "U: -d, --delimiter <X>",
+        "use X instead of whitespace for field delimiter"
+      ],
+      "next": 0
     }
   ],
   "common_options": [

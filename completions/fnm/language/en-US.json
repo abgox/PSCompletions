@@ -7,12 +7,51 @@
   },
   "root": [
     {
-      "name": "list-remote",
-      "alias": [
-        "ls-remote"
-      ],
+      "name": "alias",
       "tip": [
-        "List all remote Node.js versions"
+        "Alias a version to a common name"
+      ]
+    },
+    {
+      "name": "completions",
+      "tip": [
+        "Print shell completions to stdout"
+      ]
+    },
+    {
+      "name": "current",
+      "tip": [
+        "Print the current Node.js version"
+      ]
+    },
+    {
+      "name": "default",
+      "tip": [
+        "Set a version as the default version"
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "Print and set up required environment variables for fnm"
+      ]
+    },
+    {
+      "name": "exec",
+      "tip": [
+        "Run a command within fnm context"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Print this message or the help of the given subcommand(s)"
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "Install a new Node.js version"
       ]
     },
     {
@@ -25,33 +64,12 @@
       ]
     },
     {
-      "name": "install",
+      "name": "list-remote",
+      "alias": [
+        "ls-remote"
+      ],
       "tip": [
-        "Install a new Node.js version"
-      ]
-    },
-    {
-      "name": "use",
-      "tip": [
-        "Change Node.js version"
-      ]
-    },
-    {
-      "name": "env",
-      "tip": [
-        "Print and set up required environment variables for fnm"
-      ]
-    },
-    {
-      "name": "completions",
-      "tip": [
-        "Print shell completions to stdout"
-      ]
-    },
-    {
-      "name": "alias",
-      "tip": [
-        "Alias a version to a common name"
+        "List all remote Node.js versions"
       ]
     },
     {
@@ -61,33 +79,15 @@
       ]
     },
     {
-      "name": "default",
-      "tip": [
-        "Set a version as the default version"
-      ]
-    },
-    {
-      "name": "current",
-      "tip": [
-        "Print the current Node.js version"
-      ]
-    },
-    {
-      "name": "exec",
-      "tip": [
-        "Run a command within fnm context"
-      ]
-    },
-    {
       "name": "uninstall",
       "tip": [
         "Uninstall a Node.js version"
       ]
     },
     {
-      "name": "help",
+      "name": "use",
       "tip": [
-        "Print this message or the help of the given subcommand(s)"
+        "Change Node.js version"
       ]
     }
   ],
@@ -104,20 +104,37 @@
   ],
   "common_options": [
     {
-      "name": "--node-dist-mirror",
-      "next": 0,
+      "name": "--arch",
       "tip": [
-        "U: --node-dist-mirror <NODE_DIST_MIRROR>",
-        "Set the mirror URL for downloading Node.js dist.",
-        "Default: https://nodejs.org/dist"
+        "U: --arch <ARCH>",
+        "Override the architecture of the installed Node binary.",
+        "Defaults to arch of fnm binary"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--corepack-enabled",
+      "tip": [
+        " Enable corepack support for each new installation.",
+        "This will make fnm call `corepack enable` on every Node.js installation.",
+        "For more information about corepack see <https://nodejs.org/api/corepack.html>"
       ]
     },
     {
       "name": "--fnm-dir",
-      "next": 0,
       "tip": [
         "U: --fnm-dir <BASE_DIR>",
         "The root directory of fnm installations."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "Show the help."
       ]
     },
     {
@@ -129,23 +146,31 @@
       ],
       "next": [
         {
-          "name": "quiet"
-        },
-        {
           "name": "error"
         },
         {
           "name": "info"
+        },
+        {
+          "name": "quiet"
         }
       ]
     },
     {
-      "name": "--arch",
-      "next": 0,
+      "name": "--node-dist-mirror",
       "tip": [
-        "U: --arch <ARCH>",
-        "Override the architecture of the installed Node binary.",
-        "Defaults to arch of fnm binary"
+        "U: --node-dist-mirror <NODE_DIST_MIRROR>",
+        "Set the mirror URL for downloading Node.js dist.",
+        "Default: https://nodejs.org/dist"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--resolve-engines",
+      "tip": [
+        "Resolve `engines.node` field in `package.json` whenever a `.node-version` or `.nvmrc` file is not present.",
+        "Experimental: This feature is subject to change.",
+        "Note: `engines.node` can be any semver range, with the latest satisfying version being resolved."
       ]
     },
     {
@@ -169,31 +194,6 @@
             "Use the version of Node defined within the current directory and all parent directories"
           ]
         }
-      ]
-    },
-    {
-      "name": "--corepack-enabled",
-      "tip": [
-        " Enable corepack support for each new installation.",
-        "This will make fnm call `corepack enable` on every Node.js installation.",
-        "For more information about corepack see <https://nodejs.org/api/corepack.html>"
-      ]
-    },
-    {
-      "name": "--resolve-engines",
-      "tip": [
-        "Resolve `engines.node` field in `package.json` whenever a `.node-version` or `.nvmrc` file is not present.",
-        "Experimental: This feature is subject to change.",
-        "Note: `engines.node` can be any semver range, with the latest satisfying version being resolved."
-      ]
-    },
-    {
-      "name": "--help",
-      "alias": [
-        "-h"
-      ],
-      "tip": [
-        "Show the help."
       ]
     }
   ]

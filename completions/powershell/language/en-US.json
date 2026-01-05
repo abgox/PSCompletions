@@ -7,62 +7,50 @@
   },
   "options": [
     {
-      "name": "-PSConsoleFile",
-      "next": 0,
+      "name": "-Command",
       "tip": [
-        "U: -PSConsoleFile <file>",
-        "Loads the specified Windows PowerShell console file.",
-        "To create a console file, use Export-Console in Windows PowerShell."
-      ]
-    },
-    {
-      "name": "-Version",
-      "alias": [
-        "-v"
+        "U: -Command <-|string|scriptBlock>",
+        "Executes the specified command (and any parameters) as if they were typed at the Windows PowerShell command prompt, then exits unless NoExit is specified.",
+        "The value of Command can be \"-\", a string, or a script block."
       ],
-      "next": 0,
-      "tip": [
-        "U: -Version <version>",
-        "Starts the specified version of Windows PowerShell.",
-        "Provide a version number as an argument, such as \"-version 2.0\"."
-      ]
+      "next": 0
     },
     {
-      "name": "-NoLogo",
+      "name": "-ConfigurationName",
       "tip": [
-        "Hides the copyright banner at startup."
-      ]
+        "U: -ConfigurationName <string>",
+        "Specifies the configuration endpoint that runs Windows PowerShell.",
+        "This can be any endpoint registered on the local computer, including the default Windows PowerShell remote endpoint or a custom endpoint with specific user role capabilities."
+      ],
+      "next": 0
     },
     {
-      "name": "-NoExit",
+      "name": "-EncodedCommand",
       "tip": [
-        "Does not exit after running startup commands."
-      ]
+        "U: -EncodedCommand <Base64EncodedCommand>",
+        "Accepts a command as a base-64 encoded string.",
+        "Use this parameter to submit commands to Windows PowerShell that require complex quoting or braces."
+      ],
+      "next": 0
     },
     {
-      "name": "-Sta",
+      "name": "-ExecutionPolicy",
       "tip": [
-        "Starts the shell using a single-threaded apartment.",
-        "Single-threaded apartment (STA) is the default setting."
-      ]
+        "U: -ExecutionPolicy <ExecutionPolicy>",
+        "Sets the default execution policy for the current session and saves it in the $env:PSExecutionPolicyPreference environment variable.",
+        "This parameter does not change the execution policy set in the Windows PowerShell registry."
+      ],
+      "next": 0
     },
     {
-      "name": "-Mta",
+      "name": "-File",
       "tip": [
-        "Starts the shell using a multi-threaded apartment."
-      ]
-    },
-    {
-      "name": "-NoProfile",
-      "tip": [
-        "Does not load Windows PowerShell profiles."
-      ]
-    },
-    {
-      "name": "-NonInteractive",
-      "tip": [
-        "Does not present an interactive prompt to the user."
-      ]
+        "U: -File <filePath> <args>",
+        "Runs the specified script in the local scope (dot-sourced), so that the functions and variables created in the script are available in the current session.",
+        "Provide the script file path and any arguments.",
+        "File must be the last parameter in the command, as all characters following the File parameter name are interpreted as the script file path followed by script arguments."
+      ],
+      "next": 0
     },
     {
       "name": "-InputFormat",
@@ -78,6 +66,36 @@
         {
           "name": "XML"
         }
+      ]
+    },
+    {
+      "name": "-Mta",
+      "tip": [
+        "Starts the shell using a multi-threaded apartment."
+      ]
+    },
+    {
+      "name": "-NoExit",
+      "tip": [
+        "Does not exit after running startup commands."
+      ]
+    },
+    {
+      "name": "-NoLogo",
+      "tip": [
+        "Hides the copyright banner at startup."
+      ]
+    },
+    {
+      "name": "-NonInteractive",
+      "tip": [
+        "Does not present an interactive prompt to the user."
+      ]
+    },
+    {
+      "name": "-NoProfile",
+      "tip": [
+        "Does not load Windows PowerShell profiles."
       ]
     },
     {
@@ -97,6 +115,34 @@
       ]
     },
     {
+      "name": "-PSConsoleFile",
+      "tip": [
+        "U: -PSConsoleFile <file>",
+        "Loads the specified Windows PowerShell console file.",
+        "To create a console file, use Export-Console in Windows PowerShell."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-Sta",
+      "tip": [
+        "Starts the shell using a single-threaded apartment.",
+        "Single-threaded apartment (STA) is the default setting."
+      ]
+    },
+    {
+      "name": "-Version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -Version <version>",
+        "Starts the specified version of Windows PowerShell.",
+        "Provide a version number as an argument, such as \"-version 2.0\"."
+      ],
+      "next": 0
+    },
+    {
       "name": "-WindowStyle",
       "tip": [
         "U: -WindowStyle <style>",
@@ -104,15 +150,15 @@
       ],
       "next": [
         {
-          "name": "Normal",
-          "tip": [
-            "Normal window"
-          ]
-        },
-        {
           "name": "Hidden",
           "tip": [
             "Hidden window"
+          ]
+        },
+        {
+          "name": "Maximized",
+          "tip": [
+            "Maximized window"
           ]
         },
         {
@@ -122,57 +168,11 @@
           ]
         },
         {
-          "name": "Maximized",
+          "name": "Normal",
           "tip": [
-            "Maximized window"
+            "Normal window"
           ]
         }
-      ]
-    },
-    {
-      "name": "-EncodedCommand",
-      "next": 0,
-      "tip": [
-        "U: -EncodedCommand <Base64EncodedCommand>",
-        "Accepts a command as a base-64 encoded string.",
-        "Use this parameter to submit commands to Windows PowerShell that require complex quoting or braces."
-      ]
-    },
-    {
-      "name": "-ConfigurationName",
-      "next": 0,
-      "tip": [
-        "U: -ConfigurationName <string>",
-        "Specifies the configuration endpoint that runs Windows PowerShell.",
-        "This can be any endpoint registered on the local computer, including the default Windows PowerShell remote endpoint or a custom endpoint with specific user role capabilities."
-      ]
-    },
-    {
-      "name": "-File",
-      "next": 0,
-      "tip": [
-        "U: -File <filePath> <args>",
-        "Runs the specified script in the local scope (dot-sourced), so that the functions and variables created in the script are available in the current session.",
-        "Provide the script file path and any arguments.",
-        "File must be the last parameter in the command, as all characters following the File parameter name are interpreted as the script file path followed by script arguments."
-      ]
-    },
-    {
-      "name": "-ExecutionPolicy",
-      "next": 0,
-      "tip": [
-        "U: -ExecutionPolicy <ExecutionPolicy>",
-        "Sets the default execution policy for the current session and saves it in the $env:PSExecutionPolicyPreference environment variable.",
-        "This parameter does not change the execution policy set in the Windows PowerShell registry."
-      ]
-    },
-    {
-      "name": "-Command",
-      "next": 0,
-      "tip": [
-        "U: -Command <-|string|scriptBlock>",
-        "Executes the specified command (and any parameters) as if they were typed at the Windows PowerShell command prompt, then exits unless NoExit is specified.",
-        "The value of Command can be \"-\", a string, or a script block."
       ]
     }
   ],

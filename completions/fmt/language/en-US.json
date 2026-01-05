@@ -8,6 +8,15 @@
   },
   "options": [
     {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "Show the version."
+      ]
+    },
+    {
       "name": "-c",
       "alias": [
         "--crown-margin"
@@ -18,13 +27,16 @@
       ]
     },
     {
-      "name": "-t",
+      "name": "-g",
       "alias": [
-        "--tagged-paragraph"
+        "--goal"
       ],
       "tip": [
-        "Like -c, except that the first and second line of a paragraph *must* have different indentation or they are treated as separate paragraphs."
-      ]
+        "U: -g, --goal <GOAL>",
+        "Goal width, default of 93% of WIDTH.",
+        "Must be less than or equal to WIDTH."
+      ],
+      "next": 0
     },
     {
       "name": "-m",
@@ -37,12 +49,65 @@
       ]
     },
     {
+      "name": "-p",
+      "alias": [
+        "--prefix"
+      ],
+      "tip": [
+        "U: -p, --prefix <PREFIX>",
+        "Reformat only lines beginning with PREFIX, reattaching PREFIX to reformatted lines.",
+        "Unless -x is specified, leading whitespace will be ignored when matching PREFIX."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-P",
+      "alias": [
+        "--skip-prefix"
+      ],
+      "tip": [
+        "U: -P, --skip-prefix <PSKIP>",
+        "Do not reformat lines beginning with PSKIP.",
+        "Unless -X is specified, leading whitespace will be ignored when matching PSKIP"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-q",
+      "alias": [
+        "--quick"
+      ],
+      "tip": [
+        "Break lines more quickly at the expense of a potentially more ragged appearance."
+      ]
+    },
+    {
       "name": "-s",
       "alias": [
         "--split-only"
       ],
       "tip": [
         "Split lines only, do not reflow."
+      ]
+    },
+    {
+      "name": "-t",
+      "alias": [
+        "--tagged-paragraph"
+      ],
+      "tip": [
+        "Like -c, except that the first and second line of a paragraph *must* have different indentation or they are treated as separate paragraphs."
+      ]
+    },
+    {
+      "name": "-T",
+      "alias": [
+        "--tab-width"
+      ],
+      "tip": [
+        "U: -T, --tab-width <TABWIDTH>",
+        "Treat tabs as TABWIDTH spaces for determining line length, default 8.",
+        "Note that this is used only for calculating line lengths; tabs are preserved in the output."
       ]
     },
     {
@@ -57,28 +122,16 @@
       ]
     },
     {
-      "name": "-p",
+      "name": "-w",
       "alias": [
-        "--prefix"
+        "--width"
       ],
-      "next": 0,
       "tip": [
-        "U: -p, --prefix <PREFIX>",
-        "Reformat only lines beginning with PREFIX, reattaching PREFIX to reformatted lines.",
-        "Unless -x is specified, leading whitespace will be ignored when matching PREFIX."
-      ]
-    },
-    {
-      "name": "-P",
-      "alias": [
-        "--skip-prefix"
+        "U: -w, --width <WIDTH>",
+        "Fill output lines up to a maximum of WIDTH columns, default 75.",
+        "This can be specified as a negative number in the first argument."
       ],
-      "next": 0,
-      "tip": [
-        "U: -P, --skip-prefix <PSKIP>",
-        "Do not reformat lines beginning with PSKIP.",
-        "Unless -X is specified, leading whitespace will be ignored when matching PSKIP"
-      ]
+      "next": 0
     },
     {
       "name": "-x",
@@ -96,59 +149,6 @@
       ],
       "tip": [
         "PSKIP must match at the beginning of the line with no preceding whitespace."
-      ]
-    },
-    {
-      "name": "-w",
-      "alias": [
-        "--width"
-      ],
-      "next": 0,
-      "tip": [
-        "U: -w, --width <WIDTH>",
-        "Fill output lines up to a maximum of WIDTH columns, default 75.",
-        "This can be specified as a negative number in the first argument."
-      ]
-    },
-    {
-      "name": "-g",
-      "alias": [
-        "--goal"
-      ],
-      "next": 0,
-      "tip": [
-        "U: -g, --goal <GOAL>",
-        "Goal width, default of 93% of WIDTH.",
-        "Must be less than or equal to WIDTH."
-      ]
-    },
-    {
-      "name": "-q",
-      "alias": [
-        "--quick"
-      ],
-      "tip": [
-        "Break lines more quickly at the expense of a potentially more ragged appearance."
-      ]
-    },
-    {
-      "name": "-T",
-      "alias": [
-        "--tab-width"
-      ],
-      "tip": [
-        "U: -T, --tab-width <TABWIDTH>",
-        "Treat tabs as TABWIDTH spaces for determining line length, default 8.",
-        "Note that this is used only for calculating line lengths; tabs are preserved in the output."
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "tip": [
-        "Show the version."
       ]
     }
   ],

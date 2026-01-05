@@ -7,722 +7,6 @@
   },
   "root": [
     {
-      "name": "install",
-      "alias": [
-        "download"
-      ],
-      "tip": [
-        "安装/下载软件包"
-      ],
-      "options": [
-        {
-          "name": "--requirement",
-          "alias": [
-            "-r"
-          ],
-          "next": 0,
-          "tip": [
-            "{{ $info.__requirement }}"
-          ]
-        },
-        {
-          "name": "--constraint",
-          "alias": [
-            "-c"
-          ],
-          "next": 0,
-          "tip": [
-            "{{ $info.__constraint }}"
-          ]
-        },
-        {
-          "name": "--no-deps",
-          "tip": [
-            "{{ $info.__no_deps }}"
-          ]
-        },
-        {
-          "name": "--pre",
-          "tip": [
-            "{{ $info.__pre }}"
-          ]
-        },
-        {
-          "name": "__editable",
-          "alias": [
-            "-e"
-          ],
-          "next": 0,
-          "tip": [
-            "{{ $info.__editable }}"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "实际上不安装任何东西, 只打印将要安装的内容",
-            "可以与 --ignore-installed 结合使用以 'resolve' 需求"
-          ]
-        },
-        {
-          "name": "--target",
-          "alias": [
-            "-t"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -t, --target <dir>",
-            "将软件包安装到给定目录中",
-            "默认情况下, 这不会替换给定目录中的现有文件/文件夹",
-            "使用 --upgrade 将给定目录中的现有软件包替换为新版本"
-          ]
-        },
-        {
-          "name": "--platform",
-          "next": 0,
-          "tip": [
-            "{{ $info.__platform }}"
-          ]
-        },
-        {
-          "name": "--python-version",
-          "next": 0,
-          "tip": [
-            "{{ $info.__python_version }}"
-          ]
-        },
-        {
-          "name": "--implementation",
-          "next": 0,
-          "tip": [
-            "{{ $info.__implementation }}"
-          ]
-        },
-        {
-          "name": "--abi",
-          "next": 0,
-          "tip": [
-            "{{ $info.__abi }}"
-          ]
-        },
-        {
-          "name": "--user",
-          "tip": [
-            "安装到平台的 Python 用户安装目录",
-            "在 Windows 上通常为 ~/.local/ 或 %APPDATA%\\Python",
-            "(请参阅站点的 Python 文档了解完整详情)"
-          ]
-        },
-        {
-          "name": "--root",
-          "next": 0,
-          "tip": [
-            "{{ $info.__root }}"
-          ]
-        },
-        {
-          "name": "--prefix",
-          "next": 0,
-          "tip": [
-            "U: --prefix <dir>",
-            "放置 lib、bin 和其他顶级文件夹的安装前缀"
-          ]
-        },
-        {
-          "name": "--src",
-          "next": 0,
-          "tip": [
-            "{{ $info.__src }}"
-          ]
-        },
-        {
-          "name": "--upgrade",
-          "alias": [
-            "-U"
-          ],
-          "tip": [
-            "U: -U, --upgrade",
-            "将所有指定的软件包升级到最新的可用版本",
-            "依赖项的处理取决于所使用的升级策略"
-          ]
-        },
-        {
-          "name": "--upgrade-strategy",
-          "next": 0,
-          "tip": [
-            "U: --upgrade-strategy <upgrade_strategy>",
-            "确定应如何处理依赖项升级(默认: only-if-needed)",
-            "\"eager\"          - 无论当前安装的版本是否满足升级包的要求, 都会升级依赖项",
-            "\"only-if-needed\" - 仅当它们不满足升级包的要求时才升级"
-          ]
-        },
-        {
-          "name": "--force-reinstall",
-          "tip": [
-            "重新安装所有软件包, 即使它们已经是最新的"
-          ]
-        },
-        {
-          "name": "--ignore-installed",
-          "alias": [
-            "-I"
-          ],
-          "tip": [
-            "U: -I, --ignore-installed",
-            "忽略已安装的软件包, 覆盖它们",
-            "如果现有软件包是不同的版本或使用不同的软件包管理器安装的, 这可能会破坏您的系统"
-          ]
-        },
-        {
-          "name": "--ignore-requires-python",
-          "tip": [
-            "{{ $info.__ignore_requires_python }}"
-          ]
-        },
-        {
-          "name": "--no-build-isolation",
-          "tip": [
-            "{{ $info.__no_build_isolation }}"
-          ]
-        },
-        {
-          "name": "--use-pep517",
-          "tip": [
-            "{{ $info.__use_pep517 }}"
-          ]
-        },
-        {
-          "name": "--check-build-dependencies",
-          "tip": [
-            "{{ $info.__check_build_dependencies }}"
-          ]
-        },
-        {
-          "name": "--config-settings",
-          "next": 0,
-          "tip": [
-            "{{ $info.__config_settings }}"
-          ]
-        },
-        {
-          "name": "--install-option",
-          "next": 0,
-          "tip": [
-            "U: --install-option <options>",
-            "要提供给 setup.py install 命令的额外参数 (例如使用 --install-option=\"--install-scripts=/usr/local/bin\")",
-            "可以使用多个 --install-option 选项将多个选项传递给 setup.py 安装",
-            "如果使用带有目录路径的选项, 请确保使用绝对路径"
-          ]
-        },
-        {
-          "name": "--global-option",
-          "next": 0,
-          "tip": [
-            "{{ $info.__global_option }}"
-          ]
-        },
-        {
-          "name": "--compile",
-          "tip": [
-            "将 Python 源文件编译为字节码"
-          ]
-        },
-        {
-          "name": "--no-compile",
-          "tip": [
-            "不要将 Python 源文件编译为字节码"
-          ]
-        },
-        {
-          "name": "--no-warn-script-location",
-          "tip": [
-            "在 PATH 外部安装脚本时不要发出警告"
-          ]
-        },
-        {
-          "name": "--no-warn-conflicts",
-          "tip": [
-            "不要警告断开的依赖项"
-          ]
-        },
-        {
-          "name": "--no-binary",
-          "next": 0,
-          "tip": [
-            "{{ $info.__no_binary }}"
-          ]
-        },
-        {
-          "name": "--only-binary",
-          "next": 0,
-          "tip": [
-            "{{ $info.__only_binary }}"
-          ]
-        },
-        {
-          "name": "--prefer-binary",
-          "tip": [
-            "{{ $info.__prefer_binary }}"
-          ]
-        },
-        {
-          "name": "--require-hashes",
-          "tip": [
-            "{{ $info.__require_hashes }}"
-          ]
-        },
-        {
-          "name": "--progress-bar",
-          "next": 0,
-          "tip": [
-            "{{ $info.__progress_bar }}"
-          ]
-        },
-        {
-          "name": "--root-user-action",
-          "next": 0,
-          "tip": [
-            "{{ $info.__root_user_action }}"
-          ]
-        },
-        {
-          "name": "--report",
-          "next": 0,
-          "tip": [
-            "{{ $info.__report }}"
-          ]
-        },
-        {
-          "name": "--no-clean",
-          "tip": [
-            "{{ $info.__no_clean }}"
-          ]
-        },
-        {
-          "name": "--index-url",
-          "alias": [
-            "-i"
-          ],
-          "tip": [
-            "{{ $info.__index_url }}"
-          ]
-        },
-        {
-          "name": "--extra-index-url",
-          "next": 0,
-          "tip": [
-            "{{ $info.__extra_index_url }}"
-          ]
-        },
-        {
-          "name": "--no-index",
-          "tip": [
-            "{{ $info.__no_index }}"
-          ]
-        },
-        {
-          "name": "--find-links",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "{{ $info.__find_links }}"
-          ]
-        },
-        {
-          "name": "--dest",
-          "alias": [
-            "-d"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -d, --dest <dir>",
-            "将软件包下载到 <dir>"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "uninstall",
-      "tip": [
-        "卸载软件包"
-      ],
-      "options": [
-        {
-          "name": "--requirement",
-          "alias": [
-            "-r"
-          ],
-          "next": 0,
-          "tip": [
-            "{{ $info.__requirement }}"
-          ]
-        },
-        {
-          "name": "--yes",
-          "alias": [
-            "-y"
-          ],
-          "tip": [
-            "不需要确认卸载"
-          ]
-        },
-        {
-          "name": "--root-user-action",
-          "next": 0,
-          "tip": [
-            "{{ $info.__root_user_action }}"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "list",
-      "tip": [
-        "列出已安装的软件包"
-      ],
-      "options": [
-        {
-          "name": "--outdated",
-          "alias": [
-            "-o"
-          ],
-          "tip": [
-            "列出过时的软件包"
-          ]
-        },
-        {
-          "name": "--uptodate",
-          "alias": [
-            "-u"
-          ],
-          "tip": [
-            "列出最新的软件包"
-          ]
-        },
-        {
-          "name": "--editable",
-          "alias": [
-            "-e"
-          ],
-          "tip": [
-            "列出可编辑的项目"
-          ]
-        },
-        {
-          "name": "--local",
-          "alias": [
-            "-l"
-          ],
-          "tip": [
-            "{{ $info.__local }}"
-          ]
-        },
-        {
-          "name": "--user",
-          "tip": [
-            "{{ $info.__user }}"
-          ]
-        },
-        {
-          "name": "--path",
-          "next": 0,
-          "tip": [
-            "{{ $info.__path }}"
-          ]
-        },
-        {
-          "name": "--pre",
-          "tip": [
-            "{{ $info.__pre }}"
-          ]
-        },
-        {
-          "name": "--format",
-          "tip": [
-            "U: --format <format>",
-            "选择以下输出格式: columns (默认), freeze, or json"
-          ],
-          "next": [
-            {
-              "name": "columns",
-              "tip": [
-                "default value"
-              ]
-            },
-            {
-              "name": "freeze"
-            },
-            {
-              "name": "json"
-            }
-          ]
-        },
-        {
-          "name": "--not-required",
-          "tip": [
-            "列出不是已安装软件包依赖项的软件包"
-          ]
-        },
-        {
-          "name": "--exclude-editable",
-          "tip": [
-            "{{ $info.__exclude_editable }}"
-          ]
-        },
-        {
-          "name": "--include-editable",
-          "tip": [
-            "包括输出中的可编辑包"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "{{ $info.__exclude }}"
-          ]
-        },
-        {
-          "name": "--index-url",
-          "alias": [
-            "-i"
-          ],
-          "tip": [
-            "{{ $info.__index_url }}"
-          ]
-        },
-        {
-          "name": "--extra-index-url",
-          "next": 0,
-          "tip": [
-            "{{ $info.__extra_index_url }}"
-          ]
-        },
-        {
-          "name": "--no-index",
-          "tip": [
-            "{{ $info.__no_index }}"
-          ]
-        },
-        {
-          "name": "--find-links",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "{{ $info.__find_links }}"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "freeze",
-      "tip": [
-        "以需求格式输出已安装的软件包",
-        "以不区分大小写的排序顺序输出"
-      ],
-      "options": [
-        {
-          "name": "--requirement",
-          "alias": [
-            "-r"
-          ],
-          "next": 0,
-          "tip": [
-            "{{ $info.__requirement }}"
-          ]
-        },
-        {
-          "name": "--local",
-          "alias": [
-            "-l"
-          ],
-          "tip": [
-            "{{ $info.__local }}"
-          ]
-        },
-        {
-          "name": "--user",
-          "tip": [
-            "{{ $info.__user }}"
-          ]
-        },
-        {
-          "name": "--path",
-          "next": 0,
-          "tip": [
-            "{{ $info.__path }}"
-          ]
-        },
-        {
-          "name": "--all",
-          "tip": [
-            "不要在输出中跳过这些包: wheel、pip、setuptools、distribute"
-          ]
-        },
-        {
-          "name": "--exclude-editable",
-          "tip": [
-            "{{ $info.__exclude_editable }}"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "next": 0,
-          "tip": [
-            "{{ $info.__exclude }}"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "inspect",
-      "tip": [
-        "检查 Python 环境的内容并生成 JSON 格式的报告"
-      ],
-      "options": [
-        {
-          "name": "--local",
-          "alias": [
-            "-l"
-          ],
-          "tip": [
-            "{{ $info.__local }}"
-          ]
-        },
-        {
-          "name": "--user",
-          "tip": [
-            "{{ $info.__user }}"
-          ]
-        },
-        {
-          "name": "--path",
-          "next": 0,
-          "tip": [
-            "{{ $info.__path }}"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "show",
-      "tip": [
-        "显示有关已安装软件包的信息",
-        "输出采用符合 RFC 的邮件头格式"
-      ],
-      "options": [
-        {
-          "name": "--files",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "显示每个软件包的已安装文件的完整列表"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "check",
-      "tip": [
-        "验证已安装的包是否具有兼容的依赖项"
-      ]
-    },
-    {
-      "name": "config",
-      "tip": [
-        "管理本地和全局配置"
-      ],
-      "options": [
-        {
-          "name": "--editor",
-          "next": 0,
-          "tip": [
-            "U: --editor <editor>",
-            "用于编辑文件的编辑器",
-            "如果未提供, 则使用 VISUAL 或 EDITOR 环境变量"
-          ]
-        },
-        {
-          "name": "--global",
-          "tip": [
-            "仅使用系统范围的配置文件"
-          ]
-        },
-        {
-          "name": "--user",
-          "tip": [
-            "仅使用用户配置文件"
-          ]
-        },
-        {
-          "name": "--site",
-          "tip": [
-            "仅使用当前环境配置文件"
-          ]
-        }
-      ],
-      "next": [
-        {
-          "name": "list",
-          "tip": [
-            "列出活动配置(或指定文件中的配置)"
-          ]
-        },
-        {
-          "name": "edit",
-          "tip": [
-            "在编辑器中编辑配置文件"
-          ]
-        },
-        {
-          "name": "get",
-          "tip": [
-            "获取与 command.option 关联的值"
-          ]
-        },
-        {
-          "name": "set",
-          "tip": [
-            "设置 command.option=value"
-          ]
-        },
-        {
-          "name": "unset",
-          "tip": [
-            "取消设置与 command.option 关联的值"
-          ]
-        },
-        {
-          "name": "debug",
-          "tip": [
-            "列出配置文件及其下定义的值"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "search",
-      "tip": [
-        "在 PyPI 上搜索包"
-      ],
-      "options": [
-        {
-          "name": "--index",
-          "alias": [
-            "-i"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -i, --index <url>",
-            "Python 包索引的基本 URL (默认为 https://pypi.org/pypi)"
-          ]
-        }
-      ]
-    },
-    {
       "name": "cache",
       "tip": [
         "检查和管理 pip 的 wheel 缓存"
@@ -757,295 +41,196 @@
           ]
         },
         {
-          "name": "remove",
-          "tip": [
-            "从缓存中删除一个或多个包"
-          ]
-        },
-        {
           "name": "purge",
           "tip": [
             "从缓存中删除所有项目"
           ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "从缓存中删除一个或多个包"
+          ]
         }
       ]
     },
     {
-      "name": "index",
+      "name": "check",
       "tip": [
-        "检查包索引中可用的信息"
+        "验证已安装的包是否具有兼容的依赖项"
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "用于命令完成的帮助程序命令"
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "管理本地和全局配置"
       ],
       "options": [
         {
-          "name": "--pre",
+          "name": "--editor",
           "tip": [
-            "{{ $info.__pre }}"
+            "U: --editor <editor>",
+            "用于编辑文件的编辑器",
+            "如果未提供, 则使用 VISUAL 或 EDITOR 环境变量"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global",
+          "tip": [
+            "仅使用系统范围的配置文件"
           ]
         },
         {
-          "name": "--platform",
-          "next": 0,
+          "name": "--site",
           "tip": [
-            "{{ $info.__platform }}"
+            "仅使用当前环境配置文件"
           ]
         },
         {
-          "name": "--python-version",
-          "next": 0,
+          "name": "--user",
           "tip": [
-            "{{ $info.__python_version }}"
+            "仅使用用户配置文件"
           ]
+        }
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "列出配置文件及其下定义的值"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "在编辑器中编辑配置文件"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取与 command.option 关联的值"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出活动配置(或指定文件中的配置)"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置 command.option=value"
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "取消设置与 command.option 关联的值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "显示对调试有用的信息"
+      ],
+      "options": [
+        {
+          "name": "--abi",
+          "tip": [
+            "{{ $info.__abi }}"
+          ],
+          "next": 0
         },
         {
           "name": "--implementation",
-          "next": 0,
           "tip": [
             "{{ $info.__implementation }}"
-          ]
-        },
-        {
-          "name": "--abi",
-          "next": 0,
-          "tip": [
-            "{{ $info.__abi }}"
-          ]
-        },
-        {
-          "name": "--ignore-requires-python",
-          "tip": [
-            "{{ $info.__ignore_requires_python }}"
-          ]
-        },
-        {
-          "name": "--no-binary",
-          "next": 0,
-          "tip": [
-            "{{ $info.__no_binary }}"
-          ]
-        },
-        {
-          "name": "--only-binary",
-          "next": 0,
-          "tip": [
-            "{{ $info.__only_binary }}"
-          ]
-        },
-        {
-          "name": "--index-url",
-          "alias": [
-            "-i"
           ],
-          "tip": [
-            "{{ $info.__index_url }}"
-          ]
+          "next": 0
         },
         {
-          "name": "--extra-index-url",
-          "next": 0,
+          "name": "--platform",
           "tip": [
-            "{{ $info.__extra_index_url }}"
-          ]
-        },
-        {
-          "name": "--no-index",
-          "tip": [
-            "{{ $info.__no_index }}"
-          ]
-        },
-        {
-          "name": "--find-links",
-          "alias": [
-            "-f"
+            "{{ $info.__platform }}"
           ],
+          "next": 0
+        },
+        {
+          "name": "--python-version",
           "tip": [
-            "{{ $info.__find_links }}"
-          ]
+            "{{ $info.__python_version }}"
+          ],
+          "next": 0
         }
       ]
     },
     {
-      "name": "wheel",
+      "name": "freeze",
       "tip": [
-        "为您的需求和依赖构建 Wheel 归档文件"
+        "以需求格式输出已安装的软件包",
+        "以不区分大小写的排序顺序输出"
       ],
       "options": [
         {
-          "name": "--wheel-dir",
-          "next": 0,
+          "name": "--all",
           "tip": [
-            "U: --wheel-dir, -w <dir>",
-            "将 wheels 构建到 <dir>, 默认为当前工作目录。"
+            "不要在输出中跳过这些包: wheel、pip、setuptools、distribute"
           ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "{{ $info.__exclude }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exclude-editable",
+          "tip": [
+            "{{ $info.__exclude_editable }}"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "{{ $info.__local }}"
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "{{ $info.__path }}"
+          ],
+          "next": 0
         },
         {
           "name": "--requirement",
           "alias": [
             "-r"
           ],
-          "next": 0,
           "tip": [
             "{{ $info.__requirement }}"
-          ]
-        },
-        {
-          "name": "--constraint",
-          "alias": [
-            "-c"
           ],
-          "next": 0,
-          "tip": [
-            "{{ $info.__constraint }}"
-          ]
+          "next": 0
         },
         {
-          "name": "--no-deps",
+          "name": "--user",
           "tip": [
-            "{{ $info.__no_deps }}"
-          ]
-        },
-        {
-          "name": "--pre",
-          "tip": [
-            "{{ $info.__pre }}"
-          ]
-        },
-        {
-          "name": "__editable",
-          "alias": [
-            "-e"
-          ],
-          "next": 0,
-          "tip": [
-            "{{ $info.__editable }}"
-          ]
-        },
-        {
-          "name": "--src",
-          "next": 0,
-          "tip": [
-            "{{ $info.__src }}"
-          ]
-        },
-        {
-          "name": "--ignore-requires-python",
-          "tip": [
-            "{{ $info.__ignore_requires_python }}"
-          ]
-        },
-        {
-          "name": "--no-build-isolation",
-          "tip": [
-            "{{ $info.__no_build_isolation }}"
-          ]
-        },
-        {
-          "name": "--use-pep517",
-          "tip": [
-            "{{ $info.__use_pep517 }}"
-          ]
-        },
-        {
-          "name": "--check-build-dependencies",
-          "tip": [
-            "{{ $info.__check_build_dependencies }}"
-          ]
-        },
-        {
-          "name": "--config-settings",
-          "next": 0,
-          "tip": [
-            "{{ $info.__config_settings }}"
-          ]
-        },
-        {
-          "name": "--global-option",
-          "next": 0,
-          "tip": [
-            "{{ $info.__global_option }}"
-          ]
-        },
-        {
-          "name": "--no-binary",
-          "next": 0,
-          "tip": [
-            "{{ $info.__no_binary }}"
-          ]
-        },
-        {
-          "name": "--only-binary",
-          "next": 0,
-          "tip": [
-            "{{ $info.__only_binary }}"
-          ]
-        },
-        {
-          "name": "--prefer-binary",
-          "tip": [
-            "{{ $info.__prefer_binary }}"
-          ]
-        },
-        {
-          "name": "--require-hashes",
-          "tip": [
-            "{{ $info.__require_hashes }}"
-          ]
-        },
-        {
-          "name": "--progress-bar",
-          "next": 0,
-          "tip": [
-            "{{ $info.__progress_bar }}"
-          ]
-        },
-        {
-          "name": "--no-clean",
-          "tip": [
-            "{{ $info.__no_clean }}"
-          ]
-        },
-        {
-          "name": "--index-url",
-          "alias": [
-            "-i"
-          ],
-          "tip": [
-            "{{ $info.__index_url }}"
-          ]
-        },
-        {
-          "name": "--extra-index-url",
-          "next": 0,
-          "tip": [
-            "{{ $info.__extra_index_url }}"
-          ]
-        },
-        {
-          "name": "--no-index",
-          "tip": [
-            "{{ $info.__no_index }}"
-          ]
-        },
-        {
-          "name": "--find-links",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "{{ $info.__find_links }}"
-          ]
-        },
-        {
-          "name": "--no-verify",
-          "tip": [
-            "不验证构建的 wheel 是否有效"
-          ]
-        },
-        {
-          "name": "--build-option",
-          "next": 0,
-          "tip": [
-            "U: --build-option <options>",
-            "额外的参数将传递给 'setup.py bdist_wheel'。"
+            "{{ $info.__user }}"
           ]
         }
       ]
@@ -1081,51 +266,866 @@
       ]
     },
     {
-      "name": "debug",
-      "tip": [
-        "显示对调试有用的信息"
-      ],
-      "options": [
-        {
-          "name": "--platform",
-          "next": 0,
-          "tip": [
-            "{{ $info.__platform }}"
-          ]
-        },
-        {
-          "name": "--python-version",
-          "next": 0,
-          "tip": [
-            "{{ $info.__python_version }}"
-          ]
-        },
-        {
-          "name": "--implementation",
-          "next": 0,
-          "tip": [
-            "{{ $info.__implementation }}"
-          ]
-        },
-        {
-          "name": "--abi",
-          "next": 0,
-          "tip": [
-            "{{ $info.__abi }}"
-          ]
-        }
-      ]
-    },
-    {
       "name": "help",
       "tip": [
         "显示命令帮助信息"
       ]
     },
     {
-      "name": "completion",
+      "name": "index",
       "tip": [
-        "用于命令完成的帮助程序命令"
+        "检查包索引中可用的信息"
+      ],
+      "options": [
+        {
+          "name": "--abi",
+          "tip": [
+            "{{ $info.__abi }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extra-index-url",
+          "tip": [
+            "{{ $info.__extra_index_url }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--find-links",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "{{ $info.__find_links }}"
+          ]
+        },
+        {
+          "name": "--ignore-requires-python",
+          "tip": [
+            "{{ $info.__ignore_requires_python }}"
+          ]
+        },
+        {
+          "name": "--implementation",
+          "tip": [
+            "{{ $info.__implementation }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "{{ $info.__index_url }}"
+          ]
+        },
+        {
+          "name": "--no-binary",
+          "tip": [
+            "{{ $info.__no_binary }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "{{ $info.__no_index }}"
+          ]
+        },
+        {
+          "name": "--only-binary",
+          "tip": [
+            "{{ $info.__only_binary }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "{{ $info.__platform }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "{{ $info.__pre }}"
+          ]
+        },
+        {
+          "name": "--python-version",
+          "tip": [
+            "{{ $info.__python_version }}"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "inspect",
+      "tip": [
+        "检查 Python 环境的内容并生成 JSON 格式的报告"
+      ],
+      "options": [
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "{{ $info.__local }}"
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "{{ $info.__path }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "{{ $info.__user }}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "download"
+      ],
+      "tip": [
+        "安装/下载软件包"
+      ],
+      "options": [
+        {
+          "name": "__editable",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__editable }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--abi",
+          "tip": [
+            "{{ $info.__abi }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--check-build-dependencies",
+          "tip": [
+            "{{ $info.__check_build_dependencies }}"
+          ]
+        },
+        {
+          "name": "--compile",
+          "tip": [
+            "将 Python 源文件编译为字节码"
+          ]
+        },
+        {
+          "name": "--config-settings",
+          "tip": [
+            "{{ $info.__config_settings }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--constraint",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "{{ $info.__constraint }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dest",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dest <dir>",
+            "将软件包下载到 <dir>"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "实际上不安装任何东西, 只打印将要安装的内容",
+            "可以与 --ignore-installed 结合使用以 'resolve' 需求"
+          ]
+        },
+        {
+          "name": "--extra-index-url",
+          "tip": [
+            "{{ $info.__extra_index_url }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--find-links",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "{{ $info.__find_links }}"
+          ]
+        },
+        {
+          "name": "--force-reinstall",
+          "tip": [
+            "重新安装所有软件包, 即使它们已经是最新的"
+          ]
+        },
+        {
+          "name": "--global-option",
+          "tip": [
+            "{{ $info.__global_option }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-installed",
+          "alias": [
+            "-I"
+          ],
+          "tip": [
+            "U: -I, --ignore-installed",
+            "忽略已安装的软件包, 覆盖它们",
+            "如果现有软件包是不同的版本或使用不同的软件包管理器安装的, 这可能会破坏您的系统"
+          ]
+        },
+        {
+          "name": "--ignore-requires-python",
+          "tip": [
+            "{{ $info.__ignore_requires_python }}"
+          ]
+        },
+        {
+          "name": "--implementation",
+          "tip": [
+            "{{ $info.__implementation }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "{{ $info.__index_url }}"
+          ]
+        },
+        {
+          "name": "--install-option",
+          "tip": [
+            "U: --install-option <options>",
+            "要提供给 setup.py install 命令的额外参数 (例如使用 --install-option=\"--install-scripts=/usr/local/bin\")",
+            "可以使用多个 --install-option 选项将多个选项传递给 setup.py 安装",
+            "如果使用带有目录路径的选项, 请确保使用绝对路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-binary",
+          "tip": [
+            "{{ $info.__no_binary }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-build-isolation",
+          "tip": [
+            "{{ $info.__no_build_isolation }}"
+          ]
+        },
+        {
+          "name": "--no-clean",
+          "tip": [
+            "{{ $info.__no_clean }}"
+          ]
+        },
+        {
+          "name": "--no-compile",
+          "tip": [
+            "不要将 Python 源文件编译为字节码"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "{{ $info.__no_deps }}"
+          ]
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "{{ $info.__no_index }}"
+          ]
+        },
+        {
+          "name": "--no-warn-conflicts",
+          "tip": [
+            "不要警告断开的依赖项"
+          ]
+        },
+        {
+          "name": "--no-warn-script-location",
+          "tip": [
+            "在 PATH 外部安装脚本时不要发出警告"
+          ]
+        },
+        {
+          "name": "--only-binary",
+          "tip": [
+            "{{ $info.__only_binary }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "{{ $info.__platform }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "{{ $info.__pre }}"
+          ]
+        },
+        {
+          "name": "--prefer-binary",
+          "tip": [
+            "{{ $info.__prefer_binary }}"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "tip": [
+            "U: --prefix <dir>",
+            "放置 lib、bin 和其他顶级文件夹的安装前缀"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--progress-bar",
+          "tip": [
+            "{{ $info.__progress_bar }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python-version",
+          "tip": [
+            "{{ $info.__python_version }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--report",
+          "tip": [
+            "{{ $info.__report }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--require-hashes",
+          "tip": [
+            "{{ $info.__require_hashes }}"
+          ]
+        },
+        {
+          "name": "--requirement",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "{{ $info.__requirement }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "{{ $info.__root }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--root-user-action",
+          "tip": [
+            "{{ $info.__root_user_action }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--src",
+          "tip": [
+            "{{ $info.__src }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --target <dir>",
+            "将软件包安装到给定目录中",
+            "默认情况下, 这不会替换给定目录中的现有文件/文件夹",
+            "使用 --upgrade 将给定目录中的现有软件包替换为新版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--upgrade",
+          "alias": [
+            "-U"
+          ],
+          "tip": [
+            "U: -U, --upgrade",
+            "将所有指定的软件包升级到最新的可用版本",
+            "依赖项的处理取决于所使用的升级策略"
+          ]
+        },
+        {
+          "name": "--upgrade-strategy",
+          "tip": [
+            "U: --upgrade-strategy <upgrade_strategy>",
+            "确定应如何处理依赖项升级(默认: only-if-needed)",
+            "\"eager\"          - 无论当前安装的版本是否满足升级包的要求, 都会升级依赖项",
+            "\"only-if-needed\" - 仅当它们不满足升级包的要求时才升级"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--use-pep517",
+          "tip": [
+            "{{ $info.__use_pep517 }}"
+          ]
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "安装到平台的 Python 用户安装目录",
+            "在 Windows 上通常为 ~/.local/ 或 %APPDATA%\\Python",
+            "(请参阅站点的 Python 文档了解完整详情)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "列出已安装的软件包"
+      ],
+      "options": [
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "列出可编辑的项目"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "{{ $info.__exclude }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exclude-editable",
+          "tip": [
+            "{{ $info.__exclude_editable }}"
+          ]
+        },
+        {
+          "name": "--extra-index-url",
+          "tip": [
+            "{{ $info.__extra_index_url }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--find-links",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "{{ $info.__find_links }}"
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "选择以下输出格式: columns (默认), freeze, or json"
+          ],
+          "next": [
+            {
+              "name": "columns",
+              "tip": [
+                "default value"
+              ]
+            },
+            {
+              "name": "freeze"
+            },
+            {
+              "name": "json"
+            }
+          ]
+        },
+        {
+          "name": "--include-editable",
+          "tip": [
+            "包括输出中的可编辑包"
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "{{ $info.__index_url }}"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "{{ $info.__local }}"
+          ]
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "{{ $info.__no_index }}"
+          ]
+        },
+        {
+          "name": "--not-required",
+          "tip": [
+            "列出不是已安装软件包依赖项的软件包"
+          ]
+        },
+        {
+          "name": "--outdated",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "列出过时的软件包"
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "{{ $info.__path }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "{{ $info.__pre }}"
+          ]
+        },
+        {
+          "name": "--uptodate",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "列出最新的软件包"
+          ]
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "{{ $info.__user }}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "在 PyPI 上搜索包"
+      ],
+      "options": [
+        {
+          "name": "--index",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --index <url>",
+            "Python 包索引的基本 URL (默认为 https://pypi.org/pypi)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "tip": [
+        "显示有关已安装软件包的信息",
+        "输出采用符合 RFC 的邮件头格式"
+      ],
+      "options": [
+        {
+          "name": "--files",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "显示每个软件包的已安装文件的完整列表"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "卸载软件包"
+      ],
+      "options": [
+        {
+          "name": "--requirement",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "{{ $info.__requirement }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--root-user-action",
+          "tip": [
+            "{{ $info.__root_user_action }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "不需要确认卸载"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wheel",
+      "tip": [
+        "为您的需求和依赖构建 Wheel 归档文件"
+      ],
+      "options": [
+        {
+          "name": "__editable",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__editable }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--build-option",
+          "tip": [
+            "U: --build-option <options>",
+            "额外的参数将传递给 'setup.py bdist_wheel'。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--check-build-dependencies",
+          "tip": [
+            "{{ $info.__check_build_dependencies }}"
+          ]
+        },
+        {
+          "name": "--config-settings",
+          "tip": [
+            "{{ $info.__config_settings }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--constraint",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "{{ $info.__constraint }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extra-index-url",
+          "tip": [
+            "{{ $info.__extra_index_url }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--find-links",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "{{ $info.__find_links }}"
+          ]
+        },
+        {
+          "name": "--global-option",
+          "tip": [
+            "{{ $info.__global_option }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-requires-python",
+          "tip": [
+            "{{ $info.__ignore_requires_python }}"
+          ]
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "{{ $info.__index_url }}"
+          ]
+        },
+        {
+          "name": "--no-binary",
+          "tip": [
+            "{{ $info.__no_binary }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-build-isolation",
+          "tip": [
+            "{{ $info.__no_build_isolation }}"
+          ]
+        },
+        {
+          "name": "--no-clean",
+          "tip": [
+            "{{ $info.__no_clean }}"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "{{ $info.__no_deps }}"
+          ]
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "{{ $info.__no_index }}"
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "不验证构建的 wheel 是否有效"
+          ]
+        },
+        {
+          "name": "--only-binary",
+          "tip": [
+            "{{ $info.__only_binary }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "{{ $info.__pre }}"
+          ]
+        },
+        {
+          "name": "--prefer-binary",
+          "tip": [
+            "{{ $info.__prefer_binary }}"
+          ]
+        },
+        {
+          "name": "--progress-bar",
+          "tip": [
+            "{{ $info.__progress_bar }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--require-hashes",
+          "tip": [
+            "{{ $info.__require_hashes }}"
+          ]
+        },
+        {
+          "name": "--requirement",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "{{ $info.__requirement }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--src",
+          "tip": [
+            "{{ $info.__src }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--use-pep517",
+          "tip": [
+            "{{ $info.__use_pep517 }}"
+          ]
+        },
+        {
+          "name": "--wheel-dir",
+          "tip": [
+            "U: --wheel-dir, -w <dir>",
+            "将 wheels 构建到 <dir>, 默认为当前工作目录。"
+          ],
+          "next": 0
+        }
       ]
     }
   ],
@@ -1142,14 +1142,29 @@
   ],
   "common_options": [
     {
-      "name": "-h",
-      "alias": [
-        "--help"
-      ],
+      "name": "--cache-dir",
       "tip": [
-        "U: -h, --help",
-        "显示帮助信息。"
-      ]
+        "U: --cache-dir <dir>",
+        "在 <dir> 中存储缓存数据。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cert",
+      "tip": [
+        "U: --cert <path>",
+        "PEM 编码的 CA 证书捆绑包的路径。如果提供, 将覆盖默认值。",
+        "有关更多信息, 请参见 pip 文档中的 'SSL 证书验证'。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--client-cert",
+      "tip": [
+        "U: --client-cert <path>",
+        "SSL 客户端证书的路径, 一个包含私钥和证书的 PEM 格式的单个文件。"
+      ],
+      "next": 0
     },
     {
       "name": "--debug",
@@ -1158,34 +1173,73 @@
       ]
     },
     {
+      "name": "--disable-pip-version-check",
+      "tip": [
+        "不定期检查 PyPI 以确定是否有新的 pip 版本可供下载。",
+        "与 --no-index 一起使用时隐含。"
+      ]
+    },
+    {
+      "name": "--exists-action",
+      "tip": [
+        "U: --exists-action <action>",
+        "当路径已存在时的默认操作: (s)切换, (i)忽略, (w)擦除, (b)备份, (a)中断。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--isolated",
       "tip": [
         "以隔离模式运行 pip, 忽略环境变量和用户配置。"
       ]
     },
     {
-      "name": "--require-virtualenv",
+      "name": "--log",
       "tip": [
-        "只允许 pip 在虚拟环境中运行; 否则退出并显示错误。"
+        "U: --log <path>",
+        "详细追加日志的路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-cache-dir",
+      "tip": [
+        "禁用缓存。"
       ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "抑制彩色输出。"
+      ]
+    },
+    {
+      "name": "--no-input",
+      "tip": [
+        "禁用输入提示。"
+      ]
+    },
+    {
+      "name": "--no-python-version-warning",
+      "tip": [
+        "关闭即将不支持的未来 Python 版本的弃用警告。"
+      ]
+    },
+    {
+      "name": "--proxy",
+      "tip": [
+        "U: --proxy <proxy>",
+        "指定代理, 格式为 [user:password@]proxy.server:port。"
+      ],
+      "next": 0
     },
     {
       "name": "--python",
-      "next": 0,
       "tip": [
         "U: --python <python>",
         "使用指定的 Python 解释器运行 pip。"
-      ]
-    },
-    {
-      "name": "--verbose",
-      "alias": [
-        "-v"
       ],
-      "tip": [
-        "U: -v, --verbose",
-        "提供更多输出。选项是累加的, 最多可以使用 3 次。"
-      ]
+      "next": 0
     },
     {
       "name": "--quiet",
@@ -1199,180 +1253,79 @@
       ]
     },
     {
-      "name": "--log",
-      "next": 0,
+      "name": "--require-virtualenv",
       "tip": [
-        "U: --log <path>",
-        "详细追加日志的路径。"
-      ]
-    },
-    {
-      "name": "--no-input",
-      "tip": [
-        "禁用输入提示。"
-      ]
-    },
-    {
-      "name": "--proxy",
-      "next": 0,
-      "tip": [
-        "U: --proxy <proxy>",
-        "指定代理, 格式为 [user:password@]proxy.server:port。"
+        "只允许 pip 在虚拟环境中运行; 否则退出并显示错误。"
       ]
     },
     {
       "name": "--retries",
-      "next": 0,
       "tip": [
         "U: --retries <retries>",
         "每个连接应尝试的最大重试次数(默认为 5 次)。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "--timeout",
-      "next": 0,
       "tip": [
         "U: --timeout <timeout>",
         "设置套接字超时(默认为 15 秒)。"
-      ]
-    },
-    {
-      "name": "--exists-action",
-      "next": 0,
-      "tip": [
-        "U: --exists-action <action>",
-        "当路径已存在时的默认操作: (s)切换, (i)忽略, (w)擦除, (b)备份, (a)中断。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "--trusted-host",
-      "next": 0,
       "tip": [
         "U: --trusted-host <hostname>",
         "即使该主机没有有效的 HTTPS, 也将此主机或主机: 端口对标记为可信。"
-      ]
-    },
-    {
-      "name": "--cert",
-      "next": 0,
-      "tip": [
-        "U: --cert <path>",
-        "PEM 编码的 CA 证书捆绑包的路径。如果提供, 将覆盖默认值。",
-        "有关更多信息, 请参见 pip 文档中的 'SSL 证书验证'。"
-      ]
-    },
-    {
-      "name": "--client-cert",
-      "next": 0,
-      "tip": [
-        "U: --client-cert <path>",
-        "SSL 客户端证书的路径, 一个包含私钥和证书的 PEM 格式的单个文件。"
-      ]
-    },
-    {
-      "name": "--cache-dir",
-      "next": 0,
-      "tip": [
-        "U: --cache-dir <dir>",
-        "在 <dir> 中存储缓存数据。"
-      ]
-    },
-    {
-      "name": "--no-cache-dir",
-      "tip": [
-        "禁用缓存。"
-      ]
-    },
-    {
-      "name": "--disable-pip-version-check",
-      "tip": [
-        "不定期检查 PyPI 以确定是否有新的 pip 版本可供下载。",
-        "与 --no-index 一起使用时隐含。"
-      ]
-    },
-    {
-      "name": "--no-color",
-      "tip": [
-        "抑制彩色输出。"
-      ]
-    },
-    {
-      "name": "--no-python-version-warning",
-      "tip": [
-        "关闭即将不支持的未来 Python 版本的弃用警告。"
-      ]
-    },
-    {
-      "name": "--use-feature",
-      "next": 0,
-      "tip": [
-        "U: --use-feature <feature>",
-        "启用可能不向后兼容的新功能。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "--use-deprecated",
-      "next": 0,
       "tip": [
         "U: --use-deprecated <feature>",
         "启用将在未来移除的已弃用功能。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--use-feature",
+      "tip": [
+        "U: --use-feature <feature>",
+        "启用可能不向后兼容的新功能。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "提供更多输出。选项是累加的, 最多可以使用 3 次。"
+      ]
+    },
+    {
+      "name": "-h",
+      "alias": [
+        "--help"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示帮助信息。"
       ]
     }
   ],
   "info": {
-    "__requirement": [
-      "U: -r, --requirement <file>\n",
-      "使用给定需求文件中的顺序及其注释来生成输出。\n",
-      "此选项可多次使用。"
-    ],
-    "__constraint": [
-      "U: -c, --constraint <file>\n",
-      "使用给定约束文件来限制版本。此选项可多次使用。"
-    ],
-    "__no_deps": "不安装包依赖。",
-    "__pre": "包括预发行版和开发版本。默认情况下, pip 只查找稳定版本。",
-    "__editable": [
-      "U: -e, --editable <path|url>\n",
-      "从本地项目路径或 VCS url 安装一个项目, 以可编辑模式(例如 setuptools 的 \"开发模式\")。"
-    ],
-    "__platform": [
-      "U: --platform <platform>\n",
-      "只使用与 <platform> 兼容的 wheels。\n",
-      "默认为运行系统的平台。\n",
-      "多次使用此选项可指定目标解释器支持的多平台。"
-    ],
-    "__python_version": [
-      "U: --python-version <version>\n",
-      "用于 wheel 和 \"Requires-Python\" 兼容性检查的 Python 解释器版本。\n",
-      "默认为从运行解释器派生的版本。"
-    ],
-    "__implementation": [
-      "U: --implementation <implementation>\n",
-      "只使用与 Python 实现兼容的 wheels, 例如 'pp', 'jy', 'cp', 或 'ip'。\n",
-      "如果未指定, 则使用当前的解释器实现。使用 'py' 可强制使用与实现无关的 wheels。"
-    ],
     "__abi": [
       "U: --abi <abi>\n",
       "只使用与 Python abi 兼容的 wheels, 例如 'pypy_41'。如果未指定, 则使用当前的解释器 abi 标签。",
       "多次使用此选项可指定目标解释器支持的多 abis。\n",
       "通常在使用此选项时, 您需要指定 --implementation, --platform, 和 --python-version。"
     ],
-    "__root": [
-      "U: --root <dir>\n",
-      "相对于这个备用根目录安装所有内容。"
-    ],
-    "__src": [
-      "U: --src <dir>\n",
-      "检出可编辑项目的目录。\n",
-      "在虚拟环境中的默认是 \"<venv path>/src\"。\n",
-      "全局安装的默认是 \"<current dir>/src\"。"
-    ],
-    "__ignore_requires_python": "忽略 Requires-Python 信息。",
-    "__no_build_isolation": [
-      "在构建现代源分发时禁用隔离。\n",
-      "如果使用此选项, 则必须已经安装了 PEP 518 指定的构建依赖。"
-    ],
-    "__use_pep517": "使用 PEP 517 来构建源分发(使用 --no-use-pep517 可强制使用传统行为)。",
     "__check_build_dependencies": "在 PEP517 被使用时检查构建依赖。",
     "__config_settings": [
       "U: --config-setting <settings>\n",
@@ -1380,9 +1333,46 @@
       "设置采用 KEY=VALUE 的形式。\n",
       "使用多个 --config-settings 选项可传递多个键到后端。"
     ],
+    "__constraint": [
+      "U: -c, --constraint <file>\n",
+      "使用给定约束文件来限制版本。此选项可多次使用。"
+    ],
+    "__editable": [
+      "U: -e, --editable <path|url>\n",
+      "从本地项目路径或 VCS url 安装一个项目, 以可编辑模式(例如 setuptools 的 \"开发模式\")。"
+    ],
+    "__exclude": [
+      "U: --exclude <package>\n",
+      "从输出中排除指定的包。"
+    ],
+    "__exclude_editable": "从输出中排除可编辑包。",
+    "__extra_index_url": [
+      "U: --extra-index-url <url>\n",
+      "除了 --index-url 以外的包索引的额外 URL\n",
+      "应该遵循与 --index-url 相同的规则。"
+    ],
+    "__find_links": [
+      "如果是一个 URL 或 html 文件的路径, 则解析链接到诸如 sdist (.tar.gz) 或 wheel (.whl) 文件等存档。",
+      "如果是一个本地路径或 file:// URL 且是一个目录, 则在目录列表中查找存档。",
+      "不支持 VCS 项目 URL 的链接。"
+    ],
     "__global_option": [
       "U: --global-option <options>\n",
       "在安装或 bdist_wheel 命令之前提供给 setup.py 调用的额外全局选项。"
+    ],
+    "__ignore_requires_python": "忽略 Requires-Python 信息。",
+    "__implementation": [
+      "U: --implementation <implementation>\n",
+      "只使用与 Python 实现兼容的 wheels, 例如 'pp', 'jy', 'cp', 或 'ip'。\n",
+      "如果未指定, 则使用当前的解释器实现。使用 'py' 可强制使用与实现无关的 wheels。"
+    ],
+    "__index_url": [
+      "Python 包索引的基 URL(默认 https://pypi.org/simple)。\n",
+      "这应该指向符合 PEP 503(简单仓库 API)的仓库或按相同格式布局的本地目录。"
+    ],
+    "__local": [
+      "U: -l, --local\n",
+      "如果在具有全局访问权限的虚拟环境中, 则不列出全局安装的包。"
     ],
     "__no_binary": [
       "U: --no-binary <format_control>\n",
@@ -1390,25 +1380,39 @@
       "接受 \":all:\" 以禁用所有二进制包, \":none:\" 以清空集合(注意冒号), 或者一个或多个包名, 用逗号分隔(无冒号)。\n",
       "注意, 一些包编译困难, 在使用此选项时可能安装失败。"
     ],
+    "__no_build_isolation": [
+      "在构建现代源分发时禁用隔离。\n",
+      "如果使用此选项, 则必须已经安装了 PEP 518 指定的构建依赖。"
+    ],
+    "__no_clean": "不清理构建目录。",
+    "__no_deps": "不安装包依赖。",
+    "__no_index": "忽略包索引(只查看 --find-links URL)。",
     "__only_binary": [
       "U: --only-binary <format_control>\n",
       "不使用源码包。可以多次提供, 每次都会添加到现有值。\n",
       "接受 \":all:\" 以禁用所有源码包, \":none:\" 以清空集合, 或者一个或多个包名, 用逗号分隔。\n",
       "没有二进制分发的包在使用此选项时将无法安装。"
     ],
-    "__prefer_binary": "优先使用较旧的二进制包而不是较新的源码包。",
-    "__require_hashes": [
-      "要求对每个需求进行哈希校验, 以便于可重复的安装。",
-      "当需求文件中的任何包有 --hash 选项时, 此选项将被隐含使用。"
+    "__path": [
+      "U: --path <path>\n",
+      "限制到指定安装路径以列出包(可多次使用)。"
     ],
+    "__platform": [
+      "U: --platform <platform>\n",
+      "只使用与 <platform> 兼容的 wheels。\n",
+      "默认为运行系统的平台。\n",
+      "多次使用此选项可指定目标解释器支持的多平台。"
+    ],
+    "__pre": "包括预发行版和开发版本。默认情况下, pip 只查找稳定版本。",
+    "__prefer_binary": "优先使用较旧的二进制包而不是较新的源码包。",
     "__progress_bar": [
       "U: --progress-bar <bar>\n",
       "指定是否使用进度条 [on, off](默认: on)"
     ],
-    "__root_user_action": [
-      "U: --root-user-action <root_user_action>\n",
-      "如果 pip 以 root 用户运行时的操作。",
-      "默认情况下, 会显示警告消息。"
+    "__python_version": [
+      "U: --python-version <version>\n",
+      "用于 wheel 和 \"Requires-Python\" 兼容性检查的 Python 解释器版本。\n",
+      "默认为从运行解释器派生的版本。"
     ],
     "__report": [
       "U: --report <file>\n",
@@ -1416,35 +1420,31 @@
       "可以与 --dry-run 和 --ignore-installed 一起使用, 以 '解析' 需求。",
       "当使用 - 作为文件名时, 它会写入标准输出。当写入标准输出时, 请与 --quiet 选项结合使用, 以避免将 pip 日志输出与 JSON 输出混合。"
     ],
-    "__no_clean": "不清理构建目录。",
-    "__index_url": [
-      "Python 包索引的基 URL(默认 https://pypi.org/simple)。\n",
-      "这应该指向符合 PEP 503(简单仓库 API)的仓库或按相同格式布局的本地目录。"
+    "__require_hashes": [
+      "要求对每个需求进行哈希校验, 以便于可重复的安装。",
+      "当需求文件中的任何包有 --hash 选项时, 此选项将被隐含使用。"
     ],
-    "__extra_index_url": [
-      "U: --extra-index-url <url>\n",
-      "除了 --index-url 以外的包索引的额外 URL\n",
-      "应该遵循与 --index-url 相同的规则。"
+    "__requirement": [
+      "U: -r, --requirement <file>\n",
+      "使用给定需求文件中的顺序及其注释来生成输出。\n",
+      "此选项可多次使用。"
     ],
-    "__no_index": "忽略包索引(只查看 --find-links URL)。",
-    "__find_links": [
-      "如果是一个 URL 或 html 文件的路径, 则解析链接到诸如 sdist (.tar.gz) 或 wheel (.whl) 文件等存档。",
-      "如果是一个本地路径或 file:// URL 且是一个目录, 则在目录列表中查找存档。",
-      "不支持 VCS 项目 URL 的链接。"
+    "__root": [
+      "U: --root <dir>\n",
+      "相对于这个备用根目录安装所有内容。"
     ],
-    "__local": [
-      "U: -l, --local\n",
-      "如果在具有全局访问权限的虚拟环境中, 则不列出全局安装的包。"
+    "__root_user_action": [
+      "U: --root-user-action <root_user_action>\n",
+      "如果 pip 以 root 用户运行时的操作。",
+      "默认情况下, 会显示警告消息。"
     ],
-    "__user": "仅输出在用户站点中安装的包。",
-    "__path": [
-      "U: --path <path>\n",
-      "限制到指定安装路径以列出包(可多次使用)。"
+    "__src": [
+      "U: --src <dir>\n",
+      "检出可编辑项目的目录。\n",
+      "在虚拟环境中的默认是 \"<venv path>/src\"。\n",
+      "全局安装的默认是 \"<current dir>/src\"。"
     ],
-    "__exclude_editable": "从输出中排除可编辑包。",
-    "__exclude": [
-      "U: --exclude <package>\n",
-      "从输出中排除指定的包。"
-    ]
+    "__use_pep517": "使用 PEP 517 来构建源分发(使用 --no-use-pep517 可强制使用传统行为)。",
+    "__user": "仅输出在用户站点中安装的包。"
   }
 }

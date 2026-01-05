@@ -7,6 +7,100 @@
   },
   "root": [
     {
+      "name": "add",
+      "tip": [
+        "U: add [options] <package>[@<version>]",
+        "添加一个包及其依赖的任何包",
+        "默认情况下, 任何新包都被安装为生产依赖",
+        "E: add -D sass"
+      ],
+      "options": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局添加一个包"
+          ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --save-dev",
+            "将指定的包作为开发依赖安装"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --save-exact",
+            "保存的依赖将使用精确版本而不是 pnpm 的默认 semver 范围运算符"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "tip": [
+            "U: -O, --save-optional",
+            "将指定的包作为可选依赖安装"
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "将一个或多个包添加到 peerDependencies 并作为开发依赖安装"
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --save-prod",
+            "(默认)将指定的包作为常规依赖安装"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "只有在 workspace 中找到新依赖时才添加它"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "检查已安装包中已知的安全问题"
+      ]
+    },
+    {
+      "name": "cat-file",
+      "tip": [
+        "根据存储在索引文件中的哈希值, 打印文件的内容"
+      ]
+    },
+    {
+      "name": "cat-index",
+      "tip": [
+        "打印存储中的特定包的索引文件"
+      ]
+    },
+    {
       "name": "create",
       "tip": [
         "从 create-* 或 @foo/create-* 启动套件创建一个项目。",
@@ -28,6 +122,24 @@
       ]
     },
     {
+      "name": "exec",
+      "tip": [
+        "在项目的范围内执行一个 shell 命令"
+      ]
+    },
+    {
+      "name": "find-hash",
+      "tip": [
+        "列出包含指定哈希值的文件的包"
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "从一个 npm package-lock.json (或 npm-shrinkwrap.json) 文件生成一个 pnpm-lock.yaml 文件"
+      ]
+    },
+    {
       "name": "install",
       "alias": [
         "i"
@@ -38,101 +150,29 @@
       ]
     },
     {
-      "name": "add",
-      "tip": [
-        "U: add [options] <package>[@<version>]",
-        "添加一个包及其依赖的任何包",
-        "默认情况下, 任何新包都被安装为生产依赖",
-        "E: add -D sass"
+      "name": "install-test",
+      "alias": [
+        "it"
       ],
-      "options": [
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局添加一个包"
-          ]
-        },
-        {
-          "name": "--save-prod",
-          "alias": [
-            "-P"
-          ],
-          "tip": [
-            "U: -P, --save-prod",
-            "(默认)将指定的包作为常规依赖安装"
-          ]
-        },
-        {
-          "name": "--save-dev",
-          "alias": [
-            "-D"
-          ],
-          "tip": [
-            "U: -D, --save-dev",
-            "将指定的包作为开发依赖安装"
-          ]
-        },
-        {
-          "name": "--save-optional",
-          "alias": [
-            "-O"
-          ],
-          "tip": [
-            "U: -O, --save-optional",
-            "将指定的包作为可选依赖安装"
-          ]
-        },
-        {
-          "name": "--save-exact",
-          "alias": [
-            "-E"
-          ],
-          "tip": [
-            "U: -E, --save-exact",
-            "保存的依赖将使用精确版本而不是 pnpm 的默认 semver 范围运算符"
-          ]
-        },
-        {
-          "name": "--save-peer",
-          "tip": [
-            "将一个或多个包添加到 peerDependencies 并作为开发依赖安装"
-          ]
-        },
-        {
-          "name": "--workspace",
-          "alias": [
-            "-w"
-          ],
-          "tip": [
-            "只有在 workspace 中找到新依赖时才添加它"
-          ]
-        }
+      "tip": [
+        "U: install-test|it",
+        "执行 pnpm install 命令后立即执行 pnpm test 命令"
       ]
     },
     {
-      "name": "remove",
+      "name": "licenses",
+      "tip": [
+        "检查已消费包的许可证"
+      ]
+    },
+    {
+      "name": "link",
       "alias": [
-        "rm"
+        "ln"
       ],
       "tip": [
-        "U: remove|rm",
-        "从 node_modules 和项目的 package.json 中删除包"
-      ],
-      "options": [
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局删除"
-          ]
-        }
+        "U: link|ln",
+        "将本地项目连接到另一个项目"
       ]
     },
     {
@@ -158,65 +198,27 @@
       ]
     },
     {
-      "name": "update",
-      "alias": [
-        "up",
-        "upgrade"
-      ],
-      "tip": [
-        "U: update, up, upgrade",
-        "根据指定范围更新包到其最新版本",
-        "不带参数时, 更新所有依赖"
-      ],
-      "options": [
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局更新"
-          ]
-        }
-      ]
-    },
-    {
       "name": "outdated",
       "tip": [
         "检查过时的包"
       ]
     },
     {
-      "name": "import",
+      "name": "pack",
       "tip": [
-        "从一个 npm package-lock.json (或 npm-shrinkwrap.json) 文件生成一个 pnpm-lock.yaml 文件"
-      ]
-    },
-    {
-      "name": "install-test",
-      "alias": [
-        "it"
-      ],
-      "tip": [
-        "U: install-test|it",
-        "执行 pnpm install 命令后立即执行 pnpm test 命令"
-      ]
-    },
-    {
-      "name": "link",
-      "alias": [
-        "ln"
-      ],
-      "tip": [
-        "U: link|ln",
-        "将本地项目连接到另一个项目"
+        "从包创建一个 tarball"
       ]
     },
     {
       "name": "prune",
       "tip": [
         "移除多余的包"
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "将包发布到注册表"
       ]
     },
     {
@@ -230,27 +232,31 @@
       ]
     },
     {
-      "name": "unlink",
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
       "tip": [
-        "取消链接一个包。类似于 yarn unlink, 但在移除外部链接后, pnpm 会重新安装依赖"
+        "U: remove|rm",
+        "从 node_modules 和项目的 package.json 中删除包"
+      ],
+      "options": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局删除"
+          ]
+        }
       ]
     },
     {
-      "name": "audit",
+      "name": "root",
       "tip": [
-        "检查已安装包中已知的安全问题"
-      ]
-    },
-    {
-      "name": "licenses",
-      "tip": [
-        "检查已消费包的许可证"
-      ]
-    },
-    {
-      "name": "exec",
-      "tip": [
-        "在项目的范围内执行一个 shell 命令"
+        "打印有效的模块目录"
       ]
     },
     {
@@ -264,52 +270,6 @@
       "name": "start",
       "tip": [
         "运行 package.json 文件中 \"scripts\" 对象中的 \"start\" 属性的任意命令"
-      ]
-    },
-    {
-      "name": "test",
-      "alias": [
-        "t"
-      ],
-      "tip": [
-        "U: test|t",
-        "如果提供了, 则运行包的 \"test\" 脚本"
-      ]
-    },
-    {
-      "name": "cat-file",
-      "tip": [
-        "根据存储在索引文件中的哈希值, 打印文件的内容"
-      ]
-    },
-    {
-      "name": "cat-index",
-      "tip": [
-        "打印存储中的特定包的索引文件"
-      ]
-    },
-    {
-      "name": "find-hash",
-      "tip": [
-        "列出包含指定哈希值的文件的包"
-      ]
-    },
-    {
-      "name": "pack",
-      "tip": [
-        "从包创建一个 tarball"
-      ]
-    },
-    {
-      "name": "publish",
-      "tip": [
-        "将包发布到注册表"
-      ]
-    },
-    {
-      "name": "root",
-      "tip": [
-        "打印有效的模块目录"
       ]
     },
     {
@@ -350,6 +310,46 @@
           "name": "status",
           "tip": [
             "检查存储中修改过的包"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: test|t",
+        "如果提供了, 则运行包的 \"test\" 脚本"
+      ]
+    },
+    {
+      "name": "unlink",
+      "tip": [
+        "取消链接一个包。类似于 yarn unlink, 但在移除外部链接后, pnpm 会重新安装依赖"
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up",
+        "upgrade"
+      ],
+      "tip": [
+        "U: update, up, upgrade",
+        "根据指定范围更新包到其最新版本",
+        "不带参数时, 更新所有依赖"
+      ],
+      "options": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局更新"
           ]
         }
       ]

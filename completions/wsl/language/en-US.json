@@ -13,6 +13,12 @@
       ],
       "options": [
         {
+          "name": "--system",
+          "tip": [
+            "Start a shell for the system distribution"
+          ]
+        },
+        {
           "name": "-d",
           "alias": [
             "--distribution"
@@ -23,175 +29,52 @@
           ]
         },
         {
-          "name": "-u",
-          "alias": [
-            "--user"
-          ],
-          "next": 0,
-          "tip": [
-            "U: -u, --user <user>",
-            "Run as the specified user"
-          ]
-        },
-        {
-          "name": "--system",
-          "tip": [
-            "Start a shell for the system distribution"
-          ]
-        },
-        {
           "name": "-e",
           "alias": [
             "--exec"
           ],
-          "next": 0,
           "tip": [
             "U: -e, --exec <command>",
             "Execute the specified command without using the default Linux shell"
-          ]
+          ],
+          "next": 0
+        },
+        {
+          "name": "-u",
+          "alias": [
+            "--user"
+          ],
+          "tip": [
+            "U: -u, --user <user>",
+            "Run as the specified user"
+          ],
+          "next": 0
         }
       ]
     }
   ],
   "options": [
     {
-      "name": "--install",
+      "name": "--cd",
       "tip": [
-        "U: --install [Options] [<distribution>]",
-        "Install Windows Subsystem for Linux (WSL) distributions for Linux",
-        "To view the list of available distributions, use wsl --list --online"
+        "U: --cd <Directory>",
+        "Set the specified directory as the current working directory",
+        "If using ~, it will use the Linux user's home path",
+        "If the path starts with a / character, it will be interpreted as an absolute Linux path",
+        "Otherwise, the value must be an absolute Windows path"
       ],
-      "next": [
-        {
-          "name": "--no-launch",
-          "tip": [
-            "Install the distribution without launching it afterward"
-          ]
-        },
-        {
-          "name": "--web-download",
-          "tip": [
-            "Download the distribution from the Internet instead of the Microsoft Store"
-          ]
-        }
+      "next": 0
+    },
+    {
+      "name": "--debug-shell",
+      "tip": [
+        "Open a WSL2 debug shell for diagnostics"
       ]
     },
     {
-      "name": "--update",
+      "name": "--event-viewer",
       "tip": [
-        "Update Windows Subsystem for Linux (WSL) packages"
-      ],
-      "next": [
-        {
-          "name": "--web-download",
-          "tip": [
-            "Download updates from the Internet instead of the Microsoft Store"
-          ]
-        },
-        {
-          "name": "--pre-release",
-          "tip": [
-            "Download pre-release versions if available (implies --web-download)"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "-l",
-      "alias": [
-        "--list"
-      ],
-      "tip": [
-        "U: -l, --list [options]",
-        "List distributions"
-      ],
-      "next": [
-        {
-          "name": "-o",
-          "alias": [
-            "--online"
-          ],
-          "tip": [
-            "U: -o, --online",
-            "Show a list of available distributions that can be installed"
-          ]
-        },
-        {
-          "name": "--all",
-          "tip": [
-            "List all distributions",
-            "Including those currently being installed or uninstalled"
-          ]
-        },
-        {
-          "name": "--running",
-          "tip": [
-            "List only currently running distributions"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ],
-          "tip": [
-            "U: -q, --quiet",
-            "Show only distribution names"
-          ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verbose"
-          ],
-          "tip": [
-            "U: -v, --verbose",
-            "Show detailed information for all distributions"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "--mount",
-      "tip": [
-        "U: --mount [Options] <Disk>",
-        "Attach and mount physical or virtual disks in all WSL 2 distributions"
-      ],
-      "next": [
-        {
-          "name": "--vhd",
-          "tip": [
-            "U: --vhd <Disk>",
-            "Specify that <Disk> represents a virtual hard disk"
-          ]
-        },
-        {
-          "name": "--bare",
-          "tip": [
-            "Attach the disk to WSL2 without mounting it"
-          ]
-        },
-        {
-          "name": "--name",
-          "tip": [
-            "U: --name <Name>",
-            "Use a custom name for the mount point"
-          ]
-        },
-        {
-          "name": "--type",
-          "tip": [
-            "U: --type <Type>",
-            "File system to use when mounting the disk, defaults to ext4 if not specified"
-          ]
-        },
-        {
-          "name": "--partition",
-          "tip": [
-            "U: --partition <Index>",
-            "Partition index to mount, defaults to the entire disk if not specified"
-          ]
-        }
+        "Open the Application view of Windows Event Viewer"
       ]
     },
     {
@@ -237,53 +120,100 @@
       ]
     },
     {
-      "name": "-d",
-      "alias": [
-        "--distribution"
+      "name": "--import-in-place",
+      "tip": [
+        "U: --import-in-place <Distro> <FileName>",
+        "Import the specified .vhdx as a new distribution.",
+        "This virtual hard disk must be formatted with the ext4 file system type"
       ],
-      "tip": [
-        "U: -d, --distribution <Distro>",
-        "Run the specified distribution"
-      ]
+      "next": 0
     },
     {
-      "name": "-u",
-      "alias": [
-        "--user"
+      "name": "--install",
+      "tip": [
+        "U: --install [Options] [<distribution>]",
+        "Install Windows Subsystem for Linux (WSL) distributions for Linux",
+        "To view the list of available distributions, use wsl --list --online"
       ],
-      "next": 0,
-      "tip": [
-        "U: -u, --user <user>",
-        "Run as the specified user"
+      "next": [
+        {
+          "name": "--no-launch",
+          "tip": [
+            "Install the distribution without launching it afterward"
+          ]
+        },
+        {
+          "name": "--web-download",
+          "tip": [
+            "Download the distribution from the Internet instead of the Microsoft Store"
+          ]
+        }
       ]
     },
     {
-      "name": "--cd",
-      "next": 0,
+      "name": "--mount",
       "tip": [
-        "U: --cd <Directory>",
-        "Set the specified directory as the current working directory",
-        "If using ~, it will use the Linux user's home path",
-        "If the path starts with a / character, it will be interpreted as an absolute Linux path",
-        "Otherwise, the value must be an absolute Windows path"
-      ]
-    },
-    {
-      "name": "--system",
-      "tip": [
-        "Start a shell for the system distribution"
-      ]
-    },
-    {
-      "name": "-e",
-      "alias": [
-        "--exec"
+        "U: --mount [Options] <Disk>",
+        "Attach and mount physical or virtual disks in all WSL 2 distributions"
       ],
-      "next": 0,
-      "tip": [
-        "U: -e, --exec <command>",
-        "Execute the specified command without using the default Linux shell"
+      "next": [
+        {
+          "name": "--bare",
+          "tip": [
+            "Attach the disk to WSL2 without mounting it"
+          ]
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <Name>",
+            "Use a custom name for the mount point"
+          ]
+        },
+        {
+          "name": "--partition",
+          "tip": [
+            "U: --partition <Index>",
+            "Partition index to mount, defaults to the entire disk if not specified"
+          ]
+        },
+        {
+          "name": "--type",
+          "tip": [
+            "U: --type <Type>",
+            "File system to use when mounting the disk, defaults to ext4 if not specified"
+          ]
+        },
+        {
+          "name": "--vhd",
+          "tip": [
+            "U: --vhd <Disk>",
+            "Specify that <Disk> represents a virtual hard disk"
+          ]
+        }
       ]
+    },
+    {
+      "name": "--release-notes",
+      "tip": [
+        "Open a web browser to view the WSL release notes page"
+      ]
+    },
+    {
+      "name": "--set-default-version",
+      "tip": [
+        "U: --set-default-version <Version>",
+        "Change the default installation version for new distributions"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--set-version",
+      "tip": [
+        "U: --set-version <Distribution> <Version>",
+        "Change the version of the specified distribution"
+      ],
+      "next": 0
     },
     {
       "name": "--shell-type",
@@ -293,12 +223,6 @@
         "E: -shell-type standard   --- Execute the specified command using the default Linux shell"
       ],
       "next": [
-        {
-          "name": "standard",
-          "tip": [
-            "Execute the specified command using the default Linux shell"
-          ]
-        },
         {
           "name": "login",
           "tip": [
@@ -310,25 +234,13 @@
           "tip": [
             "Execute the specified command without using the default Linux shell"
           ]
+        },
+        {
+          "name": "standard",
+          "tip": [
+            "Execute the specified command using the default Linux shell"
+          ]
         }
-      ]
-    },
-    {
-      "name": "--debug-shell",
-      "tip": [
-        "Open a WSL2 debug shell for diagnostics"
-      ]
-    },
-    {
-      "name": "--event-viewer",
-      "tip": [
-        "Open the Application view of Windows Event Viewer"
-      ]
-    },
-    {
-      "name": "--release-notes",
-      "tip": [
-        "Open a web browser to view the WSL release notes page"
       ]
     },
     {
@@ -345,31 +257,121 @@
       ]
     },
     {
+      "name": "--system",
+      "tip": [
+        "Start a shell for the system distribution"
+      ]
+    },
+    {
       "name": "--unmount",
-      "next": 0,
       "tip": [
         "U: --unmount [Disk]",
         "Unmount and detach a disk from all WSL2 distributions",
         "If called without parameters, unmount and detach all disks"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unregister",
+      "tip": [
+        "U: --unregister <Distribution>",
+        "Unregister the distribution and delete the root file system"
       ]
     },
     {
-      "name": "-v",
+      "name": "--update",
+      "tip": [
+        "Update Windows Subsystem for Linux (WSL) packages"
+      ],
+      "next": [
+        {
+          "name": "--pre-release",
+          "tip": [
+            "Download pre-release versions if available (implies --web-download)"
+          ]
+        },
+        {
+          "name": "--web-download",
+          "tip": [
+            "Download updates from the Internet instead of the Microsoft Store"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-d",
       "alias": [
-        "--version"
+        "--distribution"
       ],
       "tip": [
-        "U: -v, --version",
-        "Check version information about WSL and its components"
+        "U: -d, --distribution <Distro>",
+        "Run the specified distribution"
       ]
     },
     {
-      "name": "--import-in-place",
-      "next": 0,
+      "name": "-e",
+      "alias": [
+        "--exec"
+      ],
       "tip": [
-        "U: --import-in-place <Distro> <FileName>",
-        "Import the specified .vhdx as a new distribution.",
-        "This virtual hard disk must be formatted with the ext4 file system type"
+        "U: -e, --exec <command>",
+        "Execute the specified command without using the default Linux shell"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-l",
+      "alias": [
+        "--list"
+      ],
+      "tip": [
+        "U: -l, --list [options]",
+        "List distributions"
+      ],
+      "next": [
+        {
+          "name": "--all",
+          "tip": [
+            "List all distributions",
+            "Including those currently being installed or uninstalled"
+          ]
+        },
+        {
+          "name": "--running",
+          "tip": [
+            "List only currently running distributions"
+          ]
+        },
+        {
+          "name": "-o",
+          "alias": [
+            "--online"
+          ],
+          "tip": [
+            "U: -o, --online",
+            "Show a list of available distributions that can be installed"
+          ]
+        },
+        {
+          "name": "-q",
+          "alias": [
+            "--quiet"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Show only distribution names"
+          ]
+        },
+        {
+          "name": "-v",
+          "alias": [
+            "--verbose"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Show detailed information for all distributions"
+          ]
+        }
       ]
     },
     {
@@ -383,22 +385,6 @@
       ]
     },
     {
-      "name": "--set-version",
-      "next": 0,
-      "tip": [
-        "U: --set-version <Distribution> <Version>",
-        "Change the version of the specified distribution"
-      ]
-    },
-    {
-      "name": "--set-default-version",
-      "next": 0,
-      "tip": [
-        "U: --set-default-version <Version>",
-        "Change the default installation version for new distributions"
-      ]
-    },
-    {
       "name": "-t",
       "alias": [
         "--terminate"
@@ -409,10 +395,24 @@
       ]
     },
     {
-      "name": "--unregister",
+      "name": "-u",
+      "alias": [
+        "--user"
+      ],
       "tip": [
-        "U: --unregister <Distribution>",
-        "Unregister the distribution and delete the root file system"
+        "U: -u, --user <user>",
+        "Run as the specified user"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-v",
+      "alias": [
+        "--version"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Check version information about WSL and its components"
       ]
     }
   ],
@@ -427,10 +427,10 @@
   "info": {
     "tip": {
       "--distribution": "Run distribution -- {{ $Distro }}",
+      "--export": "Export distribution -- {{ $Distro }}",
       "--set-default": "Set default distribution --- {{ $Distro }}",
       "--terminate": "Terminate distribution -- {{ $Distro }}",
-      "--unregister": "Unregister distribution -- {{$Distro}}",
-      "--export": "Export distribution -- {{ $Distro }}"
+      "--unregister": "Unregister distribution -- {{$Distro}}"
     }
   }
 }

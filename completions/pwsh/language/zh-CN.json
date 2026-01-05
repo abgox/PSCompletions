@@ -7,19 +7,12 @@
   },
   "options": [
     {
-      "name": "-File",
+      "name": "--version",
       "alias": [
-        "-f"
+        "-v"
       ],
       "tip": [
-        "U: -File <filePath> [args]",
-        "File 的值可以是 -,文件路径和可选参数。如果值为 -，则从标准输入读取命令。",
-        "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
-      ],
-      "next": [
-        {
-          "name": "-"
-        }
+        "显示版本信息。"
       ]
     },
     {
@@ -43,44 +36,44 @@
       "alias": [
         "-cwa"
       ],
-      "next": 0,
       "tip": [
         "U: -CommandWithArgs <string>",
         "使用参数执行 PowerShell 命令。",
         "与 -Command 不同，此参数填充可供命令使用的 $args 内置 -i 变量。",
         "第一个字符串是命令。 用空格分隔的其他字符串是参数。"
-      ]
+      ],
+      "next": 0
+    },
+    {
+      "name": "-ConfigurationFile",
+      "tip": [
+        "U: -ConfigurationFile <filePath>",
+        "指定会话配置 (.pssc) 文件路径。",
+        "配置文件中包含的配置将应用于 PowerShell 会话。"
+      ],
+      "next": 0
     },
     {
       "name": "-ConfigurationName",
       "alias": [
         "-config"
       ],
-      "next": 0,
       "tip": [
         "U: -ConfigurationName <string>",
         "指定运行 PowerShell 的配置终结点。",
         "可以是在本地计算机上注册的任何终结点，包括默认 PowerShell 远程处理终结点或具有特定用户角色功能的自定义终结点。"
-      ]
-    },
-    {
-      "name": "-ConfigurationFile",
-      "next": 0,
-      "tip": [
-        "U: -ConfigurationFile <filePath>",
-        "指定会话配置 (.pssc) 文件路径。",
-        "配置文件中包含的配置将应用于 PowerShell 会话。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "-CustomPipeName",
-      "next": 0,
       "tip": [
         "U: -CustomPipeName <string>",
         "指定要用于调试和其他跨进程通信的其他 IPC 服务器（命名管道）的名称。",
         "这提供了连接到其他 PowerShell 实例的可预测机制。",
         "通常与 Enter-PSHostProcess 上的 CustomPipeName 参数一起使用。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "-EncodedCommand",
@@ -88,13 +81,13 @@
         "-e",
         "-ec"
       ],
-      "next": 0,
       "tip": [
         "U: -EncodedCommand <Base64EncodedCommand>",
         "接受命令的 Base-e64 编码字符串版本。",
         "使用此参数将命令提交到需要复杂嵌套引用的 PowerShell。",
         "Base64 表示形式必须是 UTF-16LE 编码的字符串。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "-ExecutionPolicy",
@@ -102,12 +95,28 @@
         "-ex",
         "-ep"
       ],
-      "next": 0,
       "tip": [
         "U: -ExecutionPolicy <ExecutionPolicy>",
         "为当前会话设置默认执行策略，并将其保存在 $env:PSExecutionPolicyPreference 环境变量中。",
         "此参数不会更改持久配置的执行策略。",
         "此参数仅适用于 Windows 计算机。在非 Windows 平台上，将忽略提供的参数和值。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-File",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -File <filePath> [args]",
+        "File 的值可以是 -,文件路径和可选参数。如果值为 -，则从标准输入读取命令。",
+        "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
+      ],
+      "next": [
+        {
+          "name": "-"
+        }
       ]
     },
     {
@@ -227,13 +236,13 @@
       "alias": [
         "-settings"
       ],
-      "next": 0,
       "tip": [
         "U: -SettingsFile <filePath>",
         "替代会话的 system-wide powershell.config.json 设置文件。",
         "默认情况下，system-wide 设置从 $PSHOME 目录中的 powershell.config.json 读取。",
         "请注意，-ConfigurationName 参数指定的终结点不使用这些设置。"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "-SSHServerMode",
@@ -265,15 +274,15 @@
       ],
       "next": [
         {
-          "name": "Normal",
-          "tip": [
-            "正常窗口。"
-          ]
-        },
-        {
           "name": "Hidden",
           "tip": [
             "隐藏窗口。"
+          ]
+        },
+        {
+          "name": "Maximized",
+          "tip": [
+            "最大化窗口。"
           ]
         },
         {
@@ -283,9 +292,9 @@
           ]
         },
         {
-          "name": "Maximized",
+          "name": "Normal",
           "tip": [
-            "最大化窗口。"
+            "正常窗口。"
           ]
         }
       ]
@@ -309,15 +318,6 @@
             "当前用户的 home 目录。"
           ]
         }
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-v"
-      ],
-      "tip": [
-        "显示版本信息。"
       ]
     }
   ],

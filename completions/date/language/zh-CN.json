@@ -8,6 +8,41 @@
   },
   "options": [
     {
+      "name": "--debug",
+      "tip": [
+        "annotate the parsed date, and warn about questionable usage to stderr"
+      ]
+    },
+    {
+      "name": "--rfc-3339",
+      "tip": [
+        "U: --rfc-3339 <FMT>",
+        "output date/time in RFC 3339 format.",
+        "FMT='date', 'seconds', or 'ns' for date and time to the indicated precision.",
+        "Example: 2006-08-14 02:34:56-06:00"
+      ],
+      "next": [
+        {
+          "name": "date"
+        },
+        {
+          "name": "ns"
+        },
+        {
+          "name": "seconds"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "显示版本信息。"
+      ]
+    },
+    {
       "name": "-d",
       "alias": [
         "--date"
@@ -27,11 +62,11 @@
       "alias": [
         "--file"
       ],
-      "next": 0,
       "tip": [
         "U: -f, --file <DATEFILE>",
         "like --date; once for each line of DATEFILE"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "-I",
@@ -58,12 +93,23 @@
           "name": "minutes"
         },
         {
-          "name": "seconds"
+          "name": "ns"
         },
         {
-          "name": "ns"
+          "name": "seconds"
         }
       ]
+    },
+    {
+      "name": "-r",
+      "alias": [
+        "--reference"
+      ],
+      "tip": [
+        "U: -r, --reference <FILE>",
+        "display the last modification time of FILE"
+      ],
+      "next": 0
     },
     {
       "name": "-R",
@@ -73,43 +119,6 @@
       "tip": [
         "output date and time in RFC 5322 format.",
         "Example: Mon, 14 Aug 2006 02:34:56 -0600"
-      ]
-    },
-    {
-      "name": "--rfc-3339",
-      "tip": [
-        "U: --rfc-3339 <FMT>",
-        "output date/time in RFC 3339 format.",
-        "FMT='date', 'seconds', or 'ns' for date and time to the indicated precision.",
-        "Example: 2006-08-14 02:34:56-06:00"
-      ],
-      "next": [
-        {
-          "name": "date"
-        },
-        {
-          "name": "seconds"
-        },
-        {
-          "name": "ns"
-        }
-      ]
-    },
-    {
-      "name": "--debug",
-      "tip": [
-        "annotate the parsed date, and warn about questionable usage to stderr"
-      ]
-    },
-    {
-      "name": "-r",
-      "alias": [
-        "--reference"
-      ],
-      "next": 0,
-      "tip": [
-        "U: -r, --reference <FILE>",
-        "display the last modification time of FILE"
       ]
     },
     {
@@ -129,15 +138,6 @@
       ],
       "tip": [
         "print or set Coordinated Universal Time (UTC)"
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "tip": [
-        "显示版本信息。"
       ]
     }
   ],

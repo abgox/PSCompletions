@@ -8,6 +8,87 @@
   },
   "options": [
     {
+      "name": "--apparent-size",
+      "tip": [
+        "print apparent sizes, rather than disk usage although the apparent size is usually smaller,",
+        "it may be larger due to holes in ('sparse') files, internal fragmentation, indirect blocks, and the like"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "tip": [
+        "U: --exclude <PATTERN>",
+        "exclude files that match PATTERN"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--files0-from",
+      "tip": [
+        "summarize device usage of the NUL-terminated file names specified in file F;",
+        "if F is -, then read names from standard input"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--inodes",
+      "tip": [
+        "list inode usage information instead of block usage like --block-size=1K"
+      ]
+    },
+    {
+      "name": "--si",
+      "tip": [
+        "like -h, but use powers of 1000 not 1024"
+      ]
+    },
+    {
+      "name": "--time",
+      "tip": [
+        "U: --time[=<WORD>...]",
+        "show time of the last modification of any file in the directory, or any of its subdirectories.",
+        "If WORD is given, show time as WORD instead of modification time: atime, access, use, ctime, status, birth or creation",
+        "[possible values: atime, ctime, creation]"
+      ],
+      "next": [
+        {
+          "name": "atime"
+        },
+        {
+          "name": "creation"
+        },
+        {
+          "name": "ctime"
+        }
+      ]
+    },
+    {
+      "name": "--time-style",
+      "tip": [
+        "U: --time-style <STYLE>",
+        "show times using style STYLE: full-iso, long-iso, iso, +FORMAT FORMAT is interpreted like 'date'"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "Show the version."
+      ]
+    },
+    {
+      "name": "-0",
+      "alias": [
+        "--null"
+      ],
+      "tip": [
+        "end each output line with 0 byte rather than newline"
+      ]
+    },
+    {
       "name": "-a",
       "alias": [
         "--all"
@@ -17,10 +98,12 @@
       ]
     },
     {
-      "name": "--apparent-size",
+      "name": "-b",
+      "alias": [
+        "--bytes"
+      ],
       "tip": [
-        "print apparent sizes, rather than disk usage although the apparent size is usually smaller,",
-        "it may be larger due to holes in ('sparse') files, internal fragmentation, indirect blocks, and the like"
+        "equivalent to '--apparent-size --block-size=1'"
       ]
     },
     {
@@ -35,15 +118,15 @@
       ],
       "next": [
         {
-          "name": "K",
+          "name": "E",
           "tip": [
             "powers of 1024"
           ]
         },
         {
-          "name": "M",
+          "name": "EB",
           "tip": [
-            "powers of 1024"
+            "powers of 1000"
           ]
         },
         {
@@ -53,31 +136,13 @@
           ]
         },
         {
-          "name": "T",
+          "name": "GB",
           "tip": [
-            "powers of 1024"
+            "powers of 1000"
           ]
         },
         {
-          "name": "P",
-          "tip": [
-            "powers of 1024"
-          ]
-        },
-        {
-          "name": "E",
-          "tip": [
-            "powers of 1024"
-          ]
-        },
-        {
-          "name": "Z",
-          "tip": [
-            "powers of 1024"
-          ]
-        },
-        {
-          "name": "Y",
+          "name": "K",
           "tip": [
             "powers of 1024"
           ]
@@ -89,21 +154,21 @@
           ]
         },
         {
+          "name": "M",
+          "tip": [
+            "powers of 1024"
+          ]
+        },
+        {
           "name": "MB",
           "tip": [
             "powers of 1000"
           ]
         },
         {
-          "name": "GB",
+          "name": "P",
           "tip": [
-            "powers of 1000"
-          ]
-        },
-        {
-          "name": "TB",
-          "tip": [
-            "powers of 1000"
+            "powers of 1024"
           ]
         },
         {
@@ -113,15 +178,21 @@
           ]
         },
         {
-          "name": "EB",
+          "name": "T",
+          "tip": [
+            "powers of 1024"
+          ]
+        },
+        {
+          "name": "TB",
           "tip": [
             "powers of 1000"
           ]
         },
         {
-          "name": "ZB",
+          "name": "Y",
           "tip": [
-            "powers of 1000"
+            "powers of 1024"
           ]
         },
         {
@@ -129,16 +200,19 @@
           "tip": [
             "powers of 1000"
           ]
+        },
+        {
+          "name": "Z",
+          "tip": [
+            "powers of 1024"
+          ]
+        },
+        {
+          "name": "ZB",
+          "tip": [
+            "powers of 1000"
+          ]
         }
-      ]
-    },
-    {
-      "name": "-b",
-      "alias": [
-        "--bytes"
-      ],
-      "tip": [
-        "equivalent to '--apparent-size --block-size=1'"
       ]
     },
     {
@@ -170,18 +244,22 @@
       ]
     },
     {
+      "name": "-D",
+      "alias": [
+        "-H",
+        "--dereference-args"
+      ],
+      "tip": [
+        "follow only symlinks that are listed on the command line"
+      ]
+    },
+    {
       "name": "-h",
       "alias": [
         "--human-readable"
       ],
       "tip": [
         "print sizes in human readable format (e.g., 1K 234M 2G)"
-      ]
-    },
-    {
-      "name": "--inodes",
-      "tip": [
-        "list inode usage information instead of block usage like --block-size=1K"
       ]
     },
     {
@@ -209,13 +287,9 @@
       ]
     },
     {
-      "name": "-D",
-      "alias": [
-        "-H",
-        "--dereference-args"
-      ],
+      "name": "-m",
       "tip": [
-        "follow only symlinks that are listed on the command line"
+        "like --block-size=1M"
       ]
     },
     {
@@ -228,18 +302,12 @@
       ]
     },
     {
-      "name": "-m",
-      "tip": [
-        "like --block-size=1M"
-      ]
-    },
-    {
-      "name": "-0",
+      "name": "-s",
       "alias": [
-        "--null"
+        "--summarize"
       ],
       "tip": [
-        "end each output line with 0 byte rather than newline"
+        "display only a total for each argument"
       ]
     },
     {
@@ -252,18 +320,23 @@
       ]
     },
     {
-      "name": "-s",
+      "name": "-t",
       "alias": [
-        "--summarize"
+        "--threshold"
       ],
       "tip": [
-        "display only a total for each argument"
-      ]
+        "U: -t, --threshold <SIZE>",
+        "exclude entries smaller than SIZE if positive, or entries greater than SIZE if negative"
+      ],
+      "next": 0
     },
     {
-      "name": "--si",
+      "name": "-v",
+      "alias": [
+        "--verbose"
+      ],
       "tip": [
-        "like -h, but use powers of 1000 not 1024"
+        "verbose mode (option not present in GNU/Coreutils)"
       ]
     },
     {
@@ -276,88 +349,15 @@
       ]
     },
     {
-      "name": "-t",
-      "alias": [
-        "--threshold"
-      ],
-      "next": 0,
-      "tip": [
-        "U: -t, --threshold <SIZE>",
-        "exclude entries smaller than SIZE if positive, or entries greater than SIZE if negative"
-      ]
-    },
-    {
-      "name": "-v",
-      "alias": [
-        "--verbose"
-      ],
-      "tip": [
-        "verbose mode (option not present in GNU/Coreutils)"
-      ]
-    },
-    {
-      "name": "--exclude",
-      "next": 0,
-      "tip": [
-        "U: --exclude <PATTERN>",
-        "exclude files that match PATTERN"
-      ]
-    },
-    {
       "name": "-X",
       "alias": [
         "--exclude-from"
       ],
-      "next": 0,
       "tip": [
         "U: -X, --exclude-from <FILE>",
         "exclude files that match any pattern in FILE"
-      ]
-    },
-    {
-      "name": "--files0-from",
-      "next": 0,
-      "tip": [
-        "summarize device usage of the NUL-terminated file names specified in file F;",
-        "if F is -, then read names from standard input"
-      ]
-    },
-    {
-      "name": "--time",
-      "tip": [
-        "U: --time[=<WORD>...]",
-        "show time of the last modification of any file in the directory, or any of its subdirectories.",
-        "If WORD is given, show time as WORD instead of modification time: atime, access, use, ctime, status, birth or creation",
-        "[possible values: atime, ctime, creation]"
       ],
-      "next": [
-        {
-          "name": "atime"
-        },
-        {
-          "name": "ctime"
-        },
-        {
-          "name": "creation"
-        }
-      ]
-    },
-    {
-      "name": "--time-style",
-      "next": 0,
-      "tip": [
-        "U: --time-style <STYLE>",
-        "show times using style STYLE: full-iso, long-iso, iso, +FORMAT FORMAT is interpreted like 'date'"
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "tip": [
-        "Show the version."
-      ]
+      "next": 0
     }
   ],
   "common_options": [

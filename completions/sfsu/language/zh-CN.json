@@ -7,27 +7,9 @@
   },
   "root": [
     {
-      "name": "search",
+      "name": "app",
       "tip": [
-        "Search for a package"
-      ]
-    },
-    {
-      "name": "list",
-      "tip": [
-        "List all installed packages"
-      ]
-    },
-    {
-      "name": "hook",
-      "tip": [
-        "Generate hooks for the given shell"
-      ]
-    },
-    {
-      "name": "unused-buckets",
-      "tip": [
-        "Find buckets that do not have any installed packages"
+        "Commands for managing apps"
       ]
     },
     {
@@ -37,51 +19,9 @@
       ]
     },
     {
-      "name": "describe",
+      "name": "cache",
       "tip": [
-        "Describe a package"
-      ]
-    },
-    {
-      "name": "info",
-      "tip": [
-        "Display information about a package"
-      ]
-    },
-    {
-      "name": "outdated",
-      "tip": [
-        "List outdated buckets and/or packages"
-      ]
-    },
-    {
-      "name": "depends",
-      "tip": [
-        "List the dependencies of a given package, in the order that they will be installed"
-      ]
-    },
-    {
-      "name": "download",
-      "tip": [
-        "Download the specified app"
-      ]
-    },
-    {
-      "name": "status",
-      "tip": [
-        "Show status and check for new app versions"
-      ]
-    },
-    {
-      "name": "update",
-      "tip": [
-        "Update Scoop and Scoop buckets"
-      ]
-    },
-    {
-      "name": "home",
-      "tip": [
-        "Opens the app homepage"
+        "Show or clear the download cache"
       ]
     },
     {
@@ -91,27 +31,9 @@
       ]
     },
     {
-      "name": "export",
-      "tip": [
-        "Exports installed apps, buckets (and optionally configs) in JSON format"
-      ]
-    },
-    {
       "name": "checkup",
       "tip": [
         "Check for common issues"
-      ]
-    },
-    {
-      "name": "cache",
-      "tip": [
-        "Show or clear the download cache"
-      ]
-    },
-    {
-      "name": "scan",
-      "tip": [
-        "Scan a file with `VirusTotal`"
       ]
     },
     {
@@ -121,15 +43,93 @@
       ]
     },
     {
-      "name": "app",
+      "name": "depends",
       "tip": [
-        "Commands for managing apps"
+        "List the dependencies of a given package, in the order that they will be installed"
+      ]
+    },
+    {
+      "name": "describe",
+      "tip": [
+        "Describe a package"
+      ]
+    },
+    {
+      "name": "download",
+      "tip": [
+        "Download the specified app"
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "Exports installed apps, buckets (and optionally configs) in JSON format"
       ]
     },
     {
       "name": "help",
       "tip": [
         "Print this message or the help of the given subcommand(s)"
+      ]
+    },
+    {
+      "name": "home",
+      "tip": [
+        "Opens the app homepage"
+      ]
+    },
+    {
+      "name": "hook",
+      "tip": [
+        "Generate hooks for the given shell"
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "Display information about a package"
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "List all installed packages"
+      ]
+    },
+    {
+      "name": "outdated",
+      "tip": [
+        "List outdated buckets and/or packages"
+      ]
+    },
+    {
+      "name": "scan",
+      "tip": [
+        "Scan a file with `VirusTotal`"
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "Search for a package"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Show status and check for new app versions"
+      ]
+    },
+    {
+      "name": "unused-buckets",
+      "tip": [
+        "Find buckets that do not have any installed packages"
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "Update Scoop and Scoop buckets"
       ]
     }
   ],
@@ -146,10 +146,20 @@
   ],
   "common_options": [
     {
-      "name": "--no-color",
+      "name": "--disable-git",
       "tip": [
-        "Disable terminal formatting",
-        "[env: NO_COLOR=]"
+        "Disable using git commands for certain parts of the program.",
+        "Allows sfsu to work entirely if you don't have git installed, but can negatively affect performance.",
+        "[env: DISABLE_GIT=]"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "显示帮助信息。"
       ]
     },
     {
@@ -159,20 +169,10 @@
       ]
     },
     {
-      "name": "-v",
-      "alias": [
-        "--verbose"
-      ],
+      "name": "--no-color",
       "tip": [
-        "Enable verbose logging"
-      ]
-    },
-    {
-      "name": "--disable-git",
-      "tip": [
-        "Disable using git commands for certain parts of the program.",
-        "Allows sfsu to work entirely if you don't have git installed, but can negatively affect performance.",
-        "[env: DISABLE_GIT=]"
+        "Disable terminal formatting",
+        "[env: NO_COLOR=]"
       ]
     },
     {
@@ -185,21 +185,21 @@
       ]
     },
     {
+      "name": "-v",
+      "alias": [
+        "--verbose"
+      ],
+      "tip": [
+        "Enable verbose logging"
+      ]
+    },
+    {
       "name": "-y",
       "alias": [
         "--assume-yes"
       ],
       "tip": [
         "Assume \"yes\" as answer to prompts"
-      ]
-    },
-    {
-      "name": "--help",
-      "alias": [
-        "-h"
-      ],
-      "tip": [
-        "显示帮助信息。"
       ]
     }
   ]
