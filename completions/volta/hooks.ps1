@@ -19,9 +19,12 @@ function handleCompletions($completions) {
 
     $tool_list = @("node", "npm", "pnpm", "yarn")
 
-    $filter_input_arr = $PSCompletions.filter_input_arr
+    $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude options parameters
+    $first_item = $filter_input_arr[0] # The first subcommand
+    $last_item = $filter_input_arr[-1] # The last subcommand
 
-    switch ($filter_input_arr[-1]) {
+    switch ($last_item) {
         'pin' {
             foreach ($l in $tool_list) {
                 $versionList = Get-ChildItem "$toolsDir\$l" -Directory

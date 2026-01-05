@@ -11,8 +11,10 @@
     $global_path = $config.global_path
     $CN = $PSUICulture -like 'zh*'
 
-    # $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr
+    $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude options parameters
+    $first_item = $filter_input_arr[0] # The first subcommand
+    $last_item = $filter_input_arr[-1] # The last subcommand
 
     # 是否需要添加应用补全
     $addApp = $true
@@ -25,7 +27,7 @@
     }
     $list += $PSCompletions.return_completion('-reset', $resetTip, @('OptionTab'))
 
-    if ($filter_input_arr[-1] -notlike '-*') {
+    if ($last_item -notlike '-*') {
         $paramList = @(
             '-g', '--global',
             '-i', '--independent',
