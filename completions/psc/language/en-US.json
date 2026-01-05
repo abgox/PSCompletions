@@ -9,21 +9,6 @@
   },
   "root": [
     {
-      "name": "list",
-      "tip": [
-        "Display the completions that have been added.",
-        "{{ $json.info.list.example }}"
-      ],
-      "options": [
-        {
-          "name": "--remote",
-          "tip": [
-            "Display all available completions in the repository ({{ $PSCompletions.url }})."
-          ]
-        }
-      ]
-    },
-    {
       "name": "add",
       "tip": [
         "Add completion. (one or more)",
@@ -41,73 +26,6 @@
       ]
     },
     {
-      "name": "rm",
-      "tip": [
-        "Remove completion. (one or more)",
-        "{{ $info.rm.example }}"
-      ],
-      "next": [
-        {
-          "name": "*",
-          "tip": [
-            "Remove all completions.",
-            "Note: psc will be automatically re-added after removing."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "update",
-      "tip": [
-        "Update completion. (one or more)",
-        "{{ $info.update.example }}"
-      ],
-      "next": [
-        {
-          "name": "*",
-          "tip": [
-            "Update all completions that can be updated.",
-            "{{",
-            "if($PSCompletions.update){ \"List: $($PSCompletions.update -join ',')\" }",
-            "else{'All completions are the latest!'}",
-            "}}"
-          ],
-          "options": [
-            {
-              "name": "--force",
-              "tip": [
-                "Force update of all added completions.",
-                "(It ensures that completions be latest.)"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "search",
-      "tip": [
-        "Search completion. (Wildcard character can be used)",
-        "{{ $info.search.example }}"
-      ],
-      "next": [
-        {
-          "name": "*",
-          "tip": [
-            "Search all available completions."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "which",
-      "tip": [
-        "Locate completion storage location.",
-        "{{ $info.which.example }}"
-      ],
-      "next": []
-    },
-    {
       "name": "alias",
       "tip": [
         "Manage the alias that triggers completion.",
@@ -117,12 +35,6 @@
       ],
       "next": [
         {
-          "name": "list",
-          "tip": [
-            "Display all completion aliases."
-          ]
-        },
-        {
           "name": "add",
           "tip": [
             "Add one or more alias for the specified completion.",
@@ -131,6 +43,12 @@
             "{{ $info.alias.add.example }}"
           ],
           "next": []
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Display all completion aliases."
+          ]
         },
         {
           "name": "rm",
@@ -143,71 +61,21 @@
       ]
     },
     {
+      "name": "completion",
+      "tip": [
+        "Specify a configuration for a completion. (These configurations have the highest priority.)",
+        "By default, each completion comes with multiple special configurations. ({{ $PSCompletions.default_completion_item -join '|' }})",
+        "{{ $info.completion.example }}"
+      ],
+      "next": []
+    },
+    {
       "name": "config",
       "tip": [
         "Get/Set the configuration of the module.",
         "{{ $info.config.example }}"
       ],
       "next": [
-        {
-          "name": "url",
-          "tip": [
-            "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
-            "Set the url of the current remote completion data.",
-            "The default value is \"\", which means use the default repository (Github/Gitee)",
-            "{{ $info.config.url.example }}"
-          ],
-          "next": [
-            {
-              "name": "\"\"",
-              "tip": [
-                "Set to \"\" (Default)",
-                "It means the repository will be selected based on the language (Github/Gitee)."
-              ]
-            },
-            {
-              "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
-              "tip": [
-                "Use Github as the completion source."
-              ]
-            },
-            {
-              "name": "\"https://gitee.com/abgox/PSCompletions/raw/main\"",
-              "tip": [
-                "Use Gitee as the completion source."
-              ]
-            },
-            {
-              "name": "\"https://abgox.github.io/PSCompletions\"",
-              "tip": [
-                "Use Github Pages as the completion source."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "language",
-          "tip": [
-            "Current Value: {{ $PSCompletions.language }}",
-            "Get or set the language of completions.",
-            "The language will affect all added completions unless you set a language for one of them by running 'psc completion xxx'.",
-            "Refer to: https://github.com/abgox/PSCompletions/blob/main/README.md#about-language"
-          ],
-          "next": [
-            {
-              "name": "zh-CN",
-              "tip": [
-                "Set the language to zh-CN.",
-                "{{ ",
-                "if(!$PSCompletions.config.url){",
-                "  $gitee=$PSCompletions.config.gitee;",
-                "  if($gitee){ \"`nAfter setting to zh-CN, when you add completion, it will be fetched from the Gitee repo. ($($gitee))\" }",
-                "}",
-                "}}"
-              ]
-            }
-          ]
-        },
         {
           "name": "enable_auto_alias_setup",
           "tip": [
@@ -217,15 +85,40 @@
           ],
           "next": [
             {
+              "name": "0",
+              "tip": [
+                "Set to 0"
+              ]
+            },
+            {
               "name": "1",
               "tip": [
                 "Set to 1 (Default)"
               ]
-            },
+            }
+          ]
+        },
+        {
+          "name": "enable_cache",
+          "tip": [
+            "Current Value: {{ $PSCompletions.config.enable_cache }} (Default: 1)",
+            "Set whether to enable completion cache."
+          ],
+          "next": [
             {
               "name": "0",
               "tip": [
-                "Set to 0"
+                "Set to 0",
+                "Disable completion cache.",
+                "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Set to 1 (Default)",
+                "Enable completion cache.",
+                "It will make the completion load faster, and it's recommended to keep the default."
               ]
             }
           ]
@@ -239,18 +132,18 @@
           ],
           "next": [
             {
-              "name": "1",
-              "tip": [
-                "Set to 1 (Default)",
-                "Show update message when loading PSCompletions module at first."
-              ]
-            },
-            {
               "name": "0",
               "tip": [
                 "Set to 0",
                 "Don't show update message when loading PSCompletions module at first.",
                 "Note: It's not recommended to disable it, because it will help you get the latest update information in time."
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Set to 1 (Default)",
+                "Show update message when loading PSCompletions module at first."
               ]
             }
           ]
@@ -265,13 +158,6 @@
           ],
           "next": [
             {
-              "name": "1",
-              "tip": [
-                "Set to 1 (Default)",
-                "Show update message when PSCompletions module has a new version."
-              ]
-            },
-            {
               "name": "0",
               "tip": [
                 "Set to 0",
@@ -279,30 +165,12 @@
                 "Note: It's not recommended to close it. The remote repository always matches the latest version of PSCompletions.",
                 "      If there is a module error, make sure you are using the latest version of the PSCompletions module."
               ]
-            }
-          ]
-        },
-        {
-          "name": "enable_cache",
-          "tip": [
-            "Current Value: {{ $PSCompletions.config.enable_cache }} (Default: 1)",
-            "Set whether to enable completion cache."
-          ],
-          "next": [
+            },
             {
               "name": "1",
               "tip": [
                 "Set to 1 (Default)",
-                "Enable completion cache.",
-                "It will make the completion load faster, and it's recommended to keep the default."
-              ]
-            },
-            {
-              "name": "0",
-              "tip": [
-                "Set to 0",
-                "Disable completion cache.",
-                "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
+                "Show update message when PSCompletions module has a new version."
               ]
             }
           ]
@@ -322,17 +190,92 @@
               ]
             }
           ]
+        },
+        {
+          "name": "language",
+          "tip": [
+            "Current Value: {{ $PSCompletions.language }}",
+            "Get or set the language of completions.",
+            "The language will affect all added completions unless you set a language for one of them by running 'psc completion xxx'.",
+            "Refer to: https://github.com/abgox/PSCompletions/blob/main/README.md#about-language"
+          ],
+          "next": [
+            {
+              "name": "en-US",
+              "tip": [
+                "Set the language to en-US.",
+                "{{ ",
+                "if(!$PSCompletions.config.url){",
+                "  \"`nIt will use Github repo as the completion source.`nYou can also specify the source by running 'psc config url <url>'.\"",
+                "}",
+                "}}"
+              ]
+            },
+            {
+              "name": "zh-CN",
+              "tip": [
+                "Set the language to zh-CN.",
+                "{{ ",
+                "if(!$PSCompletions.config.url){",
+                "  \"`nIt will use Gitee repo as the completion source.`nYou can also specify the source by running 'psc config url <url>'.\"",
+                "}",
+                "}}"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "url",
+          "tip": [
+            "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
+            "Set the url of the current remote completion data.",
+            "The default value is \"\", which means use the default repository (Github/Gitee)",
+            "{{ $info.config.url.example }}"
+          ],
+          "next": [
+            {
+              "name": "\"\"",
+              "tip": [
+                "Set to \"\" (Default)",
+                "It means the repository will be selected based on the language (Github/Gitee)."
+              ]
+            },
+            {
+              "name": "\"https://abgox.github.io/PSCompletions\"",
+              "tip": [
+                "Use Github Pages as the completion source."
+              ]
+            },
+            {
+              "name": "\"https://gitee.com/abgox/PSCompletions/raw/main\"",
+              "tip": [
+                "Use Gitee as the completion source."
+              ]
+            },
+            {
+              "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
+              "tip": [
+                "Use Github as the completion source."
+              ]
+            }
+          ]
         }
       ]
     },
     {
-      "name": "completion",
+      "name": "list",
       "tip": [
-        "Specify a configuration for a completion. (These configurations have the highest priority.)",
-        "By default, each completion comes with multiple special configurations. ({{ $PSCompletions.default_completion_item -join '|' }})",
-        "{{ $info.completion.example }}"
+        "Display the completions that have been added.",
+        "{{ $json.info.list.example }}"
       ],
-      "next": []
+      "options": [
+        {
+          "name": "--remote",
+          "tip": [
+            "Display all available completions in the repository ({{ $PSCompletions.url }})."
+          ]
+        }
+      ]
     },
     {
       "name": "menu",
@@ -341,170 +284,6 @@
         "{{ $info.menu.example}}"
       ],
       "next": [
-        {
-          "name": "symbol",
-          "tip": [
-            "Set some special symbols(~?!) in the completion tip.",
-            "They only exist in completions added via `psc add`.",
-            "For detail: https://pscompletions.abgox.com/command/#menu-symbol"
-          ],
-          "next": [
-            {
-              "name": "SpaceTab",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.SpaceTab }}",
-                "You can hide it by the command. (psc menu symbol SpaceTab \"\")"
-              ],
-              "next": [
-                {
-                  "name": "~",
-                  "tip": [
-                    "Set to ~ (Default)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "Set to \"\"",
-                    "It can hide symbols, but it's not recommended.",
-                    "It's more recommended that you modify them to your liking.",
-                    "Because these symbols let you know if you can continue to get completions."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "OptionTab",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.OptionTab }}",
-                "You can hide it by the command. (psc menu symbol OptionTab \"\")"
-              ],
-              "next": [
-                {
-                  "name": "?",
-                  "tip": [
-                    "Set to ? (Default)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "Set to \"\"",
-                    "It can hide symbols, but it's not recommended.",
-                    "It's more recommended that you modify them to your liking.",
-                    "Because these symbols let you know if you can continue to get completions."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "WriteSpaceTab",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.WriteSpaceTab }}",
-                "You can hide it by the command. (psc menu symbol WriteSpaceTab \"\")"
-              ],
-              "next": [
-                {
-                  "name": "!",
-                  "tip": [
-                    "Set to ! (Default)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "Set to \"\"",
-                    "It can hide symbols, but it's not recommended.",
-                    "It's more recommended that you modify them to your liking.",
-                    "Because these symbols let you know if you can continue to get completions."
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "line_theme",
-          "tip": [
-            "Toggle the built-in border style theme of the completion menu.",
-            "You can also customize it by running 'psc menu custom line'",
-            "{{ $info.menu.line_theme.example }}"
-          ],
-          "next": [
-            {
-              "name": "double_line_rect_border",
-              "tip": [
-                "Set to a double line rectangular border (default). Be like:",
-                "╔═════╗",
-                "║     ║",
-                "╚═════╝"
-              ]
-            },
-            {
-              "name": "bold_line_rect_border",
-              "tip": [
-                "Set to a bold line rectangular border. Be like:",
-                "┏━━━━━┓",
-                "┃     ┃",
-                "┗━━━━━┛"
-              ]
-            },
-            {
-              "name": "single_line_rect_border",
-              "tip": [
-                "Set to a single line rectangular border. Be like:",
-                "┌─────┐",
-                "│     │",
-                "└─────┘"
-              ]
-            },
-            {
-              "name": "single_line_round_border",
-              "tip": [
-                "Set to a single line rounded border. Be like:",
-                "╭─────╮",
-                "│     │",
-                "╰─────╯"
-              ]
-            },
-            {
-              "name": "boldTB_slimLR_border",
-              "tip": [
-                "Set the border. (Bold on top/bottom, slim on left/right.) Be like:",
-                "┍━━━━━┑",
-                "│     │",
-                "┕━━━━━┙"
-              ]
-            },
-            {
-              "name": "slimTB_boldLR_border",
-              "tip": [
-                "Set the border. (Slim on top/bottom, bold on left/right.) Be like:",
-                "┎─────┒",
-                "┃     ┃",
-                "┖─────┚"
-              ]
-            },
-            {
-              "name": "doubleTB_singleLR_border",
-              "tip": [
-                "Set the border. (Double line on top/bottom, single line on left/right.) Be like:",
-                "╒═════╕",
-                "│     │",
-                "╘═════╛"
-              ]
-            },
-            {
-              "name": "singleTB_doubleLR_border",
-              "tip": [
-                "Set the border. (Single line on top/bottom, double line on left/right.) Be like:",
-                "╓─────╖",
-                "║     ║",
-                "╙─────╜"
-              ]
-            }
-          ]
-        },
         {
           "name": "color_theme",
           "tip": [
@@ -528,1052 +307,12 @@
           ]
         },
         {
-          "name": "custom",
-          "tip": [
-            "Customize the style of the completion menu.",
-            "{{ $info.menu.custom.example }}"
-          ],
-          "next": [
-            {
-              "name": "color",
-              "tip": [
-                "Color-related custom configurations.",
-                "{{ $info.example.menu_custom_color }}"
-              ],
-              "next": [
-                {
-                  "name": "filter_color",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.config.filter_color }}",
-                    "Foreground color of the filter box (Top left corner)."
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "border_color",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.config.border_color }}",
-                    "Foreground color of the border."
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "item_color",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.config.item_color }}",
-                    "Foreground color of the completion item."
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "status_color",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.config.status_color }}",
-                    "Foreground color of the completion count status (Bottom left corner)."
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "tip_color",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.config.tip_color }}",
-                    "Foreground color of the completion tip."
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "selected_color",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.config.selected_color }}",
-                    "Foreground color of the selected item."
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "selected_bgcolor",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.config.selected_bgcolor }}",
-                    "BackGround color of the selected item."
-                  ],
-                  "next": []
-                }
-              ]
-            },
-            {
-              "name": "line",
-              "tip": [
-                "Line-related custom configurations."
-              ],
-              "next": [
-                {
-                  "name": "horizontal",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.horizontal) }}",
-                    "The horizontal line of the border."
-                  ],
-                  "next": [
-                    {
-                      "name": "═",
-                      "tip": [
-                        "Default value."
-                      ]
-                    },
-                    {
-                      "name": "━"
-                    },
-                    {
-                      "name": "─"
-                    },
-                    {
-                      "name": "┄"
-                    },
-                    {
-                      "name": "┅"
-                    },
-                    {
-                      "name": "┈"
-                    },
-                    {
-                      "name": "┉"
-                    }
-                  ]
-                },
-                {
-                  "name": "vertical",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.vertical) }}",
-                    "The vertical line of the border."
-                  ],
-                  "next": [
-                    {
-                      "name": "║",
-                      "tip": [
-                        "Default value."
-                      ]
-                    },
-                    {
-                      "name": "┃"
-                    },
-                    {
-                      "name": "│"
-                    },
-                    {
-                      "name": "┆"
-                    },
-                    {
-                      "name": "┇"
-                    },
-                    {
-                      "name": "┊"
-                    },
-                    {
-                      "name": "┋"
-                    }
-                  ]
-                },
-                {
-                  "name": "top_left",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_left) }}",
-                    "Top left corner of the border."
-                  ],
-                  "next": [
-                    {
-                      "name": "╔",
-                      "tip": [
-                        "Default value."
-                      ]
-                    },
-                    {
-                      "name": "┏"
-                    },
-                    {
-                      "name": "┌"
-                    },
-                    {
-                      "name": "╭"
-                    },
-                    {
-                      "name": "┍"
-                    },
-                    {
-                      "name": "┎"
-                    },
-                    {
-                      "name": "╒"
-                    },
-                    {
-                      "name": "╓"
-                    }
-                  ]
-                },
-                {
-                  "name": "bottom_left",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_left) }}",
-                    "Bottom left corner of the border."
-                  ],
-                  "next": [
-                    {
-                      "name": "╚",
-                      "tip": [
-                        "Default value."
-                      ]
-                    },
-                    {
-                      "name": "┗"
-                    },
-                    {
-                      "name": "└"
-                    },
-                    {
-                      "name": "╰"
-                    },
-                    {
-                      "name": "┕"
-                    },
-                    {
-                      "name": "┖"
-                    },
-                    {
-                      "name": "╘"
-                    },
-                    {
-                      "name": "╙"
-                    }
-                  ]
-                },
-                {
-                  "name": "top_right",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_right) }}",
-                    "Top right corner of the border."
-                  ],
-                  "next": [
-                    {
-                      "name": "╗",
-                      "tip": [
-                        "Default value."
-                      ]
-                    },
-                    {
-                      "name": "┓"
-                    },
-                    {
-                      "name": "┐"
-                    },
-                    {
-                      "name": "╮"
-                    },
-                    {
-                      "name": "┑"
-                    },
-                    {
-                      "name": "┒"
-                    },
-                    {
-                      "name": "╕"
-                    },
-                    {
-                      "name": "╖"
-                    }
-                  ]
-                },
-                {
-                  "name": "bottom_right",
-                  "tip": [
-                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_right) }}",
-                    "Bottom right corner of the border."
-                  ],
-                  "next": [
-                    {
-                      "name": "╝",
-                      "tip": [
-                        "Default value."
-                      ]
-                    },
-                    {
-                      "name": "┛"
-                    },
-                    {
-                      "name": "┘"
-                    },
-                    {
-                      "name": "╯"
-                    },
-                    {
-                      "name": "┙"
-                    },
-                    {
-                      "name": "┚"
-                    },
-                    {
-                      "name": "╛"
-                    },
-                    {
-                      "name": "╜"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
           "name": "config",
           "tip": [
             "Some other custom configurations for the completion menu.",
             "{{ $info.menu.config.example }}"
           ],
           "next": [
-            {
-              "name": "trigger_key",
-              "tip": [
-                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.trigger_key) }} (Default: \"Tab\")",
-                "Setting the key that triggers the completion menu."
-              ],
-              "next": [
-                {
-                  "name": "\"Tab\"",
-                  "tip": [
-                    "Set to Tab key (Default)"
-                  ]
-                },
-                {
-                  "name": "\"F1\""
-                },
-                {
-                  "name": "\"F2\""
-                },
-                {
-                  "name": "\"F3\""
-                },
-                {
-                  "name": "\"F4\""
-                },
-                {
-                  "name": "\"F5\""
-                },
-                {
-                  "name": "\"F6\""
-                },
-                {
-                  "name": "\"F7\""
-                },
-                {
-                  "name": "\"F8\""
-                },
-                {
-                  "name": "\"F9\""
-                },
-                {
-                  "name": "\"0\""
-                },
-                {
-                  "name": "\"1\""
-                },
-                {
-                  "name": "\"2\""
-                },
-                {
-                  "name": "\"3\""
-                },
-                {
-                  "name": "\"4\""
-                },
-                {
-                  "name": "\"5\""
-                },
-                {
-                  "name": "\"6\""
-                },
-                {
-                  "name": "\"7\""
-                },
-                {
-                  "name": "\"8\""
-                },
-                {
-                  "name": "\"9\""
-                },
-                {
-                  "name": "\"a\""
-                },
-                {
-                  "name": "\"b\""
-                },
-                {
-                  "name": "\"c\""
-                },
-                {
-                  "name": "\"d\""
-                },
-                {
-                  "name": "\"e\""
-                },
-                {
-                  "name": "\"f\""
-                },
-                {
-                  "name": "\"g\""
-                },
-                {
-                  "name": "\"h\""
-                },
-                {
-                  "name": "\"i\""
-                },
-                {
-                  "name": "\"j\""
-                },
-                {
-                  "name": "\"k\""
-                },
-                {
-                  "name": "\"l\""
-                },
-                {
-                  "name": "\"m\""
-                },
-                {
-                  "name": "\"n\""
-                },
-                {
-                  "name": "\"o\""
-                },
-                {
-                  "name": "\"p\""
-                },
-                {
-                  "name": "\"q\""
-                },
-                {
-                  "name": "\"r\""
-                },
-                {
-                  "name": "\"s\""
-                },
-                {
-                  "name": "\"t\""
-                },
-                {
-                  "name": "\"u\""
-                },
-                {
-                  "name": "\"v\""
-                },
-                {
-                  "name": "\"w\""
-                },
-                {
-                  "name": "\"x\""
-                },
-                {
-                  "name": "\"y\""
-                },
-                {
-                  "name": "\"z\""
-                },
-                {
-                  "name": "\"A\""
-                },
-                {
-                  "name": "\"B\""
-                },
-                {
-                  "name": "\"C\""
-                },
-                {
-                  "name": "\"D\""
-                },
-                {
-                  "name": "\"E\""
-                },
-                {
-                  "name": "\"F\""
-                },
-                {
-                  "name": "\"G\""
-                },
-                {
-                  "name": "\"H\""
-                },
-                {
-                  "name": "\"I\""
-                },
-                {
-                  "name": "\"J\""
-                },
-                {
-                  "name": "\"K\""
-                },
-                {
-                  "name": "\"L\""
-                },
-                {
-                  "name": "\"M\""
-                },
-                {
-                  "name": "\"N\""
-                },
-                {
-                  "name": "\"O\""
-                },
-                {
-                  "name": "\"P\""
-                },
-                {
-                  "name": "\"Q\""
-                },
-                {
-                  "name": "\"R\""
-                },
-                {
-                  "name": "\"S\""
-                },
-                {
-                  "name": "\"T\""
-                },
-                {
-                  "name": "\"U\""
-                },
-                {
-                  "name": "\"V\""
-                },
-                {
-                  "name": "\"W\""
-                },
-                {
-                  "name": "\"X\""
-                },
-                {
-                  "name": "\"Y\""
-                },
-                {
-                  "name": "\"Z\""
-                },
-                {
-                  "name": "\"!\""
-                },
-                {
-                  "name": "\"@\""
-                },
-                {
-                  "name": "\"#\""
-                },
-                {
-                  "name": "\"$\""
-                },
-                {
-                  "name": "\"%\""
-                },
-                {
-                  "name": "\"^\""
-                },
-                {
-                  "name": "\"&\""
-                },
-                {
-                  "name": "\"*\""
-                },
-                {
-                  "name": "\"(\""
-                },
-                {
-                  "name": "\")\""
-                },
-                {
-                  "name": "\":\""
-                },
-                {
-                  "name": "\";\""
-                },
-                {
-                  "name": "\"?\""
-                },
-                {
-                  "name": "\"/\""
-                },
-                {
-                  "name": "\"~\""
-                },
-                {
-                  "name": "\"`\""
-                },
-                {
-                  "name": "\"{\""
-                },
-                {
-                  "name": "\"[\""
-                },
-                {
-                  "name": "\"|\""
-                },
-                {
-                  "name": "\"\\\""
-                },
-                {
-                  "name": "\"}\""
-                },
-                {
-                  "name": "\"]\""
-                },
-                {
-                  "name": "\"'\""
-                },
-                {
-                  "name": "\"\"\""
-                },
-                {
-                  "name": "\"<\""
-                },
-                {
-                  "name": "\",\""
-                },
-                {
-                  "name": "\">\""
-                },
-                {
-                  "name": "\".\""
-                },
-                {
-                  "name": "\"_\""
-                },
-                {
-                  "name": "\"-\""
-                },
-                {
-                  "name": "\"+\""
-                },
-                {
-                  "name": "\"=\""
-                },
-                {
-                  "name": "\"Spacebar\""
-                },
-                {
-                  "name": "\"Backspace\""
-                },
-                {
-                  "name": "\"Delete\""
-                },
-                {
-                  "name": "\"DownArrow\""
-                },
-                {
-                  "name": "\"End\""
-                },
-                {
-                  "name": "\"Enter\""
-                },
-                {
-                  "name": "\"Escape\""
-                },
-                {
-                  "name": "\"Home\""
-                },
-                {
-                  "name": "\"LeftArrow\""
-                },
-                {
-                  "name": "\"PageUp\""
-                },
-                {
-                  "name": "\"PageDown\""
-                },
-                {
-                  "name": "\"RightArrow\""
-                },
-                {
-                  "name": "\"UpArrow\""
-                },
-                {
-                  "name": "\"Alt+F1\""
-                },
-                {
-                  "name": "\"Alt+F2\""
-                },
-                {
-                  "name": "\"Alt+F3\""
-                },
-                {
-                  "name": "\"Alt+F4\""
-                },
-                {
-                  "name": "\"Alt+F5\""
-                },
-                {
-                  "name": "\"Alt+F6\""
-                },
-                {
-                  "name": "\"Alt+F7\""
-                },
-                {
-                  "name": "\"Alt+F8\""
-                },
-                {
-                  "name": "\"Alt+F9\""
-                },
-                {
-                  "name": "\"Alt+0\""
-                },
-                {
-                  "name": "\"Alt+1\""
-                },
-                {
-                  "name": "\"Alt+2\""
-                },
-                {
-                  "name": "\"Alt+3\""
-                },
-                {
-                  "name": "\"Alt+4\""
-                },
-                {
-                  "name": "\"Alt+5\""
-                },
-                {
-                  "name": "\"Alt+6\""
-                },
-                {
-                  "name": "\"Alt+7\""
-                },
-                {
-                  "name": "\"Alt+8\""
-                },
-                {
-                  "name": "\"Alt+9\""
-                },
-                {
-                  "name": "\"Alt+a\""
-                },
-                {
-                  "name": "\"Alt+b\""
-                },
-                {
-                  "name": "\"Alt+c\""
-                },
-                {
-                  "name": "\"Alt+d\""
-                },
-                {
-                  "name": "\"Alt+e\""
-                },
-                {
-                  "name": "\"Alt+f\""
-                },
-                {
-                  "name": "\"Alt+g\""
-                },
-                {
-                  "name": "\"Alt+h\""
-                },
-                {
-                  "name": "\"Alt+i\""
-                },
-                {
-                  "name": "\"Alt+j\""
-                },
-                {
-                  "name": "\"Alt+k\""
-                },
-                {
-                  "name": "\"Alt+l\""
-                },
-                {
-                  "name": "\"Alt+m\""
-                },
-                {
-                  "name": "\"Alt+n\""
-                },
-                {
-                  "name": "\"Alt+o\""
-                },
-                {
-                  "name": "\"Alt+p\""
-                },
-                {
-                  "name": "\"Alt+q\""
-                },
-                {
-                  "name": "\"Alt+r\""
-                },
-                {
-                  "name": "\"Alt+s\""
-                },
-                {
-                  "name": "\"Alt+t\""
-                },
-                {
-                  "name": "\"Alt+u\""
-                },
-                {
-                  "name": "\"Alt+v\""
-                },
-                {
-                  "name": "\"Alt+w\""
-                },
-                {
-                  "name": "\"Alt+x\""
-                },
-                {
-                  "name": "\"Alt+y\""
-                },
-                {
-                  "name": "\"Alt+z\""
-                },
-                {
-                  "name": "\"Alt+B\""
-                },
-                {
-                  "name": "\"Alt+F\""
-                },
-                {
-                  "name": "\"Alt+Spacebar\""
-                },
-                {
-                  "name": "\"Alt+.\""
-                },
-                {
-                  "name": "\"Alt+=\""
-                },
-                {
-                  "name": "\"Alt+-\""
-                },
-                {
-                  "name": "\"Alt+_\""
-                },
-                {
-                  "name": "\"Alt+Backspace\""
-                },
-                {
-                  "name": "\"Alt+<\""
-                },
-                {
-                  "name": "\"Alt+>\""
-                },
-                {
-                  "name": "\"Alt+?\""
-                },
-                {
-                  "name": "\"Ctrl+@\""
-                },
-                {
-                  "name": "\"Ctrl+Spacebar\""
-                },
-                {
-                  "name": "\"Ctrl+a\""
-                },
-                {
-                  "name": "\"Ctrl+b\""
-                },
-                {
-                  "name": "\"Ctrl+c\""
-                },
-                {
-                  "name": "\"Ctrl+d\""
-                },
-                {
-                  "name": "\"Ctrl+e\""
-                },
-                {
-                  "name": "\"Ctrl+f\""
-                },
-                {
-                  "name": "\"Ctrl+g\""
-                },
-                {
-                  "name": "\"Ctrl+h\""
-                },
-                {
-                  "name": "\"Ctrl+i\""
-                },
-                {
-                  "name": "\"Ctrl+j\""
-                },
-                {
-                  "name": "\"Ctrl+k\""
-                },
-                {
-                  "name": "\"Ctrl+l\""
-                },
-                {
-                  "name": "\"Ctrl+m\""
-                },
-                {
-                  "name": "\"Ctrl+n\""
-                },
-                {
-                  "name": "\"Ctrl+o\""
-                },
-                {
-                  "name": "\"Ctrl+p\""
-                },
-                {
-                  "name": "\"Ctrl+q\""
-                },
-                {
-                  "name": "\"Ctrl+r\""
-                },
-                {
-                  "name": "\"Ctrl+s\""
-                },
-                {
-                  "name": "\"Ctrl+t\""
-                },
-                {
-                  "name": "\"Ctrl+u\""
-                },
-                {
-                  "name": "\"Ctrl+v\""
-                },
-                {
-                  "name": "\"Ctrl+w\""
-                },
-                {
-                  "name": "\"Ctrl+x\""
-                },
-                {
-                  "name": "\"Ctrl+y\""
-                },
-                {
-                  "name": "\"Ctrl+z\""
-                },
-                {
-                  "name": "\"Ctrl+[\""
-                },
-                {
-                  "name": "\"Ctrl+\\\""
-                },
-                {
-                  "name": "\"Ctrl+]\""
-                },
-                {
-                  "name": "\"Ctrl+^\""
-                },
-                {
-                  "name": "\"Ctrl+_\""
-                },
-                {
-                  "name": "\"Ctrl+Backspace\""
-                },
-                {
-                  "name": "\"Ctrl+Delete\""
-                },
-                {
-                  "name": "\"Ctrl+End\""
-                },
-                {
-                  "name": "\"Ctrl+Home\""
-                },
-                {
-                  "name": "\"Ctrl+PageUp\""
-                },
-                {
-                  "name": "\"Ctrl+PageDown\""
-                },
-                {
-                  "name": "\"Ctrl+LeftArrow\""
-                },
-                {
-                  "name": "\"Ctrl+RightArrow\""
-                },
-                {
-                  "name": "\"Ctrl+Enter\""
-                },
-                {
-                  "name": "\"Shift+F3\""
-                },
-                {
-                  "name": "\"Shift+F8\""
-                },
-                {
-                  "name": "\"Shift+End\""
-                },
-                {
-                  "name": "\"Shift+Enter\""
-                },
-                {
-                  "name": "\"Shift+Home\""
-                },
-                {
-                  "name": "\"Shift+PageUp\""
-                },
-                {
-                  "name": "\"Shift+PageDown\""
-                },
-                {
-                  "name": "\"Shift+LeftArrow\""
-                },
-                {
-                  "name": "\"Shift+RightArrow\""
-                },
-                {
-                  "name": "\"Shift+UpArrow\""
-                },
-                {
-                  "name": "\"Shift+DownArrow\""
-                },
-                {
-                  "name": "\"Shift+Tab\""
-                },
-                {
-                  "name": "\"Shift+Insert\""
-                },
-                {
-                  "name": "\"Ctrl+C\""
-                },
-                {
-                  "name": "\"Ctrl+Shift+Enter\""
-                },
-                {
-                  "name": "\"Ctrl+Shift+LeftArrow\""
-                },
-                {
-                  "name": "\"Ctrl+Shift+RightArrow\""
-                },
-                {
-                  "name": "\"Ctrl+Alt+y\""
-                },
-                {
-                  "name": "\"Ctrl+Alt+]\""
-                },
-                {
-                  "name": "\"Ctrl+Alt+?\""
-                }
-              ]
-            },
-            {
-              "name": "filter_symbol",
-              "tip": [
-                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.filter_symbol) }} (Default: \"[]\")",
-                "Set the symbols on the left and right of the filter area, which is in the top left corner.",
-                "It requires two characters."
-              ],
-              "next": [
-                {
-                  "name": "[]",
-                  "tip": [
-                    "Set \"[]\" (Default)"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "status_symbol",
-              "tip": [
-                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.status_symbol) }} (Default: \"/\")",
-                "Set the spacer between the current and total count, which is in the bottom left corner."
-              ],
-              "next": [
-                {
-                  "name": "/",
-                  "tip": [
-                    "Set \"/\" (Default)"
-                  ]
-                }
-              ]
-            },
             {
               "name": "between_item_and_symbol",
               "tip": [
@@ -1591,45 +330,179 @@
               ]
             },
             {
-              "name": "height_from_menu_bottom_to_cursor_when_above",
+              "name": "completion_suffix",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above }} (Default: 0)",
-                "Set the distance between the bottom of the menu and the cursor when the completion menu is displayed above.",
-                "Typically, it is used to skip the prompt line theme (oh-my-posh/starship/...) to avoid differences caused by redrawing."
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.completion_suffix) }} (Default: \" \")",
+                "Set the completion suffix, which will be automatically added after applying the completion.",
+                "The default is a space, which is used to simplify unnecessary space key presses."
               ],
               "next": [
                 {
-                  "name": "0",
+                  "name": "\" \"",
                   "tip": [
-                    "Set to 0 (Default)"
+                    "Set \" \" (Default)"
                   ]
-                },
-                {
-                  "name": "1"
-                },
-                {
-                  "name": "2"
                 }
               ]
             },
             {
-              "name": "height_from_menu_top_to_cursor_when_below",
+              "name": "completions_confirm_limit",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.height_from_menu_top_to_cursor_when_below }} (Default: 0)",
-                "Set the distance between the top of the menu and the cursor when the completion menu is displayed below."
+                "Current Value: {{ $PSCompletions.config.completions_confirm_limit }} (Default: 0)",
+                "Set the number of completion items beyond which a secondary confirmation box will pop up.",
+                "Only after confirmation and these completion items will be obtained.",
+                "If it's 0, it means no limit."
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0 (Default)"
+                    "Set to 0 (Default)。",
+                    "It means no limit.",
+                    "No matter how many completion items there are, they will be obtained directly."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_completions_sort",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enable_completions_sort }} (Default: 1)",
+                "Set whether to dynamically sort the completion list based on command history."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0",
+                    "Don't dynamically sort completion list based on command history."
                   ]
                 },
                 {
-                  "name": "1"
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)",
+                    "Dynamically sort completion list based on command history."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_enter_when_single",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enable_enter_when_single }} (Default: 0)",
+                "When there is only one completion item, whether to enter it directly instead of displaying the completion menu."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0 (Default)",
+                    "Even if there is only one completion item, the menu is displayed first.",
+                    "You can press the Tab or Space key again to enter the completion item."
+                  ]
                 },
                 {
-                  "name": "2"
+                  "name": "1",
+                  "tip": [
+                    "Set to 1",
+                    "When there is only one completion item, it will be entered directly."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_hooks_tip",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enable_hooks_tip }} (Default: 1)",
+                "Set whether the completion items dynamically added via hooks display completion tip."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0",
+                    "Don't show the completion tip."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)",
+                    "Show the completion tip."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_follow_cursor",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enable_list_follow_cursor }} (Default: 1)",
+                "Set whether the completion list is displayed following the input cursor.",
+                "If 'enable_list_full_width' is 1, it is invalid."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0",
+                    "Don't follow the input cursor."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)",
+                    "Follow the input cursor."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_full_width",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enable_list_full_width }} (Default: 1)",
+                "Set whether the completion menu list is displayed with a full width.",
+                "Enable it, the performance of the completion menu will be better."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0",
+                    "It means to display the completion menu list without a full width."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)",
+                    "It means to display the completion menu list with a full width.",
+                    "Enable it, the performance of the completion menu will be better."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_loop",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.enable_list_loop }} (Default: 1)",
+                "Set whether the menu list is displayed with a loop."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Set to 0",
+                    "It means to display the completion menu list without a loop."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Set to 1 (Default)",
+                    "It means to display the completion menu list with a loop."
+                  ]
                 }
               ]
             },
@@ -1681,97 +554,28 @@
               ]
             },
             {
-              "name": "enable_enter_when_single",
+              "name": "enable_path_with_trailing_separator",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_enter_when_single }} (Default: 0)",
-                "When there is only one completion item, whether to enter it directly instead of displaying the completion menu."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0 (Default)",
-                    "Even if there is only one completion item, the menu is displayed first.",
-                    "You can press the Tab or Space key again to enter the completion item."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1",
-                    "When there is only one completion item, it will be entered directly."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_list_loop",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_list_loop }} (Default: 1)",
-                "Set whether the menu list is displayed with a loop."
+                "Current Value: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (Default: 1)",
+                "Set whether path completion with a trailing separator.",
+                "C:\\Users\\abgox{{ $PSCompletions.separator }}     (With)",
+                "C:\\Users\\abgox      (Without)"
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
                     "Set to 0",
-                    "It means to display the completion menu list without a loop."
+                    "Without a trailing separator.",
+                    "e.g. C:\\Users\\abgox"
                   ]
                 },
                 {
                   "name": "1",
                   "tip": [
                     "Set to 1 (Default)",
-                    "It means to display the completion menu list with a loop."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_list_full_width",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_list_full_width }} (Default: 1)",
-                "Set whether the completion menu list is displayed with a full width.",
-                "Enable it, the performance of the completion menu will be better."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "It means to display the completion menu list without a full width."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1 (Default)",
-                    "It means to display the completion menu list with a full width.",
-                    "Enable it, the performance of the completion menu will be better."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_list_follow_cursor",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_list_follow_cursor }} (Default: 1)",
-                "Set whether the completion list is displayed following the input cursor.",
-                "If 'enable_list_full_width' is 1, it is invalid."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't follow the input cursor."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1 (Default)",
-                    "Follow the input cursor."
+                    "With a trailing separator.",
+                    "e.g. C:\\Users\\abgox{{ $PSCompletions.separator }}"
                   ]
                 }
               ]
@@ -1781,52 +585,6 @@
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_tip }} (Default: 1)",
                 "Set whether to show the completion tip."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't show the completion tip."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1 (Default)",
-                    "Show the completion tip."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_hooks_tip",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_hooks_tip }} (Default: 1)",
-                "Set whether the completion items dynamically added via hooks display completion tip."
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't show the completion tip."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1 (Default)",
-                    "Show the completion tip."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_tip_when_enhance",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_tip_when_enhance }} (Default: 1)",
-                "For completions not added via 'psc add', if there're completion tip, whether to display it."
               ],
               "next": [
                 {
@@ -1870,68 +628,102 @@
               ]
             },
             {
-              "name": "enable_completions_sort",
+              "name": "enable_tip_when_enhance",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_completions_sort }} (Default: 1)",
-                "Set whether to dynamically sort the completion list based on command history."
+                "Current Value: {{ $PSCompletions.config.enable_tip_when_enhance }} (Default: 1)",
+                "For completions not added via 'psc add', if there're completion tip, whether to display it."
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
                     "Set to 0",
-                    "Don't dynamically sort completion list based on command history."
+                    "Don't show the completion tip."
                   ]
                 },
                 {
                   "name": "1",
                   "tip": [
                     "Set to 1 (Default)",
-                    "Dynamically sort completion list based on command history."
+                    "Show the completion tip."
                   ]
                 }
               ]
             },
             {
-              "name": "enable_path_with_trailing_separator",
+              "name": "filter_symbol",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (Default: 1)",
-                "Set whether path completion with a trailing separator.",
-                "C:\\Users\\abgox{{ $PSCompletions.separator }}     (With)",
-                "C:\\Users\\abgox      (Without)"
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.filter_symbol) }} (Default: \"[]\")",
+                "Set the symbols on the left and right of the filter area, which is in the top left corner.",
+                "It requires two characters."
+              ],
+              "next": [
+                {
+                  "name": "[]",
+                  "tip": [
+                    "Set \"[]\" (Default)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "height_from_menu_bottom_to_cursor_when_above",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.height_from_menu_bottom_to_cursor_when_above }} (Default: 0)",
+                "Set the distance between the bottom of the menu and the cursor when the completion menu is displayed above.",
+                "Typically, it is used to skip the prompt line theme (oh-my-posh/starship/...) to avoid differences caused by redrawing."
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0",
-                    "Without a trailing separator.",
-                    "e.g. C:\\Users\\abgox"
+                    "Set to 0 (Default)"
                   ]
                 },
                 {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1 (Default)",
-                    "With a trailing separator.",
-                    "e.g. C:\\Users\\abgox{{ $PSCompletions.separator }}"
-                  ]
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                },
+                {
+                  "name": "4"
+                },
+                {
+                  "name": "5"
                 }
               ]
             },
             {
-              "name": "list_min_width",
+              "name": "height_from_menu_top_to_cursor_when_below",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.list_min_width }} (Default: 10)",
-                "Set the minimum width of the completion list area in the completion menu.",
-                "If 'enable_list_full_width' is 1, it is invalid."
+                "Current Value: {{ $PSCompletions.config.height_from_menu_top_to_cursor_when_below }} (Default: 0)",
+                "Set the distance between the top of the menu and the cursor when the completion menu is displayed below."
               ],
               "next": [
                 {
-                  "name": "10",
+                  "name": "0",
                   "tip": [
-                    "Set 10 (Default)"
+                    "Set to 0 (Default)"
                   ]
+                },
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                },
+                {
+                  "name": "4"
+                },
+                {
+                  "name": "5"
                 }
               ]
             },
@@ -1970,36 +762,1206 @@
               ]
             },
             {
-              "name": "completion_suffix",
+              "name": "list_min_width",
               "tip": [
-                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.completion_suffix) }} (Default: \" \")",
-                "Set the completion suffix, which will be automatically added after applying the completion.",
-                "The default is a space, which is used to simplify unnecessary space key presses."
+                "Current Value: {{ $PSCompletions.config.list_min_width }} (Default: 10)",
+                "Set the minimum width of the completion list area in the completion menu.",
+                "If 'enable_list_full_width' is 1, it is invalid."
               ],
               "next": [
                 {
-                  "name": "\" \"",
+                  "name": "10",
                   "tip": [
-                    "Set \" \" (Default)"
+                    "Set 10 (Default)"
                   ]
                 }
               ]
             },
             {
-              "name": "completions_confirm_limit",
+              "name": "status_symbol",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.completions_confirm_limit }} (Default: 0)",
-                "Set the number of completion items beyond which a secondary confirmation box will pop up.",
-                "Only after confirmation and these completion items will be obtained.",
-                "If it's 0, it means no limit."
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.status_symbol) }} (Default: \"/\")",
+                "Set the spacer between the current and total count, which is in the bottom left corner."
               ],
               "next": [
                 {
-                  "name": "0",
+                  "name": "/",
                   "tip": [
-                    "Set to 0 (Default)。",
-                    "It means no limit.",
-                    "No matter how many completion items there are, they will be obtained directly."
+                    "Set \"/\" (Default)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "trigger_key",
+              "tip": [
+                "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.trigger_key) }} (Default: \"Tab\")",
+                "Setting the key that triggers the completion menu."
+              ],
+              "next": [
+                {
+                  "name": "\"_\""
+                },
+                {
+                  "name": "\"-\""
+                },
+                {
+                  "name": "\",\""
+                },
+                {
+                  "name": "\";\""
+                },
+                {
+                  "name": "\":\""
+                },
+                {
+                  "name": "\"!\""
+                },
+                {
+                  "name": "\"?\""
+                },
+                {
+                  "name": "\".\""
+                },
+                {
+                  "name": "\"'\""
+                },
+                {
+                  "name": "\"\"\""
+                },
+                {
+                  "name": "\"(\""
+                },
+                {
+                  "name": "\")\""
+                },
+                {
+                  "name": "\"[\""
+                },
+                {
+                  "name": "\"]\""
+                },
+                {
+                  "name": "\"{\""
+                },
+                {
+                  "name": "\"}\""
+                },
+                {
+                  "name": "\"@\""
+                },
+                {
+                  "name": "\"*\""
+                },
+                {
+                  "name": "\"/\""
+                },
+                {
+                  "name": "\"\\\""
+                },
+                {
+                  "name": "\"&\""
+                },
+                {
+                  "name": "\"#\""
+                },
+                {
+                  "name": "\"%\""
+                },
+                {
+                  "name": "\"`\""
+                },
+                {
+                  "name": "\"^\""
+                },
+                {
+                  "name": "\"+\""
+                },
+                {
+                  "name": "\"<\""
+                },
+                {
+                  "name": "\"=\""
+                },
+                {
+                  "name": "\">\""
+                },
+                {
+                  "name": "\"|\""
+                },
+                {
+                  "name": "\"~\""
+                },
+                {
+                  "name": "\"$\""
+                },
+                {
+                  "name": "\"0\""
+                },
+                {
+                  "name": "\"1\""
+                },
+                {
+                  "name": "\"2\""
+                },
+                {
+                  "name": "\"3\""
+                },
+                {
+                  "name": "\"4\""
+                },
+                {
+                  "name": "\"5\""
+                },
+                {
+                  "name": "\"6\""
+                },
+                {
+                  "name": "\"7\""
+                },
+                {
+                  "name": "\"8\""
+                },
+                {
+                  "name": "\"9\""
+                },
+                {
+                  "name": "\"a\""
+                },
+                {
+                  "name": "\"A\""
+                },
+                {
+                  "name": "\"Alt+_\""
+                },
+                {
+                  "name": "\"Alt+-\""
+                },
+                {
+                  "name": "\"Alt+?\""
+                },
+                {
+                  "name": "\"Alt+.\""
+                },
+                {
+                  "name": "\"Alt+<\""
+                },
+                {
+                  "name": "\"Alt+=\""
+                },
+                {
+                  "name": "\"Alt+>\""
+                },
+                {
+                  "name": "\"Alt+0\""
+                },
+                {
+                  "name": "\"Alt+1\""
+                },
+                {
+                  "name": "\"Alt+2\""
+                },
+                {
+                  "name": "\"Alt+3\""
+                },
+                {
+                  "name": "\"Alt+4\""
+                },
+                {
+                  "name": "\"Alt+5\""
+                },
+                {
+                  "name": "\"Alt+6\""
+                },
+                {
+                  "name": "\"Alt+7\""
+                },
+                {
+                  "name": "\"Alt+8\""
+                },
+                {
+                  "name": "\"Alt+9\""
+                },
+                {
+                  "name": "\"Alt+a\""
+                },
+                {
+                  "name": "\"Alt+b\""
+                },
+                {
+                  "name": "\"Alt+B\""
+                },
+                {
+                  "name": "\"Alt+Backspace\""
+                },
+                {
+                  "name": "\"Alt+c\""
+                },
+                {
+                  "name": "\"Alt+d\""
+                },
+                {
+                  "name": "\"Alt+e\""
+                },
+                {
+                  "name": "\"Alt+f\""
+                },
+                {
+                  "name": "\"Alt+F\""
+                },
+                {
+                  "name": "\"Alt+F1\""
+                },
+                {
+                  "name": "\"Alt+F2\""
+                },
+                {
+                  "name": "\"Alt+F3\""
+                },
+                {
+                  "name": "\"Alt+F4\""
+                },
+                {
+                  "name": "\"Alt+F5\""
+                },
+                {
+                  "name": "\"Alt+F6\""
+                },
+                {
+                  "name": "\"Alt+F7\""
+                },
+                {
+                  "name": "\"Alt+F8\""
+                },
+                {
+                  "name": "\"Alt+F9\""
+                },
+                {
+                  "name": "\"Alt+g\""
+                },
+                {
+                  "name": "\"Alt+h\""
+                },
+                {
+                  "name": "\"Alt+i\""
+                },
+                {
+                  "name": "\"Alt+j\""
+                },
+                {
+                  "name": "\"Alt+k\""
+                },
+                {
+                  "name": "\"Alt+l\""
+                },
+                {
+                  "name": "\"Alt+m\""
+                },
+                {
+                  "name": "\"Alt+n\""
+                },
+                {
+                  "name": "\"Alt+o\""
+                },
+                {
+                  "name": "\"Alt+p\""
+                },
+                {
+                  "name": "\"Alt+q\""
+                },
+                {
+                  "name": "\"Alt+r\""
+                },
+                {
+                  "name": "\"Alt+s\""
+                },
+                {
+                  "name": "\"Alt+Spacebar\""
+                },
+                {
+                  "name": "\"Alt+t\""
+                },
+                {
+                  "name": "\"Alt+u\""
+                },
+                {
+                  "name": "\"Alt+v\""
+                },
+                {
+                  "name": "\"Alt+w\""
+                },
+                {
+                  "name": "\"Alt+x\""
+                },
+                {
+                  "name": "\"Alt+y\""
+                },
+                {
+                  "name": "\"Alt+z\""
+                },
+                {
+                  "name": "\"b\""
+                },
+                {
+                  "name": "\"B\""
+                },
+                {
+                  "name": "\"Backspace\""
+                },
+                {
+                  "name": "\"c\""
+                },
+                {
+                  "name": "\"C\""
+                },
+                {
+                  "name": "\"Ctrl+_\""
+                },
+                {
+                  "name": "\"Ctrl+[\""
+                },
+                {
+                  "name": "\"Ctrl+]\""
+                },
+                {
+                  "name": "\"Ctrl+@\""
+                },
+                {
+                  "name": "\"Ctrl+\\\""
+                },
+                {
+                  "name": "\"Ctrl+^\""
+                },
+                {
+                  "name": "\"Ctrl+a\""
+                },
+                {
+                  "name": "\"Ctrl+Alt+?\""
+                },
+                {
+                  "name": "\"Ctrl+Alt+]\""
+                },
+                {
+                  "name": "\"Ctrl+Alt+y\""
+                },
+                {
+                  "name": "\"Ctrl+b\""
+                },
+                {
+                  "name": "\"Ctrl+Backspace\""
+                },
+                {
+                  "name": "\"Ctrl+c\""
+                },
+                {
+                  "name": "\"Ctrl+C\""
+                },
+                {
+                  "name": "\"Ctrl+d\""
+                },
+                {
+                  "name": "\"Ctrl+Delete\""
+                },
+                {
+                  "name": "\"Ctrl+e\""
+                },
+                {
+                  "name": "\"Ctrl+End\""
+                },
+                {
+                  "name": "\"Ctrl+Enter\""
+                },
+                {
+                  "name": "\"Ctrl+f\""
+                },
+                {
+                  "name": "\"Ctrl+g\""
+                },
+                {
+                  "name": "\"Ctrl+h\""
+                },
+                {
+                  "name": "\"Ctrl+Home\""
+                },
+                {
+                  "name": "\"Ctrl+i\""
+                },
+                {
+                  "name": "\"Ctrl+j\""
+                },
+                {
+                  "name": "\"Ctrl+k\""
+                },
+                {
+                  "name": "\"Ctrl+l\""
+                },
+                {
+                  "name": "\"Ctrl+LeftArrow\""
+                },
+                {
+                  "name": "\"Ctrl+m\""
+                },
+                {
+                  "name": "\"Ctrl+n\""
+                },
+                {
+                  "name": "\"Ctrl+o\""
+                },
+                {
+                  "name": "\"Ctrl+p\""
+                },
+                {
+                  "name": "\"Ctrl+PageDown\""
+                },
+                {
+                  "name": "\"Ctrl+PageUp\""
+                },
+                {
+                  "name": "\"Ctrl+q\""
+                },
+                {
+                  "name": "\"Ctrl+r\""
+                },
+                {
+                  "name": "\"Ctrl+RightArrow\""
+                },
+                {
+                  "name": "\"Ctrl+s\""
+                },
+                {
+                  "name": "\"Ctrl+Shift+Enter\""
+                },
+                {
+                  "name": "\"Ctrl+Shift+LeftArrow\""
+                },
+                {
+                  "name": "\"Ctrl+Shift+RightArrow\""
+                },
+                {
+                  "name": "\"Ctrl+Spacebar\""
+                },
+                {
+                  "name": "\"Ctrl+t\""
+                },
+                {
+                  "name": "\"Ctrl+u\""
+                },
+                {
+                  "name": "\"Ctrl+v\""
+                },
+                {
+                  "name": "\"Ctrl+w\""
+                },
+                {
+                  "name": "\"Ctrl+x\""
+                },
+                {
+                  "name": "\"Ctrl+y\""
+                },
+                {
+                  "name": "\"Ctrl+z\""
+                },
+                {
+                  "name": "\"d\""
+                },
+                {
+                  "name": "\"D\""
+                },
+                {
+                  "name": "\"Delete\""
+                },
+                {
+                  "name": "\"DownArrow\""
+                },
+                {
+                  "name": "\"e\""
+                },
+                {
+                  "name": "\"E\""
+                },
+                {
+                  "name": "\"End\""
+                },
+                {
+                  "name": "\"Enter\""
+                },
+                {
+                  "name": "\"Escape\""
+                },
+                {
+                  "name": "\"f\""
+                },
+                {
+                  "name": "\"F\""
+                },
+                {
+                  "name": "\"F1\""
+                },
+                {
+                  "name": "\"F2\""
+                },
+                {
+                  "name": "\"F3\""
+                },
+                {
+                  "name": "\"F4\""
+                },
+                {
+                  "name": "\"F5\""
+                },
+                {
+                  "name": "\"F6\""
+                },
+                {
+                  "name": "\"F7\""
+                },
+                {
+                  "name": "\"F8\""
+                },
+                {
+                  "name": "\"F9\""
+                },
+                {
+                  "name": "\"g\""
+                },
+                {
+                  "name": "\"G\""
+                },
+                {
+                  "name": "\"h\""
+                },
+                {
+                  "name": "\"H\""
+                },
+                {
+                  "name": "\"Home\""
+                },
+                {
+                  "name": "\"i\""
+                },
+                {
+                  "name": "\"I\""
+                },
+                {
+                  "name": "\"j\""
+                },
+                {
+                  "name": "\"J\""
+                },
+                {
+                  "name": "\"k\""
+                },
+                {
+                  "name": "\"K\""
+                },
+                {
+                  "name": "\"l\""
+                },
+                {
+                  "name": "\"L\""
+                },
+                {
+                  "name": "\"LeftArrow\""
+                },
+                {
+                  "name": "\"m\""
+                },
+                {
+                  "name": "\"M\""
+                },
+                {
+                  "name": "\"n\""
+                },
+                {
+                  "name": "\"N\""
+                },
+                {
+                  "name": "\"o\""
+                },
+                {
+                  "name": "\"O\""
+                },
+                {
+                  "name": "\"p\""
+                },
+                {
+                  "name": "\"P\""
+                },
+                {
+                  "name": "\"PageDown\""
+                },
+                {
+                  "name": "\"PageUp\""
+                },
+                {
+                  "name": "\"q\""
+                },
+                {
+                  "name": "\"Q\""
+                },
+                {
+                  "name": "\"r\""
+                },
+                {
+                  "name": "\"R\""
+                },
+                {
+                  "name": "\"RightArrow\""
+                },
+                {
+                  "name": "\"s\""
+                },
+                {
+                  "name": "\"S\""
+                },
+                {
+                  "name": "\"Shift+DownArrow\""
+                },
+                {
+                  "name": "\"Shift+End\""
+                },
+                {
+                  "name": "\"Shift+Enter\""
+                },
+                {
+                  "name": "\"Shift+F3\""
+                },
+                {
+                  "name": "\"Shift+F8\""
+                },
+                {
+                  "name": "\"Shift+Home\""
+                },
+                {
+                  "name": "\"Shift+Insert\""
+                },
+                {
+                  "name": "\"Shift+LeftArrow\""
+                },
+                {
+                  "name": "\"Shift+PageDown\""
+                },
+                {
+                  "name": "\"Shift+PageUp\""
+                },
+                {
+                  "name": "\"Shift+RightArrow\""
+                },
+                {
+                  "name": "\"Shift+Tab\""
+                },
+                {
+                  "name": "\"Shift+UpArrow\""
+                },
+                {
+                  "name": "\"Spacebar\""
+                },
+                {
+                  "name": "\"t\""
+                },
+                {
+                  "name": "\"T\""
+                },
+                {
+                  "name": "\"Tab\"",
+                  "tip": [
+                    "Set to Tab key (Default)"
+                  ]
+                },
+                {
+                  "name": "\"u\""
+                },
+                {
+                  "name": "\"U\""
+                },
+                {
+                  "name": "\"UpArrow\""
+                },
+                {
+                  "name": "\"v\""
+                },
+                {
+                  "name": "\"V\""
+                },
+                {
+                  "name": "\"w\""
+                },
+                {
+                  "name": "\"W\""
+                },
+                {
+                  "name": "\"x\""
+                },
+                {
+                  "name": "\"X\""
+                },
+                {
+                  "name": "\"y\""
+                },
+                {
+                  "name": "\"Y\""
+                },
+                {
+                  "name": "\"z\""
+                },
+                {
+                  "name": "\"Z\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "custom",
+          "tip": [
+            "Customize the style of the completion menu.",
+            "{{ $info.menu.custom.example }}"
+          ],
+          "next": [
+            {
+              "name": "color",
+              "tip": [
+                "Color-related custom configurations.",
+                "{{ $info.example.menu_custom_color }}"
+              ],
+              "next": [
+                {
+                  "name": "border_color",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.config.border_color }}",
+                    "Foreground color of the border."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "filter_color",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.config.filter_color }}",
+                    "Foreground color of the filter box (Top left corner)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "item_color",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.config.item_color }}",
+                    "Foreground color of the completion item."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "selected_bgcolor",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.config.selected_bgcolor }}",
+                    "BackGround color of the selected item."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "selected_color",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.config.selected_color }}",
+                    "Foreground color of the selected item."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "status_color",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.config.status_color }}",
+                    "Foreground color of the completion count status (Bottom left corner)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "tip_color",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.config.tip_color }}",
+                    "Foreground color of the completion tip."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "line",
+              "tip": [
+                "Line-related custom configurations."
+              ],
+              "next": [
+                {
+                  "name": "bottom_left",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_left) }}",
+                    "Bottom left corner of the border."
+                  ],
+                  "next": [
+                    {
+                      "name": "└"
+                    },
+                    {
+                      "name": "┕"
+                    },
+                    {
+                      "name": "┖"
+                    },
+                    {
+                      "name": "┗"
+                    },
+                    {
+                      "name": "╘"
+                    },
+                    {
+                      "name": "╙"
+                    },
+                    {
+                      "name": "╚",
+                      "tip": [
+                        "Default value."
+                      ]
+                    },
+                    {
+                      "name": "╰"
+                    }
+                  ]
+                },
+                {
+                  "name": "bottom_right",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_right) }}",
+                    "Bottom right corner of the border."
+                  ],
+                  "next": [
+                    {
+                      "name": "┘"
+                    },
+                    {
+                      "name": "┙"
+                    },
+                    {
+                      "name": "┚"
+                    },
+                    {
+                      "name": "┛"
+                    },
+                    {
+                      "name": "╛"
+                    },
+                    {
+                      "name": "╜"
+                    },
+                    {
+                      "name": "╝",
+                      "tip": [
+                        "Default value."
+                      ]
+                    },
+                    {
+                      "name": "╯"
+                    }
+                  ]
+                },
+                {
+                  "name": "horizontal",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.horizontal) }}",
+                    "The horizontal line of the border."
+                  ],
+                  "next": [
+                    {
+                      "name": "─"
+                    },
+                    {
+                      "name": "━"
+                    },
+                    {
+                      "name": "┄"
+                    },
+                    {
+                      "name": "┅"
+                    },
+                    {
+                      "name": "┈"
+                    },
+                    {
+                      "name": "┉"
+                    },
+                    {
+                      "name": "═",
+                      "tip": [
+                        "Default value."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "top_left",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_left) }}",
+                    "Top left corner of the border."
+                  ],
+                  "next": [
+                    {
+                      "name": "┌"
+                    },
+                    {
+                      "name": "┍"
+                    },
+                    {
+                      "name": "┎"
+                    },
+                    {
+                      "name": "┏"
+                    },
+                    {
+                      "name": "╒"
+                    },
+                    {
+                      "name": "╓"
+                    },
+                    {
+                      "name": "╔",
+                      "tip": [
+                        "Default value."
+                      ]
+                    },
+                    {
+                      "name": "╭"
+                    }
+                  ]
+                },
+                {
+                  "name": "top_right",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_right) }}",
+                    "Top right corner of the border."
+                  ],
+                  "next": [
+                    {
+                      "name": "┐"
+                    },
+                    {
+                      "name": "┑"
+                    },
+                    {
+                      "name": "┒"
+                    },
+                    {
+                      "name": "┓"
+                    },
+                    {
+                      "name": "╕"
+                    },
+                    {
+                      "name": "╖"
+                    },
+                    {
+                      "name": "╗",
+                      "tip": [
+                        "Default value."
+                      ]
+                    },
+                    {
+                      "name": "╮"
+                    }
+                  ]
+                },
+                {
+                  "name": "vertical",
+                  "tip": [
+                    "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.vertical) }}",
+                    "The vertical line of the border."
+                  ],
+                  "next": [
+                    {
+                      "name": "│"
+                    },
+                    {
+                      "name": "┃"
+                    },
+                    {
+                      "name": "┆"
+                    },
+                    {
+                      "name": "┇"
+                    },
+                    {
+                      "name": "┊"
+                    },
+                    {
+                      "name": "┋"
+                    },
+                    {
+                      "name": "║",
+                      "tip": [
+                        "Default value."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "line_theme",
+          "tip": [
+            "Toggle the built-in border style theme of the completion menu.",
+            "You can also customize it by running 'psc menu custom line'",
+            "{{ $info.menu.line_theme.example }}"
+          ],
+          "next": [
+            {
+              "name": "bold_line_rect_border",
+              "tip": [
+                "Set to a bold line rectangular border. Be like:",
+                "┏━━━━━┓",
+                "┃     ┃",
+                "┗━━━━━┛"
+              ]
+            },
+            {
+              "name": "boldTB_slimLR_border",
+              "tip": [
+                "Set the border. (Bold on top/bottom, slim on left/right.) Be like:",
+                "┍━━━━━┑",
+                "│     │",
+                "┕━━━━━┙"
+              ]
+            },
+            {
+              "name": "double_line_rect_border",
+              "tip": [
+                "Set to a double line rectangular border (default). Be like:",
+                "╔═════╗",
+                "║     ║",
+                "╚═════╝"
+              ]
+            },
+            {
+              "name": "doubleTB_singleLR_border",
+              "tip": [
+                "Set the border. (Double line on top/bottom, single line on left/right.) Be like:",
+                "╒═════╕",
+                "│     │",
+                "╘═════╛"
+              ]
+            },
+            {
+              "name": "single_line_rect_border",
+              "tip": [
+                "Set to a single line rectangular border. Be like:",
+                "┌─────┐",
+                "│     │",
+                "└─────┘"
+              ]
+            },
+            {
+              "name": "single_line_round_border",
+              "tip": [
+                "Set to a single line rounded border. Be like:",
+                "╭─────╮",
+                "│     │",
+                "╰─────╯"
+              ]
+            },
+            {
+              "name": "singleTB_doubleLR_border",
+              "tip": [
+                "Set the border. (Single line on top/bottom, double line on left/right.) Be like:",
+                "╓─────╖",
+                "║     ║",
+                "╙─────╜"
+              ]
+            },
+            {
+              "name": "slimTB_boldLR_border",
+              "tip": [
+                "Set the border. (Slim on top/bottom, bold on left/right.) Be like:",
+                "┎─────┒",
+                "┃     ┃",
+                "┖─────┚"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "symbol",
+          "tip": [
+            "Set some special symbols(~?!) in the completion tip.",
+            "They only exist in completions added via `psc add`.",
+            "They are used to let you know if you can continue to get completions.",
+            "For detail: https://pscompletions.abgox.com/command/#menu-symbol"
+          ],
+          "next": [
+            {
+              "name": "OptionTab",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.OptionTab }}",
+                "You can hide it by the command. (psc menu symbol OptionTab \"\")"
+              ],
+              "next": [
+                {
+                  "name": "?",
+                  "tip": [
+                    "Set to ? (Default)"
+                  ]
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "Set to \"\"",
+                    "It can hide symbols, but it's not recommended.",
+                    "It's more recommended that you modify them to your liking.",
+                    "Because these symbols let you know if you can continue to get completions."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SpaceTab",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.SpaceTab }}",
+                "You can hide it by the command. (psc menu symbol SpaceTab \"\")"
+              ],
+              "next": [
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "Set to \"\"",
+                    "It can hide symbols, but it's not recommended.",
+                    "It's more recommended that you modify them to your liking.",
+                    "Because these symbols let you know if you can continue to get completions."
+                  ]
+                },
+                {
+                  "name": "~",
+                  "tip": [
+                    "Set to ~ (Default)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "WriteSpaceTab",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.WriteSpaceTab }}",
+                "You can hide it by the command. (psc menu symbol WriteSpaceTab \"\")"
+              ],
+              "next": [
+                {
+                  "name": "!",
+                  "tip": [
+                    "Set to ! (Default)"
+                  ]
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "Set to \"\"",
+                    "It can hide symbols, but it's not recommended.",
+                    "It's more recommended that you modify them to your liking.",
+                    "Because these symbols let you know if you can continue to get completions."
                   ]
                 }
               ]
@@ -2023,13 +1985,6 @@
           ]
         },
         {
-          "name": "config",
-          "tip": [
-            "Reset some configurations.",
-            "Include configuration items under the command ('psc config')."
-          ]
-        },
-        {
           "name": "alias",
           "tip": [
             "Reset all completions or specified completions to the default completion trigger name.",
@@ -2042,14 +1997,6 @@
                 "Reset all completions to the default completion trigger name."
               ]
             }
-          ]
-        },
-        {
-          "name": "order",
-          "tip": [
-            "Reset all order.",
-            "It just removes the order sort file, which will be regenerated when the next completion is triggered.",
-            "If you do not want to sort by command history, you should disable sorting by running 'psc config enable_completions_sort 0'."
           ]
         },
         {
@@ -2069,6 +2016,13 @@
           ]
         },
         {
+          "name": "config",
+          "tip": [
+            "Reset some configurations.",
+            "Include configuration items under the command ('psc config')."
+          ]
+        },
+        {
           "name": "menu",
           "tip": [
             "Reset the configuration of the completion menu.",
@@ -2080,22 +2034,6 @@
               "tip": [
                 "Reset all configurations of the completion menu.",
                 "Include all configuration items under the command ('psc menu')."
-              ]
-            },
-            {
-              "name": "symbol",
-              "tip": [
-                "Reset symbols to default values.",
-                "SpaceTab      => ~",
-                "WriteSpaceTab => !",
-                "OptionTab     => ?"
-              ]
-            },
-            {
-              "name": "line",
-              "tip": [
-                "Rest the line-related configurations of the completion menu.",
-                "Include all configuration items under the command ('psc menu custom line')."
               ]
             },
             {
@@ -2111,10 +2049,101 @@
                 "Reset other custom configurations of the completion menu.",
                 "Include all configuration items under the command ('psc menu config')."
               ]
+            },
+            {
+              "name": "line",
+              "tip": [
+                "Rest the line-related configurations of the completion menu.",
+                "Include all configuration items under the command ('psc menu custom line')."
+              ]
+            },
+            {
+              "name": "symbol",
+              "tip": [
+                "Reset symbols to default values.",
+                "SpaceTab      => ~",
+                "WriteSpaceTab => !",
+                "OptionTab     => ?"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "order",
+          "tip": [
+            "Reset all order.",
+            "It just removes the order sort file, which will be regenerated when the next completion is triggered.",
+            "If you do not want to sort by command history, you should disable sorting by running 'psc config enable_completions_sort 0'."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rm",
+      "tip": [
+        "Remove completion. (one or more)",
+        "{{ $info.rm.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Remove all completions.",
+            "Note: psc will be automatically re-added after removing."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "Search completion. (Wildcard character can be used)",
+        "{{ $info.search.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Search all available completions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "Update completion. (one or more)",
+        "{{ $info.update.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Update all completions that can be updated.",
+            "{{",
+            "if($PSCompletions.update){ \"List: $($PSCompletions.update -join ',')\" }",
+            "else{'All completions are the latest!'}",
+            "}}"
+          ],
+          "options": [
+            {
+              "name": "--force",
+              "tip": [
+                "Force update of all added completions.",
+                "(It ensures that completions be latest.)"
+              ]
             }
           ]
         }
       ]
+    },
+    {
+      "name": "which",
+      "tip": [
+        "Locate completion storage location.",
+        "{{ $info.which.example }}"
+      ],
+      "next": []
     }
   ],
   "options": [
@@ -2131,6 +2160,233 @@
     }
   ],
   "info": {
+    "add": {
+      "doing": "<@Green>Adding completion --- <@Magenta>{{ $completion }}",
+      "done": [
+        "<@Green>Completion <@Magenta>{{ $completion }}<@Green> add completed.\n",
+        "{{",
+        " if($json.config -or $config.hooks -ne $null){",
+        "\"<@Blue>---------- Special Configuration ----------\";",
+        "$configList = @();",
+        "if($config.hooks -ne $null){",
+        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
+        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
+        "};",
+        "if($json.config){ $configList += $json.config; };",
+        " $config_list = $configList | ForEach-Object {",
+        "   '';",
+        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
+        "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
+        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
+        "   $PSCompletions.replace_content($_.tip, \"`n\")",
+        " };",
+        " $config_list -join \"`n\";",
+        " \"`n<@Blue>-------------------------------------------\";",
+        "};",
+        "}}"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue entering the completion name you want to add.\n",
+          "You can enter more names, separated by spaces."
+        ],
+        "no": [
+          "<@Red>Completion <@Magenta>{{ $completion }}<@Red> does not exist in the completions list.\n",
+          "It's recommended to enter <@Magenta>psc add<@Red>, then press <@Magenta>Space<@Red> and <@Magenta>Tab<@Red> to complete."
+        ]
+      },
+      "example": [
+        "E: psc add git           --- Add git\n",
+        "   psc add git scoop     --- Add git and scoop"
+      ],
+      "show_alias": "<@Yellow>The default trigger alias: <@Magenta>{{ $config.alias -join ' ' }}",
+      "tip": "Add completion --- {{ $completion }}"
+    },
+    "alias": {
+      "add": {
+        "err": {
+          "cmd_exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> already exists, please set other alias.",
+          "exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> is already an alias for {{ $completion }}.",
+          "min_k": [
+            "<@Yellow>",
+            "You should continue to enter a completion name that is already installed.\n",
+            "Then enter one or more alias you want to add."
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "You need to continue entering one or more alias that you want to add for {{ $completion }}."
+          ]
+        },
+        "example": [
+          "E: psc alias add git g gi            --- Add g,gi as git alias\n",
+          "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 as scoop alias"
+        ],
+        "tip": [
+          "{{ \"Current aliases: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
+          "Add one or more aliases for {{ $completion }}."
+        ]
+      },
+      "done": [
+        "{{",
+        "if($arg[1] -eq 'add') {",
+        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> add an alias <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available alias: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
+        "}",
+        "elseif($arg[1] -eq 'rm') {",
+        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> remove an alias <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available alias: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
+        "}",
+        "}}"
+      ],
+      "example": [
+        "E: psc alias list                 --- List all aliases\n",
+        "   psc alias add git g gi ./g     --- Add g gi ./g as git alias\n",
+        "   psc alias rm g                 --- Remove g alias"
+      ],
+      "list": {
+        "example": [
+          "E: psc alias list     --- List all aliases"
+        ]
+      },
+      "rm": {
+        "err": {
+          "min_k": [
+            "<@Yellow>",
+            "You should continue to enter a completion name that is already installed.\n",
+            "Then enter one or more alias you want to remove."
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "You need to continue entering one or more alias that you want to remove for {{ $completion }}."
+          ],
+          "no_alias": "<@Magenta>{{ $alias }}<@Red> isn't the alias of {{ $completion }}",
+          "unique": [
+            "<@Magenta>{{ $alias }}<@Red> cannot be removed because it's the only alias of <@Magenta>{{ $completion }}<@Red>.\n",
+            "If you want to change it, you should first add a new alias and then remove the old alias."
+          ]
+        },
+        "example": [
+          "E: psc alias rm git g gi            --- Remove aliases (g,gi) for git\n",
+          "   psc alias rm scoop scoop.ps1     --- Remove alias (scoop.ps1) for scoop"
+        ],
+        "tip": "Remove one or more aliases for {{ $completion }}.",
+        "tip_v": [
+          "Remove this alias."
+        ]
+      }
+    },
+    "completion": {
+      "done": [
+        "<@Magenta>{{ $completion }}<@Green>'s special configuration modified successfully!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
+      ],
+      "enable_hooks": {
+        "tip": [
+          "Set whether to enable hooks.\n",
+          "The hooks will parse or generate some completion data and add them dynamically.\n",
+          "You can disable it by running the command (<@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue>)."
+        ]
+      },
+      "enable_hooks_tip": {
+        "tip": [
+          "Set whether the completion items dynamically added for {{ $completion }} via hooks display completion tip."
+        ]
+      },
+      "enable_tip": {
+        "tip": [
+          "Set whether to display completion tip for {{ $completion }}."
+        ]
+      },
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue to enter the configuration items to be set\n",
+          "By default, each completion comes with multiple special configurations. (<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
+          "{{",
+          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
+          "if($config){ \"$($arg[1])'s additional special configuration: <@Magenta>$($config -join ' ')\" }",
+          "}}"
+        ]
+      },
+      "example": [
+        "E: psc completion psc enable_tip       --- If it has a value, return the value\n",
+        "   psc completion psc enable_tip 0     --- Set psc completion to not display tip\n",
+        "   psc completion psc language zh-CN   --- Set the psc completion language to zh-CN"
+      ],
+      "language": {
+        "tip": [
+          "Set the language of {{ $completion }}."
+        ],
+        "tip_v": "Set language to {{ $language }}."
+      },
+      "tip": [
+        "Set special configuration for {{ $completion }}.\n",
+        "Special configurations have higher priority than global configurations."
+      ]
+    },
+    "config": {
+      "done": [
+        "<@Green>PSCompletions's configuration modified successfully!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}\n",
+        "<@Yellow>To make the change effective, may need restart PowerShell and reimport PSCompletions module."
+      ],
+      "enable_cache": {
+        "example": [
+          "E: psc config enable_cache 1     --- Enable cache\n",
+          "   psc config enable_cache 0     --- Disable cache"
+        ]
+      },
+      "err": {
+        "one_or_zero": [
+          "<@Magenta>{{ $config_item }}<@Yellow> just need a value, number 1 or 0.\n",
+          "1 mean enabled, and 0 mean disabled."
+        ]
+      },
+      "example": [
+        "E: psc config language           --- Get language\n",
+        "   psc config language zh-CN     --- Set to zh-CN"
+      ],
+      "function_name": {
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> need a value, and it cannot be an existing command.",
+        "example": [
+          "E: psc config function_name                   --- Get current function name\n",
+          "   psc config function_name PSCompletions     --- Set function name"
+        ]
+      },
+      "language": {
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> just need a value, like <@Magenta>zh-CN<@Yellow>",
+        "example": [
+          "E: psc config language           --- Get language\n",
+          "   psc config language zh-CN     --- Set to zh-CN"
+        ]
+      },
+      "module_update": {
+        "example": [
+          "E: psc config enable_module_update 1     --- Show module update\n",
+          "   psc config enable_module_update 0     --- Hide module update"
+        ]
+      },
+      "update": {
+        "example": [
+          "E: psc config enable_completions_update 1     --- Show completion update\n",
+          "   psc config enable_completions_update 0     --- Hide completion update"
+        ]
+      },
+      "url": {
+        "err": [
+          "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a url. (https://xxx)\n",
+          "The url must be valid, and its directory structure should be the same as that of the repository."
+        ],
+        "example": [
+          "E: psc config url                                           --- Get current url\n",
+          "   psc config url https://abgox.github.io/PSCompletions     --- Set url"
+        ]
+      }
+    },
+    "confirm_cancel": "<@Green>The operation has been canceled.",
+    "current_value": "Current Value",
     "desc": [
       "<@Cyan>Current module version: <@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
       "\n",
@@ -2172,13 +2428,6 @@
       "\n",
       "{{ $PSCompletions.info.desc }}"
     ],
-    "init_info": [
-      "\n",
-      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- init successfully ✨✨✨\n",
-      "<@Yellow>The following is displayed for the first time only, you can also see it by running <@Magenta>psc<@Yellow>.\n\n",
-      "{{ $PSCompletions.info.description }}",
-      "\n"
-    ],
     "err": {
       "alias_conflict": [
         "<@Yellow>Alias <@Magenta>{{ $conflict_alias_list -join ' ' }}<@Yellow> already exists, please handle alias conflicts manually."
@@ -2191,7 +2440,105 @@
         "<@Red>It contains wildcard characters."
       ]
     },
+    "example_color": "<@Cyan>",
+    "init_info": [
+      "\n",
+      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- init successfully ✨✨✨\n",
+      "<@Yellow>The following is displayed for the first time only, you can also see it by running <@Magenta>psc<@Yellow>.\n\n",
+      "{{ $PSCompletions.info.description }}",
+      "\n"
+    ],
+    "list": {
+      "add": "",
+      "added": "Added",
+      "example": [
+        "E: psc list              --- Display a list of locally installed completions\n",
+        "   psc list --remote     --- Display remote completions list"
+      ]
+    },
+    "menu": {
+      "color_theme": {
+        "done": [
+          "<@Green>Completion menu color style modified successfully!"
+        ],
+        "example": [
+          "E: psc menu color_theme default      --- Default theme\n",
+          "   psc menu color_theme magenta      --- Magenta"
+        ]
+      },
+      "config": {
+        "err": {
+          "completion_suffix": "<@Magenta>{{ $arg[2] }}<@Red> can only be one or more spaces.",
+          "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> isn't a valid trigger key.",
+          "v_1_or_0": "<@Red>It should be the number <@Magenta>1<@Red> or <@Magenta>0<@Red>, which means enabled or disabled.",
+          "v_ge": "<@Red>It should be an integer number greater than or equal to<@Magenta>{{ $min }}.",
+          "v_ge_le": "<@Red>It should be an integer number greater than or equal to <@Magenta>{{ $min }}<@Red> and less than or equal to <@Magenta>{{ $max }}<@Red>."
+        },
+        "example": [
+          "E: psc menu config enable_enter_when_single 1     --- Auto-apply when there's only one completion item\n",
+          "   psc menu config enable_tip 0                   --- Hide completion tip\n",
+          "   psc menu config enable_menu 0                  --- Disable completion menu provided by PSCompletions module\n",
+          "   psc menu config filter_symbol []               --- Set the symbol of the filter area"
+        ]
+      },
+      "custom": {
+        "color": {
+          "tip": "Set color to {{ $color }}."
+        },
+        "example": [
+          "E: psc menu custom color border_color DarkGray     --- Set foreground color of the border to DarkGray\n",
+          "   psc menu custom line horizontal ─               --- Set the horizontal line of the border to \"-\""
+        ]
+      },
+      "done": [
+        "<@Green>Configuration modified successfully!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
+      ],
+      "example": [
+        "E: psc menu config enable_enter_when_single 1       --- Auto-apply when there's only one completion item\n",
+        "   psc menu config enable_tip 0                     --- Hide completion tip\n",
+        "   psc menu symbol SpaceTab \"\"                      --- Hide symbol\n",
+        "   psc menu line_theme single_line_round_border     --- Toggle the built-in border style theme"
+      ],
+      "line_theme": {
+        "done": [
+          "<@Green>Completion menu border line style modified successfully!"
+        ],
+        "example": [
+          "E: psc menu line_theme double_line_rect_border       --- Set to a double line rectangular border (default)\n",
+          "   psc menu line_theme single_line_rect_border       --- Set to a single line rectangular border\n",
+          "   psc menu line_theme single_line_round_border      --- Set to a single line rounded border"
+        ]
+      },
+      "symbol": {
+        "err": {
+          "max": [
+            "<@Yellow>",
+            "{{ $arg[2] }} just need a value. It can be any symbol you like."
+          ]
+        },
+        "example": [
+          "E: psc menu symbol SpaceTab ~\n",
+          "   psc menu symbol OptionTab ?\n",
+          "   psc menu symbol WriteSpaceTab !"
+        ]
+      }
+    },
+    "min_area": "The area is too small!",
     "module": {
+      "restart": "<@Yellow>To make the change effective, please restart PowerShell and reimport PSCompletions module.",
+      "too_many_completions": {
+        "text": [
+          "Too many items: {{ $count}}",
+          "Need more loading time.",
+          "Please confirm or cancel."
+        ],
+        "tip": [
+          "Apply any items to confirm and obtain; otherwise, cancel.\n",
+          "You can use 'psc menu config completions_confirm_limit 0' to remove the limit.\n",
+          "You can also set a higher value to limit the number of completions."
+        ]
+      },
       "update": [
         "<@Yellow>PSCompletions module update: <@Magenta>{{ $PSCompletions.version }}<@Yellow> => <@Magenta>{{ $PSCompletions.config.enable_module_update }}<@Blue>\n\n",
         "{{ ",
@@ -2211,47 +2558,105 @@
         "scoop update abgox.PSCompletions\n\n",
         "scoop update pscompletions\n"
       ],
-      "updating": "<@Cyan>Try to run the command: <@Magenta>{{ $update_cmd }}<@Cyan>\nTrying to update PSCompletions module...",
-      "restart": "<@Yellow>To make the change effective, please restart PowerShell and reimport PSCompletions module.",
-      "too_many_completions": {
-        "text": [
-          "Too many items: {{ $count}}",
-          "Need more loading time.",
-          "Please confirm or cancel."
+      "updating": "<@Cyan>Try to run the command: <@Magenta>{{ $update_cmd }}<@Cyan>\nTrying to update PSCompletions module..."
+    },
+    "no_completion": "<@Red>You haven't added <@Magenta>{{ $completion }}<@Red> yet.",
+    "param_err": "<@Red>Parameter error.",
+    "param_max": "<@Red>Too many parameters.",
+    "param_min": "<@Red>Too few parameters.",
+    "reset": {
+      "alias": {
+        "example": [
+          "E: psc reset alias *               --- Reset all aliases\n",
+          "   psc reset alias psc             --- Reset psc alias\n",
+          "   psc reset alias psc git bun     --- Reset psc git bun alias"
         ],
-        "tip": [
-          "Apply any items to confirm and obtain; otherwise, cancel.\n",
-          "You can use 'psc menu config completions_confirm_limit 0' to remove the limit.\n",
-          "You can also set a higher value to limit the number of completions."
+        "tip": "Reset {{ $completion }}'s alias to default."
+      },
+      "completion": {
+        "example": [
+          "E: psc reset completion *              --- Reset(Remove) the special configurations of all completions\n",
+          "   psc reset completion psc            --- Reset(Remove) the special configurations of psc\n",
+          "   psc reset completion psc language   --- Reset(Remove) this special configuration(language) of psc"
+        ],
+        "tip": "Reset(Remove) the special configurations of {{ $completion }}",
+        "tip_v": "Reset(Remove) this special configuration of {{ $completion }} --- {{ $config_item }}"
+      },
+      "done": [
+        "{{",
+        "$out = @();",
+        "$end = '';",
+        "if($change_list){",
+        "  $out += '<@Green>Reset successfully!', '<@Cyan>Here are the changes from old to new:', '------------------------------';",
+        "  $end = '------------------------------';",
+        "};",
+        "$change_list | ForEach-Object {",
+        "  $c = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" };",
+        "  $out += \"$($c): <@Magenta>$($PSCompletions.wrap_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.wrap_whitespace($_.new_value))<@Blue>\";",
+        "};",
+        "($out + $end) -join \"`n\";",
+        "}}"
+      ],
+      "example": [
+        "E: psc reset *                --- Reset PSCompletions module\n",
+        "   psc reset menu symbol      --- Reset all symbols(~?!)\n",
+        "   psc reset alias psc        --- Reset psc alias\n",
+        "   psc reset completion psc   --- Reset(Remove) this special configuration(language) of psc"
+      ],
+      "init_confirm": [
+        "<@Yellow>Reset the PSCompletions module, are you sure?\n",
+        "<@Red>It will delete everything except the module source code.\n",
+        "<@Yellow>Press <@Magenta>Enter<@Yellow> key to continue or <@Magenta>other key(Without Ctrl)<@Yellow> to cancel!"
+      ],
+      "init_done": [
+        "<@Green>PSCompletions module was reset successfully!\n",
+        "Initializing the module..."
+      ],
+      "menu": {
+        "example": [
+          "E: psc reset menu *              --- Reset all menu configurations\n",
+          "   psc reset menu config         --- Reset menu configurations\n",
+          "   psc reset menu line_theme     --- Reset menu border line style"
+        ]
+      },
+      "order": {
+        "done": [
+          "<@Green>Reset ordering of completions Successfully!"
         ]
       }
     },
-    "current_value": "Current Value",
+    "rm": {
+      "done": "<@Green>Completion <@Magenta>{{ $completion }}<@Green> has been removed.",
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue entering the completion name you want to remove.\n",
+          "You can enter more names, separated by spaces."
+        ]
+      },
+      "example": [
+        "E: psc rm git           --- Remove git\n",
+        "   psc rm git scoop     --- Remove git and scoop"
+      ],
+      "tip": "Remove completion --- {{ $completion }}"
+    },
+    "search": {
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "You should continue to enter a matching string with *.\n",
+          "If you do not use *, please enter the full name.\n",
+          "ou can also just enter * to see all available completions."
+        ],
+        "no": "<@Yellow>No matching completions found!"
+      },
+      "example": [
+        "E: psc search *     --- Show all installable completions\n",
+        "   psc search p*    --- Search for completion starting with p in the name\n",
+        "   psc search *p*   --- Search for completion with p in the name"
+      ]
+    },
     "set_value": "Set to {{ $value }}.",
-    "update_info": [
-      "<@Cyan>PSCompletions remote repository update:\n",
-      "{{",
-      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
-      "$add=@();",
-      "$rm=@();",
-      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
-      "if($add){ \"Add: <@Magenta>$($add)<@Cyan>`nUse <@Magenta>psc add <completion><@Cyan> to add.`n`n\" };",
-      "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n`n\" };",
-      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update *<@Cyan> to update.`n`n\" };",
-      "}}",
-      "You can hide this update tip by running <@Blue>psc config enable_completions_update 0<@Cyan>\n",
-      "But it's not recommended to hide it, it's a kind tip."
-    ],
-    "update_has": [
-      "<@Cyan>Updatable completions: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
-      "Update them: <@Magenta>psc update *"
-    ],
-    "update_no": [
-      "<@Green>All the completions are up to date!"
-    ],
-    "param_min": "<@Red>Too few parameters.",
-    "param_max": "<@Red>Too many parameters.",
-    "param_err": "<@Red>Parameter error.",
     "sub_cmd": [
       "{{",
       "if($sub_cmd){\"<@Red>Subcommand <@Magenta>$($sub_cmd)<@Red> error`n\"};",
@@ -2264,85 +2669,7 @@
       "if($cmd_info){ \"<@Red>$($cmd_info)\" };",
       "}}"
     ],
-    "no_completion": "<@Red>You haven't added <@Magenta>{{ $completion }}<@Red> yet.",
-    "confirm_cancel": "<@Green>The operation has been canceled.",
-    "min_area": "The area is too small!",
-    "example_color": "<@Cyan>",
-    "list": {
-      "add": "",
-      "added": "Added",
-      "example": [
-        "E: psc list              --- Display a list of locally installed completions\n",
-        "   psc list --remote     --- Display remote completions list"
-      ]
-    },
-    "add": {
-      "tip": "Add completion --- {{ $completion }}",
-      "example": [
-        "E: psc add git           --- Add git\n",
-        "   psc add git scoop     --- Add git and scoop"
-      ],
-      "doing": "<@Green>Adding completion --- <@Magenta>{{ $completion }}",
-      "show_alias": "<@Yellow>The default trigger alias: <@Magenta>{{ $config.alias -join ' ' }}",
-      "done": [
-        "<@Green>Completion <@Magenta>{{ $completion }}<@Green> add completed.\n",
-        "{{",
-        " if($json.config -or $config.hooks -ne $null){",
-        "\"<@Blue>---------- Special Configuration ----------\";",
-        "$configList = @();",
-        "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
-        "};",
-        "if($json.config){ $configList += $json.config; };",
-        " $config_list = $configList | ForEach-Object {",
-        "   '';",
-        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
-        "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
-        "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
-        "   $PSCompletions.replace_content($_.tip, \"`n\")",
-        " };",
-        " $config_list -join \"`n\";",
-        " \"`n<@Blue>-------------------------------------------\";",
-        "};",
-        "}}"
-      ],
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "You should continue entering the completion name you want to add.\n",
-          "You can enter more names, separated by spaces."
-        ],
-        "no": [
-          "<@Red>Completion <@Magenta>{{ $completion }}<@Red> does not exist in the completions list.\n",
-          "It's recommended to enter <@Magenta>psc add<@Red>, then press <@Magenta>Space<@Red> and <@Magenta>Tab<@Red> to complete."
-        ]
-      }
-    },
-    "rm": {
-      "tip": "Remove completion --- {{ $completion }}",
-      "example": [
-        "E: psc rm git           --- Remove git\n",
-        "   psc rm git scoop     --- Remove git and scoop"
-      ],
-      "done": "<@Green>Completion <@Magenta>{{ $completion }}<@Green> has been removed.",
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "You should continue entering the completion name you want to remove.\n",
-          "You can enter more names, separated by spaces."
-        ]
-      }
-    },
     "update": {
-      "tip": "Update completion --- {{ $completion }}",
-      "example": [
-        "E: psc update                 --- Check update\n",
-        "   psc update *               --- Update all completions\n",
-        "   psc update psc             --- Update psc\n",
-        "   psc update psc git bun     --- Update psc,git,bun"
-      ],
       "doing": "<@Green>Updating completion ---<@Magenta> {{ $completion }}",
       "done": [
         "<@Green>Completion <@Magenta>{{ $completion }}<@Green> update completed.\n",
@@ -2367,347 +2694,49 @@
         " \"`n<@Blue>-------------------------------------------\";",
         "};",
         "}}"
-      ]
-    },
-    "search": {
-      "example": [
-        "E: psc search *     --- Show all installable completions\n",
-        "   psc search p*    --- Search for completion starting with p in the name\n",
-        "   psc search *p*   --- Search for completion with p in the name"
       ],
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "You should continue to enter a matching string with *.\n",
-          "If you do not use *, please enter the full name.\n",
-          "ou can also just enter * to see all available completions."
-        ],
-        "no": "<@Yellow>No matching completions found!"
-      }
+      "example": [
+        "E: psc update                 --- Check update\n",
+        "   psc update *               --- Update all completions\n",
+        "   psc update psc             --- Update psc\n",
+        "   psc update psc git bun     --- Update psc,git,bun"
+      ],
+      "tip": "Update completion --- {{ $completion }}"
     },
+    "update_has": [
+      "<@Cyan>Updatable completions: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
+      "Update them: <@Magenta>psc update *"
+    ],
+    "update_info": [
+      "<@Cyan>PSCompletions remote repository update:\n",
+      "{{",
+      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
+      "$add=@();",
+      "$rm=@();",
+      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
+      "if($add){ \"Add: <@Magenta>$($add)<@Cyan>`nUse <@Magenta>psc add <completion><@Cyan> to add.`n`n\" };",
+      "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n`n\" };",
+      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update *<@Cyan> to update.`n`n\" };",
+      "}}",
+      "You can hide this update tip by running <@Blue>psc config enable_completions_update 0<@Cyan>\n",
+      "But it's not recommended to hide it, it's a kind tip."
+    ],
+    "update_no": [
+      "<@Green>All the completions are up to date!"
+    ],
     "which": {
-      "tip": "Locate completion storage location --- {{ $completion }}",
-      "example": [
-        "E: psc which git           --- Get the location of git\n",
-        "   psc which git scoop     --- Get the location of git and scoop"
-      ],
       "err": {
         "min": [
           "<@Yellow>",
           "You should continue to enter the name of the completion you want to find the storage location for.\n",
           "You can enter more names, separated by spaces."
         ]
-      }
-    },
-    "alias": {
+      },
       "example": [
-        "E: psc alias list                 --- List all aliases\n",
-        "   psc alias add git g gi ./g     --- Add g gi ./g as git alias\n",
-        "   psc alias rm g                 --- Remove g alias"
+        "E: psc which git           --- Get the location of git\n",
+        "   psc which git scoop     --- Get the location of git and scoop"
       ],
-      "done": [
-        "{{",
-        "if($arg[1] -eq 'add') {",
-        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> add an alias <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available alias: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
-        "}",
-        "elseif($arg[1] -eq 'rm') {",
-        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> remove an alias <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available alias: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
-        "}",
-        "}}"
-      ],
-      "list": {
-        "example": [
-          "E: psc alias list     --- List all aliases"
-        ]
-      },
-      "add": {
-        "tip": [
-          "{{ \"Current aliases: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
-          "Add one or more aliases for {{ $completion }}."
-        ],
-        "example": [
-          "E: psc alias add git g gi            --- Add g,gi as git alias\n",
-          "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 as scoop alias"
-        ],
-        "err": {
-          "min_k": [
-            "<@Yellow>",
-            "You should continue to enter a completion name that is already installed.\n",
-            "Then enter one or more alias you want to add."
-          ],
-          "min_v": [
-            "<@Yellow>",
-            "You need to continue entering one or more alias that you want to add for {{ $completion }}."
-          ],
-          "exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> is already an alias for {{ $completion }}.",
-          "cmd_exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> already exists, please set other alias."
-        }
-      },
-      "rm": {
-        "tip": "Remove one or more aliases for {{ $completion }}.",
-        "tip_v": [
-          "Remove this alias."
-        ],
-        "example": [
-          "E: psc alias rm git g gi            --- Remove aliases (g,gi) for git\n",
-          "   psc alias rm scoop scoop.ps1     --- Remove alias (scoop.ps1) for scoop"
-        ],
-        "err": {
-          "min_k": [
-            "<@Yellow>",
-            "You should continue to enter a completion name that is already installed.\n",
-            "Then enter one or more alias you want to remove."
-          ],
-          "min_v": [
-            "<@Yellow>",
-            "You need to continue entering one or more alias that you want to remove for {{ $completion }}."
-          ],
-          "no_alias": "<@Magenta>{{ $alias }}<@Red> isn't the alias of {{ $completion }}",
-          "unique": [
-            "<@Magenta>{{ $alias }}<@Red> cannot be removed because it's the only alias of <@Magenta>{{ $completion }}<@Red>.\n",
-            "If you want to change it, you should first add a new alias and then remove the old alias."
-          ]
-        }
-      }
-    },
-    "config": {
-      "example": [
-        "E: psc config language           --- Get language\n",
-        "   psc config language zh-CN     --- Set to zh-CN"
-      ],
-      "done": [
-        "<@Green>PSCompletions's configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}\n",
-        "<@Yellow>To make the change effective, may need restart PowerShell and reimport PSCompletions module."
-      ],
-      "err": {
-        "one_or_zero": [
-          "<@Magenta>{{ $config_item }}<@Yellow> just need a value, number 1 or 0.\n",
-          "1 mean enabled, and 0 mean disabled."
-        ]
-      },
-      "language": {
-        "err": "<@Magenta>{{ $config_item }}<@Yellow> just need a value, like <@Magenta>zh-CN<@Yellow>",
-        "example": [
-          "E: psc config language           --- Get language\n",
-          "   psc config language zh-CN     --- Set to zh-CN"
-        ]
-      },
-      "enable_cache": {
-        "example": [
-          "E: psc config enable_cache 1     --- Enable cache\n",
-          "   psc config enable_cache 0     --- Disable cache"
-        ]
-      },
-      "update": {
-        "example": [
-          "E: psc config enable_completions_update 1     --- Show completion update\n",
-          "   psc config enable_completions_update 0     --- Hide completion update"
-        ]
-      },
-      "module_update": {
-        "example": [
-          "E: psc config enable_module_update 1     --- Show module update\n",
-          "   psc config enable_module_update 0     --- Hide module update"
-        ]
-      },
-      "url": {
-        "err": [
-          "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a url. (https://xxx)\n",
-          "The url must be valid, and its directory structure should be the same as that of the repository."
-        ],
-        "example": [
-          "E: psc config url                                           --- Get current url\n",
-          "   psc config url https://abgox.github.io/PSCompletions     --- Set url"
-        ]
-      },
-      "function_name": {
-        "err": "<@Magenta>{{ $config_item }}<@Yellow> need a value, and it cannot be an existing command.",
-        "example": [
-          "E: psc config function_name                   --- Get current function name\n",
-          "   psc config function_name PSCompletions     --- Set function name"
-        ]
-      }
-    },
-    "completion": {
-      "tip": [
-        "Set special configuration for {{ $completion }}.\n",
-        "Special configurations have higher priority than global configurations."
-      ],
-      "example": [
-        "E: psc completion psc enable_tip       --- If it has a value, return the value\n",
-        "   psc completion psc enable_tip 0     --- Set psc completion to not display tip\n",
-        "   psc completion psc language zh-CN   --- Set the psc completion language to zh-CN"
-      ],
-      "done": [
-        "<@Magenta>{{ $completion }}<@Green>'s special configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
-      ],
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "You should continue to enter the configuration items to be set\n",
-          "By default, each completion comes with multiple special configurations. (<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
-          "{{",
-          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
-          "if($config){ \"$($arg[1])'s additional special configuration: <@Magenta>$($config -join ' ')\" }",
-          "}}"
-        ]
-      },
-      "language": {
-        "tip": [
-          "Set the language of {{ $completion }}."
-        ],
-        "tip_v": "Set language to {{ $language }}."
-      },
-      "enable_tip": {
-        "tip": [
-          "Set whether to display completion tip for {{ $completion }}."
-        ]
-      },
-      "enable_hooks_tip": {
-        "tip": [
-          "Set whether the completion items dynamically added for {{ $completion }} via hooks display completion tip."
-        ]
-      },
-      "enable_hooks": {
-        "tip": [
-          "Set whether to enable hooks.\n",
-          "The hooks will parse or generate some completion data and add them dynamically.\n",
-          "You can disable it by running the command (<@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue>)."
-        ]
-      }
-    },
-    "menu": {
-      "example": [
-        "E: psc menu config enable_enter_when_single 1       --- Auto-apply when there's only one completion item\n",
-        "   psc menu config enable_tip 0                     --- Hide completion tip\n",
-        "   psc menu symbol SpaceTab \"\"                      --- Hide symbol\n",
-        "   psc menu line_theme single_line_round_border     --- Toggle the built-in border style theme"
-      ],
-      "done": [
-        "<@Green>Configuration modified successfully!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
-      ],
-      "symbol": {
-        "example": [
-          "E: psc menu symbol SpaceTab ~\n",
-          "   psc menu symbol OptionTab ?\n",
-          "   psc menu symbol WriteSpaceTab !"
-        ],
-        "err": {
-          "max": [
-            "<@Yellow>",
-            "{{ $arg[2] }} just need a value. It can be any symbol you like."
-          ]
-        }
-      },
-      "line_theme": {
-        "example": [
-          "E: psc menu line_theme double_line_rect_border       --- Set to a double line rectangular border (default)\n",
-          "   psc menu line_theme single_line_rect_border       --- Set to a single line rectangular border\n",
-          "   psc menu line_theme single_line_round_border      --- Set to a single line rounded border"
-        ],
-        "done": [
-          "<@Green>Completion menu border line style modified successfully!"
-        ]
-      },
-      "color_theme": {
-        "example": [
-          "E: psc menu color_theme default      --- Default theme\n",
-          "   psc menu color_theme magenta      --- Magenta"
-        ],
-        "done": [
-          "<@Green>Completion menu color style modified successfully!"
-        ]
-      },
-      "custom": {
-        "example": [
-          "E: psc menu custom color border_color DarkGray     --- Set foreground color of the border to DarkGray\n",
-          "   psc menu custom line horizontal ─               --- Set the horizontal line of the border to \"-\""
-        ],
-        "color": {
-          "tip": "Set color to {{ $color }}."
-        }
-      },
-      "config": {
-        "example": [
-          "E: psc menu config enable_enter_when_single 1     --- Auto-apply when there's only one completion item\n",
-          "   psc menu config enable_tip 0                   --- Hide completion tip\n",
-          "   psc menu config enable_menu 0                  --- Disable completion menu provided by PSCompletions module\n",
-          "   psc menu config filter_symbol []               --- Set the symbol of the filter area"
-        ],
-        "err": {
-          "v_ge": "<@Red>It should be an integer number greater than or equal to<@Magenta>{{ $min }}.",
-          "v_ge_le": "<@Red>It should be an integer number greater than or equal to <@Magenta>{{ $min }}<@Red> and less than or equal to <@Magenta>{{ $max }}<@Red>.",
-          "v_1_or_0": "<@Red>It should be the number <@Magenta>1<@Red> or <@Magenta>0<@Red>, which means enabled or disabled.",
-          "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> isn't a valid trigger key.",
-          "completion_suffix": "<@Magenta>{{ $arg[2] }}<@Red> can only be one or more spaces."
-        }
-      }
-    },
-    "reset": {
-      "example": [
-        "E: psc reset *                --- Reset PSCompletions module\n",
-        "   psc reset menu symbol      --- Reset all symbols(~?!)\n",
-        "   psc reset alias psc        --- Reset psc alias\n",
-        "   psc reset completion psc   --- Reset(Remove) this special configuration(language) of psc"
-      ],
-      "init_confirm": [
-        "<@Yellow>Reset the PSCompletions module, are you sure?\n",
-        "<@Red>It will delete everything except the module source code.\n",
-        "<@Yellow>Press <@Magenta>Enter<@Yellow> key to continue or <@Magenta>other key(Without Ctrl)<@Yellow> to cancel!"
-      ],
-      "init_done": [
-        "<@Green>PSCompletions module was reset successfully!\n",
-        "Initializing the module..."
-      ],
-      "done": [
-        "{{",
-        "$out = @();",
-        "$end = '';",
-        "if($change_list){",
-        "  $out += '<@Green>Reset successfully!', '<@Cyan>Here are the changes from old to new:', '------------------------------';",
-        "  $end = '------------------------------';",
-        "};",
-        "$change_list | ForEach-Object {",
-        "  $c = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" };",
-        "  $out += \"$($c): <@Magenta>$($PSCompletions.wrap_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.wrap_whitespace($_.new_value))<@Blue>\";",
-        "};",
-        "($out + $end) -join \"`n\";",
-        "}}"
-      ],
-      "order": {
-        "done": [
-          "<@Green>Reset ordering of completions Successfully!"
-        ]
-      },
-      "alias": {
-        "tip": "Reset {{ $completion }}'s alias to default.",
-        "example": [
-          "E: psc reset alias *               --- Reset all aliases\n",
-          "   psc reset alias psc             --- Reset psc alias\n",
-          "   psc reset alias psc git bun     --- Reset psc git bun alias"
-        ]
-      },
-      "completion": {
-        "tip": "Reset(Remove) the special configurations of {{ $completion }}",
-        "tip_v": "Reset(Remove) this special configuration of {{ $completion }} --- {{ $config_item }}",
-        "example": [
-          "E: psc reset completion *              --- Reset(Remove) the special configurations of all completions\n",
-          "   psc reset completion psc            --- Reset(Remove) the special configurations of psc\n",
-          "   psc reset completion psc language   --- Reset(Remove) this special configuration(language) of psc"
-        ]
-      },
-      "menu": {
-        "example": [
-          "E: psc reset menu *              --- Reset all menu configurations\n",
-          "   psc reset menu config         --- Reset menu configurations\n",
-          "   psc reset menu line_theme     --- Reset menu border line style"
-        ]
-      }
+      "tip": "Locate completion storage location --- {{ $completion }}"
     }
   }
 }

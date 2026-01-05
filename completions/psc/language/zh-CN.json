@@ -9,21 +9,6 @@
   },
   "root": [
     {
-      "name": "list",
-      "tip": [
-        "显示已经添加的补全。",
-        "{{ $json.info.list.example }}"
-      ],
-      "options": [
-        {
-          "name": "--remote",
-          "tip": [
-            "显示远程仓库({{ $PSCompletions.url }})中的所有可用补全。"
-          ]
-        }
-      ]
-    },
-    {
       "name": "add",
       "tip": [
         "添加补全(一个或多个)。",
@@ -41,73 +26,6 @@
       ]
     },
     {
-      "name": "rm",
-      "tip": [
-        "移除补全(一个或多个)。",
-        "{{ $info.rm.example }}"
-      ],
-      "next": [
-        {
-          "name": "*",
-          "tip": [
-            "移除所有的补全。",
-            "注意: psc 作为 PSCompletions 模块的补全，会在移除后自动重新添加。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "update",
-      "tip": [
-        "更新补全(一个或多个)。",
-        "{{ $info.update.example }}"
-      ],
-      "next": [
-        {
-          "name": "*",
-          "tip": [
-            "更新当前所有可更新的补全。",
-            "{{",
-            "if($PSCompletions.update){ \"当前可更新的补全: $($PSCompletions.update -join ',')\" }",
-            "else{'所有补全都是最新的!'}",
-            "}}"
-          ],
-          "options": [
-            {
-              "name": "--force",
-              "tip": [
-                "强制更新所有已经添加的补全。",
-                "(这可以确保补全一定是最新的)"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "search",
-      "tip": [
-        "搜索补全(可使用通配符匹配)。",
-        "{{ $info.search.example }}"
-      ],
-      "next": [
-        {
-          "name": "*",
-          "tip": [
-            "搜索所有可用补全。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "which",
-      "tip": [
-        "定位补全存储位置。",
-        "{{ $info.which.example }}"
-      ],
-      "next": []
-    },
-    {
       "name": "alias",
       "tip": [
         "管理补全触发的命令名。",
@@ -117,12 +35,6 @@
       ],
       "next": [
         {
-          "name": "list",
-          "tip": [
-            "显示所有补全别名。"
-          ]
-        },
-        {
           "name": "add",
           "tip": [
             "为指定补全添加一个别名。",
@@ -131,6 +43,12 @@
             "{{ $info.alias.add.example }}"
           ],
           "next": []
+        },
+        {
+          "name": "list",
+          "tip": [
+            "显示所有补全别名。"
+          ]
         },
         {
           "name": "rm",
@@ -143,6 +61,15 @@
       ]
     },
     {
+      "name": "completion",
+      "tip": [
+        "指定单个补全的特殊配置(特殊配置优先级最高)。",
+        "每个补全默认带有多个特殊配置({{ $PSCompletions.default_completion_item -join '|' }})。",
+        "{{ $info.completion.example }}"
+      ],
+      "next": []
+    },
+    {
       "name": "config",
       "tip": [
         "读取/更改模块相关的配置。",
@@ -150,37 +77,116 @@
       ],
       "next": [
         {
-          "name": "url",
+          "name": "enable_auto_alias_setup",
           "tip": [
-            "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
-            "设置远程补全数据的 url 地址。",
-            "默认值为 \"\"，表示根据语言自动选择仓库(Github/Gitee)。",
-            "{{ $info.config.url.example }}"
+            "当前值: {{ $PSCompletions.config.enable_auto_alias_setup }} (默认值: 1)",
+            "设置是否自动使用 Set-Alias 添加 psc alias 定义的别名",
+            "如果设置为 0，则需要手动使用 Set-Alias 设置"
           ],
           "next": [
             {
-              "name": "\"\"",
+              "name": "0",
               "tip": [
-                "设置为 \"\" (默认值)",
-                "它表示根据语言自动选择仓库(Github/Gitee)。"
+                "设置为 0"
               ]
             },
             {
-              "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
+              "name": "1",
               "tip": [
-                "使用 Github 作为补全库的源"
+                "设置为 1 (默认值)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_cache",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_cache }} (默认值: 1)",
+            "设置是否启用补全缓存，默认启用，用于提高补全的加载速度。",
+            "通常不需要修改它, 除非每次补全触发都需要重新读取 json 文件，如补全调试。"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0",
+                "禁用补全缓存, 主要用于更新调试补全文件。",
+                "禁用后, 每次补全触发都会重新去读取补全文件(json)。"
               ]
             },
             {
-              "name": "\"https://gitee.com/abgox/PSCompletions/raw/main\"",
+              "name": "1",
               "tip": [
-                "使用 Gitee 作为补全库的源"
+                "设置为 1 (默认值)",
+                "启用补全缓存, 这会让补全的加载速度更快, 建议保持启用。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_completions_update",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_completions_update }} (默认值: 1)",
+            "设置首次加载 PSCompletions 模块时是否显示补全更新(更新包括更新补全、新增补全)。",
+            "注意: 不推荐禁用它, 因为及时获取更新信息能避免一些意外错误。"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0",
+                "首次加载模块时不显示补全更新。",
+                "注意: 这并不推荐, 因为及时获取更新信息能避免一些意外错误。"
               ]
             },
             {
-              "name": "\"https://abgox.github.io/PSCompletions\"",
+              "name": "1",
               "tip": [
-                "使用 Github Pages 作为补全库的源"
+                "设置为 1 (默认值)",
+                "首次加载模块时显示补全更新。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable_module_update",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.enable_module_update }} (默认值: 1)",
+            "当模块有了新版本后, 是否在首次加载模块后显示更新提示。",
+            "注意: 不推荐关闭它，因为远程仓库始终匹配 PSCompletions 最新版本。",
+            "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "设置为 0",
+                "不显示更新提示。",
+                "注意: 远程仓库始终匹配 PSCompletions 最新版本, 不建议关闭它。",
+                "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "设置为 1 (默认值)",
+                "显示更新提示。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "function_name",
+          "tip": [
+            "当前值: {{ $PSCompletions.config.function_name }} (默认值: PSCompletions)",
+            "设置模块导出的核心函数名。",
+            "当你需要定义一个函数，且必须命名为 PSCompletions 时，你可以通过此配置修改 PSCompletions 模块默认导出的函数名以解决冲突。"
+          ],
+          "next": [
+            {
+              "name": "PSCompletions",
+              "tip": [
+                "设置为 PSCompletions (默认值)"
               ]
             }
           ]
@@ -201,8 +207,18 @@
                 "设置为英文。",
                 "{{",
                 "if(!$PSCompletions.config.url){",
-                "  $github=$PSCompletions.config.github;",
-                "  if($github){ \"`n设置为 en-US 后, 添加补全时, 将从 Github 仓库($($github))中获取\" }",
+                "  \"`n它将使用 Github 仓库作为补全源。`n你也可以通过设置 psc config url <url> 来指定源。\"",
+                "}",
+                "}}"
+              ]
+            },
+            {
+              "name": "zh-CN",
+              "tip": [
+                "设置为中文。",
+                "{{",
+                "if(!$PSCompletions.config.url){",
+                "  \"`n它将使用 Gitee 仓库作为补全源。`n你也可以通过设置 psc config url <url> 来指定源。\"",
                 "}",
                 "}}"
               ]
@@ -210,116 +226,37 @@
           ]
         },
         {
-          "name": "enable_auto_alias_setup",
+          "name": "url",
           "tip": [
-            "当前值: {{ $PSCompletions.config.enable_auto_alias_setup }} (默认值: 1)",
-            "设置是否自动使用 Set-Alias 添加 psc alias 定义的别名",
-            "如果设置为 0，则需要手动使用 Set-Alias 设置"
+            "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
+            "设置远程补全数据的 url 地址。",
+            "默认值为 \"\"，表示根据语言自动选择仓库(Github/Gitee)。",
+            "{{ $info.config.url.example }}"
           ],
           "next": [
             {
-              "name": "1",
+              "name": "\"\"",
               "tip": [
-                "设置为 1 (默认值)"
+                "设置为 \"\" (默认值)",
+                "它表示根据语言自动选择仓库(Github/Gitee)。"
               ]
             },
             {
-              "name": "0",
+              "name": "\"https://abgox.github.io/PSCompletions\"",
               "tip": [
-                "设置为 0"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_completions_update",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_completions_update }} (默认值: 1)",
-            "设置首次加载 PSCompletions 模块时是否显示补全更新(更新包括更新补全、新增补全)。",
-            "注意: 不推荐禁用它, 因为及时获取更新信息能避免一些意外错误。"
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "设置为 1 (默认值)",
-                "首次加载模块时显示补全更新。"
+                "使用 Github Pages 作为补全库的源"
               ]
             },
             {
-              "name": "0",
+              "name": "\"https://gitee.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "设置为 0",
-                "首次加载模块时不显示补全更新。",
-                "注意: 这并不推荐, 因为及时获取更新信息能避免一些意外错误。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_module_update",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_module_update }} (默认值: 1)",
-            "当模块有了新版本后, 是否在首次加载模块后显示更新提示。",
-            "注意: 不推荐关闭它，因为远程仓库始终匹配 PSCompletions 最新版本。",
-            "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "设置为 1 (默认值)",
-                "显示更新提示。"
+                "使用 Gitee 作为补全库的源"
               ]
             },
             {
-              "name": "0",
+              "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "设置为 0",
-                "不显示更新提示。",
-                "注意: 远程仓库始终匹配 PSCompletions 最新版本, 不建议关闭它。",
-                "      如果遇到模块错误，请确保使用的是最新版本的 PSCompletions 模块。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_cache",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_cache }} (默认值: 1)",
-            "设置是否启用补全缓存，默认启用，用于提高补全的加载速度。",
-            "通常不需要修改它, 除非每次补全触发都需要重新读取 json 文件，如补全调试。"
-          ],
-          "next": [
-            {
-              "name": "1",
-              "tip": [
-                "设置为 1 (默认值)",
-                "启用补全缓存, 这会让补全的加载速度更快, 建议保持启用。"
-              ]
-            },
-            {
-              "name": "0",
-              "tip": [
-                "设置为 0",
-                "禁用补全缓存, 主要用于更新调试补全文件。",
-                "禁用后, 每次补全触发都会重新去读取补全文件(json)。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "function_name",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.function_name }} (默认值: PSCompletions)",
-            "设置模块导出的核心函数名。",
-            "当你需要定义一个函数，且必须命名为 PSCompletions 时，你可以通过此配置修改 PSCompletions 模块默认导出的函数名以解决冲突。"
-          ],
-          "next": [
-            {
-              "name": "PSCompletions",
-              "tip": [
-                "设置为 PSCompletions (默认值)"
+                "使用 Github 作为补全库的源"
               ]
             }
           ]
@@ -327,13 +264,19 @@
       ]
     },
     {
-      "name": "completion",
+      "name": "list",
       "tip": [
-        "指定单个补全的特殊配置(特殊配置优先级最高)。",
-        "每个补全默认带有多个特殊配置({{ $PSCompletions.default_completion_item -join '|' }})。",
-        "{{ $info.completion.example }}"
+        "显示已经添加的补全。",
+        "{{ $json.info.list.example }}"
       ],
-      "next": []
+      "options": [
+        {
+          "name": "--remote",
+          "tip": [
+            "显示远程仓库({{ $PSCompletions.url }})中的所有可用补全。"
+          ]
+        }
+      ]
     },
     {
       "name": "menu",
@@ -342,167 +285,6 @@
         "{{ $info.menu.example}}"
       ],
       "next": [
-        {
-          "name": "symbol",
-          "tip": [
-            "设置补全提示中的特殊符号(~?!)。",
-            "这些符号只在通过 psc add 添加的补全中存在。",
-            "详情: https://pscompletions.abgox.com/command/#menu-symbol"
-          ],
-          "next": [
-            {
-              "name": "SpaceTab",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.SpaceTab }}",
-                "使用 psc menu symbol SpaceTab \"\" 可以隐藏这个符号。"
-              ],
-              "next": [
-                {
-                  "name": "~",
-                  "tip": [
-                    "设置为 ~ (默认值)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "设置为 \"\"",
-                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
-                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "OptionTab",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.OptionTab }}",
-                "使用 psc menu symbol OptionTab \"\" 可以隐藏这个符号。"
-              ],
-              "next": [
-                {
-                  "name": "?",
-                  "tip": [
-                    "设置为 ? (默认值)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "设置为 \"\"",
-                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
-                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "WriteSpaceTab",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.WriteSpaceTab }}",
-                "使用 psc menu symbol WriteSpaceTab \"\" 可以隐藏这个符号。"
-              ],
-              "next": [
-                {
-                  "name": "!",
-                  "tip": [
-                    "设置为 ! (默认值)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "设置为 \"\"",
-                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
-                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "line_theme",
-          "tip": [
-            "切换补全菜单的内置边框样式主题。",
-            "你也可以通过 psc menu custom line 下的命令来自定义。",
-            "{{ $info.menu.line_theme.example }}"
-          ],
-          "next": [
-            {
-              "name": "double_line_rect_border",
-              "tip": [
-                "设置为双线直角边框(默认值)。效果如下:",
-                "╔═════╗",
-                "║     ║",
-                "╚═════╝"
-              ]
-            },
-            {
-              "name": "bold_line_rect_border",
-              "tip": [
-                "设置为粗线直角边框。效果如下:",
-                "┏━━━━━┓",
-                "┃     ┃",
-                "┗━━━━━┛"
-              ]
-            },
-            {
-              "name": "single_line_rect_border",
-              "tip": [
-                "设置为单线直角边框。效果如下:",
-                "┌─────┐",
-                "│     │",
-                "└─────┘"
-              ]
-            },
-            {
-              "name": "single_line_round_border",
-              "tip": [
-                "设置为单线圆角边框。效果如下:",
-                "╭─────╮",
-                "│     │",
-                "╰─────╯"
-              ]
-            },
-            {
-              "name": "boldTB_slimLR_border",
-              "tip": [
-                "设置边框(上下粗线，左右细线)。效果如下:",
-                "┍━━━━━┑",
-                "│     │",
-                "┕━━━━━┙"
-              ]
-            },
-            {
-              "name": "slimTB_boldLR_border",
-              "tip": [
-                "设置边框(上下细线，左右粗线)。效果如下:",
-                "┎─────┒",
-                "┃     ┃",
-                "┖─────┚"
-              ]
-            },
-            {
-              "name": "doubleTB_singleLR_border",
-              "tip": [
-                "设置边框(上下双线，左右单线)。效果如下:",
-                "╒═════╕",
-                "│     │",
-                "╘═════╛"
-              ]
-            },
-            {
-              "name": "singleTB_doubleLR_border",
-              "tip": [
-                "设置边框(上下单线，左右双线)。效果如下:",
-                "╓─────╖",
-                "║     ║",
-                "╙─────╜"
-              ]
-            }
-          ]
-        },
         {
           "name": "color_theme",
           "tip": [
@@ -526,297 +308,6 @@
           ]
         },
         {
-          "name": "custom",
-          "tip": [
-            "自定义补全菜单的样式。",
-            "{{ $info.menu.custom.example }}"
-          ],
-          "next": [
-            {
-              "name": "color",
-              "tip": [
-                "颜色相关的自定义配置。"
-              ],
-              "next": [
-                {
-                  "name": "filter_color",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.filter_color }}",
-                    "过滤框(左上角)的前景色。"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "border_color",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.border_color }}",
-                    "边框的前景色。"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "item_color",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.item_color }}",
-                    "补全项的前景色。"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "status_color",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.status_color }}",
-                    "补全个数状态(左下角)的前景色。"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "tip_color",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.tip_color }}",
-                    "补全提示信息的前景色。"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "selected_color",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.selected_color }}",
-                    "选中项的前景色。"
-                  ],
-                  "next": []
-                },
-                {
-                  "name": "selected_bgcolor",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.config.selected_bgcolor }}",
-                    "选中项的背景色。"
-                  ],
-                  "next": []
-                }
-              ]
-            },
-            {
-              "name": "line",
-              "tip": [
-                "补全菜单的边框线相关的自定义配置。"
-              ],
-              "next": [
-                {
-                  "name": "horizontal",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.horizontal) }}",
-                    "边框的横线。"
-                  ],
-                  "next": [
-                    {
-                      "name": "═",
-                      "tip": [
-                        "默认值。"
-                      ]
-                    },
-                    {
-                      "name": "━"
-                    },
-                    {
-                      "name": "─"
-                    },
-                    {
-                      "name": "┄"
-                    },
-                    {
-                      "name": "┅"
-                    },
-                    {
-                      "name": "┈"
-                    },
-                    {
-                      "name": "┉"
-                    }
-                  ]
-                },
-                {
-                  "name": "vertical",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.vertical) }}",
-                    "边框的竖线。"
-                  ],
-                  "next": [
-                    {
-                      "name": "║",
-                      "tip": [
-                        "默认值。"
-                      ]
-                    },
-                    {
-                      "name": "┃"
-                    },
-                    {
-                      "name": "│"
-                    },
-                    {
-                      "name": "┆"
-                    },
-                    {
-                      "name": "┇"
-                    },
-                    {
-                      "name": "┊"
-                    },
-                    {
-                      "name": "┋"
-                    }
-                  ]
-                },
-                {
-                  "name": "top_left",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_left) }}",
-                    "边框的左上角。"
-                  ],
-                  "next": [
-                    {
-                      "name": "╔",
-                      "tip": [
-                        "默认值。"
-                      ]
-                    },
-                    {
-                      "name": "┏"
-                    },
-                    {
-                      "name": "┌"
-                    },
-                    {
-                      "name": "╭"
-                    },
-                    {
-                      "name": "┍"
-                    },
-                    {
-                      "name": "┎"
-                    },
-                    {
-                      "name": "╒"
-                    },
-                    {
-                      "name": "╓"
-                    }
-                  ]
-                },
-                {
-                  "name": "bottom_left",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_left) }}",
-                    "边框的左下角。"
-                  ],
-                  "next": [
-                    {
-                      "name": "╚",
-                      "tip": [
-                        "默认值。"
-                      ]
-                    },
-                    {
-                      "name": "┗"
-                    },
-                    {
-                      "name": "└"
-                    },
-                    {
-                      "name": "╰"
-                    },
-                    {
-                      "name": "┕"
-                    },
-                    {
-                      "name": "┖"
-                    },
-                    {
-                      "name": "╘"
-                    },
-                    {
-                      "name": "╙"
-                    }
-                  ]
-                },
-                {
-                  "name": "top_right",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_right) }}",
-                    "边框的右上角。"
-                  ],
-                  "next": [
-                    {
-                      "name": "╗",
-                      "tip": [
-                        "默认值。"
-                      ]
-                    },
-                    {
-                      "name": "┓"
-                    },
-                    {
-                      "name": "┐"
-                    },
-                    {
-                      "name": "╮"
-                    },
-                    {
-                      "name": "┑"
-                    },
-                    {
-                      "name": "┒"
-                    },
-                    {
-                      "name": "╕"
-                    },
-                    {
-                      "name": "╖"
-                    }
-                  ]
-                },
-                {
-                  "name": "bottom_right",
-                  "tip": [
-                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_right) }}",
-                    "边框的右下角。"
-                  ],
-                  "next": [
-                    {
-                      "name": "╝",
-                      "tip": [
-                        "默认值。"
-                      ]
-                    },
-                    {
-                      "name": "┛"
-                    },
-                    {
-                      "name": "┘"
-                    },
-                    {
-                      "name": "╯"
-                    },
-                    {
-                      "name": "┙"
-                    },
-                    {
-                      "name": "┚"
-                    },
-                    {
-                      "name": "╛"
-                    },
-                    {
-                      "name": "╜"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
           "name": "config",
           "tip": [
             "针对补全菜单的一些其他自定义配置。",
@@ -824,719 +315,336 @@
           ],
           "next": [
             {
-              "name": "trigger_key",
+              "name": "between_item_and_symbol",
               "tip": [
-                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.trigger_key) }} (默认值: \"Tab\")",
-                "设置触发补全的按键。"
+                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.between_item_and_symbol) }} (默认值: \" \")",
+                "设置当补全项后面有符号时, 补全项与符号之间的间隔符。"
               ],
               "next": [
                 {
-                  "name": "\"Tab\"",
+                  "name": "\" \"",
                   "tip": [
-                    "设置为 Tab (默认值)"
+                    "设置为 \" \" (默认值)",
+                    "每一个补全项和符号之间都加入一个空格作为间隔。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "completion_suffix",
+              "tip": [
+                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.completion_suffix) }} (默认值: \" \")",
+                "设置补全后缀，当应用补全后，会自动补充这个后缀。",
+                "默认为一个空格，用于简化不必要的空格按键。"
+              ],
+              "next": [
+                {
+                  "name": "\" \"",
+                  "tip": [
+                    "设置为 \" \" (默认值)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "completions_confirm_limit",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.completions_confirm_limit }} (默认值: 0)",
+                "设置当补全项超过多少个时弹出二次确认框，确认后再获取补全。",
+                "如果值为 0, 则表示它无限制"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)",
+                    "它表示无限制，不管补全项有多少个，都会直接获取。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_completions_sort",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_completions_sort }} (默认值: 1)",
+                "设置是否根据命令历史记录动态排序补全列表。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "不再根据命令历史记录动态排序补全列表。"
                   ]
                 },
                 {
-                  "name": "\"F1\""
-                },
-                {
-                  "name": "\"F2\""
-                },
-                {
-                  "name": "\"F3\""
-                },
-                {
-                  "name": "\"F4\""
-                },
-                {
-                  "name": "\"F5\""
-                },
-                {
-                  "name": "\"F6\""
-                },
-                {
-                  "name": "\"F7\""
-                },
-                {
-                  "name": "\"F8\""
-                },
-                {
-                  "name": "\"F9\""
-                },
-                {
-                  "name": "\"0\""
-                },
-                {
-                  "name": "\"1\""
-                },
-                {
-                  "name": "\"2\""
-                },
-                {
-                  "name": "\"3\""
-                },
-                {
-                  "name": "\"4\""
-                },
-                {
-                  "name": "\"5\""
-                },
-                {
-                  "name": "\"6\""
-                },
-                {
-                  "name": "\"7\""
-                },
-                {
-                  "name": "\"8\""
-                },
-                {
-                  "name": "\"9\""
-                },
-                {
-                  "name": "\"a\""
-                },
-                {
-                  "name": "\"b\""
-                },
-                {
-                  "name": "\"c\""
-                },
-                {
-                  "name": "\"d\""
-                },
-                {
-                  "name": "\"e\""
-                },
-                {
-                  "name": "\"f\""
-                },
-                {
-                  "name": "\"g\""
-                },
-                {
-                  "name": "\"h\""
-                },
-                {
-                  "name": "\"i\""
-                },
-                {
-                  "name": "\"j\""
-                },
-                {
-                  "name": "\"k\""
-                },
-                {
-                  "name": "\"l\""
-                },
-                {
-                  "name": "\"m\""
-                },
-                {
-                  "name": "\"n\""
-                },
-                {
-                  "name": "\"o\""
-                },
-                {
-                  "name": "\"p\""
-                },
-                {
-                  "name": "\"q\""
-                },
-                {
-                  "name": "\"r\""
-                },
-                {
-                  "name": "\"s\""
-                },
-                {
-                  "name": "\"t\""
-                },
-                {
-                  "name": "\"u\""
-                },
-                {
-                  "name": "\"v\""
-                },
-                {
-                  "name": "\"w\""
-                },
-                {
-                  "name": "\"x\""
-                },
-                {
-                  "name": "\"y\""
-                },
-                {
-                  "name": "\"z\""
-                },
-                {
-                  "name": "\"A\""
-                },
-                {
-                  "name": "\"B\""
-                },
-                {
-                  "name": "\"C\""
-                },
-                {
-                  "name": "\"D\""
-                },
-                {
-                  "name": "\"E\""
-                },
-                {
-                  "name": "\"F\""
-                },
-                {
-                  "name": "\"G\""
-                },
-                {
-                  "name": "\"H\""
-                },
-                {
-                  "name": "\"I\""
-                },
-                {
-                  "name": "\"J\""
-                },
-                {
-                  "name": "\"K\""
-                },
-                {
-                  "name": "\"L\""
-                },
-                {
-                  "name": "\"M\""
-                },
-                {
-                  "name": "\"N\""
-                },
-                {
-                  "name": "\"O\""
-                },
-                {
-                  "name": "\"P\""
-                },
-                {
-                  "name": "\"Q\""
-                },
-                {
-                  "name": "\"R\""
-                },
-                {
-                  "name": "\"S\""
-                },
-                {
-                  "name": "\"T\""
-                },
-                {
-                  "name": "\"U\""
-                },
-                {
-                  "name": "\"V\""
-                },
-                {
-                  "name": "\"W\""
-                },
-                {
-                  "name": "\"X\""
-                },
-                {
-                  "name": "\"Y\""
-                },
-                {
-                  "name": "\"Z\""
-                },
-                {
-                  "name": "\"!\""
-                },
-                {
-                  "name": "\"@\""
-                },
-                {
-                  "name": "\"#\""
-                },
-                {
-                  "name": "\"$\""
-                },
-                {
-                  "name": "\"%\""
-                },
-                {
-                  "name": "\"^\""
-                },
-                {
-                  "name": "\"&\""
-                },
-                {
-                  "name": "\"*\""
-                },
-                {
-                  "name": "\"(\""
-                },
-                {
-                  "name": "\")\""
-                },
-                {
-                  "name": "\":\""
-                },
-                {
-                  "name": "\";\""
-                },
-                {
-                  "name": "\"?\""
-                },
-                {
-                  "name": "\"/\""
-                },
-                {
-                  "name": "\"~\""
-                },
-                {
-                  "name": "\"`\""
-                },
-                {
-                  "name": "\"{\""
-                },
-                {
-                  "name": "\"[\""
-                },
-                {
-                  "name": "\"|\""
-                },
-                {
-                  "name": "\"\\\""
-                },
-                {
-                  "name": "\"}\""
-                },
-                {
-                  "name": "\"]\""
-                },
-                {
-                  "name": "\"'\""
-                },
-                {
-                  "name": "\"\"\""
-                },
-                {
-                  "name": "\"<\""
-                },
-                {
-                  "name": "\",\""
-                },
-                {
-                  "name": "\">\""
-                },
-                {
-                  "name": "\".\""
-                },
-                {
-                  "name": "\"_\""
-                },
-                {
-                  "name": "\"-\""
-                },
-                {
-                  "name": "\"+\""
-                },
-                {
-                  "name": "\"=\""
-                },
-                {
-                  "name": "\"Spacebar\""
-                },
-                {
-                  "name": "\"Backspace\""
-                },
-                {
-                  "name": "\"Delete\""
-                },
-                {
-                  "name": "\"DownArrow\""
-                },
-                {
-                  "name": "\"End\""
-                },
-                {
-                  "name": "\"Enter\""
-                },
-                {
-                  "name": "\"Escape\""
-                },
-                {
-                  "name": "\"Home\""
-                },
-                {
-                  "name": "\"LeftArrow\""
-                },
-                {
-                  "name": "\"PageUp\""
-                },
-                {
-                  "name": "\"PageDown\""
-                },
-                {
-                  "name": "\"RightArrow\""
-                },
-                {
-                  "name": "\"UpArrow\""
-                },
-                {
-                  "name": "\"Alt+F1\""
-                },
-                {
-                  "name": "\"Alt+F2\""
-                },
-                {
-                  "name": "\"Alt+F3\""
-                },
-                {
-                  "name": "\"Alt+F4\""
-                },
-                {
-                  "name": "\"Alt+F5\""
-                },
-                {
-                  "name": "\"Alt+F6\""
-                },
-                {
-                  "name": "\"Alt+F7\""
-                },
-                {
-                  "name": "\"Alt+F8\""
-                },
-                {
-                  "name": "\"Alt+F9\""
-                },
-                {
-                  "name": "\"Alt+0\""
-                },
-                {
-                  "name": "\"Alt+1\""
-                },
-                {
-                  "name": "\"Alt+2\""
-                },
-                {
-                  "name": "\"Alt+3\""
-                },
-                {
-                  "name": "\"Alt+4\""
-                },
-                {
-                  "name": "\"Alt+5\""
-                },
-                {
-                  "name": "\"Alt+6\""
-                },
-                {
-                  "name": "\"Alt+7\""
-                },
-                {
-                  "name": "\"Alt+8\""
-                },
-                {
-                  "name": "\"Alt+9\""
-                },
-                {
-                  "name": "\"Alt+a\""
-                },
-                {
-                  "name": "\"Alt+b\""
-                },
-                {
-                  "name": "\"Alt+c\""
-                },
-                {
-                  "name": "\"Alt+d\""
-                },
-                {
-                  "name": "\"Alt+e\""
-                },
-                {
-                  "name": "\"Alt+f\""
-                },
-                {
-                  "name": "\"Alt+g\""
-                },
-                {
-                  "name": "\"Alt+h\""
-                },
-                {
-                  "name": "\"Alt+i\""
-                },
-                {
-                  "name": "\"Alt+j\""
-                },
-                {
-                  "name": "\"Alt+k\""
-                },
-                {
-                  "name": "\"Alt+l\""
-                },
-                {
-                  "name": "\"Alt+m\""
-                },
-                {
-                  "name": "\"Alt+n\""
-                },
-                {
-                  "name": "\"Alt+o\""
-                },
-                {
-                  "name": "\"Alt+p\""
-                },
-                {
-                  "name": "\"Alt+q\""
-                },
-                {
-                  "name": "\"Alt+r\""
-                },
-                {
-                  "name": "\"Alt+s\""
-                },
-                {
-                  "name": "\"Alt+t\""
-                },
-                {
-                  "name": "\"Alt+u\""
-                },
-                {
-                  "name": "\"Alt+v\""
-                },
-                {
-                  "name": "\"Alt+w\""
-                },
-                {
-                  "name": "\"Alt+x\""
-                },
-                {
-                  "name": "\"Alt+y\""
-                },
-                {
-                  "name": "\"Alt+z\""
-                },
-                {
-                  "name": "\"Alt+B\""
-                },
-                {
-                  "name": "\"Alt+F\""
-                },
-                {
-                  "name": "\"Alt+Spacebar\""
-                },
-                {
-                  "name": "\"Alt+.\""
-                },
-                {
-                  "name": "\"Alt+=\""
-                },
-                {
-                  "name": "\"Alt+-\""
-                },
-                {
-                  "name": "\"Alt+_\""
-                },
-                {
-                  "name": "\"Alt+Backspace\""
-                },
-                {
-                  "name": "\"Alt+<\""
-                },
-                {
-                  "name": "\"Alt+>\""
-                },
-                {
-                  "name": "\"Alt+?\""
-                },
-                {
-                  "name": "\"Ctrl+@\""
-                },
-                {
-                  "name": "\"Ctrl+Spacebar\""
-                },
-                {
-                  "name": "\"Ctrl+a\""
-                },
-                {
-                  "name": "\"Ctrl+b\""
-                },
-                {
-                  "name": "\"Ctrl+c\""
-                },
-                {
-                  "name": "\"Ctrl+d\""
-                },
-                {
-                  "name": "\"Ctrl+e\""
-                },
-                {
-                  "name": "\"Ctrl+f\""
-                },
-                {
-                  "name": "\"Ctrl+g\""
-                },
-                {
-                  "name": "\"Ctrl+h\""
-                },
-                {
-                  "name": "\"Ctrl+i\""
-                },
-                {
-                  "name": "\"Ctrl+j\""
-                },
-                {
-                  "name": "\"Ctrl+k\""
-                },
-                {
-                  "name": "\"Ctrl+l\""
-                },
-                {
-                  "name": "\"Ctrl+m\""
-                },
-                {
-                  "name": "\"Ctrl+n\""
-                },
-                {
-                  "name": "\"Ctrl+o\""
-                },
-                {
-                  "name": "\"Ctrl+p\""
-                },
-                {
-                  "name": "\"Ctrl+q\""
-                },
-                {
-                  "name": "\"Ctrl+r\""
-                },
-                {
-                  "name": "\"Ctrl+s\""
-                },
-                {
-                  "name": "\"Ctrl+t\""
-                },
-                {
-                  "name": "\"Ctrl+u\""
-                },
-                {
-                  "name": "\"Ctrl+v\""
-                },
-                {
-                  "name": "\"Ctrl+w\""
-                },
-                {
-                  "name": "\"Ctrl+x\""
-                },
-                {
-                  "name": "\"Ctrl+y\""
-                },
-                {
-                  "name": "\"Ctrl+z\""
-                },
-                {
-                  "name": "\"Ctrl+[\""
-                },
-                {
-                  "name": "\"Ctrl+\\\""
-                },
-                {
-                  "name": "\"Ctrl+]\""
-                },
-                {
-                  "name": "\"Ctrl+^\""
-                },
-                {
-                  "name": "\"Ctrl+_\""
-                },
-                {
-                  "name": "\"Ctrl+Backspace\""
-                },
-                {
-                  "name": "\"Ctrl+Delete\""
-                },
-                {
-                  "name": "\"Ctrl+End\""
-                },
-                {
-                  "name": "\"Ctrl+Home\""
-                },
-                {
-                  "name": "\"Ctrl+PageUp\""
-                },
-                {
-                  "name": "\"Ctrl+PageDown\""
-                },
-                {
-                  "name": "\"Ctrl+LeftArrow\""
-                },
-                {
-                  "name": "\"Ctrl+RightArrow\""
-                },
-                {
-                  "name": "\"Ctrl+Enter\""
-                },
-                {
-                  "name": "\"Shift+F3\""
-                },
-                {
-                  "name": "\"Shift+F8\""
-                },
-                {
-                  "name": "\"Shift+End\""
-                },
-                {
-                  "name": "\"Shift+Enter\""
-                },
-                {
-                  "name": "\"Shift+Home\""
-                },
-                {
-                  "name": "\"Shift+PageUp\""
-                },
-                {
-                  "name": "\"Shift+PageDown\""
-                },
-                {
-                  "name": "\"Shift+LeftArrow\""
-                },
-                {
-                  "name": "\"Shift+RightArrow\""
-                },
-                {
-                  "name": "\"Shift+UpArrow\""
-                },
-                {
-                  "name": "\"Shift+DownArrow\""
-                },
-                {
-                  "name": "\"Shift+Tab\""
-                },
-                {
-                  "name": "\"Shift+Insert\""
-                },
-                {
-                  "name": "\"Ctrl+C\""
-                },
-                {
-                  "name": "\"Ctrl+Shift+Enter\""
-                },
-                {
-                  "name": "\"Ctrl+Shift+LeftArrow\""
-                },
-                {
-                  "name": "\"Ctrl+Shift+RightArrow\""
-                },
-                {
-                  "name": "\"Ctrl+Alt+y\""
-                },
-                {
-                  "name": "\"Ctrl+Alt+]\""
-                },
-                {
-                  "name": "\"Ctrl+Alt+?\""
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "根据命令历史记录动态排序补全列表。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_enter_when_single",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_enter_when_single }} (默认值: 0)",
+                "当候选补全项只有一个时, 是否直接输入, 而不是显示补全菜单。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0 (默认值)",
+                    "即使只有一个候选补全项, 也会先显示菜单, 此时, 你可以再次按下 Tab 或 空格键输入此候选补全项。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1",
+                    "当候选补全项只有一个时, 会直接输入, 不会显示补全菜单。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_hooks_tip",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_hooks_tip }} (默认值: 1)",
+                "设置通过 hooks 动态添加的补全项是否需要补全提示信息。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "不显示补全提示信息。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "显示补全提示信息。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_follow_cursor",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_list_follow_cursor }} (默认值: 1)",
+                "设置补全菜单列表是否跟随输入光标显示。",
+                "如果 enable_list_full_width 为 1，则它无效。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "补全列表不跟随输入光标显示, 从 PowerShell 最左侧开始显示。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "补全列表跟随输入光标显示。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_full_width",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_list_full_width }} (默认值: 1)",
+                "设置补全菜单列表是否铺满窗口宽度。",
+                "启用它，补全菜单的性能会更好。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "补全菜单列表不铺满窗口宽度。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "补全菜单列表铺满窗口宽度。",
+                    "启用它，补全菜单的性能会更好。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_list_loop",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_list_loop }} (默认值: 1)",
+                "设置补全菜单列表是否循环显示。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "补全菜单列表不循环显示。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "补全菜单列表循环显示。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_menu",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_menu }} (默认值: 1)",
+                "设置是否使用 PSCompletions 模块提供的补全菜单。",
+                "如果你不是在 Windows 系统下使用 PowerShell(pwsh), 你无法使用模块提供的补全菜单, 此配置无效。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "使用 PowerShell 内置的补全菜单。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "使用 PSCompletions 模块提供的补全菜单。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_menu_enhance",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_menu_enhance }} (默认值: 1)",
+                "设置是否增强补全菜单的功能。",
+                "参考: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强",
+                "      https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_path_with_trailing_separator",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (默认值: 1)",
+                "设置路径补全是否带有末尾的分隔符。",
+                "C:\\Users\\abgox{{ $PSCompletions.separator }}     (有)",
+                "C:\\Users\\abgox      (无)"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "不带有末尾的分隔符。",
+                    "如: C:\\Users\\abgox"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "带有末尾的分隔符。",
+                    "如: C:\\Users\\abgox{{ $PSCompletions.separator }}"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_tip",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_tip }} (默认值: 1)",
+                "设置是否需要补全提示信息。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "不显示补全提示信息。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "显示补全提示信息。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_tip_follow_cursor",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_tip_follow_cursor }} (默认值: 1)",
+                "设置补全菜单命令提示信息是否跟随输入光标显示。",
+                "如果 enable_list_full_width 为 1，则它无效。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "补全提示信息不跟随输入光标显示, 从 PowerShell 最左侧开始显示。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "补全提示信息跟随输入光标显示。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "enable_tip_when_enhance",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.enable_tip_when_enhance }} (默认值: 1)",
+                "对于不是通过 'psc add' 添加的补全，如果有命令提示信息，是否显示。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "设置为 0",
+                    "不显示命令提示信息。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "设置为 1 (默认值)",
+                    "显示命令提示信息。"
+                  ]
                 }
               ]
             },
@@ -1552,37 +660,6 @@
                   "name": "[]",
                   "tip": [
                     "设置为 \"[]\" (默认值)"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "status_symbol",
-              "tip": [
-                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.status_symbol) }} (默认值: \"/\")",
-                "设置底部边框上的补全个数显示区域, 当前补全数以及总补全数之间的间隔符。"
-              ],
-              "next": [
-                {
-                  "name": "/",
-                  "tip": [
-                    "设置为 \"/\" (默认值)"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "between_item_and_symbol",
-              "tip": [
-                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.between_item_and_symbol) }} (默认值: \" \")",
-                "设置当补全项后面有符号时, 补全项与符号之间的间隔符。"
-              ],
-              "next": [
-                {
-                  "name": "\" \"",
-                  "tip": [
-                    "设置为 \" \" (默认值)",
-                    "每一个补全项和符号之间都加入一个空格作为间隔。"
                   ]
                 }
               ]
@@ -1649,307 +726,6 @@
               ]
             },
             {
-              "name": "enable_menu",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_menu }} (默认值: 1)",
-                "设置是否使用 PSCompletions 模块提供的补全菜单。",
-                "如果你不是在 Windows 系统下使用 PowerShell(pwsh), 你无法使用模块提供的补全菜单, 此配置无效。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "使用 PowerShell 内置的补全菜单。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "使用 PSCompletions 模块提供的补全菜单。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_menu_enhance",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_menu_enhance }} (默认值: 1)",
-                "设置是否增强补全菜单的功能。",
-                "参考: https://github.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强",
-                "      https://gitee.com/abgox/PSCompletions/blob/main/README.zh-CN.md#关于菜单增强"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_enter_when_single",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_enter_when_single }} (默认值: 0)",
-                "当候选补全项只有一个时, 是否直接输入, 而不是显示补全菜单。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0 (默认值)",
-                    "即使只有一个候选补全项, 也会先显示菜单, 此时, 你可以再次按下 Tab 或 空格键输入此候选补全项。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1",
-                    "当候选补全项只有一个时, 会直接输入, 不会显示补全菜单。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_list_loop",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_list_loop }} (默认值: 1)",
-                "设置补全菜单列表是否循环显示。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "补全菜单列表不循环显示。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "补全菜单列表循环显示。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_list_full_width",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_list_full_width }} (默认值: 1)",
-                "设置补全菜单列表是否铺满窗口宽度。",
-                "启用它，补全菜单的性能会更好。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "补全菜单列表不铺满窗口宽度。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "补全菜单列表铺满窗口宽度。",
-                    "启用它，补全菜单的性能会更好。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_list_follow_cursor",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_list_follow_cursor }} (默认值: 1)",
-                "设置补全菜单列表是否跟随输入光标显示。",
-                "如果 enable_list_full_width 为 1，则它无效。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "补全列表不跟随输入光标显示, 从 PowerShell 最左侧开始显示。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "补全列表跟随输入光标显示。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_tip",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_tip }} (默认值: 1)",
-                "设置是否需要补全提示信息。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "不显示补全提示信息。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "显示补全提示信息。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_hooks_tip",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_hooks_tip }} (默认值: 1)",
-                "设置通过 hooks 动态添加的补全项是否需要补全提示信息。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "不显示补全提示信息。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "显示补全提示信息。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_tip_when_enhance",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_tip_when_enhance }} (默认值: 1)",
-                "对于不是通过 'psc add' 添加的补全，如果有命令提示信息，是否显示。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "不显示命令提示信息。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "显示命令提示信息。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_tip_follow_cursor",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_tip_follow_cursor }} (默认值: 1)",
-                "设置补全菜单命令提示信息是否跟随输入光标显示。",
-                "如果 enable_list_full_width 为 1，则它无效。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "补全提示信息不跟随输入光标显示, 从 PowerShell 最左侧开始显示。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "补全提示信息跟随输入光标显示。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_completions_sort",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_completions_sort }} (默认值: 1)",
-                "设置是否根据命令历史记录动态排序补全列表。"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "不再根据命令历史记录动态排序补全列表。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "根据命令历史记录动态排序补全列表。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "enable_path_with_trailing_separator",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (默认值: 1)",
-                "设置路径补全是否带有末尾的分隔符。",
-                "C:\\Users\\abgox{{ $PSCompletions.separator }}     (有)",
-                "C:\\Users\\abgox      (无)"
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "设置为 0",
-                    "不带有末尾的分隔符。",
-                    "如: C:\\Users\\abgox"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "设置为 1 (默认值)",
-                    "带有末尾的分隔符。",
-                    "如: C:\\Users\\abgox{{ $PSCompletions.separator }}"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "list_min_width",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.list_min_width }} (默认值: 10)",
-                "设置补全菜单中, 补全项区域的最小宽度。",
-                "如果 enable_list_full_width 为 1，则它无效。"
-              ],
-              "next": [
-                {
-                  "name": "10",
-                  "tip": [
-                    "设置为 10 (默认值)"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "list_max_count_when_above",
               "tip": [
                 "当前值: {{ $PSCompletions.config.list_max_count_when_above }} (默认值: 0)",
@@ -1984,34 +760,1202 @@
               ]
             },
             {
-              "name": "completion_suffix",
+              "name": "list_min_width",
               "tip": [
-                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.completion_suffix) }} (默认值: \" \")",
-                "设置补全后缀，当应用补全后，会自动补充这个后缀。",
-                "默认为一个空格，用于简化不必要的空格按键。"
+                "当前值: {{ $PSCompletions.config.list_min_width }} (默认值: 10)",
+                "设置补全菜单中, 补全项区域的最小宽度。",
+                "如果 enable_list_full_width 为 1，则它无效。"
               ],
               "next": [
                 {
-                  "name": "\" \"",
+                  "name": "10",
                   "tip": [
-                    "设置为 \" \" (默认值)"
+                    "设置为 10 (默认值)"
                   ]
                 }
               ]
             },
             {
-              "name": "completions_confirm_limit",
+              "name": "status_symbol",
               "tip": [
-                "当前值: {{ $PSCompletions.config.completions_confirm_limit }} (默认值: 0)",
-                "设置当补全项超过多少个时弹出二次确认框，确认后再获取补全。",
-                "如果值为 0, 则表示它无限制"
+                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.status_symbol) }} (默认值: \"/\")",
+                "设置底部边框上的补全个数显示区域, 当前补全数以及总补全数之间的间隔符。"
               ],
               "next": [
                 {
-                  "name": "0",
+                  "name": "/",
                   "tip": [
-                    "设置为 0 (默认值)",
-                    "它表示无限制，不管补全项有多少个，都会直接获取。"
+                    "设置为 \"/\" (默认值)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "trigger_key",
+              "tip": [
+                "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.trigger_key) }} (默认值: \"Tab\")",
+                "设置触发补全的按键。"
+              ],
+              "next": [
+                {
+                  "name": "\"_\""
+                },
+                {
+                  "name": "\"-\""
+                },
+                {
+                  "name": "\",\""
+                },
+                {
+                  "name": "\";\""
+                },
+                {
+                  "name": "\":\""
+                },
+                {
+                  "name": "\"!\""
+                },
+                {
+                  "name": "\"?\""
+                },
+                {
+                  "name": "\".\""
+                },
+                {
+                  "name": "\"'\""
+                },
+                {
+                  "name": "\"\"\""
+                },
+                {
+                  "name": "\"(\""
+                },
+                {
+                  "name": "\")\""
+                },
+                {
+                  "name": "\"[\""
+                },
+                {
+                  "name": "\"]\""
+                },
+                {
+                  "name": "\"{\""
+                },
+                {
+                  "name": "\"}\""
+                },
+                {
+                  "name": "\"@\""
+                },
+                {
+                  "name": "\"*\""
+                },
+                {
+                  "name": "\"/\""
+                },
+                {
+                  "name": "\"\\\""
+                },
+                {
+                  "name": "\"&\""
+                },
+                {
+                  "name": "\"#\""
+                },
+                {
+                  "name": "\"%\""
+                },
+                {
+                  "name": "\"`\""
+                },
+                {
+                  "name": "\"^\""
+                },
+                {
+                  "name": "\"+\""
+                },
+                {
+                  "name": "\"<\""
+                },
+                {
+                  "name": "\"=\""
+                },
+                {
+                  "name": "\">\""
+                },
+                {
+                  "name": "\"|\""
+                },
+                {
+                  "name": "\"~\""
+                },
+                {
+                  "name": "\"$\""
+                },
+                {
+                  "name": "\"0\""
+                },
+                {
+                  "name": "\"1\""
+                },
+                {
+                  "name": "\"2\""
+                },
+                {
+                  "name": "\"3\""
+                },
+                {
+                  "name": "\"4\""
+                },
+                {
+                  "name": "\"5\""
+                },
+                {
+                  "name": "\"6\""
+                },
+                {
+                  "name": "\"7\""
+                },
+                {
+                  "name": "\"8\""
+                },
+                {
+                  "name": "\"9\""
+                },
+                {
+                  "name": "\"a\""
+                },
+                {
+                  "name": "\"A\""
+                },
+                {
+                  "name": "\"Alt+_\""
+                },
+                {
+                  "name": "\"Alt+-\""
+                },
+                {
+                  "name": "\"Alt+?\""
+                },
+                {
+                  "name": "\"Alt+.\""
+                },
+                {
+                  "name": "\"Alt+<\""
+                },
+                {
+                  "name": "\"Alt+=\""
+                },
+                {
+                  "name": "\"Alt+>\""
+                },
+                {
+                  "name": "\"Alt+0\""
+                },
+                {
+                  "name": "\"Alt+1\""
+                },
+                {
+                  "name": "\"Alt+2\""
+                },
+                {
+                  "name": "\"Alt+3\""
+                },
+                {
+                  "name": "\"Alt+4\""
+                },
+                {
+                  "name": "\"Alt+5\""
+                },
+                {
+                  "name": "\"Alt+6\""
+                },
+                {
+                  "name": "\"Alt+7\""
+                },
+                {
+                  "name": "\"Alt+8\""
+                },
+                {
+                  "name": "\"Alt+9\""
+                },
+                {
+                  "name": "\"Alt+a\""
+                },
+                {
+                  "name": "\"Alt+b\""
+                },
+                {
+                  "name": "\"Alt+B\""
+                },
+                {
+                  "name": "\"Alt+Backspace\""
+                },
+                {
+                  "name": "\"Alt+c\""
+                },
+                {
+                  "name": "\"Alt+d\""
+                },
+                {
+                  "name": "\"Alt+e\""
+                },
+                {
+                  "name": "\"Alt+f\""
+                },
+                {
+                  "name": "\"Alt+F\""
+                },
+                {
+                  "name": "\"Alt+F1\""
+                },
+                {
+                  "name": "\"Alt+F2\""
+                },
+                {
+                  "name": "\"Alt+F3\""
+                },
+                {
+                  "name": "\"Alt+F4\""
+                },
+                {
+                  "name": "\"Alt+F5\""
+                },
+                {
+                  "name": "\"Alt+F6\""
+                },
+                {
+                  "name": "\"Alt+F7\""
+                },
+                {
+                  "name": "\"Alt+F8\""
+                },
+                {
+                  "name": "\"Alt+F9\""
+                },
+                {
+                  "name": "\"Alt+g\""
+                },
+                {
+                  "name": "\"Alt+h\""
+                },
+                {
+                  "name": "\"Alt+i\""
+                },
+                {
+                  "name": "\"Alt+j\""
+                },
+                {
+                  "name": "\"Alt+k\""
+                },
+                {
+                  "name": "\"Alt+l\""
+                },
+                {
+                  "name": "\"Alt+m\""
+                },
+                {
+                  "name": "\"Alt+n\""
+                },
+                {
+                  "name": "\"Alt+o\""
+                },
+                {
+                  "name": "\"Alt+p\""
+                },
+                {
+                  "name": "\"Alt+q\""
+                },
+                {
+                  "name": "\"Alt+r\""
+                },
+                {
+                  "name": "\"Alt+s\""
+                },
+                {
+                  "name": "\"Alt+Spacebar\""
+                },
+                {
+                  "name": "\"Alt+t\""
+                },
+                {
+                  "name": "\"Alt+u\""
+                },
+                {
+                  "name": "\"Alt+v\""
+                },
+                {
+                  "name": "\"Alt+w\""
+                },
+                {
+                  "name": "\"Alt+x\""
+                },
+                {
+                  "name": "\"Alt+y\""
+                },
+                {
+                  "name": "\"Alt+z\""
+                },
+                {
+                  "name": "\"b\""
+                },
+                {
+                  "name": "\"B\""
+                },
+                {
+                  "name": "\"Backspace\""
+                },
+                {
+                  "name": "\"c\""
+                },
+                {
+                  "name": "\"C\""
+                },
+                {
+                  "name": "\"Ctrl+_\""
+                },
+                {
+                  "name": "\"Ctrl+[\""
+                },
+                {
+                  "name": "\"Ctrl+]\""
+                },
+                {
+                  "name": "\"Ctrl+@\""
+                },
+                {
+                  "name": "\"Ctrl+\\\""
+                },
+                {
+                  "name": "\"Ctrl+^\""
+                },
+                {
+                  "name": "\"Ctrl+a\""
+                },
+                {
+                  "name": "\"Ctrl+Alt+?\""
+                },
+                {
+                  "name": "\"Ctrl+Alt+]\""
+                },
+                {
+                  "name": "\"Ctrl+Alt+y\""
+                },
+                {
+                  "name": "\"Ctrl+b\""
+                },
+                {
+                  "name": "\"Ctrl+Backspace\""
+                },
+                {
+                  "name": "\"Ctrl+c\""
+                },
+                {
+                  "name": "\"Ctrl+C\""
+                },
+                {
+                  "name": "\"Ctrl+d\""
+                },
+                {
+                  "name": "\"Ctrl+Delete\""
+                },
+                {
+                  "name": "\"Ctrl+e\""
+                },
+                {
+                  "name": "\"Ctrl+End\""
+                },
+                {
+                  "name": "\"Ctrl+Enter\""
+                },
+                {
+                  "name": "\"Ctrl+f\""
+                },
+                {
+                  "name": "\"Ctrl+g\""
+                },
+                {
+                  "name": "\"Ctrl+h\""
+                },
+                {
+                  "name": "\"Ctrl+Home\""
+                },
+                {
+                  "name": "\"Ctrl+i\""
+                },
+                {
+                  "name": "\"Ctrl+j\""
+                },
+                {
+                  "name": "\"Ctrl+k\""
+                },
+                {
+                  "name": "\"Ctrl+l\""
+                },
+                {
+                  "name": "\"Ctrl+LeftArrow\""
+                },
+                {
+                  "name": "\"Ctrl+m\""
+                },
+                {
+                  "name": "\"Ctrl+n\""
+                },
+                {
+                  "name": "\"Ctrl+o\""
+                },
+                {
+                  "name": "\"Ctrl+p\""
+                },
+                {
+                  "name": "\"Ctrl+PageDown\""
+                },
+                {
+                  "name": "\"Ctrl+PageUp\""
+                },
+                {
+                  "name": "\"Ctrl+q\""
+                },
+                {
+                  "name": "\"Ctrl+r\""
+                },
+                {
+                  "name": "\"Ctrl+RightArrow\""
+                },
+                {
+                  "name": "\"Ctrl+s\""
+                },
+                {
+                  "name": "\"Ctrl+Shift+Enter\""
+                },
+                {
+                  "name": "\"Ctrl+Shift+LeftArrow\""
+                },
+                {
+                  "name": "\"Ctrl+Shift+RightArrow\""
+                },
+                {
+                  "name": "\"Ctrl+Spacebar\""
+                },
+                {
+                  "name": "\"Ctrl+t\""
+                },
+                {
+                  "name": "\"Ctrl+u\""
+                },
+                {
+                  "name": "\"Ctrl+v\""
+                },
+                {
+                  "name": "\"Ctrl+w\""
+                },
+                {
+                  "name": "\"Ctrl+x\""
+                },
+                {
+                  "name": "\"Ctrl+y\""
+                },
+                {
+                  "name": "\"Ctrl+z\""
+                },
+                {
+                  "name": "\"d\""
+                },
+                {
+                  "name": "\"D\""
+                },
+                {
+                  "name": "\"Delete\""
+                },
+                {
+                  "name": "\"DownArrow\""
+                },
+                {
+                  "name": "\"e\""
+                },
+                {
+                  "name": "\"E\""
+                },
+                {
+                  "name": "\"End\""
+                },
+                {
+                  "name": "\"Enter\""
+                },
+                {
+                  "name": "\"Escape\""
+                },
+                {
+                  "name": "\"f\""
+                },
+                {
+                  "name": "\"F\""
+                },
+                {
+                  "name": "\"F1\""
+                },
+                {
+                  "name": "\"F2\""
+                },
+                {
+                  "name": "\"F3\""
+                },
+                {
+                  "name": "\"F4\""
+                },
+                {
+                  "name": "\"F5\""
+                },
+                {
+                  "name": "\"F6\""
+                },
+                {
+                  "name": "\"F7\""
+                },
+                {
+                  "name": "\"F8\""
+                },
+                {
+                  "name": "\"F9\""
+                },
+                {
+                  "name": "\"g\""
+                },
+                {
+                  "name": "\"G\""
+                },
+                {
+                  "name": "\"h\""
+                },
+                {
+                  "name": "\"H\""
+                },
+                {
+                  "name": "\"Home\""
+                },
+                {
+                  "name": "\"i\""
+                },
+                {
+                  "name": "\"I\""
+                },
+                {
+                  "name": "\"j\""
+                },
+                {
+                  "name": "\"J\""
+                },
+                {
+                  "name": "\"k\""
+                },
+                {
+                  "name": "\"K\""
+                },
+                {
+                  "name": "\"l\""
+                },
+                {
+                  "name": "\"L\""
+                },
+                {
+                  "name": "\"LeftArrow\""
+                },
+                {
+                  "name": "\"m\""
+                },
+                {
+                  "name": "\"M\""
+                },
+                {
+                  "name": "\"n\""
+                },
+                {
+                  "name": "\"N\""
+                },
+                {
+                  "name": "\"o\""
+                },
+                {
+                  "name": "\"O\""
+                },
+                {
+                  "name": "\"p\""
+                },
+                {
+                  "name": "\"P\""
+                },
+                {
+                  "name": "\"PageDown\""
+                },
+                {
+                  "name": "\"PageUp\""
+                },
+                {
+                  "name": "\"q\""
+                },
+                {
+                  "name": "\"Q\""
+                },
+                {
+                  "name": "\"r\""
+                },
+                {
+                  "name": "\"R\""
+                },
+                {
+                  "name": "\"RightArrow\""
+                },
+                {
+                  "name": "\"s\""
+                },
+                {
+                  "name": "\"S\""
+                },
+                {
+                  "name": "\"Shift+DownArrow\""
+                },
+                {
+                  "name": "\"Shift+End\""
+                },
+                {
+                  "name": "\"Shift+Enter\""
+                },
+                {
+                  "name": "\"Shift+F3\""
+                },
+                {
+                  "name": "\"Shift+F8\""
+                },
+                {
+                  "name": "\"Shift+Home\""
+                },
+                {
+                  "name": "\"Shift+Insert\""
+                },
+                {
+                  "name": "\"Shift+LeftArrow\""
+                },
+                {
+                  "name": "\"Shift+PageDown\""
+                },
+                {
+                  "name": "\"Shift+PageUp\""
+                },
+                {
+                  "name": "\"Shift+RightArrow\""
+                },
+                {
+                  "name": "\"Shift+Tab\""
+                },
+                {
+                  "name": "\"Shift+UpArrow\""
+                },
+                {
+                  "name": "\"Spacebar\""
+                },
+                {
+                  "name": "\"t\""
+                },
+                {
+                  "name": "\"T\""
+                },
+                {
+                  "name": "\"Tab\"",
+                  "tip": [
+                    "设置为 Tab (默认值)"
+                  ]
+                },
+                {
+                  "name": "\"u\""
+                },
+                {
+                  "name": "\"U\""
+                },
+                {
+                  "name": "\"UpArrow\""
+                },
+                {
+                  "name": "\"v\""
+                },
+                {
+                  "name": "\"V\""
+                },
+                {
+                  "name": "\"w\""
+                },
+                {
+                  "name": "\"W\""
+                },
+                {
+                  "name": "\"x\""
+                },
+                {
+                  "name": "\"X\""
+                },
+                {
+                  "name": "\"y\""
+                },
+                {
+                  "name": "\"Y\""
+                },
+                {
+                  "name": "\"z\""
+                },
+                {
+                  "name": "\"Z\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "custom",
+          "tip": [
+            "自定义补全菜单的样式。",
+            "{{ $info.menu.custom.example }}"
+          ],
+          "next": [
+            {
+              "name": "color",
+              "tip": [
+                "颜色相关的自定义配置。"
+              ],
+              "next": [
+                {
+                  "name": "border_color",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.border_color }}",
+                    "边框的前景色。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "filter_color",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.filter_color }}",
+                    "过滤框(左上角)的前景色。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "item_color",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.item_color }}",
+                    "补全项的前景色。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "selected_bgcolor",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.selected_bgcolor }}",
+                    "选中项的背景色。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "selected_color",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.selected_color }}",
+                    "选中项的前景色。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "status_color",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.status_color }}",
+                    "补全个数状态(左下角)的前景色。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "tip_color",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.config.tip_color }}",
+                    "补全提示信息的前景色。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "line",
+              "tip": [
+                "补全菜单的边框线相关的自定义配置。"
+              ],
+              "next": [
+                {
+                  "name": "bottom_left",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_left) }}",
+                    "边框的左下角。"
+                  ],
+                  "next": [
+                    {
+                      "name": "└"
+                    },
+                    {
+                      "name": "┕"
+                    },
+                    {
+                      "name": "┖"
+                    },
+                    {
+                      "name": "┗"
+                    },
+                    {
+                      "name": "╘"
+                    },
+                    {
+                      "name": "╙"
+                    },
+                    {
+                      "name": "╚",
+                      "tip": [
+                        "默认值。"
+                      ]
+                    },
+                    {
+                      "name": "╰"
+                    }
+                  ]
+                },
+                {
+                  "name": "bottom_right",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.bottom_right) }}",
+                    "边框的右下角。"
+                  ],
+                  "next": [
+                    {
+                      "name": "┘"
+                    },
+                    {
+                      "name": "┙"
+                    },
+                    {
+                      "name": "┚"
+                    },
+                    {
+                      "name": "┛"
+                    },
+                    {
+                      "name": "╛"
+                    },
+                    {
+                      "name": "╜"
+                    },
+                    {
+                      "name": "╝",
+                      "tip": [
+                        "默认值。"
+                      ]
+                    },
+                    {
+                      "name": "╯"
+                    }
+                  ]
+                },
+                {
+                  "name": "horizontal",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.horizontal) }}",
+                    "边框的横线。"
+                  ],
+                  "next": [
+                    {
+                      "name": "─"
+                    },
+                    {
+                      "name": "━"
+                    },
+                    {
+                      "name": "┄"
+                    },
+                    {
+                      "name": "┅"
+                    },
+                    {
+                      "name": "┈"
+                    },
+                    {
+                      "name": "┉"
+                    },
+                    {
+                      "name": "═",
+                      "tip": [
+                        "默认值。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "top_left",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_left) }}",
+                    "边框的左上角。"
+                  ],
+                  "next": [
+                    {
+                      "name": "┌"
+                    },
+                    {
+                      "name": "┍"
+                    },
+                    {
+                      "name": "┎"
+                    },
+                    {
+                      "name": "┏"
+                    },
+                    {
+                      "name": "╒"
+                    },
+                    {
+                      "name": "╓"
+                    },
+                    {
+                      "name": "╔",
+                      "tip": [
+                        "默认值。"
+                      ]
+                    },
+                    {
+                      "name": "╭"
+                    }
+                  ]
+                },
+                {
+                  "name": "top_right",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.top_right) }}",
+                    "边框的右上角。"
+                  ],
+                  "next": [
+                    {
+                      "name": "┐"
+                    },
+                    {
+                      "name": "┑"
+                    },
+                    {
+                      "name": "┒"
+                    },
+                    {
+                      "name": "┓"
+                    },
+                    {
+                      "name": "╕"
+                    },
+                    {
+                      "name": "╖"
+                    },
+                    {
+                      "name": "╗",
+                      "tip": [
+                        "默认值。"
+                      ]
+                    },
+                    {
+                      "name": "╮"
+                    }
+                  ]
+                },
+                {
+                  "name": "vertical",
+                  "tip": [
+                    "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.vertical) }}",
+                    "边框的竖线。"
+                  ],
+                  "next": [
+                    {
+                      "name": "│"
+                    },
+                    {
+                      "name": "┃"
+                    },
+                    {
+                      "name": "┆"
+                    },
+                    {
+                      "name": "┇"
+                    },
+                    {
+                      "name": "┊"
+                    },
+                    {
+                      "name": "┋"
+                    },
+                    {
+                      "name": "║",
+                      "tip": [
+                        "默认值。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "line_theme",
+          "tip": [
+            "切换补全菜单的内置边框样式主题。",
+            "你也可以通过 psc menu custom line 下的命令来自定义。",
+            "{{ $info.menu.line_theme.example }}"
+          ],
+          "next": [
+            {
+              "name": "bold_line_rect_border",
+              "tip": [
+                "设置为粗线直角边框。效果如下:",
+                "┏━━━━━┓",
+                "┃     ┃",
+                "┗━━━━━┛"
+              ]
+            },
+            {
+              "name": "boldTB_slimLR_border",
+              "tip": [
+                "设置边框(上下粗线，左右细线)。效果如下:",
+                "┍━━━━━┑",
+                "│     │",
+                "┕━━━━━┙"
+              ]
+            },
+            {
+              "name": "double_line_rect_border",
+              "tip": [
+                "设置为双线直角边框(默认值)。效果如下:",
+                "╔═════╗",
+                "║     ║",
+                "╚═════╝"
+              ]
+            },
+            {
+              "name": "doubleTB_singleLR_border",
+              "tip": [
+                "设置边框(上下双线，左右单线)。效果如下:",
+                "╒═════╕",
+                "│     │",
+                "╘═════╛"
+              ]
+            },
+            {
+              "name": "single_line_rect_border",
+              "tip": [
+                "设置为单线直角边框。效果如下:",
+                "┌─────┐",
+                "│     │",
+                "└─────┘"
+              ]
+            },
+            {
+              "name": "single_line_round_border",
+              "tip": [
+                "设置为单线圆角边框。效果如下:",
+                "╭─────╮",
+                "│     │",
+                "╰─────╯"
+              ]
+            },
+            {
+              "name": "singleTB_doubleLR_border",
+              "tip": [
+                "设置边框(上下单线，左右双线)。效果如下:",
+                "╓─────╖",
+                "║     ║",
+                "╙─────╜"
+              ]
+            },
+            {
+              "name": "slimTB_boldLR_border",
+              "tip": [
+                "设置边框(上下细线，左右粗线)。效果如下:",
+                "┎─────┒",
+                "┃     ┃",
+                "┖─────┚"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "symbol",
+          "tip": [
+            "设置补全项中的特殊符号(~?!)。",
+            "只有通过 psc add 添加的补全中存在这些符号。",
+            "这些符号是为了让你能够直观感知到是否可以继续获取补全。",
+            "详情: https://pscompletions.abgox.com/command/#menu-symbol"
+          ],
+          "next": [
+            {
+              "name": "OptionTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.OptionTab }}",
+                "使用 psc menu symbol OptionTab \"\" 可以隐藏这个符号。"
+              ],
+              "next": [
+                {
+                  "name": "?",
+                  "tip": [
+                    "设置为 ? (默认值)"
+                  ]
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "设置为 \"\"",
+                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
+                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.SpaceTab }}",
+                "使用 psc menu symbol SpaceTab \"\" 可以隐藏这个符号。"
+              ],
+              "next": [
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "设置为 \"\"",
+                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
+                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
+                  ]
+                },
+                {
+                  "name": "~",
+                  "tip": [
+                    "设置为 ~ (默认值)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "WriteSpaceTab",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.WriteSpaceTab }}",
+                "使用 psc menu symbol WriteSpaceTab \"\" 可以隐藏这个符号。"
+              ],
+              "next": [
+                {
+                  "name": "!",
+                  "tip": [
+                    "设置为 ! (默认值)"
+                  ]
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "设置为 \"\"",
+                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
+                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
                   ]
                 }
               ]
@@ -2035,13 +1979,6 @@
           ]
         },
         {
-          "name": "config",
-          "tip": [
-            "重置一些配置。",
-            "它会将 config 命令下可以设置的所有配置恢复到默认值。"
-          ]
-        },
-        {
           "name": "alias",
           "tip": [
             "将所有补全或指定的补全恢复为默认补全名。",
@@ -2054,14 +1991,6 @@
                 "删除所有补全别名, 全部恢复为默认补全名。"
               ]
             }
-          ]
-        },
-        {
-          "name": "order",
-          "tip": [
-            "重置所有的 order。",
-            "这里只是移除了 order 排序文件, 当下一次补全时, 会重新生成排序文件。",
-            "如果你不希望根据历史记录排序, 你应该使用 psc menu config enable_completions_sort 0 来禁用排序。"
           ]
         },
         {
@@ -2081,6 +2010,13 @@
           ]
         },
         {
+          "name": "config",
+          "tip": [
+            "重置一些配置。",
+            "它会将 config 命令下可以设置的所有配置恢复到默认值。"
+          ]
+        },
+        {
           "name": "menu",
           "tip": [
             "重置补全菜单的配置。",
@@ -2092,22 +2028,6 @@
               "tip": [
                 "重置所有补全菜单的配置。",
                 "包括 psc menu 命令下可以设置的所有的配置项。"
-              ]
-            },
-            {
-              "name": "symbol",
-              "tip": [
-                "重置符号为默认值。",
-                "SpaceTab      => ~",
-                "WriteSpaceTab => !",
-                "OptionTab     => ?"
-              ]
-            },
-            {
-              "name": "line",
-              "tip": [
-                "重置补全菜单边框线条相关的配置项。",
-                "包含 psc menu custom line 命令下的所有配置项。"
               ]
             },
             {
@@ -2123,10 +2043,101 @@
                 "重置补全菜单的其他自定义配置。",
                 "包括 psc menu config 命令下可以设置的其他配置项。"
               ]
+            },
+            {
+              "name": "line",
+              "tip": [
+                "重置补全菜单边框线条相关的配置项。",
+                "包含 psc menu custom line 命令下的所有配置项。"
+              ]
+            },
+            {
+              "name": "symbol",
+              "tip": [
+                "重置符号为默认值。",
+                "SpaceTab      => ~",
+                "WriteSpaceTab => !",
+                "OptionTab     => ?"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "order",
+          "tip": [
+            "重置所有的 order。",
+            "这里只是移除了 order 排序文件, 当下一次补全时, 会重新生成排序文件。",
+            "如果你不希望根据历史记录排序, 你应该使用 psc menu config enable_completions_sort 0 来禁用排序。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rm",
+      "tip": [
+        "移除补全(一个或多个)。",
+        "{{ $info.rm.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "移除所有的补全。",
+            "注意: psc 作为 PSCompletions 模块的补全，会在移除后自动重新添加。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "搜索补全(可使用通配符匹配)。",
+        "{{ $info.search.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "搜索所有可用补全。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "更新补全(一个或多个)。",
+        "{{ $info.update.example }}"
+      ],
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "更新当前所有可更新的补全。",
+            "{{",
+            "if($PSCompletions.update){ \"当前可更新的补全: $($PSCompletions.update -join ',')\" }",
+            "else{'所有补全都是最新的!'}",
+            "}}"
+          ],
+          "options": [
+            {
+              "name": "--force",
+              "tip": [
+                "强制更新所有已经添加的补全。",
+                "(这可以确保补全一定是最新的)"
+              ]
             }
           ]
         }
       ]
+    },
+    {
+      "name": "which",
+      "tip": [
+        "定位补全存储位置。",
+        "{{ $info.which.example }}"
+      ],
+      "next": []
     }
   ],
   "options": [
@@ -2143,6 +2154,233 @@
     }
   ],
   "info": {
+    "add": {
+      "doing": "<@Green>正在添加补全 --- <@Magenta>{{ $completion }}",
+      "done": [
+        "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 添加成功\n",
+        "{{",
+        "if($json.config -or $config.hooks -ne $null){",
+        " \"<@Blue>---------- 特殊配置 --------------\";",
+        "$configList = @();",
+        "if($config.hooks -ne $null){",
+        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
+        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
+        "};",
+        "if($json.config){ $configList += $json.config; };",
+        " $config_list = $configList | ForEach-Object {",
+        "   '';",
+        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
+        "   '默认值: ' + $PSCompletions.wrap_whitespace($_.value);",
+        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   if ($v -ne $null){ '当前值: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
+        "   $PSCompletions.replace_content($_.tip, \"`n\")",
+        " };",
+        " $config_list -join \"`n\";",
+        " \"`n<@Blue>----------------------------------\";",
+        "};",
+        "}}"
+      ],
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入要添加的补全名称\n",
+          "你可以输入多个补全名称, 以空格分隔, 会依次添加"
+        ],
+        "no": [
+          "<@Red>补全 <@Magenta>{{ $completion }}<@Red> 在补全列表文件中不存在。\n",
+          "<@Yellow>推荐输入 <@Magenta>psc add<@Yellow> 后按下 <@Magenta>空格<@Yellow> 和 <@Magenta>Tab<@Yellow> 键进行补全"
+        ]
+      },
+      "example": [
+        "E: psc add git           --- 添加 git 补全\n",
+        "   psc add git scoop     --- 添加 git 和 scoop 补全"
+      ],
+      "show_alias": "<@Yellow>默认的触发别名: <@Magenta>{{ $config.alias -join ' ' }}",
+      "tip": "添加补全 --- {{ $completion }}"
+    },
+    "alias": {
+      "add": {
+        "err": {
+          "cmd_exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 是已存在的命令, 请设置其他别名",
+          "exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 已经是 {{ $completion }} 的别名了",
+          "min_k": [
+            "<@Yellow>",
+            "你应该继续输入一个已经安装了的补全名称\n",
+            "然后再输入一个或多个你想添加的别名"
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "你还需要继续输入一个或多个你想为 {{ $completion }} 添加的别名"
+          ]
+        },
+        "example": [
+          "E: psc alias add git g gi            --- 为 git 添加 g、gi 两个别名\n",
+          "   psc alias add scoop scoop.ps1     --- 为 scoop 添加一个别名 scoop.ps1"
+        ],
+        "tip": [
+          "{{ \"当前别名列表: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
+          "为 {{ $completion }} 添加一个或多个别名"
+        ]
+      },
+      "done": [
+        "{{",
+        "if($arg[1] -eq 'add') {",
+        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> 新增了一个别名 <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
+        "}",
+        "elseif($arg[1] -eq 'rm') {",
+        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> 移除了一个别名 <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
+        "}",
+        "}}"
+      ],
+      "example": [
+        "E: psc alias list                 --- 列出所有别名\n",
+        "   psc alias add git g gi ./g     --- 添加 g gi ./g 为 git 别名\n",
+        "   psc alias rm g                 --- 删除一个别名或多个"
+      ],
+      "list": {
+        "example": [
+          "E: psc alias list     --- 列出所有别名"
+        ]
+      },
+      "rm": {
+        "err": {
+          "min_k": [
+            "<@Yellow>",
+            "你应该继续输入一个已经安装了的补全名称\n",
+            "然后再输入一个或多个你想移除的此补全的别名"
+          ],
+          "min_v": [
+            "<@Yellow>",
+            "你还需要继续输入一个或多个你想为 {{ $completion }} 移除的别名"
+          ],
+          "no_alias": "<@Magenta>{{ $alias }}<@Red> 不是 {{ $completion }} 的别名",
+          "unique": [
+            "<@Red>移除 <@Magenta>{{ $alias }}<@Red> 失败, 因为它是补全 <@Magenta>{{ $completion }}<@Red> 唯一的补全触发名\n",
+            "如果你想要修改它, 你应该先添加一个新别名, 再移除这个旧别名"
+          ]
+        },
+        "example": [
+          "E: psc alias rm git g gi            --- 为 git 删除 g、gi 两个别名\n",
+          "   psc alias rm scoop scoop.ps1     --- 为 scoop 删除一个别名 scoop.ps1"
+        ],
+        "tip": "为 {{ $completion }} 移除一个或多个别名",
+        "tip_v": [
+          "移除此别名。"
+        ]
+      }
+    },
+    "completion": {
+      "done": [
+        "<@Magenta>{{ $completion }}<@Green> 的特殊配置修改成功!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
+      ],
+      "enable_hooks": {
+        "tip": [
+          "设置是否启用 hooks。\n",
+          "hooks 将解析或生成补全数据，然后动态添加到命令补全中。\n",
+          "你可以通过运行 <@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue> 来禁用它。"
+        ]
+      },
+      "enable_hooks_tip": {
+        "tip": [
+          "设置 {{ $completion }} 通过 hooks 动态添加的补全项是否显示补全提示信息。"
+        ]
+      },
+      "enable_tip": {
+        "tip": [
+          "设置 {{ $completion }} 是否显示补全提示信息"
+        ]
+      },
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入要设置的配置项\n",
+          "每个补全默认带有多个特殊配置(<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
+          "{{",
+          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
+          "if($config){ \"$($arg[1]) 额外的可用配置项: <@Magenta>$($config -join ' ')\" }",
+          "}}"
+        ]
+      },
+      "example": [
+        "E: psc completion psc enable_tip       --- 返回配置当前的值(如果有值)\n",
+        "   psc completion psc enable_tip 0     --- 单独设置 psc 不显示补全提示信息\n",
+        "   psc completion psc language en-US   --- 单独设置 psc 补全的语言为英文"
+      ],
+      "language": {
+        "tip": [
+          "设置 {{ $completion }} 的语言"
+        ],
+        "tip_v": "设置语言为 {{ $language }}。"
+      },
+      "tip": [
+        "设置 {{ $completion }} 的特殊配置\n",
+        "特殊配置的优先级高于全局配置"
+      ]
+    },
+    "config": {
+      "done": [
+        "<@Green>PSCompletions 的配置修改成功!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}\n",
+        "<@Yellow>为了让更改生效，可能需要重启 PowerShell 并重新导入 PSCompletions 模块"
+      ],
+      "enable_cache": {
+        "example": [
+          "E: psc config enable_cache 1     --- 启用补全缓存\n",
+          "   psc config enable_cache 0     --- 禁用补全缓存"
+        ]
+      },
+      "err": {
+        "one_or_zero": [
+          "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 数字 1 或 0\n",
+          "1 表示启用, 0 表示禁用"
+        ]
+      },
+      "example": [
+        "E: psc config language               --- 获取语言设置\n",
+        "   psc config language en-US         --- 设置为英文"
+      ],
+      "function_name": {
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项需要一个值, 且它不是已存在的命令",
+        "example": [
+          "E: psc config function_name                   --- 获取当前使用的函数名\n",
+          "   psc config function_name PSCompletions     --- 设置函数名"
+        ]
+      },
+      "language": {
+        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 像 <@Magenta>zh-CN<@Yellow> 这样的区域语言标识符",
+        "example": [
+          "E: psc config language           --- 获取语言设置\n",
+          "   psc config language en-US     --- 设置为英文"
+        ]
+      },
+      "module_update": {
+        "example": [
+          "E: psc config module_update 1     --- 显示模块更新\n",
+          "   psc config module_update 0     --- 不显示模块更新"
+        ]
+      },
+      "update": {
+        "example": [
+          "E: psc config enable_completions_update 1     --- 显示补全更新\n",
+          "   psc config enable_completions_update 0     --- 不显示补全更新"
+        ]
+      },
+      "url": {
+        "err": [
+          "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 url 地址(https://xxx)\n",
+          "这个 url 必须是可用的, 且其目录结构应该与仓库相同"
+        ],
+        "example": [
+          "E: psc config url                                           --- 获取当前使用的 url\n",
+          "   psc config url https://abgox.github.io/PSCompletions     --- 设置 url 地址"
+        ]
+      }
+    },
+    "confirm_cancel": "<@Green>操作取消!",
+    "current_value": "当前值",
     "desc": [
       "<@Cyan>当前模块版本: <@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
       "\n",
@@ -2184,13 +2422,6 @@
       "\n",
       "{{ $PSCompletions.info.desc }}"
     ],
-    "init_info": [
-      "\n",
-      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- 初始化成功 ✨✨✨\n",
-      "<@Yellow>以下内容仅首次初始化显示, 你可以通过运行 <@Magenta>psc<@Yellow> 来查看它们\n\n",
-      "{{ $PSCompletions.info.description }}",
-      "\n"
-    ],
     "err": {
       "alias_conflict": [
         "<@Yellow>别名 <@Magenta>{{ $conflict_alias_list -join ' ' }}<@Yellow> 已经存在，请手动处理别名冲突"
@@ -2203,7 +2434,105 @@
         "<@Red>它包含了通配符"
       ]
     },
+    "example_color": "<@Cyan>",
+    "init_info": [
+      "\n",
+      "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- 初始化成功 ✨✨✨\n",
+      "<@Yellow>以下内容仅首次初始化显示, 你可以通过运行 <@Magenta>psc<@Yellow> 来查看它们\n\n",
+      "{{ $PSCompletions.info.description }}",
+      "\n"
+    ],
+    "list": {
+      "add": "",
+      "added": "已添加",
+      "example": [
+        "E: psc list              --- 显示本地已安装的补全列表\n",
+        "   psc list --remote     --- 显示远程补全列表"
+      ]
+    },
+    "menu": {
+      "color_theme": {
+        "done": [
+          "<@Green>menu 颜色样式主题修改成功!"
+        ],
+        "example": [
+          "E: psc menu color_theme default      --- 默认主题\n",
+          "   psc menu color_theme magenta      --- Magenta"
+        ]
+      },
+      "config": {
+        "err": {
+          "completion_suffix": "<@Magenta>{{ $arg[2] }}<@Red> 只能是一个或多个空格",
+          "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> 不是一个可用的按键映射，修改失败",
+          "v_1_or_0": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用",
+          "v_ge": "<@Red>应该是一个大于等于 <@Magenta>{{ $min }}<@Red> 的整数数字",
+          "v_ge_le": "<@Red>应该是一个大于等于 <@Magenta>{{ $min }}<@Red> 且小于等于 <@Magenta>{{ $max }}<@Red> 的整数数字"
+        },
+        "example": [
+          "E: psc menu config enable_enter_when_single 1     --- 只有一个补全项时自动应用\n",
+          "   psc menu config enable_tip 0                   --- 不显示补全提示信息\n",
+          "   psc menu config enable_menu 0                  --- 禁用模块提供的补全菜单\n",
+          "   psc menu config filter_symbol []               --- 设置过滤区域(左上角), 左侧和右侧的符号, 默认为 []"
+        ]
+      },
+      "custom": {
+        "color": {
+          "tip": "设置颜色为 {{ $color }}"
+        },
+        "example": [
+          "E: psc menu custom color border_color DarkGray     --- 设置边框的前景色为 DarkGray\n",
+          "   psc menu custom line horizontal ─               --- 设置边框的横线为 \"-\""
+        ]
+      },
+      "done": [
+        "<@Green>配置修改成功!\n",
+        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
+      ],
+      "example": [
+        "E: psc menu config enable_enter_when_single 1       --- 只有一个补全项时自动应用\n",
+        "   psc menu config enable_tip 0                     --- 不显示补全提示信息\n",
+        "   psc menu symbol SpaceTab \"\"                      --- 隐藏符号\n",
+        "   psc menu line_theme single_line_round_border     --- 切换内置的边框线条主题"
+      ],
+      "line_theme": {
+        "done": [
+          "<@Green>menu 边框样式主题修改成功!"
+        ],
+        "example": [
+          "E: psc menu line_theme double_line_rect_border       --- 设置为双线直角边框(默认)\n",
+          "   psc menu line_theme single_line_rect_border       --- 设置为单线直角边框\n",
+          "   psc menu line_theme single_line_round_border      --- 设置为单线圆角边框"
+        ]
+      },
+      "symbol": {
+        "err": {
+          "max": [
+            "<@Yellow>",
+            "{{ $arg[2] }} 配置项只需要一个值, 可以是你喜欢的符号"
+          ]
+        },
+        "example": [
+          "E: psc menu symbol SpaceTab ~        --- 设置符号为 ~\n",
+          "   psc menu symbol OptionTab ?       --- 设置符号为 ?\n",
+          "   psc menu symbol WriteSpaceTab !   --- 设置符号为 !"
+        ]
+      }
+    },
+    "min_area": "显示区域宽度或高度太小!",
     "module": {
+      "restart": "<@Yellow>为了让更改生效，请重启 PowerShell 并重新导入 PSCompletions 模块",
+      "too_many_completions": {
+        "text": [
+          "补全项过多: {{ $count }}",
+          "需要更多加载时间",
+          "请确认获取或取消"
+        ],
+        "tip": [
+          "选用任意一项表示确认获取，否则表示取消\n",
+          "你可以使用 psc menu config completions_confirm_limit 0 来取消限制\n",
+          "也可以设置更高的值来限制补全数量"
+        ]
+      },
       "update": [
         "<@Yellow>PSCompletions 模块更新: <@Magenta>{{ $PSCompletions.version }}<@Yellow> => <@Magenta>{{ $PSCompletions.config.enable_module_update }}<@Blue>\n\n",
         "{{ ",
@@ -2223,47 +2552,105 @@
         "scoop update abgox.PSCompletions\n\n",
         "scoop update pscompletions\n"
       ],
-      "updating": "<@Cyan>尝试运行命令: <@Magenta>{{ $update_cmd }}<@Cyan>\nPSCompletions 模块正在尝试更新...",
-      "restart": "<@Yellow>为了让更改生效，请重启 PowerShell 并重新导入 PSCompletions 模块",
-      "too_many_completions": {
-        "text": [
-          "补全项过多: {{ $count }}",
-          "需要更多加载时间",
-          "请确认获取或取消"
+      "updating": "<@Cyan>尝试运行命令: <@Magenta>{{ $update_cmd }}<@Cyan>\nPSCompletions 模块正在尝试更新..."
+    },
+    "no_completion": "<@Red>你还未添加 <@Magenta>{{ $completion }}<@Red> 补全",
+    "param_err": "<@Red>传入的参数错误。",
+    "param_max": "<@Red>传入的参数过多。",
+    "param_min": "<@Red>传入的参数过少。",
+    "reset": {
+      "alias": {
+        "example": [
+          "E: psc reset alias *               --- 删除所有补全别名,全部恢复为默认补全名\n",
+          "   psc reset alias psc             --- 将 psc 恢复为默认补全名\n",
+          "   psc reset alias psc git bun     --- 将 psc git bun 恢复为默认补全名"
         ],
-        "tip": [
-          "选用任意一项表示确认获取，否则表示取消\n",
-          "你可以使用 psc menu config completions_confirm_limit 0 来取消限制\n",
-          "也可以设置更高的值来限制补全数量"
+        "tip": "将 {{ $completion }} 恢复为默认补全名"
+      },
+      "completion": {
+        "example": [
+          "E: psc reset completion *              --- 重置(移除)所有补全的特殊配置\n",
+          "   psc reset completion psc            --- 重置(移除) psc 的特殊配置\n",
+          "   psc reset completion psc language   --- 重置(移除) psc 的 language 这个特殊配置"
+        ],
+        "tip": "重置(移除) {{ $completion }} 的所有特殊配置或指定的特殊配置",
+        "tip_v": "重置(移除) {{ $completion }} 的特殊配置 --- {{ $config_item }}"
+      },
+      "done": [
+        "{{",
+        "$out = @();",
+        "$end = '';",
+        "if($change_list){",
+        "  $out += '<@Green>重置完成!', '<@Cyan>以下是重置前后的新旧对比:', '------------------------------';",
+        "  $end = '------------------------------';",
+        "};",
+        "$change_list | ForEach-Object {",
+        "  $c = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" };",
+        "  $out += \"$($c): <@Magenta>$($PSCompletions.wrap_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.wrap_whitespace($_.new_value))<@Blue>\";",
+        "};",
+        "($out + $end) -join \"`n\";",
+        "}}"
+      ],
+      "example": [
+        "E: psc reset *                --- 重置所有配置\n",
+        "   psc reset menu symbol      --- 重置所有符号配置(~?!)\n",
+        "   psc reset alias psc        --- 将 psc 恢复为默认补全名\n",
+        "   psc reset completion psc   --- 重置(移除) psc 的特殊配置"
+      ],
+      "init_confirm": [
+        "<@Yellow>是否完全重置 PSCompletions 模块？\n",
+        "<@Red>它会删除 PSCompletions 模块的所有内容, 包括已下载的补全, 配置等, 只会保留模块源代码文件\n",
+        "<@Yellow>按下 <@Magenta>Enter<@Yellow> 键确认重置, <@Magenta>其他任意键(不包含 Ctrl 键)<@Yellow> 取消重置!"
+      ],
+      "init_done": [
+        "<@Green>PSCompletions 模块重置成功!\n",
+        "开始初始化模块..."
+      ],
+      "menu": {
+        "example": [
+          "E: psc reset menu *              --- 重置所有补全菜单配置\n",
+          "   psc reset menu config         --- 重置补全菜单的自定义配置\n",
+          "   psc reset menu line_theme     --- 重置补全菜单的边框线条主题"
+        ]
+      },
+      "order": {
+        "done": [
+          "<@Green>补全排序重置成功!"
         ]
       }
     },
-    "current_value": "当前值",
+    "rm": {
+      "done": "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 成功被移除",
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入要移除的补全名称\n",
+          "你可以输入多个补全名称, 以空格分隔, 会依次移除"
+        ]
+      },
+      "example": [
+        "E: psc rm git           --- 移除 git 补全\n",
+        "   psc rm git scoop     --- 移除 git 和 scoop 补全"
+      ],
+      "tip": "移除补全 --- {{ $completion }}"
+    },
+    "search": {
+      "err": {
+        "min": [
+          "<@Yellow>",
+          "你应该继续输入一个带有通配符(*)的匹配字符串\n",
+          "如果不使用通配符, 请输入完整的名称\n",
+          "或者你可以输入 * 查看所有的补全"
+        ],
+        "no": "<@Yellow>没有搜索到匹配的补全！"
+      },
+      "example": [
+        "E: psc search *     --- 显示所有可安装补全\n",
+        "   psc search p*    --- 搜索以 p 开头的补全\n",
+        "   psc search *p*   --- 搜索名称带有 p 的补全"
+      ]
+    },
     "set_value": "设置为 {{ $value }}。",
-    "update_info": [
-      "<@Cyan>PSCompletions 远程仓库更新: \n",
-      "{{",
-      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
-      "$add=@();",
-      "$rm=@();",
-      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
-      "if($add){ \"新增补全: <@Magenta>$($add)<@Cyan>`n使用 <@Magenta>psc add <completion><@Cyan> 进行添加`n`n\" };",
-      "if($rm){ \"删除补全: <@Magenta>$($rm)<@Cyan>`n`n\" };",
-      "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update *<@Cyan> 进行更新`n`n\" };",
-      "}}",
-      "你可以运行 <@Blue>psc config enable_completions_update 0<@Cyan> 隐藏这个远程仓库状态提示。\n",
-      "但是不建议你这样做, 它是一个很恰当的提示。"
-    ],
-    "update_has": [
-      "<@Cyan>可以更新的补全: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
-      "更新它们: <@Magenta>psc update *"
-    ],
-    "update_no": [
-      "<@Green>已添加的补全都是最新的！"
-    ],
-    "param_min": "<@Red>传入的参数过少。",
-    "param_max": "<@Red>传入的参数过多。",
-    "param_err": "<@Red>传入的参数错误。",
     "sub_cmd": [
       "{{",
       "if($sub_cmd){\"<@Red>子命令 <@Magenta>$($sub_cmd)<@Red> 错误`n\"};",
@@ -2276,85 +2663,7 @@
       "if($cmd_info){ \"<@Red>$($cmd_info)\" };",
       "}}"
     ],
-    "no_completion": "<@Red>你还未添加 <@Magenta>{{ $completion }}<@Red> 补全",
-    "confirm_cancel": "<@Green>操作取消!",
-    "min_area": "显示区域宽度或高度太小!",
-    "example_color": "<@Cyan>",
-    "list": {
-      "add": "",
-      "added": "已添加",
-      "example": [
-        "E: psc list              --- 显示本地已安装的补全列表\n",
-        "   psc list --remote     --- 显示远程补全列表"
-      ]
-    },
-    "add": {
-      "tip": "添加补全 --- {{ $completion }}",
-      "example": [
-        "E: psc add git           --- 添加 git 补全\n",
-        "   psc add git scoop     --- 添加 git 和 scoop 补全"
-      ],
-      "doing": "<@Green>正在添加补全 --- <@Magenta>{{ $completion }}",
-      "show_alias": "<@Yellow>默认的触发别名: <@Magenta>{{ $config.alias -join ' ' }}",
-      "done": [
-        "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 添加成功\n",
-        "{{",
-        "if($json.config -or $config.hooks -ne $null){",
-        " \"<@Blue>---------- 特殊配置 --------------\";",
-        "$configList = @();",
-        "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
-        "};",
-        "if($json.config){ $configList += $json.config; };",
-        " $config_list = $configList | ForEach-Object {",
-        "   '';",
-        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
-        "   '默认值: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
-        "   if ($v -ne $null){ '当前值: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
-        "   $PSCompletions.replace_content($_.tip, \"`n\")",
-        " };",
-        " $config_list -join \"`n\";",
-        " \"`n<@Blue>----------------------------------\";",
-        "};",
-        "}}"
-      ],
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "你应该继续输入要添加的补全名称\n",
-          "你可以输入多个补全名称, 以空格分隔, 会依次添加"
-        ],
-        "no": [
-          "<@Red>补全 <@Magenta>{{ $completion }}<@Red> 在补全列表文件中不存在。\n",
-          "<@Yellow>推荐输入 <@Magenta>psc add<@Yellow> 后按下 <@Magenta>空格<@Yellow> 和 <@Magenta>Tab<@Yellow> 键进行补全"
-        ]
-      }
-    },
-    "rm": {
-      "tip": "移除补全 --- {{ $completion }}",
-      "example": [
-        "E: psc rm git           --- 移除 git 补全\n",
-        "   psc rm git scoop     --- 移除 git 和 scoop 补全"
-      ],
-      "done": "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 成功被移除",
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "你应该继续输入要移除的补全名称\n",
-          "你可以输入多个补全名称, 以空格分隔, 会依次移除"
-        ]
-      }
-    },
     "update": {
-      "tip": "更新补全 --- {{ $completion }}",
-      "example": [
-        "E: psc update                 --- 检查更新\n",
-        "   psc update *               --- 更新所有待更新的补全\n",
-        "   psc update psc             --- 更新 psc 补全\n",
-        "   psc update psc git bun     --- 更新 psc、git 和 bun 补全"
-      ],
       "doing": "<@Green>正在更新补全 ---<@Magenta> {{ $completion }}",
       "done": [
         "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 更新成功\n",
@@ -2379,347 +2688,49 @@
         " \"`n<@Blue>----------------------------------\";",
         "};",
         "}}"
-      ]
-    },
-    "search": {
-      "example": [
-        "E: psc search *     --- 显示所有可安装补全\n",
-        "   psc search p*    --- 搜索以 p 开头的补全\n",
-        "   psc search *p*   --- 搜索名称带有 p 的补全"
       ],
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "你应该继续输入一个带有通配符(*)的匹配字符串\n",
-          "如果不使用通配符, 请输入完整的名称\n",
-          "或者你可以输入 * 查看所有的补全"
-        ],
-        "no": "<@Yellow>没有搜索到匹配的补全！"
-      }
+      "example": [
+        "E: psc update                 --- 检查更新\n",
+        "   psc update *               --- 更新所有待更新的补全\n",
+        "   psc update psc             --- 更新 psc 补全\n",
+        "   psc update psc git bun     --- 更新 psc、git 和 bun 补全"
+      ],
+      "tip": "更新补全 --- {{ $completion }}"
     },
+    "update_has": [
+      "<@Cyan>可以更新的补全: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
+      "更新它们: <@Magenta>psc update *"
+    ],
+    "update_info": [
+      "<@Cyan>PSCompletions 远程仓库更新: \n",
+      "{{",
+      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
+      "$add=@();",
+      "$rm=@();",
+      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
+      "if($add){ \"新增补全: <@Magenta>$($add)<@Cyan>`n使用 <@Magenta>psc add <completion><@Cyan> 进行添加`n`n\" };",
+      "if($rm){ \"删除补全: <@Magenta>$($rm)<@Cyan>`n`n\" };",
+      "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update *<@Cyan> 进行更新`n`n\" };",
+      "}}",
+      "你可以运行 <@Blue>psc config enable_completions_update 0<@Cyan> 隐藏这个远程仓库状态提示。\n",
+      "但是不建议你这样做, 它是一个很恰当的提示。"
+    ],
+    "update_no": [
+      "<@Green>已添加的补全都是最新的！"
+    ],
     "which": {
-      "tip": "定位补全存储位置 --- {{ $completion }}",
-      "example": [
-        "E: psc which git           --- 返回 git 补全的存储位置\n",
-        "   psc which git scoop     --- 返回 git 和 scoop 补全的存储位置"
-      ],
       "err": {
         "min": [
           "<@Yellow>",
           "你应该继续输入要查找存储位置的补全名称\n",
           "你可以输入多个补全名称, 以空格分隔, 会依次返回补全文件的存储位置"
         ]
-      }
-    },
-    "alias": {
+      },
       "example": [
-        "E: psc alias list                 --- 列出所有别名\n",
-        "   psc alias add git g gi ./g     --- 添加 g gi ./g 为 git 别名\n",
-        "   psc alias rm g                 --- 删除一个别名或多个"
+        "E: psc which git           --- 返回 git 补全的存储位置\n",
+        "   psc which git scoop     --- 返回 git 和 scoop 补全的存储位置"
       ],
-      "done": [
-        "{{",
-        "if($arg[1] -eq 'add') {",
-        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> 新增了一个别名 <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
-        "}",
-        "elseif($arg[1] -eq 'rm') {",
-        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> 移除了一个别名 <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
-        "}",
-        "}}"
-      ],
-      "list": {
-        "example": [
-          "E: psc alias list     --- 列出所有别名"
-        ]
-      },
-      "add": {
-        "tip": [
-          "{{ \"当前别名列表: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
-          "为 {{ $completion }} 添加一个或多个别名"
-        ],
-        "example": [
-          "E: psc alias add git g gi            --- 为 git 添加 g、gi 两个别名\n",
-          "   psc alias add scoop scoop.ps1     --- 为 scoop 添加一个别名 scoop.ps1"
-        ],
-        "err": {
-          "min_k": [
-            "<@Yellow>",
-            "你应该继续输入一个已经安装了的补全名称\n",
-            "然后再输入一个或多个你想添加的别名"
-          ],
-          "min_v": [
-            "<@Yellow>",
-            "你还需要继续输入一个或多个你想为 {{ $completion }} 添加的别名"
-          ],
-          "exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 已经是 {{ $completion }} 的别名了",
-          "cmd_exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 是已存在的命令, 请设置其他别名"
-        }
-      },
-      "rm": {
-        "tip": "为 {{ $completion }} 移除一个或多个别名",
-        "tip_v": [
-          "移除此别名。"
-        ],
-        "example": [
-          "E: psc alias rm git g gi            --- 为 git 删除 g、gi 两个别名\n",
-          "   psc alias rm scoop scoop.ps1     --- 为 scoop 删除一个别名 scoop.ps1"
-        ],
-        "err": {
-          "min_k": [
-            "<@Yellow>",
-            "你应该继续输入一个已经安装了的补全名称\n",
-            "然后再输入一个或多个你想移除的此补全的别名"
-          ],
-          "min_v": [
-            "<@Yellow>",
-            "你还需要继续输入一个或多个你想为 {{ $completion }} 移除的别名"
-          ],
-          "no_alias": "<@Magenta>{{ $alias }}<@Red> 不是 {{ $completion }} 的别名",
-          "unique": [
-            "<@Red>移除 <@Magenta>{{ $alias }}<@Red> 失败, 因为它是补全 <@Magenta>{{ $completion }}<@Red> 唯一的补全触发名\n",
-            "如果你想要修改它, 你应该先添加一个新别名, 再移除这个旧别名"
-          ]
-        }
-      }
-    },
-    "config": {
-      "example": [
-        "E: psc config language               --- 获取语言设置\n",
-        "   psc config language en-US         --- 设置为英文"
-      ],
-      "done": [
-        "<@Green>PSCompletions 的配置修改成功!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}\n",
-        "<@Yellow>为了让更改生效，可能需要重启 PowerShell 并重新导入 PSCompletions 模块"
-      ],
-      "err": {
-        "one_or_zero": [
-          "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 数字 1 或 0\n",
-          "1 表示启用, 0 表示禁用"
-        ]
-      },
-      "language": {
-        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 像 <@Magenta>zh-CN<@Yellow> 这样的区域语言标识符",
-        "example": [
-          "E: psc config language           --- 获取语言设置\n",
-          "   psc config language en-US     --- 设置为英文"
-        ]
-      },
-      "enable_cache": {
-        "example": [
-          "E: psc config enable_cache 1     --- 启用补全缓存\n",
-          "   psc config enable_cache 0     --- 禁用补全缓存"
-        ]
-      },
-      "update": {
-        "example": [
-          "E: psc config enable_completions_update 1     --- 显示补全更新\n",
-          "   psc config enable_completions_update 0     --- 不显示补全更新"
-        ]
-      },
-      "module_update": {
-        "example": [
-          "E: psc config module_update 1     --- 显示模块更新\n",
-          "   psc config module_update 0     --- 不显示模块更新"
-        ]
-      },
-      "url": {
-        "err": [
-          "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 url 地址(https://xxx)\n",
-          "这个 url 必须是可用的, 且其目录结构应该与仓库相同"
-        ],
-        "example": [
-          "E: psc config url                                           --- 获取当前使用的 url\n",
-          "   psc config url https://abgox.github.io/PSCompletions     --- 设置 url 地址"
-        ]
-      },
-      "function_name": {
-        "err": "<@Magenta>{{ $config_item }}<@Yellow> 配置项需要一个值, 且它不是已存在的命令",
-        "example": [
-          "E: psc config function_name                   --- 获取当前使用的函数名\n",
-          "   psc config function_name PSCompletions     --- 设置函数名"
-        ]
-      }
-    },
-    "completion": {
-      "tip": [
-        "设置 {{ $completion }} 的特殊配置\n",
-        "特殊配置的优先级高于全局配置"
-      ],
-      "example": [
-        "E: psc completion psc enable_tip       --- 返回配置当前的值(如果有值)\n",
-        "   psc completion psc enable_tip 0     --- 单独设置 psc 不显示补全提示信息\n",
-        "   psc completion psc language en-US   --- 单独设置 psc 补全的语言为英文"
-      ],
-      "done": [
-        "<@Magenta>{{ $completion }}<@Green> 的特殊配置修改成功!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
-      ],
-      "err": {
-        "min": [
-          "<@Yellow>",
-          "你应该继续输入要设置的配置项\n",
-          "每个补全默认带有多个特殊配置(<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
-          "{{",
-          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
-          "if($config){ \"$($arg[1]) 额外的可用配置项: <@Magenta>$($config -join ' ')\" }",
-          "}}"
-        ]
-      },
-      "language": {
-        "tip": [
-          "设置 {{ $completion }} 的语言"
-        ],
-        "tip_v": "设置语言为 {{ $language }}。"
-      },
-      "enable_tip": {
-        "tip": [
-          "设置 {{ $completion }} 是否显示补全提示信息"
-        ]
-      },
-      "enable_hooks_tip": {
-        "tip": [
-          "设置 {{ $completion }} 通过 hooks 动态添加的补全项是否显示补全提示信息。"
-        ]
-      },
-      "enable_hooks": {
-        "tip": [
-          "设置是否启用 hooks。\n",
-          "hooks 将解析或生成补全数据，然后动态添加到命令补全中。\n",
-          "你可以通过运行 <@Magenta>psc completion {{ $completion }} enable_hooks 0<@Blue> 来禁用它。"
-        ]
-      }
-    },
-    "menu": {
-      "example": [
-        "E: psc menu config enable_enter_when_single 1       --- 只有一个补全项时自动应用\n",
-        "   psc menu config enable_tip 0                     --- 不显示补全提示信息\n",
-        "   psc menu symbol SpaceTab \"\"                      --- 隐藏符号\n",
-        "   psc menu line_theme single_line_round_border     --- 切换内置的边框线条主题"
-      ],
-      "done": [
-        "<@Green>配置修改成功!\n",
-        "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
-      ],
-      "symbol": {
-        "example": [
-          "E: psc menu symbol SpaceTab ~        --- 设置符号为 ~\n",
-          "   psc menu symbol OptionTab ?       --- 设置符号为 ?\n",
-          "   psc menu symbol WriteSpaceTab !   --- 设置符号为 !"
-        ],
-        "err": {
-          "max": [
-            "<@Yellow>",
-            "{{ $arg[2] }} 配置项只需要一个值, 可以是你喜欢的符号"
-          ]
-        }
-      },
-      "line_theme": {
-        "example": [
-          "E: psc menu line_theme double_line_rect_border       --- 设置为双线直角边框(默认)\n",
-          "   psc menu line_theme single_line_rect_border       --- 设置为单线直角边框\n",
-          "   psc menu line_theme single_line_round_border      --- 设置为单线圆角边框"
-        ],
-        "done": [
-          "<@Green>menu 边框样式主题修改成功!"
-        ]
-      },
-      "color_theme": {
-        "example": [
-          "E: psc menu color_theme default      --- 默认主题\n",
-          "   psc menu color_theme magenta      --- Magenta"
-        ],
-        "done": [
-          "<@Green>menu 颜色样式主题修改成功!"
-        ]
-      },
-      "custom": {
-        "example": [
-          "E: psc menu custom color border_color DarkGray     --- 设置边框的前景色为 DarkGray\n",
-          "   psc menu custom line horizontal ─               --- 设置边框的横线为 \"-\""
-        ],
-        "color": {
-          "tip": "设置颜色为 {{ $color }}"
-        }
-      },
-      "config": {
-        "example": [
-          "E: psc menu config enable_enter_when_single 1     --- 只有一个补全项时自动应用\n",
-          "   psc menu config enable_tip 0                   --- 不显示补全提示信息\n",
-          "   psc menu config enable_menu 0                  --- 禁用模块提供的补全菜单\n",
-          "   psc menu config filter_symbol []               --- 设置过滤区域(左上角), 左侧和右侧的符号, 默认为 []"
-        ],
-        "err": {
-          "v_ge": "<@Red>应该是一个大于等于 <@Magenta>{{ $min }}<@Red> 的整数数字",
-          "v_ge_le": "<@Red>应该是一个大于等于 <@Magenta>{{ $min }}<@Red> 且小于等于 <@Magenta>{{ $max }}<@Red> 的整数数字",
-          "v_1_or_0": "<@Red>应该是数字 <@Magenta>1<@Red> 或 <@Magenta>0<@Red>, 表示启用或禁用",
-          "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> 不是一个可用的按键映射，修改失败",
-          "completion_suffix": "<@Magenta>{{ $arg[2] }}<@Red> 只能是一个或多个空格"
-        }
-      }
-    },
-    "reset": {
-      "example": [
-        "E: psc reset *                --- 重置所有配置\n",
-        "   psc reset menu symbol      --- 重置所有符号配置(~?!)\n",
-        "   psc reset alias psc        --- 将 psc 恢复为默认补全名\n",
-        "   psc reset completion psc   --- 重置(移除) psc 的特殊配置"
-      ],
-      "init_confirm": [
-        "<@Yellow>是否完全重置 PSCompletions 模块？\n",
-        "<@Red>它会删除 PSCompletions 模块的所有内容, 包括已下载的补全, 配置等, 只会保留模块源代码文件\n",
-        "<@Yellow>按下 <@Magenta>Enter<@Yellow> 键确认重置, <@Magenta>其他任意键(不包含 Ctrl 键)<@Yellow> 取消重置!"
-      ],
-      "init_done": [
-        "<@Green>PSCompletions 模块重置成功!\n",
-        "开始初始化模块..."
-      ],
-      "done": [
-        "{{",
-        "$out = @();",
-        "$end = '';",
-        "if($change_list){",
-        "  $out += '<@Green>重置完成!', '<@Cyan>以下是重置前后的新旧对比:', '------------------------------';",
-        "  $end = '------------------------------';",
-        "};",
-        "$change_list | ForEach-Object {",
-        "  $c = if($_.cmd){ \"<@Magenta>$($_.cmd)<@Blue>($($_.item))\" }else{ \"<@Blue>$($_.item)\" };",
-        "  $out += \"$($c): <@Magenta>$($PSCompletions.wrap_whitespace($_.old_value))<@Blue> => <@Magenta>$($PSCompletions.wrap_whitespace($_.new_value))<@Blue>\";",
-        "};",
-        "($out + $end) -join \"`n\";",
-        "}}"
-      ],
-      "order": {
-        "done": [
-          "<@Green>补全排序重置成功!"
-        ]
-      },
-      "alias": {
-        "tip": "将 {{ $completion }} 恢复为默认补全名",
-        "example": [
-          "E: psc reset alias *               --- 删除所有补全别名,全部恢复为默认补全名\n",
-          "   psc reset alias psc             --- 将 psc 恢复为默认补全名\n",
-          "   psc reset alias psc git bun     --- 将 psc git bun 恢复为默认补全名"
-        ]
-      },
-      "completion": {
-        "tip": "重置(移除) {{ $completion }} 的所有特殊配置或指定的特殊配置",
-        "tip_v": "重置(移除) {{ $completion }} 的特殊配置 --- {{ $config_item }}",
-        "example": [
-          "E: psc reset completion *              --- 重置(移除)所有补全的特殊配置\n",
-          "   psc reset completion psc            --- 重置(移除) psc 的特殊配置\n",
-          "   psc reset completion psc language   --- 重置(移除) psc 的 language 这个特殊配置"
-        ]
-      },
-      "menu": {
-        "example": [
-          "E: psc reset menu *              --- 重置所有补全菜单配置\n",
-          "   psc reset menu config         --- 重置补全菜单的自定义配置\n",
-          "   psc reset menu line_theme     --- 重置补全菜单的边框线条主题"
-        ]
-      }
+      "tip": "定位补全存储位置 --- {{ $completion }}"
     }
   }
 }
