@@ -49,8 +49,8 @@ A completion manager for a better and simpler tab-completion experience in `Powe
 
 - [Built-in completion library.](./completions.md)
 - [More powerful completion menu.](#about-completion-menu)
-- Sort completion items dynamically based on command history.
 - [Support multiple languages: en-US, zh-CN, etc.](#about-language)
+- Sort completion items dynamically based on command history.
 - Work with other tools.
   - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
   - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
@@ -116,12 +116,12 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 ## How to use
 
-- Take `git` as an example.
+- Use the [built-in completion library](./completions.md), like `git`.
 
   1. Add completion: `psc add git`
   2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
 
-- Use `PSCompletions` as a better completion menu without `psc add`.
+- Use official completion or other completion libraries.
 
   - If there is an official completion for `xxx`, a similar command may be run:
 
@@ -129,10 +129,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - Work with other completion libraries.
-
-    - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
-    - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+  - Work with other completion libraries: [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions), [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
 
   - For more details, please refer to [About menu enhance](#about-menu-enhance).
 
@@ -163,8 +160,8 @@ See the [Contribution Guide](./.github/contributing.md) for details.
   - [Set-PSReadLineKeyHandler](https://learn.microsoft.com/powershell/module/psreadline/set-psreadlinekeyhandler)
     - It's used by default.
       - Requires: `enable_menu` and `enable_menu_enhance` both set to `1`.
-      - It will use `Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock { ... }`.
-      - The default `trigger_key` is `Tab`.
+      - It uses `Set-PSReadLineKeyHandler -Key <Key> -ScriptBlock { ... }`.
+        - `<Key>` is the value of `psc menu config trigger_key` (default: `Tab`)
       - So, you cannot use `Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { ... }`.
     - It use [TabExpansion2](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) to manage completions globally, not limited to those added by `psc add`.
       - Path completion such as `cd`/`.\`/`..\`/`~\`/...
@@ -191,7 +188,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
   - Enter `./` or `.\` and press `Tab` key to get path completion for the **subdirectory** or **file**.
   - Enter `../` or `..\` and press `Tab` key to get path completion for the **parent directory** or **file**.
   - Enter `/` or `\` and press `Tab` key to get path completion for the **sibling directory**.
-  - More examples: `~/` / `../../` ...
+  - More examples: `~/`, `../../`, ...
 - So you can enter `git add ./` and then press `Tab` key to get the path completion.
 
 ### About special symbols
@@ -247,20 +244,19 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 ### About language
 
-- `Global language`: Default to the language of current system.
-  - You can show it by running `psc config language`.
-  - You can change it by running `psc config language zh-CN`.
-- `Completion language`: The language set for the specified completion.
-  - e.g. `psc completion git language en-US`.
-- `Available language`: In the completion `config.json` file, there is a `language` attribute whose value is a list of available languages.
-
-#### Determine language
+> [!Tip]
+>
+> - `Global language`: Default to the language of current system.
+>   - You can show it by running `psc config language`.
+>   - You can change it by running `psc config language zh-CN`.
+> - `Completion language`: The language set for the specified completion.
+>   - e.g. `psc completion git language en-US`.
+> - `Available language`: In the completion `config.json` file, there is a `language` attribute whose value is a list of available languages.
 
 1. If there is `Completion language`,use it. If not, use `Global language`.
-2. Determine the final language:
-   - Determine whether the value of the first step exists in `Available language`.
+2. Determine whether the value of the first step exists in `Available language`.
    - If it exists, use it.
-   - If not, use the first of the `Available language`. (It's usually `en-US`)
+   - If not, use the first of the `Available language`: `en-US`
 
 ## Acknowledgements
 

@@ -49,8 +49,8 @@
 
 - [内置的补全库](./completions.zh-CN.md)
 - [更强大的补全菜单](#关于补全菜单)
-- 根据命令历史动态排序补全项
 - [支持多种语言: en-US, zh-CN 等](#关于语言)
+- 根据命令历史记录动态排序补全项
 - 与其他工具协作
   - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
   - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
@@ -115,23 +115,20 @@
 
 ## 使用
 
-- 以 `git` 补全为例
+- 使用 [内置的补全库](./completions.zh-CN.md)，以 `git` 补全为例
 
   1. 使用 `psc add git` 添加补全
   2. 输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
 
-- 不使用 `PSCompletions` 的补全库，只将它作为一个更好的补全菜单
+- 使用官方补全或其他的补全库
 
-  - 如果存在官方补全，可运行类似的命令
+  - 如果存在官方补全，可以使用类似的命令
 
     ```powershell
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - 使用其他的补全库
-
-    - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
-    - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+  - 使用其他的补全库: [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions), [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
 
   - 更多详情，参考 [菜单增强](#关于菜单增强)
 
@@ -150,7 +147,7 @@
 
 - 补全菜单的所有配置，你可以输入 `psc menu` 然后按下 `Space`(空格键) 和 `Tab` 键触发补全，通过 [补全提示信息](#关于补全提示信息) 来了解
   - 对于配置的值，`1` 表示 `true`，`0` 表示 `false` (这适用于 `PSCompletions` 的所有配置)
-  - 一些常见的菜单行为:
+  - 常见的菜单行为:
     - 只有一个补全项时自动应用: `psc menu config enable_enter_when_single 1`
     - ...
 
@@ -163,8 +160,8 @@
 
     - 默认使用此实现
       - 前提: 配置项 `enable_menu` 和 `enable_menu_enhance` 同时为 `1`
-      - 它会使用 `Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock { ... }`
-      - 而默认的 `trigger_key` 是 `Tab`
+      - 它使用 `Set-PSReadLineKeyHandler -Key <Key> -ScriptBlock { ... }`
+        - `<Key>` 是 `psc menu config trigger_key` 的值 (默认: `Tab`)
       - 因此，你不能再使用 `Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { ... }`
     - 它使用 [TabExpansion2](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/tabexpansion2) 全局管理补全，不局限于 `psc add` 添加的补全
       - 路径补全: `cd`/`.\`/`..\`/`~\`/...
@@ -194,7 +191,7 @@
   - 输入 `./` 或 `.\` 后按下 `Tab` 以获取 **子目录** 或 **文件** 的路径补全
   - 输入 `../` 或 `..\` 后按下 `Tab` 以获取 **父级目录** 或 **文件** 的路径补全
   - 输入 `/` 或 `\` 后按下 `Tab` 以获取 **同级目录** 的路径补全
-  - 更多的: `~/` / `../../` ...
+  - 更多的: `~/`, `../../`, ...
 
 - 因此，你应该输入 `git add ./` 这样的命令再按下 `Tab` 键来获取路径补全
 
@@ -208,7 +205,7 @@
 
 - 补全项后面的特殊符号用于在按下 `Tab` 键之前提前感知是否有可用的补全项
 
-  - 只有通过 `psc add` 添加的补全中才存在
+  - 它们仅存在于 `psc add` 添加的补全中
   - 你可以使用 `psc menu symbol <type> <symbol>` 来自定义
   - 例如，你可以替换成空字符串来隐藏它们
     - `psc menu symbol SpaceTab ""`
@@ -255,20 +252,19 @@
 
 ### 关于语言
 
-- `Global language`: 默认为当前的系统语言
-  - `psc config language` 可以查看全局的语言配置
-  - `psc config language zh-CN` 可以更改全局的语言配置
-- `Completion language`: 为指定的补全设置的语言
-  - 例如: `psc completion git language en-US`
-- `Available language`: 每一个补全的 `config.json` 文件中有一个 `language` 属性，它的值是一个可用的语言列表
-
-#### 确定语言
+> [!Tip]
+>
+> - `Global language`: 默认为当前的系统语言
+>   - `psc config language` 可以查看全局的语言配置
+>   - `psc config language zh-CN` 可以更改全局的语言配置
+> - `Completion language`: 为指定的补全设置的语言
+>   - 例如: `psc completion git language en-US`
+> - `Available language`: 每一个补全的 `config.json` 文件中有一个 `language` 属性，它的值是一个可用的语言列表
 
 1. 如果有 `Completion language`，优先使用它，没有则使用 `Global language`
-2. 确定最终使用的语言:
-   - 判断第一步确定的值是否存在于 `Available language` 中
+2. 判断第一步确定的值是否存在于 `Available language` 中
    - 如果存在，则使用它
-   - 如果不存在，直接使用 `Available language` 中的第一种语言(一般为 `en-US`)
+   - 如果不存在，直接使用 `Available language` 中的第一种语言: `en-US`
 
 ## 致谢
 
