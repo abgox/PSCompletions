@@ -111,7 +111,8 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 > [!Tip]
 >
-> If you use `. $Profile`, please run `psc` to reload the module's key bindings and data.
+> - If you use `. $Profile`, please run `psc` to reload the module's key bindings and data.
+> - Refer to: https://pscompletions.abgox.com/faq/source-profile
 
 ## How to use
 

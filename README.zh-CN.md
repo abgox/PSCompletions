@@ -110,7 +110,8 @@
 
 > [!Tip]
 >
-> 如果使用了 `. $Profile`，请运行 `psc` 以重载模块的按键绑定及数据
+> - 如果使用了 `. $Profile`，请运行 `psc` 以重载模块的按键绑定及数据
+> - 参考: https://pscompletions.abgox.com/faq/source-profile
 
 ## 使用
 
