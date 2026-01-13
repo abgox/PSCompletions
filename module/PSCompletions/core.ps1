@@ -1494,7 +1494,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         $lines = $offset..($menu.ui_height - 3 + $offset)
         $content_box = foreach ($l in $lines) {
             $item = $menu.filter_list[$l]
-            $text = $item.ListItemText -replace '\e\[[\d;]*[a-zA-Z]', ''
+            $text = $item.ListItemText -replace '\x1B\[[\d;]*m', ''
             $text = $text + $item.padSymbols
             $rest = $menu.list_max_width - $rawUI.LengthInBufferCells($text)
             if ($rest -ge 0) {
@@ -1583,85 +1583,90 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 return
             }
 
-            $tip = $menu.filter_list[$index].ToolTip -join "`n"
-            if ($null -ne $tip) {
-                $json = $PSCompletions.completions[$PSCompletions.root_cmd]
-                $info = $json.info
+            $tip = $menu.filter_list[$index].ToolTip
 
-                $tip_arr = @()
+            if ($null -eq $tip) {
+                return
+            }
 
-                $lineWidth = $rawUI.BufferSize.Width - 1
-                if ($menu.need_full_width) {
+            $tip = $tip -join "`n" -replace '\x1B\[[\d;]*m', ''
+
+            $json = $PSCompletions.completions[$PSCompletions.root_cmd]
+            $info = $json.info
+
+            $tip_arr = @()
+
+            $lineWidth = $rawUI.BufferSize.Width - 1
+            if ($menu.need_full_width) {
+                $x = 1
+            }
+            else {
+                if ($config.enable_tip_follow_cursor) {
+                    $x = $menu.pos.X + 1
+                    $lineWidth -= $rawUI.CursorPosition.X + 1
+                }
+                else {
                     $x = 1
                 }
-                else {
-                    if ($config.enable_tip_follow_cursor) {
-                        $x = $menu.pos.X + 1
-                        $lineWidth -= $rawUI.CursorPosition.X + 1
+            }
+
+            $tips = $PSCompletions.replace_content($tip).Split("`n").Where({ $_ -ne '' })
+            foreach ($v in $tips) {
+                $currentWidth = 0
+                $outputString = ''
+                $currentLine = ''
+                $char_record = @{}
+                $chars = $v.ToCharArray()
+                foreach ($char in $chars) {
+                    if ($char_record.ContainsKey($char)) {
+                        $charWidth = $char_record[$char]
                     }
                     else {
-                        $x = 1
-                    }
-                }
-
-                $tips = $PSCompletions.replace_content($tip).Split("`n").Where({ $_ -ne '' })
-                foreach ($v in $tips) {
-                    $currentWidth = 0
-                    $outputString = ''
-                    $currentLine = ''
-                    $char_record = @{}
-                    $chars = $v.ToCharArray()
-                    foreach ($char in $chars) {
-                        if ($char_record.ContainsKey($char)) {
-                            $charWidth = $char_record[$char]
-                        }
-                        else {
-                            $charWidth = $rawUI.LengthInBufferCells($char)
-                            $char_record[$char] = $charWidth
-                        }
-
-                        if ($currentWidth + $charWidth -gt $lineWidth) {
-                            $outputString += $currentLine + "`n"
-                            $currentLine = ''
-                            $currentWidth = 0
-                        }
-                        $currentLine += $char
-                        $currentWidth += $charWidth
+                        $charWidth = $rawUI.LengthInBufferCells($char)
+                        $char_record[$char] = $charWidth
                     }
 
-                    $outputString += $currentLine
-
-                    $tip_arr += ($outputString).Split("`n")
+                    if ($currentWidth + $charWidth -gt $lineWidth) {
+                        $outputString += $currentLine + "`n"
+                        $currentLine = ''
+                        $currentWidth = 0
+                    }
+                    $currentLine += $char
+                    $currentWidth += $charWidth
                 }
 
-                if ($tip_arr.Count -eq 0) {
+                $outputString += $currentLine
+
+                $tip_arr += ($outputString).Split("`n")
+            }
+
+            if ($tip_arr.Count -eq 0) {
+                return
+            }
+
+            $pos = @{
+                X = $x
+                Y = $menu.pos.Y + $menu.ui_height + 1
+            }
+            $full = $rest_line - $tip_arr.Count
+
+            if ($menu.is_show_above) {
+                if ($full -lt 0) {
+                    $pos.Y = 0
+                    $maxIndex = $tip_arr.Count + $full - 1
+                }
+                else {
+                    $pos.Y = $full
+                    $maxIndex = $tip_arr.Count - 1
+                }
+                $tip_arr = $tip_arr[0..$maxIndex]
+            }
+            else {
+                if ($pos.Y -ge $rawUI.BufferSize.Height - 1) {
                     return
                 }
-
-                $pos = @{
-                    X = $x
-                    Y = $menu.pos.Y + $menu.ui_height + 1
-                }
-                $full = $rest_line - $tip_arr.Count
-
-                if ($menu.is_show_above) {
-                    if ($full -lt 0) {
-                        $pos.Y = 0
-                        $maxIndex = $tip_arr.Count + $full - 1
-                    }
-                    else {
-                        $pos.Y = $full
-                        $maxIndex = $tip_arr.Count - 1
-                    }
-                    $tip_arr = $tip_arr[0..$maxIndex]
-                }
-                else {
-                    if ($pos.Y -ge $rawUI.BufferSize.Height - 1) {
-                        return
-                    }
-                }
-                $rawUI.SetBufferContents($pos, $rawUI.NewBufferCellArray($tip_arr, $config.tip_color, $bgColor))
             }
+            $rawUI.SetBufferContents($pos, $rawUI.NewBufferCellArray($tip_arr, $config.tip_color, $bgColor))
         }
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_menu_selection {
