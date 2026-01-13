@@ -1,5 +1,10 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.3.1
+
+- Use the hardcoded 'PSCompletions' as the exported function name. ([#129](https://github.com/abgox/PSCompletions/issues/129))
+- Remove any possible ANSI color codes to display normally (only for the completion menu provided by the module).
+
 ## 6.3.0
 
 - Now, run `psc` will reload the key bindings and data of the module, then print the help information.

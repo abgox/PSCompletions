@@ -1,5 +1,10 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.3.1
+
+- 使用硬编码的 'PSCompletions' 作为导出函数名称 ([#129](https://github.com/abgox/PSCompletions/issues/129))
+- 移除了可能存在的 ANSI 颜色代码以正常显示 (仅模块提供的补全菜单)
+
 ## 6.3.0
 
 - 现在，运行 `psc` 将重新加载模块的按键绑定和数据，然后打印帮助信息
