@@ -176,22 +176,6 @@
           ]
         },
         {
-          "name": "function_name",
-          "tip": [
-            "Current Value: {{ $PSCompletions.config.function_name }} (Default: PSCompletions)",
-            "Set the name of the core function exported by PSCompletions.",
-            "When you need to define a function called PSCompletions, you can use this configuration to change the default exported function name of the PSCompletions module to resolve conflicts."
-          ],
-          "next": [
-            {
-              "name": "PSCompletions",
-              "tip": [
-                "Set to PSCompletions (Default)"
-              ]
-            }
-          ]
-        },
-        {
           "name": "language",
           "tip": [
             "Current Value: {{ $PSCompletions.language }}",
@@ -796,7 +780,8 @@
               "name": "trigger_key",
               "tip": [
                 "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.trigger_key) }} (Default: \"Tab\")",
-                "Setting the key that triggers the completion menu."
+                "Setting the key that triggers the completion menu.",
+                "It will use Set-PSReadLineKeyHandler to bind the key."
               ],
               "next": [
                 {
@@ -2348,13 +2333,6 @@
         "E: psc config language           --- Get language\n",
         "   psc config language zh-CN     --- Set to zh-CN"
       ],
-      "function_name": {
-        "err": "<@Magenta>{{ $config_item }}<@Yellow> need a value, and it cannot be an existing command.",
-        "example": [
-          "E: psc config function_name                   --- Get current function name\n",
-          "   psc config function_name PSCompletions     --- Set function name"
-        ]
-      },
       "language": {
         "err": "<@Magenta>{{ $config_item }}<@Yellow> just need a value, like <@Magenta>zh-CN<@Yellow>",
         "example": [
@@ -2394,7 +2372,7 @@
       "  Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
       "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
       "\n",
-      "<@Blue>PSCompletions<@Cyan> is simple, enter <@Magenta>psc<@Cyan>, press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key, you will quickly learn all usages by reading the completion tip.\n",
+      "Enter <@Magenta>psc<@Cyan>, press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key, you will quickly learn all usages by reading the completion tip.\n",
       "\n",
       "<@Blue>PSCompletions<@Cyan> has a more powerful completion menu.\n",
       "  - You can enter characters to filter, and three matching symbols are supported:\n",
@@ -2410,9 +2388,9 @@
       "    - Select previous completion item:  <@Magenta>Up<@Cyan>  | <@Magenta>Left<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
       "    - Select   next   completion item: <@Magenta>Down<@Cyan> | <@Magenta>Right<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
       "\n",
-      "<@Blue>PSCompletions<@Cyan> will take up two global names.\n",
-      "  <@Magenta>PSCompletions<@Cyan>: A function name. The core function of the module export. (<@Magenta>psc<@Cyan> is actually its alias.)\n",
-      " <@Magenta>$PSCompletions<@Cyan>: A variable name. Save all data related to the module. (<@Yellow>You can't modify it.<@Cyan>)\n",
+      "<@Blue>PSCompletions<@Cyan> will take up two global names. <@Yellow>You can't modify or override them.<@Cyan>\n",
+      "  <@Magenta>PSCompletions<@Cyan>: A function name. The core function of the module export. <@Magenta>psc<@Cyan> is its alias.\n",
+      " <@Magenta>$PSCompletions<@Cyan>: A variable name. Save all data related to the module.\n",
       "\n",
       "For more information, please visit the project:\n",
       "  Website : <@Blue>https://pscompletions.abgox.com<@Cyan>\n",
@@ -2421,7 +2399,7 @@
       "\n",
       "If you have a problem using it, you can submit an issue: https://github.com/abgox/PSCompletions/issues\n",
       "\n",
-      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@>."
+      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>."
     ],
     "description": [
       "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- PowerShell Completions Manager\n",

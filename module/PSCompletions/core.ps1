@@ -42,7 +42,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             )
         }
     }
-    config                  = @{ function_name = 'PSCompletions' }
+    config                  = @{}
     default_config          = [ordered]@{
         # config
         url                                          = ''
@@ -51,7 +51,6 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         enable_completions_update                    = 1
         enable_module_update                         = 1
         enable_cache                                 = 1
-        function_name                                = 'PSCompletions'
 
         # menu symbol
         SpaceTab                                     = '~'
@@ -108,7 +107,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
     }
     # 每个补全都默认带有的配置项
     default_completion_item = @('language', 'enable_tip', 'enable_hooks_tip')
-    config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache', 'function_name')
+    config_item             = @('url', 'language', 'enable_auto_alias_setup', 'enable_completions_update', 'enable_module_update', 'enable_cache')
 }
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
@@ -3351,7 +3350,7 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
     foreach ($_ in $Matches) {
         $args = $PSCompletions.data.aliasMap[$_]
         if ($args -eq 'psc') {
-            Set-Alias $_ $PSCompletions.config.function_name -Force -ErrorAction SilentlyContinue
+            Set-Alias $_ PSCompletions -Force -ErrorAction SilentlyContinue
         }
         elseif ($_ -ne $args) {
             Set-Alias $_ $args -Force -ErrorAction SilentlyContinue
@@ -3360,7 +3359,7 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
     $Matches = $null
 }
 else {
-    Set-Alias psc $PSCompletions.config.function_name -Force -ErrorAction SilentlyContinue
+    Set-Alias psc PSCompletions -Force -ErrorAction SilentlyContinue
 }
 
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {

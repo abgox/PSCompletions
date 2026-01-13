@@ -1,4 +1,4 @@
-Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
+function PSCompletions {
     Set-StrictMode -Off
 
     $arg = $args
@@ -545,20 +545,6 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
             'url' {
                 $arg[2] = $arg[2].TrimEnd('/')
                 handle_done ($arg[2] -match 'http[s]?://' -or $arg[2] -eq '') $PSCompletions.info.config.url.err
-            }
-            'function_name' {
-                if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($arg[2])) {
-                    Show-ParamError 'err' '' $PSCompletions.info.err.has_wildcard
-                    return
-                }
-                if ($arg[2] -eq 'PSCompletions') {
-                    $cmds = Get-Command
-                    $has_command = foreach ($c in $cmds) { if ($c.Name -eq $arg[2]) { $c; break } }
-                }
-                else {
-                    $has_command = Get-Command $arg[2] -ErrorAction SilentlyContinue
-                }
-                handle_done ($arg[2] -ne '' -and !$has_command) $PSCompletions.info.config.function_name.err
             }
         }
     }
@@ -1272,4 +1258,4 @@ Set-Item -Path Function:$($PSCompletions.config.function_name) -Value {
     if ($need_init) { $PSCompletions.init_data() }
 }
 
-Export-ModuleMember -Function $PSCompletions.config.function_name
+Export-ModuleMember -Function PSCompletions

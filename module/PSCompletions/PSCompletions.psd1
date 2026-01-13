@@ -29,6 +29,8 @@
 
     ScriptsToProcess     = 'core.ps1'
 
+    FunctionsToExport    = @('PSCompletions')
+
     PrivateData          = @{
 
         PSData = @{
