@@ -2243,6 +2243,12 @@ if ($PSEdition -eq 'Core') {
                 $PSCompletions.ensure_dir($PSCompletions.path.order)
                 $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
 
+                $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
+                    if (!(Test-Path $_)) {
+                        '' | Out-File $_ -Force -Encoding utf8
+                    }
+                }
+
                 $null = download_list
 
                 # data.json
@@ -2876,6 +2882,12 @@ else {
 
             ensure_dir $PSCompletions.path.order
             ensure_dir "$($PSCompletions.path.completions)/psc"
+
+            $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
+                if (!(Test-Path $_)) {
+                    '' | Out-File $_ -Force -Encoding utf8
+                }
+            }
 
             $null = download_list
 
