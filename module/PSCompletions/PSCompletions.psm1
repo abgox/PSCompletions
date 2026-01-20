@@ -191,7 +191,7 @@ function PSCompletions {
                 }
             }
 
-            $data.config.comp_config = @{}
+            $data.config.comp_config = [ordered]@{}
         }
         else {
             $remove_list = @()
@@ -567,7 +567,7 @@ function PSCompletions {
         $config_list = $PSCompletions.default_completion_item
 
         if ($null -eq $PSCompletions.config.comp_config.$($arg[1])) {
-            $PSCompletions.config.comp_config.$($arg[1]) = @{}
+            $PSCompletions.config.comp_config.$($arg[1]) = [ordered]@{}
         }
 
         if ($arg[2] -notin $config_list -and $null -eq $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])) {
@@ -606,7 +606,7 @@ function PSCompletions {
         $PSCompletions._need_update_data = $true
         foreach ($_ in $PSCompletions.data.list) {
             if (!$PSCompletions.config.comp_config[$_]) {
-                $PSCompletions.config.comp_config.$_ = @{}
+                $PSCompletions.config.comp_config.$_ = [ordered]@{}
             }
             $path = "$($PSCompletions.path.completions)/$_/config.json"
             $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
@@ -1042,7 +1042,7 @@ function PSCompletions {
             'completion' {
                 function _do {
                     param([string]$cmd)
-                    $PSCompletions.config.comp_config[$cmd] = @{}
+                    $PSCompletions.config.comp_config[$cmd] = [ordered]@{}
                     $path = "$($PSCompletions.path.completions)/$cmd/config.json"
                     $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                     $path = "$($PSCompletions.path.completions)/$cmd/language/$($json_config.language[0]).json"

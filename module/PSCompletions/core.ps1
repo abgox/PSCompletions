@@ -42,7 +42,6 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             )
         }
     }
-    config                  = @{}
     default_config          = [ordered]@{
         # config
         url                                          = ''
@@ -894,7 +893,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
 
     if ($json.config) {
         if (!$PSCompletions.config.comp_config[$completion]) {
-            $PSCompletions.config.comp_config[$completion] = @{}
+            $PSCompletions.config.comp_config[$completion] = [ordered]@{}
         }
         foreach ($_ in $json.config) {
             if (!$PSCompletions.config.comp_config[$completion].$($_.name)) {
@@ -905,7 +904,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     }
     if ($null -ne $config.hooks) {
         if (!$PSCompletions.config.comp_config[$completion]) {
-            $PSCompletions.config.comp_config[$completion] = @{}
+            $PSCompletions.config.comp_config[$completion] = [ordered]@{}
         }
         if ($null -eq $PSCompletions.config.comp_config[$completion].enable_hooks) {
             $PSCompletions.config.comp_config[$completion].enable_hooks = [int]$config.hooks
@@ -919,13 +918,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
     if ($null -eq $PSCompletions.data.config) {
         function new_data {
-            $data = @{
+            $data = [ordered]@{
                 list     = @()
-                alias    = @{}
-                aliasMap = @{}
+                alias    = [ordered]@{}
+                aliasMap = [ordered]@{}
                 config   = $PSCompletions.default_config
             }
-            $data.config.comp_config = @{}
+            $data.config.comp_config = [ordered]@{}
             $items = Get-ChildItem -Path $PSCompletions.path.completions
             foreach ($_ in $items) {
                 $name = $_.Name
@@ -948,7 +947,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                 }
                 $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
                 $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
-                $data.config.comp_config.$name = @{}
+                $data.config.comp_config.$name = [ordered]@{}
                 foreach ($_ in $json.config) {
                     $data.config.comp_config.$name.$($_.name) = $_.value
                 }
@@ -2252,7 +2251,7 @@ if ($PSEdition -eq 'Core') {
                 $null = download_list
 
                 # data.json
-                $data = $PSCompletions.data.Clone()
+                $data = $PSCompletions.data
                 ## config
                 $keys = $PSCompletions.default_config.Keys
                 foreach ($c in $keys) {
@@ -2892,7 +2891,7 @@ else {
             $null = download_list
 
             # data.json
-            $data = $PSCompletions.data.Clone()
+            $data = $PSCompletions.data
             ## config
             $keys = $PSCompletions.default_config.Keys
             foreach ($c in $keys) {
@@ -3285,13 +3284,13 @@ if (!(Test-Path $PSCompletions.path.order)) {
                     Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction SilentlyContinue
                 }
                 else {
-                    $data = @{
+                    $data = [ordered]@{
                         list     = @()
-                        alias    = @{}
-                        aliasMap = @{}
+                        alias    = [ordered]@{}
+                        aliasMap = [ordered]@{}
                         config   = $PSCompletions.default_config
                     }
-                    $data.config.comp_config = @{}
+                    $data.config.comp_config = [ordered]@{}
                     $items = Get-ChildItem -Path "$old_version_dir/completions" -ErrorAction SilentlyContinue
                     foreach ($_ in $items) {
                         $name = $_.Name
