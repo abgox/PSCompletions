@@ -3,8 +3,8 @@ function PSCompletions {
 
     $arg = $args
 
-    Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
-    Set-Alias Write-Output Microsoft.PowerShell.Utility\Write-Output -ErrorAction SilentlyContinue
+    Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction Ignore
+    Set-Alias Write-Output Microsoft.PowerShell.Utility\Write-Output -ErrorAction Ignore
 
     function _replace {
         param ($data, $separator = '')
@@ -61,7 +61,7 @@ function PSCompletions {
                 }
             }
             else {
-                Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
+                Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                 $PSCompletions.list = $current_list
             }
             $isErr = $false
@@ -172,7 +172,7 @@ function PSCompletions {
             Show-ParamError 'min' 'rm'
             return
         }
-        Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue
+        Clear-Content $PSCompletions.path.update -Force -ErrorAction Ignore
         $PSCompletions.update = @()
 
         $data = [ordered]@{
@@ -185,7 +185,7 @@ function PSCompletions {
         if ($arg[1] -eq '*') {
             foreach ($completion in $PSCompletions.data.list) {
                 $dir = Join-Path $PSCompletions.path.completions $completion
-                Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
+                Remove-Item $dir -Recurse -Force -ErrorAction Ignore
                 if (!(Test-Path $dir)) {
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
                 }
@@ -203,7 +203,7 @@ function PSCompletions {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion))
                         continue
                     }
-                    Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue
+                    Remove-Item $dir -Recurse -Force -ErrorAction Ignore
                     if (!(Test-Path $dir)) {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
                     }
@@ -423,7 +423,7 @@ function PSCompletions {
                         $has_command = foreach ($c in $cmds) { if ($c.Name -eq $alias) { $c; break } }
                     }
                     else {
-                        $has_command = Get-Command $alias -ErrorAction SilentlyContinue
+                        $has_command = Get-Command $alias -ErrorAction Ignore
                     }
                     if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
@@ -1034,7 +1034,7 @@ function PSCompletions {
             }
             'order' {
                 foreach ($_ in Get-ChildItem $PSCompletions.path.order) {
-                    Remove-Item $_.FullName -Force -Recurse -ErrorAction SilentlyContinue
+                    Remove-Item $_.FullName -Force -Recurse -ErrorAction Ignore
                 }
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.order.done))
                 return
@@ -1164,11 +1164,11 @@ function PSCompletions {
                     if ($PressKey.ControlKeyState -notlike '*CtrlPressed*') {
                         if ($PressKey.VirtualKeyCode -eq 13) {
                             # 13: Enter
-                            Remove-Item $PSCompletions.path.temp -Force -Recurse -ErrorAction SilentlyContinue
-                            '{}' | Out-File $PSCompletions.path.data -Encoding utf8 -ErrorAction SilentlyContinue
+                            Remove-Item $PSCompletions.path.temp -Force -Recurse -ErrorAction Ignore
+                            '{}' | Out-File $PSCompletions.path.data -Encoding utf8 -ErrorAction Ignore
 
                             foreach ($_ in Get-ChildItem $PSCompletions.path.completions -Force -Recurse) {
-                                Remove-Item $_.FullName -Force -Recurse -ErrorAction SilentlyContinue
+                                Remove-Item $_.FullName -Force -Recurse -ErrorAction Ignore
                             }
 
                             $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_done))

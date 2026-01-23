@@ -521,7 +521,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
     }
     else {
-        $has_command = Get-Command $root -ErrorAction SilentlyContinue
+        $has_command = Get-Command $root -ErrorAction Ignore
     }
     if ($PSCompletions.config.enable_completions_sort -and $has_command) {
         $path_order = "$($PSCompletions.path.order)/$root.json"
@@ -658,7 +658,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
     param ([string]$path)
     Set-StrictMode -Off
 
-    $res = (Get-Content $path -Encoding utf8 -ErrorAction SilentlyContinue).Where({ $_ -ne '' })
+    $res = (Get-Content $path -Encoding utf8 -ErrorAction Ignore).Where({ $_ -ne '' })
     if ($res) { return $res }
     , @()
 }
@@ -666,7 +666,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
     param ([string]$path, [bool]$trim = $true)
     Set-StrictMode -Off
 
-    $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+    $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction Ignore
     if ($res) {
         if ($trim) { return $res.Trim() }
         return $res
@@ -689,7 +689,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color
     param([string]$str)
     Set-StrictMode -Off
 
-    Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction SilentlyContinue
+    Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction Ignore
 
     $color_list = @()
     $str = $str -replace "`n", $PSCompletions.guid
@@ -825,7 +825,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             }
         }
         catch {
-            Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+            Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
             throw $_
         }
     }
@@ -1003,7 +1003,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                         }
                     }
                     else {
-                        Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
+                        Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                         $PSCompletions.list = $current_list
                     }
                     $isErr = $false
@@ -1109,7 +1109,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
 
     foreach ($c in $completions) {
         $aliasList = @($c)
-        $alias = Get-Alias -Definition $c -ErrorAction SilentlyContinue
+        $alias = Get-Alias -Definition $c -ErrorAction Ignore
         if ($alias) {
             $aliasList += $alias.Name
         }
@@ -1130,7 +1130,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
                     }
                 )
 
-                $alias = Get-Alias -Name $words[0] -ErrorAction SilentlyContinue
+                $alias = Get-Alias -Name $words[0] -ErrorAction Ignore
                 if ($alias) {
                     $words[0] = $alias.Definition
                 }
@@ -1320,7 +1320,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                             $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
                         }
                         else {
-                            $has_command = Get-Command $root -ErrorAction SilentlyContinue
+                            $has_command = Get-Command $root -ErrorAction Ignore
                         }
                         if ($PSCompletions.config.enable_completions_sort -and $has_command) {
                             $path_order = "$($PSCompletions.path.order)/$root.json"
@@ -2229,7 +2229,7 @@ if ($PSEdition -eq 'Core') {
                                 $PSCompletions.list = $remote_list
                             }
                             else {
-                                Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
+                                Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                                 $PSCompletions.list = $current_list
                             }
                             return $remote_list
@@ -2274,7 +2274,7 @@ if ($PSEdition -eq 'Core') {
                     }
 
                     if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
-                        Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                        Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
                         continue
                     }
 
@@ -2385,7 +2385,7 @@ if ($PSEdition -eq 'Core') {
                     # check completions update
                     if ($PSCompletions.config.enable_completions_update) {
                         $update_list = @()
-                        $check_list = (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })
+                        $check_list = (Get-ChildItem $PSCompletions.path.completions -ErrorAction Ignore).Where({ $_.Name -in $PSCompletions.list })
                         foreach ($_ in $check_list) {
                             $isErr = $true
                             foreach ($url in $PSCompletions.urls) {
@@ -2414,7 +2414,7 @@ if ($PSEdition -eq 'Core') {
                             catch {}
                         }
                         if ($update_list) { $update_list | Out-File $PSCompletions.path.update -Force -Encoding utf8 }
-                        else { Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue }
+                        else { Clear-Content $PSCompletions.path.update -Force -ErrorAction Ignore }
                     }
                 }
                 check_update
@@ -2535,7 +2535,7 @@ if ($PSEdition -eq 'Core') {
                 }
 
                 if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
-                    Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
                     return
                 }
 
@@ -2616,7 +2616,7 @@ if ($PSEdition -eq 'Core') {
 
             $index = 0
             $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
-            $contents = Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue
+            $contents = Get-Content $path_history -Encoding utf8 -ErrorAction Ignore
             foreach ($_ in $contents) {
                 $alias = $PSCompletions.data.alias[$root]
                 if ($null -eq $alias) {
@@ -2647,7 +2647,7 @@ if ($PSEdition -eq 'Core') {
                 $result[$_] = $index
             }
 
-            $old = Get-Content -Raw $path_order -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Compress
+            $old = Get-Content -Raw $path_order -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress
             $new = $result | ConvertTo-Json -Compress
             if ($new -ne $old) {
                 $new | Out-File $path_order -Force -Encoding utf8
@@ -2844,7 +2844,7 @@ else {
 
             function get_raw_content {
                 param ([string]$path, [bool]$trim = $true)
-                $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction SilentlyContinue
+                $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction Ignore
                 if ($res) {
                     if ($trim) { return $res.Trim() }
                     return $res
@@ -2896,7 +2896,7 @@ else {
                             $PSCompletions.list = $remote_list
                         }
                         else {
-                            Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
+                            Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                             $PSCompletions.list = $current_list
                         }
                         return $remote_list
@@ -2941,7 +2941,7 @@ else {
                 }
 
                 if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
-                    Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
                     continue
                 }
 
@@ -3052,7 +3052,7 @@ else {
                 # check completions update
                 if ($PSCompletions.config.enable_completions_update) {
                     $update_list = @()
-                    $check_list = (Get-ChildItem $PSCompletions.path.completions -ErrorAction SilentlyContinue).Where({ $_.Name -in $PSCompletions.list })
+                    $check_list = (Get-ChildItem $PSCompletions.path.completions -ErrorAction Ignore).Where({ $_.Name -in $PSCompletions.list })
                     foreach ($_ in $check_list) {
                         $isErr = $true
                         foreach ($url in $PSCompletions.urls) {
@@ -3081,7 +3081,7 @@ else {
                         catch {}
                     }
                     if ($update_list) { $update_list | Out-File $PSCompletions.path.update -Force -Encoding utf8 }
-                    else { Clear-Content $PSCompletions.path.update -Force -ErrorAction SilentlyContinue }
+                    else { Clear-Content $PSCompletions.path.update -Force -ErrorAction Ignore }
                 }
             }
             check_update
@@ -3201,7 +3201,7 @@ else {
                 }
 
                 if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
-                    Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
                     return
                 }
 
@@ -3284,7 +3284,7 @@ else {
 
             $index = 0
             $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
-            $contents = Get-Content $path_history -Encoding utf8 -ErrorAction SilentlyContinue
+            $contents = Get-Content $path_history -Encoding utf8 -ErrorAction Ignore
             foreach ($_ in $contents) {
                 $alias = $PSCompletions.data.alias[$root]
                 if ($null -eq $alias) {
@@ -3315,7 +3315,7 @@ else {
                 $result[$_] = $index
             }
 
-            $old = Get-Content -Raw $path_order -ErrorAction SilentlyContinue | ConvertFrom-Json | ConvertTo-Json -Compress
+            $old = Get-Content -Raw $path_order -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress
             $new = $result | ConvertTo-Json -Compress
             if ($new -ne $old) {
                 $new | Out-File $path_order -Force -Encoding utf8
@@ -3328,14 +3328,14 @@ else {
 
 if (!(Test-Path $PSCompletions.path.order)) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
-        $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction SilentlyContinue).Name | Sort-Object { [Version]$_ } -ErrorAction SilentlyContinue | Where-Object { $_ -match '^\d+\.\d.*' }
+        $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction Ignore).Name | Sort-Object { [Version]$_ } -ErrorAction Ignore | Where-Object { $_ -match '^\d+\.\d.*' }
         if ($version -is [array]) {
             $old_version = $version[-2]
             if ($old_version -match '^\d+\.\d.*' -and $old_version -ge '4') {
                 $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $old_version
 
                 if (Test-Path "$old_version_dir/data.json") {
-                    Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction SilentlyContinue
+                    Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction Ignore
                 }
                 else {
                     $data = [ordered]@{
@@ -3345,7 +3345,7 @@ if (!(Test-Path $PSCompletions.path.order)) {
                         config   = $PSCompletions.default_config
                     }
                     $data.config.comp_config = [ordered]@{}
-                    $items = Get-ChildItem -Path "$old_version_dir/completions" -ErrorAction SilentlyContinue
+                    $items = Get-ChildItem -Path "$old_version_dir/completions" -ErrorAction Ignore
                     foreach ($_ in $items) {
                         $name = $_.Name
                         $data.list += $name
@@ -3377,12 +3377,12 @@ if (!(Test-Path $PSCompletions.path.order)) {
                 }
                 Get-ChildItem "$old_version_dir/completions" -Directory | ForEach-Object {
                     if ($_.Name -ne 'psc') {
-                        Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction SilentlyContinue
+                        Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction Ignore
                     }
                 }
                 Get-ChildItem "$old_version_dir/temp" | ForEach-Object {
                     if ($_.Name -ne 'completions.json') {
-                        Move-Item $_.FullName $PSCompletions.path.temp -Force -ErrorAction SilentlyContinue
+                        Move-Item $_.FullName $PSCompletions.path.temp -Force -ErrorAction Ignore
                     }
                 }
             }
@@ -3418,20 +3418,20 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
     foreach ($_ in $Matches) {
         $args = $PSCompletions.data.aliasMap[$_]
         if ($args -eq 'psc') {
-            Set-Alias $_ PSCompletions -Force -ErrorAction SilentlyContinue
+            Set-Alias $_ PSCompletions -Force -ErrorAction Ignore
         }
         elseif ($_ -ne $args) {
-            Set-Alias $_ $args -Force -ErrorAction SilentlyContinue
+            Set-Alias $_ $args -Force -ErrorAction Ignore
         }
     }
     $Matches = $null
 }
 else {
-    Set-Alias psc PSCompletions -Force -ErrorAction SilentlyContinue
+    Set-Alias psc PSCompletions -Force -ErrorAction Ignore
 }
 
 if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
-    $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction SilentlyContinue
+    $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction Ignore
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
         $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), $PSCompletions.urls + 'https://pscompletions.abgox.com')
 
