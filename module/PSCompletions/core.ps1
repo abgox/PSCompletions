@@ -2264,7 +2264,21 @@ if ($PSEdition -eq 'Core') {
                     if ($null -eq $data.config.comp_config[$_]) {
                         $data.config.comp_config[$_] = [ordered]@{}
                     }
-                    $path = "$($PSCompletions.path.completions)/$_/config.json"
+
+                    $completion_dir = "$($PSCompletions.path.completions)/$_"
+                    try {
+                        $item = Get-Item $completion_dir -ErrorAction Stop
+                    }
+                    catch {
+                        continue
+                    }
+
+                    if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                        Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                        continue
+                    }
+
+                    $path = "$completion_dir/config.json"
                     if (!(Test-Path $path)) {
                         try {
                             $PSCompletions.download_file("completions/$_/config.json", $path, $PSCompletions.urls)
@@ -2273,16 +2287,16 @@ if ($PSEdition -eq 'Core') {
                             continue
                         }
                     }
-                    $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/$_/language")
+                    $PSCompletions.ensure_dir("$completion_dir/language")
                     $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                     foreach ($lang in $json_config.language) {
-                        $path_lang = "$($PSCompletions.path.completions)/$_/language/$lang.json"
+                        $path_lang = "$completion_dir/language/$lang.json"
                         if (!(Test-Path $path_lang)) {
                             $PSCompletions.download_file("completions/$_/language/$lang.json", $path_lang, $PSCompletions.urls)
                         }
                     }
                     if ($null -ne $json_config.hooks) {
-                        $path_hooks = "$($PSCompletions.path.completions)/$_/hooks.ps1"
+                        $path_hooks = "$completion_dir/hooks.ps1"
                         if (!(Test-Path $path_hooks)) {
                             $PSCompletions.download_file("completions/$_/hooks.ps1", $path_hooks, $PSCompletions.urls)
                         }
@@ -2290,7 +2304,7 @@ if ($PSEdition -eq 'Core') {
                             $data.config.comp_config[$_].enable_hooks = [int]$json_config.hooks
                         }
                     }
-                    $path = "$($PSCompletions.path.completions)/$_/language/$($json_config.language[0]).json"
+                    $path = "$completion_dir/language/$($json_config.language[0]).json"
                     $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json -AsHashtable
                     $config_list = $PSCompletions.default_completion_item
                     foreach ($item in $config_list) {
@@ -2512,22 +2526,35 @@ if ($PSEdition -eq 'Core') {
             function get_language {
                 param ([string]$completion)
 
-                $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
+                $completion_dir = "$($PSCompletions.path.completions)/$completion"
+                try {
+                    $item = Get-Item $completion_dir -ErrorAction Stop
+                }
+                catch {
+                    return
+                }
+
+                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                    return
+                }
+
+                $path_config = "$completion_dir/config.json"
                 $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
 
                 if (!$content_config.language) {
                     $PSCompletions.download_file("completions/$completion/config.json", $path_config, $PSCompletions.urls)
                     $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
                 }
-                $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/$completion/language")
+                $PSCompletions.ensure_dir("$completion_dir/language")
                 foreach ($lang in $content_config.language) {
-                    $path_lang = "$($PSCompletions.path.completions)/$completion/language/$lang.json"
+                    $path_lang = "$completion_dir/language/$lang.json"
                     if (!(Test-Path $path_lang)) {
                         $PSCompletions.download_file("completions/$completion/language/$lang.json", $path_lang, $PSCompletions.urls)
                     }
                 }
                 if ($null -ne $content_config.hooks) {
-                    $path_hooks = "$($PSCompletions.path.completions)/$completion/hooks.ps1"
+                    $path_hooks = "$completion_dir/hooks.ps1"
                     if (!(Test-Path $path_hooks)) {
                         $PSCompletions.download_file("completions/$completion/hooks.ps1", $path_hooks, $PSCompletions.urls)
                     }
@@ -2904,7 +2931,21 @@ else {
                 if ($null -eq $data.config.comp_config[$_]) {
                     $data.config.comp_config[$_] = [ordered]@{}
                 }
-                $path = "$($PSCompletions.path.completions)/$_/config.json"
+
+                $completion_dir = "$($PSCompletions.path.completions)/$_"
+                try {
+                    $item = Get-Item $completion_dir -ErrorAction Stop
+                }
+                catch {
+                    continue
+                }
+
+                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                    continue
+                }
+
+                $path = "$completion_dir/config.json"
                 if (!(Test-Path $path)) {
                     try {
                         download_file "completions/$_/config.json" $path $PSCompletions.urls
@@ -2913,16 +2954,16 @@ else {
                         continue
                     }
                 }
-                ensure_dir "$($PSCompletions.path.completions)/$_/language"
+                ensure_dir "$completion_dir/language"
                 $json_config = get_raw_content $path | ConvertFrom-Json
                 foreach ($lang in $json_config.language) {
-                    $path_lang = "$($PSCompletions.path.completions)/$_/language/$lang.json"
+                    $path_lang = "$completion_dir/language/$lang.json"
                     if (!(Test-Path $path_lang)) {
                         download_file "completions/$_/language/$lang.json" $path_lang $PSCompletions.urls
                     }
                 }
                 if ($null -ne $json_config.hooks) {
-                    $path_hooks = "$($PSCompletions.path.completions)/$_/hooks.ps1"
+                    $path_hooks = "$completion_dir/hooks.ps1"
                     if (!(Test-Path $path_hooks)) {
                         download_file "completions/$_/hooks.ps1" $path_hooks $PSCompletions.urls
                     }
@@ -2930,7 +2971,7 @@ else {
                         $data.config.comp_config[$_].enable_hooks = [int]$json_config.hooks
                     }
                 }
-                $path = "$($PSCompletions.path.completions)/$_/language/$($json_config.language[0]).json"
+                $path = "$completion_dir/language/$($json_config.language[0]).json"
                 $json = get_raw_content $path | ConvertFrom_JsonAsHashtable
                 $config_list = $PSCompletions.default_completion_item
                 foreach ($item in $config_list) {
@@ -3151,22 +3192,35 @@ else {
             function get_language {
                 param ([string]$completion)
 
-                $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
+                $completion_dir = "$($PSCompletions.path.completions)/$completion"
+                try {
+                    $item = Get-Item $completion_dir -ErrorAction Stop
+                }
+                catch {
+                    return
+                }
+
+                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction SilentlyContinue
+                    return
+                }
+
+                $path_config = "$completion_dir/config.json"
                 $content_config = get_raw_content $path_config | ConvertFrom-Json
 
                 if (!$content_config.language) {
                     download_file "completions/$completion/config.json" $path_config $PSCompletions.urls
                     $content_config = get_raw_content $path_config | ConvertFrom-Json
                 }
-                ensure_dir "$($PSCompletions.path.completions)/$completion/language"
+                ensure_dir "$completion_dir/language"
                 foreach ($lang in $content_config.language) {
-                    $path_lang = "$($PSCompletions.path.completions)/$completion/language/$lang.json"
+                    $path_lang = "$completion_dir/language/$lang.json"
                     if (!(Test-Path $path_lang)) {
                         download_file "completions/$completion/language/$lang.json" $path_lang $PSCompletions.urls
                     }
                 }
                 if ($null -ne $content_config.hooks) {
-                    $path_hooks = "$($PSCompletions.path.completions)/$completion/hooks.ps1"
+                    $path_hooks = "$completion_dir/hooks.ps1"
                     if (!(Test-Path $path_hooks)) {
                         download_file "completions/$completion/hooks.ps1" $path_hooks $PSCompletions.urls
                     }
