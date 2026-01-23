@@ -1643,10 +1643,14 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
                 $outputString += $currentLine
 
-                $tip_arr += ($outputString).Split("`n")
+                $tip_arr += $outputString.Split("`n")
             }
 
             if ($tip_arr.Count -eq 0) {
+                return
+            }
+
+            if (-not ($tip_arr -join '')) {
                 return
             }
 
