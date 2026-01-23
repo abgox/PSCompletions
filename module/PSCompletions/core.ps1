@@ -1222,19 +1222,17 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 Set-StrictMode -Off
 
                 $buffer = ''
-                $cursorPosition = 0
-                [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursorPosition)
-                if (!$cursorPosition) {
+                $cursor = 0
+                [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursor)
+                if (!$cursor) {
                     return
                 }
 
-                # 光标后的内容
-                $PSCompletions.buffer_after_cursor = $buffer.Substring($cursorPosition)
+                $PSCompletions.buffer = $buffer
+                $PSCompletions.buffer_after_cursor = $buffer.Substring($cursor)
+                $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
 
-                # 光标前的内容
-                $buffer = $buffer.Substring(0, $cursorPosition)
-
-                # 是否是按下空格键触发的补全
+                $buffer = $PSCompletions.buffer_before_cursor
                 $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                 # 使用正则表达式进行分割，将命令行中的每个参数分割出来，形成一个数组，引号包裹的内容会被当作一个参数，且数组会包含 "--"
                 $input_arr = @()
@@ -1288,7 +1286,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 }
                 else {
                     try {
-                        $completion = TabExpansion2 $buffer $cursorPosition
+                        $completion = TabExpansion2 $buffer $cursor
                     }
                     catch {
                         return
@@ -1379,13 +1377,21 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             $keys = $PSCompletions.data.aliasMap.keys
             foreach ($k in $keys) {
                 Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
-                    param($word_to_complete, $command_ast, $cursor_position)
+                    # param($wordToComplete, $commandAst, $cursorPosition)
                     Set-StrictMode -Off
 
-                    $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
+                    $buffer = ''
+                    $cursor = 0
+                    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursor)
 
+                    $PSCompletions.buffer = $buffer
+                    $PSCompletions.buffer_after_cursor = $buffer.Substring($cursor)
+                    $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
+
+                    $buffer = $PSCompletions.buffer_before_cursor
+                    $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                     $input_arr = @()
-                    $matches = [regex]::Matches($command_ast.CommandElements, $PSCompletions.input_pattern)
+                    $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
                     foreach ($match in $matches) { $input_arr += $match.Value }
 
                     if (!$input_arr) {
@@ -2168,13 +2174,21 @@ else {
         $keys = $PSCompletions.data.aliasMap.keys
         foreach ($k in $keys) {
             Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
-                param($word_to_complete, $command_ast, $cursor_position)
+                # param($wordToComplete, $commandAst, $cursorPosition)
                 Set-StrictMode -Off
 
-                $space_tab = if ($word_to_complete.length) { 0 }else { 1 }
+                $buffer = ''
+                $cursor = 0
+                [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursor)
 
+                $PSCompletions.buffer = $buffer
+                $PSCompletions.buffer_after_cursor = $buffer.Substring($cursor)
+                $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
+
+                $buffer = $PSCompletions.buffer_before_cursor
+                $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
                 $input_arr = @()
-                $matches = [regex]::Matches($command_ast.CommandElements, $PSCompletions.input_pattern)
+                $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
                 foreach ($match in $matches) { $input_arr += $match.Value }
 
                 if (!$input_arr) {
