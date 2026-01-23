@@ -3408,10 +3408,8 @@ if (!(Test-Path $PSCompletions.path.order)) {
 
 $PSCompletions.init_data()
 
-if ($PSCompletions.is_init) {
-    if ($PSCompletions.is_first_init) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
-    }
+if ($PSCompletions.is_first_init) {
+    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
 }
 $PSCompletions.handle_completion()
 if ($PSCompletions.config.enable_auto_alias_setup) {
