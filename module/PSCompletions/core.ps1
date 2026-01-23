@@ -1152,7 +1152,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
                 foreach ($_ in @((argc --argc-compgen powershell $emptyS $words) -split "`n")) {
                     $parts = ($_ -split "`t")
                     if ($PSCompletions.config.enable_tip_when_enhance) {
-                        $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
+                        $tip = if ('' -eq $parts[3]) { ' ' }else { $parts[3] }
                         [System.Management.Automation.CompletionResult]::new("$($parts[0])$suffix", $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
                     }
                     else {
@@ -2345,7 +2345,7 @@ if ($PSEdition -eq 'Core') {
                     $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json -AsHashtable
                     $config_list = $PSCompletions.default_completion_item
                     foreach ($item in $config_list) {
-                        if ($data.config.comp_config[$_].$item -eq '') {
+                        if ('' -eq $data.config.comp_config[$_].$item) {
                             $data.config.comp_config[$_].Remove($item)
                         }
                     }
@@ -2355,7 +2355,7 @@ if ($PSEdition -eq 'Core') {
                             $data.config.comp_config[$_].$($item.name) = $item.value
                         }
                         else {
-                            if ($data.config.comp_config[$_].$($item.name) -eq '' -and $item.value -ne '' -and '' -notin $item.values) {
+                            if ('' -eq $data.config.comp_config[$_].$($item.name) -and '' -ne $item.value -and '' -notin $item.values) {
                                 $data.config.comp_config[$_].$($item.name) = $item.value
                             }
                         }
@@ -3012,7 +3012,7 @@ else {
                 $json = get_raw_content $path | ConvertFrom_JsonAsHashtable
                 $config_list = $PSCompletions.default_completion_item
                 foreach ($item in $config_list) {
-                    if ($data.config.comp_config[$_].$item -eq '') {
+                    if ('' -eq $data.config.comp_config[$_].$item) {
                         $data.config.comp_config[$_].Remove($item)
                     }
                 }
@@ -3022,7 +3022,7 @@ else {
                         $data.config.comp_config[$_].$($item.name) = $item.value
                     }
                     else {
-                        if ($data.config.comp_config[$_].$($item.name) -eq '' -and $item.value -ne '' -and '' -notin $item.values) {
+                        if ('' -eq $data.config.comp_config[$_].$($item.name) -and '' -ne $item.value -and '' -notin $item.values) {
                             $data.config.comp_config[$_].$($item.name) = $item.value
                         }
                     }
