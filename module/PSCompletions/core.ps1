@@ -1588,13 +1588,6 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 return
             }
 
-            $tip = $tip -join "`n" -replace '\x1B\[[\d;]*m', ''
-
-            $json = $PSCompletions.completions[$PSCompletions.root_cmd]
-            $info = $json.info
-
-            $tip_arr = @()
-
             $lineWidth = $rawUI.BufferSize.Width - 1
             if ($menu.need_full_width) {
                 $x = 1
@@ -1609,7 +1602,12 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 }
             }
 
-            $tips = $PSCompletions.replace_content($tip).Split("`n").Where({ $_ -ne '' })
+            $json = $PSCompletions.completions[$PSCompletions.root_cmd]
+            $info = $json.info
+
+            $tip_arr = @()
+            $tip = ($tip -join "`n").Trim().Replace("`r`n", "`n") -replace '\x1B\[[\d;]*m', ''
+            $tips = $PSCompletions.replace_content($tip).Split("`n")
             foreach ($v in $tips) {
                 $currentWidth = 0
                 $outputString = ''
