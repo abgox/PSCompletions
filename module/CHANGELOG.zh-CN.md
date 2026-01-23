@@ -1,5 +1,11 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.3.2
+
+- 修复了 ToolTip 的显示问题
+- 改进了补全采用时，对补全项的处理方式
+- 其他的优化和修复
+
 ## 6.3.1
 
 - 使用硬编码的 'PSCompletions' 作为导出函数名称 ([#129](https://github.com/abgox/PSCompletions/issues/129))
@@ -120,7 +126,6 @@
 ## 5.11.0 (2025/11/16)
 
 - 为 PSCompletions 的补全菜单添加按键绑定 ([#107](https://github.com/abgox/PSCompletions/issues/107))
-
   - 向上: `Ctrl + k`
   - 向下: `Ctrl + j`
 
@@ -408,7 +413,6 @@
 - 将配置数据文件 **config.json** 合并到 **data.json** 中。
   - 注意: 如果使用了 scoop 去安装 `PSCompletions`，请检查应用清单(manifest)中的 persist 是否更新为 **data.json**。
 - 修改了几乎所有配置项的名称。
-
   - 配置项名称的修改，不影响正常使用，在更新版本后，也会自动迁移旧的配置项到新的配置项。
   - 比如:
     - `update` => `enable_completions_update`
@@ -457,7 +461,6 @@
   - 现在，它们都为只读，强行覆盖会报错，防止误操作导致模块失效
   - 但 `PSCompletions`(函数) 可以通过配置修改函数名
 - 添加一个配置项 `function_name`, 默认值为 `PSCompletions`
-
   - 设置: `psc config function_name <name>`
   - 使用场景:
     - 当你或其他模块需要定义一个函数，名字刚好也必须为 `PSCompletions` 时
@@ -510,11 +513,9 @@
 ## 4.2.0 (2024/8/9)
 
 - 添加了三个 `menu` 配置
-
   1. `menu_trigger_key`: 默认值为 `Tab`, 用于设置补全菜单的触发按键
      - 设置: `psc menu config menu_trigger_key <key>`
   2. `menu_enhance`: 默认值为 `1`, 用于设置是否启用补全菜单增强功能
-
      - 禁用它: `psc menu config menu_enhance 0`
      - 开启后，`PSCompletions` 会拦截所有补全，并使用 `PSCompletions` 提供的补全菜单渲染补全
      - 比如，`PowerShell` 中的 `Get-*`,`Set-*` 等命令都会使用 `PSCompletions` 提供的补全菜单渲染补全
@@ -522,7 +523,6 @@
      - [关于菜单增强](../README.zh-CN.md#关于菜单增强)
 
   3. `menu_show_tip_when_enhance`: 默认值为 `1`, 设置不是通过 `psc add` 添加的补全，是否显示命令提示信息
-
      - 禁用它: `psc menu config menu_show_tip_when_enhance 0`
      - 和 `menu_enhance` 一起使用
 
@@ -530,7 +530,6 @@
   - 这配合 `menu_enhance` 很有用
   - 比如，输入 `cd` 命令按下 `Tab` 触发补全，即使路径补全中有中文等多字节文字，菜单也不会有渲染问题
 - 补全提示信息支持根据可用宽度自动换行
-
   - 为了体验更好，`menu_tip_follow_cursor` 配置项的默认值从 `0` 修改为 `1`
 
 - 重构代码，调整源代码文件目录结构，提取公共代码
@@ -599,11 +598,9 @@
 ## 4.0.0 (2024/5/15)
 
 - 如果你当前使用的 `PSCompletions` 模块需要**管理员权限**，你应该删除 `PSCompletions` 模块，然后以**用户权限**安装最新版的模块。
-
   - 完整的模块安装命令: `Install-Module PSCompletions -Scope CurrentUser`
 
 - 4.0.0 版本重构了整个模块，解决了许多不合理的地方，所以完全不兼容旧版本的配置和补全
-
   1.  性能优化:
       - 提升了模块加载速度
       - 提升了补全响应速度

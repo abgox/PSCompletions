@@ -1,5 +1,11 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.3.2
+
+- Fix the display of ToolTip.
+- Improve the handling for the completion item when it is applied.
+- Other optimizations and fixes.
+
 ## 6.3.1
 
 - Use the hardcoded 'PSCompletions' as the exported function name. ([#129](https://github.com/abgox/PSCompletions/issues/129))
@@ -120,7 +126,6 @@
 ## 5.11.0 (2025/11/16)
 
 - Add key bindings for the PSCompletions' completion menu. ([#107](https://github.com/abgox/PSCompletions/issues/107))
-
   - Up: `Ctrl + k`
   - Down: `Ctrl + j`
 
@@ -505,7 +510,6 @@ It's allowed to get completions after any subcommand in the completion menu prov
 ## 4.2.0 (2024/8/9)
 
 - Add three `menu` configurations:
-
   1. `menu_trigger_key`: Default value is `Tab`, which is used to set the trigger key of the completion menu.
      - Setting: `psc menu config menu_trigger_key <key>`
   2. `menu_enhance`: Default value is `1`, which is used to enable or disable the enhanced completion menu feature.
@@ -519,12 +523,10 @@ It's allowed to get completions after any subcommand in the completion menu prov
      - Use together with `menu_enhance`.
 
 - Fix an issue where multi-byte characters(such as Chinese characters) could cause partial rendering errors in the menu.
-
   - This is useful with `menu_enhance`.
   - For example, when using the `cd` command, even if the path completion contains Chinese or other multi-byte characters, the menu will render correctly.
 
 - Completion tips now support automatic line wrapping based on available width.
-
   - For a better experience, the default value of the `menu_tip_follow_cursor` config has been changed from `0` to `1`.
 
 - Refactored code by reorganizing the source file directory structure and extracting common code.
@@ -593,7 +595,6 @@ It's allowed to get completions after any subcommand in the completion menu prov
 ## 4.0.0 (2024/5/15)
 
 - If you are using the `PSCompletions` module with **administrator permission**, you should remove the `PSCompletions` module and install the latest version with **user permission**.
-
   - Full module installation command: `Install-Module PSCompletions -Scope CurrentUser`
 
 - This version completely rewrites the module, and solves many inappropriate places, so it's completely incompatible with the old version configuration and completion.

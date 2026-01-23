@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '6.3.1'
+    ModuleVersion        = '6.3.2'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -19,7 +19,7 @@
 
     PowerShellVersion    = '5.1'
 
-    CompatiblePSEditions = @('Core', 'Desktop')
+    CompatiblePSEditions = 'Core', 'Desktop'
 
     Description          = 'A completion manager for a better and simpler tab-completion experience in PowerShell.
  It provides an enhanced scrollable completion menu with sorting and filtering.
@@ -29,7 +29,7 @@
 
     ScriptsToProcess     = 'core.ps1'
 
-    FunctionsToExport    = @('PSCompletions')
+    FunctionsToExport    = 'PSCompletions'
 
     PrivateData          = @{
 
