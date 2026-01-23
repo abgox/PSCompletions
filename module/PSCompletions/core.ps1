@@ -1147,14 +1147,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
                     $words += $emptyS
                 }
 
+                $suffix = $PSCompletions.config.completion_suffix
+
                 foreach ($_ in @((argc --argc-compgen powershell $emptyS $words) -split "`n")) {
                     $parts = ($_ -split "`t")
                     if ($PSCompletions.config.enable_tip_when_enhance) {
                         $tip = if ($parts[3] -eq '') { ' ' }else { $parts[3] }
-                        [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
+                        [System.Management.Automation.CompletionResult]::new("$($parts[0])$suffix", $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
                     }
                     else {
-                        [System.Management.Automation.CompletionResult]::new($parts[0], $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
+                        [System.Management.Automation.CompletionResult]::new("$($parts[0])$suffix", $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
                     }
                 }
             }
@@ -1226,9 +1228,10 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                     return
                 }
 
-                $PSCompletions.need_ignore_suffix = $buffer[$cursorPosition] -eq ' '
+                # 光标后的内容
+                $PSCompletions.buffer_after_cursor = $buffer.Substring($cursorPosition)
 
-                # 只获取当前光标位置之前的内容
+                # 光标前的内容
                 $buffer = $buffer.Substring(0, $cursorPosition)
 
                 # 是否是按下空格键触发的补全
@@ -1842,12 +1845,11 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
         $out = $item.CompletionText.Trim()
 
-        if ($PSCompletions.need_ignore_suffix) {
-            return $out
-        }
-
         # 不是由 TabExpansion2 获取的补全，即通过 psc add 添加的补全
         if ($null -eq $item.ResultType) {
+            if ($PSCompletions.buffer_after_cursor -match "^\s+[^\s]") {
+                return $out
+            }
             return "$out$suffix"
         }
 
@@ -1862,17 +1864,33 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         }
 
         # Directory, registry key, or other container types
+        $_out = $null
         if ($item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer) {
             if ($config.enable_path_with_trailing_separator) {
                 if ($out.Length -ge 1 -and $out[-1] -match "^['`"]$") {
                     if ($out.Length -ge 2 -and $out[-2] -match "^[/\\]$") {
-                        return $out
+                        $_out = $out
                     }
-                    return $out.Insert($out.Length - 1, $PSCompletions.separator)
+                    else {
+                        $_out = $out.Insert($out.Length - 1, $PSCompletions.separator)
+                    }
                 }
-                return $out + $PSCompletions.separator
+                else {
+                    $_out = $out + $PSCompletions.separator
+                }
             }
-            return $out
+            else {
+                $_out = $out
+            }
+        }
+        if ($_out) {
+            $lastChar = $_out[-1]
+            $nextCharStartsWith = $PSCompletions.buffer_after_cursor.Substring(0)
+
+            if ($lastChar -in @('"', "'") -and $lastChar -eq $nextCharStartsWith) {
+                return $_out.TrimEnd($lastChar)
+            }
+            return $_out
         }
 
         # File or other leaf items (e.g., registry values)
@@ -1889,6 +1907,9 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
         # [System.Management.Automation.CompletionResultType]::Text
 
+        if ($PSCompletions.buffer_after_cursor -match "^\s+[^\s]") {
+            return $out
+        }
         return "$out$suffix"
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
