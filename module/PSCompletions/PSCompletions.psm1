@@ -402,12 +402,10 @@ function PSCompletions {
                         continue
                     }
                     if ($alias -eq 'PSCompletions') {
-                        $cmds = Get-Command
-                        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $alias) { $c; break } }
+                        Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
+                        continue
                     }
-                    else {
-                        $has_command = Get-Command $alias -ErrorAction Ignore
-                    }
+                    $has_command = Get-Command $alias -ErrorAction Ignore
                     if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         continue
