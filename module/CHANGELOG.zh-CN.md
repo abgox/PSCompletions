@@ -1,5 +1,14 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.3.3
+
+- 暴露了模块补全菜单以允许外部调用
+  - 可以直接使用 `Set-PSReadLineKeyHandler -Key <Key> -ScriptBlock $PSCompletions.menu.module_completion_menu_script` 绑定模块补全菜单
+  - 它会假定 `enable_menu` 和 `enable_menu_enhance` 为 `1`，忽略真实的配置值
+  - 不建议这样使用它，除非特殊需求且这两个配置实际生效的值都为 `1`
+- 修复了由于 PowerShell 中逻辑比较运算符的特殊行为导致的一些特殊配置无效的问题
+- 其他的优化和修复
+
 ## 6.3.2
 
 - 修复了 ToolTip 的显示问题

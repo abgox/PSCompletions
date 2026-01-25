@@ -1,5 +1,14 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.3.3
+
+- Expose the module completion menu to allow external call.
+  - You can bind the module completion menu directly using `Set-PSReadLineKeyHandler -Key <Key> -ScriptBlock $PSCompletions.menu.module_completion_menu_script`.
+  - It will assume `enable_menu` and `enable_menu_enhance` are `1`, ignoring the actual configuration values.
+  - It is not recommended to use it unless there is a special need and both `enable_menu` and `enable_menu_enhance` are actually `1`.
+- Fix the issue that some special configurations are invalid due to the special behavior of logical comparison operators in PowerShell.
+- Other optimizations and fixes.
+
 ## 6.3.2
 
 - Fix the display of ToolTip.
