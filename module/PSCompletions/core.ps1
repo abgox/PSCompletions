@@ -3418,17 +3418,6 @@ if (!(Test-Path $PSCompletions.path.order)) {
                 }
             }
         }
-        else {
-            if (Test-Path $PSCompletions.path.data) {
-                $data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json
-                if (!$data.config) {
-                    $PSCompletions.is_first_init = $true
-                }
-            }
-            else {
-                $PSCompletions.is_first_init = $true
-            }
-        }
     }
     $PSCompletions.ensure_dir($PSCompletions.path.completions)
     $PSCompletions.move_old_version()
@@ -3439,8 +3428,8 @@ if (!(Test-Path $PSCompletions.path.order)) {
 
 $PSCompletions.init_data()
 
-if ($PSCompletions.is_first_init) {
-    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.init_info))
+if ($PSCompletions.is_init) {
+    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.description))
 }
 $PSCompletions.handle_completion()
 if ($PSCompletions.config.enable_auto_alias_setup) {
