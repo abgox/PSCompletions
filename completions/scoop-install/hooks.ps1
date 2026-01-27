@@ -123,7 +123,19 @@
                                 $tip = ''
                             }
                             else {
-                                $tip = "{{ `$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json; 'version: ' + `$c.version; `"`n`"; 'homepage: ' + `$c.homepage; `"`n`"; `$c.description.Replace(' | ', `"`n`") }}"
+                                $tip = @"
+{{
+`$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if(`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+if(`$c.description) {
+  '-----'; `"`n`";
+  `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
                             }
                             $return += @{
                                 ListItemText   = $app
