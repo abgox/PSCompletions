@@ -1195,6 +1195,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 
     $PSCompletions.list = (ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)).list
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
+    $PSCompletions.change = $PSCompletions.get_content($PSCompletions.path.change)
 
     if ('psc' -notin $PSCompletions.data.list) {
         $PSCompletions.add_completion('psc', $false)
@@ -2248,7 +2249,6 @@ if ($PSEdition -eq 'Core') {
 
         $PSCompletions.job = Start-ThreadJob -ScriptBlock {
             param($PSCompletions)
-
             $null = Start-ThreadJob -ScriptBlock {
                 param($PSCompletions)
 
@@ -3471,11 +3471,9 @@ else {
     Set-Alias psc PSCompletions -Force -ErrorAction Ignore
 }
 
-if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
+if ($PSCompletions.config.enable_module_update -match '^\d[\d.]+') {
     $PSCompletions.version_list = $PSCompletions.config.enable_module_update, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction Ignore
     if ($PSCompletions.version_list[0] -ne $PSCompletions.version) {
-        $PSCompletions.download_file("module/CHANGELOG.json", (Join-Path $PSCompletions.path.temp 'CHANGELOG.json'), $PSCompletions.urls + 'https://pscompletions.abgox.com')
-
         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
     }
     else {
@@ -3484,10 +3482,8 @@ if ($PSCompletions.config.enable_module_update -notin @(0, 1)) {
     }
 }
 else {
-    if ($PSCompletions.config.enable_completions_update) {
-        if (($PSCompletions.update -or $PSCompletions.get_content($PSCompletions.path.change) -and !$PScompletions.is_init)) {
-            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
-        }
+    if ($PSCompletions.config.enable_completions_update -and ($PSCompletions.update -or $PSCompletions.change)) {
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
     }
 }
 
