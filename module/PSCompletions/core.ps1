@@ -64,7 +64,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
             $PSCompletions.menu.by_TabExpansion2 = $false
 
-            if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($space_tab -or $input_arr.Count -gt 1) -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*') {
+            if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($space_tab -or ($input_arr.Count -gt 1 -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*'))) {
                 # 原始的命令名，也是 completions 目录下的命令目录名
                 $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
 
@@ -3461,7 +3461,7 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
         if ($args -eq 'psc') {
             Set-Alias $_ PSCompletions -Force -ErrorAction Ignore
         }
-        elseif ($_ -ne $args) {
+        elseif ($_ -ne $args -and $_ -notmatch '[\\/]') {
             Set-Alias $_ $args -Force -ErrorAction Ignore
         }
     }
