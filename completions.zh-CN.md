@@ -75,6 +75,7 @@
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|[**en-US**](/completions/pwsh/language/en-US.json)<br>[**zh-CN(100%)**](/completions/pwsh/language/zh-CN.json)|PowerShell 命令行 CLI。(pwsh.exe)|
 |[python](https://www.python.org)|[**en-US**](/completions/python/language/en-US.json)<br>[**zh-CN(100%)**](/completions/python/language/zh-CN.json)|python - 命令行。|
 |[scoop](https://scoop.sh)|[**en-US**](/completions/scoop/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop/language/zh-CN.json)|Scoop - 适用于 Windows 的命令行安装程序|
+|[scoop-checkver](https://scoop.sh)|[**en-US**](/completions/scoop-checkver/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop-checkver/language/zh-CN.json)|它用于本地检查 Scoop 清单的更新<br>使用 .\bin\checkver.ps1 去触发补全|
 |[scoop-install](https://gitee.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-install/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop-install/language/zh-CN.json)|一个 PowerShell 脚本，它允许你添加 Scoop 配置，在 Scoop 安装应用时使用替换后的 url 而不是原始的 url。|
 |[scoop-update](https://gitee.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-update/language/en-US.json)<br>[**zh-CN(100%)**](/completions/scoop-update/language/zh-CN.json)|一个 PowerShell 脚本，它允许你添加 Scoop 配置，在 Scoop 更新应用时使用替换后的 url 而不是原始的 url。|
 |[sfsu](https://github.com/winpax/sfsu)|[**en-US**](/completions/sfsu/language/en-US.json)<br>[**zh-CN(6.9%)**](/completions/sfsu/language/zh-CN.json)|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
