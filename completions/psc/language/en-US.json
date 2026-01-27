@@ -79,20 +79,16 @@
           "name": "enable_auto_alias_setup",
           "tip": [
             "Current Value: {{ $PSCompletions.config.enable_auto_alias_setup }} (Default: 1)",
-            "Set whether to automatically use 'Set-Alias' to add aliases defined by 'psc alias'.",
-            "If set to 0, you need to use 'Set-Alias' to set it manually."
+            "Automatically use 'Set-Alias' to add aliases defined by 'psc alias'."
           ],
           "next": [
             {
-              "name": "0",
-              "tip": [
-                "Set to 0"
-              ]
+              "name": "0"
             },
             {
               "name": "1",
               "tip": [
-                "Set to 1 (Default)"
+                "Default value."
               ]
             }
           ]
@@ -101,23 +97,17 @@
           "name": "enable_cache",
           "tip": [
             "Current Value: {{ $PSCompletions.config.enable_cache }} (Default: 1)",
-            "Set whether to enable completion cache."
+            "Enable cache.",
+            "It will make the completion load faster, and it's recommended to keep the default."
           ],
           "next": [
             {
-              "name": "0",
-              "tip": [
-                "Set to 0",
-                "Disable completion cache.",
-                "It's mainly used to debug updates of completion files. (each update will re-read the json file)"
-              ]
+              "name": "0"
             },
             {
               "name": "1",
               "tip": [
-                "Set to 1 (Default)",
-                "Enable completion cache.",
-                "It will make the completion load faster, and it's recommended to keep the default."
+                "Default value."
               ]
             }
           ]
@@ -126,23 +116,17 @@
           "name": "enable_completions_update",
           "tip": [
             "Current Value: {{ $PSCompletions.config.enable_completions_update }} (Default: 1)",
-            "Set whether to show update message when loading PSCompletions module at first. (e.g. Updatable completions, New completions)",
+            "Show remote completion status notification when import module.",
             "Note: It's not recommended to disable it, because it will help you get the latest update information in time."
           ],
           "next": [
             {
-              "name": "0",
-              "tip": [
-                "Set to 0",
-                "Don't show update message when loading PSCompletions module at first.",
-                "Note: It's not recommended to disable it, because it will help you get the latest update information in time."
-              ]
+              "name": "0"
             },
             {
               "name": "1",
               "tip": [
-                "Set to 1 (Default)",
-                "Show update message when loading PSCompletions module at first."
+                "Default value."
               ]
             }
           ]
@@ -151,25 +135,17 @@
           "name": "enable_module_update",
           "tip": [
             "Current Value: {{ $PSCompletions.config.enable_module_update }} (Default: 1)",
-            "Set whether to show update message when PSCompletions module has a new version.",
-            "Note: It's not recommended to close it. The remote repository always matches the latest version of PSCompletions.",
-            "      If there is a module error, make sure you are using the latest version of the PSCompletions module."
+            "Show module version update notification when import module.",
+            "Note: It's not recommended to close it. The remote repository always matches the latest version of the module."
           ],
           "next": [
             {
-              "name": "0",
-              "tip": [
-                "Set to 0",
-                "Don't show update message when PSCompletions module has a new version.",
-                "Note: It's not recommended to close it. The remote repository always matches the latest version of PSCompletions.",
-                "      If there is a module error, make sure you are using the latest version of the PSCompletions module."
-              ]
+              "name": "0"
             },
             {
               "name": "1",
               "tip": [
-                "Set to 1 (Default)",
-                "Show update message when PSCompletions module has a new version."
+                "Default value."
               ]
             }
           ]
@@ -189,7 +165,7 @@
                 "Set the language to en-US.",
                 "{{ ",
                 "if(!$PSCompletions.config.url){",
-                "  \"`nIt will use Github repo as the completion source.`nYou can also specify the source by running 'psc config url <url>'.\"",
+                "  \"It will use Github repo as the completion library.`nYou can also specify the source by running 'psc config url <url>'.\"",
                 "}",
                 "}}"
               ]
@@ -200,7 +176,7 @@
                 "Set the language to zh-CN.",
                 "{{ ",
                 "if(!$PSCompletions.config.url){",
-                "  \"`nIt will use Gitee repo as the completion source.`nYou can also specify the source by running 'psc config url <url>'.\"",
+                "  \"It will use Gitee repo as the completion library.`nYou can also specify the source by running 'psc config url <url>'.\"",
                 "}",
                 "}}"
               ]
@@ -211,7 +187,7 @@
           "name": "url",
           "tip": [
             "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
-            "Set the url of the current remote completion data.",
+            "Set the url of the completion library.",
             "The default value is \"\", which means use the default repository (Github/Gitee)",
             "{{ $info.config.url.example }}"
           ],
@@ -226,19 +202,19 @@
             {
               "name": "\"https://abgox.github.io/PSCompletions\"",
               "tip": [
-                "Use Github Pages as the completion source."
+                "Use Github Pages as the completion library."
               ]
             },
             {
               "name": "\"https://gitee.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "Use Gitee as the completion source."
+                "Use Gitee as the completion library."
               ]
             },
             {
               "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "Use Github as the completion source."
+                "Use Github as the completion library."
               ]
             }
           ]
@@ -357,21 +333,17 @@
               "name": "enable_completions_sort",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_completions_sort }} (Default: 1)",
-                "Set whether to dynamically sort the completion list based on command history."
+                "Sort the completion items dynamically based on command history.",
+                "It will read the history file provided by PSReadLine."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't dynamically sort completion list based on command history."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "Dynamically sort completion list based on command history."
+                    "Default value."
                   ]
                 }
               ]
@@ -380,23 +352,17 @@
               "name": "enable_enter_when_single",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_enter_when_single }} (Default: 0)",
-                "When there is only one completion item, whether to enter it directly instead of displaying the module completion menu."
+                "When there is only one completion item, enter it directly instead of displaying the module completion menu."
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0 (Default)",
-                    "Even if there is only one completion item, the module completion menu is displayed first.",
-                    "You can press the Tab or Space key again to enter the completion item."
+                    "Default value."
                   ]
                 },
                 {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1",
-                    "When there is only one completion item, it will be entered directly without displaying the module completion menu."
-                  ]
+                  "name": "1"
                 }
               ]
             },
@@ -404,21 +370,16 @@
               "name": "enable_hooks_tip",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_hooks_tip }} (Default: 1)",
-                "Set whether the completion items dynamically added via hooks display completion tip."
+                "For the completion items dynamically added via hooks, display their completion tip."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't show the completion tip."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "Show the completion tip."
+                    "Default value."
                   ]
                 }
               ]
@@ -427,22 +388,17 @@
               "name": "enable_list_follow_cursor",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_list_follow_cursor }} (Default: 1)",
-                "Set whether the module completion menu list is displayed following the input cursor.",
+                "The list of the module completion menu is displayed following the input cursor.",
                 "If 'enable_list_full_width' is 1, it is invalid."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't follow the input cursor."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "Follow the input cursor."
+                    "Default value."
                   ]
                 }
               ]
@@ -451,23 +407,17 @@
               "name": "enable_list_full_width",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_list_full_width }} (Default: 1)",
-                "Set whether the module completion menu list is displayed with a full width.",
+                "The list of the module completion menu is displayed with a full width.",
                 "Enable it, the performance of the completion menu will be better."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "It means to display the module completion menu list without a full width."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "It means to display the module completion menu list with a full width.",
-                    "Enable it, the performance of the completion menu will be better."
+                    "Default value."
                   ]
                 }
               ]
@@ -476,21 +426,16 @@
               "name": "enable_list_loop",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_list_loop }} (Default: 1)",
-                "Set whether the module completion menu list is displayed with a loop."
+                "The list of the module completion menu is displayed with a loop."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "It means to display the module completion menu list without a loop."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "It means to display the module completion menu list with a loop."
+                    "Default value."
                   ]
                 }
               ]
@@ -499,22 +444,17 @@
               "name": "enable_menu",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_menu }} (Default: 1)",
-                "Set whether to use the module completion menu provided by the PSCompletions module.",
-                "If you are not using PowerShell (pwsh) on a Windows system, it's invalid."
+                "Use the module completion menu provided by the PSCompletions module.",
+                "It is invalid in non-Windows systems."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Use PowerShell's built-in completion menu."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "Use the module completion menu provided by the PSCompletions module."
+                    "Default value."
                   ]
                 }
               ]
@@ -523,20 +463,17 @@
               "name": "enable_menu_enhance",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_menu_enhance }} (Default: 1)",
-                "Set whether to enhance the function of the module completion menu.",
+                "Enhance the function of the module completion menu, for example: global management of completions",
                 "Refer to: https://pscompletions.abgox.com/faq/menu-enhance"
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0"
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)"
+                    "Default value."
                   ]
                 }
               ]
@@ -551,14 +488,11 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0 (Default)"
+                    "Default value."
                   ]
                 },
                 {
-                  "name": "1",
-                  "tip": [
-                    "Set to 1"
-                  ]
+                  "name": "1"
                 }
               ]
             },
@@ -566,25 +500,18 @@
               "name": "enable_path_with_trailing_separator",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_path_with_trailing_separator }} (Default: 1)",
-                "Set whether path completion with a trailing separator.",
+                "Use path completion with a trailing separator.",
                 "C:\\Users\\abgox{{ $PSCompletions.separator }}     (With)",
                 "C:\\Users\\abgox      (Without)"
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Without a trailing separator.",
-                    "e.g. C:\\Users\\abgox"
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "With a trailing separator.",
-                    "e.g. C:\\Users\\abgox{{ $PSCompletions.separator }}"
+                    "Default value."
                   ]
                 }
               ]
@@ -593,21 +520,16 @@
               "name": "enable_tip",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_tip }} (Default: 1)",
-                "Set whether to show the completion tip."
+                "Show the completion tip."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't show the completion tip."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "Show the completion tip."
+                    "Default value."
                   ]
                 }
               ]
@@ -616,22 +538,17 @@
               "name": "enable_tip_follow_cursor",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_tip_follow_cursor }} (Default: 1)",
-                "Set whether the module completion menu tip is displayed following the input cursor.",
+                "The tip of module completion menu is displayed following the input cursor.",
                 "If 'enable_list_full_width' is 1, it is invalid."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't follow the input cursor."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "Follow the input cursor."
+                    "Default value."
                   ]
                 }
               ]
@@ -640,21 +557,16 @@
               "name": "enable_tip_when_enhance",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_tip_when_enhance }} (Default: 1)",
-                "For completions not added via 'psc add', if there're completion tip, whether to display it."
+                "For completions not added via 'psc add', display their completion tip."
               ],
               "next": [
                 {
-                  "name": "0",
-                  "tip": [
-                    "Set to 0",
-                    "Don't show the completion tip."
-                  ]
+                  "name": "0"
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Set to 1 (Default)",
-                    "Show the completion tip."
+                    "Default value."
                   ]
                 }
               ]
@@ -686,7 +598,7 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0 (Default)"
+                    "Default value."
                   ]
                 },
                 {
@@ -716,7 +628,7 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0 (Default)"
+                    "Default value."
                   ]
                 },
                 {
@@ -747,8 +659,7 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0 (Default)",
-                    "It's determined by PSCompletions itself."
+                    "Default value."
                   ]
                 }
               ]
@@ -764,8 +675,7 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Set to 0 (Default)",
-                    "It's determined by PSCompletions itself."
+                    "Default value."
                   ]
                 }
               ]
@@ -2340,7 +2250,7 @@
       "done": [
         "<@Green>PSCompletions's configuration modified successfully!\n",
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}\n",
-        "<@Yellow>To make the change effective, may need restart PowerShell and reimport PSCompletions module."
+        "<@Yellow>To make the change effective, may need restart PowerShell and reimport module."
       ],
       "enable_cache": {
         "example": [
@@ -2443,7 +2353,6 @@
         "<@Red>It contains wildcard characters."
       ]
     },
-    "example_color": "<@Cyan>",
     "init_info": [
       "\n",
       "✨✨✨ <@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- init successfully ✨✨✨\n",
@@ -2453,7 +2362,6 @@
       "\n"
     ],
     "list": {
-      "add": "",
       "added": "Added",
       "example": [
         "E: psc list              --- Display a list of locally installed completions\n",
@@ -2523,7 +2431,7 @@
     },
     "min_area": "The area is too small!",
     "module": {
-      "restart": "<@Yellow>To make the change effective, please restart PowerShell and reimport PSCompletions module.",
+      "restart": "<@Yellow>To make the change effective, please restart PowerShell and reimport module.",
       "too_many_completions": {
         "text": [
           "Too many items: {{ $count}}",
