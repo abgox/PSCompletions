@@ -866,6 +866,12 @@ function PSCompletions {
                             return
                         }
                     }
+                    'filter_symbol' {
+                        if ($value.Trim().Length -lt 2) {
+                            Show-ParamError 'err' 'filter_symbol' $PSCompletions.info.menu.config.err.filter_symbol
+                            return
+                        }
+                    }
                     'completion_suffix' {
                         if ($value -notmatch '^\s*$') {
                             Show-ParamError 'err' 'completion_suffix' $PSCompletions.info.menu.config.err.completion_suffix
