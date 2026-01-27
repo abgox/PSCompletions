@@ -2078,22 +2078,20 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
                 }
 
                 # 向上
-                # 37: Up
-                # 38: Left
+                # 38: Up
                 # 85: Ctrl + u
                 # 80: Ctrl + p
                 # 75: Ctrl + k
-                { $_ -in @(37, 38) -or ($pressCtrl -and $_ -in @(85, 80, 75)) } {
+                { $_ -eq 38 -or ($pressCtrl -and $_ -in @(85, 80, 75)) } {
                     $menu.move_menu_selection($false)
                     break
                 }
                 # 向下
-                # 39: Right
                 # 40: Down
                 # 68: Ctrl + d
                 # 78: Ctrl + n
                 # 74: Ctrl + j
-                { $_ -in @(39, 40) -or ($pressCtrl -and $_ -in @(68, 78, 74)) } {
+                { $_ -eq 40 -or ($pressCtrl -and $_ -in @(68, 78, 74)) } {
                     $menu.move_menu_selection($true)
                     break
                 }
