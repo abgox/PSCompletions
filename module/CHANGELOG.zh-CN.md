@@ -1,5 +1,20 @@
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 6.4.0
+
+- 添加了 `enable_menu_show_below` 配置项
+  - 启用它: `psc menu config enable_menu_show_below 1`
+  - 当模块补全菜单需要在光标上方显示时，滚动内容缓冲区，让光标回到顶部，然后在光标下方显示菜单
+  - 只要你能接受旧的缓冲区内容需要向上滚动查看，它就是一个彻底解决 [缓冲区重绘问题](https://github.com/abgox/PSCompletions/issues/93) 的完美方案
+- 移除了 `Left` 和 `Right` 方向键的绑定
+  - 它们也被用来选择上一个和下一个补全项，这并不常见
+  - 现在保留这两个按键，未来可能会给它们绑定其他功能
+- 修复了根命令包含路径分隔符时，无法触发补全的问题
+  - 以 `scoop-checkver` 补全为例，它使用 `.\bin\checkver.ps1` 作为根命令
+  - 现在，它就可以正常触发补全了
+- 优化了模块的输出，格式更加清晰易读
+- 其他的优化和修复
+
 ## 6.3.3
 
 - 暴露了模块补全菜单以允许外部调用

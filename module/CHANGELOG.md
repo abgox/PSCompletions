@@ -1,5 +1,20 @@
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
+## 6.4.0
+
+- Add `enable_menu_show_below` configuration item.
+  - Enable it: `psc menu config enable_menu_show_below 1`
+  - When the module completion menu needs to be displayed above the cursor, scroll the content buffer to let the cursor return to the top, and display the menu below the cursor.
+  - As long as you can accept that the old buffer content needs to be scrolled up to view, it is a perfect solution to solve the [buffer redraw problem](https://github.com/abgox/PSCompletions/issues/93).
+- Remove the binding of `Left` and `Right` arrow keys.
+  - They are also used to select the previous and next completion items, which are not common.
+  - Now, they are reserved, and future versions may bind other functions to them.
+- Fix completion trigger with path separator in root command.
+  - Take `scoop-checkver` completion as an example, it uses `.\bin\checkver.ps1` as the root command.
+  - Now, it can trigger completion as expected.
+- Optimize the output of the module, making it more clear and readable.
+- Other optimizations and fixes.
+
 ## 6.3.3
 
 - Expose the module completion menu to allow external call.
