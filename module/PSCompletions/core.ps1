@@ -194,7 +194,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
             )
         }
     }
@@ -240,6 +240,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
         enable_menu                                  = 1
         enable_menu_enhance                          = 1
+        enable_menu_show_below                       = 0
         enable_enter_when_single                     = 0
         enable_list_loop                             = 1
         enable_list_full_width                       = 1
@@ -2001,6 +2002,14 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         $menu.cursor_to_top = $rawUI.CursorPosition.Y - $config.height_from_menu_bottom_to_cursor_when_above - 1
 
         $menu.is_show_above = $menu.cursor_to_top -gt $menu.cursor_to_bottom
+
+        if ($menu.is_show_above -and $config.enable_menu_show_below) {
+            [Microsoft.PowerShell.PSConsoleReadLine]::ClearScreen()
+            $menu.cursor_to_bottom = $rawUI.BufferSize.Height - $rawUI.CursorPosition.Y - 1 - $config.height_from_menu_top_to_cursor_when_below
+            $menu.cursor_to_top = $rawUI.CursorPosition.Y - $config.height_from_menu_bottom_to_cursor_when_above - 1
+
+            $menu.is_show_above = $menu.cursor_to_top -gt $menu.cursor_to_bottom
+        }
 
         if ($menu.is_show_above) {
             $startY = 0
