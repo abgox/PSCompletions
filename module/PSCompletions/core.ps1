@@ -1346,10 +1346,9 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod wrap_whitespace 
 }
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
-    try {
-        if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
-            if (-not [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-                Microsoft.PowerShell.Utility\Write-Host -ForegroundColor Red @"
+    if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
+        if (-not [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+            Microsoft.PowerShell.Utility\Write-Host -ForegroundColor Red @"
 
 [PSCompletions] Administrator Rights Required
 -------------------------------------------------
@@ -1363,17 +1362,15 @@ To use PSCompletions normally, please:
 Refer to: https://pscompletions.abgox.com/faq/require-admin
 
 "@
-                return
-            }
+            return
         }
     }
-    catch {}
 
     # Windows...
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
         Set-StrictMode -Off
 
-        $PSCompletions.use_module_menu = $PSCompletions.config.enable_menu
+        $PSCompletions.use_module_completion_menu = $PSCompletions.config.enable_menu
         if ($PSCompletions.config.enable_menu -and $PSCompletions.config.enable_menu_enhance) {
             Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
         }
@@ -2176,7 +2173,7 @@ else {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
         Set-StrictMode -Off
 
-        $PSCompletions.use_module_menu = 0
+        $PSCompletions.use_module_completion_menu = 0
         # XXX: 非 Windows 平台，暂时只能使用默认的补全菜单
         Set-PSReadLineKeyHandler $PSCompletions.config.trigger_key MenuComplete
 

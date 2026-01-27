@@ -84,7 +84,7 @@ function PSCompletions {
             $PSCompletions.write_with_color((_replace $err_info))
         }
         if ($example) {
-            $PSCompletions.write_with_color($PSCompletions.info.example_color + (_replace $example))
+            $PSCompletions.write_with_color('<@Cyan>' + (_replace $example))
         }
     }
     function Show-List {
@@ -113,7 +113,7 @@ function PSCompletions {
             }
             $max_len = ($PSCompletions.list | Measure-Object -Maximum Length).Maximum
             foreach ($_ in $PSCompletions.list) {
-                $status = if ($PSCompletions.data.alias[$_]) { $PSCompletions.info.list.added }else { $PSCompletions.info.list.add }
+                $status = if ($PSCompletions.data.alias[$_]) { $PSCompletions.info.list.added }else { $null }
                 $data.Add([PSCustomObject]@{
                         Completion = $_
                         Status     = $status
@@ -139,7 +139,7 @@ function PSCompletions {
                 $PSCompletions.add_completion($_)
                 $PSCompletions._need_update_data = $true
             }
-            if (!$PSCompletions.use_module_menu) {
+            if (!$PSCompletions.use_module_completion_menu) {
                 $PSCompletions.handle_completion()
             }
             return
@@ -154,7 +154,7 @@ function PSCompletions {
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.add.err.no))
             }
         }
-        if (!$PSCompletions.use_module_menu) {
+        if (!$PSCompletions.use_module_completion_menu) {
             $PSCompletions.handle_completion()
         }
     }
