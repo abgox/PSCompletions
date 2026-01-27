@@ -987,10 +987,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         }
     }
 
-    # 显示下载信息
-    $download = if ($is_update) { $PSCompletions.info.update.doing }else { $PSCompletions.info.add.doing }
-    if ($log) { $PSCompletions.write_with_color("`n" + $PSCompletions.replace_content($download)) }
-
     $done = if ($is_update) { $PSCompletions.info.update.done }else { $PSCompletions.info.add.done }
 
     if ($completion -notin $PSCompletions.data.list) {
@@ -1001,15 +997,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         $PSCompletions.data.alias[$completion] = @()
     }
 
-    $PSCompletions._alias_conflict = $false
-    $conflict_alias_list = @()
+    $conflict_alias = @()
     if ($config.alias) {
         foreach ($a in $config.alias) {
             if ($a -notin $PSCompletions.data.alias[$completion]) {
                 $PSCompletions.data.alias[$completion] += $a
                 if ($PSCompletions.data.aliasMap[$a]) {
-                    $PSCompletions._alias_conflict = $true
-                    $conflict_alias_list += $a
+                    $conflict_alias += $a
                 }
                 else {
                     $PSCompletions.data.aliasMap.$a = $completion
@@ -1022,21 +1016,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         if ($completion -notin $PSCompletions.data.alias[$completion]) {
             $PSCompletions.data.alias[$completion] += $completion
             if ($PSCompletions.data.aliasMap[$completion]) {
-                $PSCompletions._alias_conflict = $true
-                $conflict_alias_list += $completion
+                $conflict_alias += $completion
             }
             else {
                 $PSCompletions.data.aliasMap[$completion] = $completion
             }
             $PSCompletions._need_update_data = $true
         }
-    }
-
-    if ($config.alias) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.add.show_alias))
-    }
-    if ($PSCompletions._alias_conflict) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.err.alias_conflict))
     }
 
     $language = $PSCompletions.get_language($completion)

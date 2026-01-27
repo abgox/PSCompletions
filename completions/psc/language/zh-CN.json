@@ -2077,16 +2077,19 @@
   ],
   "info": {
     "add": {
-      "doing": "<@Green>正在添加补全 --- <@Magenta>{{ $completion }}",
       "done": [
-        "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 添加成功\n",
+        "<@Cyan>[添加补全]\n",
+        "<@Magenta>{{ $completion }}\n",
+        "<@Cyan>[触发别名]\n",
         "{{",
+        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(命令已存在，请手动处理冲突)<@Magenta>' } else { '<@Magenta>' + $_ } };",
+        "$out -join \"`n\";",
+        "\"`n<@Cyan>[特殊配置]\";",
         "if($json.config -or $config.hooks -ne $null){",
-        " \"<@Blue>---------- 特殊配置 --------------\";",
         "$configList = @();",
         "if($config.hooks -ne $null){",
         "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
@@ -2098,8 +2101,8 @@
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
-        " \"`n<@Blue>----------------------------------\";",
-        "};",
+        "} else { \"`n<@Yellow>无\" };",
+        "\"`n<@Blue>----------------------------------\";",
         "}}"
       ],
       "err": {
@@ -2117,8 +2120,7 @@
         "E: psc add git           --- 添加 git 补全\n",
         "   psc add git scoop     --- 添加 git 和 scoop 补全"
       ],
-      "show_alias": "<@Yellow>默认的触发别名: <@Magenta>{{ $config.alias -join ' ' }}",
-      "tip": "添加补全 --- {{ $completion }}"
+      "tip": "添加补全: {{ $completion }}"
     },
     "alias": {
       "add": {
@@ -2338,9 +2340,6 @@
       "{{ $PSCompletions.info.desc }}"
     ],
     "err": {
-      "alias_conflict": [
-        "<@Yellow>别名 <@Magenta>{{ $conflict_alias_list -join ' ' }}<@Yellow> 已经存在，请手动处理别名冲突"
-      ],
       "deny_change_menu_line_style": [
         "<@Red>在 Windows PowerShell 5.1 中，由于它的渲染问题，不能修改模块补全菜单的边框线条样式。\n",
         "建议使用 PowerShell(pwsh)，它没有这样的限制。"
@@ -2535,7 +2534,7 @@
         "E: psc rm git           --- 移除 git 补全\n",
         "   psc rm git scoop     --- 移除 git 和 scoop 补全"
       ],
-      "tip": "移除补全 --- {{ $completion }}"
+      "tip": "移除补全: {{ $completion }}"
     },
     "search": {
       "err": {
@@ -2567,16 +2566,19 @@
       "}}"
     ],
     "update": {
-      "doing": "<@Green>正在更新补全 ---<@Magenta> {{ $completion }}",
       "done": [
-        "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 更新成功\n",
+        "<@Cyan>[更新补全]\n",
+        "<@Magenta>{{ $completion }}\n",
+        "<@Cyan>[触发别名]\n",
         "{{",
+        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(命令已存在，请手动处理冲突)<@Magenta>' } else { '<@Magenta>' + $_ } };",
+        "$out -join \"`n\";",
+        "\"`n<@Cyan>[特殊配置]\";",
         "if($json.config -or $config.hooks -ne $null){",
-        " \"<@Blue>---------- 特殊配置 --------------\";",
         "$configList = @();",
         "if($config.hooks -ne $null){",
         "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
@@ -2588,8 +2590,8 @@
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
-        " \"`n<@Blue>----------------------------------\";",
-        "};",
+        "} else { \"`n<@Yellow>无\" };",
+        "\"`n<@Blue>----------------------------------\";",
         "}}"
       ],
       "example": [
@@ -2598,7 +2600,7 @@
         "   psc update psc             --- 更新 psc 补全\n",
         "   psc update psc git bun     --- 更新 psc、git 和 bun 补全"
       ],
-      "tip": "更新补全 --- {{ $completion }}"
+      "tip": "更新补全: {{ $completion }}"
     },
     "update_has": [
       "<@Cyan>可以更新的补全: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
@@ -2633,7 +2635,7 @@
         "E: psc which git           --- 返回 git 补全的存储位置\n",
         "   psc which git scoop     --- 返回 git 和 scoop 补全的存储位置"
       ],
-      "tip": "定位补全存储位置 --- {{ $completion }}"
+      "tip": "定位补全存储位置: {{ $completion }}"
     }
   }
 }

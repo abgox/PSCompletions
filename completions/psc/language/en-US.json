@@ -2081,16 +2081,19 @@
   ],
   "info": {
     "add": {
-      "doing": "<@Green>Adding completion --- <@Magenta>{{ $completion }}",
       "done": [
-        "<@Green>Completion <@Magenta>{{ $completion }}<@Green> add completed.\n",
+        "<@Cyan>[Add Completion]\n",
+        "<@Magenta>{{ $completion }}\n",
+        "<@Cyan>[Trigger Alias]\n",
         "{{",
-        " if($json.config -or $config.hooks -ne $null){",
-        "\"<@Blue>---------- Special Configuration ----------\";",
+        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(It already exists. Please handle the conflict manually.)<@Magenta>' } else { '<@Magenta>' + $_ } };",
+        "$out -join \"`n\";",
+        "\"`n<@Cyan>[Special Configuration]\";",
+        "if($json.config -or $config.hooks -ne $null){",
         "$configList = @();",
         "if($config.hooks -ne $null){",
         "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
@@ -2102,8 +2105,8 @@
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
-        " \"`n<@Blue>-------------------------------------------\";",
-        "};",
+        "} else { \"`n<@Yellow>None\" };",
+        "\"`n<@Blue>----------------------------------\";",
         "}}"
       ],
       "err": {
@@ -2121,8 +2124,7 @@
         "E: psc add git           --- Add git\n",
         "   psc add git scoop     --- Add git and scoop"
       ],
-      "show_alias": "<@Yellow>The default trigger alias: <@Magenta>{{ $config.alias -join ' ' }}",
-      "tip": "Add completion --- {{ $completion }}"
+      "tip": "Add completion: {{ $completion }}"
     },
     "alias": {
       "add": {
@@ -2342,9 +2344,6 @@
       "{{ $PSCompletions.info.desc }}"
     ],
     "err": {
-      "alias_conflict": [
-        "<@Yellow>Alias <@Magenta>{{ $conflict_alias_list -join ' ' }}<@Yellow> already exists, please handle alias conflicts manually."
-      ],
       "deny_change_menu_line_style": [
         "<@Red>In Windows PowerShell 5.1, due to its rendering issues, the border line style of the module completion menu cannot be modified.\n",
         "It is recommended to use PowerShell (pwsh) as it does not have such restrictions."
@@ -2539,7 +2538,7 @@
         "E: psc rm git           --- Remove git\n",
         "   psc rm git scoop     --- Remove git and scoop"
       ],
-      "tip": "Remove completion --- {{ $completion }}"
+      "tip": "Remove completion: {{ $completion }}"
     },
     "search": {
       "err": {
@@ -2571,16 +2570,19 @@
       "}}"
     ],
     "update": {
-      "doing": "<@Green>Updating completion ---<@Magenta> {{ $completion }}",
       "done": [
-        "<@Green>Completion <@Magenta>{{ $completion }}<@Green> update completed.\n",
+        "<@Cyan>[Update Completion]\n",
+        "<@Magenta>{{ $completion }}\n",
+        "<@Cyan>[Trigger Alias]\n",
         "{{",
-        " if($json.config -or $config.hooks -ne $null){",
-        "\"<@Blue>---------- Special Configuration ----------\";",
+        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(It already exists. Please handle the conflict manually.)<@Magenta>' } else { '<@Magenta>' + $_ } };",
+        "$out -join \"`n\";",
+        "\"`n<@Cyan>[Special Configuration]\";",
+        "if($json.config -or $config.hooks -ne $null){",
         "$configList = @();",
         "if($config.hooks -ne $null){",
         "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "  $configList += @{name='enable_hooks_tip';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks_tip.tip -join '' -split \"`n\"};",
         "};",
         "if($json.config){ $configList += $json.config; };",
         " $config_list = $configList | ForEach-Object {",
@@ -2592,8 +2594,8 @@
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
         " $config_list -join \"`n\";",
-        " \"`n<@Blue>-------------------------------------------\";",
-        "};",
+        "} else { \"`n<@Yellow>None\" };",
+        "\"`n<@Blue>----------------------------------\";",
         "}}"
       ],
       "example": [
@@ -2602,7 +2604,7 @@
         "   psc update psc             --- Update psc\n",
         "   psc update psc git bun     --- Update psc,git,bun"
       ],
-      "tip": "Update completion --- {{ $completion }}"
+      "tip": "Update completion: {{ $completion }}"
     },
     "update_has": [
       "<@Cyan>Updatable completions: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
@@ -2637,7 +2639,7 @@
         "E: psc which git           --- Get the location of git\n",
         "   psc which git scoop     --- Get the location of git and scoop"
       ],
-      "tip": "Locate completion storage location --- {{ $completion }}"
+      "tip": "Locate completion storage location: {{ $completion }}"
     }
   }
 }
