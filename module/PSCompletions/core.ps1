@@ -977,7 +977,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         try {
             $PSCompletions.download_file($download_info.url, $download_info.file, $PSCompletions.urls)
             if ($download_info.file -match '\.json$') {
-                $PSCompletions.get_raw_content($download_info.file) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 100 | Out-File $download_info.file -Encoding utf8 -Force
+                $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($download_info.file)) | ConvertTo-Json -Compress -Depth 100 | Out-File $download_info.file -Encoding utf8 -Force
             }
         }
         catch {
@@ -2672,7 +2672,7 @@ if ($PSEdition -eq 'Core') {
                 $result[$_] = $index
             }
 
-            $old = Get-Content -Raw $path_order -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress
+            $old = Get-Content -Raw $path_order -ErrorAction Ignore | ConvertFrom-Json -AsHashtable | ConvertTo-Json -Compress
             $new = $result | ConvertTo-Json -Compress
             if ($new -ne $old) {
                 $new | Out-File $path_order -Force -Encoding utf8
