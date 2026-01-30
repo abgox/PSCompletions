@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+## 6.5.1
+
+- Fix the problem of comparing completions.json files.
+
 ## 6.5.0
 
 - psc command will ignore invalid sub-commands, and execute the same behavior.
