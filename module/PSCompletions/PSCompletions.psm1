@@ -1196,24 +1196,11 @@ function PSCompletions {
             _reset
         }
         default {
-            if ($arg[0]) {
-                if ($arg[0] -in @('-?', '-h', '--help')) {
-                    _help
-                }
-                else {
-                    $sub_cmd = $arg[0]
-                    $cmd_list = @('list', 'add', 'rm', 'update', 'search', 'which', 'alias', 'config', 'completion', 'menu', 'reset')
-                    $PSCompletions.write_with_color((_replace $PSCompletions.info.sub_cmd))
-                }
-            }
-            else {
-                # 运行 psc 以重载模块的按键绑定
-                # 这用于解决 . $Profile 后按键绑定失效的问题
-                $PSCompletions.init_data()
-                $PSCompletions.handle_completion()
-                _help
-                return
-            }
+            # https://pscompletions.abgox.com/faq/source-profile
+            $PSCompletions.init_data()
+            $PSCompletions.handle_completion()
+            _help
+            return
         }
     }
     Out-Data
