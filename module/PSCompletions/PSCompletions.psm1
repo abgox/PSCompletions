@@ -738,35 +738,36 @@ function PSCompletions {
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.line_theme.done))
             }
             'color_theme' {
-                $cmd_list = @('default', 'magenta')
+                $pure_color_list = @('Red', 'DarkRed', 'Blue', 'DarkBlue', 'Green', 'DarkGreen', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta', 'Gray', 'DarkGray')
+                $cmd_list = @('Default') + $pure_color_list
                 if ($arg.Length -lt 3) {
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.color_theme.example
                     return
                 }
-                if ($arg[2] -notin $cmd_list) {
-                    Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.color_theme.example
-                    return
-                }
                 switch ($arg[2]) {
-                    'default' {
+                    'Default' {
                         $PSCompletions.config.filter_color = 'Yellow'
                         $PSCompletions.config.border_color = 'DarkGray'
                         $PSCompletions.config.item_color = 'Blue'
                         $PSCompletions.config.status_color = 'Blue'
                         $PSCompletions.config.tip_color = 'Cyan'
 
-                        $PSCompletions.config.selected_color = 'white'
+                        $PSCompletions.config.selected_color = 'White'
                         $PSCompletions.config.selected_bgcolor = 'DarkGray'
                     }
-                    'magenta' {
-                        $PSCompletions.config.filter_color = 'Magenta'
-                        $PSCompletions.config.border_color = 'Magenta'
-                        $PSCompletions.config.item_color = 'Magenta'
-                        $PSCompletions.config.status_color = 'Magenta'
-                        $PSCompletions.config.tip_color = 'Magenta'
+                    { $_ -in $pure_color_list } {
+                        $PSCompletions.config.filter_color = $_
+                        $PSCompletions.config.border_color = $_
+                        $PSCompletions.config.item_color = $_
+                        $PSCompletions.config.status_color = $_
+                        $PSCompletions.config.tip_color = $_
 
-                        $PSCompletions.config.selected_color = 'white'
-                        $PSCompletions.config.selected_bgcolor = 'DarkMagenta'
+                        $PSCompletions.config.selected_color = 'White'
+                        $PSCompletions.config.selected_bgcolor = $_
+                    }
+                    default {
+                        Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.color_theme.example
+                        return
                     }
                 }
                 $PSCompletions._need_update_data = $true
