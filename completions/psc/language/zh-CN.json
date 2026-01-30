@@ -27,9 +27,7 @@
     {
       "name": "alias",
       "tip": [
-        "管理补全触发的命令名。",
-        "现在补全别名是一个列表, 初始列表是补全的默认触发名, 你可以自由的添加和删除别名(包括默认触发名)。",
-        "但是，添加的别名不能带有空格。",
+        "管理补全触发的别名。",
         "{{ $info.alias.example }}"
       ],
       "next": [
@@ -37,8 +35,6 @@
           "name": "add",
           "tip": [
             "为指定补全添加一个别名。",
-            "注意: 是添加一个新的别名而不是替换, 原本的补全名也可以使用。",
-            "      如果只想保留新的别名, 需要在添加新的别名后使用 rm 命令移除原本的补全名。",
             "{{ $info.alias.add.example }}"
           ],
           "next": []
@@ -62,8 +58,8 @@
     {
       "name": "completion",
       "tip": [
-        "指定单个补全的特殊配置(特殊配置优先级最高)。",
-        "每个补全默认带有多个特殊配置({{ $PSCompletions.default_completion_item -join '|' }})。",
+        "指定某个补全的特殊配置。",
+        "每个补全默认带有多个特殊配置: {{ $PSCompletions.default_completion_item -join ' | ' }} (需要 hooks)",
         "{{ $info.completion.example }}"
       ],
       "next": []
@@ -355,14 +351,13 @@
               "name": "between_item_and_symbol",
               "tip": [
                 "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.between_item_and_symbol) }} (默认值: \" \")",
-                "设置当补全项后面有符号时, 补全项与符号之间的间隔符。"
+                "设置当补全项后面有补全预测符号时, 补全项与符号之间的间隔符。"
               ],
               "next": [
                 {
                   "name": "\" \"",
                   "tip": [
-                    "设置为 \" \" (默认值)",
-                    "每一个补全项和符号之间都加入一个空格作为间隔。"
+                    "设置为 \" \" (默认值)"
                   ]
                 }
               ]
@@ -559,7 +554,9 @@
               "name": "enable_menu_show_below",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_menu_show_below }} (默认值: 0)",
-                "当模块补全菜单需要在光标上方显示时，滚动内容缓冲区，让光标回到顶部，然后在光标下方显示菜单。"
+                "当模块补全菜单需要在光标上方显示时，滚动内容缓冲区，让光标回到顶部，然后在光标下方显示菜单。",
+                "对于缓冲区重绘存在差异的问题，它是一个不错的解决方案。",
+                "参考: https://github.com/abgox/PSCompletions/issues/93"
               ],
               "next": [
                 {
@@ -1829,7 +1826,7 @@
             {
               "name": "double_line_rect_border",
               "tip": [
-                "设置为双线直角边框(默认值)。效果如下:",
+                "设置为双线直角边框。效果如下:",
                 "╔═════╗",
                 "║     ║",
                 "╚═════╝"
@@ -1856,6 +1853,7 @@
             {
               "name": "single_line_round_border",
               "tip": [
+                "默认值",
                 "设置为单线圆角边框。效果如下:",
                 "╭─────╮",
                 "│     │",
@@ -1975,7 +1973,7 @@
           "name": "*",
           "tip": [
             "重置模块 PSCompletions 的所有内容。",
-            "你可以理解为, 重置到刚开始安装 PSCompletions 模块的状态。"
+            "除了模块的核心代码外，所有其他内容均会被移除。"
           ]
         },
         {
@@ -2140,19 +2138,6 @@
       "next": []
     }
   ],
-  "options": [
-    {
-      "name": "--help",
-      "alias": [
-        "-?",
-        "-h"
-      ],
-      "tip": [
-        "U: -?, -h, --help",
-        "显示 PSCompletions(psc) 的帮助信息"
-      ]
-    }
-  ],
   "info": {
     "add": {
       "done": [
@@ -2216,8 +2201,8 @@
           ]
         },
         "example": [
-          "E: psc alias add git g gi            --- 为 git 添加 g、gi 两个别名\n",
-          "   psc alias add scoop scoop.ps1     --- 为 scoop 添加一个别名 scoop.ps1"
+          "E: psc alias add git g gi            --- 为 git 添加 g 和 gi 这两个别名\n",
+          "   psc alias add scoop scoop.ps1     --- 为 scoop 添加 scoop.ps1 这个别名"
         ],
         "tip": [
           "{{ \"当前别名列表: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
@@ -2237,9 +2222,9 @@
         "}}"
       ],
       "example": [
-        "E: psc alias list                 --- 列出所有别名\n",
-        "   psc alias add git g gi ./g     --- 添加 g gi ./g 为 git 别名\n",
-        "   psc alias rm g                 --- 删除一个别名或多个"
+        "E: psc alias list             --- 列出所有别名\n",
+        "   psc alias add git g gi     --- 为 git 添加 g 和 gi 这两个别名\n",
+        "   psc alias rm git g gi      --- 为 git 删除 g 和 gi 这两个别名"
       ],
       "list": {
         "example": [
@@ -2264,8 +2249,8 @@
           ]
         },
         "example": [
-          "E: psc alias rm git g gi            --- 为 git 删除 g、gi 两个别名\n",
-          "   psc alias rm scoop scoop.ps1     --- 为 scoop 删除一个别名 scoop.ps1"
+          "E: psc alias rm git g gi            --- 为 git 删除 g 和 gi 这两个别名\n",
+          "   psc alias rm scoop scoop.ps1     --- 为 scoop 删除 scoop.ps1 这个别名"
         ],
         "tip": "为 {{ $completion }} 移除一个或多个别名",
         "tip_v": [
@@ -2299,7 +2284,8 @@
         "min": [
           "<@Yellow>",
           "你应该继续输入要设置的配置项\n",
-          "每个补全默认带有多个特殊配置(<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
+          "每个补全默认带有多个特殊配置: <@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow> | <@Magenta>' }} <@Yellow>(需要 hooks)",
+          "\n",
           "{{",
           "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
           "if($config){ \"$($arg[1]) 额外的可用配置项: <@Magenta>$($config -join ' ')\" }",
@@ -2488,9 +2474,9 @@
           "<@Green>menu 边框样式主题修改成功!"
         ],
         "example": [
-          "E: psc menu line_theme double_line_rect_border       --- 设置为双线直角边框(默认)\n",
-          "   psc menu line_theme single_line_rect_border       --- 设置为单线直角边框\n",
-          "   psc menu line_theme single_line_round_border      --- 设置为单线圆角边框"
+          "E: psc menu line_theme single_line_round_border     --- 设置为单线圆角边框 (默认)\n",
+          "   psc menu line_theme single_line_rect_border      --- 设置为单线直角边框\n",
+          "   psc menu line_theme double_line_rect_border      --- 设置为双线直角边框"
         ]
       },
       "symbol": {

@@ -28,8 +28,6 @@
       "name": "alias",
       "tip": [
         "Manage the alias that triggers completion.",
-        "Now it's a list, the initial list is the default trigger name, and you are free to add and remove aliases. (Include the default trigger name)",
-        "You can only add aliases without Spaces.",
         "{{ $info.alias.example }}"
       ],
       "next": [
@@ -37,8 +35,6 @@
           "name": "add",
           "tip": [
             "Add one or more alias for the specified completion.",
-            "Note: It's add, not replace. Original name can also be used.",
-            "      If you only want the new alias, you need to remove the original name after adding the new alias.",
             "{{ $info.alias.add.example }}"
           ],
           "next": []
@@ -62,8 +58,8 @@
     {
       "name": "completion",
       "tip": [
-        "Specify a configuration for a completion. (These configurations have the highest priority.)",
-        "By default, each completion comes with multiple special configurations. ({{ $PSCompletions.default_completion_item -join '|' }})",
+        "Specify the configuration for a completion.",
+        "By default, each completion comes with multiple special configurations: {{ $PSCompletions.default_completion_item -join ' | ' }} (Require hooks)",
         "{{ $info.completion.example }}"
       ],
       "next": []
@@ -354,14 +350,13 @@
               "name": "between_item_and_symbol",
               "tip": [
                 "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.between_item_and_symbol) }} (Default: \" \")",
-                "Set the separator between the completion item and the symbol when there is a symbol after the completion item."
+                "Set the separator between the completion item and the symbol when there is the completion predict symbol after the completion item."
               ],
               "next": [
                 {
                   "name": "\" \"",
                   "tip": [
-                    "Set to \" \" (Default)",
-                    "Add a space between each completion item and symbol."
+                    "Set to \" \" (Default)"
                   ]
                 }
               ]
@@ -560,7 +555,9 @@
               "name": "enable_menu_show_below",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_menu_show_below }} (Default: 0)",
-                "When the module completion menu needs to be displayed above the cursor, scroll the content buffer to let the cursor return to the top, and display the menu below the cursor."
+                "When the module completion menu needs to be displayed above the cursor, scroll the content buffer to let the cursor return to the top, and display the menu below the cursor.",
+                "It is a good solution to the problem of differences in buffer redrawing.",
+                "Refer to: https://github.com/abgox/PSCompletions/issues/93"
               ],
               "next": [
                 {
@@ -1830,7 +1827,7 @@
             {
               "name": "double_line_rect_border",
               "tip": [
-                "Set to a double line rectangular border (default). Be like:",
+                "Set to a double line rectangular border. Be like:",
                 "╔═════╗",
                 "║     ║",
                 "╚═════╝"
@@ -1857,6 +1854,7 @@
             {
               "name": "single_line_round_border",
               "tip": [
+                "Default value.",
                 "Set to a single line rounded border. Be like:",
                 "╭─────╮",
                 "│     │",
@@ -2144,19 +2142,6 @@
       "next": []
     }
   ],
-  "options": [
-    {
-      "name": "--help",
-      "alias": [
-        "-?",
-        "-h"
-      ],
-      "tip": [
-        "U: -?, -h, --help",
-        "Display the help information for PSCompletions(psc)"
-      ]
-    }
-  ],
   "info": {
     "add": {
       "done": [
@@ -2220,8 +2205,8 @@
           ]
         },
         "example": [
-          "E: psc alias add git g gi            --- Add g,gi as git alias\n",
-          "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 as scoop alias"
+          "E: psc alias add git g gi            --- Add g and gi aliases for git\n",
+          "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 alias for scoop"
         ],
         "tip": [
           "{{ \"Current aliases: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
@@ -2241,9 +2226,9 @@
         "}}"
       ],
       "example": [
-        "E: psc alias list                 --- List all aliases\n",
-        "   psc alias add git g gi ./g     --- Add g gi ./g as git alias\n",
-        "   psc alias rm g                 --- Remove g alias"
+        "E: psc alias list             --- List all aliases\n",
+        "   psc alias add git g gi     --- Add g and gi aliases for git\n",
+        "   psc alias rm git g gi      --- Remove g and gi aliases for git"
       ],
       "list": {
         "example": [
@@ -2268,8 +2253,8 @@
           ]
         },
         "example": [
-          "E: psc alias rm git g gi            --- Remove aliases (g,gi) for git\n",
-          "   psc alias rm scoop scoop.ps1     --- Remove alias (scoop.ps1) for scoop"
+          "E: psc alias rm git g gi            --- Remove g and gi aliases for git\n",
+          "   psc alias rm scoop scoop.ps1     --- Remove scoop.ps1 alias for scoop"
         ],
         "tip": "Remove one or more aliases for {{ $completion }}.",
         "tip_v": [
@@ -2302,8 +2287,9 @@
       "err": {
         "min": [
           "<@Yellow>",
-          "You should continue to enter the configuration items to be set\n",
-          "By default, each completion comes with multiple special configurations. (<@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow>|<@Magenta>' }}<@Yellow>)\n",
+          "You should continue to enter the configuration items to be set.\n",
+          "By default, each completion comes with multiple special configurations: <@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow> | <@Magenta>' }} <@Yellow>(Require hooks)",
+          "\n",
           "{{",
           "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
           "if($config){ \"$($arg[1])'s additional special configuration: <@Magenta>$($config -join ' ')\" }",
@@ -2492,9 +2478,9 @@
           "<@Green>Completion menu border line style modified successfully!"
         ],
         "example": [
-          "E: psc menu line_theme double_line_rect_border       --- Set to a double line rectangular border (default)\n",
-          "   psc menu line_theme single_line_rect_border       --- Set to a single line rectangular border\n",
-          "   psc menu line_theme single_line_round_border      --- Set to a single line rounded border"
+          "E: psc menu line_theme single_line_round_border     --- Set to a single line rounded border (default)\n",
+          "   psc menu line_theme single_line_rect_border      --- Set to a single line rectangular border\n",
+          "   psc menu line_theme double_line_rect_border      --- Set to a double line rectangular border"
         ]
       },
       "symbol": {
