@@ -246,17 +246,30 @@ function PSCompletions {
 
         if ($arg.Length -lt 2) {
             # 如果只是使用 psc update 则检查更新
+            if (!(download_list)) {
+                return
+            }
+            $update = (Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json).update
             $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
-                $params['Uri'] = "$($PSCompletions.url)/completions/$completion/guid.json"
-                try {
-                    $response = Invoke-RestMethod @params
-                    $old_guid = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/guid.json") | ConvertFrom-Json | Select-Object -ExpandProperty guid
-                    if ($response.guid -ne $old_guid) {
-                        $need_update_list.Add($completion)
-                    }
+                if (-not $update.$completion) {
+                    continue
                 }
-                catch {  }
+                $completion_dir = $PSCompletions.path.completions + "/$completion"
+                if (-not (Test-Path $completion_dir) -or (Get-Item $completion_dir).LinkType) {
+                    continue
+                }
+                $p = "$completion_dir/.update"
+                if (-not (Test-Path $p)) {
+                    $need_update_list += $completion
+                    Remove-Item "$($PSCompletions.path.completions)/$completion/guid.json" -Force -ErrorAction Ignore
+                    continue
+                }
+                $content = Get-Content $p -Raw -Encoding utf8 -ErrorAction Ignore
+                if ($content -and $content.Trim() -eq $update.$completion) {
+                    continue
+                }
+                $need_update_list += $completion
             }
             $PSCompletions.update = $need_update_list
         }
