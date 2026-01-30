@@ -1136,19 +1136,18 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 
                     $diff = Compare-Object $remote_list $current_list -PassThru
                     if ($diff) {
-                        try {
-                            $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
-                            $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
-                            $PSCompletions.list = $remote_list
-                        }
-                        catch {
-                            Write-Host $_.Exception.Message -ForegroundColor Red
-                            return $false
-                        }
+                        $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
+                        $PSCompletions.list = $remote_list
                     }
                     else {
                         Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                         $PSCompletions.list = $current_list
+                    }
+
+                    $new = $response | ConvertTo-Json -Compress
+                    $old = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress
+                    if ($new -ne $old) {
+                        $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                     }
                     $isErr = $false
                     return $remote_list
@@ -2257,12 +2256,16 @@ if ($PSEdition -eq 'Core') {
                             $diff = Compare-Object $remote_list $current_list -PassThru
                             if ($diff) {
                                 $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                                $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                                 $PSCompletions.list = $remote_list
                             }
                             else {
                                 Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                                 $PSCompletions.list = $current_list
+                            }
+                            $new = $response | ConvertTo-Json -Compress
+                            $old = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress
+                            if ($new -ne $old) {
+                                $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                             }
                             return $remote_list
                         }
@@ -2917,12 +2920,16 @@ else {
                         $diff = Compare-Object $remote_list $current_list -PassThru
                         if ($diff) {
                             $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                            $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                             $PSCompletions.list = $remote_list
                         }
                         else {
                             Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                             $PSCompletions.list = $current_list
+                        }
+                        $new = $response | ConvertTo-Json -Compress
+                        $old = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress
+                        if ($new -ne $old) {
+                            $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                         }
                         return $remote_list
                     }
