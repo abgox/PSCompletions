@@ -1,4 +1,19 @@
+# Module Changelog
+
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
+
+## Unreleased
+
+## 6.5.0
+
+- psc 命令会忽略无效的子命令，并执行相同的行为
+  1. 重载模块的按键绑定和数据
+  2. 显示模块信息
+- 为模块补全菜单添加了多种纯色主题
+  - 通过 `psc menu color_theme` 设置
+  - 也推荐使用 `psc menu custom color` 来自定义
+- 改进了补全更新机制，切换到基于内容的 hash 比较
+- 其他的优化和修复
 
 ## 6.4.0
 

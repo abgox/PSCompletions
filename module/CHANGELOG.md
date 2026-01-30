@@ -1,4 +1,19 @@
+# Module Changelog
+
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
+
+## Unreleased
+
+## 6.5.0
+
+- psc command will ignore invalid sub-commands, and execute the same behavior.
+  1. Reload module key bindings and data.
+  2. Show module information.
+- Add multiple pure color themes to the module completion menu.
+  - Set them with `psc menu color_theme`.
+  - Also recommend using `psc menu custom color` to customize.
+- Improve completion update mechanism by switching to content-based hashing.
+- Other optimizations and fixes.
 
 ## 6.4.0
 
