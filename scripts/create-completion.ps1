@@ -37,8 +37,6 @@ if (Test-Path $completion_dir) {
 $PSCompletions.ensure_dir($completion_dir)
 $PSCompletions.ensure_dir("$completion_dir/language")
 
-@{ guid = [System.Guid]::NewGuid().Guid } | ConvertTo-Json | Out-File "$completion_dir/guid.json" -Encoding utf8 -Force
-
 Copy-Item "$($PSScriptRoot)/template/config.json" "$completion_dir/config.json" -Force
 
 Copy-Item "$($PSScriptRoot)/template/language/en-US.json" "$completion_dir/language/en-US.json" -Force
@@ -58,6 +56,3 @@ $PSCompletions.data.config.comp_config.$completion_name = @{
     enable_hooks = 1
 }
 $PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force
-
-# update completions.json
-@{ list = (Get-ChildItem "$PSScriptRoot\..\completions").Name } | ConvertTo-Json -Compress | Out-File "$PSScriptRoot\..\completions.json"

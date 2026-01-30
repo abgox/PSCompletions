@@ -12,6 +12,37 @@ if (!$PSCompletions) {
     . $PSScriptRoot\..\module\PSCompletions\core.ps1
 }
 
+function Get-StringHash {
+    param(
+        [Parameter(Mandatory)]
+        [string]$dir
+    )
+
+    if (-not (Test-Path $dir)) {
+        return
+    }
+
+    $files = Get-ChildItem $dir -File -Recurse | Sort-Object FullName
+
+    if (-not $files) {
+        return
+    }
+
+    $str = ""
+    foreach ($file in $files) {
+        $str += Get-Content $file.FullName -Raw -Encoding utf8
+    }
+
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($str)
+
+    # SHA256
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    $hashBytes = $sha.ComputeHash($bytes)
+
+    # hex
+    ($hashBytes | ForEach-Object { $_.ToString('x2') }) -join ''
+}
+
 function Compare-JsonProperty {
     param (
         [string]$diffJson,
@@ -555,7 +586,18 @@ update_readme "zh-CN"
 
 & $PSScriptRoot\sort-completion.ps1
 
-@{ list = (Get-ChildItem "$PSScriptRoot\..\completions").Name } | ConvertTo-Json -Compress | Out-File "$PSScriptRoot\..\completions.json"
+$metaPath = "$PSScriptRoot\..\completions.json"
+$old_meta = Get-Content $metaPath -Raw | ConvertFrom-Json -AsHashtable
+$meta = [ordered]@{
+    list   = @()
+    update = [ordered]@{}
+}
+Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
+    $meta.list += $_.Name
+    $meta.update[$_.Name] = Get-StringHash $_.FullName
+}
+
+$meta | ConvertTo-Json -Compress | Out-File $metaPath
 
 git -c core.safecrlf=false add -u
 
