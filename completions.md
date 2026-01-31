@@ -12,6 +12,7 @@
 |Completion|Language|Description|
 |:-:|-|-|
 |[7z](https://7-zip.org/)|[**en-US**](/completions/7z/language/en-US.json)<br>[**zh-CN(100%)**](/completions/7z/language/zh-CN.json)|The command line cli of 7-Zip|
+|[adb](https://developer.android.com/tools/adb)|[**en-US**](/completions/adb/language/en-US.json)<br>[**zh-CN(2.99%)**](/completions/adb/language/zh-CN.json)|adb is a command-line tool that lets you communicate with a device.|
 |[arch](https://github.com/uutils/coreutils)|[**en-US**](/completions/arch/language/en-US.json)<br>[**zh-CN(100%)**](/completions/arch/language/zh-CN.json)|Display machine architecture.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[b2sum](https://github.com/uutils/coreutils)|[**en-US**](/completions/b2sum/language/en-US.json)<br>[**zh-CN(15.38%)**](/completions/b2sum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[b3sum](https://github.com/uutils/coreutils)|[**en-US**](/completions/b3sum/language/en-US.json)<br>[**zh-CN(15.38%)**](/completions/b3sum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
@@ -55,6 +56,7 @@
 |[md5sum](https://github.com/uutils/coreutils)|[**en-US**](/completions/md5sum/language/en-US.json)<br>[**zh-CN(16.67%)**](/completions/md5sum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[mise](https://mise.jdx.dev/)|[**en-US**](/completions/mise/language/en-US.json)<br>[**zh-CN(3.08%)**](/completions/mise/language/zh-CN.json)|mise - Polyglot tool version manager, env vars manager and task runner|
 |[mktemp](https://github.com/uutils/coreutils)|[**en-US**](/completions/mktemp/language/en-US.json)<br>[**zh-CN(25%)**](/completions/mktemp/language/zh-CN.json)|Create a temporary file or directory.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|[**en-US**](/completions/mysql/language/en-US.json)<br>[**zh-CN(1.53%)**](/completions/mysql/language/zh-CN.json)|MySQL command line client|
 |[ngrok](https://ngrok.com/)|[**en-US**](/completions/ngrok/language/en-US.json)<br>[**zh-CN(100%)**](/completions/ngrok/language/zh-CN.json)|ngrok - Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
 |[nl](https://github.com/uutils/coreutils)|[**en-US**](/completions/nl/language/en-US.json)<br>[**zh-CN(7.14%)**](/completions/nl/language/zh-CN.json)|Number lines of files.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[node](https://nodejs.org/)|[**en-US**](/completions/node/language/en-US.json)<br>[**zh-CN(28.57%)**](/completions/node/language/zh-CN.json)|Node.js - A free, open-source, cross-platform JavaScript runtime environment.|
