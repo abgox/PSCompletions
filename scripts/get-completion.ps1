@@ -18,7 +18,7 @@ function Get-CompletionItem {
     return , $completions
 }
 
-$out = Get-CompletionItem -Prefix $Prefix | ConvertTo-Json -Depth 100
+$out = Get-CompletionItem -Prefix $Prefix | ConvertTo-Json
 
 if ($OutFile) {
     $out | Out-File -FilePath $OutFile -Encoding utf8
