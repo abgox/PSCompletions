@@ -22,7 +22,7 @@ function handleCompletions($completions) {
     function return_commit {
         $commit_info = [System.Collections.Generic.List[array]]::new()
         if ($PSCompletions.config.comp_config.git.max_commit -in @('', $null)) {
-            $PSCompletions.config.comp_config.git.max_commit = 20
+            $PSCompletions.config.comp_config.git.max_commit = 100
         }
         $guid = [guid]::NewGuid().Guid
         $git_info = git log --pretty="format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n$($guid)" -n $PSCompletions.config.comp_config.git.max_commit 2>$null
