@@ -59,7 +59,7 @@
                                 else {
                                     $tip = @"
 {{
-`$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json;
+`$c = Get-Content -Raw $($_.FullName) -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
 if(`$type) { 'type:     ' + `$type; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
@@ -118,7 +118,20 @@ if(`$c.description) {
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.uninstall), @('SpaceTab'))
+                        $tip = @"
+{{
+`$c = Get-Content -Raw $($path + '\current\manifest.json') -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if(`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+if(`$c.description) {
+  '-----'; `"`n`";
+  `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
+                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
                     }
                 }
             }
@@ -135,7 +148,20 @@ if(`$c.description) {
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update), @('SpaceTab'))
+                        $tip = @"
+{{
+`$c = Get-Content -Raw $($path + '\current\manifest.json') -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if(`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+if(`$c.description) {
+  '-----'; `"`n`";
+  `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
+                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
                     }
                 }
             }
@@ -164,7 +190,7 @@ if(`$c.description) {
                                 else {
                                     $tip = @"
 {{
-`$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json;
+`$c = Get-Content -Raw $($_.FullName) -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
 if(`$type) { 'type:     ' + `$type; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
@@ -203,7 +229,20 @@ if(`$c.description) {
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cleanup), @('SpaceTab'))
+                        $tip = @"
+{{
+`$c = Get-Content -Raw $($path + '\current\manifest.json') -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if(`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+if(`$c.description) {
+  '-----'; `"`n`";
+  `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
+                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
                     }
                 }
             }
@@ -219,7 +258,22 @@ if(`$c.description) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     $path = $item.FullName
-                    $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.hold), @('SpaceTab'))
+                    if ($app -notin $selected) {
+                        $tip = @"
+{{
+`$c = Get-Content -Raw $($path + '\current\manifest.json') -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if(`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+if(`$c.description) {
+  '-----'; `"`n`";
+  `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
+                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
+                    }
                 }
             }
         }
@@ -235,7 +289,20 @@ if(`$c.description) {
                     $app = $item.Name
                     $path = $item.FullName
                     if ($app -notin $selected) {
-                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.unhold), @('SpaceTab'))
+                        $tip = @"
+{{
+`$c = Get-Content -Raw $($path + '\current\manifest.json') -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if(`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+if(`$c.description) {
+  '-----'; `"`n`";
+  `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
+                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
                     }
                 }
             }
@@ -246,7 +313,20 @@ if(`$c.description) {
                     foreach ($item in (Get-ChildItem $_ 2>$null)) {
                         $app = $item.Name
                         $path = $item.FullName
-                        $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.prefix))
+                        $tip = @"
+{{
+`$c = Get-Content -Raw $($path + '\current\manifest.json') -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if(`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+if(`$c.description) {
+  '-----'; `"`n`";
+  `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
+                        $list += $PSCompletions.return_completion($app, $tip)
                     }
                 }
             }
