@@ -123,16 +123,21 @@
                                 $tip = ''
                             }
                             else {
+                                $manifest_path = $_.FullName
                                 $tip = @"
 {{
-`$c = Get-Content -Raw $($_.FullName) -Encoding utf8 | ConvertFrom-Json;
+`$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
-if(`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$type) { 'type:     ' + `$type; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
-if(`$c.description) {
-  '-----'; `"`n`";
-  `$c.description.Replace(' | ', `"`n`")
+`$persistence = @()
+if (`$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.persist) { `$persistence += 'persist'; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
+if (`$c.description) {
+    '-----'; `"`n`";
+    `$c.description.Replace(' | ', `"`n`")
 };
 }}
 "@
@@ -140,7 +145,7 @@ if(`$c.description) {
                             $return += @{
                                 ListItemText   = $app
                                 CompletionText = $app
-                                symbols        = @("SpaceTab")
+                                symbols        = @('SpaceTab')
                                 ToolTip        = $tip
                             }
                         }

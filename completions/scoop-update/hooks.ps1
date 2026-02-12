@@ -108,7 +108,25 @@
                 $app = $item.Name
                 $path = $item.FullName
                 if ($app -notin $PSCompletions.input_arr) {
-                    $list += $PSCompletions.return_completion($app, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.update), @('SpaceTab'))
+                    $manifest_path = $path + '\current\manifest.json'
+                    $tip = @"
+{{
+`$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif('A-Add-Font' -in `$c.pre_install) { 'Font' } else { `$null };
+if (`$type) { 'type:     ' + `$type; `"`n`" };
+'version:  ' + `$c.version; `"`n`";
+'homepage: ' + `$c.homepage; `"`n`";
+`$persistence = @()
+if (`$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.persist) { `$persistence += 'persist'; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
+if (`$c.description) {
+    '-----'; `"`n`";
+    `$c.description.Replace(' | ', `"`n`")
+};
+}}
+"@
+                    $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
                 }
             }
         }
