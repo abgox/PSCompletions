@@ -68,7 +68,7 @@
 |[od](https://github.com/uutils/coreutils)|[**en-US**](/completions/od/language/en-US.json)<br>[**zh-CN(4.88%)**](/completions/od/language/zh-CN.json)|Dump files in octal and other formats.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[oh-my-posh](https://ohmyposh.dev)|[**en-US**](/completions/oh-my-posh/language/en-US.json)<br>[**zh-CN(7.41%)**](/completions/oh-my-posh/language/zh-CN.json)|oh-my-posh is a cross platform tool to render your prompt.|
 |[paste](https://github.com/uutils/coreutils)|[**en-US**](/completions/paste/language/en-US.json)<br>[**zh-CN(40%)**](/completions/paste/language/zh-CN.json)|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[pdm](https://github.com/pdm-project/pdm)|[**en-US**](/completions/pdm/language/en-US.json)<br>[**zh-CN(1.23%)**](/completions/pdm/language/zh-CN.json)|A modern Python package and dependency manager supporting the latest PEP standards.|
+|[pdm](https://github.com/pdm-project/pdm)|[**en-US**](/completions/pdm/language/en-US.json)<br>[**zh-CN(0.31%)**](/completions/pdm/language/zh-CN.json)|A modern Python package and dependency manager supporting the latest PEP standards.|
 |[pip](https://github.com/pypa/pip)|[**en-US**](/completions/pip/language/en-US.json)<br>[**zh-CN(99.42%)**](/completions/pip/language/zh-CN.json)|pip - Python Package Manager.|
 |[pnpm](https://pnpm.io/)|[**en-US**](/completions/pnpm/language/en-US.json)<br>[**zh-CN(100%)**](/completions/pnpm/language/zh-CN.json)|pnpm - Package Manager.|
 |[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|[**en-US**](/completions/powershell/language/en-US.json)<br>[**zh-CN(100%)**](/completions/powershell/language/zh-CN.json)|Windows PowerShell CLI. (powershell.exe)|
@@ -86,7 +86,9 @@
 |[wsh](https://github.com/wavetermdev/waveterm)|[**en-US**](/completions/wsh/language/en-US.json)<br>[**zh-CN(3.57%)**](/completions/wsh/language/zh-CN.json)|wsh is a small utility that lets you do cool things with Wave Terminal, right from the command line.|
 |[wsl](https://github.com/microsoft/WSL)|[**en-US**](/completions/wsl/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wsl/language/zh-CN.json)|WSL - Windows Subsystem for Linux.|
 |[wt](https://github.com/microsoft/terminal)|[**en-US**](/completions/wt/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wt/language/zh-CN.json)|Windows Terminal command line.<br>You can use it to start a terminal.|
+|[ya](https://yazi-rs.github.io/)|[**en-US**](/completions/ya/language/en-US.json)<br>[**zh-CN(9.52%)**](/completions/ya/language/zh-CN.json)|Yazi - Blazing fast terminal file manager written in Rust, based on async I/O.|
 |[yarn](https://classic.yarnpkg.com/)|[**en-US**](/completions/yarn/language/en-US.json)<br>[**zh-CN(100%)**](/completions/yarn/language/zh-CN.json)|yarn - Fast, reliable, and secure dependency management.|
+|[yazi](https://yazi-rs.github.io/)|[**en-US**](/completions/yazi/language/en-US.json)<br>[**zh-CN(22.22%)**](/completions/yazi/language/zh-CN.json)|Yazi - Blazing fast terminal file manager written in Rust, based on async I/O.|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|[**en-US**](/completions/zoxide/language/en-US.json)<br>[**zh-CN(100%)**](/completions/zoxide/language/zh-CN.json)|A smarter cd command for your terminal|
 |...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
 <!-- prettier-ignore-end -->
