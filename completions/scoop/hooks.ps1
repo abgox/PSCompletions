@@ -557,8 +557,8 @@ if (`$c.description) {
                 # abyss bucket config
                 'abgox-abyss-app-uninstall-action'     = @{
                     symbol  = 'SpaceTab'
-                    'zh-CN' = @('默认值: 1', '应用卸载操作行为。', '它是 abyss bucket (https://gitee.com/abgox/abyss) 中的一个配置项', '详情参考: https://abyss.abgox.com/features/extra-features#abgox-abyss-app-uninstall-action')
-                    'en-US' = @('Default Value: 1', 'The action of app uninstall.', 'It is a config in abyss bucket (https://github.com/abgox/abyss).', 'See https://abyss.abgox.com/features/extra-features#abgox-abyss-app-uninstall-action for details.')
+                    'zh-CN' = @('默认值: 123', '应用卸载操作行为。', '它是 abyss bucket (https://gitee.com/abgox/abyss) 中的一个配置项', '详情参考: https://abyss.abgox.com/features/extra-features#abgox-abyss-app-uninstall-action')
+                    'en-US' = @('Default Value: 123', 'The action of app uninstall.', 'It is a config in abyss bucket (https://github.com/abgox/abyss).', 'See https://abyss.abgox.com/features/extra-features#abgox-abyss-app-uninstall-action for details.')
                 }
                 'abgox-abyss-app-shortcuts-action'     = @{
                     symbol  = 'SpaceTab'
