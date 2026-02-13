@@ -434,7 +434,7 @@ function Compare-JsonProperty {
         traverseObj $diffContent.info $baseContent.info 'info'
     }
     if ($count.diffList.Count -gt 0) {
-        $completionRate = 1.23
+        $completionRate = 0.01
     }
     else {
         if ($count.totalTips -gt 0) {
@@ -444,7 +444,7 @@ function Compare-JsonProperty {
             $completionRate = 100
         }
     }
-    $completionRate = [Math]::Max([Math]::Round($completionRate, 2), 1.23)
+    $completionRate = [Math]::Max([Math]::Round($completionRate, 2), 0.01)
 
     if ($ReturnRate) {
         return $completionRate
