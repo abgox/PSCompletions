@@ -1,6 +1,15 @@
 {
   "import-psc": "Before running this script, you should install the PSCompletions module and import it.",
   "compare-json": {
+    "invalidName": [
+      "<@Red>You should enter an available completion name.\n",
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 psc"
+    ],
+    "invalidLang": [
+      "<@Red>You should enter an available language.\n",
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $completion_name }} -TargetLang zh-CN"
+    ],
+    "sameLang": "<@Red>The <@Magenta>-TargetLang<@Red> cannot be the same as the <@Magenta>-BaseLang<@Red>.",
     "progress": "<@Blue>Progress: <@Magenta>{{ $completionRate }}%",
     "hr": [
       "<@Cyan>--------------------"
@@ -32,7 +41,7 @@
     }
   },
   "create-completion": {
-    "invalidParams": [
+    "invalidName": [
       "<@Red>You should enter an available completion name.\n",
       "e.g. <@Magenta>.\\scripts\\create-completion.ps1 test"
     ],
@@ -47,15 +56,11 @@
     }
   },
   "link-completion": {
-    "invalidParams": [
-      "<@Red>You should enter an available completion name.\n",
-      "e.g. <@Magenta>.\\scripts\\link-completion.ps1 psc"
-    ],
-    "exist": "<@Red>The completion directory already exists, please use <@Magenta>psc rm {{ $completion_name }}<@Red> to remove it first.",
     "invalidName": [
-      "<@Magenta>{{ $completion_name }}<@Red> isn't an available completion name.\n",
+      "<@Red>You should enter an available completion name.\n",
       "<@Cyan>Available completions are: \n<@Blue>{{ $completions_list -join ' ' }}"
     ],
+    "exist": "<@Red>The completion directory already exists, please use <@Magenta>psc rm {{ $completion_name }}<@Red> to remove it first.",
     "noExist": "<@Magenta>{{ $completion_name }}<@Red> isn't exist.",
     "linkDone": [
       "<@Green>Completion <@Magenta>{{ $completion_name }}<@Green> has been linked to the PSCompletions module: <@Magenta>{{ $test_dir }}<@Green>\n\n",

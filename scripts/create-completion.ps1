@@ -22,7 +22,7 @@ if (!$PSCompletions) {
 $text = $text."create-completion"
 
 if (!$completion_name.Trim()) {
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidParams))
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
     return
 }
 

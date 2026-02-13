@@ -1,5 +1,4 @@
 ﻿param(
-    [Parameter(Mandatory = $true)]
     [string]$Prefix,
     [string]$OutFile
 )

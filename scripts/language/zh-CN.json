@@ -1,6 +1,15 @@
 {
   "import-psc": "在运行此脚本前，你应该安装 PSCompletions 模块并导入它。",
   "compare-json": {
+    "invalidName": [
+      "<@Red>你应该输入一个有效的补全名称。\n",
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 psc"
+    ],
+    "invalidLang": [
+      "<@Red>你应该输入一个有效的语言。\n",
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $completion_name }} -TargetLang zh-CN"
+    ],
+    "sameLang": "<@Red>参数 <@Magenta>-TargetLang<@Red> 不能与 <@Magenta>-BaseLang<@Red> 相同。",
     "progress": "<@Blue>完成进度: <@Magenta>{{ $completionRate }}%",
     "hr": [
       "<@Cyan>--------------------"
@@ -32,8 +41,8 @@
     }
   },
   "create-completion": {
-    "invalidParams": [
-      "<@Red>你应该输入一个有效的补全名称.\n",
+    "invalidName": [
+      "<@Red>你应该输入一个有效的补全名称。\n",
       "e.g. <@Magenta>.\\scripts\\create-completion.ps1 test"
     ],
     "exist": "<@Red>补全目录已经存在!",
@@ -47,15 +56,12 @@
     }
   },
   "link-completion": {
-    "invalidParams": [
-      "<@Red>你应该输入一个有效的补全名称。\n",
-      "e.g. <@Magenta>.\\scripts\\link-completion.ps1 psc"
-    ],
-    "exist": "<@Red>补全目录已经存在，请先使用 <@Magenta>psc rm {{ $completion_name }}<@Red> 移除补全",
     "invalidName": [
-      "<@Magenta>{{ $completion_name }}<@Red> 不是一个有效的补全名称。\n",
+      "<@Red>你应该输入一个有效的补全名称。\n",
+      "e.g. <@Magenta>.\\scripts\\link-completion.ps1 psc",
       "<@Cyan>有效的补全名称列表如下: \n<@Blue>{{ $completions_list -join ' ' }}"
     ],
+    "exist": "<@Red>补全目录已经存在，请先使用 <@Magenta>psc rm {{ $completion_name }}<@Red> 移除补全",
     "noExist": "<@Magenta>{{ $completion_name }}<@Red> 不存在。",
     "linkDone": [
       "<@Green>补全 <@Magenta>{{ $completion_name }}<@Green> 已链接到 PSCompletions 模块中: <@Magenta>{{ $test_dir }}<@Green>\n\n",

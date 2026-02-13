@@ -1,7 +1,6 @@
 #Requires -Version 7.0
 
 param(
-    [Parameter(Mandatory = $true)]
     [string]$CompletionName, # 完成项名称
     [string]$TargetLang = "zh-CN",
     [string]$BaseLang = "en-US",
@@ -31,11 +30,20 @@ function outText {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text))
 }
 
+if (!$completion_name.Trim()) {
+    outText $text.invalidName
+    return
+}
+if ($TargetLang -eq $BaseLang) {
+    outText $text.sameLang
+    return
+}
+
 $completion_dir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'completions', $completion_name)
 
 $diffJson = [System.IO.Path]::Combine($completion_dir, 'language', $TargetLang + '.json')
 if (!(Test-Path $diffJson)) {
-    outText $text.invalidParams
+    outText $text.invalidLang
     return
 }
 
