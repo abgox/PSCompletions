@@ -2,10 +2,10 @@
 
 param(
     [string]$CompletionName, # 完成项名称
-    [string]$TargetLang = "zh-CN",
-    [string]$BaseLang = "en-US",
-    [ValidateSet("diff", "untranslated")]
-    [string[]]$Show = @("diff", "untranslated")
+    [string]$TargetLang = 'zh-CN',
+    [string]$BaseLang = 'en-US',
+    [ValidateSet('diff', 'untranslated')]
+    [string[]]$Show = @('diff', 'untranslated')
 )
 
 Set-StrictMode -Off
@@ -19,11 +19,11 @@ if (!(Test-Path $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    Write-Host $text."import-psc" -ForegroundColor Red
+    Write-Host $text.'import-psc' -ForegroundColor Red
     return
 }
 
-$text = $text."compare-json"
+$text = $text.'compare-json'
 
 function outText {
     param($text)
@@ -359,8 +359,8 @@ function Compare-JsonProperty {
         }
         if ($isDiff) {
             $count.diffList += @{
-                base = if ($baseContent.$item.Count) { "[ ... ]" }
-                diff = if ($diffContent.$item.Count) { "[ ... ]" }
+                base = if ($baseContent.$item.Count) { '[ ... ]' }
+                diff = if ($diffContent.$item.Count) { '[ ... ]' }
                 pos  = $item
             }
             break
@@ -373,8 +373,8 @@ function Compare-JsonProperty {
 
             if ($null -eq $baseObj -or $null -eq $diffObj) {
                 $count.diffList += @{
-                    base = if ($null -ne $baseObj) { "{ ... }" }
-                    diff = if ($null -ne $diffObj) { "{ ... }" }
+                    base = if ($null -ne $baseObj) { '{ ... }' }
+                    diff = if ($null -ne $diffObj) { '{ ... }' }
                     pos  = $pos
                 }
                 return
@@ -414,7 +414,7 @@ function Compare-JsonProperty {
                                     }
                                 }
                                 # 对象
-                                Default {
+                                default {
                                     traverseObj $diffObj[$key] $baseObj[$key] "$pos.$key"
                                 }
                             }
@@ -463,10 +463,10 @@ function Compare-JsonProperty {
 
     outText $text.progress
 
-    if ($count.diffList -and "diff" -in $Show) {
+    if ($count.diffList -and 'diff' -in $Show) {
         outText $text.diffList.tip
         foreach ($item in $count.diffList) {
-            $prop = if ($null -eq $item.name) { "" }else { " (name: $($item.name))" }
+            $prop = if ($null -eq $item.name) { '' }else { " (name: $($item.name))" }
             outText ($text.pos + $prop)
             outText $text.diffList.base
             outText $text.diffList.diff
@@ -474,10 +474,10 @@ function Compare-JsonProperty {
         outText $text.hr
     }
 
-    if ($count.untranslatedList -and "untranslated" -in $Show) {
+    if ($count.untranslatedList -and 'untranslated' -in $Show) {
         outText $text.untranslatedList.tip
         foreach ($item in $count.untranslatedList) {
-            $prop = if ($null -eq $item.name) { "" }else { " (name: $($item.name))" }
+            $prop = if ($null -eq $item.name) { '' }else { " (name: $($item.name))" }
             outText ($text.pos + $prop)
             outText $text.value
         }

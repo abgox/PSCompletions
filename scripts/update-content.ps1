@@ -28,7 +28,7 @@ function Get-StringHash {
         return
     }
 
-    $str = ""
+    $str = ''
     foreach ($file in $files) {
         $str += Get-Content $file.FullName -Raw -Encoding utf8
     }
@@ -351,8 +351,8 @@ function Compare-JsonProperty {
         }
         if ($isDiff) {
             $count.diffList += @{
-                base = if ($baseContent.$item.Count) { "[ ... ]" }
-                diff = if ($diffContent.$item.Count) { "[ ... ]" }
+                base = if ($baseContent.$item.Count) { '[ ... ]' }
+                diff = if ($diffContent.$item.Count) { '[ ... ]' }
                 pos  = $item
             }
             break
@@ -365,8 +365,8 @@ function Compare-JsonProperty {
 
             if ($null -eq $baseObj -or $null -eq $diffObj) {
                 $count.diffList += @{
-                    base = if ($null -ne $baseObj) { "{ ... }" }
-                    diff = if ($null -ne $diffObj) { "{ ... }" }
+                    base = if ($null -ne $baseObj) { '{ ... }' }
+                    diff = if ($null -ne $diffObj) { '{ ... }' }
                     pos  = $pos
                 }
                 return
@@ -406,7 +406,7 @@ function Compare-JsonProperty {
                                     }
                                 }
                                 # 对象
-                                Default {
+                                default {
                                     traverseObj $diffObj[$key] $baseObj[$key] "$pos.$key"
                                 }
                             }
@@ -455,10 +455,10 @@ function Compare-JsonProperty {
 
     outText $text.progress
 
-    if ($count.diffList -and "diff" -in $Show) {
+    if ($count.diffList -and 'diff' -in $Show) {
         outText $text.diffList.tip
         foreach ($item in $count.diffList) {
-            $prop = if ($null -eq $item.name) { "" }else { " (name: $($item.name))" }
+            $prop = if ($null -eq $item.name) { '' }else { " (name: $($item.name))" }
             outText ($text.pos + $prop)
             outText $text.diffList.base
             outText $text.diffList.diff
@@ -466,10 +466,10 @@ function Compare-JsonProperty {
         outText $text.hr
     }
 
-    if ($count.untranslatedList -and "untranslated" -in $Show) {
+    if ($count.untranslatedList -and 'untranslated' -in $Show) {
         outText $text.untranslatedList.tip
         foreach ($item in $count.untranslatedList) {
-            $prop = if ($null -eq $item.name) { "" }else { " (name: $($item.name))" }
+            $prop = if ($null -eq $item.name) { '' }else { " (name: $($item.name))" }
             outText ($text.pos + $prop)
             outText $text.value
         }
@@ -503,8 +503,8 @@ function handle_language {
 }
 
 function generate_list {
-    $content_EN = @("|Completion|Language|Description|", "|:-:|-|-|")
-    $content_CN = @("|Completion|Language|Description|", "|:-:|-|-|")
+    $content_EN = @('|Completion|Language|Description|', '|:-:|-|-|')
+    $content_CN = @('|Completion|Language|Description|', '|:-:|-|-|')
     Get-ChildItem "$PSScriptRoot\..\completions" | ForEach-Object {
         $info_EN = @()
         $info_CN = @()
@@ -515,21 +515,21 @@ function generate_list {
         foreach ($lang in $lang_list) {
             $completion.$lang = Get-Content "$($_.FullName)/language/$($lang).json" -Raw -Encoding UTF8 | ConvertFrom-Json -AsHashtable
         }
-        if ("zh-CN" -notin $completion.Keys) {
-            $completion."zh-CN" = $completion.($lang_list[0])
+        if ('zh-CN' -notin $completion.Keys) {
+            $completion.'zh-CN' = $completion.($lang_list[0])
         }
-        if ("en-US" -notin $completion.Keys) {
-            $completion."en-US" = $completion.($lang_list[0])
+        if ('en-US' -notin $completion.Keys) {
+            $completion.'en-US' = $completion.($lang_list[0])
         }
-        if (!$completion."en-US".info) { $completion."en-US".info = $completion.($lang_list[0]).info }
-        if (!$completion."zh-CN".info) { $completion."zh-CN".info = $completion.($lang_list[0]).info }
+        if (!$completion.'en-US'.info) { $completion.'en-US'.info = $completion.($lang_list[0]).info }
+        if (!$completion.'zh-CN'.info) { $completion.'zh-CN'.info = $completion.($lang_list[0]).info }
 
         # Completion
         ## EN
-        $info_EN += "[$($_.Name)]($($completion."en-US".meta.url))"
+        $info_EN += "[$($_.Name)]($($completion.'en-US'.meta.url))"
 
         ## CN
-        $info_CN += "[$($_.Name)]($($completion."zh-CN".meta.url))"
+        $info_CN += "[$($_.Name)]($($completion.'zh-CN'.meta.url))"
 
         # Language
         $lang_info = handle_language $_.BaseName $lang_list
@@ -538,12 +538,12 @@ function generate_list {
 
         # Description
         ## EN
-        $info_EN += $completion."en-US".meta.description -join '<br>'
+        $info_EN += $completion.'en-US'.meta.description -join '<br>'
         ## CN
-        $info_CN += $completion."zh-CN".meta.description -join '<br>'
+        $info_CN += $completion.'zh-CN'.meta.description -join '<br>'
 
-        $content_EN += "|" + ($info_EN -join "|") + "|"
-        $content_CN += "|" + ($info_CN -join "|") + "|"
+        $content_EN += '|' + ($info_EN -join '|') + '|'
+        $content_CN += '|' + ($info_CN -join '|') + '|'
     }
 
     $footer = '|...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|'
@@ -552,25 +552,25 @@ function generate_list {
     $content_CN += $footer + "`n<!-- prettier-ignore-end -->"
 
     return @{
-        "en-US" = $content_EN
-        "zh-CN" = $content_CN
+        'en-US' = $content_EN
+        'zh-CN' = $content_CN
     }
 }
 
 function update_readme($lang) {
     $content = generate_list
-    if ($lang -eq "en-US") {
+    if ($lang -eq 'en-US') {
         $path = "$PSScriptRoot\..\completions.md"
-        $content = $content."en-US"
+        $content = $content.'en-US'
     }
     else {
         $path = "$PSScriptRoot\..\completions.zh-CN.md"
-        $content = $content."zh-CN"
+        $content = $content.'zh-CN'
     }
     function get_static_content($path) {
         $content = Get-Content -Path $path -Encoding UTF8
 
-        $match = $content | Select-String -Pattern "<!-- prettier-ignore-start -->"
+        $match = $content | Select-String -Pattern '<!-- prettier-ignore-start -->'
 
         if ($match) {
             $matchLineNumber = ([array]$match.LineNumber)[0]
@@ -581,8 +581,8 @@ function update_readme($lang) {
     (get_static_content $path) + $content | Out-File $path -Encoding UTF8 -Force
 }
 
-update_readme "en-US"
-update_readme "zh-CN"
+update_readme 'en-US'
+update_readme 'zh-CN'
 
 & $PSScriptRoot\sort-completion.ps1
 
@@ -602,5 +602,5 @@ $meta | ConvertTo-Json -Compress | Out-File $metaPath
 git -c core.safecrlf=false add -u
 
 if (git status --porcelain) {
-    git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit --no-gpg-sign -m "chore: automatically update some content [skip ci]"
+    git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit --no-gpg-sign -m 'chore: automatically update some content [skip ci]'
 }

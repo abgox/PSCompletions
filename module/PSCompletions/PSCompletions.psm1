@@ -419,7 +419,7 @@ function PSCompletions {
                         continue
                     }
                     $has_command = Get-Command $alias -ErrorAction Ignore
-                    if (($alias -notmatch ".*\.\w+$") -and $has_command.CommandType -eq 'Alias') {
+                    if (($alias -notmatch '.*\.\w+$') -and $has_command.CommandType -eq 'Alias') {
                         Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         continue
                     }
@@ -524,7 +524,7 @@ function PSCompletions {
                 $arg[2] = $arg[2].TrimEnd('/')
                 handle_done ($arg[2] -match 'http[s]?://' -or '' -eq $arg[2]) $PSCompletions.info.config.url.err
             }
-            { $_ -like "enable_*" } {
+            { $_ -like 'enable_*' } {
                 handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
             }
         }
@@ -570,7 +570,7 @@ function PSCompletions {
             $new_value = [int]$new_value
         }
 
-        if ($config_item -match "(enable_*)|(disable_*)") {
+        if ($config_item -match '(enable_*)|(disable_*)') {
             if ($new_value -notin @(1, 0)) {
                 $cmd_list = $null
                 $sub_cmd = $value
@@ -871,7 +871,7 @@ function PSCompletions {
                             return
                         }
                     }
-                    { $_ -in ($PSCompletions.menu.const.config_item | Where-Object { $_ -match "(enable_*)|(disable_*)" }) } {
+                    { $_ -in ($PSCompletions.menu.const.config_item | Where-Object { $_ -match '(enable_*)|(disable_*)' }) } {
                         if (!$is_num -or $value -notin @(1, 0)) {
                             $cmd_list = $null
                             $sub_cmd = $value

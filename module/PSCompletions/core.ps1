@@ -505,7 +505,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             $all_options = $true
 
             foreach ($c in $filter_input_arr) {
-                if ($c -like "-*") {
+                if ($c -like '-*') {
                     $no_options = $false
                 }
                 else {
@@ -619,7 +619,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $filter_list = [System.Collections.Generic.List[object]]@()
     if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
         foreach ($item in $_filter_list) {
-            if ($item.CompletionText -notlike "-*" -or $item.CompletionText -cnotin $input_arr) {
+            if ($item.CompletionText -notlike '-*' -or $item.CompletionText -cnotin $input_arr) {
                 $isContinue = $false
                 if ($item.alias) {
                     foreach ($a in $item.alias) {
@@ -1226,7 +1226,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
             else {
                 $tip = ' '
             }
-            if ($PSCompletions.input_arr[-1] -like "-*=") {
+            if ($PSCompletions.input_arr[-1] -like '-*=') {
                 [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
             }
             else {
@@ -1236,7 +1236,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
     }
     else {
         foreach ($_ in $filter_list) {
-            if ($PSCompletions.input_arr[-1] -like "-*=") {
+            if ($PSCompletions.input_arr[-1] -like '-*=') {
                 [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
             }
             else {
@@ -1846,7 +1846,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
         # 不是由 TabExpansion2 获取的补全，即通过 psc add 添加的补全
         if ($null -eq $item.ResultType) {
-            if ($PSCompletions.buffer_after_cursor -match "^\s+[^\s]") {
+            if ($PSCompletions.buffer_after_cursor -match '^\s+[^\s]') {
                 return $out
             }
             return "$out$suffix"
@@ -1867,7 +1867,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         if ($item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer) {
             if ($config.enable_path_with_trailing_separator) {
                 if ($out.Length -ge 1 -and $out[-1] -match "^['`"]$") {
-                    if ($out.Length -ge 2 -and $out[-2] -match "^[/\\]$") {
+                    if ($out.Length -ge 2 -and $out[-2] -match '^[/\\]$') {
                         $_out = $out
                     }
                     else {
@@ -1906,7 +1906,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
         # [System.Management.Automation.CompletionResultType]::Text
 
-        if ($PSCompletions.buffer_after_cursor -match "^\s+[^\s]") {
+        if ($PSCompletions.buffer_after_cursor -match '^\s+[^\s]') {
             return $out
         }
         return "$out$suffix"
@@ -2391,7 +2391,7 @@ if ($PSEdition -eq 'Core') {
                     }
 
                     if ($PSCompletions.config.enable_module_update) {
-                        $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
+                        $urls = $PSCompletions.urls + 'https://pscompletions.abgox.com'
                         foreach ($url in $urls) {
                             try {
                                 $res = Invoke-RestMethod -Uri "$url/module/version.json" -ErrorAction Stop
@@ -2404,7 +2404,7 @@ if ($PSEdition -eq 'Core') {
                         }
 
                         $newVersion = $res.version -replace 'v', ''
-                        if ($newVersion -match "^[\d\.]+$") {
+                        if ($newVersion -match '^[\d\.]+$') {
                             $versions = $PSCompletions.version, $newVersion | Sort-Object { [Version] $_ }
                             if ($versions[-1] -ne $PSCompletions.version) {
                                 $data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json -AsHashtable
@@ -3055,7 +3055,7 @@ else {
                 }
 
                 if ($PSCompletions.config.enable_module_update) {
-                    $urls = $PSCompletions.urls + "https://pscompletions.abgox.com"
+                    $urls = $PSCompletions.urls + 'https://pscompletions.abgox.com'
                     foreach ($url in $urls) {
                         try {
                             $res = Invoke-RestMethod -Uri "$url/module/version.json" -ErrorAction Stop
@@ -3068,7 +3068,7 @@ else {
                     }
 
                     $newVersion = $res.version -replace 'v', ''
-                    if ($newVersion -match "^[\d\.]+$") {
+                    if ($newVersion -match '^[\d\.]+$') {
                         $versions = $PSCompletions.version, $newVersion | Sort-Object { [Version] $_ }
                         if ($versions[-1] -ne $PSCompletions.version) {
                             $data = get_raw_content $PSCompletions.path.data | ConvertFrom_JsonAsHashtable

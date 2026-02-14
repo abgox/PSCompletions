@@ -15,11 +15,11 @@ if (!(Test-Path $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    Write-Host $text."import-psc" -ForegroundColor Red
+    Write-Host $text.'import-psc' -ForegroundColor Red
     return
 }
 
-$text = $text."link-completion"
+$text = $text.'link-completion'
 
 if (!$completion_name.Trim()) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))

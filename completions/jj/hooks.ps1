@@ -5,7 +5,7 @@ function handleCompletions($completions) {
     $filter_input_arr = $PSCompletions.filter_input_arr # Without -*
 
     function return_bookmark {
-        $t = @"
+        $t = @'
 if(remote,
   if(tracked,
     separate(" ",
@@ -15,14 +15,14 @@ if(remote,
   ),
   label("bookmark", name)
 ) ++ "\n"
-"@
+'@
         jj bookmark list --all-remotes --template $t | ForEach-Object {
-            $PSCompletions.return_completion($_, "bookmark")
+            $PSCompletions.return_completion($_, 'bookmark')
         }
     }
 
     function return_tag {
-        $t = @"
+        $t = @'
 if(remote,
   if(tracked,
     separate(" ",
@@ -32,21 +32,21 @@ if(remote,
   ),
   label("bookmark", name)
 ) ++ "\n"
-"@
+'@
         jj tag list --template $t | ForEach-Object {
-            $PSCompletions.return_completion($_, "tag")
+            $PSCompletions.return_completion($_, 'tag')
         }
     }
 
     function return_common_revsets {
-        "'..'", "'::'", "'@'", "'@-'", "'@+'", "'all()'"  | ForEach-Object {
-            $PSCompletions.return_completion($_, "revsets")
+        "'..'", "'::'", "'@'", "'@-'", "'@+'", "'all()'" | ForEach-Object {
+            $PSCompletions.return_completion($_, 'revsets')
         }
     }
 
     function return_revsets {
-        jj log -r "present(@) | present(trunk()) | ancestors(immutable_heads().., 2)" -T 'change_id.short() ++ ": " ++ description.first_line() ++ "\n"' --no-pager --no-graph --limit 30 | ForEach-Object {
-            $part = $_.Split(":", 2)
+        jj log -r 'present(@) | present(trunk()) | ancestors(immutable_heads().., 2)' -T 'change_id.short() ++ ": " ++ description.first_line() ++ "\n"' --no-pager --no-graph --limit 30 | ForEach-Object {
+            $part = $_.Split(':', 2)
             $tip = $part[1].Trim()
             if (!$tip) {
                 $tip = '(no description set)'

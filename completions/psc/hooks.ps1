@@ -143,15 +143,15 @@ function handleCompletions($completions) {
 
                 switch ($filter_input_arr.Count) {
                     2 {
-                        $list += $PSCompletions.return_completion("language", $PSCompletions.replace_content($PSCompletions.info.completion.language.tip), @('SpaceTab'))
-                        $list += $PSCompletions.return_completion("enable_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion('language', $PSCompletions.replace_content($PSCompletions.info.completion.language.tip), @('SpaceTab'))
+                        $list += $PSCompletions.return_completion('enable_tip', $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip), @('SpaceTab'))
 
                         if ($PSCompletions.config.comp_config[$completion].Count) {
                             if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
                                 $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
                                 $list += $PSCompletions.return_completion('enable_hooks', $tip, @('SpaceTab'))
 
-                                $list += $PSCompletions.return_completion("enable_hooks_tip", $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip), @('SpaceTab'))
+                                $list += $PSCompletions.return_completion('enable_hooks_tip', $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip), @('SpaceTab'))
                             }
                         }
                         foreach ($c in $json.config) {
@@ -179,7 +179,7 @@ function handleCompletions($completions) {
                                     $list += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
                                 }
                             }
-                            Default {
+                            default {
                                 $c = $json.config.Where({ $_.name -eq $filter_input_arr[2] })
                                 foreach ($value in $c.values) {
                                     $list += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
@@ -250,7 +250,7 @@ function handleCompletions($completions) {
                 }
             }
         }
-        Default {
+        default {
             return $completions
         }
     }

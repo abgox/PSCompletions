@@ -17,7 +17,7 @@ function handleCompletions($completions) {
         return $completions
     }
 
-    $tool_list = @("node", "npm", "pnpm", "yarn")
+    $tool_list = @('node', 'npm', 'pnpm', 'yarn')
 
     $input_arr = $PSCompletions.input_arr
     $filter_input_arr = $PSCompletions.filter_input_arr # Exclude options parameters

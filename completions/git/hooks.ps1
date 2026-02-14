@@ -150,8 +150,8 @@ function handleCompletions($completions) {
         { 'rebase' -in $input_arr } {
             $branch_list = return_branch
             foreach ($_ in $branch_list) {
-                $list += $PSCompletions.return_completion($_, "")
-                $list += $PSCompletions.return_completion("origin/$_", "")
+                $list += $PSCompletions.return_completion($_, '')
+                $list += $PSCompletions.return_completion("origin/$_", '')
             }
 
             if ($last_item -in @('-i', '--interactive')) {

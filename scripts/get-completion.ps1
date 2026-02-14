@@ -26,4 +26,4 @@ if ($OutFile) {
 }
 
 $out | Set-Clipboard
-Write-Host "Completion items copied to clipboard"
+Write-Host 'Completion items copied to clipboard'
