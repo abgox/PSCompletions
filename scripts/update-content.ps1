@@ -586,18 +586,24 @@ update_readme 'zh-CN'
 
 & $PSScriptRoot\sort-completion.ps1
 
-$metaPath = "$PSScriptRoot\..\completions.json"
-$old_meta = Get-Content $metaPath -Raw | ConvertFrom-Json -AsHashtable
-$meta = [ordered]@{
+$path = "$PSScriptRoot\..\completions.json"
+$old_info = Get-Content $path -Raw | ConvertFrom-Json -AsHashtable
+$info = [ordered]@{
     list   = @()
     update = [ordered]@{}
+    meta   = [ordered]@{}
 }
 Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
-    $meta.list += $_.Name
-    $meta.update[$_.Name] = Get-StringHash $_.FullName
+    $completion = $_.Name
+    $info.list += $completion
+    $info.update[$completion] = Get-StringHash $_.FullName
+    $info.meta[$completion] = [ordered]@{}
+    Get-ChildItem "$($_.FullName)/language" -File | ForEach-Object {
+        $info.meta.$completion[$_.BaseName] = Get-Content $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json | Select-Object -ExpandProperty meta
+    }
 }
 
-$meta | ConvertTo-Json -Compress | Out-File $metaPath
+$info | ConvertTo-Json -Compress -Depth 10 | Out-File $path
 
 git -c core.safecrlf=false add -u
 
