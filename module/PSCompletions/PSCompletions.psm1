@@ -320,6 +320,45 @@ function PSCompletions {
         }
         $PSCompletions.update | Out-File $PSCompletions.path.update -Force -Encoding utf8
     }
+    function _info {
+        if ($arg.Length -lt 2) {
+            Show-ParamError 'min' 'info'
+            return
+        }
+        $info = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json
+        $lang = $PSCompletions.config.language
+        foreach ($completion in $arg[1..($arg.Length - 1)]) {
+            $out = [ordered]@{
+                Name = $completion
+            }
+            $alias = $PSCompletions.data.alias[$completion]
+            if ($alias) {
+                $out.Alias = $alias
+            }
+            if ($info.meta.$completion) {
+                $meta = $info.meta.$completion.$lang
+                if (!$meta) { $meta = $info.meta.$completion.'en-US' }
+                if ($meta) {
+                    $out.Url = $meta.url
+                    $out.Description = $meta.description
+                }
+            }
+            $path = Join-Path $PSCompletions.path.completions $completion
+            if (Test-Path $path) {
+                $out.Path = $path
+                $update = Get-Content "$path\.update" -Raw -ErrorAction Ignore
+                if ($update -and $update.Trim()) {
+                    $out.Update = $update.Trim()
+                }
+                $updated = Get-Item "$path\.update" -ErrorAction Ignore | Select-Object -ExpandProperty LastWriteTime
+                if ($updated) {
+                    $out.Updated = $updated
+                }
+            }
+
+            Write-Output ([PSCustomObject]$out)
+        }
+    }
     function _search {
         if ($arg.Length -lt 2) {
             Show-ParamError 'min' 'search'
@@ -1171,6 +1210,9 @@ function PSCompletions {
         }
         'update' {
             _update
+        }
+        'info' {
+            _info
         }
         'search' {
             _search
