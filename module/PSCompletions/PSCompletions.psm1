@@ -52,7 +52,7 @@ function PSCompletions {
             if ($diff) {
                 try {
                     $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
-                    $response | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                    $response | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                     $PSCompletions.list = $remote_list
                 }
                 catch {
@@ -101,7 +101,7 @@ function PSCompletions {
     }
     function Out-Data {
         if ($PSCompletions._need_update_data) {
-            $PSCompletions.data | ConvertTo-Json -Depth 5 -Compress | Out-File $PSCompletions.path.data -Force -Encoding utf8
+            $PSCompletions.data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
             $PSCompletions._need_update_data = $null
         }
     }
@@ -229,7 +229,7 @@ function PSCompletions {
             $data.config.comp_config.Remove($_)
         }
 
-        $data | ConvertTo-Json -Depth 5 -Compress | Out-File $PScompletions.path.data -Force -Encoding utf8
+        $data | ConvertTo-Json -Compress -Depth 10 | Out-File $PScompletions.path.data -Force -Encoding utf8
         $PSCompletions.data = $data
     }
     function _update {
@@ -474,7 +474,7 @@ function PSCompletions {
         }
         $PSCompletions.data.alias = $data_alias
         $PSCompletions.data.aliasMap = $data_aliasMap
-        $PSCompletions.data | ConvertTo-Json -Depth 5 -Compress | Out-File $PScompletions.path.data -Force -Encoding utf8
+        $PSCompletions.data | ConvertTo-Json -Compress -Depth 10 | Out-File $PScompletions.path.data -Force -Encoding utf8
         if ($need_restart) {
             $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
             $need_restart = $null
