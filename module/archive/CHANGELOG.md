@@ -1,3 +1,5 @@
+[简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
+
 ## 5.11.1 (2025/11/19)
 
 - Fix the issue with redrawing the buffer. ([#93](https://github.com/abgox/PSCompletions/issues/93))

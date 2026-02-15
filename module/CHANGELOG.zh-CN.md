@@ -161,4 +161,4 @@
   - `width_from_menu_right_to_item`
 - 其他的优化和修复
 
-## [历史版本](./changelog/archive.zh-CN.md)
+## [历史版本](./archive/CHANGELOG.zh-CN.md)

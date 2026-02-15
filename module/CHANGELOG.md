@@ -161,4 +161,4 @@
   - `width_from_menu_right_to_item`
 - Other optimizations and fixes.
 
-## [Older versions](./changelog/archive.md)
+## [Older versions](./archive/CHANGELOG.md)

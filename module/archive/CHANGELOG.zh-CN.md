@@ -1,3 +1,5 @@
+[English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
+
 ## 5.11.1 (2025/11/19)
 
 - 修复了重绘 buffer 的问题 ([#93](https://github.com/abgox/PSCompletions/issues/93))
