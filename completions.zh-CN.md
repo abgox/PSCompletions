@@ -87,9 +87,9 @@
 |[wsh](https://github.com/wavetermdev/waveterm)|[**en-US**](/completions/wsh/language/en-US.json)<br>[**zh-CN(3.57%)**](/completions/wsh/language/zh-CN.json)|wsh is a small utility that lets you do cool things with Wave Terminal, right from the command line.|
 |[wsl](https://github.com/microsoft/WSL)|[**en-US**](/completions/wsl/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wsl/language/zh-CN.json)|WSL - 适用于 Linux 的 Windows 子系统。|
 |[wt](https://github.com/microsoft/terminal)|[**en-US**](/completions/wt/language/en-US.json)<br>[**zh-CN(100%)**](/completions/wt/language/zh-CN.json)|Windows Terminal 命令行终端。<br>你可以使用此命令启动一个终端。|
-|[ya](https://yazi-rs.github.io/)|[**en-US**](/completions/ya/language/en-US.json)<br>[**zh-CN(9.52%)**](/completions/ya/language/zh-CN.json)|Yazi - 一款基于异步 I/O、用 Rust 编写的超快速终端文件管理器。|
+|[ya](https://yazi-rs.github.io/)|[**en-US**](/completions/ya/language/en-US.json)<br>[**zh-CN(100%)**](/completions/ya/language/zh-CN.json)|Yazi - 一款基于异步 I/O、用 Rust 编写的超快速终端文件管理器。|
 |[yarn](https://classic.yarnpkg.com/)|[**en-US**](/completions/yarn/language/en-US.json)<br>[**zh-CN(100%)**](/completions/yarn/language/zh-CN.json)|yarn - 快速、可靠且安全的依赖管理。|
-|[yazi](https://yazi-rs.github.io/)|[**en-US**](/completions/yazi/language/en-US.json)<br>[**zh-CN(22.22%)**](/completions/yazi/language/zh-CN.json)|Yazi - 一款基于异步 I/O、用 Rust 编写的超快速终端文件管理器。|
+|[yazi](https://yazi-rs.github.io/)|[**en-US**](/completions/yazi/language/en-US.json)<br>[**zh-CN(100%)**](/completions/yazi/language/zh-CN.json)|Yazi - 一款基于异步 I/O、用 Rust 编写的超快速终端文件管理器。|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|[**en-US**](/completions/zoxide/language/en-US.json)<br>[**zh-CN(100%)**](/completions/zoxide/language/zh-CN.json)|一个更智能的终端 cd 命令|
 |...|...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|...|
 <!-- prettier-ignore-end -->
