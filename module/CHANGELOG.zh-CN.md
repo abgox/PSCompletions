@@ -2,7 +2,13 @@
 
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
-## Unreleased
+<!-- ## Unreleased -->
+
+## 6.5.2
+
+- 改进了 JSON 序列化
+- 为 [completions.json](../completions.json) 新增 `meta` 字段
+- 现在，使用 `psc [add|update|rm|...] <Tab>`，补全项会包含更丰富的帮助信息(由 `meta` 字段提供)
 
 ## 6.5.1
 

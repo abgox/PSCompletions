@@ -2,7 +2,13 @@
 
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
-## Unreleased
+<!-- ## Unreleased -->
+
+## 6.5.2
+
+- Improve JSON serialization.
+- Add `meta` field to [completions.json](../completions.json).
+- Now, when using `psc [add|update|rm|...] <Tab>`, the completion items will include richer help information (provided by the `meta` field).
 
 ## 6.5.1
 
