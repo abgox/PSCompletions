@@ -4,6 +4,10 @@
 
 <!-- ## Unreleased -->
 
+## 6.6.0
+
+- Add `info` subcommand.
+
 ## 6.5.2
 
 - Improve JSON serialization.
