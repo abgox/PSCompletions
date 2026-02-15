@@ -96,6 +96,24 @@ if (`$m) {
                 $list += $PSCompletions.return_completion($completion, $tip, $symbol)
             }
         }
+        'info' {
+            $symbol = @()
+            if ($filter_input_arr.Count -le 1) {
+                $add = @()
+                $rest = $PSCompletions.list
+            }
+            else {
+                $add = $filter_input_arr[1..($filter_input_arr.Count - 1)]
+                $rest = $PSCompletions.list.Where({ $_ -notin $add })
+            }
+            if ($rest.Count -gt 1) {
+                $symbol = @('SpaceTab')
+            }
+            foreach ($completion in $rest) {
+                $tip = return_completion_info $completion
+                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
+            }
+        }
         'which' {
             if ('*' -in $filter_input_arr) {
                 break
