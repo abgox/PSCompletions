@@ -1,9 +1,35 @@
 function handleCompletions($completions) {
     $list = @()
 
-    $filter_input_arr = $PSCompletions.filter_input_arr
+    # $input_arr = $PSCompletions.input_arr
+    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude options parameters
+    # $first_item = $filter_input_arr[0] # The first subcommand
+    # $last_item = $filter_input_arr[-1] # The last subcommand
+
     if ($PSCompletions.config.enable_cache) {
         $PSCompletions.info = $PSCompletions.completions.psc.info
+    }
+
+    function return_completion_info {
+        param (
+            [string]$completion
+        )
+        @"
+{{
+`$c = Get-Content -Raw D:\@code\public-my\PSCompletions\completions.json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty meta | Select-Object -ExpandProperty $completion;
+`$m = `$c.'$($PSCompletions.config.language)';
+if (!`$m) { `$c.'en-US' };
+if (`$m) {
+    if (`$m.url){
+        'url: ' + `$m.url; `"`n`";
+    }
+    if (`$m.description){
+        '-----'; `"`n`";
+        `$m.description -join `"`n`";
+    }
+};
+}}
+"@
     }
 
     switch ($filter_input_arr[0]) {
@@ -24,7 +50,8 @@ function handleCompletions($completions) {
                 $symbol = @('SpaceTab')
             }
             foreach ($completion in $rest) {
-                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.add.tip), $symbol)
+                $tip = return_completion_info $completion
+                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
             }
         }
         'rm' {
@@ -44,7 +71,8 @@ function handleCompletions($completions) {
                 $symbol = @('SpaceTab')
             }
             foreach ($completion in $rest) {
-                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.rm.tip), $symbol)
+                $tip = return_completion_info $completion
+                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
             }
         }
         'update' {
@@ -64,7 +92,8 @@ function handleCompletions($completions) {
                 $symbol = @('SpaceTab')
             }
             foreach ($completion in $rest) {
-                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.update.tip), $symbol)
+                $tip = return_completion_info $completion
+                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
             }
         }
         'which' {
