@@ -603,7 +603,7 @@ Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
     }
 }
 
-$info | ConvertTo-Json -Compress -Depth 10 | Out-File $path
+$info | ConvertTo-Json -Depth 10 | Out-File $path
 
 git -c core.safecrlf=false add -u
 
