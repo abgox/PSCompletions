@@ -2,7 +2,9 @@
 
 [简体中文](./CHANGELOG.zh-CN.md) | [English](./CHANGELOG.md)
 
-<!-- ## Unreleased -->
+## Unreleased
+
+- Improved the handling of path completion.
 
 ## 6.6.0
 

@@ -1852,13 +1852,13 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             return "$out$suffix"
         }
 
-        if ($item.ResultType -in @(
-                [System.Management.Automation.CompletionResultType]::Method,
-                [System.Management.Automation.CompletionResultType]::Property,
-                [System.Management.Automation.CompletionResultType]::Variable,
-                [System.Management.Automation.CompletionResultType]::Type,
-                [System.Management.Automation.CompletionResultType]::Namespace
-            )) {
+        if ($item.ResultType -in
+            [System.Management.Automation.CompletionResultType]::Method,
+            [System.Management.Automation.CompletionResultType]::Property,
+            [System.Management.Automation.CompletionResultType]::Variable,
+            [System.Management.Automation.CompletionResultType]::Type,
+            [System.Management.Automation.CompletionResultType]::Namespace
+        ) {
             return $out
         }
 
@@ -1884,10 +1884,8 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         }
         if ($_out) {
             $lastChar = $_out[-1]
-            $nextCharStartsWith = $PSCompletions.buffer_after_cursor.Substring(0)
-
-            if ($lastChar -in @('"', "'") -and $lastChar -eq $nextCharStartsWith) {
-                return $_out.TrimEnd($lastChar)
+            if ($lastChar -in '"', "'" -and $lastChar -eq [regex]::Matches($PSCompletions.buffer_after_cursor, $PSCompletions.input_pattern)[0].Value) {
+                return $_out -replace "$lastChar`$", ''
             }
             return $_out
         }
@@ -1909,6 +1907,13 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         if ($PSCompletions.buffer_after_cursor -match '^\s+[^\s]') {
             return $out
         }
+        else {
+            $lastChar = $out[-1]
+            if ($lastChar -in '"', "'" -and $lastChar -eq [regex]::Matches($PSCompletions.buffer_after_cursor, $PSCompletions.input_pattern)[0].Value) {
+                return $out -replace "$lastChar`$", ''
+            }
+        }
+
         return "$out$suffix"
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {

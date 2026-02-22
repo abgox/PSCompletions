@@ -2,7 +2,9 @@
 
 [English](./CHANGELOG.md) | [简体中文](./CHANGELOG.zh-CN.md)
 
-<!-- ## Unreleased -->
+## Unreleased
+
+- 改进了对路径补全的处理
 
 ## 6.6.0
 
