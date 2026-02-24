@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+## 6.6.1
+
 - Improved the handling of path completion.
 
 ## 6.6.0
