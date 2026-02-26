@@ -127,7 +127,7 @@
                                 $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
+`$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
