@@ -109,11 +109,14 @@
                 $path = $item.FullName
                 if ($app -notin $PSCompletions.input_arr) {
                     $manifest_path = $path + '\current\manifest.json'
+                    $install_path = $path + '\current\install.json'
                     $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw $install_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()

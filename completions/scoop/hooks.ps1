@@ -121,14 +121,18 @@ if (`$c.description) {
             foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
+                    if ($app -eq 'scoop') { continue }
                     $path = $item.FullName
                     if ($app -notin $selected) {
                         $manifest_path = $path + '\current\manifest.json'
+                        $install_path = $path + '\current\install.json'
                         $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw $install_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
@@ -156,14 +160,18 @@ if (`$c.description) {
             foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
+                    if ($app -eq 'scoop') { continue }
                     $path = $item.FullName
                     if ($app -notin $selected) {
                         $manifest_path = $path + '\current\manifest.json'
+                        $install_path = $path + '\current\install.json'
                         $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw $install_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
@@ -197,6 +205,7 @@ if (`$c.description) {
                     $return = @()
                     foreach ($item in $items) {
                         Get-ChildItem $item.path -Recurse -Filter *.json | ForEach-Object {
+                            if ($_.BaseName -eq 'scoop') { continue }
                             $app = "$($item.bucket)/$($_.BaseName)"
                             if ($app -notin $PSCompletions.input_arr) {
                                 if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
@@ -247,14 +256,18 @@ if (`$c.description) {
             foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
+                    if ($app -eq 'scoop') { continue }
                     $path = $item.FullName
                     if ($app -notin $selected) {
                         $manifest_path = $path + '\current\manifest.json'
+                        $install_path = $path + '\current\install.json'
                         $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw $install_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
@@ -282,14 +295,18 @@ if (`$c.description) {
             foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
+                    if ($app -eq 'scoop') { continue }
                     $path = $item.FullName
                     if ($app -notin $selected) {
                         $manifest_path = $path + '\current\manifest.json'
+                        $install_path = $path + '\current\install.json'
                         $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw $install_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
@@ -317,14 +334,18 @@ if (`$c.description) {
             foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
+                    if ($app -eq 'scoop') { continue }
                     $path = $item.FullName
                     if ($app -notin $selected) {
                         $manifest_path = $path + '\current\manifest.json'
+                        $install_path = $path + '\current\install.json'
                         $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw $install_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
@@ -349,11 +370,14 @@ if (`$c.description) {
                         $app = $item.Name
                         $path = $item.FullName
                         $manifest_path = $path + '\current\manifest.json'
+                        $install_path = $path + '\current\install.json'
                         $tip = @"
 {{
 `$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw $install_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'PowerShell Module' } elseif(`$c.font) { 'Font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
@@ -366,6 +390,7 @@ if (`$c.description) {
 };
 }}
 "@
+                        if ($app -eq 'scoop') { $tip = ' ' }
                         $list += $PSCompletions.return_completion($app, $tip)
                     }
                 }
