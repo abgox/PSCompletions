@@ -62,8 +62,6 @@ function Compare-JsonProperty {
     $diffContent = Get-Content -Path $diffJson -Raw | ConvertFrom-Json -AsHashtable
     $baseContent = Get-Content -Path $baseJson -Raw | ConvertFrom-Json -AsHashtable
 
-    $is_psc = $diffJson -match '.*[\/\\]completions[\/\\]psc[\/\\]language[\/\\].*'
-
     # 统计
     $count = @{
         totalTips        = 0   # 总的 tip 数量
@@ -77,15 +75,10 @@ function Compare-JsonProperty {
         # XXX: 以中文为例，可以通过判断是否存在中文字符
         # 直接判断是否相等，目前也可用
 
-        # psc 有些特殊，不使用 replace_content
-        if ($is_psc) {
-            return $diffStr -ceq $baseStr
-        }
-
         try {
             $json = $diffContent
             $info = $diffContent.info
-            $diff = $PSCompletions.replace_content($diffStr)
+            $diff = $diffStr -join ''
         }
         catch {
             Write-Host "Error in $(Resolve-Path $diffJson)" -ForegroundColor Red
@@ -97,7 +90,7 @@ function Compare-JsonProperty {
         try {
             $json = $baseContent
             $info = $baseContent.info
-            $base = $PSCompletions.replace_content($baseStr)
+            $base = $baseStr -join ''
         }
         catch {
             Write-Host "Error in $(Resolve-Path $baseJson)" -ForegroundColor Red
@@ -105,6 +98,11 @@ function Compare-JsonProperty {
             Write-Host $baseStr
             exit 1
         }
+
+        if ($diff -like '{{*}}' -and $base -like '{{*}}' -and $diff -eq $base) {
+            return $false
+        }
+
         return $diff -ceq $base
     }
 
