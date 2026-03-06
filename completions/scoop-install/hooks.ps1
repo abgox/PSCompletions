@@ -123,16 +123,16 @@
                                 $tip = ''
                             }
                             else {
-                                $manifest_path = $_.FullName
+                                $manifest_json = $_.FullName
                                 $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
-if (`$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
 if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
 if (`$c.description) {
