@@ -16,7 +16,7 @@ function handleCompletions($completions) {
         )
         @"
 {{
-`$c = Get-Content -Raw $($PSCompletions.path.completions_json) -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty meta | Select-Object -ExpandProperty $completion;
+`$c = Get-Content -Raw "$($PSCompletions.path.completions_json)" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty meta | Select-Object -ExpandProperty $completion;
 `$m = `$c.'$($PSCompletions.config.language)';
 if (!`$m) { `$m = `$c.'en-US' };
 if (`$m) {

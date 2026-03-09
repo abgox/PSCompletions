@@ -67,7 +67,7 @@
                                     $manifest_json = $_.FullName
                                     $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
@@ -135,8 +135,8 @@ if (`$c.description) {
                         $install_json = $path + '\current\install.json'
                         $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
@@ -174,8 +174,8 @@ if (`$c.description) {
                         $install_json = $path + '\current\install.json'
                         $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
@@ -222,7 +222,7 @@ if (`$c.description) {
                                     $manifest_json = $_.FullName
                                     $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 'version:  ' + `$c.version; `"`n`";
@@ -270,8 +270,8 @@ if (`$c.description) {
                         $install_json = $path + '\current\install.json'
                         $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
@@ -309,8 +309,8 @@ if (`$c.description) {
                         $install_json = $path + '\current\install.json'
                         $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
@@ -348,8 +348,8 @@ if (`$c.description) {
                         $install_json = $path + '\current\install.json'
                         $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
@@ -380,8 +380,8 @@ if (`$c.description) {
                         $install_json = $path + '\current\install.json'
                         $tip = @"
 {{
-`$c = Get-Content -Raw $manifest_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
 if (`$type) { 'type:     ' + `$type; `"`n`" };
 if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
