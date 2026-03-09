@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+- Improved the handling of path completion and completion tips.
+
 ## 6.6.1
 
 - Improved the handling of path completion.

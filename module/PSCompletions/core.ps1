@@ -64,7 +64,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
             $PSCompletions.menu.by_TabExpansion2 = $false
 
-            if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($space_tab -or ($input_arr.Count -gt 1 -and $input_arr[-1] -notmatch '^(?:\.\.?|~)?(?:[/\\]).*'))) {
+            if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($space_tab -or ($input_arr.Count -gt 1 -and $input_arr[-1] -notmatch '^(?:[A-Za-z]:[/\\]|(?:\.\.?|~)?[/\\]).*'))) {
                 # 原始的命令名，也是 completions 目录下的命令目录名
                 $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
 
@@ -1601,7 +1601,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
             $tip_arr = @()
             $tip = ($tip -join "`n").Trim().Replace("`r`n", "`n") -replace '\x1B\[[\d;]*m', ''
-            $tips = $PSCompletions.replace_content($tip).Split("`n")
+            $tips = $PSCompletions.replace_content($tip).Split("`n").Where({ $_ -ne '' })
             foreach ($v in $tips) {
                 $currentWidth = 0
                 $outputString = ''
