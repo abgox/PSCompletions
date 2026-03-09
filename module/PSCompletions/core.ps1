@@ -163,15 +163,15 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                         }
                         $order = $PSCompletions.order[$root]
                         if ($order) {
-                            $PSCompletions._i = 0 # 这里使用 $PSCompletions._i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
+                            $PSCompletions.__i = 0 # 这里使用 $PSCompletions.__i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
                             $filter_list = $filter_list | Sort-Object {
-                                $PSCompletions._i --
+                                $PSCompletions.__i --
                                 # 不能使用 $order.($_.CompletionText)，它可能获取到对象中的 OverloadDefinitions
                                 $o = $order[$_.CompletionText]
                                 if ($o) { $o }
                                 else {
                                     $o = $order[$_.CompletionText + $PSCompletions.separator]
-                                    if ($o) { $o }else { $PSCompletions._i }
+                                    if ($o) { $o }else { $PSCompletions.__i }
                                 }
                             } -Descending -CaseSensitive
                         }
@@ -577,7 +577,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     }
 
     if ($PSCompletions.job.State -eq 'Completed') {
-        if (!$PSCompletions._has_add_completion) {
+        if (!$PSCompletions.__has_add_completion) {
             $_data = Receive-Job $PSCompletions.job
             $PSCompletions.completions = $_data.completions
             $PSCompletions.completions_data = $_data.completions_data
@@ -704,12 +704,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         }
         $order = $PSCompletions.order[$root]
         if ($order) {
-            $PSCompletions._i = 0 # 这里使用 $PSCompletions._i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
+            $PSCompletions.__i = 0 # 这里使用 $PSCompletions.__i 而非 $i 是因为在 Sort-Object 中，普通的 $i 无法累计
             $filter_list = $filter_list | Sort-Object {
-                $PSCompletions._i --
+                $PSCompletions.__i --
                 # 不能使用 $order.($_.CompletionText)，它可能获取到对象中的 OverloadDefinitions
                 $o = $order[$_.CompletionText]
-                if ($o) { $o }else { $PSCompletions._i }
+                if ($o) { $o }else { $PSCompletions.__i }
             } -Descending -CaseSensitive
         }
         $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
@@ -926,7 +926,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     )
     Set-StrictMode -Off
 
-    $PSCompletions._has_add_completion = $log -and $true
+    $PSCompletions.__has_add_completion = $log -and $true
 
     $PSCompletions.completions_data[$completion] = $null
     $PSCompletions.completions[$completion] = $null
@@ -992,7 +992,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
 
     if ($completion -notin $PSCompletions.data.list) {
         $PSCompletions.data.list += $completion
-        $PSCompletions._need_update_data = $true
+        $PSCompletions.__need_update_data = $true
     }
     if (!$PSCompletions.data.alias[$completion]) {
         $PSCompletions.data.alias[$completion] = @()
@@ -1009,7 +1009,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
                 else {
                     $PSCompletions.data.aliasMap.$a = $completion
                 }
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
             }
         }
     }
@@ -1022,7 +1022,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             else {
                 $PSCompletions.data.aliasMap[$completion] = $completion
             }
-            $PSCompletions._need_update_data = $true
+            $PSCompletions.__need_update_data = $true
         }
     }
 
@@ -1042,7 +1042,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         foreach ($_ in $json.config) {
             if (!$PSCompletions.config.comp_config[$completion].$($_.name)) {
                 $PSCompletions.config.comp_config[$completion].$($_.name) = $_.value
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
             }
         }
     }

@@ -100,9 +100,9 @@ function PSCompletions {
         $data
     }
     function Out-Data {
-        if ($PSCompletions._need_update_data) {
+        if ($PSCompletions.__need_update_data) {
             $PSCompletions.data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
-            $PSCompletions._need_update_data = $null
+            $PSCompletions.__need_update_data = $null
         }
     }
     function _list {
@@ -137,7 +137,7 @@ function PSCompletions {
         if ($arg[1] -eq '*') {
             foreach ($_ in $PSCompletions.list) {
                 $PSCompletions.add_completion($_)
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
             }
             if (!$PSCompletions.use_module_completion_menu) {
                 $PSCompletions.handle_completion()
@@ -148,7 +148,7 @@ function PSCompletions {
         foreach ($completion in $completions_list) {
             if ($completion -in $PSCompletions.list) {
                 $PSCompletions.add_completion($completion)
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
             }
             else {
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.add.err.no))
@@ -285,7 +285,7 @@ function PSCompletions {
                 else {
                     foreach ($_ in $PSCompletions.update) {
                         $PSCompletions.add_completion($_)
-                        $PSCompletions._need_update_data = $true
+                        $PSCompletions.__need_update_data = $true
                         $updated_list.Add($_)
                     }
                 }
@@ -294,7 +294,7 @@ function PSCompletions {
                 foreach ($completion in $arg[1..($arg.Length - 1)]) {
                     if ($completion -in $completion_list) {
                         $PSCompletions.add_completion($completion)
-                        $PSCompletions._need_update_data = $true
+                        $PSCompletions.__need_update_data = $true
                         $updated_list.Add($completion)
                     }
                     else {
@@ -308,7 +308,7 @@ function PSCompletions {
                 $PSCompletions.update = $PSCompletions.update.Where({ $_ -notin $updated_list })
             }
             else {
-                $PSCompletions._need_update_data = $false
+                $PSCompletions.__need_update_data = $false
             }
         }
 
@@ -547,7 +547,7 @@ function PSCompletions {
                     $old_value = $PSCompletions.config.$config_item
                     $new_value = $arg[2]
                     $PSCompletions.config.$config_item = $new_value
-                    $PSCompletions._need_update_data = $true
+                    $PSCompletions.__need_update_data = $true
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.config.done))
                 }
                 else {
@@ -619,7 +619,7 @@ function PSCompletions {
             }
         }
         $PSCompletions.config.comp_config[$completion].$config_item = $new_value
-        $PSCompletions._need_update_data = $true
+        $PSCompletions.__need_update_data = $true
         foreach ($_ in $PSCompletions.data.list) {
             if (!$PSCompletions.config.comp_config[$_]) {
                 $PSCompletions.config.comp_config.$_ = [ordered]@{}
@@ -634,7 +634,7 @@ function PSCompletions {
                     $config_list += $item.name
                     if ($PSCompletions.config.comp_config[$_].$($item.name) -in @('', $null)) {
                         $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
-                        $PSCompletions._need_update_data = $true
+                        $PSCompletions.__need_update_data = $true
                     }
                 }
             }
@@ -685,7 +685,7 @@ function PSCompletions {
                     $old_value = $PSCompletions.config.$config_item
                     $new_value = $arg[3]
                     $PSCompletions.config.$config_item = $arg[3]
-                    $PSCompletions._need_update_data = $true
+                    $PSCompletions.__need_update_data = $true
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
                 }
             }
@@ -773,7 +773,7 @@ function PSCompletions {
                         $PSCompletions.config.bottom_right = [string][char]9564 # ╜
                     }
                 }
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.line_theme.done))
             }
             'color_theme' {
@@ -809,7 +809,7 @@ function PSCompletions {
                         return
                     }
                 }
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.color_theme.done))
             }
             'custom' {
@@ -851,7 +851,7 @@ function PSCompletions {
                 $old_value = $PSCompletions.config.$config_item
                 $new_value = $arg[4]
                 $PSCompletions.config.$config_item = $new_value
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
             }
             'config' {
@@ -936,7 +936,7 @@ function PSCompletions {
                 $old_value = $PSCompletions.config.$config_item
                 $new_value = $value
                 $PSCompletions.config.$config_item = $new_value
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
                 if ($config_item -in @('enable_menu', 'enable_menu_enhance', 'trigger_key')) {
                     $PSCompletions.handle_completion()
@@ -989,7 +989,7 @@ function PSCompletions {
                         new_value = $PSCompletions.default_config.$_
                     })
                 $PSCompletions.config.$_ = $PSCompletions.default_config.$_
-                $PSCompletions._need_update_data = $true
+                $PSCompletions.__need_update_data = $true
             }
             return $change_list
         }
@@ -1008,7 +1008,7 @@ function PSCompletions {
                         $alias = ($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$completion/config.json") | ConvertFrom-Json).alias
                         $new_value = if ($alias) { $alias }else { $completion }
                         $PSCompletions.data.alias[$completion] = , $new_value
-                        $PSCompletions._need_update_data = $true
+                        $PSCompletions.__need_update_data = $true
                         $change_list.Add(@{
                                 item      = $completion
                                 old_value = $old_value
@@ -1024,12 +1024,12 @@ function PSCompletions {
                     if ($PSCompletions.data.alias[$_]) {
                         foreach ($a in $PSCompletions.data.alias.$_) {
                             $PSCompletions.data.aliasMap.$a = $_
-                            $PSCompletions._need_update_data = $true
+                            $PSCompletions.__need_update_data = $true
                         }
                     }
                     else {
                         $PSCompletions.data.aliasMap.$_ = $_
-                        $PSCompletions._need_update_data = $true
+                        $PSCompletions.__need_update_data = $true
                     }
                 }
             }
@@ -1076,7 +1076,7 @@ function PSCompletions {
                                 new_value = [int]$json_config.hooks
                             })
                     }
-                    $PSCompletions._need_update_data = $true
+                    $PSCompletions.__need_update_data = $true
                 }
                 $old_comp_config = $PSCompletions.config.comp_config.Clone()
                 $change_list = [System.Collections.Generic.List[System.Object]]@()
@@ -1123,7 +1123,7 @@ function PSCompletions {
                                     })
                                 $PSCompletions.config.comp_config[$arg[2]].$config = $new_value
                             }
-                            $PSCompletions._need_update_data = $true
+                            $PSCompletions.__need_update_data = $true
                         }
                     }
                 }
@@ -1196,7 +1196,7 @@ function PSCompletions {
         $PSCompletions.write_with_color((_replace $PSCompletions.info.description))
     }
     $need_init = $true
-    $PSCompletions._need_update_data = $null
+    $PSCompletions.__need_update_data = $null
     switch ($arg[0]) {
         'list' {
             _list
