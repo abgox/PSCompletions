@@ -325,25 +325,21 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
                 $alias_list = $alias + $name
 
-                # hide 值为 true 的补全将被过滤掉，用于配合 hooks.ps1 中添加动态补全
-                # 如果不过滤掉，会和 hooks.ps1 中添加的动态补全产生重复
-                if (!$cmd.hide) {
+                $obj[$cmdO].$guid += @{
+                    CompletionText = $name
+                    ListItemText   = $name
+                    ToolTip        = $tip
+                    symbols        = $symbols
+                    alias          = $alias_list
+                }
+
+                foreach ($a in $alias) {
                     $obj[$cmdO].$guid += @{
-                        CompletionText = $name
-                        ListItemText   = $name
+                        CompletionText = $a
+                        ListItemText   = $a
                         ToolTip        = $tip
                         symbols        = $symbols
                         alias          = $alias_list
-                    }
-
-                    foreach ($a in $alias) {
-                        $obj[$cmdO].$guid += @{
-                            CompletionText = $a
-                            ListItemText   = $a
-                            ToolTip        = $tip
-                            symbols        = $symbols
-                            alias          = $alias_list
-                        }
                     }
                 }
 
