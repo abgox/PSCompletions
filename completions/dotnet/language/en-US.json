@@ -1,0 +1,185 @@
+﻿{
+  "meta": {
+    "url": "https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet",
+    "description": [
+      "dotnet - The generic driver for the .NET CLI."
+    ]
+  },
+  "root": [
+    {"name": "build", "tip": ["Builds a .NET application."]},
+    {"name": "build-server", "tip": ["Interacts with servers started by a build."]},
+    {"name": "clean", "tip": ["Clean build outputs."]},
+    {"name": "exec", "tip": ["Runs a .NET application."]},
+    {"name": "help", "tip": ["Shows more detailed documentation online for the command."]},
+    {"name": "msbuild", "tip": ["Provides access to the MSBuild command line."]},
+    {"name": "new", "tip": ["Initializes a C# or F# project for a given template."]},
+    {"name": "pack", "tip": ["Creates a NuGet package of your code."]},
+    {"name": "publish", "tip": ["Publishes a .NET framework-dependent or self-contained application."]},
+    {"name": "restore", "tip": ["Restores the dependencies for a given application."]},
+    {"name": "run", "tip": ["Runs the application from source."]},
+    {"name": "sdk", "tip": [".NET command for SDK."], "next": [{"name":  "check",
+      "tip": ["Shows up-to-date status of installed SDK and Runtime versions."]
+    }]},
+    {"name": "sln", "tip": ["Options to add, remove, and list projects in a solution file."]},
+    {"name": "store", "tip": ["Stores assemblies in the runtime package store."]},
+    {"name": "test", "tip": ["Runs tests using a test runner."]},
+    {"name": "reference", "tip": [".NET commands for manipulate project reference"],
+      "next": [
+        {"name": "add", "tip": ["Adds a project reference."]},
+        {"name": "list", "tip": ["Lists project references."]},
+        {"name": "remove", "tip": ["Removes a project reference."]}
+      ]
+    },
+    {"name": "package", "tip": [".NET commands for managing NuGet package."],
+      "next": [
+        {"name": "add", "tip": ["Adds a NuGet package."]},
+        {"name": "list", "tip": ["Lists NuGet packages."]},
+        {"name": "remove", "tip": ["Removes a NuGet package."]},
+        {"name": "search", "tip": ["Searches for a NuGet package."]}
+      ]
+    },
+    {"name": "nuget", "tip": [".NET commands for managing NuGet package manager."],
+      "next": [
+        {"name": "delete", "tip": ["Deletes or unlists a package from the server."]},
+        {"name": "push", "tip": ["Pushes a package to the server and publishes it."]},
+        {"name": "locals", "tip": ["Clears or lists local NuGet resources such as http-request cache, temporary cache, or machine-wide global packages folder."]},
+        {"name": "add", "tip": ["Adds a NuGet source."]},
+        {"name": "disable", "tip": ["Disables a NuGet source."]},
+        {"name": "enable", "tip": ["Enables a NuGet source."]},
+        {"name": "list", "tip": ["Lists all configured NuGet sources."]},
+        {"name": "remove", "tip": ["Removes a NuGet source."]},
+        {"name": "update", "tip": ["Updates a NuGet source."]}
+      ]
+    },
+    {"name": "workload",
+      "tip": ["Install or use workloads that extend the .NET experience."],
+      "next": [
+        {"name": "clean", "tip": ["Removes workload components."]},
+        {"name": "config", "tip": ["Enables or disables workload-set update mode."]},
+        {"name": "history", "tip": ["Shows all workload installation actions."]},
+        {"name": "install", "tip": ["Installs an optional workload."]},
+        {"name": "list", "tip": ["Lists all installed workloads."]},
+        {"name": "repair", "tip": ["Repairs all installed workloads."]},
+        {"name": "restore", "tip": ["Restore workloads required for a project."]},
+        {"name": "search", "tip": ["List selected workloads or all available workloads."]},
+        {"name": "uninstall", "tip": ["Uninstalls a workload."]},
+        {"name": "update", "tip": ["Reinstalls all installed workloads."]}
+      ]
+    },
+    {"name": "tool",
+      "tip": [
+        "Install or use tools that extend the .NET experience.",
+        "Tools are console applications that are installed from NuGet packages and are invoked from the command prompt.",
+        "You can write tools yourself or install tools written by third parties."
+      ],
+      "next": [
+        {"name": "install", "tip": ["Installs a tool on your machine."]},
+        {"name": "list", "tip": ["Lists all global, tool-path, or local tools currently installed on your machine."]},
+        {"name": "search", "tip": ["Searches NuGet.org for tools that have the specified search term in their name or metadata."]},
+        {"name": "uninstall", "tip": ["Uninstalls a tool from your machine."]},
+        {"name": "update", "tip": ["Updates a tool that is installed on your machine."]}
+      ]
+    }
+  ],
+  "options": [
+    {
+      "name": "--info",
+      "tip": [
+        "Prints out detailed information about a .NET installation and the machine environment,",
+        "such as the current operating system, and commit SHA of the .NET version."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Prints out the version of the .NET SDK used by dotnet commands.",
+        "It may be affected by a global.json file.",
+        "Available only when the SDK is installed."
+      ]
+    },
+    {
+      "name": "--list-runtimes",
+      "tip": [
+        "Prints out a list of the installed .NET runtimes for the architecture of the invoked dotnet."
+      ]
+    },
+    {
+      "name": "--list-sdks",
+      "tip": [
+        "Prints out a list of the installed .NET SDKs for the architecture of the invoked dotnet. "
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-?"
+      ],
+      "tip": [
+        "Prints out a list of available commands."
+      ]
+    }
+  ],
+  "common_options": [
+    {
+      "name": "--diagnostics",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "Enables diagnostic output."
+      ]
+    },
+    {
+      "name": "--verbosity",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "Sets the verbosity level of the command.",
+        "Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].",
+        "Not supported in every command."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-?"
+      ],
+      "tip": [
+        "Prints out documentation for a given command."
+      ]
+    },
+    {
+      "name": "--additionalprobingpath",
+      "tip": [
+        "Path containing probing policy and assemblies to probe.",
+        "Repeat the option to specify multiple paths."
+      ]
+    },
+    {
+      "name": "--additional-deps",
+      "tip": [
+        "Path to an additional .deps.json file. ",
+        "A deps.json file contains a list of dependencies, compilation dependencies,",
+        "and version information used to address assembly conflicts."
+      ]
+    },
+    {
+      "name": "--roll-forward",
+      "tip": [
+        "Controls how roll forward is applied to the app.",
+        "The SETTING can be one of the following values.",
+        "If not specified, Minor is the default.",
+        "[LatestPatch|Minor|Major|LatestMinor|LatestMajor|Disable]"
+      ]
+    },
+    {
+      "name": "--fx-version",
+      "tip": [
+        "Version of the .NET runtime to use to run the application."
+      ]
+    }
+  ]
+}
