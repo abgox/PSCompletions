@@ -283,6 +283,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completio
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     Set-StrictMode -Off
 
+    if ($null -eq $root) {
+        return
+    }
+
     $guid = $PSCompletions.guid
     function getCompletions {
         $obj = @{}
