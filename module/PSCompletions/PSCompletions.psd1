@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '6.6.2'
+    ModuleVersion        = '6.6.3'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -21,11 +21,13 @@
 
     CompatiblePSEditions = 'Core', 'Desktop'
 
-    Description          = 'A completion manager for a better and simpler tab-completion experience in PowerShell.
- It provides a more powerful module completion menu with sorting and filtering.
-  - Website: https://pscompletions.abgox.com
-  - Github:  https://github.com/abgox/PSCompletions
-  - Gitee:   https://gitee.com/abgox/PSCompletions'
+    Description          = @'
+A completion manager for a better and simpler tab-completion experience in PowerShell.
+It provides a more powerful module completion menu with sorting and filtering.
+- Website: https://pscompletions.abgox.com
+- Github:  https://github.com/abgox/PSCompletions
+- Gitee:   https://gitee.com/abgox/PSCompletions
+'@
 
     ScriptsToProcess     = 'core.ps1'
 
@@ -35,7 +37,7 @@
 
         PSData = @{
 
-            Tags         = @('psc', 'Tab', 'Expansion', 'Completion', 'Menu', 'Manager', 'TUI' , 'GUI' , 'Json', 'Dynamic', 'Multilingual', 'TabExpansion2', 'Completions', 'Prompt', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS')
+            Tags         = 'psc', 'Tab', 'Expansion', 'Completion', 'Menu', 'Manager', 'TUI' , 'GUI' , 'Json', 'Dynamic', 'Multilingual', 'TabExpansion2', 'Completions', 'Prompt', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS'
 
             LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
@@ -51,4 +53,3 @@
 
     HelpInfoUri          = 'https://pscompletions.abgox.com'
 }
-
