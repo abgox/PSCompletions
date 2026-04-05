@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+## 6.6.4
+
 - Fixed the encoding problem in Windows PowerShell 5.1.
 - Other optimizations and fixes.
 
