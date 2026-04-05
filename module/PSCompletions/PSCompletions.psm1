@@ -1,5 +1,5 @@
 function PSCompletions {
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $arg = $args
 

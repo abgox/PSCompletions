@@ -1,6 +1,6 @@
 using namespace System.Management.Automation
 
-Set-StrictMode -Off
+try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
 if ($PSCompletions.guid) {
     # XXX: CompletionPredictor 模块会导致 core.ps1 被重复加载多次，这里去阻止它
@@ -35,7 +35,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
         # Set-PSReadLineKeyHandler -Key <Key> -ScriptBlock $PSCompletions.menu.module_completion_menu_script
         module_completion_menu_script = {
-            Set-StrictMode -Off
+            try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
             $buffer = ''
             $cursor = 0
@@ -268,7 +268,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
         $tip = ''
@@ -281,7 +281,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completio
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     if ($null -eq $root) {
         return
@@ -728,7 +728,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
         # 1. $results: $handler 脚本块返回的结果
         [scriptblock]$handleResult
     )
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     Add-Member -InputObject $PSCompletions -Force -MemberType ScriptMethod split_array {
         <#
@@ -745,7 +745,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
             [int]$count,
             [bool]$by_count
         )
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         if ($by_count) {
             $ChunkSize = [math]::Ceiling($array.Length / $count)
@@ -780,13 +780,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
     param([string]$path)
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
 
@@ -813,7 +813,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
     param ([string]$path)
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $res = (Get-Content $path -Encoding utf8 -ErrorAction Ignore).Where({ $_ -ne '' })
     if ($res) { return $res }
@@ -821,7 +821,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content {
     param ([string]$path, [bool]$trim = $true)
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction Ignore
     if ($res) {
@@ -832,7 +832,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content {
     param ($data, $separator = '')
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $data = $data -join $separator
     if ($data -notlike '*{{*') { return $data }
@@ -844,7 +844,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content 
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color {
     param([string]$str)
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction Ignore
 
@@ -888,7 +888,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
         [string]$file,
         [array]$baseUrl
     )
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $params = @{
         ErrorAction = 'Stop'
@@ -924,7 +924,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         [string]$completion,
         [bool]$log = $true
     )
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $PSCompletions.__has_add_completion = $log -and $true
 
@@ -1056,7 +1056,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $PSCompletions.completions = @{}
     $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
@@ -1196,7 +1196,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 }
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
     param([array]$filter_list)
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     if ($Host.UI.RawUI.BufferSize.Height -lt 5) {
         [Microsoft.PowerShell.PSConsoleReadLine]::UndoAll()
@@ -1249,7 +1249,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
     param(
         [array]$completions # The list of completions.
     )
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     foreach ($c in $completions) {
         $aliasList = @($c)
@@ -1260,7 +1260,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
         foreach ($a in $aliasList) {
             Register-ArgumentCompleter -Native -CommandName $a -ScriptBlock {
                 param($wordToComplete, $commandAst, $cursorPosition)
-                Set-StrictMode -Off
+                try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
                 $words = @(
                     foreach ($_ in $commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition })) {
@@ -1311,7 +1311,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod wrap_whitespace 
     param(
         [string]$String
     )
-    Set-StrictMode -Off
+    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     if ([string]::IsNullOrWhiteSpace($String)) {
         return "`"$String`""
@@ -1355,7 +1355,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
     # Windows...
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $PSCompletions.use_module_completion_menu = $PSCompletions.config.enable_menu
         if ($PSCompletions.config.enable_menu -and $PSCompletions.config.enable_menu_enhance) {
@@ -1367,7 +1367,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
             foreach ($k in $keys) {
                 Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                     # param($wordToComplete, $commandAst, $cursorPosition)
-                    Set-StrictMode -Off
+                    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
                     $buffer = ''
                     $cursor = 0
@@ -1426,7 +1426,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 
     # menu
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_menu_list {
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         # X
         if ($menu.need_full_width -or !$config.enable_list_follow_cursor) {
@@ -1473,7 +1473,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_menu_buffer {
         param($startPos, $endPos)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $top = [System.Management.Automation.Host.Coordinates]::new($startPos.X, $startPos.Y)
         $bottom = [System.Management.Automation.Host.Coordinates]::new($endPos.X , $endPos.Y)
@@ -1486,7 +1486,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_list_buffer {
         param([int]$offset)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
         $content_box = foreach ($l in $lines) {
@@ -1516,7 +1516,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_filter_buffer {
         param([string]$filter)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $char = $config.filter_symbol
         $middle = [System.Math]::Ceiling($char.Length / 2)
@@ -1532,7 +1532,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         )
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_status_buffer {
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $X = $menu.pos.X + 3
         if ($menu.is_show_above) {
@@ -1547,7 +1547,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_tip_buffer {
         param([int]$index)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         if ($menu.is_show_above) {
             $start = 0
@@ -1669,7 +1669,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
         }
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_menu_selection {
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         if ($menu.old_selection) {
             $rawUI.SetBufferContents($menu.old_selection.pos, $menu.old_selection.buffer)
@@ -1701,7 +1701,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_menu_selection {
         param([bool]$isDown)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $moveDirection = if ($isDown) { 1 } else { -1 }
 
@@ -1769,7 +1769,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset_menu {
         param([bool]$clearAll = $true)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         if ($clearAll) {
             $menu.data.Clear()
@@ -1785,7 +1785,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_data {
         param([string]$type)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         switch ($type) {
             add {
@@ -1840,7 +1840,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_output {
         param($item)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $out = $item.CompletionText.Trim()
 
@@ -1918,7 +1918,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
         param($filter_list)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         if (!$filter_list) { return '' }
 
@@ -2169,7 +2169,7 @@ Refer to: https://pscompletions.abgox.com/faq/require-admin
 else {
     # WSL/Unix...
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion {
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $PSCompletions.use_module_completion_menu = 0
         # XXX: 非 Windows 平台，暂时只能使用默认的补全菜单
@@ -2179,7 +2179,7 @@ else {
         foreach ($k in $keys) {
             Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                 # param($wordToComplete, $commandAst, $cursorPosition)
-                Set-StrictMode -Off
+                try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
                 $buffer = ''
                 $cursor = 0
@@ -2214,7 +2214,7 @@ else {
 
 if ($PSEdition -eq 'Core') {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $horizontal = $config.horizontal
         $vertical = $config.vertical
@@ -2234,7 +2234,7 @@ if ($PSEdition -eq 'Core') {
 
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
         param([string]$json)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         ConvertFrom-Json $json -AsHashtable
     }
@@ -2637,7 +2637,7 @@ if ($PSEdition -eq 'Core') {
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         param([string]$history_path, [string]$root, [string]$path_order)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $PSCompletions.order."$($root)_job" = Start-ThreadJob -ScriptBlock {
             param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
@@ -2692,7 +2692,7 @@ if ($PSEdition -eq 'Core') {
 }
 else {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
         $horizontal = '-'
@@ -2713,7 +2713,7 @@ else {
 
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
         param([string]$json)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         # https://github.com/abgox/ConvertFrom-JsonAsHashtable
         function ConvertFrom-JsonAsHashtable {
@@ -3299,7 +3299,7 @@ else {
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
         param([string]$history_path, [string]$root, [string]$path_order)
-        Set-StrictMode -Off
+        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
             param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
@@ -3437,16 +3437,16 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
     foreach ($_ in $Matches) {
         $args = $PSCompletions.data.aliasMap[$_]
         if ($args -eq 'psc') {
-            Set-Alias $_ PSCompletions -Force -ErrorAction Ignore
+            Microsoft.PowerShell.Utility\Set-Alias $_ PSCompletions -Force -ErrorAction Ignore
         }
         elseif ($_ -ne $args -and $_ -notmatch '[\\/]') {
-            Set-Alias $_ $args -Force -ErrorAction Ignore
+            Microsoft.PowerShell.Utility\Set-Alias $_ $args -Force -ErrorAction Ignore
         }
     }
     $Matches = $null
 }
 else {
-    Set-Alias psc PSCompletions -Force -ErrorAction Ignore
+    Microsoft.PowerShell.Utility\Set-Alias psc PSCompletions -Force -ErrorAction Ignore
 }
 
 if ($PSCompletions.config.enable_module_update -match '^\d[\d.]+') {
