@@ -2,8 +2,9 @@ name: Update Content
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "18 22 * * *"
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -13,7 +14,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Update Content
         shell: pwsh
