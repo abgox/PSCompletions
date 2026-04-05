@@ -986,7 +986,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         }
     }
 
-    (Get-Content $PSCompletions.path.completions_json -Raw | ConvertFrom-Json).update.$completion | Out-File "$completion_dir/.update" -Encoding utf8 -Force
+    (Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 | ConvertFrom-Json).update.$completion | Out-File "$completion_dir/.update" -Encoding utf8 -Force
 
     $done = if ($is_exist) { $PSCompletions.info.update.done }else { $PSCompletions.info.add.done }
 
@@ -1145,7 +1145,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                     }
 
                     $new = $response | ConvertTo-Json -Compress -Depth 10
-                    $old = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+                    $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
                     if ($new -ne $old) {
                         $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                     }
@@ -2268,7 +2268,7 @@ if ($PSEdition -eq 'Core') {
                                 $PSCompletions.list = $current_list
                             }
                             $new = $response | ConvertTo-Json -Compress -Depth 10
-                            $old = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+                            $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
                             if ($new -ne $old) {
                                 $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                             }
@@ -2386,7 +2386,7 @@ if ($PSEdition -eq 'Core') {
                     $updateInterval = [TimeSpan]::FromHours(6)
 
                     if (Test-Path $PSCompletions.path.last_update) {
-                        $lastUpdate = Get-Content $PSCompletions.path.last_update | Get-Date
+                        $lastUpdate = Get-Content $PSCompletions.path.last_update -Encoding utf8 | Get-Date
                         if ($lastUpdate) {
                             $timeSinceLast = $currentTime - $lastUpdate
                             if ($timeSinceLast -lt $updateInterval) {
@@ -2421,7 +2421,7 @@ if ($PSEdition -eq 'Core') {
 
                     if ($PSCompletions.config.enable_completions_update) {
                         $need_update_list = @()
-                        $update = (Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json).update
+                        $update = (Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).update
                         $completion_dirs = Get-ChildItem $PSCompletions.path.completions -Directory
 
                         foreach ($c in $completion_dirs) {
@@ -2680,7 +2680,7 @@ if ($PSEdition -eq 'Core') {
                 $result[$_] = $index
             }
 
-            $old = Get-Content -Raw $path_order -ErrorAction Ignore | ConvertFrom-Json -AsHashtable | ConvertTo-Json -Compress -Depth 10
+            $old = Get-Content -Raw $path_order -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json -AsHashtable | ConvertTo-Json -Compress -Depth 10
             $new = $result | ConvertTo-Json -Compress -Depth 10
             if ($new -ne $old) {
                 $new | Out-File $path_order -Force -Encoding utf8
@@ -2932,7 +2932,7 @@ else {
                             $PSCompletions.list = $current_list
                         }
                         $new = $response | ConvertTo-Json -Compress -Depth 10
-                        $old = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+                        $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
                         if ($new -ne $old) {
                             $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                         }
@@ -3050,7 +3050,7 @@ else {
                 $updateInterval = [TimeSpan]::FromHours(6)
 
                 if (Test-Path $PSCompletions.path.last_update) {
-                    $lastUpdate = Get-Content $PSCompletions.path.last_update | Get-Date
+                    $lastUpdate = Get-Content $PSCompletions.path.last_update -Encoding utf8 | Get-Date
                     if ($lastUpdate) {
                         $timeSinceLast = $currentTime - $lastUpdate
                         if ($timeSinceLast -lt $updateInterval) {
@@ -3085,7 +3085,7 @@ else {
 
                 if ($PSCompletions.config.enable_completions_update) {
                     $need_update_list = @()
-                    $update = (Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json).update
+                    $update = (Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).update
                     $completion_dirs = Get-ChildItem $PSCompletions.path.completions -Directory
 
                     foreach ($c in $completion_dirs) {
@@ -3345,7 +3345,7 @@ else {
                 $result[$_] = $index
             }
 
-            $old = Get-Content -Raw $path_order -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+            $old = Get-Content -Raw $path_order -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
             $new = $result | ConvertTo-Json -Compress -Depth 10
             if ($new -ne $old) {
                 $new | Out-File $path_order -Force -Encoding utf8

@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- 修复了在 Windows PowerShell 5.1 中的编码问题
 - 其他的优化和修复
 
 ## 6.6.3

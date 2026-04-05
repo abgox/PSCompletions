@@ -249,7 +249,7 @@ function PSCompletions {
             if (!(download_list)) {
                 return
             }
-            $update = (Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json).update
+            $update = (Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).update
             $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
                 if (-not $update.$completion) {
@@ -325,7 +325,7 @@ function PSCompletions {
             Show-ParamError 'min' 'info'
             return
         }
-        $info = Get-Content $PSCompletions.path.completions_json -Raw -ErrorAction Ignore | ConvertFrom-Json
+        $info = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json
         $lang = $PSCompletions.config.language
         foreach ($completion in $arg[1..($arg.Length - 1)]) {
             $out = [ordered]@{
@@ -346,7 +346,7 @@ function PSCompletions {
             $path = Join-Path $PSCompletions.path.completions $completion
             if (Test-Path $path) {
                 $out.Path = $path
-                $update = Get-Content "$path\.update" -Raw -ErrorAction Ignore
+                $update = Get-Content "$path\.update" -Raw -Encoding utf8 -ErrorAction Ignore
                 if ($update -and $update.Trim()) {
                     $out.Update = $update.Trim()
                 }
