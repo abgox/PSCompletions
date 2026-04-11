@@ -603,8 +603,4 @@ Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
 
 $info | ConvertTo-Json -Depth 10 | Out-File $path
 
-git -c core.safecrlf=false add -u
-
-if (git status --porcelain) {
-    git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit --no-gpg-sign -m 'chore: automatically update some content [skip ci]'
-}
+& $PSScriptRoot\push-change.ps1 -message 'chore: automatically update some content [skip ci]'
