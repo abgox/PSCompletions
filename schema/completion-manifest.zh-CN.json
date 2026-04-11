@@ -100,13 +100,13 @@
         "next": {
           "$ref": "#/definitions/next"
         },
-        "options": {
-          "$ref": "#/definitions/options"
+        "option": {
+          "$ref": "#/definitions/option"
         }
       },
       "additionalProperties": false
     },
-    "item_without_options": {
+    "item_without_option": {
       "type": "object",
       "required": [
         "name"
@@ -122,12 +122,12 @@
           "$ref": "#/definitions/tip"
         },
         "next": {
-          "$ref": "#/definitions/options-next"
+          "$ref": "#/definitions/option-next"
         }
       },
       "additionalProperties": false
     },
-    "item_without_options_next": {
+    "item_without_option_next": {
       "type": "object",
       "required": [
         "name"
@@ -170,15 +170,15 @@
         "errorMessage": "next 必须是一个数组或数字 0"
       }
     },
-    "options": {
+    "option": {
       "type": "array",
       "uniqueItems": true,
       "markdownDescription": "选项类补全\n - 通常以 `-` 或 `--` 开头\n - 例如 `--list`",
       "items": {
-        "$ref": "#/definitions/item_without_options"
+        "$ref": "#/definitions/item_without_option"
       }
     },
-    "options-next": {
+    "option-next": {
       "markdownDescription": "下一个命令补全\n- 它可以是一个数组或数字 `0`\n- 如果是数组\n  - 数组中的项会自动添加到补全中\n  - 如果有 `hooks`，会动态添加\n- 如果是数字 `0`\n  - 它表示此时应该输入一个内容\n  - 但是 [PSCompletions](https://pscompletions.abgox.com) 无力提供补全，需要用户自行输入\n  - `0` 就是告诉 [PSCompletions](https://pscompletions.abgox.com) 应该显示 `WriteSpaceTab` 类型的符号，以实现符号预测",
       "type": [
         "array",
@@ -190,7 +190,7 @@
       ],
       "uniqueItems": true,
       "items": {
-        "$ref": "#/definitions/item_without_options_next"
+        "$ref": "#/definitions/item_without_option_next"
       },
       "if": {
         "type": "number",
@@ -251,18 +251,18 @@
         "$ref": "#/definitions/item"
       }
     },
-    "options": {
+    "option": {
       "markdownDescription": "根命令的选项类补全\n- 如果除了选项类补全以外，只有一个根命令，就会显示它们\n- 除非你已经使用过它或它的别名了",
       "$ref": "#/definitions/array",
       "items": {
-        "$ref": "#/definitions/item_without_options"
+        "$ref": "#/definitions/item_without_option"
       }
     },
-    "common_options": {
+    "common_option": {
       "markdownDescription": "通用的选项类补全\n- 任何情况下触发补全，都会显示它们\n- 除非你已经使用过它或它的别名了",
       "$ref": "#/definitions/array",
       "items": {
-        "$ref": "#/definitions/item_without_options"
+        "$ref": "#/definitions/item_without_option"
       }
     },
     "config": {

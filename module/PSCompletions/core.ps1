@@ -292,7 +292,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $obj = @{}
 
         # XXX: 这里必须是引用类型
-        $special_options = @{
+        $special_option = @{
             WriteSpaceTab              = @()
             WriteSpaceTab_and_SpaceTab = @()
         }
@@ -304,22 +304,22 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             foreach ($cmd in $cmds) {
                 $name = $cmd.name
                 $next = $cmd.next
-                $options = $cmd.options
+                $option = $cmd.option
 
                 $symbols = @()
                 if ($isOption) {
-                    if ($null -eq $next -and $null -eq $options) {
+                    if ($null -eq $next -and $null -eq $option) {
                         $symbols += 'OptionTab'
                     }
                     else {
                         $symbols += 'WriteSpaceTab'
-                        if ($next -is [array] -or $options -is [array]) {
+                        if ($next -is [array] -or $option -is [array]) {
                             $symbols += 'SpaceTab'
                         }
                     }
                 }
                 else {
-                    if ($next -is [array] -or $options -is [array]) {
+                    if ($next -is [array] -or $option -is [array]) {
                         $symbols += 'SpaceTab'
                     }
                 }
@@ -350,18 +350,18 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 if ($symbols) {
                     if ('WriteSpaceTab' -in $symbols) {
                         $pad = if ($cmdO -in @('rootOptions', 'commonOptions')) { ' ' }else { $cmdO + ' ' }
-                        $special_options.WriteSpaceTab += $pad + $name
-                        foreach ($a in $alias) { $special_options.WriteSpaceTab += $pad + $a }
+                        $special_option.WriteSpaceTab += $pad + $name
+                        foreach ($a in $alias) { $special_option.WriteSpaceTab += $pad + $a }
                         if ('SpaceTab' -in $symbols) {
-                            $special_options.WriteSpaceTab_and_SpaceTab += $pad + $name
-                            foreach ($a in $alias) { $special_options.WriteSpaceTab_and_SpaceTab += $pad + $a }
+                            $special_option.WriteSpaceTab_and_SpaceTab += $pad + $name
+                            foreach ($a in $alias) { $special_option.WriteSpaceTab_and_SpaceTab += $pad + $a }
                         }
                     }
                 }
-                if ($options) {
-                    parseJson $options $obj[$cmdO] $name -isOption
+                if ($option) {
+                    parseJson $option $obj[$cmdO] $name -isOption
                     foreach ($a in $alias) {
-                        parseJson $options $obj[$cmdO] $a -isOption
+                        parseJson $option $obj[$cmdO] $a -isOption
                     }
                 }
                 if ($next -or 'WriteSpaceTab' -in $symbols) {
@@ -375,14 +375,14 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         if ($PSCompletions.completions[$root].root) {
             parseJson $PSCompletions.completions[$root].root $obj 'root'
         }
-        if ($PSCompletions.completions[$root].options) {
-            parseJson $PSCompletions.completions[$root].options $obj 'rootOptions' -isOption
+        if ($PSCompletions.completions[$root].option) {
+            parseJson $PSCompletions.completions[$root].option $obj 'rootOptions' -isOption
         }
-        if ($PSCompletions.completions[$root].common_options) {
-            parseJson $PSCompletions.completions[$root].common_options $obj 'commonOptions' -isOption
+        if ($PSCompletions.completions[$root].common_option) {
+            parseJson $PSCompletions.completions[$root].common_option $obj 'commonOptions' -isOption
         }
-        $PSCompletions.completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab)
-        $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab_and_SpaceTab)
+        $PSCompletions.completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_option.WriteSpaceTab)
+        $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_option.WriteSpaceTab_and_SpaceTab)
         return $obj
     }
     function handleCompletions {
@@ -416,7 +416,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             $last_item = $input_arr[-1]
             $pre_cmd = ''
 
-            $commonOptions = @($PSCompletions.completions_data."$($root)_common_options")
+            $commonOptions = @($PSCompletions.completions_data."$($root)_common_option")
             $WriteSpaceTab = $PSCompletions.completions_data."$($root)_WriteSpaceTab"
             $WriteSpaceTab_and_SpaceTab = $PSCompletions.completions_data."$($root)_WriteSpaceTab_and_SpaceTab"
 
@@ -501,20 +501,20 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             $PSCompletions.filter_input_str = $filter_input_str = $filter_input_arr -join ' '
             $last_item = $filter_input_arr[-1]
 
-            $no_options = $true
-            $all_options = $true
+            $no_option = $true
+            $all_option = $true
 
             foreach ($c in $filter_input_arr) {
                 if ($c -like '-*') {
-                    $no_options = $false
+                    $no_option = $false
                 }
                 else {
-                    $all_options = $false
+                    $all_option = $false
                 }
             }
 
             if ($last_item -like '-*') {
-                if ($all_options) {
+                if ($all_option) {
                     # 如果全是选项，只可能是根选项或通用选项
                     $data = $PSCompletions.completions_data[$root].commonOptions.$last_item.$guid
                     if (!$data.Count) {
@@ -545,7 +545,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     }
                 }
                 else {
-                    if ($last_item -cin $PSCompletions.completions_data."$($root)_common_options") {
+                    if ($last_item -cin $PSCompletions.completions_data."$($root)_common_option") {
                         $filter_list = $PSCompletions.completions_data[$root].commonOptions.$last_item.$guid
                     }
                     else {
@@ -604,7 +604,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     }
     if (!$PSCompletions.completions_data[$root]) {
         $PSCompletions.completions_data[$root] = getCompletions
-        $PSCompletions.completions_data."$($root)_common_options" = $PSCompletions.completions_data[$root].commonOptions.$guid.CompletionText
+        $PSCompletions.completions_data."$($root)_common_option" = $PSCompletions.completions_data[$root].commonOptions.$guid.CompletionText
     }
     $completions = $PSCompletions.completions_data[$root]
     $filter_list = handleCompletions ([array](filterCompletions))
@@ -2458,7 +2458,7 @@ if ($PSEdition -eq 'Core') {
                 $obj = @{}
 
                 # XXX: 这里必须是引用类型
-                $special_options = @{
+                $special_option = @{
                     WriteSpaceTab              = @()
                     WriteSpaceTab_and_SpaceTab = @()
                 }
@@ -2470,22 +2470,22 @@ if ($PSEdition -eq 'Core') {
                     foreach ($cmd in $cmds) {
                         $name = $cmd.name
                         $next = $cmd.next
-                        $options = $cmd.options
+                        $option = $cmd.option
 
                         $symbols = @()
                         if ($isOption) {
-                            if ($null -eq $next -and $null -eq $options) {
+                            if ($null -eq $next -and $null -eq $option) {
                                 $symbols += 'OptionTab'
                             }
                             else {
                                 $symbols += 'WriteSpaceTab'
-                                if ($next -is [array] -or $options -is [array]) {
+                                if ($next -is [array] -or $option -is [array]) {
                                     $symbols += 'SpaceTab'
                                 }
                             }
                         }
                         else {
-                            if ($next -is [array] -or $options -is [array]) {
+                            if ($next -is [array] -or $option -is [array]) {
                                 $symbols += 'SpaceTab'
                             }
                         }
@@ -2520,18 +2520,18 @@ if ($PSEdition -eq 'Core') {
                         if ($symbols) {
                             if ('WriteSpaceTab' -in $symbols) {
                                 $pad = if ($cmdO -in @('rootOptions', 'commonOptions')) { ' ' }else { $cmdO + ' ' }
-                                $special_options.WriteSpaceTab += $pad + $name
-                                foreach ($a in $alias) { $special_options.WriteSpaceTab += $pad + $a }
+                                $special_option.WriteSpaceTab += $pad + $name
+                                foreach ($a in $alias) { $special_option.WriteSpaceTab += $pad + $a }
                                 if ('SpaceTab' -in $symbols) {
-                                    $special_options.WriteSpaceTab_and_SpaceTab += $pad + $name
-                                    foreach ($a in $alias) { $special_options.WriteSpaceTab_and_SpaceTab += $pad + $a }
+                                    $special_option.WriteSpaceTab_and_SpaceTab += $pad + $name
+                                    foreach ($a in $alias) { $special_option.WriteSpaceTab_and_SpaceTab += $pad + $a }
                                 }
                             }
                         }
-                        if ($options) {
-                            parseJson $options $obj[$cmdO] $name -isOption
+                        if ($option) {
+                            parseJson $option $obj[$cmdO] $name -isOption
                             foreach ($a in $alias) {
-                                parseJson $options $obj[$cmdO] $a -isOption
+                                parseJson $option $obj[$cmdO] $a -isOption
                             }
                         }
                         if ($next -or 'WriteSpaceTab' -in $symbols) {
@@ -2545,15 +2545,15 @@ if ($PSEdition -eq 'Core') {
                 if ($_completions[$root].root) {
                     parseJson $_completions[$root].root $obj 'root'
                 }
-                if ($_completions[$root].options) {
-                    parseJson $_completions[$root].options $obj 'rootOptions' -isOption
+                if ($_completions[$root].option) {
+                    parseJson $_completions[$root].option $obj 'rootOptions' -isOption
                 }
-                if ($_completions[$root].common_options) {
-                    parseJson $_completions[$root].common_options $obj 'commonOptions' -isOption
+                if ($_completions[$root].common_option) {
+                    parseJson $_completions[$root].common_option $obj 'commonOptions' -isOption
                 }
-                $_completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab)
-                $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab_and_SpaceTab)
-                $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid.CompletionText
+                $_completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_option.WriteSpaceTab)
+                $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_option.WriteSpaceTab_and_SpaceTab)
+                $_completions_data."$($root)_common_option" = $obj.commonOptions.$guid.CompletionText
                 return $obj
             }
             function get_language {
@@ -3121,7 +3121,7 @@ else {
                 $obj = @{}
 
                 # XXX: 这里必须是引用类型
-                $special_options = @{
+                $special_option = @{
                     WriteSpaceTab              = @()
                     WriteSpaceTab_and_SpaceTab = @()
                 }
@@ -3133,22 +3133,22 @@ else {
                     foreach ($cmd in $cmds) {
                         $name = $cmd.name
                         $next = $cmd.next
-                        $options = $cmd.options
+                        $option = $cmd.option
 
                         $symbols = @()
                         if ($isOption) {
-                            if ($null -eq $next -and $null -eq $options) {
+                            if ($null -eq $next -and $null -eq $option) {
                                 $symbols += 'OptionTab'
                             }
                             else {
                                 $symbols += 'WriteSpaceTab'
-                                if ($next -is [array] -or $options -is [array]) {
+                                if ($next -is [array] -or $option -is [array]) {
                                     $symbols += 'SpaceTab'
                                 }
                             }
                         }
                         else {
-                            if ($next -is [array] -or $options -is [array]) {
+                            if ($next -is [array] -or $option -is [array]) {
                                 $symbols += 'SpaceTab'
                             }
                         }
@@ -3183,18 +3183,18 @@ else {
                         if ($symbols) {
                             if ('WriteSpaceTab' -in $symbols) {
                                 $pad = if ($cmdO -in @('rootOptions', 'commonOptions')) { ' ' }else { $cmdO + ' ' }
-                                $special_options.WriteSpaceTab += $pad + $name
-                                foreach ($a in $alias) { $special_options.WriteSpaceTab += $pad + $a }
+                                $special_option.WriteSpaceTab += $pad + $name
+                                foreach ($a in $alias) { $special_option.WriteSpaceTab += $pad + $a }
                                 if ('SpaceTab' -in $symbols) {
-                                    $special_options.WriteSpaceTab_and_SpaceTab += $pad + $name
-                                    foreach ($a in $alias) { $special_options.WriteSpaceTab_and_SpaceTab += $pad + $a }
+                                    $special_option.WriteSpaceTab_and_SpaceTab += $pad + $name
+                                    foreach ($a in $alias) { $special_option.WriteSpaceTab_and_SpaceTab += $pad + $a }
                                 }
                             }
                         }
-                        if ($options) {
-                            parseJson $options $obj[$cmdO] $name -isOption
+                        if ($option) {
+                            parseJson $option $obj[$cmdO] $name -isOption
                             foreach ($a in $alias) {
-                                parseJson $options $obj[$cmdO] $a -isOption
+                                parseJson $option $obj[$cmdO] $a -isOption
                             }
                         }
                         if ($next -or 'WriteSpaceTab' -in $symbols) {
@@ -3208,15 +3208,15 @@ else {
                 if ($_completions[$root].root) {
                     parseJson $_completions[$root].root $obj 'root'
                 }
-                if ($_completions[$root].options) {
-                    parseJson $_completions[$root].options $obj 'rootOptions' -isOption
+                if ($_completions[$root].option) {
+                    parseJson $_completions[$root].option $obj 'rootOptions' -isOption
                 }
-                if ($_completions[$root].common_options) {
-                    parseJson $_completions[$root].common_options $obj 'commonOptions' -isOption
+                if ($_completions[$root].common_option) {
+                    parseJson $_completions[$root].common_option $obj 'commonOptions' -isOption
                 }
-                $_completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab)
-                $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_options.WriteSpaceTab_and_SpaceTab)
-                $_completions_data."$($root)_common_options" = $obj.commonOptions.$guid.CompletionText
+                $_completions_data."$($root)_WriteSpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_option.WriteSpaceTab)
+                $_completions_data."$($root)_WriteSpaceTab_and_SpaceTab" = [System.Linq.Enumerable]::Distinct([string[]]$special_option.WriteSpaceTab_and_SpaceTab)
+                $_completions_data."$($root)_common_option" = $obj.commonOptions.$guid.CompletionText
                 return $obj
             }
             function get_language {

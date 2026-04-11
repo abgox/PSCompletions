@@ -211,8 +211,8 @@ function Compare-JsonProperty {
             }
 
             # next
-            # options
-            foreach ($item in @('next', 'options')) {
+            # option
+            foreach ($item in @('next', 'option')) {
                 $isDiff = $false
                 if (isExist $baseItem.$item) {
                     if (isExist $diffItem.$item) {
@@ -337,7 +337,7 @@ function Compare-JsonProperty {
         }
     }
 
-    foreach ($item in @('root', 'options', 'common_options', 'config')) {
+    foreach ($item in @('root', 'option', 'common_option', 'config')) {
         if ($count.diffList.Count -gt 0) {
             break
         }

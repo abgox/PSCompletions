@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+- 为保持一致性，将补全定义中的 options 重命名为 option
+  - `options` => `option`
+  - `common_options` => `common_option`
+
 ## 6.6.4
 
 - 修复了在 Windows PowerShell 5.1 中的编码问题

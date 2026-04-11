@@ -22,13 +22,13 @@ function Sort-JsonStructure {
     $json = Get-Content $InputFile -Raw | ConvertFrom-Json
 
     # 顶层属性顺序
-    $topLevelOrder = @('meta', 'root', 'options', 'common_options', 'config', 'info')
+    $topLevelOrder = @('meta', 'root', 'option', 'common_option', 'config', 'info')
     # meta 属性顺序
     $metaOrder = @('url', 'description')
     # config 属性顺序
     $configOrder = @('name', 'value', 'values', 'tip')
-    # root/options/common_options 属性顺序
-    $itemPropertyOrder = @('name', 'alias', 'tip', 'hide', 'options', 'next')
+    # root/option/common_option 属性顺序
+    $itemPropertyOrder = @('name', 'alias', 'tip', 'hide', 'option', 'next')
 
     # 递归排序函数
     function Sort-ObjectRecursively {
@@ -86,7 +86,7 @@ function Sort-JsonStructure {
     # Sort top-level properties
     foreach ($prop in $topLevelOrder) {
         if ($json.PSObject.Properties.Name -contains $prop) {
-            if ($prop -in @('root', 'options', 'common_options')) {
+            if ($prop -in @('root', 'option', 'common_option')) {
                 $inputObject = $json.$prop | Sort-Object { [System.Tuple]::Create($_.name.ToUpperInvariant(), $_.name) }
                 $sortedJson[$prop] = Sort-ObjectRecursively -inputObject @($inputObject) -propertyOrder $itemPropertyOrder
             }

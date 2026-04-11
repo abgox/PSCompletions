@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+- Renamed options to option in the completion definition for consistency.
+  - `options` => `option`
+  - `common_options` => `common_option`
+
 ## 6.6.4
 
 - Fixed the encoding problem in Windows PowerShell 5.1.

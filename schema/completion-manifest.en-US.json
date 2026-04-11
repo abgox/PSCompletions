@@ -100,13 +100,13 @@
         "next": {
           "$ref": "#/definitions/next"
         },
-        "options": {
-          "$ref": "#/definitions/options"
+        "option": {
+          "$ref": "#/definitions/option"
         }
       },
       "additionalProperties": false
     },
-    "item_without_options": {
+    "item_without_option": {
       "type": "object",
       "required": [
         "name"
@@ -122,12 +122,12 @@
           "$ref": "#/definitions/tip"
         },
         "next": {
-          "$ref": "#/definitions/options-next"
+          "$ref": "#/definitions/option-next"
         }
       },
       "additionalProperties": false
     },
-    "item_without_options_next": {
+    "item_without_option_next": {
       "type": "object",
       "required": [
         "name"
@@ -170,15 +170,15 @@
         "errorMessage": "It must be an array or the number 0"
       }
     },
-    "options": {
+    "option": {
       "type": "array",
       "uniqueItems": true,
       "markdownDescription": "Option class completion\n - Usually starts with `-` or `--`\n - For example, `--list`",
       "items": {
-        "$ref": "#/definitions/item_without_options"
+        "$ref": "#/definitions/item_without_option"
       }
     },
-    "options-next": {
+    "option-next": {
       "markdownDescription": "Next command completion\n- It can be an array or the number `0`\n- If it is an array\n  - Items in the array are automatically added to the completions.\n  - If there are `hooks`, they will be added dynamically.\n- If it is the number `0`\n  - It indicates that a content should be input at this time.\n  - However, [PSCompletions](https://pscompletions.abgox.com) is unable to provide completions, and users need to input manually.\n  - `0` tells [PSCompletions](https://pscompletions.abgox.com) that it should display symbols of the `WriteSpaceTab` type to achieve symbol prediction.",
       "type": [
         "array",
@@ -190,7 +190,7 @@
       ],
       "uniqueItems": true,
       "items": {
-        "$ref": "#/definitions/item_without_options_next"
+        "$ref": "#/definitions/item_without_option_next"
       },
       "if": {
         "type": "number",
@@ -251,18 +251,18 @@
         "$ref": "#/definitions/item"
       }
     },
-    "options": {
+    "option": {
       "markdownDescription": "Optional completion for the root command\n- If there is only one root command other than optional completions, they will be displayed\n- Unless you have used it or its alias",
       "$ref": "#/definitions/array",
       "items": {
-        "$ref": "#/definitions/item_without_options"
+        "$ref": "#/definitions/item_without_option"
       }
     },
-    "common_options": {
+    "common_option": {
       "markdownDescription": "Common optional completion\n- Any time you trigger completion, they will be displayed\n- Unless you have used it or its alias",
       "$ref": "#/definitions/array",
       "items": {
-        "$ref": "#/definitions/item_without_options"
+        "$ref": "#/definitions/item_without_option"
       }
     },
     "config": {
