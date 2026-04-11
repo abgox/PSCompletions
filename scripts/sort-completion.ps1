@@ -28,7 +28,7 @@ function Sort-JsonStructure {
     # config 属性顺序
     $configOrder = @('name', 'value', 'values', 'tip')
     # root/option/common_option 属性顺序
-    $itemPropertyOrder = @('name', 'alias', 'tip', 'hide', 'option', 'next')
+    $itemPropertyOrder = @('name', 'alias', 'tip', 'repeat', 'option', 'next')
 
     # 递归排序函数
     function Sort-ObjectRecursively {

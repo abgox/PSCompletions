@@ -3,7 +3,6 @@ using namespace System.Management.Automation
 try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
 if ($PSCompletions.guid) {
-    # XXX: CompletionPredictor 模块会导致 core.ps1 被重复加载多次，这里去阻止它
     return
 }
 
@@ -326,6 +325,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
                 $tip = $cmd.tip
                 $alias = $cmd.alias
+                $repeat = $cmd.repeat
 
                 $alias_list = $alias + $name
 
@@ -335,6 +335,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     ToolTip        = $tip
                     symbols        = $symbols
                     alias          = $alias_list
+                    repeat         = $repeat
                 }
 
                 foreach ($a in $alias) {
@@ -344,6 +345,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                         ToolTip        = $tip
                         symbols        = $symbols
                         alias          = $alias_list
+                        repeat         = $repeat
                     }
                 }
 
@@ -619,7 +621,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     $filter_list = [System.Collections.Generic.List[object]]@()
     if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
         foreach ($item in $_filter_list) {
-            if ($item.CompletionText -notlike '-*' -or $item.CompletionText -cnotin $input_arr) {
+            $repeat = $item.repeat
+            if (-not $repeat) {
+                if ($item.CompletionText -like '-*' -and $item.CompletionText -cin $input_arr) {
+                    continue
+                }
                 $isContinue = $false
                 if ($item.alias) {
                     foreach ($a in $item.alias) {
@@ -632,15 +638,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 if ($isContinue) {
                     continue
                 }
-                $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
-                $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
-                $filter_list.Add(@{
-                        ListItemText   = $item.ListItemText
-                        padSymbols     = $padSymbols
-                        CompletionText = $item.CompletionText
-                        ToolTip        = $item.ToolTip
-                    })
             }
+            $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
+            $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
+            $filter_list.Add(@{
+                    ListItemText   = $item.ListItemText
+                    padSymbols     = $padSymbols
+                    CompletionText = $item.CompletionText
+                    ToolTip        = $item.ToolTip
+                    # repeat         = $repeat
+                })
         }
     }
     else {
@@ -648,15 +655,18 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $_input_arr.RemoveAt(($_input_arr.Count - 1))
         foreach ($item in $_filter_list) {
             if ($item.CompletionText -like "$([WildcardPattern]::Escape($input_arr[-1]))*") {
-                $isContinue = $false
-                foreach ($a in $item.alias) {
-                    if ($a -cin $_input_arr) {
-                        $isContinue = $true
-                        break
+                $repeat = $item.repeat
+                if (-not $repeat) {
+                    $isContinue = $false
+                    foreach ($a in $item.alias) {
+                        if ($a -cin $_input_arr) {
+                            $isContinue = $true
+                            break
+                        }
                     }
-                }
-                if ($isContinue) {
-                    continue
+                    if ($isContinue) {
+                        continue
+                    }
                 }
                 $padSymbols = foreach ($c in $item.symbols) { $PSCompletions.config.$c }
                 $padSymbols = if ($padSymbols) { "$($PSCompletions.config.between_item_and_symbol)$($padSymbols -join '')" }else { '' }
@@ -665,6 +675,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                         padSymbols     = $padSymbols
                         CompletionText = $item.CompletionText
                         ToolTip        = $item.ToolTip
+                        # repeat         = $repeat
                     })
             }
         }
@@ -2492,28 +2503,27 @@ if ($PSEdition -eq 'Core') {
 
                         $tip = $cmd.tip
                         $alias = $cmd.alias
+                        $repeat = $cmd.repeat
 
                         $alias_list = $alias + $name
 
-                        # hide 值为 true 的补全将被过滤掉，用于配合 hooks.ps1 中添加动态补全
-                        # 如果不过滤掉，会和 hooks.ps1 中添加的动态补全产生重复
-                        if (!$cmd.hide) {
+                        $obj[$cmdO].$guid += @{
+                            CompletionText = $name
+                            ListItemText   = $name
+                            ToolTip        = $tip
+                            symbols        = $symbols
+                            alias          = $alias_list
+                            repeat         = $repeat
+                        }
+
+                        foreach ($a in $alias) {
                             $obj[$cmdO].$guid += @{
-                                CompletionText = $name
-                                ListItemText   = $name
+                                CompletionText = $a
+                                ListItemText   = $a
                                 ToolTip        = $tip
                                 symbols        = $symbols
                                 alias          = $alias_list
-                            }
-
-                            foreach ($a in $alias) {
-                                $obj[$cmdO].$guid += @{
-                                    CompletionText = $a
-                                    ListItemText   = $a
-                                    ToolTip        = $tip
-                                    symbols        = $symbols
-                                    alias          = $alias_list
-                                }
+                                repeat         = $repeat
                             }
                         }
 
@@ -3155,28 +3165,27 @@ else {
 
                         $tip = $cmd.tip
                         $alias = $cmd.alias
+                        $repeat = $cmd.repeat
 
                         $alias_list = $alias + $name
 
-                        # hide 值为 true 的补全将被过滤掉，用于配合 hooks.ps1 中添加动态补全
-                        # 如果不过滤掉，会和 hooks.ps1 中添加的动态补全产生重复
-                        if (!$cmd.hide) {
+                        $obj[$cmdO].$guid += @{
+                            CompletionText = $name
+                            ListItemText   = $name
+                            ToolTip        = $tip
+                            symbols        = $symbols
+                            alias          = $alias_list
+                            repeat         = $repeat
+                        }
+
+                        foreach ($a in $alias) {
                             $obj[$cmdO].$guid += @{
-                                CompletionText = $name
-                                ListItemText   = $name
+                                CompletionText = $a
+                                ListItemText   = $a
                                 ToolTip        = $tip
                                 symbols        = $symbols
                                 alias          = $alias_list
-                            }
-
-                            foreach ($a in $alias) {
-                                $obj[$cmdO].$guid += @{
-                                    CompletionText = $a
-                                    ListItemText   = $a
-                                    ToolTip        = $tip
-                                    symbols        = $symbols
-                                    alias          = $alias_list
-                                }
+                                repeat         = $repeat
                             }
                         }
 

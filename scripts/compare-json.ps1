@@ -183,11 +183,11 @@ function Compare-JsonProperty {
                 return
             }
 
-            # hide
+            # repeat
             $isDiff = $false
-            if ($null -ne $baseItem.hide) {
-                if ($null -ne $diffItem.hide) {
-                    if ($baseItem.hide -ne $diffItem.hide) {
+            if ($null -ne $baseItem.repeat) {
+                if ($null -ne $diffItem.repeat) {
+                    if ($baseItem.repeat -ne $diffItem.repeat) {
                         $isDiff = $true
                     }
                 }
@@ -196,16 +196,16 @@ function Compare-JsonProperty {
                 }
             }
             else {
-                if ($null -ne $diffItem.hide) {
+                if ($null -ne $diffItem.repeat) {
                     $isDiff = $true
                 }
             }
             if ($isDiff) {
                 $count.diffList += @{
                     name = $baseItem.name
-                    base = $baseItem.hide
-                    diff = $diffItem.hide
-                    pos  = "$pos[$baseIndex].hide"
+                    base = $baseItem.repeat
+                    diff = $diffItem.repeat
+                    pos  = "$pos[$baseIndex].repeat"
                 }
                 return
             }

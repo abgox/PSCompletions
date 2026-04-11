@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- Added support for the `repeat` attribute in completion definition.
 - Renamed options to option in the completion definition for consistency.
   - `options` => `option`
   - `common_options` => `common_option`

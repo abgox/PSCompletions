@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- 在补全定义中添加了对 `repeat` 属性的支持
 - 为保持一致性，将补全定义中的 options 重命名为 option
   - `options` => `option`
   - `common_options` => `common_option`
