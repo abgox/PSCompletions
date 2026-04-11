@@ -8,6 +8,7 @@
 - 为保持一致性，将补全定义中的 options 重命名为 option
   - `options` => `option`
   - `common_options` => `common_option`
+- 移除了 `data.json` 文件的压缩 ([#99](https://github.com/abgox/PSCompletions/issues/99))
 
 ## 6.6.4
 

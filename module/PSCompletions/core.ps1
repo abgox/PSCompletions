@@ -1110,7 +1110,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                     $data.config.comp_config.$name.enable_hooks = [int]$config.hooks
                 }
             }
-            $data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+            $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
             $PSCompletions.data = $data
 
             function download_list {
@@ -1197,7 +1197,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 
     if ('psc' -notin $PSCompletions.data.list) {
         $PSCompletions.add_completion('psc', $false)
-        $PSCompletions.data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $PSCompletions.data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
         $PSCompletions.info = $PSCompletions.completions.psc.info
     }
     else {
@@ -2386,8 +2386,8 @@ if ($PSEdition -eq 'Core') {
                         }
                     }
                 }
-                $new_data = $data | ConvertTo-Json -Compress -Depth 10
-                $old_data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+                $new_data = $data | ConvertTo-Json -Depth 10
+                $old_data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json | ConvertTo-Json -Depth 10
                 if ($new_data -and $new_data -ne $old_data) {
                     $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
                 }
@@ -2425,7 +2425,7 @@ if ($PSEdition -eq 'Core') {
                             if ($versions[-1] -ne $PSCompletions.version) {
                                 $data = $PSCompletions.get_raw_content($PSCompletions.path.data) | ConvertFrom-Json -AsHashtable
                                 $data.config.enable_module_update = $versions[-1]
-                                $data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                                $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
                             }
                         }
                     }
@@ -3049,8 +3049,8 @@ else {
                     }
                 }
             }
-            $new_data = $data | ConvertTo-Json -Compress -Depth 10
-            $old_data = get_raw_content $PSCompletions.path.data | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+            $new_data = $data | ConvertTo-Json -Depth 10
+            $old_data = get_raw_content $PSCompletions.path.data | ConvertFrom-Json | ConvertTo-Json -Depth 10
             if ($new_data -and $new_data -ne $old_data) {
                 $new_data | Out-File $PScompletions.path.data -Force -Encoding utf8
             }
@@ -3088,7 +3088,7 @@ else {
                         if ($versions[-1] -ne $PSCompletions.version) {
                             $data = get_raw_content $PSCompletions.path.data | ConvertFrom_JsonAsHashtable
                             $data.config.enable_module_update = $versions[-1]
-                            $data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                            $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
                         }
                     }
                 }
@@ -3412,7 +3412,7 @@ if (!(Test-Path $PSCompletions.path.order)) {
                             }
                         }
                     }
-                    $data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                    $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
                 }
                 Get-ChildItem "$old_version_dir/completions" -Directory | ForEach-Object {
                     if ($_.Name -ne 'psc') {
@@ -3465,7 +3465,7 @@ if ($PSCompletions.config.enable_module_update -match '^\d[\d.]+') {
     }
     else {
         $PSCompletions.config.enable_module_update = 1
-        $PSCompletions.data | ConvertTo-Json -Compress -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $PSCompletions.data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
     }
 }
 else {

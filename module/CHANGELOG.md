@@ -8,6 +8,7 @@
 - Renamed options to option in the completion definition for consistency.
   - `options` => `option`
   - `common_options` => `common_option`
+- Removed compression for the `data.json` file ([#99](https://github.com/abgox/PSCompletions/issues/99))
 
 ## 6.6.4
 
