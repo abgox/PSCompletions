@@ -1,6 +1,11 @@
 using namespace System.Management.Automation
 
-try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
+try {
+    Microsoft.PowerShell.Core\Set-StrictMode -Off
+}
+catch {
+    throw
+}
 
 if ($PSCompletions.guid) {
     return
