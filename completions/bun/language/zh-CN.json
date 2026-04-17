@@ -52,6 +52,18 @@
           "next": 0
         },
         {
+          "name": "--external",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --external <module>",
+            "从编译中排除模块(可以使用 * 通配符)。",
+            "E: -e react"
+          ],
+          "next": 0
+        },
+        {
           "name": "--format",
           "tip": [
             "指定要构建的模块格式。仅支持 \"esm\""
@@ -166,30 +178,120 @@
           "tip": [
             "在文件更改时自动重启进程。"
           ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--external"
-          ],
-          "tip": [
-            "U: -e, --external <module>",
-            "从编译中排除模块(可以使用 * 通配符)。",
-            "E: -e react"
-          ],
-          "next": 0
         }
       ]
     },
     {
-      "name": "c",
+      "name": "create",
       "alias": [
-        "create"
+        "c"
       ],
       "tip": [
         "U: c, create <template> [...flags] [dest]",
         "从模板创建一个新项目。",
         "E: create @remix-run/dev"
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "run"
+      ],
+      "tip": [
+        "U: run, exec [flags] <file or script>",
+        "使用 Bun 执行一个文件。",
+        "E: run ./my-script.ts   --- 运行 ts 文件",
+        "   run build            --- 运行 package.json 中的脚本"
+      ],
+      "option": [
+        {
+          "name": "--define",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --define <K:V>",
+            "在解析时替换 K:V。值将解析为 JSON。",
+            "E: --define process.env.NODE_ENV:\"development\""
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extension-order",
+          "tip": [
+            "U: --extension-order <ext1,ext2,ext3>",
+            "默认为: .tsx,.ts,.jsx,.js,.json。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--jsx-factory",
+          "tip": [
+            "更改编译 JSX 元素时调用的函数。"
+          ]
+        },
+        {
+          "name": "--jsx-fragment",
+          "tip": [
+            "更改编译 JSX 片段时调用的函数。"
+          ]
+        },
+        {
+          "name": "--jsx-import-source",
+          "tip": [
+            "声明用于导入 jsx 和 jsxs 工厂函数的模块规范符。",
+            "默认为: \"react\""
+          ]
+        },
+        {
+          "name": "--jsx-runtime",
+          "tip": [
+            "设置 JSX 运行时。"
+          ],
+          "next": [
+            {
+              "name": "automatic"
+            },
+            {
+              "name": "classic"
+            }
+          ]
+        },
+        {
+          "name": "--loader",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --loader <.ext:loader>",
+            "使用 .ext:loader 解析文件。",
+            "有效的加载器: js, jsx, ts, tsx, json, toml, text, file, wasm, napi。",
+            "E: --loader .js:jsx"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--main-fields",
+          "tip": [
+            "要在 package.json 中查找的主要字段。",
+            "默认为 --target dependent"
+          ]
+        },
+        {
+          "name": "--no-macros",
+          "tip": [
+            "禁止在捆绑器、转译器和运行时执行宏。"
+          ]
+        },
+        {
+          "name": "--tsconfig-override",
+          "tip": [
+            "U: --tsconfig-override <path>",
+            "指定自定义的 tsconfig.json。",
+            "默认为 ./tsconfig.json"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -201,9 +303,9 @@
       ],
       "option": [
         {
-          "name": "-y",
+          "name": "--yes",
           "alias": [
-            "--yes"
+            "-y"
           ],
           "tip": [
             "U: -y, --yes",
@@ -215,9 +317,9 @@
     {
       "name": "install",
       "alias": [
-        "i",
         "add",
-        "a"
+        "a",
+        "i"
       ],
       "tip": [
         "U: install, i, add, a",
@@ -268,15 +370,55 @@
           "next": 0
         },
         {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dev",
+            "将依赖项添加到 \"devDependencies\"。"
+          ]
+        },
+        {
           "name": "--dry-run",
           "tip": [
             "不安装任何东西。"
           ]
         },
         {
+          "name": "--exact",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --exact",
+            "添加精确版本而不是 ^range。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "始终从注册表请求最新版本并重新安装所有依赖项。"
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "禁止对锁定文件进行更改。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局安装。"
           ]
         },
         {
@@ -329,6 +471,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "不安装 devDependencies。"
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "保存到 package.json (默认为 true)。"
@@ -353,59 +505,9 @@
           ]
         },
         {
-          "name": "-d",
+          "name": "--yarn",
           "alias": [
-            "--dev"
-          ],
-          "tip": [
-            "U: -d, --dev",
-            "将依赖项添加到 \"devDependencies\"。"
-          ]
-        },
-        {
-          "name": "-E",
-          "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "U: -E, --exact",
-            "添加精确版本而不是 ^range。"
-          ]
-        },
-        {
-          "name": "-f",
-          "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "始终从注册表请求最新版本并重新安装所有依赖项。"
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局安装。"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "不安装 devDependencies。"
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -471,9 +573,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "始终从注册表请求最新版本并重新安装所有依赖项。"
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "禁止对锁定文件进行更改。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局链接。"
           ]
         },
         {
@@ -519,6 +641,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "不链接 devDependencies。"
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "保存到 package.json。 (默认为 true)"
@@ -543,39 +675,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "始终从注册表请求最新版本并重新安装所有依赖项。"
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局链接。"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "不链接 devDependencies。"
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -598,9 +700,9 @@
           ],
           "option": [
             {
-              "name": "-g",
+              "name": "--global",
               "alias": [
-                "--global"
+                "-g"
               ],
               "tip": [
                 "U: -g, --global",
@@ -730,9 +832,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "始终从注册表请求最新版本并重新安装所有依赖项。"
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "禁止对锁定文件进行更改。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局卸载。"
           ]
         },
         {
@@ -779,6 +901,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "不卸载 devDependencies。"
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "保存到 package.json。 (默认为 true)"
@@ -803,39 +935,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "始终从注册表请求最新版本并重新安装所有依赖项。"
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局卸载。"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "不卸载 devDependencies。"
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -878,108 +980,6 @@
       ]
     },
     {
-      "name": "run",
-      "alias": [
-        "exec"
-      ],
-      "tip": [
-        "U: run, exec [flags] <file or script>",
-        "使用 Bun 执行一个文件。",
-        "E: run ./my-script.ts   --- 运行 ts 文件",
-        "   run build            --- 运行 package.json 中的脚本"
-      ],
-      "option": [
-        {
-          "name": "--extension-order",
-          "tip": [
-            "U: --extension-order <ext1,ext2,ext3>",
-            "默认为: .tsx,.ts,.jsx,.js,.json。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--jsx-factory",
-          "tip": [
-            "更改编译 JSX 元素时调用的函数。"
-          ]
-        },
-        {
-          "name": "--jsx-fragment",
-          "tip": [
-            "更改编译 JSX 片段时调用的函数。"
-          ]
-        },
-        {
-          "name": "--jsx-import-source",
-          "tip": [
-            "声明用于导入 jsx 和 jsxs 工厂函数的模块规范符。",
-            "默认为: \"react\""
-          ]
-        },
-        {
-          "name": "--jsx-runtime",
-          "tip": [
-            "设置 JSX 运行时。"
-          ],
-          "next": [
-            {
-              "name": "automatic"
-            },
-            {
-              "name": "classic"
-            }
-          ]
-        },
-        {
-          "name": "--main-fields",
-          "tip": [
-            "要在 package.json 中查找的主要字段。",
-            "默认为 --target dependent"
-          ]
-        },
-        {
-          "name": "--no-macros",
-          "tip": [
-            "禁止在捆绑器、转译器和运行时执行宏。"
-          ]
-        },
-        {
-          "name": "--tsconfig-override",
-          "tip": [
-            "U: --tsconfig-override <path>",
-            "指定自定义的 tsconfig.json。",
-            "默认为 ./tsconfig.json"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--define"
-          ],
-          "tip": [
-            "U: -d, --define <K:V>",
-            "在解析时替换 K:V。值将解析为 JSON。",
-            "E: --define process.env.NODE_ENV:\"development\""
-          ],
-          "next": 0
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--loader"
-          ],
-          "tip": [
-            "U: -l, --loader <.ext:loader>",
-            "使用 .ext:loader 解析文件。",
-            "有效的加载器: js, jsx, ts, tsx, json, toml, text, file, wasm, napi。",
-            "E: --loader .js:jsx"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
       "name": "test",
       "tip": [
         "U: test [flags] <file or script>",
@@ -1015,6 +1015,17 @@
           "next": 0
         },
         {
+          "name": "--test-name-pattern",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --test-name-pattern <regex>",
+            "仅运行名称与给定正则表达式匹配的测试。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--timeout",
           "tip": [
             "U: --timeout <ms>",
@@ -1033,17 +1044,6 @@
           "tip": [
             "更新快照文件。"
           ]
-        },
-        {
-          "name": "-t",
-          "alias": [
-            "--test-name-pattern"
-          ],
-          "tip": [
-            "U: -t, --test-name-pattern <regex>",
-            "仅运行名称与给定正则表达式匹配的测试。"
-          ],
-          "next": 0
         }
       ]
     },
@@ -1104,9 +1104,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "始终从注册表请求最新版本并重新安装所有依赖项。"
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "禁止对锁定文件进行更改。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局取消链接。"
           ]
         },
         {
@@ -1152,6 +1172,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "不取消链接 devDependencies。"
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "保存到 package.json。 (默认为 true)"
@@ -1176,39 +1206,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "始终从注册表请求最新版本并重新安装所有依赖项。"
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局取消链接。"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "不取消链接 devDependencies。"
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -1273,9 +1273,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "始终从注册表请求最新版本并重新安装所有依赖项。"
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "禁止对锁定文件进行更改。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "全局更新。"
           ]
         },
         {
@@ -1321,6 +1341,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "不更新 devDependencies。"
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "保存到 package.json (默认为 true)。"
@@ -1345,39 +1375,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "始终从注册表请求最新版本并重新安装所有依赖项。"
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "全局更新。"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "不更新 devDependencies。"
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -1426,9 +1426,9 @@
       ]
     },
     {
-      "name": "-v",
+      "name": "--version",
       "alias": [
-        "--version"
+        "-v"
       ],
       "tip": [
         "U: -v, --version",
@@ -1438,9 +1438,30 @@
   ],
   "common_option": [
     {
+      "name": "--bun",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --bun",
+        "强制脚本或包使用 Bun 的运行时, 而不是 Node.js (通过符号链接 node)。"
+      ]
+    },
+    {
       "name": "--conditions",
       "tip": [
         "传递自定义条件以解析。"
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "指定 Bun 配置文件的路径。",
+        "默认为 ./bunfig.toml"
       ]
     },
     {
@@ -1454,6 +1475,27 @@
       "name": "--env-file",
       "tip": [
         "从指定文件加载环境变量。"
+      ]
+    },
+    {
+      "name": "--eval",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --eval <code>",
+        "将参数作为脚本进行评估。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印命令的帮助文本。"
       ]
     },
     {
@@ -1520,6 +1562,17 @@
       ]
     },
     {
+      "name": "--port",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --port <port>",
+        "设置 Bun.serve 的默认端口。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--prefer-latest",
       "tip": [
         "在 Bun 运行时使用最新匹配的包版本, 始终检查 npm。"
@@ -1530,6 +1583,17 @@
       "tip": [
         "跳过 Bun 运行时的包陈旧性检查, 并从磁盘解析。"
       ]
+    },
+    {
+      "name": "--preload",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --preload <module>",
+        "在加载其他模块之前导入一个模块。"
+      ],
+      "next": 0
     },
     {
       "name": "--print",
@@ -1563,75 +1627,11 @@
       ]
     },
     {
-      "name": "-b",
-      "alias": [
-        "--bun"
-      ],
-      "tip": [
-        "U: -b, --bun",
-        "强制脚本或包使用 Bun 的运行时, 而不是 Node.js (通过符号链接 node)。"
-      ]
-    },
-    {
-      "name": "-c",
-      "alias": [
-        "--config"
-      ],
-      "tip": [
-        "U: -c, --config <path>",
-        "指定 Bun 配置文件的路径。",
-        "默认为 ./bunfig.toml"
-      ]
-    },
-    {
-      "name": "-e",
-      "alias": [
-        "--eval"
-      ],
-      "tip": [
-        "U: -e, --eval <code>",
-        "将参数作为脚本进行评估。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "-h",
-      "alias": [
-        "--help"
-      ],
-      "tip": [
-        "U: -h, --help",
-        "打印命令的帮助文本。"
-      ]
-    },
-    {
       "name": "-i",
       "tip": [
         "在执行过程中自动安装依赖项。",
         "等同于 --install=fallback"
       ]
-    },
-    {
-      "name": "-p",
-      "alias": [
-        "--port"
-      ],
-      "tip": [
-        "U: -p, --port <port>",
-        "设置 Bun.serve 的默认端口。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "-r",
-      "alias": [
-        "--preload"
-      ],
-      "tip": [
-        "U: -r, --preload <module>",
-        "在加载其他模块之前导入一个模块。"
-      ],
-      "next": 0
     }
   ]
 }

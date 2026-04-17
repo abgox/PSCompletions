@@ -13,11 +13,62 @@
       ],
       "option": [
         {
+          "name": "--all",
+          "alias": [
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --all",
+            "将当前工作树中的所有更改(包括新文件、修改过的文件和删除的文件)添加到索引中"
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "打开差异和索引在编辑器中进行进一步编辑"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "允许添加被忽略的文件"
+          ]
+        },
+        {
           "name": "--ignore-errors",
           "tip": [
             "如果在索引某些文件时出现错误，导致无法添加这些文件，不要中止操作，而是继续尝试添加其他文件。",
             "命令仍应以非零状态退出。",
             "可以通过设置配置变量 add.ignoreErrors 为 true 来使此行为成为默认设置。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "交互式地将工作树中修改的内容添加到索引中"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "交互式地在索引和工作树之间选择内容块添加到索引中",
+            "类似于 git add -i, 但跳过初始命令菜单, 直接进入补丁子命令"
           ]
         },
         {
@@ -33,60 +84,9 @@
           ]
         },
         {
-          "name": "-A",
+          "name": "--update",
           "alias": [
-            "--all"
-          ],
-          "tip": [
-            "U: -A, --all",
-            "将当前工作树中的所有更改(包括新文件、修改过的文件和删除的文件)添加到索引中"
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "打开差异和索引在编辑器中进行进一步编辑"
-          ]
-        },
-        {
-          "name": "-f",
-          "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "允许添加被忽略的文件"
-          ]
-        },
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "U: -i, --interactive",
-            "交互式地将工作树中修改的内容添加到索引中"
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--patch"
-          ],
-          "tip": [
-            "U: -p, --patch",
-            "交互式地在索引和工作树之间选择内容块添加到索引中",
-            "类似于 git add -i, 但跳过初始命令菜单, 直接进入补丁子命令"
-          ]
-        },
-        {
-          "name": "-u",
-          "alias": [
-            "--update"
+            "-u"
           ],
           "tip": [
             "U: -u, --update",
@@ -351,9 +351,9 @@
       ],
       "option": [
         {
-          "name": "-o",
+          "name": "--output-directory",
           "alias": [
-            "--output-directory"
+            "-o"
           ],
           "tip": [
             "U: -o, --output-directory <path>",
@@ -362,9 +362,9 @@
           "next": 0
         },
         {
-          "name": "-s",
+          "name": "--suffix",
           "alias": [
-            "--suffix"
+            "-s"
           ],
           "tip": [
             "U: -s, --suffix <suffix>",
@@ -571,6 +571,12 @@
           "name": "--bundle-uri="
         },
         {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ]
+        },
+        {
           "name": "--depth",
           "tip": [
             "U: --depth <n>",
@@ -592,7 +598,30 @@
           "name": "--filter="
         },
         {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j <n>",
+            "指定用于并行克隆的线程数以加速过程。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ]
+        },
+        {
           "name": "--mirror"
+        },
+        {
+          "name": "--no-checkout",
+          "alias": [
+            "-n"
+          ]
         },
         {
           "name": "--no-hardlinks"
@@ -613,7 +642,19 @@
           "name": "--no-tags"
         },
         {
+          "name": "--origin",
+          "alias": [
+            "-o"
+          ]
+        },
+        {
           "name": "--progress"
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ]
         },
         {
           "name": "--recurse-submodules"
@@ -649,6 +690,12 @@
           "name": "--shallow-submodules"
         },
         {
+          "name": "--shared",
+          "alias": [
+            "-s"
+          ]
+        },
+        {
           "name": "--single-branch"
         },
         {
@@ -661,6 +708,18 @@
           "name": "--template="
         },
         {
+          "name": "--upload-pack",
+          "alias": [
+            "-u"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ]
+        },
+        {
           "name": "-b",
           "tip": [
             "U: -b <branch>",
@@ -668,65 +727,6 @@
             "默认情况下, git clone 克隆远程仓库的主分支。"
           ],
           "next": 0
-        },
-        {
-          "name": "-c",
-          "alias": [
-            "--config"
-          ]
-        },
-        {
-          "name": "-j",
-          "alias": [
-            "--jobs"
-          ],
-          "tip": [
-            "U: -j <n>",
-            "指定用于并行克隆的线程数以加速过程。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--local"
-          ]
-        },
-        {
-          "name": "-n",
-          "alias": [
-            "--no-checkout"
-          ]
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--origin"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ]
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--shared"
-          ]
-        },
-        {
-          "name": "-u",
-          "alias": [
-            "--upload-pack"
-          ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verbose"
-          ]
         }
       ]
     },
@@ -736,6 +736,16 @@
         "记录对仓库的更改。"
       ],
       "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "自动将跟踪文件的更改暂存到索引中"
+          ]
+        },
         {
           "name": "--amend",
           "tip": [
@@ -776,6 +786,16 @@
           ]
         },
         {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "启动编辑器编辑提交信息"
+          ]
+        },
+        {
           "name": "--fixup",
           "tip": [
             "当前添加的 commit 是以前某一个 commit 的修正。",
@@ -800,6 +820,16 @@
           "name": "--no-signoff"
         },
         {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "交互式地选择要提交的更改"
+          ]
+        },
+        {
           "name": "--porcelain",
           "tip": [
             "在做干运行的时候，要把输出结果以可瓷器的格式给出。",
@@ -821,6 +851,12 @@
           ]
         },
         {
+          "name": "--signoff",
+          "alias": [
+            "-s"
+          ]
+        },
+        {
           "name": "--squash",
           "tip": [
             "当前添加的 commit 应该与以前某一个 commit 合并成一个。",
@@ -829,32 +865,12 @@
           "next": []
         },
         {
-          "name": "-a",
-          "alias": [
-            "--all"
-          ],
-          "tip": [
-            "U: -a, --all",
-            "自动将跟踪文件的更改暂存到索引中"
-          ]
-        },
-        {
           "name": "-C",
           "tip": [
             "U: -C <commit>",
             "获取一个已存在的提交对象, 并在创建提交时重用日志信息和作者信息(包括时间戳)"
           ],
           "next": []
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "启动编辑器编辑提交信息"
-          ]
         },
         {
           "name": "-F",
@@ -871,22 +887,6 @@
             "为提交指定一个描述性信息"
           ],
           "next": 0
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--patch"
-          ],
-          "tip": [
-            "U: -p, --patch",
-            "交互式地选择要提交的更改"
-          ]
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--signoff"
-          ]
         },
         {
           "name": "-t",
@@ -923,6 +923,16 @@
         "检索和配置仓库或全局选项。"
       ],
       "option": [
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "编辑当前仓库的配置。"
+          ]
+        },
         {
           "name": "--get",
           "tip": [
@@ -1021,16 +1031,6 @@
                 "移除配置 ---  GPG 签名的私钥。"
               ]
             }
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "编辑当前仓库的配置。"
           ]
         }
       ],
@@ -1283,9 +1283,9 @@
       ],
       "option": [
         {
-          "name": "-H",
+          "name": "--human-readable",
           "alias": [
-            "--human-readable"
+            "-H"
           ],
           "tip": [
             "U: -H, --human-readable",
@@ -1293,9 +1293,9 @@
           ]
         },
         {
-          "name": "-v",
+          "name": "--verbose",
           "alias": [
-            "--verbose"
+            "-v"
           ],
           "tip": [
             "U: -v, --verbose",
@@ -1574,6 +1574,25 @@
           ]
         },
         {
+          "name": "--initial-branch",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --initial-branch <branch-name>",
+            "在新创建的仓库中使用指定的名称作为初始分支。",
+            "如果未指定，则返回默认名称"
+          ],
+          "next": [
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            }
+          ]
+        },
+        {
           "name": "--object-format",
           "tip": [
             "U: --object-format <format>",
@@ -1587,6 +1606,16 @@
             {
               "name": "sha256"
             }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "仅打印错误和警告消息；所有其他输出将不会显示。"
           ]
         },
         {
@@ -1633,13 +1662,23 @@
           ],
           "next": [
             {
-              "name": "all",
+              "name": "everybody",
               "alias": [
                 "world",
-                "everybody"
+                "all"
               ],
               "tip": [
                 "与使用 group 选项相同，但使仓库对所有用户可读。"
+              ]
+            },
+            {
+              "name": "false",
+              "alias": [
+                "umask"
+              ],
+              "tip": [
+                "使用 umask 返回的权限",
+                "未指定 --shared 时，此为默认值。"
               ]
             },
             {
@@ -1651,16 +1690,6 @@
                 "使仓库组可写（并且 g+sx，因为 git 组可能不是所有用户的主要组）。",
                 "这用于放宽原本安全的 umask 值的权限。"
               ]
-            },
-            {
-              "name": "umask",
-              "alias": [
-                "false"
-              ],
-              "tip": [
-                "使用 umask 返回的权限",
-                "未指定 --shared 时，此为默认值。"
-              ]
             }
           ]
         },
@@ -1671,35 +1700,6 @@
             "指定一个自定义模板目录用于仓库初始化。"
           ],
           "next": 0
-        },
-        {
-          "name": "-b",
-          "alias": [
-            "--initial-branch"
-          ],
-          "tip": [
-            "U: -b, --initial-branch <branch-name>",
-            "在新创建的仓库中使用指定的名称作为初始分支。",
-            "如果未指定，则返回默认名称"
-          ],
-          "next": [
-            {
-              "name": "main"
-            },
-            {
-              "name": "master"
-            }
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ],
-          "tip": [
-            "U: -q, --quiet",
-            "仅打印错误和警告消息；所有其他输出将不会显示。"
-          ]
         }
       ]
     },
@@ -2257,9 +2257,9 @@
           ]
         },
         {
-          "name": "-r",
+          "name": "--rebase",
           "alias": [
-            "--rebase"
+            "-r"
           ]
         }
       ]
@@ -2322,6 +2322,17 @@
           ]
         },
         {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "允许交互式 rebase, 为每个提交启用编辑、合并、删除等功能。"
+          ],
+          "next": []
+        },
+        {
           "name": "--merge",
           "tip": [
             "将一个分支合并到目标分支, 而不是逐个应用提交。"
@@ -2340,17 +2351,6 @@
           "tip": [
             "跳过当前提交并继续rebase操作。"
           ]
-        },
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "U: -i, --interactive",
-            "允许交互式 rebase, 为每个提交启用编辑、合并、删除等功能。"
-          ],
-          "next": []
         },
         {
           "name": "-p",
@@ -2439,6 +2439,17 @@
           ]
         },
         {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "tip": [
+            "U: rm, remove <repository>",
+            "移除一个远程仓库。"
+          ],
+          "next": []
+        },
+        {
           "name": "rename",
           "tip": [
             "重命名一个远程仓库。"
@@ -2451,17 +2462,6 @@
               ]
             }
           ]
-        },
-        {
-          "name": "rm",
-          "alias": [
-            "remove"
-          ],
-          "tip": [
-            "U: rm, remove <repository>",
-            "移除一个远程仓库。"
-          ],
-          "next": []
         },
         {
           "name": "set-branches",
@@ -2780,9 +2780,9 @@
           ],
           "option": [
             {
-              "name": "-p",
+              "name": "--patch",
               "alias": [
-                "--patch"
+                "-p"
               ],
               "tip": [
                 "查看 stash 的详细 diff 信息。"
@@ -2799,15 +2799,9 @@
       ],
       "option": [
         {
-          "name": "--show-stash",
-          "tip": [
-            "显示隐藏在stash中的条目数量"
-          ]
-        },
-        {
-          "name": "-b",
+          "name": "--branch",
           "alias": [
-            "--branch"
+            "-b"
           ],
           "tip": [
             "U: -b, --branch",
@@ -2815,9 +2809,9 @@
           ]
         },
         {
-          "name": "-s",
+          "name": "--short",
           "alias": [
-            "--short"
+            "-s"
           ],
           "tip": [
             "U: -s, --short",
@@ -2825,9 +2819,15 @@
           ]
         },
         {
-          "name": "-v",
+          "name": "--show-stash",
+          "tip": [
+            "显示隐藏在stash中的条目数量"
+          ]
+        },
+        {
+          "name": "--verbose",
           "alias": [
-            "--verbose"
+            "-v"
           ],
           "tip": [
             "U: -v, --verbose",
@@ -3063,9 +3063,9 @@
           ]
         },
         {
-          "name": "-c",
+          "name": "--create",
           "alias": [
-            "--create"
+            "-c"
           ],
           "tip": [
             "U: -c, --create <new_branch>",
@@ -3073,10 +3073,10 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--discard-changes",
           "alias": [
             "--force",
-            "--discard-changes"
+            "-f"
           ],
           "tip": [
             "即使索引或工作树与 HEAD 不同，也继续执行。",
@@ -3103,9 +3103,9 @@
       ],
       "option": [
         {
-          "name": "-a",
+          "name": "--annotate",
           "alias": [
-            "--annotate"
+            "-a"
           ],
           "tip": [
             "U: -a, --annotate <tag>",
@@ -3115,9 +3115,9 @@
           "next": 0
         },
         {
-          "name": "-d",
+          "name": "--delete",
           "alias": [
-            "--delete"
+            "-d"
           ],
           "tip": [
             "U: -d, --delete <tag>",
@@ -3126,12 +3126,9 @@
           "next": []
         },
         {
-          "name": "-e"
-        },
-        {
-          "name": "-l",
+          "name": "--list",
           "alias": [
-            "--list"
+            "-l"
           ],
           "tip": [
             "U: -l, --list [pattern]",
@@ -3139,6 +3136,20 @@
             "E: -l v1.0*"
           ],
           "next": 0
+        },
+        {
+          "name": "--verify",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verify <tag>",
+            "验证标签。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-e"
         },
         {
           "name": "-m"
@@ -3150,17 +3161,6 @@
             "[num] 用于指定在使用 -l 时打印注释的行数(如果存在)，这暗含了 --list。",
             "默认情况下不打印任何注释行。如果没有给 -n 赋值，则只打印第一行。如果标签没有注释，则会显示提交信息。"
           ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verify"
-          ],
-          "tip": [
-            "U: -v, --verify <tag>",
-            "验证标签。"
-          ],
-          "next": []
         }
       ]
     },
@@ -3453,6 +3453,15 @@
       ]
     },
     {
+      "name": "--no-pager",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "不使用分页器进行 Git 的输出。"
+      ]
+    },
+    {
       "name": "--no-replace-objects",
       "tip": [
         "不要使用替换引用来替换 Git 对象。",
@@ -3465,6 +3474,16 @@
         "在所有路径规范中添加 \"literal\" 模式匹配功能。",
         "这相当于将 GIT_NOGLOB_PATHSPECS 环境变量设为 1。",
         "可以使用路径规范字符 \":(glob)\" 在单个路径规范上启用通配符模式匹配功能。"
+      ]
+    },
+    {
+      "name": "--paginate",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "如果标准输出是一个终端，则将所有的输出输出到 less（git 默认的分页器）（或者是 $PAGER 变量设置的值）中。",
+        "这会覆盖 pager.<cmd> 配置选项。"
       ]
     },
     {
@@ -3503,25 +3522,6 @@
         "如果 <启动路径> 存在但为空，例如 -C \"\"，那么命令就在当前工作目录启动。"
       ],
       "next": 0
-    },
-    {
-      "name": "-p",
-      "alias": [
-        "--paginate"
-      ],
-      "tip": [
-        "如果标准输出是一个终端，则将所有的输出输出到 less（git 默认的分页器）（或者是 $PAGER 变量设置的值）中。",
-        "这会覆盖 pager.<cmd> 配置选项。"
-      ]
-    },
-    {
-      "name": "-P",
-      "alias": [
-        "--no-pager"
-      ],
-      "tip": [
-        "不使用分页器进行 Git 的输出。"
-      ]
     }
   ],
   "common_option": [

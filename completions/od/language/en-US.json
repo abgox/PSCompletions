@@ -8,46 +8,9 @@
   },
   "option": [
     {
-      "name": "--endian",
-      "tip": [
-        "U: --endian <big|little>",
-        "byte order to use for multi-byte formats",
-        "[possible values: big, little]"
-      ],
-      "next": [
-        {
-          "name": "big"
-        },
-        {
-          "name": "little"
-        }
-      ]
-    },
-    {
-      "name": "--traditional",
-      "tip": [
-        "compatibility mode with one input, offset and label."
-      ]
-    },
-    {
-      "name": "--version",
+      "name": "--address-radix",
       "alias": [
-        "-V"
-      ],
-      "tip": [
-        "Show the version."
-      ]
-    },
-    {
-      "name": "-a",
-      "tip": [
-        "named characters, ignoring high-order bit"
-      ]
-    },
-    {
-      "name": "-A",
-      "alias": [
-        "--address-radix"
+        "-A"
       ],
       "tip": [
         "U:  -A, --address-radix <RADIX>",
@@ -78,6 +41,156 @@
             "hexadecimal"
           ]
         }
+      ]
+    },
+    {
+      "name": "--endian",
+      "tip": [
+        "U: --endian <big|little>",
+        "byte order to use for multi-byte formats",
+        "[possible values: big, little]"
+      ],
+      "next": [
+        {
+          "name": "big"
+        },
+        {
+          "name": "little"
+        }
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --format <TYPE>",
+        "select output format or formats"
+      ],
+      "next": [
+        {
+          "name": "a",
+          "tip": [
+            "for printable 7-bits ASCII"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "for utf-8 characters or octal for undefined characters"
+          ]
+        },
+        {
+          "name": "d",
+          "tip": [
+            "U: d[SIZE]",
+            "for signed decimal"
+          ]
+        },
+        {
+          "name": "f",
+          "tip": [
+            "U: f[SIZE]",
+            "for floating point"
+          ]
+        },
+        {
+          "name": "o",
+          "tip": [
+            "U: o[SIZE]",
+            "for octal"
+          ]
+        },
+        {
+          "name": "u",
+          "tip": [
+            "U: u[SIZE]",
+            "for unsigned decimal"
+          ]
+        },
+        {
+          "name": "x",
+          "tip": [
+            "U: x[SIZE]",
+            "for hexadecimal"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--output-duplicates",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "do not use * to mark line suppression"
+      ]
+    },
+    {
+      "name": "--read-bytes",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --read-bytes <BYTES>",
+        "limit dump to BYTES input bytes."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-bytes",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --skip-bytes <BYTES>",
+        "Skip bytes input bytes before formatting and writing."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--strings",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --strings <BYTES>",
+        "NotImplemented: output strings of at least BYTES graphic chars.",
+        "3 is assumed when BYTES is not specified."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--traditional",
+      "tip": [
+        "compatibility mode with one input, offset and label."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "Show the version."
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --width [<BYTES>]",
+        "output BYTES bytes per output line. 32 is implied when BYTES is not specified."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-a",
+      "tip": [
+        "named characters, ignoring high-order bit"
       ]
     },
     {
@@ -147,17 +260,6 @@
       ]
     },
     {
-      "name": "-j",
-      "alias": [
-        "--skip-bytes"
-      ],
-      "tip": [
-        "U: -j, --skip-bytes <BYTES>",
-        "Skip bytes input bytes before formatting and writing."
-      ],
-      "next": 0
-    },
-    {
       "name": "-l",
       "tip": [
         "decimal 8-byte units"
@@ -168,17 +270,6 @@
       "tip": [
         "decimal 8-byte units"
       ]
-    },
-    {
-      "name": "-N",
-      "alias": [
-        "--read-bytes"
-      ],
-      "tip": [
-        "U: -N, --read-bytes <BYTES>",
-        "limit dump to BYTES input bytes."
-      ],
-      "next": 0
     },
     {
       "name": "-o",
@@ -197,97 +288,6 @@
       "tip": [
         "decimal 2-byte units"
       ]
-    },
-    {
-      "name": "-S",
-      "alias": [
-        "--strings"
-      ],
-      "tip": [
-        "U: -S, --strings <BYTES>",
-        "NotImplemented: output strings of at least BYTES graphic chars.",
-        "3 is assumed when BYTES is not specified."
-      ],
-      "next": 0
-    },
-    {
-      "name": "-t",
-      "alias": [
-        "--format"
-      ],
-      "tip": [
-        "U: -t, --format <TYPE>",
-        "select output format or formats"
-      ],
-      "next": [
-        {
-          "name": "a",
-          "tip": [
-            "for printable 7-bits ASCII"
-          ]
-        },
-        {
-          "name": "c",
-          "tip": [
-            "for utf-8 characters or octal for undefined characters"
-          ]
-        },
-        {
-          "name": "d",
-          "tip": [
-            "U: d[SIZE]",
-            "for signed decimal"
-          ]
-        },
-        {
-          "name": "f",
-          "tip": [
-            "U: f[SIZE]",
-            "for floating point"
-          ]
-        },
-        {
-          "name": "o",
-          "tip": [
-            "U: o[SIZE]",
-            "for octal"
-          ]
-        },
-        {
-          "name": "u",
-          "tip": [
-            "U: u[SIZE]",
-            "for unsigned decimal"
-          ]
-        },
-        {
-          "name": "x",
-          "tip": [
-            "U: x[SIZE]",
-            "for hexadecimal"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "-v",
-      "alias": [
-        "--output-duplicates"
-      ],
-      "tip": [
-        "do not use * to mark line suppression"
-      ]
-    },
-    {
-      "name": "-w",
-      "alias": [
-        "--width"
-      ],
-      "tip": [
-        "U: -w, --width [<BYTES>]",
-        "output BYTES bytes per output line. 32 is implied when BYTES is not specified."
-      ],
-      "next": 0
     },
     {
       "name": "-x",

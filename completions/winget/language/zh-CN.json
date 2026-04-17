@@ -13,19 +13,19 @@
       ],
       "option": [
         {
-          "name": "--module-path",
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
           "tip": [
-            "{{ $info.__module_path }}"
+            "{{ $info.__file }}"
           ],
           "next": 0
         },
         {
-          "name": "-f",
-          "alias": [
-            "--file"
-          ],
+          "name": "--module-path",
           "tip": [
-            "{{ $info.__file }}"
+            "{{ $info.__module_path }}"
           ],
           "next": 0
         }
@@ -38,19 +38,19 @@
           ],
           "option": [
             {
-              "name": "--module-path",
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
               "tip": [
-                "{{ $info.__module_path }}"
+                "{{ $info.__file }}"
               ],
               "next": 0
             },
             {
-              "name": "-f",
-              "alias": [
-                "--file"
-              ],
+              "name": "--module-path",
               "tip": [
-                "{{ $info.__file }}"
+                "{{ $info.__module_path }}"
               ],
               "next": 0
             }
@@ -63,19 +63,19 @@
           ],
           "option": [
             {
-              "name": "--module-path",
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
               "tip": [
-                "{{ $info.__module_path }}"
+                "{{ $info.__file }}"
               ],
               "next": 0
             },
             {
-              "name": "-f",
-              "alias": [
-                "--file"
-              ],
+              "name": "--module-path",
               "tip": [
-                "{{ $info.__file }}"
+                "{{ $info.__module_path }}"
               ],
               "next": 0
             }
@@ -88,19 +88,19 @@
           ],
           "option": [
             {
-              "name": "--module-path",
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
               "tip": [
-                "{{ $info.__module_path }}"
+                "{{ $info.__file }}"
               ],
               "next": 0
             },
             {
-              "name": "-f",
-              "alias": [
-                "--file"
-              ],
+              "name": "--module-path",
               "tip": [
-                "{{ $info.__file }}"
+                "{{ $info.__module_path }}"
               ],
               "next": 0
             }
@@ -124,6 +124,44 @@
           "name": "--accept-source-agreements",
           "tip": [
             "{{ $info.__accept_source_agreements }}"
+          ]
+        },
+        {
+          "name": "--architecture",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "{{ $info.__architecture }}"
+          ],
+          "next": [
+            {
+              "name": "arm64",
+              "tip": [
+                "安装 arm64 架构的包"
+              ]
+            },
+            {
+              "name": "x64",
+              "tip": [
+                "安装 x64 架构的包"
+              ]
+            },
+            {
+              "name": "x86",
+              "tip": [
+                "安装 x86 架构的包"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__exact }}"
           ]
         },
         {
@@ -223,6 +261,16 @@
           "next": 0
         },
         {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__query }}"
+          ],
+          "next": 0
+        },
+        {
           "name": "--scope",
           "tip": [
             "{{ $info.__scope }}"
@@ -249,57 +297,9 @@
           ]
         },
         {
-          "name": "-a",
+          "name": "--source",
           "alias": [
-            "--architecture"
-          ],
-          "tip": [
-            "{{ $info.__architecture }}"
-          ],
-          "next": [
-            {
-              "name": "arm64",
-              "tip": [
-                "安装 arm64 架构的包"
-              ]
-            },
-            {
-              "name": "x64",
-              "tip": [
-                "安装 x64 架构的包"
-              ]
-            },
-            {
-              "name": "x86",
-              "tip": [
-                "安装 x86 架构的包"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "{{ $info.__exact }}"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--query"
-          ],
-          "tip": [
-            "{{ $info.__query }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
+            "-s"
           ],
           "tip": [
             "{{ $info.__source }}"
@@ -307,9 +307,9 @@
           "next": 0
         },
         {
-          "name": "-v",
+          "name": "--version",
           "alias": [
-            "--version"
+            "-v"
           ],
           "tip": [
             "{{ $info.__version }}"
@@ -337,9 +337,9 @@
           ]
         },
         {
-          "name": "-o",
+          "name": "--output",
           "alias": [
-            "--output"
+            "-o"
           ],
           "tip": [
             "U: -o, --output <file>",
@@ -348,9 +348,9 @@
           "next": 0
         },
         {
-          "name": "-s",
+          "name": "--source",
           "alias": [
-            "--source"
+            "-s"
           ],
           "tip": [
             "U: -s, --source <source>",
@@ -372,9 +372,9 @@
       ],
       "option": [
         {
-          "name": "-f",
+          "name": "--file",
           "alias": [
-            "--file"
+            "-f"
           ],
           "tip": [
             "U: -f, --file <file>",
@@ -383,9 +383,9 @@
           "next": 0
         },
         {
-          "name": "-m",
+          "name": "--msix",
           "alias": [
-            "--msix"
+            "-m"
           ],
           "tip": [
             "U: -m, --msix <file>",
@@ -426,21 +426,21 @@
           ]
         },
         {
-          "name": "--no-upgrade",
-          "tip": [
-            "{{ $info.__no_upgrade }}"
-          ]
-        },
-        {
-          "name": "-i",
+          "name": "--import-file",
           "alias": [
-            "--import-file"
+            "-i"
           ],
           "tip": [
             "U: -i, --import-file <file>",
             "描述要安装的包的文件"
           ],
           "next": 0
+        },
+        {
+          "name": "--no-upgrade",
+          "tip": [
+            "{{ $info.__no_upgrade }}"
+          ]
         }
       ]
     },
@@ -471,6 +471,35 @@
           ]
         },
         {
+          "name": "--architecture",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "{{ $info.__architecture }}"
+          ],
+          "next": [
+            {
+              "name": "arm64",
+              "tip": [
+                "安装 arm64 架构的包"
+              ]
+            },
+            {
+              "name": "x64",
+              "tip": [
+                "安装 x64 架构的包"
+              ]
+            },
+            {
+              "name": "x86",
+              "tip": [
+                "安装 x86 架构的包"
+              ]
+            }
+          ]
+        },
+        {
           "name": "--custom",
           "tip": [
             "{{ $info.__custom }}"
@@ -483,6 +512,15 @@
             "{{ $info.__dependency_source }}"
           ],
           "next": 0
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__exact }}"
+          ]
         },
         {
           "name": "--force",
@@ -579,9 +617,48 @@
           ]
         },
         {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "{{ $info.__interactive }}"
+          ]
+        },
+        {
           "name": "--locale",
           "tip": [
             "{{ $info.__locale }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--location",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "{{ $info.__location }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--log",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "{{ $info.__log }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "{{ $info.__manifest }}"
           ],
           "next": 0
         },
@@ -613,6 +690,26 @@
           "next": 0
         },
         {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__query }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--rename",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "{{ $info.__rename }}"
+          ],
+          "next": 0
+        },
+        {
           "name": "--scope",
           "tip": [
             "{{ $info.__scope }}"
@@ -633,121 +730,18 @@
           ]
         },
         {
-          "name": "--uninstall-previous",
-          "tip": [
-            "{{ $info.__uninstall_previous }}"
-          ]
-        },
-        {
-          "name": "-a",
+          "name": "--silent",
           "alias": [
-            "--architecture"
-          ],
-          "tip": [
-            "{{ $info.__architecture }}"
-          ],
-          "next": [
-            {
-              "name": "arm64",
-              "tip": [
-                "安装 arm64 架构的包"
-              ]
-            },
-            {
-              "name": "x64",
-              "tip": [
-                "安装 x64 架构的包"
-              ]
-            },
-            {
-              "name": "x86",
-              "tip": [
-                "安装 x86 架构的包"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "{{ $info.__exact }}"
-          ]
-        },
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "{{ $info.__interactive }}"
-          ]
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--location"
-          ],
-          "tip": [
-            "{{ $info.__location }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-m",
-          "alias": [
-            "--manifest"
-          ],
-          "tip": [
-            "{{ $info.__manifest }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--log"
-          ],
-          "tip": [
-            "{{ $info.__log }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--query"
-          ],
-          "tip": [
-            "{{ $info.__query }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--silent"
+            "-q"
           ],
           "tip": [
             "{{ $info.__silent }}"
           ]
         },
         {
-          "name": "-r",
+          "name": "--source",
           "alias": [
-            "--rename"
-          ],
-          "tip": [
-            "{{ $info.__rename }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
+            "-s"
           ],
           "tip": [
             "{{ $info.__source }}"
@@ -755,9 +749,15 @@
           "next": 0
         },
         {
-          "name": "-v",
+          "name": "--uninstall-previous",
+          "tip": [
+            "{{ $info.__uninstall_previous }}"
+          ]
+        },
+        {
+          "name": "--version",
           "alias": [
-            "--version"
+            "-v"
           ],
           "tip": [
             "{{ $info.__version }}"
@@ -767,9 +767,9 @@
       ]
     },
     {
-      "name": "ls",
+      "name": "list",
       "alias": [
-        "list"
+        "ls"
       ],
       "tip": [
         "U: ls|list",
@@ -783,14 +783,33 @@
           ]
         },
         {
-          "name": "--cmd",
+          "name": "--command",
           "alias": [
-            "--command"
+            "--cmd"
           ],
           "tip": [
             "{{ $info.__command }}"
           ],
           "next": 0
+        },
+        {
+          "name": "--count",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "{{ $info.__count }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__exact }}"
+          ]
         },
         {
           "name": "--header",
@@ -821,6 +840,26 @@
           "next": 0
         },
         {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__query }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "{{ $info.__source }}"
+          ],
+          "next": 0
+        },
+        {
           "name": "--tag",
           "tip": [
             "{{ $info.__tag }}"
@@ -832,45 +871,6 @@
           "tip": [
             "{{ $info.__versions }}"
           ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "{{ $info.__exact }}"
-          ]
-        },
-        {
-          "name": "-n",
-          "alias": [
-            "--count"
-          ],
-          "tip": [
-            "{{ $info.__count }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--query"
-          ],
-          "tip": [
-            "{{ $info.__query }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
-          ],
-          "tip": [
-            "{{ $info.__source }}"
-          ],
-          "next": 0
         }
       ]
     },
@@ -923,14 +923,33 @@
           ]
         },
         {
-          "name": "--cmd",
+          "name": "--command",
           "alias": [
-            "--command"
+            "--cmd"
           ],
           "tip": [
             "{{ $info.__command }}"
           ],
           "next": 0
+        },
+        {
+          "name": "--count",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "{{ $info.__count }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__exact }}"
+          ]
         },
         {
           "name": "--header",
@@ -961,6 +980,26 @@
           "next": 0
         },
         {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__query }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "{{ $info.__source }}"
+          ],
+          "next": 0
+        },
+        {
           "name": "--tag",
           "tip": [
             "{{ $info.__tag }}"
@@ -972,45 +1011,6 @@
           "tip": [
             "{{ $info.__versions }}"
           ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "{{ $info.__exact }}"
-          ]
-        },
-        {
-          "name": "-n",
-          "alias": [
-            "--count"
-          ],
-          "tip": [
-            "{{ $info.__count }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--query"
-          ],
-          "tip": [
-            "{{ $info.__query }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
-          ],
-          "tip": [
-            "{{ $info.__source }}"
-          ],
-          "next": 0
         }
       ]
     },
@@ -1083,6 +1083,44 @@
           ]
         },
         {
+          "name": "--architecture",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "{{ $info.__architecture }}"
+          ],
+          "next": [
+            {
+              "name": "arm64",
+              "tip": [
+                "安装 arm64 架构的包"
+              ]
+            },
+            {
+              "name": "x64",
+              "tip": [
+                "安装 x64 架构的包"
+              ]
+            },
+            {
+              "name": "x86",
+              "tip": [
+                "安装 x86 架构的包"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__exact }}"
+          ]
+        },
+        {
           "name": "--header",
           "tip": [
             "{{ $info.__header }}"
@@ -1180,6 +1218,16 @@
           "next": 0
         },
         {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__query }}"
+          ],
+          "next": 0
+        },
+        {
           "name": "--scope",
           "tip": [
             "{{ $info.__scope }}"
@@ -1200,63 +1248,9 @@
           ]
         },
         {
-          "name": "--versions",
-          "tip": [
-            "{{ $info.__versions }}"
-          ]
-        },
-        {
-          "name": "-a",
+          "name": "--source",
           "alias": [
-            "--architecture"
-          ],
-          "tip": [
-            "{{ $info.__architecture }}"
-          ],
-          "next": [
-            {
-              "name": "arm64",
-              "tip": [
-                "安装 arm64 架构的包"
-              ]
-            },
-            {
-              "name": "x64",
-              "tip": [
-                "安装 x64 架构的包"
-              ]
-            },
-            {
-              "name": "x86",
-              "tip": [
-                "安装 x86 架构的包"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "{{ $info.__exact }}"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--query"
-          ],
-          "tip": [
-            "{{ $info.__query }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
+            "-s"
           ],
           "tip": [
             "{{ $info.__source }}"
@@ -1264,14 +1258,20 @@
           "next": 0
         },
         {
-          "name": "-v",
+          "name": "--version",
           "alias": [
-            "--version"
+            "-v"
           ],
           "tip": [
             "{{ $info.__version }}"
           ],
           "next": 0
+        },
+        {
+          "name": "--versions",
+          "tip": [
+            "{{ $info.__versions }}"
+          ]
         }
       ]
     },
@@ -1322,8 +1322,8 @@
     {
       "name": "uninstall",
       "alias": [
-        "rm",
-        "remove"
+        "remove",
+        "rm"
       ],
       "tip": [
         "U: uninstall, rm, remove",
@@ -1337,12 +1337,21 @@
           ]
         },
         {
-          "name": "--all",
+          "name": "--all-versions",
           "alias": [
-            "--all-versions"
+            "--all"
           ],
           "tip": [
             "卸载所有版本。"
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__exact }}"
           ]
         },
         {
@@ -1366,9 +1375,38 @@
           "next": 0
         },
         {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "{{ $info.__interactive }}"
+          ]
+        },
+        {
           "name": "--locale",
           "tip": [
             "{{ $info.__locale }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--log",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "{{ $info.__log }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "{{ $info.__manifest }}"
           ],
           "next": 0
         },
@@ -1407,6 +1445,16 @@
           ]
         },
         {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__query }}"
+          ],
+          "next": 0
+        },
+        {
           "name": "--scope",
           "tip": [
             "{{ $info.__scope }}"
@@ -1427,66 +1475,18 @@
           ]
         },
         {
-          "name": "-e",
+          "name": "--silent",
           "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "{{ $info.__exact }}"
-          ]
-        },
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "{{ $info.__interactive }}"
-          ]
-        },
-        {
-          "name": "-m",
-          "alias": [
-            "--manifest"
-          ],
-          "tip": [
-            "{{ $info.__manifest }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--log"
-          ],
-          "tip": [
-            "{{ $info.__log }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--silent"
+            "-q"
           ],
           "tip": [
             "{{ $info.__silent }}"
           ]
         },
         {
-          "name": "-q",
+          "name": "--source",
           "alias": [
-            "--query"
-          ],
-          "tip": [
-            "{{ $info.__query }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
+            "-s"
           ],
           "tip": [
             "{{ $info.__source }}"
@@ -1494,9 +1494,9 @@
           "next": 0
         },
         {
-          "name": "-v",
+          "name": "--version",
           "alias": [
-            "--version"
+            "-v"
           ],
           "tip": [
             "{{ $info.__version }}"
@@ -1506,9 +1506,9 @@
       ]
     },
     {
-      "name": "update",
+      "name": "upgrade",
       "alias": [
-        "upgrade"
+        "update"
       ],
       "tip": [
         "U: update|upgrade",
@@ -1533,6 +1533,15 @@
             "{{ $info.__custom }}"
           ],
           "next": 0
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "{{ $info.__exact }}"
+          ]
         },
         {
           "name": "--force",
@@ -1567,6 +1576,64 @@
           ]
         },
         {
+          "name": "--include-pinned",
+          "alias": [
+            "--pinned"
+          ],
+          "tip": [
+            "{{ $info.__pinned }}"
+          ]
+        },
+        {
+          "name": "--include-unknown",
+          "alias": [
+            "--unknown",
+            "-u"
+          ],
+          "tip": [
+            "{{ $info.__unknown }}"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "{{ $info.__interactive }}"
+          ]
+        },
+        {
+          "name": "--location",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "{{ $info.__location }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--log",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "{{ $info.__log }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "{{ $info.__manifest }}"
+          ],
+          "next": 0
+        },
+        {
           "name": "--moniker",
           "tip": [
             "{{ $info.__moniker }}"
@@ -1588,18 +1655,38 @@
           "next": 0
         },
         {
-          "name": "--pinned",
-          "alias": [
-            "--include-pinned"
-          ],
-          "tip": [
-            "{{ $info.__pinned }}"
-          ]
-        },
-        {
           "name": "--purge",
           "tip": [
             "{{ $info.__purge }}"
+          ]
+        },
+        {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__query }}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--recurse",
+          "alias": [
+            "--all",
+            "-r"
+          ],
+          "tip": [
+            "{{ $info.__recurse }}"
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "{{ $info.__silent }}"
           ]
         },
         {
@@ -1609,92 +1696,9 @@
           ]
         },
         {
-          "name": "--uninstall-previous",
-          "tip": [
-            "{{ $info.__uninstall_previous }}"
-          ]
-        },
-        {
-          "name": "-e",
+          "name": "--source",
           "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "{{ $info.__exact }}"
-          ]
-        },
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "{{ $info.__interactive }}"
-          ]
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--location"
-          ],
-          "tip": [
-            "{{ $info.__location }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-m",
-          "alias": [
-            "--manifest"
-          ],
-          "tip": [
-            "{{ $info.__manifest }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--log"
-          ],
-          "tip": [
-            "{{ $info.__log }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--silent"
-          ],
-          "tip": [
-            "{{ $info.__silent }}"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--query"
-          ],
-          "tip": [
-            "{{ $info.__query }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-r",
-          "alias": [
-            "--recurse",
-            "--all"
-          ],
-          "tip": [
-            "{{ $info.__recurse }}"
-          ]
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
+            "-s"
           ],
           "tip": [
             "{{ $info.__source }}"
@@ -1702,19 +1706,15 @@
           "next": 0
         },
         {
-          "name": "-u",
-          "alias": [
-            "--unknown",
-            "--include-unknown"
-          ],
+          "name": "--uninstall-previous",
           "tip": [
-            "{{ $info.__unknown }}"
+            "{{ $info.__uninstall_previous }}"
           ]
         },
         {
-          "name": "-v",
+          "name": "--version",
           "alias": [
-            "--version"
+            "-v"
           ],
           "tip": [
             "{{ $info.__version }}"
@@ -1730,9 +1730,9 @@
       ],
       "option": [
         {
-          "name": "-m",
+          "name": "--manifest",
           "alias": [
-            "--manifest"
+            "-m"
           ],
           "tip": [
             "U: -m, --manifest <manifest>",
@@ -1751,9 +1751,9 @@
       ]
     },
     {
-      "name": "-v",
+      "name": "--version",
       "alias": [
-        "--version"
+        "-v"
       ],
       "tip": [
         "U: -v, --version",
@@ -1769,9 +1769,19 @@
       ]
     },
     {
-      "name": "--logs",
+      "name": "--help",
       "alias": [
-        "--open-logs"
+        "-?"
+      ],
+      "tip": [
+        "U: -?, --help",
+        "显示帮助信息"
+      ]
+    },
+    {
+      "name": "--open-logs",
+      "alias": [
+        "--logs"
       ],
       "tip": [
         "U: --logs, --open-logs",
@@ -1779,9 +1789,9 @@
       ]
     },
     {
-      "name": "--verbose",
+      "name": "--verbose-logs",
       "alias": [
-        "--verbose-logs"
+        "--verbose"
       ],
       "tip": [
         "U: --verbose, --verbose-logs",
@@ -1792,16 +1802,6 @@
       "name": "--wait",
       "tip": [
         "提示用户在退出前按任意键"
-      ]
-    },
-    {
-      "name": "-?",
-      "alias": [
-        "--help"
-      ],
-      "tip": [
-        "U: -?, --help",
-        "显示帮助信息"
       ]
     }
   ],

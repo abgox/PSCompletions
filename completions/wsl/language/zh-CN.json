@@ -13,15 +13,9 @@
       ],
       "option": [
         {
-          "name": "--system",
-          "tip": [
-            "以系统发行版启动 shell"
-          ]
-        },
-        {
-          "name": "-d",
+          "name": "--distribution",
           "alias": [
-            "--distribution"
+            "-d"
           ],
           "tip": [
             "U: -d, --distribution <Distro>",
@@ -29,9 +23,9 @@
           ]
         },
         {
-          "name": "-e",
+          "name": "--exec",
           "alias": [
-            "--exec"
+            "-e"
           ],
           "tip": [
             "U: -e, --exec <command>",
@@ -40,9 +34,15 @@
           "next": 0
         },
         {
-          "name": "-u",
+          "name": "--system",
+          "tip": [
+            "以系统发行版启动 shell"
+          ]
+        },
+        {
+          "name": "--user",
           "alias": [
-            "--user"
+            "-u"
           ],
           "tip": [
             "U: -u, --user <user>",
@@ -72,10 +72,31 @@
       ]
     },
     {
+      "name": "--distribution",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --distribution <Distro>",
+        "运行指定的分发"
+      ]
+    },
+    {
       "name": "--event-viewer",
       "tip": [
         "打开 Windows 事件查看器的应用程序视图"
       ]
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --exec <command>",
+        "不使用默认的 Linux shell 执行指定的命令"
+      ],
+      "next": 0
     },
     {
       "name": "--export",
@@ -149,6 +170,60 @@
       ]
     },
     {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list [options]",
+        "列出发行版"
+      ],
+      "next": [
+        {
+          "name": "--all",
+          "tip": [
+            "列出所有发行版, 包括那些当前正在安装或卸载的"
+          ]
+        },
+        {
+          "name": "--online",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --online",
+            "显示可以安装的发行版的列表"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "只显示发行版名称"
+          ]
+        },
+        {
+          "name": "--running",
+          "tip": [
+            "只列出当前正在运行的发行版"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "显示所有发行版的详细信息"
+          ]
+        }
+      ]
+    },
+    {
       "name": "--mount",
       "tip": [
         "U: --mount [Options] <Disk>",
@@ -195,6 +270,16 @@
       "name": "--release-notes",
       "tip": [
         "打开网页浏览器查看 WSL 的发布说明页面"
+      ]
+    },
+    {
+      "name": "--set-default",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --set-default <Distribution>",
+        "将指定分发设置为默认分发"
       ]
     },
     {
@@ -260,6 +345,16 @@
       ]
     },
     {
+      "name": "--terminate",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --terminate <Distribution>",
+        "终止指定的分发"
+      ]
+    },
+    {
       "name": "--unmount",
       "tip": [
         "U: --unmount [Disk]",
@@ -296,104 +391,9 @@
       ]
     },
     {
-      "name": "-d",
+      "name": "--user",
       "alias": [
-        "--distribution"
-      ],
-      "tip": [
-        "U: -d, --distribution <Distro>",
-        "运行指定的分发"
-      ]
-    },
-    {
-      "name": "-e",
-      "alias": [
-        "--exec"
-      ],
-      "tip": [
-        "U: -e, --exec <command>",
-        "不使用默认的 Linux shell 执行指定的命令"
-      ],
-      "next": 0
-    },
-    {
-      "name": "-l",
-      "alias": [
-        "--list"
-      ],
-      "tip": [
-        "U: -l, --list [options]",
-        "列出发行版"
-      ],
-      "next": [
-        {
-          "name": "--all",
-          "tip": [
-            "列出所有发行版, 包括那些当前正在安装或卸载的"
-          ]
-        },
-        {
-          "name": "--running",
-          "tip": [
-            "只列出当前正在运行的发行版"
-          ]
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--online"
-          ],
-          "tip": [
-            "U: -o, --online",
-            "显示可以安装的发行版的列表"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ],
-          "tip": [
-            "U: -q, --quiet",
-            "只显示发行版名称"
-          ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verbose"
-          ],
-          "tip": [
-            "U: -v, --verbose",
-            "显示所有发行版的详细信息"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "-s",
-      "alias": [
-        "--set-default"
-      ],
-      "tip": [
-        "U: -s, --set-default <Distribution>",
-        "将指定分发设置为默认分发"
-      ]
-    },
-    {
-      "name": "-t",
-      "alias": [
-        "--terminate"
-      ],
-      "tip": [
-        "U: -t, --terminate <Distribution>",
-        "终止指定的分发"
-      ]
-    },
-    {
-      "name": "-u",
-      "alias": [
-        "--user"
+        "-u"
       ],
       "tip": [
         "U: -u, --user <user>",
@@ -402,9 +402,9 @@
       "next": 0
     },
     {
-      "name": "-v",
+      "name": "--version",
       "alias": [
-        "--version"
+        "-v"
       ],
       "tip": [
         "U: -v, --version",

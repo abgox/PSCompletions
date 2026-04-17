@@ -13,15 +13,9 @@
       ],
       "option": [
         {
-          "name": "--system",
-          "tip": [
-            "Start a shell for the system distribution"
-          ]
-        },
-        {
-          "name": "-d",
+          "name": "--distribution",
           "alias": [
-            "--distribution"
+            "-d"
           ],
           "tip": [
             "U: -d, --distribution <Distro>",
@@ -29,9 +23,9 @@
           ]
         },
         {
-          "name": "-e",
+          "name": "--exec",
           "alias": [
-            "--exec"
+            "-e"
           ],
           "tip": [
             "U: -e, --exec <command>",
@@ -40,9 +34,15 @@
           "next": 0
         },
         {
-          "name": "-u",
+          "name": "--system",
+          "tip": [
+            "Start a shell for the system distribution"
+          ]
+        },
+        {
+          "name": "--user",
           "alias": [
-            "--user"
+            "-u"
           ],
           "tip": [
             "U: -u, --user <user>",
@@ -72,10 +72,31 @@
       ]
     },
     {
+      "name": "--distribution",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --distribution <Distro>",
+        "Run the specified distribution"
+      ]
+    },
+    {
       "name": "--event-viewer",
       "tip": [
         "Open the Application view of Windows Event Viewer"
       ]
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --exec <command>",
+        "Execute the specified command without using the default Linux shell"
+      ],
+      "next": 0
     },
     {
       "name": "--export",
@@ -151,6 +172,61 @@
       ]
     },
     {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list [options]",
+        "List distributions"
+      ],
+      "next": [
+        {
+          "name": "--all",
+          "tip": [
+            "List all distributions",
+            "Including those currently being installed or uninstalled"
+          ]
+        },
+        {
+          "name": "--online",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --online",
+            "Show a list of available distributions that can be installed"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Show only distribution names"
+          ]
+        },
+        {
+          "name": "--running",
+          "tip": [
+            "List only currently running distributions"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Show detailed information for all distributions"
+          ]
+        }
+      ]
+    },
+    {
       "name": "--mount",
       "tip": [
         "U: --mount [Options] <Disk>",
@@ -197,6 +273,16 @@
       "name": "--release-notes",
       "tip": [
         "Open a web browser to view the WSL release notes page"
+      ]
+    },
+    {
+      "name": "--set-default",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --set-default <Distribution>",
+        "Set a distribution as the default"
       ]
     },
     {
@@ -263,6 +349,16 @@
       ]
     },
     {
+      "name": "--terminate",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --terminate <Distribution>",
+        "Terminate the specified distribution"
+      ]
+    },
+    {
       "name": "--unmount",
       "tip": [
         "U: --unmount [Disk]",
@@ -299,105 +395,9 @@
       ]
     },
     {
-      "name": "-d",
+      "name": "--user",
       "alias": [
-        "--distribution"
-      ],
-      "tip": [
-        "U: -d, --distribution <Distro>",
-        "Run the specified distribution"
-      ]
-    },
-    {
-      "name": "-e",
-      "alias": [
-        "--exec"
-      ],
-      "tip": [
-        "U: -e, --exec <command>",
-        "Execute the specified command without using the default Linux shell"
-      ],
-      "next": 0
-    },
-    {
-      "name": "-l",
-      "alias": [
-        "--list"
-      ],
-      "tip": [
-        "U: -l, --list [options]",
-        "List distributions"
-      ],
-      "next": [
-        {
-          "name": "--all",
-          "tip": [
-            "List all distributions",
-            "Including those currently being installed or uninstalled"
-          ]
-        },
-        {
-          "name": "--running",
-          "tip": [
-            "List only currently running distributions"
-          ]
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--online"
-          ],
-          "tip": [
-            "U: -o, --online",
-            "Show a list of available distributions that can be installed"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ],
-          "tip": [
-            "U: -q, --quiet",
-            "Show only distribution names"
-          ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verbose"
-          ],
-          "tip": [
-            "U: -v, --verbose",
-            "Show detailed information for all distributions"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "-s",
-      "alias": [
-        "--set-default"
-      ],
-      "tip": [
-        "U: -s, --set-default <Distribution>",
-        "Set a distribution as the default"
-      ]
-    },
-    {
-      "name": "-t",
-      "alias": [
-        "--terminate"
-      ],
-      "tip": [
-        "U: -t, --terminate <Distribution>",
-        "Terminate the specified distribution"
-      ]
-    },
-    {
-      "name": "-u",
-      "alias": [
-        "--user"
+        "-u"
       ],
       "tip": [
         "U: -u, --user <user>",
@@ -406,9 +406,9 @@
       "next": 0
     },
     {
-      "name": "-v",
+      "name": "--version",
       "alias": [
-        "--version"
+        "-v"
       ],
       "tip": [
         "U: -v, --version",

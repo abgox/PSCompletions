@@ -8,6 +8,15 @@
   },
   "option": [
     {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "write counts for all files, not just directories"
+      ]
+    },
+    {
       "name": "--apparent-size",
       "tip": [
         "print apparent sizes, rather than disk usage although the apparent size is usually smaller,",
@@ -15,101 +24,9 @@
       ]
     },
     {
-      "name": "--exclude",
-      "tip": [
-        "U: --exclude <PATTERN>",
-        "exclude files that match PATTERN"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--files0-from",
-      "tip": [
-        "summarize device usage of the NUL-terminated file names specified in file F;",
-        "if F is -, then read names from standard input"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--inodes",
-      "tip": [
-        "list inode usage information instead of block usage like --block-size=1K"
-      ]
-    },
-    {
-      "name": "--si",
-      "tip": [
-        "like -h, but use powers of 1000 not 1024"
-      ]
-    },
-    {
-      "name": "--time",
-      "tip": [
-        "U: --time[=<WORD>...]",
-        "show time of the last modification of any file in the directory, or any of its subdirectories.",
-        "If WORD is given, show time as WORD instead of modification time: atime, access, use, ctime, status, birth or creation",
-        "[possible values: atime, ctime, creation]"
-      ],
-      "next": [
-        {
-          "name": "atime"
-        },
-        {
-          "name": "creation"
-        },
-        {
-          "name": "ctime"
-        }
-      ]
-    },
-    {
-      "name": "--time-style",
-      "tip": [
-        "U: --time-style <STYLE>",
-        "show times using style STYLE: full-iso, long-iso, iso, +FORMAT FORMAT is interpreted like 'date'"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--version",
+      "name": "--block-size",
       "alias": [
-        "-V"
-      ],
-      "tip": [
-        "Show the version."
-      ]
-    },
-    {
-      "name": "-0",
-      "alias": [
-        "--null"
-      ],
-      "tip": [
-        "end each output line with 0 byte rather than newline"
-      ]
-    },
-    {
-      "name": "-a",
-      "alias": [
-        "--all"
-      ],
-      "tip": [
-        "write counts for all files, not just directories"
-      ]
-    },
-    {
-      "name": "-b",
-      "alias": [
-        "--bytes"
-      ],
-      "tip": [
-        "equivalent to '--apparent-size --block-size=1'"
-      ]
-    },
-    {
-      "name": "-B",
-      "alias": [
-        "--block-size"
+        "-B"
       ],
       "tip": [
         "U: -B, --block-size <SIZE>",
@@ -216,18 +133,88 @@
       ]
     },
     {
-      "name": "-c",
+      "name": "--bytes",
       "alias": [
-        "--total"
+        "-b"
       ],
       "tip": [
-        "produce a grand total"
+        "equivalent to '--apparent-size --block-size=1'"
       ]
     },
     {
-      "name": "-d",
+      "name": "--count-links",
       "alias": [
-        "--max-depth"
+        "-l"
+      ],
+      "tip": [
+        "count sizes many times if hard linked"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "follow all symbolic links"
+      ]
+    },
+    {
+      "name": "--dereference-args",
+      "alias": [
+        "-D",
+        "-H"
+      ],
+      "tip": [
+        "follow only symlinks that are listed on the command line"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "tip": [
+        "U: --exclude <PATTERN>",
+        "exclude files that match PATTERN"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude-from",
+      "alias": [
+        "-X"
+      ],
+      "tip": [
+        "U: -X, --exclude-from <FILE>",
+        "exclude files that match any pattern in FILE"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--files0-from",
+      "tip": [
+        "summarize device usage of the NUL-terminated file names specified in file F;",
+        "if F is -, then read names from standard input"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--human-readable",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "print sizes in human readable format (e.g., 1K 234M 2G)"
+      ]
+    },
+    {
+      "name": "--inodes",
+      "tip": [
+        "list inode usage information instead of block usage like --block-size=1K"
+      ]
+    },
+    {
+      "name": "--max-depth",
+      "alias": [
+        "-d"
       ],
       "tip": [
         "U: -d, --max-depth <N>",
@@ -244,22 +231,120 @@
       ]
     },
     {
-      "name": "-D",
+      "name": "--no-dereference",
       "alias": [
-        "-H",
-        "--dereference-args"
+        "-P"
       ],
       "tip": [
-        "follow only symlinks that are listed on the command line"
+        "don't follow any symbolic links (this is the default)"
       ]
     },
     {
-      "name": "-h",
+      "name": "--null",
       "alias": [
-        "--human-readable"
+        "-0"
       ],
       "tip": [
-        "print sizes in human readable format (e.g., 1K 234M 2G)"
+        "end each output line with 0 byte rather than newline"
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "skip directories on different file systems"
+      ]
+    },
+    {
+      "name": "--separate-dirs",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "do not include size of subdirectories"
+      ]
+    },
+    {
+      "name": "--si",
+      "tip": [
+        "like -h, but use powers of 1000 not 1024"
+      ]
+    },
+    {
+      "name": "--summarize",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "display only a total for each argument"
+      ]
+    },
+    {
+      "name": "--threshold",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --threshold <SIZE>",
+        "exclude entries smaller than SIZE if positive, or entries greater than SIZE if negative"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--time",
+      "tip": [
+        "U: --time[=<WORD>...]",
+        "show time of the last modification of any file in the directory, or any of its subdirectories.",
+        "If WORD is given, show time as WORD instead of modification time: atime, access, use, ctime, status, birth or creation",
+        "[possible values: atime, ctime, creation]"
+      ],
+      "next": [
+        {
+          "name": "atime"
+        },
+        {
+          "name": "creation"
+        },
+        {
+          "name": "ctime"
+        }
+      ]
+    },
+    {
+      "name": "--time-style",
+      "tip": [
+        "U: --time-style <STYLE>",
+        "show times using style STYLE: full-iso, long-iso, iso, +FORMAT FORMAT is interpreted like 'date'"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--total",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "produce a grand total"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "verbose mode (option not present in GNU/Coreutils)"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "Show the version."
       ]
     },
     {
@@ -269,95 +354,10 @@
       ]
     },
     {
-      "name": "-l",
-      "alias": [
-        "--count-links"
-      ],
-      "tip": [
-        "count sizes many times if hard linked"
-      ]
-    },
-    {
-      "name": "-L",
-      "alias": [
-        "--dereference"
-      ],
-      "tip": [
-        "follow all symbolic links"
-      ]
-    },
-    {
       "name": "-m",
       "tip": [
         "like --block-size=1M"
       ]
-    },
-    {
-      "name": "-P",
-      "alias": [
-        "--no-dereference"
-      ],
-      "tip": [
-        "don't follow any symbolic links (this is the default)"
-      ]
-    },
-    {
-      "name": "-s",
-      "alias": [
-        "--summarize"
-      ],
-      "tip": [
-        "display only a total for each argument"
-      ]
-    },
-    {
-      "name": "-S",
-      "alias": [
-        "--separate-dirs"
-      ],
-      "tip": [
-        "do not include size of subdirectories"
-      ]
-    },
-    {
-      "name": "-t",
-      "alias": [
-        "--threshold"
-      ],
-      "tip": [
-        "U: -t, --threshold <SIZE>",
-        "exclude entries smaller than SIZE if positive, or entries greater than SIZE if negative"
-      ],
-      "next": 0
-    },
-    {
-      "name": "-v",
-      "alias": [
-        "--verbose"
-      ],
-      "tip": [
-        "verbose mode (option not present in GNU/Coreutils)"
-      ]
-    },
-    {
-      "name": "-x",
-      "alias": [
-        "--one-file-system"
-      ],
-      "tip": [
-        "skip directories on different file systems"
-      ]
-    },
-    {
-      "name": "-X",
-      "alias": [
-        "--exclude-from"
-      ],
-      "tip": [
-        "U: -X, --exclude-from <FILE>",
-        "exclude files that match any pattern in FILE"
-      ],
-      "next": 0
     }
   ],
   "common_option": [

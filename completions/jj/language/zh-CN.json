@@ -42,9 +42,9 @@
       ],
       "option": [
         {
-          "name": "-f",
+          "name": "--from",
           "alias": [
-            "--from"
+            "-f"
           ],
           "tip": [
             "U: -f, --from <REVSET>",
@@ -53,10 +53,10 @@
           "next": []
         },
         {
-          "name": "-t",
+          "name": "--into",
           "alias": [
             "--to",
-            "--into"
+            "-t"
           ],
           "tip": [
             "U: -t, --to, --into <REVSETS>",
@@ -74,9 +74,9 @@
       ],
       "option": [
         {
-          "name": "-r",
+          "name": "--revisions",
           "alias": [
-            "--revisions"
+            "-r"
           ],
           "tip": [
             "U: -r, --revisions <REVSETS>",
@@ -107,9 +107,9 @@
               ]
             },
             {
-              "name": "-r",
+              "name": "--range",
               "alias": [
-                "--range"
+                "-r"
               ],
               "tip": [
                 "U: -r, --range <REVSETS>",
@@ -150,10 +150,10 @@
           ],
           "option": [
             {
-              "name": "-r",
+              "name": "--revision",
               "alias": [
-                "--revision",
-                "--to"
+                "--to",
+                "-r"
               ],
               "tip": [
                 "U: -r, --revision, --to <REVSET>",
@@ -201,12 +201,41 @@
           ],
           "option": [
             {
+              "name": "--all-remotes",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "显示所有跟踪和非跟踪远程书签，包括那些其目标与本地书签同步的书签"
+              ]
+            },
+            {
+              "name": "--conflicted",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "仅显示冲突书签"
+              ]
+            },
+            {
               "name": "--remote",
               "tip": [
                 "U: --remote <REMOTE>",
                 "显示所有属于此远程仓库的跟踪和非跟踪远程书签"
               ],
               "next": 0
+            },
+            {
+              "name": "--revisions",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --revisions <REVSETS>",
+                "仅显示本地目标在给定修订版本中的书签"
+              ],
+              "next": []
             },
             {
               "name": "--sort",
@@ -217,53 +246,24 @@
               ]
             },
             {
-              "name": "-a",
+              "name": "--template",
               "alias": [
-                "--all-remotes"
-              ],
-              "tip": [
-                "显示所有跟踪和非跟踪远程书签，包括那些其目标与本地书签同步的书签"
-              ]
-            },
-            {
-              "name": "-c",
-              "alias": [
-                "--conflicted"
-              ],
-              "tip": [
-                "仅显示冲突书签"
-              ]
-            },
-            {
-              "name": "-r",
-              "alias": [
-                "--revisions"
-              ],
-              "tip": [
-                "U: -r, --revisions <REVSETS>",
-                "仅显示本地目标在给定修订版本中的书签"
-              ],
-              "next": []
-            },
-            {
-              "name": "-t",
-              "alias": [
-                "--tracked"
-              ],
-              "tip": [
-                "仅显示远程跟踪书签。默认情况下省略本地 Git 跟踪书签"
-              ]
-            },
-            {
-              "name": "-T",
-              "alias": [
-                "--template"
+                "-T"
               ],
               "tip": [
                 "U: -T, --template <TEMPLATE>",
                 "使用给定模板渲染每个书签"
               ],
               "next": 0
+            },
+            {
+              "name": "--tracked",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "仅显示远程跟踪书签。默认情况下省略本地 Git 跟踪书签"
+              ]
             }
           ]
         },
@@ -297,19 +297,19 @@
           ],
           "option": [
             {
-              "name": "-B",
+              "name": "--allow-backwards",
               "alias": [
-                "--allow-backwards"
+                "-B"
               ],
               "tip": [
                 "允许将书签向后或向侧面移动"
               ]
             },
             {
-              "name": "-r",
+              "name": "--revision",
               "alias": [
-                "--revision",
-                "--to"
+                "--to",
+                "-r"
               ],
               "tip": [
                 "U: -r, --revision, --to <REVSET>",
@@ -348,26 +348,18 @@
       ],
       "option": [
         {
-          "name": "--tool",
-          "tip": [
-            "U: --tool <NAME>",
-            "指定要使用的 diff 编辑器（隐含 --interactive）"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-i",
+          "name": "--interactive",
           "alias": [
-            "--interactive"
+            "-i"
           ],
           "tip": [
             "交互式选择要包含在第一个提交中的变更"
           ]
         },
         {
-          "name": "-m",
+          "name": "--message",
           "alias": [
-            "--message"
+            "-m"
           ],
           "tip": [
             "U: -m, --message <MESSAGE>",
@@ -381,6 +373,14 @@
               "name": "'update'"
             }
           ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>",
+            "指定要使用的 diff 编辑器（隐含 --interactive）"
+          ],
+          "next": 0
         }
       ]
     },
@@ -590,15 +590,9 @@
           ]
         },
         {
-          "name": "--stdin",
-          "tip": [
-            "从 stdin 读取变更描述"
-          ]
-        },
-        {
-          "name": "-m",
+          "name": "--message",
           "alias": [
-            "--message"
+            "-m"
           ],
           "tip": [
             "U: -m, --message <MESSAGE>",
@@ -614,11 +608,17 @@
           ]
         },
         {
-          "name": "-r",
+          "name": "--revision",
           "alias": [
-            "--revision"
+            "-r"
           ],
           "next": []
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从 stdin 读取变更描述"
+          ]
         }
       ]
     },
@@ -642,9 +642,38 @@
           ]
         },
         {
+          "name": "--from",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>",
+            "显示从该修订开始的更改"
+          ],
+          "next": []
+        },
+        {
           "name": "--git",
           "tip": [
             "显示 Git 格式的差异"
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "忽略比较行时的空格"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "忽略比较行时的空格变化"
           ]
         },
         {
@@ -654,10 +683,53 @@
           ]
         },
         {
+          "name": "--revisions",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>",
+            "比较这些修订之间的文件内容差异"
+          ],
+          "next": []
+        },
+        {
           "name": "--stat",
           "tip": [
             "显示变更统计直方图"
           ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "对于每个路径，仅显示是否修改、添加或删除"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>",
+            "使用给定模板渲染每个文件差异条目"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--to",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --to <REVSET>",
+            "显示到该修订的更改"
+          ],
+          "next": []
         },
         {
           "name": "--tool",
@@ -671,78 +743,6 @@
           "name": "--types",
           "tip": [
             "对于每个路径，仅显示其类型之前和之后"
-          ]
-        },
-        {
-          "name": "-b",
-          "alias": [
-            "--ignore-space-change"
-          ],
-          "tip": [
-            "忽略比较行时的空格变化"
-          ]
-        },
-        {
-          "name": "-f",
-          "alias": [
-            "--from"
-          ],
-          "tip": [
-            "U: -f, --from <REVSET>",
-            "显示从该修订开始的更改"
-          ],
-          "next": []
-        },
-        {
-          "name": "-r",
-          "alias": [
-            "--revisions"
-          ],
-          "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "比较这些修订之间的文件内容差异"
-          ],
-          "next": []
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--summary"
-          ],
-          "tip": [
-            "U: -s, --summary",
-            "对于每个路径，仅显示是否修改、添加或删除"
-          ]
-        },
-        {
-          "name": "-t",
-          "alias": [
-            "--to"
-          ],
-          "tip": [
-            "U: -t, --to <REVSET>",
-            "显示到该修订的更改"
-          ],
-          "next": []
-        },
-        {
-          "name": "-T",
-          "alias": [
-            "--template"
-          ],
-          "tip": [
-            "U: -T, --template <TEMPLATE>",
-            "使用给定模板渲染每个文件差异条目"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-w",
-          "alias": [
-            "--ignore-all-space"
-          ],
-          "tip": [
-            "忽略比较行时的空格"
           ]
         }
       ]
@@ -768,9 +768,9 @@
       "next": []
     },
     {
-      "name": "evolog",
+      "name": "evolution-log",
       "alias": [
-        "evolution-log"
+        "evolog"
       ],
       "tip": [
         "显示变更如何随时间演变"
@@ -963,6 +963,17 @@
               ]
             },
             {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "tip": [
+                "U: -b, --branch <BRANCH>",
+                "只获取部分分支"
+              ],
+              "next": []
+            },
+            {
               "name": "--remote",
               "tip": [
                 "U: --remote <REMOTE>",
@@ -975,17 +986,6 @@
               "tip": [
                 "只获取已跟踪的书签"
               ]
-            },
-            {
-              "name": "-b",
-              "alias": [
-                "--branch"
-              ],
-              "tip": [
-                "U: -b, --branch <BRANCH>",
-                "只获取部分分支"
-              ],
-              "next": []
             }
           ]
         },
@@ -1050,6 +1050,28 @@
               ]
             },
             {
+              "name": "--bookmark",
+              "alias": [
+                "-b"
+              ],
+              "tip": [
+                "-b, --bookmark <BOOKMARK>",
+                "仅推送此书签，或匹配模式的书签（可以重复）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--change",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --change <REVSETS>",
+                "通过创建书签推送此提交（可以重复）"
+              ],
+              "next": []
+            },
+            {
               "name": "--deleted",
               "tip": [
                 "推送所有已删除的书签"
@@ -1077,43 +1099,21 @@
               "next": 0
             },
             {
-              "name": "--tracked",
-              "tip": [
-                "推送所有已跟踪的书签"
-              ]
-            },
-            {
-              "name": "-b",
+              "name": "--revisions",
               "alias": [
-                "--bookmark"
-              ],
-              "tip": [
-                "-b, --bookmark <BOOKMARK>",
-                "仅推送此书签，或匹配模式的书签（可以重复）"
-              ],
-              "next": []
-            },
-            {
-              "name": "-c",
-              "alias": [
-                "--change"
-              ],
-              "tip": [
-                "U: -c, --change <REVSETS>",
-                "通过创建书签推送此提交（可以重复）"
-              ],
-              "next": []
-            },
-            {
-              "name": "-r",
-              "alias": [
-                "--revisions"
+                "-r"
               ],
               "tip": [
                 "U: -r, --revisions <REVSETS>",
                 "推送指向这些提交的书签（可以重复）"
               ],
               "next": []
+            },
+            {
+              "name": "--tracked",
+              "tip": [
+                "推送所有已跟踪的书签"
+              ]
             }
           ]
         },
@@ -1209,9 +1209,9 @@
       ],
       "option": [
         {
-          "name": "-n",
+          "name": "--limit",
           "alias": [
-            "--limit"
+            "-n"
           ],
           "tip": [
             "U: -n, --limit <LIMIT>",
@@ -1224,9 +1224,9 @@
           ]
         },
         {
-          "name": "-r",
+          "name": "--revisions",
           "alias": [
-            "--revisions"
+            "-r"
           ],
           "tip": [
             "U: -r, --revisions <REVSETS>",
@@ -1296,16 +1296,10 @@
       ],
       "option": [
         {
-          "name": "--no-edit",
-          "tip": [
-            "不编辑新创建的变更"
-          ]
-        },
-        {
-          "name": "-A",
+          "name": "--insert-after",
           "alias": [
-            "--insert-after",
-            "--after"
+            "--after",
+            "-A"
           ],
           "tip": [
             "U: -A, --insert-after, --after <REVSETS>",
@@ -1314,10 +1308,10 @@
           "next": []
         },
         {
-          "name": "-B",
+          "name": "--insert-before",
           "alias": [
-            "--insert-before",
-            "--before"
+            "--before",
+            "-B"
           ],
           "tip": [
             "U: -B, --insert-before, --before <REVSETS>",
@@ -1326,9 +1320,9 @@
           "next": []
         },
         {
-          "name": "-m",
+          "name": "--message",
           "alias": [
-            "--message"
+            "-m"
           ],
           "tip": [
             "U: -m, --message <MESSAGE>",
@@ -1341,6 +1335,12 @@
             {
               "name": "'update'"
             }
+          ]
+        },
+        {
+          "name": "--no-edit",
+          "tip": [
+            "不编辑新创建的变更"
           ]
         }
       ],
@@ -1359,9 +1359,9 @@
           ]
         },
         {
-          "name": "-e",
+          "name": "--edit",
           "alias": [
-            "--edit"
+            "-e"
           ],
           "tip": [
             "U: -e, --edit",
@@ -1370,9 +1370,9 @@
           ]
         },
         {
-          "name": "-n",
+          "name": "--no-edit",
           "alias": [
-            "--no-edit"
+            "-n"
           ],
           "tip": [
             "U: -n, --no-edit",
@@ -1448,10 +1448,67 @@
       ],
       "option": [
         {
+          "name": "--branch",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --branch <REVSETS>",
+            "相对于目标的祖先重新调整整个分支的基准（可重复）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--insert-after",
+          "alias": [
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "在给定提交之后插入新变更（可重复以创建合并提交）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "在给定提交之前插入新变更（可重复以创建合并提交）"
+          ],
+          "next": []
+        },
+        {
           "name": "--keep-divergent",
           "tip": [
             "变基时保留分歧提交"
           ]
+        },
+        {
+          "name": "--onto",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --onto <REVSETS>",
+            "变基目标（可重复以创建合并提交）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revisions",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>",
+            "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
+          ],
+          "next": []
         },
         {
           "name": "--skip-emptied",
@@ -1462,66 +1519,9 @@
           ]
         },
         {
-          "name": "-A",
+          "name": "--source",
           "alias": [
-            "--insert-after",
-            "--after"
-          ],
-          "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
-            "在给定提交之后插入新变更（可重复以创建合并提交）"
-          ],
-          "next": []
-        },
-        {
-          "name": "-b",
-          "alias": [
-            "--branch"
-          ],
-          "tip": [
-            "U: -b, --branch <REVSETS>",
-            "相对于目标的祖先重新调整整个分支的基准（可重复）"
-          ],
-          "next": []
-        },
-        {
-          "name": "-B",
-          "alias": [
-            "--insert-before",
-            "--before"
-          ],
-          "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
-            "在给定提交之前插入新变更（可重复以创建合并提交）"
-          ],
-          "next": []
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--onto"
-          ],
-          "tip": [
-            "U: -o, --onto <REVSETS>",
-            "变基目标（可重复以创建合并提交）"
-          ],
-          "next": []
-        },
-        {
-          "name": "-r",
-          "alias": [
-            "--revisions"
-          ],
-          "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
-          ],
-          "next": []
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--source"
+            "-s"
           ],
           "tip": [
             "U: -s, --source <REVSETS>",
@@ -1544,6 +1544,27 @@
       ],
       "option": [
         {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --list",
+            "不解决冲突，而是列出所有冲突"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "要处理的修订版本 [默认：@]"
+          ],
+          "next": []
+        },
+        {
           "name": "--tool",
           "tip": [
             "U: --tool <NAME>",
@@ -1554,27 +1575,6 @@
               "name": "vscode"
             }
           ]
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--list"
-          ],
-          "tip": [
-            "U: -l, --list",
-            "不解决冲突，而是列出所有冲突"
-          ]
-        },
-        {
-          "name": "-r",
-          "alias": [
-            "--revision"
-          ],
-          "tip": [
-            "U: -r, --revision <REVSETS>",
-            "要处理的修订版本 [默认：@]"
-          ],
-          "next": []
         }
       ]
     },
@@ -1623,6 +1623,26 @@
           ]
         },
         {
+          "name": "--ignore-all-space",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --ignore-all-space",
+            "比较行时忽略空格"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --ignore-space-change",
+            "比较行时忽略空白数量的变化"
+          ]
+        },
+        {
           "name": "--name-only",
           "tip": [
             "对于每条路径，仅显示其路径"
@@ -1635,10 +1655,38 @@
           ]
         },
         {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "next": []
+        },
+        {
           "name": "--stat",
           "tip": [
             "展示变更的直方图"
           ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "对于每条路径，只需显示它是被修改、添加还是删除了。"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>",
+            "使用给定的模板呈现修订版本"
+          ],
+          "next": 0
         },
         {
           "name": "--tool",
@@ -1652,54 +1700,6 @@
           "name": "--types",
           "tip": [
             "对于每条路径，只显示其前后的类型"
-          ]
-        },
-        {
-          "name": "-b",
-          "alias": [
-            "--ignore-space-change"
-          ],
-          "tip": [
-            "U: -b, --ignore-space-change",
-            "比较行时忽略空白数量的变化"
-          ]
-        },
-        {
-          "name": "-r",
-          "alias": [
-            "--revision"
-          ],
-          "next": []
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--summary"
-          ],
-          "tip": [
-            "U: -s, --summary",
-            "对于每条路径，只需显示它是被修改、添加还是删除了。"
-          ]
-        },
-        {
-          "name": "-T",
-          "alias": [
-            "--template"
-          ],
-          "tip": [
-            "U: -T, --template <TEMPLATE>",
-            "使用给定的模板呈现修订版本"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-w",
-          "alias": [
-            "--ignore-all-space"
-          ],
-          "tip": [
-            "U: -w, --ignore-all-space",
-            "比较行时忽略空格"
           ]
         }
       ]
@@ -1730,29 +1730,29 @@
       ],
       "option": [
         {
-          "name": "--tool",
-          "tip": [
-            "U: --tool <NAME>",
-            "指定要使用的差异编辑器（隐含 --interactive）"
-          ]
-        },
-        {
-          "name": "-i",
+          "name": "--interactive",
           "alias": [
-            "--interactive"
+            "-i"
           ],
           "tip": [
             "交互式选择要拆分的部分"
           ]
         },
         {
-          "name": "-r",
+          "name": "--revision",
           "alias": [
-            "--revision"
+            "-r"
           ],
           "tip": [
             "U: -r, --revision <REVSET>",
             "要拆分的修订版本 [默认：@]"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>",
+            "指定要使用的差异编辑器（隐含 --interactive）"
           ]
         }
       ]
@@ -1764,41 +1764,9 @@
       ],
       "option": [
         {
-          "name": "--tool",
-          "tip": [
-            "U: --tool <NAME>",
-            "指定要使用的差异编辑器 (意味着--interactive)"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-A",
+          "name": "--from",
           "alias": [
-            "--insert-after",
-            "--after"
-          ],
-          "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
-            "（实验性）要在其后插入新提交的修订版本（可重复操作以创建合并提交）"
-          ],
-          "next": []
-        },
-        {
-          "name": "-B",
-          "alias": [
-            "--insert-before",
-            "--before"
-          ],
-          "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
-            "（实验性）要在其之前插入新提交的修订版本（可重复操作以创建合并提交）"
-          ],
-          "next": []
-        },
-        {
-          "name": "-f",
-          "alias": [
-            "--from"
+            "-f"
           ],
           "tip": [
             "U: -f, --from <REVSETS>",
@@ -1807,9 +1775,33 @@
           "next": []
         },
         {
-          "name": "-i",
+          "name": "--insert-after",
           "alias": [
-            "--interactive"
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "（实验性）要在其后插入新提交的修订版本（可重复操作以创建合并提交）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "（实验性）要在其之前插入新提交的修订版本（可重复操作以创建合并提交）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
           ],
           "tip": [
             "U: -i, --interactive",
@@ -1817,18 +1809,30 @@
           ]
         },
         {
-          "name": "-k",
+          "name": "--into",
           "alias": [
-            "--keep-emptied"
+            "--to",
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --into, --to <REVSET>",
+            "合并到的修订 (默认: @)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--keep-emptied",
+          "alias": [
+            "-k"
           ],
           "tip": [
             "源修订版本不会被放弃"
           ]
         },
         {
-          "name": "-m",
+          "name": "--message",
           "alias": [
-            "--message"
+            "-m"
           ],
           "tip": [
             "U: -m, --message <MESSAGE>",
@@ -1844,9 +1848,9 @@
           ]
         },
         {
-          "name": "-o",
+          "name": "--onto",
           "alias": [
-            "--onto"
+            "-o"
           ],
           "tip": [
             "U: -o, --onto <REVSETS>",
@@ -1855,9 +1859,9 @@
           "next": []
         },
         {
-          "name": "-r",
+          "name": "--revisions",
           "alias": [
-            "--revisions"
+            "-r"
           ],
           "tip": [
             "U: -r, --revisions <REVSETS>",
@@ -1867,21 +1871,17 @@
           "next": []
         },
         {
-          "name": "-t",
-          "alias": [
-            "--into",
-            "--to"
-          ],
+          "name": "--tool",
           "tip": [
-            "U: -t, --into, --to <REVSET>",
-            "合并到的修订 (默认: @)"
+            "U: --tool <NAME>",
+            "指定要使用的差异编辑器 (意味着--interactive)"
           ],
-          "next": []
+          "next": 0
         },
         {
-          "name": "-u",
+          "name": "--use-destination-message",
           "alias": [
-            "--use-destination-message"
+            "-u"
           ],
           "tip": [
             "U: -u, --use-destination-message",
@@ -1916,9 +1916,9 @@
           ],
           "option": [
             {
-              "name": "-T",
+              "name": "--template",
               "alias": [
-                "--template"
+                "-T"
               ],
               "tip": [
                 "U: -T, --template <TEMPLATE>",
@@ -2143,9 +2143,9 @@
       ]
     },
     {
-      "name": "-R",
+      "name": "--repository",
       "alias": [
-        "--repository"
+        "-R"
       ],
       "tip": [
         "U: -R, --repository <REPOSITORY>",

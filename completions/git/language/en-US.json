@@ -13,11 +13,62 @@
       ],
       "option": [
         {
+          "name": "--all",
+          "alias": [
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --all",
+            "Add all changes in the current working tree (including new, modified, and deleted files) to the index."
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Open the diff and the index in an editor for further editing."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Allow adding ignored files."
+          ]
+        },
+        {
           "name": "--ignore-errors",
           "tip": [
             "If some files could not be added because of errors indexing them, do not abort the operation, but continue adding the others.",
             "The command shall still exit with non-zero status.",
             "The configuration variable add.ignoreErrors can be set to true to make this the default behaviour."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Interactively add modified content from the working tree to the index."
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Interactively choose chunks of content between the index and the working tree to add to the index.",
+            "Similar to git add -i but skips the initial command menu and goes directly to the patch subcommand."
           ]
         },
         {
@@ -33,60 +84,9 @@
           ]
         },
         {
-          "name": "-A",
+          "name": "--update",
           "alias": [
-            "--all"
-          ],
-          "tip": [
-            "U: -A, --all",
-            "Add all changes in the current working tree (including new, modified, and deleted files) to the index."
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "Open the diff and the index in an editor for further editing."
-          ]
-        },
-        {
-          "name": "-f",
-          "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "Allow adding ignored files."
-          ]
-        },
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "U: -i, --interactive",
-            "Interactively add modified content from the working tree to the index."
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--patch"
-          ],
-          "tip": [
-            "U: -p, --patch",
-            "Interactively choose chunks of content between the index and the working tree to add to the index.",
-            "Similar to git add -i but skips the initial command menu and goes directly to the patch subcommand."
-          ]
-        },
-        {
-          "name": "-u",
-          "alias": [
-            "--update"
+            "-u"
           ],
           "tip": [
             "U: -u, --update",
@@ -351,9 +351,9 @@
       ],
       "option": [
         {
-          "name": "-o",
+          "name": "--output-directory",
           "alias": [
-            "--output-directory"
+            "-o"
           ],
           "tip": [
             "U: -o, --output-directory <path>",
@@ -362,9 +362,9 @@
           "next": 0
         },
         {
-          "name": "-s",
+          "name": "--suffix",
           "alias": [
-            "--suffix"
+            "-s"
           ],
           "tip": [
             "U: -s, --suffix <suffix>",
@@ -571,6 +571,12 @@
           "name": "--bundle-uri="
         },
         {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ]
+        },
+        {
           "name": "--depth",
           "tip": [
             "U: --depth <n>",
@@ -592,7 +598,30 @@
           "name": "--filter="
         },
         {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j <n>",
+            "Specify the number of threads for parallel cloning to speed up the process."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ]
+        },
+        {
           "name": "--mirror"
+        },
+        {
+          "name": "--no-checkout",
+          "alias": [
+            "-n"
+          ]
         },
         {
           "name": "--no-hardlinks"
@@ -613,7 +642,19 @@
           "name": "--no-tags"
         },
         {
+          "name": "--origin",
+          "alias": [
+            "-o"
+          ]
+        },
+        {
           "name": "--progress"
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ]
         },
         {
           "name": "--recurse-submodules"
@@ -649,6 +690,12 @@
           "name": "--shallow-submodules"
         },
         {
+          "name": "--shared",
+          "alias": [
+            "-s"
+          ]
+        },
+        {
           "name": "--single-branch"
         },
         {
@@ -661,6 +708,18 @@
           "name": "--template="
         },
         {
+          "name": "--upload-pack",
+          "alias": [
+            "-u"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ]
+        },
+        {
           "name": "-b",
           "tip": [
             "U: -b <branch>",
@@ -668,65 +727,6 @@
             "By default, git clone clones the main branch of the remote repository."
           ],
           "next": 0
-        },
-        {
-          "name": "-c",
-          "alias": [
-            "--config"
-          ]
-        },
-        {
-          "name": "-j",
-          "alias": [
-            "--jobs"
-          ],
-          "tip": [
-            "U: -j <n>",
-            "Specify the number of threads for parallel cloning to speed up the process."
-          ],
-          "next": 0
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--local"
-          ]
-        },
-        {
-          "name": "-n",
-          "alias": [
-            "--no-checkout"
-          ]
-        },
-        {
-          "name": "-o",
-          "alias": [
-            "--origin"
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ]
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--shared"
-          ]
-        },
-        {
-          "name": "-u",
-          "alias": [
-            "--upload-pack"
-          ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verbose"
-          ]
         }
       ]
     },
@@ -736,6 +736,16 @@
         "Record changes to the repository."
       ],
       "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "Automatically stage changes to tracked files in the index."
+          ]
+        },
         {
           "name": "--amend",
           "tip": [
@@ -776,6 +786,16 @@
           ]
         },
         {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Launch an editor to edit the commit message."
+          ]
+        },
+        {
           "name": "--fixup",
           "tip": [
             "Create a new commit which \"fixes up\" <commit> when applied with `git rebase --autosquash.`"
@@ -797,6 +817,16 @@
         },
         {
           "name": "--no-signoff"
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Interactively choose which changes to commit."
+          ]
         },
         {
           "name": "--porcelain",
@@ -822,21 +852,17 @@
           ]
         },
         {
+          "name": "--signoff",
+          "alias": [
+            "-s"
+          ]
+        },
+        {
           "name": "--squash",
           "tip": [
             "Construct a commit message for use with `rebase --autosquash`."
           ],
           "next": []
-        },
-        {
-          "name": "-a",
-          "alias": [
-            "--all"
-          ],
-          "tip": [
-            "U: -a, --all",
-            "Automatically stage changes to tracked files in the index."
-          ]
         },
         {
           "name": "-C",
@@ -845,16 +871,6 @@
             "Take an existing commit object and reuse the log message and author information when creating a commit (including timestamps)"
           ],
           "next": []
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "Launch an editor to edit the commit message."
-          ]
         },
         {
           "name": "-F",
@@ -871,22 +887,6 @@
             "Specify a descriptive message for the commit."
           ],
           "next": 0
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--patch"
-          ],
-          "tip": [
-            "U: -p, --patch",
-            "Interactively choose which changes to commit."
-          ]
-        },
-        {
-          "name": "-s",
-          "alias": [
-            "--signoff"
-          ]
         },
         {
           "name": "-t",
@@ -923,6 +923,16 @@
         "Retrieve and configure repository or global options."
       ],
       "option": [
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Edit the configuration for the current repository."
+          ]
+        },
         {
           "name": "--get",
           "tip": [
@@ -1021,16 +1031,6 @@
                 "Remove config --- the GPG signing key."
               ]
             }
-          ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--edit"
-          ],
-          "tip": [
-            "U: -e, --edit",
-            "Edit the configuration for the current repository."
           ]
         }
       ],
@@ -1283,9 +1283,9 @@
       ],
       "option": [
         {
-          "name": "-H",
+          "name": "--human-readable",
           "alias": [
-            "--human-readable"
+            "-H"
           ],
           "tip": [
             "U: -H, --human-readable",
@@ -1293,9 +1293,9 @@
           ]
         },
         {
-          "name": "-v",
+          "name": "--verbose",
           "alias": [
-            "--verbose"
+            "-v"
           ],
           "tip": [
             "U: -v, --verbose",
@@ -1575,6 +1575,25 @@
           ]
         },
         {
+          "name": "--initial-branch",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --initial-branch <branch-name>",
+            "Use <branch-name> for the initial branch in the newly created repository.",
+            "If not specified, fall back to the default name."
+          ],
+          "next": [
+            {
+              "name": "main"
+            },
+            {
+              "name": "master"
+            }
+          ]
+        },
+        {
           "name": "--object-format",
           "tip": [
             "U: --object-format <format>",
@@ -1588,6 +1607,16 @@
             {
               "name": "sha256"
             }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Only print error and warning messages; all other output will be suppressed."
           ]
         },
         {
@@ -1634,13 +1663,23 @@
           ],
           "next": [
             {
-              "name": "all",
+              "name": "everybody",
               "alias": [
                 "world",
-                "everybody"
+                "all"
               ],
               "tip": [
                 "Same as group, but make the repository readable by all users."
+              ]
+            },
+            {
+              "name": "false",
+              "alias": [
+                "umask"
+              ],
+              "tip": [
+                "Use permissions reported by umask.",
+                "The default, when --shared is not specified."
               ]
             },
             {
@@ -1652,16 +1691,6 @@
                 "Make the repository group-writable, (and g+sx, since the git group may not be the primary group of all users).",
                 "This is used to loosen the permissions of an otherwise safe umask value."
               ]
-            },
-            {
-              "name": "umask",
-              "alias": [
-                "false"
-              ],
-              "tip": [
-                "Use permissions reported by umask.",
-                "The default, when --shared is not specified."
-              ]
             }
           ]
         },
@@ -1672,35 +1701,6 @@
             "Specify a custom template directory for repository initialization."
           ],
           "next": 0
-        },
-        {
-          "name": "-b",
-          "alias": [
-            "--initial-branch"
-          ],
-          "tip": [
-            "U: -b, --initial-branch <branch-name>",
-            "Use <branch-name> for the initial branch in the newly created repository.",
-            "If not specified, fall back to the default name."
-          ],
-          "next": [
-            {
-              "name": "main"
-            },
-            {
-              "name": "master"
-            }
-          ]
-        },
-        {
-          "name": "-q",
-          "alias": [
-            "--quiet"
-          ],
-          "tip": [
-            "U: -q, --quiet",
-            "Only print error and warning messages; all other output will be suppressed."
-          ]
         }
       ]
     },
@@ -2258,9 +2258,9 @@
           ]
         },
         {
-          "name": "-r",
+          "name": "--rebase",
           "alias": [
-            "--rebase"
+            "-r"
           ]
         }
       ]
@@ -2323,6 +2323,17 @@
           ]
         },
         {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Allows interactive rebase, enabling editing, merging, deleting, and more for each commit."
+          ],
+          "next": []
+        },
+        {
           "name": "--merge",
           "tip": [
             "Merge a branch into the target branch instead of applying commits sequentially."
@@ -2341,17 +2352,6 @@
           "tip": [
             "Skip the current commit and continue the rebase operation."
           ]
-        },
-        {
-          "name": "-i",
-          "alias": [
-            "--interactive"
-          ],
-          "tip": [
-            "U: -i, --interactive",
-            "Allows interactive rebase, enabling editing, merging, deleting, and more for each commit."
-          ],
-          "next": []
         },
         {
           "name": "-p",
@@ -2440,6 +2440,17 @@
           ]
         },
         {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "tip": [
+            "U: rm, remove <repository>",
+            "Remove a remote repository."
+          ],
+          "next": []
+        },
+        {
           "name": "rename",
           "tip": [
             "Rename a remote repository."
@@ -2452,17 +2463,6 @@
               ]
             }
           ]
-        },
-        {
-          "name": "rm",
-          "alias": [
-            "remove"
-          ],
-          "tip": [
-            "U: rm, remove <repository>",
-            "Remove a remote repository."
-          ],
-          "next": []
         },
         {
           "name": "set-branches",
@@ -2783,9 +2783,9 @@
           ],
           "option": [
             {
-              "name": "-p",
+              "name": "--patch",
               "alias": [
-                "--patch"
+                "-p"
               ],
               "tip": [
                 "Show the diff of the stash."
@@ -2802,15 +2802,9 @@
       ],
       "option": [
         {
-          "name": "--show-stash",
-          "tip": [
-            "Show the number of hidden entries in the stash."
-          ]
-        },
-        {
-          "name": "-b",
+          "name": "--branch",
           "alias": [
-            "--branch"
+            "-b"
           ],
           "tip": [
             "U: -b, --branch",
@@ -2818,9 +2812,9 @@
           ]
         },
         {
-          "name": "-s",
+          "name": "--short",
           "alias": [
-            "--short"
+            "-s"
           ],
           "tip": [
             "U: -s, --short",
@@ -2828,9 +2822,15 @@
           ]
         },
         {
-          "name": "-v",
+          "name": "--show-stash",
+          "tip": [
+            "Show the number of hidden entries in the stash."
+          ]
+        },
+        {
+          "name": "--verbose",
           "alias": [
-            "--verbose"
+            "-v"
           ],
           "tip": [
             "U: -v, --verbose",
@@ -3066,9 +3066,9 @@
           ]
         },
         {
-          "name": "-c",
+          "name": "--create",
           "alias": [
-            "--create"
+            "-c"
           ],
           "tip": [
             "U: -c, --create <new_branch>",
@@ -3076,10 +3076,10 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--discard-changes",
           "alias": [
             "--force",
-            "--discard-changes"
+            "-f"
           ],
           "tip": [
             "Proceed even if the index or the working tree differs from HEAD.",
@@ -3106,9 +3106,9 @@
       ],
       "option": [
         {
-          "name": "-a",
+          "name": "--annotate",
           "alias": [
-            "--annotate"
+            "-a"
           ],
           "tip": [
             "U: -a, --annotate <tag>",
@@ -3118,9 +3118,9 @@
           "next": 0
         },
         {
-          "name": "-d",
+          "name": "--delete",
           "alias": [
-            "--delete"
+            "-d"
           ],
           "tip": [
             "U: -d, --delete <tag>",
@@ -3129,12 +3129,9 @@
           "next": []
         },
         {
-          "name": "-e"
-        },
-        {
-          "name": "-l",
+          "name": "--list",
           "alias": [
-            "--list"
+            "-l"
           ],
           "tip": [
             "U: -l, --list [pattern]",
@@ -3142,6 +3139,20 @@
             "E: -l v1.0*"
           ],
           "next": 0
+        },
+        {
+          "name": "--verify",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verify <tag>",
+            "Verify tags"
+          ],
+          "next": []
+        },
+        {
+          "name": "-e"
         },
         {
           "name": "-m"
@@ -3153,17 +3164,6 @@
             "[num] specifies how many lines from the annotation, if any, are printed when using -l. Implies --list.",
             "The default is not to print any annotation lines. If no number is given to -n, only the first line is printed. If the tag is not annotated, the commit message is displayed instead."
           ]
-        },
-        {
-          "name": "-v",
-          "alias": [
-            "--verify"
-          ],
-          "tip": [
-            "U: -v, --verify <tag>",
-            "Verify tags"
-          ],
-          "next": []
         }
       ]
     },
@@ -3457,6 +3457,15 @@
       ]
     },
     {
+      "name": "--no-pager",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "Do not pipe Git output into a pager."
+      ]
+    },
+    {
       "name": "--no-replace-objects",
       "tip": [
         "Do not use replacement refs to replace Git objects.",
@@ -3469,6 +3478,16 @@
         "Add \"literal\" magic to all pathspec.",
         "This is equivalent to setting the GIT_NOGLOB_PATHSPECS environment variable to 1.",
         "Enabling globbing on individual pathspecs can be done using pathspec magic \":(glob)\""
+      ]
+    },
+    {
+      "name": "--paginate",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "Pipe all output into less (or if set, $PAGER) if standard output is a terminal.",
+        "This overrides the pager.<cmd> configuration options."
       ]
     },
     {
@@ -3507,25 +3526,6 @@
         "If <path> is present but empty, e.g. -C \"\", then the current working directory is left unchanged."
       ],
       "next": 0
-    },
-    {
-      "name": "-p",
-      "alias": [
-        "--paginate"
-      ],
-      "tip": [
-        "Pipe all output into less (or if set, $PAGER) if standard output is a terminal.",
-        "This overrides the pager.<cmd> configuration options."
-      ]
-    },
-    {
-      "name": "-P",
-      "alias": [
-        "--no-pager"
-      ],
-      "tip": [
-        "Do not pipe Git output into a pager."
-      ]
     }
   ],
   "common_option": [

@@ -51,6 +51,18 @@
           "next": 0
         },
         {
+          "name": "--external",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --external <module>",
+            "Exclude module from transpilation (can use * wildcards).",
+            "E: -e react"
+          ],
+          "next": 0
+        },
+        {
           "name": "--format",
           "tip": [
             "Specifies the module format to build to. Only \"esm\" is supported."
@@ -164,30 +176,120 @@
           "tip": [
             "Automatically restart the process on file change."
           ]
-        },
-        {
-          "name": "-e",
-          "alias": [
-            "--external"
-          ],
-          "tip": [
-            "U: -e, --external <module>",
-            "Exclude module from transpilation (can use * wildcards).",
-            "E: -e react"
-          ],
-          "next": 0
         }
       ]
     },
     {
-      "name": "c",
+      "name": "create",
       "alias": [
-        "create"
+        "c"
       ],
       "tip": [
         "U: c, create <template> [...flags] [dest]",
         "Create a new project from a template.",
         "E: create @"
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "run"
+      ],
+      "tip": [
+        "U: run, exec [flags] <file or script>",
+        "Execute a file with Bun.",
+        "E: run ./my-script.ts   --- Run ts file",
+        "   run build            --- Run a package.json script"
+      ],
+      "option": [
+        {
+          "name": "--define",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --define <K:V>",
+            "Substitute K:V while parsing. Values are parsed as JSON.",
+            "E: --define process.env.NODE_ENV:\"development\""
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extension-order",
+          "tip": [
+            "U: --extension-order <ext1,ext2,ext3>",
+            "Defaults to: .tsx,.ts,.jsx,.js,.json"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--jsx-factory",
+          "tip": [
+            "Changes the function called when compiling JSX elements using the classic JSX runtime."
+          ]
+        },
+        {
+          "name": "--jsx-fragment",
+          "tip": [
+            "Changes the function called when compiling JSX fragments."
+          ]
+        },
+        {
+          "name": "--jsx-import-source",
+          "tip": [
+            "Declares the module specifier to be used for importing the jsx and jsxs factory functions.",
+            "Default: \"react\""
+          ]
+        },
+        {
+          "name": "--jsx-runtime",
+          "tip": [
+            "Set up the JSX runtime."
+          ],
+          "next": [
+            {
+              "name": "automatic"
+            },
+            {
+              "name": "classic"
+            }
+          ]
+        },
+        {
+          "name": "--loader",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --loader <.ext:loader>",
+            "Parse files with .ext:loader",
+            "Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi",
+            "E: --loader .js:jsx"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--main-fields",
+          "tip": [
+            "Main fields to lookup in package.json.",
+            "Defaults to --target dependent"
+          ]
+        },
+        {
+          "name": "--no-macros",
+          "tip": [
+            "Disable macros from being executed in the bundler, transpiler and runtime."
+          ]
+        },
+        {
+          "name": "--tsconfig-override",
+          "tip": [
+            "U: --tsconfig-override <path>",
+            "Specify custom tsconfig.json.",
+            "Default ./tsconfig.json"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -199,9 +301,9 @@
       ],
       "option": [
         {
-          "name": "-y",
+          "name": "--yes",
           "alias": [
-            "--yes"
+            "-y"
           ],
           "tip": [
             "U: -y, --yes",
@@ -213,9 +315,9 @@
     {
       "name": "install",
       "alias": [
-        "i",
         "add",
-        "a"
+        "a",
+        "i"
       ],
       "tip": [
         "U: install, i, add, a",
@@ -266,15 +368,55 @@
           "next": 0
         },
         {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dev",
+            "Add dependency to \"devDependencies\"."
+          ]
+        },
+        {
           "name": "--dry-run",
           "tip": [
             "Don't install anything."
           ]
         },
         {
+          "name": "--exact",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --exact",
+            "Add the exact version instead of the ^range"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "Disallow changes to lockfile."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Install globally."
           ]
         },
         {
@@ -327,6 +469,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "Don't install devDependencies."
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "Save to package.json. (true by default)"
@@ -351,59 +503,9 @@
           ]
         },
         {
-          "name": "-d",
+          "name": "--yarn",
           "alias": [
-            "--dev"
-          ],
-          "tip": [
-            "U: -d, --dev",
-            "Add dependency to \"devDependencies\"."
-          ]
-        },
-        {
-          "name": "-E",
-          "alias": [
-            "--exact"
-          ],
-          "tip": [
-            "U: -E, --exact",
-            "Add the exact version instead of the ^range"
-          ]
-        },
-        {
-          "name": "-f",
-          "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "Always request the latest versions from the registry & reinstall all dependencies."
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Install globally."
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "Don't install devDependencies."
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -469,9 +571,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "Disallow changes to lockfile."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Link globally."
           ]
         },
         {
@@ -517,6 +639,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "Don't link devDependencies."
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "Save to package.json. (true by default)"
@@ -541,39 +673,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "Always request the latest versions from the registry & reinstall all dependencies."
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Link globally."
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "Don't link devDependencies."
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -596,9 +698,9 @@
           ],
           "option": [
             {
-              "name": "-g",
+              "name": "--global",
               "alias": [
-                "--global"
+                "-g"
               ],
               "tip": [
                 "U: -g, --global",
@@ -728,9 +830,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "Disallow changes to lockfile."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Uninstall globally."
           ]
         },
         {
@@ -776,6 +898,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "Don't uninstall devDependencies."
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "Save to package.json. (true by default)"
@@ -800,39 +932,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "Always request the latest versions from the registry & reinstall all dependencies."
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Uninstall globally."
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "Don't uninstall devDependencies."
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -875,108 +977,6 @@
       ]
     },
     {
-      "name": "run",
-      "alias": [
-        "exec"
-      ],
-      "tip": [
-        "U: run, exec [flags] <file or script>",
-        "Execute a file with Bun.",
-        "E: run ./my-script.ts   --- Run ts file",
-        "   run build            --- Run a package.json script"
-      ],
-      "option": [
-        {
-          "name": "--extension-order",
-          "tip": [
-            "U: --extension-order <ext1,ext2,ext3>",
-            "Defaults to: .tsx,.ts,.jsx,.js,.json"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--jsx-factory",
-          "tip": [
-            "Changes the function called when compiling JSX elements using the classic JSX runtime."
-          ]
-        },
-        {
-          "name": "--jsx-fragment",
-          "tip": [
-            "Changes the function called when compiling JSX fragments."
-          ]
-        },
-        {
-          "name": "--jsx-import-source",
-          "tip": [
-            "Declares the module specifier to be used for importing the jsx and jsxs factory functions.",
-            "Default: \"react\""
-          ]
-        },
-        {
-          "name": "--jsx-runtime",
-          "tip": [
-            "Set up the JSX runtime."
-          ],
-          "next": [
-            {
-              "name": "automatic"
-            },
-            {
-              "name": "classic"
-            }
-          ]
-        },
-        {
-          "name": "--main-fields",
-          "tip": [
-            "Main fields to lookup in package.json.",
-            "Defaults to --target dependent"
-          ]
-        },
-        {
-          "name": "--no-macros",
-          "tip": [
-            "Disable macros from being executed in the bundler, transpiler and runtime."
-          ]
-        },
-        {
-          "name": "--tsconfig-override",
-          "tip": [
-            "U: --tsconfig-override <path>",
-            "Specify custom tsconfig.json.",
-            "Default ./tsconfig.json"
-          ],
-          "next": 0
-        },
-        {
-          "name": "-d",
-          "alias": [
-            "--define"
-          ],
-          "tip": [
-            "U: -d, --define <K:V>",
-            "Substitute K:V while parsing. Values are parsed as JSON.",
-            "E: --define process.env.NODE_ENV:\"development\""
-          ],
-          "next": 0
-        },
-        {
-          "name": "-l",
-          "alias": [
-            "--loader"
-          ],
-          "tip": [
-            "U: -l, --loader <.ext:loader>",
-            "Parse files with .ext:loader",
-            "Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi",
-            "E: --loader .js:jsx"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
       "name": "test",
       "tip": [
         "U: test [flags] <file or script>",
@@ -1012,6 +1012,17 @@
           "next": 0
         },
         {
+          "name": "--test-name-pattern",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --test-name-pattern <regex>",
+            "Run only tests with a name that matches the given regex."
+          ],
+          "next": 0
+        },
+        {
           "name": "--timeout",
           "tip": [
             "U: --timeout <ms>",
@@ -1030,17 +1041,6 @@
           "tip": [
             "Update snapshot files"
           ]
-        },
-        {
-          "name": "-t",
-          "alias": [
-            "--test-name-pattern"
-          ],
-          "tip": [
-            "U: -t, --test-name-pattern <regex>",
-            "Run only tests with a name that matches the given regex."
-          ],
-          "next": 0
         }
       ]
     },
@@ -1101,9 +1101,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "Disallow changes to lockfile."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Unlink globally."
           ]
         },
         {
@@ -1149,6 +1169,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "Don't unlink devDependencies."
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "Save to package.json. (true by default)"
@@ -1173,39 +1203,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "Always request the latest versions from the registry & reinstall all dependencies."
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Unlink globally."
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "Don't unlink devDependencies."
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -1270,9 +1270,29 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
           "name": "--frozen-lockfile",
           "tip": [
             "Disallow changes to lockfile."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Update globally."
           ]
         },
         {
@@ -1318,6 +1338,16 @@
           ]
         },
         {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --production",
+            "Don't update devDependencies."
+          ]
+        },
+        {
           "name": "--save",
           "tip": [
             "Save to package.json. (true by default)"
@@ -1342,39 +1372,9 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--yarn",
           "alias": [
-            "--force"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "Always request the latest versions from the registry & reinstall all dependencies."
-          ]
-        },
-        {
-          "name": "-g",
-          "alias": [
-            "--global"
-          ],
-          "tip": [
-            "U: -g, --global",
-            "Update globally."
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--production"
-          ],
-          "tip": [
-            "U: -p, --production",
-            "Don't update devDependencies."
-          ]
-        },
-        {
-          "name": "-y",
-          "alias": [
-            "--yarn"
+            "-y"
           ],
           "tip": [
             "U: -y, --yarn",
@@ -1423,9 +1423,9 @@
       ]
     },
     {
-      "name": "-v",
+      "name": "--version",
       "alias": [
-        "--version"
+        "-v"
       ],
       "tip": [
         "U: -v, --version",
@@ -1435,9 +1435,30 @@
   ],
   "common_option": [
     {
+      "name": "--bun",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --bun",
+        "Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)."
+      ]
+    },
+    {
       "name": "--conditions",
       "tip": [
         "Pass custom conditions to resolve."
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "Specify path to Bun config file.",
+        "Default ./bunfig.toml."
       ]
     },
     {
@@ -1451,6 +1472,27 @@
       "name": "--env-file",
       "tip": [
         "Load environment variables from the specified file(s)."
+      ]
+    },
+    {
+      "name": "--eval",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --eval <code>",
+        "Evaluate argument as a script."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help text for command."
       ]
     },
     {
@@ -1517,6 +1559,17 @@
       ]
     },
     {
+      "name": "--port",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --port <port>",
+        "Set the default port for Bun.serve."
+      ],
+      "next": 0
+    },
+    {
       "name": "--prefer-latest",
       "tip": [
         "Use the latest matching versions of packages in the Bun runtime, always checking npm."
@@ -1527,6 +1580,17 @@
       "tip": [
         "Skip staleness checks for packages in the Bun runtime and resolve from disk."
       ]
+    },
+    {
+      "name": "--preload",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --preload <module>",
+        "Import a module before other modules are loaded."
+      ],
+      "next": 0
     },
     {
       "name": "--print",
@@ -1560,75 +1624,11 @@
       ]
     },
     {
-      "name": "-b",
-      "alias": [
-        "--bun"
-      ],
-      "tip": [
-        "U: -b, --bun",
-        "Force a script or package to use Bun's runtime instead of Node.js (via symlinking node)."
-      ]
-    },
-    {
-      "name": "-c",
-      "alias": [
-        "--config"
-      ],
-      "tip": [
-        "U: -c, --config <path>",
-        "Specify path to Bun config file.",
-        "Default ./bunfig.toml."
-      ]
-    },
-    {
-      "name": "-e",
-      "alias": [
-        "--eval"
-      ],
-      "tip": [
-        "U: -e, --eval <code>",
-        "Evaluate argument as a script."
-      ],
-      "next": 0
-    },
-    {
-      "name": "-h",
-      "alias": [
-        "--help"
-      ],
-      "tip": [
-        "U: -h, --help",
-        "Print help text for command."
-      ]
-    },
-    {
       "name": "-i",
       "tip": [
         "Auto-install dependencies during execution.",
         "Equivalent to --install=fallback."
       ]
-    },
-    {
-      "name": "-p",
-      "alias": [
-        "--port"
-      ],
-      "tip": [
-        "U: -p, --port <port>",
-        "Set the default port for Bun.serve."
-      ],
-      "next": 0
-    },
-    {
-      "name": "-r",
-      "alias": [
-        "--preload"
-      ],
-      "tip": [
-        "U: -r, --preload <module>",
-        "Import a module before other modules are loaded."
-      ],
-      "next": 0
     }
   ]
 }
