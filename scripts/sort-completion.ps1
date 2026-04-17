@@ -121,9 +121,34 @@ function Sort-JsonStructure {
     }
 }
 
+function Optimize-CompletionJson {
+    param(
+        [string]$Path
+    )
+    $content = Get-Content -Path $Path -Raw | ConvertFrom-Json
+    function Optimize-Entry($entry) {
+        if ($null -eq $entry) { return }
+        foreach ($item in $entry) {
+            if ($item.alias.Count -gt 0) {
+                $sorted = @($item.name) + @($item.alias) | Sort-Object { $_.Length } -Descending
+                $item.name = $sorted[0]
+                $item.alias = $sorted[1..($sorted.Count - 1)]
+            }
+            if ($item.next) { Optimize-Entry $item.next }
+            if ($item.option) { Optimize-Entry $item.option }
+        }
+    }
+    Optimize-Entry $content.root
+    Optimize-Entry $content.option
+    Optimize-Entry $content.common_option
+
+    $newJson = $content | ConvertTo-Json -Depth 100
+    $newJson | Out-File -FilePath $Path -Encoding utf8
+}
 
 foreach ($completion in $CompletionList) {
     Get-ChildItem "$completions_dir\$completion\language" -Filter *.json | ForEach-Object {
+        Optimize-CompletionJson $_.FullName
         Sort-JsonStructure -InputFile $_.FullName -OutputFile $_.FullName
     }
 }
