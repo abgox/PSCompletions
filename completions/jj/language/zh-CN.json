@@ -625,6 +625,7 @@
     {
       "name": "diff",
       "tip": [
+        "U: diff [OPTIONS] [FILESETS]...",
         "比较两个修订之间文件内容的差异"
       ],
       "option": [
@@ -750,13 +751,99 @@
     {
       "name": "diffedit",
       "tip": [
+        "U: diffedit [OPTIONS] [FILESETS]...",
         "使用差异编辑器编辑修订中的内容变更"
+      ],
+      "next": [
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "变基后代提交时保留内容（而非差异）",
+            "在将派生提交变基至重写后的修订版本之上时，其与父提交之间的差异通常会被保留，这与派生提交一贯的变基处理方式一致。",
+            "此标志使内容/状态被保留而不是保留差异。"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSET>",
+            "要编辑的修订",
+            "如果未指定 --to 或 --from 参数，则默认值为 @"
+          ],
+          "next": []
+        },
+        {
+          "name": "--to",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --to <REVSET>",
+            "编辑该修订中的更改",
+            "如果指定了 --from 参数，则默认值为 @"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>",
+            "指定要使用的差异编辑器"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "duplicate",
       "tip": [
+        "U: duplicate [OPTIONS] [REVSETS]...",
         "创建与现有变更内容相同的新变更"
+      ],
+      "option": [
+        {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-d",
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "要复制到的修订版本（可重复执行以创建合并提交）"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-after",
+          "alias": [
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "要插入后的修订版本（可重复执行以创建合并提交）"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "要插入前的修订版本（可重复执行以创建合并提交）"
+          ],
+          "repeat": true,
+          "next": []
+        }
       ]
     },
     {
@@ -773,7 +860,149 @@
         "evolog"
       ],
       "tip": [
+        "U: evolog [OPTIONS]",
         "显示变更如何随时间演变"
+      ],
+      "option": [
+        {
+          "name": "--color-words",
+          "tip": [
+            "以颜色标注差异的方式展示字词级别的对比变化"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>",
+            "显示的上下文行数"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "以 Git 格式展示差异"
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "tip": [
+            "忽略所有空格"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "tip": [
+            "忽略空格数量变化"
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --limit <LIMIT>",
+            "限制显示的修订版本数量",
+            "在对修订内容进行拓扑排序后、反转处理前应用。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "显示路径的名称",
+            "通常用于 shell 命令，例如：`jj diff -r @- --name-only | xargs perl -pi -e's/OLD/NEW/g`"
+          ]
+        },
+        {
+          "name": "--no-graph",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --no-graph",
+            "不显示修订图，显示修订版本的扁平列表。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "显示该变更的差异补丁",
+            "如果该变更的父修订版本不同，则会临时重新基到新版本的父修订版本，以确保差异补丁不包含无关的变更。"
+          ]
+        },
+        {
+          "name": "--reversed",
+          "tip": [
+            "显示修订版本的差异补丁，顺序与通常相反（旧修订版本先显示）"
+          ]
+        },
+        {
+          "name": "--revisions",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>",
+            "显示指定修订版本的变更",
+            "[default: @]"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "显示变更的统计方图"
+          ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "显示变更的摘要，仅显示每个路径是否被修改、添加或删除。"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>",
+            "使用指定模板渲染每个修订版本",
+            "[`CommitEvolutionEntry` 类型] 的所有无参方法均可在模板表达式中作为关键字使用。",
+            "查看 [`jj help -k templates`] 以获取更多信息。",
+            "未指定时，默认使用 `templates.evolog` 设置。",
+            "[`CommitEvolutionEntry` 类型]: https://docs.jj-vcs.dev/latest/templates/#commitevolutionentry-type",
+            "[`jj help -k templates`]: https://docs.jj-vcs.dev/latest/templates/"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>",
+            "使用外部命令生成差异",
+            "也可以将内置格式指定为 `:<name>`，例如： `--tool=:git` 等价于 `--git`。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "针对每条路径，仅显示其变更前后的类型",
+            "差异以两个字母表示，第一个字母表示变更前的类型，第二个字母表示变更后的类型。",
+            "'-' 表示路径不存在，'F'、'L'、'C'、'G' 分别表示普通文件、符号链接、冲突、 Git 子模块等。"
+          ]
+        }
       ]
     },
     {
@@ -823,7 +1052,28 @@
     {
       "name": "fix",
       "tip": [
+        "U: fix [OPTIONS] [FILESETS]...",
         "更新文件中的格式化修复或其他变更"
+      ],
+      "option": [
+        {
+          "name": "--include-unchanged-files",
+          "tip": [
+            "除已修改文件外，同时修复未发生更改的文件。",
+            "如果未指定路径，则修复仓库中的所有文件。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <REVSETS>",
+            "修复指定修订版本及其后代文件。",
+            "如果未指定修订版本，则默认使用 `revsets.fix` 设置，或未设置时使用 `reachable(@, mutable())`。"
+          ]
+        }
       ]
     },
     {
@@ -979,6 +1229,7 @@
                 "U: --remote <REMOTE>",
                 "从其中获取变更的远程仓库（仅支持命名的远程仓库，可重复）"
               ],
+              "repeat": true,
               "next": 0
             },
             {
@@ -1058,6 +1309,7 @@
                 "-b, --bookmark <BOOKMARK>",
                 "仅推送此书签，或匹配模式的书签（可以重复）"
               ],
+              "repeat": true,
               "next": []
             },
             {
@@ -1069,6 +1321,7 @@
                 "U: -c, --change <REVSETS>",
                 "通过创建书签推送此提交（可以重复）"
               ],
+              "repeat": true,
               "next": []
             },
             {
@@ -1107,6 +1360,7 @@
                 "U: -r, --revisions <REVSETS>",
                 "推送指向这些提交的书签（可以重复）"
               ],
+              "repeat": true,
               "next": []
             },
             {
@@ -1456,6 +1710,7 @@
             "U: -b, --branch <REVSETS>",
             "相对于目标的祖先重新调整整个分支的基准（可重复）"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1468,6 +1723,7 @@
             "U: -A, --insert-after, --after <REVSETS>",
             "在给定提交之后插入新变更（可重复以创建合并提交）"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1480,6 +1736,7 @@
             "U: -B, --insert-before, --before <REVSETS>",
             "在给定提交之前插入新变更（可重复以创建合并提交）"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1497,6 +1754,7 @@
             "U: -o, --onto <REVSETS>",
             "变基目标（可重复以创建合并提交）"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1527,6 +1785,7 @@
             "U: -s, --source <REVSETS>",
             "变基指定的修订版本及其后代树（可重复）"
           ],
+          "repeat": true,
           "next": []
         }
       ]
@@ -1784,6 +2043,7 @@
             "U: -A, --insert-after, --after <REVSETS>",
             "（实验性）要在其后插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1796,6 +2056,7 @@
             "U: -B, --insert-before, --before <REVSETS>",
             "（实验性）要在其之前插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1856,6 +2117,7 @@
             "U: -o, --onto <REVSETS>",
             "（实验性）用作新提交的父提交的修订版本（可重复使用以创建合并提交）"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -2093,6 +2355,7 @@
         "U: --config <NAME=VALUE>",
         "额外的配置选项（可以重复）"
       ],
+      "repeat": true,
       "next": 0
     },
     {
@@ -2101,6 +2364,7 @@
         "U: --config-file <PATH>",
         "额外的配置文件（可以重复）"
       ],
+      "repeat": true,
       "next": 0
     },
     {

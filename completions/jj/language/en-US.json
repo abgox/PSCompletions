@@ -625,6 +625,7 @@
     {
       "name": "diff",
       "tip": [
+        "U: diff [OPTIONS] [FILESETS]...",
         "Compare file contents between two revisions"
       ],
       "option": [
@@ -750,13 +751,98 @@
     {
       "name": "diffedit",
       "tip": [
+        "U: diffedit [OPTIONS] [FILESETS]...",
         "Touch up the content changes in a revision with a diff editor"
+      ],
+      "next": [
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "Preserve the content (not the diff) when rebasing descendants",
+            "When rebasing a descendant on top of the rewritten revision, its diff compared to its parent(s) is normally preserved, i.e. the same way that descendants are always rebased.",
+            "This flag makes it so the content/state is preserved instead of preserving the diff."
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSET>",
+            "The revision to touch up",
+            "Defaults to @ if neither --to nor --from are specified."
+          ],
+          "next": []
+        },
+        {
+          "name": "--to",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --to <REVSET>",
+            "Edit changes in this revision",
+            "Defaults to @ if --from is specified."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>",
+            "Specify diff editor to be used"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "duplicate",
       "tip": [
         "Create new changes with the same content as existing ones"
+      ],
+      "option": [
+        {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-d",
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "The revision(s) to duplicate onto (can be repeated to create a merge commit)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-after",
+          "alias": [
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "The revision(s) to insert after (can be repeated to create a merge commit)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "The revision(s) to insert before (can be repeated to create a merge commit)"
+          ],
+          "repeat": true,
+          "next": []
+        }
       ]
     },
     {
@@ -773,7 +859,149 @@
         "evolog"
       ],
       "tip": [
+        "U: evolog [OPTIONS]",
         "Show how a change has evolved over time"
+      ],
+      "option": [
+        {
+          "name": "--color-words",
+          "tip": [
+            "Show a word-level diff with changes indicated only by color"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>",
+            "Number of lines of context to show"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "Show a Git-format diff"
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "tip": [
+            "Ignore whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "tip": [
+            "Ignore changes in amount of whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --limit <LIMIT>",
+            "Limit number of revisions to show",
+            "Applied after revisions are reordered topologically, but before being reversed."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "For each path, show only its path",
+            "Typically useful for shell commands like: `jj diff -r @- --name-only | xargs perl -pi -e's/OLD/NEW/g`"
+          ]
+        },
+        {
+          "name": "--no-graph",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --no-graph",
+            "Don't show the graph, show a flat list of revisions"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Show patch compared to the previous version of this change",
+            "If the previous version has different parents, it will be temporarily rebased to the parents of the new version, so the diff is not contaminated by unrelated changes."
+          ]
+        },
+        {
+          "name": "--reversed",
+          "tip": [
+            "Show revisions in the opposite order (older revisions first)"
+          ]
+        },
+        {
+          "name": "--revisions",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revisions <REVSETS>",
+            "Follow changes from these revisions",
+            "[default: @]"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show a histogram of the changes"
+          ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "For each path, show only whether it was modified, added, or deleted"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>",
+            "Render each revision using the given template",
+            "All 0-argument methods of the [`CommitEvolutionEntry` type] are available as keywords in the template expression.",
+            "See [`jj help -k templates`] for more information.",
+            "If not specified, this defaults to the `templates.evolog` setting.",
+            "[`CommitEvolutionEntry` type]: https://docs.jj-vcs.dev/latest/templates/#commitevolutionentry-type",
+            "[`jj help -k templates`]: https://docs.jj-vcs.dev/latest/templates/"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>",
+            "Generate diff by external command",
+            "A builtin format can also be specified as `:<name>`. For example, `--tool=:git` is equivalent to `--git`."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "For each path, show only its type before and after",
+            "The diff is shown as two letters. The first letter indicates the type before and the second letter indicates the type after.",
+            "'-' indicates that the path was not present, 'F' represents a regular file, `L' represents a symlink, 'C' represents a conflict, and 'G' represents a Git submodule."
+          ]
+        }
       ]
     },
     {
@@ -823,7 +1051,28 @@
     {
       "name": "fix",
       "tip": [
+        "U: fix [OPTIONS] [FILESETS]...",
         "Update files with formatting fixes or other changes"
+      ],
+      "option": [
+        {
+          "name": "--include-unchanged-files",
+          "tip": [
+            "Fix unchanged files in addition to changed ones.",
+            "If no paths are specified, all files in the repo will be fixed"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <REVSETS>",
+            "Fix files in the specified revision(s) and their descendants.",
+            "If no revisions are specified, this defaults to the `revsets.fix` setting, or `reachable(@, mutable())` if it is not set"
+          ]
+        }
       ]
     },
     {
@@ -979,6 +1228,7 @@
                 "U: --remote <REMOTE>",
                 "The remote to fetch from (only named remotes are supported, can be repeated)"
               ],
+              "repeat": true,
               "next": 0
             },
             {
@@ -1058,6 +1308,7 @@
                 "-b, --bookmark <BOOKMARK>",
                 "Push only this bookmark, or bookmarks matching a pattern (can be repeated)"
               ],
+              "repeat": true,
               "next": []
             },
             {
@@ -1069,6 +1320,7 @@
                 "U: -c, --change <REVSETS>",
                 "Push this commit by creating a bookmark (can be repeated)"
               ],
+              "repeat": true,
               "next": []
             },
             {
@@ -1107,6 +1359,7 @@
                 "U: -r, --revisions <REVSETS>",
                 "Push bookmarks pointing to these commits (can be repeated)"
               ],
+              "repeat": true,
               "next": []
             },
             {
@@ -1455,6 +1708,7 @@
             "U: -b, --branch <REVSETS>",
             "Rebase the whole branch relative to destination's ancestors (can be repeated)"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1467,6 +1721,7 @@
             "U: -A, --insert-after, --after <REVSETS>",
             "The revision(s) to insert after (can be repeated to create a merge commit)"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1479,6 +1734,7 @@
             "U: -B, --insert-before, --before <REVSETS>",
             "The revision(s) to insert before (can be repeated to create a merge commit)"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1496,6 +1752,7 @@
             "U: -o, --onto <REVSETS>",
             "The revision(s) to rebase onto (can be repeated to create a merge commit)"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1526,6 +1783,7 @@
             "U: -s, --source <REVSETS>",
             "Rebase specified revision(s) together with their trees of descendants (can be repeated)"
           ],
+          "repeat": true,
           "next": []
         }
       ]
@@ -1783,6 +2041,7 @@
             "U: -A, --insert-after, --after <REVSETS>",
             "(Experimental) The revision(s) to insert the new commit after (can be repeated to create a merge commit)"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1795,6 +2054,7 @@
             "U: -B, --insert-before, --before <REVSETS>",
             "(Experimental) The revision(s) to insert the new commit before (can be repeated to create a merge commit)"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -1855,6 +2115,7 @@
             "U: -o, --onto <REVSETS>",
             "(Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)"
           ],
+          "repeat": true,
           "next": []
         },
         {
@@ -2092,6 +2353,7 @@
         "U: --config <NAME=VALUE>",
         "Additional configuration options (can be repeated)"
       ],
+      "repeat": true,
       "next": 0
     },
     {
@@ -2100,6 +2362,7 @@
         "U: --config-file <PATH>",
         "Additional configuration files (can be repeated)"
       ],
+      "repeat": true,
       "next": 0
     },
     {
