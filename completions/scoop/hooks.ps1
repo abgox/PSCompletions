@@ -7,8 +7,20 @@
     catch {
         return $completions
     }
-    $root_path = $config.root_path
-    $global_path = $config.global_path
+    $CN = $PSUICulture -like 'zh*'
+    $root_path = $env:SCOOP, $config.root_path | Select-Object -First 1
+    if (-not $root_path) {
+        if ($CN) {
+            throw 'Scoop 未配置 root_path, 请先进行配置: scoop config root_path <scoop_path>'
+        }
+        else {
+            throw 'Scoop does not have a root_path configuration. Please set it first: scoop config root_path <scoop_path>'
+        }
+    }
+    $global_path = $env:SCOOP_GLOBAL, $config.global_path | Select-Object -First 1
+    $apps_dir = "$root_path\apps", "$global_path\apps" | Where-Object { Test-Path $_ }
+    $buckets_dir = "$root_path\buckets"
+
     $config_path = "$root_path\config.json"
     if (Test-Path $config_path) {
         $PSCompletions._scoop_config_path = $config_path
@@ -27,7 +39,7 @@
             switch ($filter_input_arr[1]) {
                 'rm' {
                     if ($filter_input_arr.Count -eq 2) {
-                        $items = Get-ChildItem "$root_path\buckets" 2>$null
+                        $items = Get-ChildItem $buckets_dir 2>$null
                         foreach ($_ in $items) {
                             $bucket = $_.Name
                             $list += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm))
@@ -41,10 +53,10 @@
                 break
             }
 
-            $PSCompletions.temp_scoop_installed_apps = Get-ChildItem "$root_path\apps" | ForEach-Object { $_.BaseName }
+            $PSCompletions.temp_scoop_installed_apps = $apps_dir | ForEach-Object { Get-ChildItem $_ | ForEach-Object { $_.BaseName } }
 
             $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
-            $dir = Get-ChildItem "$root_path\buckets" | ForEach-Object {
+            $dir = Get-ChildItem $buckets_dir | ForEach-Object {
                 if ($_.Name -in $exclude_buckets) {
                     return
                 }
@@ -125,7 +137,7 @@ if (`$c.description) {
             else {
                 $selected = @()
             }
-            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+            foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     if ($app -eq 'scoop') { continue }
@@ -164,7 +176,7 @@ if (`$c.description) {
             else {
                 $selected = @()
             }
-            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+            foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     if ($app -eq 'scoop') { continue }
@@ -198,7 +210,7 @@ if (`$c.description) {
         }
         { $_ -in 'info', 'cat', 'reset' } {
             $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
-            $dir = Get-ChildItem "$root_path\buckets" | ForEach-Object {
+            $dir = Get-ChildItem $buckets_dir | ForEach-Object {
                 if ($_.Name -in $exclude_buckets) {
                     return
                 }
@@ -260,7 +272,7 @@ if (`$c.description) {
             else {
                 $selected = @()
             }
-            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+            foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     if ($app -eq 'scoop') { continue }
@@ -299,7 +311,7 @@ if (`$c.description) {
             else {
                 $selected = @()
             }
-            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+            foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     if ($app -eq 'scoop') { continue }
@@ -338,7 +350,7 @@ if (`$c.description) {
             else {
                 $selected = @()
             }
-            foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+            foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
                     if ($app -eq 'scoop') { continue }
@@ -372,7 +384,7 @@ if (`$c.description) {
         }
         'prefix' {
             if ($filter_input_arr.Count -eq 1) {
-                foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+                foreach ($_ in $apps_dir) {
                     foreach ($item in (Get-ChildItem $_ 2>$null)) {
                         $app = $item.Name
                         $path = $item.FullName

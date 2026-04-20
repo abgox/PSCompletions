@@ -7,8 +7,19 @@
     catch {
         return $completions
     }
-    $root_path = $config.root_path
-    $global_path = $config.global_path
+    $CN = $PSUICulture -like 'zh*'
+    $root_path = $env:SCOOP, $config.root_path | Select-Object -First 1
+    if (-not $root_path) {
+        if ($CN) {
+            throw 'Scoop 未配置 root_path, 请先进行配置: scoop config root_path <scoop_path>'
+        }
+        else {
+            throw 'Scoop does not have a root_path configuration. Please set it first: scoop config root_path <scoop_path>'
+        }
+    }
+    $global_path = $env:SCOOP_GLOBAL, $config.global_path | Select-Object -First 1
+    $apps_dir = "$root_path\apps", "$global_path\apps" | Where-Object { Test-Path $_ }
+    # $buckets_dir = "$root_path\buckets"
 
     $CN = $PSUICulture -like 'zh*'
 
@@ -103,7 +114,7 @@
     }
 
     if ($addApp) {
-        foreach ($_ in @("$root_path\apps", "$global_path\apps")) {
+        foreach ($_ in $apps_dir) {
             foreach ($item in (Get-ChildItem $_ 2>$null)) {
                 $app = $item.Name
                 $path = $item.FullName
