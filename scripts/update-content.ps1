@@ -9,7 +9,7 @@ if (!(Test-Path $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) {
-    . $PSScriptRoot\..\module\PSCompletions\core.ps1
+    . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1
 }
 
 function Get-StringHash {

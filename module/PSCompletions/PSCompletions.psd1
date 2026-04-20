@@ -29,7 +29,7 @@ It provides a more powerful module completion menu with sorting and filtering.
 - Gitee:   https://gitee.com/abgox/PSCompletions
 '@
 
-    ScriptsToProcess     = 'core.ps1'
+    ScriptsToProcess     = 'PSCompletions.ps1'
 
     FunctionsToExport    = 'PSCompletions'
 
