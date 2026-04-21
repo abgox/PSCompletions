@@ -125,15 +125,21 @@
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$type = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$type) { 'type:     ' + `$type; `"`n`" };
-if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
-'version:  ' + `$c.version; `"`n`";
+`$b = `$i.bucket;
+if (`$b) { 'bucket:   ' + `$b; `"`n`" };
+`$v = "$root_path\buckets\`$b\bucket\$($app[0])\$($app.Split('.', 2)[0])\$app.json", "$root_path\buckets\`$b\bucket\$app.json" |
+ForEach-Object { Get-Content `$_ -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue | Select-Object -ExpandProperty version } |
+Select-Object -First 1;
+`$new = if (`$v -and `$v -ne `$c.version) { " (`$v)" } else { '' };
+'version:  ' + `$c.version + `$new; `"`n`";
+`$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
+if (`$category) { 'category: ' + `$category; `"`n`" };
 'homepage: ' + `$c.homepage; `"`n`";
 `$persistence = @()
 if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
 if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
+if (`$c.admin){ 'permissions: admin'; `"`n`"; }
 if (`$c.description) {
     '-----'; `"`n`";
     `$c.description.Replace(' | ', `"`n`")
