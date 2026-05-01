@@ -31,14 +31,6 @@
     # 是否需要添加应用补全
     $addApp = $true
 
-    if ($CN) {
-        $resetTip = "撤销所有 Scoop bucket 中的本地文件更改`n通过 git stash 命令实现"
-    }
-    else {
-        $resetTip = "Undo all local file changes in Scoop buckets.`nIt use 'git stash'"
-    }
-    $list += $PSCompletions.return_completion('-reset', $resetTip, @('OptionTab'))
-
     if ($last_item -notlike '-*') {
         $paramList = @(
             '-f', '--force',
