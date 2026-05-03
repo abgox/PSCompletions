@@ -126,7 +126,7 @@ if ($hasCompletion) {
             '> [!WARNING]',
             '>',
             '> - Some completions contain dynamic script, like `{{ xxx }}`',
-            '> - Please check them carefully before merging.',
+            '> - Please check them carefully before merging.'
         )
     }
 }
