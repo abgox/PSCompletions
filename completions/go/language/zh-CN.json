@@ -1,0 +1,931 @@
+{
+  "meta": {
+    "url": "https://pkg.go.dev/cmd/go",
+    "description": [
+      "go - Go语言源代码管理工具"
+    ]
+  },
+  "root": [
+    {
+      "name": "bug",
+      "tip": [
+        "提交错误报告"
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "编译包及其依赖"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "强制重新编译已经是最新状态的包。"
+          ]
+        },
+        {
+          "name": "-asan",
+          "tip": [
+            "启用与地址净化器 (address sanitizer) 的互操作。",
+            "仅支持 linux/arm64, linux/amd64, linux/loong64。",
+            "在 linux/amd64 或 linux/arm64 上支持，且仅限 GCC 7 及更高版本或 Clang/LLVM 9 及更高版本。",
+            "在 linux/loong64 上仅支持 Clang/LLVM 16 及更高版本。"
+          ]
+        },
+        {
+          "name": "-asmflags",
+          "tip": [
+            "每次调用 go tool asm 时传递的参数。"
+          ]
+        },
+        {
+          "name": "-buildmode",
+          "tip": [
+            "要使用的编译模式。详见 'go help buildmode'。"
+          ]
+        },
+        {
+          "name": "-buildvcs",
+          "tip": [
+            "是否在二进制文件中嵌入版本控制信息（\"true\"、\"false\" 或 \"auto\"）。",
+            "默认（\"auto\"）情况下，如果主包和仓库结构允许，则嵌入版本控制信息。",
+            "使用 -buildvcs=false 始终忽略，或使用 -buildvcs=true 在无法包含信息时报错。"
+          ]
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "在运行命令前切换到指定目录。",
+            "命令行中列出的任何文件都将在切换目录后进行解释。",
+            "如果使用此flag，它必须是命令行中的第一个flag。"
+          ]
+        },
+        {
+          "name": "-compiler",
+          "tip": [
+            "要使用的编译器名称，如 runtime.Compiler (gccgo 或 gc)。"
+          ]
+        },
+        {
+          "name": "-cover",
+          "tip": [
+            "启用代码覆盖率插桩。"
+          ]
+        },
+        {
+          "name": "-covermode",
+          "tip": [
+            "设置覆盖率分析模式。",
+            "除非启用了 -race（此时默认为 \"atomic\"），否则默认为 \"set\"。",
+            "可选值：set（该语句是否运行？）、count（运行了多少次？）、atomic（计数，但在多线程测试中保持正确）。",
+            "此选项会自动设置 -cover。"
+          ]
+        },
+        {
+          "name": "-coverpkg",
+          "tip": [
+            "对于针对 'main' 包的编译，对导入路径匹配模式的每个包应用覆盖率分析。",
+            "默认对主 Go 模块中的包应用覆盖率分析。",
+            "此选项会自动设置 -cover。"
+          ]
+        },
+        {
+          "name": "-gccgoflags",
+          "tip": [
+            "每次调用 gccgo 编译器/链接器时传递的参数。"
+          ]
+        },
+        {
+          "name": "-gcflags",
+          "tip": [
+            "每次调用 go tool compile 时传递的参数。"
+          ]
+        },
+        {
+          "name": "-installsuffix",
+          "tip": [
+            "包安装目录名称中使用的后缀，以便将输出分开。",
+            "如果使用 -race、-msan 或 -asan，会自动设置或追加后缀。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "以适合自动化处理的 JSON 格式输出编译结果。"
+          ]
+        },
+        {
+          "name": "-ldflags",
+          "tip": [
+            "每次调用 go tool link 时传递的参数。"
+          ]
+        },
+        {
+          "name": "-linkshared",
+          "tip": [
+            "编译同之前使用 -buildmode=shared 创建的共享库相链接的代码。"
+          ]
+        },
+        {
+          "name": "-mod",
+          "tip": [
+            "要使用的模块下载模式：readonly, vendor 或 mod。",
+            "如果存在 vendor 目录且 go 版本 >= 1.14，默认值为 'vendor'；否则为 'readonly'。"
+          ]
+        },
+        {
+          "name": "-modcacherw",
+          "tip": [
+            "让模块缓存中新创建的目录保持可读写，而非只读。"
+          ]
+        },
+        {
+          "name": "-modfile",
+          "tip": [
+            "读取（并可能写入）替代的 go.mod 文件，而不是模块根目录下的那个。",
+            "同时也会使用替代的 go.sum 文件，路径由 -modfile 派生。"
+          ]
+        },
+        {
+          "name": "-msan",
+          "tip": [
+            "启用与内存净化器 (memory sanitizer) 的互操作。",
+            "仅支持 linux/amd64, linux/arm64, linux/loong64, freebsd/amd64，且仅使用 Clang/LLVM 作为宿主 C 编译器。",
+            "除 linux/amd64 外，所有平台都将使用 PIE 编译模式。"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "打印命令但不执行它们。"
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "设置可执行文件的输出路径。"
+          ]
+        },
+        {
+          "name": "-overlay",
+          "tip": [
+            "读取一个 JSON 配置文件，为编译操作提供覆盖层（将磁盘路径映射到支撑文件）。",
+            "在 cgo 文件、'go run/test' 和 GOMODCACHE 方面存在限制。"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "可并行运行的程序数量，例如编译命令或测试二进制文件。",
+            "默认为 GOMAXPROCS，通常是可用的 CPU 数量。"
+          ]
+        },
+        {
+          "name": "-pgo",
+          "tip": [
+            "指定用于配置文件引导优化 (PGO) 的配置文件路径。",
+            "\"auto\" 模式下，如果包目录中存在 \"default.pgo\" 则选择它。\"off\" 模式关闭 PGO。"
+          ]
+        },
+        {
+          "name": "-pkgdir",
+          "tip": [
+            "从指定目录而非默认位置安装和加载所有包。"
+          ]
+        },
+        {
+          "name": "-race",
+          "tip": [
+            "启用数据竞争检测。",
+            "仅支持 darwin/amd64, darwin/arm64, freebsd/amd64, linux/amd64, linux/arm64 (仅限 48位 VMA), linux/ppc64le, linux/riscv64 和 windows/amd64。"
+          ]
+        },
+        {
+          "name": "-tags",
+          "tip": [
+            "编译过程中需要满足的额外编译标签（build tags）的逗号分隔列表。"
+          ]
+        },
+        {
+          "name": "-toolexec",
+          "tip": [
+            "用于调用 vet 和 asm 等工具链程序。",
+            "将为正在编译的包设置 TOOLEXEC_IMPORTPATH 环境变量。"
+          ]
+        },
+        {
+          "name": "-trimpath",
+          "tip": [
+            "从生成的可执行文件中移除所有文件系统路径。",
+            "记录的文件名将以 module path@version 或纯导入路径开始。"
+          ]
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "在编译时打印包名。"
+          ]
+        },
+        {
+          "name": "-work",
+          "tip": [
+            "打印临时工作目录的名称，且在退出时不删除它。"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "打印命令。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "移除对象文件和缓存文件"
+      ],
+      "option": [
+        {
+          "name": "-cache",
+          "tip": [
+            "移除整个 go build 缓存"
+          ]
+        },
+        {
+          "name": "-fuzzcache",
+          "tip": [
+            "移除存储在 Go build 缓存中用于模糊测试 (fuzz testing) 的文件",
+            "模糊引擎缓存那些能扩大代码覆盖率的文件，因此移除它们可能会降低模糊测试效率，直到找到提供相同覆盖率的新输入",
+            "这些文件与存储在 testdata 目录中的文件不同；clean 不会移除那些文件"
+          ]
+        },
+        {
+          "name": "-i",
+          "tip": [
+            "移除对应的已安装归档或二进制文件（即 'go install' 会创建的文件）"
+          ]
+        },
+        {
+          "name": "-modcache",
+          "tip": [
+            "移除整个模块下载缓存，包括已解压的版本化依赖源代码"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "打印它将执行的移除命令，但不实际运行"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "递归应用于由导入路径命名的包的所有依赖项"
+          ]
+        },
+        {
+          "name": "-testcache",
+          "tip": [
+            "使 go build 缓存中的所有测试结果过期"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "在执行移除命令时将其打印出来"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doc",
+      "tip": [
+        "显示包或符号的文档"
+      ],
+      "option": [
+        {
+          "name": "-all",
+          "tip": [
+            "显示该包的所有文档。"
+          ]
+        },
+        {
+          "name": "-c",
+          "tip": [
+            "匹配符号时区分大小写。"
+          ]
+        },
+        {
+          "name": "-cmd",
+          "tip": [
+            "将命令（main 包）视为普通包处理。",
+            "否则在显示包的顶级文档时，main 包导出的符号会被隐藏。"
+          ]
+        },
+        {
+          "name": "-http",
+          "tip": [
+            "通过 HTTP 提供 HTML 文档。"
+          ]
+        },
+        {
+          "name": "-short",
+          "tip": [
+            "为每个符号显示单行摘要。"
+          ]
+        },
+        {
+          "name": "-src",
+          "tip": [
+            "显示符号的完整源代码。",
+            "这将显示其声明和定义的完整 Go 源码，例如函数定义（包括主体）、类型声明或外围的 const 块。",
+            "因此输出可能包含未导出的细节。"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "显示未导出以及导出的符号、方法和字段的文档。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "打印 Go 环境信息"
+      ],
+      "option": [
+        {
+          "name": "-changed",
+          "tip": [
+            "仅打印那些有效值与默认值不同的设置（默认值指在没有使用 -w 的空环境中获得的值）"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "以 JSON 格式而非 shell 脚本格式打印环境变量"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "需要一个或多个参数，并取消指定环境变量的默认设置（如果之前通过 'go env -w' 设置过）"
+          ]
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "需要一个或多个 NAME=VALUE 形式的参数，并将指定环境变量的默认设置更改为给定值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fix",
+      "tip": [
+        "应用静态检查器建议的修复"
+      ],
+      "option": [
+        {
+          "name": "-diff",
+          "tip": [
+            "不应用修复，而是将补丁以统一 diff (unified diff) 格式打印出来"
+          ]
+        },
+        {
+          "name": "-fixtool",
+          "tip": [
+            "选择具有替代或额外修复功能的其他分析工具",
+            "详情请参阅 go vet 的 -vettool flag的文档"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "tip": [
+        "gofmt（重新格式化）包源代码"
+      ],
+      "option": [
+        {
+          "name": "-mod",
+          "tip": [
+            "设置要使用的模块下载模式：readonly 或 vendor",
+            "详见 'go help modules'"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "打印将要执行的命令"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "打印正在执行的命令"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "tip": [
+        "通过处理源代码生成 Go 文件"
+      ]
+    },
+    {
+      "name": "get",
+      "tip": [
+        "向当前模块添加依赖并安装它们"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "tip": [
+            "同时考虑编译命令行中指定的包测试所需的模块",
+            "与 -u 配合使用时，get 也会更新测试依赖"
+          ]
+        },
+        {
+          "name": "-tool",
+          "tip": [
+            "为列出的每个包在 go.mod 中添加匹配的 tool 行",
+            "如果配合 @none 使用，该行将被移除"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "更新命令行中包的依赖模块，以便在有较新的次要版本或补丁版本时使用它们",
+            "与 -t 配合使用时，get 也会更新测试依赖"
+          ]
+        },
+        {
+          "name": "-u=patch",
+          "tip": [
+            "更新依赖，但将默认选择更改为补丁 (patch) 版本"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "打印正在执行的命令",
+            "当模块直接从仓库下载时，对于调试版本控制命令非常有用"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "获取有关命令的更多信息"
+      ],
+      "next": [
+        {
+          "name": "buildconstraint",
+          "tip": [
+            "编译约束"
+          ]
+        },
+        {
+          "name": "buildjson",
+          "tip": [
+            "build -json 编码"
+          ]
+        },
+        {
+          "name": "buildmode",
+          "tip": [
+            "编译模式"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "Go 语言与 C 语言间的互相调用"
+          ]
+        },
+        {
+          "name": "cache",
+          "tip": [
+            "编译和测试的缓存"
+          ]
+        },
+        {
+          "name": "environment",
+          "tip": [
+            "环境变量"
+          ]
+        },
+        {
+          "name": "filetype",
+          "tip": [
+            "文件类型"
+          ]
+        },
+        {
+          "name": "go.mod",
+          "tip": [
+            "go.mod 文件"
+          ]
+        },
+        {
+          "name": "goauth",
+          "tip": [
+            "GOAUTH 环境变量"
+          ]
+        },
+        {
+          "name": "gopath",
+          "tip": [
+            "GOPATH 环境变量"
+          ]
+        },
+        {
+          "name": "goproxy",
+          "tip": [
+            "模块代理协议"
+          ]
+        },
+        {
+          "name": "importpath",
+          "tip": [
+            "导入路径语法"
+          ]
+        },
+        {
+          "name": "module-auth",
+          "tip": [
+            "使用 go.sum 进行模块身份验证"
+          ]
+        },
+        {
+          "name": "modules",
+          "tip": [
+            "模块、模块版本等信息"
+          ]
+        },
+        {
+          "name": "packages",
+          "tip": [
+            "包列表与模式"
+          ]
+        },
+        {
+          "name": "private",
+          "tip": [
+            "下载非公开代码的配置"
+          ]
+        },
+        {
+          "name": "testflag",
+          "tip": [
+            "测试flag"
+          ]
+        },
+        {
+          "name": "testfunc",
+          "tip": [
+            "测试函数"
+          ]
+        },
+        {
+          "name": "vcs",
+          "tip": [
+            "使用 GOVCS 进行版本控制"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "编译并安装包及其依赖项"
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "列出包或模块"
+      ],
+      "option": [
+        {
+          "name": "-compiled",
+          "tip": [
+            "将 CompiledGoFiles 设置为提交给编译器的 Go 源文件",
+            "添加通过处理 CgoFiles 和 SwigFiles 生成的 Go 代码",
+            "Imports 列表将包含来自 GoFiles 和 CompiledGoFiles 的所有导入的并集"
+          ]
+        },
+        {
+          "name": "-deps",
+          "tip": [
+            "不仅迭代指定的包，还迭代它们所有的依赖项",
+            "以深度优先后序遍历方式访问它们",
+            "未在命令行中显式列出的包将把 DepOnly 字段设置为 true"
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "更改对错误包（找不到或格式错误的包）的处理方式",
+            "从不将错误打印到标准错误，而是按照通常的打印方式处理错误包",
+            "错误包将具有非空的 ImportPath 和非空的 Error 字段"
+          ]
+        },
+        {
+          "name": "-export",
+          "tip": [
+            "将 Export 字段设置为包含给定包最新导出信息的文件名",
+            "将 BuildID 字段设置为已编译包的编译 ID"
+          ]
+        },
+        {
+          "name": "-find",
+          "tip": [
+            "识别指定的包但不解析它们的依赖关系",
+            "Imports 和 Deps 列表将为空",
+            "不能与 -deps, -test 或 -export 配合使用"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "以 JSON 格式打印包数据，而非使用模板格式",
+            "可以选配一组逗号分隔的必填字段名进行输出"
+          ]
+        },
+        {
+          "name": "-m",
+          "tip": [
+            "列出模块，而非包",
+            "将其他flag（如 -f 和 -json）的上下文更改为使用 Module 结构体而非 Package 结构体"
+          ]
+        },
+        {
+          "name": "-retracted",
+          "tip": [
+            "报告有关已撤回模块版本的信息",
+            "与 -f 或 -json 配合使用时，Retracted 字段会解释撤回原因",
+            "可以配合或不配合 -m 使用"
+          ]
+        },
+        {
+          "name": "-reuse",
+          "tip": [
+            "接受包含上一次 'go list -m -json' 调用产生的 JSON 输出的文件名",
+            "如果模块未更改，则避免重新下载信息",
+            "未重新下载的模块将把 Reuse 字段设置为 true",
+            "应配合 -m 使用"
+          ]
+        },
+        {
+          "name": "-test",
+          "tip": [
+            "不仅报告指定的包，还报告它们的测试二进制文件",
+            "测试二进制文件的报告导入路径带有 '.test' 后缀",
+            "将 ForTest 字段设置为正在测试的包名"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "添加有关模块可用升级的信息",
+            "如果有较新版本可用，则设置 Module 的 Update 字段",
+            "如果当前版本已撤回，则设置 Retracted 字段"
+          ]
+        },
+        {
+          "name": "-versions",
+          "tip": [
+            "将 Module 的 Versions 字段设置为该模块所有已知版本的列表",
+            "更改默认输出格式，以显示模块路径，后跟空格分隔的版本列表"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mod",
+      "tip": [
+        "模块维护"
+      ],
+      "next": [
+        {
+          "name": "download",
+          "tip": [
+            "下载模块到本地缓存"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "通过工具或脚本编辑 go.mod"
+          ]
+        },
+        {
+          "name": "graph",
+          "tip": [
+            "打印模块需求图"
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "在当前目录初始化新模块"
+          ]
+        },
+        {
+          "name": "tidy",
+          "tip": [
+            "添加缺失的模块并移除未使用的模块"
+          ]
+        },
+        {
+          "name": "vendor",
+          "tip": [
+            "创建依赖项的 vendor 副本"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "验证依赖项是否符合预期内容"
+          ]
+        },
+        {
+          "name": "why",
+          "tip": [
+            "解释为什么需要某些包或模块"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "编译并运行 Go 程序"
+      ],
+      "option": [
+        {
+          "name": "-exec",
+          "tip": [
+            "使用 xprog 程序调用二进制文件",
+            "使用的命令格式为 'xprog a.out 参数...'"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "telemetry",
+      "tip": [
+        "管理遥测数据和设置"
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "测试包"
+      ],
+      "option": [
+        {
+          "name": "-args",
+          "tip": [
+            "将命令行的其余部分（-args 之后的所有内容）原封不动传递给测试用的二进制文件",
+            "由于此flag会读取命令行的其余部分，如果存在包列表则必须在此flag之前输入"
+          ]
+        },
+        {
+          "name": "-c",
+          "tip": [
+            "将测试二进制文件编译为当前目录下的 pkg.test，但不运行它",
+            "文件名或目标目录可以通过 -o 更改"
+          ]
+        },
+        {
+          "name": "-exec",
+          "tip": [
+            "使用指定程序 (xprog) 运行测试二进制文件",
+            "行为与 'go run' 中相同"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "将测试输出转换为适合自动化处理的 JSON 格式",
+            "同时也以 JSON 格式输出编译结果"
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "将测试二进制文件的副本保存到指定文件",
+            "除非指定了 -c，否则测试仍会运行",
+            "如果目标是目录，则在该目录下写入 pkg.test 二进制文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tool",
+      "tip": [
+        "运行指定的 go 工具"
+      ],
+      "option": [
+        {
+          "name": "-modfile",
+          "tip": [
+            "使 tool 使用替代文件而非模块根目录下的 go.mod"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "使 tool 打印将要执行的命令但不执行它"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印 Go 版本"
+      ],
+      "option": [
+        {
+          "name": "-c",
+          "tip": [
+            "显示违规行，并附带制定数量的上下文中的行",
+            "默认值为 -1"
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "不应用修复，而是将补丁以统一 diff 格式打印出来"
+          ]
+        },
+        {
+          "name": "-fix",
+          "tip": [
+            "不打印每个诊断信息，而是应用其第一个修复（如果有的话）"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "输出 JSON 结果"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "vet",
+      "tip": [
+        "报告包中可能的错误"
+      ]
+    },
+    {
+      "name": "work",
+      "tip": [
+        "工作区维护"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "通过工具或脚本编辑 go.work"
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "初始化工作区文件"
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "将工作区编译列表同步到各模块"
+          ]
+        },
+        {
+          "name": "use",
+          "tip": [
+            "向工作区文件添加模块"
+          ]
+        },
+        {
+          "name": "vendor",
+          "tip": [
+            "创建依赖项的 vendor 副本"
+          ]
+        }
+      ]
+    }
+  ]
+}
