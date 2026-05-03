@@ -1,0 +1,931 @@
+{
+  "meta": {
+    "url": "https://pkg.go.dev/cmd/go",
+    "description": [
+      "go - Go is a tool for managing Go source code."
+    ]
+  },
+  "root": [
+    {
+      "name": "bug",
+      "tip": [
+        "start a bug report"
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "compile packages and dependencies"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "force rebuilding of packages that are already up-to-date."
+          ]
+        },
+        {
+          "name": "-asan",
+          "tip": [
+            "enable interoperation with address sanitizer.",
+            "Supported only on linux/arm64, linux/amd64, linux/loong64.",
+            "Supported on linux/amd64 or linux/arm64 and only with GCC 7 and higher or Clang/LLVM 9 and higher.",
+            "And supported on linux/loong64 only with Clang/LLVM 16 and higher."
+          ]
+        },
+        {
+          "name": "-asmflags",
+          "tip": [
+            "arguments to pass on each go tool asm invocation."
+          ]
+        },
+        {
+          "name": "-buildmode",
+          "tip": [
+            "build mode to use. See 'go help buildmode' for more."
+          ]
+        },
+        {
+          "name": "-buildvcs",
+          "tip": [
+            "Whether to stamp binaries with version control information (\"true\", \"false\", or \"auto\").",
+            "By default (\"auto\"), version control information is stamped if the main package and repo structure allow.",
+            "Use -buildvcs=false to always omit, or -buildvcs=true to error out if information cannot be included."
+          ]
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "Change to dir before running the command.",
+            "Any files named on the command line are interpreted after changing directories.",
+            "If used, this flag must be the first one in the command line."
+          ]
+        },
+        {
+          "name": "-compiler",
+          "tip": [
+            "name of compiler to use, as in runtime.Compiler (gccgo or gc)."
+          ]
+        },
+        {
+          "name": "-cover",
+          "tip": [
+            "enable code coverage instrumentation."
+          ]
+        },
+        {
+          "name": "-covermode",
+          "tip": [
+            "set the mode for coverage analysis.",
+            "The default is \"set\" unless -race is enabled, in which case it is \"atomic\".",
+            "The values: set (does this statement run?), count (how many times?), atomic (count, but correct in multithreaded tests).",
+            "Sets -cover."
+          ]
+        },
+        {
+          "name": "-coverpkg",
+          "tip": [
+            "For a build that targets package 'main', apply coverage analysis to each package whose import path matches the patterns.",
+            "The default is to apply coverage analysis to packages in the main Go module.",
+            "Sets -cover."
+          ]
+        },
+        {
+          "name": "-gccgoflags",
+          "tip": [
+            "arguments to pass on each gccgo compiler/linker invocation."
+          ]
+        },
+        {
+          "name": "-gcflags",
+          "tip": [
+            "arguments to pass on each go tool compile invocation."
+          ]
+        },
+        {
+          "name": "-installsuffix",
+          "tip": [
+            "a suffix to use in the name of the package installation directory to keep output separate.",
+            "If using -race, -msan, or -asan, the suffix is automatically set or appended."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Emit build output in JSON suitable for automated processing."
+          ]
+        },
+        {
+          "name": "-ldflags",
+          "tip": [
+            "arguments to pass on each go tool link invocation."
+          ]
+        },
+        {
+          "name": "-linkshared",
+          "tip": [
+            "build code that will be linked against shared libraries previously created with -buildmode=shared."
+          ]
+        },
+        {
+          "name": "-mod",
+          "tip": [
+            "module download mode to use: readonly, vendor, or mod.",
+            "Default is 'vendor' if a vendor directory exists and go version >= 1.14; otherwise 'readonly'."
+          ]
+        },
+        {
+          "name": "-modcacherw",
+          "tip": [
+            "leave newly-created directories in the module cache read-write instead of making them read-only."
+          ]
+        },
+        {
+          "name": "-modfile",
+          "tip": [
+            "read (and possibly write) an alternate go.mod file instead of the one in the module root directory.",
+            "An alternate go.sum file is also used, derived from the -modfile path."
+          ]
+        },
+        {
+          "name": "-msan",
+          "tip": [
+            "enable interoperation with memory sanitizer.",
+            "Supported only on linux/amd64, linux/arm64, linux/loong64, freebsd/amd64 and only with Clang/LLVM as the host C compiler.",
+            "PIE build mode will be used on all platforms except linux/amd64."
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "print the commands but do not run them."
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "set the output path of executable file."
+          ]
+        },
+        {
+          "name": "-overlay",
+          "tip": [
+            "read a JSON config file that provides an overlay for build operations (mapping disk paths to backing files).",
+            "Has limitations regarding cgo files, 'go run/test', and GOMODCACHE."
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "the number of programs, such as build commands or test binaries, that can be run in parallel.",
+            "The default is GOMAXPROCS, normally the number of CPUs available."
+          ]
+        },
+        {
+          "name": "-pgo",
+          "tip": [
+            "specify the file path of a profile for profile-guided optimization (PGO).",
+            "\"auto\" selects \"default.pgo\" in the package directory if it exists. \"off\" turns off PGO."
+          ]
+        },
+        {
+          "name": "-pkgdir",
+          "tip": [
+            "install and load all packages from dir instead of the usual locations."
+          ]
+        },
+        {
+          "name": "-race",
+          "tip": [
+            "enable data race detection.",
+            "Supported only on darwin/amd64, darwin/arm64, freebsd/amd64, linux/amd64, linux/arm64 (only for 48-bit VMA), linux/ppc64le, linux/riscv64 and windows/amd64."
+          ]
+        },
+        {
+          "name": "-tags",
+          "tip": [
+            "a comma-separated list of additional build tags to consider satisfied during the build."
+          ]
+        },
+        {
+          "name": "-toolexec",
+          "tip": [
+            "a program to use to invoke toolchain programs like vet and asm.",
+            "The TOOLEXEC_IMPORTPATH environment variable will be set for the package being built."
+          ]
+        },
+        {
+          "name": "-trimpath",
+          "tip": [
+            "remove all file system paths from the resulting executable.",
+            "Recorded file names will begin with module path@version or a plain import path."
+          ]
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "print the names of packages as they are compiled."
+          ]
+        },
+        {
+          "name": "-work",
+          "tip": [
+            "print the name of the temporary work directory and do not delete it when exiting."
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "print the commands."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "remove object files and cached files"
+      ],
+      "option": [
+        {
+          "name": "-cache",
+          "tip": [
+            "causes clean to remove the entire go build cache"
+          ]
+        },
+        {
+          "name": "-fuzzcache",
+          "tip": [
+            "causes clean to remove files stored in the Go build cache for fuzz testing",
+            "The fuzzing engine caches files that expand code coverage, so removing them may make fuzzing less effective until new inputs are found that provide the same coverage",
+            "These files are distinct from those stored in testdata directory; clean does not remove those files"
+          ]
+        },
+        {
+          "name": "-i",
+          "tip": [
+            "causes clean to remove the corresponding installed archive or binary (what 'go install' would create)"
+          ]
+        },
+        {
+          "name": "-modcache",
+          "tip": [
+            "causes clean to remove the entire module download cache, including unpacked source code of versioned dependencies"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "causes clean to print the remove commands it would execute, but not run them"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "causes clean to be applied recursively to all the dependencies of the packages named by the import paths"
+          ]
+        },
+        {
+          "name": "-testcache",
+          "tip": [
+            "causes clean to expire all test results in the go build cache"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "causes clean to print remove commands as it executes them"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doc",
+      "tip": [
+        "show documentation for package or symbol"
+      ],
+      "option": [
+        {
+          "name": "-all",
+          "tip": [
+            "Show all the documentation for the package."
+          ]
+        },
+        {
+          "name": "-c",
+          "tip": [
+            "Respect case when matching symbols."
+          ]
+        },
+        {
+          "name": "-cmd",
+          "tip": [
+            "Treat a command (package main) like a regular package.",
+            "Otherwise package main's exported symbols are hidden when showing the package's top-level documentation."
+          ]
+        },
+        {
+          "name": "-http",
+          "tip": [
+            "Serve HTML docs over HTTP."
+          ]
+        },
+        {
+          "name": "-short",
+          "tip": [
+            "One-line representation for each symbol."
+          ]
+        },
+        {
+          "name": "-src",
+          "tip": [
+            "Show the full source code for the symbol.",
+            "This will display the full Go source of its declaration and definition, such as a function definition (including the body), type declaration or enclosing const block.",
+            "The output may therefore include unexported details."
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "Show documentation for unexported as well as exported symbols, methods, and fields."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "print Go environment information"
+      ],
+      "option": [
+        {
+          "name": "-changed",
+          "tip": [
+            "prints only those settings whose effective value differs from the default value that would be obtained in an empty environment with no prior uses of the -w flag"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "prints the environment in JSON format instead of as a shell script"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "requires one or more arguments and unsets the default setting for the named environment variables, if one has been set with 'go env -w'"
+          ]
+        },
+        {
+          "name": "-w",
+          "tip": [
+            "requires one or more arguments of the form NAME=VALUE and changes the default settings of the named environment variables to the given values"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fix",
+      "tip": [
+        "apply fixes suggested by static checkers"
+      ],
+      "option": [
+        {
+          "name": "-diff",
+          "tip": [
+            "instead of applying each fix, print the patch as a unified diff"
+          ]
+        },
+        {
+          "name": "-fixtool",
+          "tip": [
+            "selects a different analysis tool with alternative or additional fixers",
+            "see the documentation for go vet's -vettool flag for details"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "tip": [
+        "gofmt (reformat) package sources"
+      ],
+      "option": [
+        {
+          "name": "-mod",
+          "tip": [
+            "sets which module download mode to use: readonly or vendor",
+            "See 'go help modules' for more"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "prints commands that would be executed"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "prints commands as they are executed"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "tip": [
+        "generate Go files by processing source"
+      ]
+    },
+    {
+      "name": "get",
+      "tip": [
+        "add dependencies to current module and install them"
+      ],
+      "option": [
+        {
+          "name": "-t",
+          "tip": [
+            "instructs get to consider modules needed to build tests of packages specified on the command line",
+            "when used with -u, get will update test dependencies as well"
+          ]
+        },
+        {
+          "name": "-tool",
+          "tip": [
+            "instructs go to add a matching tool line to go.mod for each listed package",
+            "if used with @none, the line will be removed"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "instructs get to update modules providing dependencies of packages named on the command line to use newer minor or patch releases when available",
+            "when used with -t, get will update test dependencies as well"
+          ]
+        },
+        {
+          "name": "-u=patch",
+          "tip": [
+            "instructs get to update dependencies, but changes the default to select patch releases"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "prints commands as they are executed",
+            "useful for debugging version control commands when a module is downloaded directly from a repository"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "get more information about a command"
+      ],
+      "next": [
+        {
+          "name": "buildconstraint",
+          "tip": [
+            "build constraints"
+          ]
+        },
+        {
+          "name": "buildjson",
+          "tip": [
+            "build -json encoding"
+          ]
+        },
+        {
+          "name": "buildmode",
+          "tip": [
+            "build modes"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "calling between Go and C"
+          ]
+        },
+        {
+          "name": "cache",
+          "tip": [
+            "build and test caching"
+          ]
+        },
+        {
+          "name": "environment",
+          "tip": [
+            "environment variables"
+          ]
+        },
+        {
+          "name": "filetype",
+          "tip": [
+            "file types"
+          ]
+        },
+        {
+          "name": "go.mod",
+          "tip": [
+            "the go.mod file"
+          ]
+        },
+        {
+          "name": "goauth",
+          "tip": [
+            "GOAUTH environment variable"
+          ]
+        },
+        {
+          "name": "gopath",
+          "tip": [
+            "GOPATH environment variable"
+          ]
+        },
+        {
+          "name": "goproxy",
+          "tip": [
+            "module proxy protocol"
+          ]
+        },
+        {
+          "name": "importpath",
+          "tip": [
+            "import path syntax"
+          ]
+        },
+        {
+          "name": "module-auth",
+          "tip": [
+            "module authentication using go.sum"
+          ]
+        },
+        {
+          "name": "modules",
+          "tip": [
+            "modules, module versions, and more"
+          ]
+        },
+        {
+          "name": "packages",
+          "tip": [
+            "package lists and patterns"
+          ]
+        },
+        {
+          "name": "private",
+          "tip": [
+            "configuration for downloading non-public code"
+          ]
+        },
+        {
+          "name": "testflag",
+          "tip": [
+            "testing flags"
+          ]
+        },
+        {
+          "name": "testfunc",
+          "tip": [
+            "testing functions"
+          ]
+        },
+        {
+          "name": "vcs",
+          "tip": [
+            "controlling version control with GOVCS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "compile and install packages and dependencies"
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "list packages or modules"
+      ],
+      "option": [
+        {
+          "name": "-compiled",
+          "tip": [
+            "causes list to set CompiledGoFiles to the Go source files presented to the compiler",
+            "adds Go code generated by processing CgoFiles and SwigFiles",
+            "Imports list will contain the union of all imports from both GoFiles and CompiledGoFiles"
+          ]
+        },
+        {
+          "name": "-deps",
+          "tip": [
+            "causes list to iterate over not just the named packages but also all their dependencies",
+            "visits them in a depth-first post-order traversal",
+            "packages not explicitly listed on the command line will have the DepOnly field set to true"
+          ]
+        },
+        {
+          "name": "-e",
+          "tip": [
+            "changes the handling of erroneous packages (those that cannot be found or are malformed)",
+            "never prints errors to standard error and instead processes the erroneous packages with the usual printing",
+            "erroneous packages will have a non-empty ImportPath and a non-nil Error field"
+          ]
+        },
+        {
+          "name": "-export",
+          "tip": [
+            "causes list to set the Export field to the name of a file containing up-to-date export information for the given package",
+            "sets the BuildID field to the build ID of the compiled package"
+          ]
+        },
+        {
+          "name": "-find",
+          "tip": [
+            "causes list to identify the named packages but not resolve their dependencies",
+            "Imports and Deps lists will be empty",
+            "cannot be used with -deps, -test, or -export"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "causes the package data to be printed in JSON format instead of using the template format",
+            "can optionally be provided with a set of comma-separated required field names to be output"
+          ]
+        },
+        {
+          "name": "-m",
+          "tip": [
+            "causes list to list modules instead of packages",
+            "changes the context of other flags (like -f and -json) to use a Module struct instead of a Package struct"
+          ]
+        },
+        {
+          "name": "-retracted",
+          "tip": [
+            "causes list to report information about retracted module versions",
+            "when used with -f or -json, the Retracted field explains the reason for retraction",
+            "can be used with or without -m"
+          ]
+        },
+        {
+          "name": "-reuse",
+          "tip": [
+            "accepts the name of a file containing JSON output from a previous 'go list -m -json' invocation",
+            "avoids redownloading information if the module is unchanged",
+            "modules not redownloaded will have the Reuse field set to true",
+            "should be used with -m"
+          ]
+        },
+        {
+          "name": "-test",
+          "tip": [
+            "reports not only the named packages but also their test binaries",
+            "reported import path for a test binary has a '.test' suffix",
+            "sets the ForTest field to the name of the package being tested"
+          ]
+        },
+        {
+          "name": "-u",
+          "tip": [
+            "adds information about available upgrades for modules",
+            "sets the Module's Update field if a newer version is available",
+            "sets the Retracted field if the current version is retracted"
+          ]
+        },
+        {
+          "name": "-versions",
+          "tip": [
+            "sets the Module's Versions field to a list of all known versions of that module",
+            "changes the default output format to display the module path followed by a space-separated version list"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mod",
+      "tip": [
+        "module maintenance"
+      ],
+      "next": [
+        {
+          "name": "download",
+          "tip": [
+            "download modules to local cache"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "edit go.mod from tools or scripts"
+          ]
+        },
+        {
+          "name": "graph",
+          "tip": [
+            "print module requirement graph"
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "initialize new module in current directory"
+          ]
+        },
+        {
+          "name": "tidy",
+          "tip": [
+            "add missing and remove unused modules"
+          ]
+        },
+        {
+          "name": "vendor",
+          "tip": [
+            "make vendored copy of dependencies"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "verify dependencies have expected content"
+          ]
+        },
+        {
+          "name": "why",
+          "tip": [
+            "explain why packages or modules are needed"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "compile and run Go program"
+      ],
+      "option": [
+        {
+          "name": "-exec",
+          "tip": [
+            "invokes the binary using the xprog program",
+            "the command format used is 'xprog a.out arguments...'"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "telemetry",
+      "tip": [
+        "manage telemetry data and settings"
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "test packages"
+      ],
+      "option": [
+        {
+          "name": "-args",
+          "tip": [
+            "Pass the remainder of the command line (everything after -args) to the test binary, uninterpreted and unchanged",
+            "Because this flag consumes the remainder of the command line, the package list (if present) must appear before this flag"
+          ]
+        },
+        {
+          "name": "-c",
+          "tip": [
+            "Compile the test binary to pkg.test in the current directory but do not run it",
+            "The file name or target directory can be changed with the -o flag"
+          ]
+        },
+        {
+          "name": "-exec",
+          "tip": [
+            "Run the test binary using the specified program (xprog)",
+            "The behavior is the same as in 'go run'"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Convert test output to JSON suitable for automated processing",
+            "Emits build output in JSON as well"
+          ]
+        },
+        {
+          "name": "-o",
+          "tip": [
+            "Save a copy of the test binary to the named file",
+            "The test still runs unless -c is specified",
+            "If the target is a directory, the binary is written to pkg.test in that directory"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tool",
+      "tip": [
+        "run specified go tool"
+      ],
+      "option": [
+        {
+          "name": "-modfile",
+          "tip": [
+            "causes tool to use an alternate file instead of the go.mod in the module root directory"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "causes tool to print the command that would be executed but not execute it"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "print Go version"
+      ],
+      "option": [
+        {
+          "name": "-c",
+          "tip": [
+            "display offending line with this many lines of context",
+            "default value is -1"
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "instead of applying each fix, print the patch as a unified diff"
+          ]
+        },
+        {
+          "name": "-fix",
+          "tip": [
+            "instead of printing each diagnostic, apply its first fix (if any)"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "emit JSON output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "vet",
+      "tip": [
+        "report likely mistakes in packages"
+      ]
+    },
+    {
+      "name": "work",
+      "tip": [
+        "workspace maintenance"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "edit go.work from tools or scripts"
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "initialize workspace file"
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "sync workspace build list to modules"
+          ]
+        },
+        {
+          "name": "use",
+          "tip": [
+            "add modules to workspace file"
+          ]
+        },
+        {
+          "name": "vendor",
+          "tip": [
+            "make vendored copy of dependencies"
+          ]
+        }
+      ]
+    }
+  ]
+}
