@@ -1,0 +1,100 @@
+name: Check Completion
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+concurrency:
+  group: check-completion-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  check:
+    name: Check Completion
+    runs-on: windows-latest
+    env:
+      REPO: ${{ github.repository }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      MARKER: "<!-- bot:check-completion -->"
+      # RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Find or create comment
+        id: comment
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = process.env.PR_NUMBER
+            const marker = process.env.MARKER
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr,
+              per_page: 100
+            })
+
+            let comment = comments.data.find(c => c.body?.includes(marker) && c.user?.type === "Bot")
+
+            const body = `${marker}
+
+            ⏳ Checking...
+            `
+
+            if (comment) {
+              core.setOutput("comment_id", comment.id)
+            } else {
+              const res = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr,
+                body
+              })
+              core.setOutput("comment_id", res.data.id)
+            }
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 50
+
+      - name: Check Completion
+        shell: pwsh
+        run: |
+          .\scripts\check-completion.ps1
+
+      - name: Comment PR
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = await import('node:fs');
+            const body = fs.readFileSync('result.md', 'utf8');
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: ${{ steps.comment.outputs.comment_id }},
+              body: body
+            });
+
+      - name: Check rate limit
+        shell: pwsh
+        run: |
+          # Check rate limit
+          $headers = @{
+              Authorization = "Bearer $env:GITHUB_TOKEN"
+              Accept        = 'application/vnd.github.v3+json'
+          }
+          try {
+              $response = Invoke-RestMethod -Uri 'https://api.github.com/rate_limit' -Headers $headers
+              Write-Output $response.rate
+          }
+          catch {
+              Write-Output 'Failed to check rate limit'
+          }
