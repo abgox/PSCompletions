@@ -1238,7 +1238,7 @@ function PSCompletions {
             _reset
         }
         default {
-            # https://pscompletions.abgox.com/faq/source-profile
+            # https://pscompletions.abgox.com/docs/source-profile
             $PSCompletions.init_data()
             $PSCompletions.handle_completion()
             _help

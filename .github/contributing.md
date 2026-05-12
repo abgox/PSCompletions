@@ -1,3 +1,3 @@
-# Contributing to PSCompletions
+# Contributing
 
-- Please visit the contributing guide: https://pscompletions.abgox.com/contributing/
+Please visit the contributing guide: https://pscompletions.abgox.com/docs/contributing/

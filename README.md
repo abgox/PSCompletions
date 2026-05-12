@@ -48,13 +48,13 @@
 A completion manager for a better and simpler tab-completion experience in `PowerShell`.
 
 - [Built-in completion library.](./completions.md)
-- [More powerful module completion menu.](https://pscompletions.abgox.com/faq/module-completion-menu)
-- [Support multiple languages: en-US, zh-CN, etc.](https://pscompletions.abgox.com/faq/language)
-- [Sort completion items dynamically based on command history.](https://pscompletions.abgox.com/faq/sort-completion-items)
+- [More powerful module completion menu.](https://pscompletions.abgox.com/docs/module-completion-menu)
+- [Support multiple languages: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
+- [Sort completion items dynamically based on command history.](https://pscompletions.abgox.com/docs/sort-completion-items)
 - Work with other tools.
-  - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
-  - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
-  - [PSFzf](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+  - [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions)
+  - [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
+  - [PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf)
 
 ## Demo
 
@@ -68,10 +68,6 @@ A completion manager for a better and simpler tab-completion experience in `Powe
 ## What's new
 
 See the [Changelog](./module/CHANGELOG.md) for details.
-
-## FAQ
-
-See the [FAQ](https://pscompletions.abgox.com/faq).
 
 ## Contribution
 
@@ -110,7 +106,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 > [!Tip]
 >
 > - If you use `. $Profile`, please run `psc` to reload the module's key bindings and data.
-> - Refer to: https://pscompletions.abgox.com/faq/source-profile
+> - Refer to: https://pscompletions.abgox.com/docs/source-profile
 
 ## How to use
 
@@ -125,18 +121,18 @@ See the [Contribution Guide](./.github/contributing.md) for details.
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - Work with other completion libraries: [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions), [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+  - Work with other completion libraries: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions), [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
 
-  - For more details, please refer to: https://pscompletions.abgox.com/faq/menu-enhance
+  - For more details, please refer to: https://pscompletions.abgox.com/docs/menu-enhance
 
-- Use [PSFzf](https://github.com/kelleyma49/PSFzf) as the completion menu, refer to [Work with PSFzf](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf).
+- Use [PSFzf](https://github.com/kelleyma49/PSFzf) as the completion menu, refer to [Work with PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf).
 
 ## Acknowledgements
 
 - [PSReadLine](https://github.com/PowerShell/PSReadLine): A built-in module in PowerShell, which is used to enhance command line editing experience.
   - PSCompletions uses `Set-PSReadLineKeyHandler` and `Get-PSReadLineOption`.
 - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): GUI-style tab-completion menu for PowerShell.
-  - [The module completion menu](https://pscompletions.abgox.com/faq/module-completion-menu) of PSCompletions is inspired by it.
+  - [The module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu) of PSCompletions is inspired by it.
 
 ## Available Completions
 

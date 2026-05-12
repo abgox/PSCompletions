@@ -1,4 +1,4 @@
-# Refer to: https://pscompletions.abgox.com/completion/hooks
+# Refer to: https://pscompletions.abgox.com/docs/completion/hooks
 function handleCompletions($completions) {
     $list = @()
 

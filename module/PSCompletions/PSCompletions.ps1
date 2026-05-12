@@ -1362,7 +1362,7 @@ To use PSCompletions normally, please:
 1. Run PowerShell as Administrator.
 2. Or reinstall the module to a user-writable location via '-Scope CurrentUser'.
 
-Refer to: https://pscompletions.abgox.com/faq/require-admin
+Refer to: https://pscompletions.abgox.com/docs/require-admin
 
 "@
             return

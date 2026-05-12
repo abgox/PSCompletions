@@ -133,11 +133,11 @@
 ## 6.2.1
 
 - Add alias support for `$PSCompletions.argc_completions()`
-  - Refer to: [Combine with argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions).
+  - Refer to: [Combine with argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions).
   - Thanks to [@CallMeLaNN](https://github.com/CallMeLaNN) for the [implementation reference](https://github.com/sigoden/argc-completions/issues/65#issuecomment-3642388096).
 - Strip possible ANSI escape codes from the completion items.
   - Refer to: [#121](https://github.com/abgox/PSCompletions/issues/121)
-  - [PSCompletions can work normally with Carapace.](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+  - [PSCompletions can work normally with Carapace.](https://pscompletions.abgox.com/docs/tools/carapace)
 - Optimize command and alias checking.
 - Other optimizations and fixes.
 

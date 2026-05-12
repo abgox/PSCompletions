@@ -48,13 +48,13 @@
 一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
 
 - [内置的补全库](./completions.zh-CN.md)
-- [更强大的模块补全菜单](https://pscompletions.abgox.com/faq/module-completion-menu)
-- [支持多种语言: en-US, zh-CN 等](https://pscompletions.abgox.com/faq/language)
-- [根据命令历史记录动态排序补全项](https://pscompletions.abgox.com/faq/sort-completion-items)
+- [更强大的模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu)
+- [支持多种语言: en-US, zh-CN 等](https://pscompletions.abgox.com/docs/language)
+- [根据命令历史记录动态排序补全项](https://pscompletions.abgox.com/docs/sort-completion-items)
 - 与其他工具协作
-  - [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions)
-  - [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
-  - [PSFzf](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+  - [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions)
+  - [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
+  - [PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf)
 
 ## 演示
 
@@ -68,10 +68,6 @@
 ## 新的变化
 
 请查阅 [更新日志](./module/CHANGELOG.zh-CN.md)
-
-## 常见问题
-
-请查阅 [常见问题](https://pscompletions.abgox.com/faq)
 
 ## 贡献
 
@@ -109,7 +105,7 @@
 > [!Tip]
 >
 > - 如果使用了 `. $Profile`，请运行 `psc` 以重载模块的按键绑定及数据
-> - 参考: https://pscompletions.abgox.com/faq/source-profile
+> - 参考: https://pscompletions.abgox.com/docs/source-profile
 
 ## 使用
 
@@ -124,18 +120,18 @@
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - 使用其他的补全库: [argc-completions](https://pscompletions.abgox.com/faq/pscompletions-and-argc-completions), [Carapace](https://pscompletions.abgox.com/faq/pscompletions-and-carapace)
+  - 使用其他的补全库: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions), [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
 
-  - 更多详情，参考: https://pscompletions.abgox.com/faq/menu-enhance
+  - 更多详情，参考: https://pscompletions.abgox.com/docs/menu-enhance
 
-- 使用 [PSFzf](https://github.com/kelleyma49/PSFzf) 作为补全菜单，参考 [与 PSFzf 结合使用](https://pscompletions.abgox.com/faq/pscompletions-and-psfzf)
+- 使用 [PSFzf](https://github.com/kelleyma49/PSFzf) 作为补全菜单，参考 [与 PSFzf 结合使用](https://pscompletions.abgox.com/docs/tools/psfzf)
 
 ## 致谢
 
 - [PSReadLine](https://github.com/PowerShell/PSReadLine): PowerShell 的一个内置模块，增强命令行编辑体验
   - PSCompletions 使用了 `Set-PSReadLineKeyHandler` 和 `Get-PSReadLineOption`
 - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): 适用于 PowerShell 的 GUI 风格的制表符补全菜单
-  - PSCompletions 的 [模块补全菜单](https://pscompletions.abgox.com/faq/module-completion-menu) 受到了它的启发
+  - PSCompletions 的 [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 受到了它的启发
 
 ## 补全列表
 
