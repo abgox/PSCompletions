@@ -1,0 +1,560 @@
+{
+  "meta": {
+    "url": "https://github.com/casey/just",
+    "description": [
+      "just - 一个命令运行器。"
+    ]
+  },
+  "common_option": [
+    {
+      "name": "--alias-style",
+      "tip": [
+        "U: --alias-style <ALIAS_STYLE>",
+        "设置列表命令的别名显示样式。"
+      ],
+      "next": [
+        {
+          "name": "left"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "separate"
+        }
+      ]
+    },
+    {
+      "name": "--allow-missing",
+      "tip": [
+        "忽略缺失的 recipe 和模块错误。"
+      ]
+    },
+    {
+      "name": "--ceiling",
+      "tip": [
+        "U: --ceiling <CEILING>",
+        "搜索 justfile 时不要向上超过此目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--changelog",
+      "tip": [
+        "打印变更日志。"
+      ]
+    },
+    {
+      "name": "--check",
+      "tip": [
+        "以检查模式运行 --fmt。"
+      ]
+    },
+    {
+      "name": "--choose",
+      "tip": [
+        "使用选择器选择一个或多个 recipe。"
+      ]
+    },
+    {
+      "name": "--chooser",
+      "tip": [
+        "U: --chooser <CHOOSER>",
+        "覆盖 --choose 调用的二进制程序。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--clear-shell-args",
+      "tip": [
+        "清除 shell 参数。"
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <COLOR>",
+        "输出彩色内容。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--command",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --command <COMMAND>...",
+        "在 just 环境中运行任意命令。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--command-color",
+      "tip": [
+        "U: --command-color <COMMAND_COLOR>",
+        "使用指定颜色回显 recipe 命令行。"
+      ],
+      "next": [
+        {
+          "name": "black"
+        },
+        {
+          "name": "blue"
+        },
+        {
+          "name": "cyan"
+        },
+        {
+          "name": "green"
+        },
+        {
+          "name": "purple"
+        },
+        {
+          "name": "red"
+        },
+        {
+          "name": "yellow"
+        }
+      ]
+    },
+    {
+      "name": "--complete-aliases",
+      "tip": [
+        "自动补全 recipe 别名。"
+      ]
+    },
+    {
+      "name": "--completions",
+      "tip": [
+        "U: --completions <SHELL>",
+        "打印 shell 补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "elvish"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "nushell"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "--cygpath",
+      "tip": [
+        "U: --cygpath <CYGPATH>",
+        "使用指定程序转换 Unix 和 Windows 路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dotenv-filename",
+      "tip": [
+        "U: --dotenv-filename <DOTENV-FILENAME>",
+        "搜索指定名称的环境文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dotenv-path",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --dotenv-path <DOTENV-PATH>",
+        "加载指定环境文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "打印 just 将执行的内容但不实际运行。"
+      ]
+    },
+    {
+      "name": "--dump",
+      "tip": [
+        "打印 justfile。"
+      ]
+    },
+    {
+      "name": "--dump-format",
+      "tip": [
+        "U: --dump-format <FORMAT>",
+        "设置 dump 输出格式。"
+      ],
+      "next": [
+        {
+          "name": "json"
+        },
+        {
+          "name": "just"
+        }
+      ]
+    },
+    {
+      "name": "--edit",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "用编辑器打开 justfile。"
+      ]
+    },
+    {
+      "name": "--evaluate",
+      "tip": [
+        "求值并打印所有变量。"
+      ]
+    },
+    {
+      "name": "--evaluate-format",
+      "tip": [
+        "U: --evaluate-format <FORMAT>",
+        "设置 evaluate 输出格式。"
+      ],
+      "next": [
+        {
+          "name": "just"
+        },
+        {
+          "name": "shell"
+        }
+      ]
+    },
+    {
+      "name": "--explain",
+      "tip": [
+        "运行前打印 recipe 文档注释。"
+      ]
+    },
+    {
+      "name": "--fmt",
+      "tip": [
+        "格式化并覆盖 justfile。"
+      ]
+    },
+    {
+      "name": "--global-justfile",
+      "alias": [
+        "-g"
+      ],
+      "tip": [
+        "使用全局 justfile。"
+      ]
+    },
+    {
+      "name": "--group",
+      "tip": [
+        "U: --group <GROUP>",
+        "只列出指定分组中的 recipes。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--groups",
+      "tip": [
+        "列出 recipe 分组。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "打印帮助。"
+      ]
+    },
+    {
+      "name": "--highlight",
+      "tip": [
+        "以粗体高亮回显的 recipe 命令行。"
+      ]
+    },
+    {
+      "name": "--indentation",
+      "tip": [
+        "U: --indentation <INDENTATION>",
+        "使用指定字符串缩进 recipe 主体。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--init",
+      "tip": [
+        "在项目根目录初始化新的 justfile。"
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "以 JSON 格式打印 justfile。"
+      ]
+    },
+    {
+      "name": "--justfile",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --justfile <JUSTFILE>",
+        "使用指定 justfile。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--justfile-name",
+      "tip": [
+        "U: --justfile-name <NAME>",
+        "搜索指定名称的 justfile。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list [<MODULE>...]",
+        "列出可用 recipes。"
+      ]
+    },
+    {
+      "name": "--list-heading",
+      "tip": [
+        "U: --list-heading <TEXT>",
+        "在列表前打印指定文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-prefix",
+      "tip": [
+        "U: --list-prefix <TEXT>",
+        "在每个列表项前打印指定文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-submodules",
+      "tip": [
+        "列出子模块中的 recipes。"
+      ]
+    },
+    {
+      "name": "--man",
+      "tip": [
+        "打印 man page。"
+      ]
+    },
+    {
+      "name": "--no-aliases",
+      "tip": [
+        "列表中不显示别名。"
+      ]
+    },
+    {
+      "name": "--no-deps",
+      "tip": [
+        "不运行 recipe 依赖。"
+      ]
+    },
+    {
+      "name": "--no-dotenv",
+      "tip": [
+        "不加载 .env 文件。"
+      ]
+    },
+    {
+      "name": "--no-highlight",
+      "tip": [
+        "不高亮回显的 recipe 命令行。"
+      ]
+    },
+    {
+      "name": "--one",
+      "tip": [
+        "禁止一次调用多个 recipes。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "抑制所有输出。"
+      ]
+    },
+    {
+      "name": "--set",
+      "tip": [
+        "U: --set <VARIABLE> <VALUE>",
+        "用指定值覆盖变量。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shell",
+      "tip": [
+        "U: --shell <SHELL>",
+        "调用指定 shell 运行 recipes。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shell-arg",
+      "tip": [
+        "U: --shell-arg <SHELL_ARG>",
+        "调用 shell 时传入指定参数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shell-command",
+      "tip": [
+        "使用运行 recipe 行的 shell 调用命令。"
+      ]
+    },
+    {
+      "name": "--show",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --show <PATH>...",
+        "显示指定 recipe。"
+      ],
+      "repeat": true,
+      "next": []
+    },
+    {
+      "name": "--summary",
+      "tip": [
+        "列出可用 recipe 名称。"
+      ]
+    },
+    {
+      "name": "--tempdir",
+      "tip": [
+        "U: --tempdir <TEMPDIR>",
+        "将临时文件保存到指定目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--time",
+      "tip": [
+        "打印 recipe 执行时间。"
+      ]
+    },
+    {
+      "name": "--timestamp",
+      "tip": [
+        "打印 recipe 命令时间戳。"
+      ]
+    },
+    {
+      "name": "--timestamp-format",
+      "tip": [
+        "U: --timestamp-format <TIMESTAMP_FORMAT>",
+        "时间戳格式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unsorted",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "按源码顺序返回 list 和 summary 条目。"
+      ]
+    },
+    {
+      "name": "--unstable",
+      "tip": [
+        "启用不稳定功能。"
+      ]
+    },
+    {
+      "name": "--usage",
+      "tip": [
+        "U: --usage <PATH>...",
+        "打印 recipe 用法信息。"
+      ],
+      "repeat": true,
+      "next": []
+    },
+    {
+      "name": "--variables",
+      "tip": [
+        "列出变量名称。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "使用详细输出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "打印版本。"
+      ]
+    },
+    {
+      "name": "--working-directory",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --working-directory <WORKING-DIRECTORY>",
+        "使用指定工作目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--yes",
+      "tip": [
+        "自动确认所有 recipes。"
+      ]
+    }
+  ]
+}
