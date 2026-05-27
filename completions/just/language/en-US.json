@@ -1,0 +1,560 @@
+{
+  "meta": {
+    "url": "https://github.com/casey/just",
+    "description": [
+      "just - a command runner."
+    ]
+  },
+  "common_option": [
+    {
+      "name": "--alias-style",
+      "tip": [
+        "U: --alias-style <ALIAS_STYLE>",
+        "Set list command alias display style."
+      ],
+      "next": [
+        {
+          "name": "left"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "separate"
+        }
+      ]
+    },
+    {
+      "name": "--allow-missing",
+      "tip": [
+        "Ignore missing recipe and module errors."
+      ]
+    },
+    {
+      "name": "--ceiling",
+      "tip": [
+        "U: --ceiling <CEILING>",
+        "Do not ascend above this directory when searching for a justfile."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--changelog",
+      "tip": [
+        "Print changelog."
+      ]
+    },
+    {
+      "name": "--check",
+      "tip": [
+        "Run --fmt in check mode."
+      ]
+    },
+    {
+      "name": "--choose",
+      "tip": [
+        "Select one or more recipes using a chooser."
+      ]
+    },
+    {
+      "name": "--chooser",
+      "tip": [
+        "U: --chooser <CHOOSER>",
+        "Override binary invoked by --choose."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--clear-shell-args",
+      "tip": [
+        "Clear shell arguments."
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <COLOR>",
+        "Print colorful output."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--command",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --command <COMMAND>...",
+        "Run an arbitrary command with just environment set."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--command-color",
+      "tip": [
+        "U: --command-color <COMMAND_COLOR>",
+        "Echo recipe lines in this color."
+      ],
+      "next": [
+        {
+          "name": "black"
+        },
+        {
+          "name": "blue"
+        },
+        {
+          "name": "cyan"
+        },
+        {
+          "name": "green"
+        },
+        {
+          "name": "purple"
+        },
+        {
+          "name": "red"
+        },
+        {
+          "name": "yellow"
+        }
+      ]
+    },
+    {
+      "name": "--complete-aliases",
+      "tip": [
+        "Auto-complete recipe aliases."
+      ]
+    },
+    {
+      "name": "--completions",
+      "tip": [
+        "U: --completions <SHELL>",
+        "Print shell completion script."
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "elvish"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "nushell"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "--cygpath",
+      "tip": [
+        "U: --cygpath <CYGPATH>",
+        "Use binary to convert between Unix and Windows paths."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dotenv-filename",
+      "tip": [
+        "U: --dotenv-filename <DOTENV-FILENAME>",
+        "Search for environment file with this name."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dotenv-path",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --dotenv-path <DOTENV-PATH>",
+        "Load this environment file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "Print what just would do without doing it."
+      ]
+    },
+    {
+      "name": "--dump",
+      "tip": [
+        "Print justfile."
+      ]
+    },
+    {
+      "name": "--dump-format",
+      "tip": [
+        "U: --dump-format <FORMAT>",
+        "Set dump format."
+      ],
+      "next": [
+        {
+          "name": "json"
+        },
+        {
+          "name": "just"
+        }
+      ]
+    },
+    {
+      "name": "--edit",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "Edit justfile with editor."
+      ]
+    },
+    {
+      "name": "--evaluate",
+      "tip": [
+        "Evaluate and print all variables."
+      ]
+    },
+    {
+      "name": "--evaluate-format",
+      "tip": [
+        "U: --evaluate-format <FORMAT>",
+        "Set evaluate output format."
+      ],
+      "next": [
+        {
+          "name": "just"
+        },
+        {
+          "name": "shell"
+        }
+      ]
+    },
+    {
+      "name": "--explain",
+      "tip": [
+        "Print recipe doc comment before running it."
+      ]
+    },
+    {
+      "name": "--fmt",
+      "tip": [
+        "Format and overwrite justfile."
+      ]
+    },
+    {
+      "name": "--global-justfile",
+      "alias": [
+        "-g"
+      ],
+      "tip": [
+        "Use global justfile."
+      ]
+    },
+    {
+      "name": "--group",
+      "tip": [
+        "U: --group <GROUP>",
+        "Only list recipes in this group."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--groups",
+      "tip": [
+        "List recipe groups."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    },
+    {
+      "name": "--highlight",
+      "tip": [
+        "Highlight echoed recipe lines in bold."
+      ]
+    },
+    {
+      "name": "--indentation",
+      "tip": [
+        "U: --indentation <INDENTATION>",
+        "Indent recipe bodies with this string."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--init",
+      "tip": [
+        "Initialize new justfile in project root."
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Print justfile as JSON."
+      ]
+    },
+    {
+      "name": "--justfile",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --justfile <JUSTFILE>",
+        "Use this justfile."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--justfile-name",
+      "tip": [
+        "U: --justfile-name <NAME>",
+        "Search for justfile with this name."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list [<MODULE>...]",
+        "List available recipes."
+      ]
+    },
+    {
+      "name": "--list-heading",
+      "tip": [
+        "U: --list-heading <TEXT>",
+        "Print text before list."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-prefix",
+      "tip": [
+        "U: --list-prefix <TEXT>",
+        "Print text before each list item."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-submodules",
+      "tip": [
+        "List recipes in submodules."
+      ]
+    },
+    {
+      "name": "--man",
+      "tip": [
+        "Print man page."
+      ]
+    },
+    {
+      "name": "--no-aliases",
+      "tip": [
+        "Do not show aliases in list."
+      ]
+    },
+    {
+      "name": "--no-deps",
+      "tip": [
+        "Do not run recipe dependencies."
+      ]
+    },
+    {
+      "name": "--no-dotenv",
+      "tip": [
+        "Do not load .env file."
+      ]
+    },
+    {
+      "name": "--no-highlight",
+      "tip": [
+        "Do not highlight echoed recipe lines in bold."
+      ]
+    },
+    {
+      "name": "--one",
+      "tip": [
+        "Forbid multiple recipes from being invoked."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "Suppress all output."
+      ]
+    },
+    {
+      "name": "--set",
+      "tip": [
+        "U: --set <VARIABLE> <VALUE>",
+        "Override variable with value."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shell",
+      "tip": [
+        "U: --shell <SHELL>",
+        "Invoke shell to run recipes."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shell-arg",
+      "tip": [
+        "U: --shell-arg <SHELL_ARG>",
+        "Invoke shell with this argument."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shell-command",
+      "tip": [
+        "Invoke command with the shell used to run recipe lines."
+      ]
+    },
+    {
+      "name": "--show",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --show <PATH>...",
+        "Show recipe at path."
+      ],
+      "repeat": true,
+      "next": []
+    },
+    {
+      "name": "--summary",
+      "tip": [
+        "List names of available recipes."
+      ]
+    },
+    {
+      "name": "--tempdir",
+      "tip": [
+        "U: --tempdir <TEMPDIR>",
+        "Save temporary files to this directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--time",
+      "tip": [
+        "Print recipe execution time."
+      ]
+    },
+    {
+      "name": "--timestamp",
+      "tip": [
+        "Print recipe command timestamps."
+      ]
+    },
+    {
+      "name": "--timestamp-format",
+      "tip": [
+        "U: --timestamp-format <TIMESTAMP_FORMAT>",
+        "Timestamp format string."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unsorted",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "Return list and summary entries in source order."
+      ]
+    },
+    {
+      "name": "--unstable",
+      "tip": [
+        "Enable unstable features."
+      ]
+    },
+    {
+      "name": "--usage",
+      "tip": [
+        "U: --usage <PATH>...",
+        "Print recipe usage information."
+      ],
+      "repeat": true,
+      "next": []
+    },
+    {
+      "name": "--variables",
+      "tip": [
+        "List names of variables."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "Use verbose output."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    },
+    {
+      "name": "--working-directory",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --working-directory <WORKING-DIRECTORY>",
+        "Use this working directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--yes",
+      "tip": [
+        "Automatically confirm all recipes."
+      ]
+    }
+  ]
+}
