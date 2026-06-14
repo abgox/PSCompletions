@@ -198,7 +198,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'enable_filter_exit_on_nomatch', 'filter_exit_nomatch_threshold', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
             )
         }
     }
@@ -248,6 +248,8 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         enable_enter_when_single                     = 0
         enable_list_loop                             = 1
         enable_list_full_width                       = 1
+        enable_filter_exit_on_nomatch                = 1
+        filter_exit_nomatch_threshold                = 2
         enable_list_follow_cursor                    = 1
 
         enable_tip                                   = 1
@@ -1957,6 +1959,8 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
 
         $menu.offset = 0  # 索引的偏移量，用于滚动翻页
 
+        $menu.nomatch_count = 0  # 连续无匹配的字符计数
+
         # 记录每一次过滤的数据
         $menu.data = [System.Collections.Generic.List[System.Object]]::new()
 
@@ -2076,8 +2080,25 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     ''
                     break loop
                 }
-                { $_ -in @(32, 13) } {
+                { $_ -eq 32 } {
                     # 32: Space
+                    if ($config.enable_filter_exit_on_nomatch) {
+                        # 退出菜单，将已输入文本（或空格）插入命令行
+                        $typedText = $menu.filter
+                        $menu.reset_menu()
+                        if ($typedText) {
+                            [Microsoft.PowerShell.PSConsoleReadLine]::Insert($typedText + ' ')
+                        }
+                        else {
+                            [Microsoft.PowerShell.PSConsoleReadLine]::Insert(' ')
+                        }
+                        break loop
+                    }
+                    $menu.handle_menu_output($menu.filter_list[$menu.selected_index])
+                    $menu.reset_menu()
+                    break loop
+                }
+                { $_ -eq 13 } {
                     # 13: Enter
                     $menu.handle_menu_output($menu.filter_list[$menu.selected_index])
                     $menu.reset_menu()
@@ -2128,6 +2149,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         }
 
                         $menu.handle_menu_data('get')
+                        $menu.nomatch_count = 0
                     }
                     else {
                         # add
@@ -2159,10 +2181,31 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         $menu.filter_list = $resultList.ToArray()
 
                         if (!$menu.filter_list) {
+                            $typedText = $menu.filter
                             $menu.filter = $menu.data[-1].filter
                             $menu.filter_list = $menu.data[-1].filter_list
+                            if ($config.enable_filter_exit_on_nomatch) {
+                                $menu.nomatch_count++
+                                if ($menu.nomatch_count -ge $config.filter_exit_nomatch_threshold) {
+                                    $menu.reset_menu()
+                                    [Microsoft.PowerShell.PSConsoleReadLine]::Insert($typedText)
+                                    break loop
+                                }
+                                # 未达阈值：显示已输入的完整文本，但保持补全列表为上一状态
+                                $menu.filter = $typedText
+                                $menu.reset_menu($false)
+                                $menu.parse_menu_list()
+                                $menu.new_menu_border_buffer()
+                                $menu.new_menu_list_buffer($menu.offset)
+                                $menu.new_menu_tip_buffer($menu.selected_index)
+                                $menu.new_menu_status_buffer()
+                                $menu.new_menu_filter_buffer($menu.filter)
+                                $menu.set_menu_selection(0)
+                                $menu.handle_menu_data('add')
+                            }
                         }
                         else {
+                            $menu.nomatch_count = 0
                             $menu.reset_menu($false)
                             $menu.parse_menu_list()
                             $menu.new_menu_border_buffer()
