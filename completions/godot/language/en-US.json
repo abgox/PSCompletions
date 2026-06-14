@@ -7,135 +7,37 @@
   },
   "option": [
     {
-      "name": "-e",
-      "alias": [
-        "--editor"
-      ],
+      "name": "--accessibility",
       "tip": [
-        "Start the editor instead of running the scene."
-      ]
-    },
-    {
-      "name": "-p",
-      "alias": [
-        "--project-manager"
-      ],
-      "tip": [
-        "Start the project manager, even if a project is auto-detected."
-      ]
-    },
-    {
-      "name": "--recovery-mode",
-      "tip": [
-        "Start the editor in recovery mode, disabling features that can cause startup crashes."
-      ]
-    },
-    {
-      "name": "--debug-server",
-      "tip": [
-        "U: --debug-server <uri>",
-        "Start the editor debug server (e.g. tcp://127.0.0.1:6007)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--dap-port",
-      "tip": [
-        "U: --dap-port <port>",
-        "Use the specified port for the GDScript Debug Adapter Protocol."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--lsp-port",
-      "tip": [
-        "U: --lsp-port <port>",
-        "Use the specified port for the GDScript Language Server Protocol."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--quit",
-      "tip": [
-        "Quit after the first iteration."
-      ]
-    },
-    {
-      "name": "--quit-after",
-      "tip": [
-        "U: --quit-after <int>",
-        "Quit after the given number of iterations. Set to 0 to disable."
-      ],
-      "next": 0
-    },
-    {
-      "name": "-l",
-      "alias": [
-        "--language"
-      ],
-      "tip": [
-        "U: --language, -l <locale>",
-        "Use a specific locale (two-letter code)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--path",
-      "tip": [
-        "U: --path <directory>",
-        "Path to a project (directory must contain a project.godot file)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--scene",
-      "tip": [
-        "U: --scene <path>",
-        "Path or UID of a scene in the project that should be started."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--main-pack",
-      "tip": [
-        "U: --main-pack <file>",
-        "Path to a pack (.pck) file to load."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--render-thread",
-      "tip": [
-        "U: --render-thread <mode>",
-        "Render thread mode."
+        "U: --accessibility <mode>",
+        "Select accessibility mode."
       ],
       "next": [
         {
-          "name": "safe"
+          "name": "always"
         },
         {
-          "name": "separate"
+          "name": "auto"
         },
         {
-          "name": "unsafe"
+          "name": "disabled"
         }
       ]
     },
     {
-      "name": "--remote-fs",
+      "name": "--accurate-breadcrumbs",
       "tip": [
-        "U: --remote-fs <address>",
-        "Remote filesystem address (<host/IP>[:<port>])."
-      ],
-      "next": 0
+        "Force barriers between breadcrumbs (Vulkan only)."
+      ]
     },
     {
-      "name": "--remote-fs-password",
-      "tip": [
-        "U: --remote-fs-password <password>",
-        "Password for remote filesystem."
+      "name": "--always-on-top",
+      "alias": [
+        "-t"
       ],
-      "next": 0
+      "tip": [
+        "Request an always-on-top window."
+      ]
     },
     {
       "name": "--audio-driver",
@@ -150,6 +52,153 @@
         {
           "name": "WASAPI"
         }
+      ]
+    },
+    {
+      "name": "--audio-output-latency",
+      "tip": [
+        "U: --audio-output-latency <ms>",
+        "Override audio output latency in milliseconds (default is 15 ms)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--benchmark",
+      "tip": [
+        "Benchmark the run time and print it to console."
+      ]
+    },
+    {
+      "name": "--benchmark-file",
+      "tip": [
+        "U: --benchmark-file <path>",
+        "Benchmark the run time and save it to a file in JSON format."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--breakpoints",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: --breakpoints, -b <list>",
+        "Breakpoint list as source::line comma-separated pairs."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--build-solutions",
+      "tip": [
+        "Build the scripting solutions (e.g. for C# projects). Implies --editor."
+      ]
+    },
+    {
+      "name": "--check-only",
+      "tip": [
+        "Only parse for errors and quit (use with --script)."
+      ]
+    },
+    {
+      "name": "--convert-3to4",
+      "tip": [
+        "U: --convert-3to4 [max_file_kb] [max_line_size]",
+        "Converts project from Godot 3.x to Godot 4.x."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dap-port",
+      "tip": [
+        "U: --dap-port <port>",
+        "Use the specified port for the GDScript Debug Adapter Protocol."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "Debug (local stdout debugger)."
+      ]
+    },
+    {
+      "name": "--debug-avoidance",
+      "tip": [
+        "Show navigation avoidance debug visuals when running the scene."
+      ]
+    },
+    {
+      "name": "--debug-canvas-item-redraw",
+      "tip": [
+        "Display a rectangle each time a canvas item requests a redraw."
+      ]
+    },
+    {
+      "name": "--debug-collisions",
+      "tip": [
+        "Show collision shapes when running the scene."
+      ]
+    },
+    {
+      "name": "--debug-navigation",
+      "tip": [
+        "Show navigation polygons when running the scene."
+      ]
+    },
+    {
+      "name": "--debug-paths",
+      "tip": [
+        "Show path lines when running the scene."
+      ]
+    },
+    {
+      "name": "--debug-server",
+      "tip": [
+        "U: --debug-server <uri>",
+        "Start the editor debug server (e.g. tcp://127.0.0.1:6007)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug-stringnames",
+      "tip": [
+        "Print all StringName allocations to stdout when the engine quits."
+      ]
+    },
+    {
+      "name": "--delta-smoothing",
+      "tip": [
+        "U: --delta-smoothing <enable>",
+        "Enable or disable frame delta smoothing."
+      ],
+      "next": [
+        {
+          "name": "disable"
+        },
+        {
+          "name": "enable"
+        }
+      ]
+    },
+    {
+      "name": "--disable-crash-handler",
+      "tip": [
+        "Disable crash handler when supported by the platform code."
+      ]
+    },
+    {
+      "name": "--disable-render-loop",
+      "tip": [
+        "Disable render loop so rendering only occurs when called explicitly from script."
+      ]
+    },
+    {
+      "name": "--disable-vsync",
+      "tip": [
+        "Forces disabling of vertical synchronization."
       ]
     },
     {
@@ -168,28 +217,361 @@
       ]
     },
     {
-      "name": "--audio-output-latency",
+      "name": "--doctool",
       "tip": [
-        "U: --audio-output-latency <ms>",
-        "Override audio output latency in milliseconds (default is 15 ms)."
+        "U: --doctool [path]",
+        "Dump the engine API reference to the given path in XML format."
       ],
       "next": 0
     },
     {
-      "name": "--rendering-method",
+      "name": "--dump-extension-api",
       "tip": [
-        "U: --rendering-method <renderer>",
-        "Renderer name. Requires driver support."
+        "Generate a JSON dump of the Godot API for GDExtension bindings."
+      ]
+    },
+    {
+      "name": "--dump-extension-api-with-docs",
+      "tip": [
+        "Generate JSON dump of the Godot API including documentation."
+      ]
+    },
+    {
+      "name": "--dump-gdextension-interface",
+      "tip": [
+        "Generate a GDExtension header file gdextension_interface.h."
+      ]
+    },
+    {
+      "name": "--dump-gdextension-interface-json",
+      "tip": [
+        "Generate a JSON dump of the GDExtension interface."
+      ]
+    },
+    {
+      "name": "--editor",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "Start the editor instead of running the scene."
+      ]
+    },
+    {
+      "name": "--editor-pseudolocalization",
+      "tip": [
+        "Enable pseudolocalization for the editor and the project manager."
+      ]
+    },
+    {
+      "name": "--export-debug",
+      "tip": [
+        "U: --export-debug <preset> <path>",
+        "Export the project in debug mode using the given preset and output path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-pack",
+      "tip": [
+        "U: --export-pack <preset> <path>",
+        "Export the project data only using the given preset and output path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-patch",
+      "tip": [
+        "U: --export-patch <preset> <path>",
+        "Export pack with changed files only."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-release",
+      "tip": [
+        "U: --export-release <preset> <path>",
+        "Export the project in release mode using the given preset and output path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extra-gpu-memory-tracking",
+      "tip": [
+        "Enables additional memory tracking (Vulkan only)."
+      ]
+    },
+    {
+      "name": "--fixed-fps",
+      "tip": [
+        "U: --fixed-fps <fps>",
+        "Force a fixed number of frames per second. Disables real-time synchronization."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--frame-delay",
+      "tip": [
+        "U: --frame-delay <ms>",
+        "Simulate high CPU load (delay each frame by milliseconds)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fullscreen",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "Request fullscreen mode."
+      ]
+    },
+    {
+      "name": "--gdextension-docs",
+      "tip": [
+        "Generate API reference from all GDExtensions loaded in the current project."
+      ]
+    },
+    {
+      "name": "--gdscript-docs",
+      "tip": [
+        "U: --gdscript-docs <path>",
+        "Generate API reference from inline documentation in GDScript files."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--generate-spirv-debug-info",
+      "tip": [
+        "Generate SPIR-V debug information (Vulkan only)."
+      ]
+    },
+    {
+      "name": "--gpu-abort",
+      "tip": [
+        "Abort on graphics API usage errors (usually validation layer errors)."
+      ]
+    },
+    {
+      "name": "--gpu-index",
+      "tip": [
+        "U: --gpu-index <device_index>",
+        "Use a specific GPU (run with --verbose to get a list of available devices)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--gpu-profile",
+      "tip": [
+        "Show a GPU profile of the tasks that took the most time during frame rendering."
+      ]
+    },
+    {
+      "name": "--gpu-validation",
+      "tip": [
+        "Enable graphics API validation layers for debugging."
+      ]
+    },
+    {
+      "name": "--headless",
+      "tip": [
+        "Enable headless mode (--display-driver headless --audio-driver Dummy)."
+      ]
+    },
+    {
+      "name": "--ignore-error-breaks",
+      "tip": [
+        "If debugger is connected, prevents sending error breakpoints."
+      ]
+    },
+    {
+      "name": "--import",
+      "tip": [
+        "Starts the editor, waits for any resources to be imported, and then quits."
+      ]
+    },
+    {
+      "name": "--install-android-build-template",
+      "tip": [
+        "Install the Android build template."
+      ]
+    },
+    {
+      "name": "--language",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: --language, -l <locale>",
+        "Use a specific locale (two-letter code)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-file",
+      "tip": [
+        "U: --log-file <file>",
+        "Write output/error log to the specified path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--lsp-port",
+      "tip": [
+        "U: --lsp-port <port>",
+        "Use the specified port for the GDScript Language Server Protocol."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--main-loop",
+      "tip": [
+        "U: --main-loop <main_loop_name>",
+        "Run a MainLoop specified by its global class name."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--main-pack",
+      "tip": [
+        "U: --main-pack <file>",
+        "Path to a pack (.pck) file to load."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-fps",
+      "tip": [
+        "U: --max-fps <fps>",
+        "Set a maximum number of frames per second. 0 = unlimited."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--maximized",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "Request a maximized window."
+      ]
+    },
+    {
+      "name": "--no-docbase",
+      "tip": [
+        "Disallow dumping the base types (used with --doctool)."
+      ]
+    },
+    {
+      "name": "--no-header",
+      "tip": [
+        "Do not print engine version and rendering driver/method header on startup."
+      ]
+    },
+    {
+      "name": "--patches",
+      "tip": [
+        "U: --patches <paths>",
+        "List of patches to use with --export-patch. Comma-separated."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--path",
+      "tip": [
+        "U: --path <directory>",
+        "Path to a project (directory must contain a project.godot file)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--position",
+      "tip": [
+        "U: --position <X>,<Y>",
+        "Request window position."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--print-fps",
+      "tip": [
+        "Print the frames per second to the stdout."
+      ]
+    },
+    {
+      "name": "--profiling",
+      "tip": [
+        "Enable profiling in the script debugger."
+      ]
+    },
+    {
+      "name": "--project-manager",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "Start the project manager, even if a project is auto-detected."
+      ]
+    },
+    {
+      "name": "--quit",
+      "tip": [
+        "Quit after the first iteration."
+      ]
+    },
+    {
+      "name": "--quit-after",
+      "tip": [
+        "U: --quit-after <int>",
+        "Quit after the given number of iterations. Set to 0 to disable."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--recovery-mode",
+      "tip": [
+        "Start the editor in recovery mode, disabling features that can cause startup crashes."
+      ]
+    },
+    {
+      "name": "--remote-debug",
+      "tip": [
+        "U: --remote-debug <uri>",
+        "Remote debug (e.g. tcp://127.0.0.1:6007)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote-fs",
+      "tip": [
+        "U: --remote-fs <address>",
+        "Remote filesystem address (<host/IP>[:<port>])."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote-fs-password",
+      "tip": [
+        "U: --remote-fs-password <password>",
+        "Password for remote filesystem."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--render-thread",
+      "tip": [
+        "U: --render-thread <mode>",
+        "Render thread mode."
       ],
       "next": [
         {
-          "name": "forward_plus"
+          "name": "safe"
         },
         {
-          "name": "mobile"
+          "name": "separate"
         },
         {
-          "name": "gl_compatibility"
+          "name": "unsafe"
         }
       ]
     },
@@ -218,85 +600,21 @@
       ]
     },
     {
-      "name": "--gpu-index",
+      "name": "--rendering-method",
       "tip": [
-        "U: --gpu-index <device_index>",
-        "Use a specific GPU (run with --verbose to get a list of available devices)."
+        "U: --rendering-method <renderer>",
+        "Renderer name. Requires driver support."
       ],
-      "next": 0
-    },
-    {
-      "name": "--text-driver",
-      "tip": [
-        "U: --text-driver <driver>",
-        "Text driver (used for font rendering, bidirectional support and shaping)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--tablet-driver",
-      "tip": [
-        "U: --tablet-driver <driver>",
-        "Pen tablet input driver."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--headless",
-      "tip": [
-        "Enable headless mode (--display-driver headless --audio-driver Dummy)."
-      ]
-    },
-    {
-      "name": "--log-file",
-      "tip": [
-        "U: --log-file <file>",
-        "Write output/error log to the specified path."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--write-movie",
-      "tip": [
-        "U: --write-movie <file>",
-        "Write a video to the specified path (usually .avi or .png)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "-f",
-      "alias": [
-        "--fullscreen"
-      ],
-      "tip": [
-        "Request fullscreen mode."
-      ]
-    },
-    {
-      "name": "-m",
-      "alias": [
-        "--maximized"
-      ],
-      "tip": [
-        "Request a maximized window."
-      ]
-    },
-    {
-      "name": "-w",
-      "alias": [
-        "--windowed"
-      ],
-      "tip": [
-        "Request windowed mode."
-      ]
-    },
-    {
-      "name": "-t",
-      "alias": [
-        "--always-on-top"
-      ],
-      "tip": [
-        "Request an always-on-top window."
+      "next": [
+        {
+          "name": "forward_plus"
+        },
+        {
+          "name": "gl_compatibility"
+        },
+        {
+          "name": "mobile"
+        }
       ]
     },
     {
@@ -308,10 +626,10 @@
       "next": 0
     },
     {
-      "name": "--position",
+      "name": "--scene",
       "tip": [
-        "U: --position <X>,<Y>",
-        "Request window position."
+        "U: --scene <path>",
+        "Path or UID of a scene in the project that should be started."
       ],
       "next": 0
     },
@@ -324,10 +642,92 @@
       "next": 0
     },
     {
+      "name": "--script",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: --script, -s <script>",
+        "Run a script."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--single-threaded-scene",
+      "tip": [
+        "Force scene tree to run in single-threaded mode."
+      ]
+    },
+    {
       "name": "--single-window",
       "tip": [
         "Use a single window (no separate subwindows)."
       ]
+    },
+    {
+      "name": "--tablet-driver",
+      "tip": [
+        "U: --tablet-driver <driver>",
+        "Pen tablet input driver."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--text-driver",
+      "tip": [
+        "U: --text-driver <driver>",
+        "Text driver (used for font rendering, bidirectional support and shaping)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--time-scale",
+      "tip": [
+        "U: --time-scale <scale>",
+        "Force time scale (higher values are faster, 1.0 is normal speed)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--validate-conversion-3to4",
+      "tip": [
+        "U: --validate-conversion-3to4 [max_file_kb] [max_line_size]",
+        "Shows what elements will be renamed when converting from Godot 3.x to 4.x."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--validate-extension-api",
+      "tip": [
+        "U: --validate-extension-api <path>",
+        "Validate an extension API file for compatibility."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wid",
+      "tip": [
+        "U: --wid <window_id>",
+        "Request parented to window."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--windowed",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "Request windowed mode."
+      ]
+    },
+    {
+      "name": "--write-movie",
+      "tip": [
+        "U: --write-movie <file>",
+        "Write a video to the specified path (usually .avi or .png)."
+      ],
+      "next": 0
     },
     {
       "name": "--xr-mode",
@@ -346,437 +746,37 @@
           "name": "on"
         }
       ]
-    },
-    {
-      "name": "--wid",
-      "tip": [
-        "U: --wid <window_id>",
-        "Request parented to window."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--accessibility",
-      "tip": [
-        "U: --accessibility <mode>",
-        "Select accessibility mode."
-      ],
-      "next": [
-        {
-          "name": "always"
-        },
-        {
-          "name": "auto"
-        },
-        {
-          "name": "disabled"
-        }
-      ]
-    },
-    {
-      "name": "-d",
-      "alias": [
-        "--debug"
-      ],
-      "tip": [
-        "Debug (local stdout debugger)."
-      ]
-    },
-    {
-      "name": "-b",
-      "alias": [
-        "--breakpoints"
-      ],
-      "tip": [
-        "U: --breakpoints, -b <list>",
-        "Breakpoint list as source::line comma-separated pairs."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--ignore-error-breaks",
-      "tip": [
-        "If debugger is connected, prevents sending error breakpoints."
-      ]
-    },
-    {
-      "name": "--profiling",
-      "tip": [
-        "Enable profiling in the script debugger."
-      ]
-    },
-    {
-      "name": "--gpu-profile",
-      "tip": [
-        "Show a GPU profile of the tasks that took the most time during frame rendering."
-      ]
-    },
-    {
-      "name": "--gpu-validation",
-      "tip": [
-        "Enable graphics API validation layers for debugging."
-      ]
-    },
-    {
-      "name": "--gpu-abort",
-      "tip": [
-        "Abort on graphics API usage errors (usually validation layer errors)."
-      ]
-    },
-    {
-      "name": "--generate-spirv-debug-info",
-      "tip": [
-        "Generate SPIR-V debug information (Vulkan only)."
-      ]
-    },
-    {
-      "name": "--extra-gpu-memory-tracking",
-      "tip": [
-        "Enables additional memory tracking (Vulkan only)."
-      ]
-    },
-    {
-      "name": "--accurate-breadcrumbs",
-      "tip": [
-        "Force barriers between breadcrumbs (Vulkan only)."
-      ]
-    },
-    {
-      "name": "--remote-debug",
-      "tip": [
-        "U: --remote-debug <uri>",
-        "Remote debug (e.g. tcp://127.0.0.1:6007)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--single-threaded-scene",
-      "tip": [
-        "Force scene tree to run in single-threaded mode."
-      ]
-    },
-    {
-      "name": "--debug-collisions",
-      "tip": [
-        "Show collision shapes when running the scene."
-      ]
-    },
-    {
-      "name": "--debug-paths",
-      "tip": [
-        "Show path lines when running the scene."
-      ]
-    },
-    {
-      "name": "--debug-navigation",
-      "tip": [
-        "Show navigation polygons when running the scene."
-      ]
-    },
-    {
-      "name": "--debug-avoidance",
-      "tip": [
-        "Show navigation avoidance debug visuals when running the scene."
-      ]
-    },
-    {
-      "name": "--debug-stringnames",
-      "tip": [
-        "Print all StringName allocations to stdout when the engine quits."
-      ]
-    },
-    {
-      "name": "--debug-canvas-item-redraw",
-      "tip": [
-        "Display a rectangle each time a canvas item requests a redraw."
-      ]
-    },
-    {
-      "name": "--max-fps",
-      "tip": [
-        "U: --max-fps <fps>",
-        "Set a maximum number of frames per second. 0 = unlimited."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--frame-delay",
-      "tip": [
-        "U: --frame-delay <ms>",
-        "Simulate high CPU load (delay each frame by milliseconds)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--time-scale",
-      "tip": [
-        "U: --time-scale <scale>",
-        "Force time scale (higher values are faster, 1.0 is normal speed)."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--disable-vsync",
-      "tip": [
-        "Forces disabling of vertical synchronization."
-      ]
-    },
-    {
-      "name": "--disable-render-loop",
-      "tip": [
-        "Disable render loop so rendering only occurs when called explicitly from script."
-      ]
-    },
-    {
-      "name": "--disable-crash-handler",
-      "tip": [
-        "Disable crash handler when supported by the platform code."
-      ]
-    },
-    {
-      "name": "--fixed-fps",
-      "tip": [
-        "U: --fixed-fps <fps>",
-        "Force a fixed number of frames per second. Disables real-time synchronization."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--delta-smoothing",
-      "tip": [
-        "U: --delta-smoothing <enable>",
-        "Enable or disable frame delta smoothing."
-      ],
-      "next": [
-        {
-          "name": "disable"
-        },
-        {
-          "name": "enable"
-        }
-      ]
-    },
-    {
-      "name": "--print-fps",
-      "tip": [
-        "Print the frames per second to the stdout."
-      ]
-    },
-    {
-      "name": "--editor-pseudolocalization",
-      "tip": [
-        "Enable pseudolocalization for the editor and the project manager."
-      ]
-    },
-    {
-      "name": "-s",
-      "alias": [
-        "--script"
-      ],
-      "tip": [
-        "U: --script, -s <script>",
-        "Run a script."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--main-loop",
-      "tip": [
-        "U: --main-loop <main_loop_name>",
-        "Run a MainLoop specified by its global class name."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--check-only",
-      "tip": [
-        "Only parse for errors and quit (use with --script)."
-      ]
-    },
-    {
-      "name": "--import",
-      "tip": [
-        "Starts the editor, waits for any resources to be imported, and then quits."
-      ]
-    },
-    {
-      "name": "--export-release",
-      "tip": [
-        "U: --export-release <preset> <path>",
-        "Export the project in release mode using the given preset and output path."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--export-debug",
-      "tip": [
-        "U: --export-debug <preset> <path>",
-        "Export the project in debug mode using the given preset and output path."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--export-pack",
-      "tip": [
-        "U: --export-pack <preset> <path>",
-        "Export the project data only using the given preset and output path."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--export-patch",
-      "tip": [
-        "U: --export-patch <preset> <path>",
-        "Export pack with changed files only."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--patches",
-      "tip": [
-        "U: --patches <paths>",
-        "List of patches to use with --export-patch. Comma-separated."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--install-android-build-template",
-      "tip": [
-        "Install the Android build template."
-      ]
-    },
-    {
-      "name": "--convert-3to4",
-      "tip": [
-        "U: --convert-3to4 [max_file_kb] [max_line_size]",
-        "Converts project from Godot 3.x to Godot 4.x."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--validate-conversion-3to4",
-      "tip": [
-        "U: --validate-conversion-3to4 [max_file_kb] [max_line_size]",
-        "Shows what elements will be renamed when converting from Godot 3.x to 4.x."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--doctool",
-      "tip": [
-        "U: --doctool [path]",
-        "Dump the engine API reference to the given path in XML format."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--no-docbase",
-      "tip": [
-        "Disallow dumping the base types (used with --doctool)."
-      ]
-    },
-    {
-      "name": "--gdextension-docs",
-      "tip": [
-        "Generate API reference from all GDExtensions loaded in the current project."
-      ]
-    },
-    {
-      "name": "--gdscript-docs",
-      "tip": [
-        "U: --gdscript-docs <path>",
-        "Generate API reference from inline documentation in GDScript files."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--build-solutions",
-      "tip": [
-        "Build the scripting solutions (e.g. for C# projects). Implies --editor."
-      ]
-    },
-    {
-      "name": "--dump-gdextension-interface",
-      "tip": [
-        "Generate a GDExtension header file gdextension_interface.h."
-      ]
-    },
-    {
-      "name": "--dump-gdextension-interface-json",
-      "tip": [
-        "Generate a JSON dump of the GDExtension interface."
-      ]
-    },
-    {
-      "name": "--dump-extension-api",
-      "tip": [
-        "Generate a JSON dump of the Godot API for GDExtension bindings."
-      ]
-    },
-    {
-      "name": "--dump-extension-api-with-docs",
-      "tip": [
-        "Generate JSON dump of the Godot API including documentation."
-      ]
-    },
-    {
-      "name": "--validate-extension-api",
-      "tip": [
-        "U: --validate-extension-api <path>",
-        "Validate an extension API file for compatibility."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--benchmark",
-      "tip": [
-        "Benchmark the run time and print it to console."
-      ]
-    },
-    {
-      "name": "--benchmark-file",
-      "tip": [
-        "U: --benchmark-file <path>",
-        "Benchmark the run time and save it to a file in JSON format."
-      ],
-      "next": 0
-    },
-    {
-      "name": "--no-header",
-      "tip": [
-        "Do not print engine version and rendering driver/method header on startup."
-      ]
     }
   ],
   "common_option": [
     {
-      "name": "-h",
+      "name": "--help",
       "alias": [
-        "--help"
+        "-h"
       ],
       "tip": [
         "Display the help message."
       ]
     },
     {
-      "name": "--version",
+      "name": "--quiet",
       "tip": [
-        "Display the version string."
+        "Quiet mode, silences stdout messages. Errors are still displayed."
       ]
     },
     {
-      "name": "-v",
+      "name": "--verbose",
       "alias": [
-        "--verbose"
+        "-v"
       ],
       "tip": [
         "Use verbose stdout mode."
       ]
     },
     {
-      "name": "--quiet",
+      "name": "--version",
       "tip": [
-        "Quiet mode, silences stdout messages. Errors are still displayed."
+        "Display the version string."
       ]
     }
   ]

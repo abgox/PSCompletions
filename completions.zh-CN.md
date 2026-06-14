@@ -48,6 +48,7 @@
 |[gh](https://cli.github.com/)|[**en-US**](/completions/gh/language/en-US.json)<br>[**zh-CN(3.33%)**](/completions/gh/language/zh-CN.json)|gh - GitHub CLI 是一个命令行工具，用于与 GitHub 进行交互。|
 |[git](https://git-scm.com)|[**en-US**](/completions/git/language/en-US.json)<br>[**zh-CN(100%)**](/completions/git/language/zh-CN.json)|Git - 版本控制系统。|
 |[go](https://pkg.go.dev/cmd/go)|[**en-US**](/completions/go/language/en-US.json)<br>[**zh-CN(100%)**](/completions/go/language/zh-CN.json)|go - Go语言源代码管理工具|
+|[godot](https://godotengine.org)|[**en-US**](/completions/godot/language/en-US.json)<br>[**zh-CN(100%)**](/completions/godot/language/zh-CN.json)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|
 |[hashsum](https://github.com/uutils/coreutils)|[**en-US**](/completions/hashsum/language/en-US.json)<br>[**zh-CN(6.9%)**](/completions/hashsum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[head](https://github.com/uutils/coreutils)|[**en-US**](/completions/head/language/en-US.json)<br>[**zh-CN(28.57%)**](/completions/head/language/zh-CN.json)|Print the first 10 lines of each 'FILE' to standard output.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[jj](https://jj-vcs.github.io/)|[**en-US**](/completions/jj/language/en-US.json)<br>[**zh-CN(100%)**](/completions/jj/language/zh-CN.json)|Jujutsu (jj) - 一个与 Git 兼容的版本控制系统，既简单又强大。|
