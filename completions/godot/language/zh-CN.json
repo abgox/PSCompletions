@@ -1,0 +1,783 @@
+{
+  "meta": {
+    "url": "https://godotengine.org",
+    "description": [
+      "Godot Engine - 免费开源 2D 和 3D 游戏引擎。"
+    ]
+  },
+  "option": [
+    {
+      "name": "-e",
+      "alias": [
+        "--editor"
+      ],
+      "tip": [
+        "启动编辑器而不是运行场景。"
+      ]
+    },
+    {
+      "name": "-p",
+      "alias": [
+        "--project-manager"
+      ],
+      "tip": [
+        "启动项目管理器, 即使自动检测到项目。"
+      ]
+    },
+    {
+      "name": "--recovery-mode",
+      "tip": [
+        "以恢复模式启动编辑器, 禁用可能导致启动崩溃的功能。"
+      ]
+    },
+    {
+      "name": "--debug-server",
+      "tip": [
+        "U: --debug-server <uri>",
+        "启动编辑器调试服务器 (例如 tcp://127.0.0.1:6007)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dap-port",
+      "tip": [
+        "U: --dap-port <port>",
+        "为 GDScript 调试适配器协议使用指定端口。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--lsp-port",
+      "tip": [
+        "U: --lsp-port <port>",
+        "为 GDScript 语言服务器协议使用指定端口。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quit",
+      "tip": [
+        "在第一次迭代后退出。"
+      ]
+    },
+    {
+      "name": "--quit-after",
+      "tip": [
+        "U: --quit-after <int>",
+        "在给定迭代次数后退出。设置为 0 禁用。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-l",
+      "alias": [
+        "--language"
+      ],
+      "tip": [
+        "U: --language, -l <locale>",
+        "使用特定的语言环境 (两位字母代码)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--path",
+      "tip": [
+        "U: --path <directory>",
+        "项目的路径 (目录必须包含 project.godot 文件)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--scene",
+      "tip": [
+        "U: --scene <path>",
+        "要启动的项目中场景的路径或 UID。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--main-pack",
+      "tip": [
+        "U: --main-pack <file>",
+        "要加载的 pack (.pck) 文件路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--render-thread",
+      "tip": [
+        "U: --render-thread <mode>",
+        "渲染线程模式。"
+      ],
+      "next": [
+        {
+          "name": "safe"
+        },
+        {
+          "name": "separate"
+        },
+        {
+          "name": "unsafe"
+        }
+      ]
+    },
+    {
+      "name": "--remote-fs",
+      "tip": [
+        "U: --remote-fs <address>",
+        "远程文件系统地址 (<host/IP>[:<port>])。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote-fs-password",
+      "tip": [
+        "U: --remote-fs-password <password>",
+        "远程文件系统密码。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--audio-driver",
+      "tip": [
+        "U: --audio-driver <driver>",
+        "音频驱动。"
+      ],
+      "next": [
+        {
+          "name": "Dummy"
+        },
+        {
+          "name": "WASAPI"
+        }
+      ]
+    },
+    {
+      "name": "--display-driver",
+      "tip": [
+        "U: --display-driver <driver>",
+        "显示驱动 (以及渲染驱动)。"
+      ],
+      "next": [
+        {
+          "name": "headless"
+        },
+        {
+          "name": "windows"
+        }
+      ]
+    },
+    {
+      "name": "--audio-output-latency",
+      "tip": [
+        "U: --audio-output-latency <ms>",
+        "覆盖音频输出延迟 (毫秒, 默认 15 ms)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rendering-method",
+      "tip": [
+        "U: --rendering-method <renderer>",
+        "渲染器名称。需要驱动支持。"
+      ],
+      "next": [
+        {
+          "name": "forward_plus"
+        },
+        {
+          "name": "mobile"
+        },
+        {
+          "name": "gl_compatibility"
+        }
+      ]
+    },
+    {
+      "name": "--rendering-driver",
+      "tip": [
+        "U: --rendering-driver <driver>",
+        "渲染驱动 (取决于显示驱动)。"
+      ],
+      "next": [
+        {
+          "name": "d3d12"
+        },
+        {
+          "name": "dummy"
+        },
+        {
+          "name": "opengl3"
+        },
+        {
+          "name": "opengl3_angle"
+        },
+        {
+          "name": "vulkan"
+        }
+      ]
+    },
+    {
+      "name": "--gpu-index",
+      "tip": [
+        "U: --gpu-index <device_index>",
+        "使用特定的 GPU (使用 --verbose 获取可用设备列表)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--text-driver",
+      "tip": [
+        "U: --text-driver <driver>",
+        "文本驱动 (用于字体渲染、双向支持和整形)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tablet-driver",
+      "tip": [
+        "U: --tablet-driver <driver>",
+        "手写笔输入驱动。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--headless",
+      "tip": [
+        "启用无头模式 (--display-driver headless --audio-driver Dummy)。"
+      ]
+    },
+    {
+      "name": "--log-file",
+      "tip": [
+        "U: --log-file <file>",
+        "将输出/错误日志写入指定路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--write-movie",
+      "tip": [
+        "U: --write-movie <file>",
+        "将视频写入指定路径 (通常为 .avi 或 .png 扩展名)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-f",
+      "alias": [
+        "--fullscreen"
+      ],
+      "tip": [
+        "请求全屏模式。"
+      ]
+    },
+    {
+      "name": "-m",
+      "alias": [
+        "--maximized"
+      ],
+      "tip": [
+        "请求最大化窗口。"
+      ]
+    },
+    {
+      "name": "-w",
+      "alias": [
+        "--windowed"
+      ],
+      "tip": [
+        "请求窗口模式。"
+      ]
+    },
+    {
+      "name": "-t",
+      "alias": [
+        "--always-on-top"
+      ],
+      "tip": [
+        "请求窗口置顶。"
+      ]
+    },
+    {
+      "name": "--resolution",
+      "tip": [
+        "U: --resolution <W>x<H>",
+        "请求窗口分辨率。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--position",
+      "tip": [
+        "U: --position <X>,<Y>",
+        "请求窗口位置。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--screen",
+      "tip": [
+        "U: --screen <N>",
+        "请求窗口屏幕。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--single-window",
+      "tip": [
+        "使用单个窗口 (无分离子窗口)。"
+      ]
+    },
+    {
+      "name": "--xr-mode",
+      "tip": [
+        "U: --xr-mode <mode>",
+        "选择 XR (扩展现实) 模式。"
+      ],
+      "next": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "off"
+        },
+        {
+          "name": "on"
+        }
+      ]
+    },
+    {
+      "name": "--wid",
+      "tip": [
+        "U: --wid <window_id>",
+        "请求嵌入到指定窗口。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--accessibility",
+      "tip": [
+        "U: --accessibility <mode>",
+        "选择辅助功能模式。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "disabled"
+        }
+      ]
+    },
+    {
+      "name": "-d",
+      "alias": [
+        "--debug"
+      ],
+      "tip": [
+        "调试 (本地 stdout 调试器)。"
+      ]
+    },
+    {
+      "name": "-b",
+      "alias": [
+        "--breakpoints"
+      ],
+      "tip": [
+        "U: --breakpoints, -b <list>",
+        "断点列表, 格式为 source::line, 以逗号分隔。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-error-breaks",
+      "tip": [
+        "如果连接了调试器, 阻止发送错误断点。"
+      ]
+    },
+    {
+      "name": "--profiling",
+      "tip": [
+        "在脚本调试器中启用性能分析。"
+      ]
+    },
+    {
+      "name": "--gpu-profile",
+      "tip": [
+        "显示帧渲染期间耗时最多的 GPU 任务分析。"
+      ]
+    },
+    {
+      "name": "--gpu-validation",
+      "tip": [
+        "启用图形 API 验证层用于调试。"
+      ]
+    },
+    {
+      "name": "--gpu-abort",
+      "tip": [
+        "在图形 API 使用错误时中止 (通常是验证层错误)。"
+      ]
+    },
+    {
+      "name": "--generate-spirv-debug-info",
+      "tip": [
+        "生成 SPIR-V 调试信息 (仅 Vulkan)。"
+      ]
+    },
+    {
+      "name": "--extra-gpu-memory-tracking",
+      "tip": [
+        "启用额外的内存追踪 (仅 Vulkan)。"
+      ]
+    },
+    {
+      "name": "--accurate-breadcrumbs",
+      "tip": [
+        "强制在 breadcrumb 之间设置屏障 (仅 Vulkan)。"
+      ]
+    },
+    {
+      "name": "--remote-debug",
+      "tip": [
+        "U: --remote-debug <uri>",
+        "远程调试 (例如 tcp://127.0.0.1:6007)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--single-threaded-scene",
+      "tip": [
+        "强制场景树以单线程模式运行。"
+      ]
+    },
+    {
+      "name": "--debug-collisions",
+      "tip": [
+        "运行场景时显示碰撞形状。"
+      ]
+    },
+    {
+      "name": "--debug-paths",
+      "tip": [
+        "运行场景时显示路径线。"
+      ]
+    },
+    {
+      "name": "--debug-navigation",
+      "tip": [
+        "运行场景时显示导航多边形。"
+      ]
+    },
+    {
+      "name": "--debug-avoidance",
+      "tip": [
+        "运行场景时显示导航避让调试可视化。"
+      ]
+    },
+    {
+      "name": "--debug-stringnames",
+      "tip": [
+        "引擎退出时将所有的 StringName 分配打印到 stdout。"
+      ]
+    },
+    {
+      "name": "--debug-canvas-item-redraw",
+      "tip": [
+        "在每次 Canvas 项请求重绘时显示一个矩形。"
+      ]
+    },
+    {
+      "name": "--max-fps",
+      "tip": [
+        "U: --max-fps <fps>",
+        "设置每秒最大帧数。0 = 无限制。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--frame-delay",
+      "tip": [
+        "U: --frame-delay <ms>",
+        "模拟高 CPU 负载 (每帧延迟指定毫秒数)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--time-scale",
+      "tip": [
+        "U: --time-scale <scale>",
+        "强制时间缩放 (更高的值更快, 1.0 是正常速度)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-vsync",
+      "tip": [
+        "强制禁用垂直同步。"
+      ]
+    },
+    {
+      "name": "--disable-render-loop",
+      "tip": [
+        "禁用渲染循环, 仅在脚本显式调用时渲染。"
+      ]
+    },
+    {
+      "name": "--disable-crash-handler",
+      "tip": [
+        "在平台代码支持时禁用崩溃处理器。"
+      ]
+    },
+    {
+      "name": "--fixed-fps",
+      "tip": [
+        "U: --fixed-fps <fps>",
+        "强制固定帧率。此设置禁用实时同步。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--delta-smoothing",
+      "tip": [
+        "U: --delta-smoothing <enable>",
+        "启用或禁用帧增量平滑。"
+      ],
+      "next": [
+        {
+          "name": "disable"
+        },
+        {
+          "name": "enable"
+        }
+      ]
+    },
+    {
+      "name": "--print-fps",
+      "tip": [
+        "将每秒帧数打印到 stdout。"
+      ]
+    },
+    {
+      "name": "--editor-pseudolocalization",
+      "tip": [
+        "为编辑器和项目管理器启用伪本地化。"
+      ]
+    },
+    {
+      "name": "-s",
+      "alias": [
+        "--script"
+      ],
+      "tip": [
+        "U: --script, -s <script>",
+        "运行脚本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--main-loop",
+      "tip": [
+        "U: --main-loop <main_loop_name>",
+        "运行由其全局类名指定的 MainLoop。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-only",
+      "tip": [
+        "仅解析错误并退出 (与 --script 一起使用)。"
+      ]
+    },
+    {
+      "name": "--import",
+      "tip": [
+        "启动编辑器, 等待资源导入完成后退出。"
+      ]
+    },
+    {
+      "name": "--export-release",
+      "tip": [
+        "U: --export-release <preset> <path>",
+        "使用给定预设和输出路径以发布模式导出项目。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-debug",
+      "tip": [
+        "U: --export-debug <preset> <path>",
+        "使用给定预设和输出路径以调试模式导出项目。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-pack",
+      "tip": [
+        "U: --export-pack <preset> <path>",
+        "仅使用给定预设和输出路径导出项目数据。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-patch",
+      "tip": [
+        "U: --export-patch <preset> <path>",
+        "仅导出包含更改文件的包。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--patches",
+      "tip": [
+        "U: --patches <paths>",
+        "与 --export-patch 一起使用的补丁列表, 以逗号分隔。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--install-android-build-template",
+      "tip": [
+        "安装 Android 构建模板。"
+      ]
+    },
+    {
+      "name": "--convert-3to4",
+      "tip": [
+        "U: --convert-3to4 [max_file_kb] [max_line_size]",
+        "将项目从 Godot 3.x 转换为 Godot 4.x。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--validate-conversion-3to4",
+      "tip": [
+        "U: --validate-conversion-3to4 [max_file_kb] [max_line_size]",
+        "显示从 Godot 3.x 转换到 4.x 时将重命名的元素。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--doctool",
+      "tip": [
+        "U: --doctool [path]",
+        "将引擎 API 参考以 XML 格式转储到指定路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-docbase",
+      "tip": [
+        "禁止转储基础类型 (与 --doctool 一起使用)。"
+      ]
+    },
+    {
+      "name": "--gdextension-docs",
+      "tip": [
+        "从当前项目加载的所有 GDExtension 生成 API 参考。"
+      ]
+    },
+    {
+      "name": "--gdscript-docs",
+      "tip": [
+        "U: --gdscript-docs <path>",
+        "从 GDScript 文件中的内联文档生成 API 参考。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--build-solutions",
+      "tip": [
+        "构建脚本解决方案 (例如 C# 项目)。隐含 --editor。"
+      ]
+    },
+    {
+      "name": "--dump-gdextension-interface",
+      "tip": [
+        "生成 GDExtension 头文件 gdextension_interface.h。"
+      ]
+    },
+    {
+      "name": "--dump-gdextension-interface-json",
+      "tip": [
+        "生成 GDExtension 接口的 JSON 转储。"
+      ]
+    },
+    {
+      "name": "--dump-extension-api",
+      "tip": [
+        "为 GDExtension 绑定生成 Godot API 的 JSON 转储。"
+      ]
+    },
+    {
+      "name": "--dump-extension-api-with-docs",
+      "tip": [
+        "生成包含文档的 Godot API JSON 转储。"
+      ]
+    },
+    {
+      "name": "--validate-extension-api",
+      "tip": [
+        "U: --validate-extension-api <path>",
+        "验证扩展 API 文件的兼容性。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--benchmark",
+      "tip": [
+        "对运行时间进行基准测试并打印到控制台。"
+      ]
+    },
+    {
+      "name": "--benchmark-file",
+      "tip": [
+        "U: --benchmark-file <path>",
+        "对运行时间进行基准测试并以 JSON 格式保存到文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-header",
+      "tip": [
+        "不在启动时打印引擎版本和渲染驱动/方法头信息。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "-h",
+      "alias": [
+        "--help"
+      ],
+      "tip": [
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示版本信息。"
+      ]
+    },
+    {
+      "name": "-v",
+      "alias": [
+        "--verbose"
+      ],
+      "tip": [
+        "使用详细输出模式。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "tip": [
+        "静默模式, 静默 stdout 消息。错误仍会显示。"
+      ]
+    }
+  ]
+}
