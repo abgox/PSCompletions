@@ -1,0 +1,884 @@
+{
+  "meta": {
+    "url": "https://rustup.rs",
+    "description": [
+      "rustup - The Rust toolchain installer."
+    ]
+  },
+  "root": [
+    {
+      "name": "install",
+      "tip": [
+        "Install or update the given toolchains, or by default the active toolchain."
+      ],
+      "option": [
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <PROFILE>",
+            "Choose the profile to install: minimal, default, complete."
+          ],
+          "next": [
+            { "name": "minimal" },
+            { "name": "default" },
+            { "name": "complete" }
+          ]
+        },
+        {
+          "name": "--component",
+          "alias": ["-c"],
+          "tip": [
+            "U: --component, -c <COMPONENT>",
+            "Comma-separated list of components to be added on installation."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "alias": ["-t"],
+          "tip": [
+            "U: --target, -t <TARGET>",
+            "Comma-separated list of targets to be added on installation."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-self-update",
+          "tip": [
+            "Don't perform self update."
+          ]
+        },
+        {
+          "name": "--no-update",
+          "tip": [
+            "Don't try to update the installed toolchain."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force an update, even if some components are missing."
+          ]
+        },
+        {
+          "name": "--allow-downgrade",
+          "tip": [
+            "Allow rustup to downgrade the toolchain to satisfy your component choice."
+          ]
+        },
+        {
+          "name": "--force-non-host",
+          "tip": [
+            "Install toolchains that require an emulator."
+          ]
+        },
+        {
+          "name": "--override",
+          "tip": [
+            "Set the installed toolchain as the override for the current directory."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "Uninstall the given toolchains."
+      ],
+      "repeat": true
+    },
+    {
+      "name": "toolchain",
+      "tip": [
+        "Install, uninstall, or list toolchains."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List installed toolchains."
+          ],
+          "option": [
+            {
+              "name": "--verbose",
+              "alias": ["-v"],
+              "tip": [
+                "Enable verbose output with toolchain information."
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": ["-q"],
+              "tip": [
+                "Force the output to be a single column."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install or update the given toolchains."
+          ],
+          "option": [
+            {
+              "name": "--profile",
+              "tip": [
+                "U: --profile <PROFILE>",
+                "Choose the profile to install: minimal, default, complete."
+              ],
+              "next": [
+                { "name": "minimal" },
+                { "name": "default" },
+                { "name": "complete" }
+              ]
+            },
+            {
+              "name": "--component",
+              "alias": ["-c"],
+              "tip": [
+                "U: --component, -c <COMPONENT>",
+                "Comma-separated list of components to be added on installation."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--target",
+              "alias": ["-t"],
+              "tip": [
+                "U: --target, -t <TARGET>",
+                "Comma-separated list of targets to be added on installation."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-self-update",
+              "tip": [
+                "Don't perform self update."
+              ]
+            },
+            {
+              "name": "--no-update",
+              "tip": [
+                "Don't try to update the installed toolchain."
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Force an update, even if some components are missing."
+              ]
+            },
+            {
+              "name": "--allow-downgrade",
+              "tip": [
+                "Allow rustup to downgrade the toolchain to satisfy your component choice."
+              ]
+            },
+            {
+              "name": "--force-non-host",
+              "tip": [
+                "Install toolchains that require an emulator."
+              ]
+            },
+            {
+              "name": "--override",
+              "tip": [
+                "Set the installed toolchain as the override for the current directory."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall the given toolchains."
+          ],
+          "repeat": true
+        },
+        {
+          "name": "link",
+          "tip": [
+            "Create a custom toolchain by symlinking to a directory."
+          ],
+          "next": [
+            {
+              "name": "<TOOLCHAIN>",
+              "tip": [
+                "Custom toolchain name."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "default",
+      "tip": [
+        "Set the default toolchain."
+      ],
+      "option": [
+        {
+          "name": "--force-non-host",
+          "tip": [
+            "Install toolchains that require an emulator."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "tip": [
+        "Show the active and installed toolchains or profiles."
+      ],
+      "next": [
+        {
+          "name": "active-toolchain",
+          "tip": [
+            "Show the active toolchain."
+          ],
+          "option": [
+            {
+              "name": "--verbose",
+              "alias": ["-v"],
+              "tip": [
+                "Enable verbose output with rustc information."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "home",
+          "tip": [
+            "Display the computed value of RUSTUP_HOME."
+          ]
+        },
+        {
+          "name": "profile",
+          "tip": [
+            "Show the default profile used for the rustup install command."
+          ]
+        }
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": ["-v"],
+          "tip": [
+            "Enable verbose output with rustc information for all installed toolchains."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "Update Rust toolchains and rustup."
+      ],
+      "option": [
+        {
+          "name": "--no-self-update",
+          "tip": [
+            "Don't perform self update."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force an update, even if some components are missing."
+          ]
+        },
+        {
+          "name": "--force-non-host",
+          "tip": [
+            "Install toolchains that require an emulator."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "Check for updates to Rust toolchains and rustup."
+      ],
+      "option": [
+        {
+          "name": "--no-self-update",
+          "tip": [
+            "Don't check for self update."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "target",
+      "tip": [
+        "Modify a toolchain's supported targets."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List installed and available targets."
+          ],
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "Toolchain name."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--installed",
+              "tip": [
+                "List only installed targets."
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": ["-q"],
+              "tip": [
+                "Force the output to be a single column."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "add",
+          "tip": [
+            "Add a target to a Rust toolchain."
+          ],
+          "repeat": true,
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "Toolchain name."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove a target from a Rust toolchain."
+          ],
+          "repeat": true,
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "Toolchain name."
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "component",
+      "tip": [
+        "Modify a toolchain's installed components."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List installed and available components."
+          ],
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "Toolchain name."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--installed",
+              "tip": [
+                "List only installed components."
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": ["-q"],
+              "tip": [
+                "Force the output to be a single column."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "add",
+          "tip": [
+            "Add a component to a Rust toolchain."
+          ],
+          "repeat": true,
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "Toolchain name."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--target",
+              "tip": [
+                "U: --target <TARGET>",
+                "Target triple."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove a component from a Rust toolchain."
+          ],
+          "repeat": true,
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "Toolchain name."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--target",
+              "tip": [
+                "U: --target <TARGET>",
+                "Target triple."
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "override",
+      "tip": [
+        "Modify toolchain overrides for directories."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List directory toolchain overrides."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set the override toolchain for a directory."
+          ],
+          "option": [
+            {
+              "name": "--path",
+              "tip": [
+                "U: --path <PATH>",
+                "Path to the directory."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "Remove the override toolchain for a directory."
+          ],
+          "option": [
+            {
+              "name": "--path",
+              "tip": [
+                "U: --path <PATH>",
+                "Path to the directory."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--nonexistent",
+              "tip": [
+                "Remove override toolchain for all nonexistent directories."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "Run a command with an environment configured for a given toolchain."
+      ],
+      "option": [
+        {
+          "name": "--install",
+          "tip": [
+            "Install the requested toolchain if needed."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "which",
+      "tip": [
+        "Display which binary will be run for a given command."
+      ],
+      "next": [
+        {
+          "name": "<COMMAND>",
+          "tip": [
+            "The command to query."
+          ]
+        }
+      ],
+      "option": [
+        {
+          "name": "--toolchain",
+          "tip": [
+            "U: --toolchain <TOOLCHAIN>",
+            "Toolchain name."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "doc",
+      "tip": [
+        "Open the documentation for the current toolchain."
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "tip": [
+            "Only print the path to the documentation."
+          ]
+        },
+        {
+          "name": "--toolchain",
+          "tip": [
+            "U: --toolchain <TOOLCHAIN>",
+            "Toolchain name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--alloc",
+          "tip": [
+            "The Rust core allocation and collections library."
+          ]
+        },
+        {
+          "name": "--book",
+          "tip": [
+            "The Rust Programming Language book."
+          ]
+        },
+        {
+          "name": "--cargo",
+          "tip": [
+            "The Cargo Book."
+          ]
+        },
+        {
+          "name": "--clippy",
+          "tip": [
+            "The Clippy Documentation."
+          ]
+        },
+        {
+          "name": "--core",
+          "tip": [
+            "The Rust Core Library."
+          ]
+        },
+        {
+          "name": "--edition-guide",
+          "tip": [
+            "The Rust Edition Guide."
+          ]
+        },
+        {
+          "name": "--embedded-book",
+          "tip": [
+            "The Embedded Rust Book."
+          ]
+        },
+        {
+          "name": "--error-codes",
+          "tip": [
+            "The Rust Error Codes Index."
+          ]
+        },
+        {
+          "name": "--nomicon",
+          "tip": [
+            "The Dark Arts of Advanced and Unsafe Rust Programming."
+          ]
+        },
+        {
+          "name": "--proc_macro",
+          "tip": [
+            "A support library for macro authors when defining new macros."
+          ]
+        },
+        {
+          "name": "--reference",
+          "tip": [
+            "The Rust Reference."
+          ]
+        },
+        {
+          "name": "--releases",
+          "tip": [
+            "Rust Release Notes."
+          ]
+        },
+        {
+          "name": "--rust-by-example",
+          "tip": [
+            "A collection of runnable examples."
+          ]
+        },
+        {
+          "name": "--rustc",
+          "tip": [
+            "The compiler for the Rust programming language."
+          ]
+        },
+        {
+          "name": "--rustc-docs",
+          "tip": [
+            "The API documentation for the Rust compiler and other toolchain components."
+          ]
+        },
+        {
+          "name": "--rustdoc",
+          "tip": [
+            "Documentation generator for Rust projects."
+          ]
+        },
+        {
+          "name": "--std",
+          "tip": [
+            "Standard library API documentation."
+          ]
+        },
+        {
+          "name": "--style-guide",
+          "tip": [
+            "The Rust Style Guide."
+          ]
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "Support code for rustc's built in unit-test and micro-benchmarking framework."
+          ]
+        },
+        {
+          "name": "--unstable-book",
+          "tip": [
+            "The Unstable Book."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "self",
+      "tip": [
+        "Modify the rustup installation."
+      ],
+      "next": [
+        {
+          "name": "update",
+          "tip": [
+            "Download and install updates to rustup."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall rustup."
+          ]
+        },
+        {
+          "name": "upgrade-data",
+          "tip": [
+            "Upgrade the internal data format."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set",
+      "tip": [
+        "Alter rustup settings."
+      ],
+      "next": [
+        {
+          "name": "default-host",
+          "tip": [
+            "The triple used to identify toolchains when not specified."
+          ],
+          "next": [
+            {
+              "name": "<HOST_TRIPLE>",
+              "tip": [
+                "Target triple, e.g. x86_64-pc-windows-msvc."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "profile",
+          "tip": [
+            "The default components installed with a toolchain."
+          ],
+          "next": [
+            { "name": "minimal" },
+            { "name": "default" },
+            { "name": "complete" }
+          ]
+        },
+        {
+          "name": "auto-self-update",
+          "tip": [
+            "The rustup auto self update mode."
+          ],
+          "next": [
+            { "name": "enable" },
+            { "name": "disable" },
+            { "name": "check-only" }
+          ]
+        },
+        {
+          "name": "auto-install",
+          "tip": [
+            "The auto toolchain install mode."
+          ],
+          "next": [
+            { "name": "enable" },
+            { "name": "disable" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "tip": [
+        "Generate tab-completion scripts for your shell."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate bash completion script."
+          ],
+          "next": [
+            { "name": "rustup" },
+            { "name": "cargo" }
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Generate elvish completion script."
+          ],
+          "next": [
+            { "name": "rustup" },
+            { "name": "cargo" }
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate fish completion script."
+          ],
+          "next": [
+            { "name": "rustup" },
+            { "name": "cargo" }
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate PowerShell completion script."
+          ],
+          "next": [
+            { "name": "rustup" },
+            { "name": "cargo" }
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate zsh completion script."
+          ],
+          "next": [
+            { "name": "rustup" },
+            { "name": "cargo" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Print this message or the help of the given subcommand(s)."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--verbose",
+      "alias": ["-v"],
+      "tip": [
+        "U: --verbose, -v",
+        "Set log level to 'DEBUG' if 'RUSTUP_LOG' is unset."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": ["-q"],
+      "tip": [
+        "U: --quiet, -q",
+        "Disable progress output."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": ["-V"],
+      "tip": [
+        "U: --version, -V",
+        "Print version info."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": ["-h"],
+      "tip": [
+        "U: --help, -h",
+        "Print help information."
+      ]
+    }
+  ]
+}
