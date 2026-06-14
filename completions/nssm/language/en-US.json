@@ -1,0 +1,1288 @@
+{
+  "meta": {
+    "url": "https://nssm.cc",
+    "description": [
+      "NSSM - the Non-Sucking Service Manager",
+      "Install and manage any executable as a Windows service"
+    ]
+  },
+  "root": [
+    {
+      "name": "install",
+      "tip": [
+        "U: install [<servicename>] [<app> [<args> ...]]",
+        "Install a Windows service",
+        "Without arguments, opens the GUI installer",
+        "E: install MyService                    --- Open GUI installer",
+        "   install MyService C:\\app\\myapp.exe --- Install directly from command line"
+      ],
+      "next": 0
+    },
+    {
+      "name": "edit",
+      "tip": [
+        "U: edit <servicename>",
+        "Open the GUI service editor for an existing service"
+      ],
+      "next": 0
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "U: dump <servicename>",
+        "Display all service configuration and current state"
+      ],
+      "next": 0
+    },
+    {
+      "name": "get",
+      "tip": [
+        "U: get <servicename> <parameter> [<subparameter>]",
+        "Query a service parameter",
+        "Some parameters require a subparameter (e.g. AppExit requires an exit code)"
+      ],
+      "next": [
+        {
+          "name": "Application",
+          "tip": [
+            "Path to the application"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppDirectory",
+          "tip": [
+            "Startup directory for the application"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppParameters",
+          "tip": [
+            "Command line arguments for the application"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppPriority",
+          "tip": [
+            "Process priority class",
+            "E: AppPriority NORMAL_PRIORITY_CLASS"
+          ],
+          "next": [
+            {
+              "name": "REALTIME_PRIORITY_CLASS",
+              "tip": [
+                "Realtime priority"
+              ]
+            },
+            {
+              "name": "HIGH_PRIORITY_CLASS",
+              "tip": [
+                "High priority"
+              ]
+            },
+            {
+              "name": "ABOVE_NORMAL_PRIORITY_CLASS",
+              "tip": [
+                "Above normal priority"
+              ]
+            },
+            {
+              "name": "NORMAL_PRIORITY_CLASS",
+              "tip": [
+                "Normal priority (default)"
+              ]
+            },
+            {
+              "name": "BELOW_NORMAL_PRIORITY_CLASS",
+              "tip": [
+                "Below normal priority"
+              ]
+            },
+            {
+              "name": "IDLE_PRIORITY_CLASS",
+              "tip": [
+                "Idle priority"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppAffinity",
+          "tip": [
+            "CPU affinity mask"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppNoConsole",
+          "tip": [
+            "Run without a console window",
+            "Value: 0 (show console) or 1 (hide console)"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Show console window"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Hide console window"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppEnvironment",
+          "tip": [
+            "U: AppEnvironment [<env_var>]",
+            "Get environment variables",
+            "Without subparameter: list all environment variables",
+            "With subparameter: get the value of the specified variable"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppEnvironmentExtra",
+          "tip": [
+            "U: AppEnvironmentExtra [<env_var>]",
+            "Extra environment variables (preserves default environment)",
+            "Without subparameter: list all extra environment variables",
+            "With subparameter: get the value of the specified variable"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppExit",
+          "tip": [
+            "U: AppExit <exit_code|Default>",
+            "Exit action for a specific exit code",
+            "E: AppExit Default",
+            "   AppExit 1"
+          ],
+          "next": [
+            {
+              "name": "Default",
+              "tip": [
+                "The default exit action"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppThrottle",
+          "tip": [
+            "Restart throttle time (milliseconds)",
+            "If the service exits within this time, it is considered a startup failure"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppRestartDelay",
+          "tip": [
+            "Delay before restarting (milliseconds)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodSkip",
+          "tip": [
+            "Skip specified stop methods",
+            "Value: bitmask (1=Control-C, 2=WM_CLOSE, 4=WM_QUIT, 8=TerminateProcess)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodConsole",
+          "tip": [
+            "Time to wait after sending Control-C (milliseconds)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodWindow",
+          "tip": [
+            "Time to wait after sending WM_CLOSE (milliseconds)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodThreads",
+          "tip": [
+            "Time to wait after sending WM_QUIT (milliseconds)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStdout",
+          "tip": [
+            "Standard output redirection file path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStderr",
+          "tip": [
+            "Standard error redirection file path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStdin",
+          "tip": [
+            "Standard input redirection file path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStdoutCreationDisposition",
+          "tip": [
+            "Stdout file creation disposition",
+            "1=CREATE_NEW, 2=CREATE_ALWAYS, 3=OPEN_EXISTING, 4=OPEN_ALWAYS, 5=TRUNCATE_EXISTING"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "CREATE_NEW - Create new file, fail if exists"
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "CREATE_ALWAYS - Always create new, overwrite"
+              ]
+            },
+            {
+              "name": "3",
+              "tip": [
+                "OPEN_EXISTING - Open existing file"
+              ]
+            },
+            {
+              "name": "4",
+              "tip": [
+                "OPEN_ALWAYS - Open existing or create new (default)"
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "TRUNCATE_EXISTING - Open and truncate"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppStderrCreationDisposition",
+          "tip": [
+            "Stderr file creation disposition",
+            "1=CREATE_NEW, 2=CREATE_ALWAYS, 3=OPEN_EXISTING, 4=OPEN_ALWAYS, 5=TRUNCATE_EXISTING"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "CREATE_NEW - Create new file, fail if exists"
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "CREATE_ALWAYS - Always create new, overwrite"
+              ]
+            },
+            {
+              "name": "3",
+              "tip": [
+                "OPEN_EXISTING - Open existing file"
+              ]
+            },
+            {
+              "name": "4",
+              "tip": [
+                "OPEN_ALWAYS - Open existing or create new (default)"
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "TRUNCATE_EXISTING - Open and truncate"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppRotateFiles",
+          "tip": [
+            "Enable file rotation",
+            "Value: 0 (disabled) or 1 (enabled)"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Disable file rotation"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Enable file rotation"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppRotateOnline",
+          "tip": [
+            "Enable online (runtime) file rotation",
+            "Value: 0 (disabled) or 1 (enabled)"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Disable online rotation"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Enable online rotation"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppRotateSeconds",
+          "tip": [
+            "File rotation age limit (seconds)",
+            "Files older than this will be rotated"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppRotateBytes",
+          "tip": [
+            "File rotation size limit (bytes)",
+            "Files larger than this will be rotated"
+          ],
+          "next": 0
+        },
+        {
+          "name": "DependOnGroup",
+          "tip": [
+            "Load order groups for service dependency"
+          ],
+          "next": 0
+        },
+        {
+          "name": "DependOnService",
+          "tip": [
+            "Services that must start before this service"
+          ],
+          "next": 0
+        },
+        {
+          "name": "Description",
+          "tip": [
+            "Service description"
+          ],
+          "next": 0
+        },
+        {
+          "name": "DisplayName",
+          "tip": [
+            "Service display name"
+          ],
+          "next": 0
+        },
+        {
+          "name": "ImagePath",
+          "tip": [
+            "Path to the service executable"
+          ],
+          "next": 0
+        },
+        {
+          "name": "ObjectName",
+          "tip": [
+            "User account under which the service runs",
+            "Default: LOCALSYSTEM"
+          ],
+          "next": 0
+        },
+        {
+          "name": "Name",
+          "tip": [
+            "Service key name (read-only)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "Start",
+          "tip": [
+            "Service startup type",
+            "E: Start SERVICE_AUTO_START"
+          ],
+          "next": [
+            {
+              "name": "SERVICE_AUTO_START",
+              "tip": [
+                "Automatic startup"
+              ]
+            },
+            {
+              "name": "SERVICE_DELAYED_AUTO_START",
+              "tip": [
+                "Delayed automatic startup"
+              ]
+            },
+            {
+              "name": "SERVICE_DEMAND_START",
+              "tip": [
+                "Manual startup"
+              ]
+            },
+            {
+              "name": "SERVICE_DISABLED",
+              "tip": [
+                "Service is disabled"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Type",
+          "tip": [
+            "Service type",
+            "E: Type SERVICE_WIN32_OWN_PROCESS"
+          ],
+          "next": [
+            {
+              "name": "SERVICE_WIN32_OWN_PROCESS",
+              "tip": [
+                "Standalone service (default)"
+              ]
+            },
+            {
+              "name": "SERVICE_INTERACTIVE_PROCESS",
+              "tip": [
+                "Service that can interact with the desktop (requires LOCALSYSTEM)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set",
+      "tip": [
+        "U: set <servicename> <parameter> [<subparameter>] <value>",
+        "Set a service parameter",
+        "Some parameters require a subparameter (e.g. AppExit requires an exit code)",
+        "Multiple arguments are concatenated with spaces"
+      ],
+      "next": [
+        {
+          "name": "Application",
+          "tip": [
+            "U: Application <path>",
+            "Set the application path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppDirectory",
+          "tip": [
+            "U: AppDirectory <path>",
+            "Set the application startup directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppParameters",
+          "tip": [
+            "U: AppParameters <args>",
+            "Set command line arguments for the application"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppPriority",
+          "tip": [
+            "U: AppPriority <class>",
+            "Set process priority class",
+            "E: AppPriority NORMAL_PRIORITY_CLASS"
+          ],
+          "next": [
+            {
+              "name": "REALTIME_PRIORITY_CLASS",
+              "tip": [
+                "Realtime priority"
+              ]
+            },
+            {
+              "name": "HIGH_PRIORITY_CLASS",
+              "tip": [
+                "High priority"
+              ]
+            },
+            {
+              "name": "ABOVE_NORMAL_PRIORITY_CLASS",
+              "tip": [
+                "Above normal priority"
+              ]
+            },
+            {
+              "name": "NORMAL_PRIORITY_CLASS",
+              "tip": [
+                "Normal priority (default)"
+              ]
+            },
+            {
+              "name": "BELOW_NORMAL_PRIORITY_CLASS",
+              "tip": [
+                "Below normal priority"
+              ]
+            },
+            {
+              "name": "IDLE_PRIORITY_CLASS",
+              "tip": [
+                "Idle priority"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppAffinity",
+          "tip": [
+            "U: AppAffinity <mask>",
+            "Set CPU affinity",
+            "E: AppAffinity All"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppNoConsole",
+          "tip": [
+            "U: AppNoConsole <0|1>",
+            "Run without a console window",
+            "0 = show console, 1 = hide console"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Show console window"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Hide console window"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppEnvironment",
+          "tip": [
+            "U: AppEnvironment <KEY=VALUE> [<KEY=VALUE> ...]",
+            "Set environment variables (replaces default environment)",
+            "E: AppEnvironment MY_VAR=value"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppEnvironmentExtra",
+          "tip": [
+            "U: AppEnvironmentExtra <KEY=VALUE> [<KEY=VALUE> ...]",
+            "Set extra environment variables (preserves default environment)",
+            "E: AppEnvironmentExtra JAVA_HOME=C:\\java"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppExit",
+          "tip": [
+            "U: AppExit <exit_code|Default> <action>",
+            "Set the exit action for a specific exit code",
+            "action: Restart, Ignore, Exit, Run, Halt",
+            "E: AppExit Default Restart",
+            "   AppExit 1 Ignore"
+          ],
+          "next": [
+            {
+              "name": "Default",
+              "tip": [
+                "The default exit action",
+                "E: Default Restart"
+              ],
+              "next": [
+                {
+                  "name": "Restart",
+                  "tip": [
+                    "Restart the service"
+                  ]
+                },
+                {
+                  "name": "Ignore",
+                  "tip": [
+                    "Ignore the exit"
+                  ]
+                },
+                {
+                  "name": "Exit",
+                  "tip": [
+                    "Exit the service"
+                  ]
+                },
+                {
+                  "name": "Run",
+                  "tip": [
+                    "Run a specified program"
+                  ]
+                },
+                {
+                  "name": "Halt",
+                  "tip": [
+                    "Stop the service"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppThrottle",
+          "tip": [
+            "U: AppThrottle <milliseconds>",
+            "Set restart throttle time (milliseconds)",
+            "Default: 1500"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppRestartDelay",
+          "tip": [
+            "U: AppRestartDelay <milliseconds>",
+            "Set delay before restarting (milliseconds)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodSkip",
+          "tip": [
+            "U: AppStopMethodSkip <flags>",
+            "Skip specified stop methods",
+            "Bitmask: 1=Control-C, 2=WM_CLOSE, 4=WM_QUIT, 8=TerminateProcess"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodConsole",
+          "tip": [
+            "U: AppStopMethodConsole <milliseconds>",
+            "Set wait time after sending Control-C (milliseconds)",
+            "Default: 1500"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodWindow",
+          "tip": [
+            "U: AppStopMethodWindow <milliseconds>",
+            "Set wait time after sending WM_CLOSE (milliseconds)",
+            "Default: 1500"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStopMethodThreads",
+          "tip": [
+            "U: AppStopMethodThreads <milliseconds>",
+            "Set wait time after sending WM_QUIT (milliseconds)",
+            "Default: 1500"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStdout",
+          "tip": [
+            "U: AppStdout <path>",
+            "Set standard output redirection file path",
+            "E: AppStdout C:\\logs\\service.log"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStderr",
+          "tip": [
+            "U: AppStderr <path>",
+            "Set standard error redirection file path",
+            "E: AppStderr C:\\logs\\service.log"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStdin",
+          "tip": [
+            "U: AppStdin <path>",
+            "Set standard input redirection file path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppStdoutCreationDisposition",
+          "tip": [
+            "U: AppStdoutCreationDisposition <1-5>",
+            "Set stdout file creation disposition",
+            "1=CREATE_NEW, 2=CREATE_ALWAYS, 3=OPEN_EXISTING, 4=OPEN_ALWAYS, 5=TRUNCATE_EXISTING",
+            "Default: 4 (OPEN_ALWAYS)"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "CREATE_NEW - Create new file"
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "CREATE_ALWAYS - Always create new"
+              ]
+            },
+            {
+              "name": "3",
+              "tip": [
+                "OPEN_EXISTING - Open existing"
+              ]
+            },
+            {
+              "name": "4",
+              "tip": [
+                "OPEN_ALWAYS - Open or create (default)"
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "TRUNCATE_EXISTING - Open and truncate"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppStderrCreationDisposition",
+          "tip": [
+            "U: AppStderrCreationDisposition <1-5>",
+            "Set stderr file creation disposition",
+            "1=CREATE_NEW, 2=CREATE_ALWAYS, 3=OPEN_EXISTING, 4=OPEN_ALWAYS, 5=TRUNCATE_EXISTING",
+            "Default: 4 (OPEN_ALWAYS)"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "CREATE_NEW - Create new file"
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "CREATE_ALWAYS - Always create new"
+              ]
+            },
+            {
+              "name": "3",
+              "tip": [
+                "OPEN_EXISTING - Open existing"
+              ]
+            },
+            {
+              "name": "4",
+              "tip": [
+                "OPEN_ALWAYS - Open or create (default)"
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "TRUNCATE_EXISTING - Open and truncate"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppRotateFiles",
+          "tip": [
+            "U: AppRotateFiles <0|1>",
+            "Enable or disable file rotation",
+            "0 = disabled, 1 = enabled"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Disable file rotation"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Enable file rotation (rotates on service restart)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppRotateOnline",
+          "tip": [
+            "U: AppRotateOnline <0|1>",
+            "Enable or disable online (runtime) file rotation",
+            "0 = disabled, 1 = enabled"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Disable online rotation"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Enable online rotation (rotates while service is running)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppRotateSeconds",
+          "tip": [
+            "U: AppRotateSeconds <seconds>",
+            "Set file rotation age limit (seconds)",
+            "Default: 86400 (24 hours)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppRotateBytes",
+          "tip": [
+            "U: AppRotateBytes <bytes>",
+            "Set file rotation size limit (bytes)",
+            "Default: 1048576 (1 MB)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "DependOnGroup",
+          "tip": [
+            "U: DependOnGroup <group> [<group> ...]",
+            "Set load order groups for service dependency"
+          ],
+          "next": 0
+        },
+        {
+          "name": "DependOnService",
+          "tip": [
+            "U: DependOnService <service> [<service> ...]",
+            "Set services that must start before this service",
+            "E: DependOnService RpcSS LanmanWorkstation"
+          ],
+          "next": 0
+        },
+        {
+          "name": "Description",
+          "tip": [
+            "U: Description <text>",
+            "Set the service description"
+          ],
+          "next": 0
+        },
+        {
+          "name": "DisplayName",
+          "tip": [
+            "U: DisplayName <name>",
+            "Set the service display name"
+          ],
+          "next": 0
+        },
+        {
+          "name": "ImagePath",
+          "tip": [
+            "U: ImagePath <path>",
+            "Set the service executable path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "ObjectName",
+          "tip": [
+            "U: ObjectName <username> <password>",
+            "Set the user account and password for the service",
+            "E: ObjectName LocalSystem",
+            "   ObjectName .\\MyUser MyPassword"
+          ],
+          "next": 0
+        },
+        {
+          "name": "Start",
+          "tip": [
+            "U: Start <type>",
+            "Set the service startup type",
+            "E: Start SERVICE_AUTO_START"
+          ],
+          "next": [
+            {
+              "name": "SERVICE_AUTO_START",
+              "tip": [
+                "Automatic startup"
+              ]
+            },
+            {
+              "name": "SERVICE_DELAYED_AUTO_START",
+              "tip": [
+                "Delayed automatic startup"
+              ]
+            },
+            {
+              "name": "SERVICE_DEMAND_START",
+              "tip": [
+                "Manual startup"
+              ]
+            },
+            {
+              "name": "SERVICE_DISABLED",
+              "tip": [
+                "Service is disabled"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Type",
+          "tip": [
+            "U: Type <type>",
+            "Set the service type",
+            "E: Type SERVICE_WIN32_OWN_PROCESS"
+          ],
+          "next": [
+            {
+              "name": "SERVICE_WIN32_OWN_PROCESS",
+              "tip": [
+                "Standalone service (default)"
+              ]
+            },
+            {
+              "name": "SERVICE_INTERACTIVE_PROCESS",
+              "tip": [
+                "Service that can interact with the desktop"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "U: reset <servicename> <parameter> [<subparameter>]",
+        "Reset a service parameter to its default value",
+        "Equivalent to removing the associated registry entry"
+      ],
+      "next": [
+        {
+          "name": "Application",
+          "tip": [
+            "Reset the application path"
+          ]
+        },
+        {
+          "name": "AppDirectory",
+          "tip": [
+            "Reset the startup directory"
+          ]
+        },
+        {
+          "name": "AppParameters",
+          "tip": [
+            "Reset the command line arguments"
+          ]
+        },
+        {
+          "name": "AppPriority",
+          "tip": [
+            "Reset the process priority"
+          ]
+        },
+        {
+          "name": "AppAffinity",
+          "tip": [
+            "Reset the CPU affinity"
+          ]
+        },
+        {
+          "name": "AppNoConsole",
+          "tip": [
+            "Reset the console window setting"
+          ]
+        },
+        {
+          "name": "AppEnvironment",
+          "tip": [
+            "Reset the environment variables"
+          ]
+        },
+        {
+          "name": "AppEnvironmentExtra",
+          "tip": [
+            "U: AppEnvironmentExtra [<env_var>]",
+            "Reset extra environment variables",
+            "Without subparameter: reset all",
+            "With subparameter: reset the specified variable"
+          ],
+          "next": 0
+        },
+        {
+          "name": "AppExit",
+          "tip": [
+            "U: AppExit <exit_code|Default>",
+            "Reset the exit action",
+            "E: AppExit Default",
+            "   AppExit 1"
+          ],
+          "next": [
+            {
+              "name": "Default",
+              "tip": [
+                "Reset the default exit action"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "AppThrottle",
+          "tip": [
+            "Reset the restart throttle time"
+          ]
+        },
+        {
+          "name": "AppRestartDelay",
+          "tip": [
+            "Reset the restart delay"
+          ]
+        },
+        {
+          "name": "AppStopMethodSkip",
+          "tip": [
+            "Reset the stop method skip flags"
+          ]
+        },
+        {
+          "name": "AppStopMethodConsole",
+          "tip": [
+            "Reset the Control-C wait time"
+          ]
+        },
+        {
+          "name": "AppStopMethodWindow",
+          "tip": [
+            "Reset the WM_CLOSE wait time"
+          ]
+        },
+        {
+          "name": "AppStopMethodThreads",
+          "tip": [
+            "Reset the WM_QUIT wait time"
+          ]
+        },
+        {
+          "name": "AppStdout",
+          "tip": [
+            "Reset the stdout path"
+          ]
+        },
+        {
+          "name": "AppStderr",
+          "tip": [
+            "Reset the stderr path"
+          ]
+        },
+        {
+          "name": "AppStdin",
+          "tip": [
+            "Reset the stdin path"
+          ]
+        },
+        {
+          "name": "AppStdoutCreationDisposition",
+          "tip": [
+            "Reset the stdout file creation disposition"
+          ]
+        },
+        {
+          "name": "AppStderrCreationDisposition",
+          "tip": [
+            "Reset the stderr file creation disposition"
+          ]
+        },
+        {
+          "name": "AppRotateFiles",
+          "tip": [
+            "Reset the file rotation setting"
+          ]
+        },
+        {
+          "name": "AppRotateOnline",
+          "tip": [
+            "Reset the online rotation setting"
+          ]
+        },
+        {
+          "name": "AppRotateSeconds",
+          "tip": [
+            "Reset the file rotation age limit"
+          ]
+        },
+        {
+          "name": "AppRotateBytes",
+          "tip": [
+            "Reset the file rotation size limit"
+          ]
+        },
+        {
+          "name": "DependOnGroup",
+          "tip": [
+            "Reset the dependency groups"
+          ]
+        },
+        {
+          "name": "DependOnService",
+          "tip": [
+            "Reset the dependency services"
+          ]
+        },
+        {
+          "name": "Description",
+          "tip": [
+            "Reset the service description"
+          ]
+        },
+        {
+          "name": "DisplayName",
+          "tip": [
+            "Reset the service display name"
+          ]
+        },
+        {
+          "name": "ImagePath",
+          "tip": [
+            "Reset the executable path"
+          ]
+        },
+        {
+          "name": "ObjectName",
+          "tip": [
+            "Reset the user account"
+          ]
+        },
+        {
+          "name": "Start",
+          "tip": [
+            "Reset the startup type"
+          ]
+        },
+        {
+          "name": "Type",
+          "tip": [
+            "Reset the service type"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "U: remove [<servicename>] [confirm]",
+        "Remove a Windows service",
+        "Without arguments, opens the GUI removal dialog",
+        "With 'confirm' argument, removes without confirmation",
+        "E: remove MyService           --- Open GUI removal dialog",
+        "   remove MyService confirm   --- Remove service directly"
+      ],
+      "next": [
+        {
+          "name": "confirm",
+          "tip": [
+            "Remove the service without confirmation dialog"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "start",
+      "tip": [
+        "U: start <servicename>",
+        "Start a service"
+      ],
+      "next": 0
+    },
+    {
+      "name": "stop",
+      "tip": [
+        "U: stop <servicename>",
+        "Stop a service"
+      ],
+      "next": 0
+    },
+    {
+      "name": "restart",
+      "tip": [
+        "U: restart <servicename>",
+        "Restart a service"
+      ],
+      "next": 0
+    },
+    {
+      "name": "status",
+      "tip": [
+        "U: status <servicename>",
+        "Query the service running status"
+      ],
+      "next": 0
+    },
+    {
+      "name": "statuscode",
+      "tip": [
+        "U: statuscode <servicename>",
+        "Query the service status code"
+      ],
+      "next": 0
+    },
+    {
+      "name": "rotate",
+      "tip": [
+        "U: rotate <servicename>",
+        "Trigger on-demand file rotation",
+        "Requires I/O redirection and online rotation enabled"
+      ],
+      "next": 0
+    },
+    {
+      "name": "processes",
+      "tip": [
+        "U: processes <servicename>",
+        "Display process information for the service"
+      ],
+      "next": 0
+    }
+  ]
+}
