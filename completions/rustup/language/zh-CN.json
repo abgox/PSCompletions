@@ -7,206 +7,181 @@
   },
   "root": [
     {
-      "name": "install",
+      "name": "check",
       "tip": [
-        "安装或更新给定的工具链，默认安装或更新活动的工具链。"
+        "检查 Rust 工具链和 rustup 的更新。"
       ],
       "option": [
         {
-          "name": "--profile",
-          "tip": [
-            "U: --profile <PROFILE>",
-            "选择要安装的配置：minimal, default, complete。"
-          ],
-          "next": [
-            { "name": "minimal" },
-            { "name": "default" },
-            { "name": "complete" }
-          ]
-        },
-        {
-          "name": "--component",
-          "alias": ["-c"],
-          "tip": [
-            "U: --component, -c <COMPONENT>",
-            "安装时附加的组件列表，用逗号分隔。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--target",
-          "alias": ["-t"],
-          "tip": [
-            "U: --target, -t <TARGET>",
-            "安装时附加的目标平台列表，用逗号分隔。"
-          ],
-          "next": 0
-        },
-        {
           "name": "--no-self-update",
           "tip": [
-            "不执行 rustup 自身的更新。"
-          ]
-        },
-        {
-          "name": "--no-update",
-          "tip": [
-            "不尝试更新已安装的工具链。"
-          ]
-        },
-        {
-          "name": "--force",
-          "tip": [
-            "强制更新，即使部分组件缺失。"
-          ]
-        },
-        {
-          "name": "--allow-downgrade",
-          "tip": [
-            "允许 rustup 降级工具链以满足组件选择。"
-          ]
-        },
-        {
-          "name": "--force-non-host",
-          "tip": [
-            "安装需要模拟器的工具链。"
-          ]
-        },
-        {
-          "name": "--override",
-          "tip": [
-            "将安装的工具链设置为当前目录的覆盖工具链。"
+            "不检查 rustup 自身的更新。"
           ]
         }
       ]
     },
     {
-      "name": "uninstall",
+      "name": "completions",
       "tip": [
-        "卸载给定的工具链。"
-      ],
-      "repeat": true
-    },
-    {
-      "name": "toolchain",
-      "tip": [
-        "安装、卸载或列出工具链。"
+        "为你的 shell 生成 Tab 补全脚本。"
       ],
       "next": [
         {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本。"
+          ],
+          "next": [
+            {
+              "name": "cargo"
+            },
+            {
+              "name": "rustup"
+            }
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "生成 elvish 补全脚本。"
+          ],
+          "next": [
+            {
+              "name": "cargo"
+            },
+            {
+              "name": "rustup"
+            }
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本。"
+          ],
+          "next": [
+            {
+              "name": "cargo"
+            },
+            {
+              "name": "rustup"
+            }
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 PowerShell 补全脚本。"
+          ],
+          "next": [
+            {
+              "name": "cargo"
+            },
+            {
+              "name": "rustup"
+            }
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本。"
+          ],
+          "next": [
+            {
+              "name": "cargo"
+            },
+            {
+              "name": "rustup"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "component",
+      "tip": [
+        "管理工具链已安装的组件。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "向 Rust 工具链添加组件。"
+          ],
+          "repeat": true,
+          "option": [
+            {
+              "name": "--target",
+              "tip": [
+                "U: --target <TARGET>",
+                "指定目标平台。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "指定工具链名称。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
           "name": "list",
           "tip": [
-            "列出已安装的工具链。"
+            "列出已安装和可用的组件。"
           ],
           "option": [
             {
-              "name": "--verbose",
-              "alias": ["-v"],
+              "name": "--installed",
               "tip": [
-                "启用详细输出，显示工具链信息。"
+                "仅列出已安装的组件。"
               ]
             },
             {
               "name": "--quiet",
-              "alias": ["-q"],
+              "alias": [
+                "-q"
+              ],
               "tip": [
                 "强制输出为单列格式。"
               ]
+            },
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "指定工具链名称。"
+              ],
+              "next": 0
             }
           ]
         },
         {
-          "name": "install",
+          "name": "remove",
           "tip": [
-            "安装或更新给定的工具链。"
+            "从 Rust 工具链中移除组件。"
           ],
+          "repeat": true,
           "option": [
             {
-              "name": "--profile",
-              "tip": [
-                "U: --profile <PROFILE>",
-                "选择要安装的配置：minimal, default, complete。"
-              ],
-              "next": [
-                { "name": "minimal" },
-                { "name": "default" },
-                { "name": "complete" }
-              ]
-            },
-            {
-              "name": "--component",
-              "alias": ["-c"],
-              "tip": [
-                "U: --component, -c <COMPONENT>",
-                "安装时附加的组件列表，用逗号分隔。"
-              ],
-              "next": 0
-            },
-            {
               "name": "--target",
-              "alias": ["-t"],
               "tip": [
-                "U: --target, -t <TARGET>",
-                "安装时附加的目标平台列表，用逗号分隔。"
+                "U: --target <TARGET>",
+                "指定目标平台。"
               ],
               "next": 0
             },
             {
-              "name": "--no-self-update",
+              "name": "--toolchain",
               "tip": [
-                "不执行 rustup 自身的更新。"
-              ]
-            },
-            {
-              "name": "--no-update",
-              "tip": [
-                "不尝试更新已安装的工具链。"
-              ]
-            },
-            {
-              "name": "--force",
-              "tip": [
-                "强制更新，即使部分组件缺失。"
-              ]
-            },
-            {
-              "name": "--allow-downgrade",
-              "tip": [
-                "允许 rustup 降级工具链以满足组件选择。"
-              ]
-            },
-            {
-              "name": "--force-non-host",
-              "tip": [
-                "安装需要模拟器的工具链。"
-              ]
-            },
-            {
-              "name": "--override",
-              "tip": [
-                "将安装的工具链设置为当前目录的覆盖工具链。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "uninstall",
-          "tip": [
-            "卸载给定的工具链。"
-          ],
-          "repeat": true
-        },
-        {
-          "name": "link",
-          "tip": [
-            "通过符号链接创建自定义工具链。"
-          ],
-          "next": [
-            {
-              "name": "<TOOLCHAIN>",
-              "tip": [
-                "自定义工具链的名称。"
-              ]
+                "U: --toolchain <TOOLCHAIN>",
+                "指定工具链名称。"
+              ],
+              "next": 0
             }
           ]
         }
@@ -227,357 +202,11 @@
       ]
     },
     {
-      "name": "show",
-      "tip": [
-        "显示活动和已安装的工具链或配置。"
-      ],
-      "next": [
-        {
-          "name": "active-toolchain",
-          "tip": [
-            "显示活动工具链。"
-          ],
-          "option": [
-            {
-              "name": "--verbose",
-              "alias": ["-v"],
-              "tip": [
-                "启用详细输出，显示 rustc 信息。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "home",
-          "tip": [
-            "显示 RUSTUP_HOME 的计算值。"
-          ]
-        },
-        {
-          "name": "profile",
-          "tip": [
-            "显示 rustup install 命令使用的默认配置。"
-          ]
-        }
-      ],
-      "option": [
-        {
-          "name": "--verbose",
-          "alias": ["-v"],
-          "tip": [
-            "启用详细输出，显示所有已安装工具链的 rustc 信息。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "update",
-      "tip": [
-        "更新 Rust 工具链和 rustup 本身。"
-      ],
-      "option": [
-        {
-          "name": "--no-self-update",
-          "tip": [
-            "不执行 rustup 自身的更新。"
-          ]
-        },
-        {
-          "name": "--force",
-          "tip": [
-            "强制更新，即使部分组件缺失。"
-          ]
-        },
-        {
-          "name": "--force-non-host",
-          "tip": [
-            "安装需要模拟器的工具链。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "check",
-      "tip": [
-        "检查 Rust 工具链和 rustup 的更新。"
-      ],
-      "option": [
-        {
-          "name": "--no-self-update",
-          "tip": [
-            "不检查 rustup 自身的更新。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "target",
-      "tip": [
-        "管理工具链支持的目标平台。"
-      ],
-      "next": [
-        {
-          "name": "list",
-          "tip": [
-            "列出已安装和可用的目标平台。"
-          ],
-          "option": [
-            {
-              "name": "--toolchain",
-              "tip": [
-                "U: --toolchain <TOOLCHAIN>",
-                "指定工具链名称。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--installed",
-              "tip": [
-                "仅列出已安装的目标平台。"
-              ]
-            },
-            {
-              "name": "--quiet",
-              "alias": ["-q"],
-              "tip": [
-                "强制输出为单列格式。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "add",
-          "tip": [
-            "向 Rust 工具链添加目标平台。"
-          ],
-          "repeat": true,
-          "option": [
-            {
-              "name": "--toolchain",
-              "tip": [
-                "U: --toolchain <TOOLCHAIN>",
-                "指定工具链名称。"
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "name": "remove",
-          "tip": [
-            "从 Rust 工具链中移除目标平台。"
-          ],
-          "repeat": true,
-          "option": [
-            {
-              "name": "--toolchain",
-              "tip": [
-                "U: --toolchain <TOOLCHAIN>",
-                "指定工具链名称。"
-              ],
-              "next": 0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "component",
-      "tip": [
-        "管理工具链已安装的组件。"
-      ],
-      "next": [
-        {
-          "name": "list",
-          "tip": [
-            "列出已安装和可用的组件。"
-          ],
-          "option": [
-            {
-              "name": "--toolchain",
-              "tip": [
-                "U: --toolchain <TOOLCHAIN>",
-                "指定工具链名称。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--installed",
-              "tip": [
-                "仅列出已安装的组件。"
-              ]
-            },
-            {
-              "name": "--quiet",
-              "alias": ["-q"],
-              "tip": [
-                "强制输出为单列格式。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "add",
-          "tip": [
-            "向 Rust 工具链添加组件。"
-          ],
-          "repeat": true,
-          "option": [
-            {
-              "name": "--toolchain",
-              "tip": [
-                "U: --toolchain <TOOLCHAIN>",
-                "指定工具链名称。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--target",
-              "tip": [
-                "U: --target <TARGET>",
-                "指定目标平台。"
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "name": "remove",
-          "tip": [
-            "从 Rust 工具链中移除组件。"
-          ],
-          "repeat": true,
-          "option": [
-            {
-              "name": "--toolchain",
-              "tip": [
-                "U: --toolchain <TOOLCHAIN>",
-                "指定工具链名称。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--target",
-              "tip": [
-                "U: --target <TARGET>",
-                "指定目标平台。"
-              ],
-              "next": 0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "override",
-      "tip": [
-        "管理目录的工具链覆盖设置。"
-      ],
-      "next": [
-        {
-          "name": "list",
-          "tip": [
-            "列出目录的工具链覆盖设置。"
-          ]
-        },
-        {
-          "name": "set",
-          "tip": [
-            "为目录设置覆盖工具链。"
-          ],
-          "option": [
-            {
-              "name": "--path",
-              "tip": [
-                "U: --path <PATH>",
-                "指定目录路径。"
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "name": "unset",
-          "tip": [
-            "移除目录的覆盖工具链。"
-          ],
-          "option": [
-            {
-              "name": "--path",
-              "tip": [
-                "U: --path <PATH>",
-                "指定目录路径。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--nonexistent",
-              "tip": [
-                "移除所有不存在目录的覆盖工具链。"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "run",
-      "tip": [
-        "使用指定工具链的环境运行命令。"
-      ],
-      "option": [
-        {
-          "name": "--install",
-          "tip": [
-            "如果需要，安装请求的工具链。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "which",
-      "tip": [
-        "显示给定命令将运行哪个二进制文件。"
-      ],
-      "next": [
-        {
-          "name": "<COMMAND>",
-          "tip": [
-            "要查询的命令名称。"
-          ]
-        }
-      ],
-      "option": [
-        {
-          "name": "--toolchain",
-          "tip": [
-            "U: --toolchain <TOOLCHAIN>",
-            "指定工具链名称。"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
       "name": "doc",
       "tip": [
         "打开当前工具链的文档。"
       ],
       "option": [
-        {
-          "name": "--path",
-          "tip": [
-            "仅打印文档路径。"
-          ]
-        },
-        {
-          "name": "--toolchain",
-          "tip": [
-            "U: --toolchain <TOOLCHAIN>",
-            "指定工具链名称。"
-          ],
-          "next": 0
-        },
         {
           "name": "--alloc",
           "tip": [
@@ -630,6 +259,12 @@
           "name": "--nomicon",
           "tip": [
             "Rust 高级不安全编程指南。"
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "仅打印文档路径。"
           ]
         },
         {
@@ -693,9 +328,173 @@
           ]
         },
         {
+          "name": "--toolchain",
+          "tip": [
+            "U: --toolchain <TOOLCHAIN>",
+            "指定工具链名称。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--unstable-book",
           "tip": [
             "不稳定特性手册。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "打印帮助信息或给定子命令的帮助。"
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "安装或更新给定的工具链，默认安装或更新活动的工具链。"
+      ],
+      "option": [
+        {
+          "name": "--allow-downgrade",
+          "tip": [
+            "允许 rustup 降级工具链以满足组件选择。"
+          ]
+        },
+        {
+          "name": "--component",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: --component, -c <COMPONENT>",
+            "安装时附加的组件列表，用逗号分隔。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制更新，即使部分组件缺失。"
+          ]
+        },
+        {
+          "name": "--force-non-host",
+          "tip": [
+            "安装需要模拟器的工具链。"
+          ]
+        },
+        {
+          "name": "--no-self-update",
+          "tip": [
+            "不执行 rustup 自身的更新。"
+          ]
+        },
+        {
+          "name": "--no-update",
+          "tip": [
+            "不尝试更新已安装的工具链。"
+          ]
+        },
+        {
+          "name": "--override",
+          "tip": [
+            "将安装的工具链设置为当前目录的覆盖工具链。"
+          ]
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <PROFILE>",
+            "选择要安装的配置：minimal, default, complete。"
+          ],
+          "next": [
+            {
+              "name": "complete"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "minimal"
+            }
+          ]
+        },
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: --target, -t <TARGET>",
+            "安装时附加的目标平台列表，用逗号分隔。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "override",
+      "tip": [
+        "管理目录的工具链覆盖设置。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出目录的工具链覆盖设置。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "为目录设置覆盖工具链。"
+          ],
+          "option": [
+            {
+              "name": "--path",
+              "tip": [
+                "U: --path <PATH>",
+                "指定目录路径。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "移除目录的覆盖工具链。"
+          ],
+          "option": [
+            {
+              "name": "--nonexistent",
+              "tip": [
+                "移除所有不存在目录的覆盖工具链。"
+              ]
+            },
+            {
+              "name": "--path",
+              "tip": [
+                "U: --path <PATH>",
+                "指定目录路径。"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "使用指定工具链的环境运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--install",
+          "tip": [
+            "如果需要，安装请求的工具链。"
           ]
         }
       ]
@@ -707,15 +506,15 @@
       ],
       "next": [
         {
-          "name": "update",
-          "tip": [
-            "下载并安装 rustup 的更新。"
-          ]
-        },
-        {
           "name": "uninstall",
           "tip": [
             "卸载 rustup。"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "下载并安装 rustup 的更新。"
           ]
         },
         {
@@ -732,6 +531,37 @@
         "修改 rustup 设置。"
       ],
       "next": [
+        {
+          "name": "auto-install",
+          "tip": [
+            "设置自动工具链安装模式。"
+          ],
+          "next": [
+            {
+              "name": "disable"
+            },
+            {
+              "name": "enable"
+            }
+          ]
+        },
+        {
+          "name": "auto-self-update",
+          "tip": [
+            "设置 rustup 自动自我更新模式。"
+          ],
+          "next": [
+            {
+              "name": "check-only"
+            },
+            {
+              "name": "disable"
+            },
+            {
+              "name": "enable"
+            }
+          ]
+        },
         {
           "name": "default-host",
           "tip": [
@@ -752,119 +582,363 @@
             "设置工具链默认安装的组件配置。"
           ],
           "next": [
-            { "name": "minimal" },
-            { "name": "default" },
-            { "name": "complete" }
-          ]
-        },
-        {
-          "name": "auto-self-update",
-          "tip": [
-            "设置 rustup 自动自我更新模式。"
-          ],
-          "next": [
-            { "name": "enable" },
-            { "name": "disable" },
-            { "name": "check-only" }
-          ]
-        },
-        {
-          "name": "auto-install",
-          "tip": [
-            "设置自动工具链安装模式。"
-          ],
-          "next": [
-            { "name": "enable" },
-            { "name": "disable" }
+            {
+              "name": "complete"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "minimal"
+            }
           ]
         }
       ]
     },
     {
-      "name": "completions",
+      "name": "show",
       "tip": [
-        "为你的 shell 生成 Tab 补全脚本。"
+        "显示活动和已安装的工具链或配置。"
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "启用详细输出，显示所有已安装工具链的 rustc 信息。"
+          ]
+        }
       ],
       "next": [
         {
-          "name": "bash",
+          "name": "active-toolchain",
           "tip": [
-            "生成 bash 补全脚本。"
+            "显示活动工具链。"
           ],
-          "next": [
-            { "name": "rustup" },
-            { "name": "cargo" }
+          "option": [
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "启用详细输出，显示 rustc 信息。"
+              ]
+            }
           ]
         },
         {
-          "name": "elvish",
+          "name": "home",
           "tip": [
-            "生成 elvish 补全脚本。"
-          ],
-          "next": [
-            { "name": "rustup" },
-            { "name": "cargo" }
+            "显示 RUSTUP_HOME 的计算值。"
           ]
         },
         {
-          "name": "fish",
+          "name": "profile",
           "tip": [
-            "生成 fish 补全脚本。"
-          ],
-          "next": [
-            { "name": "rustup" },
-            { "name": "cargo" }
-          ]
-        },
-        {
-          "name": "powershell",
-          "tip": [
-            "生成 PowerShell 补全脚本。"
-          ],
-          "next": [
-            { "name": "rustup" },
-            { "name": "cargo" }
-          ]
-        },
-        {
-          "name": "zsh",
-          "tip": [
-            "生成 zsh 补全脚本。"
-          ],
-          "next": [
-            { "name": "rustup" },
-            { "name": "cargo" }
+            "显示 rustup install 命令使用的默认配置。"
           ]
         }
       ]
     },
     {
-      "name": "help",
+      "name": "target",
       "tip": [
-        "打印帮助信息或给定子命令的帮助。"
+        "管理工具链支持的目标平台。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "向 Rust 工具链添加目标平台。"
+          ],
+          "repeat": true,
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "指定工具链名称。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装和可用的目标平台。"
+          ],
+          "option": [
+            {
+              "name": "--installed",
+              "tip": [
+                "仅列出已安装的目标平台。"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "强制输出为单列格式。"
+              ]
+            },
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "指定工具链名称。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "从 Rust 工具链中移除目标平台。"
+          ],
+          "repeat": true,
+          "option": [
+            {
+              "name": "--toolchain",
+              "tip": [
+                "U: --toolchain <TOOLCHAIN>",
+                "指定工具链名称。"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "toolchain",
+      "tip": [
+        "安装、卸载或列出工具链。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "安装或更新给定的工具链。"
+          ],
+          "option": [
+            {
+              "name": "--allow-downgrade",
+              "tip": [
+                "允许 rustup 降级工具链以满足组件选择。"
+              ]
+            },
+            {
+              "name": "--component",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: --component, -c <COMPONENT>",
+                "安装时附加的组件列表，用逗号分隔。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "强制更新，即使部分组件缺失。"
+              ]
+            },
+            {
+              "name": "--force-non-host",
+              "tip": [
+                "安装需要模拟器的工具链。"
+              ]
+            },
+            {
+              "name": "--no-self-update",
+              "tip": [
+                "不执行 rustup 自身的更新。"
+              ]
+            },
+            {
+              "name": "--no-update",
+              "tip": [
+                "不尝试更新已安装的工具链。"
+              ]
+            },
+            {
+              "name": "--override",
+              "tip": [
+                "将安装的工具链设置为当前目录的覆盖工具链。"
+              ]
+            },
+            {
+              "name": "--profile",
+              "tip": [
+                "U: --profile <PROFILE>",
+                "选择要安装的配置：minimal, default, complete。"
+              ],
+              "next": [
+                {
+                  "name": "complete"
+                },
+                {
+                  "name": "default"
+                },
+                {
+                  "name": "minimal"
+                }
+              ]
+            },
+            {
+              "name": "--target",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: --target, -t <TARGET>",
+                "安装时附加的目标平台列表，用逗号分隔。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "通过符号链接创建自定义工具链。"
+          ],
+          "next": [
+            {
+              "name": "<TOOLCHAIN>",
+              "tip": [
+                "自定义工具链的名称。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装的工具链。"
+          ],
+          "option": [
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "强制输出为单列格式。"
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "启用详细输出，显示工具链信息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "卸载给定的工具链。"
+          ],
+          "repeat": true
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "卸载给定的工具链。"
+      ],
+      "repeat": true
+    },
+    {
+      "name": "update",
+      "tip": [
+        "更新 Rust 工具链和 rustup 本身。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "强制更新，即使部分组件缺失。"
+          ]
+        },
+        {
+          "name": "--force-non-host",
+          "tip": [
+            "安装需要模拟器的工具链。"
+          ]
+        },
+        {
+          "name": "--no-self-update",
+          "tip": [
+            "不执行 rustup 自身的更新。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "which",
+      "tip": [
+        "显示给定命令将运行哪个二进制文件。"
+      ],
+      "option": [
+        {
+          "name": "--toolchain",
+          "tip": [
+            "U: --toolchain <TOOLCHAIN>",
+            "指定工具链名称。"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "<COMMAND>",
+          "tip": [
+            "要查询的命令名称。"
+          ]
+        }
       ]
     }
   ],
   "option": [
     {
-      "name": "--verbose",
-      "alias": ["-v"],
-      "tip": [
-        "U: --verbose, -v",
-        "启用详细日志输出。"
-      ]
-    },
-    {
       "name": "--quiet",
-      "alias": ["-q"],
+      "alias": [
+        "-q"
+      ],
       "tip": [
         "U: --quiet, -q",
         "禁用进度输出。"
       ]
     },
     {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: --verbose, -v",
+        "启用详细日志输出。"
+      ]
+    },
+    {
       "name": "--version",
-      "alias": ["-V"],
+      "alias": [
+        "-V"
+      ],
       "tip": [
         "U: --version, -V",
         "打印版本信息。"
@@ -874,7 +948,9 @@
   "common_option": [
     {
       "name": "--help",
-      "alias": ["-h"],
+      "alias": [
+        "-h"
+      ],
       "tip": [
         "U: --help, -h",
         "打印帮助信息。"
