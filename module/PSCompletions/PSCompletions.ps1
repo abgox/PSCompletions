@@ -198,7 +198,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'enable_filter_exit_on_nomatch', 'filter_exit_nomatch_threshold', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'enable_filter_exit_on_nomatch', 'filter_exit_nomatch_threshold', 'enable_filter_subsequence_match', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
             )
         }
     }
@@ -250,6 +250,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         enable_list_full_width                       = 1
         enable_filter_exit_on_nomatch                = 1
         filter_exit_nomatch_threshold                = 2
+        enable_filter_subsequence_match              = 0
         enable_list_follow_cursor                    = 1
 
         enable_tip                                   = 1
@@ -2159,7 +2160,14 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         $menu.filter += $PressKey.Character
 
                         $escapedFilter = $menu.filter -replace '(\[|\])', '`$1'
-                        if ($escapedFilter.StartsWith('^')) {
+                        if ($config.enable_filter_subsequence_match) {
+                            $regexPattern = '^' + (($menu.filter.ToCharArray() | ForEach-Object { [regex]::Escape($_) }) -join '.*') + '.*'
+                            $comparison = {
+                                param($text)
+                                $text -match $regexPattern
+                            }
+                        }
+                        elseif ($escapedFilter.StartsWith('^')) {
                             $comparison = {
                                 param($text)
                                 $text -like $escapedFilter.Substring(1) + '*'
