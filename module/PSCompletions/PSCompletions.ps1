@@ -2174,7 +2174,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         $list = $menu.filter_list
                         $resultList = [System.Collections.Generic.List[System.Object]]::new($list.Count)
                         foreach ($f in $list) {
-                            if ($comparison.Invoke($f.ListItemText)) {
+                            if ($comparison.Invoke($f.ListItemText -replace '\x1b\[[\d;]*m', '')) {
                                 $resultList.Add($f)
                             }
                         }
