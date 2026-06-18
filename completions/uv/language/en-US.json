@@ -9,146 +9,2421 @@
     {
       "name": "add",
       "tip": [
-        "Add dependencies to the project"
+        "Add dependencies to the project.",
+        "U: add <PACKAGES>"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "tip": [
+            "Add the requirements to the development dependency group."
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "U: --optional <EXTRA>",
+            "Add the requirements to the package's optional dependencies for the specified extra."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "Add the requirements to the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--editable",
+          "tip": [
+            "Add the requirements as editable."
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "Add a dependency as provided (without transformation)."
+          ]
+        },
+        {
+          "name": "--bounds",
+          "tip": [
+            "U: --bounds <BOUNDS>",
+            "The kind of version specifier to use when adding dependencies.",
+            "Possible values: lower, major, minor, exact"
+          ],
+          "next": [
+            { "name": "lower" },
+            { "name": "major" },
+            { "name": "minor" },
+            { "name": "exact" }
+          ]
+        },
+        {
+          "name": "--rev",
+          "tip": [
+            "U: --rev <REV>",
+            "Commit to use when adding a dependency from Git."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "Tag to use when adding a dependency from Git."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--branch",
+          "tip": [
+            "U: --branch <BRANCH>",
+            "Branch to use when adding a dependency from Git."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extra",
+          "tip": [
+            "U: --extra <EXTRA>",
+            "Extras to enable for the dependency."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Avoid syncing the virtual environment after adding."
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Add dependencies without re-locking the project."
+          ]
+        },
+        {
+          "name": "--active",
+          "tip": [
+            "Prefer the active virtual environment over the project's virtual environment."
+          ]
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Add the dependency to a specific package in the workspace."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "Add the dependency to the specified Python script."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "Add the dependency as a workspace member."
+          ]
+        },
+        {
+          "name": "--no-install-project",
+          "tip": [
+            "Do not install the current project."
+          ]
+        },
+        {
+          "name": "--no-install-workspace",
+          "tip": [
+            "Do not install any workspace members."
+          ]
+        },
+        {
+          "name": "--no-install-local",
+          "tip": [
+            "Do not install local path dependencies."
+          ]
+        },
+        {
+          "name": "--no-install-package",
+          "tip": [
+            "U: --no-install-package <PACKAGE>",
+            "Do not install the given package(s)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-r",
+          "alias": ["--requirements"],
+          "tip": [
+            "U: -r, --requirements <REQUIREMENTS>",
+            "Add the packages listed in the given files."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-c",
+          "alias": ["--constraints"],
+          "tip": [
+            "U: -c, --constraints <CONSTRAINTS>",
+            "Constrain versions using the given requirements files."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-m",
+          "alias": ["--marker"],
+          "tip": [
+            "U: -m, --marker <MARKER>",
+            "Apply this marker to all added packages."
+          ],
+          "next": 0
+        }
       ]
     },
     {
-      "name": "build",
+      "name": "auth",
       "tip": [
-        "Build Python packages into source distributions and wheels"
-      ]
-    },
-    {
-      "name": "cache",
-      "tip": [
-        "Manage uv's cache"
-      ]
-    },
-    {
-      "name": "export",
-      "tip": [
-        "Export the project's lockfile to an alternate format"
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "Display documentation for a command"
-      ]
-    },
-    {
-      "name": "init",
-      "tip": [
-        "Create a new project"
-      ]
-    },
-    {
-      "name": "lock",
-      "tip": [
-        "Update the project's lockfile"
-      ]
-    },
-    {
-      "name": "pip",
-      "tip": [
-        "Manage Python packages with a pip-compatible interface"
-      ]
-    },
-    {
-      "name": "publish",
-      "tip": [
-        "Upload distributions to an index"
-      ]
-    },
-    {
-      "name": "python",
-      "tip": [
-        "Manage Python versions and installations"
+        "Manage authentication."
       ],
       "next": [
         {
-          "name": "install",
+          "name": "login",
+          "tip": [
+            "Log in to an index."
+          ],
           "option": [
             {
-              "name": "--force"
+              "name": "--token",
+              "tip": [
+                "U: --token <TOKEN>",
+                "The API token to use for login."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--username",
+              "tip": [
+                "U: --username <USERNAME>",
+                "The username for login."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out from an index."
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "Manage API tokens."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List API tokens."
+              ]
+            },
+            {
+              "name": "create",
+              "tip": [
+                "Create an API token."
+              ],
+              "option": [
+                {
+                  "name": "--name",
+                  "tip": [
+                    "U: --name <NAME>",
+                    "The token name."
+                  ],
+                  "next": 0
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "tip": [
+                "Delete an API token."
+              ]
             }
           ]
         }
       ]
     },
     {
-      "name": "remove",
+      "name": "run",
       "tip": [
-        "Remove dependencies from the project"
+        "Run a command or script.",
+        "U: run [OPTIONS] <COMMAND>"
+      ],
+      "option": [
+        {
+          "name": "--python",
+          "alias": ["-p"],
+          "tip": [
+            "U: -p, --python <PYTHON>",
+            "The Python interpreter to use for the command."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <PACKAGE>",
+            "Run with the specified packages."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--isolated",
+          "tip": [
+            "Run the command in an isolated virtual environment."
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Avoid syncing the virtual environment before running."
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Run without re-locking the project."
+          ]
+        },
+        {
+          "name": "--active",
+          "tip": [
+            "Prefer the active virtual environment."
+          ]
+        },
+        {
+          "name": "--no-project",
+          "tip": [
+            "Avoid discovering a project or workspace."
+          ]
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Run in the environment of a specific package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "Run as the specified Python script."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--module",
+          "alias": ["-m"],
+          "tip": [
+            "Run as a Python module."
+          ]
+        },
+        {
+          "name": "--extra",
+          "tip": [
+            "U: --extra <EXTRA>",
+            "Include optional dependencies from the specified extra name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-extras",
+          "tip": [
+            "Include all optional dependencies."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disable the development dependency group."
+          ]
+        },
+        {
+          "name": "--only-dev",
+          "tip": [
+            "Only include the development dependency group."
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "Include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "U: --no-group <GROUP>",
+            "Disable the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "Ignore the default dependency groups."
+          ]
+        },
+        {
+          "name": "--only-group",
+          "tip": [
+            "U: --only-group <GROUP>",
+            "Only include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "Include dependencies from all dependency groups."
+          ]
+        },
+        {
+          "name": "--no-editable",
+          "tip": [
+            "Install any editable dependencies as non-editable."
+          ]
+        },
+        {
+          "name": "--no-install-project",
+          "tip": [
+            "Do not install the current project."
+          ]
+        },
+        {
+          "name": "--no-install-workspace",
+          "tip": [
+            "Do not install any workspace members."
+          ]
+        }
       ]
     },
     {
-      "name": "run",
+      "name": "init",
       "tip": [
-        "Run a command or script"
+        "Create a new project.",
+        "U: init [PATH]"
+      ],
+      "option": [
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <NAME>",
+            "The name of the project."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "Create a package project (default)."
+          ]
+        },
+        {
+          "name": "--app",
+          "tip": [
+            "Create an application project."
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "Create a library project."
+          ]
+        },
+        {
+          "name": "--no-readme",
+          "tip": [
+            "Do not create a README file."
+          ]
+        },
+        {
+          "name": "--no-workspace",
+          "tip": [
+            "Avoid discovering a workspace."
+          ]
+        },
+        {
+          "name": "--python",
+          "alias": ["-p"],
+          "tip": [
+            "U: -p, --python <PYTHON>",
+            "The Python version to use for the project."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-pin-python",
+          "tip": [
+            "Do not pin the Python version for the project."
+          ]
+        },
+        {
+          "name": "--vcs",
+          "tip": [
+            "U: --vcs <VCS>",
+            "The version control system to use.",
+            "Possible values: git, none"
+          ],
+          "next": [
+            { "name": "git" },
+            { "name": "none" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": ["rm"],
+      "tip": [
+        "Remove dependencies from the project.",
+        "U: remove <PACKAGES>"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "tip": [
+            "Remove the packages from the development dependency group."
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "U: --optional <EXTRA>",
+            "Remove the packages from the specified extra's optional dependencies."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "Remove the packages from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Avoid syncing the virtual environment after removing."
+          ]
+        },
+        {
+          "name": "--active",
+          "tip": [
+            "Prefer the active virtual environment."
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Remove dependencies without re-locking the project."
+          ]
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Remove the dependencies from a specific package in the workspace."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "Remove the dependency from the specified Python script."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Read or update the project's version.",
+        "U: version [VALUE]"
+      ],
+      "option": [
+        {
+          "name": "--bump",
+          "tip": [
+            "U: --bump <BUMP>",
+            "Update the project version using the given semantics.",
+            "Possible values: major, minor, patch, stable, alpha, beta, rc, post, dev"
+          ],
+          "next": [
+            { "name": "major" },
+            { "name": "minor" },
+            { "name": "patch" },
+            { "name": "stable" },
+            { "name": "alpha" },
+            { "name": "beta" },
+            { "name": "rc" },
+            { "name": "post" },
+            { "name": "dev" }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't write a new version to the `pyproject.toml`."
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "Only show the version."
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <FORMAT>",
+            "The format of the output.",
+            "Possible values: text, json"
+          ],
+          "next": [
+            { "name": "text" },
+            { "name": "json" }
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Avoid syncing the virtual environment after updating the version."
+          ]
+        },
+        {
+          "name": "--active",
+          "tip": [
+            "Prefer the active virtual environment."
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Update the version without re-locking the project."
+          ]
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Update the version of a specific package in the workspace."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "Update the project's environment."
+      ],
+      "option": [
+        {
+          "name": "--extra",
+          "tip": [
+            "U: --extra <EXTRA>",
+            "Include optional dependencies from the specified extra name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <FORMAT>",
+            "Select the output format.",
+            "Possible values: text, json"
+          ],
+          "next": [
+            { "name": "text" },
+            { "name": "json" }
+          ]
+        },
+        {
+          "name": "--all-extras",
+          "tip": [
+            "Include all optional dependencies."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disable the development dependency group."
+          ]
+        },
+        {
+          "name": "--only-dev",
+          "tip": [
+            "Only include the development dependency group."
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "Include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "U: --no-group <GROUP>",
+            "Disable the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "Ignore the default dependency groups."
+          ]
+        },
+        {
+          "name": "--only-group",
+          "tip": [
+            "U: --only-group <GROUP>",
+            "Only include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "Include dependencies from all dependency groups."
+          ]
+        },
+        {
+          "name": "--no-editable",
+          "tip": [
+            "Install any editable dependencies as non-editable."
+          ]
+        },
+        {
+          "name": "--inexact",
+          "tip": [
+            "Do not remove extraneous packages present in the environment."
+          ]
+        },
+        {
+          "name": "--active",
+          "tip": [
+            "Sync dependencies to the active virtual environment."
+          ]
+        },
+        {
+          "name": "--no-install-project",
+          "tip": [
+            "Do not install the current project."
+          ]
+        },
+        {
+          "name": "--no-install-workspace",
+          "tip": [
+            "Do not install any workspace members."
+          ]
+        },
+        {
+          "name": "--no-install-local",
+          "tip": [
+            "Do not install local path dependencies."
+          ]
+        },
+        {
+          "name": "--no-install-package",
+          "tip": [
+            "U: --no-install-package <PACKAGE>",
+            "Do not install the given package(s)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Sync without updating the `uv.lock` file."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform a dry run, without writing the lockfile or modifying the project environment."
+          ]
+        },
+        {
+          "name": "--all-packages",
+          "tip": [
+            "Sync all packages in the workspace."
+          ]
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Sync for specific packages in the workspace."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "Sync the environment for a Python script."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python-platform",
+          "tip": [
+            "U: --python-platform <PLATFORM>",
+            "The platform for which requirements should be installed.",
+            "Possible values: windows, linux, macos, etc."
+          ],
+          "next": [
+            { "name": "windows" },
+            { "name": "linux" },
+            { "name": "macos" }
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "Check if the Python environment is synchronized with the project."
+          ]
+        },
+        {
+          "name": "-U",
+          "alias": ["--upgrade"],
+          "tip": [
+            "Allow package upgrades, ignoring pinned versions."
+          ]
+        },
+        {
+          "name": "-P",
+          "alias": ["--upgrade-package"],
+          "tip": [
+            "U: -P, --upgrade-package <PACKAGE>",
+            "Allow upgrades for a specific package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--reinstall",
+          "tip": [
+            "Reinstall all packages."
+          ]
+        },
+        {
+          "name": "--reinstall-package",
+          "tip": [
+            "U: --reinstall-package <PACKAGE>",
+            "Reinstall a specific package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--link-mode",
+          "tip": [
+            "U: --link-mode <MODE>",
+            "The method to use when installing packages from the global cache.",
+            "Possible values: clone, copy, hardlink, symlink"
+          ],
+          "next": [
+            { "name": "clone" },
+            { "name": "copy" },
+            { "name": "hardlink" },
+            { "name": "symlink" }
+          ]
+        },
+        {
+          "name": "--compile-bytecode",
+          "tip": [
+            "Compile Python files to bytecode after installation."
+          ]
+        },
+        {
+          "name": "--resolution",
+          "tip": [
+            "U: --resolution <STRATEGY>",
+            "The strategy to use when selecting between compatible versions.",
+            "Possible values: highest, lowest, lowest-direct"
+          ],
+          "next": [
+            { "name": "highest" },
+            { "name": "lowest" },
+            { "name": "lowest-direct" }
+          ]
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "U: --prerelease <STRATEGY>",
+            "The strategy for considering pre-release versions.",
+            "Possible values: disallow, allow, if-necessary, explicit, if-necessary-or-explicit"
+          ],
+          "next": [
+            { "name": "disallow" },
+            { "name": "allow" },
+            { "name": "if-necessary" },
+            { "name": "explicit" },
+            { "name": "if-necessary-or-explicit" }
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": ["--python"],
+          "tip": [
+            "U: -p, --python <PYTHON>",
+            "The Python interpreter to use for the project environment."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "Update the project's lockfile."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "Check if the lockfile is up-to-date."
+          ]
+        },
+        {
+          "name": "--check-exists",
+          "tip": [
+            "Assert that a `uv.lock` exists without checking if it is up-to-date."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform a dry run, without writing the lockfile."
+          ]
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "Lock the specified Python script."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-U",
+          "alias": ["--upgrade"],
+          "tip": [
+            "Allow package upgrades, ignoring pinned versions."
+          ]
+        },
+        {
+          "name": "-P",
+          "alias": ["--upgrade-package"],
+          "tip": [
+            "U: -P, --upgrade-package <PACKAGE>",
+            "Allow upgrades for a specific package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--resolution",
+          "tip": [
+            "U: --resolution <STRATEGY>",
+            "The strategy to use when selecting between compatible versions.",
+            "Possible values: highest, lowest, lowest-direct"
+          ],
+          "next": [
+            { "name": "highest" },
+            { "name": "lowest" },
+            { "name": "lowest-direct" }
+          ]
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "U: --prerelease <STRATEGY>",
+            "The strategy for considering pre-release versions."
+          ],
+          "next": [
+            { "name": "disallow" },
+            { "name": "allow" },
+            { "name": "if-necessary" },
+            { "name": "explicit" },
+            { "name": "if-necessary-or-explicit" }
+          ]
+        },
+        {
+          "name": "--exclude-newer",
+          "tip": [
+            "U: --exclude-newer <DATE>",
+            "Limit candidate packages to those uploaded prior to the given date."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "Export the project's lockfile to an alternate format."
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <FORMAT>",
+            "The output format.",
+            "Possible values: requirements-txt"
+          ],
+          "next": [
+            { "name": "requirements-txt" }
+          ]
+        },
+        {
+          "name": "--output-file",
+          "alias": ["-o"],
+          "tip": [
+            "U: -o, --output-file <FILE>",
+            "The output file path."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-extras",
+          "tip": [
+            "Include all optional dependencies."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disable the development dependency group."
+          ]
+        },
+        {
+          "name": "--only-dev",
+          "tip": [
+            "Only include the development dependency group."
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "Include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "U: --no-group <GROUP>",
+            "Disable the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "Ignore the default dependency groups."
+          ]
+        },
+        {
+          "name": "--only-group",
+          "tip": [
+            "U: --only-group <GROUP>",
+            "Only include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "Include dependencies from all dependency groups."
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Export without updating the `uv.lock`."
+          ]
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "Export the specified Python script."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Export dependencies for a specific package in the workspace."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "tree",
+      "tip": [
+        "Display the project's dependency tree."
+      ],
+      "option": [
+        {
+          "name": "--universal",
+          "tip": [
+            "Show a platform-independent dependency tree."
+          ]
+        },
+        {
+          "name": "-d",
+          "alias": ["--depth"],
+          "tip": [
+            "U: -d, --depth <DEPTH>",
+            "Maximum display depth of the dependency tree."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "U: --prune <PACKAGE>",
+            "Prune the given package from the display of the dependency tree."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Display only the specified packages."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-dedupe",
+          "tip": [
+            "Do not de-duplicate repeated dependencies."
+          ]
+        },
+        {
+          "name": "--invert",
+          "tip": [
+            "Show the reverse dependencies for the given package."
+          ]
+        },
+        {
+          "name": "--outdated",
+          "tip": [
+            "Show the latest available version of each package in the tree."
+          ]
+        },
+        {
+          "name": "--show-sizes",
+          "tip": [
+            "Show compressed wheel sizes for packages in the tree."
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "Disable the development dependency group."
+          ]
+        },
+        {
+          "name": "--only-dev",
+          "tip": [
+            "Only include the development dependency group."
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "Include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "U: --no-group <GROUP>",
+            "Disable the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "Ignore the default dependency groups."
+          ]
+        },
+        {
+          "name": "--only-group",
+          "tip": [
+            "U: --only-group <GROUP>",
+            "Only include dependencies from the specified dependency group."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "Include dependencies from all dependency groups."
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Display the requirements without re-locking the project."
+          ]
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "Show the dependency tree for the specified Python script."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python-version",
+          "tip": [
+            "U: --python-version <VERSION>",
+            "The Python version to use when filtering the tree."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python-platform",
+          "tip": [
+            "U: --python-platform <PLATFORM>",
+            "The platform to use when filtering the tree.",
+            "Possible values: windows, linux, macos"
+          ],
+          "next": [
+            { "name": "windows" },
+            { "name": "linux" },
+            { "name": "macos" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "format",
+      "tip": [
+        "Format Python code in the project."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "Check formatting without modifying files."
+          ]
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "Show the formatting diff."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "Run checks on the project."
+      ],
+      "option": [
+        {
+          "name": "--select",
+          "tip": [
+            "U: --select <RULE>",
+            "Select the rules to enable."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <RULE>",
+            "Ignore the specified rules."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "Automatically fix detected issues."
+          ]
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "Show the fix diff."
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "Watch for file changes and re-check."
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "Avoid syncing the environment before checking."
+          ]
+        },
+        {
+          "name": "--all",
+          "tip": [
+            "Run checks on all files."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "Audit the project's dependencies."
+      ],
+      "option": [
+        {
+          "name": "--locked",
+          "tip": [
+            "Assert that the `uv.lock` will remain unchanged."
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "Audit without re-locking the project."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tool",
+      "tip": [
+        "Run and install commands provided by Python packages."
       ],
       "next": [
         {
-          "name": "python"
+          "name": "run",
+          "tip": [
+            "Run a command provided by a Python package.",
+            "U: tool run <PACKAGE>"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "tip": [
+                "U: --from <PACKAGE>",
+                "Use the specified package."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--with",
+              "tip": [
+                "U: --with <PACKAGE>",
+                "Include additional packages."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--isolated",
+              "tip": [
+                "Run in an isolated environment."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "alias": ["i"],
+          "tip": [
+            "Install commands provided by a Python package.",
+            "U: tool install <PACKAGE>"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "tip": [
+                "U: --from <PACKAGE>",
+                "Install from the specified package."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--with",
+              "tip": [
+                "U: --with <PACKAGE>",
+                "Include additional packages."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Force reinstallation."
+              ]
+            },
+            {
+              "name": "--editable",
+              "tip": [
+                "Install in editable mode."
+              ]
+            },
+            {
+              "name": "--reinstall",
+              "tip": [
+                "Reinstall all packages."
+              ]
+            },
+            {
+              "name": "--reinstall-package",
+              "tip": [
+                "U: --reinstall-package <PACKAGE>",
+                "Reinstall a specific package."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "Upgrade installed tools."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Upgrade all installed tools."
+              ]
+            },
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": ["ls"],
+          "tip": [
+            "List installed tools."
+          ],
+          "option": [
+            {
+              "name": "--show-paths",
+              "tip": [
+                "Show the installation path of tools."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": ["rm"],
+          "tip": [
+            "Uninstall a tool."
+          ]
+        },
+        {
+          "name": "update-shell",
+          "tip": [
+            "Ensure that the tool executable directory is on the `PATH`."
+          ]
+        },
+        {
+          "name": "dir",
+          "tip": [
+            "Show the path to the uv tools directory."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "python",
+      "tip": [
+        "Manage Python versions and installations."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": ["ls"],
+          "tip": [
+            "List the available Python installations."
+          ],
+          "option": [
+            {
+              "name": "--all-versions",
+              "tip": [
+                "List all available Python versions."
+              ]
+            },
+            {
+              "name": "--only-installed",
+              "tip": [
+                "Only list installed Python versions."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "alias": ["i"],
+          "tip": [
+            "Download and install Python versions."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Force reinstallation."
+              ]
+            },
+            {
+              "name": "--reinstall",
+              "tip": [
+                "Reinstall."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "Upgrade installed Python versions."
+          ]
+        },
+        {
+          "name": "find",
+          "tip": [
+            "Search for a Python installation."
+          ]
+        },
+        {
+          "name": "pin",
+          "tip": [
+            "Pin to a specific Python version."
+          ]
+        },
+        {
+          "name": "dir",
+          "tip": [
+            "Show the uv Python installation directory."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": ["rm"],
+          "tip": [
+            "Uninstall Python versions."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Uninstall all installed Python versions."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update-shell",
+          "tip": [
+            "Ensure that the Python executable directory is on the `PATH`."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pip",
+      "tip": [
+        "Manage Python packages with a pip-compatible interface."
+      ],
+      "next": [
+        {
+          "name": "compile",
+          "tip": [
+            "Compile a `requirements.in` file to a `requirements.txt` or `pylock.toml` file."
+          ],
+          "option": [
+            {
+              "name": "--output-file",
+              "alias": ["-o"],
+              "tip": [
+                "U: -o, --output-file <FILE>",
+                "The output file path."
+              ],
+              "next": 0
+            },
+            {
+              "name": "-c",
+              "alias": ["--constraint"],
+              "tip": [
+                "U: -c, --constraint <FILE>",
+                "Constraint file."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-emit-package",
+              "tip": [
+                "U: --no-emit-package <PACKAGE>",
+                "Do not emit the specified package."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--universal",
+              "tip": [
+                "Generate platform-independent requirements."
+              ]
+            },
+            {
+              "name": "--no-annotate",
+              "tip": [
+                "Do not add annotations."
+              ]
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "Do not add a header."
+              ]
+            },
+            {
+              "name": "--generate-hashes",
+              "tip": [
+                "Generate hashes."
+              ]
+            },
+            {
+              "name": "--python-platform",
+              "tip": [
+                "U: --python-platform <PLATFORM>",
+                "The target platform.",
+                "Possible values: windows, linux, macos"
+              ],
+              "next": [
+                { "name": "windows" },
+                { "name": "linux" },
+                { "name": "macos" }
+              ]
+            },
+            {
+              "name": "--python-version",
+              "tip": [
+                "U: --python-version <VERSION>",
+                "The target Python version."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--upgrade",
+              "alias": ["-U"],
+              "tip": [
+                "Allow package upgrades."
+              ]
+            },
+            {
+              "name": "--upgrade-package",
+              "alias": ["-P"],
+              "tip": [
+                "U: -P, --upgrade-package <PACKAGE>",
+                "Allow upgrades for a specific package."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "Sync an environment with a `requirements.txt` file."
+          ],
+          "option": [
+            {
+              "name": "--reinstall",
+              "tip": [
+                "Reinstall all packages."
+              ]
+            },
+            {
+              "name": "--reinstall-package",
+              "tip": [
+                "U: --reinstall-package <PACKAGE>",
+                "Reinstall a specific package."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            },
+            {
+              "name": "--no-build-isolation",
+              "tip": [
+                "Disable build isolation."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install packages into an environment."
+          ],
+          "option": [
+            {
+              "name": "-r",
+              "alias": ["--requirement"],
+              "tip": [
+                "U: -r, --requirement <FILE>",
+                "Install from a requirements file."
+              ],
+              "next": 0
+            },
+            {
+              "name": "-c",
+              "alias": ["--constraint"],
+              "tip": [
+                "U: -c, --constraint <FILE>",
+                "Constraint file."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--reinstall",
+              "tip": [
+                "Reinstall all packages."
+              ]
+            },
+            {
+              "name": "--reinstall-package",
+              "tip": [
+                "U: --reinstall-package <PACKAGE>",
+                "Reinstall a specific package."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            },
+            {
+              "name": "--no-build-isolation",
+              "tip": [
+                "Disable build isolation."
+              ]
+            },
+            {
+              "name": "--no-deps",
+              "tip": [
+                "Do not install dependencies."
+              ]
+            },
+            {
+              "name": "--upgrade",
+              "alias": ["-U"],
+              "tip": [
+                "Allow package upgrades."
+              ]
+            },
+            {
+              "name": "--upgrade-package",
+              "alias": ["-P"],
+              "tip": [
+                "U: -P, --upgrade-package <PACKAGE>",
+                "Allow upgrades for a specific package."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall packages from an environment."
+          ],
+          "option": [
+            {
+              "name": "-r",
+              "alias": ["--requirement"],
+              "tip": [
+                "U: -r, --requirement <FILE>",
+                "Uninstall from a requirements file."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "freeze",
+          "tip": [
+            "List, in requirements format, packages installed in an environment."
+          ],
+          "option": [
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List, in tabular format, packages installed in an environment."
+          ],
+          "option": [
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show information about one or more installed packages."
+          ],
+          "option": [
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tree",
+          "tip": [
+            "Display the dependency tree for an environment."
+          ],
+          "option": [
+            {
+              "name": "--depth",
+              "alias": ["-d"],
+              "tip": [
+                "U: -d, --depth <DEPTH>",
+                "The maximum depth of the dependency tree."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--prune",
+              "tip": [
+                "U: --prune <PACKAGE>",
+                "Prune the given package from the tree."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "check",
+          "tip": [
+            "Verify installed packages have compatible dependencies."
+          ],
+          "option": [
+            {
+              "name": "--python",
+              "alias": ["-p"],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "The Python interpreter to use."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Use the system Python."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "venv",
+      "tip": [
+        "Create a virtual environment.",
+        "U: venv [PATH]"
+      ],
+      "option": [
+        {
+          "name": "--no-project",
+          "tip": [
+            "Avoid discovering a project or workspace."
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "Install seed packages (pip, setuptools, and wheel) into the virtual environment."
+          ]
+        },
+        {
+          "name": "-c",
+          "alias": ["--clear"],
+          "tip": [
+            "Remove any existing files or directories at the target path."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Allow `--clear` to remove a non-virtual environment directory."
+          ]
+        },
+        {
+          "name": "--allow-existing",
+          "tip": [
+            "Preserve any existing files or directories at the target path."
+          ]
+        },
+        {
+          "name": "--prompt",
+          "tip": [
+            "U: --prompt <PROMPT>",
+            "Provide an alternative prompt prefix for the virtual environment."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "Give the virtual environment access to the system site packages directory."
+          ]
+        },
+        {
+          "name": "--relocatable",
+          "tip": [
+            "Make the virtual environment relocatable."
+          ]
+        },
+        {
+          "name": "--link-mode",
+          "tip": [
+            "U: --link-mode <MODE>",
+            "The method to use when installing packages from the global cache.",
+            "Possible values: clone, copy, hardlink, symlink"
+          ],
+          "next": [
+            { "name": "clone" },
+            { "name": "copy" },
+            { "name": "hardlink" },
+            { "name": "symlink" }
+          ]
+        },
+        {
+          "name": "-p",
+          "alias": ["--python"],
+          "tip": [
+            "U: -p, --python <PYTHON>",
+            "The Python interpreter to use for the virtual environment."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "Build Python packages into source distributions and wheels."
+      ],
+      "option": [
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "Build a specific package in the workspace."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--wheel",
+          "tip": [
+            "Build only wheels."
+          ]
+        },
+        {
+          "name": "--sdist",
+          "tip": [
+            "Build only source distributions."
+          ]
+        },
+        {
+          "name": "--out-dir",
+          "alias": ["-o"],
+          "tip": [
+            "U: -o, --out-dir <DIR>",
+            "The output directory."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-build-isolation",
+          "tip": [
+            "Disable build isolation."
+          ]
+        },
+        {
+          "name": "-C",
+          "alias": ["--config-setting"],
+          "tip": [
+            "U: -C, --config-setting <KEY=VALUE>",
+            "Settings to pass to the PEP 517 build backend."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "Upload distributions to an index."
+      ],
+      "option": [
+        {
+          "name": "--publish-url",
+          "tip": [
+            "U: --publish-url <URL>",
+            "The URL to publish to."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <TOKEN>",
+            "The token for authentication."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "tip": [
+            "U: --username <USERNAME>",
+            "The username."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "tip": [
+            "U: --password <PASSWORD>",
+            "The password."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trusted-publishing",
+          "tip": [
+            "Use trusted publishing."
+          ]
+        },
+        {
+          "name": "--check-url",
+          "tip": [
+            "U: --check-url <URL>",
+            "Check the URL for published distributions."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--index",
+          "tip": [
+            "U: --index <INDEX>",
+            "The index URL to publish to."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "workspace",
+      "tip": [
+        "Inspect uv workspaces."
+      ],
+      "next": [
+        {
+          "name": "members",
+          "tip": [
+            "List workspace members."
+          ]
+        },
+        {
+          "name": "root",
+          "tip": [
+            "Show the workspace root."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "Manage uv's cache."
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "Clear the cache, removing all entries or those linked to specific packages."
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Prune all unreachable objects from the cache."
+          ]
+        },
+        {
+          "name": "dir",
+          "tip": [
+            "Show the cache directory."
+          ]
+        },
+        {
+          "name": "size",
+          "tip": [
+            "Show the cache size."
+          ]
         }
       ]
     },
     {
       "name": "self",
       "tip": [
-        "Manage the uv executable"
+        "Manage the uv executable."
+      ],
+      "next": [
+        {
+          "name": "update",
+          "tip": [
+            "Update uv."
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "Display uv's version."
+          ]
+        }
       ]
     },
     {
-      "name": "sync",
+      "name": "help",
       "tip": [
-        "Update the project's environment"
-      ]
-    },
-    {
-      "name": "tool",
-      "tip": [
-        "Run and install commands provided by Python packages"
-      ]
-    },
-    {
-      "name": "tree",
-      "tip": [
-        "Display the project's dependency tree"
-      ]
-    },
-    {
-      "name": "venv",
-      "tip": [
-        "Create a virtual environment"
-      ]
-    },
-    {
-      "name": "version",
-      "tip": [
-        "Read or update the project's version"
+        "Display documentation for a command.",
+        "U: help [COMMAND]"
       ]
     }
   ],
   "option": [
     {
       "name": "--version",
-      "alias": [
-        "-V"
-      ],
+      "alias": ["-V"],
       "tip": [
-        "Show the version."
+        "Display the uv version."
       ]
     }
   ],
   "common_option": [
     {
       "name": "--help",
-      "alias": [
-        "-h"
-      ],
+      "alias": ["-h"],
       "tip": [
-        "Show the help."
+        "Display the concise help for this command."
+      ]
+    },
+    {
+      "name": "-q",
+      "alias": ["--quiet"],
+      "tip": [
+        "Use quiet output."
+      ]
+    },
+    {
+      "name": "-v",
+      "alias": ["--verbose"],
+      "tip": [
+        "Use verbose output."
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <WHEN>",
+        "Control the use of color in output.",
+        "Possible values: auto, always, never"
+      ],
+      "next": [
+        { "name": "auto" },
+        { "name": "always" },
+        { "name": "never" }
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "Disable network access."
+      ]
+    },
+    {
+      "name": "--no-progress",
+      "tip": [
+        "Hide all progress outputs."
+      ]
+    },
+    {
+      "name": "--directory",
+      "tip": [
+        "U: --directory <DIR>",
+        "Change to the given directory prior to running the command."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--project",
+      "tip": [
+        "U: --project <DIR>",
+        "Discover a project in the given directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-file",
+      "tip": [
+        "U: --config-file <FILE>",
+        "The path to a `uv.toml` file to use for configuration."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "Avoid discovering configuration files."
+      ]
+    },
+    {
+      "name": "-n",
+      "alias": ["--no-cache"],
+      "tip": [
+        "Avoid reading from or writing to the cache."
+      ]
+    },
+    {
+      "name": "--cache-dir",
+      "tip": [
+        "U: --cache-dir <DIR>",
+        "Path to the cache directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--managed-python",
+      "tip": [
+        "Require use of uv-managed Python versions."
+      ]
+    },
+    {
+      "name": "--no-managed-python",
+      "tip": [
+        "Disable use of uv-managed Python versions."
+      ]
+    },
+    {
+      "name": "--no-python-downloads",
+      "tip": [
+        "Disable automatic downloads of Python."
       ]
     }
   ]
