@@ -67,7 +67,6 @@ foreach ($file in $files) {
     $hasCompletion = $true
 
     $completion = $matches[1]
-    Write-Host $completion
 
     $line = @()
 
@@ -119,6 +118,22 @@ if ($hasCompletion) {
         '| :-: | :-: | :-: | :-: |'
     ) + $results
 
+    .\scripts\sort-completion.ps1
+
+    git -c core.safecrlf=false add -u
+    $jsonChanges = git status --porcelain | Where-Object { $_ -match '\.json$' }
+    if ($jsonChanges) {
+        $results += @(
+            '',
+            '> [!WARNING]',
+            '>',
+            '> Please run it to sort JSON and commit again.',
+            '>',
+            '> ```powershell',
+            '> .\scripts\sort-completion.ps1',
+            '> ```'
+        )
+    }
 
     if ($hasScriptBlock) {
         $results += @(
