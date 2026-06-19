@@ -14,37 +14,9 @@
       ],
       "option": [
         {
-          "name": "--dev",
+          "name": "--active",
           "tip": [
-            "将依赖项添加到开发依赖组。"
-          ]
-        },
-        {
-          "name": "--optional",
-          "tip": [
-            "U: --optional <EXTRA>",
-            "将依赖项添加到指定 extra 的可选依赖中。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--group",
-          "tip": [
-            "U: --group <GROUP>",
-            "将依赖项添加到指定的依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--editable",
-          "tip": [
-            "以可编辑模式添加依赖项。"
-          ]
-        },
-        {
-          "name": "--raw",
-          "tip": [
-            "添加原始依赖项（不进行转换）。"
+            "优先使用活动虚拟环境而非项目的虚拟环境。"
           ]
         },
         {
@@ -56,6 +28,9 @@
           ],
           "next": [
             {
+              "name": "exact"
+            },
+            {
               "name": "lower"
             },
             {
@@ -63,27 +38,8 @@
             },
             {
               "name": "minor"
-            },
-            {
-              "name": "exact"
             }
           ]
-        },
-        {
-          "name": "--rev",
-          "tip": [
-            "U: --rev <REV>",
-            "从 Git 添加依赖项时使用的提交。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--tag",
-          "tip": [
-            "U: --tag <TAG>",
-            "从 Git 添加依赖项时使用的标签。"
-          ],
-          "next": 0
         },
         {
           "name": "--branch",
@@ -94,6 +50,29 @@
           "next": 0
         },
         {
+          "name": "--constraints",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --constraints <CONSTRAINTS>",
+            "使用给定的 requirements 文件约束版本。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "将依赖项添加到开发依赖组。"
+          ]
+        },
+        {
+          "name": "--editable",
+          "tip": [
+            "以可编辑模式添加依赖项。"
+          ]
+        },
+        {
           "name": "--extra",
           "tip": [
             "U: --extra <EXTRA>",
@@ -102,10 +81,18 @@
           "next": 0
         },
         {
-          "name": "--no-sync",
+          "name": "--frozen",
           "tip": [
-            "添加后不同步虚拟环境。"
+            "添加依赖项但不重新锁定项目。"
           ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "将依赖项添加到指定的依赖组。"
+          ],
+          "next": 0
         },
         {
           "name": "--locked",
@@ -114,50 +101,15 @@
           ]
         },
         {
-          "name": "--frozen",
+          "name": "--marker",
+          "alias": [
+            "-m"
+          ],
           "tip": [
-            "添加依赖项但不重新锁定项目。"
-          ]
-        },
-        {
-          "name": "--active",
-          "tip": [
-            "优先使用活动虚拟环境而非项目的虚拟环境。"
-          ]
-        },
-        {
-          "name": "--package",
-          "tip": [
-            "U: --package <PACKAGE>",
-            "将依赖项添加到工作区中的特定包。"
+            "U: -m, --marker <MARKER>",
+            "为所有添加的包应用此 marker。"
           ],
           "next": 0
-        },
-        {
-          "name": "--script",
-          "tip": [
-            "U: --script <SCRIPT>",
-            "将依赖项添加到指定的 Python 脚本。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "将依赖项添加为工作区成员。"
-          ]
-        },
-        {
-          "name": "--no-install-project",
-          "tip": [
-            "不安装当前项目。"
-          ]
-        },
-        {
-          "name": "--no-install-workspace",
-          "tip": [
-            "不安装任何工作区成员。"
-          ]
         },
         {
           "name": "--no-install-local",
@@ -174,9 +126,49 @@
           "next": 0
         },
         {
-          "name": "-r",
+          "name": "--no-install-project",
+          "tip": [
+            "不安装当前项目。"
+          ]
+        },
+        {
+          "name": "--no-install-workspace",
+          "tip": [
+            "不安装任何工作区成员。"
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "添加后不同步虚拟环境。"
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "U: --optional <EXTRA>",
+            "将依赖项添加到指定 extra 的可选依赖中。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "将依赖项添加到工作区中的特定包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "添加原始依赖项（不进行转换）。"
+          ]
+        },
+        {
+          "name": "--requirements",
           "alias": [
-            "--requirements"
+            "-r"
           ],
           "tip": [
             "U: -r, --requirements <REQUIREMENTS>",
@@ -185,26 +177,54 @@
           "next": 0
         },
         {
-          "name": "-c",
-          "alias": [
-            "--constraints"
-          ],
+          "name": "--rev",
           "tip": [
-            "U: -c, --constraints <CONSTRAINTS>",
-            "使用给定的 requirements 文件约束版本。"
+            "U: --rev <REV>",
+            "从 Git 添加依赖项时使用的提交。"
           ],
           "next": 0
         },
         {
-          "name": "-m",
-          "alias": [
-            "--marker"
-          ],
+          "name": "--script",
           "tip": [
-            "U: -m, --marker <MARKER>",
-            "为所有添加的包应用此 marker。"
+            "U: --script <SCRIPT>",
+            "将依赖项添加到指定的 Python 脚本。"
           ],
           "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "从 Git 添加依赖项时使用的标签。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "将依赖项添加为工作区成员。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "审计项目的依赖项。"
+      ],
+      "option": [
+        {
+          "name": "--frozen",
+          "tip": [
+            "审计而不重新锁定项目。"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "断言 uv.lock 保持不变。"
+          ]
         }
       ]
     },
@@ -251,12 +271,6 @@
           ],
           "next": [
             {
-              "name": "list",
-              "tip": [
-                "列出 API 令牌。"
-              ]
-            },
-            {
               "name": "create",
               "tip": [
                 "创建一个 API 令牌。"
@@ -277,106 +291,165 @@
               "tip": [
                 "删除一个 API 令牌。"
               ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出 API 令牌。"
+              ]
             }
           ]
         }
       ]
     },
     {
-      "name": "run",
+      "name": "build",
       "tip": [
-        "运行命令或脚本。",
-        "U: run [OPTIONS] <COMMAND>"
+        "将 Python 包构建为源分发包和 wheel。"
       ],
       "option": [
         {
-          "name": "--python",
+          "name": "--config-setting",
           "alias": [
-            "-p"
+            "-C"
           ],
           "tip": [
-            "U: -p, --python <PYTHON>",
-            "用于运行命令的 Python 解释器。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--with",
-          "tip": [
-            "U: --with <PACKAGE>",
-            "使用指定的包运行命令。"
+            "U: -C, --config-setting <KEY=VALUE>",
+            "传递给 PEP 517 构建后端的设置。"
           ],
           "next": 0
         },
         {
-          "name": "--isolated",
+          "name": "--no-build-isolation",
           "tip": [
-            "在隔离的虚拟环境中运行命令。"
+            "禁用构建隔离。"
           ]
         },
         {
-          "name": "--no-sync",
+          "name": "--out-dir",
+          "alias": [
+            "-o"
+          ],
           "tip": [
-            "运行前不同步环境。"
-          ]
-        },
-        {
-          "name": "--locked",
-          "tip": [
-            "断言 uv.lock 保持不变。"
-          ]
-        },
-        {
-          "name": "--frozen",
-          "tip": [
-            "运行而不重新锁定项目。"
-          ]
-        },
-        {
-          "name": "--active",
-          "tip": [
-            "优先使用活动虚拟环境。"
-          ]
-        },
-        {
-          "name": "--no-project",
-          "tip": [
-            "避免发现项目或工作区。"
-          ]
+            "U: -o, --out-dir <DIR>",
+            "输出目录。"
+          ],
+          "next": 0
         },
         {
           "name": "--package",
           "tip": [
             "U: --package <PACKAGE>",
-            "在指定包的环境中运行。"
+            "构建工作区中的特定包。"
           ],
           "next": 0
         },
         {
-          "name": "--script",
+          "name": "--sdist",
           "tip": [
-            "U: --script <SCRIPT>",
-            "以指定的 Python 脚本方式运行。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--module",
-          "alias": [
-            "-m"
-          ],
-          "tip": [
-            "以 Python 模块方式运行。"
+            "仅构建源分发包。"
           ]
         },
         {
-          "name": "--extra",
+          "name": "--wheel",
           "tip": [
-            "U: --extra <EXTRA>",
-            "包含指定 extra 的可选依赖项。"
+            "仅构建 wheel。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "管理 uv 的缓存。"
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "清除缓存，移除所有条目或链接到特定包的条目。"
+          ]
+        },
+        {
+          "name": "dir",
+          "tip": [
+            "显示缓存目录。"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "从缓存中清除所有不可达对象。"
+          ]
+        },
+        {
+          "name": "size",
+          "tip": [
+            "显示缓存大小。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "对项目运行检查。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "对所有文件运行检查。"
+          ]
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "显示修复差异。"
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "自动修复检测到的问题。"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <RULE>",
+            "忽略指定的规则。"
           ],
           "next": 0
         },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "检查前不同步环境。"
+          ]
+        },
+        {
+          "name": "--select",
+          "tip": [
+            "U: --select <RULE>",
+            "选择要启用的规则。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "监视文件变化并重新检查。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "将项目的 lockfile 导出为其他格式。"
+      ],
+      "option": [
         {
           "name": "--all-extras",
           "tip": [
@@ -384,15 +457,28 @@
           ]
         },
         {
-          "name": "--no-dev",
+          "name": "--all-groups",
           "tip": [
-            "排除开发依赖组。"
+            "包含所有依赖组。"
           ]
         },
         {
-          "name": "--only-dev",
+          "name": "--format",
           "tip": [
-            "仅包含开发依赖组。"
+            "U: --format <FORMAT>",
+            "输出格式。",
+            "可能值: requirements-txt"
+          ],
+          "next": [
+            {
+              "name": "requirements-txt"
+            }
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "导出而不更新 uv.lock。"
           ]
         },
         {
@@ -404,6 +490,24 @@
           "next": 0
         },
         {
+          "name": "--locked",
+          "tip": [
+            "断言 uv.lock 保持不变。"
+          ]
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "忽略默认依赖组。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "排除开发依赖组。"
+          ]
+        },
+        {
           "name": "--no-group",
           "tip": [
             "U: --no-group <GROUP>",
@@ -412,9 +516,9 @@
           "next": 0
         },
         {
-          "name": "--no-default-groups",
+          "name": "--only-dev",
           "tip": [
-            "忽略默认依赖组。"
+            "仅包含开发依赖组。"
           ]
         },
         {
@@ -426,29 +530,59 @@
           "next": 0
         },
         {
-          "name": "--all-groups",
+          "name": "--output-file",
+          "alias": [
+            "-o"
+          ],
           "tip": [
-            "包含所有依赖组。"
+            "U: -o, --output-file <FILE>",
+            "输出文件路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "导出工作区中特定包的依赖项。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "导出指定的 Python 脚本。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "format",
+      "tip": [
+        "格式化项目中的 Python 代码。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "仅检查格式，不实际修改文件。"
           ]
         },
         {
-          "name": "--no-editable",
+          "name": "--diff",
           "tip": [
-            "以非可编辑模式安装所有可编辑依赖项。"
-          ]
-        },
-        {
-          "name": "--no-install-project",
-          "tip": [
-            "不安装当前项目。"
-          ]
-        },
-        {
-          "name": "--no-install-workspace",
-          "tip": [
-            "不安装任何工作区成员。"
+            "显示格式差异。"
           ]
         }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "显示命令的文档。",
+        "U: help [COMMAND]"
       ]
     },
     {
@@ -459,20 +593,6 @@
       ],
       "option": [
         {
-          "name": "--name",
-          "tip": [
-            "U: --name <NAME>",
-            "项目名称。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--package",
-          "tip": [
-            "创建一个包项目（默认）。"
-          ]
-        },
-        {
           "name": "--app",
           "tip": [
             "创建一个应用程序项目。"
@@ -482,6 +602,20 @@
           "name": "--lib",
           "tip": [
             "创建一个库项目。"
+          ]
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <NAME>",
+            "项目名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-pin-python",
+          "tip": [
+            "不固定项目的 Python 版本。"
           ]
         },
         {
@@ -497,6 +631,12 @@
           ]
         },
         {
+          "name": "--package",
+          "tip": [
+            "创建一个包项目（默认）。"
+          ]
+        },
+        {
           "name": "--python",
           "alias": [
             "-p"
@@ -506,12 +646,6 @@
             "项目使用的 Python 版本。"
           ],
           "next": 0
-        },
-        {
-          "name": "--no-pin-python",
-          "tip": [
-            "不固定项目的 Python 版本。"
-          ]
         },
         {
           "name": "--vcs",
@@ -528,498 +662,6 @@
               "name": "none"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "remove",
-      "alias": [
-        "rm"
-      ],
-      "tip": [
-        "从项目中移除依赖项。",
-        "U: remove <PACKAGES>"
-      ],
-      "option": [
-        {
-          "name": "--dev",
-          "tip": [
-            "从开发依赖组中移除。"
-          ]
-        },
-        {
-          "name": "--optional",
-          "tip": [
-            "U: --optional <EXTRA>",
-            "从指定 extra 的可选依赖中移除。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--group",
-          "tip": [
-            "U: --group <GROUP>",
-            "从指定的依赖组中移除。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-sync",
-          "tip": [
-            "移除后不同步虚拟环境。"
-          ]
-        },
-        {
-          "name": "--active",
-          "tip": [
-            "优先使用活动虚拟环境。"
-          ]
-        },
-        {
-          "name": "--locked",
-          "tip": [
-            "断言 uv.lock 保持不变。"
-          ]
-        },
-        {
-          "name": "--frozen",
-          "tip": [
-            "移除依赖项但不重新锁定项目。"
-          ]
-        },
-        {
-          "name": "--package",
-          "tip": [
-            "U: --package <PACKAGE>",
-            "从工作区中的特定包移除。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--script",
-          "tip": [
-            "U: --script <SCRIPT>",
-            "从指定的 Python 脚本移除依赖项。"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "version",
-      "tip": [
-        "读取或更新项目的版本号。",
-        "U: version [VALUE]"
-      ],
-      "option": [
-        {
-          "name": "--bump",
-          "tip": [
-            "U: --bump <BUMP>",
-            "使用给定语义更新项目版本。",
-            "可能值: major, minor, patch, stable, alpha, beta, rc, post, dev"
-          ],
-          "next": [
-            {
-              "name": "major"
-            },
-            {
-              "name": "minor"
-            },
-            {
-              "name": "patch"
-            },
-            {
-              "name": "stable"
-            },
-            {
-              "name": "alpha"
-            },
-            {
-              "name": "beta"
-            },
-            {
-              "name": "rc"
-            },
-            {
-              "name": "post"
-            },
-            {
-              "name": "dev"
-            }
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "不写入新版本到 pyproject.toml。"
-          ]
-        },
-        {
-          "name": "--short",
-          "tip": [
-            "仅显示版本号。"
-          ]
-        },
-        {
-          "name": "--output-format",
-          "tip": [
-            "U: --output-format <FORMAT>",
-            "输出格式。",
-            "可能值: text, json"
-          ],
-          "next": [
-            {
-              "name": "text"
-            },
-            {
-              "name": "json"
-            }
-          ]
-        },
-        {
-          "name": "--no-sync",
-          "tip": [
-            "更新版本后不同步虚拟环境。"
-          ]
-        },
-        {
-          "name": "--active",
-          "tip": [
-            "优先使用活动虚拟环境。"
-          ]
-        },
-        {
-          "name": "--locked",
-          "tip": [
-            "断言 uv.lock 保持不变。"
-          ]
-        },
-        {
-          "name": "--frozen",
-          "tip": [
-            "更新版本但不重新锁定项目。"
-          ]
-        },
-        {
-          "name": "--package",
-          "tip": [
-            "U: --package <PACKAGE>",
-            "更新工作区中特定包的版本。"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "sync",
-      "tip": [
-        "更新项目的环境。"
-      ],
-      "option": [
-        {
-          "name": "--extra",
-          "tip": [
-            "U: --extra <EXTRA>",
-            "包含指定 extra 的可选依赖项。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--output-format",
-          "tip": [
-            "U: --output-format <FORMAT>",
-            "输出格式。",
-            "可能值: text, json"
-          ],
-          "next": [
-            {
-              "name": "text"
-            },
-            {
-              "name": "json"
-            }
-          ]
-        },
-        {
-          "name": "--all-extras",
-          "tip": [
-            "包含所有可选依赖项。"
-          ]
-        },
-        {
-          "name": "--no-dev",
-          "tip": [
-            "排除开发依赖组。"
-          ]
-        },
-        {
-          "name": "--only-dev",
-          "tip": [
-            "仅包含开发依赖组。"
-          ]
-        },
-        {
-          "name": "--group",
-          "tip": [
-            "U: --group <GROUP>",
-            "包含指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-group",
-          "tip": [
-            "U: --no-group <GROUP>",
-            "排除指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-default-groups",
-          "tip": [
-            "忽略默认依赖组。"
-          ]
-        },
-        {
-          "name": "--only-group",
-          "tip": [
-            "U: --only-group <GROUP>",
-            "仅包含指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--all-groups",
-          "tip": [
-            "包含所有依赖组。"
-          ]
-        },
-        {
-          "name": "--no-editable",
-          "tip": [
-            "以非可编辑模式安装所有可编辑依赖项。"
-          ]
-        },
-        {
-          "name": "--inexact",
-          "tip": [
-            "不移除环境中多余的包。"
-          ]
-        },
-        {
-          "name": "--active",
-          "tip": [
-            "同步到活动虚拟环境。"
-          ]
-        },
-        {
-          "name": "--no-install-project",
-          "tip": [
-            "不安装当前项目。"
-          ]
-        },
-        {
-          "name": "--no-install-workspace",
-          "tip": [
-            "不安装任何工作区成员。"
-          ]
-        },
-        {
-          "name": "--no-install-local",
-          "tip": [
-            "不安装本地路径依赖项。"
-          ]
-        },
-        {
-          "name": "--no-install-package",
-          "tip": [
-            "U: --no-install-package <PACKAGE>",
-            "不安装指定的包。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--locked",
-          "tip": [
-            "断言 uv.lock 保持不变。"
-          ]
-        },
-        {
-          "name": "--frozen",
-          "tip": [
-            "同步而不更新 uv.lock。"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "执行干运行，不写入 lockfile 或修改环境。"
-          ]
-        },
-        {
-          "name": "--all-packages",
-          "tip": [
-            "同步工作区中的所有包。"
-          ]
-        },
-        {
-          "name": "--package",
-          "tip": [
-            "U: --package <PACKAGE>",
-            "同步工作区中的特定包。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--script",
-          "tip": [
-            "U: --script <SCRIPT>",
-            "为 Python 脚本同步环境。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--python-platform",
-          "tip": [
-            "U: --python-platform <PLATFORM>",
-            "要安装的目标平台。",
-            "可能值: windows, linux, macos 等"
-          ],
-          "next": [
-            {
-              "name": "windows"
-            },
-            {
-              "name": "linux"
-            },
-            {
-              "name": "macos"
-            }
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "检查 Python 环境是否与项目同步。"
-          ]
-        },
-        {
-          "name": "-U",
-          "alias": [
-            "--upgrade"
-          ],
-          "tip": [
-            "允许包升级，忽略现有锁定版本。"
-          ]
-        },
-        {
-          "name": "-P",
-          "alias": [
-            "--upgrade-package"
-          ],
-          "tip": [
-            "U: -P, --upgrade-package <PACKAGE>",
-            "允许特定包升级。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--reinstall",
-          "tip": [
-            "重新安装所有包。"
-          ]
-        },
-        {
-          "name": "--reinstall-package",
-          "tip": [
-            "U: --reinstall-package <PACKAGE>",
-            "重新安装特定包。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--link-mode",
-          "tip": [
-            "U: --link-mode <MODE>",
-            "从全局缓存安装包的方法。",
-            "可能值: clone, copy, hardlink, symlink"
-          ],
-          "next": [
-            {
-              "name": "clone"
-            },
-            {
-              "name": "copy"
-            },
-            {
-              "name": "hardlink"
-            },
-            {
-              "name": "symlink"
-            }
-          ]
-        },
-        {
-          "name": "--compile-bytecode",
-          "tip": [
-            "安装后编译 Python 字节码。"
-          ]
-        },
-        {
-          "name": "--resolution",
-          "tip": [
-            "U: --resolution <STRATEGY>",
-            "版本解析策略。",
-            "可能值: highest, lowest, lowest-direct"
-          ],
-          "next": [
-            {
-              "name": "highest"
-            },
-            {
-              "name": "lowest"
-            },
-            {
-              "name": "lowest-direct"
-            }
-          ]
-        },
-        {
-          "name": "--prerelease",
-          "tip": [
-            "U: --prerelease <STRATEGY>",
-            "预发布版本策略。",
-            "可能值: disallow, allow, if-necessary, explicit, if-necessary-or-explicit"
-          ],
-          "next": [
-            {
-              "name": "disallow"
-            },
-            {
-              "name": "allow"
-            },
-            {
-              "name": "if-necessary"
-            },
-            {
-              "name": "explicit"
-            },
-            {
-              "name": "if-necessary-or-explicit"
-            }
-          ]
-        },
-        {
-          "name": "-p",
-          "alias": [
-            "--python"
-          ],
-          "tip": [
-            "U: -p, --python <PYTHON>",
-            "用于项目环境的 Python 解释器。"
-          ],
-          "next": 0
         }
       ]
     },
@@ -1048,32 +690,36 @@
           ]
         },
         {
-          "name": "--script",
+          "name": "--exclude-newer",
           "tip": [
-            "U: --script <SCRIPT>",
-            "锁定指定的 Python 脚本。"
+            "U: --exclude-newer <DATE>",
+            "限制候选包的上传日期。"
           ],
           "next": 0
         },
         {
-          "name": "-U",
-          "alias": [
-            "--upgrade"
-          ],
+          "name": "--prerelease",
           "tip": [
-            "允许包升级，忽略现有锁定版本。"
+            "U: --prerelease <STRATEGY>",
+            "预发布版本策略。"
+          ],
+          "next": [
+            {
+              "name": "allow"
+            },
+            {
+              "name": "disallow"
+            },
+            {
+              "name": "explicit"
+            },
+            {
+              "name": "if-necessary"
+            },
+            {
+              "name": "if-necessary-or-explicit"
+            }
           ]
-        },
-        {
-          "name": "-P",
-          "alias": [
-            "--upgrade-package"
-          ],
-          "tip": [
-            "U: -P, --upgrade-package <PACKAGE>",
-            "允许特定包升级。"
-          ],
-          "next": 0
         },
         {
           "name": "--resolution",
@@ -1095,683 +741,32 @@
           ]
         },
         {
-          "name": "--prerelease",
-          "tip": [
-            "U: --prerelease <STRATEGY>",
-            "预发布版本策略。"
-          ],
-          "next": [
-            {
-              "name": "disallow"
-            },
-            {
-              "name": "allow"
-            },
-            {
-              "name": "if-necessary"
-            },
-            {
-              "name": "explicit"
-            },
-            {
-              "name": "if-necessary-or-explicit"
-            }
-          ]
-        },
-        {
-          "name": "--exclude-newer",
-          "tip": [
-            "U: --exclude-newer <DATE>",
-            "限制候选包的上传日期。"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "export",
-      "tip": [
-        "将项目的 lockfile 导出为其他格式。"
-      ],
-      "option": [
-        {
-          "name": "--format",
-          "tip": [
-            "U: --format <FORMAT>",
-            "输出格式。",
-            "可能值: requirements-txt"
-          ],
-          "next": [
-            {
-              "name": "requirements-txt"
-            }
-          ]
-        },
-        {
-          "name": "--output-file",
-          "alias": [
-            "-o"
-          ],
-          "tip": [
-            "U: -o, --output-file <FILE>",
-            "输出文件路径。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--all-extras",
-          "tip": [
-            "包含所有可选依赖项。"
-          ]
-        },
-        {
-          "name": "--no-dev",
-          "tip": [
-            "排除开发依赖组。"
-          ]
-        },
-        {
-          "name": "--only-dev",
-          "tip": [
-            "仅包含开发依赖组。"
-          ]
-        },
-        {
-          "name": "--group",
-          "tip": [
-            "U: --group <GROUP>",
-            "包含指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-group",
-          "tip": [
-            "U: --no-group <GROUP>",
-            "排除指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-default-groups",
-          "tip": [
-            "忽略默认依赖组。"
-          ]
-        },
-        {
-          "name": "--only-group",
-          "tip": [
-            "U: --only-group <GROUP>",
-            "仅包含指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--all-groups",
-          "tip": [
-            "包含所有依赖组。"
-          ]
-        },
-        {
-          "name": "--locked",
-          "tip": [
-            "断言 uv.lock 保持不变。"
-          ]
-        },
-        {
-          "name": "--frozen",
-          "tip": [
-            "导出而不更新 uv.lock。"
-          ]
-        },
-        {
           "name": "--script",
           "tip": [
             "U: --script <SCRIPT>",
-            "导出指定的 Python 脚本。"
+            "锁定指定的 Python 脚本。"
           ],
           "next": 0
         },
         {
-          "name": "--package",
-          "tip": [
-            "U: --package <PACKAGE>",
-            "导出工作区中特定包的依赖项。"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "tree",
-      "tip": [
-        "显示项目的依赖树。"
-      ],
-      "option": [
-        {
-          "name": "--universal",
-          "tip": [
-            "显示平台无关的依赖树。"
-          ]
-        },
-        {
-          "name": "-d",
+          "name": "--upgrade",
           "alias": [
-            "--depth"
+            "-U"
           ],
           "tip": [
-            "U: -d, --depth <DEPTH>",
-            "依赖树的最大显示深度。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--prune",
-          "tip": [
-            "U: --prune <PACKAGE>",
-            "从依赖树中裁剪指定的包。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--package",
-          "tip": [
-            "U: --package <PACKAGE>",
-            "仅显示指定的包。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-dedupe",
-          "tip": [
-            "不去重重复的依赖项。"
+            "允许包升级，忽略现有锁定版本。"
           ]
         },
         {
-          "name": "--invert",
-          "tip": [
-            "显示反向依赖关系。"
-          ]
-        },
-        {
-          "name": "--outdated",
-          "tip": [
-            "显示每个包的最新可用版本。"
-          ]
-        },
-        {
-          "name": "--show-sizes",
-          "tip": [
-            "显示包的大小信息。"
-          ]
-        },
-        {
-          "name": "--no-dev",
-          "tip": [
-            "排除开发依赖组。"
-          ]
-        },
-        {
-          "name": "--only-dev",
-          "tip": [
-            "仅包含开发依赖组。"
-          ]
-        },
-        {
-          "name": "--group",
-          "tip": [
-            "U: --group <GROUP>",
-            "包含指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-group",
-          "tip": [
-            "U: --no-group <GROUP>",
-            "排除指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-default-groups",
-          "tip": [
-            "忽略默认依赖组。"
-          ]
-        },
-        {
-          "name": "--only-group",
-          "tip": [
-            "U: --only-group <GROUP>",
-            "仅包含指定依赖组。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--all-groups",
-          "tip": [
-            "包含所有依赖组。"
-          ]
-        },
-        {
-          "name": "--locked",
-          "tip": [
-            "断言 uv.lock 保持不变。"
-          ]
-        },
-        {
-          "name": "--frozen",
-          "tip": [
-            "显示依赖树而不重新锁定项目。"
-          ]
-        },
-        {
-          "name": "--script",
-          "tip": [
-            "U: --script <SCRIPT>",
-            "显示指定 Python 脚本的依赖树。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--python-version",
-          "tip": [
-            "U: --python-version <VERSION>",
-            "过滤依赖树时使用的 Python 版本。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--python-platform",
-          "tip": [
-            "U: --python-platform <PLATFORM>",
-            "过滤依赖树时使用的平台。",
-            "可能值: windows, linux, macos"
-          ],
-          "next": [
-            {
-              "name": "windows"
-            },
-            {
-              "name": "linux"
-            },
-            {
-              "name": "macos"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "format",
-      "tip": [
-        "格式化项目中的 Python 代码。"
-      ],
-      "option": [
-        {
-          "name": "--check",
-          "tip": [
-            "仅检查格式，不实际修改文件。"
-          ]
-        },
-        {
-          "name": "--diff",
-          "tip": [
-            "显示格式差异。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "check",
-      "tip": [
-        "对项目运行检查。"
-      ],
-      "option": [
-        {
-          "name": "--select",
-          "tip": [
-            "U: --select <RULE>",
-            "选择要启用的规则。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--ignore",
-          "tip": [
-            "U: --ignore <RULE>",
-            "忽略指定的规则。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--fix",
-          "tip": [
-            "自动修复检测到的问题。"
-          ]
-        },
-        {
-          "name": "--diff",
-          "tip": [
-            "显示修复差异。"
-          ]
-        },
-        {
-          "name": "--watch",
-          "tip": [
-            "监视文件变化并重新检查。"
-          ]
-        },
-        {
-          "name": "--no-sync",
-          "tip": [
-            "检查前不同步环境。"
-          ]
-        },
-        {
-          "name": "--all",
-          "tip": [
-            "对所有文件运行检查。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "audit",
-      "tip": [
-        "审计项目的依赖项。"
-      ],
-      "option": [
-        {
-          "name": "--locked",
-          "tip": [
-            "断言 uv.lock 保持不变。"
-          ]
-        },
-        {
-          "name": "--frozen",
-          "tip": [
-            "审计而不重新锁定项目。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "tool",
-      "tip": [
-        "运行和安装 Python 包提供的命令。"
-      ],
-      "next": [
-        {
-          "name": "run",
-          "tip": [
-            "运行 Python 包提供的命令。",
-            "U: tool run <PACKAGE>"
-          ],
-          "option": [
-            {
-              "name": "--from",
-              "tip": [
-                "U: --from <PACKAGE>",
-                "使用指定的包。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--with",
-              "tip": [
-                "U: --with <PACKAGE>",
-                "包含额外的包。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--python",
-              "alias": [
-                "-p"
-              ],
-              "tip": [
-                "U: -p, --python <PYTHON>",
-                "使用的 Python 解释器。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--isolated",
-              "tip": [
-                "在隔离环境中运行。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "install",
+          "name": "--upgrade-package",
           "alias": [
-            "i"
+            "-P"
           ],
           "tip": [
-            "安装 Python 包提供的命令。",
-            "U: tool install <PACKAGE>"
+            "U: -P, --upgrade-package <PACKAGE>",
+            "允许特定包升级。"
           ],
-          "option": [
-            {
-              "name": "--from",
-              "tip": [
-                "U: --from <PACKAGE>",
-                "从指定包安装。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--with",
-              "tip": [
-                "U: --with <PACKAGE>",
-                "包含额外的包。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--python",
-              "alias": [
-                "-p"
-              ],
-              "tip": [
-                "U: -p, --python <PYTHON>",
-                "使用的 Python 解释器。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--force",
-              "tip": [
-                "强制重新安装。"
-              ]
-            },
-            {
-              "name": "--editable",
-              "tip": [
-                "以可编辑模式安装。"
-              ]
-            },
-            {
-              "name": "--reinstall",
-              "tip": [
-                "重新安装所有包。"
-              ]
-            },
-            {
-              "name": "--reinstall-package",
-              "tip": [
-                "U: --reinstall-package <PACKAGE>",
-                "重新安装特定包。"
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "name": "upgrade",
-          "tip": [
-            "升级已安装的工具。"
-          ],
-          "option": [
-            {
-              "name": "--all",
-              "tip": [
-                "升级所有已安装的工具。"
-              ]
-            },
-            {
-              "name": "--python",
-              "alias": [
-                "-p"
-              ],
-              "tip": [
-                "U: -p, --python <PYTHON>",
-                "使用的 Python 解释器。"
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "name": "list",
-          "alias": [
-            "ls"
-          ],
-          "tip": [
-            "列出已安装的工具。"
-          ],
-          "option": [
-            {
-              "name": "--show-paths",
-              "tip": [
-                "显示工具的安装路径。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "uninstall",
-          "alias": [
-            "rm"
-          ],
-          "tip": [
-            "卸载工具。"
-          ]
-        },
-        {
-          "name": "update-shell",
-          "tip": [
-            "确保工具可执行目录在 PATH 中。"
-          ]
-        },
-        {
-          "name": "dir",
-          "tip": [
-            "显示 uv 工具目录的路径。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "python",
-      "tip": [
-        "管理 Python 版本和安装。"
-      ],
-      "next": [
-        {
-          "name": "list",
-          "alias": [
-            "ls"
-          ],
-          "tip": [
-            "列出可用的 Python 安装。"
-          ],
-          "option": [
-            {
-              "name": "--all-versions",
-              "tip": [
-                "列出所有可用的 Python 版本。"
-              ]
-            },
-            {
-              "name": "--only-installed",
-              "tip": [
-                "仅列出已安装的 Python 版本。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "install",
-          "alias": [
-            "i"
-          ],
-          "tip": [
-            "下载并安装 Python 版本。"
-          ],
-          "option": [
-            {
-              "name": "--force",
-              "tip": [
-                "强制重新安装。"
-              ]
-            },
-            {
-              "name": "--reinstall",
-              "tip": [
-                "重新安装。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "upgrade",
-          "tip": [
-            "升级已安装的 Python 版本。"
-          ]
-        },
-        {
-          "name": "find",
-          "tip": [
-            "搜索 Python 安装。"
-          ]
-        },
-        {
-          "name": "pin",
-          "tip": [
-            "固定到特定的 Python 版本。"
-          ]
-        },
-        {
-          "name": "dir",
-          "tip": [
-            "显示 uv Python 安装目录。"
-          ]
-        },
-        {
-          "name": "uninstall",
-          "alias": [
-            "rm"
-          ],
-          "tip": [
-            "卸载 Python 版本。"
-          ],
-          "option": [
-            {
-              "name": "--all",
-              "tip": [
-                "卸载所有已安装的 Python 版本。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "update-shell",
-          "tip": [
-            "确保 Python 可执行目录在 PATH 中。"
-          ]
+          "next": 0
         }
       ]
     },
@@ -1782,11 +777,73 @@
       ],
       "next": [
         {
+          "name": "check",
+          "tip": [
+            "验证已安装的包具有兼容的依赖项。"
+          ],
+          "option": [
+            {
+              "name": "--python",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "使用的 Python 解释器。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "使用系统 Python。"
+              ]
+            }
+          ]
+        },
+        {
           "name": "compile",
           "tip": [
             "编译 requirements.in 到 requirements.txt 或 pylock.toml。"
           ],
           "option": [
+            {
+              "name": "--constraint",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --constraint <FILE>",
+                "约束文件。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--generate-hashes",
+              "tip": [
+                "生成哈希值。"
+              ]
+            },
+            {
+              "name": "--no-annotate",
+              "tip": [
+                "不添加注释。"
+              ]
+            },
+            {
+              "name": "--no-emit-package",
+              "tip": [
+                "U: --no-emit-package <PACKAGE>",
+                "不输出指定包。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "不添加文件头。"
+              ]
+            },
             {
               "name": "--output-file",
               "alias": [
@@ -1799,49 +856,6 @@
               "next": 0
             },
             {
-              "name": "-c",
-              "alias": [
-                "--constraint"
-              ],
-              "tip": [
-                "U: -c, --constraint <FILE>",
-                "约束文件。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--no-emit-package",
-              "tip": [
-                "U: --no-emit-package <PACKAGE>",
-                "不输出指定包。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--universal",
-              "tip": [
-                "生成平台无关的 requirements。"
-              ]
-            },
-            {
-              "name": "--no-annotate",
-              "tip": [
-                "不添加注释。"
-              ]
-            },
-            {
-              "name": "--no-header",
-              "tip": [
-                "不添加文件头。"
-              ]
-            },
-            {
-              "name": "--generate-hashes",
-              "tip": [
-                "生成哈希值。"
-              ]
-            },
-            {
               "name": "--python-platform",
               "tip": [
                 "U: --python-platform <PLATFORM>",
@@ -1850,13 +864,13 @@
               ],
               "next": [
                 {
-                  "name": "windows"
-                },
-                {
                   "name": "linux"
                 },
                 {
                   "name": "macos"
+                },
+                {
+                  "name": "windows"
                 }
               ]
             },
@@ -1869,141 +883,9 @@
               "next": 0
             },
             {
-              "name": "--upgrade",
-              "alias": [
-                "-U"
-              ],
+              "name": "--universal",
               "tip": [
-                "允许包升级。"
-              ]
-            },
-            {
-              "name": "--upgrade-package",
-              "alias": [
-                "-P"
-              ],
-              "tip": [
-                "U: -P, --upgrade-package <PACKAGE>",
-                "允许特定包升级。"
-              ],
-              "next": 0
-            }
-          ]
-        },
-        {
-          "name": "sync",
-          "tip": [
-            "使用 requirements.txt 同步环境。"
-          ],
-          "option": [
-            {
-              "name": "--reinstall",
-              "tip": [
-                "重新安装所有包。"
-              ]
-            },
-            {
-              "name": "--reinstall-package",
-              "tip": [
-                "U: --reinstall-package <PACKAGE>",
-                "重新安装特定包。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--python",
-              "alias": [
-                "-p"
-              ],
-              "tip": [
-                "U: -p, --python <PYTHON>",
-                "使用的 Python 解释器。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--system",
-              "tip": [
-                "使用系统 Python。"
-              ]
-            },
-            {
-              "name": "--no-build-isolation",
-              "tip": [
-                "禁用构建隔离。"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "install",
-          "tip": [
-            "将包安装到环境中。"
-          ],
-          "option": [
-            {
-              "name": "-r",
-              "alias": [
-                "--requirement"
-              ],
-              "tip": [
-                "U: -r, --requirement <FILE>",
-                "从 requirements 文件安装。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "-c",
-              "alias": [
-                "--constraint"
-              ],
-              "tip": [
-                "U: -c, --constraint <FILE>",
-                "约束文件。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--reinstall",
-              "tip": [
-                "重新安装所有包。"
-              ]
-            },
-            {
-              "name": "--reinstall-package",
-              "tip": [
-                "U: --reinstall-package <PACKAGE>",
-                "重新安装特定包。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--python",
-              "alias": [
-                "-p"
-              ],
-              "tip": [
-                "U: -p, --python <PYTHON>",
-                "使用的 Python 解释器。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--system",
-              "tip": [
-                "使用系统 Python。"
-              ]
-            },
-            {
-              "name": "--no-build-isolation",
-              "tip": [
-                "禁用构建隔离。"
-              ]
-            },
-            {
-              "name": "--no-deps",
-              "tip": [
-                "不安装依赖项。"
+                "生成平台无关的 requirements。"
               ]
             },
             {
@@ -2025,42 +907,6 @@
                 "允许特定包升级。"
               ],
               "next": 0
-            }
-          ]
-        },
-        {
-          "name": "uninstall",
-          "tip": [
-            "从环境中卸载包。"
-          ],
-          "option": [
-            {
-              "name": "-r",
-              "alias": [
-                "--requirement"
-              ],
-              "tip": [
-                "U: -r, --requirement <FILE>",
-                "从 requirements 文件卸载。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--python",
-              "alias": [
-                "-p"
-              ],
-              "tip": [
-                "U: -p, --python <PYTHON>",
-                "使用的 Python 解释器。"
-              ],
-              "next": 0
-            },
-            {
-              "name": "--system",
-              "tip": [
-                "使用系统 Python。"
-              ]
             }
           ]
         },
@@ -2086,6 +932,99 @@
               "tip": [
                 "使用系统 Python。"
               ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "将包安装到环境中。"
+          ],
+          "option": [
+            {
+              "name": "--constraint",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --constraint <FILE>",
+                "约束文件。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-build-isolation",
+              "tip": [
+                "禁用构建隔离。"
+              ]
+            },
+            {
+              "name": "--no-deps",
+              "tip": [
+                "不安装依赖项。"
+              ]
+            },
+            {
+              "name": "--python",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "使用的 Python 解释器。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--reinstall",
+              "tip": [
+                "重新安装所有包。"
+              ]
+            },
+            {
+              "name": "--reinstall-package",
+              "tip": [
+                "U: --reinstall-package <PACKAGE>",
+                "重新安装特定包。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--requirement",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --requirement <FILE>",
+                "从 requirements 文件安装。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "使用系统 Python。"
+              ]
+            },
+            {
+              "name": "--upgrade",
+              "alias": [
+                "-U"
+              ],
+              "tip": [
+                "允许包升级。"
+              ]
+            },
+            {
+              "name": "--upgrade-package",
+              "alias": [
+                "-P"
+              ],
+              "tip": [
+                "U: -P, --upgrade-package <PACKAGE>",
+                "允许特定包升级。"
+              ],
+              "next": 0
             }
           ]
         },
@@ -2128,6 +1067,51 @@
               "tip": [
                 "U: -p, --python <PYTHON>",
                 "使用的 Python 解释器。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "使用系统 Python。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "使用 requirements.txt 同步环境。"
+          ],
+          "option": [
+            {
+              "name": "--no-build-isolation",
+              "tip": [
+                "禁用构建隔离。"
+              ]
+            },
+            {
+              "name": "--python",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "使用的 Python 解释器。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--reinstall",
+              "tip": [
+                "重新安装所有包。"
+              ]
+            },
+            {
+              "name": "--reinstall-package",
+              "tip": [
+                "U: --reinstall-package <PACKAGE>",
+                "重新安装特定包。"
               ],
               "next": 0
             },
@@ -2184,9 +1168,9 @@
           ]
         },
         {
-          "name": "check",
+          "name": "uninstall",
           "tip": [
-            "验证已安装的包具有兼容的依赖项。"
+            "从环境中卸载包。"
           ],
           "option": [
             {
@@ -2201,6 +1185,17 @@
               "next": 0
             },
             {
+              "name": "--requirement",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --requirement <FILE>",
+                "从 requirements 文件卸载。"
+              ],
+              "next": 0
+            },
+            {
               "name": "--system",
               "tip": [
                 "使用系统 Python。"
@@ -2211,12 +1206,348 @@
       ]
     },
     {
-      "name": "venv",
+      "name": "publish",
       "tip": [
-        "创建虚拟环境。",
-        "U: venv [PATH]"
+        "将分发包上传到索引。"
       ],
       "option": [
+        {
+          "name": "--check-url",
+          "tip": [
+            "U: --check-url <URL>",
+            "检查已发布分发包的 URL。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--index",
+          "tip": [
+            "U: --index <INDEX>",
+            "要发布到的索引 URL。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "tip": [
+            "U: --password <PASSWORD>",
+            "密码。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--publish-url",
+          "tip": [
+            "U: --publish-url <URL>",
+            "发布到的 URL。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <TOKEN>",
+            "用于认证的令牌。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trusted-publishing",
+          "tip": [
+            "使用可信发布。"
+          ]
+        },
+        {
+          "name": "--username",
+          "tip": [
+            "U: --username <USERNAME>",
+            "用户名。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "python",
+      "tip": [
+        "管理 Python 版本和安装。"
+      ],
+      "next": [
+        {
+          "name": "dir",
+          "tip": [
+            "显示 uv Python 安装目录。"
+          ]
+        },
+        {
+          "name": "find",
+          "tip": [
+            "搜索 Python 安装。"
+          ]
+        },
+        {
+          "name": "install",
+          "alias": [
+            "i"
+          ],
+          "tip": [
+            "下载并安装 Python 版本。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "强制重新安装。"
+              ]
+            },
+            {
+              "name": "--reinstall",
+              "tip": [
+                "重新安装。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "列出可用的 Python 安装。"
+          ],
+          "option": [
+            {
+              "name": "--all-versions",
+              "tip": [
+                "列出所有可用的 Python 版本。"
+              ]
+            },
+            {
+              "name": "--only-installed",
+              "tip": [
+                "仅列出已安装的 Python 版本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pin",
+          "tip": [
+            "固定到特定的 Python 版本。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": [
+            "rm"
+          ],
+          "tip": [
+            "卸载 Python 版本。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "卸载所有已安装的 Python 版本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update-shell",
+          "tip": [
+            "确保 Python 可执行目录在 PATH 中。"
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "升级已安装的 Python 版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "tip": [
+        "从项目中移除依赖项。",
+        "U: remove <PACKAGES>"
+      ],
+      "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "优先使用活动虚拟环境。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "从开发依赖组中移除。"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "移除依赖项但不重新锁定项目。"
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "从指定的依赖组中移除。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "断言 uv.lock 保持不变。"
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "移除后不同步虚拟环境。"
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "U: --optional <EXTRA>",
+            "从指定 extra 的可选依赖中移除。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "从工作区中的特定包移除。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "从指定的 Python 脚本移除依赖项。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "运行命令或脚本。",
+        "U: run [OPTIONS] <COMMAND>"
+      ],
+      "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "优先使用活动虚拟环境。"
+          ]
+        },
+        {
+          "name": "--all-extras",
+          "tip": [
+            "包含所有可选依赖项。"
+          ]
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "包含所有依赖组。"
+          ]
+        },
+        {
+          "name": "--extra",
+          "tip": [
+            "U: --extra <EXTRA>",
+            "包含指定 extra 的可选依赖项。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "运行而不重新锁定项目。"
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "包含指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--isolated",
+          "tip": [
+            "在隔离的虚拟环境中运行命令。"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "断言 uv.lock 保持不变。"
+          ]
+        },
+        {
+          "name": "--module",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "以 Python 模块方式运行。"
+          ]
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "忽略默认依赖组。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "排除开发依赖组。"
+          ]
+        },
+        {
+          "name": "--no-editable",
+          "tip": [
+            "以非可编辑模式安装所有可编辑依赖项。"
+          ]
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "U: --no-group <GROUP>",
+            "排除指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-install-project",
+          "tip": [
+            "不安装当前项目。"
+          ]
+        },
+        {
+          "name": "--no-install-workspace",
+          "tip": [
+            "不安装任何工作区成员。"
+          ]
+        },
         {
           "name": "--no-project",
           "tip": [
@@ -2224,50 +1555,156 @@
           ]
         },
         {
-          "name": "--seed",
+          "name": "--no-sync",
           "tip": [
-            "安装种子包（pip、setuptools 和 wheel）。"
+            "运行前不同步环境。"
           ]
         },
         {
-          "name": "-c",
-          "alias": [
-            "--clear"
-          ],
+          "name": "--only-dev",
           "tip": [
-            "移除目标路径上的任何现有文件。"
+            "仅包含开发依赖组。"
           ]
         },
         {
-          "name": "--force",
+          "name": "--only-group",
           "tip": [
-            "允许 --clear 移除非虚拟环境目录。"
-          ]
-        },
-        {
-          "name": "--allow-existing",
-          "tip": [
-            "保留目标路径上的现有文件。"
-          ]
-        },
-        {
-          "name": "--prompt",
-          "tip": [
-            "U: --prompt <PROMPT>",
-            "为虚拟环境提供替代提示前缀。"
+            "U: --only-group <GROUP>",
+            "仅包含指定依赖组。"
           ],
           "next": 0
         },
         {
-          "name": "--system-site-packages",
+          "name": "--package",
           "tip": [
-            "使虚拟环境可以访问系统 site-packages 目录。"
+            "U: --package <PACKAGE>",
+            "在指定包的环境中运行。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --python <PYTHON>",
+            "用于运行命令的 Python 解释器。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "以指定的 Python 脚本方式运行。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <PACKAGE>",
+            "使用指定的包运行命令。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "self",
+      "tip": [
+        "管理 uv 可执行文件。"
+      ],
+      "next": [
+        {
+          "name": "update",
+          "tip": [
+            "更新 uv。"
           ]
         },
         {
-          "name": "--relocatable",
+          "name": "version",
           "tip": [
-            "使虚拟环境可重定位。"
+            "显示 uv 的版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "更新项目的环境。"
+      ],
+      "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "同步到活动虚拟环境。"
+          ]
+        },
+        {
+          "name": "--all-extras",
+          "tip": [
+            "包含所有可选依赖项。"
+          ]
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "包含所有依赖组。"
+          ]
+        },
+        {
+          "name": "--all-packages",
+          "tip": [
+            "同步工作区中的所有包。"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "检查 Python 环境是否与项目同步。"
+          ]
+        },
+        {
+          "name": "--compile-bytecode",
+          "tip": [
+            "安装后编译 Python 字节码。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行干运行，不写入 lockfile 或修改环境。"
+          ]
+        },
+        {
+          "name": "--extra",
+          "tip": [
+            "U: --extra <EXTRA>",
+            "包含指定 extra 的可选依赖项。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "同步而不更新 uv.lock。"
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "包含指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--inexact",
+          "tip": [
+            "不移除环境中多余的包。"
           ]
         },
         {
@@ -2293,133 +1730,755 @@
           ]
         },
         {
-          "name": "-p",
+          "name": "--locked",
+          "tip": [
+            "断言 uv.lock 保持不变。"
+          ]
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "忽略默认依赖组。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "排除开发依赖组。"
+          ]
+        },
+        {
+          "name": "--no-editable",
+          "tip": [
+            "以非可编辑模式安装所有可编辑依赖项。"
+          ]
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "U: --no-group <GROUP>",
+            "排除指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-install-local",
+          "tip": [
+            "不安装本地路径依赖项。"
+          ]
+        },
+        {
+          "name": "--no-install-package",
+          "tip": [
+            "U: --no-install-package <PACKAGE>",
+            "不安装指定的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-install-project",
+          "tip": [
+            "不安装当前项目。"
+          ]
+        },
+        {
+          "name": "--no-install-workspace",
+          "tip": [
+            "不安装任何工作区成员。"
+          ]
+        },
+        {
+          "name": "--only-dev",
+          "tip": [
+            "仅包含开发依赖组。"
+          ]
+        },
+        {
+          "name": "--only-group",
+          "tip": [
+            "U: --only-group <GROUP>",
+            "仅包含指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <FORMAT>",
+            "输出格式。",
+            "可能值: text, json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "同步工作区中的特定包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "U: --prerelease <STRATEGY>",
+            "预发布版本策略。",
+            "可能值: disallow, allow, if-necessary, explicit, if-necessary-or-explicit"
+          ],
+          "next": [
+            {
+              "name": "allow"
+            },
+            {
+              "name": "disallow"
+            },
+            {
+              "name": "explicit"
+            },
+            {
+              "name": "if-necessary"
+            },
+            {
+              "name": "if-necessary-or-explicit"
+            }
+          ]
+        },
+        {
+          "name": "--python",
           "alias": [
-            "--python"
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --python <PYTHON>",
+            "用于项目环境的 Python 解释器。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python-platform",
+          "tip": [
+            "U: --python-platform <PLATFORM>",
+            "要安装的目标平台。",
+            "可能值: windows, linux, macos 等"
+          ],
+          "next": [
+            {
+              "name": "linux"
+            },
+            {
+              "name": "macos"
+            },
+            {
+              "name": "windows"
+            }
+          ]
+        },
+        {
+          "name": "--reinstall",
+          "tip": [
+            "重新安装所有包。"
+          ]
+        },
+        {
+          "name": "--reinstall-package",
+          "tip": [
+            "U: --reinstall-package <PACKAGE>",
+            "重新安装特定包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--resolution",
+          "tip": [
+            "U: --resolution <STRATEGY>",
+            "版本解析策略。",
+            "可能值: highest, lowest, lowest-direct"
+          ],
+          "next": [
+            {
+              "name": "highest"
+            },
+            {
+              "name": "lowest"
+            },
+            {
+              "name": "lowest-direct"
+            }
+          ]
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "为 Python 脚本同步环境。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--upgrade",
+          "alias": [
+            "-U"
+          ],
+          "tip": [
+            "允许包升级，忽略现有锁定版本。"
+          ]
+        },
+        {
+          "name": "--upgrade-package",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --upgrade-package <PACKAGE>",
+            "允许特定包升级。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "tool",
+      "tip": [
+        "运行和安装 Python 包提供的命令。"
+      ],
+      "next": [
+        {
+          "name": "dir",
+          "tip": [
+            "显示 uv 工具目录的路径。"
+          ]
+        },
+        {
+          "name": "install",
+          "alias": [
+            "i"
+          ],
+          "tip": [
+            "安装 Python 包提供的命令。",
+            "U: tool install <PACKAGE>"
+          ],
+          "option": [
+            {
+              "name": "--editable",
+              "tip": [
+                "以可编辑模式安装。"
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "强制重新安装。"
+              ]
+            },
+            {
+              "name": "--from",
+              "tip": [
+                "U: --from <PACKAGE>",
+                "从指定包安装。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--python",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "使用的 Python 解释器。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--reinstall",
+              "tip": [
+                "重新安装所有包。"
+              ]
+            },
+            {
+              "name": "--reinstall-package",
+              "tip": [
+                "U: --reinstall-package <PACKAGE>",
+                "重新安装特定包。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--with",
+              "tip": [
+                "U: --with <PACKAGE>",
+                "包含额外的包。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "列出已安装的工具。"
+          ],
+          "option": [
+            {
+              "name": "--show-paths",
+              "tip": [
+                "显示工具的安装路径。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "运行 Python 包提供的命令。",
+            "U: tool run <PACKAGE>"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "tip": [
+                "U: --from <PACKAGE>",
+                "使用指定的包。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--isolated",
+              "tip": [
+                "在隔离环境中运行。"
+              ]
+            },
+            {
+              "name": "--python",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "使用的 Python 解释器。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--with",
+              "tip": [
+                "U: --with <PACKAGE>",
+                "包含额外的包。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": [
+            "rm"
+          ],
+          "tip": [
+            "卸载工具。"
+          ]
+        },
+        {
+          "name": "update-shell",
+          "tip": [
+            "确保工具可执行目录在 PATH 中。"
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "升级已安装的工具。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "升级所有已安装的工具。"
+              ]
+            },
+            {
+              "name": "--python",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --python <PYTHON>",
+                "使用的 Python 解释器。"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tree",
+      "tip": [
+        "显示项目的依赖树。"
+      ],
+      "option": [
+        {
+          "name": "--all-groups",
+          "tip": [
+            "包含所有依赖组。"
+          ]
+        },
+        {
+          "name": "--depth",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --depth <DEPTH>",
+            "依赖树的最大显示深度。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "显示依赖树而不重新锁定项目。"
+          ]
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <GROUP>",
+            "包含指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--invert",
+          "tip": [
+            "显示反向依赖关系。"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "断言 uv.lock 保持不变。"
+          ]
+        },
+        {
+          "name": "--no-dedupe",
+          "tip": [
+            "不去重重复的依赖项。"
+          ]
+        },
+        {
+          "name": "--no-default-groups",
+          "tip": [
+            "忽略默认依赖组。"
+          ]
+        },
+        {
+          "name": "--no-dev",
+          "tip": [
+            "排除开发依赖组。"
+          ]
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "U: --no-group <GROUP>",
+            "排除指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-dev",
+          "tip": [
+            "仅包含开发依赖组。"
+          ]
+        },
+        {
+          "name": "--only-group",
+          "tip": [
+            "U: --only-group <GROUP>",
+            "仅包含指定依赖组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--outdated",
+          "tip": [
+            "显示每个包的最新可用版本。"
+          ]
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "U: --package <PACKAGE>",
+            "仅显示指定的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "U: --prune <PACKAGE>",
+            "从依赖树中裁剪指定的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python-platform",
+          "tip": [
+            "U: --python-platform <PLATFORM>",
+            "过滤依赖树时使用的平台。",
+            "可能值: windows, linux, macos"
+          ],
+          "next": [
+            {
+              "name": "linux"
+            },
+            {
+              "name": "macos"
+            },
+            {
+              "name": "windows"
+            }
+          ]
+        },
+        {
+          "name": "--python-version",
+          "tip": [
+            "U: --python-version <VERSION>",
+            "过滤依赖树时使用的 Python 版本。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--script",
+          "tip": [
+            "U: --script <SCRIPT>",
+            "显示指定 Python 脚本的依赖树。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--show-sizes",
+          "tip": [
+            "显示包的大小信息。"
+          ]
+        },
+        {
+          "name": "--universal",
+          "tip": [
+            "显示平台无关的依赖树。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "venv",
+      "tip": [
+        "创建虚拟环境。",
+        "U: venv [PATH]"
+      ],
+      "option": [
+        {
+          "name": "--allow-existing",
+          "tip": [
+            "保留目标路径上的现有文件。"
+          ]
+        },
+        {
+          "name": "--clear",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "移除目标路径上的任何现有文件。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "允许 --clear 移除非虚拟环境目录。"
+          ]
+        },
+        {
+          "name": "--link-mode",
+          "tip": [
+            "U: --link-mode <MODE>",
+            "从全局缓存安装包的方法。",
+            "可能值: clone, copy, hardlink, symlink"
+          ],
+          "next": [
+            {
+              "name": "clone"
+            },
+            {
+              "name": "copy"
+            },
+            {
+              "name": "hardlink"
+            },
+            {
+              "name": "symlink"
+            }
+          ]
+        },
+        {
+          "name": "--no-project",
+          "tip": [
+            "避免发现项目或工作区。"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "tip": [
+            "U: --prompt <PROMPT>",
+            "为虚拟环境提供替代提示前缀。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "alias": [
+            "-p"
           ],
           "tip": [
             "U: -p, --python <PYTHON>",
             "用于虚拟环境的 Python 解释器。"
           ],
           "next": 0
+        },
+        {
+          "name": "--relocatable",
+          "tip": [
+            "使虚拟环境可重定位。"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "安装种子包（pip、setuptools 和 wheel）。"
+          ]
+        },
+        {
+          "name": "--system-site-packages",
+          "tip": [
+            "使虚拟环境可以访问系统 site-packages 目录。"
+          ]
         }
       ]
     },
     {
-      "name": "build",
+      "name": "version",
       "tip": [
-        "将 Python 包构建为源分发包和 wheel。"
+        "读取或更新项目的版本号。",
+        "U: version [VALUE]"
       ],
       "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "优先使用活动虚拟环境。"
+          ]
+        },
+        {
+          "name": "--bump",
+          "tip": [
+            "U: --bump <BUMP>",
+            "使用给定语义更新项目版本。",
+            "可能值: major, minor, patch, stable, alpha, beta, rc, post, dev"
+          ],
+          "next": [
+            {
+              "name": "alpha"
+            },
+            {
+              "name": "beta"
+            },
+            {
+              "name": "dev"
+            },
+            {
+              "name": "major"
+            },
+            {
+              "name": "minor"
+            },
+            {
+              "name": "patch"
+            },
+            {
+              "name": "post"
+            },
+            {
+              "name": "rc"
+            },
+            {
+              "name": "stable"
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不写入新版本到 pyproject.toml。"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "更新版本但不重新锁定项目。"
+          ]
+        },
+        {
+          "name": "--locked",
+          "tip": [
+            "断言 uv.lock 保持不变。"
+          ]
+        },
+        {
+          "name": "--no-sync",
+          "tip": [
+            "更新版本后不同步虚拟环境。"
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <FORMAT>",
+            "输出格式。",
+            "可能值: text, json"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
         {
           "name": "--package",
           "tip": [
             "U: --package <PACKAGE>",
-            "构建工作区中的特定包。"
+            "更新工作区中特定包的版本。"
           ],
           "next": 0
         },
         {
-          "name": "--wheel",
+          "name": "--short",
           "tip": [
-            "仅构建 wheel。"
+            "仅显示版本号。"
           ]
-        },
-        {
-          "name": "--sdist",
-          "tip": [
-            "仅构建源分发包。"
-          ]
-        },
-        {
-          "name": "--out-dir",
-          "alias": [
-            "-o"
-          ],
-          "tip": [
-            "U: -o, --out-dir <DIR>",
-            "输出目录。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-build-isolation",
-          "tip": [
-            "禁用构建隔离。"
-          ]
-        },
-        {
-          "name": "-C",
-          "alias": [
-            "--config-setting"
-          ],
-          "tip": [
-            "U: -C, --config-setting <KEY=VALUE>",
-            "传递给 PEP 517 构建后端的设置。"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "publish",
-      "tip": [
-        "将分发包上传到索引。"
-      ],
-      "option": [
-        {
-          "name": "--publish-url",
-          "tip": [
-            "U: --publish-url <URL>",
-            "发布到的 URL。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--token",
-          "tip": [
-            "U: --token <TOKEN>",
-            "用于认证的令牌。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--username",
-          "tip": [
-            "U: --username <USERNAME>",
-            "用户名。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--password",
-          "tip": [
-            "U: --password <PASSWORD>",
-            "密码。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--trusted-publishing",
-          "tip": [
-            "使用可信发布。"
-          ]
-        },
-        {
-          "name": "--check-url",
-          "tip": [
-            "U: --check-url <URL>",
-            "检查已发布分发包的 URL。"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--index",
-          "tip": [
-            "U: --index <INDEX>",
-            "要发布到的索引 URL。"
-          ],
-          "next": 0
         }
       ]
     },
@@ -2442,65 +2501,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "cache",
-      "tip": [
-        "管理 uv 的缓存。"
-      ],
-      "next": [
-        {
-          "name": "clean",
-          "tip": [
-            "清除缓存，移除所有条目或链接到特定包的条目。"
-          ]
-        },
-        {
-          "name": "prune",
-          "tip": [
-            "从缓存中清除所有不可达对象。"
-          ]
-        },
-        {
-          "name": "dir",
-          "tip": [
-            "显示缓存目录。"
-          ]
-        },
-        {
-          "name": "size",
-          "tip": [
-            "显示缓存大小。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "self",
-      "tip": [
-        "管理 uv 可执行文件。"
-      ],
-      "next": [
-        {
-          "name": "update",
-          "tip": [
-            "更新 uv。"
-          ]
-        },
-        {
-          "name": "version",
-          "tip": [
-            "显示 uv 的版本。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "显示命令的文档。",
-        "U: help [COMMAND]"
-      ]
     }
   ],
   "option": [
@@ -2516,31 +2516,12 @@
   ],
   "common_option": [
     {
-      "name": "--help",
-      "alias": [
-        "-h"
-      ],
+      "name": "--cache-dir",
       "tip": [
-        "显示帮助信息。"
-      ]
-    },
-    {
-      "name": "-q",
-      "alias": [
-        "--quiet"
+        "U: --cache-dir <DIR>",
+        "缓存目录路径。"
       ],
-      "tip": [
-        "使用静默输出。"
-      ]
-    },
-    {
-      "name": "-v",
-      "alias": [
-        "--verbose"
-      ],
-      "tip": [
-        "使用详细输出。"
-      ]
+      "next": 0
     },
     {
       "name": "--color",
@@ -2551,43 +2532,15 @@
       ],
       "next": [
         {
-          "name": "auto"
+          "name": "always"
         },
         {
-          "name": "always"
+          "name": "auto"
         },
         {
           "name": "never"
         }
       ]
-    },
-    {
-      "name": "--offline",
-      "tip": [
-        "禁用网络访问。"
-      ]
-    },
-    {
-      "name": "--no-progress",
-      "tip": [
-        "隐藏所有进度输出。"
-      ]
-    },
-    {
-      "name": "--directory",
-      "tip": [
-        "U: --directory <DIR>",
-        "在运行命令前切换到给定目录。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--project",
-      "tip": [
-        "U: --project <DIR>",
-        "在给定目录中发现项目。"
-      ],
-      "next": 0
     },
     {
       "name": "--config-file",
@@ -2598,32 +2551,41 @@
       "next": 0
     },
     {
-      "name": "--no-config",
+      "name": "--directory",
       "tip": [
-        "避免发现配置文件。"
+        "U: --directory <DIR>",
+        "在运行命令前切换到给定目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "显示帮助信息。"
       ]
     },
     {
-      "name": "-n",
+      "name": "--managed-python",
+      "tip": [
+        "要求使用 uv 管理的 Python 版本。"
+      ]
+    },
+    {
+      "name": "--no-cache",
       "alias": [
-        "--no-cache"
+        "-n"
       ],
       "tip": [
         "避免读取或写入缓存。"
       ]
     },
     {
-      "name": "--cache-dir",
+      "name": "--no-config",
       "tip": [
-        "U: --cache-dir <DIR>",
-        "缓存目录路径。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--managed-python",
-      "tip": [
-        "要求使用 uv 管理的 Python 版本。"
+        "避免发现配置文件。"
       ]
     },
     {
@@ -2633,9 +2595,47 @@
       ]
     },
     {
+      "name": "--no-progress",
+      "tip": [
+        "隐藏所有进度输出。"
+      ]
+    },
+    {
       "name": "--no-python-downloads",
       "tip": [
         "禁用 Python 的自动下载。"
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "禁用网络访问。"
+      ]
+    },
+    {
+      "name": "--project",
+      "tip": [
+        "U: --project <DIR>",
+        "在给定目录中发现项目。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "使用静默输出。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "使用详细输出。"
       ]
     }
   ]
