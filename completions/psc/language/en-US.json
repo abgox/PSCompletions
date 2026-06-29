@@ -186,9 +186,15 @@
         {
           "name": "url",
           "tip": [
-            "Current Value: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
+            "Current Value: {{",
+            "$o = $PSCompletions.wrap_whitespace($PSCompletions.config.url);",
+            "if ($PSCompletions.config.url -eq '') {",
+            "  $o += if ($PSCompletions.language -eq 'zh-CN') { ' (https://gitee.com/abgox/PSCompletions/raw/main)' } else { ' (https://github.com/abgox/PSCompletions/raw/main)' };",
+            "};",
+            "$o",
+            "}}",
             "Set the url of the completion library.",
-            "The default value is \"\", which means use the default repository (Github/Gitee)",
+            "The default value is \"\", and it will select Github or Gitee repository based on the language.",
             "{{ $info.config.url.example }}"
           ],
           "next": [
@@ -196,13 +202,21 @@
               "name": "\"\"",
               "tip": [
                 "Set to \"\" (Default)",
-                "It means the repository will be selected based on the language (Github/Gitee)."
+                "It will select Github or Gitee repository based on the language.",
+                "Chinese: https://gitee.com/abgox/PSCompletions/raw/main",
+                "Other: https://github.com/abgox/PSCompletions/raw/main"
               ]
             },
             {
-              "name": "\"https://abgox.github.io/PSCompletions\"",
+              "name": "\"https://gh-proxy.org/https://github.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "Use Github Pages as the completion library."
+                "Use Github + Proxy as the completion library."
+              ]
+            },
+            {
+              "name": "\"https://gh-proxy.org/https://raw.githubusercontent.com/abgox/PSCompletions/main\"",
+              "tip": [
+                "Use Github + Proxy as the completion library."
               ]
             },
             {
@@ -213,6 +227,18 @@
             },
             {
               "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
+              "tip": [
+                "Use Github as the completion library."
+              ]
+            },
+            {
+              "name": "\"https://raw.giteeusercontent.com/abgox/PSCompletions/raw/main\"",
+              "tip": [
+                "Use Gitee as the completion library."
+              ]
+            },
+            {
+              "name": "\"https://raw.githubusercontent.com/abgox/PSCompletions/main\"",
               "tip": [
                 "Use Github as the completion library."
               ]
@@ -2371,8 +2397,8 @@
           "The url must be valid, and its directory structure should be the same as that of the repository."
         ],
         "example": [
-          "E: psc config url                                           --- Get current url\n",
-          "   psc config url https://abgox.github.io/PSCompletions     --- Set url"
+          "E: psc config url           --- Get current url\n",
+          "   psc config url <url>     --- Set url"
         ]
       }
     },

@@ -132,7 +132,7 @@
           "tip": [
             "当前值: {{ $PSCompletions.config.enable_module_update }} (默认值: 1)",
             "导入模块时显示模块版本更新通知。",
-            "注意: 不推荐关闭它，因为远程仓库始终匹配模块的最新版本。"
+            "注意: 不推荐禁用它，因为远程仓库始终匹配模块的最新版本。"
           ],
           "next": [
             {
@@ -187,7 +187,13 @@
         {
           "name": "url",
           "tip": [
-            "当前值: {{ $PSCompletions.wrap_whitespace($PSCompletions.config.url) }}",
+            "当前值: {{",
+            "$o = $PSCompletions.wrap_whitespace($PSCompletions.config.url);",
+            "if ($PSCompletions.config.url -eq '') {",
+            "  $o += if ($PSCompletions.language -eq 'zh-CN') { ' (https://gitee.com/abgox/PSCompletions/raw/main)' } else { ' (https://github.com/abgox/PSCompletions/raw/main)' };",
+            "};",
+            "$o",
+            "}}",
             "设置补全库的 url。",
             "默认值为 \"\"，表示根据语言自动选择仓库(Github/Gitee)。",
             "{{ $info.config.url.example }}"
@@ -197,13 +203,21 @@
               "name": "\"\"",
               "tip": [
                 "设置为 \"\" (默认值)",
-                "它表示根据语言自动选择仓库(Github/Gitee)。"
+                "它表示根据语言自动选择仓库(Github/Gitee)。",
+                "中文: https://gitee.com/abgox/PSCompletions/raw/main",
+                "其他: https://github.com/abgox/PSCompletions/raw/main"
               ]
             },
             {
-              "name": "\"https://abgox.github.io/PSCompletions\"",
+              "name": "\"https://gh-proxy.org/https://github.com/abgox/PSCompletions/raw/main\"",
               "tip": [
-                "使用 Github Pages 作为补全库"
+                "使用 Github + Proxy 作为补全库"
+              ]
+            },
+            {
+              "name": "\"https://gh-proxy.org/https://raw.githubusercontent.com/abgox/PSCompletions/main\"",
+              "tip": [
+                "使用 Github + Proxy 作为补全库"
               ]
             },
             {
@@ -214,6 +228,18 @@
             },
             {
               "name": "\"https://github.com/abgox/PSCompletions/raw/main\"",
+              "tip": [
+                "使用 Github 作为补全库"
+              ]
+            },
+            {
+              "name": "\"https://raw.giteeusercontent.com/abgox/PSCompletions/raw/main\"",
+              "tip": [
+                "使用 Gitee 作为补全库"
+              ]
+            },
+            {
+              "name": "\"https://raw.githubusercontent.com/abgox/PSCompletions/main\"",
               "tip": [
                 "使用 Github 作为补全库"
               ]
@@ -2367,8 +2393,8 @@
           "这个 url 必须是可用的, 且其目录结构应该与仓库相同"
         ],
         "example": [
-          "E: psc config url                                           --- 获取当前使用的 url\n",
-          "   psc config url https://abgox.github.io/PSCompletions     --- 设置 url 地址"
+          "E: psc config url           --- 获取当前使用的 url\n",
+          "   psc config url <url>     --- 设置 url 地址"
         ]
       }
     },

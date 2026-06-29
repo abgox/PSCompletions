@@ -171,7 +171,7 @@ if (`$c.description) {
                 }
             }
         }
-        'update' {
+        { $_ -in 'update', 'depends' } {
             if ($filter_input_arr.Count -gt 1) {
                 $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
             }
@@ -216,7 +216,7 @@ if (`$c.description) {
                 }
             }
         }
-        { $_ -in 'info', 'cat', 'reset' } {
+        { $_ -in 'home', 'info', 'cat', 'reset', 'download', 'virustotal' } {
             $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
             $dir = Get-ChildItem $buckets_dir | ForEach-Object {
                 if ($_.Name -in $exclude_buckets) {
@@ -329,7 +329,9 @@ if (`$c.description) {
                     if ($app -notin $selected) {
                         $manifest_json = $path + '\current\manifest.json'
                         $install_json = $path + '\current\install.json'
-                        $tip = @"
+                        $hold = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold
+                        if (-not $hold) {
+                            $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
@@ -349,7 +351,8 @@ if (`$c.description) {
 };
 }}
 "@
-                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
+                            $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
+                        }
                     }
                 }
             }
@@ -369,7 +372,8 @@ if (`$c.description) {
                     if ($app -notin $selected) {
                         $manifest_json = $path + '\current\manifest.json'
                         $install_json = $path + '\current\install.json'
-                        $tip = @"
+                        if (Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold) {
+                            $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
@@ -389,7 +393,8 @@ if (`$c.description) {
 };
 }}
 "@
-                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
+                            $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
+                        }
                     }
                 }
             }
