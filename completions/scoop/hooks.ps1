@@ -439,7 +439,7 @@ if (`$c.description) {
             }
             if ($filter_input_arr.Count -ge 2 -and $filter_input_arr[1] -eq 'rm') {
                 $selected = $filter_input_arr[2..($filter_input_arr.Count - 1)]
-                $items = Get-ChildItem "$root_path\cache" -ErrorAction SilentlyContinue
+                $items = "$root_path\cache", $config.cache_path | ForEach-Object { if ($_) { Get-ChildItem $_ -ErrorAction SilentlyContinue } }
                 foreach ($_ in $items) {
                     $match = $_.BaseName -match '^([^#]+#[^#]+)'
                     if ($match) {
