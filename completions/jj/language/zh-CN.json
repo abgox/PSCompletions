@@ -348,6 +348,13 @@
       ],
       "option": [
         {
+          "name": "--editor",
+          "tip": [
+            "打开编辑器编辑变更描述",
+            "当使用 --message 时强制打开编辑器，以便之后可以编辑消息"
+          ]
+        },
+        {
           "name": "--interactive",
           "alias": [
             "-i"
@@ -608,13 +615,6 @@
           ]
         },
         {
-          "name": "--revision",
-          "alias": [
-            "-r"
-          ],
-          "next": []
-        },
-        {
           "name": "--stdin",
           "tip": [
             "从 stdin 读取变更描述"
@@ -684,13 +684,14 @@
           ]
         },
         {
-          "name": "--revisions",
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "比较这些修订之间的文件内容差异"
+            "U: -r, --revision <REVSETS>",
+            "显示这些修订中的变更",
+            "如果有多个修订，则显示所有修订的总差异"
           ],
           "next": []
         },
@@ -943,13 +944,13 @@
           ]
         },
         {
-          "name": "--revisions",
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "显示指定修订版本的变更",
+            "U: -r, --revision <REVSETS>",
+            "跟踪这些修订的变更",
             "[default: @]"
           ],
           "next": []
@@ -1030,6 +1031,12 @@
           ]
         },
         {
+          "name": "search",
+          "tip": [
+            "搜索文件中的内容"
+          ]
+        },
+        {
           "name": "show",
           "tip": [
             "打印指定修订中的文件内容"
@@ -1071,7 +1078,7 @@
           "tip": [
             "U: -s, --source <REVSETS>",
             "修复指定修订版本及其后代文件。",
-            "如果未指定修订版本，则默认使用 `revsets.fix` 设置，或未设置时使用 `reachable(@, mutable())`。"
+            "如果未指定修订版本，则默认使用 `revsets.fix` 设置，或未设置时使用 `reachable(@, mutable())`"
           ]
         }
       ]
@@ -1080,6 +1087,14 @@
       "name": "gerrit",
       "tip": [
         "与 Gerrit Code Review 交互"
+      ],
+      "next": [
+        {
+          "name": "upload",
+          "tip": [
+            "将变更上传到 Gerrit 进行代码审查，或更新现有变更"
+          ]
+        }
       ]
     },
     {
@@ -1306,7 +1321,7 @@
                 "-b"
               ],
               "tip": [
-                "-b, --bookmark <BOOKMARK>",
+                "U: -b, --bookmark <BOOKMARK>",
                 "仅推送此书签，或匹配模式的书签（可以重复）"
               ],
               "repeat": true,
@@ -1454,6 +1469,106 @@
       "name": "interdiff",
       "tip": [
         "比较两个提交之间的变更"
+      ],
+      "option": [
+        {
+          "name": "--color-words",
+          "tip": [
+            "显示以颜色指示变更的单词级差异"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>",
+            "要显示的上下文行数"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--from",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>",
+            "要比较的第一个修订 [默认: @]"
+          ],
+          "next": []
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "显示 Git 格式的差异"
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --ignore-all-space",
+            "比较行时忽略空白"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --ignore-space-change",
+            "比较行时忽略空白数量的变化"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "对于每个路径，仅显示其路径"
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "显示变更的直方图"
+          ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "对于每个路径，仅显示其是已修改、已添加还是已删除"
+          ]
+        },
+        {
+          "name": "--to",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --to <REVSET>",
+            "要比较的第二个修订 [默认: @]"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>",
+            "通过外部命令生成差异"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "对于每个路径，仅显示其前后的类型"
+          ]
+        }
       ]
     },
     {
@@ -1462,6 +1577,52 @@
         "显示修订历史记录"
       ],
       "option": [
+        {
+          "name": "--color-words",
+          "tip": [
+            "显示以颜色指示变更的单词级差异"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>",
+            "要显示的上下文行数"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--count",
+          "tip": [
+            "打印提交数量而不是显示它们"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "显示 Git 格式的差异"
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --ignore-all-space",
+            "比较行时忽略空白"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --ignore-space-change",
+            "比较行时忽略空白数量的变化"
+          ]
+        },
         {
           "name": "--limit",
           "alias": [
@@ -1478,15 +1639,90 @@
           ]
         },
         {
-          "name": "--revisions",
+          "name": "--name-only",
+          "tip": [
+            "对于每个路径，仅显示其路径"
+          ]
+        },
+        {
+          "name": "--no-graph",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --no-graph",
+            "不显示图形，显示平面修订列表"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "显示补丁"
+          ]
+        },
+        {
+          "name": "--reversed",
+          "tip": [
+            "以相反顺序显示修订（较旧的修订在前）"
+          ]
+        },
+        {
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "要显示的修订版本"
+            "U: -r, --revision <REVSETS>",
+            "要显示的修订版本",
+            "如果未指定路径与修订版本，则默认使用 `revsets.log` 配置项"
           ],
           "next": []
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "显示变更的直方图"
+          ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "对于每个路径，仅显示其是已修改、已添加还是已删除"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>",
+            "使用给定模板渲染每个修订",
+            "执行 jj log -T 命令以列出内置模板"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>",
+            "通过外部命令生成差异"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "对于每个路径，仅显示其前后的类型"
+          ]
         }
       ]
     },
@@ -1521,6 +1757,25 @@
           "name": "--force-rewrite",
           "tip": [
             "重写提交信息，即使其他元数据没有变化"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>",
+            "更新变更描述",
+            "这会更新变更描述，而不打开编辑器"
+          ],
+          "next": [
+            {
+              "name": "'todo'"
+            },
+            {
+              "name": "'update'"
+            }
           ]
         },
         {
@@ -1658,6 +1913,12 @@
           ]
         },
         {
+          "name": "integrate",
+          "tip": [
+            "使操作成为操作日志的一部分"
+          ]
+        },
+        {
           "name": "log",
           "tip": [
             "显示操作日志"
@@ -1693,6 +1954,36 @@
       "name": "prev",
       "tip": [
         "将工作副本提交移动到父修订"
+      ],
+      "option": [
+        {
+          "name": "--conflict",
+          "tip": [
+            "跳转到上一个冲突的祖先"
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "直接编辑父修订，而不是移动工作副本提交",
+            "优先于 ui.movement.edit 配置"
+          ]
+        },
+        {
+          "name": "--no-edit",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-edit",
+            "--edit 的反向",
+            "优先于 ui.movement.edit 配置"
+          ]
+        }
       ]
     },
     {
@@ -1709,6 +2000,20 @@
           "tip": [
             "U: -b, --branch <REVSETS>",
             "相对于目标的祖先重新调整整个分支的基准（可重复）"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "变基目标（可重复以创建合并提交）"
           ],
           "repeat": true,
           "next": []
@@ -1746,18 +2051,6 @@
           ]
         },
         {
-          "name": "--onto",
-          "alias": [
-            "-o"
-          ],
-          "tip": [
-            "U: -o, --onto <REVSETS>",
-            "变基目标（可重复以创建合并提交）"
-          ],
-          "repeat": true,
-          "next": []
-        },
-        {
           "name": "--revisions",
           "alias": [
             "-r"
@@ -1767,6 +2060,13 @@
             "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
           ],
           "next": []
+        },
+        {
+          "name": "--simplify-parents",
+          "tip": [
+            "在 rebase 时简化变基提交的父提交，类似于 jj simplify-parents",
+            "任何是其他父提交的祖先的父提交将被移除"
+          ]
         },
         {
           "name": "--skip-emptied",
@@ -1841,18 +2141,182 @@
       "name": "restore",
       "tip": [
         "从另一个修订恢复路径"
+      ],
+      "option": [
+        {
+          "name": "--changes-in",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --changes-in <REVSET>",
+            "撤销修订中与其父修订合并相比的变更",
+            "这会撤销在 jj diff -r REVSET 中可以看到的变更"
+          ],
+          "next": []
+        },
+        {
+          "name": "--from",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>",
+            "要从中恢复的修订（源）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "交互式选择要恢复的部分"
+          ]
+        },
+        {
+          "name": "--into",
+          "alias": [
+            "--to",
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --into, --to <REVSET>",
+            "要恢复到的修订（目标）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "在变基子提交时保留内容（而非差异）"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>",
+            "指定要使用的差异编辑器（隐含 --interactive）"
+          ]
+        }
       ]
     },
     {
       "name": "revert",
       "tip": [
         "应用给定修订的反向变更"
+      ],
+      "option": [
+        {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "要将反转变更应用到其上的修订"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-after",
+          "alias": [
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "要将反转变更插入其后的修订（可重复以创建合并提交）"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "要将反转变更插入其之前的修订（可重复以创建合并提交）"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "要应用反转的修订"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "root",
       "tip": [
         "显示当前工作区根目录（`jj workspace root` 的快捷方式）"
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "在一组修订上运行命令",
+        "检出每个修订到隔离的工作副本中，运行命令，然后用结果工作副本修改修订"
+      ],
+      "option": [
+        {
+          "name": "--clean",
+          "tip": [
+            "运行命令前删除每个工作副本",
+            "默认情况下 jj run 在调用之间重用工作副本，以便保留构建产物"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --jobs <JOBS>",
+            "应并行运行多少个进程",
+            "覆盖 run.jobs 配置设置。如果两者都未设置，则默认为 1"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "在变基子提交时保留内容（而非差异）"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "要更改的修订"
+          ],
+          "next": []
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "从每个提交的工作副本根目录运行命令，而不是从调用 jj run 的子目录运行"
+          ]
+        }
       ]
     },
     {
@@ -1914,11 +2378,10 @@
           ]
         },
         {
-          "name": "--revision",
-          "alias": [
-            "-r"
-          ],
-          "next": []
+          "name": "--reversed",
+          "tip": [
+            "以相反顺序显示修订（较旧的修订在前）"
+          ]
         },
         {
           "name": "--stat",
@@ -1967,18 +2430,92 @@
       "name": "sign",
       "tip": [
         "使用密码学签名一个修订"
+      ],
+      "option": [
+        {
+          "name": "--key",
+          "tip": [
+            "U: --key <KEY>",
+            "用于签名的密钥"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "要签名的修订版本",
+            "如果未指定修订版本，则默认使用 `revsets.sign` 设置"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "simplify-parents",
       "tip": [
         "简化指定修订的父边"
+      ],
+      "option": [
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "简化指定的修订版本（可重复）"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <REVSETS>",
+            "简化指定的修订版本及其后代树（可重复）"
+          ],
+          "repeat": true,
+          "next": []
+        }
       ]
     },
     {
       "name": "sparse",
       "tip": [
         "管理工作副本提交中哪些路径在工作副本中可见"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "打开编辑器以更新出现在工作副本中的模式"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出当前出现在工作副本中的模式"
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "重置模式以包含工作副本中的所有文件"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "更新出现在工作副本中的模式"
+          ]
+        }
       ]
     },
     {
@@ -1989,12 +2526,91 @@
       ],
       "option": [
         {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "要将选定变更变基到的目标修订（可重复以创建合并提交）",
+            "将选定的变更提取为基于给定修订的新提交"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--editor",
+          "tip": [
+            "打开编辑器以编辑变更描述",
+            "当使用 --message 时强制打开编辑器，以便之后可以编辑消息"
+          ]
+        },
+        {
+          "name": "--insert-after",
+          "alias": [
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "要插入其后的修订（可重复以创建合并提交）",
+            "将选定的变更提取为插入给定修订之后的新提交"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "要插入其之前的修订（可重复以创建合并提交）",
+            "将选定的变更提取为插入给定修订之前的新提交"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
           "name": "--interactive",
           "alias": [
             "-i"
           ],
           "tip": [
             "交互式选择要拆分的部分"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>",
+            "用于选定变更的变更描述（不打开编辑器）",
+            "设置包含选定变更的修订的描述"
+          ],
+          "next": [
+            {
+              "name": "'todo'"
+            },
+            {
+              "name": "'update'"
+            }
+          ]
+        },
+        {
+          "name": "--parallel",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --parallel",
+            "将修订分成两个并行修订，而不是父和子"
           ]
         },
         {
@@ -2022,6 +2638,13 @@
         "将一个修订的变更移动到另一个修订"
       ],
       "option": [
+        {
+          "name": "--editor",
+          "tip": [
+            "打开编辑器编辑变更描述",
+            "当使用 --message 时强制打开编辑器，以便之后可以编辑消息"
+          ]
+        },
         {
           "name": "--from",
           "alias": [
@@ -2121,14 +2744,14 @@
           "next": []
         },
         {
-          "name": "--revisions",
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "合并到其父提交的修订 (默认: @)",
-            "与实验性的 `-d`/`-A`/`-B` 选项不兼容"
+            "U: -r, --revision <REVSET>",
+            "要压缩到其父修订的修订 [默认: @]",
+            "与实验性 -o/-A/-B 选项不兼容"
           ],
           "next": []
         },
@@ -2168,6 +2791,16 @@
       ],
       "next": [
         {
+          "name": "delete",
+          "alias": [
+            "d"
+          ],
+          "tip": [
+            "删除现有标签"
+          ],
+          "next": []
+        },
+        {
           "name": "list",
           "alias": [
             "l"
@@ -2189,6 +2822,16 @@
               "next": 0
             }
           ]
+        },
+        {
+          "name": "set",
+          "alias": [
+            "s"
+          ],
+          "tip": [
+            "创建或更新标签"
+          ],
+          "next": []
         }
       ]
     },

@@ -2,570 +2,495 @@
   "meta": {
     "url": "https://deno.com/",
     "description": [
-      "Deno - 安全的 JavaScript 和 TypeScript 运行时。"
+      "Deno - 现代 JavaScript 和 TypeScript 运行时"
     ]
   },
   "root": [
     {
-      "name": "bench",
+      "name": "add",
       "tip": [
-        "运行基准测试"
+        "U: deno add [OPTIONS] [packages]...",
+        "将依赖项添加到配置文件"
       ],
       "option": [
         {
-          "name": "--allow-all",
+          "name": "--allow-import",
           "alias": [
-            "-A"
+            "-I"
           ],
           "tip": [
-            "{{ $info.__allow_all }}"
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "允许从远程主机导入"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--allow-scripts",
           "tip": [
-            "{{ $info.__allow_env }}"
+            "允许运行指定包的 npm 生命周期脚本"
           ]
         },
         {
-          "name": "--allow-ffi",
+          "name": "--deny-import",
           "tip": [
-            "{{ $info.__allow_ffi }}"
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "拒绝从远程主机导入"
           ]
         },
         {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "要求远程依赖项"
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "类型检查模块"
-          ]
-        },
-        {
-          "name": "--config",
+          "name": "--dev",
           "alias": [
-            "-c"
+            "-D"
           ],
           "tip": [
-            "{{ $info.__config }}"
+            "U: -D, --dev",
+            "将包添加为开发依赖"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
           ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--jsr",
           "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: 启用集成测试期间使用的内部功能"
-          ]
-        },
-        {
-          "name": "--filter",
-          "tip": [
-            "在工作台名称中使用此字符串或模式运行基准测试"
-          ]
-        },
-        {
-          "name": "--ignore",
-          "tip": [
-            "忽略文件"
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--json",
-          "tip": [
-            "UNSTABLE: 以 JSON 格式输出基准测试结果"
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
+            "假设无前缀的包名是 jsr 包"
           ]
         },
         {
           "name": "--lock",
           "tip": [
-            "{{ $info.__lock }}"
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--lockfile-only",
           "tip": [
-            "强制覆盖锁定文件"
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-clear-screen",
-          "tip": [
-            "在监视模式下不要清除终端屏幕"
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "禁用配置文件的自动加载"
+            "仅更新锁文件"
           ]
         },
         {
           "name": "--no-lock",
           "tip": [
-            "禁用锁定文件的自动发现"
+            "禁用锁文件的自动发现"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--npm",
           "tip": [
-            "不解析 npm 模块"
+            "假设无前缀的包名是 npm 包（默认）"
           ]
         },
         {
-          "name": "--no-prompt",
+          "name": "--package-json",
           "tip": [
-            "如果未通过所需的权限, 请始终抛出"
+            "强制使用 package.json 进行依赖管理而非 deno.json"
           ]
         },
         {
-          "name": "--no-remote",
+          "name": "--save-exact",
           "tip": [
-            "不解析远程模块"
+            "保存精确版本而不使用脱字符 (^)"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "approve-scripts",
+      "tip": [
+        "U: deno approve-scripts [OPTIONS] [packages]...",
+        "批准已安装依赖的 npm 生命周期脚本"
+      ],
+      "option": [
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅更新锁文件"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "bench",
+      "tip": [
+        "U: deno bench [OPTIONS] [files]...",
+        "使用 Deno 的内置基准测试工具运行基准测试"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "允许运行指定包的 npm 生命周期脚本"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "设置类型检查行为"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <filter>",
+            "运行基准名称中包含此字符串或正则表达式模式的基准测试"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore=<ignore>...",
+            "忽略文件"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "(不稳定) 以 JSON 格式输出基准测试结果"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "监视模式下不清除终端屏幕"
           ]
         },
         {
           "name": "--no-run",
           "tip": [
-            "缓存 bench 模块, 但不运行基准测试"
+            "缓存基准模块，但不运行基准测试"
           ]
         },
         {
-          "name": "--node-modules-dir",
+          "name": "--permit-no-files",
           "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "如果没有找到文件则不返回错误代码"
           ]
         },
         {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
+          "name": "--preload",
           "tip": [
-            "{{ $info.__reload }}"
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
           ]
         },
         {
           "name": "--seed",
           "tip": [
+            "U: --seed <NUMBER>",
             "设置随机数生成器种子"
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: 禁用 TLS 证书验证"
           ]
         },
         {
           "name": "--v8-flags",
           "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
             "设置 V8 命令行选项"
           ]
         },
         {
           "name": "--watch",
           "tip": [
-            "监视文件更改并自动重新启动"
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "bundle",
+      "name": "bump-version",
       "tip": [
-        "将模块和依赖项捆绑到单个文件中"
+        "U: deno bump-version [OPTIONS] [increment]",
+        "更新配置文件中的版本"
       ],
       "option": [
         {
-          "name": "--cert",
+          "name": "--base",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --base <REF>",
+            "[conventional-commits 模式] 要比较的 Git 引用"
           ]
         },
         {
-          "name": "--check",
+          "name": "--dry-run",
           "tip": [
-            "类型检查模块"
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--ext",
-          "tip": [
-            "U: --ext <type>",
-            "设置所提供文件的内容类型"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--lock-write",
-          "tip": [
-            "强制覆盖锁定文件"
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-clear-screen",
-          "tip": [
-            "在监视模式下不要清除终端屏幕"
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "禁用配置文件的自动加载"
-          ]
-        },
-        {
-          "name": "--no-lock",
-          "tip": [
-            "禁用锁定文件的自动发现"
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--watch",
-          "tip": [
-            "监视文件更改并自动重新启动"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "cache",
-      "tip": [
-        "缓存依赖项"
-      ],
-      "option": [
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "类型检查模块"
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "打印计划的更改而不写入任何文件"
           ]
         },
         {
           "name": "--import-map",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
+            "U: --import-map <PATH>",
+            "要重写 jsr: 版本约束的导入映射路径"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--no-workspace",
           "tip": [
-            "强制覆盖锁定文件"
+            "禁用工作区模式，仅提升当前目录中的 deno.json/package.json"
           ]
         },
         {
-          "name": "--no-check",
+          "name": "--release-notes",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --release-notes <PATH>",
+            "[conventional-commits 模式] 要前置的发行说明文件路径"
           ]
         },
         {
-          "name": "--no-config",
+          "name": "--start",
           "tip": [
-            "禁用配置文件的自动加载"
+            "U: --start <REF>",
+            "[conventional-commits 模式] 起始 Git 引用"
           ]
         },
         {
-          "name": "--no-lock",
-          "tip": [
-            "禁用锁定文件的自动发现"
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
+          "name": "--workspace",
           "alias": [
-            "-r"
+            "-w"
           ],
           "tip": [
-            "{{ $info.__reload }}"
+            "U: -w, --workspace",
+            "提升工作区中的每个包"
           ]
+        }
+      ],
+      "next": [
+        {
+          "name": "major"
+        },
+        {
+          "name": "minor"
+        },
+        {
+          "name": "patch"
+        },
+        {
+          "name": "premajor"
+        },
+        {
+          "name": "preminor"
+        },
+        {
+          "name": "prepatch"
+        },
+        {
+          "name": "prerelease"
         }
       ]
     },
     {
       "name": "check",
       "tip": [
-        "对依赖项进行类型检查"
+        "U: deno check [OPTIONS] [file]...",
+        "下载并进行类型检查而不执行"
       ],
       "option": [
         {
           "name": "--all",
           "tip": [
-            "对所有代码进行类型检查, 包括远程模块和 npm 包"
+            "类型检查所有代码，包括远程模块和 npm 包"
+          ]
+        },
+        {
+          "name": "--allow-import",
+          "alias": [
+            "-I"
+          ],
+          "tip": [
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "允许从远程主机导入"
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
+          "name": "--check-js",
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "启用 JavaScript 文件的类型检查"
           ]
         },
         {
-          "name": "--import-map",
+          "name": "--conditions",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--deny-import",
           "tip": [
-            "强制覆盖锁定文件"
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "拒绝从远程主机导入"
           ]
         },
         {
-          "name": "--no-check",
+          "name": "--desktop",
           "tip": [
-            "{{ $info.__no_check }}"
+            "使用 deno desktop 的类型定义进行类型检查"
+          ]
+        },
+        {
+          "name": "--doc",
+          "tip": [
+            "同时类型检查 JSDoc 中的代码块和实际代码"
+          ]
+        },
+        {
+          "name": "--doc-only",
+          "tip": [
+            "仅类型检查 JSDoc 和 Markdown 中的代码块"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "监视模式下不清除终端屏幕"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "禁用 V8 代码缓存功能"
           ]
         },
         {
@@ -575,42 +500,125 @@
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--v8-flags",
           "tip": [
-            "禁用锁定文件的自动发现"
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "设置 V8 命令行选项"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--watch",
           "tip": [
-            "不解析 npm 模块"
+            "监视文件更改并自动重启进程"
           ]
         },
         {
-          "name": "--no-remote",
+          "name": "--watch-exclude",
           "tip": [
-            "不解析远程模块"
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "ci",
+      "tip": [
+        "U: deno ci [OPTIONS]",
+        "以干净、可重现的方式为 CI 环境安装依赖"
+      ],
+      "option": [
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "仅安装生产依赖（排除 devDependencies）"
+          ]
+        },
+        {
+          "name": "--skip-types",
+          "tip": [
+            "从安装中排除 @types/* 包"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "U: deno clean [OPTIONS] [except-paths]...",
+        "移除缓存目录 ($DENO_DIR)"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "显示将被移除的内容而不执行任何操作"
+          ]
+        },
+        {
+          "name": "--except",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --except",
+            "保留给定文件所需的缓存数据"
           ]
         },
         {
           "name": "--node-modules-dir",
           "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
+            "U: --node-modules-dir[=<MODE>]",
+            "选择 npm 包的 node_modules 目录模式"
           ],
-          "tip": [
-            "{{ $info.__reload }}"
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "manual"
+            },
+            {
+              "name": "none"
+            }
           ]
         },
         {
-          "name": "--remote",
+          "name": "--node-modules-linker",
           "tip": [
-            "对所有模块进行类型检查, 包括远程模块"
+            "U: --node-modules-linker=<MODE>",
+            "设置 npm 包的链接器模式"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--vendor",
+          "tip": [
+            "U: --vendor[=<vendor>]",
+            "切换本地 vendor 文件夹的使用"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         }
       ]
@@ -618,171 +626,170 @@
     {
       "name": "compile",
       "tip": [
-        "UNSTABLE: 将脚本编译为独立的可执行文件"
+        "U: deno compile [OPTIONS] [SCRIPT_ARG]...",
+        "将脚本编译为独立的可执行文件"
       ],
       "option": [
         {
-          "name": "--allow-all",
-          "alias": [
-            "-A"
-          ],
+          "name": "--allow-scripts",
           "tip": [
-            "{{ $info.__allow_all }}"
+            "允许运行指定包的 npm 生命周期脚本"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--app-name",
           "tip": [
-            "{{ $info.__allow_env }}"
+            "U: --app-name <app-name>",
+            "编译后应用的稳定标识"
           ]
         },
         {
-          "name": "--allow-ffi",
+          "name": "--bundle",
           "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "要求远程依赖项"
+            "(实验性) 使用 esbuild 在嵌入前打包入口点"
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "设置类型检查行为"
           ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
           "tip": [
-            "{{ $info.__config }}"
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <exclude>",
+            "从编译的可执行文件中排除文件/目录"
+          ]
+        },
+        {
+          "name": "--exclude-unused-npm",
+          "tip": [
+            "仅嵌入从模块图可达的 npm 包"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
           ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--icon",
           "tip": [
-            "{{ $info.__deny_env }}"
+            "U: --icon <icon>",
+            "设置 Windows 上可执行文件的图标 (.ico)"
           ]
         },
         {
-          "name": "--deny-ffi",
+          "name": "--include",
           "tip": [
-            "{{ $info.__deny_ffi }}"
+            "U: --include <include>",
+            "在编译的可执行文件中包含其他模块或文件/目录"
           ]
         },
         {
-          "name": "--deny-hrtime",
+          "name": "--location",
           "tip": [
-            "{{ $info.__deny_hrtime }}"
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
           ]
         },
         {
-          "name": "--deny-net",
+          "name": "--minify",
           "tip": [
-            "{{ $info.__deny_net }}"
+            "(实验性) 压缩打包输出"
           ]
         },
         {
-          "name": "--deny-read",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: 启用集成测试期间使用的内部功能"
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
           ]
         },
         {
           "name": "--no-check",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
           ]
         },
         {
-          "name": "--no-prompt",
+          "name": "--no-clear-screen",
           "tip": [
-            "如果未通过所需的权限, 请始终抛出"
+            "监视模式下不清除终端屏幕"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "禁用 V8 代码缓存功能"
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "禁用配置文件的自动加载"
           ]
         },
         {
@@ -792,68 +799,313 @@
           ]
         },
         {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
+          "name": "--output",
           "alias": [
-            "-r"
+            "-o"
           ],
           "tip": [
-            "{{ $info.__reload }}"
+            "U: -o, --output <output>",
+            "输出文件（默认为 $PWD/<推断名称>）"
           ]
         },
         {
-          "name": "--unsafely-ignore-certificate-errors",
+          "name": "--preload",
           "tip": [
-            "DANGER: 禁用 TLS 证书验证"
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "设置随机数生成器种子"
+          ]
+        },
+        {
+          "name": "--self-extracting",
+          "tip": [
+            "创建自解压二进制文件"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <target>",
+            "目标操作系统架构"
+          ],
+          "next": [
+            {
+              "name": "aarch64-apple-darwin"
+            },
+            {
+              "name": "aarch64-unknown-linux-gnu"
+            },
+            {
+              "name": "x86_64-apple-darwin"
+            },
+            {
+              "name": "x86_64-pc-windows-msvc"
+            },
+            {
+              "name": "x86_64-unknown-linux-gnu"
+            }
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "设置 V8 命令行选项"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
           ]
         }
-      ]
-    },
-    {
-      "name": "completions",
-      "tip": [
-        "生成 shell 补全"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "coverage",
       "tip": [
-        "打印覆盖率报告"
+        "U: deno coverage [OPTIONS] [files]...",
+        "从覆盖率配置文件打印覆盖率报告"
       ],
       "option": [
         {
+          "name": "--detailed",
+          "tip": [
+            "在终端中以详细格式输出覆盖率报告"
+          ]
+        },
+        {
           "name": "--exclude",
           "tip": [
-            "从报表中排除源文件"
+            "U: --exclude=<regex>...",
+            "从报告中排除源文件"
+          ]
+        },
+        {
+          "name": "--html",
+          "tip": [
+            "以 HTML 格式在给定目录中输出覆盖率报告"
           ]
         },
         {
           "name": "--ignore",
           "tip": [
+            "U: --ignore=<ignore>...",
             "忽略覆盖率文件"
           ]
         },
         {
           "name": "--include",
           "tip": [
-            "在报表中包括源文件"
+            "U: --include=<regex>...",
+            "在报告中包含源文件"
           ]
         },
         {
           "name": "--lcov",
           "tip": [
-            "lcov 格式的输出覆盖率报告"
+            "以 lcov 格式输出覆盖率报告"
           ]
         },
         {
           "name": "--output",
           "tip": [
-            "cov 的输出文件(默认为 stdout)"
+            "U: --output=<output>",
+            "将 lcov 格式的覆盖率报告导出到给定文件"
+          ]
+        },
+        {
+          "name": "--threshold",
+          "tip": [
+            "U: --threshold=<PERCENT>",
+            "如果覆盖率低于此百分比 (0-100) 则失败"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "deploy",
+      "tip": [
+        "U: deno deploy [OPTIONS] [root-path]",
+        "使用 Deno Deploy 管理和发布应用"
+      ],
+      "option": [
+        {
+          "name": "--allow-node-modules",
+          "tip": [
+            "允许上传时包含 node_modules 目录"
+          ]
+        },
+        {
+          "name": "--app",
+          "tip": [
+            "U: --app <name>",
+            "应用名称"
+          ]
+        },
+        {
+          "name": "--config",
+          "tip": [
+            "U: --config <config>",
+            "配置文件路径"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <path>",
+            "忽略特定源文件"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --json",
+            "在 stdout 上输出 JSON 而非人类可读的输出"
+          ]
+        },
+        {
+          "name": "--no-wait",
+          "tip": [
+            "跳过等待构建完成"
+          ]
+        },
+        {
+          "name": "--non-interactive",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --non-interactive",
+            "快速失败而非提示"
+          ]
+        },
+        {
+          "name": "--org",
+          "tip": [
+            "U: --org <name>",
+            "组织名称"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "直接部署到生产环境"
+          ]
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "要使用的认证令牌"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "apps",
+          "tip": [
+            "管理应用"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create [root-path]",
+            "创建新应用"
+          ]
+        },
+        {
+          "name": "database",
+          "tip": [
+            "管理数据库"
+          ]
+        },
+        {
+          "name": "deployments",
+          "tip": [
+            "管理部署（修订版）"
+          ]
+        },
+        {
+          "name": "env",
+          "tip": [
+            "修改环境变量"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "如果存在则撤销 Deno Deploy 令牌"
+          ]
+        },
+        {
+          "name": "logs",
+          "tip": [
+            "从应用流式传输日志"
+          ]
+        },
+        {
+          "name": "orgs",
+          "tip": [
+            "列出组织"
+          ]
+        },
+        {
+          "name": "sandbox",
+          "tip": [
+            "与沙箱交互"
+          ]
+        },
+        {
+          "name": "setup-aws",
+          "tip": [
+            "U: setup-aws [contexts]",
+            "设置 AWS 云连接"
+          ]
+        },
+        {
+          "name": "setup-gcp",
+          "tip": [
+            "U: setup-gcp [contexts]",
+            "设置 GCP 云连接"
+          ]
+        },
+        {
+          "name": "switch",
+          "tip": [
+            "在组织和应用之间切换"
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "验证当前 Deno Deploy 令牌并列出可访问的组织"
           ]
         }
       ]
@@ -861,15 +1113,60 @@
     {
       "name": "doc",
       "tip": [
+        "U: deno doc [OPTIONS] [source_file]...",
         "显示模块的文档"
       ],
       "option": [
         {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
+          "name": "--allow-import",
+          "alias": [
+            "-I"
           ],
-          "next": 0
+          "tip": [
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "允许从远程主机导入"
+          ]
+        },
+        {
+          "name": "--category-docs",
+          "tip": [
+            "U: --category-docs=<category-docs>",
+            "按类别键控的 JSON 文件路径"
+          ]
+        },
+        {
+          "name": "--default-symbol-map",
+          "tip": [
+            "U: --default-symbol-map=<default-symbol-map>",
+            "使用提供的默认名称到所需名称的映射"
+          ]
+        },
+        {
+          "name": "--deny-import",
+          "tip": [
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "拒绝从远程主机导入"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <filter>",
+            "以点分隔的符号路径"
+          ]
+        },
+        {
+          "name": "--html",
+          "tip": [
+            "以 HTML 格式输出文档"
+          ]
         },
         {
           "name": "--json",
@@ -878,27 +1175,23 @@
           ]
         },
         {
-          "name": "--lock",
+          "name": "--lint",
           "tip": [
-            "{{ $info.__lock }}"
+            "输出文档诊断"
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--name",
           "tip": [
-            "禁用锁定文件的自动发现"
+            "U: --name=<name>",
+            "文档中使用的名称"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--output",
           "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
+            "U: --output=<output>",
+            "HTML 文档输出目录"
           ]
         },
         {
@@ -908,117 +1201,187 @@
           ]
         },
         {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
+          "name": "--strip-trailing-html",
           "tip": [
-            "{{ $info.__reload }}"
+            "从各种链接中移除尾随的 .html"
+          ]
+        },
+        {
+          "name": "--symbol-redirect-map",
+          "tip": [
+            "U: --symbol-redirect-map=<symbol-redirect-map>",
+            "按文件键控的 JSON 文件路径"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "eval",
+      "alias": [
+        "e"
+      ],
       "tip": [
-        "评估脚本"
+        "U: deno eval [OPTIONS] [CODE_ARG]...",
+        "从命令行评估脚本"
       ],
       "option": [
         {
-          "name": "--cached-only",
+          "name": "--allow-scripts",
           "tip": [
-            "要求远程依赖项"
+            "允许运行指定包的 npm 生命周期脚本"
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
           ]
         },
         {
           "name": "--check",
           "tip": [
-            "类型检查模块"
+            "U: --check[=<CHECK_TYPE>]",
+            "启用类型检查"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
+          "name": "--conditions",
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
           ]
         },
         {
-          "name": "--enable-testing-features-do-not-use",
+          "name": "--cpu-prof",
           "tip": [
-            "INTERNAL: 启用集成测试期间使用的内部功能"
+            "启动时开始 V8 CPU 分析器，退出时将分析结果写入磁盘"
+          ]
+        },
+        {
+          "name": "--cpu-prof-dir",
+          "tip": [
+            "U: --cpu-prof-dir <DIR>",
+            "V8 CPU 分析文件写入目录"
+          ]
+        },
+        {
+          "name": "--cpu-prof-flamegraph",
+          "tip": [
+            "在 CPU 分析文件旁边生成 SVG 火焰图"
+          ]
+        },
+        {
+          "name": "--cpu-prof-interval",
+          "tip": [
+            "U: --cpu-prof-interval <MICROSECONDS>",
+            "CPU 分析的采样间隔（微秒）"
+          ]
+        },
+        {
+          "name": "--cpu-prof-md",
+          "tip": [
+            "在 CPU 分析文件旁边生成可读的 Markdown 报告"
+          ]
+        },
+        {
+          "name": "--cpu-prof-name",
+          "tip": [
+            "U: --cpu-prof-name <NAME>",
+            "CPU 分析文件的文件名"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
           ]
         },
         {
           "name": "--ext",
           "tip": [
-            "U: --ext <type>",
-            "设置所提供文件的内容类型"
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
           ],
-          "next": 0
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
         },
         {
           "name": "--inspect",
           "tip": [
-            "{{ $info.__inspect }}"
+            "U: --inspect[=<HOST_PORT>]",
+            "在 host:port 上激活检查器"
           ]
         },
         {
           "name": "--inspect-brk",
           "tip": [
-            "{{ $info.__inspect_brk }}"
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "激活检查器，等待调试器连接并在用户脚本开头中断"
           ]
         },
         {
           "name": "--inspect-wait",
           "tip": [
-            "{{ $info.__inspect_wait }}"
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "激活检查器并在运行用户代码前等待调试器连接"
           ]
         },
         {
           "name": "--location",
           "tip": [
-            "{{ $info.__location }}"
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
           ]
         },
         {
-          "name": "--lock",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--lock-write",
-          "tip": [
-            "强制覆盖锁定文件"
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
           ]
         },
         {
           "name": "--no-check",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
           ]
         },
         {
@@ -1028,27 +1391,10 @@
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--preload",
           "tip": [
-            "禁用锁定文件的自动发现"
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
           ]
         },
         {
@@ -1057,37 +1403,39 @@
             "-p"
           ],
           "tip": [
-            "U: --print, -p",
-            "将结果打印到标准输出"
+            "U: -p, --print",
+            "将结果打印到 stdout"
           ]
         },
         {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
+          "name": "--require",
           "tip": [
-            "{{ $info.__reload }}"
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
           ]
         },
         {
           "name": "--seed",
           "tip": [
+            "U: --seed <NUMBER>",
             "设置随机数生成器种子"
           ]
         },
         {
           "name": "--v8-flags",
           "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
             "设置 V8 命令行选项"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "fmt",
       "tip": [
-        "设置源文件的格式"
+        "U: deno fmt [OPTIONS] [files]...",
+        "自动格式化各种文件类型"
       ],
       "option": [
         {
@@ -1097,45 +1445,117 @@
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
           "name": "--ext",
           "tip": [
-            "U: --ext <type>",
-            "设置所提供文件的内容类型"
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "astro"
+            },
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "css"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "html"
+            },
+            {
+              "name": "ipynb"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "jsonc"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "less"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "njk"
+            },
+            {
+              "name": "scss"
+            },
+            {
+              "name": "sql"
+            },
+            {
+              "name": "svelte"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            },
+            {
+              "name": "vto"
+            },
+            {
+              "name": "vue"
+            },
+            {
+              "name": "yaml"
+            },
+            {
+              "name": "yml"
+            }
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "在第一个格式错误时停止检查文件"
+          ]
         },
         {
           "name": "--ignore",
           "tip": [
-            "忽略设置特定源文件的格式"
+            "U: --ignore=<ignore>...",
+            "忽略格式化特定源文件"
           ]
         },
         {
           "name": "--indent-width",
           "tip": [
-            "定义缩进宽度。默认值为 2"
+            "U: --indent-width <indent-width>",
+            "定义缩进宽度 [默认: 2]"
           ]
         },
         {
           "name": "--line-width",
           "tip": [
-            "定义最大线宽。默认值为 80"
+            "U: --line-width <line-width>",
+            "定义最大行宽 [默认: 80]"
           ]
         },
         {
           "name": "--no-clear-screen",
           "tip": [
-            "在监视模式下不要清除终端屏幕"
+            "监视模式下不清除终端屏幕"
           ]
         },
         {
@@ -1145,53 +1565,130 @@
           ]
         },
         {
+          "name": "--no-editorconfig",
+          "tip": [
+            "不读取 .editorconfig 文件来推断格式选项"
+          ]
+        },
+        {
           "name": "--no-semicolons",
           "tip": [
-            "除非必要, 否则不要使用分号"
+            "U: --no-semicolons[=<no-semicolons>]",
+            "除必要时不使用分号"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--permit-no-files",
+          "tip": [
+            "如果没有找到文件则不返回错误代码"
           ]
         },
         {
           "name": "--prose-wrap",
           "tip": [
-            "定义散文应该如何包装。默认值为 always"
+            "U: --prose-wrap <prose-wrap>",
+            "定义散文的换行方式"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            },
+            {
+              "name": "preserve"
+            }
           ]
         },
         {
           "name": "--single-quote",
           "tip": [
-            "使用单引号。默认值为 false"
+            "U: --single-quote[=<single-quote>]",
+            "使用单引号"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--unstable-component",
+          "tip": [
+            "启用格式化 Svelte、Vue、Astro 和 Angular 文件"
+          ]
+        },
+        {
+          "name": "--unstable-sql",
+          "tip": [
+            "启用格式化 SQL 文件"
           ]
         },
         {
           "name": "--use-tabs",
           "tip": [
-            "使用制表符而不是空格进行缩进。默认值为 false"
+            "U: --use-tabs[=<use-tabs>]",
+            "使用制表符而非空格进行缩进"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
           "name": "--watch",
           "tip": [
-            "监视文件更改并自动重新启动"
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
           ]
         }
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "打印此消息或给定子命令的帮助"
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "info",
       "tip": [
-        "显示有关缓存的信息或与源文件相关的信息"
+        "U: deno info [OPTIONS] [file]",
+        "显示模块或缓存目录的信息"
       ],
       "option": [
         {
+          "name": "--allow-import",
+          "alias": [
+            "-I"
+          ],
+          "tip": [
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "允许从远程主机导入"
+          ]
+        },
+        {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
           ]
         },
         {
@@ -1200,45 +1697,71 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
+            "U: -c, --config <FILE>",
+            "配置 deno (deno.json/deno.jsonc)"
+          ]
         },
         {
-          "name": "--deno-modules-dir",
+          "name": "--deny-import",
           "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "拒绝从远程主机导入"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
           "name": "--import-map",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
+            "U: --import-map <FILE>",
+            "从本地文件或远程 URL 加载导入映射文件"
+          ]
         },
         {
           "name": "--json",
           "tip": [
-            "UNSTABLE: 以 JSON 格式输出基准测试结果"
+            "(不稳定) 以 JSON 格式输出信息"
           ]
         },
         {
           "name": "--location",
           "tip": [
-            "使用 '--location=' 运行脚本时, 显示用于源绑定 API(如 Web Storage API<HREF>)的文件"
+            "U: --location <HREF>",
+            "显示 Web Storage API 等原点绑定 API 使用的文件"
           ]
         },
         {
           "name": "--lock",
           "tip": [
-            "{{ $info.__lock }}"
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
           ]
         },
         {
-          "name": "--no-check",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
           ]
         },
         {
@@ -1250,7 +1773,7 @@
         {
           "name": "--no-lock",
           "tip": [
-            "禁用锁定文件的自动发现"
+            "禁用锁文件的自动发现"
           ]
         },
         {
@@ -1268,7 +1791,34 @@
         {
           "name": "--node-modules-dir",
           "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "U: --node-modules-dir[=<MODE>]",
+            "选择 npm 包的 node_modules 目录模式"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "manual"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--node-modules-linker",
+          "tip": [
+            "U: --node-modules-linker=<MODE>",
+            "设置 npm 包的链接器模式"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
           ]
         },
         {
@@ -1277,166 +1827,190 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__reload }}"
+            "U: -r, --reload[=<CACHE_BLOCKLIST>...]",
+            "重新加载源代码缓存（重新编译 TypeScript）"
+          ]
+        },
+        {
+          "name": "--vendor",
+          "tip": [
+            "U: --vendor[=<vendor>]",
+            "切换本地 vendor 文件夹的使用"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "init",
       "tip": [
-        "初始化新项目"
-      ]
-    },
-    {
-      "name": "install",
-      "tip": [
-        "将脚本安装为可执行文件"
+        "U: deno init [OPTIONS] [DIRECTORY OR PACKAGE]...",
+        "搭建包含脚本、测试和配置文件的基本 Deno 项目"
       ],
       "option": [
         {
-          "name": "--allow-all",
+          "name": "--empty",
+          "tip": [
+            "生成仅包含 main.ts 和 deno.json 的最小项目"
+          ]
+        },
+        {
+          "name": "--jsr",
+          "tip": [
+            "从 JSR 包生成项目"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "生成示例库项目"
+          ]
+        },
+        {
+          "name": "--npm",
+          "tip": [
+            "生成 npm create-* 项目"
+          ]
+        },
+        {
+          "name": "--serve",
+          "tip": [
+            "为 deno serve 生成示例项目"
+          ]
+        },
+        {
+          "name": "--yes",
           "alias": [
-            "-A"
+            "-y"
           ],
           "tip": [
-            "{{ $info.__allow_all }}"
+            "U: -y, --yes",
+            "绕过提示并以完整权限运行"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "tip": [
+        "U: deno install [OPTIONS] [cmd]...",
+        "在本地项目或全局安装依赖"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "允许运行指定包的 npm 生命周期脚本"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--arch",
           "tip": [
-            "{{ $info.__allow_env }}"
-          ]
-        },
-        {
-          "name": "--allow-ffi",
-          "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "要求远程依赖项"
+            "U: --arch <arch>",
+            "npm 包安装的目标架构"
+          ],
+          "next": [
+            {
+              "name": "arm"
+            },
+            {
+              "name": "arm64"
+            },
+            {
+              "name": "ia32"
+            },
+            {
+              "name": "mips"
+            },
+            {
+              "name": "mipsel"
+            },
+            {
+              "name": "ppc"
+            },
+            {
+              "name": "ppc64"
+            },
+            {
+              "name": "s390"
+            },
+            {
+              "name": "s390x"
+            },
+            {
+              "name": "x64"
+            }
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
           ]
         },
         {
           "name": "--check",
           "tip": [
-            "类型检查模块"
+            "U: --check[=<CHECK_TYPE>]",
+            "设置类型检查行为"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
           ]
         },
         {
-          "name": "--config",
+          "name": "--compile",
+          "tip": [
+            "将脚本安装为编译后的可执行文件"
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--dev",
           "alias": [
-            "-c"
+            "-D"
           ],
           "tip": [
-            "{{ $info.__config }}"
+            "U: -D, --dev",
+            "将包添加为开发依赖"
+          ]
+        },
+        {
+          "name": "--entrypoint",
+          "alias": [
+            "-e"
           ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
           "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: -e, --entrypoint",
+            "安装指定入口点的依赖"
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--env-file",
           "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: 启用集成测试期间使用的内部功能"
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
           ]
         },
         {
@@ -1445,51 +2019,65 @@
             "-f"
           ],
           "tip": [
-            "U: --force, -f",
+            "U: -f, --force",
             "强制覆盖现有安装"
           ]
         },
         {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
+          "name": "--global",
+          "alias": [
+            "-g"
           ],
-          "next": 0
+          "tip": [
+            "U: -g, --global",
+            "将包或脚本安装为全局可用的可执行文件"
+          ]
         },
         {
           "name": "--inspect",
           "tip": [
-            "{{ $info.__inspect }}"
+            "U: --inspect[=<HOST_PORT>]",
+            "在 host:port 上激活检查器"
           ]
         },
         {
           "name": "--inspect-brk",
           "tip": [
-            "{{ $info.__inspect_brk }}"
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "激活检查器，等待调试器连接并在用户脚本开头中断"
           ]
         },
         {
           "name": "--inspect-wait",
           "tip": [
-            "{{ $info.__inspect_wait }}"
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "激活检查器并在运行用户代码前等待调试器连接"
+          ]
+        },
+        {
+          "name": "--jsr",
+          "tip": [
+            "假设无前缀的包名是 jsr 包"
           ]
         },
         {
           "name": "--location",
           "tip": [
-            "{{ $info.__location }}"
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
           ]
         },
         {
-          "name": "--lock",
+          "name": "--lockfile-only",
           "tip": [
-            "{{ $info.__lock }}"
+            "仅更新锁文件"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "强制覆盖锁定文件"
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
           ]
         },
         {
@@ -1498,15 +2086,20 @@
             "-n"
           ],
           "tip": [
-            "U: --name, -n <name>",
+            "U: -n, --name <name>",
             "可执行文件名"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "--no-check",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
           ]
         },
         {
@@ -1516,80 +2109,225 @@
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--npm",
           "tip": [
-            "禁用锁定文件的自动发现"
+            "假设无前缀的包名是 npm 包（默认）"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--os",
           "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "如果未通过所需的权限, 请始终抛出"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
+            "U: --os <os>",
+            "npm 包安装的目标操作系统"
           ],
+          "next": [
+            {
+              "name": "aix"
+            },
+            {
+              "name": "android"
+            },
+            {
+              "name": "darwin"
+            },
+            {
+              "name": "freebsd"
+            },
+            {
+              "name": "linux"
+            },
+            {
+              "name": "openbsd"
+            },
+            {
+              "name": "sunos"
+            },
+            {
+              "name": "win32"
+            }
+          ]
+        },
+        {
+          "name": "--package-json",
           "tip": [
-            "{{ $info.__reload }}"
+            "强制使用 package.json 进行依赖管理而非 deno.json"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "仅安装生产依赖（排除 devDependencies）"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
           ]
         },
         {
           "name": "--root",
           "tip": [
+            "U: --root <root>",
             "安装根目录"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "tip": [
+            "保存精确版本而不使用脱字符 (^)"
           ]
         },
         {
           "name": "--seed",
           "tip": [
+            "U: --seed <NUMBER>",
             "设置随机数生成器种子"
           ]
         },
         {
-          "name": "--unsafely-ignore-certificate-errors",
+          "name": "--skip-types",
           "tip": [
-            "DANGER: 禁用 TLS 证书验证"
+            "从安装中排除 @types/* 包"
           ]
         },
         {
           "name": "--v8-flags",
           "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
             "设置 V8 命令行选项"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "jupyter",
+      "tip": [
+        "U: deno jupyter [OPTIONS]",
+        "Jupyter 笔记本的 Deno 内核"
+      ],
+      "option": [
+        {
+          "name": "--conn",
+          "tip": [
+            "U: --conn <conn>",
+            "描述连接参数的 JSON 文件路径"
+          ]
+        },
+        {
+          "name": "--display",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --display <display>",
+            "设置内核的显示名称"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制安装内核，覆盖先前存在的内核规范"
+          ]
+        },
+        {
+          "name": "--install",
+          "tip": [
+            "安装内核规范"
+          ]
+        },
+        {
+          "name": "--kernel",
+          "tip": [
+            "启动内核"
+          ]
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <name>",
+            "设置内核的名称"
           ]
         }
       ]
     },
     {
-      "name": "lint",
+      "name": "link",
       "tip": [
-        "Lint 源文件"
+        "U: deno link [OPTIONS] [paths]...",
+        "将本地 JSR 包链接到当前项目"
       ],
       "option": [
         {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅更新锁文件"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "禁用锁文件的自动发现"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "lint",
+      "tip": [
+        "U: deno lint [OPTIONS] [files]...",
+        "对 JavaScript/TypeScript 源代码进行 lint"
+      ],
+      "option": [
+        {
+          "name": "--allow-import",
+          "alias": [
+            "-I"
+          ],
+          "tip": [
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "允许从远程主机导入"
+          ]
+        },
+        {
           "name": "--compact",
           "tip": [
-            "以紧凑格式输出 lint 结果。"
+            "以紧凑格式输出 lint 结果"
           ]
         },
         {
@@ -1598,32 +2336,59 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
+            "U: -c, --config <FILE>",
+            "配置 deno (deno.json/deno.jsonc)"
+          ]
+        },
+        {
+          "name": "--deny-import",
+          "tip": [
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "拒绝从远程主机导入"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext=<EXT>",
+            "从 stdin 读取时指定要 lint 的文件扩展名"
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "修复支持该规则的 lint 错误"
+          ]
         },
         {
           "name": "--ignore",
           "tip": [
-            "忽略 linting 特定源文件"
+            "U: --ignore=<ignore>...",
+            "忽略 lint 特定源文件"
           ]
         },
         {
           "name": "--json",
           "tip": [
-            "以 JSON 格式输出 lint 结果。"
+            "以 JSON 格式输出 lint 结果"
           ]
         },
         {
           "name": "--no-clear-screen",
           "tip": [
-            "在监视模式下不要清除终端屏幕"
+            "监视模式下不清除终端屏幕"
           ]
         },
         {
           "name": "--no-config",
           "tip": [
             "禁用配置文件的自动加载"
+          ]
+        },
+        {
+          "name": "--permit-no-files",
+          "tip": [
+            "如果没有找到文件则不返回错误代码"
           ]
         },
         {
@@ -1635,391 +2400,196 @@
         {
           "name": "--rules-exclude",
           "tip": [
+            "U: --rules-exclude=<rules-exclude>...",
             "排除 lint 规则"
           ]
         },
         {
           "name": "--rules-include",
           "tip": [
-            "包括 lint 规则"
+            "U: --rules-include=<rules-include>...",
+            "包含 lint 规则"
           ]
         },
         {
           "name": "--rules-tags",
           "tip": [
+            "U: --rules-tags=<rules-tags>...",
             "使用带有标签的规则集"
           ]
         },
         {
           "name": "--watch",
           "tip": [
-            "监视文件更改并自动重新启动"
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "lsp",
+      "name": "list",
       "tip": [
-        "启动语言服务器"
-      ]
-    },
-    {
-      "name": "repl",
-      "tip": [
-        "读取 Eval Print Loop"
+        "U: deno list [OPTIONS] [filters]...",
+        "列出在 deno.json / package.json 中声明的依赖"
       ],
       "option": [
         {
-          "name": "--allow-all",
+          "name": "--depth",
+          "tip": [
+            "U: --depth <depth>",
+            "要显示的依赖树的最大深度"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "仅列出开发依赖"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "仅列出生产依赖"
+          ]
+        },
+        {
+          "name": "--recursive",
           "alias": [
-            "-A"
+            "-r"
           ],
           "tip": [
-            "{{ $info.__allow_all }}"
+            "U: -r, --recursive",
+            "包含所有工作区成员"
           ]
-        },
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "outdated",
+      "tip": [
+        "U: deno outdated [OPTIONS] [filters]...",
+        "查找并更新过期的依赖"
+      ],
+      "option": [
         {
-          "name": "--allow-env",
+          "name": "--compatible",
           "tip": [
-            "{{ $info.__allow_env }}"
+            "仅考虑满足语义化版本要求的版本"
           ]
         },
         {
-          "name": "--allow-ffi",
+          "name": "--env-file",
           "tip": [
-            "{{ $info.__allow_ffi }}"
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
           ]
         },
         {
-          "name": "--allow-hrtime",
+          "name": "--frozen",
           "tip": [
-            "{{ $info.__allow_hrtime }}"
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "要求远程依赖项"
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "类型检查模块"
-          ]
-        },
-        {
-          "name": "--config",
+          "name": "--interactive",
           "alias": [
-            "-c"
+            "-i"
           ],
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: -i, --interactive",
+            "交互式选择要更新的依赖"
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--latest",
           "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: 启用集成测试期间使用的内部功能"
-          ]
-        },
-        {
-          "name": "--eval",
-          "tip": [
-            "在 REPL 启动时评估提供的代码"
-          ]
-        },
-        {
-          "name": "--eval-file",
-          "tip": [
-            "在 REPL 启动时将提供的文件评估为脚本。接受文件路径和 URL"
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--inspect",
-          "tip": [
-            "{{ $info.__inspect }}"
-          ]
-        },
-        {
-          "name": "--inspect-brk",
-          "tip": [
-            "{{ $info.__inspect_brk }}"
-          ]
-        },
-        {
-          "name": "--inspect-wait",
-          "tip": [
-            "{{ $info.__inspect_wait }}"
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
+            "考虑最新版本，忽略语义化版本约束"
           ]
         },
         {
           "name": "--lock",
           "tip": [
-            "{{ $info.__lock }}"
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--lockfile-only",
           "tip": [
-            "强制覆盖锁定文件"
+            "仅更新锁文件"
           ]
         },
         {
-          "name": "--no-check",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "禁用配置文件的自动加载"
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
           ]
         },
         {
           "name": "--no-lock",
           "tip": [
-            "禁用锁定文件的自动发现"
+            "禁用锁文件的自动发现"
           ]
         },
         {
-          "name": "--no-npm",
-          "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "如果未通过所需的权限, 请始终抛出"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
+          "name": "--recursive",
           "alias": [
             "-r"
           ],
           "tip": [
-            "{{ $info.__reload }}"
+            "U: -r, --recursive",
+            "包含所有工作区成员"
           ]
         },
         {
-          "name": "--seed",
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
           "tip": [
-            "设置随机数生成器种子"
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: 禁用 TLS 证书验证"
-          ]
-        },
-        {
-          "name": "--v8-flags",
-          "tip": [
-            "设置 V8 命令行选项"
+            "U: -u, --update",
+            "更新依赖版本"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "run",
+      "name": "pack",
       "tip": [
-        "运行 JavaScript 或 TypeScript 程序。"
+        "U: deno pack [OPTIONS] [files]...",
+        "从 Deno 项目创建 npm 兼容的 tarball"
       ],
       "option": [
         {
-          "name": "--allow-all",
-          "alias": [
-            "-A"
-          ],
+          "name": "--allow-dirty",
           "tip": [
-            "{{ $info.__allow_all }}"
+            "允许在仓库有未提交更改时打包"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--allow-slow-types",
           "tip": [
-            "{{ $info.__allow_env }}"
-          ]
-        },
-        {
-          "name": "--allow-ffi",
-          "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "要求远程依赖项"
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "类型检查模块"
+            "跳过快速检查类型提取；.d.ts 文件不会包含在输出中"
           ]
         },
         {
@@ -2028,698 +2598,28 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--deny-env",
-          "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: 启用集成测试期间使用的内部功能"
-          ]
-        },
-        {
-          "name": "--ext",
-          "tip": [
-            "U: --ext <type>",
-            "设置所提供文件的内容类型"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--inspect",
-          "tip": [
-            "{{ $info.__inspect }}"
-          ]
-        },
-        {
-          "name": "--inspect-brk",
-          "tip": [
-            "{{ $info.__inspect_brk }}"
-          ]
-        },
-        {
-          "name": "--inspect-wait",
-          "tip": [
-            "{{ $info.__inspect_wait }}"
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
-          ]
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--lock-write",
-          "tip": [
-            "强制覆盖锁定文件"
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-clear-screen",
-          "tip": [
-            "在监视模式下不要清除终端屏幕"
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "禁用配置文件的自动加载"
-          ]
-        },
-        {
-          "name": "--no-lock",
-          "tip": [
-            "禁用锁定文件的自动发现"
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "如果未通过所需的权限, 请始终抛出"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--seed",
-          "tip": [
-            "设置随机数生成器种子"
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: 禁用 TLS 证书验证"
-          ]
-        },
-        {
-          "name": "--v8-flags",
-          "tip": [
-            "设置 V8 命令行选项"
-          ]
-        },
-        {
-          "name": "--watch",
-          "tip": [
-            "监视文件更改并自动重新启动"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "task",
-      "tip": [
-        "运行配置文件中定义的任务"
-      ],
-      "option": [
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--cwd",
-          "tip": [
-            "U: --cwd <dir>",
-            "指定要在其中运行任务的目录"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "test",
-      "tip": [
-        "运行测试"
-      ],
-      "option": [
-        {
-          "name": "--allow-all",
-          "alias": [
-            "-A"
-          ],
-          "tip": [
-            "{{ $info.__allow_all }}"
-          ]
-        },
-        {
-          "name": "--allow-env",
-          "tip": [
-            "{{ $info.__allow_env }}"
-          ]
-        },
-        {
-          "name": "--allow-ffi",
-          "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-none",
-          "tip": [
-            "如果未找到测试文件, 则不要返回错误代码"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "要求远程依赖项"
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "类型检查模块"
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--coverage",
-          "tip": [
-            "将覆盖率配置文件数据收集到 DIR 中"
-          ]
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--deny-env",
-          "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--doc",
-          "tip": [
-            "JSDoc 和 Markdown 中的代码块类型检查"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: 启用集成测试期间使用的内部功能"
-          ]
-        },
-        {
-          "name": "--fail-fast",
-          "tip": [
-            "出现 N 个错误后停止。默认为在第一次失败后停止"
-          ]
-        },
-        {
-          "name": "--filter",
-          "tip": [
-            "在测试名称中使用此字符串或模式运行测试"
-          ]
-        },
-        {
-          "name": "--ignore",
-          "tip": [
-            "忽略文件"
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--inspect",
-          "tip": [
-            "{{ $info.__inspect }}"
-          ]
-        },
-        {
-          "name": "--inspect-brk",
-          "tip": [
-            "{{ $info.__inspect_brk }}"
-          ]
-        },
-        {
-          "name": "--inspect-wait",
-          "tip": [
-            "{{ $info.__inspect_wait }}"
-          ]
-        },
-        {
-          "name": "--junit-path",
-          "tip": [
-            "将 JUnit XML 测试报告写入 PATH。使用 '-' 写入 stdout, 这是未提供 PATH 时的默认值"
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
-          ]
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--lock-write",
-          "tip": [
-            "强制覆盖锁定文件"
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-clear-screen",
-          "tip": [
-            "在监视模式下不要清除终端屏幕"
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "禁用配置文件的自动加载"
-          ]
-        },
-        {
-          "name": "--no-lock",
-          "tip": [
-            "禁用锁定文件的自动发现"
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "不解析 npm 模块"
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "如果未通过所需的权限, 请始终抛出"
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "不解析远程模块"
-          ]
-        },
-        {
-          "name": "--no-run",
-          "tip": [
-            "缓存测试模块, 但不运行测试"
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--parallel",
-          "tip": [
-            "并行运行测试模块。并行度默认为可用 CPU 的数量或 DENO_JOBS 环境变量中的值"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--reporter",
-          "tip": [
-            "选择要使用的报告者。默认为“pretty”"
-          ]
-        },
-        {
-          "name": "--seed",
-          "tip": [
-            "设置随机数生成器种子"
-          ]
-        },
-        {
-          "name": "--shuffle",
-          "tip": [
-            "打乱测试的运行顺序"
-          ]
-        },
-        {
-          "name": "--trace-ops",
-          "tip": [
-            "启用异步操作跟踪。在测试中调试泄漏的运算时很有用, 但会影响测试执行时间"
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: 禁用 TLS 证书验证"
-          ]
-        },
-        {
-          "name": "--v8-flags",
-          "tip": [
-            "设置 V8 命令行选项"
-          ]
-        },
-        {
-          "name": "--watch",
-          "tip": [
-            "监视文件更改并自动重新启动"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "types",
-      "tip": [
-        "打印运行时 TypeScript 声明"
-      ]
-    },
-    {
-      "name": "uninstall",
-      "tip": [
-        "卸载之前随 deno install 一起安装的脚本"
-      ],
-      "option": [
-        {
-          "name": "--root",
-          "tip": [
-            "卸载 root"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "upgrade",
-      "tip": [
-        "将 deno 可执行文件升级到给定版本"
-      ],
-      "option": [
-        {
-          "name": "--canary",
-          "tip": [
-            "升级到 Canary 版本"
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
+            "U: -c, --config <FILE>",
+            "配置 deno (deno.json/deno.jsonc)"
           ]
         },
         {
           "name": "--dry-run",
           "tip": [
-            "在不替换旧 exe 的情况下执行所有检查"
+            "显示将被打包的内容而不创建 tarball"
           ]
         },
         {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
+          "name": "--env-file",
           "tip": [
-            "U: --force, -f",
-            "即使没有过期, 也要替换当前的 exe"
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
           ]
         },
         {
-          "name": "--output",
+          "name": "--ignore",
           "tip": [
-            "将更新版本输出到的路径"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--version",
-          "tip": [
-            "要升级到的版本"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "vendor",
-      "tip": [
-        "将远程模块供应商放入本地目录"
-      ],
-      "option": [
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "U: --force, -f",
-            "强制覆盖现有输出目录中的冲突文件"
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
+            "U: --ignore=<ignore>...",
+            "忽略匹配这些模式的文件"
           ]
         },
         {
@@ -2729,29 +2629,1719 @@
           ]
         },
         {
+          "name": "--no-source-maps",
+          "tip": [
+            "不在输出中包含源映射"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <FILE>",
+            "输出文件路径（默认为 <name>-<version>.tgz）"
+          ]
+        },
+        {
+          "name": "--set-version",
+          "tip": [
+            "U: --set-version <VERSION>",
+            "覆盖 tarball 中的版本"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "U: deno publish [OPTIONS]",
+        "将当前工作目录的包或工作区发布到 JSR"
+      ],
+      "option": [
+        {
+          "name": "--allow-dirty",
+          "tip": [
+            "允许在仓库有未提交更改时发布"
+          ]
+        },
+        {
+          "name": "--allow-slow-types",
+          "tip": [
+            "允许使用慢类型发布"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "设置类型检查行为"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "准备发布包而不上传"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "禁用配置文件的自动加载"
+          ]
+        },
+        {
+          "name": "--no-provenance",
+          "tip": [
+            "禁用来源证明"
+          ]
+        },
+        {
+          "name": "--set-version",
+          "tip": [
+            "U: --set-version <VERSION>",
+            "设置要发布的包版本"
+          ]
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "发布时使用的 API 令牌"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "tip": [
+        "U: deno remove [OPTIONS] [packages]...",
+        "从配置文件中移除依赖"
+      ],
+      "option": [
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "移除全局安装的包或模块"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅更新锁文件"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "禁用锁文件的自动发现"
+          ]
+        },
+        {
+          "name": "--package-json",
+          "tip": [
+            "强制使用 package.json 进行依赖管理而非 deno.json"
+          ]
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "U: --root <root>",
+            "安装根目录"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "repl",
+      "alias": [
+        "i"
+      ],
+      "tip": [
+        "U: deno repl [OPTIONS]",
+        "启动 Deno 的交互式 Read-Eval-Print Loop (REPL)"
+      ],
+      "option": [
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--eval",
+          "tip": [
+            "U: --eval <code>",
+            "REPL 启动时评估提供的代码"
+          ]
+        },
+        {
+          "name": "--eval-file",
+          "tip": [
+            "U: --eval-file <eval-file>...",
+            "REPL 启动时将提供的文件作为脚本评估"
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "在 host:port 上激活检查器"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "激活检查器，等待调试器连接并在用户脚本开头中断"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "激活检查器并在运行用户代码前等待调试器连接"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "设置随机数生成器种子"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "设置 V8 命令行选项"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: deno run [OPTIONS] [SCRIPT_ARG]...",
+        "运行 JavaScript 或 TypeScript 程序，或任务"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "允许运行指定包的 npm 生命周期脚本"
+          ]
+        },
+        {
+          "name": "--certificate",
+          "alias": [
+            "--cert"
+          ],
+          "tip": [
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "启用类型检查"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "U: --coverage[=<DIR>]",
+            "将覆盖率配置数据收集到 DIR"
+          ]
+        },
+        {
+          "name": "--cpu-prof",
+          "tip": [
+            "启动时开始 V8 CPU 分析器，退出时将分析结果写入磁盘"
+          ]
+        },
+        {
+          "name": "--cpu-prof-dir",
+          "tip": [
+            "U: --cpu-prof-dir <DIR>",
+            "V8 CPU 分析文件写入目录"
+          ]
+        },
+        {
+          "name": "--cpu-prof-flamegraph",
+          "tip": [
+            "在 CPU 分析文件旁边生成 SVG 火焰图"
+          ]
+        },
+        {
+          "name": "--cpu-prof-interval",
+          "tip": [
+            "U: --cpu-prof-interval <MICROSECONDS>",
+            "CPU 分析的采样间隔（微秒）"
+          ]
+        },
+        {
+          "name": "--cpu-prof-md",
+          "tip": [
+            "在 CPU 分析文件旁边生成可读的 Markdown 报告"
+          ]
+        },
+        {
+          "name": "--cpu-prof-name",
+          "tip": [
+            "U: --cpu-prof-name <NAME>",
+            "CPU 分析文件的文件名"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "在 host:port 上激活检查器"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "激活检查器，等待调试器连接并在用户脚本开头中断"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "激活检查器并在运行用户代码前等待调试器连接"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "监视模式下不清除终端屏幕"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "禁用 V8 代码缓存功能"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "设置随机数生成器种子"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "通过 Deno Deploy 隧道执行任务"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-env-proxy",
+          "tip": [
+            "为 node:http/node:https 使用 HTTP_PROXY、HTTPS_PROXY 和 NO_PROXY"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "设置 V8 命令行选项"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
+          ]
+        },
+        {
+          "name": "--watch-hmr",
+          "tip": [
+            "U: --watch-hmr[=<FILES>...]",
+            "监视文件更改并热替换模块"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "U: deno serve [OPTIONS] [SCRIPT_ARG]...",
+        "运行在主模块中定义的服务器"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "允许运行指定包的 npm 生命周期脚本"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "启用类型检查"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <host>",
+            "要服务的 TCP 地址，默认为 0.0.0.0"
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "在 host:port 上激活检查器"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "激活检查器，等待调试器连接并在用户脚本开头中断"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "激活检查器并在运行用户代码前等待调试器连接"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "监视模式下不清除终端屏幕"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "禁用 V8 代码缓存功能"
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "在服务器运行的地址上打开浏览器"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "并行运行多个服务器工作进程"
+          ]
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <port>",
+            "要服务的 TCP 端口 [默认: 8000]"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "设置随机数生成器种子"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "通过 Deno Deploy 隧道执行任务"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "设置 V8 命令行选项"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
+          ]
+        },
+        {
+          "name": "--watch-hmr",
+          "tip": [
+            "U: --watch-hmr[=<FILES>...]",
+            "监视文件更改并热替换模块"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "task",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: deno task [OPTIONS] [TASK]",
+        "运行在配置文件中定义的任务"
+      ],
+      "option": [
+        {
+          "name": "--cwd",
+          "tip": [
+            "U: --cwd <DIR>",
+            "指定运行任务的目录"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--eval",
+          "tip": [
+            "将传递的值作为配置文件中的任务进行评估"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --filter <filter>",
+            "按名称过滤工作区成员，隐含 --recursive 标志"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--if-present",
+          "tip": [
+            "当任务未找到时以代码 0 退出而非报错"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --jobs <NUMBER>",
+            "最大并发运行任务数"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "禁用锁文件的自动发现"
+          ]
+        },
+        {
+          "name": "--no-prefix",
+          "tip": [
+            "禁用并发执行任务时用任务名作为输出前缀"
+          ]
+        },
+        {
           "name": "--node-modules-dir",
           "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "U: --node-modules-dir[=<MODE>]",
+            "选择 npm 包的 node_modules 目录模式"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "manual"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--node-modules-linker",
+          "tip": [
+            "U: --node-modules-linker=<MODE>",
+            "设置 npm 包的链接器模式"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "在工作区的所有项目中运行任务"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "通过 Deno Deploy 隧道执行任务"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "test",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: deno test [OPTIONS] [files]...",
+        "使用 Deno 的内置测试运行器运行测试"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "允许运行指定包的 npm 生命周期脚本"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
+          ]
+        },
+        {
+          "name": "--changed",
+          "tip": [
+            "U: --changed[=<REF>]",
+            "仅运行受 git 中更改文件影响的测试模块"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "设置类型检查行为"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--clean",
+          "tip": [
+            "运行测试前清空临时覆盖率配置数据目录"
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "U: --coverage[=<DIR>]",
+            "将覆盖率配置数据收集到 DIR"
+          ]
+        },
+        {
+          "name": "--coverage-raw-data-only",
+          "tip": [
+            "仅收集原始覆盖率数据，不生成报告"
+          ]
+        },
+        {
+          "name": "--coverage-threshold",
+          "tip": [
+            "U: --coverage-threshold=<PERCENT>",
+            "如果覆盖率低于此百分比 (0-100) 则失败"
+          ]
+        },
+        {
+          "name": "--doc",
+          "tip": [
+            "评估 JSDoc 和 Markdown 中的代码块"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "U: --fail-fast[=<N>]",
+            "在 N 个错误后停止"
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <filter>",
+            "运行测试名称中包含此字符串或正则表达式模式的测试"
+          ]
+        },
+        {
+          "name": "--hide-stacktraces",
+          "tip": [
+            "隐藏失败测试结果中的错误堆栈跟踪"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore=<ignore>...",
+            "忽略文件"
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "在 host:port 上激活检查器"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "激活检查器，等待调试器连接并在用户脚本开头中断"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "激活检查器并在运行用户代码前等待调试器连接"
+          ]
+        },
+        {
+          "name": "--junit-path",
+          "tip": [
+            "U: --junit-path <PATH>",
+            "将 JUnit XML 测试报告写入 PATH"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "监视模式下不清除终端屏幕"
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "禁用配置文件的自动加载"
+          ]
+        },
+        {
+          "name": "--no-run",
+          "tip": [
+            "缓存测试模块，但不运行测试"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "并行运行测试模块"
+          ]
+        },
+        {
+          "name": "--permit-no-files",
+          "tip": [
+            "如果没有找到文件则不返回错误代码"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--related",
+          "tip": [
+            "U: --related=<related>",
+            "仅运行依赖于给定源文件的测试模块"
+          ]
+        },
+        {
+          "name": "--repeats",
+          "tip": [
+            "U: --repeats <NUMBER>",
+            "每个测试额外运行 NUMBER 次"
+          ]
+        },
+        {
+          "name": "--reporter",
+          "tip": [
+            "U: --reporter <reporter>",
+            "选择要使用的报告程序"
+          ],
+          "next": [
+            {
+              "name": "dot"
+            },
+            {
+              "name": "junit"
+            },
+            {
+              "name": "pretty"
+            },
+            {
+              "name": "tap"
+            }
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
+          ]
+        },
+        {
+          "name": "--retry",
+          "tip": [
+            "U: --retry <NUMBER>",
+            "重新运行失败测试最多 NUMBER 次"
+          ]
+        },
+        {
+          "name": "--sanitize-ops",
+          "tip": [
+            "启用 ops 清理器"
+          ]
+        },
+        {
+          "name": "--sanitize-resources",
+          "tip": [
+            "启用资源清理器"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "设置随机数生成器种子"
+          ]
+        },
+        {
+          "name": "--shard",
+          "tip": [
+            "U: --shard=<INDEX/COUNT>",
+            "仅运行分片 INDEX 的测试文件"
+          ]
+        },
+        {
+          "name": "--shuffle",
+          "tip": [
+            "U: --shuffle[=<NUMBER>]",
+            "打乱运行测试的顺序"
+          ]
+        },
+        {
+          "name": "--trace-leaks",
+          "tip": [
+            "启用泄漏跟踪"
+          ]
+        },
+        {
+          "name": "--update-snapshots",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --update-snapshots",
+            "更新使用 t.assertSnapshot() 创建的快照"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "设置 V8 命令行选项"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "U: deno uninstall [OPTIONS] [name-or-package] [additional-packages]...",
+        "卸载依赖或安装根目录 bin 目录中的可执行脚本"
+      ],
+      "option": [
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "移除全局安装的包或模块"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅更新锁文件"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "禁用锁文件的自动发现"
+          ]
+        },
+        {
+          "name": "--package-json",
+          "tip": [
+            "强制使用 package.json 进行依赖管理而非 deno.json"
+          ]
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "U: --root <root>",
+            "安装根目录"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "unlink",
+      "tip": [
+        "U: deno unlink [OPTIONS] [names_or_paths]...",
+        "从当前项目中移除已链接的本地包"
+      ],
+      "option": [
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "如果锁文件过期则报错"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "检查指定的锁文件"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅更新锁文件"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "禁用锁文件的自动发现"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "U: deno upgrade [OPTIONS] [VERSION]...",
+        "将 deno 可执行文件升级到给定版本"
+      ],
+      "option": [
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
+          ]
+        },
+        {
+          "name": "--checksum",
+          "tip": [
+            "U: --checksum <checksum>",
+            "对照提供的 SHA256 校验和验证下载的存档"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行所有检查而不替换旧的可执行文件"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "即使未过期也替换当前可执行文件"
+          ]
+        },
+        {
+          "name": "--no-delta",
+          "tip": [
+            "禁用增量更新，始终下载完整存档"
           ]
         },
         {
           "name": "--output",
           "tip": [
-            "U: --output <dir>",
-            "要将供应商模块输出到的目录"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
+            "U: --output <output>",
+            "输出更新版本的路径"
           ]
         }
+      ],
+      "next": [
+        {
+          "name": "alpha"
+        },
+        {
+          "name": "beta"
+        },
+        {
+          "name": "canary"
+        },
+        {
+          "name": "rc"
+        },
+        {
+          "name": "stable"
+        }
       ]
+    },
+    {
+      "name": "watch",
+      "alias": [
+        "w"
+      ],
+      "tip": [
+        "U: deno watch [OPTIONS] [SCRIPT_ARG]...",
+        "运行程序，监视文件更改并热替换模块"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "允许运行指定包的 npm 生命周期脚本"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "从 PEM 编码文件加载证书颁发机构"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "启用类型检查"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "为 npm 包导出指定自定义条件"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "U: --coverage[=<DIR>]",
+            "将覆盖率配置数据收集到 DIR"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "从本地文件加载环境变量"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "设置提供的文件的内容类型"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "在 host:port 上激活检查器"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "激活检查器，等待调试器连接并在用户脚本开头中断"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "激活检查器并在运行用户代码前等待调试器连接"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "某些 Web API 使用的 globalThis.location 值"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "跳过类型检查"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "监视模式下不清除终端屏幕"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "禁用 V8 代码缓存功能"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "将在主模块之前执行的文件列表"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "将在主模块之前执行的 CommonJS 模块列表"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "设置随机数生成器种子"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "通过 Deno Deploy 隧道执行任务"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-env-proxy",
+          "tip": [
+            "为 node:http/node:https 使用 HTTP_PROXY、HTTPS_PROXY 和 NO_PROXY"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "设置 V8 命令行选项"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "监视文件更改并自动重启进程"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "从监视模式中排除提供的文件/模式"
+          ]
+        },
+        {
+          "name": "--watch-hmr",
+          "tip": [
+            "U: --watch-hmr[=<FILES>...]",
+            "监视文件更改并热替换模块"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "why",
+      "tip": [
+        "U: deno why <package>",
+        "显示包为何被安装"
+      ],
+      "next": 0
     }
   ],
   "option": [
@@ -2761,20 +4351,303 @@
         "-V"
       ],
       "tip": [
-        "U: --version, -V",
-        "打印 deno 版本信息"
+        "U: -V, --version",
+        "打印版本"
       ]
     }
   ],
   "common_option": [
+    {
+      "name": "--allow-all",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --allow-all",
+        "允许所有权限"
+      ]
+    },
+    {
+      "name": "--allow-env",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --allow-env[=<VARIABLE_NAME>...]",
+        "允许访问环境变量"
+      ]
+    },
+    {
+      "name": "--allow-ffi",
+      "tip": [
+        "U: --allow-ffi[=<PATH>...]",
+        "(不稳定) 允许加载动态库"
+      ]
+    },
+    {
+      "name": "--allow-import",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+        "允许从远程主机导入"
+      ]
+    },
+    {
+      "name": "--allow-net",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --allow-net[=<IP_OR_HOSTNAME>...]",
+        "允许网络访问"
+      ]
+    },
+    {
+      "name": "--allow-read",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --allow-read[=<PATH>...]",
+        "允许文件系统读取访问"
+      ]
+    },
+    {
+      "name": "--allow-run",
+      "tip": [
+        "U: --allow-run[=<PROGRAM_NAME>...]",
+        "允许运行子进程"
+      ]
+    },
+    {
+      "name": "--allow-scripts",
+      "tip": [
+        "允许运行指定包的 npm 生命周期脚本"
+      ]
+    },
+    {
+      "name": "--allow-sys",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --allow-sys[=<API_NAME>...]",
+        "允许访问操作系统信息"
+      ]
+    },
+    {
+      "name": "--allow-write",
+      "alias": [
+        "-W"
+      ],
+      "tip": [
+        "U: -W, --allow-write[=<PATH>...]",
+        "允许文件系统写入访问"
+      ]
+    },
+    {
+      "name": "--cached-only",
+      "tip": [
+        "要求远程依赖已缓存"
+      ]
+    },
+    {
+      "name": "--cert",
+      "tip": [
+        "U: --cert <FILE>",
+        "从 PEM 编码文件加载证书颁发机构"
+      ]
+    },
+    {
+      "name": "--check",
+      "tip": [
+        "U: --check[=<CHECK_TYPE>]",
+        "启用类型检查"
+      ],
+      "next": [
+        {
+          "name": "all"
+        }
+      ]
+    },
+    {
+      "name": "--conditions",
+      "tip": [
+        "U: --conditions <conditions>",
+        "为 npm 包导出指定自定义条件"
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <FILE>",
+        "配置 deno (deno.json/deno.jsonc)"
+      ]
+    },
+    {
+      "name": "--coverage",
+      "tip": [
+        "U: --coverage[=<DIR>]",
+        "将覆盖率配置数据收集到 DIR"
+      ]
+    },
+    {
+      "name": "--cpu-prof",
+      "tip": [
+        "启动时开始 V8 CPU 分析器，退出时将分析结果写入磁盘"
+      ]
+    },
+    {
+      "name": "--cpu-prof-dir",
+      "tip": [
+        "U: --cpu-prof-dir <DIR>",
+        "V8 CPU 分析文件写入目录"
+      ]
+    },
+    {
+      "name": "--cpu-prof-flamegraph",
+      "tip": [
+        "在 CPU 分析文件旁边生成 SVG 火焰图"
+      ]
+    },
+    {
+      "name": "--cpu-prof-interval",
+      "tip": [
+        "U: --cpu-prof-interval <MICROSECONDS>",
+        "CPU 分析的采样间隔（微秒）"
+      ]
+    },
+    {
+      "name": "--cpu-prof-md",
+      "tip": [
+        "在 CPU 分析文件旁边生成可读的 Markdown 报告"
+      ]
+    },
+    {
+      "name": "--cpu-prof-name",
+      "tip": [
+        "U: --cpu-prof-name <NAME>",
+        "CPU 分析文件的文件名"
+      ]
+    },
+    {
+      "name": "--env-file",
+      "tip": [
+        "U: --env-file[=<FILE>]",
+        "从本地文件加载环境变量"
+      ]
+    },
+    {
+      "name": "--ext",
+      "tip": [
+        "U: --ext <ext>",
+        "设置提供的文件的内容类型"
+      ],
+      "next": [
+        {
+          "name": "cjs"
+        },
+        {
+          "name": "cts"
+        },
+        {
+          "name": "js"
+        },
+        {
+          "name": "jsx"
+        },
+        {
+          "name": "mjs"
+        },
+        {
+          "name": "mts"
+        },
+        {
+          "name": "ts"
+        },
+        {
+          "name": "tsx"
+        }
+      ]
+    },
+    {
+      "name": "--frozen",
+      "tip": [
+        "U: --frozen[=<BOOLEAN>]",
+        "如果锁文件过期则报错"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
+      ]
+    },
     {
       "name": "--help",
       "alias": [
         "-h"
       ],
       "tip": [
-        "U: --help, -h",
-        "显示帮助信息。"
+        "U: -h, --help[=<CONTEXT>]",
+        "打印帮助"
+      ],
+      "next": [
+        {
+          "name": "full"
+        },
+        {
+          "name": "unstable"
+        }
+      ]
+    },
+    {
+      "name": "--import-map",
+      "tip": [
+        "U: --import-map <FILE>",
+        "从本地文件或远程 URL 加载导入映射文件"
+      ]
+    },
+    {
+      "name": "--inspect",
+      "tip": [
+        "U: --inspect[=<HOST_PORT>]",
+        "在 host:port 上激活检查器"
+      ]
+    },
+    {
+      "name": "--inspect-brk",
+      "tip": [
+        "U: --inspect-brk[=<HOST_PORT>]",
+        "激活检查器，等待调试器连接并在用户脚本开头中断"
+      ]
+    },
+    {
+      "name": "--inspect-wait",
+      "tip": [
+        "U: --inspect-wait[=<HOST_PORT>]",
+        "激活检查器并在运行用户代码前等待调试器连接"
+      ]
+    },
+    {
+      "name": "--location",
+      "tip": [
+        "U: --location <HREF>",
+        "某些 Web API 使用的 globalThis.location 值"
+      ]
+    },
+    {
+      "name": "--lock",
+      "tip": [
+        "U: --lock [<FILE>]",
+        "检查指定的锁文件"
       ]
     },
     {
@@ -2783,10 +4656,127 @@
         "-L"
       ],
       "tip": [
-        "U: --log-level, -L <level>",
+        "U: -L, --log-level <level>",
         "设置日志级别"
       ],
-      "next": 0
+      "next": [
+        {
+          "name": "debug"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "info"
+        },
+        {
+          "name": "trace"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--minimum-dependency-age",
+      "tip": [
+        "U: --minimum-dependency-age <age>",
+        "(不稳定) 以分钟、ISO-8601 持续时间或 RFC3339 时间戳表示的年龄"
+      ]
+    },
+    {
+      "name": "--no-check",
+      "tip": [
+        "U: --no-check[=<NO_CHECK_TYPE>]",
+        "跳过类型检查"
+      ],
+      "next": [
+        {
+          "name": "remote"
+        }
+      ]
+    },
+    {
+      "name": "--no-clear-screen",
+      "tip": [
+        "监视模式下不清除终端屏幕"
+      ]
+    },
+    {
+      "name": "--no-code-cache",
+      "tip": [
+        "禁用 V8 代码缓存功能"
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "禁用配置文件的自动加载"
+      ]
+    },
+    {
+      "name": "--no-lock",
+      "tip": [
+        "禁用锁文件的自动发现"
+      ]
+    },
+    {
+      "name": "--no-npm",
+      "tip": [
+        "不解析 npm 模块"
+      ]
+    },
+    {
+      "name": "--no-prompt",
+      "tip": [
+        "如果未传递所需权限则始终抛出异常"
+      ]
+    },
+    {
+      "name": "--no-remote",
+      "tip": [
+        "不解析远程模块"
+      ]
+    },
+    {
+      "name": "--node-modules-dir",
+      "tip": [
+        "U: --node-modules-dir[=<MODE>]",
+        "选择 npm 包的 node_modules 目录模式"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "manual"
+        },
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "--node-modules-linker",
+      "tip": [
+        "U: --node-modules-linker=<MODE>",
+        "设置 npm 包的链接器模式"
+      ],
+      "next": [
+        {
+          "name": "hoisted"
+        },
+        {
+          "name": "isolated"
+        }
+      ]
+    },
+    {
+      "name": "--preload",
+      "tip": [
+        "U: --preload <FILE>",
+        "将在主模块之前执行的文件列表"
+      ]
     },
     {
       "name": "--quiet",
@@ -2794,109 +4784,106 @@
         "-q"
       ],
       "tip": [
-        "U: --quiet, -q",
+        "U: -q, --quiet",
         "抑制诊断输出"
+      ]
+    },
+    {
+      "name": "--reload",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --reload[=<CACHE_BLOCKLIST>...]",
+        "重新加载源代码缓存（重新编译 TypeScript）"
+      ]
+    },
+    {
+      "name": "--require",
+      "tip": [
+        "U: --require <FILE>",
+        "将在主模块之前执行的 CommonJS 模块列表"
+      ]
+    },
+    {
+      "name": "--seed",
+      "tip": [
+        "U: --seed <NUMBER>",
+        "设置随机数生成器种子"
+      ]
+    },
+    {
+      "name": "--tunnel",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --tunnel[=<tunnel>]",
+        "通过 Deno Deploy 隧道执行任务"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
       ]
     },
     {
       "name": "--unstable",
       "tip": [
-        "启用不稳定的功能和 API"
+        "(已弃用) 启用不稳定功能，改用粒度化的 --unstable-* 标志"
+      ]
+    },
+    {
+      "name": "--use-env-proxy",
+      "tip": [
+        "为 node:http/node:https 使用 HTTP_PROXY、HTTPS_PROXY 和 NO_PROXY"
+      ]
+    },
+    {
+      "name": "--v8-flags",
+      "tip": [
+        "U: --v8-flags[=<V8_FLAGS>...]",
+        "设置 V8 命令行选项"
+      ]
+    },
+    {
+      "name": "--vendor",
+      "tip": [
+        "U: --vendor[=<vendor>]",
+        "切换本地 vendor 文件夹的使用"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
+      ]
+    },
+    {
+      "name": "--watch",
+      "tip": [
+        "U: --watch[=<FILES>...]",
+        "监视文件更改并自动重启进程"
+      ]
+    },
+    {
+      "name": "--watch-exclude",
+      "tip": [
+        "U: --watch-exclude[=<FILES>...]",
+        "从监视模式中排除提供的文件/模式"
+      ]
+    },
+    {
+      "name": "--watch-hmr",
+      "tip": [
+        "U: --watch-hmr[=<FILES>...]",
+        "监视文件更改并热替换模块"
       ]
     }
-  ],
-  "info": {
-    "__allow_all": [
-      "U: --allow-all, -A\n",
-      "允许所有权限"
-    ],
-    "__allow_env": [
-      "允许访问系统环境信息。\n",
-      "(可选)指定可访问的环境变量"
-    ],
-    "__allow_ffi": [
-      "(不稳定)允许加载动态库\n",
-      "(可选)指定允许的目录或文件"
-    ],
-    "__allow_hrtime": [
-      "允许高分辨率时间测量\n",
-      "注意: 这可以启用定时攻击和指纹识别"
-    ],
-    "__allow_net": [
-      "允许网络访问\n",
-      "(可选)指定允许的 IP 地址和主机名, 并根据需要指定端口"
-    ],
-    "__allow_read": [
-      "允许文件系统读取访问\n",
-      "(可选)指定允许的路径"
-    ],
-    "__allow_run": [
-      "允许运行子进程\n",
-      "(可选)指定允许的可运行程序名称"
-    ],
-    "__allow_sys": [
-      "允许访问操作系统信息\n",
-      "(可选)按函数名称允许特定 API"
-    ],
-    "__allow_write": [
-      "允许文件系统写入访问\n",
-      "(可选)指定允许的路径"
-    ],
-    "__cert": "从 PEM 编码文件加载证书颁发机构",
-    "__config": [
-      "U: --config, -c <path>\n",
-      "指定配置文件"
-    ],
-    "__deno_modules_dir": "UNSTABLE: 启用或禁用远程模块的本地 deno_modules 文件夹",
-    "__deny_env": [
-      "拒绝对系统环境信息的访问\n",
-      "(可选)指定被拒绝的环境变量"
-    ],
-    "__deny_ffi": [
-      "(不稳定)拒绝加载动态库\n",
-      "(可选)指定被拒绝的目录或文件"
-    ],
-    "__deny_hrtime": [
-      "拒绝高分辨率时间测量\n",
-      "注意: 这可以防止定时攻击和指纹识别"
-    ],
-    "__deny_net": [
-      "拒绝网络访问\n",
-      "(可选)指定被拒绝的 IP 地址和主机名, 并根据需要提供端口"
-    ],
-    "__deny_read": [
-      "拒绝文件系统读取访问\n",
-      "(可选)指定拒绝的路径"
-    ],
-    "__deny_run": [
-      "拒绝正在运行的子进程\n",
-      "(可选)指定被拒绝的可运行程序名称"
-    ],
-    "__deny_sys": [
-      "拒绝访问操作系统信息\n",
-      "(可选)按函数名称拒绝特定 API"
-    ],
-    "__deny_write": [
-      "拒绝文件系统写入访问\n",
-      "(可选)指定拒绝的路径"
-    ],
-    "__import_map": [
-      "U: --import-map <path>\n",
-      "加载导入映射文件"
-    ],
-    "__inspect": "在 host: port 上激活检查器(默认: 127.0.0.1:9229)",
-    "__inspect_brk": "在 host:port 上激活 inspector, 等待调试器连接并在用户脚本开始时中断",
-    "__inspect_wait": "在 host:port 上激活 inspector 并等待调试器连接, 然后再运行用户代码",
-    "__location": "某些 Web API 使用的“globalThis.location”的值",
-    "__lock": [
-      "检查指定的锁定文件\n",
-      "如果未提供值, 则在当前工作目录中默认为 \"deno.lock\""
-    ],
-    "__no_check": "跳过类型检查模块",
-    "__node_modules_dir": "启用或禁用 npm 包的本地 node_modules 文件夹",
-    "__reload": [
-      "U: --reload, -r\n",
-      "重新加载源代码缓存(重新编译 TypeScript)"
-    ]
-  }
+  ]
 }

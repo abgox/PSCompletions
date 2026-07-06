@@ -82,6 +82,13 @@
       ]
     },
     {
+      "name": "--distribution-id",
+      "tip": [
+        "U: --distribution-id <DistroGuid>",
+        "通过 ID 运行指定的分发"
+      ]
+    },
+    {
       "name": "--event-viewer",
       "tip": [
         "打开 Windows 事件查看器的应用程序视图"
@@ -105,6 +112,14 @@
         "将发行版导出为 tar 文件; 对于标准输出, 文件名可以是 \"-\""
       ],
       "next": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <Format>",
+            "指定导出格式: tar, tar.gz, tar.xz, vhd"
+          ],
+          "next": 0
+        },
         {
           "name": "--vhd",
           "tip": [
@@ -156,10 +171,78 @@
       ],
       "next": [
         {
-          "name": "--no-launch",
+          "name": "--enable-wsl1",
           "tip": [
+            "使用 WSL 1 安装发行版"
+          ]
+        },
+        {
+          "name": "--fixed-vhd",
+          "tip": [
+            "使用固定大小的 VHD 安装, 而不是动态扩展"
+          ]
+        },
+        {
+          "name": "--from-file",
+          "tip": [
+            "U: --from-file <Path>",
+            "从本地文件安装发行版"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--legacy",
+          "tip": [
+            "安装旧版发行版"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <Location>",
+            "设置发行版的安装位置"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <Name>",
+            "设置发行版的名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-distribution",
+          "tip": [
+            "不安装发行版, 仅安装可选组件"
+          ]
+        },
+        {
+          "name": "--no-launch",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-launch",
             "安装发行版后不启动它"
           ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "U: --version <Version>",
+            "指定新发行版要使用的版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vhd-size",
+          "tip": [
+            "U: --vhd-size <MemoryString>",
+            "设置新发行版的虚拟硬盘大小"
+          ],
+          "next": 0
         },
         {
           "name": "--web-download",
@@ -224,6 +307,50 @@
       ]
     },
     {
+      "name": "--manage",
+      "tip": [
+        "U: --manage <Distro> <Options...>",
+        "管理发行版设置"
+      ],
+      "next": [
+        {
+          "name": "--move",
+          "tip": [
+            "U: --move <Location>",
+            "将发行版移动到新位置"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--resize",
+          "tip": [
+            "U: --resize <MemoryString>",
+            "调整发行版的虚拟硬盘大小"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--set-default-user",
+          "tip": [
+            "U: --set-default-user <Username>",
+            "设置发行版的默认用户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--set-sparse",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --set-sparse <true|false>",
+            "设置发行版的 vhdx 是否为稀疏"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
       "name": "--mount",
       "tip": [
         "U: --mount [Options] <Disk>",
@@ -242,6 +369,14 @@
             "U: --name <Name>",
             "使用自定义名称作为挂载点"
           ]
+        },
+        {
+          "name": "--options",
+          "tip": [
+            "U: --options <Options>",
+            "传递挂载选项"
+          ],
+          "next": 0
         },
         {
           "name": "--partition",
@@ -330,6 +465,14 @@
       "name": "--shutdown",
       "tip": [
         "立即终止所有运行的发行版和 WSL 2 轻量级虚拟机"
+      ],
+      "next": [
+        {
+          "name": "--force",
+          "tip": [
+            "即使有活动会话也强制关闭"
+          ]
+        }
       ]
     },
     {
@@ -352,6 +495,12 @@
       "tip": [
         "U: -t, --terminate <Distribution>",
         "终止指定的分发"
+      ]
+    },
+    {
+      "name": "--uninstall",
+      "tip": [
+        "从 Windows 中卸载 Windows Subsystem for Linux"
       ]
     },
     {

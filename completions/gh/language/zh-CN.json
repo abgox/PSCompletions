@@ -2,58 +2,67 @@
   "meta": {
     "url": "https://cli.github.com/",
     "description": [
-      "gh - GitHub CLI 是一个命令行工具，用于与 GitHub 进行交互。"
+      "gh - GitHub CLI 是一个命令行工具，用于从终端与 GitHub 进行交互。"
     ]
   },
   "root": [
     {
       "name": "accessibility",
       "tip": [
-        "Learn about GitHub CLI's accessibility experiences"
+        "了解 GitHub CLI 的辅助功能体验"
       ]
     },
     {
       "name": "actions",
       "tip": [
-        "Learn about working with GitHub Actions"
+        "了解如何使用 GitHub Actions"
       ]
     },
     {
       "name": "agent-task",
       "tip": [
-        "Work with agent tasks (preview)"
+        "处理代理任务 (预览版)"
       ]
     },
     {
       "name": "alias",
       "tip": [
-        "Create command shortcuts"
+        "创建命令快捷方式"
       ]
     },
     {
       "name": "api",
       "tip": [
-        "Make an authenticated GitHub API request"
+        "发出经过身份验证的 GitHub API 请求"
       ]
     },
     {
       "name": "attestation",
       "tip": [
-        "Work with artifact attestations"
+        "处理构件证明"
       ]
     },
     {
       "name": "auth",
       "tip": [
-        "Authenticate gh and git with GitHub"
+        "使用 GitHub 对 gh 和 git 进行身份验证"
       ],
       "next": [
         {
           "name": "login",
           "tip": [
-            "Log in to a GitHub account"
+            "登录 GitHub 账户"
           ],
           "option": [
+            {
+              "name": "--clipboard",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "将一次性 OAuth 设备代码复制到剪贴板"
+              ]
+            },
             {
               "name": "--git-protocol",
               "alias": [
@@ -61,7 +70,7 @@
               ],
               "tip": [
                 "U: -p, --git-protocol <ssh|https>",
-                "The protocol to use for git operations on this host: {ssh|https}"
+                "在此主机上用于 git 操作的协议: {ssh|https}"
               ],
               "next": [
                 {
@@ -79,14 +88,14 @@
               ],
               "tip": [
                 "U: -h, --hostname <string>",
-                "The hostname of the GitHub instance to authenticate with"
+                "要进行身份验证的 GitHub 实例的主机名"
               ],
               "next": 0
             },
             {
               "name": "--insecure-storage",
               "tip": [
-                "Save authentication credentials in plain text instead of credential store"
+                "以明文形式保存身份验证凭据，而不是使用凭据存储"
               ]
             },
             {
@@ -96,9 +105,15 @@
               ],
               "tip": [
                 "U: -s, --scopes <strings>",
-                "Additional authentication scopes to request"
+                "请求额外的身份验证范围"
               ],
               "next": 0
+            },
+            {
+              "name": "--skip-ssh-key",
+              "tip": [
+                "跳过生成/上传 SSH 密钥提示"
+              ]
             },
             {
               "name": "--web",
@@ -106,19 +121,13 @@
                 "-w"
               ],
               "tip": [
-                "Open a browser to authenticate"
+                "打开浏览器进行身份验证"
               ]
             },
             {
               "name": "--with-token",
               "tip": [
-                "Read token from standard input"
-              ]
-            },
-            {
-              "name": "-skip-ssh-key",
-              "tip": [
-                "Skip generate/upload SSH key prompt"
+                "从标准输入读取令牌"
               ]
             }
           ]
@@ -126,7 +135,7 @@
         {
           "name": "logout",
           "tip": [
-            "Log out of a GitHub account"
+            "退出 GitHub 账户"
           ],
           "option": [
             {
@@ -136,7 +145,7 @@
               ],
               "tip": [
                 "U: -h, --hostname <string>",
-                "The hostname of the GitHub instance to log out of"
+                "要退出登录的 GitHub 实例的主机名"
               ],
               "next": 0
             },
@@ -147,7 +156,7 @@
               ],
               "tip": [
                 "U: -u, --user <string>",
-                "The account to log out of"
+                "要退出登录的账户"
               ],
               "next": 0
             }
@@ -156,7 +165,7 @@
         {
           "name": "refresh",
           "tip": [
-            "Refresh stored authentication credentials"
+            "刷新已存储的身份验证凭据"
           ],
           "option": [
             {
@@ -166,14 +175,14 @@
               ],
               "tip": [
                 "U: -h, --hostname <string>",
-                "The GitHub host to use for authentication"
+                "用于身份验证的 GitHub 主机"
               ],
               "next": 0
             },
             {
               "name": "--insecure-storage",
               "tip": [
-                "Save authentication credentials in plain text instead of credential store"
+                "以明文形式保存身份验证凭据，而不是使用凭据存储"
               ]
             },
             {
@@ -183,14 +192,14 @@
               ],
               "tip": [
                 "U: -r, --remove-scopes <strings>",
-                "Authentication scopes to remove from gh"
+                "要从 gh 中移除的身份验证范围"
               ],
               "next": 0
             },
             {
               "name": "--reset-scopes",
               "tip": [
-                "Reset authentication scopes to the default minimum set of scopes"
+                "将身份验证范围重置为默认的最小范围集"
               ]
             },
             {
@@ -200,7 +209,7 @@
               ],
               "tip": [
                 "U: -s, --scopes <strings>",
-                "Additional authentication scopes for gh to have"
+                "为 gh 指定额外的身份验证范围"
               ],
               "next": 0
             }
@@ -209,25 +218,25 @@
         {
           "name": "setup-git",
           "tip": [
-            "Setup git with GitHub CLI"
+            "使用 GitHub CLI 设置 git"
           ]
         },
         {
           "name": "status",
           "tip": [
-            "Display active account and authentication state on each known GitHub host"
+            "显示每个已知 GitHub 主机上的活动账户和身份验证状态"
           ]
         },
         {
           "name": "switch",
           "tip": [
-            "Switch active GitHub account"
+            "切换活动 GitHub 账户"
           ]
         },
         {
           "name": "token",
           "tip": [
-            "Print the authentication token gh uses for a hostname and account"
+            "打印 gh 用于主机名和账户的身份验证令牌"
           ]
         }
       ]
@@ -235,181 +244,289 @@
     {
       "name": "browse",
       "tip": [
-        "Open the repository in the browser"
+        "在浏览器中打开仓库"
       ]
     },
     {
       "name": "cache",
       "tip": [
-        "Manage GitHub Actions caches"
+        "管理 GitHub Actions 缓存"
       ]
     },
     {
       "name": "co",
       "tip": [
-        "Alias for \"pr checkout\""
+        "\"pr checkout\" 的别名"
       ]
     },
     {
       "name": "codespace",
       "tip": [
-        "Connect to and manage codespaces"
+        "连接和管理 codespaces"
       ]
     },
     {
       "name": "completion",
       "tip": [
-        "Generate shell completion scripts"
+        "生成 shell 补全脚本"
       ]
     },
     {
       "name": "config",
       "tip": [
-        "Manage configuration for gh"
+        "管理 gh 的配置"
+      ]
+    },
+    {
+      "name": "copilot",
+      "tip": [
+        "运行 GitHub Copilot CLI (预览版)"
+      ],
+      "option": [
+        {
+          "name": "--remove",
+          "tip": [
+            "删除已下载的 Copilot CLI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "discussion",
+      "tip": [
+        "使用 GitHub Discussions (预览版)"
+      ],
+      "next": [
+        {
+          "name": "comment",
+          "tip": [
+            "添加、编辑或删除讨论中的评论或回复 (预览版)"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "创建新的讨论 (预览版)"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "编辑讨论 (预览版)"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出仓库中的讨论 (预览版)"
+          ]
+        },
+        {
+          "name": "view",
+          "tip": [
+            "查看讨论 (预览版)"
+          ]
+        }
       ]
     },
     {
       "name": "environment",
       "tip": [
-        "Environment variables that can be used with gh"
+        "可与 gh 一起使用的环境变量"
       ]
     },
     {
       "name": "exit-codes",
       "tip": [
-        "Exit codes used by gh"
+        "gh 使用的退出代码"
       ]
     },
     {
       "name": "extension",
       "tip": [
-        "Manage gh extensions"
+        "管理 gh 扩展"
       ]
     },
     {
       "name": "formatting",
       "tip": [
-        "Formatting options for JSON data exported from gh"
+        "从 gh 导出的 JSON 数据的格式化选项"
       ]
     },
     {
       "name": "gist",
       "tip": [
-        "Manage gists"
+        "管理 gists"
       ]
     },
     {
       "name": "gpg-key",
       "tip": [
-        "Manage GPG keys"
+        "管理 GPG 密钥"
       ]
     },
     {
       "name": "issue",
       "tip": [
-        "Manage issues"
+        "管理议题"
       ]
     },
     {
       "name": "label",
       "tip": [
-        "Manage labels"
+        "管理标签"
+      ]
+    },
+    {
+      "name": "licenses",
+      "tip": [
+        "查看第三方许可证信息"
       ]
     },
     {
       "name": "mintty",
       "tip": [
-        "Information about using gh with MinTTY"
+        "关于在 MinTTY 中使用 gh 的信息"
       ]
     },
     {
       "name": "org",
       "tip": [
-        "Manage organizations"
+        "管理组织"
       ]
     },
     {
       "name": "pr",
       "tip": [
-        "Manage pull requests"
+        "管理拉取请求"
       ]
     },
     {
       "name": "preview",
       "tip": [
-        "Execute previews for gh features"
+        "执行 gh 功能的预览"
       ]
     },
     {
       "name": "project",
       "tip": [
-        "Work with GitHub Projects."
+        "使用 GitHub Projects"
       ]
     },
     {
       "name": "reference",
       "tip": [
-        "A comprehensive reference of all gh commands"
+        "所有 gh 命令的综合参考"
       ]
     },
     {
       "name": "release",
       "tip": [
-        "Manage releases"
+        "管理发布"
       ]
     },
     {
       "name": "repo",
       "tip": [
-        "Manage repositories"
+        "管理仓库"
       ]
     },
     {
       "name": "ruleset",
       "tip": [
-        "View info about repo rulesets"
+        "查看仓库规则集的信息"
       ]
     },
     {
       "name": "run",
       "tip": [
-        "View details about workflow runs"
+        "查看工作流运行的详细信息"
       ]
     },
     {
       "name": "search",
       "tip": [
-        "Search for repositories, issues, and pull requests"
+        "搜索仓库、议题和拉取请求"
       ]
     },
     {
       "name": "secret",
       "tip": [
-        "Manage GitHub secrets"
+        "管理 GitHub secrets"
+      ]
+    },
+    {
+      "name": "skill",
+      "tip": [
+        "安装和管理 agent skills (预览版)"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "从 GitHub 仓库安装 agent skills (预览版)"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装的 skills (预览版)"
+          ]
+        },
+        {
+          "name": "preview",
+          "tip": [
+            "预览 GitHub 仓库中的 skill (预览版)"
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "验证并发布 skills 到 GitHub 仓库 (预览版)"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "在 GitHub 上搜索 skills (预览版)"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "将已安装的 skills 更新到最新版本 (预览版)"
+          ]
+        }
       ]
     },
     {
       "name": "ssh-key",
       "tip": [
-        "Manage SSH keys"
+        "管理 SSH 密钥"
       ]
     },
     {
       "name": "status",
       "tip": [
-        "Print information about relevant issues, pull requests, and notifications across repositories"
+        "打印相关议题、拉取请求和跨仓库通知的信息"
+      ]
+    },
+    {
+      "name": "telemetry",
+      "tip": [
+        "关于 gh 遥测的信息"
       ]
     },
     {
       "name": "variable",
       "tip": [
-        "Manage GitHub Actions variables"
+        "管理 GitHub Actions 变量"
       ]
     },
     {
       "name": "workflow",
       "tip": [
-        "View details about GitHub Actions workflows"
+        "查看 GitHub Actions 工作流的详细信息"
       ]
     }
   ],

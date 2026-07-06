@@ -9,7 +9,96 @@
     {
       "name": "ai",
       "tip": [
-        "Send a message to an AI block."
+        "Append content to Wave AI sidebar prompt."
+      ],
+      "option": [
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <string>",
+            "Optional message/question to append after files."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--new",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Create a new AI chat instead of using existing."
+          ]
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "Submit the prompt immediately after appending."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "tip": [
+        "Set or clear a block badge."
+      ],
+      "option": [
+        {
+          "name": "--beep",
+          "tip": [
+            "Play system bell sound."
+          ]
+        },
+        {
+          "name": "--clear",
+          "tip": [
+            "Clear the badge."
+          ]
+        },
+        {
+          "name": "--color",
+          "tip": [
+            "U: --color <string>",
+            "Badge color."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pid",
+          "tip": [
+            "U: --pid <int>",
+            "Watch a pid and automatically clear the badge when it exits."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--priority",
+          "tip": [
+            "U: --priority <float>",
+            "Badge priority. Default: 10"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "blocks",
+      "tip": [
+        "Commands for working with blocks."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List blocks in workspaces/windows."
+          ]
+        }
       ]
     },
     {
@@ -21,25 +110,74 @@
     {
       "name": "conn",
       "tip": [
-        "manage Wave Terminal connections."
+        "Commands to manage Wave Terminal SSH and WSL connections."
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "tip": [
+            "Connect to a connection."
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "Disconnect a connection."
+          ]
+        },
+        {
+          "name": "disconnectall",
+          "tip": [
+            "Disconnect all connections."
+          ]
+        },
+        {
+          "name": "ensure",
+          "tip": [
+            "Ensure wsh is installed on a connection."
+          ]
+        },
+        {
+          "name": "reinstall",
+          "tip": [
+            "Reinstall wsh on a connection."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show status of all connections."
+          ]
+        }
       ]
     },
     {
       "name": "deleteblock",
       "tip": [
-        "delete a block."
+        "Delete a block."
       ]
     },
     {
       "name": "edit",
       "tip": [
-        "edit a file."
+        "Edit a file."
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "Open view in magnified mode."
+          ]
+        }
       ]
     },
     {
       "name": "editconfig",
       "tip": [
-        "edit Wave configuration files."
+        "Edit Wave configuration files."
       ],
       "next": [
         {
@@ -56,25 +194,180 @@
     {
       "name": "editor",
       "tip": [
-        "edit a file. (blocks until editor is closed)"
+        "Edit a file. (blocks until editor is closed)"
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "Open view in magnified mode."
+          ]
+        }
       ]
     },
     {
       "name": "file",
       "tip": [
-        "manage Wave Terminal files."
+        "Manage files across local and remote systems."
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --timeout <int>",
+            "Timeout in milliseconds for long operations. Default: 15000"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "append",
+          "tip": [
+            "Append stdin to a file."
+          ]
+        },
+        {
+          "name": "cat",
+          "tip": [
+            "Display contents of a file."
+          ]
+        },
+        {
+          "name": "cp",
+          "tip": [
+            "Copy files between storage systems, recursively if needed."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Show wave file information."
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "List files."
+          ]
+        },
+        {
+          "name": "mv",
+          "tip": [
+            "Move files between storage systems."
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "Remove a file."
+          ]
+        },
+        {
+          "name": "write",
+          "tip": [
+            "Write stdin into a file (up to 10MB)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "focusblock",
+      "tip": [
+        "Focus a block in the current tab."
       ]
     },
     {
       "name": "getmeta",
       "tip": [
-        "get metadata for an entity."
+        "Get metadata for an entity."
+      ],
+      "option": [
+        {
+          "name": "--clear-prefix",
+          "tip": [
+            "Output the special clearing key for prefix queries."
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "Output singleton string values without quotes."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "Output full metadata."
+          ]
+        }
       ]
     },
     {
       "name": "getvar",
       "tip": [
-        "get variable(s) from a block."
+        "Get variable(s) from a block."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Get all variables."
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "Get variables local to block."
+          ]
+        },
+        {
+          "name": "--newline",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Print newline after output."
+          ]
+        },
+        {
+          "name": "--no-newline",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "Do not print newline after output."
+          ]
+        },
+        {
+          "name": "--null",
+          "alias": [
+            "-0"
+          ],
+          "tip": [
+            "Use null terminators in output."
+          ]
+        },
+        {
+          "name": "--varfile",
+          "tip": [
+            "U: --varfile <string>",
+            "Var file name. Default: var"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -84,57 +377,394 @@
       ]
     },
     {
-      "name": "notify",
+      "name": "launch",
       "tip": [
-        "create a notification."
+        "Launch a widget by its ID."
+      ],
+      "option": [
+        {
+          "name": "--magnify",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "Start the widget in magnified mode."
+          ]
+        }
       ]
     },
     {
-      "name": "readfile",
+      "name": "notify",
       "tip": [
-        "read a blockfile."
+        "Create a notification."
+      ],
+      "option": [
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "Whether or not the notification sound is silenced."
+          ]
+        },
+        {
+          "name": "--title",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --title <string>",
+            "The notification title. Default: Wsh Notify"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "run",
       "tip": [
-        "run a command in a new block."
+        "Run a command in a new block."
+      ],
+      "option": [
+        {
+          "name": "--append",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "Append output on restart instead of clearing."
+          ]
+        },
+        {
+          "name": "--command",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --command <string>",
+            "Run command string in shell."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cwd",
+          "tip": [
+            "U: --cwd <string>",
+            "Set working directory for command."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delay",
+          "tip": [
+            "U: --delay <int>",
+            "If -x, delay in milliseconds before closing block. Default: 2000"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "Close block if command exits successfully."
+          ]
+        },
+        {
+          "name": "--forceexit",
+          "alias": [
+            "-X"
+          ],
+          "tip": [
+            "Close block when command exits, regardless of exit status."
+          ]
+        },
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "Open view in magnified mode."
+          ]
+        },
+        {
+          "name": "--paused",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "Create block in paused state."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "secret",
+      "tip": [
+        "Manage secrets for Wave Terminal."
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "Delete a secret."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Get a secret value."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all secret names."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set a secret value."
+          ]
+        },
+        {
+          "name": "ui",
+          "tip": [
+            "Open secrets UI."
+          ]
+        }
       ]
     },
     {
       "name": "setbg",
       "tip": [
-        "set background image or color for a tab."
+        "Set background image or color for a tab."
+      ],
+      "option": [
+        {
+          "name": "--active-border-color",
+          "tip": [
+            "U: --active-border-color <string>",
+            "Block frame focused border color (#RRGGBB, #RRGGBBAA, or CSS color name)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--border-color",
+          "tip": [
+            "U: --border-color <string>",
+            "Block frame border color (#RRGGBB, #RRGGBBAA, or CSS color name)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--center",
+          "tip": [
+            "Center the image without scaling."
+          ]
+        },
+        {
+          "name": "--clear",
+          "tip": [
+            "Clear the background."
+          ]
+        },
+        {
+          "name": "--opacity",
+          "tip": [
+            "U: --opacity <float>",
+            "Background opacity (0.0-1.0). Default: 0.5"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--print",
+          "tip": [
+            "Print the metadata without applying it."
+          ]
+        },
+        {
+          "name": "--size",
+          "tip": [
+            "U: --size <string>",
+            "Size for centered images (px, %, or auto). Default: auto"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tile",
+          "tip": [
+            "Tile the background image."
+          ]
+        }
       ]
     },
     {
       "name": "setconfig",
       "tip": [
-        "set config."
+        "Set config."
       ]
     },
     {
       "name": "setmeta",
       "tip": [
-        "set metadata for an entity."
+        "Set metadata for an entity."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "U: --json <string>",
+            "JSON file containing metadata to apply (use '-' for stdin)."
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "setvar",
       "tip": [
-        "set variable(s) for a block."
+        "Set variable(s) for a block."
+      ],
+      "option": [
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "Set variables local to block."
+          ]
+        },
+        {
+          "name": "--remove",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "Remove the variable(s) instead of setting."
+          ]
+        },
+        {
+          "name": "--varfile",
+          "tip": [
+            "U: --varfile <string>",
+            "Var file name. Default: var"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "ssh",
       "tip": [
-        "connect this terminal to a remote host."
+        "Connect this terminal to a remote host."
+      ],
+      "option": [
+        {
+          "name": "--identityfile",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --identityfile <string>",
+            "Add an identity file for publickey authentication."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--login",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --login <string>",
+            "Set the remote login name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--new",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Create a new terminal block with this connection."
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --port <string>",
+            "Set the remote port."
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "term",
       "tip": [
-        "open a terminal in directory."
+        "Open a terminal in directory."
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "Open view in magnified mode."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "termscrollback",
+      "tip": [
+        "Get terminal scrollback from a terminal block."
+      ],
+      "option": [
+        {
+          "name": "--end",
+          "tip": [
+            "U: --end <int>",
+            "Ending line number (0 = all lines)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--lastcommand",
+          "tip": [
+            "Get output of last command (requires shell integration)."
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <string>",
+            "Write output to file instead of stdout."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--start",
+          "tip": [
+            "U: --start <int>",
+            "Starting line number (0 = beginning)."
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -146,7 +776,18 @@
     {
       "name": "view",
       "tip": [
-        "preview/edit a file or directory."
+        "Preview/edit a file or directory."
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "Open view in magnified mode."
+          ]
+        }
       ]
     },
     {
@@ -158,19 +799,35 @@
     {
       "name": "web",
       "tip": [
-        "web commands."
+        "Web commands."
+      ],
+      "next": [
+        {
+          "name": "open",
+          "tip": [
+            "Open a url in a web widget."
+          ]
+        }
       ]
     },
     {
       "name": "workspace",
       "tip": [
         "Manage workspaces."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List workspaces."
+          ]
+        }
       ]
     },
     {
       "name": "wsl",
       "tip": [
-        "connect this terminal to a local wsl connection."
+        "Connect this terminal to a local wsl connection."
       ]
     }
   ],
@@ -182,7 +839,7 @@
       ],
       "tip": [
         "U: -b, --block <block_id>",
-        "for commands which require a block id."
+        "For commands which require a block id."
       ],
       "next": 0
     },
@@ -192,7 +849,7 @@
         "-h"
       ],
       "tip": [
-        "help for wsh."
+        "Help for wsh."
       ]
     }
   ]

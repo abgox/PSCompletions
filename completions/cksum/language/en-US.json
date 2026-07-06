@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://github.com/uutils/coreutils",
+    "url": "https://uutils.org",
     "description": [
       "Print CRC and size for each file.",
       "Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils)."
@@ -15,11 +15,14 @@
       "tip": [
         "U: -a, --algorithm <ALGORITHM>",
         "select the digest type to use. See DIGEST below",
-        "[possible values: sysv, bsd, crc, md5, sha1, sha224, sha256, sha384, sha512, blake2b, sm3]"
+        "[possible values: sysv, bsd, crc, crc32b, md5, sha1, sha2, sha3, blake2b, sm3, sha224, sha256, sha384, sha512, blake3, shake128, shake256]"
       ],
       "next": [
         {
           "name": "blake2b"
+        },
+        {
+          "name": "blake3"
         },
         {
           "name": "bsd"
@@ -28,10 +31,16 @@
           "name": "crc"
         },
         {
+          "name": "crc32b"
+        },
+        {
           "name": "md5"
         },
         {
           "name": "sha1"
+        },
+        {
+          "name": "sha2"
         },
         {
           "name": "sha224"
@@ -40,10 +49,19 @@
           "name": "sha256"
         },
         {
+          "name": "sha3"
+        },
+        {
           "name": "sha384"
         },
         {
           "name": "sha512"
+        },
+        {
+          "name": "shake128"
+        },
+        {
+          "name": "shake256"
         },
         {
           "name": "sm3"
@@ -63,6 +81,27 @@
       ]
     },
     {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "read checksums from the FILEs and check them"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "print CPU hardware capability detection info used by cksum"
+      ]
+    },
+    {
+      "name": "--ignore-missing",
+      "tip": [
+        "don't fail or report status for missing files"
+      ]
+    },
+    {
       "name": "--length",
       "alias": [
         "-l"
@@ -75,9 +114,27 @@
       "next": 0
     },
     {
+      "name": "--quiet",
+      "tip": [
+        "don't print OK for each successfully verified file"
+      ]
+    },
+    {
       "name": "--raw",
       "tip": [
         "emit a raw binary digest, not hexadecimal"
+      ]
+    },
+    {
+      "name": "--status",
+      "tip": [
+        "don't output anything, status code shows success"
+      ]
+    },
+    {
+      "name": "--strict",
+      "tip": [
+        "exit non-zero for improperly formatted checksum lines"
       ]
     },
     {
@@ -99,6 +156,24 @@
       ],
       "tip": [
         "Show the version."
+      ]
+    },
+    {
+      "name": "--warn",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "warn about improperly formatted checksum lines"
+      ]
+    },
+    {
+      "name": "--zero",
+      "alias": [
+        "-z"
+      ],
+      "tip": [
+        "end each output line with NUL, not newline, and disable file name escaping"
       ]
     }
   ],

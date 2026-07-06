@@ -26,6 +26,24 @@
           ]
         },
         {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本"
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "如果任何必需的依赖在本地存储中不可用, 则触发错误"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "跳过缓存数据的过期检查, 但向服务器请求缺失的数据"
+          ]
+        },
+        {
           "name": "--save-dev",
           "alias": [
             "-D"
@@ -85,7 +103,28 @@
     {
       "name": "audit",
       "tip": [
+        "U: audit [options]",
         "检查已安装包中已知的安全问题"
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "tip": [
+            "仅打印严重程度大于或等于指定级别的公告 (info|low|moderate|high|critical)"
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "使用指定的方法修复审计的漏洞 (override 或 update)"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出审计报告"
+          ]
+        }
       ]
     },
     {
@@ -189,6 +228,13 @@
       ]
     },
     {
+      "name": "dlx",
+      "tip": [
+        "U: dlx <command> [args...]",
+        "从注册表获取一个包而不将其安装为依赖, 热加载并运行其默认命令"
+      ]
+    },
+    {
       "name": "exec",
       "tip": [
         "在项目的范围内执行一个 shell 命令"
@@ -197,13 +243,40 @@
     {
       "name": "find-hash",
       "tip": [
-        "列出包含指定哈希值的文件的包"
+        "实验性! 列出包含指定哈希值的文件的包"
       ]
     },
     {
       "name": "import",
       "tip": [
         "从一个 npm package-lock.json (或 npm-shrinkwrap.json) 文件生成一个 pnpm-lock.yaml 文件"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "创建一个 package.json 文件"
+      ],
+      "option": [
+        {
+          "name": "--bare",
+          "tip": [
+            "创建一个包含最少必需字段的 package.json 文件"
+          ]
+        },
+        {
+          "name": "--init-package-manager",
+          "tip": [
+            "在 package.json 中通过 devEngines.packageManager 声明 pnpm 版本范围"
+          ]
+        },
+        {
+          "name": "--init-type",
+          "tip": [
+            "U: --init-type <commonjs|module>",
+            "设置包的模块系统 (默认: commonjs)"
+          ]
+        }
       ]
     },
     {
@@ -214,6 +287,70 @@
       "tip": [
         "U: install|i",
         "为项目安装所有依赖"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --dev",
+            "仅安装 devDependencies"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制重新安装依赖: 重新获取存储中修改的包, 重新创建 lockfile 和/或模块目录"
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "不生成 lockfile, 如果需要更新则失败"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "不下载依赖, 仅更新 pnpm-lock.yaml"
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "如果任何必需的依赖在本地存储中不可用, 则触发错误"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "跳过缓存数据的过期检查, 但向服务器请求缺失的数据"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --prod",
+            "devDependencies 中的包不会被安装"
+          ]
+        },
+        {
+          "name": "--shamefully-hoist",
+          "tip": [
+            "所有子依赖将被提升到根 node_modules"
+          ]
+        }
       ]
     },
     {
@@ -230,6 +367,20 @@
       "name": "licenses",
       "tip": [
         "检查已消费包的许可证"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式显示信息"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "显示更多详细信息 (如仓库链接)"
+          ]
+        }
       ]
     },
     {
@@ -253,6 +404,12 @@
       ],
       "option": [
         {
+          "name": "--depth",
+          "tip": [
+            "依赖树的最大显示深度"
+          ]
+        },
+        {
           "name": "--global",
           "alias": [
             "-g"
@@ -261,6 +418,18 @@
             "U: -g, --global",
             "全局列出"
           ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式显示信息"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "显示扩展信息"
+          ]
         }
       ]
     },
@@ -268,24 +437,96 @@
       "name": "outdated",
       "tip": [
         "检查过时的包"
+      ],
+      "option": [
+        {
+          "name": "--compatible",
+          "tip": [
+            "仅打印满足 package.json 中规格的版本"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "显示过时包的详细信息"
+          ]
+        }
       ]
     },
     {
       "name": "pack",
       "tip": [
         "从包创建一个 tarball"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行 pnpm pack 的所有操作, 但不实际将 tarball 写入磁盘"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式打印打包的 tarball 和内容"
+          ]
+        }
       ]
     },
     {
       "name": "prune",
       "tip": [
         "移除多余的包"
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "移除 devDependencies 中指定的包"
+          ]
+        }
       ]
     },
     {
       "name": "publish",
       "tip": [
         "将包发布到注册表"
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "tip": [
+            "告诉注册表此包应该发布为公共还是受限"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行发布的所有操作, 但不实际发布到注册表"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "发布 workspace 中的所有包"
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "使用给定的标签注册已发布的包 (默认: latest)"
+          ]
+        }
       ]
     },
     {
@@ -296,6 +537,14 @@
       "tip": [
         "U: rebuild|rb",
         "重建一个包"
+      ],
+      "option": [
+        {
+          "name": "--pending",
+          "tip": [
+            "重建安装期间未构建的包"
+          ]
+        }
       ]
     },
     {
@@ -317,6 +566,36 @@
             "U: -g, --global",
             "全局删除"
           ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --save-dev",
+            "仅从 devDependencies 中删除依赖"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "tip": [
+            "U: -O, --save-optional",
+            "仅从 optionalDependencies 中删除依赖"
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --save-prod",
+            "仅从 dependencies 中删除依赖"
+          ]
         }
       ]
     },
@@ -324,19 +603,64 @@
       "name": "root",
       "tip": [
         "打印有效的模块目录"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "打印全局包目录"
+          ]
+        }
       ]
     },
     {
-      "name": "run",
+      "name": "run-script",
+      "alias": [
+        "run"
+      ],
       "tip": [
-        "运行定义在包的 scripts 对象中的 \"run\" 属性中的任意命令"
+        "运行定义在包的 scripts 对象中的命令"
+      ],
+      "option": [
+        {
+          "name": "--if-present",
+          "tip": [
+            "当脚本未定义时避免以非零退出码退出"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "在所有匹配的包中立即运行给定的脚本"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "在子目录中找到的每个包中运行定义的包脚本"
+          ]
+        },
+        {
+          "name": "--sequential",
+          "tip": [
+            "逐个运行指定的脚本"
+          ]
+        }
       ],
       "next": []
     },
     {
       "name": "start",
       "tip": [
-        "运行 package.json 文件中 \"scripts\" 对象中的 \"start\" 属性的任意命令"
+        "运行包的 scripts 对象中 \"start\" 属性指定的任意命令"
       ]
     },
     {
@@ -418,7 +742,25 @@
             "U: -g, --global",
             "全局更新"
           ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "在子目录中找到的每个包中更新"
+          ]
         }
+      ]
+    },
+    {
+      "name": "why",
+      "tip": [
+        "U: why <pkg> ...",
+        "显示所有依赖于指定包的包",
+        "E: why lodash"
       ]
     }
   ],

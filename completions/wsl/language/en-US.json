@@ -82,6 +82,13 @@
       ]
     },
     {
+      "name": "--distribution-id",
+      "tip": [
+        "U: --distribution-id <DistroGuid>",
+        "Run the specified distribution by ID"
+      ]
+    },
+    {
       "name": "--event-viewer",
       "tip": [
         "Open the Application view of Windows Event Viewer"
@@ -106,6 +113,14 @@
         "E: wsl --export ubuntu \"$env:UserProfile\\Desktop\\export.tar\""
       ],
       "next": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <Format>",
+            "Specify the export format: tar, tar.gz, tar.xz, vhd"
+          ],
+          "next": 0
+        },
         {
           "name": "--vhd",
           "tip": [
@@ -158,10 +173,78 @@
       ],
       "next": [
         {
-          "name": "--no-launch",
+          "name": "--enable-wsl1",
           "tip": [
+            "Install the distribution using WSL 1"
+          ]
+        },
+        {
+          "name": "--fixed-vhd",
+          "tip": [
+            "Install with a fixed size VHD instead of dynamically expanding"
+          ]
+        },
+        {
+          "name": "--from-file",
+          "tip": [
+            "U: --from-file <Path>",
+            "Install the distribution from a local file"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--legacy",
+          "tip": [
+            "Install the legacy distribution"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <Location>",
+            "Set the install location for the distribution"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <Name>",
+            "Set the name for the distribution"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-distribution",
+          "tip": [
+            "Install without a distribution, only install the optional components"
+          ]
+        },
+        {
+          "name": "--no-launch",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-launch",
             "Install the distribution without launching it afterward"
           ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "U: --version <Version>",
+            "Specify the version to use for the new distribution"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vhd-size",
+          "tip": [
+            "U: --vhd-size <MemoryString>",
+            "Set the virtual hard disk size for the new distribution"
+          ],
+          "next": 0
         },
         {
           "name": "--web-download",
@@ -227,6 +310,50 @@
       ]
     },
     {
+      "name": "--manage",
+      "tip": [
+        "U: --manage <Distro> <Options...>",
+        "Manage distribution settings"
+      ],
+      "next": [
+        {
+          "name": "--move",
+          "tip": [
+            "U: --move <Location>",
+            "Move the distribution to a new location"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--resize",
+          "tip": [
+            "U: --resize <MemoryString>",
+            "Resize the distribution's virtual hard disk"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--set-default-user",
+          "tip": [
+            "U: --set-default-user <Username>",
+            "Set the default user for the distribution"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--set-sparse",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --set-sparse <true|false>",
+            "Set the distribution's vhdx to be sparse or not"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
       "name": "--mount",
       "tip": [
         "U: --mount [Options] <Disk>",
@@ -245,6 +372,14 @@
             "U: --name <Name>",
             "Use a custom name for the mount point"
           ]
+        },
+        {
+          "name": "--options",
+          "tip": [
+            "U: --options <Options>",
+            "Pass mount options"
+          ],
+          "next": 0
         },
         {
           "name": "--partition",
@@ -333,6 +468,14 @@
       "name": "--shutdown",
       "tip": [
         "Immediately terminate all running distributions and WSL 2 lightweight virtual machines"
+      ],
+      "next": [
+        {
+          "name": "--force",
+          "tip": [
+            "Force shutdown even if there are active sessions"
+          ]
+        }
       ]
     },
     {
@@ -356,6 +499,12 @@
       "tip": [
         "U: -t, --terminate <Distribution>",
         "Terminate the specified distribution"
+      ]
+    },
+    {
+      "name": "--uninstall",
+      "tip": [
+        "Uninstall Windows Subsystem for Linux from Windows"
       ]
     },
     {

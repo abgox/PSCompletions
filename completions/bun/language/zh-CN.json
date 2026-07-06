@@ -7,6 +7,50 @@
   },
   "root": [
     {
+      "name": "audit",
+      "tip": [
+        "U: audit [flags]",
+        "检查已安装的包是否存在漏洞。"
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "tip": [
+            "U: --audit-level <level>",
+            "仅打印严重程度大于或等于 <level> 的公告 (low, moderate, high, critical)。"
+          ],
+          "next": [
+            {
+              "name": "critical"
+            },
+            {
+              "name": "high"
+            },
+            {
+              "name": "low"
+            },
+            {
+              "name": "moderate"
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <CVE>",
+            "忽略审计中的特定 CVE ID。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "build",
       "tip": [
         "U: build [...flags] [...entrypoints]",
@@ -15,12 +59,40 @@
       ],
       "option": [
         {
+          "name": "--allow-unresolved",
+          "tip": [
+            "U: --allow-unresolved <pattern>",
+            "允许匹配这些 glob 模式的未解析动态 import()/require() 说明符。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--app",
+          "tip": [
+            "(实验性) 使用 Bun Bake 构建生产环境的 Web 应用。"
+          ]
+        },
+        {
           "name": "--asset-naming",
           "tip": [
             "U: --asset-naming <name>",
             "自定义资源文件名。默认为 \"[name]-[hash].[ext]\""
           ],
           "next": 0
+        },
+        {
+          "name": "--banner",
+          "tip": [
+            "U: --banner <text>",
+            "在捆绑输出中添加横幅。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bytecode",
+          "tip": [
+            "使用字节码缓存。"
+          ]
         },
         {
           "name": "--chunk-naming",
@@ -37,9 +109,61 @@
           ]
         },
         {
+          "name": "--compile-autoload-bunfig",
+          "tip": [
+            "启用在独立可执行文件中自动加载 bunfig.toml (默认: true)。"
+          ]
+        },
+        {
+          "name": "--compile-autoload-dotenv",
+          "tip": [
+            "启用在独立可执行文件中自动加载 .env 文件 (默认: true)。"
+          ]
+        },
+        {
+          "name": "--compile-autoload-package-json",
+          "tip": [
+            "启用在独立可执行文件运行时自动加载 package.json (默认: false)。"
+          ]
+        },
+        {
+          "name": "--compile-autoload-tsconfig",
+          "tip": [
+            "启用在独立可执行文件运行时自动加载 tsconfig.json (默认: false)。"
+          ]
+        },
+        {
+          "name": "--compile-exec-argv",
+          "tip": [
+            "U: --compile-exec-argv <args>",
+            "将参数前置到独立可执行文件的 execArgv。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--compile-executable-path",
+          "tip": [
+            "U: --compile-executable-path <path>",
+            "用于交叉编译的 Bun 可执行文件路径, 而不是下载。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--conditions",
           "tip": [
             "传递自定义条件以解析。"
+          ]
+        },
+        {
+          "name": "--css-chunking",
+          "tip": [
+            "将 CSS 文件分块在一起以减少浏览器中加载的重复 CSS。"
+          ]
+        },
+        {
+          "name": "--emit-dce-annotations",
+          "tip": [
+            "在捆绑包中重新发出 DCE 注释。除非传递 --minify-whitespace, 默认启用。"
           ]
         },
         {
@@ -48,6 +172,14 @@
             "U: --entry-naming <name>",
             "自定义入口点文件名。",
             "默认为 \"[dir]/[name].[ext]\""
+          ],
+          "next": 0
+        },
+        {
+          "name": "--env",
+          "tip": [
+            "U: --env <prefix>",
+            "将环境变量内联到捆绑包中作为 process.env.${name}。"
           ],
           "next": 0
         },
@@ -64,10 +196,41 @@
           "next": 0
         },
         {
+          "name": "--footer",
+          "tip": [
+            "U: --footer <text>",
+            "在捆绑输出中添加页脚。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--format",
           "tip": [
-            "指定要构建的模块格式。仅支持 \"esm\""
+            "指定要构建的模块格式。",
+            "仅支持 \"esm\"、\"cjs\" 和 \"iife\"。默认为 \"esm\"。"
           ]
+        },
+        {
+          "name": "--keep-names",
+          "tip": [
+            "压缩时保留原始函数和类名。"
+          ]
+        },
+        {
+          "name": "--metafile",
+          "tip": [
+            "U: --metafile <path>",
+            "写入包含构建元数据的 JSON 文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--metafile-md",
+          "tip": [
+            "U: --metafile-md <path>",
+            "写入模块图可视化的 markdown 文件。"
+          ],
+          "next": 0
         },
         {
           "name": "--minify",
@@ -100,6 +263,36 @@
           ]
         },
         {
+          "name": "--no-clear-screen",
+          "tip": [
+            "启用 --watch 时禁用清除终端屏幕。"
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-bunfig",
+          "tip": [
+            "禁用在独立可执行文件中自动加载 bunfig.toml。"
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-dotenv",
+          "tip": [
+            "禁用在独立可执行文件中自动加载 .env 文件。"
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-package-json",
+          "tip": [
+            "禁用在独立可执行文件运行时自动加载 package.json。"
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-tsconfig",
+          "tip": [
+            "禁用在独立可执行文件运行时自动加载 tsconfig.json。"
+          ]
+        },
+        {
           "name": "--outdir",
           "tip": [
             "如果有多个文件, 默认为 \"dist\"。"
@@ -114,9 +307,42 @@
           "next": 0
         },
         {
+          "name": "--packages",
+          "tip": [
+            "U: --packages <mode>",
+            "将依赖项添加到捆绑包或保持外部。默认为 \"bundle\"。"
+          ],
+          "next": [
+            {
+              "name": "bundle"
+            },
+            {
+              "name": "external"
+            }
+          ]
+        },
+        {
+          "name": "--production",
+          "tip": [
+            "设置 NODE_ENV=production 并启用压缩。"
+          ]
+        },
+        {
           "name": "--public-path",
           "tip": [
             "在捆绑代码中附加到任何导入路径的前缀。"
+          ]
+        },
+        {
+          "name": "--react-fast-refresh",
+          "tip": [
+            "启用 React Fast Refresh 转换。"
+          ]
+        },
+        {
+          "name": "--reject-unresolved",
+          "tip": [
+            "在构建时无法解析任何动态 import()/require() 说明符时使构建失败。"
           ]
         },
         {
@@ -143,6 +369,9 @@
             },
             {
               "name": "inline"
+            },
+            {
+              "name": "linked"
             },
             {
               "name": "none"
@@ -178,6 +407,60 @@
           "tip": [
             "在文件更改时自动重启进程。"
           ]
+        },
+        {
+          "name": "--windows-copyright",
+          "tip": [
+            "U: --windows-copyright <text>",
+            "使用 --compile 目标为 Windows 时, 设置可执行文件版权。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-description",
+          "tip": [
+            "U: --windows-description <desc>",
+            "使用 --compile 目标为 Windows 时, 设置可执行文件描述。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-hide-console",
+          "tip": [
+            "使用 --compile 目标为 Windows 时, 防止在可执行文件旁边打开命令提示符。"
+          ]
+        },
+        {
+          "name": "--windows-icon",
+          "tip": [
+            "U: --windows-icon <path>",
+            "使用 --compile 目标为 Windows 时, 分配可执行文件图标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-publisher",
+          "tip": [
+            "U: --windows-publisher <name>",
+            "使用 --compile 目标为 Windows 时, 设置可执行文件公司名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-title",
+          "tip": [
+            "U: --windows-title <name>",
+            "使用 --compile 目标为 Windows 时, 设置可执行文件产品名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-version",
+          "tip": [
+            "U: --windows-version <version>",
+            "使用 --compile 目标为 Windows 时, 设置可执行文件版本 (例如 1.2.3.4)。"
+          ],
+          "next": 0
         }
       ]
     },
@@ -217,12 +500,34 @@
           "next": 0
         },
         {
+          "name": "--drop",
+          "tip": [
+            "U: --drop <calls>",
+            "删除函数调用, 例如 --drop=console 删除所有 console.* 调用。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--extension-order",
           "tip": [
             "U: --extension-order <ext1,ext2,ext3>",
             "默认为: .tsx,.ts,.jsx,.js,.json。"
           ],
           "next": 0
+        },
+        {
+          "name": "--feature",
+          "tip": [
+            "U: --feature <flag>",
+            "启用死代码消除的功能标志。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-dce-annotations",
+          "tip": [
+            "忽略树摇注释, 如 @__PURE__。"
+          ]
         },
         {
           "name": "--jsx-factory",
@@ -258,6 +563,12 @@
           ]
         },
         {
+          "name": "--jsx-side-effects",
+          "tip": [
+            "将 JSX 元素视为具有副作用 (禁用纯注释)。"
+          ]
+        },
+        {
           "name": "--loader",
           "alias": [
             "-l"
@@ -278,9 +589,27 @@
           ]
         },
         {
+          "name": "--no-env-file",
+          "tip": [
+            "禁用自动加载 .env 文件。"
+          ]
+        },
+        {
           "name": "--no-macros",
           "tip": [
             "禁止在捆绑器、转译器和运行时执行宏。"
+          ]
+        },
+        {
+          "name": "--preserve-symlinks",
+          "tip": [
+            "解析文件时保留符号链接。"
+          ]
+        },
+        {
+          "name": "--preserve-symlinks-main",
+          "tip": [
+            "解析主入口点时保留符号链接。"
           ]
         },
         {
@@ -291,6 +620,148 @@
             "默认为 ./tsconfig.json"
           ],
           "next": 0
+        }
+      ]
+    },
+    {
+      "name": "feedback",
+      "tip": [
+        "U: feedback [options] [feedback text ... | files ...]",
+        "向 Bun 团队提供反馈。"
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --email <email>",
+            "设置此提交使用的电子邮件地址。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "U: info [flags] <package>[@<version>]",
+        "从注册表查看包元数据。"
+      ],
+      "option": [
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "覆盖可选依赖项的 CPU 架构。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出。"
+          ]
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "链接器策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "生成锁定文件而不安装依赖项。"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "仅安装至少 N 秒前发布的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "最大并发网络请求数 (默认 48)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "从安装中排除 \"dev\"、\"optional\" 或 \"peer\" 依赖项。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "覆盖可选依赖项的操作系统。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "打包时仅显示 tarball 名称。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "使用特定的注册表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "保存基于文本的锁定文件。"
+          ]
         }
       ]
     },
@@ -327,6 +798,16 @@
       ],
       "option": [
         {
+          "name": "--analyze",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --analyze",
+            "递归分析并安装作为参数传递的文件的所有依赖项 (使用 Bun 的捆绑器)。"
+          ]
+        },
+        {
           "name": "--backend",
           "tip": [
             "针对安装依赖项进行平台特定的优化。",
@@ -362,6 +843,14 @@
           ]
         },
         {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "覆盖可选依赖项的 CPU 架构 (例如 x64, arm64, * 代表全部)。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--cwd",
           "tip": [
             "U: --cwd <cwd>",
@@ -394,6 +883,17 @@
             "U: -E, --exact",
             "添加精确版本而不是 ^range。"
           ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --filter <pattern>",
+            "为匹配的工作区安装包。"
+          ],
+          "next": 0
         },
         {
           "name": "--force",
@@ -435,6 +935,43 @@
           ]
         },
         {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "链接器策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "生成锁定文件而不安装依赖项。"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "仅安装至少 N 秒前发布的包 (安全功能)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "最大并发网络请求数 (默认 48)。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--no-cache",
           "tip": [
             "完全忽略清单缓存。"
@@ -465,9 +1002,47 @@
           ]
         },
         {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "从安装中排除 \"dev\"、\"optional\" 或 \"peer\" 依赖项。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--only-missing",
+          "tip": [
+            "仅在 package.json 中尚不存在时添加依赖项。"
+          ]
+        },
+        {
           "name": "--optional",
           "tip": [
             "将依赖项添加到 \"optionalDependencies\"。"
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "覆盖可选依赖项的操作系统 (例如 linux, darwin, * 代表全部)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--peer",
+          "tip": [
+            "将依赖项添加到 \"peerDependencies\"。"
           ]
         },
         {
@@ -481,9 +1056,23 @@
           ]
         },
         {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "使用特定的注册表, 覆盖 .npmrc, bunfig.toml 和环境变量。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--save",
           "tip": [
             "保存到 package.json (默认为 true)。"
+          ]
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "保存基于文本的锁定文件。"
           ]
         },
         {
@@ -687,6 +1276,273 @@
       ]
     },
     {
+      "name": "outdated",
+      "tip": [
+        "U: outdated [flags] [filter]",
+        "显示每个匹配工作区的过时依赖项。"
+      ],
+      "option": [
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "覆盖可选依赖项的 CPU 架构 (例如 x64, arm64, * 代表全部)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --filter <pattern>",
+            "显示每个匹配工作区的过时依赖项。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "链接器策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "生成锁定文件而不安装依赖项。"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "仅安装至少 N 秒前发布的包 (安全功能)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "最大并发网络请求数 (默认 48)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "从安装中排除 \"dev\"、\"optional\" 或 \"peer\" 依赖项。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "覆盖可选依赖项的操作系统 (例如 linux, darwin, * 代表全部)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "打包时仅显示 tarball 名称。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "检查所有工作区中的过时包。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "使用特定的注册表, 覆盖 .npmrc, bunfig.toml 和环境变量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "保存基于文本的锁定文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch",
+      "tip": [
+        "U: patch [flags] <package>@<version>",
+        "准备一个包进行修补, 或生成并保存补丁。"
+      ],
+      "option": [
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--commit",
+          "tip": [
+            "安装包含 \"dir\" 中修改的包。"
+          ]
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "覆盖可选依赖项的 CPU 架构。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "链接器策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "生成锁定文件而不安装依赖项。"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "仅安装至少 N 秒前发布的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "最大并发网络请求数 (默认 48)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "从安装中排除 \"dev\"、\"optional\" 或 \"peer\" 依赖项。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "覆盖可选依赖项的操作系统。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--patches-dir",
+          "tip": [
+            "U: --patches-dir <path>",
+            "补丁文件的目录 (仅在使用 --commit 时)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "打包时仅显示 tarball 名称。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "使用特定的注册表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "保存基于文本的锁定文件。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "pm",
       "tip": [
         "U: pm <command>",
@@ -767,6 +1623,175 @@
           "name": "untrusted",
           "tip": [
             "打印当前具有脚本的不受信任的依赖项。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "U: publish [flags] [dist]",
+        "将包发布到 npm 注册表。"
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "tip": [
+            "U: --access <level>",
+            "设置作用域包的访问级别。"
+          ],
+          "next": [
+            {
+              "name": "public"
+            },
+            {
+              "name": "restricted"
+            }
+          ]
+        },
+        {
+          "name": "--auth-type",
+          "tip": [
+            "U: --auth-type <type>",
+            "指定一次性密码身份验证的类型。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "覆盖可选依赖项的 CPU 架构。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--gzip-level",
+          "tip": [
+            "U: --gzip-level <level>",
+            "指定 gzip 的自定义压缩级别。默认为 9。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "链接器策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "生成锁定文件而不安装依赖项。"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "仅安装至少 N 秒前发布的包 (安全功能)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "最大并发网络请求数 (默认 48)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "从安装中排除 \"dev\"、\"optional\" 或 \"peer\" 依赖项。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "覆盖可选依赖项的操作系统。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--otp",
+          "tip": [
+            "U: --otp <code>",
+            "提供一次性密码进行身份验证。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "打包时仅显示 tarball 名称。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "使用特定的注册表, 覆盖 .npmrc, bunfig.toml 和环境变量。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "保存基于文本的锁定文件。"
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <tag>",
+            "标记版本。默认为 \"latest\"。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tolerate-republish",
+          "tip": [
+            "当重新发布已存在的版本号时不以代码 1 退出。"
           ]
         }
       ]
@@ -992,6 +2017,21 @@
             "U: --bail <n>",
             "在 <n> 次失败后退出测试套件。",
             "如果不指定数字, 默认为 1"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--changed",
+          "tip": [
+            "U: --changed [ref]",
+            "仅运行根据 git 受更改文件影响的测试文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--concurrent",
+          "tip": [
+            "将所有测试视为 test.concurrent() 测试。"
           ]
         },
         {
@@ -1001,16 +2041,142 @@
           ]
         },
         {
+          "name": "--coverage-dir",
+          "tip": [
+            "U: --coverage-dir <path>",
+            "覆盖率文件的目录。默认为 \"coverage\"。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--coverage-reporter",
+          "tip": [
+            "U: --coverage-reporter <type>",
+            "以 \"text\" 和/或 \"lcov\" 报告覆盖率。默认为 \"text\"。"
+          ],
+          "next": [
+            {
+              "name": "lcov"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "在全新的全局对象中运行每个测试文件。一个文件的泄漏句柄不会影响另一个文件。"
+          ]
+        },
+        {
+          "name": "--max-concurrency",
+          "tip": [
+            "U: --max-concurrency <n>",
+            "一次执行的最大并发测试数。默认为 20。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--only",
           "tip": [
             "仅运行标记为 \"test.only()\" 的测试。"
           ]
         },
         {
+          "name": "--only-failures",
+          "tip": [
+            "仅显示测试失败, 隐藏通过的测试。"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "U: --parallel <n>",
+            "使用 N 个 worker 进程并行运行测试文件。隐含 --isolate。默认为 CPU 核心数。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--parallel-delay",
+          "tip": [
+            "U: --parallel-delay <ms>",
+            "第一个 --parallel worker 必须繁忙的毫秒数, 然后才生成其余的。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pass-with-no-tests",
+          "tip": [
+            "当未找到测试时以代码 0 退出。"
+          ]
+        },
+        {
+          "name": "--path-ignore-patterns",
+          "tip": [
+            "U: --path-ignore-patterns <glob>",
+            "要忽略的测试文件路径的 glob 模式。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--randomize",
+          "tip": [
+            "以随机顺序运行测试。"
+          ]
+        },
+        {
+          "name": "--reporter",
+          "tip": [
+            "U: --reporter <type>",
+            "测试输出报告程序格式。可用: \"junit\"、\"dots\"。"
+          ],
+          "next": [
+            {
+              "name": "dots"
+            },
+            {
+              "name": "junit"
+            }
+          ]
+        },
+        {
+          "name": "--reporter-outfile",
+          "tip": [
+            "U: --reporter-outfile <path>",
+            "报告程序格式的输出文件路径 (与 --reporter 一起使用时必需)。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--rerun-each",
           "tip": [
             "U: --rerun-each <n>",
             "重新运行每个测试文件 <n> 次, 有助于捕获某些错误。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--retry",
+          "tip": [
+            "U: --retry <n>",
+            "所有测试的默认重试次数, 可被 per-test { retry: N } 覆盖。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <n>",
+            "设置测试随机化的随机种子。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shard",
+          "tip": [
+            "U: --shard <shard>",
+            "运行测试文件的子集, 例如 '--shard=1/3' 运行三个分片中的第一个。"
           ],
           "next": 0
         },
@@ -1259,6 +2425,14 @@
           ]
         },
         {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "覆盖可选依赖项的 CPU 架构。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--cwd",
           "tip": [
             "U: --cwd <cwd>",
@@ -1271,6 +2445,17 @@
           "tip": [
             "不更新任何东西。"
           ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --filter <pattern>",
+            "更新匹配工作区的包。"
+          ],
+          "next": 0
         },
         {
           "name": "--force",
@@ -1305,10 +2490,63 @@
           ]
         },
         {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "显示要选择更新的过时包的交互式列表。"
+          ]
+        },
+        {
+          "name": "--latest",
+          "tip": [
+            "将包更新到其最新版本。"
+          ]
+        },
+        {
           "name": "--link-native-bins",
           "tip": [
             "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。默认值: esbuild, turbo"
           ]
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "链接器策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "生成锁定文件而不安装依赖项。"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "仅安装至少 N 秒前发布的包。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "最大并发网络请求数 (默认 48)。"
+          ],
+          "next": 0
         },
         {
           "name": "--no-cache",
@@ -1341,6 +2579,32 @@
           ]
         },
         {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "从安装中排除 \"dev\"、\"optional\" 或 \"peer\" 依赖项。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "覆盖可选依赖项的操作系统。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--production",
           "alias": [
             "-p"
@@ -1351,9 +2615,39 @@
           ]
         },
         {
+          "name": "--quiet",
+          "tip": [
+            "打包时仅显示 tarball 名称。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "更新所有工作区中的包。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "使用特定的注册表。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--save",
           "tip": [
             "保存到 package.json (默认为 true)。"
+          ]
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "保存基于文本的锁定文件。"
           ]
         },
         {
@@ -1397,6 +2691,29 @@
           "name": "--canary",
           "tip": [
             "安装最新的 Bun 预发布版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "why",
+      "tip": [
+        "U: why [flags] <package>[@version] [property path]",
+        "解释为什么安装了某个包。"
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "tip": [
+            "U: --depth <n>",
+            "显示的依赖树的最大深度。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--top",
+          "tip": [
+            "仅显示顶层依赖树, 而不是嵌套的。"
           ]
         }
       ]
@@ -1465,11 +2782,97 @@
       ]
     },
     {
+      "name": "--console-depth",
+      "tip": [
+        "U: --console-depth <depth>",
+        "设置 console.log 对象检查的默认深度 (默认: 2)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpu-prof",
+      "tip": [
+        "启动 CPU 分析器并在退出时将配置文件写入磁盘。"
+      ]
+    },
+    {
+      "name": "--cpu-prof-dir",
+      "tip": [
+        "U: --cpu-prof-dir <path>",
+        "指定 CPU 配置文件将保存的目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpu-prof-interval",
+      "tip": [
+        "U: --cpu-prof-interval <ms>",
+        "指定 CPU 分析的采样间隔 (微秒) (默认: 1000)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpu-prof-md",
+      "tip": [
+        "以 markdown 格式输出 CPU 配置文件 (适合 grep, 专为 LLM 分析设计)。"
+      ]
+    },
+    {
+      "name": "--cpu-prof-name",
+      "tip": [
+        "U: --cpu-prof-name <name>",
+        "指定 CPU 配置文件的名称。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cron-period",
+      "tip": [
+        "U: --cron-period <period>",
+        "cron 执行模式的周期。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cron-title",
+      "tip": [
+        "U: --cron-title <title>",
+        "cron 执行模式的标题。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--cwd",
       "tip": [
         "用于解析文件和入口点的绝对路径。",
         "这只是更改了进程的 cwd。"
       ]
+    },
+    {
+      "name": "--dns-result-order",
+      "tip": [
+        "U: --dns-result-order <order>",
+        "设置 DNS 查询结果的默认顺序。"
+      ],
+      "next": [
+        {
+          "name": "ipv4first"
+        },
+        {
+          "name": "ipv6first"
+        },
+        {
+          "name": "verbatim"
+        }
+      ]
+    },
+    {
+      "name": "--elide-lines",
+      "tip": [
+        "U: --elide-lines <n>",
+        "使用 --filter 时显示的脚本输出行数 (默认: 10)。设置为 0 以显示所有行。"
+      ],
+      "next": 0
     },
     {
       "name": "--env-file",
@@ -1485,6 +2888,71 @@
       "tip": [
         "U: -e, --eval <code>",
         "将参数作为脚本进行评估。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--experimental-http2-fetch",
+      "tip": [
+        "在 fetch() TLS ALPN 中提供 h2。"
+      ]
+    },
+    {
+      "name": "--experimental-http3-fetch",
+      "tip": [
+        "在 fetch() 中处理 Alt-Svc: h3 并升级到 HTTP/3。"
+      ]
+    },
+    {
+      "name": "--expose-gc",
+      "tip": [
+        "在全局对象上暴露 gc()。对 Bun.gc() 无影响。"
+      ]
+    },
+    {
+      "name": "--fetch-preconnect",
+      "tip": [
+        "U: --fetch-preconnect <url>",
+        "在代码加载时预连接到 URL。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --filter <pattern>",
+        "在所有匹配的工作区包中运行脚本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--heap-prof",
+      "tip": [
+        "在退出时生成 V8 堆快照 (.heapsnapshot)。"
+      ]
+    },
+    {
+      "name": "--heap-prof-dir",
+      "tip": [
+        "U: --heap-prof-dir <path>",
+        "指定堆配置文件将保存的目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--heap-prof-md",
+      "tip": [
+        "在退出时生成 markdown 堆配置文件 (用于 CLI 分析)。"
+      ]
+    },
+    {
+      "name": "--heap-prof-name",
+      "tip": [
+        "U: --heap-prof-name <name>",
+        "指定堆配置文件的名称。"
       ],
       "next": 0
     },
@@ -1509,6 +2977,14 @@
       "tip": [
         "如果入口点不存在, 则退出而不报错。"
       ]
+    },
+    {
+      "name": "--import",
+      "tip": [
+        "U: --import <module>",
+        "--preload 的别名, 用于 Node.js 兼容性。"
+      ],
+      "next": 0
     },
     {
       "name": "--inspect",
@@ -1556,9 +3032,59 @@
       ]
     },
     {
+      "name": "--max-http-header-size",
+      "tip": [
+        "U: --max-http-header-size <bytes>",
+        "设置 HTTP 头的最大大小 (字节)。默认为 16KiB。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-addons",
+      "tip": [
+        "如果调用 process.dlopen 则抛出错误, 并禁用导出条件 \"node-addons\"。"
+      ]
+    },
+    {
+      "name": "--no-clear-screen",
+      "tip": [
+        "启用 --hot 或 --watch 时禁用清除终端屏幕。"
+      ]
+    },
+    {
+      "name": "--no-deprecation",
+      "tip": [
+        "抑制所有自定义弃用报告。"
+      ]
+    },
+    {
+      "name": "--no-env-file",
+      "tip": [
+        "禁用自动加载 .env 文件。"
+      ]
+    },
+    {
+      "name": "--no-exit-on-error",
+      "tip": [
+        "当一个脚本失败时继续运行其他脚本 (与 --parallel/--sequential 一起使用)。"
+      ]
+    },
+    {
       "name": "--no-install",
       "tip": [
         "在 Bun 运行时禁用自动安装。"
+      ]
+    },
+    {
+      "name": "--no-orphans",
+      "tip": [
+        "当父进程死亡时退出, 并在退出时 SIGKILL 每个后代。仅限 Linux/macOS。"
+      ]
+    },
+    {
+      "name": "--parallel",
+      "tip": [
+        "使用 Foreman 风格的输出并发运行多个脚本。"
       ]
     },
     {
@@ -1602,6 +3128,26 @@
       ]
     },
     {
+      "name": "--redis-preconnect",
+      "tip": [
+        "在启动时预连接到 $REDIS_URL。"
+      ]
+    },
+    {
+      "name": "--require",
+      "tip": [
+        "U: --require <module>",
+        "--preload 的别名, 用于 Node.js 兼容性。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sequential",
+      "tip": [
+        "使用 Foreman 风格的输出顺序运行多个脚本。"
+      ]
+    },
+    {
       "name": "--shell",
       "tip": [
         "控制 package.json 脚本所使用的 shell。",
@@ -1621,9 +3167,91 @@
       ]
     },
     {
+      "name": "--sql-preconnect",
+      "tip": [
+        "在启动时预连接到 PostgreSQL。"
+      ]
+    },
+    {
+      "name": "--throw-deprecation",
+      "tip": [
+        "确定弃用警告是否导致错误。"
+      ]
+    },
+    {
+      "name": "--title",
+      "tip": [
+        "U: --title <name>",
+        "设置进程标题。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unhandled-rejections",
+      "tip": [
+        "U: --unhandled-rejections <mode>",
+        "\"strict\"、\"throw\"、\"warn\"、\"none\" 或 \"warn-with-error-code\" 之一。"
+      ],
+      "next": [
+        {
+          "name": "none"
+        },
+        {
+          "name": "strict"
+        },
+        {
+          "name": "throw"
+        },
+        {
+          "name": "warn"
+        },
+        {
+          "name": "warn-with-error-code"
+        }
+      ]
+    },
+    {
+      "name": "--use-bundled-ca",
+      "tip": [
+        "使用捆绑的 CA 存储。"
+      ]
+    },
+    {
+      "name": "--use-openssl-ca",
+      "tip": [
+        "使用 OpenSSL 的默认 CA 存储。"
+      ]
+    },
+    {
+      "name": "--use-system-ca",
+      "tip": [
+        "使用系统的可信证书颁发机构。"
+      ]
+    },
+    {
+      "name": "--user-agent",
+      "tip": [
+        "U: --user-agent <agent>",
+        "设置 HTTP 请求的默认 User-Agent 头。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--watch",
       "tip": [
         "文件更改时自动重新启动进程。"
+      ]
+    },
+    {
+      "name": "--workspaces",
+      "tip": [
+        "在所有工作区包中运行脚本 (来自 package.json 中的 \"workspaces\" 字段)。"
+      ]
+    },
+    {
+      "name": "--zero-fill-buffers",
+      "tip": [
+        "强制 Buffer.allocUnsafe(size) 用零填充的布尔值。"
       ]
     },
     {

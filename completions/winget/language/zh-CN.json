@@ -7,32 +7,201 @@
   },
   "root": [
     {
-      "name": "configure",
+      "name": "configuration",
+      "alias": [
+        "configure",
+        "dsc"
+      ],
       "tip": [
-        "(一些选项尚未添加) 配置系统到所需状态"
+        "U: configure|configuration|dsc",
+        "将系统配置为所需状态"
       ],
       "option": [
+        {
+          "name": "--accept-configuration-agreements",
+          "tip": [
+            "接受配置警告, 阻止交互式提示"
+          ]
+        },
         {
           "name": "--file",
           "alias": [
             "-f"
           ],
           "tip": [
-            "{{ $info.__file }}"
+            "U: -f, --file <file>",
+            "配置文件的路径"
           ],
           "next": 0
         },
         {
+          "name": "--history",
+          "alias": [
+            "-h"
+          ],
+          "tip": [
+            "U: -h, --history",
+            "从历史记录中选择项目"
+          ]
+        },
+        {
           "name": "--module-path",
           "tip": [
-            "{{ $info.__module_path }}"
+            "U: --module-path <path>",
+            "指定本地计算机上用于存储模块的位置"
           ],
           "next": 0
+        },
+        {
+          "name": "--processor-path",
+          "tip": [
+            "U: --processor-path <path>",
+            "指定配置处理器的路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--suppress-initial-details",
+          "tip": [
+            "尽可能禁止显示初始配置详细信息"
+          ]
         }
       ],
       "next": [
         {
+          "name": "export",
+          "tip": [
+            "将配置资源导出到配置文件"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "在源操作期间接受所有源协议"
+              ]
+            },
+            {
+              "name": "--include-versions",
+              "tip": [
+                "在导出文件中包含包版本"
+              ]
+            },
+            {
+              "name": "--module",
+              "tip": [
+                "U: --module <module>",
+                "要导出的资源的模块"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--module-path",
+              "tip": [
+                "U: --module-path <path>",
+                "指定本地计算机上用于存储模块的位置"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output <file>",
+                "将结果写入指定的文件"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--package-id",
+              "tip": [
+                "U: --package-id <id>",
+                "要导出的程序包标识符"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "指定配置处理器的路径"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--recurse",
+              "alias": [
+                "--all",
+                "-r"
+              ],
+              "tip": [
+                "导出所有包配置"
+              ]
+            },
+            {
+              "name": "--resource",
+              "tip": [
+                "U: --resource <resource>",
+                "要导出的配置资源"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "从指定的源导出包"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "显示已应用于系统的配置的高级别详细信息"
+          ],
+          "option": [
+            {
+              "name": "--history",
+              "alias": [
+                "-h"
+              ],
+              "tip": [
+                "U: -h, --history",
+                "从历史记录中选择项目"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output <file>",
+                "将结果写入指定的文件"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--remove",
+              "tip": [
+                "从历史记录中移除项"
+              ]
+            }
+          ]
+        },
+        {
           "name": "show",
+          "alias": [
+            "view"
+          ],
           "tip": [
             "显示配置设置的详细信息"
           ],
@@ -43,14 +212,34 @@
                 "-f"
               ],
               "tip": [
-                "{{ $info.__file }}"
+                "U: -f, --file <file>",
+                "配置文件的路径"
               ],
               "next": 0
             },
             {
+              "name": "--history",
+              "alias": [
+                "-h"
+              ],
+              "tip": [
+                "U: -h, --history",
+                "从历史记录中选择项目"
+              ]
+            },
+            {
               "name": "--module-path",
               "tip": [
-                "{{ $info.__module_path }}"
+                "U: --module-path <path>",
+                "指定本地计算机上用于存储模块的位置"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "指定配置处理器的路径"
               ],
               "next": 0
             }
@@ -63,21 +252,53 @@
           ],
           "option": [
             {
+              "name": "--accept-configuration-agreements",
+              "tip": [
+                "接受配置警告, 阻止交互式提示"
+              ]
+            },
+            {
               "name": "--file",
               "alias": [
                 "-f"
               ],
               "tip": [
-                "{{ $info.__file }}"
+                "U: -f, --file <file>",
+                "配置文件的路径"
               ],
               "next": 0
             },
             {
+              "name": "--history",
+              "alias": [
+                "-h"
+              ],
+              "tip": [
+                "U: -h, --history",
+                "从历史记录中选择项目"
+              ]
+            },
+            {
               "name": "--module-path",
               "tip": [
-                "{{ $info.__module_path }}"
+                "U: --module-path <path>",
+                "指定本地计算机上用于存储模块的位置"
               ],
               "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "指定配置处理器的路径"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--suppress-initial-details",
+              "tip": [
+                "尽可能禁止显示初始配置详细信息"
+              ]
             }
           ]
         },
@@ -93,14 +314,24 @@
                 "-f"
               ],
               "tip": [
-                "{{ $info.__file }}"
+                "U: -f, --file <file>",
+                "配置文件的路径"
               ],
               "next": 0
             },
             {
               "name": "--module-path",
               "tip": [
-                "{{ $info.__module_path }}"
+                "U: --module-path <path>",
+                "指定本地计算机上用于存储模块的位置"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "指定配置处理器的路径"
               ],
               "next": 0
             }
@@ -111,19 +342,19 @@
     {
       "name": "download",
       "tip": [
-        "从给定的软件包中下载安装程序"
+        "从所选包下载安装程序"
       ],
       "option": [
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "接受包的所有许可协议"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
           ]
         },
         {
@@ -132,28 +363,66 @@
             "-a"
           ],
           "tip": [
-            "{{ $info.__architecture }}"
+            "U: -a, --architecture <arch>",
+            "选择体系结构"
           ],
           "next": [
             {
               "name": "arm64",
               "tip": [
-                "安装 arm64 架构的包"
+                "使用 arm64 体系结构"
               ]
             },
             {
               "name": "x64",
               "tip": [
-                "安装 x64 架构的包"
+                "使用 x64 体系结构"
               ]
             },
             {
               "name": "x86",
               "tip": [
-                "安装 x86 架构的包"
+                "使用 x86 体系结构"
               ]
             }
           ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
+          ]
+        },
+        {
+          "name": "--download-directory",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --download-directory <directory>",
+            "安装程序下载到的目录"
+          ],
+          "next": 0
         },
         {
           "name": "--exact",
@@ -161,102 +430,111 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "使用精确匹配查找程序包"
           ]
+        },
+        {
+          "name": "--header",
+          "tip": [
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
+          ],
+          "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "按 id 筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--ignore-security-hash",
           "tip": [
-            "{{ $info.__ignore_security_hash }}"
+            "忽略安装程序哈希检查失败"
           ]
         },
         {
           "name": "--installer-type",
           "tip": [
-            "{{ $info.__installer_type }}"
+            "选择安装程序类型"
           ],
           "next": [
             {
-              "name": "appx",
-              "tip": [
-                "使用 APPX 安装程序"
-              ]
+              "name": "appx"
             },
             {
-              "name": "exe",
-              "tip": [
-                "使用 EXE 安装程序"
-              ]
+              "name": "exe"
             },
             {
-              "name": "inno",
-              "tip": [
-                "使用 Inno Setup 安装程序"
-              ]
+              "name": "inno"
             },
             {
-              "name": "msi",
-              "tip": [
-                "使用 MSI 安装程序"
-              ]
+              "name": "msi"
             },
             {
-              "name": "msix",
-              "tip": [
-                "使用 MSIX 安装程序"
-              ]
+              "name": "msix"
             },
             {
-              "name": "msu",
-              "tip": [
-                "使用 MSU 安装程序"
-              ]
+              "name": "msu"
             },
             {
-              "name": "nullsoft",
-              "tip": [
-                "使用 Nullsoft 安装程序"
-              ]
+              "name": "nullsoft"
             },
             {
-              "name": "wix",
-              "tip": [
-                "使用 WiX 安装程序"
-              ]
+              "name": "wix"
             },
             {
-              "name": "zip",
-              "tip": [
-                "使用 ZIP 解压安装"
-              ]
+              "name": "zip"
             }
           ]
         },
         {
           "name": "--locale",
           "tip": [
-            "{{ $info.__locale }}"
+            "U: --locale <locale>",
+            "要使用的区域设置 (BCP 47 格式)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manifest <path>",
+            "程序包清单的路径"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "按名字对象筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "按名称筛选结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--os-version",
+          "tip": [
+            "U: --os-version <version>",
+            "目标 OS 版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform <platform>",
+            "选择目标平台"
           ],
           "next": 0
         },
@@ -266,26 +544,27 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "选择安装范围 (user 或 machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "为机器上的所有用户安装包"
+                "为机器上的所有用户安装"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "为当前用户安装包"
+                "为当前用户安装"
               ]
             }
           ]
@@ -293,7 +572,16 @@
         {
           "name": "--skip-dependencies",
           "tip": [
-            "{{ $info.__skip_dependencies }}"
+            "跳过处理包依赖项和 Windows 功能"
+          ]
+        },
+        {
+          "name": "--skip-microsoft-store-package-license",
+          "alias": [
+            "--skip-license"
+          ],
+          "tip": [
+            "跳过检索 Microsoft Store 程序包脱机许可证"
           ]
         },
         {
@@ -302,7 +590,8 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
           ],
           "next": 0
         },
@@ -312,28 +601,80 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "使用指定的版本; 默认为最新版本"
           ],
           "next": 0
         }
       ]
     },
     {
+      "name": "dscv3",
+      "tip": [
+        "DSC v3 资源命令, 用于配置 WinGet 和包"
+      ],
+      "option": [
+        {
+          "name": "--manifest",
+          "tip": [
+            "获取资源清单"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <directory>",
+            "要在其中写入结果的目录"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "admin-settings",
+          "tip": [
+            "管理管理员设置"
+          ]
+        },
+        {
+          "name": "package",
+          "tip": [
+            "管理包状态"
+          ]
+        },
+        {
+          "name": "source",
+          "tip": [
+            "管理源配置"
+          ]
+        },
+        {
+          "name": "user-settings-file",
+          "tip": [
+            "管理用户设置文件"
+          ]
+        }
+      ]
+    },
+    {
       "name": "export",
       "tip": [
-        "导出已安装包的列表"
+        "导出已安装程序包的列表"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
           ]
         },
         {
           "name": "--include-versions",
           "tip": [
-            "在生成的文件中包含包版本"
+            "在导出文件中包含包版本"
           ]
         },
         {
@@ -362,13 +703,13 @@
     {
       "name": "features",
       "tip": [
-        "显示实验性特性的状态"
+        "显示实验性功能的状态"
       ]
     },
     {
       "name": "hash",
       "tip": [
-        "用于哈希已安装程序的助手"
+        "计算本地文件的哈希值"
       ],
       "option": [
         {
@@ -378,7 +719,7 @@
           ],
           "tip": [
             "U: -f, --file <file>",
-            "哈希指定的文件"
+            "进行哈希处理的文件"
           ],
           "next": 0
         },
@@ -388,41 +729,40 @@
             "-m"
           ],
           "tip": [
-            "U: -m, --msix <file>",
-            "将输入文件视为 msix; 如果已签名, 则提供已签名的哈希"
-          ],
-          "next": 0
+            "U: -m, --msix",
+            "将输入文件视为 msix; 如果已签名, 则提供签名哈希"
+          ]
         }
       ]
     },
     {
       "name": "import",
       "tip": [
-        "从文件安装所有包"
+        "安装文件中的所有程序包"
       ],
       "option": [
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "接受包的所有许可协议"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
           ]
         },
         {
           "name": "--ignore-unavailable",
           "tip": [
-            "忽略不可用的包"
+            "忽略不可用的程序包"
           ]
         },
         {
           "name": "--ignore-versions",
           "tip": [
-            "在导入文件中忽略包版本"
+            "忽略导入文件中的程序包版本"
           ]
         },
         {
@@ -432,14 +772,14 @@
           ],
           "tip": [
             "U: -i, --import-file <file>",
-            "描述要安装的包的文件"
+            "描述要安装的程序包的文件"
           ],
           "next": 0
         },
         {
           "name": "--no-upgrade",
           "tip": [
-            "{{ $info.__no_upgrade }}"
+            "如果已安装的版本已存在, 则跳过升级"
           ]
         }
       ]
@@ -450,24 +790,26 @@
         "add"
       ],
       "tip": [
-        "U: install|add",
-        "安装指定的包(通过搜索配置的源或直接从清单中找到它)。",
-        "默认情况下, 查询必须与包的 id、名称或别名在大小写不敏感的方式下匹配。",
-        "可以使用相应的选项通过其他字段进行查询。",
-        "默认情况下, 安装命令会检查包的安装状态并尝试执行升级(如果适用)。",
-        "使用 --force 选项以强制执行直接安装。"
+        "U: install|add <query>",
+        "安装选定的程序包"
       ],
       "option": [
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "接受包的所有许可协议"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
+          ]
+        },
+        {
+          "name": "--allow-reboot",
+          "tip": [
+            "如果适用, 允许重启"
           ]
         },
         {
@@ -476,40 +818,75 @@
             "-a"
           ],
           "tip": [
-            "{{ $info.__architecture }}"
+            "U: -a, --architecture <arch>",
+            "选择体系结构"
           ],
           "next": [
             {
               "name": "arm64",
               "tip": [
-                "安装 arm64 架构的包"
+                "使用 arm64 体系结构"
               ]
             },
             {
               "name": "x64",
               "tip": [
-                "安装 x64 架构的包"
+                "使用 x64 体系结构"
               ]
             },
             {
               "name": "x86",
               "tip": [
-                "安装 x86 架构的包"
+                "使用 x86 体系结构"
               ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
             }
           ]
         },
         {
           "name": "--custom",
           "tip": [
-            "{{ $info.__custom }}"
+            "U: --custom <args>",
+            "除默认值外, 参数传递到安装程序"
           ],
           "next": 0
         },
         {
+          "name": "--dependencies-only",
+          "tip": [
+            "仅安装包的依赖项"
+          ]
+        },
+        {
           "name": "--dependency-source",
           "tip": [
-            "{{ $info.__dependency_source }}"
+            "U: --dependency-source <source>",
+            "使用指定源查找包依赖项"
           ],
           "next": 0
         },
@@ -519,100 +896,74 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "使用精确匹配查找程序包"
           ]
         },
         {
           "name": "--force",
           "tip": [
-            "{{ $info.__force }}"
+            "直接运行命令并继续处理与安全无关的问题"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "按 id 筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--ignore-local-archive-malware-scan",
           "tip": [
-            "{{ $info.__ignore_local_archive_malware_scan }}"
+            "忽略在从本地清单安装存档类型包时执行的恶意软件扫描"
           ]
         },
         {
           "name": "--ignore-security-hash",
           "tip": [
-            "{{ $info.__ignore_security_hash }}"
+            "忽略安装程序哈希检查失败"
           ]
         },
         {
           "name": "--installer-type",
           "tip": [
-            "{{ $info.__installer_type }}"
+            "选择安装程序类型"
           ],
           "next": [
             {
-              "name": "appx",
-              "tip": [
-                "使用 APPX 安装程序"
-              ]
+              "name": "appx"
             },
             {
-              "name": "exe",
-              "tip": [
-                "使用 EXE 安装程序"
-              ]
+              "name": "exe"
             },
             {
-              "name": "inno",
-              "tip": [
-                "使用 Inno Setup 安装程序"
-              ]
+              "name": "inno"
             },
             {
-              "name": "msi",
-              "tip": [
-                "使用 MSI 安装程序"
-              ]
+              "name": "msi"
             },
             {
-              "name": "msix",
-              "tip": [
-                "使用 MSIX 安装程序"
-              ]
+              "name": "msix"
             },
             {
-              "name": "msu",
-              "tip": [
-                "使用 MSU 安装程序"
-              ]
+              "name": "msu"
             },
             {
-              "name": "nullsoft",
-              "tip": [
-                "使用 Nullsoft 安装程序"
-              ]
+              "name": "nullsoft"
             },
             {
-              "name": "wix",
-              "tip": [
-                "使用 WiX 安装程序"
-              ]
+              "name": "wix"
             },
             {
-              "name": "zip",
-              "tip": [
-                "使用 ZIP 解压安装"
-              ]
+              "name": "zip"
             }
           ]
         },
@@ -622,13 +973,14 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__interactive }}"
+            "请求交互式安装; 可能需要用户输入"
           ]
         },
         {
           "name": "--locale",
           "tip": [
-            "{{ $info.__locale }}"
+            "U: --locale <locale>",
+            "要使用的区域设置 (BCP 47 格式)"
           ],
           "next": 0
         },
@@ -638,7 +990,8 @@
             "-l"
           ],
           "tip": [
-            "{{ $info.__location }}"
+            "U: -l, --location <path>",
+            "要安装到的位置 (如支持)"
           ],
           "next": 0
         },
@@ -648,7 +1001,8 @@
             "-o"
           ],
           "tip": [
-            "{{ $info.__log }}"
+            "U: -o, --log <path>",
+            "日志位置 (如果支持)"
           ],
           "next": 0
         },
@@ -658,34 +1012,36 @@
             "-m"
           ],
           "tip": [
-            "{{ $info.__manifest }}"
+            "U: -m, --manifest <path>",
+            "程序包清单的路径"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "按名字对象筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "按名称筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--no-upgrade",
           "tip": [
-            "{{ $info.__no_upgrade }}"
+            "如果已安装的版本已存在, 则跳过升级"
           ]
         },
         {
           "name": "--override",
           "tip": [
-            "{{ $info.__override }}"
+            "U: --override <args>",
+            "覆盖待传递的参数至安装程序"
           ],
           "next": 0
         },
@@ -695,7 +1051,8 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
           ],
           "next": 0
         },
@@ -705,26 +1062,27 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__rename }}"
+            "U: -r, --rename <name>",
+            "要重命名可执行文件的值 (可移植)"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "选择安装范围 (user 或 machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "为机器上的所有用户安装包"
+                "为机器上的所有用户安装"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "为当前用户安装包"
+                "为当前用户安装"
               ]
             }
           ]
@@ -732,10 +1090,16 @@
         {
           "name": "--silent",
           "alias": [
-            "-q"
+            "-h"
           ],
           "tip": [
-            "{{ $info.__silent }}"
+            "请求无提示安装"
+          ]
+        },
+        {
+          "name": "--skip-dependencies",
+          "tip": [
+            "跳过处理包依赖项和 Windows 功能"
           ]
         },
         {
@@ -744,14 +1108,15 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
           ],
           "next": 0
         },
         {
           "name": "--uninstall-previous",
           "tip": [
-            "{{ $info.__uninstall_previous }}"
+            "升级期间卸载以前版本的程序包"
           ]
         },
         {
@@ -760,7 +1125,8 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "使用指定的版本; 默认为最新版本"
           ],
           "next": 0
         }
@@ -772,14 +1138,49 @@
         "ls"
       ],
       "tip": [
-        "U: ls|list",
-        "显示已安装的软件包"
+        "U: list|ls",
+        "显示已安装的程序包"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
+          ]
+        },
+        {
+          "name": "--ascending",
+          "alias": [
+            "--asc"
+          ],
+          "tip": [
+            "按升序对结果进行排序"
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
           ]
         },
         {
@@ -788,7 +1189,7 @@
             "--cmd"
           ],
           "tip": [
-            "{{ $info.__command }}"
+            "按命令筛选结果"
           ],
           "next": 0
         },
@@ -798,9 +1199,25 @@
             "-n"
           ],
           "tip": [
-            "{{ $info.__count }}"
+            "U: -n, --count <count>",
+            "显示介于 1 和 1000 之间的指定数量的结果"
           ],
           "next": 0
+        },
+        {
+          "name": "--descending",
+          "alias": [
+            "--desc"
+          ],
+          "tip": [
+            "按降序对结果进行排序"
+          ]
+        },
+        {
+          "name": "--details",
+          "tip": [
+            "显示有关包的详细信息"
+          ]
         },
         {
           "name": "--exact",
@@ -808,34 +1225,54 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "使用精确匹配查找程序包"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "按 id 筛选结果"
           ],
           "next": 0
         },
         {
+          "name": "--include-pinned",
+          "alias": [
+            "--pinned"
+          ],
+          "tip": [
+            "列出程序包, 即使它们具有阻止升级的引脚"
+          ]
+        },
+        {
+          "name": "--include-unknown",
+          "alias": [
+            "--unknown",
+            "-u"
+          ],
+          "tip": [
+            "列出程序包, 即使无法确定其当前版本"
+          ]
+        },
+        {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "按名字对象筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "按名称筛选结果"
           ],
           "next": 0
         },
@@ -845,7 +1282,36 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "选择已安装的程序包范围筛选器 (user 或 machine)"
+          ],
+          "next": [
+            {
+              "name": "machine",
+              "tip": [
+                "筛选机器上的所有用户"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "筛选当前用户"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "U: --sort <property>",
+            "按属性对结果排序 (可重复)"
           ],
           "next": 0
         },
@@ -855,21 +1321,42 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
           ],
           "next": 0
         },
         {
           "name": "--tag",
           "tip": [
-            "{{ $info.__tag }}"
+            "按标签筛选"
           ],
           "next": 0
         },
         {
-          "name": "--versions",
+          "name": "--upgrade-available",
           "tip": [
-            "{{ $info.__versions }}"
+            "仅列出具有可用升级的包"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "MCP (模型上下文协议) Windows 程序包管理器信息"
+      ],
+      "option": [
+        {
+          "name": "--disable",
+          "tip": [
+            "禁用扩展功能。需要存储权限。"
+          ]
+        },
+        {
+          "name": "--enable",
+          "tip": [
+            "启用扩展功能。需要应用商店访问权限。"
           ]
         }
       ]
@@ -877,32 +1364,664 @@
     {
       "name": "pin",
       "tip": [
-        "管理包的固定"
+        "管理包钉"
       ],
       "next": [
         {
           "name": "add",
           "tip": [
-            "添加新的包固定"
+            "添加新的包钉"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "在源操作期间接受所有源协议"
+              ]
+            },
+            {
+              "name": "--authentication-account",
+              "tip": [
+                "U: --authentication-account <account>",
+                "指定用于身份验证的帐户"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--authentication-mode",
+              "tip": [
+                "U: --authentication-mode <mode>",
+                "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+              ],
+              "next": [
+                {
+                  "name": "interactive"
+                },
+                {
+                  "name": "silent"
+                },
+                {
+                  "name": "silentPreferred"
+                }
+              ]
+            },
+            {
+              "name": "--blocking",
+              "tip": [
+                "阻止升级, 直到移除包钉, 阻止替代参数"
+              ]
+            },
+            {
+              "name": "--command",
+              "alias": [
+                "--cmd"
+              ],
+              "tip": [
+                "按命令筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exact",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "使用精确匹配查找程序包"
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "直接运行命令并继续处理与安全无关的问题"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "可选的 Windows-Package-Manager REST 源 HTTP 标头"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--id",
+              "tip": [
+                "按 id 筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--installed",
+              "tip": [
+                "固定特定的已安装版本"
+              ]
+            },
+            {
+              "name": "--moniker",
+              "tip": [
+                "按名字对象筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "按名称筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--query",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --query <query>",
+                "用于搜索程序包的查询"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "使用指定的源查找程序包"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "tip": [
+                "按标签筛选"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <version>",
+                "要将包钉到的版本。通配符 * 可用作最后一个版本部件"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
-            "列出当前包的固定"
+            "列出当前所有固定或特定 PIN 的完整详细信息"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "在源操作期间接受所有源协议"
+              ]
+            },
+            {
+              "name": "--authentication-account",
+              "tip": [
+                "U: --authentication-account <account>",
+                "指定用于身份验证的帐户"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--authentication-mode",
+              "tip": [
+                "U: --authentication-mode <mode>",
+                "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+              ],
+              "next": [
+                {
+                  "name": "interactive"
+                },
+                {
+                  "name": "silent"
+                },
+                {
+                  "name": "silentPreferred"
+                }
+              ]
+            },
+            {
+              "name": "--command",
+              "alias": [
+                "--cmd"
+              ],
+              "tip": [
+                "按命令筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exact",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "使用精确匹配查找程序包"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "可选的 Windows-Package-Manager REST 源 HTTP 标头"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--id",
+              "tip": [
+                "按 id 筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--moniker",
+              "tip": [
+                "按名字对象筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "按名称筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--query",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --query <query>",
+                "用于搜索程序包的查询"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "使用指定的源查找程序包"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "tip": [
+                "按标签筛选"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "remove",
           "tip": [
-            "移除包固定"
+            "删除特定包钉"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "在源操作期间接受所有源协议"
+              ]
+            },
+            {
+              "name": "--authentication-account",
+              "tip": [
+                "U: --authentication-account <account>",
+                "指定用于身份验证的帐户"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--authentication-mode",
+              "tip": [
+                "U: --authentication-mode <mode>",
+                "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+              ],
+              "next": [
+                {
+                  "name": "interactive"
+                },
+                {
+                  "name": "silent"
+                },
+                {
+                  "name": "silentPreferred"
+                }
+              ]
+            },
+            {
+              "name": "--command",
+              "alias": [
+                "--cmd"
+              ],
+              "tip": [
+                "按命令筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exact",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "使用精确匹配查找程序包"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "可选的 Windows-Package-Manager REST 源 HTTP 标头"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--id",
+              "tip": [
+                "按 id 筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--installed",
+              "tip": [
+                "固定特定的已安装版本"
+              ]
+            },
+            {
+              "name": "--moniker",
+              "tip": [
+                "按名字对象筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "按名称筛选结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--query",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --query <query>",
+                "用于搜索程序包的查询"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "使用指定的源查找程序包"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "tip": [
+                "按标签筛选"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "reset",
           "tip": [
-            "重置包固定"
+            "重置所有现有包钉"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "直接运行命令并继续处理与安全无关的问题"
+              ]
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "使用指定的源查找程序包"
+              ],
+              "next": 0
+            }
           ]
+        }
+      ]
+    },
+    {
+      "name": "repair",
+      "alias": [
+        "fix"
+      ],
+      "tip": [
+        "U: repair|fix <query>",
+        "修复所选包"
+      ],
+      "option": [
+        {
+          "name": "--accept-package-agreements",
+          "tip": [
+            "接受包的所有许可协议"
+          ]
+        },
+        {
+          "name": "--accept-source-agreements",
+          "tip": [
+            "在源操作期间接受所有源协议"
+          ]
+        },
+        {
+          "name": "--architecture",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --architecture <arch>",
+            "选择体系结构"
+          ],
+          "next": [
+            {
+              "name": "arm64",
+              "tip": [
+                "使用 arm64 体系结构"
+              ]
+            },
+            {
+              "name": "x64",
+              "tip": [
+                "使用 x64 体系结构"
+              ]
+            },
+            {
+              "name": "x86",
+              "tip": [
+                "使用 x86 体系结构"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "使用精确匹配查找程序包"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "直接运行命令并继续处理与安全无关的问题"
+          ]
+        },
+        {
+          "name": "--header",
+          "tip": [
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--id",
+          "tip": [
+            "按 id 筛选结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-local-archive-malware-scan",
+          "tip": [
+            "忽略在从本地清单安装存档类型包时执行的恶意软件扫描"
+          ]
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": [
+            "忽略安装程序哈希检查失败"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "请求交互式安装; 可能需要用户输入"
+          ]
+        },
+        {
+          "name": "--locale",
+          "tip": [
+            "U: --locale <locale>",
+            "要使用的区域设置 (BCP 47 格式)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--log",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --log <path>",
+            "日志位置 (如果支持)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manifest <path>",
+            "程序包清单的路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--moniker",
+          "tip": [
+            "按名字对象筛选结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "按名称筛选结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--product-code",
+          "tip": [
+            "U: --product-code <code>",
+            "使用产品代码进行筛选"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "选择已安装的程序包范围筛选器 (user 或 machine)"
+          ],
+          "next": [
+            {
+              "name": "machine",
+              "tip": [
+                "筛选机器上的所有用户"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "筛选当前用户"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-h"
+          ],
+          "tip": [
+            "请求无提示安装"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --version <version>",
+            "要执行的版本"
+          ],
+          "next": 0
         }
       ]
     },
@@ -912,14 +2031,40 @@
         "find"
       ],
       "tip": [
-        "U: search|find",
-        "从配置的源中搜索包"
+        "U: search|find <query>",
+        "从配置的源搜索程序包"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
           ]
         },
         {
@@ -928,7 +2073,7 @@
             "--cmd"
           ],
           "tip": [
-            "{{ $info.__command }}"
+            "按命令筛选结果"
           ],
           "next": 0
         },
@@ -938,7 +2083,8 @@
             "-n"
           ],
           "tip": [
-            "{{ $info.__count }}"
+            "U: -n, --count <count>",
+            "显示介于 1 和 1000 之间的指定数量的结果"
           ],
           "next": 0
         },
@@ -948,34 +2094,35 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "使用精确匹配查找程序包"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "按 id 筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "按名字对象筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "按名称筛选结果"
           ],
           "next": 0
         },
@@ -985,7 +2132,8 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
           ],
           "next": 0
         },
@@ -995,27 +2143,31 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
           ],
           "next": 0
         },
         {
           "name": "--tag",
           "tip": [
-            "{{ $info.__tag }}"
+            "按标签筛选"
           ],
           "next": 0
         },
         {
           "name": "--versions",
           "tip": [
-            "{{ $info.__versions }}"
+            "显示程序包的可用版本"
           ]
         }
       ]
     },
     {
       "name": "settings",
+      "alias": [
+        "config"
+      ],
       "tip": [
         "打开设置或设置管理员设置"
       ],
@@ -1024,7 +2176,7 @@
           "name": "--disable",
           "tip": [
             "U: --disable <setting>",
-            "禁用特定的管理员设置"
+            "禁用特定管理员设置"
           ],
           "next": 0
         },
@@ -1041,22 +2193,54 @@
         {
           "name": "export",
           "tip": [
-            "导出设置"
+            "将设置导出为 JSON"
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "将管理员设置重置为其默认值"
           ],
           "option": [
             {
-              "name": "--disable",
+              "name": "--recurse",
+              "alias": [
+                "--all",
+                "-r"
+              ],
               "tip": [
-                "U: --disable <setting>",
-                "禁用特定的管理员设置"
+                "重置所有管理员设置"
+              ]
+            },
+            {
+              "name": "--setting",
+              "tip": [
+                "U: --setting <name>",
+                "要重置的设置的名称"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置管理员设置的值"
+          ],
+          "option": [
+            {
+              "name": "--setting",
+              "tip": [
+                "U: --setting <name>",
+                "要修改的设置的名称"
               ],
               "next": 0
             },
             {
-              "name": "--enable",
+              "name": "--value",
               "tip": [
-                "U: --enable <setting>",
-                "启用特定的管理员设置"
+                "U: --value <value>",
+                "要为设置设置的值"
               ],
               "next": 0
             }
@@ -1070,16 +2254,14 @@
         "view"
       ],
       "tip": [
-        "U: show|view",
-        "显示有关特定包的信息。",
-        "默认情况下, 查询必须与包的 ID、名称或别名在大小写不敏感的方式下匹配。",
-        "可以使用相应的选项通过其他字段进行查询。"
+        "U: show|view <query>",
+        "显示有关特定程序包的信息"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
           ]
         },
         {
@@ -1088,26 +2270,53 @@
             "-a"
           ],
           "tip": [
-            "{{ $info.__architecture }}"
+            "U: -a, --architecture <arch>",
+            "选择体系结构"
           ],
           "next": [
             {
               "name": "arm64",
               "tip": [
-                "安装 arm64 架构的包"
+                "使用 arm64 体系结构"
               ]
             },
             {
               "name": "x64",
               "tip": [
-                "安装 x64 架构的包"
+                "使用 x64 体系结构"
               ]
             },
             {
               "name": "x86",
               "tip": [
-                "安装 x86 架构的包"
+                "使用 x86 体系结构"
               ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
             }
           ]
         },
@@ -1117,103 +2326,89 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "使用精确匹配查找程序包"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "按 id 筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--installer-type",
           "tip": [
-            "{{ $info.__installer_type }}"
+            "选择安装程序类型"
           ],
           "next": [
             {
-              "name": "appx",
-              "tip": [
-                "使用 APPX 安装程序"
-              ]
+              "name": "appx"
             },
             {
-              "name": "exe",
-              "tip": [
-                "使用 EXE 安装程序"
-              ]
+              "name": "exe"
             },
             {
-              "name": "inno",
-              "tip": [
-                "使用 Inno Setup 安装程序"
-              ]
+              "name": "inno"
             },
             {
-              "name": "msi",
-              "tip": [
-                "使用 MSI 安装程序"
-              ]
+              "name": "msi"
             },
             {
-              "name": "msix",
-              "tip": [
-                "使用 MSIX 安装程序"
-              ]
+              "name": "msix"
             },
             {
-              "name": "msu",
-              "tip": [
-                "使用 MSU 安装程序"
-              ]
+              "name": "msu"
             },
             {
-              "name": "nullsoft",
-              "tip": [
-                "使用 Nullsoft 安装程序"
-              ]
+              "name": "nullsoft"
             },
             {
-              "name": "wix",
-              "tip": [
-                "使用 WiX 安装程序"
-              ]
+              "name": "wix"
             },
             {
-              "name": "zip",
-              "tip": [
-                "使用 ZIP 解压安装"
-              ]
+              "name": "zip"
             }
           ]
         },
         {
           "name": "--locale",
           "tip": [
-            "{{ $info.__locale }}"
+            "U: --locale <locale>",
+            "要使用的区域设置 (BCP 47 格式)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manifest <path>",
+            "程序包清单的路径"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "按名字对象筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "按名称筛选结果"
           ],
           "next": 0
         },
@@ -1223,26 +2418,27 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "选择安装范围 (user 或 machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "为机器上的所有用户安装包"
+                "为机器上的所有用户安装"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "为当前用户安装包"
+                "为当前用户安装"
               ]
             }
           ]
@@ -1253,7 +2449,8 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
           ],
           "next": 0
         },
@@ -1263,14 +2460,15 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "使用指定的版本; 默认为最新版本"
           ],
           "next": 0
         },
         {
           "name": "--versions",
           "tip": [
-            "{{ $info.__versions }}"
+            "显示程序包的可用版本"
           ]
         }
       ]
@@ -1278,43 +2476,234 @@
     {
       "name": "source",
       "tip": [
-        "管理包的源"
+        "管理程序包的来源"
       ],
       "next": [
         {
           "name": "add",
           "tip": [
-            "添加新源"
+            "添加新来源"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "在源操作期间接受所有源协议"
+              ]
+            },
+            {
+              "name": "--arg",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --arg <arg>",
+                "指定给源的参数"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--explicit",
+              "tip": [
+                "除非指定, 否则从发现中排除源"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "可选的 Windows-Package-Manager REST 源 HTTP 标头"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "源名称"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--trust-level",
+              "tip": [
+                "U: --trust-level <level>",
+                "源的信任级别 (none 或 trusted)"
+              ],
+              "next": [
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "trusted"
+                }
+              ]
+            },
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --type <type>",
+                "源类型"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "alias": [
+            "edit",
+            "set"
+          ],
+          "tip": [
+            "编辑现有源的属性"
+          ],
+          "option": [
+            {
+              "name": "--explicit",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --explicit <true|false>",
+                "从发现中排除源 (true 或 false)"
+              ],
+              "next": [
+                {
+                  "name": "false"
+                },
+                {
+                  "name": "true"
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "源名称"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "export",
           "tip": [
-            "导出当前源"
+            "将当前源作为组策略的 JSON 导出"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "源名称"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
           "tip": [
             "列出当前源"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "源名称"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "refresh",
+          "alias": [
+            "update"
+          ],
+          "tip": [
+            "更新当前源"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "源名称"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "remove",
+          "alias": [
+            "rm"
+          ],
           "tip": [
-            "移除当前源"
+            "删除指定的源"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "源名称"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "reset",
           "tip": [
-            "重置源"
-          ]
-        },
-        {
-          "name": "update",
-          "tip": [
-            "更新当前源"
+            "重置源; 删除所有源并添加默认值"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "强制重置源"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "源名称"
+              ],
+              "next": 0
+            }
           ]
         }
       ]
@@ -1326,14 +2715,14 @@
         "rm"
       ],
       "tip": [
-        "U: uninstall, rm, remove",
-        "卸载给定的软件包"
+        "U: uninstall|remove|rm <query>",
+        "卸载给定的程序包"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
           ]
         },
         {
@@ -1342,7 +2731,33 @@
             "--all"
           ],
           "tip": [
-            "卸载所有版本。"
+            "卸载所有版本"
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
           ]
         },
         {
@@ -1351,26 +2766,27 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "使用精确匹配查找程序包"
           ]
         },
         {
           "name": "--force",
           "tip": [
-            "{{ $info.__force }}"
+            "直接运行命令并继续处理与安全无关的问题"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "按 id 筛选结果"
           ],
           "next": 0
         },
@@ -1380,15 +2796,8 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__interactive }}"
+            "请求交互式安装; 可能需要用户输入"
           ]
-        },
-        {
-          "name": "--locale",
-          "tip": [
-            "{{ $info.__locale }}"
-          ],
-          "next": 0
         },
         {
           "name": "--log",
@@ -1396,7 +2805,8 @@
             "-o"
           ],
           "tip": [
-            "{{ $info.__log }}"
+            "U: -o, --log <path>",
+            "日志位置 (如果支持)"
           ],
           "next": 0
         },
@@ -1406,42 +2816,43 @@
             "-m"
           ],
           "tip": [
-            "{{ $info.__manifest }}"
+            "U: -m, --manifest <path>",
+            "程序包清单的路径"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "按名字对象筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "按名称筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--preserve",
           "tip": [
-            "保留由包创建的所有文件和目录(便携式)"
+            "保留由包创建的所有文件和目录 (可移植)"
           ]
         },
         {
           "name": "--product-code",
           "tip": [
-            "U: --product-code <product-code>",
-            "通过产品代码过滤结果"
+            "U: --product-code <code>",
+            "使用产品代码进行筛选"
           ],
           "next": 0
         },
         {
           "name": "--purge",
           "tip": [
-            "{{ $info.__purge }}"
+            "删除包目录中的所有文件和目录 (可移植)"
           ]
         },
         {
@@ -1450,26 +2861,27 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "选择已安装的程序包范围筛选器 (user 或 machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "为机器上的所有用户安装包"
+                "筛选机器上的所有用户"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "为当前用户安装包"
+                "筛选当前用户"
               ]
             }
           ]
@@ -1477,10 +2889,10 @@
         {
           "name": "--silent",
           "alias": [
-            "-q"
+            "-h"
           ],
           "tip": [
-            "{{ $info.__silent }}"
+            "请求无提示安装"
           ]
         },
         {
@@ -1489,7 +2901,8 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
           ],
           "next": 0
         },
@@ -1499,7 +2912,8 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "要执行的版本"
           ],
           "next": 0
         }
@@ -1511,26 +2925,89 @@
         "update"
       ],
       "tip": [
-        "U: update|upgrade",
-        "将已安装的软件包更新到最新的可用版本"
+        "U: upgrade|update <query>",
+        "显示并执行可用升级"
       ],
       "option": [
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "接受包的所有许可协议"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "在源操作期间接受所有源协议"
+          ]
+        },
+        {
+          "name": "--allow-reboot",
+          "tip": [
+            "如果适用, 允许重启"
+          ]
+        },
+        {
+          "name": "--architecture",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --architecture <arch>",
+            "选择体系结构"
+          ],
+          "next": [
+            {
+              "name": "arm64",
+              "tip": [
+                "使用 arm64 体系结构"
+              ]
+            },
+            {
+              "name": "x64",
+              "tip": [
+                "使用 x64 体系结构"
+              ]
+            },
+            {
+              "name": "x86",
+              "tip": [
+                "使用 x86 体系结构"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "指定用于身份验证的帐户"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "指定身份验证窗口首选项 (silent、silentPreferred 或 interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
           ]
         },
         {
           "name": "--custom",
           "tip": [
-            "{{ $info.__custom }}"
+            "U: --custom <args>",
+            "除默认值外, 参数传递到安装程序"
           ],
           "next": 0
         },
@@ -1540,39 +3017,40 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "使用精确匹配查找程序包"
           ]
         },
         {
           "name": "--force",
           "tip": [
-            "{{ $info.__force }}"
+            "直接运行命令并继续处理与安全无关的问题"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "可选的 Windows-Package-Manager REST 源 HTTP 标头"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "按 id 筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--ignore-local-archive-malware-scan",
           "tip": [
-            "{{ $info.__ignore_local_archive_malware_scan }}"
+            "忽略在从本地清单安装存档类型包时执行的恶意软件扫描"
           ]
         },
         {
           "name": "--ignore-security-hash",
           "tip": [
-            "{{ $info.__ignore_security_hash }}"
+            "忽略安装程序哈希检查失败"
           ]
         },
         {
@@ -1581,7 +3059,7 @@
             "--pinned"
           ],
           "tip": [
-            "{{ $info.__pinned }}"
+            "即使程序包拥有非阻止性包钉, 也要升级程序包"
           ]
         },
         {
@@ -1591,7 +3069,42 @@
             "-u"
           ],
           "tip": [
-            "{{ $info.__unknown }}"
+            "即使无法确定其当前版本, 也可升级包"
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": [
+            "选择安装程序类型"
+          ],
+          "next": [
+            {
+              "name": "appx"
+            },
+            {
+              "name": "exe"
+            },
+            {
+              "name": "inno"
+            },
+            {
+              "name": "msi"
+            },
+            {
+              "name": "msix"
+            },
+            {
+              "name": "msu"
+            },
+            {
+              "name": "nullsoft"
+            },
+            {
+              "name": "wix"
+            },
+            {
+              "name": "zip"
+            }
           ]
         },
         {
@@ -1600,8 +3113,16 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__interactive }}"
+            "请求交互式安装; 可能需要用户输入"
           ]
+        },
+        {
+          "name": "--locale",
+          "tip": [
+            "U: --locale <locale>",
+            "要使用的区域设置 (BCP 47 格式)"
+          ],
+          "next": 0
         },
         {
           "name": "--location",
@@ -1609,7 +3130,8 @@
             "-l"
           ],
           "tip": [
-            "{{ $info.__location }}"
+            "U: -l, --location <path>",
+            "要安装到的位置 (如支持)"
           ],
           "next": 0
         },
@@ -1619,7 +3141,8 @@
             "-o"
           ],
           "tip": [
-            "{{ $info.__log }}"
+            "U: -o, --log <path>",
+            "日志位置 (如果支持)"
           ],
           "next": 0
         },
@@ -1629,35 +3152,37 @@
             "-m"
           ],
           "tip": [
-            "{{ $info.__manifest }}"
+            "U: -m, --manifest <path>",
+            "程序包清单的路径"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "按名字对象筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "按名称筛选结果"
           ],
           "next": 0
         },
         {
           "name": "--override",
           "tip": [
-            "{{ $info.__override }}"
+            "U: --override <args>",
+            "覆盖待传递的参数至安装程序"
           ],
           "next": 0
         },
         {
           "name": "--purge",
           "tip": [
-            "{{ $info.__purge }}"
+            "删除包目录中的所有文件和目录 (可移植)"
           ]
         },
         {
@@ -1666,7 +3191,8 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "用于搜索程序包的查询"
           ],
           "next": 0
         },
@@ -1677,22 +3203,42 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__recurse }}"
+            "如果可用, 将所有已安装的程序包更新为最新版本"
+          ]
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "选择已安装的程序包范围筛选器 (user 或 machine)"
+          ],
+          "next": [
+            {
+              "name": "machine",
+              "tip": [
+                "筛选机器上的所有用户"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "筛选当前用户"
+              ]
+            }
           ]
         },
         {
           "name": "--silent",
           "alias": [
-            "-q"
+            "-h"
           ],
           "tip": [
-            "{{ $info.__silent }}"
+            "请求无提示安装"
           ]
         },
         {
           "name": "--skip-dependencies",
           "tip": [
-            "{{ $info.__skip_dependencies }}"
+            "跳过处理包依赖项和 Windows 功能"
           ]
         },
         {
@@ -1701,14 +3247,15 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "使用指定的源查找程序包"
           ],
           "next": 0
         },
         {
           "name": "--uninstall-previous",
           "tip": [
-            "{{ $info.__uninstall_previous }}"
+            "升级期间卸载以前版本的程序包"
           ]
         },
         {
@@ -1717,7 +3264,8 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "使用指定的版本; 默认为最新版本"
           ],
           "next": 0
         }
@@ -1731,12 +3279,9 @@
       "option": [
         {
           "name": "--manifest",
-          "alias": [
-            "-m"
-          ],
           "tip": [
-            "U: -m, --manifest <manifest>",
-            "要验证的清单文件的路径"
+            "U: --manifest <path>",
+            "待验证的程序清单路径"
           ],
           "next": 0
         }
@@ -1747,7 +3292,7 @@
     {
       "name": "--info",
       "tip": [
-        "显示 winget 的一些常规信息"
+        "显示工具的常规信息"
       ]
     },
     {
@@ -1756,8 +3301,7 @@
         "-v"
       ],
       "tip": [
-        "U: -v, --version",
-        "打印 winget 的版本"
+        "显示工具的版本"
       ]
     }
   ],
@@ -1774,8 +3318,22 @@
         "-?"
       ],
       "tip": [
-        "U: -?, --help",
-        "显示帮助信息"
+        "显示选定命令的帮助信息"
+      ]
+    },
+    {
+      "name": "--ignore-warnings",
+      "alias": [
+        "--nowarn"
+      ],
+      "tip": [
+        "禁止显示警告输出"
+      ]
+    },
+    {
+      "name": "--no-proxy",
+      "tip": [
+        "禁止对此执行使用代理"
       ]
     },
     {
@@ -1784,9 +3342,16 @@
         "--logs"
       ],
       "tip": [
-        "U: --logs, --open-logs",
         "打开默认日志位置"
       ]
+    },
+    {
+      "name": "--proxy",
+      "tip": [
+        "U: --proxy <proxy>",
+        "设置要用于此执行的代理"
+      ],
+      "next": 0
     },
     {
       "name": "--verbose-logs",
@@ -1794,8 +3359,7 @@
         "--verbose"
       ],
       "tip": [
-        "U: --verbose, --verbose-logs",
-        "为 winget 启用详细日志记录"
+        "启用 WinGet 的详细日志记录"
       ]
     },
     {
@@ -1804,157 +3368,5 @@
         "提示用户在退出前按任意键"
       ]
     }
-  ],
-  "info": {
-    "__accept_package_agreements": "用于接受许可协议并避免提示",
-    "__accept_source_agreements": "用于接受源许可协议并避免提示",
-    "__architecture": [
-      "U: -a, --architecture <arch>\n",
-      "使用指定的架构\n",
-      "E: -a x64"
-    ],
-    "__command": [
-      "U: --cmd, --command <command>\n",
-      "通过命令过滤结果\n",
-      "E: --command \"winget install\""
-    ],
-    "__count": [
-      "U: -n, --count <count>\n",
-      "显示不超过指定数量的结果(1-1000)\n",
-      "E: --count 10"
-    ],
-    "__custom": [
-      "U: --custom <custom>\n",
-      "传递给安装程序的附加参数, 包括默认值\n",
-      "E: --custom \"/q /norestart\""
-    ],
-    "__dependency_source": [
-      "U: --dependency-source <source>\n",
-      "使用指定的源查找包依赖项\n",
-      "E: --dependency-source winget"
-    ],
-    "__exact": [
-      "U: -e, --exact\n",
-      "在查询中使用精确字符串, 包括大小写敏感性。它不会使用默认的子字符串行为"
-    ],
-    "__file": [
-      "U: -f, --file <file>\n",
-      "配置文件的路径"
-    ],
-    "__force": "直接运行命令并继续, 即使存在非安全相关的问题",
-    "__header": [
-      "U: --header <header>\n",
-      "可选的 Windows 包管理器 REST 源 HTTP 头\n",
-      "E: --header \"Authorization: Bearer <token>\""
-    ],
-    "__id": [
-      "U: --id <id>\n",
-      "通过包 ID 过滤结果\n",
-      "E: --id Microsoft.VisualStudioCode"
-    ],
-    "__ignore_local_archive_malware_scan": "忽略作为本地清单的一部分安装的存档类型包的恶意软件扫描",
-    "__ignore_security_hash": "覆盖安装程序哈希检查。不推荐使用",
-    "__installer_type": [
-      "U: --installer-type <type>\n",
-      "选择用于包的安装程序类型\n",
-      "E: --installer-type msi"
-    ],
-    "__interactive": [
-      "U: -i, --interactive\n",
-      "以交互模式运行安装程序。\n",
-      "默认体验显示安装程序进度"
-    ],
-    "__locale": [
-      "U: --locale <locale>\n",
-      "指定要使用的区域设置(BCP47 格式)\n",
-      "E: --locale zh-CN"
-    ],
-    "__location": [
-      "U: -l, --location <location>\n",
-      "安装到指定位置, 如果支持\n",
-      "E: -l \"D:\\software\""
-    ],
-    "__log": [
-      "U: -o, --log <log>\n",
-      "将日志重定向到日志文件。\n",
-      "必须提供具有写入权限的文件路径\n",
-      "E: -o \"D:\\winget-install.log\""
-    ],
-    "__manifest": [
-      "U: -m, --manifest <manifest>\n",
-      "包清单(YAML)文件的路径\n",
-      "使用 manifest 从本地 YAML 文件运行安装体验"
-    ],
-    "__module_path": [
-      "U: --module-path <path>\n",
-      "指定本地计算机上存储模块的位置。\n",
-      "默认: %LOCALAPPDATA%\\Microsoft\\WinGet\\Configuration\\Modules"
-    ],
-    "__moniker": [
-      "U: --moniker <moniker>\n",
-      "通过包别名过滤结果\n",
-      "E: --moniker \"vscode\""
-    ],
-    "__name": [
-      "U: --name <name>\n",
-      "通过包名称过滤结果\n",
-      "E: --name \"Visual Studio Code\""
-    ],
-    "__no_upgrade": "如果已安装版本已存在, 则跳过包升级",
-    "__override": [
-      "U: --override <override>\n",
-      "直接传递给安装程序的字符串\n",
-      "E: --override \"/q /norestart\""
-    ],
-    "__pinned": [
-      "U: --pinned, --include-pinned\n",
-      "即使有非阻塞的包固定, 也更新包"
-    ],
-    "__purge": "删除包目录中的所有文件和目录(便携式)",
-    "__query": [
-      "U: -q, --query <query>...\n",
-      "用于搜索包的查询"
-    ],
-    "__recurse": [
-      "U: -r, --recurse, --all\n",
-      "如果可用, 则更新所有已安装的包到最新版本"
-    ],
-    "__rename": [
-      "U: -r, --rename <value>\n",
-      "重命名可执行文件(便携式)的值\n",
-      "E: -r \"新名称\""
-    ],
-    "__scope": [
-      "U: --scope <scope>\n",
-      "选择安装范围 [user|machine]\n",
-      "E: --scope user"
-    ],
-    "__silent": [
-      "U: -q, --silent\n",
-      "以静默模式运行安装程序。\n",
-      "默认体验不显示安装程序进度"
-    ],
-    "__skip_dependencies": "跳过处理包依赖项和 Windows 功能",
-    "__source": [
-      "U: -s, --source <source>\n",
-      "使用指定的源查询包, 必须后跟源名称\n",
-      "E: -s winget"
-    ],
-    "__tag": [
-      "U: --tag <tag>\n",
-      "通过包标签过滤结果\n",
-      "E: --tag \"recommended\""
-    ],
-    "__uninstall_previous": "在升级过程中卸载包的先前版本",
-    "__unknown": [
-      "U: -u, --unknown, --include-unknown\n",
-      "即使当前版本无法确定, 也更新包"
-    ],
-    "__version": [
-      "U: -v, --version <version>\n",
-      "使用指定的版本, 默认为最新版本\n",
-      "E: -v 1.56.2"
-    ],
-    "__versions": "显示包的可用版本"
-  }
+  ]
 }

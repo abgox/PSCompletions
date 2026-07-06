@@ -2,41 +2,89 @@
   "meta": {
     "url": "https://mise.jdx.dev/",
     "description": [
-      "mise - Polyglot tool version manager, env vars manager and task runner"
+      "mise - 多语言工具版本管理器、环境变量管理器和任务运行器"
     ]
   },
   "root": [
     {
       "name": "activate",
       "tip": [
-        "Initializes mise in the current shell session"
+        "在当前 shell 会话中初始化 mise"
+      ],
+      "option": [
+        {
+          "name": "--no-hook-env",
+          "tip": [
+            "不自动调用 hook-env"
+          ]
+        },
+        {
+          "name": "--shims",
+          "tip": [
+            "使用 shim 而不是修改 PATH"
+          ]
+        }
       ]
     },
     {
       "name": "backends",
-      "alias": [
-        "b"
-      ],
       "tip": [
-        "Manage backends"
+        "管理后端"
       ]
     },
     {
       "name": "bin-paths",
       "tip": [
-        "List all the active runtime bin paths"
+        "列出所有活动的运行时 bin 路径"
+      ]
+    },
+    {
+      "name": "bootstrap",
+      "tip": [
+        "[experimental] 使用当前配置一键设置机器"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "打印将要发生的内容而不安装任何内容"
+          ]
+        },
+        {
+          "name": "--force-dotfiles",
+          "tip": [
+            "覆盖与整个文件 dotfile 条目冲突的现有文件"
+          ]
+        },
+        {
+          "name": "--update",
+          "tip": [
+            "首先刷新系统包管理器元数据"
+          ]
+        }
       ]
     },
     {
       "name": "cache",
       "tip": [
-        "Manage the mise cache"
+        "管理 mise 缓存"
       ]
     },
     {
       "name": "completion",
       "tip": [
-        "Generate shell completions"
+        "生成 shell 补全"
+      ],
+      "option": [
+        {
+          "name": "--include-bash-completion-lib",
+          "tip": [
+            "在 bash 补全脚本中包含 bash 补全库"
+          ]
+        }
       ]
     },
     {
@@ -45,13 +93,84 @@
         "cfg"
       ],
       "tip": [
-        "Manage config files"
+        "管理配置文件"
+      ],
+      "option": [
+        {
+          "name": "--no-header",
+          "tip": [
+            "不打印表头"
+          ]
+        },
+        {
+          "name": "--tracked-configs",
+          "tip": [
+            "列出所有已跟踪的配置文件"
+          ]
+        }
       ]
     },
     {
       "name": "deactivate",
       "tip": [
-        "Disable mise for current shell session"
+        "在当前 shell 会话中禁用 mise"
+      ]
+    },
+    {
+      "name": "deps",
+      "alias": [
+        "dep"
+      ],
+      "tip": [
+        "[experimental] 管理项目依赖"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "只检查是否需要安装依赖，不运行命令"
+          ]
+        },
+        {
+          "name": "--explain",
+          "tip": [
+            "显示提供者为何是新鲜或过时的"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "即使输出是最新的也强制运行所有依赖步骤"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "显示可用的依赖提供者"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "只运行指定的依赖规则"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip",
+          "tip": [
+            "U: --skip <SKIP>",
+            "跳过指定的依赖规则"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -60,13 +179,33 @@
         "dr"
       ],
       "tip": [
-        "Check mise installation for possible problems"
+        "检查 mise 安装是否存在潜在问题"
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "tip": [
+            "打印 mise 提供的当前 PATH 条目"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dotfiles",
+      "tip": [
+        "[experimental] 管理 `[dotfiles]` 中的 dotfiles"
+      ]
+    },
+    {
+      "name": "edit",
+      "tip": [
+        "交互式编辑 mise.toml"
       ]
     },
     {
       "name": "en",
       "tip": [
-        "Starts a new shell with the mise environment built from the current configuration"
+        "使用当前配置构建的 mise 环境启动新 shell"
       ]
     },
     {
@@ -75,7 +214,47 @@
         "e"
       ],
       "tip": [
-        "Exports env vars to activate mise a single time"
+        "导出环境变量以一次性激活 mise"
+      ],
+      "option": [
+        {
+          "name": "--dotenv",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "以 dotenv 格式输出"
+          ]
+        },
+        {
+          "name": "--json-extended",
+          "tip": [
+            "以 JSON 格式输出，包含附加信息（source, tool）"
+          ]
+        },
+        {
+          "name": "--redacted",
+          "tip": [
+            "只显示已编辑的环境变量"
+          ]
+        },
+        {
+          "name": "--shell",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --shell <SHELL>",
+            "生成环境变量的 shell 类型"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--values",
+          "tip": [
+            "只显示环境变量的值"
+          ]
+        }
       ]
     },
     {
@@ -84,13 +263,38 @@
         "x"
       ],
       "tip": [
-        "Execute a command with tool(s) set"
+        "使用设置的工具执行命令"
+      ],
+      "option": [
+        {
+          "name": "--command",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --command <C>",
+            "要执行的命令字符串"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fresh-env",
+          "tip": [
+            "绕过环境缓存并重新计算环境"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "跳过自动依赖准备"
+          ]
+        }
       ]
     },
     {
       "name": "fmt",
       "tip": [
-        "Formats mise.toml"
+        "格式化 mise.toml"
       ]
     },
     {
@@ -99,19 +303,19 @@
         "gen"
       ],
       "tip": [
-        "Generate files for various tools/services"
+        "为各种工具/服务生成文件"
       ]
     },
     {
       "name": "help",
       "tip": [
-        "Print this message or the help of the given subcommand(s)"
+        "打印此消息或给定子命令的帮助"
       ]
     },
     {
       "name": "implode",
       "tip": [
-        "Removes mise CLI and all related data"
+        "移除 mise CLI 及所有相关数据"
       ]
     },
     {
@@ -120,19 +324,92 @@
         "i"
       ],
       "tip": [
-        "Install a tool version"
+        "安装工具版本"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "显示将要安装的内容而不实际安装"
+          ]
+        },
+        {
+          "name": "--dry-run-code",
+          "tip": [
+            "类似 --dry-run，但在有工具需要安装时以代码 1 退出"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "强制重新安装，即使已安装"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "只安装在此日期之前发布或早于此持续时间的版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "将后端安装命令的 stdin/stdout/stderr 直接连接到终端"
+          ]
+        },
+        {
+          "name": "--shared",
+          "tip": [
+            "U: --shared <SHARED>",
+            "将工具安装到共享目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "将工具安装到系统范围的共享目录"
+          ]
+        }
       ]
     },
     {
       "name": "install-into",
       "tip": [
-        "Install a tool version to a specific path"
+        "将工具版本安装到指定路径"
       ]
     },
     {
       "name": "latest",
       "tip": [
-        "Gets the latest available version for a plugin"
+        "获取插件的最新可用版本"
+      ],
+      "option": [
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "显示最新已安装版本而不是可用版本"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "只考虑在此日期之前发布或早于此持续时间的版本"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -141,7 +418,18 @@
         "ln"
       ],
       "tip": [
-        "Symlinks a tool version into mise"
+        "将工具版本符号链接到 mise"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "如果已存在则覆盖现有的工具版本"
+          ]
+        }
       ]
     },
     {
@@ -150,31 +438,230 @@
         "ls"
       ],
       "tip": [
-        "List installed and active tool versions"
+        "列出已安装和活动的工具版本"
+      ],
+      "option": [
+        {
+          "name": "--all-sources",
+          "tip": [
+            "显示所有已跟踪的工具配置来源"
+          ]
+        },
+        {
+          "name": "--current",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "只显示当前在 mise.toml 中指定的工具版本"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "只显示在全局 mise.toml 中指定的工具版本"
+          ]
+        },
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "只显示已安装的工具版本"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "只显示在本地 mise.toml 中指定的工具版本"
+          ]
+        },
+        {
+          "name": "--missing",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "显示缺失的工具版本"
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "不显示表头"
+          ]
+        },
+        {
+          "name": "--outdated",
+          "tip": [
+            "显示版本是否过时"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "tip": [
+            "U: --prefix <PREFIX>",
+            "显示匹配此前缀的版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--prunable",
+          "tip": [
+            "只列出可通过 `mise prune` 清理的工具"
+          ]
+        }
       ]
     },
     {
       "name": "lock",
       "tip": [
-        "Update lockfile checksums and URLs for all specified platforms"
+        "更新所有指定平台的 lockfile 校验和与 URL"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "显示将要更新的内容而不做任何更改"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "只针对全局配置 lockfile"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "更新 mise.local.lock 而不是 mise.lock"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "只锁定在此时间或日期之前发布的版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --platform <PLATFORM>",
+            "以逗号分隔的目标平台列表"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "ls-remote",
       "tip": [
-        "List runtime versions available for install"
+        "列出可安装的运行时版本"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "显示所有已安装的插件和版本"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "只显示在此时间或日期之前发布的版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-versions-host",
+          "tip": [
+            "禁用检查 mise-versions 主机"
+          ]
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "在输出中包含预发布版本"
+          ]
+        },
+        {
+          "name": "--strict-metadata",
+          "tip": [
+            "如果版本元数据获取失败则失败"
+          ]
+        }
       ]
     },
     {
       "name": "mcp",
       "tip": [
-        "[experimental] Run Model Context Protocol (MCP) server"
+        "运行 Model Context Protocol (MCP) 服务器"
+      ]
+    },
+    {
+      "name": "oci",
+      "tip": [
+        "[experimental] 从 mise.toml 构建 OCI 容器镜像"
       ]
     },
     {
       "name": "outdated",
       "tip": [
-        "Shows outdated tool versions"
+        "显示过时的工具版本"
+      ],
+      "option": [
+        {
+          "name": "--bump",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "与最新可用版本比较，而不是匹配当前配置的版本"
+          ]
+        },
+        {
+          "name": "--inactive",
+          "tip": [
+            "显示过时的工具，包括已安装但不在当前配置中的非活动工具"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "只显示在本地配置文件中定义的过时工具"
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "不显示表头"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patrons",
+      "tip": [
+        "显示支持 mise 的 Patron 级别成员"
       ]
     },
     {
@@ -183,7 +670,33 @@
         "p"
       ],
       "tip": [
-        "Manage plugins"
+        "管理插件"
+      ],
+      "option": [
+        {
+          "name": "--core",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "仅内置插件"
+          ]
+        },
+        {
+          "name": "--urls",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "显示每个插件的 git url"
+          ]
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "列出已安装的插件"
+          ]
+        }
       ]
     },
     {
@@ -192,19 +705,67 @@
         "prep"
       ],
       "tip": [
-        "[experimental] Ensure project dependencies are ready"
+        "[experimental] 确保项目依赖已就绪"
       ]
     },
     {
       "name": "prune",
       "tip": [
-        "Delete unused versions of tools"
+        "删除未使用的工具版本"
+      ],
+      "option": [
+        {
+          "name": "--configs",
+          "tip": [
+            "只清理指向不存在配置的已跟踪和受信任的配置链接"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "不实际删除任何内容"
+          ]
+        },
+        {
+          "name": "--tools",
+          "tip": [
+            "只清理未使用的工具版本"
+          ]
+        }
       ]
     },
     {
       "name": "registry",
       "tip": [
-        "List available tools to install"
+        "列出可安装的工具"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --backend <BACKEND>",
+            "只显示此后端的工具"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hide-aliased",
+          "tip": [
+            "隐藏有别名的工具"
+          ]
+        },
+        {
+          "name": "--security",
+          "tip": [
+            "在 JSON 输出中包含每个工具后端的安全特性"
+          ]
+        }
       ]
     },
     {
@@ -214,13 +775,52 @@
         "rm"
       ],
       "tip": [
-        "Removes installed tool versions from mise.toml"
+        "从 mise.toml 中移除已安装的工具版本"
+      ],
+      "option": [
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env <ENV>",
+            "创建/修改环境特定的配置文件，如 .mise.<env>.toml"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "使用全局配置文件而不是本地配置文件"
+          ]
+        },
+        {
+          "name": "--no-prune",
+          "tip": [
+            "不同时清理已安装的版本"
+          ]
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --path <PATH>",
+            "指定配置文件或目录的路径"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "reshim",
       "tip": [
-        "Creates new shims based on bin paths from currently installed tools"
+        "基于当前已安装工具的 bin 路径创建新的 shim"
       ]
     },
     {
@@ -229,31 +829,349 @@
         "r"
       ],
       "tip": [
-        "Run task(s)"
+        "运行任务"
+      ],
+      "option": [
+        {
+          "name": "--continue-on-error",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "即使某个任务失败也继续运行"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "不实际运行任务，只按执行顺序打印"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "即使输出是最新的也强制运行任务"
+          ]
+        },
+        {
+          "name": "--fresh-env",
+          "tip": [
+            "绕过环境缓存并重新计算环境"
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "不使用远程任务的缓存"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "跳过自动依赖准备"
+          ]
+        },
+        {
+          "name": "--no-timings",
+          "tip": [
+            "隐藏每个任务完成后的经过时间"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <OUTPUT>",
+            "更改运行任务时任务信息的输出方式"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shell",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --shell <SHELL>",
+            "用于运行 toml 任务的 shell"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-deps",
+          "tip": [
+            "只运行指定的任务，跳过所有依赖"
+          ]
+        },
+        {
+          "name": "--skip-tools",
+          "tip": [
+            "运行任务前跳过工具安装"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIMEOUT>",
+            "任务完成的超时时间"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tool <TOOL@VERSION>",
+            "在 mise.toml 中的工具之外额外使用的工具"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "search",
       "tip": [
-        "Search for tools in the registry"
+        "在注册表中搜索工具"
+      ],
+      "option": [
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "显示交互式搜索"
+          ]
+        },
+        {
+          "name": "--match-type",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --match-type <MATCH_TYPE>",
+            "匹配类型：equal、contains 或 fuzzy"
+          ],
+          "next": [
+            {
+              "name": "contains"
+            },
+            {
+              "name": "equal"
+            },
+            {
+              "name": "fuzzy"
+            }
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "不显示表头"
+          ]
+        }
       ]
     },
     {
       "name": "self-update",
       "tip": [
-        "Updates mise itself"
+        "更新 mise 本身"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "即使已是最新也更新"
+          ]
+        },
+        {
+          "name": "--no-plugins",
+          "tip": [
+            "禁用自动更新插件"
+          ]
+        }
       ]
     },
     {
       "name": "set",
       "tip": [
-        "Set environment variables in mise.toml"
+        "在 mise.toml 中设置环境变量"
+      ],
+      "option": [
+        {
+          "name": "--age-encrypt",
+          "tip": [
+            "[experimental] 存储前使用 age 加密值"
+          ]
+        },
+        {
+          "name": "--age-key-file",
+          "tip": [
+            "U: --age-key-file <PATH>",
+            "[experimental] 用于加密的 age 身份文件"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--age-recipient",
+          "tip": [
+            "U: --age-recipient <RECIPIENT>",
+            "[experimental] 用于加密的 age 接收者 (x25519 公钥)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--age-ssh-recipient",
+          "tip": [
+            "U: --age-ssh-recipient <PATH_OR_PUBKEY>",
+            "[experimental] 用于 age 加密的 SSH 接收者 (公钥或路径)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --env <ENV>",
+            "创建/修改环境特定的配置文件，如 .mise.<env>.toml"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--file",
+          "tip": [
+            "U: --file <FILE>",
+            "要更新的 TOML 文件"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "在全局配置文件中设置环境变量"
+          ]
+        },
+        {
+          "name": "--no-redact",
+          "tip": [
+            "显示原始值而不是编辑后的密钥"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "tip": [
+            "提示输入环境变量的值"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从 stdin 读取值（用于多行输入）"
+          ]
+        }
       ]
     },
     {
       "name": "settings",
       "tip": [
-        "Manage settings"
+        "管理设置"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "列出所有设置"
+          ]
+        },
+        {
+          "name": "--json-extended",
+          "tip": [
+            "以 JSON 格式输出，包含来源信息"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "使用本地配置文件而不是全局配置文件"
+          ]
+        },
+        {
+          "name": "--toml",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "以 TOML 格式输出"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "向配置文件添加设置"
+          ]
+        },
+        {
+          "name": "create",
+          "alias": [
+            "set"
+          ],
+          "tip": [
+            "添加/更新设置"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "显示当前设置"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "显示当前设置"
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete",
+            "unset",
+            "del",
+            "rm"
+          ],
+          "tip": [
+            "清除设置"
+          ]
+        }
       ]
     },
     {
@@ -262,19 +1180,36 @@
         "sh"
       ],
       "tip": [
-        "Sets a tool version for the current session"
+        "为当前会话设置工具版本"
+      ],
+      "option": [
+        {
+          "name": "--unset",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "移除先前设置的版本"
+          ]
+        }
       ]
     },
     {
       "name": "shell-alias",
       "tip": [
-        "Manage shell aliases"
+        "管理 shell 别名"
+      ]
+    },
+    {
+      "name": "sponsors",
+      "tip": [
+        "显示赞助 mise 和 en.dev 项目系列的公司"
       ]
     },
     {
       "name": "sync",
       "tip": [
-        "Synchronize tools from other version managers with mise"
+        "将其他版本管理器的工具与 mise 同步"
       ]
     },
     {
@@ -283,52 +1218,270 @@
         "t"
       ],
       "tip": [
-        "Manage tasks"
+        "管理任务"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "加载整个 monorepo 中的所有任务，包括同级目录"
+          ]
+        },
+        {
+          "name": "--extended",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "显示所有列"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "只显示全局任务"
+          ]
+        },
+        {
+          "name": "--hidden",
+          "tip": [
+            "显示隐藏任务"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "只显示非全局任务"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "只显示任务名称，每行一个"
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "不打印表头"
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "U: --sort <COLUMN>",
+            "按列排序，默认为 name"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--sort-order",
+          "tip": [
+            "U: --sort-order <SORT_ORDER>",
+            "排序顺序，默认为 asc"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "test-tool",
       "tip": [
-        "Test a tool installs and executes"
+        "测试工具的安装和执行"
+      ]
+    },
+    {
+      "name": "token",
+      "tip": [
+        "显示 mise 将使用的 git 提供商令牌"
       ]
     },
     {
       "name": "tool",
       "tip": [
-        "Gets information about a tool"
+        "获取工具信息"
+      ],
+      "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "只显示活动版本"
+          ]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "只显示 backend 字段"
+          ]
+        },
+        {
+          "name": "--config-source",
+          "tip": [
+            "只显示配置来源"
+          ]
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "只显示描述字段"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "只显示已安装的版本"
+          ]
+        },
+        {
+          "name": "--requested",
+          "tip": [
+            "只显示请求的版本"
+          ]
+        },
+        {
+          "name": "--tool-options",
+          "tip": [
+            "只显示工具选项"
+          ]
+        }
       ]
     },
     {
       "name": "tool-alias",
-      "alias": [
-        "alias"
-      ],
       "tip": [
-        "Manage version aliases"
+        "管理工具版本别名"
+      ],
+      "option": [
+        {
+          "name": "--no-header",
+          "tip": [
+            "不显示表头"
+          ]
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --tool <TOOL>",
+            "按工具过滤别名"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "tool-stub",
       "tip": [
-        "Execute a tool stub"
+        "执行工具 stub"
       ]
     },
     {
       "name": "trust",
       "tip": [
-        "Marks a config file as trusted"
+        "将配置文件标记为受信任"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "信任当前目录及其父目录中的所有配置文件"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "不信任此配置并在未来忽略它"
+          ]
+        },
+        {
+          "name": "--show",
+          "tip": [
+            "显示当前目录及其父目录中配置文件的信任状态"
+          ]
+        },
+        {
+          "name": "--untrust",
+          "tip": [
+            "不再信任此配置，将来会提示"
+          ]
+        }
       ]
     },
     {
       "name": "uninstall",
       "tip": [
-        "Removes installed tool versions"
+        "移除已安装的工具版本"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "删除所有已安装的版本"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "不实际删除任何内容"
+          ]
+        },
+        {
+          "name": "--dry-run-code",
+          "tip": [
+            "类似 --dry-run，但在有工具需要卸载时以代码 1 退出"
+          ]
+        }
       ]
     },
     {
       "name": "unset",
       "tip": [
-        "Remove environment variable(s) from the config file"
+        "从配置文件中移除环境变量"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --file <FILE>",
+            "指定要使用的文件而不是 `mise.toml`"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "使用全局配置文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untrust",
+      "tip": [
+        "不再信任配置，将来会提示"
       ]
     },
     {
@@ -337,7 +1490,67 @@
         "up"
       ],
       "tip": [
-        "Upgrades outdated tools"
+        "升级过时的工具"
+      ],
+      "option": [
+        {
+          "name": "--bump",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "升级到最新可用版本，并更新 mise.toml 中的版本"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "只打印将要执行的操作，不实际执行"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "U: -x, --exclude <INSTALLED_TOOL>",
+            "要排除升级的工具"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--inactive",
+          "tip": [
+            "升级所有工具，包括已安装但不在当前配置中的非活动工具"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "显示多选菜单以选择要升级的工具"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "只升级在本地配置文件中定义的工具"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "只升级在此日期之前发布或早于此持续时间的版本"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -346,7 +1559,98 @@
         "u"
       ],
       "tip": [
-        "Installs a tool and adds the version to mise.toml"
+        "安装工具并将版本添加到 mise.toml"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "执行空运行，显示将要安装和修改的内容而不做任何更改"
+          ]
+        },
+        {
+          "name": "--dry-run-code",
+          "tip": [
+            "类似 --dry-run，但在有更改需要执行时以代码 1 退出"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env <ENV>",
+            "创建/修改环境特定的配置文件，如 .mise.<env>.toml"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "强制重新安装，即使已安装"
+          ]
+        },
+        {
+          "name": "--fuzzy",
+          "tip": [
+            "将模糊版本保存到配置文件"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "使用全局配置文件而不是本地配置文件"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "只安装在此日期之前发布或早于此持续时间的版本"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --path <PATH>",
+            "指定配置文件或目录的路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pin",
+          "tip": [
+            "将精确版本保存到配置文件"
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "将后端安装命令的 stdin/stdout/stderr 直接连接到终端"
+          ]
+        },
+        {
+          "name": "--remove",
+          "tip": [
+            "U: --remove <TOOL>",
+            "从配置文件中移除工具"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -355,7 +1659,7 @@
         "v"
       ],
       "tip": [
-        "Display the version of mise"
+        "显示 mise 版本"
       ]
     },
     {
@@ -364,19 +1668,202 @@
         "w"
       ],
       "tip": [
-        "Run task(s) and watch for changes to rerun it"
+        "运行任务并监视变化以重新运行"
+      ],
+      "option": [
+        {
+          "name": "--clear",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "运行命令前清屏"
+          ]
+        },
+        {
+          "name": "--debounce",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --debounce <TIMEOUT>",
+            "收到新事件后等待的时间"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exts",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exts <EXTENSIONS>",
+            "用于过滤的文件扩展名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --filter <PATTERN>",
+            "用于过滤的文件名模式"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --ignore <PATTERN>",
+            "要排除的文件名模式"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-nothing",
+          "tip": [
+            "不忽略任何内容"
+          ]
+        },
+        {
+          "name": "--no-project-ignore",
+          "tip": [
+            "不加载项目本地忽略文件"
+          ]
+        },
+        {
+          "name": "--no-vcs-ignore",
+          "tip": [
+            "不加载 gitignore"
+          ]
+        },
+        {
+          "name": "--notify",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "命令开始和结束时发出提醒"
+          ]
+        },
+        {
+          "name": "--on-busy-update",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --on-busy-update <MODE>",
+            "命令运行时收到事件后的处理方式"
+          ],
+          "next": [
+            {
+              "name": "do-nothing"
+            },
+            {
+              "name": "queue"
+            },
+            {
+              "name": "restart"
+            },
+            {
+              "name": "signal"
+            }
+          ]
+        },
+        {
+          "name": "--postpone",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "等到第一次变化后再运行命令"
+          ]
+        },
+        {
+          "name": "--restart",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "如果进程仍在运行则重启"
+          ]
+        },
+        {
+          "name": "--signal",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --signal <SIGNAL>",
+            "进程仍在运行时发送信号"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-deps",
+          "tip": [
+            "只运行指定的任务，跳过所有依赖"
+          ]
+        },
+        {
+          "name": "--timings",
+          "tip": [
+            "打印命令运行所用的时间"
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --watch <PATH>",
+            "监视特定文件或目录"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "where",
       "tip": [
-        "Display the installation path for a tool"
+        "显示工具的安装路径"
       ]
     },
     {
       "name": "which",
       "tip": [
-        "Shows the path that a tool's bin points to"
+        "显示工具的 bin 指向的路径"
+      ],
+      "option": [
+        {
+          "name": "--plugin",
+          "tip": [
+            "显示插件名称而不是路径"
+          ]
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tool <TOOL@VERSION>",
+            "使用特定的 tool@version"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "显示版本而不是路径"
+          ]
+        }
       ]
     }
   ],
@@ -399,7 +1886,7 @@
       ],
       "tip": [
         "U: -C, --cd <DIR>",
-        "Change directory before running command"
+        "在运行命令前切换目录"
       ],
       "next": 0
     },
@@ -410,7 +1897,7 @@
       ],
       "tip": [
         "U: -E, --env <ENV>",
-        "Set the environment for loading `mise.<ENV>.toml`"
+        "设置加载 `mise.<ENV>.toml` 的环境"
       ],
       "next": 0
     },
@@ -430,26 +1917,48 @@
       ],
       "tip": [
         "U: -j, --jobs <JOBS>",
-        "How many jobs to run in parallel [default: 8] [env: MISE_JOBS=]"
+        "并行运行的任务数 [默认: 8] [环境变量: MISE_JOBS=]"
       ],
       "next": 0
     },
     {
+      "name": "--json",
+      "alias": [
+        "-J"
+      ],
+      "tip": [
+        "以 JSON 格式输出"
+      ]
+    },
+    {
       "name": "--locked",
       "tip": [
-        "Require lockfile URLs to be present during installation"
+        "安装时要求 lockfile URL 存在"
       ]
     },
     {
       "name": "--no-config",
       "tip": [
-        "Do not load any config files"
+        "不加载任何配置文件"
+      ]
+    },
+    {
+      "name": "--no-env",
+      "tip": [
+        "不从配置文件加载环境变量"
+      ]
+    },
+    {
+      "name": "--no-hooks",
+      "tip": [
+        "不执行配置文件中的 hooks"
       ]
     },
     {
       "name": "--output",
       "tip": [
-        "U: --output <OUTPUT>"
+        "U: --output <OUTPUT>",
+        "更改任务信息的输出方式"
       ],
       "next": 0
     },
@@ -459,19 +1968,19 @@
         "-q"
       ],
       "tip": [
-        "Suppress non-error messages"
+        "抑制非错误消息"
       ]
     },
     {
       "name": "--raw",
       "tip": [
-        "Read/write directly to stdin/stdout/stderr instead of by line"
+        "直接读写 stdin/stdout/stderr 而不是按行处理"
       ]
     },
     {
       "name": "--silent",
       "tip": [
-        "Suppress all task output and mise non-error messages"
+        "抑制所有任务输出和 mise 非错误消息"
       ]
     },
     {
@@ -480,7 +1989,7 @@
         "-v"
       ],
       "tip": [
-        "Show extra output (use -vv for even more)"
+        "显示额外输出 (使用 -vv 获取更多信息)"
       ]
     },
     {
@@ -489,7 +1998,7 @@
         "-y"
       ],
       "tip": [
-        "Answer yes to all confirmation prompts"
+        "对所有确认提示回答 yes"
       ]
     }
   ]

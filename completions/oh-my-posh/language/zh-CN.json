@@ -7,58 +7,101 @@
   },
   "root": [
     {
+      "name": "auth",
+      "tip": [
+        "认证某个服务。"
+      ],
+      "next": [
+        {
+          "name": "copilot"
+        },
+        {
+          "name": "ytmda"
+        }
+      ]
+    },
+    {
       "name": "cache",
       "tip": [
-        "Interact with the oh-my-posh cache."
+        "管理 oh-my-posh 缓存。"
+      ],
+      "option": [
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "显示会话缓存"
+          ]
+        }
       ],
       "next": [
         {
           "name": "clear",
           "tip": [
-            "remove all cache values"
-          ]
-        },
-        {
-          "name": "edit",
-          "tip": [
-            "edit cache values"
+            "清除所有缓存值"
           ]
         },
         {
           "name": "path",
           "tip": [
-            "list cache path"
+            "列出缓存路径"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "打印所有缓存值的详细列表"
+          ]
+        },
+        {
+          "name": "ttl",
+          "tip": [
+            "获取缓存 TTL(天)"
           ]
         }
       ]
     },
     {
+      "name": "claude",
+      "tip": [
+        "渲染 Claude Code 状态栏的提示符。"
+      ]
+    },
+    {
       "name": "config",
       "tip": [
-        "Interact with the config."
+        "管理配置。"
       ],
       "next": [
+        {
+          "name": "dsc"
+        },
         {
           "name": "edit"
         },
         {
           "name": "export"
-        },
-        {
-          "name": "migrate"
         }
+      ]
+    },
+    {
+      "name": "copilot",
+      "tip": [
+        "渲染 GitHub Copilot CLI 状态栏的提示符。"
       ]
     },
     {
       "name": "debug",
       "tip": [
-        "Print the prompt in debug mode."
+        "以调试模式打印提示符。"
       ]
     },
     {
       "name": "disable",
       "tip": [
-        "Disable a feature."
+        "禁用某个功能。"
       ],
       "next": [
         {
@@ -72,7 +115,7 @@
     {
       "name": "enable",
       "tip": [
-        "Enable a feature."
+        "启用某个功能。"
       ],
       "next": [
         {
@@ -86,14 +129,20 @@
     {
       "name": "font",
       "tip": [
-        "Manage fonts."
+        "管理字体。"
       ],
       "option": [
+        {
+          "name": "--headless",
+          "tip": [
+            "无 TUI 安装字体"
+          ]
+        },
         {
           "name": "--zip-folder",
           "tip": [
             "U: --zip-folder <string>",
-            "the folder inside the zip file to install fonts from"
+            "zip 文件中用于安装字体的文件夹"
           ],
           "next": 0
         }
@@ -103,6 +152,9 @@
           "name": "configure"
         },
         {
+          "name": "dsc"
+        },
+        {
           "name": "install"
         }
       ]
@@ -110,14 +162,14 @@
     {
       "name": "get",
       "tip": [
-        "Get a value from oh-my-posh."
+        "获取 oh-my-posh 的值。"
       ],
       "option": [
         {
           "name": "--shell",
           "tip": [
             "U: --shell <string>",
-            "the shell to print for"
+            "要打印的 shell 类型"
           ],
           "next": 0
         }
@@ -143,19 +195,25 @@
     {
       "name": "help",
       "tip": [
-        "Help about any command."
+        "查看任意命令的帮助信息。"
       ]
     },
     {
       "name": "init",
       "tip": [
-        "Initialize your shell and config."
+        "初始化 shell 和配置。"
       ],
       "option": [
         {
           "name": "--debug",
           "tip": [
-            "enable/disable debug mode"
+            "启用/禁用调试模式"
+          ]
+        },
+        {
+          "name": "--eval",
+          "tip": [
+            "输出完整的初始化脚本用于 eval"
           ]
         },
         {
@@ -164,7 +222,7 @@
             "-p"
           ],
           "tip": [
-            "print the init script"
+            "打印初始化脚本"
           ]
         },
         {
@@ -173,7 +231,7 @@
             "-s"
           ],
           "tip": [
-            "run in strict mode"
+            "以严格模式运行"
           ]
         }
       ],
@@ -213,13 +271,13 @@
     {
       "name": "notice",
       "tip": [
-        "Print the upgrade notice when a new version is available."
+        "当有新版本可用时打印升级通知。"
       ]
     },
     {
       "name": "print",
       "tip": [
-        "Print the prompt/context."
+        "打印提示符/上下文。"
       ],
       "next": [
         {
@@ -227,6 +285,9 @@
         },
         {
           "name": "error"
+        },
+        {
+          "name": "preview"
         },
         {
           "name": "primary"
@@ -249,49 +310,35 @@
       ]
     },
     {
+      "name": "stream",
+      "tip": [
+        "以增量更新方式流式传输主提示符。"
+      ]
+    },
+    {
       "name": "toggle",
       "tip": [
-        "Toggle a segment on/off."
+        "切换一个或多个段的开启/关闭。"
       ]
     },
     {
       "name": "upgrade",
       "tip": [
-        "Upgrade when a new version is available."
+        "当有新版本可用时进行升级。"
       ]
     },
     {
       "name": "version",
       "tip": [
-        "Print the version."
+        "显示版本信息。"
       ]
     }
   ],
   "option": [
     {
-      "name": "--init",
-      "alias": [
-        "-i"
-      ],
-      "tip": [
-        "init"
-      ]
-    },
-    {
-      "name": "--shell",
-      "alias": [
-        "-s"
-      ],
-      "tip": [
-        "U: -s ,  --shell <string>",
-        "shell"
-      ],
-      "next": 0
-    },
-    {
       "name": "--version",
       "tip": [
-        "显示版本信息。"
+        "打印版本号并退出。"
       ]
     }
   ],
@@ -302,8 +349,8 @@
         "-c"
       ],
       "tip": [
-        "U: -c ,  --config <string>",
-        "config file path"
+        "U: -c, --config <string>",
+        "配置文件路径"
       ],
       "next": 0
     },
@@ -314,6 +361,18 @@
       ],
       "tip": [
         "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--plain",
+      "tip": [
+        "纯文本输出(无 ANSI)"
+      ]
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "启用跟踪"
       ]
     }
   ]

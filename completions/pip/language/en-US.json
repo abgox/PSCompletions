@@ -9,7 +9,32 @@
     {
       "name": "cache",
       "tip": [
+        "U: cache dir",
+        "U: cache info",
+        "U: cache list [<pattern>] [--format=[human, abspath]]",
+        "U: cache remove <pattern>",
+        "U: cache purge",
         "Inspect and manage pip's wheel cache."
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <list_format>",
+            "Select the output format among: human (default) or abspath."
+          ],
+          "next": [
+            {
+              "name": "abspath"
+            },
+            {
+              "name": "human",
+              "tip": [
+                "Default value"
+              ]
+            }
+          ]
+        }
       ],
       "next": [
         {
@@ -30,14 +55,6 @@
             "U: list [<pattern>] [--format=[human, abspath]]",
             "List filenames of packages stored in the cache.",
             "<pattern> can be a glob expression or a package name."
-          ],
-          "option": [
-            {
-              "name": "--format",
-              "tip": [
-                "Select the output format among: human (default) or abspath."
-              ]
-            }
           ]
         },
         {
@@ -49,6 +66,7 @@
         {
           "name": "remove",
           "tip": [
+            "U: remove <pattern>",
             "Remove one or more package from the cache."
           ]
         }
@@ -57,6 +75,7 @@
     {
       "name": "check",
       "tip": [
+        "U: check [options]",
         "Verify installed packages have compatible dependencies."
       ]
     },
@@ -64,11 +83,59 @@
       "name": "completion",
       "tip": [
         "A helper command used for command completion."
+      ],
+      "option": [
+        {
+          "name": "--bash",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --bash",
+            "Emit completion code for bash."
+          ]
+        },
+        {
+          "name": "--fish",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --fish",
+            "Emit completion code for fish."
+          ]
+        },
+        {
+          "name": "--powershell",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --powershell",
+            "Emit completion code for powershell."
+          ]
+        },
+        {
+          "name": "--zsh",
+          "alias": [
+            "-z"
+          ],
+          "tip": [
+            "U: -z, --zsh",
+            "Emit completion code for zsh."
+          ]
+        }
       ]
     },
     {
       "name": "config",
       "tip": [
+        "U: config [<file-option>] list",
+        "U: config [<file-option>] [--editor <editor-path>] edit",
+        "U: config [<file-option>] get command.option",
+        "U: config [<file-option>] set command.option value",
+        "U: config [<file-option>] unset command.option",
+        "U: config [<file-option>] debug",
         "Manage local and global configuration."
       ],
       "option": [
@@ -116,25 +183,28 @@
         {
           "name": "get",
           "tip": [
-            "Get the value associated with command.option"
+            "U: get command.option",
+            "Get the value associated with command.option."
           ]
         },
         {
           "name": "list",
           "tip": [
-            "List the active configuration (or from the file specified)"
+            "List the active configuration (or from the file specified)."
           ]
         },
         {
           "name": "set",
           "tip": [
-            "Set the command.option=value"
+            "U: set command.option value",
+            "Set the command.option=value."
           ]
         },
         {
           "name": "unset",
           "tip": [
-            "Unset the value associated with command.option"
+            "U: unset command.option",
+            "Unset the value associated with command.option."
           ]
         }
       ]
@@ -142,34 +212,47 @@
     {
       "name": "debug",
       "tip": [
-        "Show information useful for debugging."
+        "U: debug <options>",
+        "Display debug information."
       ],
       "option": [
         {
           "name": "--abi",
           "tip": [
-            "{{ $info.__abi }}"
+            "U: --abi <abi>",
+            "Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.",
+            "If not specified, then the current interpreter abi tag is used.",
+            "Use this option multiple times to specify multiple abis supported by the target interpreter.",
+            "Generally you will need to specify --implementation, --platform, and --python-version when using this option."
           ],
           "next": 0
         },
         {
           "name": "--implementation",
           "tip": [
-            "{{ $info.__implementation }}"
+            "U: --implementation <implementation>",
+            "Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.",
+            "If not specified, then the current interpreter implementation is used.",
+            "Use 'py' to force implementation-agnostic wheels."
           ],
           "next": 0
         },
         {
           "name": "--platform",
           "tip": [
-            "{{ $info.__platform }}"
+            "U: --platform <platform>",
+            "Only use wheels compatible with <platform>.",
+            "Defaults to the platform of the running system.",
+            "Use this option multiple times to specify multiple platforms supported by the target interpreter."
           ],
           "next": 0
         },
         {
           "name": "--python-version",
           "tip": [
-            "{{ $info.__python_version }}"
+            "U: --python-version <python_version>",
+            "The Python interpreter version to use for wheel and 'Requires-Python' compatibility checks.",
+            "Defaults to a version derived from the running interpreter."
           ],
           "next": 0
         }
@@ -177,48 +260,51 @@
     },
     {
       "name": "download",
-      "alias": [
-        "install"
-      ],
       "tip": [
-        "Install/Download packages."
+        "U: download [options] <requirement specifier> [package-index-options] ...",
+        "U: download [options] -r <requirements file> [package-index-options] ...",
+        "U: download [options] <vcs project url> ...",
+        "U: download [options] <local project path> ...",
+        "U: download [options] <archive url/path> ...",
+        "Download packages from PyPI, VCS project urls, local project directories, or local or remote source archives."
       ],
       "option": [
         {
-          "name": "__editable",
-          "alias": [
-            "-e"
-          ],
+          "name": "--abi",
           "tip": [
-            "{{ $info.__editable }}"
+            "U: --abi <abi>",
+            "Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.",
+            "If not specified, then the current interpreter abi tag is used.",
+            "Use this option multiple times to specify multiple abis supported by the target interpreter.",
+            "Generally you will need to specify --implementation, --platform, and --python-version when using this option."
           ],
           "next": 0
         },
         {
-          "name": "--abi",
+          "name": "--all-releases",
           "tip": [
-            "{{ $info.__abi }}"
+            "U: --all-releases <release_control>",
+            "Allow all release types (including pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to allow pre-releases for all packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Cannot be used with --pre."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--build-constraint",
+          "tip": [
+            "U: --build-constraint <file>",
+            "Constrain build dependencies using the given constraints file.",
+            "This option can be used multiple times."
           ],
           "next": 0
         },
         {
           "name": "--check-build-dependencies",
           "tip": [
-            "{{ $info.__check_build_dependencies }}"
+            "Check the build dependencies."
           ]
-        },
-        {
-          "name": "--compile",
-          "tip": [
-            "Compile Python source files to bytecode."
-          ]
-        },
-        {
-          "name": "--config-settings",
-          "tip": [
-            "{{ $info.__config_settings }}"
-          ],
-          "next": 0
         },
         {
           "name": "--constraint",
@@ -226,7 +312,9 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__constraint }}"
+            "U: -c, --constraint <file>",
+            "Constrain versions using the given constraints file.",
+            "This option can be used multiple times."
           ],
           "next": 0
         },
@@ -242,16 +330,11 @@
           "next": 0
         },
         {
-          "name": "--dry-run",
-          "tip": [
-            "Don't actually install anything, just print what would be.",
-            "Can be used in combination with --ignore-installed to 'resolve' the requirements."
-          ]
-        },
-        {
           "name": "--extra-index-url",
           "tip": [
-            "{{ $info.__extra_index_url }}"
+            "U: --extra-index-url <url>",
+            "Extra URLs of package indexes to use in addition to --index-url.",
+            "Should follow the same rules as --index-url."
           ],
           "next": 0
         },
@@ -261,8 +344,641 @@
             "-f"
           ],
           "tip": [
-            "{{ $info.__find_links }}"
+            "U: -f, --find-links <url>",
+            "If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files.",
+            "If a local path or file:// URL that's a directory, then look for archives in the directory listing.",
+            "Links to VCS project URLs are not supported."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--group",
+          "tip": [
+            "U: --group <[path:]group>",
+            "Install a named dependency-group from a 'pyproject.toml' file.",
+            "If a path is given, the name of the file must be 'pyproject.toml'.",
+            "Defaults to using 'pyproject.toml' in the current directory."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-requires-python",
+          "tip": [
+            "Ignore the Requires-Python information."
           ]
+        },
+        {
+          "name": "--implementation",
+          "tip": [
+            "U: --implementation <implementation>",
+            "Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.",
+            "If not specified, then the current interpreter implementation is used.",
+            "Use 'py' to force implementation-agnostic wheels."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --index-url <url>",
+            "Base URL of the Python Package Index (default https://pypi.org/simple).",
+            "This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-binary",
+          "tip": [
+            "U: --no-binary <format_control>",
+            "Do not use binary packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Note that some packages are tricky to compile and may fail to install when this option is used on them."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-build-isolation",
+          "tip": [
+            "Disable isolation when building a modern source distribution.",
+            "Build dependencies specified by PEP 518 must be already installed if this option is used."
+          ]
+        },
+        {
+          "name": "--no-clean",
+          "tip": [
+            "Don't clean up build directories."
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "Don't install package dependencies."
+          ]
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "Ignore package index (only looking at --find-links URLs instead)."
+          ]
+        },
+        {
+          "name": "--only-binary",
+          "tip": [
+            "U: --only-binary <format_control>",
+            "Do not use source packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all source packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Packages without binary distributions will fail to install when this option is used on them."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-final",
+          "tip": [
+            "U: --only-final <release_control>",
+            "Only allow final releases (no pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable pre-releases for all packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Cannot be used with --pre."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform <platform>",
+            "Only use wheels compatible with <platform>.",
+            "Defaults to the platform of the running system.",
+            "Use this option multiple times to specify multiple platforms supported by the target interpreter."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "Include pre-release and development versions.",
+            "By default, pip only finds stable versions."
+          ]
+        },
+        {
+          "name": "--prefer-binary",
+          "tip": [
+            "Prefer binary packages over source packages, even if the source packages are newer."
+          ]
+        },
+        {
+          "name": "--progress-bar",
+          "tip": [
+            "U: --progress-bar <progress_bar>",
+            "Specify whether the progress bar should be used.",
+            "In 'auto' mode, --quiet will suppress all progress bars."
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Default value"
+              ]
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "on"
+            },
+            {
+              "name": "raw"
+            }
+          ]
+        },
+        {
+          "name": "--python-version",
+          "tip": [
+            "U: --python-version <python_version>",
+            "The Python interpreter version to use for wheel and 'Requires-Python' compatibility checks.",
+            "Defaults to a version derived from the running interpreter."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--require-hashes",
+          "tip": [
+            "Require a hash to check each requirement against, for repeatable installs.",
+            "This option is implied when any package in a requirements file has a --hash option."
+          ]
+        },
+        {
+          "name": "--requirement",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --requirement <file>",
+            "Install from the given requirements file.",
+            "The file or URL can be in pip's requirements.txt format, or pylock.toml format.",
+            "This option can be used multiple times."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--requirements-from-script",
+          "tip": [
+            "U: --requirements-from-script <file>",
+            "Install dependencies of the given script file as defined by PEP 723 inline metadata."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--src",
+          "tip": [
+            "U: --src <dir>",
+            "Directory to check out editable projects into.",
+            "The default in a virtualenv is '<venv path>/src'.",
+            "The default for global installs is '<current dir>/src'."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--uploaded-prior-to",
+          "tip": [
+            "U: --uploaded-prior-to <datetime_or_duration>",
+            "Only consider packages uploaded prior to the given value.",
+            "Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago).",
+            "Only effective when installing from indexes that provide upload-time metadata."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "freeze",
+      "tip": [
+        "U: freeze [options]",
+        "Output installed packages in requirements format.",
+        "Packages are listed in a case-insensitive sorted order."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Do not skip these packages in the output: pip"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <package>",
+            "Exclude specified package from the output."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exclude-editable",
+          "tip": [
+            "Exclude editable package from output."
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --local",
+            "If in a virtualenv that has global access, do not output globally-installed packages."
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <path>",
+            "Restrict to the specified installation path for listing packages (can be used multiple times)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--requirement",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --requirement <file>",
+            "Use the order in the given requirements file and its comments when generating output.",
+            "This option can be used multiple times."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "Only output packages installed in user-site."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hash",
+      "tip": [
+        "U: hash [options] <file> ...",
+        "Compute a hash of a local package archive.",
+        "These can be used with --hash in a requirements file to do repeatable installs."
+      ],
+      "option": [
+        {
+          "name": "--algorithm",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --algorithm <algorithm>",
+            "The hash algorithm to use."
+          ],
+          "next": [
+            {
+              "name": "sha256"
+            },
+            {
+              "name": "sha384"
+            },
+            {
+              "name": "sha512"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "U: help <command>",
+        "Show help for commands."
+      ]
+    },
+    {
+      "name": "index",
+      "tip": [
+        "U: index versions <package>",
+        "Inspect information available from package indexes."
+      ],
+      "option": [
+        {
+          "name": "--abi",
+          "tip": [
+            "U: --abi <abi>",
+            "Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.",
+            "If not specified, then the current interpreter abi tag is used.",
+            "Use this option multiple times to specify multiple abis supported by the target interpreter.",
+            "Generally you will need to specify --implementation, --platform, and --python-version when using this option."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-releases",
+          "tip": [
+            "U: --all-releases <release_control>",
+            "Allow all release types (including pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to allow pre-releases for all packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Cannot be used with --pre."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extra-index-url",
+          "tip": [
+            "U: --extra-index-url <url>",
+            "Extra URLs of package indexes to use in addition to --index-url.",
+            "Should follow the same rules as --index-url."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--find-links",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --find-links <url>",
+            "If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files.",
+            "If a local path or file:// URL that's a directory, then look for archives in the directory listing.",
+            "Links to VCS project URLs are not supported."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-requires-python",
+          "tip": [
+            "Ignore the Requires-Python information."
+          ]
+        },
+        {
+          "name": "--implementation",
+          "tip": [
+            "U: --implementation <implementation>",
+            "Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.",
+            "If not specified, then the current interpreter implementation is used.",
+            "Use 'py' to force implementation-agnostic wheels."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--index-url",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --index-url <url>",
+            "Base URL of the Python Package Index (default https://pypi.org/simple).",
+            "This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output data in a machine-readable JSON format."
+          ]
+        },
+        {
+          "name": "--no-binary",
+          "tip": [
+            "U: --no-binary <format_control>",
+            "Do not use binary packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Note that some packages are tricky to compile and may fail to install when this option is used on them."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "Ignore package index (only looking at --find-links URLs instead)."
+          ]
+        },
+        {
+          "name": "--only-binary",
+          "tip": [
+            "U: --only-binary <format_control>",
+            "Do not use source packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all source packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Packages without binary distributions will fail to install when this option is used on them."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-final",
+          "tip": [
+            "U: --only-final <release_control>",
+            "Only allow final releases (no pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable pre-releases for all packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Cannot be used with --pre."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform <platform>",
+            "Only use wheels compatible with <platform>.",
+            "Defaults to the platform of the running system.",
+            "Use this option multiple times to specify multiple platforms supported by the target interpreter."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pre",
+          "tip": [
+            "Include pre-release and development versions.",
+            "By default, pip only finds stable versions."
+          ]
+        },
+        {
+          "name": "--prefer-binary",
+          "tip": [
+            "Prefer binary packages over source packages, even if the source packages are newer."
+          ]
+        },
+        {
+          "name": "--python-version",
+          "tip": [
+            "U: --python-version <python_version>",
+            "The Python interpreter version to use for wheel and 'Requires-Python' compatibility checks.",
+            "Defaults to a version derived from the running interpreter."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--uploaded-prior-to",
+          "tip": [
+            "U: --uploaded-prior-to <datetime_or_duration>",
+            "Only consider packages uploaded prior to the given value.",
+            "Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago).",
+            "Only effective when installing from indexes that provide upload-time metadata."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "inspect",
+      "tip": [
+        "U: inspect [options]",
+        "Inspect the content of a Python environment and produce a report in JSON format."
+      ],
+      "option": [
+        {
+          "name": "--local",
+          "tip": [
+            "If in a virtualenv that has global access, do not list globally-installed packages."
+          ]
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <path>",
+            "Restrict to the specified installation path for listing packages (can be used multiple times)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "Only output packages installed in user-site."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "U: install [options] <requirement specifier> [package-index-options] ...",
+        "U: install [options] -r <requirements file> [package-index-options] ...",
+        "U: install [options] [-e] <vcs project url> ...",
+        "U: install [options] [-e] <local project path> ...",
+        "U: install [options] <archive url/path> ...",
+        "Install packages from PyPI, VCS project urls, local project directories, or local or remote source archives."
+      ],
+      "option": [
+        {
+          "name": "--abi",
+          "tip": [
+            "U: --abi <abi>",
+            "Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'.",
+            "If not specified, then the current interpreter abi tag is used.",
+            "Use this option multiple times to specify multiple abis supported by the target interpreter.",
+            "Generally you will need to specify --implementation, --platform, and --python-version when using this option."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-releases",
+          "tip": [
+            "U: --all-releases <release_control>",
+            "Allow all release types (including pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to allow pre-releases for all packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Cannot be used with --pre."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--break-system-packages",
+          "tip": [
+            "Allow pip to modify an EXTERNALLY-MANAGED Python installation."
+          ]
+        },
+        {
+          "name": "--build-constraint",
+          "tip": [
+            "U: --build-constraint <file>",
+            "Constrain build dependencies using the given constraints file.",
+            "This option can be used multiple times."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--check-build-dependencies",
+          "tip": [
+            "Check the build dependencies."
+          ]
+        },
+        {
+          "name": "--compile",
+          "tip": [
+            "Compile Python source files to bytecode."
+          ]
+        },
+        {
+          "name": "--config-settings",
+          "alias": [
+            "-C"
+          ],
+          "tip": [
+            "U: -C, --config-settings <settings>",
+            "Configuration settings to be passed to the build backend.",
+            "Settings take the form KEY=VALUE.",
+            "Use multiple --config-settings options to pass multiple keys to the backend."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--constraint",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --constraint <file>",
+            "Constrain versions using the given constraints file.",
+            "This option can be used multiple times."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't actually install anything, just print what would be.",
+            "Can be used in combination with --ignore-installed to 'resolve' the requirements."
+          ]
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --editable <path/url>",
+            "Install a project in editable mode (i.e. setuptools 'develop mode') from a local project path or a VCS url."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extra-index-url",
+          "tip": [
+            "U: --extra-index-url <url>",
+            "Extra URLs of package indexes to use in addition to --index-url.",
+            "Should follow the same rules as --index-url."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--find-links",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --find-links <url>",
+            "If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files.",
+            "If a local path or file:// URL that's a directory, then look for archives in the directory listing.",
+            "Links to VCS project URLs are not supported."
+          ],
+          "next": 0
         },
         {
           "name": "--force-reinstall",
@@ -271,9 +987,12 @@
           ]
         },
         {
-          "name": "--global-option",
+          "name": "--group",
           "tip": [
-            "{{ $info.__global_option }}"
+            "U: --group <[path:]group>",
+            "Install a named dependency-group from a 'pyproject.toml' file.",
+            "If a path is given, the name of the file must be 'pyproject.toml'.",
+            "Defaults to using 'pyproject.toml' in the current directory."
           ],
           "next": 0
         },
@@ -291,13 +1010,16 @@
         {
           "name": "--ignore-requires-python",
           "tip": [
-            "{{ $info.__ignore_requires_python }}"
+            "Ignore the Requires-Python information."
           ]
         },
         {
           "name": "--implementation",
           "tip": [
-            "{{ $info.__implementation }}"
+            "U: --implementation <implementation>",
+            "Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp', or 'ip'.",
+            "If not specified, then the current interpreter implementation is used.",
+            "Use 'py' to force implementation-agnostic wheels."
           ],
           "next": 0
         },
@@ -307,127 +1029,171 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__index_url }}"
-          ]
-        },
-        {
-          "name": "--install-option",
-          "tip": [
-            "U: --install-option <options>",
-            "Extra arguments to be supplied to the setup.py install command (use like --install-option=\"--install-scripts=/usr/local/bin\").",
-            "You can use multiple --install-option options to pass multiple options to setup.py install.",
-            "If you are using an option with a directory path, be sure to use absolute path."
+            "U: -i, --index-url <url>",
+            "Base URL of the Python Package Index (default https://pypi.org/simple).",
+            "This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format."
           ],
           "next": 0
         },
         {
           "name": "--no-binary",
           "tip": [
-            "{{ $info.__no_binary }}"
+            "U: --no-binary <format_control>",
+            "Do not use binary packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Note that some packages are tricky to compile and may fail to install when this option is used on them."
           ],
           "next": 0
         },
         {
           "name": "--no-build-isolation",
           "tip": [
-            "{{ $info.__no_build_isolation }}"
+            "Disable isolation when building a modern source distribution.",
+            "Build dependencies specified by PEP 518 must be already installed if this option is used."
           ]
         },
         {
           "name": "--no-clean",
           "tip": [
-            "{{ $info.__no_clean }}"
+            "Don't clean up build directories."
           ]
         },
         {
           "name": "--no-compile",
           "tip": [
-            "Don't compile Python source files to bytecode."
+            "Do not compile Python source files to bytecode."
           ]
         },
         {
           "name": "--no-deps",
           "tip": [
-            "{{ $info.__no_deps }}"
+            "Don't install package dependencies."
           ]
         },
         {
           "name": "--no-index",
           "tip": [
-            "{{ $info.__no_index }}"
+            "Ignore package index (only looking at --find-links URLs instead)."
           ]
         },
         {
           "name": "--no-warn-conflicts",
           "tip": [
-            "Don't warn about broken dependencies."
+            "Do not warn about broken dependencies."
           ]
         },
         {
           "name": "--no-warn-script-location",
           "tip": [
-            "Don't warn when installing scripts outside PATH."
+            "Do not warn when installing scripts outside PATH."
           ]
         },
         {
           "name": "--only-binary",
           "tip": [
-            "{{ $info.__only_binary }}"
+            "U: --only-binary <format_control>",
+            "Do not use source packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all source packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Packages without binary distributions will fail to install when this option is used on them."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-final",
+          "tip": [
+            "U: --only-final <release_control>",
+            "Only allow final releases (no pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable pre-releases for all packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Cannot be used with --pre."
           ],
           "next": 0
         },
         {
           "name": "--platform",
           "tip": [
-            "{{ $info.__platform }}"
+            "U: --platform <platform>",
+            "Only use wheels compatible with <platform>.",
+            "Defaults to the platform of the running system.",
+            "Use this option multiple times to specify multiple platforms supported by the target interpreter."
           ],
           "next": 0
         },
         {
           "name": "--pre",
           "tip": [
-            "{{ $info.__pre }}"
+            "Include pre-release and development versions.",
+            "By default, pip only finds stable versions."
           ]
         },
         {
           "name": "--prefer-binary",
           "tip": [
-            "{{ $info.__prefer_binary }}"
+            "Prefer binary packages over source packages, even if the source packages are newer."
           ]
         },
         {
           "name": "--prefix",
           "tip": [
             "U: --prefix <dir>",
-            "Installation prefix where lib, bin and other top-level folders are placed"
+            "Installation prefix where lib, bin and other top-level folders are placed.",
+            "Note that the resulting installation may contain scripts and other resources which reference the Python interpreter of pip, and not that of --prefix.",
+            "See also the --python option if the intention is to install packages into another (possibly pip-free) environment."
           ],
           "next": 0
         },
         {
           "name": "--progress-bar",
           "tip": [
-            "{{ $info.__progress_bar }}"
+            "U: --progress-bar <progress_bar>",
+            "Specify whether the progress bar should be used.",
+            "In 'auto' mode, --quiet will suppress all progress bars."
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Default value"
+              ]
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "on"
+            },
+            {
+              "name": "raw"
+            }
+          ]
         },
         {
           "name": "--python-version",
           "tip": [
-            "{{ $info.__python_version }}"
+            "U: --python-version <python_version>",
+            "The Python interpreter version to use for wheel and 'Requires-Python' compatibility checks.",
+            "Defaults to a version derived from the running interpreter."
           ],
           "next": 0
         },
         {
           "name": "--report",
           "tip": [
-            "{{ $info.__report }}"
+            "U: --report <file>",
+            "Generate a JSON file describing what pip did to install the provided requirements.",
+            "Can be used in combination with --dry-run and --ignore-installed to 'resolve' the requirements.",
+            "When - is used as file name it writes to stdout.",
+            "When writing to stdout, please combine with the --quiet option to avoid mixing pip logging output with JSON output."
           ],
           "next": 0
         },
         {
           "name": "--require-hashes",
           "tip": [
-            "{{ $info.__require_hashes }}"
+            "Require a hash to check each requirement against, for repeatable installs.",
+            "This option is implied when any package in a requirements file has a --hash option."
           ]
         },
         {
@@ -436,28 +1202,54 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__requirement }}"
+            "U: -r, --requirement <file>",
+            "Install from the given requirements file.",
+            "The file or URL can be in pip's requirements.txt format, or pylock.toml format.",
+            "This option can be used multiple times."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--requirements-from-script",
+          "tip": [
+            "U: --requirements-from-script <file>",
+            "Install dependencies of the given script file as defined by PEP 723 inline metadata."
           ],
           "next": 0
         },
         {
           "name": "--root",
           "tip": [
-            "{{ $info.__root }}"
+            "U: --root <dir>",
+            "Install everything relative to this alternate root directory."
           ],
           "next": 0
         },
         {
           "name": "--root-user-action",
           "tip": [
-            "{{ $info.__root_user_action }}"
+            "U: --root-user-action <root_user_action>",
+            "Action if pip is run as a root user."
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Default value"
+              ]
+            }
+          ]
         },
         {
           "name": "--src",
           "tip": [
-            "{{ $info.__src }}"
+            "U: --src <dir>",
+            "Directory to check out editable projects into.",
+            "The default in a virtualenv is '<venv path>/src'.",
+            "The default for global installs is '<current dir>/src'."
           ],
           "next": 0
         },
@@ -468,9 +1260,9 @@
           ],
           "tip": [
             "U: -t, --target <dir>",
-            "Install packages into the given directory.",
-            "By default this will not replace existing files/folders in the given directory.",
-            "Use --upgrade to replace existing packages in the given directory with new versions."
+            "Install packages into <dir>.",
+            "By default this will not replace existing files/folders in <dir>.",
+            "Use --upgrade to replace existing packages in <dir> with new versions."
           ],
           "next": 0
         },
@@ -490,16 +1282,20 @@
           "tip": [
             "U: --upgrade-strategy <upgrade_strategy>",
             "Determines how dependency upgrading should be handled [default: only-if-needed].",
-            "\"eager\"          - dependencies are upgraded regardless of whether the currently installed version satisfies the requirements of the upgraded package(s).",
-            "\"only-if-needed\" - are upgraded only when they do not satisfy the requirements of the upgraded package(s)."
+            "'eager'          - dependencies are upgraded regardless of whether the currently installed version satisfies the requirements of the upgraded package(s).",
+            "'only-if-needed' - are upgraded only when they do not satisfy the requirements of the upgraded package(s)."
           ],
           "next": 0
         },
         {
-          "name": "--use-pep517",
+          "name": "--uploaded-prior-to",
           "tip": [
-            "{{ $info.__use_pep517 }}"
-          ]
+            "U: --uploaded-prior-to <datetime_or_duration>",
+            "Only consider packages uploaded prior to the given value.",
+            "Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago).",
+            "Only effective when installing from indexes that provide upload-time metadata."
+          ],
+          "next": 0
         },
         {
           "name": "--user",
@@ -512,256 +1308,54 @@
       ]
     },
     {
-      "name": "freeze",
-      "tip": [
-        "Output installed packages in requirements format.",
-        "packages are listed in a case-insensitive sorted order."
-      ],
-      "option": [
-        {
-          "name": "--all",
-          "tip": [
-            "Do not skip these packages in the output: wheel, pip, setuptools, distribute"
-          ]
-        },
-        {
-          "name": "--exclude",
-          "tip": [
-            "{{ $info.__exclude }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--exclude-editable",
-          "tip": [
-            "{{ $info.__exclude_editable }}"
-          ]
-        },
-        {
-          "name": "--local",
-          "alias": [
-            "-l"
-          ],
-          "tip": [
-            "{{ $info.__local }}"
-          ]
-        },
-        {
-          "name": "--path",
-          "tip": [
-            "{{ $info.__path }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--requirement",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__requirement }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--user",
-          "tip": [
-            "{{ $info.__user }}"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "hash",
-      "tip": [
-        "Compute hashes of package archives.",
-        "These can be used with --hash in a requirements file to do repeatable installs."
-      ],
-      "option": [
-        {
-          "name": "--algorithm",
-          "alias": [
-            "-a"
-          ],
-          "tip": [
-            "U: --algorithm, -a <algorithm>",
-            "The hash algorithm to use: one of sha256, sha384, sha512"
-          ],
-          "next": [
-            {
-              "name": "sha256"
-            },
-            {
-              "name": "sha384"
-            },
-            {
-              "name": "sha512"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "Show help for commands."
-      ]
-    },
-    {
-      "name": "index",
-      "tip": [
-        "Inspect information available from package indexes."
-      ],
-      "option": [
-        {
-          "name": "--abi",
-          "tip": [
-            "{{ $info.__abi }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--extra-index-url",
-          "tip": [
-            "{{ $info.__extra_index_url }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--find-links",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "{{ $info.__find_links }}"
-          ]
-        },
-        {
-          "name": "--ignore-requires-python",
-          "tip": [
-            "{{ $info.__ignore_requires_python }}"
-          ]
-        },
-        {
-          "name": "--implementation",
-          "tip": [
-            "{{ $info.__implementation }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--index-url",
-          "alias": [
-            "-i"
-          ],
-          "tip": [
-            "{{ $info.__index_url }}"
-          ]
-        },
-        {
-          "name": "--no-binary",
-          "tip": [
-            "{{ $info.__no_binary }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--no-index",
-          "tip": [
-            "{{ $info.__no_index }}"
-          ]
-        },
-        {
-          "name": "--only-binary",
-          "tip": [
-            "{{ $info.__only_binary }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--platform",
-          "tip": [
-            "{{ $info.__platform }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--pre",
-          "tip": [
-            "{{ $info.__pre }}"
-          ]
-        },
-        {
-          "name": "--python-version",
-          "tip": [
-            "{{ $info.__python_version }}"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "inspect",
-      "tip": [
-        "Inspect the content of a Python environment and produce a report in JSON format."
-      ],
-      "option": [
-        {
-          "name": "--local",
-          "alias": [
-            "-l"
-          ],
-          "tip": [
-            "{{ $info.__local }}"
-          ]
-        },
-        {
-          "name": "--path",
-          "tip": [
-            "{{ $info.__path }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--user",
-          "tip": [
-            "{{ $info.__user }}"
-          ]
-        }
-      ]
-    },
-    {
       "name": "list",
       "tip": [
-        "List installed packages."
+        "U: list [options]",
+        "List installed packages, including editables.",
+        "Packages are listed in a case-insensitive sorted order."
       ],
       "option": [
+        {
+          "name": "--all-releases",
+          "tip": [
+            "U: --all-releases <release_control>",
+            "Allow all release types (including pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to allow pre-releases for all packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Cannot be used with --pre."
+          ],
+          "next": 0
+        },
         {
           "name": "--editable",
           "alias": [
             "-e"
           ],
           "tip": [
+            "U: -e, --editable",
             "List editable projects."
           ]
         },
         {
           "name": "--exclude",
           "tip": [
-            "{{ $info.__exclude }}"
+            "U: --exclude <package>",
+            "Exclude specified package from the output."
           ],
           "next": 0
         },
         {
           "name": "--exclude-editable",
           "tip": [
-            "{{ $info.__exclude_editable }}"
+            "Exclude editable package from output."
           ]
         },
         {
           "name": "--extra-index-url",
           "tip": [
-            "{{ $info.__extra_index_url }}"
+            "U: --extra-index-url <url>",
+            "Extra URLs of package indexes to use in addition to --index-url.",
+            "Should follow the same rules as --index-url."
           ],
           "next": 0
         },
@@ -771,20 +1365,25 @@
             "-f"
           ],
           "tip": [
-            "{{ $info.__find_links }}"
-          ]
+            "U: -f, --find-links <url>",
+            "If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files.",
+            "If a local path or file:// URL that's a directory, then look for archives in the directory listing.",
+            "Links to VCS project URLs are not supported."
+          ],
+          "next": 0
         },
         {
           "name": "--format",
           "tip": [
-            "U: --format <format>",
-            "Select the output format among: columns (default), freeze, or json"
+            "U: --format <list_format>",
+            "Select the output format among: columns (default), freeze, or json.",
+            "The 'freeze' format cannot be used with the --outdated option."
           ],
           "next": [
             {
               "name": "columns",
               "tip": [
-                "default value"
+                "Default value"
               ]
             },
             {
@@ -798,7 +1397,7 @@
         {
           "name": "--include-editable",
           "tip": [
-            "Include editable package from output."
+            "Include editable package in output."
           ]
         },
         {
@@ -807,8 +1406,11 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__index_url }}"
-          ]
+            "U: -i, --index-url <url>",
+            "Base URL of the Python Package Index (default https://pypi.org/simple).",
+            "This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format."
+          ],
+          "next": 0
         },
         {
           "name": "--local",
@@ -816,13 +1418,25 @@
             "-l"
           ],
           "tip": [
-            "{{ $info.__local }}"
+            "U: -l, --local",
+            "If in a virtualenv that has global access, do not list globally-installed packages."
           ]
+        },
+        {
+          "name": "--no-binary",
+          "tip": [
+            "U: --no-binary <format_control>",
+            "Do not use binary packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Note that some packages are tricky to compile and may fail to install when this option is used on them."
+          ],
+          "next": 0
         },
         {
           "name": "--no-index",
           "tip": [
-            "{{ $info.__no_index }}"
+            "Ignore package index (only looking at --find-links URLs instead)."
           ]
         },
         {
@@ -832,26 +1446,67 @@
           ]
         },
         {
+          "name": "--only-binary",
+          "tip": [
+            "U: --only-binary <format_control>",
+            "Do not use source packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all source packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Packages without binary distributions will fail to install when this option is used on them."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-final",
+          "tip": [
+            "U: --only-final <release_control>",
+            "Only allow final releases (no pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable pre-releases for all packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Cannot be used with --pre."
+          ],
+          "next": 0
+        },
+        {
           "name": "--outdated",
           "alias": [
             "-o"
           ],
           "tip": [
+            "U: -o, --outdated",
             "List outdated packages."
           ]
         },
         {
           "name": "--path",
           "tip": [
-            "{{ $info.__path }}"
+            "U: --path <path>",
+            "Restrict to the specified installation path for listing packages (can be used multiple times)."
           ],
           "next": 0
         },
         {
           "name": "--pre",
           "tip": [
-            "{{ $info.__pre }}"
+            "Include pre-release and development versions.",
+            "By default, pip only finds stable versions."
           ]
+        },
+        {
+          "name": "--prefer-binary",
+          "tip": [
+            "Prefer binary packages over source packages, even if the source packages are newer."
+          ]
+        },
+        {
+          "name": "--uploaded-prior-to",
+          "tip": [
+            "U: --uploaded-prior-to <datetime_or_duration>",
+            "Only consider packages uploaded prior to the given value.",
+            "Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago).",
+            "Only effective when installing from indexes that provide upload-time metadata."
+          ],
+          "next": 0
         },
         {
           "name": "--uptodate",
@@ -859,13 +1514,14 @@
             "-u"
           ],
           "tip": [
+            "U: -u, --uptodate",
             "List uptodate packages."
           ]
         },
         {
           "name": "--user",
           "tip": [
-            "{{ $info.__user }}"
+            "Only output packages installed in user-site."
           ]
         }
       ]
@@ -873,7 +1529,8 @@
     {
       "name": "search",
       "tip": [
-        "Search PyPI for packages."
+        "U: search [options] <query>",
+        "Search for PyPI packages whose name or summary contains <query>."
       ],
       "option": [
         {
@@ -883,7 +1540,7 @@
           ],
           "tip": [
             "U: -i, --index <url>",
-            "Base URL of Python Package Index (default https://pypi.org/pypi)"
+            "Base URL of Python Package Index (default https://pypi.org/pypi)."
           ],
           "next": 0
         }
@@ -892,7 +1549,8 @@
     {
       "name": "show",
       "tip": [
-        "Show information about installed packages.",
+        "U: show [options] <package> ...",
+        "Show information about one or more installed packages.",
         "The output is in RFC-compliant mail header format."
       ],
       "option": [
@@ -902,6 +1560,7 @@
             "-f"
           ],
           "tip": [
+            "U: -f, --files",
             "Show the full list of installed files for each package."
           ]
         }
@@ -910,25 +1569,46 @@
     {
       "name": "uninstall",
       "tip": [
+        "U: uninstall [options] <package> ...",
+        "U: uninstall [options] -r <requirements file> ...",
         "Uninstall packages."
       ],
       "option": [
+        {
+          "name": "--break-system-packages",
+          "tip": [
+            "Allow pip to modify an EXTERNALLY-MANAGED Python installation."
+          ]
+        },
         {
           "name": "--requirement",
           "alias": [
             "-r"
           ],
           "tip": [
-            "{{ $info.__requirement }}"
+            "U: -r, --requirement <file>",
+            "Uninstall all the packages listed in the given requirements file.",
+            "This option can be used multiple times."
           ],
           "next": 0
         },
         {
           "name": "--root-user-action",
           "tip": [
-            "{{ $info.__root_user_action }}"
+            "U: --root-user-action <root_user_action>",
+            "Action if pip is run as a root user."
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Default value"
+              ]
+            }
+          ]
         },
         {
           "name": "--yes",
@@ -936,6 +1616,7 @@
             "-y"
           ],
           "tip": [
+            "U: -y, --yes",
             "Don't ask for confirmation of uninstall deletions."
           ]
         }
@@ -944,37 +1625,50 @@
     {
       "name": "wheel",
       "tip": [
+        "U: wheel [options] <requirement specifier> ...",
+        "U: wheel [options] -r <requirements file> ...",
+        "U: wheel [options] [-e] <vcs project url> ...",
+        "U: wheel [options] [-e] <local project path> ...",
+        "U: wheel [options] <archive url/path> ...",
         "Build Wheel archives for your requirements and dependencies."
       ],
       "option": [
         {
-          "name": "__editable",
-          "alias": [
-            "-e"
-          ],
+          "name": "--all-releases",
           "tip": [
-            "{{ $info.__editable }}"
+            "U: --all-releases <release_control>",
+            "Allow all release types (including pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to allow pre-releases for all packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Cannot be used with --pre."
           ],
           "next": 0
         },
         {
-          "name": "--build-option",
+          "name": "--build-constraint",
           "tip": [
-            "U: --build-option <options>",
-            "Extra arguments to be supplied to 'setup.py bdist_wheel'."
+            "U: --build-constraint <file>",
+            "Constrain build dependencies using the given constraints file.",
+            "This option can be used multiple times."
           ],
           "next": 0
         },
         {
           "name": "--check-build-dependencies",
           "tip": [
-            "{{ $info.__check_build_dependencies }}"
+            "Check the build dependencies."
           ]
         },
         {
           "name": "--config-settings",
+          "alias": [
+            "-C"
+          ],
           "tip": [
-            "{{ $info.__config_settings }}"
+            "U: -C, --config-settings <settings>",
+            "Configuration settings to be passed to the build backend.",
+            "Settings take the form KEY=VALUE.",
+            "Use multiple --config-settings options to pass multiple keys to the backend."
           ],
           "next": 0
         },
@@ -984,14 +1678,29 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__constraint }}"
+            "U: -c, --constraint <file>",
+            "Constrain versions using the given constraints file.",
+            "This option can be used multiple times."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --editable <path/url>",
+            "Install a project in editable mode (i.e. setuptools 'develop mode') from a local project path or a VCS url."
           ],
           "next": 0
         },
         {
           "name": "--extra-index-url",
           "tip": [
-            "{{ $info.__extra_index_url }}"
+            "U: --extra-index-url <url>",
+            "Extra URLs of package indexes to use in addition to --index-url.",
+            "Should follow the same rules as --index-url."
           ],
           "next": 0
         },
@@ -1001,20 +1710,27 @@
             "-f"
           ],
           "tip": [
-            "{{ $info.__find_links }}"
-          ]
+            "U: -f, --find-links <url>",
+            "If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files.",
+            "If a local path or file:// URL that's a directory, then look for archives in the directory listing.",
+            "Links to VCS project URLs are not supported."
+          ],
+          "next": 0
         },
         {
-          "name": "--global-option",
+          "name": "--group",
           "tip": [
-            "{{ $info.__global_option }}"
+            "U: --group <[path:]group>",
+            "Install a named dependency-group from a 'pyproject.toml' file.",
+            "If a path is given, the name of the file must be 'pyproject.toml'.",
+            "Defaults to using 'pyproject.toml' in the current directory."
           ],
           "next": 0
         },
         {
           "name": "--ignore-requires-python",
           "tip": [
-            "{{ $info.__ignore_requires_python }}"
+            "Ignore the Requires-Python information."
           ]
         },
         {
@@ -1023,38 +1739,46 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__index_url }}"
-          ]
+            "U: -i, --index-url <url>",
+            "Base URL of the Python Package Index (default https://pypi.org/simple).",
+            "This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format."
+          ],
+          "next": 0
         },
         {
           "name": "--no-binary",
           "tip": [
-            "{{ $info.__no_binary }}"
+            "U: --no-binary <format_control>",
+            "Do not use binary packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons).",
+            "Note that some packages are tricky to compile and may fail to install when this option is used on them."
           ],
           "next": 0
         },
         {
           "name": "--no-build-isolation",
           "tip": [
-            "{{ $info.__no_build_isolation }}"
+            "Disable isolation when building a modern source distribution.",
+            "Build dependencies specified by PEP 518 must be already installed if this option is used."
           ]
         },
         {
           "name": "--no-clean",
           "tip": [
-            "{{ $info.__no_clean }}"
+            "Don't clean up build directories."
           ]
         },
         {
           "name": "--no-deps",
           "tip": [
-            "{{ $info.__no_deps }}"
+            "Don't install package dependencies."
           ]
         },
         {
           "name": "--no-index",
           "tip": [
-            "{{ $info.__no_index }}"
+            "Ignore package index (only looking at --find-links URLs instead)."
           ]
         },
         {
@@ -1066,33 +1790,68 @@
         {
           "name": "--only-binary",
           "tip": [
-            "{{ $info.__only_binary }}"
+            "U: --only-binary <format_control>",
+            "Do not use source packages.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable all source packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Packages without binary distributions will fail to install when this option is used on them."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-final",
+          "tip": [
+            "U: --only-final <release_control>",
+            "Only allow final releases (no pre-releases) for a package.",
+            "Can be supplied multiple times, and each time adds to the existing value.",
+            "Accepts either ':all:' to disable pre-releases for all packages, ':none:' to empty the set, or one or more package names with commas between them.",
+            "Cannot be used with --pre."
           ],
           "next": 0
         },
         {
           "name": "--pre",
           "tip": [
-            "{{ $info.__pre }}"
+            "Include pre-release and development versions.",
+            "By default, pip only finds stable versions."
           ]
         },
         {
           "name": "--prefer-binary",
           "tip": [
-            "{{ $info.__prefer_binary }}"
+            "Prefer binary packages over source packages, even if the source packages are newer."
           ]
         },
         {
           "name": "--progress-bar",
           "tip": [
-            "{{ $info.__progress_bar }}"
+            "U: --progress-bar <progress_bar>",
+            "Specify whether the progress bar should be used.",
+            "In 'auto' mode, --quiet will suppress all progress bars."
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Default value"
+              ]
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "on"
+            },
+            {
+              "name": "raw"
+            }
+          ]
         },
         {
           "name": "--require-hashes",
           "tip": [
-            "{{ $info.__require_hashes }}"
+            "Require a hash to check each requirement against, for repeatable installs.",
+            "This option is implied when any package in a requirements file has a --hash option."
           ]
         },
         {
@@ -1101,27 +1860,48 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__requirement }}"
+            "U: -r, --requirement <file>",
+            "Install from the given requirements file.",
+            "The file or URL can be in pip's requirements.txt format, or pylock.toml format.",
+            "This option can be used multiple times."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--requirements-from-script",
+          "tip": [
+            "U: --requirements-from-script <file>",
+            "Install dependencies of the given script file as defined by PEP 723 inline metadata."
           ],
           "next": 0
         },
         {
           "name": "--src",
           "tip": [
-            "{{ $info.__src }}"
+            "U: --src <dir>",
+            "Directory to check out editable projects into.",
+            "The default in a virtualenv is '<venv path>/src'.",
+            "The default for global installs is '<current dir>/src'."
           ],
           "next": 0
         },
         {
-          "name": "--use-pep517",
+          "name": "--uploaded-prior-to",
           "tip": [
-            "{{ $info.__use_pep517 }}"
-          ]
+            "U: --uploaded-prior-to <datetime_or_duration>",
+            "Only consider packages uploaded prior to the given value.",
+            "Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago).",
+            "Only effective when installing from indexes that provide upload-time metadata."
+          ],
+          "next": 0
         },
         {
           "name": "--wheel-dir",
+          "alias": [
+            "-w"
+          ],
           "tip": [
-            "U: --wheel-dir, -w <dir>",
+            "U: -w, --wheel-dir <dir>",
             "Build wheels into <dir>, where the default is the current working directory."
           ],
           "next": 0
@@ -1153,7 +1933,8 @@
       "name": "--cert",
       "tip": [
         "U: --cert <path>",
-        "Path to PEM-encoded CA certificate bundle. If provided, overrides the default.",
+        "Path to PEM-encoded CA certificate bundle.",
+        "If provided, overrides the default.",
         "See 'SSL Certificate Verification' in pip documentation for more information."
       ],
       "next": 0
@@ -1183,7 +1964,8 @@
       "name": "--exists-action",
       "tip": [
         "U: --exists-action <action>",
-        "Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort."
+        "Default action when a path already exists:",
+        "(s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort."
       ],
       "next": 0
     },
@@ -1193,14 +1975,38 @@
         "-h"
       ],
       "tip": [
-        "U: -h, --help",
-        "Show the help."
+        "Show help."
       ]
     },
     {
       "name": "--isolated",
       "tip": [
         "Run pip in an isolated mode, ignoring environment variables and user configuration."
+      ]
+    },
+    {
+      "name": "--keyring-provider",
+      "tip": [
+        "U: --keyring-provider <keyring_provider>",
+        "Enable the credential lookup via the keyring library if user input is allowed.",
+        "Specify which mechanism to use."
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Default value"
+          ]
+        },
+        {
+          "name": "disabled"
+        },
+        {
+          "name": "import"
+        },
+        {
+          "name": "subprocess"
+        }
       ]
     },
     {
@@ -1230,16 +2036,10 @@
       ]
     },
     {
-      "name": "--no-python-version-warning",
-      "tip": [
-        "Silence deprecation warnings for upcoming unsupported Pythons."
-      ]
-    },
-    {
       "name": "--proxy",
       "tip": [
         "U: --proxy <proxy>",
-        "Specify a proxy in the form [user:password@]proxy.server:port."
+        "Specify a proxy in the form scheme://[user:passwd@]proxy.server:port."
       ],
       "next": 0
     },
@@ -1247,7 +2047,7 @@
       "name": "--python",
       "tip": [
         "U: --python <python>",
-        "pip with the specified Python interpreter."
+        "Run pip with the specified Python interpreter."
       ],
       "next": 0
     },
@@ -1260,7 +2060,8 @@
         "U: -q, --quiet",
         "Give less output. Option is additive, and can be used up to 3 times.",
         "(corresponding to WARNING, ERROR, and CRITICAL logging levels)."
-      ]
+      ],
+      "repeat": true
     },
     {
       "name": "--require-virtualenv",
@@ -1269,17 +2070,25 @@
       ]
     },
     {
+      "name": "--resume-retries",
+      "tip": [
+        "U: --resume-retries <resume_retries>",
+        "Maximum attempts to resume or restart an incomplete download. (default: 5)"
+      ],
+      "next": 0
+    },
+    {
       "name": "--retries",
       "tip": [
         "U: --retries <retries>",
-        "Maximum number of retries each connection should attempt (default 5 times)."
+        "Maximum attempts to establish a new HTTP connection. (default: 5)"
       ],
       "next": 0
     },
     {
       "name": "--timeout",
       "tip": [
-        "U: --timeout <timeout>",
+        "U: --timeout <sec>",
         "Set the socket timeout (default 15 seconds)."
       ],
       "next": 0
@@ -1318,134 +2127,15 @@
         "Give more output. Option is additive, and can be used up to 3 times."
       ],
       "repeat": true
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "Show version and exit."
+      ]
     }
-  ],
-  "info": {
-    "__abi": [
-      "U: --abi <abi>\n",
-      "Only use wheels compatible with Python abi <abi>, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used.",
-      "Use this option multiple times to specify multiple abis supported by the target interpreter.\n",
-      "Generally you will need to specify --implementation, --platform, and --python-version when using this option."
-    ],
-    "__check_build_dependencies": "Check the build dependencies when PEP517 is used.",
-    "__config_settings": [
-      "U: --config-setting <settings>\n",
-      "Configuration settings to be passed to the PEP 517 build backend.\n",
-      "Settings take the form KEY=VALUE.\n",
-      "Use multiple --config-settings options to pass multiple keys to the backend."
-    ],
-    "__constraint": [
-      "U: -c, --constraint <file>\n",
-      "Constrain versions using the given constraints file. This option can be used multiple times."
-    ],
-    "__editable": [
-      "U: -e, --editable <path|url>\n",
-      "Install a project in editable mode(e.g. setuptools \"develop mode\") from a local project path or a VCS url"
-    ],
-    "__exclude": [
-      "U: --exclude <package>\n",
-      "Exclude specified package from the output."
-    ],
-    "__exclude_editable": "Exclude editable package from output.",
-    "__extra_index_url": [
-      "U: --extra-index-url <url>\n",
-      "Extra URLs of package indexes to use in addition to --index-url.\n",
-      "Should follow the same rules as --index-url."
-    ],
-    "__find_links": [
-      "If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files.\n",
-      "If a local path or file:// URL that's a directory, then look for archives in the directory listing.\n",
-      "Links to VCS project URLs are not supported."
-    ],
-    "__global_option": [
-      "U: --global-option <options>\n",
-      "Extra global options to be supplied to the setup.py call before the install or bdist_wheel command."
-    ],
-    "__ignore_requires_python": "Ignore the Requires-Python information.",
-    "__implementation": [
-      "U: --implementation <implementation>\n",
-      "Only use wheels compatible with Python implementation <implementation>, e.g. 'pp', 'jy', 'cp',  or 'ip'.\n",
-      "If not specified, then the current interpreter implementation is used. Use 'py' to force implementation-agnostic wheels."
-    ],
-    "__index_url": [
-      "Base URL of the Python Package Index (default https://pypi.org/simple).\n",
-      "This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format."
-    ],
-    "__local": [
-      "U: -l, --local\n",
-      "If in a virtualenv that has global access, do not list globally-installed packages."
-    ],
-    "__no_binary": [
-      "U: --no-binary <format_control>\n",
-      "Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value.\n",
-      "Accepts either \":all:\" to disable all binary packages, \":none:\" to empty the set (notice the colons), or one or more package names with commas between them (no colons).\n",
-      "Note that some packages are tricky to compile and may fail to install when this option is used on them."
-    ],
-    "__no_build_isolation": [
-      "Disable isolation when building a modern source distribution.\n",
-      "Build dependencies specified by PEP 518 must be already installed if this option is used."
-    ],
-    "__no_clean": "Don't clean up build directories.",
-    "__no_deps": "Don't install package dependencies.",
-    "__no_index": "Ignore package index (only looking at --find-links URLs instead).",
-    "__only_binary": [
-      "U: --only-binary <format_control>\n",
-      "Do not use source packages. Can be supplied multiple times, and each time adds to the existing value.\n",
-      "Accepts either \":all:\" to disable all source packages, \":none:\" to empty the set, or one or more package names with commas between them.\n",
-      "Packages without binary distributions will fail to install when this option is used on them."
-    ],
-    "__path": [
-      "U: --path <path>\n",
-      "Restrict to the specified installation path for listing packages (can be used multiple times)."
-    ],
-    "__platform": [
-      "U: --platform <platform>\n",
-      "Only use wheels compatible with <platform>.\n",
-      "Defaults to the platform of the running system.\n",
-      "Use this option multiple times to specify multiple platforms supported by the target interpreter."
-    ],
-    "__pre": "Include pre-release and development versions. By default, pip only finds stable versions.",
-    "__prefer_binary": "Prefer older binary packages over newer source packages.",
-    "__progress_bar": [
-      "U: --progress-bar <bar>\n",
-      "Specify whether the progress bar should be used [on, off] (default: on)"
-    ],
-    "__python_version": [
-      "U: --python-version <version>\n",
-      "The Python interpreter version to use for wheel and \"Requires-Python\" compatibility checks.\n",
-      "Defaults to a version derived from the running interpreter."
-    ],
-    "__report": [
-      "U: --report <file>\n",
-      "Generate a JSON file describing what pip did to install the provided requirements.\n",
-      "Can be used in combination with --dry-run and --ignore-installed to 'resolve' the requirements.\n",
-      "When - is used as file name it writes to stdout.When writing to stdout, please combine with the --quiet option to avoid mixing pip logging output with JSON output."
-    ],
-    "__require_hashes": [
-      "Require a hash to check each requirement against, for repeatable installs.\n",
-      "This option is implied when any package in a requirements file has a --hash option."
-    ],
-    "__requirement": [
-      "U: -r, --requirement <file>\n",
-      "Use the order in the given requirements file and its comments when generating output.\n",
-      "This option can be used multiple times."
-    ],
-    "__root": [
-      "U: --root <dir>\n",
-      "Install everything relative to this alternate root directory."
-    ],
-    "__root_user_action": [
-      "U: --root-user-action <root_user_action>\n",
-      "Action if pip is run as a root user.\n",
-      "By default, a warning message is shown."
-    ],
-    "__src": [
-      "U: --src <dir>\n",
-      "Directory to check out editable projects into.\n",
-      "The default in a virtualenv is \"<venv path>/src\".\n",
-      "The default for global installs is \"<current dir>/src\"."
-    ],
-    "__use_pep517": "Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy behaviour).",
-    "__user": "Only output packages installed in user-site."
-  }
+  ]
 }

@@ -2,615 +2,623 @@
   "meta": {
     "url": "https://deno.com/",
     "description": [
-      "Deno - A secure runtime for JavaScript and TypeScript."
+      "Deno - A modern JavaScript and TypeScript runtime"
     ]
   },
   "root": [
     {
-      "name": "bench",
+      "name": "add",
       "tip": [
-        "Run benchmarks."
+        "U: deno add [OPTIONS] [packages]...",
+        "Add dependencies to your configuration file"
       ],
       "option": [
         {
-          "name": "--allow-all",
+          "name": "--allow-import",
           "alias": [
-            "-A"
+            "-I"
           ],
           "tip": [
-            "{{ $info.__allow_all }}"
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "Allow importing from remote hosts"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--allow-scripts",
           "tip": [
-            "{{ $info.__allow_env }}"
+            "Allow running npm lifecycle scripts for the given packages"
           ]
         },
         {
-          "name": "--allow-ffi",
+          "name": "--deny-import",
           "tip": [
-            "{{ $info.__allow_ffi }}"
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "Deny importing from remote hosts"
           ]
         },
         {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "Require that remote dependencies are already cached."
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "Type-check modules."
-          ]
-        },
-        {
-          "name": "--config",
+          "name": "--dev",
           "alias": [
-            "-c"
+            "-D"
           ],
           "tip": [
-            "{{ $info.__config }}"
+            "U: -D, --dev",
+            "Add the package as a dev dependency"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
           ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--jsr",
           "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: Enable internal features used during integration testing."
-          ]
-        },
-        {
-          "name": "--filter",
-          "tip": [
-            "Run benchmarks with this string or pattern in the bench name."
-          ]
-        },
-        {
-          "name": "--ignore",
-          "tip": [
-            "Ignore files."
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--json",
-          "tip": [
-            "UNSTABLE: Output benchmark result in JSON format."
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
+            "Assume unprefixed package names are jsr packages"
           ]
         },
         {
           "name": "--lock",
           "tip": [
-            "{{ $info.__lock }}"
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--lockfile-only",
           "tip": [
-            "Force overwriting the lock file."
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-clear-screen",
-          "tip": [
-            "Do not clear terminal screen when under watch mode."
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "Disable automatic loading of the configuration file."
+            "Install only updating the lockfile"
           ]
         },
         {
           "name": "--no-lock",
           "tip": [
-            "Disable auto discovery of the lock file."
+            "Disable auto discovery of the lock file"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--npm",
           "tip": [
-            "Do not resolve npm modules."
+            "Assume unprefixed package names are npm packages (default)"
           ]
         },
         {
-          "name": "--no-prompt",
+          "name": "--package-json",
           "tip": [
-            "Always throw if required permission wasn't passed."
+            "Force using package.json for dependency management instead of deno.json"
           ]
         },
         {
-          "name": "--no-remote",
+          "name": "--save-exact",
           "tip": [
-            "Do not resolve remote modules."
-          ]
-        },
-        {
-          "name": "--no-run",
-          "tip": [
-            "Cache bench modules, but don''t run benchmarks."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--seed",
-          "tip": [
-            "Set the random number generator seed."
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: Disables verification of TLS certificates."
-          ]
-        },
-        {
-          "name": "--v8-flags",
-          "tip": [
-            "Set V8 command line options."
-          ]
-        },
-        {
-          "name": "--watch",
-          "tip": [
-            "Watch for file changes and restart automatically."
+            "Save exact version without the caret (^)"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "bundle",
+      "name": "approve-scripts",
       "tip": [
-        "Bundle module and dependencies into single file."
+        "U: deno approve-scripts [OPTIONS] [packages]...",
+        "Approve npm lifecycle scripts for installed dependencies"
       ],
       "option": [
         {
+          "name": "--lockfile-only",
+          "tip": [
+            "Install only updating the lockfile"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "bench",
+      "tip": [
+        "U: deno bench [OPTIONS] [files]...",
+        "Run benchmarks using Deno's built-in bench tool"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "Allow running npm lifecycle scripts for the given packages"
+          ]
+        },
+        {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
           ]
         },
         {
           "name": "--check",
           "tip": [
-            "Type-check modules."
+            "U: --check[=<CHECK_TYPE>]",
+            "Set type-checking behavior"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
+          "name": "--conditions",
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
+          ]
         },
         {
-          "name": "--deno-modules-dir",
+          "name": "--env-file",
           "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
           ]
         },
         {
           "name": "--ext",
           "tip": [
-            "U: --ext <type>",
-            "Set content type of the supplied file."
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
           ],
-          "next": 0
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--filter",
           "tip": [
-            "Force overwriting the lock file."
+            "U: --filter <filter>",
+            "Run benchmarks with this string or regexp pattern in the bench name"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore=<ignore>...",
+            "Ignore files"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "(UNSTABLE) Output benchmark result in JSON format"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
           ]
         },
         {
           "name": "--no-check",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
           ]
         },
         {
           "name": "--no-clear-screen",
           "tip": [
-            "Do not clear terminal screen when under watch mode."
+            "Do not clear terminal screen when under watch mode"
           ]
         },
         {
-          "name": "--no-config",
+          "name": "--no-run",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "Cache bench modules, but don't run benchmarks"
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--permit-no-files",
           "tip": [
-            "Disable auto discovery of the lock file."
+            "Don't return an error code if no files were found"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--preload",
           "tip": [
-            "Do not resolve npm modules."
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
           ]
         },
         {
-          "name": "--no-remote",
+          "name": "--require",
           "tip": [
-            "Do not resolve remote modules."
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
           ]
         },
         {
-          "name": "--node-modules-dir",
+          "name": "--seed",
           "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
           ]
         },
         {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
+          "name": "--v8-flags",
           "tip": [
-            "{{ $info.__reload }}"
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
           ]
         },
         {
           "name": "--watch",
           "tip": [
-            "Watch for file changes and restart automatically."
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "cache",
+      "name": "bump-version",
       "tip": [
-        "Cache the dependencies."
+        "U: deno bump-version [OPTIONS] [increment]",
+        "Update version in the configuration file"
       ],
       "option": [
         {
-          "name": "--cert",
+          "name": "--base",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --base <REF>",
+            "[conventional-commits mode] Git ref to compare against"
           ]
         },
         {
-          "name": "--check",
+          "name": "--dry-run",
           "tip": [
-            "Type-check modules."
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "Print the planned changes without writing any files"
           ]
         },
         {
           "name": "--import-map",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
+            "U: --import-map <PATH>",
+            "Path to the import map to rewrite jsr: version constraints in"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--no-workspace",
           "tip": [
-            "Force overwriting the lock file."
+            "Disable workspace mode and only bump the deno.json/package.json in the current directory"
           ]
         },
         {
-          "name": "--no-check",
+          "name": "--release-notes",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --release-notes <PATH>",
+            "[conventional-commits mode] Path to the release notes file to prepend"
           ]
         },
         {
-          "name": "--no-config",
+          "name": "--start",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "U: --start <REF>",
+            "[conventional-commits mode] Git ref to start from"
           ]
         },
         {
-          "name": "--no-lock",
-          "tip": [
-            "Disable auto discovery of the lock file."
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "Do not resolve npm modules."
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "Do not resolve remote modules."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
+          "name": "--workspace",
           "alias": [
-            "-r"
+            "-w"
           ],
           "tip": [
-            "{{ $info.__reload }}"
+            "U: -w, --workspace",
+            "Bump every package in the workspace"
           ]
+        }
+      ],
+      "next": [
+        {
+          "name": "major"
+        },
+        {
+          "name": "minor"
+        },
+        {
+          "name": "patch"
+        },
+        {
+          "name": "premajor"
+        },
+        {
+          "name": "preminor"
+        },
+        {
+          "name": "prepatch"
+        },
+        {
+          "name": "prerelease"
         }
       ]
     },
     {
       "name": "check",
       "tip": [
-        "Type-check the dependencies."
+        "U: deno check [OPTIONS] [file]...",
+        "Download and type-check without execution"
       ],
       "option": [
         {
           "name": "--all",
           "tip": [
-            "Type-check all code, including remote modules and npm packages."
+            "Type-check all code, including remote modules and npm packages"
+          ]
+        },
+        {
+          "name": "--allow-import",
+          "alias": [
+            "-I"
+          ],
+          "tip": [
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "Allow importing from remote hosts"
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
+          "name": "--check-js",
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "Enable type-checking of JavaScript files"
           ]
         },
         {
-          "name": "--import-map",
+          "name": "--conditions",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--deny-import",
           "tip": [
-            "Force overwriting the lock file."
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "Deny importing from remote hosts"
           ]
         },
         {
-          "name": "--no-check",
+          "name": "--desktop",
           "tip": [
-            "{{ $info.__no_check }}"
+            "Type-check using the type definitions for deno desktop"
+          ]
+        },
+        {
+          "name": "--doc",
+          "tip": [
+            "Type-check code blocks in JSDoc as well as actual code"
+          ]
+        },
+        {
+          "name": "--doc-only",
+          "tip": [
+            "Type-check code blocks in JSDoc and Markdown only"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "Do not clear terminal screen when under watch mode"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "Disable V8 code cache feature"
           ]
         },
         {
           "name": "--no-config",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "Disable automatic loading of the configuration file"
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--v8-flags",
           "tip": [
-            "Disable auto discovery of the lock file."
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--watch",
           "tip": [
-            "Do not resolve npm modules."
+            "Watch for file changes and restart process automatically"
           ]
         },
         {
-          "name": "--no-remote",
+          "name": "--watch-exclude",
           "tip": [
-            "Do not resolve remote modules."
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "ci",
+      "tip": [
+        "U: deno ci [OPTIONS]",
+        "Install dependencies in a clean, reproducible way for CI environments"
+      ],
+      "option": [
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "Only install production dependencies (excludes devDependencies)"
+          ]
+        },
+        {
+          "name": "--skip-types",
+          "tip": [
+            "Exclude @types/* packages from installation"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "U: deno clean [OPTIONS] [except-paths]...",
+        "Remove the cache directory ($DENO_DIR)"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Show what would be removed without performing any actions"
+          ]
+        },
+        {
+          "name": "--except",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --except",
+            "Retain cache data needed by the given files"
           ]
         },
         {
           "name": "--node-modules-dir",
           "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
+            "U: --node-modules-dir[=<MODE>]",
+            "Selects the node_modules directory mode for npm packages"
           ],
-          "tip": [
-            "{{ $info.__reload }}"
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "manual"
+            },
+            {
+              "name": "none"
+            }
           ]
         },
         {
-          "name": "--remote",
+          "name": "--node-modules-linker",
           "tip": [
-            "Type-check all modules, including remote."
+            "U: --node-modules-linker=<MODE>",
+            "Sets the linker mode for npm packages"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--vendor",
+          "tip": [
+            "U: --vendor[=<vendor>]",
+            "Toggles local vendor folder usage"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         }
       ]
@@ -618,242 +626,486 @@
     {
       "name": "compile",
       "tip": [
-        "UNSTABLE: Compile the script into a self contained executable."
+        "U: deno compile [OPTIONS] [SCRIPT_ARG]...",
+        "Compile the script into a self-contained executable"
       ],
       "option": [
         {
-          "name": "--allow-all",
-          "alias": [
-            "-A"
-          ],
+          "name": "--allow-scripts",
           "tip": [
-            "{{ $info.__allow_all }}"
+            "Allow running npm lifecycle scripts for the given packages"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--app-name",
           "tip": [
-            "{{ $info.__allow_env }}"
+            "U: --app-name <app-name>",
+            "Stable identity for the compiled app"
           ]
         },
         {
-          "name": "--allow-ffi",
+          "name": "--bundle",
           "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "Require that remote dependencies are already cached."
+            "(Experimental) Bundle the entrypoint with esbuild before embedding"
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "Set type-checking behavior"
           ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+          "next": [
+            {
+              "name": "all"
+            }
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--conditions",
           "tip": [
-            "{{ $info.__deny_env }}"
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
           ]
         },
         {
-          "name": "--deny-ffi",
+          "name": "--env-file",
           "tip": [
-            "{{ $info.__deny_ffi }}"
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
           ]
         },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: Enable internal features used during integration testing."
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "Always throw if required permission wasn't passed."
-          ]
-        },
-        {
-          "name": "--no-terminal",
-          "tip": [
-            "Hide terminal on Windows."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: Disables verification of TLS certificates."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "completions",
-      "tip": [
-        "Generate shell completions."
-      ]
-    },
-    {
-      "name": "coverage",
-      "tip": [
-        "Print coverage reports."
-      ],
-      "option": [
         {
           "name": "--exclude",
           "tip": [
-            "Exclude source files from the report."
+            "U: --exclude <exclude>",
+            "Excludes a file/directory in the compiled executable"
           ]
         },
         {
-          "name": "--ignore",
+          "name": "--exclude-unused-npm",
           "tip": [
-            "Ignore coverage files."
+            "Embed only the npm packages reachable from the module graph"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--icon",
+          "tip": [
+            "U: --icon <icon>",
+            "Set the icon of the executable on Windows (.ico)"
           ]
         },
         {
           "name": "--include",
           "tip": [
-            "Include source files in the report."
+            "U: --include <include>",
+            "Includes an additional module or file/directory in the compiled executable"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
+          ]
+        },
+        {
+          "name": "--minify",
+          "tip": [
+            "(Experimental) Minify the bundled output"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "Do not clear terminal screen when under watch mode"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "Disable V8 code cache feature"
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "Disable automatic loading of the configuration file"
+          ]
+        },
+        {
+          "name": "--no-terminal",
+          "tip": [
+            "Hide terminal on Windows"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <output>",
+            "Output file (defaults to $PWD/<inferred-name>)"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
+          ]
+        },
+        {
+          "name": "--self-extracting",
+          "tip": [
+            "Create a self-extracting binary"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <target>",
+            "Target OS architecture"
+          ],
+          "next": [
+            {
+              "name": "aarch64-apple-darwin"
+            },
+            {
+              "name": "aarch64-unknown-linux-gnu"
+            },
+            {
+              "name": "x86_64-apple-darwin"
+            },
+            {
+              "name": "x86_64-pc-windows-msvc"
+            },
+            {
+              "name": "x86_64-unknown-linux-gnu"
+            }
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "coverage",
+      "tip": [
+        "U: deno coverage [OPTIONS] [files]...",
+        "Print coverage reports from coverage profiles"
+      ],
+      "option": [
+        {
+          "name": "--detailed",
+          "tip": [
+            "Output coverage report in detailed format in the terminal"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude=<regex>...",
+            "Exclude source files from the report"
+          ]
+        },
+        {
+          "name": "--html",
+          "tip": [
+            "Output coverage report in HTML format in the given directory"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore=<ignore>...",
+            "Ignore coverage files"
+          ]
+        },
+        {
+          "name": "--include",
+          "tip": [
+            "U: --include=<regex>...",
+            "Include source files in the report"
           ]
         },
         {
           "name": "--lcov",
           "tip": [
-            "Output coverage report in lcov format."
+            "Output coverage report in lcov format"
           ]
         },
         {
           "name": "--output",
           "tip": [
-            "Output file (defaults to stdout) for lcov."
+            "U: --output=<output>",
+            "Exports the coverage report in lcov format to the given file"
+          ]
+        },
+        {
+          "name": "--threshold",
+          "tip": [
+            "U: --threshold=<PERCENT>",
+            "Fail if coverage is below this percentage (0-100)"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "deploy",
+      "tip": [
+        "U: deno deploy [OPTIONS] [root-path]",
+        "Manage and publish applications with Deno Deploy"
+      ],
+      "option": [
+        {
+          "name": "--allow-node-modules",
+          "tip": [
+            "Allow node_modules directory to be included when uploading"
+          ]
+        },
+        {
+          "name": "--app",
+          "tip": [
+            "U: --app <name>",
+            "The name of the application"
+          ]
+        },
+        {
+          "name": "--config",
+          "tip": [
+            "U: --config <config>",
+            "Path for the config file"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <path>",
+            "Ignore particular source files"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --json",
+            "Emit JSON on stdout instead of human-readable output"
+          ]
+        },
+        {
+          "name": "--no-wait",
+          "tip": [
+            "Skip waiting for the build to complete"
+          ]
+        },
+        {
+          "name": "--non-interactive",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --non-interactive",
+            "Fail fast instead of prompting"
+          ]
+        },
+        {
+          "name": "--org",
+          "tip": [
+            "U: --org <name>",
+            "The name of the organization"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "Deploy directly to production"
+          ]
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "Auth token to use"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "apps",
+          "tip": [
+            "Manage applications"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create [root-path]",
+            "Create a new application"
+          ]
+        },
+        {
+          "name": "database",
+          "tip": [
+            "Manage databases"
+          ]
+        },
+        {
+          "name": "deployments",
+          "tip": [
+            "Manage deployments (revisions)"
+          ]
+        },
+        {
+          "name": "env",
+          "tip": [
+            "Modify environment variables"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Revoke the Deno Deploy token if one is present"
+          ]
+        },
+        {
+          "name": "logs",
+          "tip": [
+            "Stream logs from an application"
+          ]
+        },
+        {
+          "name": "orgs",
+          "tip": [
+            "List organizations"
+          ]
+        },
+        {
+          "name": "sandbox",
+          "tip": [
+            "Interact with sandboxes"
+          ]
+        },
+        {
+          "name": "setup-aws",
+          "tip": [
+            "U: setup-aws [contexts]",
+            "Setup cloud connections for AWS"
+          ]
+        },
+        {
+          "name": "setup-gcp",
+          "tip": [
+            "U: setup-gcp [contexts]",
+            "Setup cloud connections for GCP"
+          ]
+        },
+        {
+          "name": "switch",
+          "tip": [
+            "Switch between organizations and applications"
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "Verify the current Deno Deploy token and list reachable organizations"
           ]
         }
       ]
@@ -861,194 +1113,288 @@
     {
       "name": "doc",
       "tip": [
-        "Show documentation for a module."
+        "U: deno doc [OPTIONS] [source_file]...",
+        "Show documentation for a module"
       ],
       "option": [
         {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
+          "name": "--allow-import",
+          "alias": [
+            "-I"
           ],
-          "next": 0
+          "tip": [
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "Allow importing from remote hosts"
+          ]
+        },
+        {
+          "name": "--category-docs",
+          "tip": [
+            "U: --category-docs=<category-docs>",
+            "Path to a JSON file keyed by category"
+          ]
+        },
+        {
+          "name": "--default-symbol-map",
+          "tip": [
+            "U: --default-symbol-map=<default-symbol-map>",
+            "Uses the provided mapping of default name to wanted name"
+          ]
+        },
+        {
+          "name": "--deny-import",
+          "tip": [
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "Deny importing from remote hosts"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <filter>",
+            "Dot separated path to symbol"
+          ]
+        },
+        {
+          "name": "--html",
+          "tip": [
+            "Output documentation in HTML format"
+          ]
         },
         {
           "name": "--json",
           "tip": [
-            "Output documentation in JSON format."
+            "Output documentation in JSON format"
           ]
         },
         {
-          "name": "--lock",
+          "name": "--lint",
           "tip": [
-            "{{ $info.__lock }}"
+            "Output documentation diagnostics"
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--name",
           "tip": [
-            "Disable auto discovery of the lock file."
+            "U: --name=<name>",
+            "The name that will be used in the docs"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--output",
           "tip": [
-            "Do not resolve npm modules."
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "Do not resolve remote modules."
+            "U: --output=<output>",
+            "Directory for HTML documentation output"
           ]
         },
         {
           "name": "--private",
           "tip": [
-            "Output private documentation."
+            "Output private documentation"
           ]
         },
         {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
+          "name": "--strip-trailing-html",
           "tip": [
-            "{{ $info.__reload }}"
+            "Remove trailing .html from various links"
+          ]
+        },
+        {
+          "name": "--symbol-redirect-map",
+          "tip": [
+            "U: --symbol-redirect-map=<symbol-redirect-map>",
+            "Path to a JSON file keyed by file"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "eval",
+      "alias": [
+        "e"
+      ],
       "tip": [
-        "Eval script."
+        "U: deno eval [OPTIONS] [CODE_ARG]...",
+        "Evaluate a script from the command line"
       ],
       "option": [
         {
-          "name": "--cached-only",
+          "name": "--allow-scripts",
           "tip": [
-            "Require that remote dependencies are already cached."
+            "Allow running npm lifecycle scripts for the given packages"
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
           ]
         },
         {
           "name": "--check",
           "tip": [
-            "Type-check modules."
+            "U: --check[=<CHECK_TYPE>]",
+            "Enable type-checking"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
           ]
         },
         {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
+          "name": "--conditions",
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
           ]
         },
         {
-          "name": "--enable-testing-features-do-not-use",
+          "name": "--cpu-prof",
           "tip": [
-            "INTERNAL: Enable internal features used during integration testing."
+            "Start the V8 CPU profiler on startup and write the profile to disk on exit"
+          ]
+        },
+        {
+          "name": "--cpu-prof-dir",
+          "tip": [
+            "U: --cpu-prof-dir <DIR>",
+            "Directory where the V8 CPU profiles will be written"
+          ]
+        },
+        {
+          "name": "--cpu-prof-flamegraph",
+          "tip": [
+            "Generate an SVG flamegraph alongside the CPU profile"
+          ]
+        },
+        {
+          "name": "--cpu-prof-interval",
+          "tip": [
+            "U: --cpu-prof-interval <MICROSECONDS>",
+            "Sampling interval in microseconds for CPU profiling"
+          ]
+        },
+        {
+          "name": "--cpu-prof-md",
+          "tip": [
+            "Generate a human-readable markdown report alongside the CPU profile"
+          ]
+        },
+        {
+          "name": "--cpu-prof-name",
+          "tip": [
+            "U: --cpu-prof-name <NAME>",
+            "Filename for the CPU profile"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
           ]
         },
         {
           "name": "--ext",
           "tip": [
-            "U: --ext <type>",
-            "Set content type of the supplied file."
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
           ],
-          "next": 0
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
         },
         {
           "name": "--inspect",
           "tip": [
-            "{{ $info.__inspect }}"
+            "U: --inspect[=<HOST_PORT>]",
+            "Activate inspector on host:port"
           ]
         },
         {
           "name": "--inspect-brk",
           "tip": [
-            "{{ $info.__inspect_brk }}"
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "Activate inspector, wait for debugger and break at start"
           ]
         },
         {
           "name": "--inspect-wait",
           "tip": [
-            "{{ $info.__inspect_wait }}"
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "Activate inspector and wait for debugger before running"
           ]
         },
         {
           "name": "--location",
           "tip": [
-            "{{ $info.__location }}"
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
           ]
         },
         {
-          "name": "--lock",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--lock-write",
-          "tip": [
-            "Force overwriting the lock file."
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
           ]
         },
         {
           "name": "--no-check",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
           ]
         },
         {
           "name": "--no-config",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "Disable automatic loading of the configuration file"
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--preload",
           "tip": [
-            "Disable auto discovery of the lock file."
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "Do not resolve npm modules."
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "Do not resolve remote modules."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
           ]
         },
         {
@@ -1057,141 +1403,292 @@
             "-p"
           ],
           "tip": [
-            "U: --print, -p",
-            "print result to stdout."
+            "U: -p, --print",
+            "Print result to stdout"
           ]
         },
         {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
+          "name": "--require",
           "tip": [
-            "{{ $info.__reload }}"
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
           ]
         },
         {
           "name": "--seed",
           "tip": [
-            "Set the random number generator seed."
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
           ]
         },
         {
           "name": "--v8-flags",
           "tip": [
-            "Set V8 command line options."
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "fmt",
       "tip": [
-        "Format source files."
+        "U: deno fmt [OPTIONS] [files]...",
+        "Auto-format various file types"
       ],
       "option": [
         {
           "name": "--check",
           "tip": [
-            "Check if the source files are formatted."
+            "Check if the source files are formatted"
           ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
         },
         {
           "name": "--ext",
           "tip": [
-            "U: --ext <type>",
-            "Set content type of the supplied file."
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "astro"
+            },
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "css"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "html"
+            },
+            {
+              "name": "ipynb"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "json"
+            },
+            {
+              "name": "jsonc"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "less"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "njk"
+            },
+            {
+              "name": "scss"
+            },
+            {
+              "name": "sql"
+            },
+            {
+              "name": "svelte"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            },
+            {
+              "name": "vto"
+            },
+            {
+              "name": "vue"
+            },
+            {
+              "name": "yaml"
+            },
+            {
+              "name": "yml"
+            }
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "Stop checking files on first format error"
+          ]
         },
         {
           "name": "--ignore",
           "tip": [
-            "Ignore formatting particular source files."
+            "U: --ignore=<ignore>...",
+            "Ignore formatting particular source files"
           ]
         },
         {
           "name": "--indent-width",
           "tip": [
-            "Define indentation width. Defaults to 2."
+            "U: --indent-width <indent-width>",
+            "Define indentation width [default: 2]"
           ]
         },
         {
           "name": "--line-width",
           "tip": [
-            "Define maximum line width. Defaults to 80."
+            "U: --line-width <line-width>",
+            "Define maximum line width [default: 80]"
           ]
         },
         {
           "name": "--no-clear-screen",
           "tip": [
-            "Do not clear terminal screen when under watch mode."
+            "Do not clear terminal screen when under watch mode"
           ]
         },
         {
           "name": "--no-config",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "Disable automatic loading of the configuration file"
+          ]
+        },
+        {
+          "name": "--no-editorconfig",
+          "tip": [
+            "Don't read .editorconfig files to infer formatting options"
           ]
         },
         {
           "name": "--no-semicolons",
           "tip": [
-            "Don''t use semicolons except where necessary."
+            "U: --no-semicolons[=<no-semicolons>]",
+            "Don't use semicolons except where necessary"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--permit-no-files",
+          "tip": [
+            "Don't return an error code if no files were found"
           ]
         },
         {
           "name": "--prose-wrap",
           "tip": [
-            "Define how prose should be wrapped. Defaults to always."
+            "U: --prose-wrap <prose-wrap>",
+            "Define how prose should be wrapped"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            },
+            {
+              "name": "preserve"
+            }
           ]
         },
         {
           "name": "--single-quote",
           "tip": [
-            "Use single quotes. Defaults to false."
+            "U: --single-quote[=<single-quote>]",
+            "Use single quotes"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--unstable-component",
+          "tip": [
+            "Enable formatting Svelte, Vue, Astro and Angular files"
+          ]
+        },
+        {
+          "name": "--unstable-sql",
+          "tip": [
+            "Enable formatting SQL files"
           ]
         },
         {
           "name": "--use-tabs",
           "tip": [
-            "Use tabs instead of spaces for indentation. Defaults to false."
+            "U: --use-tabs[=<use-tabs>]",
+            "Use tabs instead of spaces for indentation"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
           "name": "--watch",
           "tip": [
-            "Watch for file changes and restart automatically."
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
           ]
         }
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "Print this message or the help of the given subcommand(s)."
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "info",
       "tip": [
-        "Show info about cache or info related to source file."
+        "U: deno info [OPTIONS] [file]",
+        "Show information about a module or the cache directories"
       ],
       "option": [
         {
+          "name": "--allow-import",
+          "alias": [
+            "-I"
+          ],
+          "tip": [
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "Allow importing from remote hosts"
+          ]
+        },
+        {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
           ]
         },
         {
@@ -1200,75 +1697,128 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
+            "U: -c, --config <FILE>",
+            "Configure deno (deno.json/deno.jsonc)"
+          ]
         },
         {
-          "name": "--deno-modules-dir",
+          "name": "--deny-import",
           "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "Deny importing from remote hosts"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
           "name": "--import-map",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
+            "U: --import-map <FILE>",
+            "Load import map file from local file or remote URL"
+          ]
         },
         {
           "name": "--json",
           "tip": [
-            "UNSTABLE: Output benchmark result in JSON format."
+            "(UNSTABLE) Outputs the information in JSON format"
           ]
         },
         {
           "name": "--location",
           "tip": [
-            "Show files used for origin bound APIs like the Web Storage API when running a script with '--location=<HREF>'"
+            "U: --location <HREF>",
+            "Show files used for origin bound APIs like the Web Storage API"
           ]
         },
         {
           "name": "--lock",
           "tip": [
-            "{{ $info.__lock }}"
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
           ]
         },
         {
-          "name": "--no-check",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
           ]
         },
         {
           "name": "--no-config",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "Disable automatic loading of the configuration file"
           ]
         },
         {
           "name": "--no-lock",
           "tip": [
-            "Disable auto discovery of the lock file."
+            "Disable auto discovery of the lock file"
           ]
         },
         {
           "name": "--no-npm",
           "tip": [
-            "Do not resolve npm modules."
+            "Do not resolve npm modules"
           ]
         },
         {
           "name": "--no-remote",
           "tip": [
-            "Do not resolve remote modules."
+            "Do not resolve remote modules"
           ]
         },
         {
           "name": "--node-modules-dir",
           "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "U: --node-modules-dir[=<MODE>]",
+            "Selects the node_modules directory mode for npm packages"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "manual"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--node-modules-linker",
+          "tip": [
+            "U: --node-modules-linker=<MODE>",
+            "Sets the linker mode for npm packages"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
           ]
         },
         {
@@ -1277,166 +1827,190 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__reload }}"
+            "U: -r, --reload[=<CACHE_BLOCKLIST>...]",
+            "Reload source code cache (recompile TypeScript)"
+          ]
+        },
+        {
+          "name": "--vendor",
+          "tip": [
+            "U: --vendor[=<vendor>]",
+            "Toggles local vendor folder usage"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
       "name": "init",
       "tip": [
-        "Initialize a new project."
-      ]
-    },
-    {
-      "name": "install",
-      "tip": [
-        "Install script as an executable"
+        "U: deno init [OPTIONS] [DIRECTORY OR PACKAGE]...",
+        "Scaffolds a basic Deno project with a script, test, and configuration file"
       ],
       "option": [
         {
-          "name": "--allow-all",
+          "name": "--empty",
+          "tip": [
+            "Generate a minimal project with just main.ts and deno.json"
+          ]
+        },
+        {
+          "name": "--jsr",
+          "tip": [
+            "Generate a project from a JSR package"
+          ]
+        },
+        {
+          "name": "--lib",
+          "tip": [
+            "Generate an example library project"
+          ]
+        },
+        {
+          "name": "--npm",
+          "tip": [
+            "Generate a npm create-* project"
+          ]
+        },
+        {
+          "name": "--serve",
+          "tip": [
+            "Generate an example project for deno serve"
+          ]
+        },
+        {
+          "name": "--yes",
           "alias": [
-            "-A"
+            "-y"
           ],
           "tip": [
-            "{{ $info.__allow_all }}"
+            "U: -y, --yes",
+            "Bypass the prompt and run with full permissions"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "tip": [
+        "U: deno install [OPTIONS] [cmd]...",
+        "Install dependencies either in the local project or globally"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "Allow running npm lifecycle scripts for the given packages"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--arch",
           "tip": [
-            "{{ $info.__allow_env }}"
-          ]
-        },
-        {
-          "name": "--allow-ffi",
-          "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "Require that remote dependencies are already cached."
+            "U: --arch <arch>",
+            "Target architecture for npm package installation"
+          ],
+          "next": [
+            {
+              "name": "arm"
+            },
+            {
+              "name": "arm64"
+            },
+            {
+              "name": "ia32"
+            },
+            {
+              "name": "mips"
+            },
+            {
+              "name": "mipsel"
+            },
+            {
+              "name": "ppc"
+            },
+            {
+              "name": "ppc64"
+            },
+            {
+              "name": "s390"
+            },
+            {
+              "name": "s390x"
+            },
+            {
+              "name": "x64"
+            }
           ]
         },
         {
           "name": "--cert",
           "tip": [
-            "{{ $info.__cert }}"
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
           ]
         },
         {
           "name": "--check",
           "tip": [
-            "Type-check modules."
+            "U: --check[=<CHECK_TYPE>]",
+            "Set type-checking behavior"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
           ]
         },
         {
-          "name": "--config",
+          "name": "--compile",
+          "tip": [
+            "Install the script as a compiled executable"
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
+          ]
+        },
+        {
+          "name": "--dev",
           "alias": [
-            "-c"
+            "-D"
           ],
           "tip": [
-            "{{ $info.__config }}"
+            "U: -D, --dev",
+            "Add the package as a dev dependency"
+          ]
+        },
+        {
+          "name": "--entrypoint",
+          "alias": [
+            "-e"
           ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
           "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: -e, --entrypoint",
+            "Install dependents of the specified entrypoint(s)"
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--env-file",
           "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: Enable internal features used during integration testing."
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
           ]
         },
         {
@@ -1445,51 +2019,65 @@
             "-f"
           ],
           "tip": [
-            "U: --force, -f",
-            "Forcefully overwrite existing installation."
+            "U: -f, --force",
+            "Forcefully overwrite existing installation"
           ]
         },
         {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
+          "name": "--global",
+          "alias": [
+            "-g"
           ],
-          "next": 0
+          "tip": [
+            "U: -g, --global",
+            "Install a package or script as a globally available executable"
+          ]
         },
         {
           "name": "--inspect",
           "tip": [
-            "{{ $info.__inspect }}"
+            "U: --inspect[=<HOST_PORT>]",
+            "Activate inspector on host:port"
           ]
         },
         {
           "name": "--inspect-brk",
           "tip": [
-            "{{ $info.__inspect_brk }}"
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "Activate inspector, wait for debugger and break at start"
           ]
         },
         {
           "name": "--inspect-wait",
           "tip": [
-            "{{ $info.__inspect_wait }}"
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "Activate inspector and wait for debugger before running"
+          ]
+        },
+        {
+          "name": "--jsr",
+          "tip": [
+            "Assume unprefixed package names are jsr packages"
           ]
         },
         {
           "name": "--location",
           "tip": [
-            "{{ $info.__location }}"
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
           ]
         },
         {
-          "name": "--lock",
+          "name": "--lockfile-only",
           "tip": [
-            "{{ $info.__lock }}"
+            "Install only updating the lockfile"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--minimum-dependency-age",
           "tip": [
-            "Force overwriting the lock file."
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
           ]
         },
         {
@@ -1498,528 +2086,248 @@
             "-n"
           ],
           "tip": [
-            "U: --name, -n <name>",
-            "Executable file name."
-          ],
-          "next": 0
+            "U: -n, --name <name>",
+            "Executable file name"
+          ]
         },
         {
           "name": "--no-check",
           "tip": [
-            "{{ $info.__no_check }}"
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
           ]
         },
         {
           "name": "--no-config",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "Disable automatic loading of the configuration file"
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--npm",
           "tip": [
-            "Disable auto discovery of the lock file."
+            "Assume unprefixed package names are npm packages (default)"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--os",
           "tip": [
-            "Do not resolve npm modules."
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "Always throw if required permission wasn't passed."
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "Do not resolve remote modules."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
+            "U: --os <os>",
+            "Target OS for npm package installation"
           ],
+          "next": [
+            {
+              "name": "aix"
+            },
+            {
+              "name": "android"
+            },
+            {
+              "name": "darwin"
+            },
+            {
+              "name": "freebsd"
+            },
+            {
+              "name": "linux"
+            },
+            {
+              "name": "openbsd"
+            },
+            {
+              "name": "sunos"
+            },
+            {
+              "name": "win32"
+            }
+          ]
+        },
+        {
+          "name": "--package-json",
           "tip": [
-            "{{ $info.__reload }}"
+            "Force using package.json for dependency management instead of deno.json"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "Only install production dependencies (excludes devDependencies)"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
           ]
         },
         {
           "name": "--root",
           "tip": [
-            "Installation root."
+            "U: --root <root>",
+            "Installation root"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "tip": [
+            "Save exact version without the caret (^)"
           ]
         },
         {
           "name": "--seed",
           "tip": [
-            "Set the random number generator seed."
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
           ]
         },
         {
-          "name": "--unsafely-ignore-certificate-errors",
+          "name": "--skip-types",
           "tip": [
-            "DANGER: Disables verification of TLS certificates."
+            "Exclude @types/* packages from installation"
           ]
         },
         {
           "name": "--v8-flags",
           "tip": [
-            "Set V8 command line options."
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "jupyter",
+      "tip": [
+        "U: deno jupyter [OPTIONS]",
+        "Deno kernel for Jupyter notebooks"
+      ],
+      "option": [
+        {
+          "name": "--conn",
+          "tip": [
+            "U: --conn <conn>",
+            "Path to JSON file describing connection parameters"
+          ]
+        },
+        {
+          "name": "--display",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --display <display>",
+            "Set a display name for the kernel"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force installation of a kernel, overwriting previously existing kernelspec"
+          ]
+        },
+        {
+          "name": "--install",
+          "tip": [
+            "Install a kernelspec"
+          ]
+        },
+        {
+          "name": "--kernel",
+          "tip": [
+            "Start the kernel"
+          ]
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <name>",
+            "Set a name for the kernel"
           ]
         }
       ]
     },
     {
-      "name": "lint",
+      "name": "link",
       "tip": [
-        "Lint source files."
+        "U: deno link [OPTIONS] [paths]...",
+        "Link a local JSR package into the current project"
       ],
       "option": [
         {
-          "name": "--compact",
+          "name": "--frozen",
           "tip": [
-            "Output lint result in compact format."
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
           ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--ignore",
-          "tip": [
-            "Ignore linting particular source files."
-          ]
-        },
-        {
-          "name": "--json",
-          "tip": [
-            "Output lint result in JSON format."
-          ]
-        },
-        {
-          "name": "--no-clear-screen",
-          "tip": [
-            "Do not clear terminal screen when under watch mode."
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "Disable automatic loading of the configuration file."
-          ]
-        },
-        {
-          "name": "--rules",
-          "tip": [
-            "List available rules."
-          ]
-        },
-        {
-          "name": "--rules-exclude",
-          "tip": [
-            "Exclude lint rules."
-          ]
-        },
-        {
-          "name": "--rules-include",
-          "tip": [
-            "Include lint rules."
-          ]
-        },
-        {
-          "name": "--rules-tags",
-          "tip": [
-            "Use set of rules with a tag."
-          ]
-        },
-        {
-          "name": "--watch",
-          "tip": [
-            "Watch for file changes and restart automatically."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "lsp",
-      "tip": [
-        "Start the language server."
-      ]
-    },
-    {
-      "name": "repl",
-      "tip": [
-        "Read Eval Print Loop."
-      ],
-      "option": [
-        {
-          "name": "--allow-all",
-          "alias": [
-            "-A"
-          ],
-          "tip": [
-            "{{ $info.__allow_all }}"
-          ]
-        },
-        {
-          "name": "--allow-env",
-          "tip": [
-            "{{ $info.__allow_env }}"
-          ]
-        },
-        {
-          "name": "--allow-ffi",
-          "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "Require that remote dependencies are already cached."
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "Type-check modules."
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--deny-env",
-          "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: Enable internal features used during integration testing."
-          ]
-        },
-        {
-          "name": "--eval",
-          "tip": [
-            "Evaluates the provided code when the REPL starts."
-          ]
-        },
-        {
-          "name": "--eval-file",
-          "tip": [
-            "Evaluates the provided file(s) as scripts when the REPL starts. Accepts file paths and URLs."
-          ]
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--inspect",
-          "tip": [
-            "{{ $info.__inspect }}"
-          ]
-        },
-        {
-          "name": "--inspect-brk",
-          "tip": [
-            "{{ $info.__inspect_brk }}"
-          ]
-        },
-        {
-          "name": "--inspect-wait",
-          "tip": [
-            "{{ $info.__inspect_wait }}"
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
           "name": "--lock",
           "tip": [
-            "{{ $info.__lock }}"
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
           ]
         },
         {
-          "name": "--lock-write",
+          "name": "--lockfile-only",
           "tip": [
-            "Force overwriting the lock file."
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "Disable automatic loading of the configuration file."
+            "Install only updating the lockfile"
           ]
         },
         {
           "name": "--no-lock",
           "tip": [
-            "Disable auto discovery of the lock file."
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "Do not resolve npm modules."
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "Always throw if required permission wasn't passed."
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "Do not resolve remote modules."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--seed",
-          "tip": [
-            "Set the random number generator seed."
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: Disables verification of TLS certificates."
-          ]
-        },
-        {
-          "name": "--v8-flags",
-          "tip": [
-            "Set V8 command line options."
+            "Disable auto discovery of the lock file"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "run",
+      "name": "lint",
       "tip": [
-        "Run a JavaScript or TypeScript program."
+        "U: deno lint [OPTIONS] [files]...",
+        "Lint JavaScript/TypeScript source code"
       ],
       "option": [
         {
-          "name": "--allow-all",
+          "name": "--allow-import",
           "alias": [
-            "-A"
+            "-I"
           ],
           "tip": [
-            "{{ $info.__allow_all }}"
+            "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+            "Allow importing from remote hosts"
           ]
         },
         {
-          "name": "--allow-env",
+          "name": "--compact",
           "tip": [
-            "{{ $info.__allow_env }}"
-          ]
-        },
-        {
-          "name": "--allow-ffi",
-          "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "Require that remote dependencies are already cached."
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "Type-check modules."
+            "Output lint result in compact format"
           ]
         },
         {
@@ -2028,659 +2336,260 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "U: -c, --config <FILE>",
+            "Configure deno (deno.json/deno.jsonc)"
           ]
         },
         {
-          "name": "--deny-env",
+          "name": "--deny-import",
           "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: Enable internal features used during integration testing."
+            "U: --deny-import[=<IP_OR_HOSTNAME>...]",
+            "Deny importing from remote hosts"
           ]
         },
         {
           "name": "--ext",
           "tip": [
-            "U: --ext <type>",
-            "Set content type of the supplied file."
-          ],
-          "next": 0
-        },
-        {
-          "name": "--import-map",
-          "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--inspect",
-          "tip": [
-            "{{ $info.__inspect }}"
+            "U: --ext=<EXT>",
+            "Specify the file extension to lint when reading from stdin"
           ]
         },
         {
-          "name": "--inspect-brk",
+          "name": "--fix",
           "tip": [
-            "{{ $info.__inspect_brk }}"
-          ]
-        },
-        {
-          "name": "--inspect-wait",
-          "tip": [
-            "{{ $info.__inspect_wait }}"
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
-          ]
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--lock-write",
-          "tip": [
-            "Force overwriting the lock file."
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
-          ]
-        },
-        {
-          "name": "--no-clear-screen",
-          "tip": [
-            "Do not clear terminal screen when under watch mode."
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "Disable automatic loading of the configuration file."
-          ]
-        },
-        {
-          "name": "--no-lock",
-          "tip": [
-            "Disable auto discovery of the lock file."
-          ]
-        },
-        {
-          "name": "--no-npm",
-          "tip": [
-            "Do not resolve npm modules."
-          ]
-        },
-        {
-          "name": "--no-prompt",
-          "tip": [
-            "Always throw if required permission wasn't passed."
-          ]
-        },
-        {
-          "name": "--no-remote",
-          "tip": [
-            "Do not resolve remote modules."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--seed",
-          "tip": [
-            "Set the random number generator seed."
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: Disables verification of TLS certificates."
-          ]
-        },
-        {
-          "name": "--v8-flags",
-          "tip": [
-            "Set V8 command line options."
-          ]
-        },
-        {
-          "name": "--watch",
-          "tip": [
-            "Watch for file changes and restart automatically."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "task",
-      "tip": [
-        "Run a task defined in the configuration file."
-      ],
-      "option": [
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--cwd",
-          "tip": [
-            "U: --cwd <dir>",
-            "Specify the directory to run the task in."
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
-      "name": "test",
-      "tip": [
-        "Run tests."
-      ],
-      "option": [
-        {
-          "name": "--allow-all",
-          "alias": [
-            "-A"
-          ],
-          "tip": [
-            "{{ $info.__allow_all }}"
-          ]
-        },
-        {
-          "name": "--allow-env",
-          "tip": [
-            "{{ $info.__allow_env }}"
-          ]
-        },
-        {
-          "name": "--allow-ffi",
-          "tip": [
-            "{{ $info.__allow_ffi }}"
-          ]
-        },
-        {
-          "name": "--allow-hrtime",
-          "tip": [
-            "{{ $info.__allow_hrtime }}"
-          ]
-        },
-        {
-          "name": "--allow-net",
-          "tip": [
-            "{{ $info.__allow_net }}"
-          ]
-        },
-        {
-          "name": "--allow-none",
-          "tip": [
-            "Don''t return error code if no test files are found."
-          ]
-        },
-        {
-          "name": "--allow-read",
-          "tip": [
-            "{{ $info.__allow_read }}"
-          ]
-        },
-        {
-          "name": "--allow-run",
-          "tip": [
-            "{{ $info.__allow_run }}"
-          ]
-        },
-        {
-          "name": "--allow-sys",
-          "tip": [
-            "{{ $info.__allow_sys }}"
-          ]
-        },
-        {
-          "name": "--allow-write",
-          "tip": [
-            "{{ $info.__allow_write }}"
-          ]
-        },
-        {
-          "name": "--cached-only",
-          "tip": [
-            "Require that remote dependencies are already cached."
-          ]
-        },
-        {
-          "name": "--cert",
-          "tip": [
-            "{{ $info.__cert }}"
-          ]
-        },
-        {
-          "name": "--check",
-          "tip": [
-            "Type-check modules."
-          ]
-        },
-        {
-          "name": "--config",
-          "alias": [
-            "-c"
-          ],
-          "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--coverage",
-          "tip": [
-            "Collect coverage profile data into DIR."
-          ]
-        },
-        {
-          "name": "--deno-modules-dir",
-          "tip": [
-            "{{ $info.__deno_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--deny-env",
-          "tip": [
-            "{{ $info.__deny_env }}"
-          ]
-        },
-        {
-          "name": "--deny-ffi",
-          "tip": [
-            "{{ $info.__deny_ffi }}"
-          ]
-        },
-        {
-          "name": "--deny-hrtime",
-          "tip": [
-            "{{ $info.__deny_hrtime }}"
-          ]
-        },
-        {
-          "name": "--deny-net",
-          "tip": [
-            "{{ $info.__deny_net }}"
-          ]
-        },
-        {
-          "name": "--deny-read",
-          "tip": [
-            "{{ $info.__deny_read }}"
-          ]
-        },
-        {
-          "name": "--deny-run",
-          "tip": [
-            "{{ $info.__deny_run }}"
-          ]
-        },
-        {
-          "name": "--deny-sys",
-          "tip": [
-            "{{ $info.__deny_sys }}"
-          ]
-        },
-        {
-          "name": "--deny-write",
-          "tip": [
-            "{{ $info.__deny_write }}"
-          ]
-        },
-        {
-          "name": "--doc",
-          "tip": [
-            "Type-check code blocks in JSDoc and Markdown."
-          ]
-        },
-        {
-          "name": "--enable-testing-features-do-not-use",
-          "tip": [
-            "INTERNAL: Enable internal features used during integration testing."
-          ]
-        },
-        {
-          "name": "--fail-fast",
-          "tip": [
-            "Stop after N errors. Defaults to stopping after first failure."
-          ]
-        },
-        {
-          "name": "--filter",
-          "tip": [
-            "Run tests with this string or pattern in the test name."
+            "Fix any linting errors for rules that support it"
           ]
         },
         {
           "name": "--ignore",
           "tip": [
-            "Ignore files."
+            "U: --ignore=<ignore>...",
+            "Ignore linting particular source files"
           ]
         },
         {
-          "name": "--import-map",
+          "name": "--json",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--inspect",
-          "tip": [
-            "{{ $info.__inspect }}"
-          ]
-        },
-        {
-          "name": "--inspect-brk",
-          "tip": [
-            "{{ $info.__inspect_brk }}"
-          ]
-        },
-        {
-          "name": "--inspect-wait",
-          "tip": [
-            "{{ $info.__inspect_wait }}"
-          ]
-        },
-        {
-          "name": "--junit-path",
-          "tip": [
-            "Write a JUnit XML test report to PATH. Use '-' to write to stdout which is the default when PATH is not provided."
-          ]
-        },
-        {
-          "name": "--location",
-          "tip": [
-            "{{ $info.__location }}"
-          ]
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--lock-write",
-          "tip": [
-            "Force overwriting the lock file."
-          ]
-        },
-        {
-          "name": "--no-check",
-          "tip": [
-            "{{ $info.__no_check }}"
+            "Output lint result in JSON format"
           ]
         },
         {
           "name": "--no-clear-screen",
           "tip": [
-            "Do not clear terminal screen when under watch mode."
+            "Do not clear terminal screen when under watch mode"
           ]
         },
         {
           "name": "--no-config",
           "tip": [
-            "Disable automatic loading of the configuration file."
+            "Disable automatic loading of the configuration file"
           ]
         },
         {
-          "name": "--no-lock",
+          "name": "--permit-no-files",
           "tip": [
-            "Disable auto discovery of the lock file."
+            "Don't return an error code if no files were found"
           ]
         },
         {
-          "name": "--no-npm",
+          "name": "--rules",
           "tip": [
-            "Do not resolve npm modules."
+            "List available rules"
           ]
         },
         {
-          "name": "--no-prompt",
+          "name": "--rules-exclude",
           "tip": [
-            "Always throw if required permission wasn't passed."
+            "U: --rules-exclude=<rules-exclude>...",
+            "Exclude lint rules"
           ]
         },
         {
-          "name": "--no-remote",
+          "name": "--rules-include",
           "tip": [
-            "Do not resolve remote modules."
+            "U: --rules-include=<rules-include>...",
+            "Include lint rules"
           ]
         },
         {
-          "name": "--no-run",
+          "name": "--rules-tags",
           "tip": [
-            "Cache test modules, but don''t run tests."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
-          ]
-        },
-        {
-          "name": "--parallel",
-          "tip": [
-            "Run test modules in parallel. Parallelism defaults to the number of available CPUs or the value in the DENO_JOBS environment variable."
-          ]
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
-          ]
-        },
-        {
-          "name": "--reporter",
-          "tip": [
-            "Select reporter to use. Default to 'pretty'."
-          ]
-        },
-        {
-          "name": "--seed",
-          "tip": [
-            "Set the random number generator seed."
-          ]
-        },
-        {
-          "name": "--shuffle",
-          "tip": [
-            "Shuffle the order in which the tests are run."
-          ]
-        },
-        {
-          "name": "--trace-ops",
-          "tip": [
-            "Enable tracing of async ops. Useful when debugging leaking ops in test, but impacts test execution time."
-          ]
-        },
-        {
-          "name": "--unsafely-ignore-certificate-errors",
-          "tip": [
-            "DANGER: Disables verification of TLS certificates."
-          ]
-        },
-        {
-          "name": "--v8-flags",
-          "tip": [
-            "Set V8 command line options."
+            "U: --rules-tags=<rules-tags>...",
+            "Use set of rules with a tag"
           ]
         },
         {
           "name": "--watch",
           "tip": [
-            "Watch for file changes and restart automatically."
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
           ]
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "types",
+      "name": "list",
       "tip": [
-        "Print runtime TypeScript declarations."
-      ]
-    },
-    {
-      "name": "uninstall",
-      "tip": [
-        "Uninstall a script previously installed with deno install."
+        "U: deno list [OPTIONS] [filters]...",
+        "List the dependencies declared in deno.json / package.json"
       ],
       "option": [
         {
-          "name": "--root",
+          "name": "--depth",
           "tip": [
-            "Uninstallation root."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "upgrade",
-      "tip": [
-        "Upgrade deno executable to given version."
-      ],
-      "option": [
-        {
-          "name": "--canary",
-          "tip": [
-            "Upgrade to canary builds."
+            "U: --depth <depth>",
+            "Maximum depth of the dependency tree to display"
           ]
         },
         {
-          "name": "--cert",
+          "name": "--dev",
           "tip": [
-            "{{ $info.__cert }}"
+            "Only list development dependencies"
           ]
         },
         {
-          "name": "--dry-run",
+          "name": "--prod",
           "tip": [
-            "Perform all checks without replacing old exe."
+            "Only list production dependencies"
           ]
         },
         {
-          "name": "--force",
+          "name": "--recursive",
           "alias": [
-            "-f"
+            "-r"
           ],
           "tip": [
-            "U: --force, -f",
-            "Replace current exe even if not out-of-date."
+            "U: -r, --recursive",
+            "Include all workspace members"
           ]
-        },
-        {
-          "name": "--output",
-          "tip": [
-            "The path to output the updated version to."
-          ],
-          "next": 0
-        },
-        {
-          "name": "--version",
-          "tip": [
-            "The version to upgrade to."
-          ],
-          "next": 0
         }
-      ]
+      ],
+      "next": 0
     },
     {
-      "name": "vendor",
+      "name": "outdated",
       "tip": [
-        "Vendor remote modules into a local directory."
+        "U: deno outdated [OPTIONS] [filters]...",
+        "Find and update outdated dependencies"
       ],
       "option": [
         {
-          "name": "--cert",
+          "name": "--compatible",
           "tip": [
-            "{{ $info.__cert }}"
+            "Only consider versions that satisfy semver requirements"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Interactively select which dependencies to update"
+          ]
+        },
+        {
+          "name": "--latest",
+          "tip": [
+            "Consider the latest version, regardless of semver constraints"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Install only updating the lockfile"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "Disable auto discovery of the lock file"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Include all workspace members"
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --update",
+            "Update dependency versions"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "pack",
+      "tip": [
+        "U: deno pack [OPTIONS] [files]...",
+        "Create an npm-compatible tarball from a Deno project"
+      ],
+      "option": [
+        {
+          "name": "--allow-dirty",
+          "tip": [
+            "Allow packing if the repository has uncommitted changes"
+          ]
+        },
+        {
+          "name": "--allow-slow-types",
+          "tip": [
+            "Skip fast-check type extraction; .d.ts files are omitted from the output"
           ]
         },
         {
@@ -2689,14 +2598,1475 @@
             "-c"
           ],
           "tip": [
-            "{{ $info.__config }}"
-          ],
-          "next": 0
+            "U: -c, --config <FILE>",
+            "Configure deno (deno.json/deno.jsonc)"
+          ]
         },
         {
-          "name": "--deno-modules-dir",
+          "name": "--dry-run",
           "tip": [
-            "{{ $info.__deno_modules_dir }}"
+            "Show what would be packed without creating the tarball"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore=<ignore>...",
+            "Ignore files matching these patterns"
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "Disable automatic loading of the configuration file"
+          ]
+        },
+        {
+          "name": "--no-source-maps",
+          "tip": [
+            "Don't include source maps in the output"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <FILE>",
+            "Output file path (defaults to <name>-<version>.tgz)"
+          ]
+        },
+        {
+          "name": "--set-version",
+          "tip": [
+            "U: --set-version <VERSION>",
+            "Override the version in the tarball"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "U: deno publish [OPTIONS]",
+        "Publish the current working directory's package or workspace to JSR"
+      ],
+      "option": [
+        {
+          "name": "--allow-dirty",
+          "tip": [
+            "Allow publishing if the repository has uncommitted changes"
+          ]
+        },
+        {
+          "name": "--allow-slow-types",
+          "tip": [
+            "Allow publishing with slow types"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "Set type-checking behavior"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Prepare the package for publishing without uploading"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "Disable automatic loading of the configuration file"
+          ]
+        },
+        {
+          "name": "--no-provenance",
+          "tip": [
+            "Disable provenance attestation"
+          ]
+        },
+        {
+          "name": "--set-version",
+          "tip": [
+            "U: --set-version <VERSION>",
+            "Set version for a package to be published"
+          ]
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "The API token to use when publishing"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "tip": [
+        "U: deno remove [OPTIONS] [packages]...",
+        "Remove dependencies from the configuration file"
+      ],
+      "option": [
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Remove globally installed package or module"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Install only updating the lockfile"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "Disable auto discovery of the lock file"
+          ]
+        },
+        {
+          "name": "--package-json",
+          "tip": [
+            "Force using package.json for dependency management instead of deno.json"
+          ]
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "U: --root <root>",
+            "Installation root"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "repl",
+      "alias": [
+        "i"
+      ],
+      "tip": [
+        "U: deno repl [OPTIONS]",
+        "Start an interactive Read-Eval-Print Loop (REPL) for Deno"
+      ],
+      "option": [
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--eval",
+          "tip": [
+            "U: --eval <code>",
+            "Evaluates the provided code when the REPL starts"
+          ]
+        },
+        {
+          "name": "--eval-file",
+          "tip": [
+            "U: --eval-file <eval-file>...",
+            "Evaluates the provided file(s) as scripts when the REPL starts"
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "Activate inspector on host:port"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "Activate inspector, wait for debugger and break at start"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "Activate inspector and wait for debugger before running"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: deno run [OPTIONS] [SCRIPT_ARG]...",
+        "Run a JavaScript or TypeScript program, or a task"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "Allow running npm lifecycle scripts for the given packages"
+          ]
+        },
+        {
+          "name": "--certificate",
+          "alias": [
+            "--cert"
+          ],
+          "tip": [
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "Enable type-checking"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "U: --coverage[=<DIR>]",
+            "Collect coverage profile data into DIR"
+          ]
+        },
+        {
+          "name": "--cpu-prof",
+          "tip": [
+            "Start the V8 CPU profiler on startup and write the profile to disk on exit"
+          ]
+        },
+        {
+          "name": "--cpu-prof-dir",
+          "tip": [
+            "U: --cpu-prof-dir <DIR>",
+            "Directory where the V8 CPU profiles will be written"
+          ]
+        },
+        {
+          "name": "--cpu-prof-flamegraph",
+          "tip": [
+            "Generate an SVG flamegraph alongside the CPU profile"
+          ]
+        },
+        {
+          "name": "--cpu-prof-interval",
+          "tip": [
+            "U: --cpu-prof-interval <MICROSECONDS>",
+            "Sampling interval in microseconds for CPU profiling"
+          ]
+        },
+        {
+          "name": "--cpu-prof-md",
+          "tip": [
+            "Generate a human-readable markdown report alongside the CPU profile"
+          ]
+        },
+        {
+          "name": "--cpu-prof-name",
+          "tip": [
+            "U: --cpu-prof-name <NAME>",
+            "Filename for the CPU profile"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "Activate inspector on host:port"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "Activate inspector, wait for debugger and break at start"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "Activate inspector and wait for debugger before running"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "Do not clear terminal screen when under watch mode"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "Disable V8 code cache feature"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "Execute tasks with a tunnel to Deno Deploy"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-env-proxy",
+          "tip": [
+            "Use HTTP_PROXY, HTTPS_PROXY, and NO_PROXY for node:http/node:https"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
+          ]
+        },
+        {
+          "name": "--watch-hmr",
+          "tip": [
+            "U: --watch-hmr[=<FILES>...]",
+            "Watch for file changes and hot-replace modules"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "U: deno serve [OPTIONS] [SCRIPT_ARG]...",
+        "Run a server defined in a main module"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "Allow running npm lifecycle scripts for the given packages"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "Enable type-checking"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <host>",
+            "The TCP address to serve on, defaulting to 0.0.0.0"
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "Activate inspector on host:port"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "Activate inspector, wait for debugger and break at start"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "Activate inspector and wait for debugger before running"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "Do not clear terminal screen when under watch mode"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "Disable V8 code cache feature"
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "Open the browser on the address that the server is running on"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "Run multiple server workers in parallel"
+          ]
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <port>",
+            "The TCP port to serve on [default: 8000]"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "Execute tasks with a tunnel to Deno Deploy"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
+          ]
+        },
+        {
+          "name": "--watch-hmr",
+          "tip": [
+            "U: --watch-hmr[=<FILES>...]",
+            "Watch for file changes and hot-replace modules"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "task",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: deno task [OPTIONS] [TASK]",
+        "Run a task defined in the configuration file"
+      ],
+      "option": [
+        {
+          "name": "--cwd",
+          "tip": [
+            "U: --cwd <DIR>",
+            "Specify the directory to run the task in"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--eval",
+          "tip": [
+            "Evaluate the passed value as if it was a task in a configuration file"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --filter <filter>",
+            "Filter members of the workspace by name, implies --recursive flag"
+          ]
+        },
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--if-present",
+          "tip": [
+            "Exit with code 0 instead of an error when the task is not found"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --jobs <NUMBER>",
+            "Maximum number of tasks to run concurrently"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "Disable auto discovery of the lock file"
+          ]
+        },
+        {
+          "name": "--no-prefix",
+          "tip": [
+            "Disable prefixing the output of concurrently-executing tasks with the task name"
+          ]
+        },
+        {
+          "name": "--node-modules-dir",
+          "tip": [
+            "U: --node-modules-dir[=<MODE>]",
+            "Selects the node_modules directory mode for npm packages"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "manual"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--node-modules-linker",
+          "tip": [
+            "U: --node-modules-linker=<MODE>",
+            "Sets the linker mode for npm packages"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Run the task in all projects in the workspace"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "Execute tasks with a tunnel to Deno Deploy"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "test",
+      "alias": [
+        "t"
+      ],
+      "tip": [
+        "U: deno test [OPTIONS] [files]...",
+        "Run tests using Deno's built-in test runner"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "Allow running npm lifecycle scripts for the given packages"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
+          ]
+        },
+        {
+          "name": "--changed",
+          "tip": [
+            "U: --changed[=<REF>]",
+            "Run only test modules affected by files changed in git"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "Set type-checking behavior"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--clean",
+          "tip": [
+            "Empty the temporary coverage profile data directory before running tests"
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "U: --coverage[=<DIR>]",
+            "Collect coverage profile data into DIR"
+          ]
+        },
+        {
+          "name": "--coverage-raw-data-only",
+          "tip": [
+            "Only collect raw coverage data, without generating a report"
+          ]
+        },
+        {
+          "name": "--coverage-threshold",
+          "tip": [
+            "U: --coverage-threshold=<PERCENT>",
+            "Fail if coverage is below this percentage (0-100)"
+          ]
+        },
+        {
+          "name": "--doc",
+          "tip": [
+            "Evaluate code blocks in JSDoc and Markdown"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "U: --fail-fast[=<N>]",
+            "Stop after N errors"
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <filter>",
+            "Run tests with this string or regexp pattern in the test name"
+          ]
+        },
+        {
+          "name": "--hide-stacktraces",
+          "tip": [
+            "Hide stack traces for errors in failure test results"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore=<ignore>...",
+            "Ignore files"
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "Activate inspector on host:port"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "Activate inspector, wait for debugger and break at start"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "Activate inspector and wait for debugger before running"
+          ]
+        },
+        {
+          "name": "--junit-path",
+          "tip": [
+            "U: --junit-path <PATH>",
+            "Write a JUnit XML test report to PATH"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "Do not clear terminal screen when under watch mode"
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "Disable automatic loading of the configuration file"
+          ]
+        },
+        {
+          "name": "--no-run",
+          "tip": [
+            "Cache test modules, but don't run tests"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "Run test modules in parallel"
+          ]
+        },
+        {
+          "name": "--permit-no-files",
+          "tip": [
+            "Don't return an error code if no files were found"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--related",
+          "tip": [
+            "U: --related=<related>",
+            "Run only test modules that depend on the given source files"
+          ]
+        },
+        {
+          "name": "--repeats",
+          "tip": [
+            "U: --repeats <NUMBER>",
+            "Run each test NUMBER additional times"
+          ]
+        },
+        {
+          "name": "--reporter",
+          "tip": [
+            "U: --reporter <reporter>",
+            "Select reporter to use"
+          ],
+          "next": [
+            {
+              "name": "dot"
+            },
+            {
+              "name": "junit"
+            },
+            {
+              "name": "pretty"
+            },
+            {
+              "name": "tap"
+            }
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--retry",
+          "tip": [
+            "U: --retry <NUMBER>",
+            "Re-run failing tests up to NUMBER times"
+          ]
+        },
+        {
+          "name": "--sanitize-ops",
+          "tip": [
+            "Enable the ops sanitizer"
+          ]
+        },
+        {
+          "name": "--sanitize-resources",
+          "tip": [
+            "Enable the resources sanitizer"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
+          ]
+        },
+        {
+          "name": "--shard",
+          "tip": [
+            "U: --shard=<INDEX/COUNT>",
+            "Run only the test files for shard INDEX of COUNT"
+          ]
+        },
+        {
+          "name": "--shuffle",
+          "tip": [
+            "U: --shuffle[=<NUMBER>]",
+            "Shuffle the order in which the tests are run"
+          ]
+        },
+        {
+          "name": "--trace-leaks",
+          "tip": [
+            "Enable tracing of leaks"
+          ]
+        },
+        {
+          "name": "--update-snapshots",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --update-snapshots",
+            "Update snapshots created with t.assertSnapshot()"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "U: deno uninstall [OPTIONS] [name-or-package] [additional-packages]...",
+        "Uninstall a dependency or executable script in the installation root's bin directory"
+      ],
+      "option": [
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Remove globally installed package or module"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Install only updating the lockfile"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "Disable auto discovery of the lock file"
+          ]
+        },
+        {
+          "name": "--package-json",
+          "tip": [
+            "Force using package.json for dependency management instead of deno.json"
+          ]
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "U: --root <root>",
+            "Installation root"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "unlink",
+      "tip": [
+        "U: deno unlink [OPTIONS] [names_or_paths]...",
+        "Remove a linked local package from the current project"
+      ],
+      "option": [
+        {
+          "name": "--frozen",
+          "tip": [
+            "U: --frozen[=<BOOLEAN>]",
+            "Error out if lockfile is out of date"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "U: --lock [<FILE>]",
+            "Check the specified lock file"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Install only updating the lockfile"
+          ]
+        },
+        {
+          "name": "--no-lock",
+          "tip": [
+            "Disable auto discovery of the lock file"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "U: deno upgrade [OPTIONS] [VERSION]...",
+        "Upgrade deno executable to the given version"
+      ],
+      "option": [
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
+          ]
+        },
+        {
+          "name": "--checksum",
+          "tip": [
+            "U: --checksum <checksum>",
+            "Verify the downloaded archive against the provided SHA256 checksum"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform all checks without replacing old exe"
           ]
         },
         {
@@ -2705,53 +4075,273 @@
             "-f"
           ],
           "tip": [
-            "U: --force, -f",
-            "Forcefully overwrite conflicting files in existing output directory."
+            "U: -f, --force",
+            "Replace current exe even if not out-of-date"
           ]
         },
         {
-          "name": "--import-map",
+          "name": "--no-delta",
           "tip": [
-            "{{ $info.__import_map }}"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--lock",
-          "tip": [
-            "{{ $info.__lock }}"
-          ]
-        },
-        {
-          "name": "--no-config",
-          "tip": [
-            "Disable automatic loading of the configuration file."
-          ]
-        },
-        {
-          "name": "--node-modules-dir",
-          "tip": [
-            "{{ $info.__node_modules_dir }}"
+            "Disable delta updates and always download the full archive"
           ]
         },
         {
           "name": "--output",
           "tip": [
-            "U: --output <dir>",
-            "The directory to output the vendored modules to."
-          ],
-          "next": 0
-        },
-        {
-          "name": "--reload",
-          "alias": [
-            "-r"
-          ],
-          "tip": [
-            "{{ $info.__reload }}"
+            "U: --output <output>",
+            "The path to output the updated version to"
           ]
         }
+      ],
+      "next": [
+        {
+          "name": "alpha"
+        },
+        {
+          "name": "beta"
+        },
+        {
+          "name": "canary"
+        },
+        {
+          "name": "rc"
+        },
+        {
+          "name": "stable"
+        }
       ]
+    },
+    {
+      "name": "watch",
+      "alias": [
+        "w"
+      ],
+      "tip": [
+        "U: deno watch [OPTIONS] [SCRIPT_ARG]...",
+        "Run a program, watching for file changes and hot-replacing modules"
+      ],
+      "option": [
+        {
+          "name": "--allow-scripts",
+          "tip": [
+            "Allow running npm lifecycle scripts for the given packages"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <FILE>",
+            "Load certificate authority from PEM encoded file"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check[=<CHECK_TYPE>]",
+            "Enable type-checking"
+          ],
+          "next": [
+            {
+              "name": "all"
+            }
+          ]
+        },
+        {
+          "name": "--conditions",
+          "tip": [
+            "U: --conditions <conditions>",
+            "Specify custom conditions for npm package exports"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "U: --coverage[=<DIR>]",
+            "Collect coverage profile data into DIR"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "tip": [
+            "U: --env-file[=<FILE>]",
+            "Load environment variables from local file"
+          ]
+        },
+        {
+          "name": "--ext",
+          "tip": [
+            "U: --ext <ext>",
+            "Set content type of the supplied file"
+          ],
+          "next": [
+            {
+              "name": "cjs"
+            },
+            {
+              "name": "cts"
+            },
+            {
+              "name": "js"
+            },
+            {
+              "name": "jsx"
+            },
+            {
+              "name": "mjs"
+            },
+            {
+              "name": "mts"
+            },
+            {
+              "name": "ts"
+            },
+            {
+              "name": "tsx"
+            }
+          ]
+        },
+        {
+          "name": "--inspect",
+          "tip": [
+            "U: --inspect[=<HOST_PORT>]",
+            "Activate inspector on host:port"
+          ]
+        },
+        {
+          "name": "--inspect-brk",
+          "tip": [
+            "U: --inspect-brk[=<HOST_PORT>]",
+            "Activate inspector, wait for debugger and break at start"
+          ]
+        },
+        {
+          "name": "--inspect-wait",
+          "tip": [
+            "U: --inspect-wait[=<HOST_PORT>]",
+            "Activate inspector and wait for debugger before running"
+          ]
+        },
+        {
+          "name": "--location",
+          "tip": [
+            "U: --location <HREF>",
+            "Value of globalThis.location used by some web APIs"
+          ]
+        },
+        {
+          "name": "--minimum-dependency-age",
+          "tip": [
+            "U: --minimum-dependency-age <age>",
+            "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+          ]
+        },
+        {
+          "name": "--no-check",
+          "tip": [
+            "U: --no-check[=<NO_CHECK_TYPE>]",
+            "Skip type-checking"
+          ],
+          "next": [
+            {
+              "name": "remote"
+            }
+          ]
+        },
+        {
+          "name": "--no-clear-screen",
+          "tip": [
+            "Do not clear terminal screen when under watch mode"
+          ]
+        },
+        {
+          "name": "--no-code-cache",
+          "tip": [
+            "Disable V8 code cache feature"
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "U: --preload <FILE>",
+            "A list of files that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--require",
+          "tip": [
+            "U: --require <FILE>",
+            "A list of CommonJS modules that will be executed before the main module"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <NUMBER>",
+            "Set the random number generator seed"
+          ]
+        },
+        {
+          "name": "--tunnel",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tunnel[=<tunnel>]",
+            "Execute tasks with a tunnel to Deno Deploy"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-env-proxy",
+          "tip": [
+            "Use HTTP_PROXY, HTTPS_PROXY, and NO_PROXY for node:http/node:https"
+          ]
+        },
+        {
+          "name": "--v8-flags",
+          "tip": [
+            "U: --v8-flags[=<V8_FLAGS>...]",
+            "Set V8 command line options"
+          ]
+        },
+        {
+          "name": "--watch",
+          "tip": [
+            "U: --watch[=<FILES>...]",
+            "Watch for file changes and restart process automatically"
+          ]
+        },
+        {
+          "name": "--watch-exclude",
+          "tip": [
+            "U: --watch-exclude[=<FILES>...]",
+            "Exclude provided files/patterns from watch mode"
+          ]
+        },
+        {
+          "name": "--watch-hmr",
+          "tip": [
+            "U: --watch-hmr[=<FILES>...]",
+            "Watch for file changes and hot-replace modules"
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "why",
+      "tip": [
+        "U: deno why <package>",
+        "Show why a package is installed"
+      ],
+      "next": 0
     }
   ],
   "option": [
@@ -2761,20 +4351,303 @@
         "-V"
       ],
       "tip": [
-        "U: --version, -V",
-        "Print version."
+        "U: -V, --version",
+        "Print version"
       ]
     }
   ],
   "common_option": [
+    {
+      "name": "--allow-all",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --allow-all",
+        "Allow all permissions"
+      ]
+    },
+    {
+      "name": "--allow-env",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --allow-env[=<VARIABLE_NAME>...]",
+        "Allow access to environment variables"
+      ]
+    },
+    {
+      "name": "--allow-ffi",
+      "tip": [
+        "U: --allow-ffi[=<PATH>...]",
+        "(Unstable) Allow loading dynamic libraries"
+      ]
+    },
+    {
+      "name": "--allow-import",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --allow-import[=<IP_OR_HOSTNAME>...]",
+        "Allow importing from remote hosts"
+      ]
+    },
+    {
+      "name": "--allow-net",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --allow-net[=<IP_OR_HOSTNAME>...]",
+        "Allow network access"
+      ]
+    },
+    {
+      "name": "--allow-read",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --allow-read[=<PATH>...]",
+        "Allow file system read access"
+      ]
+    },
+    {
+      "name": "--allow-run",
+      "tip": [
+        "U: --allow-run[=<PROGRAM_NAME>...]",
+        "Allow running subprocesses"
+      ]
+    },
+    {
+      "name": "--allow-scripts",
+      "tip": [
+        "Allow running npm lifecycle scripts for the given packages"
+      ]
+    },
+    {
+      "name": "--allow-sys",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --allow-sys[=<API_NAME>...]",
+        "Allow access to OS information"
+      ]
+    },
+    {
+      "name": "--allow-write",
+      "alias": [
+        "-W"
+      ],
+      "tip": [
+        "U: -W, --allow-write[=<PATH>...]",
+        "Allow file system write access"
+      ]
+    },
+    {
+      "name": "--cached-only",
+      "tip": [
+        "Require that remote dependencies are already cached"
+      ]
+    },
+    {
+      "name": "--cert",
+      "tip": [
+        "U: --cert <FILE>",
+        "Load certificate authority from PEM encoded file"
+      ]
+    },
+    {
+      "name": "--check",
+      "tip": [
+        "U: --check[=<CHECK_TYPE>]",
+        "Enable type-checking"
+      ],
+      "next": [
+        {
+          "name": "all"
+        }
+      ]
+    },
+    {
+      "name": "--conditions",
+      "tip": [
+        "U: --conditions <conditions>",
+        "Specify custom conditions for npm package exports"
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <FILE>",
+        "Configure deno (deno.json/deno.jsonc)"
+      ]
+    },
+    {
+      "name": "--coverage",
+      "tip": [
+        "U: --coverage[=<DIR>]",
+        "Collect coverage profile data into DIR"
+      ]
+    },
+    {
+      "name": "--cpu-prof",
+      "tip": [
+        "Start the V8 CPU profiler on startup and write the profile to disk on exit"
+      ]
+    },
+    {
+      "name": "--cpu-prof-dir",
+      "tip": [
+        "U: --cpu-prof-dir <DIR>",
+        "Directory where the V8 CPU profiles will be written"
+      ]
+    },
+    {
+      "name": "--cpu-prof-flamegraph",
+      "tip": [
+        "Generate an SVG flamegraph alongside the CPU profile"
+      ]
+    },
+    {
+      "name": "--cpu-prof-interval",
+      "tip": [
+        "U: --cpu-prof-interval <MICROSECONDS>",
+        "Sampling interval in microseconds for CPU profiling"
+      ]
+    },
+    {
+      "name": "--cpu-prof-md",
+      "tip": [
+        "Generate a human-readable markdown report alongside the CPU profile"
+      ]
+    },
+    {
+      "name": "--cpu-prof-name",
+      "tip": [
+        "U: --cpu-prof-name <NAME>",
+        "Filename for the CPU profile"
+      ]
+    },
+    {
+      "name": "--env-file",
+      "tip": [
+        "U: --env-file[=<FILE>]",
+        "Load environment variables from local file"
+      ]
+    },
+    {
+      "name": "--ext",
+      "tip": [
+        "U: --ext <ext>",
+        "Set content type of the supplied file"
+      ],
+      "next": [
+        {
+          "name": "cjs"
+        },
+        {
+          "name": "cts"
+        },
+        {
+          "name": "js"
+        },
+        {
+          "name": "jsx"
+        },
+        {
+          "name": "mjs"
+        },
+        {
+          "name": "mts"
+        },
+        {
+          "name": "ts"
+        },
+        {
+          "name": "tsx"
+        }
+      ]
+    },
+    {
+      "name": "--frozen",
+      "tip": [
+        "U: --frozen[=<BOOLEAN>]",
+        "Error out if lockfile is out of date"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
+      ]
+    },
     {
       "name": "--help",
       "alias": [
         "-h"
       ],
       "tip": [
-        "U: --help, -h",
-        "Print help."
+        "U: -h, --help[=<CONTEXT>]",
+        "Print help"
+      ],
+      "next": [
+        {
+          "name": "full"
+        },
+        {
+          "name": "unstable"
+        }
+      ]
+    },
+    {
+      "name": "--import-map",
+      "tip": [
+        "U: --import-map <FILE>",
+        "Load import map file from local file or remote URL"
+      ]
+    },
+    {
+      "name": "--inspect",
+      "tip": [
+        "U: --inspect[=<HOST_PORT>]",
+        "Activate inspector on host:port"
+      ]
+    },
+    {
+      "name": "--inspect-brk",
+      "tip": [
+        "U: --inspect-brk[=<HOST_PORT>]",
+        "Activate inspector, wait for debugger and break at start"
+      ]
+    },
+    {
+      "name": "--inspect-wait",
+      "tip": [
+        "U: --inspect-wait[=<HOST_PORT>]",
+        "Activate inspector and wait for debugger before running"
+      ]
+    },
+    {
+      "name": "--location",
+      "tip": [
+        "U: --location <HREF>",
+        "Value of globalThis.location used by some web APIs"
+      ]
+    },
+    {
+      "name": "--lock",
+      "tip": [
+        "U: --lock [<FILE>]",
+        "Check the specified lock file"
       ]
     },
     {
@@ -2783,10 +4656,127 @@
         "-L"
       ],
       "tip": [
-        "U: --log-level, -L <level>",
-        "Set log level."
+        "U: -L, --log-level <level>",
+        "Set log level"
       ],
-      "next": 0
+      "next": [
+        {
+          "name": "debug"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "info"
+        },
+        {
+          "name": "trace"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--minimum-dependency-age",
+      "tip": [
+        "U: --minimum-dependency-age <age>",
+        "(Unstable) The age in minutes, ISO-8601 duration or RFC3339 timestamp"
+      ]
+    },
+    {
+      "name": "--no-check",
+      "tip": [
+        "U: --no-check[=<NO_CHECK_TYPE>]",
+        "Skip type-checking"
+      ],
+      "next": [
+        {
+          "name": "remote"
+        }
+      ]
+    },
+    {
+      "name": "--no-clear-screen",
+      "tip": [
+        "Do not clear terminal screen when under watch mode"
+      ]
+    },
+    {
+      "name": "--no-code-cache",
+      "tip": [
+        "Disable V8 code cache feature"
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "Disable automatic loading of the configuration file"
+      ]
+    },
+    {
+      "name": "--no-lock",
+      "tip": [
+        "Disable auto discovery of the lock file"
+      ]
+    },
+    {
+      "name": "--no-npm",
+      "tip": [
+        "Do not resolve npm modules"
+      ]
+    },
+    {
+      "name": "--no-prompt",
+      "tip": [
+        "Always throw if required permission wasn't passed"
+      ]
+    },
+    {
+      "name": "--no-remote",
+      "tip": [
+        "Do not resolve remote modules"
+      ]
+    },
+    {
+      "name": "--node-modules-dir",
+      "tip": [
+        "U: --node-modules-dir[=<MODE>]",
+        "Selects the node_modules directory mode for npm packages"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "manual"
+        },
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "--node-modules-linker",
+      "tip": [
+        "U: --node-modules-linker=<MODE>",
+        "Sets the linker mode for npm packages"
+      ],
+      "next": [
+        {
+          "name": "hoisted"
+        },
+        {
+          "name": "isolated"
+        }
+      ]
+    },
+    {
+      "name": "--preload",
+      "tip": [
+        "U: --preload <FILE>",
+        "A list of files that will be executed before the main module"
+      ]
     },
     {
       "name": "--quiet",
@@ -2794,109 +4784,106 @@
         "-q"
       ],
       "tip": [
-        "U: --quiet, -q",
-        "Suppress diagnostic output."
+        "U: -q, --quiet",
+        "Suppress diagnostic output"
+      ]
+    },
+    {
+      "name": "--reload",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --reload[=<CACHE_BLOCKLIST>...]",
+        "Reload source code cache (recompile TypeScript)"
+      ]
+    },
+    {
+      "name": "--require",
+      "tip": [
+        "U: --require <FILE>",
+        "A list of CommonJS modules that will be executed before the main module"
+      ]
+    },
+    {
+      "name": "--seed",
+      "tip": [
+        "U: --seed <NUMBER>",
+        "Set the random number generator seed"
+      ]
+    },
+    {
+      "name": "--tunnel",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --tunnel[=<tunnel>]",
+        "Execute tasks with a tunnel to Deno Deploy"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
       ]
     },
     {
       "name": "--unstable",
       "tip": [
-        "Enable unstable features and APIs."
+        "(Deprecated) Enable unstable features, use granular --unstable-* flags instead"
+      ]
+    },
+    {
+      "name": "--use-env-proxy",
+      "tip": [
+        "Use HTTP_PROXY, HTTPS_PROXY, and NO_PROXY for node:http/node:https"
+      ]
+    },
+    {
+      "name": "--v8-flags",
+      "tip": [
+        "U: --v8-flags[=<V8_FLAGS>...]",
+        "Set V8 command line options"
+      ]
+    },
+    {
+      "name": "--vendor",
+      "tip": [
+        "U: --vendor[=<vendor>]",
+        "Toggles local vendor folder usage"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
+      ]
+    },
+    {
+      "name": "--watch",
+      "tip": [
+        "U: --watch[=<FILES>...]",
+        "Watch for file changes and restart process automatically"
+      ]
+    },
+    {
+      "name": "--watch-exclude",
+      "tip": [
+        "U: --watch-exclude[=<FILES>...]",
+        "Exclude provided files/patterns from watch mode"
+      ]
+    },
+    {
+      "name": "--watch-hmr",
+      "tip": [
+        "U: --watch-hmr[=<FILES>...]",
+        "Watch for file changes and hot-replace modules"
       ]
     }
-  ],
-  "info": {
-    "__allow_all": [
-      "U: --allow-all, -A\n",
-      "Allow all permissions."
-    ],
-    "__allow_env": [
-      "Allow access to system environment information.\n",
-      "Optionally specify accessible environment variables."
-    ],
-    "__allow_ffi": [
-      "(Unstable) Allow loading dynamic libraries.\n",
-      "Optionally specify allowed directories or files."
-    ],
-    "__allow_hrtime": [
-      "Allow high-resolution time measurement.\n",
-      "Note: this can enable timing attacks and fingerprinting."
-    ],
-    "__allow_net": [
-      "Allow network access.\n",
-      "Optionally specify allowed IP addresses and host names, with ports as necessary."
-    ],
-    "__allow_read": [
-      "Allow file system read access.\n",
-      "Optionally specify allowed paths."
-    ],
-    "__allow_run": [
-      "Allow running subprocesses.\n",
-      "Optionally specify allowed runnable program names."
-    ],
-    "__allow_sys": [
-      "Allow access to OS information.\n",
-      "Optionally allow specific APIs by function name."
-    ],
-    "__allow_write": [
-      "Allow file system write access.\n",
-      "Optionally specify allowed paths."
-    ],
-    "__cert": "Load certificate authority from PEM encoded file.",
-    "__config": [
-      "U: --config, -c <path>\n",
-      "Specify the configuration file."
-    ],
-    "__deno_modules_dir": "UNSTABLE: Enables or disables the use of a local deno_modules folder for remote modules.",
-    "__deny_env": [
-      "Deny access to system environment information.\n",
-      "Optionally specify denied environment variables."
-    ],
-    "__deny_ffi": [
-      "(Unstable) Deny loading dynamic libraries.\n",
-      "Optionally specify denied directories or files."
-    ],
-    "__deny_hrtime": [
-      "Deny high-resolution time measurement.\n",
-      "Note: this can prevent timing attacks and fingerprinting."
-    ],
-    "__deny_net": [
-      "Deny network access.\n",
-      "Optionally specify denied IP addresses and host names, with ports as necessary."
-    ],
-    "__deny_read": [
-      "Deny file system read access.\n",
-      "Optionally specify denied paths."
-    ],
-    "__deny_run": [
-      "Deny running subprocesses.\n",
-      "Optionally specify denied runnable program names."
-    ],
-    "__deny_sys": [
-      "Deny access to OS information.\n",
-      "Optionally deny specific APIs by function name."
-    ],
-    "__deny_write": [
-      "Deny file system write access.\n",
-      "Optionally specify denied paths."
-    ],
-    "__import_map": [
-      "U: --import-map <path>\n",
-      "Load import map file."
-    ],
-    "__inspect": "Activate inspector on host:port (default: 127.0.0.1:9229)",
-    "__inspect_brk": "Activate inspector on host:port, wait for debugger to connect and break at the start of user script.",
-    "__inspect_wait": "Activate inspector on host:port and wait for debugger to connect before running user code.",
-    "__location": "Value of 'globalThis.location' used by some web APIs.",
-    "__lock": [
-      "Check the specified lock file.\n",
-      "If value is not provided, defaults to \"deno.lock\" in the current working directory."
-    ],
-    "__no_check": "Skip type-checking modules.",
-    "__node_modules_dir": "Enables or disables the use of a local node_modules folder for npm packages.",
-    "__reload": [
-      "U: --reload, -r\n",
-      "Reload source code cache (recompile TypeScript)"
-    ]
-  }
+  ]
 }

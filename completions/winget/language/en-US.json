@@ -7,32 +7,201 @@
   },
   "root": [
     {
-      "name": "configure",
+      "name": "configuration",
+      "alias": [
+        "configure",
+        "dsc"
+      ],
       "tip": [
-        "(To be continued, some options are not yet added) Configure the system to the desired state"
+        "U: configure|configuration|dsc",
+        "Configure the system to the desired state"
       ],
       "option": [
+        {
+          "name": "--accept-configuration-agreements",
+          "tip": [
+            "Accept configuration warnings; blocks interactive prompts"
+          ]
+        },
         {
           "name": "--file",
           "alias": [
             "-f"
           ],
           "tip": [
-            "{{ $info.__file }}"
+            "U: -f, --file <file>",
+            "Path to the configuration file"
           ],
           "next": 0
         },
         {
+          "name": "--history",
+          "alias": [
+            "-h"
+          ],
+          "tip": [
+            "U: -h, --history",
+            "Select item from history"
+          ]
+        },
+        {
           "name": "--module-path",
           "tip": [
-            "{{ $info.__module_path }}"
+            "U: --module-path <path>",
+            "Specify the location for storing modules locally"
           ],
           "next": 0
+        },
+        {
+          "name": "--processor-path",
+          "tip": [
+            "U: --processor-path <path>",
+            "Specify the path to the configuration processor"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--suppress-initial-details",
+          "tip": [
+            "Suppress initial configuration details where possible"
+          ]
         }
       ],
       "next": [
         {
+          "name": "export",
+          "tip": [
+            "Export configuration resources to a configuration file"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "Accept all source agreements during source operations"
+              ]
+            },
+            {
+              "name": "--include-versions",
+              "tip": [
+                "Include package versions in the generated file"
+              ]
+            },
+            {
+              "name": "--module",
+              "tip": [
+                "U: --module <module>",
+                "Module of the resource to export"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--module-path",
+              "tip": [
+                "U: --module-path <path>",
+                "Specify the location for storing modules locally"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output <file>",
+                "Write the results to the specified file"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--package-id",
+              "tip": [
+                "U: --package-id <id>",
+                "Package identifier to export"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "Specify the path to the configuration processor"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--recurse",
+              "alias": [
+                "--all",
+                "-r"
+              ],
+              "tip": [
+                "Export all package configurations"
+              ]
+            },
+            {
+              "name": "--resource",
+              "tip": [
+                "U: --resource <resource>",
+                "Configuration resource to export"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "Export packages from the specified source"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "Display high-level details of configurations applied to the system"
+          ],
+          "option": [
+            {
+              "name": "--history",
+              "alias": [
+                "-h"
+              ],
+              "tip": [
+                "U: -h, --history",
+                "Select item from history"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output <file>",
+                "Write the results to the specified file"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--remove",
+              "tip": [
+                "Remove item from history"
+              ]
+            }
+          ]
+        },
+        {
           "name": "show",
+          "alias": [
+            "view"
+          ],
           "tip": [
             "Display detailed information about the configured settings"
           ],
@@ -43,14 +212,34 @@
                 "-f"
               ],
               "tip": [
-                "{{ $info.__file }}"
+                "U: -f, --file <file>",
+                "Path to the configuration file"
               ],
               "next": 0
             },
             {
+              "name": "--history",
+              "alias": [
+                "-h"
+              ],
+              "tip": [
+                "U: -h, --history",
+                "Select item from history"
+              ]
+            },
+            {
               "name": "--module-path",
               "tip": [
-                "{{ $info.__module_path }}"
+                "U: --module-path <path>",
+                "Specify the location for storing modules locally"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "Specify the path to the configuration processor"
               ],
               "next": 0
             }
@@ -63,21 +252,53 @@
           ],
           "option": [
             {
+              "name": "--accept-configuration-agreements",
+              "tip": [
+                "Accept configuration warnings; blocks interactive prompts"
+              ]
+            },
+            {
               "name": "--file",
               "alias": [
                 "-f"
               ],
               "tip": [
-                "{{ $info.__file }}"
+                "U: -f, --file <file>",
+                "Path to the configuration file"
               ],
               "next": 0
             },
             {
+              "name": "--history",
+              "alias": [
+                "-h"
+              ],
+              "tip": [
+                "U: -h, --history",
+                "Select item from history"
+              ]
+            },
+            {
               "name": "--module-path",
               "tip": [
-                "{{ $info.__module_path }}"
+                "U: --module-path <path>",
+                "Specify the location for storing modules locally"
               ],
               "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "Specify the path to the configuration processor"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--suppress-initial-details",
+              "tip": [
+                "Suppress initial configuration details where possible"
+              ]
             }
           ]
         },
@@ -93,14 +314,24 @@
                 "-f"
               ],
               "tip": [
-                "{{ $info.__file }}"
+                "U: -f, --file <file>",
+                "Path to the configuration file"
               ],
               "next": 0
             },
             {
               "name": "--module-path",
               "tip": [
-                "{{ $info.__module_path }}"
+                "U: --module-path <path>",
+                "Specify the location for storing modules locally"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--processor-path",
+              "tip": [
+                "U: --processor-path <path>",
+                "Specify the path to the configuration processor"
               ],
               "next": 0
             }
@@ -117,13 +348,13 @@
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "Accept all package license agreements"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
           ]
         },
         {
@@ -132,28 +363,66 @@
             "-a"
           ],
           "tip": [
-            "{{ $info.__architecture }}"
+            "U: -a, --architecture <arch>",
+            "Select the architecture"
           ],
           "next": [
             {
               "name": "arm64",
               "tip": [
-                "Install the package for arm64 architecture"
+                "Use arm64 architecture"
               ]
             },
             {
               "name": "x64",
               "tip": [
-                "Install the package for x64 architecture"
+                "Use x64 architecture"
               ]
             },
             {
               "name": "x86",
               "tip": [
-                "Install the package for x86 architecture"
+                "Use x86 architecture"
               ]
             }
           ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
+          ]
+        },
+        {
+          "name": "--download-directory",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --download-directory <directory>",
+            "Directory to download the installer to"
+          ],
+          "next": 0
         },
         {
           "name": "--exact",
@@ -161,102 +430,111 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "Require exact match"
           ]
+        },
+        {
+          "name": "--header",
+          "tip": [
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
+          ],
+          "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "Filter results by id"
           ],
           "next": 0
         },
         {
           "name": "--ignore-security-hash",
           "tip": [
-            "{{ $info.__ignore_security_hash }}"
+            "Ignore installer hash check failure"
           ]
         },
         {
           "name": "--installer-type",
           "tip": [
-            "{{ $info.__installer_type }}"
+            "Select the installer type"
           ],
           "next": [
             {
-              "name": "appx",
-              "tip": [
-                "Use APPX installer"
-              ]
+              "name": "appx"
             },
             {
-              "name": "exe",
-              "tip": [
-                "Use EXE installer"
-              ]
+              "name": "exe"
             },
             {
-              "name": "inno",
-              "tip": [
-                "Use Inno Setup installer"
-              ]
+              "name": "inno"
             },
             {
-              "name": "msi",
-              "tip": [
-                "Use MSI installer"
-              ]
+              "name": "msi"
             },
             {
-              "name": "msix",
-              "tip": [
-                "Use MSIX installer"
-              ]
+              "name": "msix"
             },
             {
-              "name": "msu",
-              "tip": [
-                "Use MSU installer"
-              ]
+              "name": "msu"
             },
             {
-              "name": "nullsoft",
-              "tip": [
-                "Use Nullsoft Installer installer"
-              ]
+              "name": "nullsoft"
             },
             {
-              "name": "wix",
-              "tip": [
-                "Use WiX installer"
-              ]
+              "name": "wix"
             },
             {
-              "name": "zip",
-              "tip": [
-                "Use ZIP archive"
-              ]
+              "name": "zip"
             }
           ]
         },
         {
           "name": "--locale",
           "tip": [
-            "{{ $info.__locale }}"
+            "U: --locale <locale>",
+            "Locale to use (BCP 47 format)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manifest <path>",
+            "Path to the package manifest"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "Filter results by moniker"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "Filter results by name"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--os-version",
+          "tip": [
+            "U: --os-version <version>",
+            "Target OS version"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform <platform>",
+            "Select the target platform"
           ],
           "next": 0
         },
@@ -266,26 +544,27 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "Query used to search for a package"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "Select the install scope (user or machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "Install the package for all users on the machine"
+                "Install for all users on the machine"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "Install the package for the current user"
+                "Install for the current user"
               ]
             }
           ]
@@ -293,7 +572,16 @@
         {
           "name": "--skip-dependencies",
           "tip": [
-            "{{ $info.__skip_dependencies }}"
+            "Skip processing package dependencies and Windows features"
+          ]
+        },
+        {
+          "name": "--skip-microsoft-store-package-license",
+          "alias": [
+            "--skip-license"
+          ],
+          "tip": [
+            "Skip retrieving offline license for Microsoft Store packages"
           ]
         },
         {
@@ -302,7 +590,8 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "Find package using the specified source"
           ],
           "next": 0
         },
@@ -312,9 +601,61 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "Use the specified version; default is latest"
           ],
           "next": 0
+        }
+      ]
+    },
+    {
+      "name": "dscv3",
+      "tip": [
+        "DSC v3 resource commands for configuring WinGet and packages"
+      ],
+      "option": [
+        {
+          "name": "--manifest",
+          "tip": [
+            "Get the resource manifest"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <directory>",
+            "Directory to write the results to"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "admin-settings",
+          "tip": [
+            "Manage administrator settings"
+          ]
+        },
+        {
+          "name": "package",
+          "tip": [
+            "Manage package state"
+          ]
+        },
+        {
+          "name": "source",
+          "tip": [
+            "Manage source configuration"
+          ]
+        },
+        {
+          "name": "user-settings-file",
+          "tip": [
+            "Manage user settings file"
+          ]
         }
       ]
     },
@@ -327,7 +668,7 @@
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
           ]
         },
         {
@@ -368,7 +709,7 @@
     {
       "name": "hash",
       "tip": [
-        "Helper for hashing installed program"
+        "Helper for hashing installer files"
       ],
       "option": [
         {
@@ -378,7 +719,7 @@
           ],
           "tip": [
             "U: -f, --file <file>",
-            "Hash the specified file"
+            "File to hash"
           ],
           "next": 0
         },
@@ -388,10 +729,9 @@
             "-m"
           ],
           "tip": [
-            "U: -m, --msix <file>",
+            "U: -m, --msix",
             "Treat the input file as an msix; if signed, provide the signed hash"
-          ],
-          "next": 0
+          ]
         }
       ]
     },
@@ -404,13 +744,13 @@
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "Accept all package license agreements"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
           ]
         },
         {
@@ -439,7 +779,7 @@
         {
           "name": "--no-upgrade",
           "tip": [
-            "{{ $info.__no_upgrade }}"
+            "Skip upgrade if the installed version is already present"
           ]
         }
       ]
@@ -450,24 +790,26 @@
         "add"
       ],
       "tip": [
-        "U: install|add",
-        "Install the specified package (by searching configured sources or directly finding it from the manifest).",
-        "By default, the query must match the package's id, name, or moniker in a case-insensitive manner.",
-        "Other fields can be used by passing the respective options.",
-        "By default, the install command checks the package installation status and attempts to perform an upgrade if applicable.",
-        "Use --force to override and perform a direct install"
+        "U: install|add <query>",
+        "Install the specified package"
       ],
       "option": [
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "Accept all package license agreements"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
+          ]
+        },
+        {
+          "name": "--allow-reboot",
+          "tip": [
+            "Allow reboot if applicable"
           ]
         },
         {
@@ -476,40 +818,75 @@
             "-a"
           ],
           "tip": [
-            "{{ $info.__architecture }}"
+            "U: -a, --architecture <arch>",
+            "Select the architecture"
           ],
           "next": [
             {
               "name": "arm64",
               "tip": [
-                "Install the package for arm64 architecture"
+                "Use arm64 architecture"
               ]
             },
             {
               "name": "x64",
               "tip": [
-                "Install the package for x64 architecture"
+                "Use x64 architecture"
               ]
             },
             {
               "name": "x86",
               "tip": [
-                "Install the package for x86 architecture"
+                "Use x86 architecture"
               ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
             }
           ]
         },
         {
           "name": "--custom",
           "tip": [
-            "{{ $info.__custom }}"
+            "U: --custom <args>",
+            "Arguments passed to the installer beyond defaults"
           ],
           "next": 0
         },
         {
+          "name": "--dependencies-only",
+          "tip": [
+            "Only install package dependencies"
+          ]
+        },
+        {
           "name": "--dependency-source",
           "tip": [
-            "{{ $info.__dependency_source }}"
+            "U: --dependency-source <source>",
+            "Find package dependencies using the specified source"
           ],
           "next": 0
         },
@@ -519,100 +896,74 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "Require exact match"
           ]
         },
         {
           "name": "--force",
           "tip": [
-            "{{ $info.__force }}"
+            "Force the direct run of the command and continue processing regardless of safety concerns"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "Filter results by id"
           ],
           "next": 0
         },
         {
           "name": "--ignore-local-archive-malware-scan",
           "tip": [
-            "{{ $info.__ignore_local_archive_malware_scan }}"
+            "Ignore malware scan when installing archive packages from local manifest"
           ]
         },
         {
           "name": "--ignore-security-hash",
           "tip": [
-            "{{ $info.__ignore_security_hash }}"
+            "Ignore installer hash check failure"
           ]
         },
         {
           "name": "--installer-type",
           "tip": [
-            "{{ $info.__installer_type }}"
+            "Select the installer type"
           ],
           "next": [
             {
-              "name": "appx",
-              "tip": [
-                "Use APPX installer"
-              ]
+              "name": "appx"
             },
             {
-              "name": "exe",
-              "tip": [
-                "Use EXE installer"
-              ]
+              "name": "exe"
             },
             {
-              "name": "inno",
-              "tip": [
-                "Use Inno Setup installer"
-              ]
+              "name": "inno"
             },
             {
-              "name": "msi",
-              "tip": [
-                "Use MSI installer"
-              ]
+              "name": "msi"
             },
             {
-              "name": "msix",
-              "tip": [
-                "Use MSIX installer"
-              ]
+              "name": "msix"
             },
             {
-              "name": "msu",
-              "tip": [
-                "Use MSU installer"
-              ]
+              "name": "msu"
             },
             {
-              "name": "nullsoft",
-              "tip": [
-                "Use Nullsoft Installer installer"
-              ]
+              "name": "nullsoft"
             },
             {
-              "name": "wix",
-              "tip": [
-                "Use WiX installer"
-              ]
+              "name": "wix"
             },
             {
-              "name": "zip",
-              "tip": [
-                "Use ZIP archive"
-              ]
+              "name": "zip"
             }
           ]
         },
@@ -622,13 +973,14 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__interactive }}"
+            "Request interactive install; may require user input"
           ]
         },
         {
           "name": "--locale",
           "tip": [
-            "{{ $info.__locale }}"
+            "U: --locale <locale>",
+            "Locale to use (BCP 47 format)"
           ],
           "next": 0
         },
@@ -638,7 +990,8 @@
             "-l"
           ],
           "tip": [
-            "{{ $info.__location }}"
+            "U: -l, --location <path>",
+            "Location to install to (if supported)"
           ],
           "next": 0
         },
@@ -648,7 +1001,8 @@
             "-o"
           ],
           "tip": [
-            "{{ $info.__log }}"
+            "U: -o, --log <path>",
+            "Log location (if supported)"
           ],
           "next": 0
         },
@@ -658,34 +1012,36 @@
             "-m"
           ],
           "tip": [
-            "{{ $info.__manifest }}"
+            "U: -m, --manifest <path>",
+            "Path to the package manifest"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "Filter results by moniker"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "Filter results by name"
           ],
           "next": 0
         },
         {
           "name": "--no-upgrade",
           "tip": [
-            "{{ $info.__no_upgrade }}"
+            "Skip upgrade if the installed version is already present"
           ]
         },
         {
           "name": "--override",
           "tip": [
-            "{{ $info.__override }}"
+            "U: --override <args>",
+            "Override arguments to be passed to the installer"
           ],
           "next": 0
         },
@@ -695,7 +1051,8 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "Query used to search for a package"
           ],
           "next": 0
         },
@@ -705,26 +1062,27 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__rename }}"
+            "U: -r, --rename <name>",
+            "Value to rename the executable to (portable)"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "Select the install scope (user or machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "Install the package for all users on the machine"
+                "Install for all users on the machine"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "Install the package for the current user"
+                "Install for the current user"
               ]
             }
           ]
@@ -732,10 +1090,16 @@
         {
           "name": "--silent",
           "alias": [
-            "-q"
+            "-h"
           ],
           "tip": [
-            "{{ $info.__silent }}"
+            "Request silent install"
+          ]
+        },
+        {
+          "name": "--skip-dependencies",
+          "tip": [
+            "Skip processing package dependencies and Windows features"
           ]
         },
         {
@@ -744,14 +1108,15 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "Find package using the specified source"
           ],
           "next": 0
         },
         {
           "name": "--uninstall-previous",
           "tip": [
-            "{{ $info.__uninstall_previous }}"
+            "Uninstall the previous version during upgrade"
           ]
         },
         {
@@ -760,7 +1125,8 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "Use the specified version; default is latest"
           ],
           "next": 0
         }
@@ -772,14 +1138,49 @@
         "ls"
       ],
       "tip": [
-        "U: ls|list",
-        "List installed packages"
+        "U: list|ls",
+        "Display installed packages"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
+          ]
+        },
+        {
+          "name": "--ascending",
+          "alias": [
+            "--asc"
+          ],
+          "tip": [
+            "Sort results in ascending order"
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
           ]
         },
         {
@@ -788,7 +1189,7 @@
             "--cmd"
           ],
           "tip": [
-            "{{ $info.__command }}"
+            "Filter results by command"
           ],
           "next": 0
         },
@@ -798,9 +1199,25 @@
             "-n"
           ],
           "tip": [
-            "{{ $info.__count }}"
+            "U: -n, --count <count>",
+            "Show a specified number of results (1 to 1000)"
           ],
           "next": 0
+        },
+        {
+          "name": "--descending",
+          "alias": [
+            "--desc"
+          ],
+          "tip": [
+            "Sort results in descending order"
+          ]
+        },
+        {
+          "name": "--details",
+          "tip": [
+            "Display detailed information about the package"
+          ]
         },
         {
           "name": "--exact",
@@ -808,34 +1225,54 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "Require exact match"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "Filter results by id"
           ],
           "next": 0
         },
         {
+          "name": "--include-pinned",
+          "alias": [
+            "--pinned"
+          ],
+          "tip": [
+            "List packages even if they have a pin blocking upgrade"
+          ]
+        },
+        {
+          "name": "--include-unknown",
+          "alias": [
+            "--unknown",
+            "-u"
+          ],
+          "tip": [
+            "List packages even if the current version cannot be determined"
+          ]
+        },
+        {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "Filter results by moniker"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "Filter results by name"
           ],
           "next": 0
         },
@@ -845,7 +1282,36 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "Query used to search for a package"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "Select the installed package scope filter (user or machine)"
+          ],
+          "next": [
+            {
+              "name": "machine",
+              "tip": [
+                "Filter for all users on the machine"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "Filter for current user"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "U: --sort <property>",
+            "Sort results by property (repeatable)"
           ],
           "next": 0
         },
@@ -855,21 +1321,42 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "Find package using the specified source"
           ],
           "next": 0
         },
         {
           "name": "--tag",
           "tip": [
-            "{{ $info.__tag }}"
+            "Filter results by tag"
           ],
           "next": 0
         },
         {
-          "name": "--versions",
+          "name": "--upgrade-available",
           "tip": [
-            "{{ $info.__versions }}"
+            "Only list packages that have an update available"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "MCP (Model Context Protocol) information for WinGet"
+      ],
+      "option": [
+        {
+          "name": "--disable",
+          "tip": [
+            "Disable the extension feature. Requires store permission."
+          ]
+        },
+        {
+          "name": "--enable",
+          "tip": [
+            "Enable the extension feature. Requires store access."
           ]
         }
       ]
@@ -884,63 +1371,492 @@
           "name": "add",
           "tip": [
             "Add a new package pin"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "Accept all source agreements during source operations"
+              ]
+            },
+            {
+              "name": "--authentication-account",
+              "tip": [
+                "U: --authentication-account <account>",
+                "Specify the account for authentication"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--authentication-mode",
+              "tip": [
+                "U: --authentication-mode <mode>",
+                "Specify authentication window preference (silent, silentPreferred or interactive)"
+              ],
+              "next": [
+                {
+                  "name": "interactive"
+                },
+                {
+                  "name": "silent"
+                },
+                {
+                  "name": "silentPreferred"
+                }
+              ]
+            },
+            {
+              "name": "--blocking",
+              "tip": [
+                "Block upgrades until the pin is removed; alternative parameter"
+              ]
+            },
+            {
+              "name": "--command",
+              "alias": [
+                "--cmd"
+              ],
+              "tip": [
+                "Filter results by command"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exact",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "Require exact match"
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Force the direct run of the command and continue processing regardless of safety concerns"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "Optional Windows-Package-Manager REST source HTTP header"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--id",
+              "tip": [
+                "Filter results by id"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--installed",
+              "tip": [
+                "Pin the specific installed version"
+              ]
+            },
+            {
+              "name": "--moniker",
+              "tip": [
+                "Filter results by moniker"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "Filter results by name"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--query",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --query <query>",
+                "Query used to search for a package"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "Find package using the specified source"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "tip": [
+                "Filter results by tag"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <version>",
+                "Version to pin to. Wildcard * allowed as last version part"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "List current package pins"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "Accept all source agreements during source operations"
+              ]
+            },
+            {
+              "name": "--authentication-account",
+              "tip": [
+                "U: --authentication-account <account>",
+                "Specify the account for authentication"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--authentication-mode",
+              "tip": [
+                "U: --authentication-mode <mode>",
+                "Specify authentication window preference (silent, silentPreferred or interactive)"
+              ],
+              "next": [
+                {
+                  "name": "interactive"
+                },
+                {
+                  "name": "silent"
+                },
+                {
+                  "name": "silentPreferred"
+                }
+              ]
+            },
+            {
+              "name": "--command",
+              "alias": [
+                "--cmd"
+              ],
+              "tip": [
+                "Filter results by command"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exact",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "Require exact match"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "Optional Windows-Package-Manager REST source HTTP header"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--id",
+              "tip": [
+                "Filter results by id"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--moniker",
+              "tip": [
+                "Filter results by moniker"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "Filter results by name"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--query",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --query <query>",
+                "Query used to search for a package"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "Find package using the specified source"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "tip": [
+                "Filter results by tag"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "remove",
           "tip": [
             "Remove a package pin"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "Accept all source agreements during source operations"
+              ]
+            },
+            {
+              "name": "--authentication-account",
+              "tip": [
+                "U: --authentication-account <account>",
+                "Specify the account for authentication"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--authentication-mode",
+              "tip": [
+                "U: --authentication-mode <mode>",
+                "Specify authentication window preference (silent, silentPreferred or interactive)"
+              ],
+              "next": [
+                {
+                  "name": "interactive"
+                },
+                {
+                  "name": "silent"
+                },
+                {
+                  "name": "silentPreferred"
+                }
+              ]
+            },
+            {
+              "name": "--command",
+              "alias": [
+                "--cmd"
+              ],
+              "tip": [
+                "Filter results by command"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exact",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "Require exact match"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "Optional Windows-Package-Manager REST source HTTP header"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--id",
+              "tip": [
+                "Filter results by id"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--installed",
+              "tip": [
+                "Pin the specific installed version"
+              ]
+            },
+            {
+              "name": "--moniker",
+              "tip": [
+                "Filter results by moniker"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "Filter results by name"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--query",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --query <query>",
+                "Query used to search for a package"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "Find package using the specified source"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "tip": [
+                "Filter results by tag"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "reset",
           "tip": [
-            "Reset package pins"
+            "Reset all existing package pins"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Force the direct run of the command and continue processing regardless of safety concerns"
+              ]
+            },
+            {
+              "name": "--source",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --source <source>",
+                "Find package using the specified source"
+              ],
+              "next": 0
+            }
           ]
         }
       ]
     },
     {
-      "name": "search",
+      "name": "repair",
       "alias": [
-        "find"
+        "fix"
       ],
       "tip": [
-        "U: search|find",
-        "Search for packages from configured sources"
+        "U: repair|fix <query>",
+        "Repair the selected package"
       ],
       "option": [
         {
-          "name": "--accept-source-agreements",
+          "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all package license agreements"
           ]
         },
         {
-          "name": "--command",
+          "name": "--accept-source-agreements",
+          "tip": [
+            "Accept all source agreements during source operations"
+          ]
+        },
+        {
+          "name": "--architecture",
           "alias": [
-            "--cmd"
+            "-a"
           ],
           "tip": [
-            "{{ $info.__command }}"
+            "U: -a, --architecture <arch>",
+            "Select the architecture"
+          ],
+          "next": [
+            {
+              "name": "arm64",
+              "tip": [
+                "Use arm64 architecture"
+              ]
+            },
+            {
+              "name": "x64",
+              "tip": [
+                "Use x64 architecture"
+              ]
+            },
+            {
+              "name": "x86",
+              "tip": [
+                "Use x86 architecture"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
           ],
           "next": 0
         },
         {
-          "name": "--count",
-          "alias": [
-            "-n"
-          ],
+          "name": "--authentication-mode",
           "tip": [
-            "{{ $info.__count }}"
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
+          ]
         },
         {
           "name": "--exact",
@@ -948,34 +1864,100 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "Require exact match"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force the direct run of the command and continue processing regardless of safety concerns"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "Filter results by id"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-local-archive-malware-scan",
+          "tip": [
+            "Ignore malware scan when installing archive packages from local manifest"
+          ]
+        },
+        {
+          "name": "--ignore-security-hash",
+          "tip": [
+            "Ignore installer hash check failure"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "Request interactive install; may require user input"
+          ]
+        },
+        {
+          "name": "--locale",
+          "tip": [
+            "U: --locale <locale>",
+            "Locale to use (BCP 47 format)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--log",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --log <path>",
+            "Log location (if supported)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manifest <path>",
+            "Path to the package manifest"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "Filter results by moniker"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "Filter results by name"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--product-code",
+          "tip": [
+            "U: --product-code <code>",
+            "Filter results by product code"
           ],
           "next": 0
         },
@@ -985,7 +1967,173 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "Query used to search for a package"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "Select the installed package scope filter (user or machine)"
+          ],
+          "next": [
+            {
+              "name": "machine",
+              "tip": [
+                "Filter for all users on the machine"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "Filter for current user"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-h"
+          ],
+          "tip": [
+            "Request silent install"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <source>",
+            "Find package using the specified source"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --version <version>",
+            "Use the specified version"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "alias": [
+        "find"
+      ],
+      "tip": [
+        "U: search|find <query>",
+        "Search for packages from configured sources"
+      ],
+      "option": [
+        {
+          "name": "--accept-source-agreements",
+          "tip": [
+            "Accept all source agreements during source operations"
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
+          ]
+        },
+        {
+          "name": "--command",
+          "alias": [
+            "--cmd"
+          ],
+          "tip": [
+            "Filter results by command"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--count",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --count <count>",
+            "Show a specified number of results (1 to 1000)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "Require exact match"
+          ]
+        },
+        {
+          "name": "--header",
+          "tip": [
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--id",
+          "tip": [
+            "Filter results by id"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--moniker",
+          "tip": [
+            "Filter results by moniker"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "Filter results by name"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --query <query>",
+            "Query used to search for a package"
           ],
           "next": 0
         },
@@ -995,27 +2143,31 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "Find package using the specified source"
           ],
           "next": 0
         },
         {
           "name": "--tag",
           "tip": [
-            "{{ $info.__tag }}"
+            "Filter results by tag"
           ],
           "next": 0
         },
         {
           "name": "--versions",
           "tip": [
-            "{{ $info.__versions }}"
+            "Display available versions of the package"
           ]
         }
       ]
     },
     {
       "name": "settings",
+      "alias": [
+        "config"
+      ],
       "tip": [
         "Open settings or set administrator settings"
       ],
@@ -1041,22 +2193,54 @@
         {
           "name": "export",
           "tip": [
-            "Export settings"
+            "Export settings as JSON"
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "Reset administrator settings to their default values"
           ],
           "option": [
             {
-              "name": "--disable",
+              "name": "--recurse",
+              "alias": [
+                "--all",
+                "-r"
+              ],
               "tip": [
-                "U: --disable <setting>",
-                "Disable specific administrator settings"
+                "Reset all administrator settings"
+              ]
+            },
+            {
+              "name": "--setting",
+              "tip": [
+                "U: --setting <name>",
+                "Name of the setting to reset"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set the value of an administrator setting"
+          ],
+          "option": [
+            {
+              "name": "--setting",
+              "tip": [
+                "U: --setting <name>",
+                "Name of the setting to modify"
               ],
               "next": 0
             },
             {
-              "name": "--enable",
+              "name": "--value",
               "tip": [
-                "U: --enable <setting>",
-                "Enable specific administrator settings"
+                "U: --value <value>",
+                "Value to set for the setting"
               ],
               "next": 0
             }
@@ -1070,16 +2254,14 @@
         "view"
       ],
       "tip": [
-        "U: show|view",
-        "Display information about a specific package.",
-        "By default, the query must match the package's ID, name, or moniker in a case-insensitive manner.",
-        "Other fields can be used by passing the respective options."
+        "U: show|view <query>",
+        "Display information about a specific package"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
           ]
         },
         {
@@ -1088,26 +2270,53 @@
             "-a"
           ],
           "tip": [
-            "{{ $info.__architecture }}"
+            "U: -a, --architecture <arch>",
+            "Select the architecture"
           ],
           "next": [
             {
               "name": "arm64",
               "tip": [
-                "Install the package for arm64 architecture"
+                "Use arm64 architecture"
               ]
             },
             {
               "name": "x64",
               "tip": [
-                "Install the package for x64 architecture"
+                "Use x64 architecture"
               ]
             },
             {
               "name": "x86",
               "tip": [
-                "Install the package for x86 architecture"
+                "Use x86 architecture"
               ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
             }
           ]
         },
@@ -1117,103 +2326,89 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "Require exact match"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "Filter results by id"
           ],
           "next": 0
         },
         {
           "name": "--installer-type",
           "tip": [
-            "{{ $info.__installer_type }}"
+            "Select the installer type"
           ],
           "next": [
             {
-              "name": "appx",
-              "tip": [
-                "Use APPX installer"
-              ]
+              "name": "appx"
             },
             {
-              "name": "exe",
-              "tip": [
-                "Use EXE installer"
-              ]
+              "name": "exe"
             },
             {
-              "name": "inno",
-              "tip": [
-                "Use Inno Setup installer"
-              ]
+              "name": "inno"
             },
             {
-              "name": "msi",
-              "tip": [
-                "Use MSI installer"
-              ]
+              "name": "msi"
             },
             {
-              "name": "msix",
-              "tip": [
-                "Use MSIX installer"
-              ]
+              "name": "msix"
             },
             {
-              "name": "msu",
-              "tip": [
-                "Use MSU installer"
-              ]
+              "name": "msu"
             },
             {
-              "name": "nullsoft",
-              "tip": [
-                "Use Nullsoft Installer installer"
-              ]
+              "name": "nullsoft"
             },
             {
-              "name": "wix",
-              "tip": [
-                "Use WiX installer"
-              ]
+              "name": "wix"
             },
             {
-              "name": "zip",
-              "tip": [
-                "Use ZIP archive"
-              ]
+              "name": "zip"
             }
           ]
         },
         {
           "name": "--locale",
           "tip": [
-            "{{ $info.__locale }}"
+            "U: --locale <locale>",
+            "Locale to use (BCP 47 format)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manifest",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manifest <path>",
+            "Path to the package manifest"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "Filter results by moniker"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "Filter results by name"
           ],
           "next": 0
         },
@@ -1223,26 +2418,27 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "Query used to search for a package"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "Select the install scope (user or machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "Install the package for all users on the machine"
+                "Install for all users on the machine"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "Install the package for the current user"
+                "Install for the current user"
               ]
             }
           ]
@@ -1253,7 +2449,8 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "Find package using the specified source"
           ],
           "next": 0
         },
@@ -1263,14 +2460,15 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "Use the specified version; default is latest"
           ],
           "next": 0
         },
         {
           "name": "--versions",
           "tip": [
-            "{{ $info.__versions }}"
+            "Display available versions of the package"
           ]
         }
       ]
@@ -1285,36 +2483,227 @@
           "name": "add",
           "tip": [
             "Add a new source"
+          ],
+          "option": [
+            {
+              "name": "--accept-source-agreements",
+              "tip": [
+                "Accept all source agreements during source operations"
+              ]
+            },
+            {
+              "name": "--arg",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --arg <arg>",
+                "Argument for the source"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--explicit",
+              "tip": [
+                "Exclude source from discovery unless specified"
+              ]
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <header>",
+                "Optional Windows-Package-Manager REST source HTTP header"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "Source name"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--trust-level",
+              "tip": [
+                "U: --trust-level <level>",
+                "Trust level for the source (none or trusted)"
+              ],
+              "next": [
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "trusted"
+                }
+              ]
+            },
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --type <type>",
+                "Source type"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "alias": [
+            "edit",
+            "set"
+          ],
+          "tip": [
+            "Edit the properties of an existing source"
+          ],
+          "option": [
+            {
+              "name": "--explicit",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --explicit <true|false>",
+                "Exclude source from discovery (true or false)"
+              ],
+              "next": [
+                {
+                  "name": "false"
+                },
+                {
+                  "name": "true"
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "Source name"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "export",
           "tip": [
-            "Export current sources"
+            "Export current sources as JSON for group policy"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "Source name"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
           "tip": [
             "List current sources"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "Source name"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "refresh",
+          "alias": [
+            "update"
+          ],
+          "tip": [
+            "Update current sources"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "Source name"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "remove",
+          "alias": [
+            "rm"
+          ],
           "tip": [
-            "Remove current source"
+            "Remove the specified source"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "Source name"
+              ],
+              "next": 0
+            }
           ]
         },
         {
           "name": "reset",
           "tip": [
-            "Reset sources"
-          ]
-        },
-        {
-          "name": "update",
-          "tip": [
-            "Update current source"
+            "Reset sources; removes all sources and adds defaults"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Force reset of sources"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --name <name>",
+                "Source name"
+              ],
+              "next": 0
+            }
           ]
         }
       ]
@@ -1326,14 +2715,14 @@
         "rm"
       ],
       "tip": [
-        "U: uninstall, rm, remove",
+        "U: uninstall|remove|rm <query>",
         "Uninstall the given package"
       ],
       "option": [
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
           ]
         },
         {
@@ -1342,7 +2731,33 @@
             "--all"
           ],
           "tip": [
-            "Uninstall all versions."
+            "Uninstall all versions"
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
           ]
         },
         {
@@ -1351,26 +2766,27 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "Require exact match"
           ]
         },
         {
           "name": "--force",
           "tip": [
-            "{{ $info.__force }}"
+            "Force the direct run of the command and continue processing regardless of safety concerns"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "Filter results by id"
           ],
           "next": 0
         },
@@ -1380,15 +2796,8 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__interactive }}"
+            "Request interactive install; may require user input"
           ]
-        },
-        {
-          "name": "--locale",
-          "tip": [
-            "{{ $info.__locale }}"
-          ],
-          "next": 0
         },
         {
           "name": "--log",
@@ -1396,7 +2805,8 @@
             "-o"
           ],
           "tip": [
-            "{{ $info.__log }}"
+            "U: -o, --log <path>",
+            "Log location (if supported)"
           ],
           "next": 0
         },
@@ -1406,21 +2816,22 @@
             "-m"
           ],
           "tip": [
-            "{{ $info.__manifest }}"
+            "U: -m, --manifest <path>",
+            "Path to the package manifest"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "Filter results by moniker"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "Filter results by name"
           ],
           "next": 0
         },
@@ -1433,7 +2844,7 @@
         {
           "name": "--product-code",
           "tip": [
-            "U: --product-code <product-code>",
+            "U: --product-code <code>",
             "Filter results by product code"
           ],
           "next": 0
@@ -1441,7 +2852,7 @@
         {
           "name": "--purge",
           "tip": [
-            "{{ $info.__purge }}"
+            "Delete all files and directories in the package directory (portable)"
           ]
         },
         {
@@ -1450,26 +2861,27 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "Query used to search for a package"
           ],
           "next": 0
         },
         {
           "name": "--scope",
           "tip": [
-            "{{ $info.__scope }}"
+            "Select the installed package scope filter (user or machine)"
           ],
           "next": [
             {
               "name": "machine",
               "tip": [
-                "Install the package for all users on the machine"
+                "Filter for all users on the machine"
               ]
             },
             {
               "name": "user",
               "tip": [
-                "Install the package for the current user"
+                "Filter for current user"
               ]
             }
           ]
@@ -1477,10 +2889,10 @@
         {
           "name": "--silent",
           "alias": [
-            "-q"
+            "-h"
           ],
           "tip": [
-            "{{ $info.__silent }}"
+            "Request silent install"
           ]
         },
         {
@@ -1489,7 +2901,8 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "Find package using the specified source"
           ],
           "next": 0
         },
@@ -1499,7 +2912,8 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "Version to uninstall"
           ],
           "next": 0
         }
@@ -1511,26 +2925,89 @@
         "update"
       ],
       "tip": [
-        "U: update|upgrade",
-        "Update installed packages to the latest available version"
+        "U: upgrade|update <query>",
+        "Display and perform available upgrades"
       ],
       "option": [
         {
           "name": "--accept-package-agreements",
           "tip": [
-            "{{ $info.__accept_package_agreements }}"
+            "Accept all package license agreements"
           ]
         },
         {
           "name": "--accept-source-agreements",
           "tip": [
-            "{{ $info.__accept_source_agreements }}"
+            "Accept all source agreements during source operations"
+          ]
+        },
+        {
+          "name": "--allow-reboot",
+          "tip": [
+            "Allow reboot if applicable"
+          ]
+        },
+        {
+          "name": "--architecture",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --architecture <arch>",
+            "Select the architecture"
+          ],
+          "next": [
+            {
+              "name": "arm64",
+              "tip": [
+                "Use arm64 architecture"
+              ]
+            },
+            {
+              "name": "x64",
+              "tip": [
+                "Use x64 architecture"
+              ]
+            },
+            {
+              "name": "x86",
+              "tip": [
+                "Use x86 architecture"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--authentication-account",
+          "tip": [
+            "U: --authentication-account <account>",
+            "Specify the account for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--authentication-mode",
+          "tip": [
+            "U: --authentication-mode <mode>",
+            "Specify authentication window preference (silent, silentPreferred or interactive)"
+          ],
+          "next": [
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "silent"
+            },
+            {
+              "name": "silentPreferred"
+            }
           ]
         },
         {
           "name": "--custom",
           "tip": [
-            "{{ $info.__custom }}"
+            "U: --custom <args>",
+            "Arguments passed to the installer beyond defaults"
           ],
           "next": 0
         },
@@ -1540,39 +3017,40 @@
             "-e"
           ],
           "tip": [
-            "{{ $info.__exact }}"
+            "Require exact match"
           ]
         },
         {
           "name": "--force",
           "tip": [
-            "{{ $info.__force }}"
+            "Force the direct run of the command and continue processing regardless of safety concerns"
           ]
         },
         {
           "name": "--header",
           "tip": [
-            "{{ $info.__header }}"
+            "U: --header <header>",
+            "Optional Windows-Package-Manager REST source HTTP header"
           ],
           "next": 0
         },
         {
           "name": "--id",
           "tip": [
-            "{{ $info.__id }}"
+            "Filter results by id"
           ],
           "next": 0
         },
         {
           "name": "--ignore-local-archive-malware-scan",
           "tip": [
-            "{{ $info.__ignore_local_archive_malware_scan }}"
+            "Ignore malware scan when installing archive packages from local manifest"
           ]
         },
         {
           "name": "--ignore-security-hash",
           "tip": [
-            "{{ $info.__ignore_security_hash }}"
+            "Ignore installer hash check failure"
           ]
         },
         {
@@ -1581,7 +3059,7 @@
             "--pinned"
           ],
           "tip": [
-            "{{ $info.__pinned }}"
+            "Upgrade packages that have a non-blocking pin"
           ]
         },
         {
@@ -1591,7 +3069,42 @@
             "-u"
           ],
           "tip": [
-            "{{ $info.__unknown }}"
+            "Upgrade packages even if the current version cannot be determined"
+          ]
+        },
+        {
+          "name": "--installer-type",
+          "tip": [
+            "Select the installer type"
+          ],
+          "next": [
+            {
+              "name": "appx"
+            },
+            {
+              "name": "exe"
+            },
+            {
+              "name": "inno"
+            },
+            {
+              "name": "msi"
+            },
+            {
+              "name": "msix"
+            },
+            {
+              "name": "msu"
+            },
+            {
+              "name": "nullsoft"
+            },
+            {
+              "name": "wix"
+            },
+            {
+              "name": "zip"
+            }
           ]
         },
         {
@@ -1600,8 +3113,16 @@
             "-i"
           ],
           "tip": [
-            "{{ $info.__interactive }}"
+            "Request interactive install; may require user input"
           ]
+        },
+        {
+          "name": "--locale",
+          "tip": [
+            "U: --locale <locale>",
+            "Locale to use (BCP 47 format)"
+          ],
+          "next": 0
         },
         {
           "name": "--location",
@@ -1609,7 +3130,8 @@
             "-l"
           ],
           "tip": [
-            "{{ $info.__location }}"
+            "U: -l, --location <path>",
+            "Location to install to (if supported)"
           ],
           "next": 0
         },
@@ -1619,7 +3141,8 @@
             "-o"
           ],
           "tip": [
-            "{{ $info.__log }}"
+            "U: -o, --log <path>",
+            "Log location (if supported)"
           ],
           "next": 0
         },
@@ -1629,35 +3152,37 @@
             "-m"
           ],
           "tip": [
-            "{{ $info.__manifest }}"
+            "U: -m, --manifest <path>",
+            "Path to the package manifest"
           ],
           "next": 0
         },
         {
           "name": "--moniker",
           "tip": [
-            "{{ $info.__moniker }}"
+            "Filter results by moniker"
           ],
           "next": 0
         },
         {
           "name": "--name",
           "tip": [
-            "{{ $info.__name }}"
+            "Filter results by name"
           ],
           "next": 0
         },
         {
           "name": "--override",
           "tip": [
-            "{{ $info.__override }}"
+            "U: --override <args>",
+            "Override arguments to be passed to the installer"
           ],
           "next": 0
         },
         {
           "name": "--purge",
           "tip": [
-            "{{ $info.__purge }}"
+            "Delete all files and directories in the package directory (portable)"
           ]
         },
         {
@@ -1666,7 +3191,8 @@
             "-q"
           ],
           "tip": [
-            "{{ $info.__query }}"
+            "U: -q, --query <query>",
+            "Query used to search for a package"
           ],
           "next": 0
         },
@@ -1677,22 +3203,42 @@
             "-r"
           ],
           "tip": [
-            "{{ $info.__recurse }}"
+            "Update all installed packages to the latest version if available"
+          ]
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "Select the installed package scope filter (user or machine)"
+          ],
+          "next": [
+            {
+              "name": "machine",
+              "tip": [
+                "Filter for all users on the machine"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "Filter for current user"
+              ]
+            }
           ]
         },
         {
           "name": "--silent",
           "alias": [
-            "-q"
+            "-h"
           ],
           "tip": [
-            "{{ $info.__silent }}"
+            "Request silent install"
           ]
         },
         {
           "name": "--skip-dependencies",
           "tip": [
-            "{{ $info.__skip_dependencies }}"
+            "Skip processing package dependencies and Windows features"
           ]
         },
         {
@@ -1701,14 +3247,15 @@
             "-s"
           ],
           "tip": [
-            "{{ $info.__source }}"
+            "U: -s, --source <source>",
+            "Find package using the specified source"
           ],
           "next": 0
         },
         {
           "name": "--uninstall-previous",
           "tip": [
-            "{{ $info.__uninstall_previous }}"
+            "Uninstall the previous version during upgrade"
           ]
         },
         {
@@ -1717,7 +3264,8 @@
             "-v"
           ],
           "tip": [
-            "{{ $info.__version }}"
+            "U: -v, --version <version>",
+            "Use the specified version; default is latest"
           ],
           "next": 0
         }
@@ -1731,12 +3279,9 @@
       "option": [
         {
           "name": "--manifest",
-          "alias": [
-            "-m"
-          ],
           "tip": [
-            "U: -m, --manifest <manifest>",
-            "Path to the manifest file to be validated"
+            "U: --manifest <path>",
+            "Path to the manifest to validate"
           ],
           "next": 0
         }
@@ -1756,7 +3301,6 @@
         "-v"
       ],
       "tip": [
-        "U: -v, --version",
         "Display the version of the tool"
       ]
     }
@@ -1774,8 +3318,22 @@
         "-?"
       ],
       "tip": [
-        "U: -?, --help",
-        "Display help information for the selected command"
+        "Display help for the selected command"
+      ]
+    },
+    {
+      "name": "--ignore-warnings",
+      "alias": [
+        "--nowarn"
+      ],
+      "tip": [
+        "Suppress warning output"
+      ]
+    },
+    {
+      "name": "--no-proxy",
+      "tip": [
+        "Disable proxy for this execution"
       ]
     },
     {
@@ -1784,9 +3342,16 @@
         "--logs"
       ],
       "tip": [
-        "U: --logs, --open-logs",
         "Open the default log location"
       ]
+    },
+    {
+      "name": "--proxy",
+      "tip": [
+        "U: --proxy <proxy>",
+        "Set proxy to use for this execution"
+      ],
+      "next": 0
     },
     {
       "name": "--verbose-logs",
@@ -1794,167 +3359,14 @@
         "--verbose"
       ],
       "tip": [
-        "U: --verbose, --verbose-logs",
-        "Enable detailed logging for WinGet"
+        "Enable verbose logging for WinGet"
       ]
     },
     {
       "name": "--wait",
       "tip": [
-        "Prompt the user to press any key before exiting"
+        "Prompt user before exiting"
       ]
     }
-  ],
-  "info": {
-    "__accept_package_agreements": "Used to accept license agreements and avoid prompts",
-    "__accept_source_agreements": "Used to accept source license agreements and avoid prompts",
-    "__architecture": [
-      "U: -a, --architecture <arch>\n",
-      "Use the specified architecture\n",
-      "E: -a x64"
-    ],
-    "__command": [
-      "U: --cmd, --command <command>\n",
-      "Filter results by command\n",
-      "E: --command \"winget install\""
-    ],
-    "__count": [
-      "U: -n, --count <count>\n",
-      "Display no more than the specified number of results (1-1000)\n",
-      "E: --count 10"
-    ],
-    "__custom": [
-      "U: --custom <custom>\n",
-      "Parameters to pass to the installer in addition to default values\n",
-      "E: --custom \"/q /norestart\""
-    ],
-    "__dependency_source": [
-      "U: --dependency-source <source>\n",
-      "Use the specified source to find package dependencies\n",
-      "E: --dependency-source winget"
-    ],
-    "__exact": [
-      "U: -e, --exact\n",
-      "Use exact string in the query, including case sensitivity. It won't use substring default behavior"
-    ],
-    "__file": [
-      "U: -f, --file <file>\n",
-      "Path to the configuration file"
-    ],
-    "__force": "Run the command directly and proceed even if there are non-security-related issues",
-    "__header": [
-      "U: --header <header>\n",
-      "Optional Windows Package Manager REST source HTTP headers\n",
-      "E: --header \"Authorization: Bearer <token>\""
-    ],
-    "__id": [
-      "U: --id <id>\n",
-      "Filter results by package ID\n",
-      "E: --id Microsoft.VisualStudioCode"
-    ],
-    "__ignore_local_archive_malware_scan": "Ignore malware scan performed as part of installing archive type packages from local manifest",
-    "__ignore_security_hash": "Override installer hash checking. Not recommended",
-    "__installer_type": [
-      "U: --installer-type <type>\n",
-      "Select the installer type to use for the package\n",
-      "E: --installer-type msi"
-    ],
-    "__interactive": [
-      "U: -i, --interactive\n",
-      "Run installer in interactive mode.\n",
-      "Default experience displays installer progress"
-    ],
-    "__locale": [
-      "U: --locale <locale>\n",
-      "Specify the locale to use (BCP47 format)\n",
-      "E: --locale zh-CN"
-    ],
-    "__location": [
-      "U: -l, --location <location>\n",
-      "Location to install to, if supported\n",
-      "E: -l \"D:\\software\""
-    ],
-    "__log": [
-      "U: -o, --log <log>\n",
-      "Redirect logging to a log file.\n",
-      "Must provide the path to a file you have write permissions for\n",
-      "E: -o \"D:\\winget-install.log\""
-    ],
-    "__manifest": [
-      "U: -m, --manifest <manifest>\n",
-      "Path to the package manifest (YAML) file\n",
-      "Use manifest to run the installation experience from a local YAML file"
-    ],
-    "__module_path": [
-      "U: --module-path <path>\n",
-      "Specify the location on the local computer for storing modules.\n",
-      "Default: %LOCALAPPDATA%\\Microsoft\\WinGet\\Configuration\\Modules"
-    ],
-    "__moniker": [
-      "U: --moniker <moniker>\n",
-      "Filter results by package moniker\n",
-      "E: --moniker \"vscode\""
-    ],
-    "__name": [
-      "U: --name <name>\n",
-      "Filter results by package name\n",
-      "E: --name \"Visual Studio Code\""
-    ],
-    "__no_upgrade": "Skip package upgrade if an installed version already exists",
-    "__override": [
-      "U: --override <override>\n",
-      "Strings to pass directly to the installer\n",
-      "E: --override \"/q /norestart\""
-    ],
-    "__pinned": [
-      "U: --pinned, --include-pinned\n",
-      "Update package even if it has non-blocking package pins"
-    ],
-    "__purge": "Delete all files and directories in the package directory (portable)",
-    "__query": [
-      "U: -q, --query <query>...\n",
-      "Query used for searching packages"
-    ],
-    "__recurse": [
-      "U: -r, --recurse, --all\n",
-      "Update all installed packages to the latest version if available"
-    ],
-    "__rename": [
-      "U: -r, --rename <value>\n",
-      "Value to rename the executable (portable)\n",
-      "E: -r \"New Name\""
-    ],
-    "__scope": [
-      "U: --scope <scope>\n",
-      "Select installation scope (user or machine)\n",
-      "E: --scope user"
-    ],
-    "__silent": [
-      "U: -q, --silent\n",
-      "Run installer in silent mode.\n",
-      "Default experience doesn't display installer progress"
-    ],
-    "__skip_dependencies": "Skip processing package dependencies and Windows features",
-    "__source": [
-      "U: -s, --source <source>\n",
-      "Query packages using the specified source, must be followed by source name\n",
-      "E: -s winget"
-    ],
-    "__tag": [
-      "U: --tag <tag>\n",
-      "Filter results by package tag\n",
-      "E: --tag \"recommended\""
-    ],
-    "__uninstall_previous": "Uninstall previous versions of the package during the upgrade process",
-    "__unknown": [
-      "U: -u, --unknown, --include-unknown\n",
-      "Update package even if its current version cannot be determined"
-    ],
-    "__version": [
-      "U: -v, --version <version>\n",
-      "Use the specified version, default is the latest version\n",
-      "E: -v 1.56.2"
-    ],
-    "__versions": "Display available versions of the package"
-  }
+  ]
 }

@@ -293,7 +293,7 @@
             "s"
           ],
           "tip": [
-            "Create or update a bookmark to point to a certain commit"
+            "Create a new bookmark, or update an existing one by name"
           ],
           "option": [
             {
@@ -347,6 +347,13 @@
         "Update the description and create a new change on top"
       ],
       "option": [
+        {
+          "name": "--editor",
+          "tip": [
+            "Open an editor to edit the change description",
+            "Forces an editor to open when using --message to allow the message to be edited afterwards"
+          ]
+        },
         {
           "name": "--interactive",
           "alias": [
@@ -586,7 +593,8 @@
         {
           "name": "--editor",
           "tip": [
-            "Open an editor to edit the change description"
+            "Open an editor to edit the change description",
+            "Forces an editor to open when using --stdin or --message to allow the message to be edited afterwards"
           ]
         },
         {
@@ -596,7 +604,8 @@
           ],
           "tip": [
             "U: -m, --message <MESSAGE>",
-            "The change description to use (don't open editor)"
+            "The change description to use (don't open editor)",
+            "If multiple revisions are specified, the same description will be used for all of them"
           ],
           "next": [
             {
@@ -608,16 +617,10 @@
           ]
         },
         {
-          "name": "--revision",
-          "alias": [
-            "-r"
-          ],
-          "next": []
-        },
-        {
           "name": "--stdin",
           "tip": [
-            "Read the change description from stdin"
+            "Read the change description from stdin",
+            "If multiple revisions are specified, the same description will be used for all of them"
           ]
         }
       ]
@@ -684,13 +687,14 @@
           ]
         },
         {
-          "name": "--revisions",
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "Show changes in these revisions"
+            "U: -r, --revision <REVSETS>",
+            "Show changes in these revisions",
+            "If there are multiple revisions, then the total diff for all of them will be shown"
           ],
           "next": []
         },
@@ -942,12 +946,12 @@
           ]
         },
         {
-          "name": "--revisions",
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
+            "U: -r, --revision <REVSETS>",
             "Follow changes from these revisions",
             "[default: @]"
           ],
@@ -1029,6 +1033,12 @@
           ]
         },
         {
+          "name": "search",
+          "tip": [
+            "Search for content in files"
+          ]
+        },
+        {
           "name": "show",
           "tip": [
             "Print contents of files in a revision"
@@ -1079,6 +1089,14 @@
       "name": "gerrit",
       "tip": [
         "Interact with Gerrit Code Review"
+      ],
+      "next": [
+        {
+          "name": "upload",
+          "tip": [
+            "Upload changes to Gerrit for code review, or update existing changes"
+          ]
+        }
       ]
     },
     {
@@ -1305,7 +1323,7 @@
                 "-b"
               ],
               "tip": [
-                "-b, --bookmark <BOOKMARK>",
+                "U: -b, --bookmark <BOOKMARK>",
                 "Push only this bookmark, or bookmarks matching a pattern (can be repeated)"
               ],
               "repeat": true,
@@ -1452,7 +1470,107 @@
     {
       "name": "interdiff",
       "tip": [
-        "Compare the changes of two commits"
+        "Show differences between the diffs of two revisions"
+      ],
+      "option": [
+        {
+          "name": "--color-words",
+          "tip": [
+            "Show a word-level diff with changes indicated only by color"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>",
+            "Number of lines of context to show"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--from",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>",
+            "The first revision to compare (default: @)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "Show a Git-format diff"
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --ignore-all-space",
+            "Ignore whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --ignore-space-change",
+            "Ignore changes in amount of whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "For each path, show only its path"
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show a histogram of the changes"
+          ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "For each path, show only whether it was modified, added, or deleted"
+          ]
+        },
+        {
+          "name": "--to",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --to <REVSET>",
+            "The second revision to compare (default: @)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>",
+            "Generate diff by external command"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "For each path, show only its type before and after"
+          ]
+        }
       ]
     },
     {
@@ -1461,6 +1579,52 @@
         "Show revision history"
       ],
       "option": [
+        {
+          "name": "--color-words",
+          "tip": [
+            "Show a word-level diff with changes indicated only by color"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <CONTEXT>",
+            "Number of lines of context to show"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--count",
+          "tip": [
+            "Print the number of commits instead of showing them"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "Show a Git-format diff"
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --ignore-all-space",
+            "Ignore whitespace when comparing lines"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --ignore-space-change",
+            "Ignore changes in amount of whitespace when comparing lines"
+          ]
+        },
         {
           "name": "--limit",
           "alias": [
@@ -1477,15 +1641,90 @@
           ]
         },
         {
-          "name": "--revisions",
+          "name": "--name-only",
+          "tip": [
+            "For each path, show only its path"
+          ]
+        },
+        {
+          "name": "--no-graph",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --no-graph",
+            "Don't show the graph, show a flat list of revisions"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Show patch"
+          ]
+        },
+        {
+          "name": "--reversed",
+          "tip": [
+            "Show revisions in the opposite order (older revisions first)"
+          ]
+        },
+        {
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
-            "Which revisions to show"
+            "U: -r, --revision <REVSETS>",
+            "Which revisions to show",
+            "If no paths nor revisions are specified, this defaults to the `revsets.log` setting"
           ],
           "next": []
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show a histogram of the changes"
+          ]
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --summary",
+            "For each path, show only whether it was modified, added, or deleted"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --template <TEMPLATE>",
+            "Render each revision using the given template",
+            "Run jj log -T to list the built-in templates"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <TOOL>",
+            "Generate diff by external command"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--types",
+          "tip": [
+            "For each path, show only its type before and after"
+          ]
         }
       ]
     },
@@ -1519,6 +1758,25 @@
           "name": "--force-rewrite",
           "tip": [
             "Rewrite the commit, even if no other metadata changed"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>",
+            "Update the change description",
+            "This updates the change description, without opening the editor"
+          ],
+          "next": [
+            {
+              "name": "'todo'"
+            },
+            {
+              "name": "'update'"
+            }
           ]
         },
         {
@@ -1656,6 +1914,12 @@
           ]
         },
         {
+          "name": "integrate",
+          "tip": [
+            "Make an operation part of the operation log"
+          ]
+        },
+        {
           "name": "log",
           "tip": [
             "Show the operation log"
@@ -1691,6 +1955,36 @@
       "name": "prev",
       "tip": [
         "Change the working copy revision relative to the parent revision"
+      ],
+      "option": [
+        {
+          "name": "--conflict",
+          "tip": [
+            "Jump to the previous conflicted ancestor"
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Edit the parent directly, instead of moving the working-copy commit",
+            "Takes precedence over config in ui.movement.edit"
+          ]
+        },
+        {
+          "name": "--no-edit",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-edit",
+            "The inverse of --edit",
+            "Takes precedence over config in ui.movement.edit"
+          ]
+        }
       ]
     },
     {
@@ -1707,6 +2001,20 @@
           "tip": [
             "U: -b, --branch <REVSETS>",
             "Rebase the whole branch relative to destination's ancestors (can be repeated)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "The revision(s) to rebase onto (can be repeated to create a merge commit)"
           ],
           "repeat": true,
           "next": []
@@ -1744,18 +2052,6 @@
           ]
         },
         {
-          "name": "--onto",
-          "alias": [
-            "-o"
-          ],
-          "tip": [
-            "U: -o, --onto <REVSETS>",
-            "The revision(s) to rebase onto (can be repeated to create a merge commit)"
-          ],
-          "repeat": true,
-          "next": []
-        },
-        {
           "name": "--revisions",
           "alias": [
             "-r"
@@ -1765,6 +2061,13 @@
             "Rebase the given revisions, rebasing descendants onto this revision's parent(s)"
           ],
           "next": []
+        },
+        {
+          "name": "--simplify-parents",
+          "tip": [
+            "Simplify parents of rebased commits, like jj simplify-parents, while rebasing them",
+            "Any parents that are ancestors of other parents will be removed"
+          ]
         },
         {
           "name": "--skip-emptied",
@@ -1839,12 +2142,125 @@
       "name": "restore",
       "tip": [
         "Restore paths from another revision"
+      ],
+      "option": [
+        {
+          "name": "--changes-in",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --changes-in <REVSET>",
+            "Undo the changes in a revision as compared to the merge of its parents",
+            "This undoes the changes that can be seen with jj diff -r REVSET"
+          ],
+          "next": []
+        },
+        {
+          "name": "--from",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --from <REVSET>",
+            "Revision to restore from (source)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Interactively choose which parts to restore"
+          ]
+        },
+        {
+          "name": "--into",
+          "alias": [
+            "--to",
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --into, --to <REVSET>",
+            "Revision to restore into (destination)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "Preserve the content (not the diff) when rebasing descendants"
+          ]
+        },
+        {
+          "name": "--tool",
+          "tip": [
+            "U: --tool <NAME>",
+            "Specify diff editor to be used (implies --interactive)"
+          ]
+        }
       ]
     },
     {
       "name": "revert",
       "tip": [
         "Apply the reverse of the given revision(s)"
+      ],
+      "option": [
+        {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "The revision(s) to apply the reverse changes on top of"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-after",
+          "alias": [
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "The revision(s) to insert the reverse changes after (can be repeated to create a merge commit)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "The revision(s) to insert the reverse changes before (can be repeated to create a merge commit)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "The revision(s) to apply the reverse of"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -1854,9 +2270,60 @@
       ]
     },
     {
+      "name": "run",
+      "tip": [
+        "Run a command across a set of revisions",
+        "Checks out each revision in an isolated working copy, runs the command, then amends the revision with the resulting working copy"
+      ],
+      "option": [
+        {
+          "name": "--clean",
+          "tip": [
+            "Delete each working copy before running the command",
+            "By default jj run reuses working copies between invocations so build artifacts are preserved"
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --jobs <JOBS>",
+            "How many processes should run in parallel",
+            "Overrides the run.jobs config setting. Defaults to 1 if neither is set"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--restore-descendants",
+          "tip": [
+            "Preserve the content (not the diff) when rebasing descendants"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "The revisions to change"
+          ],
+          "next": []
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "Run the command from the working-copy root in each commit instead of from the subdirectory jj run was invoked from"
+          ]
+        }
+      ]
+    },
+    {
       "name": "show",
       "tip": [
-        "Show commit description and changes in a revision"
+        "Show revision metadata and diff"
       ],
       "option": [
         {
@@ -1912,11 +2379,10 @@
           ]
         },
         {
-          "name": "--revision",
-          "alias": [
-            "-r"
-          ],
-          "next": []
+          "name": "--reversed",
+          "tip": [
+            "Show revisions in the opposite order (older revisions first)"
+          ]
         },
         {
           "name": "--stat",
@@ -1965,18 +2431,92 @@
       "name": "sign",
       "tip": [
         "Cryptographically sign a revision"
+      ],
+      "option": [
+        {
+          "name": "--key",
+          "tip": [
+            "U: --key <KEY>",
+            "The key used for signing"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "What revision(s) to sign",
+            "If no revisions are specified, this defaults to the `revsets.sign` setting"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "simplify-parents",
       "tip": [
         "Simplify parent edges for the specified revision(s)"
+      ],
+      "option": [
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --revision <REVSETS>",
+            "Simplify specified revision(s) (can be repeated)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <REVSETS>",
+            "Simplify specified revision(s) together with their trees of descendants (can be repeated)"
+          ],
+          "repeat": true,
+          "next": []
+        }
       ]
     },
     {
       "name": "sparse",
       "tip": [
         "Manage which paths from the working-copy commit are present in the working copy"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "Start an editor to update the patterns that are present in the working copy"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List the patterns that are currently present in the working copy"
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "Reset the patterns to include all files in the working copy"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Update the patterns that are present in the working copy"
+          ]
+        }
       ]
     },
     {
@@ -1987,12 +2527,92 @@
       ],
       "option": [
         {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "tip": [
+            "U: -o, --onto, -d, --destination <REVSETS>",
+            "The revision(s) to rebase the selected changes onto (can be repeated to create a merge commit)",
+            "Extracts the selected changes into a new commit based on the given revision(s)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--editor",
+          "tip": [
+            "Open an editor to edit the change description(s)",
+            "Forces an editor to open when using --message to allow the message to be edited afterward"
+          ]
+        },
+        {
+          "name": "--insert-after",
+          "alias": [
+            "--after",
+            "-A"
+          ],
+          "tip": [
+            "U: -A, --insert-after, --after <REVSETS>",
+            "The revision(s) to insert after (can be repeated to create a merge commit)",
+            "Extracts the selected changes into a new commit inserted after the given revision(s)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
+          "name": "--insert-before",
+          "alias": [
+            "--before",
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --insert-before, --before <REVSETS>",
+            "The revision(s) to insert before (can be repeated to create a merge commit)",
+            "Extracts the selected changes into a new commit inserted before the given revision(s)"
+          ],
+          "repeat": true,
+          "next": []
+        },
+        {
           "name": "--interactive",
           "alias": [
             "-i"
           ],
           "tip": [
-            "Interactively choose which parts to split"
+            "Interactively choose which parts to split",
+            "This is the default if no filesets are provided"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <MESSAGE>",
+            "The change description to use for the selected changes (don't open editor)",
+            "Sets the description for the revision containing the selected changes"
+          ],
+          "next": [
+            {
+              "name": "'todo'"
+            },
+            {
+              "name": "'update'"
+            }
+          ]
+        },
+        {
+          "name": "--parallel",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --parallel",
+            "Split the revision into two parallel revisions instead of a parent and child"
           ]
         },
         {
@@ -2020,6 +2640,13 @@
         "Move changes from a revision into another revision"
       ],
       "option": [
+        {
+          "name": "--editor",
+          "tip": [
+            "Open an editor to edit the change description",
+            "Forces an editor to open when using --message to allow the message to be edited afterwards"
+          ]
+        },
         {
           "name": "--from",
           "alias": [
@@ -2119,14 +2746,14 @@
           "next": []
         },
         {
-          "name": "--revisions",
+          "name": "--revision",
           "alias": [
             "-r"
           ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
+            "U: -r, --revision <REVSET>",
             "Revision to squash into its parent (default: @).",
-            "Incompatible with the experimental `-d`/`-A`/`-B` options"
+            "Incompatible with the experimental `-o`/`-A`/`-B` options"
           ],
           "next": []
         },
@@ -2166,13 +2793,23 @@
       ],
       "next": [
         {
+          "name": "delete",
+          "alias": [
+            "d"
+          ],
+          "tip": [
+            "Delete existing tags"
+          ],
+          "next": []
+        },
+        {
           "name": "list",
           "alias": [
             "l"
           ],
           "tip": [
             "U: l, list",
-            "List tags"
+            "List tags and their targets"
           ],
           "option": [
             {
@@ -2187,6 +2824,16 @@
               "next": 0
             }
           ]
+        },
+        {
+          "name": "set",
+          "alias": [
+            "s"
+          ],
+          "tip": [
+            "Create or update tags"
+          ],
+          "next": []
         }
       ]
     },

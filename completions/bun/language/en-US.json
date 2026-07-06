@@ -7,6 +7,50 @@
   },
   "root": [
     {
+      "name": "audit",
+      "tip": [
+        "U: audit [flags]",
+        "Check installed packages for vulnerabilities."
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "tip": [
+            "U: --audit-level <level>",
+            "Only print advisories with severity >= level (low, moderate, high, critical)."
+          ],
+          "next": [
+            {
+              "name": "critical"
+            },
+            {
+              "name": "high"
+            },
+            {
+              "name": "low"
+            },
+            {
+              "name": "moderate"
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <CVE>",
+            "Ignore specific CVE IDs from audit."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output in JSON format."
+          ]
+        }
+      ]
+    },
+    {
       "name": "build",
       "tip": [
         "U: build [...flags] [...entrypoints]",
@@ -15,12 +59,40 @@
       ],
       "option": [
         {
+          "name": "--allow-unresolved",
+          "tip": [
+            "U: --allow-unresolved <pattern>",
+            "Allow unresolved dynamic import()/require() specifiers matching these glob patterns."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--app",
+          "tip": [
+            "(EXPERIMENTAL) Build a web app for production using Bun Bake."
+          ]
+        },
+        {
           "name": "--asset-naming",
           "tip": [
             "U: --asset-naming <name>",
             "Customize asset filenames. Defaults to \"[name]-[hash].[ext]\""
           ],
           "next": 0
+        },
+        {
+          "name": "--banner",
+          "tip": [
+            "U: --banner <text>",
+            "Add a banner to the bundled output such as \"use client\"."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--bytecode",
+          "tip": [
+            "Use a bytecode cache."
+          ]
         },
         {
           "name": "--chunk-naming",
@@ -37,9 +109,61 @@
           ]
         },
         {
+          "name": "--compile-autoload-bunfig",
+          "tip": [
+            "Enable autoloading of bunfig.toml in standalone executable (default: true)."
+          ]
+        },
+        {
+          "name": "--compile-autoload-dotenv",
+          "tip": [
+            "Enable autoloading of .env files in standalone executable (default: true)."
+          ]
+        },
+        {
+          "name": "--compile-autoload-package-json",
+          "tip": [
+            "Enable autoloading of package.json at runtime in standalone executable (default: false)."
+          ]
+        },
+        {
+          "name": "--compile-autoload-tsconfig",
+          "tip": [
+            "Enable autoloading of tsconfig.json at runtime in standalone executable (default: false)."
+          ]
+        },
+        {
+          "name": "--compile-exec-argv",
+          "tip": [
+            "U: --compile-exec-argv <args>",
+            "Prepend arguments to the standalone executable's execArgv."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--compile-executable-path",
+          "tip": [
+            "U: --compile-executable-path <path>",
+            "Path to a Bun executable to use for cross-compilation instead of downloading."
+          ],
+          "next": 0
+        },
+        {
           "name": "--conditions",
           "tip": [
             "Pass custom conditions to resolve."
+          ]
+        },
+        {
+          "name": "--css-chunking",
+          "tip": [
+            "Chunk CSS files together to reduce duplicated CSS loaded in a browser."
+          ]
+        },
+        {
+          "name": "--emit-dce-annotations",
+          "tip": [
+            "Re-emit DCE annotations in bundles. Enabled by default unless --minify-whitespace is passed."
           ]
         },
         {
@@ -47,6 +171,14 @@
           "tip": [
             "U: --entry-naming <name>",
             "Customize entry point filenames. Defaults to \"[dir]/[name].[ext]\""
+          ],
+          "next": 0
+        },
+        {
+          "name": "--env",
+          "tip": [
+            "U: --env <prefix>",
+            "Inline environment variables into the bundle as process.env.${name}. Defaults to 'disable'."
           ],
           "next": 0
         },
@@ -63,10 +195,41 @@
           "next": 0
         },
         {
+          "name": "--footer",
+          "tip": [
+            "U: --footer <text>",
+            "Add a footer to the bundled output."
+          ],
+          "next": 0
+        },
+        {
           "name": "--format",
           "tip": [
-            "Specifies the module format to build to. Only \"esm\" is supported."
+            "Specifies the module format to build to.",
+            "\"esm\", \"cjs\" and \"iife\" are supported. Defaults to \"esm\"."
           ]
+        },
+        {
+          "name": "--keep-names",
+          "tip": [
+            "Preserve original function and class names when minifying."
+          ]
+        },
+        {
+          "name": "--metafile",
+          "tip": [
+            "U: --metafile <path>",
+            "Write a JSON file with metadata about the build."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--metafile-md",
+          "tip": [
+            "U: --metafile-md <path>",
+            "Write a markdown file with a visualization of the module graph (LLM-friendly)."
+          ],
+          "next": 0
         },
         {
           "name": "--minify",
@@ -99,6 +262,36 @@
           ]
         },
         {
+          "name": "--no-clear-screen",
+          "tip": [
+            "Disable clearing the terminal screen on reload when --watch is enabled."
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-bunfig",
+          "tip": [
+            "Disable autoloading of bunfig.toml in standalone executable."
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-dotenv",
+          "tip": [
+            "Disable autoloading of .env files in standalone executable."
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-package-json",
+          "tip": [
+            "Disable autoloading of package.json at runtime in standalone executable."
+          ]
+        },
+        {
+          "name": "--no-compile-autoload-tsconfig",
+          "tip": [
+            "Disable autoloading of tsconfig.json at runtime in standalone executable."
+          ]
+        },
+        {
           "name": "--outdir",
           "tip": [
             "Default to \"dist\" if multiple files."
@@ -113,9 +306,42 @@
           "next": 0
         },
         {
+          "name": "--packages",
+          "tip": [
+            "U: --packages <mode>",
+            "Add dependencies to bundle or keep them external. Defaults to \"bundle\"."
+          ],
+          "next": [
+            {
+              "name": "bundle"
+            },
+            {
+              "name": "external"
+            }
+          ]
+        },
+        {
+          "name": "--production",
+          "tip": [
+            "Set NODE_ENV=production and enable minification."
+          ]
+        },
+        {
           "name": "--public-path",
           "tip": [
             "A prefix to be appended to any import paths in bundled code."
+          ]
+        },
+        {
+          "name": "--react-fast-refresh",
+          "tip": [
+            "Enable React Fast Refresh transform."
+          ]
+        },
+        {
+          "name": "--reject-unresolved",
+          "tip": [
+            "Fail the build on any dynamic import()/require() specifier that cannot be resolved at build time."
           ]
         },
         {
@@ -141,6 +367,9 @@
             },
             {
               "name": "inline"
+            },
+            {
+              "name": "linked"
             },
             {
               "name": "none"
@@ -176,6 +405,60 @@
           "tip": [
             "Automatically restart the process on file change."
           ]
+        },
+        {
+          "name": "--windows-copyright",
+          "tip": [
+            "U: --windows-copyright <text>",
+            "When using --compile targeting Windows, set the executable copyright."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-description",
+          "tip": [
+            "U: --windows-description <desc>",
+            "When using --compile targeting Windows, set the executable description."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-hide-console",
+          "tip": [
+            "When using --compile targeting Windows, prevent a Command prompt from opening alongside the executable."
+          ]
+        },
+        {
+          "name": "--windows-icon",
+          "tip": [
+            "U: --windows-icon <path>",
+            "When using --compile targeting Windows, assign an executable icon."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-publisher",
+          "tip": [
+            "U: --windows-publisher <name>",
+            "When using --compile targeting Windows, set the executable company name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-title",
+          "tip": [
+            "U: --windows-title <name>",
+            "When using --compile targeting Windows, set the executable product name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--windows-version",
+          "tip": [
+            "U: --windows-version <version>",
+            "When using --compile targeting Windows, set the executable version (e.g. 1.2.3.4)."
+          ],
+          "next": 0
         }
       ]
     },
@@ -215,12 +498,34 @@
           "next": 0
         },
         {
+          "name": "--drop",
+          "tip": [
+            "U: --drop <calls>",
+            "Remove function calls, e.g. --drop=console removes all console.* calls."
+          ],
+          "next": 0
+        },
+        {
           "name": "--extension-order",
           "tip": [
             "U: --extension-order <ext1,ext2,ext3>",
             "Defaults to: .tsx,.ts,.jsx,.js,.json"
           ],
           "next": 0
+        },
+        {
+          "name": "--feature",
+          "tip": [
+            "U: --feature <flag>",
+            "Enable a feature flag for dead-code elimination."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-dce-annotations",
+          "tip": [
+            "Ignore tree-shaking annotations such as @__PURE__."
+          ]
         },
         {
           "name": "--jsx-factory",
@@ -256,6 +561,12 @@
           ]
         },
         {
+          "name": "--jsx-side-effects",
+          "tip": [
+            "Treat JSX elements as having side effects (disable pure annotations)."
+          ]
+        },
+        {
           "name": "--loader",
           "alias": [
             "-l"
@@ -276,9 +587,27 @@
           ]
         },
         {
+          "name": "--no-env-file",
+          "tip": [
+            "Disable automatic loading of .env files."
+          ]
+        },
+        {
           "name": "--no-macros",
           "tip": [
             "Disable macros from being executed in the bundler, transpiler and runtime."
+          ]
+        },
+        {
+          "name": "--preserve-symlinks",
+          "tip": [
+            "Preserve symlinks when resolving files."
+          ]
+        },
+        {
+          "name": "--preserve-symlinks-main",
+          "tip": [
+            "Preserve symlinks when resolving the main entry point."
           ]
         },
         {
@@ -289,6 +618,148 @@
             "Default ./tsconfig.json"
           ],
           "next": 0
+        }
+      ]
+    },
+    {
+      "name": "feedback",
+      "tip": [
+        "U: feedback [options] [feedback text ... | files ...]",
+        "Provide feedback to the Bun team."
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --email <email>",
+            "Set the email address used for this submission."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "U: info [flags] <package>[@<version>]",
+        "View package metadata from the registry."
+      ],
+      "option": [
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "Override CPU architecture for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output in JSON format."
+          ]
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "Linker strategy."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Generate a lockfile without installing dependencies."
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "Only install packages published at least N seconds ago."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "Maximum number of concurrent network requests (default 48)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "Exclude 'dev', 'optional', or 'peer' dependencies from install."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "Override operating system for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only show tarball name when packing."
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "Use a specific registry by default."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "Save a text-based lockfile."
+          ]
         }
       ]
     },
@@ -325,6 +796,16 @@
       ],
       "option": [
         {
+          "name": "--analyze",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --analyze",
+            "Analyze & install all dependencies of files passed as arguments recursively (using Bun's bundler)."
+          ]
+        },
+        {
           "name": "--backend",
           "tip": [
             "Platform-specific optimizations for installing dependencies.",
@@ -360,6 +841,14 @@
           ]
         },
         {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "Override CPU architecture for optional dependencies (e.g., x64, arm64, * for all)."
+          ],
+          "next": 0
+        },
+        {
           "name": "--cwd",
           "tip": [
             "U: --cwd <cwd>",
@@ -392,6 +881,17 @@
             "U: -E, --exact",
             "Add the exact version instead of the ^range"
           ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --filter <pattern>",
+            "Install packages for the matching workspaces."
+          ],
+          "next": 0
         },
         {
           "name": "--force",
@@ -433,6 +933,43 @@
           ]
         },
         {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "Linker strategy."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Generate a lockfile without installing dependencies."
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "Only install packages published at least N seconds ago (security feature)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "Maximum number of concurrent network requests (default 48)."
+          ],
+          "next": 0
+        },
+        {
           "name": "--no-cache",
           "tip": [
             "Ignore manifest cache entirely."
@@ -463,9 +1000,47 @@
           ]
         },
         {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "Exclude 'dev', 'optional', or 'peer' dependencies from install."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--only-missing",
+          "tip": [
+            "Only add dependencies to package.json if they are not already present."
+          ]
+        },
+        {
           "name": "--optional",
           "tip": [
             "Add dependency to \"optionalDependencies\"."
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "Override operating system for optional dependencies (e.g., linux, darwin, * for all)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--peer",
+          "tip": [
+            "Add dependency to \"peerDependencies\"."
           ]
         },
         {
@@ -479,9 +1054,23 @@
           ]
         },
         {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "Use a specific registry by default, overriding .npmrc, bunfig.toml and environment variables."
+          ],
+          "next": 0
+        },
+        {
           "name": "--save",
           "tip": [
             "Save to package.json. (true by default)"
+          ]
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "Save a text-based lockfile."
           ]
         },
         {
@@ -685,6 +1274,273 @@
       ]
     },
     {
+      "name": "outdated",
+      "tip": [
+        "U: outdated [flags] [filter]",
+        "Display outdated dependencies for each matching workspace."
+      ],
+      "option": [
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "Override CPU architecture for optional dependencies (e.g., x64, arm64, * for all)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --filter <pattern>",
+            "Display outdated dependencies for each matching workspace."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "Linker strategy."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Generate a lockfile without installing dependencies."
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "Only install packages published at least N seconds ago (security feature)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "Maximum number of concurrent network requests (default 48)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "Exclude 'dev', 'optional', or 'peer' dependencies from install."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "Override operating system for optional dependencies (e.g., linux, darwin, * for all)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only show tarball name when packing."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Check outdated packages in all workspaces."
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "Use a specific registry by default, overriding .npmrc, bunfig.toml and environment variables."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "Save a text-based lockfile."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch",
+      "tip": [
+        "U: patch [flags] <package>@<version>",
+        "Prepare a package for patching, or generate and save a patch."
+      ],
+      "option": [
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--commit",
+          "tip": [
+            "Install a package containing modifications in 'dir'."
+          ]
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "Override CPU architecture for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "Linker strategy."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Generate a lockfile without installing dependencies."
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "Only install packages published at least N seconds ago."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "Maximum number of concurrent network requests (default 48)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "Exclude 'dev', 'optional', or 'peer' dependencies from install."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "Override operating system for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--patches-dir",
+          "tip": [
+            "U: --patches-dir <path>",
+            "The directory to put the patch file in (only if --commit is used)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only show tarball name when packing."
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "Use a specific registry by default."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "Save a text-based lockfile."
+          ]
+        }
+      ]
+    },
+    {
       "name": "pm",
       "tip": [
         "U: pm <command>",
@@ -765,6 +1621,175 @@
           "name": "untrusted",
           "tip": [
             "print current untrusted dependencies with scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "U: publish [flags] [dist]",
+        "Publish a package to the npm registry."
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "tip": [
+            "U: --access <level>",
+            "Set access level for scoped packages."
+          ],
+          "next": [
+            {
+              "name": "public"
+            },
+            {
+              "name": "restricted"
+            }
+          ]
+        },
+        {
+          "name": "--auth-type",
+          "tip": [
+            "U: --auth-type <type>",
+            "Specify the type of one-time password authentication."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ca",
+          "tip": [
+            "U: --ca <cert>",
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cafile",
+          "tip": [
+            "U: --cafile <path>",
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "Override CPU architecture for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--gzip-level",
+          "tip": [
+            "U: --gzip-level <level>",
+            "Specify a custom compression level for gzip. Default is 9."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "Linker strategy."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Generate a lockfile without installing dependencies."
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "Only install packages published at least N seconds ago (security feature)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "Maximum number of concurrent network requests (default 48)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "Exclude 'dev', 'optional', or 'peer' dependencies from install."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "Override operating system for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--otp",
+          "tip": [
+            "U: --otp <code>",
+            "Provide a one-time password for authentication."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only show tarball name when packing."
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "Use a specific registry by default, overriding .npmrc, bunfig.toml and environment variables."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "Save a text-based lockfile."
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <tag>",
+            "Tag the release. Default is \"latest\"."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tolerate-republish",
+          "tip": [
+            "Don't exit with code 1 when republishing over an existing version number."
           ]
         }
       ]
@@ -989,6 +2014,21 @@
             "U: --bail <n>",
             "Exit the test suite after <n> failures.",
             "If you do not specify a number, it defaults to 1."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--changed",
+          "tip": [
+            "U: --changed [ref]",
+            "Only run test files affected by changed files according to git."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--concurrent",
+          "tip": [
+            "Treat all tests as test.concurrent() tests."
           ]
         },
         {
@@ -998,16 +2038,142 @@
           ]
         },
         {
+          "name": "--coverage-dir",
+          "tip": [
+            "U: --coverage-dir <path>",
+            "Directory for coverage files. Defaults to \"coverage\"."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--coverage-reporter",
+          "tip": [
+            "U: --coverage-reporter <type>",
+            "Report coverage in \"text\" and/or \"lcov\". Defaults to \"text\"."
+          ],
+          "next": [
+            {
+              "name": "lcov"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "Run each test file in a fresh global object. Leaked handles from one file cannot affect another."
+          ]
+        },
+        {
+          "name": "--max-concurrency",
+          "tip": [
+            "U: --max-concurrency <n>",
+            "Maximum number of concurrent tests to execute at once. Default is 20."
+          ],
+          "next": 0
+        },
+        {
           "name": "--only",
           "tip": [
             "Only run tests that are marked with \"test.only()\""
           ]
         },
         {
+          "name": "--only-failures",
+          "tip": [
+            "Only display test failures, hiding passing tests."
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "U: --parallel <n>",
+            "Run test files in parallel using N worker processes. Implies --isolate. Defaults to CPU core count."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--parallel-delay",
+          "tip": [
+            "U: --parallel-delay <ms>",
+            "Milliseconds the first --parallel worker must be busy before spawning the rest."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pass-with-no-tests",
+          "tip": [
+            "Exit with code 0 when no tests are found."
+          ]
+        },
+        {
+          "name": "--path-ignore-patterns",
+          "tip": [
+            "U: --path-ignore-patterns <glob>",
+            "Glob patterns for test file paths to ignore."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--randomize",
+          "tip": [
+            "Run tests in random order."
+          ]
+        },
+        {
+          "name": "--reporter",
+          "tip": [
+            "U: --reporter <type>",
+            "Test output reporter format. Available: \"junit\", \"dots\"."
+          ],
+          "next": [
+            {
+              "name": "dots"
+            },
+            {
+              "name": "junit"
+            }
+          ]
+        },
+        {
+          "name": "--reporter-outfile",
+          "tip": [
+            "U: --reporter-outfile <path>",
+            "Output file path for the reporter format (required with --reporter)."
+          ],
+          "next": 0
+        },
+        {
           "name": "--rerun-each",
           "tip": [
             "U: --rerun-each <n>",
             "Re-run each test file <n> times, helps catch certain bugs"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--retry",
+          "tip": [
+            "U: --retry <n>",
+            "Default retry count for all tests, overridden by per-test { retry: N }."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <n>",
+            "Set the random seed for test randomization."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shard",
+          "tip": [
+            "U: --shard <shard>",
+            "Run a subset of test files, e.g. '--shard=1/3' runs the first of three shards."
           ],
           "next": 0
         },
@@ -1256,6 +2422,14 @@
           ]
         },
         {
+          "name": "--cpu",
+          "tip": [
+            "U: --cpu <arch>",
+            "Override CPU architecture for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
           "name": "--cwd",
           "tip": [
             "U: --cwd <cwd>",
@@ -1268,6 +2442,17 @@
           "tip": [
             "Don't update anything."
           ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --filter <pattern>",
+            "Update packages for the matching workspaces."
+          ],
+          "next": 0
         },
         {
           "name": "--force",
@@ -1302,10 +2487,63 @@
           ]
         },
         {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Show an interactive list of outdated packages to select for update."
+          ]
+        },
+        {
+          "name": "--latest",
+          "tip": [
+            "Update packages to their latest versions."
+          ]
+        },
+        {
           "name": "--link-native-bins",
           "tip": [
             "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead. Default: esbuild, turbo"
           ]
+        },
+        {
+          "name": "--linker",
+          "tip": [
+            "U: --linker <strategy>",
+            "Linker strategy."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Generate a lockfile without installing dependencies."
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <duration>",
+            "Only install packages published at least N seconds ago."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network-concurrency",
+          "tip": [
+            "U: --network-concurrency <n>",
+            "Maximum number of concurrent network requests (default 48)."
+          ],
+          "next": 0
         },
         {
           "name": "--no-cache",
@@ -1338,6 +2576,32 @@
           ]
         },
         {
+          "name": "--omit",
+          "tip": [
+            "U: --omit <type>",
+            "Exclude 'dev', 'optional', or 'peer' dependencies from install."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "tip": [
+            "U: --os <os>",
+            "Override operating system for optional dependencies."
+          ],
+          "next": 0
+        },
+        {
           "name": "--production",
           "alias": [
             "-p"
@@ -1348,9 +2612,39 @@
           ]
         },
         {
+          "name": "--quiet",
+          "tip": [
+            "Only show tarball name when packing."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Update packages in all workspaces."
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "U: --registry <url>",
+            "Use a specific registry by default."
+          ],
+          "next": 0
+        },
+        {
           "name": "--save",
           "tip": [
             "Save to package.json. (true by default)"
+          ]
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "Save a text-based lockfile."
           ]
         },
         {
@@ -1394,6 +2688,29 @@
           "name": "--canary",
           "tip": [
             "Install the most recent canary version of Bun."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "why",
+      "tip": [
+        "U: why [flags] <package>[@version] [property path]",
+        "Explain why a package is installed."
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "tip": [
+            "U: --depth <n>",
+            "Maximum depth of the dependency tree to display."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--top",
+          "tip": [
+            "Show only the top dependency tree instead of nested ones."
           ]
         }
       ]
@@ -1462,11 +2779,97 @@
       ]
     },
     {
+      "name": "--console-depth",
+      "tip": [
+        "U: --console-depth <depth>",
+        "Set the default depth for console.log object inspection (default: 2)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpu-prof",
+      "tip": [
+        "Start CPU profiler and write profile to disk on exit."
+      ]
+    },
+    {
+      "name": "--cpu-prof-dir",
+      "tip": [
+        "U: --cpu-prof-dir <path>",
+        "Specify the directory where the CPU profile will be saved."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpu-prof-interval",
+      "tip": [
+        "U: --cpu-prof-interval <ms>",
+        "Specify the sampling interval in microseconds for CPU profiling (default: 1000)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpu-prof-md",
+      "tip": [
+        "Output CPU profile in markdown format (grep-friendly, designed for LLM analysis)."
+      ]
+    },
+    {
+      "name": "--cpu-prof-name",
+      "tip": [
+        "U: --cpu-prof-name <name>",
+        "Specify the name of the CPU profile file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cron-period",
+      "tip": [
+        "U: --cron-period <period>",
+        "Cron period for cron execution mode."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cron-title",
+      "tip": [
+        "U: --cron-title <title>",
+        "Title for cron execution mode."
+      ],
+      "next": 0
+    },
+    {
       "name": "--cwd",
       "tip": [
         "Absolute path to resolve files & entry points from.",
         "This just changes the process' cwd."
       ]
+    },
+    {
+      "name": "--dns-result-order",
+      "tip": [
+        "U: --dns-result-order <order>",
+        "Set the default order of DNS lookup results."
+      ],
+      "next": [
+        {
+          "name": "ipv4first"
+        },
+        {
+          "name": "ipv6first"
+        },
+        {
+          "name": "verbatim"
+        }
+      ]
+    },
+    {
+      "name": "--elide-lines",
+      "tip": [
+        "U: --elide-lines <n>",
+        "Number of lines of script output shown when using --filter (default: 10). Set to 0 to show all lines."
+      ],
+      "next": 0
     },
     {
       "name": "--env-file",
@@ -1482,6 +2885,71 @@
       "tip": [
         "U: -e, --eval <code>",
         "Evaluate argument as a script."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--experimental-http2-fetch",
+      "tip": [
+        "Offer h2 in fetch() TLS ALPN. Same as BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP2_CLIENT=1"
+      ]
+    },
+    {
+      "name": "--experimental-http3-fetch",
+      "tip": [
+        "Honor Alt-Svc: h3 in fetch() and upgrade to HTTP/3. Same as BUN_FEATURE_FLAG_EXPERIMENTAL_HTTP3_CLIENT=1"
+      ]
+    },
+    {
+      "name": "--expose-gc",
+      "tip": [
+        "Expose gc() on the global object. Has no effect on Bun.gc()."
+      ]
+    },
+    {
+      "name": "--fetch-preconnect",
+      "tip": [
+        "U: --fetch-preconnect <url>",
+        "Preconnect to a URL while code is loading."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --filter <pattern>",
+        "Run a script in all workspace packages matching the pattern."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--heap-prof",
+      "tip": [
+        "Generate V8 heap snapshot on exit (.heapsnapshot)."
+      ]
+    },
+    {
+      "name": "--heap-prof-dir",
+      "tip": [
+        "U: --heap-prof-dir <path>",
+        "Specify the directory where the heap profile will be saved."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--heap-prof-md",
+      "tip": [
+        "Generate markdown heap profile on exit (for CLI analysis)."
+      ]
+    },
+    {
+      "name": "--heap-prof-name",
+      "tip": [
+        "U: --heap-prof-name <name>",
+        "Specify the name of the heap profile file."
       ],
       "next": 0
     },
@@ -1506,6 +2974,14 @@
       "tip": [
         "Exit without an error if the entrypoint does not exist."
       ]
+    },
+    {
+      "name": "--import",
+      "tip": [
+        "U: --import <module>",
+        "Alias of --preload, for Node.js compatibility."
+      ],
+      "next": 0
     },
     {
       "name": "--inspect",
@@ -1553,9 +3029,59 @@
       ]
     },
     {
+      "name": "--max-http-header-size",
+      "tip": [
+        "U: --max-http-header-size <bytes>",
+        "Set the maximum size of HTTP headers in bytes. Default is 16KiB."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-addons",
+      "tip": [
+        "Throw an error if process.dlopen is called, and disable export condition \"node-addons\"."
+      ]
+    },
+    {
+      "name": "--no-clear-screen",
+      "tip": [
+        "Disable clearing the terminal screen on reload when --hot or --watch is enabled."
+      ]
+    },
+    {
+      "name": "--no-deprecation",
+      "tip": [
+        "Suppress all reporting of the custom deprecation."
+      ]
+    },
+    {
+      "name": "--no-env-file",
+      "tip": [
+        "Disable automatic loading of .env files."
+      ]
+    },
+    {
+      "name": "--no-exit-on-error",
+      "tip": [
+        "Continue running other scripts when one fails (with --parallel/--sequential)."
+      ]
+    },
+    {
       "name": "--no-install",
       "tip": [
         "Disable auto install in the Bun runtime."
+      ]
+    },
+    {
+      "name": "--no-orphans",
+      "tip": [
+        "Exit when the parent process dies, and on exit SIGKILL every descendant. Linux/macOS only."
+      ]
+    },
+    {
+      "name": "--parallel",
+      "tip": [
+        "Run multiple scripts concurrently with Foreman-style output."
       ]
     },
     {
@@ -1599,6 +3125,26 @@
       ]
     },
     {
+      "name": "--redis-preconnect",
+      "tip": [
+        "Preconnect to $REDIS_URL at startup."
+      ]
+    },
+    {
+      "name": "--require",
+      "tip": [
+        "U: --require <module>",
+        "Alias of --preload, for Node.js compatibility."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sequential",
+      "tip": [
+        "Run multiple scripts sequentially with Foreman-style output."
+      ]
+    },
+    {
       "name": "--shell",
       "tip": [
         "Control the shell used for package.json scripts.",
@@ -1618,9 +3164,91 @@
       ]
     },
     {
+      "name": "--sql-preconnect",
+      "tip": [
+        "Preconnect to PostgreSQL at startup."
+      ]
+    },
+    {
+      "name": "--throw-deprecation",
+      "tip": [
+        "Determine whether or not deprecation warnings result in errors."
+      ]
+    },
+    {
+      "name": "--title",
+      "tip": [
+        "U: --title <name>",
+        "Set the process title."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unhandled-rejections",
+      "tip": [
+        "U: --unhandled-rejections <mode>",
+        "One of \"strict\", \"throw\", \"warn\", \"none\", or \"warn-with-error-code\"."
+      ],
+      "next": [
+        {
+          "name": "none"
+        },
+        {
+          "name": "strict"
+        },
+        {
+          "name": "throw"
+        },
+        {
+          "name": "warn"
+        },
+        {
+          "name": "warn-with-error-code"
+        }
+      ]
+    },
+    {
+      "name": "--use-bundled-ca",
+      "tip": [
+        "Use bundled CA store."
+      ]
+    },
+    {
+      "name": "--use-openssl-ca",
+      "tip": [
+        "Use OpenSSL's default CA store."
+      ]
+    },
+    {
+      "name": "--use-system-ca",
+      "tip": [
+        "Use the system's trusted certificate authorities."
+      ]
+    },
+    {
+      "name": "--user-agent",
+      "tip": [
+        "U: --user-agent <agent>",
+        "Set the default User-Agent header for HTTP requests."
+      ],
+      "next": 0
+    },
+    {
       "name": "--watch",
       "tip": [
         "Automatically restart the process on file change."
+      ]
+    },
+    {
+      "name": "--workspaces",
+      "tip": [
+        "Run a script in all workspace packages (from the \"workspaces\" field in package.json)."
+      ]
+    },
+    {
+      "name": "--zero-fill-buffers",
+      "tip": [
+        "Boolean to force Buffer.allocUnsafe(size) to be zero-filled."
       ]
     },
     {

@@ -9,49 +9,72 @@
     {
       "name": "alias",
       "tip": [
-        "Alias a version to a common name"
+        "将版本别名设置为常用名称"
       ]
     },
     {
       "name": "completions",
       "tip": [
-        "Print shell completions to stdout"
+        "将 shell 补全输出到 stdout"
       ]
     },
     {
       "name": "current",
       "tip": [
-        "Print the current Node.js version"
+        "显示当前 Node.js 版本"
       ]
     },
     {
       "name": "default",
       "tip": [
-        "Set a version as the default version"
+        "设置默认版本或获取当前默认版本"
       ]
     },
     {
       "name": "env",
       "tip": [
-        "Print and set up required environment variables for fnm"
+        "显示并设置 fnm 所需的环境变量"
       ]
     },
     {
       "name": "exec",
       "tip": [
-        "Run a command within fnm context"
+        "在 fnm 上下文中运行命令"
       ]
     },
     {
       "name": "help",
       "tip": [
-        "Print this message or the help of the given subcommand(s)"
+        "显示此消息或指定子命令的帮助信息"
       ]
     },
     {
       "name": "install",
+      "alias": [
+        "i"
+      ],
       "tip": [
-        "Install a new Node.js version"
+        "安装新的 Node.js 版本"
+      ],
+      "option": [
+        {
+          "name": "--latest",
+          "tip": [
+            "安装最新版本"
+          ]
+        },
+        {
+          "name": "--lts",
+          "tip": [
+            "安装最新 LTS 版本"
+          ]
+        },
+        {
+          "name": "--use",
+          "tip": [
+            "安装后立即使用该版本"
+          ]
+        }
       ]
     },
     {
@@ -60,7 +83,7 @@
         "ls"
       ],
       "tip": [
-        "List all locally installed Node.js versions"
+        "列出所有本地安装的 Node.js 版本"
       ]
     },
     {
@@ -69,25 +92,28 @@
         "ls-remote"
       ],
       "tip": [
-        "List all remote Node.js versions"
+        "列出所有远程 Node.js 版本"
       ]
     },
     {
       "name": "unalias",
       "tip": [
-        "Remove an alias definition"
+        "删除别名定义"
       ]
     },
     {
       "name": "uninstall",
+      "alias": [
+        "uni"
+      ],
       "tip": [
-        "Uninstall a Node.js version"
+        "卸载 Node.js 版本"
       ]
     },
     {
       "name": "use",
       "tip": [
-        "Change Node.js version"
+        "切换 Node.js 版本"
       ]
     }
   ],
@@ -107,24 +133,24 @@
       "name": "--arch",
       "tip": [
         "U: --arch <ARCH>",
-        "Override the architecture of the installed Node binary.",
-        "Defaults to arch of fnm binary"
+        "覆盖已安装 Node 二进制文件的架构。",
+        "默认为 fnm 二进制文件的架构"
       ],
       "next": 0
     },
     {
       "name": "--corepack-enabled",
       "tip": [
-        " Enable corepack support for each new installation.",
-        "This will make fnm call `corepack enable` on every Node.js installation.",
-        "For more information about corepack see <https://nodejs.org/api/corepack.html>"
+        " 为每次新安装启用 corepack 支持。",
+        "这将使 fnm 在每次安装 Node.js 时调用 `corepack enable`。",
+        "有关 corepack 的更多信息，请参见 <https://nodejs.org/api/corepack.html>"
       ]
     },
     {
       "name": "--fnm-dir",
       "tip": [
         "U: --fnm-dir <BASE_DIR>",
-        "The root directory of fnm installations."
+        "fnm 安装的根目录。"
       ],
       "next": 0
     },
@@ -141,8 +167,8 @@
       "name": "--log-level",
       "tip": [
         "U: --log-level <LOG_LEVEL>",
-        "The log level of fnm commands.",
-        "Default: info"
+        "fnm 命令的日志级别。",
+        "默认: info"
       ],
       "next": [
         {
@@ -160,38 +186,38 @@
       "name": "--node-dist-mirror",
       "tip": [
         "U: --node-dist-mirror <NODE_DIST_MIRROR>",
-        "Set the mirror URL for downloading Node.js dist.",
-        "Default: https://nodejs.org/dist"
+        "设置下载 Node.js 发行版的镜像 URL。",
+        "默认: https://nodejs.org/dist"
       ],
       "next": 0
     },
     {
       "name": "--resolve-engines",
       "tip": [
-        "Resolve `engines.node` field in `package.json` whenever a `.node-version` or `.nvmrc` file is not present.",
-        "Experimental: This feature is subject to change.",
-        "Note: `engines.node` can be any semver range, with the latest satisfying version being resolved."
+        "当不存在 `.node-version` 或 `.nvmrc` 文件时，解析 `package.json` 中的 `engines.node` 字段。",
+        "实验性功能: 此功能可能会发生变化。",
+        "注意: `engines.node` 可以是任何 semver 范围，将解析满足条件的最新版本。"
       ]
     },
     {
       "name": "--version-file-strategy",
       "tip": [
         "U: --version-file-strategy <VERSION_FILE_STRATEGY>",
-        "A strategy for how to resolve the Node version.",
-        "Used whenever `fnm use` or `fnm install` is called without a version, or when `--use-on-cd` is configured on evaluation.",
-        "Default: local"
+        "解析 Node 版本的策略。",
+        "在调用 `fnm use` 或 `fnm install` 未指定版本时，或在评估时配置了 `--use-on-cd` 时使用。",
+        "默认: local"
       ],
       "next": [
         {
           "name": "local",
           "tip": [
-            "Use the local version of Node defined within the current directory"
+            "使用当前目录中定义的本地 Node 版本"
           ]
         },
         {
           "name": "recursive",
           "tip": [
-            "Use the version of Node defined within the current directory and all parent directories"
+            "使用当前目录及所有父目录中定义的 Node 版本"
           ]
         }
       ]

@@ -8,6 +8,158 @@
   },
   "root": [
     {
+      "name": "ft",
+      "tip": [
+        "focus-tab",
+        "聚焦窗口中的特定标签页"
+      ],
+      "option": [
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --target <tab-index>",
+            "根据标签页索引号聚焦特定标签页"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "mf",
+      "tip": [
+        "move-focus",
+        "在窗格之间移动焦点"
+      ],
+      "next": [
+        {
+          "name": "down"
+        },
+        {
+          "name": "first"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "nextInOrder"
+        },
+        {
+          "name": "previous"
+        },
+        {
+          "name": "previousInOrder"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "up"
+        }
+      ]
+    },
+    {
+      "name": "mp",
+      "tip": [
+        "move-pane",
+        "将活动窗格移动到指定的标签页"
+      ],
+      "option": [
+        {
+          "name": "--tab",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tab <index>",
+            "将活动窗格移动到指定的标签页 (从 0 开始)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "nt",
+      "tip": [
+        "new-tab",
+        "创建一个新的标签页"
+      ],
+      "option": [
+        {
+          "name": "--appendCommandLine",
+          "tip": [
+            "将提供的命令行追加到配置文件的默认命令中"
+          ]
+        },
+        {
+          "name": "--colorScheme",
+          "tip": [
+            "U: --colorScheme <scheme-name>",
+            "覆盖配置文件的 colorScheme 设置"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--inheritEnvironment",
+          "tip": [
+            "创建新会话时继承终端自身的环境变量"
+          ]
+        },
+        {
+          "name": "--profile",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --profile <profile-name>",
+            "使用指定的配置文件创建新标签页"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--startingDirectory",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --startingDirectory <starting-directory>",
+            "使用指定的起始目录路径创建新标签页"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--suppressApplicationTitle",
+          "tip": [
+            "覆盖配置文件的 suppressApplicationTitle 设置为 true"
+          ]
+        },
+        {
+          "name": "--tabColor",
+          "tip": [
+            "U: --tabColor <hex-color>",
+            "使用指定的标签页颜色创建新标签页 (例如 #RGB 或 #RRGGBB)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--title",
+          "tip": [
+            "U: --title <title>",
+            "使用指定的标题创建新标签页"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--useApplicationTitle",
+          "tip": [
+            "覆盖配置文件的 suppressApplicationTitle 设置为 false"
+          ]
+        }
+      ]
+    },
+    {
       "name": "sp",
       "tip": [
         "split-pane",
@@ -15,84 +167,149 @@
       ],
       "option": [
         {
-          "name": "--pos",
+          "name": "--colorScheme",
           "tip": [
-            "指定终端在屏幕上的位置, 格式为 \"x,y\"",
-            "(屏幕的左上角是原点: x 是 0, y 是 0)",
-            "E: --pos 100,200   --- 从 x 100, y 200 开始。"
+            "U: --colorScheme <scheme-name>",
+            "覆盖配置文件的 colorScheme 设置"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--duplicate",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --duplicate",
+            "创建当前窗格的副本"
+          ]
+        },
+        {
+          "name": "--horizontal",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --horizontal",
+            "水平分割窗格"
+          ]
+        },
+        {
+          "name": "--profile",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --profile <profile-name>",
+            "使用指定的配置文件创建分屏"
           ],
           "next": 0
         },
         {
           "name": "--size",
+          "alias": [
+            "-s"
+          ],
           "tip": [
-            "指定终端的列数和行数, 格式为 \"column,row\"",
-            "E: --size 80,25   --- 从 80 列和 25 行开始"
+            "U: -s, --size <size>",
+            "使用指定的大小创建分屏 (浮点数, 例如 .4 表示 40%)"
           ],
           "next": 0
         },
         {
-          "name": "-d",
+          "name": "--startingDirectory",
+          "alias": [
+            "-d"
+          ],
           "tip": [
-            "U: -d <dir>",
-            "指定启动目录",
-            "E: -d \"D:\\\"   --- 从 D 盘根目录启动"
+            "U: -d, --startingDirectory <starting-directory>",
+            "使用指定的起始目录路径创建分屏"
           ],
           "next": 0
         },
         {
-          "name": "-f",
+          "name": "--suppressApplicationTitle",
           "tip": [
-            "以聚焦模式启动窗口"
+            "覆盖配置文件的 suppressApplicationTitle 设置为 true"
           ]
         },
         {
-          "name": "-F",
+          "name": "--tabColor",
           "tip": [
-            "以全屏模式启动窗口"
-          ]
-        },
-        {
-          "name": "-M",
-          "tip": [
-            "以最大化模式启动窗口"
-          ]
-        },
-        {
-          "name": "-p",
-          "tip": [
-            "U: -p <profile>",
-            "使用指定的配置文件启动终端",
-            "E: -p \"PowerShell\"   --- 使用 PowerShell 启动"
+            "U: --tabColor <hex-color>",
+            "使用指定的标签页颜色创建分屏"
           ],
           "next": 0
         },
         {
-          "name": "-w",
+          "name": "--title",
           "tip": [
-            "指定运行给定命令行的终端窗口",
-            "E: -w 0   --- 在当前窗口运行",
-            "   -w 1   --- 在下一个窗口运行"
+            "U: --title <title>",
+            "使用指定的标题创建分屏"
           ],
-          "next": [
-            {
-              "name": "0",
-              "tip": [
-                "在当前窗口运行"
-              ]
-            },
-            {
-              "name": "1",
-              "tip": [
-                "在下一个窗口运行"
-              ]
-            }
+          "next": 0
+        },
+        {
+          "name": "--useApplicationTitle",
+          "tip": [
+            "覆盖配置文件的 suppressApplicationTitle 设置为 false"
           ]
+        },
+        {
+          "name": "--vertical",
+          "alias": [
+            "-V"
+          ],
+          "tip": [
+            "U: -V, --vertical",
+            "垂直分割窗格"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "swap-pane",
+      "tip": [
+        "swap-pane",
+        "交换窗口中两个窗格的位置"
+      ],
+      "next": [
+        {
+          "name": "down"
+        },
+        {
+          "name": "first"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "nextInOrder"
+        },
+        {
+          "name": "previous"
+        },
+        {
+          "name": "previousInOrder"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "up"
         }
       ]
     }
   ],
   "option": [
+    {
+      "name": "--colorScheme",
+      "tip": [
+        "U: --colorScheme <scheme-name>",
+        "覆盖配置文件的 colorScheme 设置"
+      ],
+      "next": 0
+    },
     {
       "name": "--pos",
       "tip": [
@@ -111,6 +328,22 @@
       "next": 0
     },
     {
+      "name": "--tabColor",
+      "tip": [
+        "U: --tabColor <hex-color>",
+        "设置标签页颜色 (例如 #RGB 或 #RRGGBB)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--title",
+      "tip": [
+        "U: --title <title>",
+        "设置窗口标题"
+      ],
+      "next": 0
+    },
+    {
       "name": "--version",
       "alias": [
         "-v"
@@ -118,6 +351,40 @@
       "tip": [
         "U: -v, --version",
         "显示 wt 的版本信息"
+      ]
+    },
+    {
+      "name": "--window",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --window <window-id>",
+        "指定运行给定命令行的终端窗口",
+        "可选值: new/-1 (新窗口), last/0 (最近使用的窗口), 或窗口 ID/名称",
+        "E: -w 0   --- 在当前窗口运行",
+        "   -w 1   --- 在下一个窗口运行",
+        "   -w new  --- 在新窗口运行"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "在最近使用的窗口运行 (last)"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "在下一个窗口运行"
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "始终在新窗口运行"
+          ]
+        }
       ]
     },
     {
@@ -155,38 +422,18 @@
         "E: -p \"PowerShell\"   --- 使用 PowerShell 启动"
       ],
       "next": 0
-    },
-    {
-      "name": "-w",
-      "tip": [
-        "指定运行给定命令行的终端窗口",
-        "E: -w 0   --- 在当前窗口运行",
-        "   -w 1   --- 在下一个窗口运行"
-      ],
-      "next": [
-        {
-          "name": "0",
-          "tip": [
-            "在当前窗口运行"
-          ]
-        },
-        {
-          "name": "1",
-          "tip": [
-            "在下一个窗口运行"
-          ]
-        }
-      ]
     }
   ],
   "common_option": [
     {
       "name": "--help",
       "alias": [
-        "-h"
+        "-h",
+        "-?",
+        "/?"
       ],
       "tip": [
-        "U: -h, --help",
+        "U: -h, -?, --help, /?",
         "显示帮助信息"
       ]
     }

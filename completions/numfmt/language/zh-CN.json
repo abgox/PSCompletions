@@ -1,12 +1,18 @@
 {
   "meta": {
-    "url": "https://github.com/uutils/coreutils",
+    "url": "https://uutils.org",
     "description": [
-      "Convert numbers from/to human-readable strings.",
-      "Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils)."
+      "将数字与人类可读字符串相互转换。",
+      "补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。"
     ]
   },
   "option": [
+    {
+      "name": "--debug",
+      "tip": [
+        "打印关于无效输入的警告"
+      ]
+    },
     {
       "name": "--delimiter",
       "alias": [
@@ -14,7 +20,7 @@
       ],
       "tip": [
         "U: -d, --delimiter <X>",
-        "use X instead of whitespace for field delimiter"
+        "使用 X 代替空白字符作为字段分隔符"
       ],
       "next": 0
     },
@@ -22,7 +28,7 @@
       "name": "--field",
       "tip": [
         "U: --field <FIELDS>",
-        "replace the numbers in these input fields; see FIELDS below [default: 1]"
+        "替换这些输入字段中的数字；参见下方 FIELDS [默认值: 1]"
       ],
       "next": 0
     },
@@ -30,7 +36,7 @@
       "name": "--format",
       "tip": [
         "U: --format <FORMAT>",
-        "use printf style floating-point FORMAT; see FORMAT below for details"
+        "使用 printf 风格的浮点 FORMAT；详见下方 FORMAT"
       ],
       "next": 0
     },
@@ -38,40 +44,40 @@
       "name": "--from",
       "tip": [
         "U: --from <UNIT>",
-        "auto-scale input numbers to UNITs; see UNIT below [default: none]"
+        "自动缩放输入数字到 UNIT；参见下方 UNIT [默认值: none]"
       ],
       "next": [
         {
           "name": "auto",
           "tip": [
-            "accept optional single/two letter suffix:",
+            "接受可选的单/双字母后缀：",
             "1K = 1000, 1Ki = 1024, 1M = 1000000, 1Mi = 1048576"
           ]
         },
         {
           "name": "iec",
           "tip": [
-            "accept optional single letter suffix:",
+            "接受可选的单字母后缀：",
             "1K = 1024, 1M = 1048576, ..."
           ]
         },
         {
           "name": "iec-i",
           "tip": [
-            "accept optional two-letter suffix:",
+            "接受可选的双字母后缀：",
             "1Ki = 1024, 1Mi = 1048576, ..."
           ]
         },
         {
           "name": "none",
           "tip": [
-            "no auto-scaling is done; suffixes will trigger an error"
+            "不进行自动缩放；后缀将触发错误"
           ]
         },
         {
           "name": "si",
           "tip": [
-            "accept optional single letter suffix:",
+            "接受可选的单字母后缀：",
             "1K = 1000, 1M = 1000000, ..."
           ]
         }
@@ -81,15 +87,23 @@
       "name": "--from-unit",
       "tip": [
         "U: --from-unit <N>",
-        "specify the input unit size [default: 1]"
+        "指定输入单位大小 [默认值: 1]"
       ],
       "next": 0
+    },
+    {
+      "name": "--grouping",
+      "tip": [
+        "U: --grouping",
+        "使用区域设置定义的数字分组，例如 1,000,000",
+        "（这意味着在 C/POSIX 区域设置中没有效果）"
+      ]
     },
     {
       "name": "--header",
       "tip": [
         "U: --header [<N>]",
-        "print (without converting) the first N header lines; N defaults to 1 if not specified"
+        "打印（不转换）前 N 行标题行；未指定时 N 默认为 1"
       ],
       "next": 0
     },
@@ -97,8 +111,8 @@
       "name": "--invalid",
       "tip": [
         "U: --invalid <INVALID>",
-        "set the failure mode for invalid input [default: abort]",
-        "[possible values: abort, fail, warn, ignore]"
+        "设置无效输入的失败模式 [默认值: abort]",
+        "[可能的值: abort, fail, warn, ignore]"
       ],
       "next": [
         {
@@ -119,10 +133,10 @@
       "name": "--padding",
       "tip": [
         "U: --padding <N>",
-        "pad the output to N characters;",
-        "positive N will right-align; negative N will left-align;",
-        "padding is ignored if the output is wider than N;",
-        "the default is to automatically pad if a whitespace is found"
+        "将输出填充到 N 个字符；",
+        "正数 N 右对齐；负数 N 左对齐；",
+        "如果输出宽度超过 N 则忽略填充；",
+        "默认情况下，如果发现空白字符则自动填充"
       ],
       "next": 0
     },
@@ -130,8 +144,8 @@
       "name": "--round",
       "tip": [
         "U: --round <METHOD>",
-        "use METHOD for rounding when scaling [default: from-zero]",
-        "[possible values: up, down, from-zero, towards-zero, nearest]"
+        "缩放时使用 METHOD 进行舍入 [默认值: from-zero]",
+        "[可能的值: up, down, from-zero, towards-zero, nearest]"
       ],
       "next": [
         {
@@ -155,7 +169,7 @@
       "name": "--suffix",
       "tip": [
         "U: --suffix <SUFFIX>",
-        "print SUFFIX after each formatted number, and accept inputs optionally ending with SUFFIX"
+        "在每个格式化数字后打印 SUFFIX，并接受可选以 SUFFIX 结尾的输入"
       ],
       "next": 0
     },
@@ -163,40 +177,40 @@
       "name": "--to",
       "tip": [
         "U: --to <UNIT>",
-        "auto-scale output numbers to UNITs; see UNIT below [default: none]"
+        "自动缩放输出数字到 UNIT；参见下方 UNIT [默认值: none]"
       ],
       "next": [
         {
           "name": "auto",
           "tip": [
-            "accept optional single/two letter suffix:",
+            "接受可选的单/双字母后缀：",
             "1K = 1000, 1Ki = 1024, 1M = 1000000, 1Mi = 1048576"
           ]
         },
         {
           "name": "iec",
           "tip": [
-            "accept optional single letter suffix:",
+            "接受可选的单字母后缀：",
             "1K = 1024, 1M = 1048576, ..."
           ]
         },
         {
           "name": "iec-i",
           "tip": [
-            "accept optional two-letter suffix:",
+            "接受可选的双字母后缀：",
             "1Ki = 1024, 1Mi = 1048576, ..."
           ]
         },
         {
           "name": "none",
           "tip": [
-            "no auto-scaling is done; suffixes will trigger an error"
+            "不进行自动缩放；后缀将触发错误"
           ]
         },
         {
           "name": "si",
           "tip": [
-            "accept optional single letter suffix:",
+            "接受可选的单字母后缀：",
             "1K = 1000, 1M = 1000000, ..."
           ]
         }
@@ -206,7 +220,16 @@
       "name": "--to-unit",
       "tip": [
         "U: --to-unit <N> ",
-        "the output unit size [default: 1]"
+        "输出单位大小 [默认值: 1]"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unit-separator",
+      "tip": [
+        "U: --unit-separator <STRING>",
+        "打印时使用 STRING 将数字与任何单位分隔",
+        "默认情况下，不使用分隔符"
       ],
       "next": 0
     },
@@ -217,6 +240,15 @@
       ],
       "tip": [
         "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--zero-terminated",
+      "alias": [
+        "-z"
+      ],
+      "tip": [
+        "行分隔符是 NUL，而不是换行符"
       ]
     }
   ],

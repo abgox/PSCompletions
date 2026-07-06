@@ -2,44 +2,182 @@
   "meta": {
     "url": "https://github.com/wavetermdev/waveterm",
     "description": [
-      "wsh is a small utility that lets you do cool things with Wave Terminal, right from the command line."
+      "wsh 是一个小工具，让你直接从命令行使用 Wave Terminal 做一些很酷的事情。"
     ]
   },
   "root": [
     {
       "name": "ai",
       "tip": [
-        "Send a message to an AI block."
+        "向 Wave AI 侧边栏追加内容。"
+      ],
+      "option": [
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <string>",
+            "追加在文件后的可选消息/问题。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--new",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "创建新的 AI 聊天而不是使用现有的。"
+          ]
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "追加后立即提交提示。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "tip": [
+        "设置或清除 block 标记。"
+      ],
+      "option": [
+        {
+          "name": "--beep",
+          "tip": [
+            "播放系统提示音。"
+          ]
+        },
+        {
+          "name": "--clear",
+          "tip": [
+            "清除标记。"
+          ]
+        },
+        {
+          "name": "--color",
+          "tip": [
+            "U: --color <string>",
+            "标记颜色。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pid",
+          "tip": [
+            "U: --pid <int>",
+            "监视进程 ID 并在其退出时自动清除标记。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--priority",
+          "tip": [
+            "U: --priority <float>",
+            "标记优先级。默认: 10"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "blocks",
+      "tip": [
+        "操作 block 的命令。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出工作区/窗口中的 block。"
+          ]
+        }
       ]
     },
     {
       "name": "completion",
       "tip": [
-        "Generate the autocompletion script for the specified shell."
+        "为指定 shell 生成自动补全脚本。"
       ]
     },
     {
       "name": "conn",
       "tip": [
-        "manage Wave Terminal connections."
+        "管理 Wave Terminal SSH 和 WSL 连接的命令。"
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "tip": [
+            "连接到一个连接。"
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "断开一个连接。"
+          ]
+        },
+        {
+          "name": "disconnectall",
+          "tip": [
+            "断开所有连接。"
+          ]
+        },
+        {
+          "name": "ensure",
+          "tip": [
+            "确保 wsh 已安装在连接上。"
+          ]
+        },
+        {
+          "name": "reinstall",
+          "tip": [
+            "在连接上重新安装 wsh。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示所有连接的状态。"
+          ]
+        }
       ]
     },
     {
       "name": "deleteblock",
       "tip": [
-        "delete a block."
+        "删除一个 block。"
       ]
     },
     {
       "name": "edit",
       "tip": [
-        "edit a file."
+        "编辑文件。"
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "以放大模式打开视图。"
+          ]
+        }
       ]
     },
     {
       "name": "editconfig",
       "tip": [
-        "edit Wave configuration files."
+        "编辑 Wave 配置文件。"
       ],
       "next": [
         {
@@ -56,121 +194,640 @@
     {
       "name": "editor",
       "tip": [
-        "edit a file. (blocks until editor is closed)"
+        "编辑文件（阻塞直到编辑器关闭）。"
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "以放大模式打开视图。"
+          ]
+        }
       ]
     },
     {
       "name": "file",
       "tip": [
-        "manage Wave Terminal files."
+        "管理本地和远程系统的文件。"
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --timeout <int>",
+            "长时间操作的超时时间(毫秒)。默认: 15000"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "append",
+          "tip": [
+            "将 stdin 追加到文件。"
+          ]
+        },
+        {
+          "name": "cat",
+          "tip": [
+            "显示文件内容。"
+          ]
+        },
+        {
+          "name": "cp",
+          "tip": [
+            "在存储系统之间复制文件, 需要时递归。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "显示 wave 文件信息。"
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出文件。"
+          ]
+        },
+        {
+          "name": "mv",
+          "tip": [
+            "在存储系统之间移动文件。"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "删除文件。"
+          ]
+        },
+        {
+          "name": "write",
+          "tip": [
+            "将 stdin 写入文件(最大 10MB)。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "focusblock",
+      "tip": [
+        "聚焦当前标签页中的 block。"
       ]
     },
     {
       "name": "getmeta",
       "tip": [
-        "get metadata for an entity."
+        "获取实体的元数据。"
+      ],
+      "option": [
+        {
+          "name": "--clear-prefix",
+          "tip": [
+            "输出前缀查询的特殊清除键。"
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "输出单值字符串时不带引号。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "输出完整元数据。"
+          ]
+        }
       ]
     },
     {
       "name": "getvar",
       "tip": [
-        "get variable(s) from a block."
+        "获取 block 的变量。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "获取所有变量。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "获取 block 的本地变量。"
+          ]
+        },
+        {
+          "name": "--newline",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "输出后打印换行符。"
+          ]
+        },
+        {
+          "name": "--no-newline",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "输出后不打印换行符。"
+          ]
+        },
+        {
+          "name": "--null",
+          "alias": [
+            "-0"
+          ],
+          "tip": [
+            "输出中使用空终止符。"
+          ]
+        },
+        {
+          "name": "--varfile",
+          "tip": [
+            "U: --varfile <string>",
+            "变量文件名。默认: var"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "help",
       "tip": [
-        "Help about any command."
+        "查看任意命令的帮助信息。"
+      ]
+    },
+    {
+      "name": "launch",
+      "tip": [
+        "通过 ID 启动小部件。"
+      ],
+      "option": [
+        {
+          "name": "--magnify",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "以放大模式启动小部件。"
+          ]
+        }
       ]
     },
     {
       "name": "notify",
       "tip": [
-        "create a notification."
-      ]
-    },
-    {
-      "name": "readfile",
-      "tip": [
-        "read a blockfile."
+        "创建通知。"
+      ],
+      "option": [
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "是否静音通知声音。"
+          ]
+        },
+        {
+          "name": "--title",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --title <string>",
+            "通知标题。默认: Wsh Notify"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "run",
       "tip": [
-        "run a command in a new block."
+        "在新 block 中运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--append",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "重启时追加输出而不是清除。"
+          ]
+        },
+        {
+          "name": "--command",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --command <string>",
+            "在 shell 中运行命令字符串。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cwd",
+          "tip": [
+            "U: --cwd <string>",
+            "设置命令的工作目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delay",
+          "tip": [
+            "U: --delay <int>",
+            "如果使用 -x, 关闭 block 前的延迟(毫秒)。默认: 2000"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "命令成功退出时关闭 block。"
+          ]
+        },
+        {
+          "name": "--forceexit",
+          "alias": [
+            "-X"
+          ],
+          "tip": [
+            "命令退出时关闭 block, 无论退出状态。"
+          ]
+        },
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "以放大模式打开视图。"
+          ]
+        },
+        {
+          "name": "--paused",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "以暂停状态创建 block。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "secret",
+      "tip": [
+        "管理 Wave Terminal 的密钥。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "删除密钥。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取密钥值。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有密钥名称。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置密钥值。"
+          ]
+        },
+        {
+          "name": "ui",
+          "tip": [
+            "打开密钥 UI。"
+          ]
+        }
       ]
     },
     {
       "name": "setbg",
       "tip": [
-        "set background image or color for a tab."
+        "设置标签页的背景图片或颜色。"
+      ],
+      "option": [
+        {
+          "name": "--active-border-color",
+          "tip": [
+            "U: --active-border-color <string>",
+            "block 框架聚焦边框颜色(#RRGGBB, #RRGGBBAA 或 CSS 颜色名)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--border-color",
+          "tip": [
+            "U: --border-color <string>",
+            "block 框架边框颜色(#RRGGBB, #RRGGBBAA 或 CSS 颜色名)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--center",
+          "tip": [
+            "居中图片不缩放。"
+          ]
+        },
+        {
+          "name": "--clear",
+          "tip": [
+            "清除背景。"
+          ]
+        },
+        {
+          "name": "--opacity",
+          "tip": [
+            "U: --opacity <float>",
+            "背景不透明度(0.0-1.0)。默认: 0.5"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--print",
+          "tip": [
+            "打印元数据但不应用。"
+          ]
+        },
+        {
+          "name": "--size",
+          "tip": [
+            "U: --size <string>",
+            "居中图片的大小(px, % 或 auto)。默认: auto"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tile",
+          "tip": [
+            "平铺背景图片。"
+          ]
+        }
       ]
     },
     {
       "name": "setconfig",
       "tip": [
-        "set config."
+        "设置配置。"
       ]
     },
     {
       "name": "setmeta",
       "tip": [
-        "set metadata for an entity."
+        "设置实体的元数据。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "U: --json <string>",
+            "包含要应用的元数据的 JSON 文件(使用 '-' 表示 stdin)。"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "setvar",
       "tip": [
-        "set variable(s) for a block."
+        "设置 block 的变量。"
+      ],
+      "option": [
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "设置 block 的本地变量。"
+          ]
+        },
+        {
+          "name": "--remove",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "删除变量而不是设置。"
+          ]
+        },
+        {
+          "name": "--varfile",
+          "tip": [
+            "U: --varfile <string>",
+            "变量文件名。默认: var"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "ssh",
       "tip": [
-        "connect this terminal to a remote host."
+        "将此终端连接到远程主机。"
+      ],
+      "option": [
+        {
+          "name": "--identityfile",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --identityfile <string>",
+            "添加公钥认证的身份文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--login",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --login <string>",
+            "设置远程登录名。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--new",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "创建使用此连接的新终端 block。"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --port <string>",
+            "设置远程端口。"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "term",
       "tip": [
-        "open a terminal in directory."
+        "在目录中打开终端。"
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "以放大模式打开视图。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "termscrollback",
+      "tip": [
+        "从终端 block 获取终端回滚内容。"
+      ],
+      "option": [
+        {
+          "name": "--end",
+          "tip": [
+            "U: --end <int>",
+            "结束行号(0 = 所有行)。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--lastcommand",
+          "tip": [
+            "获取最后一个命令的输出(需要 shell 集成)。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <string>",
+            "将输出写入文件而不是 stdout。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--start",
+          "tip": [
+            "U: --start <int>",
+            "起始行号(0 = 开头)。"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "version",
       "tip": [
-        "Print the version number of wsh."
+        "显示 wsh 的版本号。"
       ]
     },
     {
       "name": "view",
       "tip": [
-        "preview/edit a file or directory."
+        "预览/编辑文件或目录。"
+      ],
+      "option": [
+        {
+          "name": "--magnified",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "以放大模式打开视图。"
+          ]
+        }
       ]
     },
     {
       "name": "wavepath",
       "tip": [
-        "Get paths to various waveterm files and directories."
+        "获取 waveterm 各种文件和目录的路径。"
       ]
     },
     {
       "name": "web",
       "tip": [
-        "web commands."
+        "web 命令。"
+      ],
+      "next": [
+        {
+          "name": "open",
+          "tip": [
+            "在 web 小部件中打开 URL。"
+          ]
+        }
       ]
     },
     {
       "name": "workspace",
       "tip": [
-        "Manage workspaces."
+        "管理工作区。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出工作区。"
+          ]
+        }
       ]
     },
     {
       "name": "wsl",
       "tip": [
-        "connect this terminal to a local wsl connection."
+        "将此终端连接到本地 wsl 连接。"
       ]
     }
   ],
@@ -182,7 +839,7 @@
       ],
       "tip": [
         "U: -b, --block <block_id>",
-        "for commands which require a block id."
+        "用于需要 block id 的命令。"
       ],
       "next": 0
     },

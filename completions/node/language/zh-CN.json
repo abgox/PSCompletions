@@ -2,7 +2,7 @@
   "meta": {
     "url": "https://nodejs.org/",
     "description": [
-      "Node.js - 一个免费、开源、跨平台的 JavaScript 运行时环境"
+      "Node.js - 一个免费、开源、跨平台的 JavaScript 运行时环境。"
     ]
   },
   "root": [
@@ -12,8 +12,12 @@
   ],
   "option": [
     {
-      "name": "-version",
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
       "tip": [
+        "U: -v, --version",
         "显示版本信息。"
       ]
     }
@@ -22,31 +26,325 @@
     {
       "name": "-",
       "tip": [
-        "script read from stdin (default if no file name is provided, interactive mode if a tty)"
+        "从 stdin 读取脚本 (如果没有提供文件名则默认使用, 如果是 tty 则进入交互模式)"
       ]
     },
     {
       "name": "--",
       "tip": [
-        "indicate the end of node options"
+        "表示 node 选项的结束"
       ]
     },
     {
       "name": "--abort-on-uncaught-exception",
       "tip": [
-        "aborting instead of exiting causes a core file to be generated for analysis"
+        "中止而不是退出会导致生成核心文件以供分析"
       ]
     },
     {
       "name": "--allow-addons",
       "tip": [
-        "allow use of addons when any permissions are set"
+        "在设置任何权限时允许使用 addons"
       ]
     },
     {
       "name": "--allow-child-process",
       "tip": [
-        "allow use of child process when any permissions are set"
+        "在设置任何权限时允许使用子进程"
+      ]
+    },
+    {
+      "name": "--allow-ffi",
+      "tip": [
+        "在设置任何权限时允许使用 FFI"
+      ]
+    },
+    {
+      "name": "--allow-fs-read",
+      "tip": [
+        "允许读取文件系统的权限"
+      ]
+    },
+    {
+      "name": "--allow-fs-write",
+      "tip": [
+        "允许写入文件系统的权限"
+      ]
+    },
+    {
+      "name": "--allow-inspector",
+      "tip": [
+        "在设置任何权限时允许使用 inspector"
+      ]
+    },
+    {
+      "name": "--allow-net",
+      "tip": [
+        "在设置任何权限时允许使用网络"
+      ]
+    },
+    {
+      "name": "--allow-wasi",
+      "tip": [
+        "在设置任何权限时允许使用 wasi"
+      ]
+    },
+    {
+      "name": "--allow-worker",
+      "tip": [
+        "在设置任何权限时允许使用 worker 线程"
+      ]
+    },
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --check",
+        "语法检查脚本但不执行"
+      ]
+    },
+    {
+      "name": "--conditions",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --conditions <value>",
+        "条件导出和导入的附加用户条件"
+      ]
+    },
+    {
+      "name": "--cpu-prof",
+      "tip": [
+        "启动时启动 V8 CPU 分析器, 并在退出前将 CPU 配置文件写入磁盘"
+      ]
+    },
+    {
+      "name": "--cpu-prof-dir",
+      "tip": [
+        "--cpu-prof 生成的 V8 配置文件将放置的目录"
+      ]
+    },
+    {
+      "name": "--cpu-prof-interval",
+      "tip": [
+        "--cpu-prof 生成的 V8 CPU 配置文件的采样间隔 (微秒) (默认: 1000)"
+      ]
+    },
+    {
+      "name": "--cpu-prof-name",
+      "tip": [
+        "--cpu-prof 生成的 V8 配置文件的文件名"
+      ]
+    },
+    {
+      "name": "--diagnostic-dir",
+      "tip": [
+        "设置所有输出文件的目录 (默认: 当前工作目录)"
+      ]
+    },
+    {
+      "name": "--disable-proto",
+      "tip": [
+        "禁用 Object.prototype.__proto__"
+      ]
+    },
+    {
+      "name": "--disable-sigusr1",
+      "tip": [
+        "禁用 inspector 线程监听 SIGUSR1 信号"
+      ]
+    },
+    {
+      "name": "--disable-warning",
+      "tip": [
+        "静默特定的进程警告"
+      ]
+    },
+    {
+      "name": "--disable-wasm-trap-handler",
+      "tip": [
+        "禁用基于 trap handler 的 WebAssembly 边界检查"
+      ]
+    },
+    {
+      "name": "--disallow-code-generation-from-strings",
+      "tip": [
+        "禁止 eval 及其相关函数"
+      ]
+    },
+    {
+      "name": "--dns-result-order",
+      "tip": [
+        "设置 dns.lookup 中 verbatim 的默认值"
+      ]
+    },
+    {
+      "name": "--enable-source-maps",
+      "tip": [
+        "堆栈跟踪的 Source Map V3 支持"
+      ]
+    },
+    {
+      "name": "--entry-url",
+      "tip": [
+        "将入口点视为 URL"
+      ]
+    },
+    {
+      "name": "--env-file",
+      "tip": [
+        "从提供的文件设置环境变量"
+      ]
+    },
+    {
+      "name": "--env-file-if-exists",
+      "tip": [
+        "如果文件存在, 则从提供的文件设置环境变量"
+      ]
+    },
+    {
+      "name": "--eval",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --eval <script>",
+        "执行脚本"
+      ]
+    },
+    {
+      "name": "--experimental-eventsource",
+      "tip": [
+        "实验性 EventSource API"
+      ]
+    },
+    {
+      "name": "--experimental-ffi",
+      "tip": [
+        "实验性 node:ffi 模块"
+      ]
+    },
+    {
+      "name": "--experimental-import-meta-resolve",
+      "tip": [
+        "实验性 ES Module import.meta.resolve() parentURL 支持"
+      ]
+    },
+    {
+      "name": "--experimental-loader",
+      "tip": [
+        "使用指定的模块作为自定义加载器"
+      ]
+    },
+    {
+      "name": "--experimental-network-inspection",
+      "tip": [
+        "实验性网络检查支持"
+      ]
+    },
+    {
+      "name": "--experimental-sea-config",
+      "tip": [
+        "生成可嵌入到单可执行应用程序中的 blob"
+      ]
+    },
+    {
+      "name": "--experimental-storage-inspection",
+      "tip": [
+        "实验性存储检查支持"
+      ]
+    },
+    {
+      "name": "--experimental-stream-iter",
+      "tip": [
+        "实验性可迭代流 API (node:stream/iter)"
+      ]
+    },
+    {
+      "name": "--experimental-test-coverage",
+      "tip": [
+        "在测试运行器中启用代码覆盖率"
+      ]
+    },
+    {
+      "name": "--experimental-test-module-mocks",
+      "tip": [
+        "在测试运行器中启用模块模拟"
+      ]
+    },
+    {
+      "name": "--experimental-test-tag-filter",
+      "tip": [
+        "运行与给定标签过滤器表达式匹配的测试"
+      ]
+    },
+    {
+      "name": "--experimental-vm-modules",
+      "tip": [
+        "实验性 vm 模块中的 ES Module 支持"
+      ]
+    },
+    {
+      "name": "--expose-gc",
+      "tip": [
+        "公开 gc 扩展"
+      ]
+    },
+    {
+      "name": "--force-context-aware",
+      "tip": [
+        "禁用加载非上下文感知的 addons"
+      ]
+    },
+    {
+      "name": "--force-fips",
+      "tip": [
+        "强制 FIPS 加密 (无法禁用)"
+      ]
+    },
+    {
+      "name": "--frozen-intrinsics",
+      "tip": [
+        "实验性冻结 intrinsics 支持"
+      ]
+    },
+    {
+      "name": "--heap-prof",
+      "tip": [
+        "启动时启动 V8 堆分析器, 并在退出前将堆配置文件写入磁盘"
+      ]
+    },
+    {
+      "name": "--heap-prof-dir",
+      "tip": [
+        "--heap-prof 生成的 V8 堆配置文件将放置的目录"
+      ]
+    },
+    {
+      "name": "--heap-prof-interval",
+      "tip": [
+        "--heap-prof 生成的 V8 堆配置文件的采样间隔 (字节) (默认: 512 * 1024)"
+      ]
+    },
+    {
+      "name": "--heap-prof-name",
+      "tip": [
+        "--heap-prof 生成的 V8 堆配置文件的文件名"
+      ]
+    },
+    {
+      "name": "--heapsnapshot-near-heap-limit",
+      "tip": [
+        "当 V8 接近堆限制时生成堆快照"
+      ]
+    },
+    {
+      "name": "--heapsnapshot-signal",
+      "tip": [
+        "在指定信号上生成堆快照"
       ]
     },
     {
@@ -57,6 +355,504 @@
       "tip": [
         "U: -h, --help",
         "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--import",
+      "tip": [
+        "要预加载的 ES 模块 (选项可以重复)"
+      ]
+    },
+    {
+      "name": "--input-type",
+      "tip": [
+        "设置字符串输入的模块类型"
+      ]
+    },
+    {
+      "name": "--insecure-http-parser",
+      "tip": [
+        "使用不安全的 HTTP 解析器, 接受无效的 HTTP 头"
+      ]
+    },
+    {
+      "name": "--inspect",
+      "tip": [
+        "在 host:port 上激活 inspector (默认: 127.0.0.1:9229)"
+      ]
+    },
+    {
+      "name": "--inspect-brk",
+      "tip": [
+        "在 host:port 上激活 inspector 并在用户脚本开始时中断"
+      ]
+    },
+    {
+      "name": "--inspect-port",
+      "tip": [
+        "设置 inspector 的 host:port"
+      ]
+    },
+    {
+      "name": "--inspect-publish-uid",
+      "tip": [
+        "逗号分隔的 inspector uid 目标列表 (默认: stderr,http)"
+      ]
+    },
+    {
+      "name": "--inspect-wait",
+      "tip": [
+        "在 host:port 上激活 inspector 并等待调试器连接"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --interactive",
+        "即使 stdin 看起来不是终端也始终进入 REPL"
+      ]
+    },
+    {
+      "name": "--jitless",
+      "tip": [
+        "禁用运行时可执行内存分配"
+      ]
+    },
+    {
+      "name": "--max-http-header-size",
+      "tip": [
+        "设置 HTTP 头的最大大小 (默认: 16384 (16KB))"
+      ]
+    },
+    {
+      "name": "--no-addons",
+      "tip": [
+        "禁用加载原生 addons"
+      ]
+    },
+    {
+      "name": "--no-deprecation",
+      "tip": [
+        "静默弃用警告"
+      ]
+    },
+    {
+      "name": "--no-experimental-detect-module",
+      "tip": [
+        "当包含 ES 模块语法的模糊模块无法评估时, 尝试再次将它们作为 ES 模块评估"
+      ]
+    },
+    {
+      "name": "--no-experimental-global-navigator",
+      "tip": [
+        "在全局作用域上公开实验性 Navigator API"
+      ]
+    },
+    {
+      "name": "--no-experimental-repl-await",
+      "tip": [
+        "REPL 中的实验性 await 关键字支持"
+      ]
+    },
+    {
+      "name": "--no-experimental-sqlite",
+      "tip": [
+        "实验性 node:sqlite 模块"
+      ]
+    },
+    {
+      "name": "--no-experimental-websocket",
+      "tip": [
+        "实验性 WebSocket API"
+      ]
+    },
+    {
+      "name": "--no-force-async-hooks-checks",
+      "tip": [
+        "禁用 async_hooks 的检查"
+      ]
+    },
+    {
+      "name": "--no-global-search-paths",
+      "tip": [
+        "禁用全局模块搜索路径"
+      ]
+    },
+    {
+      "name": "--no-warnings",
+      "tip": [
+        "静默所有进程警告"
+      ]
+    },
+    {
+      "name": "--openssl-config",
+      "tip": [
+        "从指定文件加载 OpenSSL 配置 (覆盖 OPENSSL_CONF)"
+      ]
+    },
+    {
+      "name": "--openssl-legacy-provider",
+      "tip": [
+        "启用 OpenSSL 3.0 旧版提供程序"
+      ]
+    },
+    {
+      "name": "--openssl-shared-config",
+      "tip": [
+        "启用 OpenSSL 共享配置"
+      ]
+    },
+    {
+      "name": "--pending-deprecation",
+      "tip": [
+        "发出待处理的弃用警告"
+      ]
+    },
+    {
+      "name": "--permission",
+      "tip": [
+        "启用权限系统"
+      ]
+    },
+    {
+      "name": "--permission-audit",
+      "tip": [
+        "仅为权限系统启用审计"
+      ]
+    },
+    {
+      "name": "--preserve-symlinks",
+      "tip": [
+        "解析时保留符号链接"
+      ]
+    },
+    {
+      "name": "--preserve-symlinks-main",
+      "tip": [
+        "解析主模块时保留符号链接"
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --print",
+        "执行脚本并打印结果"
+      ]
+    },
+    {
+      "name": "--prof",
+      "tip": [
+        "生成 V8 分析器输出"
+      ]
+    },
+    {
+      "name": "--prof-process",
+      "tip": [
+        "处理使用 --prof 生成的 V8 分析器输出"
+      ]
+    },
+    {
+      "name": "--redirect-warnings",
+      "tip": [
+        "将警告写入文件而不是 stderr"
+      ]
+    },
+    {
+      "name": "--report-compact",
+      "tip": [
+        "输出紧凑的单行 JSON"
+      ]
+    },
+    {
+      "name": "--report-directory",
+      "tip": [
+        "定义自定义报告路径名 (默认: 当前工作目录)"
+      ]
+    },
+    {
+      "name": "--report-filename",
+      "tip": [
+        "定义自定义报告文件名"
+      ]
+    },
+    {
+      "name": "--report-on-fatalerror",
+      "tip": [
+        "在致命 (内部) 错误时生成诊断报告"
+      ]
+    },
+    {
+      "name": "--report-on-signal",
+      "tip": [
+        "收到信号时生成诊断报告"
+      ]
+    },
+    {
+      "name": "--report-signal",
+      "tip": [
+        "在提供的信号上生成诊断报告 (默认: SIGUSR2)"
+      ]
+    },
+    {
+      "name": "--report-uncaught-exception",
+      "tip": [
+        "在未捕获的异常时生成诊断报告"
+      ]
+    },
+    {
+      "name": "--require",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --require <module>",
+        "要预加载的 CommonJS 模块 (选项可以重复)"
+      ]
+    },
+    {
+      "name": "--run",
+      "tip": [
+        "运行 package.json 中指定的脚本"
+      ]
+    },
+    {
+      "name": "--snapshot-blob",
+      "tip": [
+        "快照 blob 的路径, 可以是快照构建的结果, 也可以是用于恢复应用程序状态的 blob"
+      ]
+    },
+    {
+      "name": "--test",
+      "tip": [
+        "启动时启动测试运行器"
+      ]
+    },
+    {
+      "name": "--test-concurrency",
+      "tip": [
+        "指定测试运行器并发数"
+      ]
+    },
+    {
+      "name": "--test-force-exit",
+      "tip": [
+        "强制测试运行器在完成后退出"
+      ]
+    },
+    {
+      "name": "--test-name-pattern",
+      "tip": [
+        "运行名称与此正则表达式匹配的测试"
+      ]
+    },
+    {
+      "name": "--test-only",
+      "tip": [
+        "运行设置了 'only' 选项的测试"
+      ]
+    },
+    {
+      "name": "--test-randomize",
+      "tip": [
+        "随机顺序运行测试"
+      ]
+    },
+    {
+      "name": "--test-reporter",
+      "tip": [
+        "使用给定的报告器报告测试输出"
+      ]
+    },
+    {
+      "name": "--test-reporter-destination",
+      "tip": [
+        "将给定的报告器报告到给定的目标"
+      ]
+    },
+    {
+      "name": "--test-shard",
+      "tip": [
+        "在特定分片上运行测试"
+      ]
+    },
+    {
+      "name": "--test-timeout",
+      "tip": [
+        "指定测试运行器超时时间"
+      ]
+    },
+    {
+      "name": "--test-update-snapshots",
+      "tip": [
+        "重新生成测试快照"
+      ]
+    },
+    {
+      "name": "--throw-deprecation",
+      "tip": [
+        "在弃用时抛出异常"
+      ]
+    },
+    {
+      "name": "--title",
+      "tip": [
+        "启动时使用的进程标题"
+      ]
+    },
+    {
+      "name": "--tls-cipher-list",
+      "tip": [
+        "使用替代的默认 TLS 密码列表"
+      ]
+    },
+    {
+      "name": "--tls-keylog",
+      "tip": [
+        "将 TLS 解密密钥记录到命名文件以进行流量分析"
+      ]
+    },
+    {
+      "name": "--trace-deprecation",
+      "tip": [
+        "在弃用时显示堆栈跟踪"
+      ]
+    },
+    {
+      "name": "--trace-env",
+      "tip": [
+        "打印对环境变量的访问"
+      ]
+    },
+    {
+      "name": "--trace-exit",
+      "tip": [
+        "当环境退出时显示堆栈跟踪"
+      ]
+    },
+    {
+      "name": "--trace-promises",
+      "tip": [
+        "在 Promise 初始化和解决时显示堆栈跟踪"
+      ]
+    },
+    {
+      "name": "--trace-sigint",
+      "tip": [
+        "启用在 SIGINT 时打印 JavaScript 堆栈跟踪"
+      ]
+    },
+    {
+      "name": "--trace-sync-io",
+      "tip": [
+        "在第一个 tick 后检测到同步 IO 使用时显示堆栈跟踪"
+      ]
+    },
+    {
+      "name": "--trace-tls",
+      "tip": [
+        "将 TLS 数据包跟踪信息打印到 stderr"
+      ]
+    },
+    {
+      "name": "--trace-uncaught",
+      "tip": [
+        "显示未捕获异常背后的 throw 的堆栈跟踪"
+      ]
+    },
+    {
+      "name": "--trace-warnings",
+      "tip": [
+        "在进程警告时显示堆栈跟踪"
+      ]
+    },
+    {
+      "name": "--track-heap-objects",
+      "tip": [
+        "跟踪堆快照的堆对象分配"
+      ]
+    },
+    {
+      "name": "--unhandled-rejections",
+      "tip": [
+        "定义未处理的拒绝行为 (strict|throw|warn|none|warn-with-error-code)"
+      ]
+    },
+    {
+      "name": "--use-bundled-ca",
+      "tip": [
+        "使用捆绑的 CA 存储 (默认)"
+      ]
+    },
+    {
+      "name": "--use-env-proxy",
+      "tip": [
+        "从 HTTP_PROXY/HTTPS_PROXY/NO_PROXY 环境变量解析代理设置"
+      ]
+    },
+    {
+      "name": "--use-largepages",
+      "tip": [
+        "将 Node.js 静态代码映射到大页 (off|on|silent)"
+      ]
+    },
+    {
+      "name": "--use-openssl-ca",
+      "tip": [
+        "使用 OpenSSL 的默认 CA 存储"
+      ]
+    },
+    {
+      "name": "--use-system-ca",
+      "tip": [
+        "使用系统的 CA 存储"
+      ]
+    },
+    {
+      "name": "--v8-options",
+      "tip": [
+        "打印 V8 命令行选项"
+      ]
+    },
+    {
+      "name": "--v8-pool-size",
+      "tip": [
+        "设置 V8 的线程池大小"
+      ]
+    },
+    {
+      "name": "--watch",
+      "tip": [
+        "在监视模式下运行"
+      ]
+    },
+    {
+      "name": "--watch-kill-signal",
+      "tip": [
+        "监视模式重启时发送给进程的终止信号 (默认: SIGTERM)"
+      ]
+    },
+    {
+      "name": "--watch-path",
+      "tip": [
+        "要监视的路径"
+      ]
+    },
+    {
+      "name": "--watch-preserve-output",
+      "tip": [
+        "在监视模式重启时保留输出"
+      ]
+    },
+    {
+      "name": "--zero-fill-buffers",
+      "tip": [
+        "自动将所有新分配的 Buffer 实例清零"
       ]
     }
   ]

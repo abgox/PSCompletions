@@ -26,6 +26,24 @@
           ]
         },
         {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Don't run lifecycle scripts"
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "Trigger an error if any required dependencies are not available in local store"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "Skip staleness checks for cached data, but request missing data from the server"
+          ]
+        },
+        {
           "name": "--save-dev",
           "alias": [
             "-D"
@@ -68,7 +86,7 @@
           ],
           "tip": [
             "U: -P, --save-prod",
-            "(Default)Install the specified packages as regular dependencies"
+            "(Default) Install the specified packages as regular dependencies"
           ]
         },
         {
@@ -85,7 +103,28 @@
     {
       "name": "audit",
       "tip": [
+        "U: audit [options]",
         "Checks for known security issues with the installed packages"
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "tip": [
+            "Only print advisories with severity greater than or equal to the specified level (info|low|moderate|high|critical)"
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "Fix the audited vulnerabilities using the specified method (override or update)"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output audit report in JSON format"
+          ]
+        }
       ]
     },
     {
@@ -189,6 +228,13 @@
       ]
     },
     {
+      "name": "dlx",
+      "tip": [
+        "U: dlx <command> [args...]",
+        "Fetch a package from the registry without installing it as a dependency, hot load it, and run its default command"
+      ]
+    },
+    {
       "name": "exec",
       "tip": [
         "Executes a shell command in scope of a project"
@@ -207,6 +253,33 @@
       ]
     },
     {
+      "name": "init",
+      "tip": [
+        "Create a package.json file"
+      ],
+      "option": [
+        {
+          "name": "--bare",
+          "tip": [
+            "Create a package.json file with the bare minimum of required fields"
+          ]
+        },
+        {
+          "name": "--init-package-manager",
+          "tip": [
+            "Declare a pnpm version range via devEngines.packageManager in package.json"
+          ]
+        },
+        {
+          "name": "--init-type",
+          "tip": [
+            "U: --init-type <commonjs|module>",
+            "Set the module system for the package (default: commonjs)"
+          ]
+        }
+      ]
+    },
+    {
       "name": "install",
       "alias": [
         "i"
@@ -214,6 +287,70 @@
       "tip": [
         "U: install|i",
         "Install all dependencies for a project"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --dev",
+            "Only devDependencies are installed"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force reinstall dependencies: refetch packages modified in store, recreate a lockfile and/or modules directory"
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Don't generate a lockfile and fail if an update is needed"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Don't run lifecycle scripts"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Dependencies are not downloaded. Only pnpm-lock.yaml is updated"
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "Trigger an error if any required dependencies are not available in local store"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "Skip staleness checks for cached data, but request missing data from the server"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --prod",
+            "Packages in devDependencies won't be installed"
+          ]
+        },
+        {
+          "name": "--shamefully-hoist",
+          "tip": [
+            "All the subdeps will be hoisted into the root node_modules"
+          ]
+        }
       ]
     },
     {
@@ -230,6 +367,20 @@
       "name": "licenses",
       "tip": [
         "Check licenses in consumed packages"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Show information in JSON format"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show more details (such as a link to the repo)"
+          ]
+        }
       ]
     },
     {
@@ -253,6 +404,12 @@
       ],
       "option": [
         {
+          "name": "--depth",
+          "tip": [
+            "Max display depth of the dependency tree"
+          ]
+        },
+        {
           "name": "--global",
           "alias": [
             "-g"
@@ -261,6 +418,18 @@
             "U: -g, --global",
             "List globally"
           ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Show information in JSON format"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show extended information"
+          ]
         }
       ]
     },
@@ -268,24 +437,96 @@
       "name": "outdated",
       "tip": [
         "Check for outdated packages"
+      ],
+      "option": [
+        {
+          "name": "--compatible",
+          "tip": [
+            "Print only versions that satisfy specs in package.json"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show details about the outdated packages"
+          ]
+        }
       ]
     },
     {
       "name": "pack",
       "tip": [
         "Create a tarball from a package"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Does everything pnpm pack would do except actually writing the tarball to disk"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Prints the packed tarball and contents in the json format"
+          ]
+        }
       ]
     },
     {
       "name": "prune",
       "tip": [
         "Removes extraneous packages"
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Don't run lifecycle scripts"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "Remove the packages specified in devDependencies"
+          ]
+        }
       ]
     },
     {
       "name": "publish",
       "tip": [
         "Publishes a package to the registry"
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "tip": [
+            "Tells the registry whether this package should be published as public or restricted"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Does everything a publish would do except actually publishing to the registry"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Publish all packages from the workspace"
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "Registers the published package with the given tag (default: latest)"
+          ]
+        }
       ]
     },
     {
@@ -296,6 +537,14 @@
       "tip": [
         "U: rebuild|rb",
         "Rebuild a package"
+      ],
+      "option": [
+        {
+          "name": "--pending",
+          "tip": [
+            "Rebuild packages that were not built during installation"
+          ]
+        }
       ]
     },
     {
@@ -317,6 +566,36 @@
             "U: -g, --global",
             "Remove globally"
           ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --save-dev",
+            "Remove the dependency only from devDependencies"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "tip": [
+            "U: -O, --save-optional",
+            "Remove the dependency only from optionalDependencies"
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --save-prod",
+            "Remove the dependency only from dependencies"
+          ]
         }
       ]
     },
@@ -324,12 +603,57 @@
       "name": "root",
       "tip": [
         "Prints the effective modules directory"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Print the global packages directory"
+          ]
+        }
       ]
     },
     {
-      "name": "run",
+      "name": "run-script",
+      "alias": [
+        "run"
+      ],
       "tip": [
         "Runs a defined package script"
+      ],
+      "option": [
+        {
+          "name": "--if-present",
+          "tip": [
+            "Avoid exiting with a non-zero exit code when the script is undefined"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "Running a given script immediately in all matching packages"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Run the defined package script in every package found in subdirectories"
+          ]
+        },
+        {
+          "name": "--sequential",
+          "tip": [
+            "Run the specified scripts one by one"
+          ]
+        }
       ],
       "next": []
     },
@@ -418,7 +742,25 @@
             "U: -g, --global",
             "Update globally"
           ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Update in every package found in subdirectories"
+          ]
         }
+      ]
+    },
+    {
+      "name": "why",
+      "tip": [
+        "U: why <pkg> ...",
+        "Shows all packages that depend on the specified package",
+        "E: why lodash"
       ]
     }
   ],

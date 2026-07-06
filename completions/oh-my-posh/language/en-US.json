@@ -7,29 +7,66 @@
   },
   "root": [
     {
+      "name": "auth",
+      "tip": [
+        "Authenticate against a service."
+      ],
+      "next": [
+        {
+          "name": "copilot"
+        },
+        {
+          "name": "ytmda"
+        }
+      ]
+    },
+    {
       "name": "cache",
       "tip": [
         "Interact with the oh-my-posh cache."
+      ],
+      "option": [
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "Show the session cache"
+          ]
+        }
       ],
       "next": [
         {
           "name": "clear",
           "tip": [
-            "remove all cache values"
-          ]
-        },
-        {
-          "name": "edit",
-          "tip": [
-            "edit cache values"
+            "Remove all cache values"
           ]
         },
         {
           "name": "path",
           "tip": [
-            "list cache path"
+            "List cache path"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Print a detailed list of all cached values"
+          ]
+        },
+        {
+          "name": "ttl",
+          "tip": [
+            "Get cache TTL in days"
           ]
         }
+      ]
+    },
+    {
+      "name": "claude",
+      "tip": [
+        "Render a prompt for Claude Code statusline."
       ]
     },
     {
@@ -39,14 +76,20 @@
       ],
       "next": [
         {
+          "name": "dsc"
+        },
+        {
           "name": "edit"
         },
         {
           "name": "export"
-        },
-        {
-          "name": "migrate"
         }
+      ]
+    },
+    {
+      "name": "copilot",
+      "tip": [
+        "Render a prompt for GitHub Copilot CLI statusline."
       ]
     },
     {
@@ -90,10 +133,16 @@
       ],
       "option": [
         {
+          "name": "--headless",
+          "tip": [
+            "Install font without TUI"
+          ]
+        },
+        {
           "name": "--zip-folder",
           "tip": [
             "U: --zip-folder <string>",
-            "the folder inside the zip file to install fonts from"
+            "The folder inside the zip file to install fonts from"
           ],
           "next": 0
         }
@@ -101,6 +150,9 @@
       "next": [
         {
           "name": "configure"
+        },
+        {
+          "name": "dsc"
         },
         {
           "name": "install"
@@ -155,7 +207,13 @@
         {
           "name": "--debug",
           "tip": [
-            "enable/disable debug mode"
+            "Enable/disable debug mode"
+          ]
+        },
+        {
+          "name": "--eval",
+          "tip": [
+            "Output the full init script for eval"
           ]
         },
         {
@@ -164,7 +222,7 @@
             "-p"
           ],
           "tip": [
-            "print the init script"
+            "Print the init script"
           ]
         },
         {
@@ -173,7 +231,7 @@
             "-s"
           ],
           "tip": [
-            "run in strict mode"
+            "Run in strict mode"
           ]
         }
       ],
@@ -229,6 +287,9 @@
           "name": "error"
         },
         {
+          "name": "preview"
+        },
+        {
           "name": "primary"
         },
         {
@@ -249,9 +310,15 @@
       ]
     },
     {
+      "name": "stream",
+      "tip": [
+        "Stream the primary prompt with incremental updates."
+      ]
+    },
+    {
       "name": "toggle",
       "tip": [
-        "Toggle a segment on/off."
+        "Toggle one or more segments on/off."
       ]
     },
     {
@@ -269,29 +336,9 @@
   ],
   "option": [
     {
-      "name": "--init",
-      "alias": [
-        "-i"
-      ],
-      "tip": [
-        "init"
-      ]
-    },
-    {
-      "name": "--shell",
-      "alias": [
-        "-s"
-      ],
-      "tip": [
-        "U: -s ,  --shell <string>",
-        "shell"
-      ],
-      "next": 0
-    },
-    {
       "name": "--version",
       "tip": [
-        "Show the version."
+        "Print the version number and exit."
       ]
     }
   ],
@@ -302,8 +349,8 @@
         "-c"
       ],
       "tip": [
-        "U: -c ,  --config <string>",
-        "config file path"
+        "U: -c, --config <string>",
+        "Config file path"
       ],
       "next": 0
     },
@@ -314,6 +361,18 @@
       ],
       "tip": [
         "Show the help."
+      ]
+    },
+    {
+      "name": "--plain",
+      "tip": [
+        "Plain text output (no ANSI)"
+      ]
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "Enable tracing"
       ]
     }
   ]

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "url": "https://github.com/uutils/coreutils",
+    "url": "https://uutils.org",
     "description": [
-      "Print CRC and size for each file.",
-      "Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils)."
+      "打印每个文件的 CRC 和大小。",
+      "补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。"
     ]
   },
   "option": [
@@ -14,12 +14,15 @@
       ],
       "tip": [
         "U: -a, --algorithm <ALGORITHM>",
-        "select the digest type to use. See DIGEST below",
-        "[possible values: sysv, bsd, crc, md5, sha1, sha224, sha256, sha384, sha512, blake2b, sm3]"
+        "选择使用的摘要类型。参见下方 DIGEST",
+        "[可能的值: sysv, bsd, crc, crc32b, md5, sha1, sha2, sha3, blake2b, sm3, sha224, sha256, sha384, sha512, blake3, shake128, shake256]"
       ],
       "next": [
         {
           "name": "blake2b"
+        },
+        {
+          "name": "blake3"
         },
         {
           "name": "bsd"
@@ -28,10 +31,16 @@
           "name": "crc"
         },
         {
+          "name": "crc32b"
+        },
+        {
           "name": "md5"
         },
         {
           "name": "sha1"
+        },
+        {
+          "name": "sha2"
         },
         {
           "name": "sha224"
@@ -40,10 +49,19 @@
           "name": "sha256"
         },
         {
+          "name": "sha3"
+        },
+        {
           "name": "sha384"
         },
         {
           "name": "sha512"
+        },
+        {
+          "name": "shake128"
+        },
+        {
+          "name": "shake256"
         },
         {
           "name": "sm3"
@@ -59,7 +77,28 @@
         "-b"
       ],
       "tip": [
-        "emit a base64 digest, not hexadecimal"
+        "输出 base64 格式摘要，而非十六进制"
+      ]
+    },
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "从文件中读取校验和并进行校验"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "打印 cksum 使用的 CPU 硬件能力检测信息"
+      ]
+    },
+    {
+      "name": "--ignore-missing",
+      "tip": [
+        "对于缺失的文件不报错或报告状态"
       ]
     },
     {
@@ -69,27 +108,45 @@
       ],
       "tip": [
         "U: -l, --length <LENGTH>",
-        "digest length in bits;",
-        "must not exceed the max for the blake2 algorithm and must be a multiple of 8"
+        "摘要长度，以位为单位；",
+        "不得超过 blake2 算法的最大值且必须是 8 的倍数"
       ],
       "next": 0
     },
     {
+      "name": "--quiet",
+      "tip": [
+        "对于每个成功校验的文件不打印 OK"
+      ]
+    },
+    {
       "name": "--raw",
       "tip": [
-        "emit a raw binary digest, not hexadecimal"
+        "输出原始二进制摘要，而非十六进制"
+      ]
+    },
+    {
+      "name": "--status",
+      "tip": [
+        "不输出任何内容，通过状态码显示成功"
+      ]
+    },
+    {
+      "name": "--strict",
+      "tip": [
+        "对于格式不正确的校验行以非零状态退出"
       ]
     },
     {
       "name": "--tag",
       "tip": [
-        "create a BSD style checksum, undo --untagged (default)"
+        "创建 BSD 风格的校验和，撤销 --untagged（默认）"
       ]
     },
     {
       "name": "--untagged",
       "tip": [
-        "create a reversed style checksum, without digest type"
+        "创建反转风格的校验和，不带摘要类型"
       ]
     },
     {
@@ -99,6 +156,24 @@
       ],
       "tip": [
         "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--warn",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "对格式不正确的校验行发出警告"
+      ]
+    },
+    {
+      "name": "--zero",
+      "alias": [
+        "-z"
+      ],
+      "tip": [
+        "以 NUL 而非换行符结束每行输出，并禁用文件名转义"
       ]
     }
   ],

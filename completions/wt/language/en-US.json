@@ -8,6 +8,158 @@
   },
   "root": [
     {
+      "name": "ft",
+      "tip": [
+        "focus-tab",
+        "Focus a specific tab within the window"
+      ],
+      "option": [
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --target <tab-index>",
+            "Focus on a specific tab according to its tab index number"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "mf",
+      "tip": [
+        "move-focus",
+        "Move focus between panes"
+      ],
+      "next": [
+        {
+          "name": "down"
+        },
+        {
+          "name": "first"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "nextInOrder"
+        },
+        {
+          "name": "previous"
+        },
+        {
+          "name": "previousInOrder"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "up"
+        }
+      ]
+    },
+    {
+      "name": "mp",
+      "tip": [
+        "move-pane",
+        "Move the active pane to a given tab"
+      ],
+      "option": [
+        {
+          "name": "--tab",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tab <index>",
+            "Move the active pane to the given tab (zero-indexed)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "nt",
+      "tip": [
+        "new-tab",
+        "Create a new tab"
+      ],
+      "option": [
+        {
+          "name": "--appendCommandLine",
+          "tip": [
+            "Append the provided command-line to the profile's default command"
+          ]
+        },
+        {
+          "name": "--colorScheme",
+          "tip": [
+            "U: --colorScheme <scheme-name>",
+            "Override the profile's colorScheme setting"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--inheritEnvironment",
+          "tip": [
+            "Inherit the terminal's own environment variables when creating the new session"
+          ]
+        },
+        {
+          "name": "--profile",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --profile <profile-name>",
+            "Create a new tab based on the profile name assigned"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--startingDirectory",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --startingDirectory <starting-directory>",
+            "Create a new tab based on the starting directory path assigned"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--suppressApplicationTitle",
+          "tip": [
+            "Override the profile's suppressApplicationTitle setting to true"
+          ]
+        },
+        {
+          "name": "--tabColor",
+          "tip": [
+            "U: --tabColor <hex-color>",
+            "Create a new tab with the tab color assigned (e.g. #RGB or #RRGGBB)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--title",
+          "tip": [
+            "U: --title <title>",
+            "Create a new tab with the title assigned"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--useApplicationTitle",
+          "tip": [
+            "Override the profile's suppressApplicationTitle setting to false"
+          ]
+        }
+      ]
+    },
+    {
       "name": "sp",
       "tip": [
         "split-pane",
@@ -15,84 +167,148 @@
       ],
       "option": [
         {
-          "name": "--pos",
+          "name": "--colorScheme",
           "tip": [
-            "Specify the location of the terminal in the format \"x,y\"",
-            "(The upper left corner of the screen is the origin: x is 0, y is 0)",
-            "E: --pos 100,200   --- Start at x 100, y 200."
+            "U: --colorScheme <scheme-name>",
+            "Override the profile's colorScheme setting"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--duplicate",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --duplicate",
+            "Create a split pane that duplicates the current pane"
+          ]
+        },
+        {
+          "name": "--horizontal",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --horizontal",
+            "Split the pane horizontally"
+          ]
+        },
+        {
+          "name": "--profile",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --profile <profile-name>",
+            "Create a split pane based on the assigned profile"
           ],
           "next": 0
         },
         {
           "name": "--size",
+          "alias": [
+            "-s"
+          ],
           "tip": [
-            "Specify the number of columns and rows for the terminal in the format \"column,row\"",
-            "E: --size 80,25   --- Start with 80 columns and 25 rows"
+            "U: -s, --size <size>",
+            "Create a split pane with the assigned size (float, e.g. .4 for 40%)"
           ],
           "next": 0
         },
         {
-          "name": "-d",
+          "name": "--startingDirectory",
+          "alias": [
+            "-d"
+          ],
           "tip": [
-            "U: -d <dir>",
-            "Specify the startup directory",
-            "E: -d \"D:\\\"   --- Start from D drive"
+            "U: -d, --startingDirectory <starting-directory>",
+            "Create a split pane based on the starting directory path"
           ],
           "next": 0
         },
         {
-          "name": "-f",
+          "name": "--suppressApplicationTitle",
           "tip": [
-            "Launch window in Focus mode"
+            "Override the profile's suppressApplicationTitle setting to true"
           ]
         },
         {
-          "name": "-F",
+          "name": "--tabColor",
           "tip": [
-            "Launch window in full screen mode"
-          ]
-        },
-        {
-          "name": "-M",
-          "tip": [
-            "Launch window in maximized mode"
-          ]
-        },
-        {
-          "name": "-p",
-          "tip": [
-            "U: -p <profile>",
-            "Start the terminal with the specified configuration file",
-            "E: -p \"PowerShell\"   --- Start with PowerShell"
+            "U: --tabColor <hex-color>",
+            "Create a split pane with the assigned tab color"
           ],
           "next": 0
         },
         {
-          "name": "-w",
+          "name": "--title",
           "tip": [
-            "Specify the terminal window for running the given command line",
-            "E: -w 0   --- Run in the current window",
-            "   -w 1   --- Run in the next window"
+            "U: --title <title>",
+            "Create a split pane with the assigned title"
           ],
-          "next": [
-            {
-              "name": "0",
-              "tip": [
-                "Run in the current window"
-              ]
-            },
-            {
-              "name": "1",
-              "tip": [
-                "Run in the next window"
-              ]
-            }
+          "next": 0
+        },
+        {
+          "name": "--useApplicationTitle",
+          "tip": [
+            "Override the profile's suppressApplicationTitle setting to false"
           ]
+        },
+        {
+          "name": "--vertical",
+          "alias": [
+            "-V"
+          ],
+          "tip": [
+            "U: -V, --vertical",
+            "Split the pane vertically"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "swap-pane",
+      "tip": [
+        "Swap the position of two panes within the window"
+      ],
+      "next": [
+        {
+          "name": "down"
+        },
+        {
+          "name": "first"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "nextInOrder"
+        },
+        {
+          "name": "previous"
+        },
+        {
+          "name": "previousInOrder"
+        },
+        {
+          "name": "right"
+        },
+        {
+          "name": "up"
         }
       ]
     }
   ],
   "option": [
+    {
+      "name": "--colorScheme",
+      "tip": [
+        "U: --colorScheme <scheme-name>",
+        "Override the profile's colorScheme setting"
+      ],
+      "next": 0
+    },
     {
       "name": "--pos",
       "tip": [
@@ -111,6 +327,22 @@
       "next": 0
     },
     {
+      "name": "--tabColor",
+      "tip": [
+        "U: --tabColor <hex-color>",
+        "Set the tab color (e.g. #RGB or #RRGGBB)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--title",
+      "tip": [
+        "U: --title <title>",
+        "Set the window title"
+      ],
+      "next": 0
+    },
+    {
       "name": "--version",
       "alias": [
         "-v"
@@ -118,6 +350,40 @@
       "tip": [
         "U: -v, --version",
         "Display the version"
+      ]
+    },
+    {
+      "name": "--window",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --window <window-id>",
+        "Specify the terminal window for running the given command line",
+        "Values: new/-1 (new window), last/0 (most recent), or window ID/name",
+        "E: -w 0   --- Run in the current window",
+        "   -w 1   --- Run in the next window",
+        "   -w new  --- Run in a new window"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Run in the most recently used window (last)"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "Run in the next window"
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "Always run in a new window"
+          ]
+        }
       ]
     },
     {
@@ -155,38 +421,18 @@
         "E: -p \"PowerShell\"   --- Start with PowerShell"
       ],
       "next": 0
-    },
-    {
-      "name": "-w",
-      "tip": [
-        "Specify the terminal window for running the given command line",
-        "E: -w 0   --- Run in the current window",
-        "   -w 1   --- Run in the next window"
-      ],
-      "next": [
-        {
-          "name": "0",
-          "tip": [
-            "Run in the current window"
-          ]
-        },
-        {
-          "name": "1",
-          "tip": [
-            "Run in the next window"
-          ]
-        }
-      ]
     }
   ],
   "common_option": [
     {
       "name": "--help",
       "alias": [
-        "-h"
+        "-h",
+        "-?",
+        "/?"
       ],
       "tip": [
-        "U: -h, --help",
+        "U: -h, -?, --help, /?",
         "Print this help message and exit"
       ]
     }

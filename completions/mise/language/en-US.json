@@ -10,13 +10,24 @@
       "name": "activate",
       "tip": [
         "Initializes mise in the current shell session"
+      ],
+      "option": [
+        {
+          "name": "--no-hook-env",
+          "tip": [
+            "Do not automatically call hook-env"
+          ]
+        },
+        {
+          "name": "--shims",
+          "tip": [
+            "Use shims instead of modifying PATH"
+          ]
+        }
       ]
     },
     {
       "name": "backends",
-      "alias": [
-        "b"
-      ],
       "tip": [
         "Manage backends"
       ]
@@ -25,6 +36,35 @@
       "name": "bin-paths",
       "tip": [
         "List all the active runtime bin paths"
+      ]
+    },
+    {
+      "name": "bootstrap",
+      "tip": [
+        "[experimental] Set up a machine for the current config in one command"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Print what would happen without installing anything"
+          ]
+        },
+        {
+          "name": "--force-dotfiles",
+          "tip": [
+            "Overwrite existing files that conflict with whole-file dotfile entries"
+          ]
+        },
+        {
+          "name": "--update",
+          "tip": [
+            "Refresh system package manager metadata first"
+          ]
+        }
       ]
     },
     {
@@ -37,6 +77,14 @@
       "name": "completion",
       "tip": [
         "Generate shell completions"
+      ],
+      "option": [
+        {
+          "name": "--include-bash-completion-lib",
+          "tip": [
+            "Include the bash completion library in the bash completion script"
+          ]
+        }
       ]
     },
     {
@@ -46,6 +94,20 @@
       ],
       "tip": [
         "Manage config files"
+      ],
+      "option": [
+        {
+          "name": "--no-header",
+          "tip": [
+            "Do not print table header"
+          ]
+        },
+        {
+          "name": "--tracked-configs",
+          "tip": [
+            "List all tracked config files"
+          ]
+        }
       ]
     },
     {
@@ -55,12 +117,89 @@
       ]
     },
     {
+      "name": "deps",
+      "alias": [
+        "dep"
+      ],
+      "tip": [
+        "[experimental] Manage project dependencies"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Only check if deps install is needed, don't run commands"
+          ]
+        },
+        {
+          "name": "--explain",
+          "tip": [
+            "Show why a provider is fresh or stale"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "Force run all deps steps even if outputs are fresh"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "Show what deps providers are available"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "Run specific deps rule(s) only"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip",
+          "tip": [
+            "U: --skip <SKIP>",
+            "Skip specific deps rule(s)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
       "name": "doctor",
       "alias": [
         "dr"
       ],
       "tip": [
         "Check mise installation for possible problems"
+      ],
+      "option": [
+        {
+          "name": "--path",
+          "tip": [
+            "Print the current PATH entries mise is providing"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dotfiles",
+      "tip": [
+        "[experimental] Manage dotfiles from `[dotfiles]`"
+      ]
+    },
+    {
+      "name": "edit",
+      "tip": [
+        "Edit mise.toml interactively"
       ]
     },
     {
@@ -76,6 +215,46 @@
       ],
       "tip": [
         "Exports env vars to activate mise a single time"
+      ],
+      "option": [
+        {
+          "name": "--dotenv",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "Output in dotenv format"
+          ]
+        },
+        {
+          "name": "--json-extended",
+          "tip": [
+            "Output in JSON format with additional information (source, tool)"
+          ]
+        },
+        {
+          "name": "--redacted",
+          "tip": [
+            "Only show redacted environment variables"
+          ]
+        },
+        {
+          "name": "--shell",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --shell <SHELL>",
+            "Shell type to generate environment variables for"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--values",
+          "tip": [
+            "Only show values of environment variables"
+          ]
+        }
       ]
     },
     {
@@ -85,6 +264,31 @@
       ],
       "tip": [
         "Execute a command with tool(s) set"
+      ],
+      "option": [
+        {
+          "name": "--command",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --command <C>",
+            "Command string to execute"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fresh-env",
+          "tip": [
+            "Bypass the environment cache and recompute the environment"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "Skip automatic dependency preparation"
+          ]
+        }
       ]
     },
     {
@@ -121,6 +325,60 @@
       ],
       "tip": [
         "Install a tool version"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Show what would be installed without actually installing"
+          ]
+        },
+        {
+          "name": "--dry-run-code",
+          "tip": [
+            "Like --dry-run but exits with code 1 if there are tools to install"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "Force reinstall even if already installed"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "Only install versions released before this date or older than this duration"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "Connect backend install command stdin/stdout/stderr directly to the terminal"
+          ]
+        },
+        {
+          "name": "--shared",
+          "tip": [
+            "U: --shared <SHARED>",
+            "Install tool(s) to a shared directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "Install tool(s) to the system-wide shared directory"
+          ]
+        }
       ]
     },
     {
@@ -133,6 +391,25 @@
       "name": "latest",
       "tip": [
         "Gets the latest available version for a plugin"
+      ],
+      "option": [
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "Show latest installed instead of available version"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "Only consider versions released before this date or older than this duration"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -142,6 +419,17 @@
       ],
       "tip": [
         "Symlinks a tool version into mise"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "Overwrite an existing tool version if it exists"
+          ]
+        }
       ]
     },
     {
@@ -151,30 +439,229 @@
       ],
       "tip": [
         "List installed and active tool versions"
+      ],
+      "option": [
+        {
+          "name": "--all-sources",
+          "tip": [
+            "Display all tracked config sources for tools"
+          ]
+        },
+        {
+          "name": "--current",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "Only show tool versions currently specified in a mise.toml"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "Only show tool versions currently specified in the global mise.toml"
+          ]
+        },
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "Only show tool versions that are installed"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "Only show tool versions currently specified in the local mise.toml"
+          ]
+        },
+        {
+          "name": "--missing",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "Display missing tool versions"
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "Don't display headers"
+          ]
+        },
+        {
+          "name": "--outdated",
+          "tip": [
+            "Display whether a version is outdated"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "tip": [
+            "U: --prefix <PREFIX>",
+            "Display versions matching this prefix"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--prunable",
+          "tip": [
+            "List only tools that can be pruned with `mise prune`"
+          ]
+        }
       ]
     },
     {
       "name": "lock",
       "tip": [
         "Update lockfile checksums and URLs for all specified platforms"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Show what would be updated without making changes"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "Target only global config lockfiles"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Update mise.local.lock instead of mise.lock"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "Only lock versions released before this age or date"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --platform <PLATFORM>",
+            "Comma-separated list of platforms to target"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "ls-remote",
       "tip": [
         "List runtime versions available for install"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Show all installed plugins and versions"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "Only show versions released before this age or date"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-versions-host",
+          "tip": [
+            "Disable checking the mise-versions host"
+          ]
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "Include pre-release versions in the output"
+          ]
+        },
+        {
+          "name": "--strict-metadata",
+          "tip": [
+            "Fail if release metadata fetches fail"
+          ]
+        }
       ]
     },
     {
       "name": "mcp",
       "tip": [
-        "[experimental] Run Model Context Protocol (MCP) server"
+        "Run Model Context Protocol (MCP) server"
+      ]
+    },
+    {
+      "name": "oci",
+      "tip": [
+        "[experimental] Build OCI container images from a mise.toml"
       ]
     },
     {
       "name": "outdated",
       "tip": [
         "Shows outdated tool versions"
+      ],
+      "option": [
+        {
+          "name": "--bump",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "Compares against the latest versions available, not what matches the current config"
+          ]
+        },
+        {
+          "name": "--inactive",
+          "tip": [
+            "Show outdated tools including installed-but-inactive tools not present in the current config"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Only show outdated tools defined in local config files"
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "Don't show table header"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patrons",
+      "tip": [
+        "Show the individuals supporting mise as Patron-tier members"
       ]
     },
     {
@@ -184,6 +671,32 @@
       ],
       "tip": [
         "Manage plugins"
+      ],
+      "option": [
+        {
+          "name": "--core",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "The built-in plugins only"
+          ]
+        },
+        {
+          "name": "--urls",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "Show the git url for each plugin"
+          ]
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "List installed plugins"
+          ]
+        }
       ]
     },
     {
@@ -199,12 +712,60 @@
       "name": "prune",
       "tip": [
         "Delete unused versions of tools"
+      ],
+      "option": [
+        {
+          "name": "--configs",
+          "tip": [
+            "Prune only tracked and trusted configuration links that point to nonexistent configurations"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Do not actually delete anything"
+          ]
+        },
+        {
+          "name": "--tools",
+          "tip": [
+            "Prune only unused versions of tools"
+          ]
+        }
       ]
     },
     {
       "name": "registry",
       "tip": [
         "List available tools to install"
+      ],
+      "option": [
+        {
+          "name": "--backend",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --backend <BACKEND>",
+            "Show only tools for this backend"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hide-aliased",
+          "tip": [
+            "Hide aliased tools"
+          ]
+        },
+        {
+          "name": "--security",
+          "tip": [
+            "Include security features for each tool's backends in JSON output"
+          ]
+        }
       ]
     },
     {
@@ -215,6 +776,45 @@
       ],
       "tip": [
         "Removes installed tool versions from mise.toml"
+      ],
+      "option": [
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env <ENV>",
+            "Create/modify an environment-specific config file like .mise.<env>.toml"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "Use the global config file instead of the local one"
+          ]
+        },
+        {
+          "name": "--no-prune",
+          "tip": [
+            "Do not also prune the installed version"
+          ]
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --path <PATH>",
+            "Specify a path to a config file or directory"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -230,30 +830,348 @@
       ],
       "tip": [
         "Run task(s)"
+      ],
+      "option": [
+        {
+          "name": "--continue-on-error",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "Continue running tasks even if one fails"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Don't actually run the task(s), just print them in order of execution"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "Force the tasks to run even if outputs are up to date"
+          ]
+        },
+        {
+          "name": "--fresh-env",
+          "tip": [
+            "Bypass the environment cache and recompute the environment"
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "Do not use cache on remote tasks"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "Skip automatic dependency preparation"
+          ]
+        },
+        {
+          "name": "--no-timings",
+          "tip": [
+            "Hides elapsed time after each task completes"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <OUTPUT>",
+            "Change how tasks information is output when running tasks"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shell",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --shell <SHELL>",
+            "Shell to use to run toml tasks"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-deps",
+          "tip": [
+            "Run only the specified tasks skipping all dependencies"
+          ]
+        },
+        {
+          "name": "--skip-tools",
+          "tip": [
+            "Skip installing tools before running tasks"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIMEOUT>",
+            "Timeout for the task to complete"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tool <TOOL@VERSION>",
+            "Tool(s) to run in addition to what is in mise.toml files"
+          ],
+          "next": 0
+        }
       ]
     },
     {
       "name": "search",
       "tip": [
         "Search for tools in the registry"
+      ],
+      "option": [
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "Show interactive search"
+          ]
+        },
+        {
+          "name": "--match-type",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --match-type <MATCH_TYPE>",
+            "Match type: equal, contains, or fuzzy"
+          ],
+          "next": [
+            {
+              "name": "contains"
+            },
+            {
+              "name": "equal"
+            },
+            {
+              "name": "fuzzy"
+            }
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "Don't display headers"
+          ]
+        }
       ]
     },
     {
       "name": "self-update",
       "tip": [
         "Updates mise itself"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "Update even if already up to date"
+          ]
+        },
+        {
+          "name": "--no-plugins",
+          "tip": [
+            "Disable auto-updating plugins"
+          ]
+        }
       ]
     },
     {
       "name": "set",
       "tip": [
         "Set environment variables in mise.toml"
+      ],
+      "option": [
+        {
+          "name": "--age-encrypt",
+          "tip": [
+            "[experimental] Encrypt the value with age before storing"
+          ]
+        },
+        {
+          "name": "--age-key-file",
+          "tip": [
+            "U: --age-key-file <PATH>",
+            "[experimental] Age identity file for encryption"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--age-recipient",
+          "tip": [
+            "U: --age-recipient <RECIPIENT>",
+            "[experimental] Age recipient (x25519 public key) for encryption"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--age-ssh-recipient",
+          "tip": [
+            "U: --age-ssh-recipient <PATH_OR_PUBKEY>",
+            "[experimental] SSH recipient (public key or path) for age encryption"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --env <ENV>",
+            "Create/modify an environment-specific config file like .mise.<env>.toml"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--file",
+          "tip": [
+            "U: --file <FILE>",
+            "The TOML file to update"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "Set the environment variable in the global config file"
+          ]
+        },
+        {
+          "name": "--no-redact",
+          "tip": [
+            "Show raw values instead of redacting secrets"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "tip": [
+            "Prompt for environment variable values"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "Read the value from stdin (for multiline input)"
+          ]
+        }
       ]
     },
     {
       "name": "settings",
       "tip": [
         "Manage settings"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "List all settings"
+          ]
+        },
+        {
+          "name": "--json-extended",
+          "tip": [
+            "Output in JSON format with sources"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "Use the local config file instead of the global one"
+          ]
+        },
+        {
+          "name": "--toml",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "Output in TOML format"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Adds a setting to the configuration file"
+          ]
+        },
+        {
+          "name": "create",
+          "alias": [
+            "set"
+          ],
+          "tip": [
+            "Add/update a setting"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Show a current setting"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "Show current settings"
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete",
+            "unset",
+            "del",
+            "rm"
+          ],
+          "tip": [
+            "Clears a setting"
+          ]
+        }
       ]
     },
     {
@@ -263,12 +1181,29 @@
       ],
       "tip": [
         "Sets a tool version for the current session"
+      ],
+      "option": [
+        {
+          "name": "--unset",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "Removes a previously set version"
+          ]
+        }
       ]
     },
     {
       "name": "shell-alias",
       "tip": [
         "Manage shell aliases"
+      ]
+    },
+    {
+      "name": "sponsors",
+      "tip": [
+        "Show the companies sponsoring mise and the en.dev project family"
       ]
     },
     {
@@ -284,6 +1219,75 @@
       ],
       "tip": [
         "Manage tasks"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Load all tasks from the entire monorepo, including sibling directories"
+          ]
+        },
+        {
+          "name": "--extended",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "Show all columns"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "Only show global tasks"
+          ]
+        },
+        {
+          "name": "--hidden",
+          "tip": [
+            "Show hidden tasks"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "Only show non-global tasks"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "Only show task names, one per line"
+          ]
+        },
+        {
+          "name": "--no-header",
+          "tip": [
+            "Do not print table header"
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "U: --sort <COLUMN>",
+            "Sort by column. Default is name"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--sort-order",
+          "tip": [
+            "U: --sort-order <SORT_ORDER>",
+            "Sort order. Default is asc"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -293,18 +1297,84 @@
       ]
     },
     {
+      "name": "token",
+      "tip": [
+        "Display git provider tokens mise will use"
+      ]
+    },
+    {
       "name": "tool",
       "tip": [
         "Gets information about a tool"
+      ],
+      "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "Only show active versions"
+          ]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "Only show backend field"
+          ]
+        },
+        {
+          "name": "--config-source",
+          "tip": [
+            "Only show config source"
+          ]
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "Only show description field"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "Only show installed versions"
+          ]
+        },
+        {
+          "name": "--requested",
+          "tip": [
+            "Only show requested versions"
+          ]
+        },
+        {
+          "name": "--tool-options",
+          "tip": [
+            "Only show tool options"
+          ]
+        }
       ]
     },
     {
       "name": "tool-alias",
-      "alias": [
-        "alias"
-      ],
       "tip": [
-        "Manage version aliases"
+        "Manage tool version aliases"
+      ],
+      "option": [
+        {
+          "name": "--no-header",
+          "tip": [
+            "Don't show table header"
+          ]
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --tool <TOOL>",
+            "Filter aliases by tool"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -317,18 +1387,101 @@
       "name": "trust",
       "tip": [
         "Marks a config file as trusted"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "Trust all config files in the current directory and its parents"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "Do not trust this config and ignore it in the future"
+          ]
+        },
+        {
+          "name": "--show",
+          "tip": [
+            "Show the trusted status of config files from the current directory and its parents"
+          ]
+        },
+        {
+          "name": "--untrust",
+          "tip": [
+            "No longer trust this config, will prompt in the future"
+          ]
+        }
       ]
     },
     {
       "name": "uninstall",
       "tip": [
         "Removes installed tool versions"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "Delete all installed versions"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Do not actually delete anything"
+          ]
+        },
+        {
+          "name": "--dry-run-code",
+          "tip": [
+            "Like --dry-run but exits with code 1 if there are tools to uninstall"
+          ]
+        }
       ]
     },
     {
       "name": "unset",
       "tip": [
         "Remove environment variable(s) from the config file"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --file <FILE>",
+            "Specify a file to use instead of `mise.toml`"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "Use the global config file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untrust",
+      "tip": [
+        "No longer trust a config, will prompt in the future"
       ]
     },
     {
@@ -338,6 +1491,66 @@
       ],
       "tip": [
         "Upgrades outdated tools"
+      ],
+      "option": [
+        {
+          "name": "--bump",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "Upgrades to the latest version available, bumping the version in mise.toml"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Just print what would be done, don't actually do it"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "U: -x, --exclude <INSTALLED_TOOL>",
+            "Tool(s) to exclude from upgrading"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--inactive",
+          "tip": [
+            "Upgrade all tools, including installed-but-inactive tools not present in the current config"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "Display multiselect menu to choose which tools to upgrade"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Only upgrade tools defined in local config files"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "Only upgrade to versions released before this date or older than this duration"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -347,6 +1560,97 @@
       ],
       "tip": [
         "Installs a tool and adds the version to mise.toml"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Perform a dry run, showing what would be installed and modified without making changes"
+          ]
+        },
+        {
+          "name": "--dry-run-code",
+          "tip": [
+            "Like --dry-run but exits with code 1 if there are changes to make"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env <ENV>",
+            "Create/modify an environment-specific config file like .mise.<env>.toml"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "Force reinstall even if already installed"
+          ]
+        },
+        {
+          "name": "--fuzzy",
+          "tip": [
+            "Save fuzzy version to config file"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "Use the global config file instead of the local one"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "tip": [
+            "U: --minimum-release-age <MINIMUM_RELEASE_AGE>",
+            "Only install versions released before this date or older than this duration"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --path <PATH>",
+            "Specify a path to a config file or directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pin",
+          "tip": [
+            "Save exact version to config file"
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "Connect backend install command stdin/stdout/stderr directly to the terminal"
+          ]
+        },
+        {
+          "name": "--remove",
+          "tip": [
+            "U: --remove <TOOL>",
+            "Remove the tool(s) from config file"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -365,6 +1669,164 @@
       ],
       "tip": [
         "Run task(s) and watch for changes to rerun it"
+      ],
+      "option": [
+        {
+          "name": "--clear",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "Clear screen before running command"
+          ]
+        },
+        {
+          "name": "--debounce",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --debounce <TIMEOUT>",
+            "Time to wait for new events before taking action"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exts",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exts <EXTENSIONS>",
+            "Filename extensions to filter to"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --filter <PATTERN>",
+            "Filename patterns to filter to"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --ignore <PATTERN>",
+            "Filename patterns to filter out"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-nothing",
+          "tip": [
+            "Don't ignore anything at all"
+          ]
+        },
+        {
+          "name": "--no-project-ignore",
+          "tip": [
+            "Don't load project-local ignores"
+          ]
+        },
+        {
+          "name": "--no-vcs-ignore",
+          "tip": [
+            "Don't load gitignores"
+          ]
+        },
+        {
+          "name": "--notify",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "Alert when commands start and end"
+          ]
+        },
+        {
+          "name": "--on-busy-update",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --on-busy-update <MODE>",
+            "What to do when receiving events while the command is running"
+          ],
+          "next": [
+            {
+              "name": "do-nothing"
+            },
+            {
+              "name": "queue"
+            },
+            {
+              "name": "restart"
+            },
+            {
+              "name": "signal"
+            }
+          ]
+        },
+        {
+          "name": "--postpone",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "Wait until first change before running command"
+          ]
+        },
+        {
+          "name": "--restart",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "Restart the process if it is still running"
+          ]
+        },
+        {
+          "name": "--signal",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --signal <SIGNAL>",
+            "Send a signal to the process when it is still running"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-deps",
+          "tip": [
+            "Run only the specified tasks skipping all dependencies"
+          ]
+        },
+        {
+          "name": "--timings",
+          "tip": [
+            "Print how long the command took to run"
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --watch <PATH>",
+            "Watch a specific file or directory"
+          ],
+          "next": 0
+        }
       ]
     },
     {
@@ -377,6 +1839,31 @@
       "name": "which",
       "tip": [
         "Shows the path that a tool's bin points to"
+      ],
+      "option": [
+        {
+          "name": "--plugin",
+          "tip": [
+            "Show the plugin name instead of the path"
+          ]
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tool <TOOL@VERSION>",
+            "Use a specific tool@version"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "Show the version instead of the path"
+          ]
+        }
       ]
     }
   ],
@@ -435,6 +1922,15 @@
       "next": 0
     },
     {
+      "name": "--json",
+      "alias": [
+        "-J"
+      ],
+      "tip": [
+        "Output in JSON format"
+      ]
+    },
+    {
       "name": "--locked",
       "tip": [
         "Require lockfile URLs to be present during installation"
@@ -447,9 +1943,22 @@
       ]
     },
     {
+      "name": "--no-env",
+      "tip": [
+        "Do not load environment variables from config files"
+      ]
+    },
+    {
+      "name": "--no-hooks",
+      "tip": [
+        "Do not execute hooks from config files"
+      ]
+    },
+    {
       "name": "--output",
       "tip": [
-        "U: --output <OUTPUT>"
+        "U: --output <OUTPUT>",
+        "Change how tasks information is output"
       ],
       "next": 0
     },
