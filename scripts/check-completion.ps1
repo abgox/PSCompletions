@@ -118,7 +118,7 @@ if ($hasCompletion) {
         '| :-: | :-: | :-: | :-: |'
     ) + $results
 
-    .\scripts\sort-completion.ps1
+    .\scripts\sort-json.ps1
 
     git -c core.safecrlf=false add -u
     $jsonChanges = git status --porcelain | Where-Object { $_ -match '\.json$' }
@@ -130,7 +130,7 @@ if ($hasCompletion) {
             '> Please run it to sort JSON and commit again.',
             '>',
             '> ```powershell',
-            '> .\scripts\sort-completion.ps1',
+            '> .\scripts\sort-json.ps1',
             '> ```'
         )
     }

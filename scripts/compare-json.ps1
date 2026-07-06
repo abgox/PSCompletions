@@ -1,16 +1,12 @@
 #Requires -Version 7.0
 
 param(
-    [string]$CompletionName, # 完成项名称
-    [string]$TargetLang = 'zh-CN',
-    [string]$BaseLang = 'en-US',
-    [ValidateSet('diff', 'untranslated')]
-    [string[]]$Show = @('diff', 'untranslated')
+    [string]$CompletionName,
+    [ArgumentCompletions('en-US', 'zh-CN')]
+    [string]$BaseLang = 'en-US'
 )
 
 Set-StrictMode -Off
-
-$completion_name = $CompletionName
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
@@ -18,10 +14,7 @@ if (!(Test-Path $textPath)) {
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
-if (!$PSCompletions) {
-    Write-Host $text.'import-psc' -ForegroundColor Red
-    return
-}
+if (!$PSCompletions) { . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1 }
 
 $text = $text.'compare-json'
 
@@ -30,456 +23,290 @@ function outText {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text))
 }
 
-if (!$completion_name.Trim()) {
+if (!$CompletionName.Trim()) {
     outText $text.invalidName
     return
 }
-if ($TargetLang -eq $BaseLang) {
-    outText $text.sameLang
-    return
-}
 
-$completion_dir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'completions', $completion_name)
+$langDir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'completions', $CompletionName, 'language')
 
-$diffJson = [System.IO.Path]::Combine($completion_dir, 'language', $TargetLang + '.json')
-if (!(Test-Path $diffJson)) {
+if (!(Test-Path $langDir)) {
     outText $text.invalidLang
     return
 }
 
-$baseJson = [System.IO.Path]::Combine($completion_dir, 'language', $BaseLang + '.json')
+$allLangFiles = Get-ChildItem -Path $langDir -Filter '*.json' | ForEach-Object { $_.BaseName }
+$otherLangs = $allLangFiles | Where-Object { $_ -ne $BaseLang } | Sort-Object
 
-& $PSScriptRoot\sort-completion.ps1 $completion_name
+if ($otherLangs.Count -eq 0) {
+    outText "<@Yellow>No language files found besides $BaseLang"
+    return
+}
 
-function Compare-JsonProperty {
+$baseJson = [System.IO.Path]::Combine($langDir, $BaseLang + '.json')
+if (!(Test-Path $baseJson)) {
+    outText $text.invalidLang
+    return
+}
+
+& $PSScriptRoot\sort-json.ps1 $CompletionName
+
+function Get-ValueType {
+    param($Value)
+    if ($null -eq $Value) { return 'Null' }
+    if ($Value -is [array]) { return 'Array' }
+    if ($Value -is [System.Collections.IDictionary]) { return 'Hashtable' }
+    return $Value.GetType().Name
+}
+
+function Compare-Lang {
     param (
-        [string]$diffJson,
         [string]$baseJson,
-        [switch]$ReturnRate
+        [string]$targetJson,
+        [string]$targetLang
     )
 
-    # 读取 JSON 文件
-    $diffContent = Get-Content -Path $diffJson -Raw | ConvertFrom-Json -AsHashtable
     $baseContent = Get-Content -Path $baseJson -Raw | ConvertFrom-Json -AsHashtable
+    $targetContent = Get-Content -Path $targetJson -Raw | ConvertFrom-Json -AsHashtable
 
-    # 统计
-    $count = @{
-        totalTips        = 0   # 总的 tip 数量
-
-        diffList         = @() # 不同的属性值或类型
-        untranslatedList = @() # 未翻译的
+    $stats = @{
+        totalTips        = 0
+        translatedTips   = 0
+        missingInTarget  = @()
+        extraInTarget    = @()
+        typeMismatch     = @()
+        semanticMismatch = @()
+        valueDiff        = @()
+        untranslated     = @()
     }
 
-    function noTranslated() {
-        param($diffStr, $baseStr)
-        # XXX: 以中文为例，可以通过判断是否存在中文字符
-        # 直接判断是否相等，目前也可用
-
-        try {
-            $json = $diffContent
-            $info = $diffContent.info
-            $diff = $diffStr -join ''
+    function Test-NamedObjectArray {
+        param([array]$ArrA, [array]$ArrB)
+        foreach ($arr in @($ArrA, $ArrB)) {
+            if ($arr.Count -gt 0 -and $arr[0] -is [System.Collections.IDictionary] -and $arr[0].ContainsKey('name')) {
+                return $true
+            }
         }
-        catch {
-            Write-Host "Error in $(Resolve-Path $diffJson)" -ForegroundColor Red
-            Write-Host $_.Exception.Message -ForegroundColor Red
-            Write-Host $diffStr
-            exit 1
-        }
-
-        try {
-            $json = $baseContent
-            $info = $baseContent.info
-            $base = $baseStr -join ''
-        }
-        catch {
-            Write-Host "Error in $(Resolve-Path $baseJson)" -ForegroundColor Red
-            Write-Host $_.Exception.Message -ForegroundColor Red
-            Write-Host $baseStr
-            exit 1
-        }
-
-        if ($diff -like '{{*}}' -and $base -like '{{*}}' -and $diff -eq $base) {
-            return $false
-        }
-
-        return $diff -ceq $base
+        return $false
     }
 
-    function isExist {
-        param($v)
-        # XXX: 在 PowerShell 中，对于空数组，以下两种判断都返回空，而非布尔。空又会被当做 false
-        # @() -eq $null # 返回空，也就是 false
-        # @() -ne $null # 返回空，也就是 false
-        # 因此，如果它的类型是一个数组，就应该认为它存在
-        return $v -is [array] -or $v -ne $null
-    }
+    function Compare-TranslatableText {
+        param($BaseVal, $TargetVal, [string]$Path)
 
-    # 定义递归函数以遍历
-    function traverseArr {
-        param (
-            [array]$diffArr, # 比对
-            [array]$baseArr, # 基准
-            [string]$pos = ''
-        )
-        $baseIndex = 0
-        $diffIndex = 0
+        $baseArr = if ($null -eq $BaseVal) { @() } else { @($BaseVal) }
+        $targetArr = if ($null -eq $TargetVal) { @() } else { @($TargetVal) }
 
-        while ($baseIndex -lt $baseArr.Count -or $diffIndex -lt $diffArr.Count) {
-            $baseItem = if ($baseIndex -lt $baseArr.Count) { $baseArr[$baseIndex] } else { $null }
-            $diffItem = if ($diffIndex -lt $diffArr.Count) { $diffArr[$diffIndex] } else { $null }
-
-            # name
-            $isDiff = $false
-            if ($baseItem.name) {
-                if ($diffItem.name) {
-                    if ($baseItem.name -cne $diffItem.name) {
-                        $isDiff = $true
-                    }
-                }
-                else {
-                    $isDiff = $true
-                }
-
-            }
-            else {
-                if ($diffItem.name) {
-                    $isDiff = $true
-                }
-            }
-            if ($isDiff) {
-                $count.diffList += @{
-                    base = $baseItem.name
-                    diff = $diffItem.name
-                    pos  = "$pos[$baseIndex].name"
-                }
-                return
-            }
-
-            # alias
-            $isDiff = $false
-            if ($baseItem.alias) {
-                if ($diffItem.alias) {
-                    if (Compare-Object $baseItem.alias $diffItem.alias -CaseSensitive) {
-                        $isDiff = $true
-                    }
-                }
-                else {
-                    $isDiff = $true
-                }
-            }
-            else {
-                if ($diffItem.alias) {
-                    $isDiff = $true
-                }
-            }
-            if ($isDiff) {
-                $count.diffList += @{
-                    name = $baseItem.name
-                    base = $baseItem.alias -join ' '
-                    diff = $diffItem.alias -join ' '
-                    pos  = "$pos[$baseIndex].alias"
-                }
-                return
-            }
-
-            # repeat
-            $isDiff = $false
-            if ($null -ne $baseItem.repeat) {
-                if ($null -ne $diffItem.repeat) {
-                    if ($baseItem.repeat -ne $diffItem.repeat) {
-                        $isDiff = $true
-                    }
-                }
-                else {
-                    $isDiff = $true
-                }
-            }
-            else {
-                if ($null -ne $diffItem.repeat) {
-                    $isDiff = $true
-                }
-            }
-            if ($isDiff) {
-                $count.diffList += @{
-                    name = $baseItem.name
-                    base = $baseItem.repeat
-                    diff = $diffItem.repeat
-                    pos  = "$pos[$baseIndex].repeat"
-                }
-                return
-            }
-
-            # next
-            # option
-            foreach ($item in @('next', 'option')) {
-                $isDiff = $false
-                if (isExist $baseItem.$item) {
-                    if (isExist $diffItem.$item) {
-                        $baseType = $baseItem.$item.GetType().Name
-                        $diffType = $diffItem.$item.GetType().Name
-                        if ($baseType -ne $diffType) {
-                            $isDiff = $true
-                        }
-                    }
-                    else {
-                        $isDiff = $true
-                    }
-                }
-                else {
-                    if (isExist $diffItem.$item) {
-                        $isDiff = $true
-                    }
-                }
-                if ($isDiff) {
-                    $count.diffList += @{
-                        name = $baseItem.name
-                        base = if ($baseItem.$item -is [array] -and $baseItem.$item.Count -eq 0) { '[]' }else { $baseItem.$item }
-                        diff = if ($diffItem.$item -is [array] -and $diffItem.$item.Count -eq 0) { '[]' }else { $diffItem.$item }
-                        pos  = "$pos[$baseIndex].$item"
-                    }
-                    return
-                }
-
-                if ($baseItem.$item -is [array] -and $diffItem.$item -is [array]) {
-                    traverseArr $diffItem.$item $baseItem.$item "$pos[$baseIndex].$item"
-                }
-            }
-
-            # value
-            $isDiff = $false
-            if ($null -ne $baseItem.value) {
-                if ($null -ne $diffItem.value) {
-                    if ($baseItem.value -cne $diffItem.value) {
-                        $isDiff = $true
-                    }
-                }
-                else {
-                    $isDiff = $true
-                }
-            }
-            else {
-                if ($null -ne $diffItem.value) {
-                    $isDiff = $true
-                }
-            }
-            if ($isDiff) {
-                $count.diffList += @{
-                    name = $baseItem.name
-                    base = $baseItem.value
-                    diff = $diffItem.value
-                    pos  = "$pos[$baseIndex].value"
-                }
-                return
-            }
-
-            # values
-            $isDiff = $false
-            if (isExist $baseItem['values']) {
-                if (isExist $diffItem['values']) {
-                    if (Compare-Object $baseItem['values'] $diffItem['values'] -CaseSensitive) {
-                        $isDiff = $true
-                    }
-                }
-                else {
-                    $isDiff = $true
-                }
-            }
-            else {
-                if (isExist $diffItem['values']) {
-                    $isDiff = $true
-                }
-            }
-            if ($isDiff) {
-                $count.diffList += @{
-                    name = $baseItem.name
-                    base = $baseItem['values'] -join ' '
-                    diff = $diffItem['values'] -join ' '
-                    pos  = "$pos[$baseIndex].values"
-                }
-                return
-            }
-
-            # tip
-            $isDiff = $false
-            if ($baseItem.tip) {
-                $count.totalTips++
-                if ($diffItem.tip) {
-                    if (noTranslated $diffItem.tip $baseItem.tip) {
-                        $count.untranslatedList += @{
-                            name  = $diffItem.name
-                            value = "`n" + ($diffItem.tip -join "`n")
-                            pos   = "$pos[$baseIndex].tip"
-                        }
-                    }
-                }
-                else {
-                    $isDiff = $true
-                }
-            }
-            else {
-                if ($diffItem.tip) {
-                    $isDiff = $true
-                }
-            }
-            if ($isDiff) {
-                $count.diffList += @{
-                    name = $baseItem.name
-                    base = "`n" + ($baseItem.tip -join "`n")
-                    diff = "`n" + ($diffItem.tip -join "`n")
-                    pos  = "$pos[$baseIndex].tip"
-                }
-                return
-            }
-
-            $baseIndex++
-            $diffIndex++
+        foreach ($item in $baseArr) {
+            if ($item -isnot [string]) { return }
         }
-    }
-
-    foreach ($item in @('root', 'option', 'common_option', 'config')) {
-        if ($count.diffList.Count -gt 0) {
-            break
+        foreach ($item in $targetArr) {
+            if ($item -isnot [string]) { return }
         }
-        $isDiff = $false
-        if ($baseContent.$item.Count) {
-            if ($diffContent.$item.Count) {
-                traverseArr $diffContent.$item $baseContent.$item $item
-            }
-            else {
-                $isDiff = $true
-            }
+
+        if ($baseArr.Count -eq 0 -and $targetArr.Count -eq 0) { return }
+        if ($baseArr.Count -eq 0) { return }
+
+        $stats.totalTips++
+
+        if ($targetArr.Count -eq 0) {
+            $stats.missingInTarget += @{ path = $Path; name = $Path }
+            return
+        }
+
+        $baseStr = $baseArr -join ''
+        $targetStr = $targetArr -join ''
+
+        $isTemplate = $targetStr -like '{{*}}' -and $baseStr -like '{{*}}' -and $targetStr -eq $baseStr
+        if ($isTemplate -or $targetStr -ne $baseStr) {
+            $stats.translatedTips++
         }
         else {
-            if ($diffContent.$item.Count) {
-                $isDiff = $true
-            }
-        }
-        if ($isDiff) {
-            $count.diffList += @{
-                base = if ($baseContent.$item.Count) { '[ ... ]' }
-                diff = if ($diffContent.$item.Count) { '[ ... ]' }
-                pos  = $item
-            }
-            break
+            $stats.untranslated += @{ path = $Path; name = $Path }
         }
     }
 
-    if ($baseContent.info) {
-        function traverseObj {
-            param($diffObj, $baseObj, $pos)
+    function Compare-Value {
+        param($BaseVal, $TargetVal, [string]$Path, [string]$Key, [bool]$SkipValueCheck)
 
-            if ($null -eq $baseObj -or $null -eq $diffObj) {
-                $count.diffList += @{
-                    base = if ($null -ne $baseObj) { '{ ... }' }
-                    diff = if ($null -ne $diffObj) { '{ ... }' }
-                    pos  = $pos
+        if ($Key -in 'tip', 'description') {
+            Compare-TranslatableText -BaseVal $BaseVal -TargetVal $TargetVal -Path $Path
+            return
+        }
+
+        $baseType = Get-ValueType $BaseVal
+        $targetType = Get-ValueType $TargetVal
+
+        if ($baseType -eq 'Null' -and $targetType -eq 'Null') { return }
+
+        if ($baseType -eq 'Null') {
+            $stats.extraInTarget += @{ path = "$Path"; name = $Path }
+            return
+        }
+        if ($targetType -eq 'Null') {
+            $stats.missingInTarget += @{ path = "$Path"; name = $Path }
+            return
+        }
+        if ($baseType -ne $targetType) {
+            if ($baseType -eq 'Array' -or $targetType -eq 'Array' -or $baseType -eq 'Hashtable' -or $targetType -eq 'Hashtable') {
+                $suffix = " (<@Red>$baseType<@Cyan> > <@Red>$targetType<@Cyan>)"
+                $stats.typeMismatch += @{ path = "$Path$suffix"; name = $Path }
+                return
+            }
+        }
+        if ($Key -eq 'next' -and $baseType -ne 'Array' -and $targetType -ne 'Array') {
+            if ($BaseVal -eq 0 -or $TargetVal -eq 0) {
+                if ($BaseVal -ne $TargetVal) {
+                    $suffix = " (<@Red>$BaseVal<@Cyan> > <@Red>$TargetVal<@Cyan>)"
+                    $stats.semanticMismatch += @{ path = "$Path$suffix"; name = $Path }
                 }
                 return
             }
+        }
+        if ($baseType -eq 'Array' -or $targetType -eq 'Array') {
+            $baseArr = @($BaseVal)
+            $targetArr = @($TargetVal)
 
-            $keys = @() + $diffObj.Keys + $baseObj.Keys | Sort-Object -Unique
-
-            foreach ($key in $keys) {
-                $isDiff = $false
-                if (isExist $baseObj[$key]) {
-                    if (isExist $diffObj[$key]) {
-                        $baseType = $baseObj[$key].GetType().Name
-                        $diffType = $diffObj[$key].GetType().Name
-                        if ($baseType -ne $diffType) {
-                            $isDiff = $true
-                        }
-                        else {
-                            switch ($baseObj[$key]) {
-                                { $_ -is [string] -or $_ -is [array] } {
-                                    $diffStr = $diffObj[$key] -join ' '
-                                    $baseStr = $baseObj[$key] -join ' '
-                                    if ($diffStr -match '^https?://.+') {
-                                        continue
-                                    }
-                                    if (noTranslated $diffStr $baseStr) {
-                                        $count.totalTips++
-                                        $count.untranslatedList += @{
-                                            name  = $key
-                                            value = $diffObj[$key]
-                                            pos   = "$pos.$key"
-                                        }
-                                    }
-                                }
-                                { $_ -is [int] -or $_ -is [bool] } {
-                                    if ($baseObj[$key] -cne $diffObj[$key]) {
-                                        $isDiff = $true
-                                    }
-                                }
-                                # 对象
-                                default {
-                                    traverseObj $diffObj[$key] $baseObj[$key] "$pos.$key"
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        $isDiff = $true
-                    }
-                }
-                else {
-                    if (isExist $diffObj[$key]) {
-                        $isDiff = $true
-                    }
-                }
-                if ($isDiff) {
-                    $count.diffList += @{
-                        base = $baseObj[$key]
-                        diff = $diffObj[$key]
-                        pos  = "$pos.$key"
-                    }
+            if (Test-NamedObjectArray $baseArr $targetArr) {
+                if ($baseType -ne $targetType) {
+                    $suffix = " (<@Red>$baseType<@Cyan> > <@Red>$targetType<@Cyan>)"
+                    $stats.typeMismatch += @{ path = "$Path$suffix"; name = $Path }
                     return
+                }
+                Compare-NamedArray -BaseArr $baseArr -TargetArr $targetArr -Path $Path
+            }
+            else {
+                if ($SkipValueCheck) { return }
+                foreach ($v in $baseArr) {
+                    if ($v -notin $targetArr) { $stats.missingInTarget += @{ path = "$Path > $v"; name = $Path } }
+                }
+                foreach ($v in $targetArr) {
+                    if ($v -notin $baseArr) { $stats.extraInTarget += @{ path = "$Path > $v"; name = $Path } }
+                }
+            }
+            return
+        }
+        if ($baseType -eq 'Hashtable' -and $targetType -eq 'Hashtable') {
+            Compare-Fields -BaseObj $BaseVal -TargetObj $TargetVal -Path $Path -SkipValueCheck $SkipValueCheck
+            return
+        }
+        if ($baseType -ne $targetType) {
+            $suffix = " (<@Red>$baseType<@Cyan> > <@Red>$targetType<@Cyan>)"
+            $stats.typeMismatch += @{ path = "$Path$suffix"; name = $Path }
+            return
+        }
+        if (-not $SkipValueCheck -and $BaseVal -ne $TargetVal) {
+            $suffix = " (<@Red>$BaseVal<@Cyan> > <@Red>$TargetVal<@Cyan>)"
+            $stats.valueDiff += @{ path = "$Path$suffix"; name = $Path }
+        }
+    }
+
+    function Compare-Fields {
+        param([hashtable]$BaseObj, [hashtable]$TargetObj, [string]$Path, [bool]$SkipValueCheck = $false)
+
+        $baseKeys = if ($BaseObj) { @($BaseObj.Keys) } else { @() }
+        $targetKeys = if ($TargetObj) { @($TargetObj.Keys) } else { @() }
+        $allKeys = @($baseKeys) + @($targetKeys) | Select-Object -Unique
+
+        foreach ($key in $allKeys) {
+            if ($key -eq 'name') { continue }
+
+            $baseVal = if ($BaseObj -and $BaseObj.ContainsKey($key)) { $BaseObj[$key] } else { $null }
+            $targetVal = if ($TargetObj -and $TargetObj.ContainsKey($key)) { $TargetObj[$key] } else { $null }
+
+            $currentPath = if ($Path) { "$Path > $key" } else { $key }
+            $childSkip = $SkipValueCheck -or $CompletionName -eq 'psc'
+
+            Compare-Value -BaseVal $baseVal -TargetVal $targetVal -Path $currentPath -Key $key -SkipValueCheck $childSkip
+        }
+    }
+
+    function Compare-NamedArray {
+        param([array]$BaseArr, [array]$TargetArr, [string]$Path)
+
+        $targetByName = @{}
+        foreach ($item in $TargetArr) { if ($item.name) { $targetByName[$item.name] = $item } }
+
+        $baseByName = @{}
+        foreach ($item in $BaseArr) { if ($item.name) { $baseByName[$item.name] = $item } }
+
+        foreach ($baseItem in $BaseArr) {
+            $baseName = $baseItem.name
+            $currentPath = if ($Path) { "$Path > $baseName" } else { $baseName }
+
+            if ($targetByName.ContainsKey($baseName)) {
+                Compare-Fields -BaseObj $baseItem -TargetObj $targetByName[$baseName] -Path $currentPath
+            }
+            else {
+                $stats.missingInTarget += @{ path = $currentPath; name = $baseName }
+                foreach ($tKey in @('tip', 'description')) {
+                    if ($baseItem.ContainsKey($tKey) -and $null -ne $baseItem[$tKey]) {
+                        $arr = @($baseItem[$tKey])
+                        if ($arr.Count -gt 0 -and !([string]::IsNullOrEmpty(($arr -join '').Trim()))) {
+                            $stats.totalTips++
+                        }
+                    }
                 }
             }
         }
-        traverseObj $diffContent.info $baseContent.info 'info'
-    }
-    if ($count.diffList.Count -gt 0) {
-        $completionRate = 0.01
-    }
-    else {
-        if ($count.totalTips -gt 0) {
-            $completionRate = 100 - ($count.untranslatedList.Count / $count.totalTips) * 100
-        }
-        else {
-            $completionRate = 100
+        foreach ($targetItem in $TargetArr) {
+            $targetName = $targetItem.name
+            if ($targetName -and !$baseByName.ContainsKey($targetName)) {
+                $currentPath = if ($Path) { "$Path > $targetName" } else { $targetName }
+                $stats.extraInTarget += @{ path = $currentPath; name = $targetName }
+            }
         }
     }
-    $completionRate = [Math]::Max([Math]::Round($completionRate, 2), 0.01)
 
-    if ($ReturnRate) {
-        return $completionRate
+    Compare-Fields -BaseObj $baseContent -TargetObj $targetContent -Path ''
+
+    $translationRate = 100
+    if ($stats.totalTips -gt 0) {
+        $translationRate = [Math]::Round(($stats.translatedTips / $stats.totalTips) * 100, 2)
     }
 
-    $baseShortPath = Split-Path $baseJson -Leaf
-    $diffShortPath = Split-Path $diffJson -Leaf
-
-    outText $text.progress
-
-    if ($count.diffList -and 'diff' -in $Show) {
-        outText $text.diffList.tip
-        foreach ($item in $count.diffList) {
-            $prop = if ($null -eq $item.name) { '' }else { " (name: $($item.name))" }
-            outText ($text.pos + $prop)
-            outText $text.diffList.base
-            outText $text.diffList.diff
-        }
-        outText $text.hr
-    }
-
-    if ($count.untranslatedList -and 'untranslated' -in $Show) {
-        outText $text.untranslatedList.tip
-        foreach ($item in $count.untranslatedList) {
-            $prop = if ($null -eq $item.name) { '' }else { " (name: $($item.name))" }
-            outText ($text.pos + $prop)
-            outText $text.value
-        }
-        outText $text.hr
+    return @{
+        stats = $stats
+        rate  = $translationRate
     }
 }
-Compare-JsonProperty $diffJson $baseJson
+
+foreach ($lang in $otherLangs) {
+    $targetJson = [System.IO.Path]::Combine($langDir, $lang + '.json')
+    $result = Compare-Lang $baseJson $targetJson $lang
+    $stats = $result.stats
+
+    $targetShortPath = "$CompletionName/$lang.json"
+    $missing = $stats.missingInTarget.Count
+    $extra = $stats.extraInTarget.Count
+    $translated = $stats.translatedTips
+    $total = $stats.totalTips
+    $rate = $result.rate
+    $count = $stats.untranslated.Count
+
+    outText $text.langHeader
+
+    if ($stats.missingInTarget.Count -gt 0) {
+        outText $text.missingInTarget
+        foreach ($item in $stats.missingInTarget) { outText "<@Cyan>  $($item.path)" }
+    }
+    if ($stats.extraInTarget.Count -gt 0) {
+        outText $text.extraInTarget
+        foreach ($item in $stats.extraInTarget) { outText "<@Cyan>  $($item.path)" }
+    }
+    if ($stats.typeMismatch.Count -gt 0) {
+        outText $text.typeMismatch
+        foreach ($item in $stats.typeMismatch) { outText "<@Cyan>  $($item.path)" }
+    }
+    if ($stats.semanticMismatch.Count -gt 0) {
+        outText $text.semanticMismatch
+        foreach ($item in $stats.semanticMismatch) { outText "<@Cyan>  $($item.path)" }
+    }
+    if ($stats.valueDiff.Count -gt 0) {
+        outText $text.valueDiff
+        foreach ($item in $stats.valueDiff) { outText "<@Cyan>  $($item.path)" }
+    }
+    if ($stats.untranslated.Count -gt 0) {
+        outText $text.untranslated
+        foreach ($item in $stats.untranslated) { outText "<@Cyan>  $($item.path)" }
+    }
+}

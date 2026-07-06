@@ -7,38 +7,29 @@
     ],
     "invalidLang": [
       "<@Red>你应该输入一个有效的语言。\n",
-      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $completion_name }} -TargetLang zh-CN"
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $CompletionName }} -BaseLang zh-CN"
     ],
-    "sameLang": "<@Red>参数 <@Magenta>-TargetLang<@Red> 不能与 <@Magenta>-BaseLang<@Red> 相同。",
-    "progress": "<@Blue>完成进度: <@Magenta>{{ $completionRate }}%",
-    "hr": [
-      "<@Cyan>--------------------"
+    "langHeader": [
+      "\n<@Magenta>=== {{ $targetShortPath }} === 缺少: {{ $missing }} | 多余: {{ $extra }} | 翻译: {{ $translated }}/{{ $total }} ({{ $rate }}%)"
     ],
-    "pos": [
-      "<@Cyan>--------------------\n位置: <@Magenta>{{ $item.pos }}"
+    "missingInTarget": [
+      "\n<@Red>缺少的项:"
     ],
-    "prop": [
-      "<@Cyan>属性: <@Magenta>{{ $item.name }}"
+    "extraInTarget": [
+      "\n<@Yellow>多余的项:"
     ],
-    "value": [
-      "<@Cyan>值: <@>{{ $item.value }}"
+    "typeMismatch": [
+      "\n<@Red>类型不一致的项:"
     ],
-    "diffList": {
-      "tip": [
-        "\n<@Red>不同的属性值或类型:"
-      ],
-      "base": [
-        "<@Cyan>{{ $baseShortPath }}: <@Magenta>{{ $item.base }}"
-      ],
-      "diff": [
-        "<@Cyan>{{ $diffShortPath }}: <@Magenta>{{ $item.diff }}"
-      ]
-    },
-    "untranslatedList": {
-      "tip": [
-        "\n<@Yellow>未翻译的属性值:"
-      ]
-    }
+    "semanticMismatch": [
+      "\n<@Red>语义不匹配的项:"
+    ],
+    "valueDiff": [
+      "\n<@Yellow>值不同的项:"
+    ],
+    "untranslated": [
+      "\n<@Yellow>=== 未翻译的 tip ({{ $count }}/{{ $total }}) ==="
+    ]
   },
   "create-completion": {
     "invalidName": [
@@ -47,8 +38,8 @@
     ],
     "exist": "<@Red>补全目录已经存在!",
     "success": [
-      "<@Green>补全 <@Magenta>{{ $completion_name }}<@Green> 创建完成!\n",
-      "你可以通过 <@Magenta>.\\scripts\\link-completion.ps1 {{ $completion_name }}<@Green> 链接补全以在编写补全时获得实时预览\n",
+      "<@Green>补全 <@Magenta>{{ $CompletionName }}<@Green> 创建完成!\n",
+      "你可以通过 <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> 链接补全以在编写补全时获得实时预览\n",
       "如果不需要 hooks，请删除 <@Magenta>config.json<@Green> 中的 <@Magenta>hooks<@Green> 属性和 hooks.ps1 文件，然后重新链接补全"
     ],
     "err": {
@@ -61,10 +52,10 @@
       "e.g. <@Magenta>.\\scripts\\link-completion.ps1 git\n",
       "<@Cyan>有效的补全名称列表如下: \n<@Blue>{{ $completions_list -join ' ' }}"
     ],
-    "exist": "<@Red>补全目录已经存在，请先使用 <@Magenta>psc rm {{ $completion_name }}<@Red> 移除补全",
-    "noExist": "<@Magenta>{{ $completion_name }}<@Red> 不存在。",
+    "exist": "<@Red>补全目录已经存在，请先使用 <@Magenta>psc rm {{ $CompletionName }}<@Red> 移除补全",
+    "noExist": "<@Magenta>{{ $CompletionName }}<@Red> 不存在。",
     "linkDone": [
-      "<@Green>补全 <@Magenta>{{ $completion_name }}<@Green> 已链接到 PSCompletions 模块中: <@Magenta>{{ $test_dir }}<@Green>\n\n",
+      "<@Green>补全 <@Magenta>{{ $CompletionName }}<@Green> 已链接到 PSCompletions 模块中: <@Magenta>{{ $test_dir }}<@Green>\n\n",
       "<@Green>建议: 通过 <@Magenta>psc config enable_cache 0<@Green> 禁用补全缓存，以预览最新的实时更改\n",
       "<@Yellow>注意: 补全链接仅用于本地，<@Magenta>psc add<@Yellow> 和 <@Magenta>psc update<@Yellow> 会忽略它们"
     ]

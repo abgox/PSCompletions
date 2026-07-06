@@ -6,28 +6,23 @@ param(
 
 Set-StrictMode -Off
 
-$completion_name = $CompletionName
-
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
-if (!$PSCompletions) {
-    Write-Host $text.'import-psc' -ForegroundColor Red
-    return
-}
+if (!$PSCompletions) { . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1 }
 
 $text = $text.'create-completion'
 
-if (!$completion_name.Trim()) {
+if (!$CompletionName.Trim()) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
     return
 }
 
 $root_dir = Split-Path $PSScriptRoot -Parent
-$completion_dir = "$root_dir/completions/$completion_name"
+$completion_dir = "$root_dir/completions/$CompletionName"
 if (Test-Path $completion_dir) {
     if (Test-Path "$completion_dir/config.json") {
         $PSCompletions.write_with_color($text.exist)

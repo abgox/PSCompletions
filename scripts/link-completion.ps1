@@ -6,8 +6,6 @@ param(
 
 Set-StrictMode -Off
 
-$completion_name = $CompletionName
-
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"
@@ -21,28 +19,28 @@ if (!$PSCompletions) {
 
 $text = $text.'link-completion'
 
-if (!$completion_name.Trim()) {
+if (!$CompletionName.Trim()) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
     return
 }
 
 $completions_list = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
-if ($completion_name -notin $completions_list) {
+if ($CompletionName -notin $completions_list) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
     return
 }
 $root_dir = Split-Path $PSScriptRoot -Parent
-$completion_dir = "$root_dir/completions/$completion_name"
+$completion_dir = "$root_dir/completions/$CompletionName"
 if (!(Test-Path $completion_dir)) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.noExist))
     return
 }
 
-$test_dir = "$($PSCompletions.path.completions)\$completion_name"
+$test_dir = "$($PSCompletions.path.completions)\$CompletionName"
 
-if ($completion_name -eq 'psc') {
+if ($CompletionName -eq 'psc') {
     Remove-Item $test_dir -Recurse -Force
-    $null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
+    $null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
     return
 }
@@ -52,39 +50,39 @@ if (Test-Path $test_dir) {
     return
 }
 
-$null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$completion_name" -Force
+$null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
 
-$language = $PSCompletions.get_language($completion_name)
+$language = $PSCompletions.get_language($CompletionName)
 
-$config = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\config.json"))
+$config = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$CompletionName\config.json"))
 
 if ($config.hooks -ne $null) {
-    if ($null -eq $PSCompletions.data.config.comp_config[$completion_name]) {
-        $PSCompletions.data.config.comp_config[$completion_name] = @{}
+    if ($null -eq $PSCompletions.data.config.comp_config[$CompletionName]) {
+        $PSCompletions.data.config.comp_config[$CompletionName] = @{}
     }
-    if ($null -eq $PSCompletions.data.config.comp_config[$completion_name].enable_hooks) {
-        $PSCompletions.data.config.comp_config[$completion_name].enable_hooks = [int]$config.hooks
+    if ($null -eq $PSCompletions.data.config.comp_config[$CompletionName].enable_hooks) {
+        $PSCompletions.data.config.comp_config[$CompletionName].enable_hooks = [int]$config.hooks
     }
 }
 
 if ($config.alias -eq $null) {
-    $PSCompletions.data.alias[$completion_name] = @($completion_name)
-    $PSCompletions.data.aliasMap[$completion_name] = $completion_name
+    $PSCompletions.data.alias[$CompletionName] = @($CompletionName)
+    $PSCompletions.data.aliasMap[$CompletionName] = $CompletionName
 }
 else {
-    $PSCompletions.data.alias[$completion_name] = $config.alias
+    $PSCompletions.data.alias[$CompletionName] = $config.alias
     foreach ($a in $config.alias) {
-        $PSCompletions.data.aliasMap[$a] = $completion_name
+        $PSCompletions.data.aliasMap[$a] = $CompletionName
     }
 }
 
-$PSCompletions.data.list += $completion_name
+$PSCompletions.data.list += $CompletionName
 
-$json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$completion_name\language\$language.json"))
+$json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$CompletionName\language\$language.json"))
 
 foreach ($c in $json.config) {
-    if ($null -eq $PSCompletions.data.config.comp_config[$completion_name].$($c.name)) {
-        $PSCompletions.data.config.comp_config[$completion_name].$($c.name) = $c.value
+    if ($null -eq $PSCompletions.data.config.comp_config[$CompletionName].$($c.name)) {
+        $PSCompletions.data.config.comp_config[$CompletionName].$($c.name) = $c.value
     }
 }
 

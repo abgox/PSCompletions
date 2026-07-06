@@ -2,76 +2,67 @@
   "import-psc": "Before running this script, you should install the PSCompletions module and import it.",
   "compare-json": {
     "invalidName": [
-      "<@Red>You should enter an available completion name.\n",
+      "<@Red>You should enter a valid completion name.\n",
       "e.g. <@Magenta>.\\scripts\\compare-json.ps1 psc"
     ],
     "invalidLang": [
-      "<@Red>You should enter an available language.\n",
-      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $completion_name }} -TargetLang zh-CN"
+      "<@Red>You should enter a valid language.\n",
+      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $CompletionName }} -BaseLang zh-CN"
     ],
-    "sameLang": "<@Red>The <@Magenta>-TargetLang<@Red> cannot be the same as the <@Magenta>-BaseLang<@Red>.",
-    "progress": "<@Blue>Progress: <@Magenta>{{ $completionRate }}%",
-    "hr": [
-      "<@Cyan>--------------------"
+    "langHeader": [
+      "\n<@Magenta>=== {{ $targetShortPath }} === Missing: {{ $missing }} | Extra: {{ $extra }} | Translated: {{ $translated }}/{{ $total }} ({{ $rate }}%)"
     ],
-    "pos": [
-      "<@Cyan>--------------------\nLocation: <@Magenta>{{ $item.pos }}"
+    "missingInTarget": [
+      "\n<@Red>Missing items:"
     ],
-    "prop": [
-      "<@Cyan>Property: <@Magenta>{{ $item.name }}"
+    "extraInTarget": [
+      "\n<@Yellow>Extra items:"
     ],
-    "value": [
-      "<@Cyan>Value: {{ $item.value }}"
+    "typeMismatch": [
+      "\n<@Red>Type Mismatch Items:"
     ],
-    "diffList": {
-      "tip": [
-        "\n<@Red>The following are different values or types:"
-      ],
-      "base": [
-        "<@Cyan>{{ $baseShortPath }}: <@Magenta>{{ $item.base }}"
-      ],
-      "diff": [
-        "<@Cyan>{{ $diffShortPath }}: <@Magenta>{{ $item.diff }}"
-      ]
-    },
-    "untranslatedList": {
-      "tip": [
-        "\n<@Yellow>The following values are not translated:"
-      ]
-    }
+    "semanticMismatch": [
+      "\n<@Red>Semantic Mismatch Items:"
+    ],
+    "valueDiff": [
+      "\n<@Yellow>Value Difference Items:"
+    ],
+    "untranslated": [
+      "\n<@Yellow>=== Untranslated tip ({{ $count }}/{{ $total }}) ==="
+    ]
   },
   "create-completion": {
     "invalidName": [
-      "<@Red>You should enter an available completion name.\n",
+      "<@Red>You should enter a valid completion name.\n",
       "e.g. <@Magenta>.\\scripts\\create-completion.ps1 test"
     ],
     "exist": "<@Red>The completion directory already exists!",
     "success": [
-      "<@Green>Completion <@Magenta>{{ $completion_name }}<@Green> has been created successfully!\n",
-      "You can link the completion via <@Magenta>.\\scripts\\link-completion.ps1 {{ $completion_name }}<@Green> to preview the completion in real-time while writing it.\n",
-      "If hooks are not needed, please delete the <@Magenta>hooks<@Green> attribute in <@Magenta>config.json<@Green> and hooks.ps1 file, and relink the completion."
+      "<@Green>Completion <@Magenta>{{ $CompletionName }}<@Green> created successfully!\n",
+      "You can link the completion via <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> to get a real-time preview while writing completions\n",
+      "If hooks are not required, please remove the <@Magenta>hooks<@Green> property from <@Magenta>config.json<@Green> and the hooks.ps1 file, then re-link the completion"
     ],
     "err": {
-      "name": "<@Red>The completion name cannot be empty!"
+      "name": "<@Red>Completion name cannot be empty!"
     }
   },
   "link-completion": {
     "invalidName": [
-      "<@Red>You should enter an available completion name.\n",
+      "<@Red>You should enter a valid completion name.\n",
       "e.g. <@Magenta>.\\scripts\\link-completion.ps1 git\n",
-      "<@Cyan>Available completions are: \n<@Blue>{{ $completions_list -join ' ' }}"
+      "<@Cyan>Valid completion names are listed below: \n<@Blue>{{ $completions_list -join ' ' }}"
     ],
-    "exist": "<@Red>The completion directory already exists, please use <@Magenta>psc rm {{ $completion_name }}<@Red> to remove it first.",
-    "noExist": "<@Magenta>{{ $completion_name }}<@Red> isn't exist.",
+    "exist": "<@Red>The completion directory already exists. Please use <@Magenta>psc rm {{ $CompletionName }}<@Red> to remove it first",
+    "noExist": "<@Magenta>{{ $CompletionName }}<@Red> does not exist.",
     "linkDone": [
-      "<@Green>Completion <@Magenta>{{ $completion_name }}<@Green> has been linked to the PSCompletions module: <@Magenta>{{ $test_dir }}<@Green>\n\n",
-      "<@Green>Suggestion: Please disable the completion cache via <@Magenta>psc config enable_cache 0<@Green> to preview the latest real-time changes.\n",
-      "<@Yellow>Note: The completion link is only for local use, <@Magenta>psc add<@Yellow> and <@Magenta>psc update<@Yellow> will ignore them."
+      "<@Green>Completion <@Magenta>{{ $CompletionName }}<@Green> has been linked to the PSCompletions module: <@Magenta>{{ $test_dir }}<@Green>\n\n",
+      "<@Green>Recommendation: Disable completion cache via <@Magenta>psc config enable_cache 0<@Green> to preview the latest changes in real-time\n",
+      "<@Yellow>Note: Completion links are for local use only; <@Magenta>psc add<@Yellow> and <@Magenta>psc update<@Yellow> will ignore them"
     ]
   },
   "publish-module": {
     "requireKey": [
-      "<@Red>The parameter <@Magenta>NuGetApiKey<@Red> is required."
+      "<@Red>Parameter <@Magenta>NuGetApiKey<@Red> is required"
     ]
   }
 }
