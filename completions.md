@@ -2,12 +2,6 @@
 
 [简体中文](./completions.zh-CN.md)
 
-- Guide
-  - **`Completion`** ：Click to view to the official website of the command. Sort by first letter(0-9,a-z).
-  - **`Language`**: Supported Languages, and Progress.
-    - This progress is compared to the first language defined in `config.json` (usually `en-US`).
-  - **`Description`**: Command Description.
-
 <!-- prettier-ignore-start -->
 |Completion|Language|Description|
 |:-:|-|-|
