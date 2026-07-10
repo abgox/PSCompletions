@@ -147,7 +147,7 @@ function Optimize-CompletionJson {
 }
 
 foreach ($completion in $CompletionList) {
-    Get-ChildItem "$completions_dir\$completion\language" -Filter *.json | ForEach-Object {
+    Get-ChildItem "$completions_dir\$completion\language" -File -Filter *.json | ForEach-Object {
         Optimize-CompletionJson $_.FullName
         Sort-JsonStructure -InputFile $_.FullName -OutputFile $_.FullName
     }

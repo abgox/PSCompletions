@@ -56,9 +56,8 @@ function Format-LanguageInfo {
 }
 
 function New-MarkdownList {
-    $contentEn = @('|Completion|Language|Description|', '|:-:|-|-|')
-    $contentZh = @('|Completion|Language|Description|', '|:-:|-|-|')
-
+    $contentEn = @()
+    $contentZh = @()
     Get-ChildItem -Path "$PSScriptRoot/../completions" -Directory | ForEach-Object -Process {
         $infoEn = @()
         $infoZh = @()
@@ -88,12 +87,9 @@ function New-MarkdownList {
         $contentZh += '|' + ($infoZh -join '|') + '|'
     }
 
-    $contentEn += "`n<!-- prettier-ignore-end -->"
-    $contentZh += "`n<!-- prettier-ignore-end -->"
-
     return @{
-        'en-US' = $contentEn
-        'zh-CN' = $contentZh
+        'en-US' = @("|Completion ($($contentEn.Count))|Language|Description|", '|:-:|-|-|') + $contentEn + "`n<!-- prettier-ignore-end -->"
+        'zh-CN' = @("|Completion ($($contentEn.Count))|Language|Description|", '|:-:|-|-|') + $contentZh + "`n<!-- prettier-ignore-end -->"
     }
 }
 
@@ -128,25 +124,27 @@ Update-ReadmeFile -Language 'zh-CN'
 
 & $PSScriptRoot\sort-json.ps1
 
-$path = "$PSScriptRoot\..\completions.json"
-$old_info = Get-Content $path -Raw | ConvertFrom-Json -AsHashtable
-$info = [ordered]@{
-    list   = @()
-    update = [ordered]@{}
-    meta   = [ordered]@{}
-}
-Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
-    $completion = $_.Name
-    $info.list += $completion
-    $info.update[$completion] = Get-StringHash $_.FullName
-    $info.meta[$completion] = [ordered]@{}
-    Get-ChildItem "$($_.FullName)/language" -File | ForEach-Object {
-        $info.meta.$completion[$_.BaseName] = Get-Content $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json | Select-Object -ExpandProperty meta
-    }
-}
-
-$info | ConvertTo-Json -Depth 10 | Out-File $path
-
 if ($env:GITHUB_ACTIONS) {
+    $path = "$PSScriptRoot\..\completions.json"
+    $old_info = Get-Content $path -Raw | ConvertFrom-Json -AsHashtable
+    $info = [ordered]@{
+        count  = 0
+        list   = @()
+        update = [ordered]@{}
+        meta   = [ordered]@{}
+    }
+    Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
+        $completion = $_.Name
+        $info.list += $completion
+        $info.update[$completion] = Get-StringHash $_.FullName
+        $info.meta[$completion] = [ordered]@{}
+        Get-ChildItem "$($_.FullName)/language" -File | ForEach-Object {
+            $info.meta.$completion[$_.BaseName] = Get-Content $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json | Select-Object -ExpandProperty meta
+        }
+    }
+    $info.count = $info.list.Count
+
+    $info | ConvertTo-Json -Depth 10 | Out-File $path
+
     & $PSScriptRoot\push-change.ps1 -message 'chore: automatically update some content [skip ci]'
 }

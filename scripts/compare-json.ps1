@@ -1,10 +1,14 @@
 #Requires -Version 7.0
 
 param(
-    [string]$CompletionName,
+    [array]$CompletionList,
     [ArgumentCompletions('en-US', 'zh-CN')]
     [string]$BaseLang = 'en-US'
 )
+
+if (-not $CompletionList) {
+    $CompletionList = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
+}
 
 Set-StrictMode -Off
 
@@ -22,34 +26,6 @@ function outText {
     param($text)
     $PSCompletions.write_with_color($PSCompletions.replace_content($text))
 }
-
-if (!$CompletionName.Trim()) {
-    outText $text.invalidName
-    return
-}
-
-$langDir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'completions', $CompletionName, 'language')
-
-if (!(Test-Path $langDir)) {
-    outText $text.invalidLang
-    return
-}
-
-$allLangFiles = Get-ChildItem -Path $langDir -Filter '*.json' | ForEach-Object { $_.BaseName }
-$otherLangs = $allLangFiles | Where-Object { $_ -ne $BaseLang } | Sort-Object
-
-if ($otherLangs.Count -eq 0) {
-    outText "<@Yellow>No language files found besides $BaseLang"
-    return
-}
-
-$baseJson = [System.IO.Path]::Combine($langDir, $BaseLang + '.json')
-if (!(Test-Path $baseJson)) {
-    outText $text.invalidLang
-    return
-}
-
-& $PSScriptRoot\sort-json.ps1 $CompletionName
 
 function Get-ValueType {
     param($Value)
@@ -194,6 +170,13 @@ function Compare-Lang {
             $stats.typeMismatch += @{ path = "$Path$suffix"; name = $Path }
             return
         }
+        if ($Key -eq 'name') {
+            if ($BaseVal -ne $TargetVal) {
+                $suffix = " (<@Red>$BaseVal<@Cyan> > <@Red>$TargetVal<@Cyan>)"
+                $stats.valueDiff += @{ path = "$Path$suffix"; name = $Path }
+            }
+            return
+        }
         if (-not $SkipValueCheck -and $BaseVal -ne $TargetVal) {
             $suffix = " (<@Red>$BaseVal<@Cyan> > <@Red>$TargetVal<@Cyan>)"
             $stats.valueDiff += @{ path = "$Path$suffix"; name = $Path }
@@ -208,13 +191,13 @@ function Compare-Lang {
         $allKeys = @($baseKeys) + @($targetKeys) | Select-Object -Unique
 
         foreach ($key in $allKeys) {
-            if ($key -eq 'name') { continue }
+            # if ($key -eq 'name') { continue }
 
             $baseVal = if ($BaseObj -and $BaseObj.ContainsKey($key)) { $BaseObj[$key] } else { $null }
             $targetVal = if ($TargetObj -and $TargetObj.ContainsKey($key)) { $TargetObj[$key] } else { $null }
 
             $currentPath = if ($Path) { "$Path > $key" } else { $key }
-            $childSkip = $SkipValueCheck -or $CompletionName -eq 'psc'
+            $childSkip = $SkipValueCheck -or ($CompletionName -eq 'psc' -and $key -ne 'name')
 
             Compare-Value -BaseVal $baseVal -TargetVal $targetVal -Path $currentPath -Key $key -SkipValueCheck $childSkip
         }
@@ -234,7 +217,7 @@ function Compare-Lang {
             $currentPath = if ($Path) { "$Path > $baseName" } else { $baseName }
 
             if ($targetByName.ContainsKey($baseName)) {
-                Compare-Fields -BaseObj $baseItem -TargetObj $targetByName[$baseName] -Path $currentPath
+                Compare-Fields -BaseObj $baseItem -TargetObj $targetByName[$baseName] -Path $currentPath -SkipValueCheck $SkipValueCheck
             }
             else {
                 $stats.missingInTarget += @{ path = $currentPath; name = $baseName }
@@ -270,43 +253,67 @@ function Compare-Lang {
     }
 }
 
-foreach ($lang in $otherLangs) {
-    $targetJson = [System.IO.Path]::Combine($langDir, $lang + '.json')
-    $result = Compare-Lang $baseJson $targetJson $lang
-    $stats = $result.stats
+foreach ($CompletionName in $CompletionList) {
+    if (!$CompletionName.Trim()) {
+        outText $text.invalidName
+        continue
+    }
+    $langDir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'completions', $CompletionName, 'language')
+    if (!(Test-Path $langDir)) {
+        outText $text.invalidLang
+        continue
+    }
+    $allLangFiles = Get-ChildItem -Path $langDir -Filter '*.json' | ForEach-Object { $_.BaseName }
+    $otherLangs = $allLangFiles | Where-Object { $_ -ne $BaseLang } | Sort-Object
+    if ($otherLangs.Count -eq 0) {
+        outText "<@Yellow>No language files found besides $BaseLang"
+        continue
+    }
+    $baseJson = [System.IO.Path]::Combine($langDir, $BaseLang + '.json')
+    if (!(Test-Path $baseJson)) {
+        outText $text.invalidLang
+        continue
+    }
+    & $PSScriptRoot\sort-json.ps1 $CompletionName
 
-    $targetShortPath = "$CompletionName/$lang.json"
-    $missing = $stats.missingInTarget.Count
-    $extra = $stats.extraInTarget.Count
-    $translated = $stats.translatedTips
-    $total = $stats.totalTips
-    $rate = $result.rate
-    $count = $stats.untranslated.Count
+    foreach ($lang in $otherLangs) {
+        $targetJson = [System.IO.Path]::Combine($langDir, $lang + '.json')
+        $result = Compare-Lang $baseJson $targetJson $lang
+        $stats = $result.stats
 
-    outText $text.langHeader
+        $targetShortPath = "$CompletionName/$lang.json"
+        $missing = $stats.missingInTarget.Count
+        $extra = $stats.extraInTarget.Count
+        $translated = $stats.translatedTips
+        $total = $stats.totalTips
+        $rate = $result.rate
+        $count = $stats.untranslated.Count
 
-    if ($stats.missingInTarget.Count -gt 0) {
-        outText $text.missingInTarget
-        foreach ($item in $stats.missingInTarget) { outText "<@Cyan>  $($item.path)" }
-    }
-    if ($stats.extraInTarget.Count -gt 0) {
-        outText $text.extraInTarget
-        foreach ($item in $stats.extraInTarget) { outText "<@Cyan>  $($item.path)" }
-    }
-    if ($stats.typeMismatch.Count -gt 0) {
-        outText $text.typeMismatch
-        foreach ($item in $stats.typeMismatch) { outText "<@Cyan>  $($item.path)" }
-    }
-    if ($stats.semanticMismatch.Count -gt 0) {
-        outText $text.semanticMismatch
-        foreach ($item in $stats.semanticMismatch) { outText "<@Cyan>  $($item.path)" }
-    }
-    if ($stats.valueDiff.Count -gt 0) {
-        outText $text.valueDiff
-        foreach ($item in $stats.valueDiff) { outText "<@Cyan>  $($item.path)" }
-    }
-    if ($stats.untranslated.Count -gt 0) {
-        outText $text.untranslated
-        foreach ($item in $stats.untranslated) { outText "<@Cyan>  $($item.path)" }
+        outText $text.langHeader
+
+        if ($stats.missingInTarget.Count -gt 0) {
+            outText $text.missingInTarget
+            foreach ($item in $stats.missingInTarget) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($stats.extraInTarget.Count -gt 0) {
+            outText $text.extraInTarget
+            foreach ($item in $stats.extraInTarget) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($stats.typeMismatch.Count -gt 0) {
+            outText $text.typeMismatch
+            foreach ($item in $stats.typeMismatch) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($stats.semanticMismatch.Count -gt 0) {
+            outText $text.semanticMismatch
+            foreach ($item in $stats.semanticMismatch) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($stats.valueDiff.Count -gt 0) {
+            outText $text.valueDiff
+            foreach ($item in $stats.valueDiff) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($stats.untranslated.Count -gt 0) {
+            outText $text.untranslated
+            foreach ($item in $stats.untranslated) { outText "<@Cyan>  $($item.path)" }
+        }
     }
 }
