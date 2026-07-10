@@ -93,13 +93,46 @@
       ]
     },
     "repeat": {
-      "type": "boolean",
-      "description": "Allow to repeat the completion item",
+      "type": "number",
+      "description": "Maximum number of times this item can repeat.",
+      "minimum": 1,
       "examples": [
-        true
+        1,
+        2,
+        3,
+        4,
+        5,
+        99
       ]
     },
     "item": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/name"
+        },
+        "alias": {
+          "$ref": "#/definitions/alias"
+        },
+        "tip": {
+          "$ref": "#/definitions/tip"
+        },
+        "repeat": {
+          "$ref": "#/definitions/repeat"
+        },
+        "next": {
+          "$ref": "#/definitions/next"
+        },
+        "option": {
+          "$ref": "#/definitions/option"
+        }
+      },
+      "additionalProperties": false
+    },
+    "next-item": {
       "type": "object",
       "required": [
         "name"
@@ -123,48 +156,6 @@
       },
       "additionalProperties": false
     },
-    "item_without_option": {
-      "type": "object",
-      "required": [
-        "name"
-      ],
-      "properties": {
-        "name": {
-          "$ref": "#/definitions/name"
-        },
-        "alias": {
-          "$ref": "#/definitions/alias"
-        },
-        "tip": {
-          "$ref": "#/definitions/tip"
-        },
-        "next": {
-          "$ref": "#/definitions/option-next"
-        },
-        "repeat": {
-          "$ref": "#/definitions/repeat"
-        }
-      },
-      "additionalProperties": false
-    },
-    "item_without_option_next": {
-      "type": "object",
-      "required": [
-        "name"
-      ],
-      "properties": {
-        "name": {
-          "$ref": "#/definitions/name"
-        },
-        "alias": {
-          "$ref": "#/definitions/alias"
-        },
-        "tip": {
-          "$ref": "#/definitions/tip"
-        }
-      },
-      "additionalProperties": false
-    },
     "next": {
       "markdownDescription": "Next command completion\n- It can be an array or the number `0`\n- If it is an array\n  - Items in the array are automatically added to the completions.\n  - If there are `hooks`, they will be added dynamically.\n- If it is the number `0`\n  - It indicates that a content should be input at this time.\n  - However, [PSCompletions](https://pscompletions.abgox.com) is unable to provide completions, and users need to input manually.\n  - `0` tells [PSCompletions](https://pscompletions.abgox.com) that it should display symbols of the `WriteSpaceTab` type to achieve symbol prediction.",
       "type": [
@@ -177,7 +168,7 @@
       ],
       "uniqueItems": true,
       "items": {
-        "$ref": "#/definitions/item"
+        "$ref": "#/definitions/next-item"
       },
       "if": {
         "type": "number",
@@ -195,32 +186,7 @@
       "uniqueItems": true,
       "markdownDescription": "Option class completion\n - Usually starts with `-` or `--`\n - For example, `--list`",
       "items": {
-        "$ref": "#/definitions/item_without_option"
-      }
-    },
-    "option-next": {
-      "markdownDescription": "Next command completion\n- It can be an array or the number `0`\n- If it is an array\n  - Items in the array are automatically added to the completions.\n  - If there are `hooks`, they will be added dynamically.\n- If it is the number `0`\n  - It indicates that a content should be input at this time.\n  - However, [PSCompletions](https://pscompletions.abgox.com) is unable to provide completions, and users need to input manually.\n  - `0` tells [PSCompletions](https://pscompletions.abgox.com) that it should display symbols of the `WriteSpaceTab` type to achieve symbol prediction.",
-      "type": [
-        "array",
-        "number"
-      ],
-      "examples": [
-        [],
-        0
-      ],
-      "uniqueItems": true,
-      "items": {
-        "$ref": "#/definitions/item_without_option_next"
-      },
-      "if": {
-        "type": "number",
-        "not": {
-          "const": 0
-        }
-      },
-      "then": {
-        "not": true,
-        "errorMessage": "It must be an array or the number 0"
+        "$ref": "#/definitions/item"
       }
     }
   },
@@ -268,21 +234,21 @@
       "description": "Root command",
       "$ref": "#/definitions/array",
       "items": {
-        "$ref": "#/definitions/item"
+        "$ref": "#/definitions/next-item"
       }
     },
     "option": {
       "markdownDescription": "Optional completion for the root command\n- If there is only one root command other than optional completions, they will be displayed\n- Unless you have used it or its alias",
       "$ref": "#/definitions/array",
       "items": {
-        "$ref": "#/definitions/item_without_option"
+        "$ref": "#/definitions/item"
       }
     },
     "common_option": {
       "markdownDescription": "Common optional completion\n- Any time you trigger completion, they will be displayed\n- Unless you have used it or its alias",
       "$ref": "#/definitions/array",
       "items": {
-        "$ref": "#/definitions/item_without_option"
+        "$ref": "#/definitions/item"
       }
     },
     "config": {
