@@ -1,4 +1,4 @@
-function PSCompletions {
+﻿function PSCompletions {
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $arg = $args
@@ -609,10 +609,10 @@ function PSCompletions {
             $new_value = [int]$new_value
         }
 
-        if ($config_item -match '(enable_*)|(disable_*)') {
+        if ($config_item -match '(enable_\w+)|(disable_\w+)') {
             if ($new_value -notin @(1, 0)) {
                 $cmd_list = $null
-                $sub_cmd = $value
+                $sub_cmd = $arg[2]
                 $cmd_info = $PSCompletions.info.menu.config.err.v_1_or_0
                 Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.completion.example
                 return
@@ -620,36 +620,6 @@ function PSCompletions {
         }
         $PSCompletions.config.comp_config[$completion].$config_item = $new_value
         $PSCompletions.__need_update_data = $true
-        foreach ($_ in $PSCompletions.data.list) {
-            if (!$PSCompletions.config.comp_config[$_]) {
-                $PSCompletions.config.comp_config.$_ = [ordered]@{}
-            }
-            $path = "$($PSCompletions.path.completions)/$_/config.json"
-            $json = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
-            $path = "$($PSCompletions.path.completions)/$_/language/$($json.language[0]).json"
-            $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path))
-            $config_list = $PSCompletions.default_completion_item
-            if ($json.config) {
-                foreach ($item in $json.config) {
-                    $config_list += $item.name
-                    if ($PSCompletions.config.comp_config[$_].$($item.name) -in @('', $null)) {
-                        $PSCompletions.config.comp_config.$_.$($item.name) = $item.value
-                        $PSCompletions.__need_update_data = $true
-                    }
-                }
-            }
-            if ($PSCompletions.config.comp_config[$_]) {
-                $_keys = @()
-                foreach ($k in $PSCompletions.config.comp_config.$_.keys) {
-                    if ($k -notin $config_list -and $k -ne 'enable_hooks') {
-                        $_keys += $k
-                    }
-                }
-                foreach ($k in $_keys) {
-                    $null = $PSCompletions.config.comp_config.$_.Remove($c)
-                }
-            }
-        }
         $PSCompletions.write_with_color((_replace $PSCompletions.info.completion.done))
 
         if ($config_item -eq 'language' -and $PSCompletions.config.enable_cache) {
@@ -881,7 +851,13 @@ function PSCompletions {
                     'trigger_key' {
                         try {
                             if ($arg[3] -ne $PSCompletions.config.trigger_key) {
-                                Set-PSReadLineKeyHandler $arg[3] MenuComplete
+                                Remove-PSReadLineKeyHandler $PSCompletions.config.trigger_key
+                                if (($IsWindows -or $PSEdition -eq 'Desktop') -and $PSCompletions.config.enable_menu -and $PSCompletions.config.enable_menu_enhance) {
+                                    Set-PSReadLineKeyHandler -Key $arg[3] -ScriptBlock $PSCompletions.menu.module_completion_menu_script
+                                }
+                                else {
+                                    Set-PSReadLineKeyHandler $arg[3] MenuComplete
+                                }
                             }
                         }
                         catch {
@@ -910,7 +886,7 @@ function PSCompletions {
                             return
                         }
                     }
-                    { $_ -in ($PSCompletions.menu.const.config_item | Where-Object { $_ -match '(enable_*)|(disable_*)' }) } {
+                    { $_ -in ($PSCompletions.menu.const.config_item | Where-Object { $_ -match '(enable_\w+)|(disable_\w+)' }) } {
                         if (!$is_num -or $value -notin @(1, 0)) {
                             $cmd_list = $null
                             $sub_cmd = $value
