@@ -1,50 +1,70 @@
 function handleCompletions($completions) {
-    if (!(Test-Path 'package.json')) { return $completions }
-    $list = @()
+    if ($PSCompletions.pending.text -like '-*') {
+        return $completions
+    }
+    if (-not (Test-Path 'package.json')) {
+        return $completions
+    }
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    # $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
 
     $packageJson = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content('package.json'))
     $scripts = $packageJson.scripts
     $dependencies = $packageJson.dependencies
     $devDependencies = $packageJson.devDependencies
 
+    function add_scripts {
+        if (-not $scripts) {
+            return
+        }
+        foreach ($item in $scripts.Keys) {
+            add $item $scripts.$item
+        }
+    }
+    function add_dependencies {
+        if (-not $dependencies) {
+            return
+        }
+        foreach ($item in $dependencies.Keys) {
+            add $item "dependency: $item ($($dependencies.$item))"
+        }
+    }
+    function add_dependencies_dev {
+        if (-not $devDependencies) {
+            return
+        }
+        foreach ($item in $devDependencies.Keys) {
+            add $item "devDependency: $item ($($devDependencies.$item))"
+        }
+    }
 
-    $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude option parameters
-    $first_item = $filter_input_arr[0] # The first subcommand
-    $last_item = $filter_input_arr[-1] # The last subcommand
-
-    switch ($last_item) {
+    switch ($cmds[0].text) {
         'run' {
-            if ($scripts) {
-                foreach ($script in $scripts.Keys) {
-                    $list += $PSCompletions.return_completion($script, "package.json scripts:`n$($scripts.$script)")
-                }
+            if ($unknown.Count -eq 0) {
+                add_scripts
             }
         }
         'remove' {
-            if ($dependencies) {
-                foreach ($dependency in $dependencies.Keys) {
-                    $list += $PSCompletions.return_completion($dependency, "Remove dependency: $($dependency) ($($dependencies.$dependency))")
-                }
-            }
-            if ($devDependencies) {
-                foreach ($devDependency in $devDependencies.Keys) {
-                    $list += $PSCompletions.return_completion($devDependency, "Remove devDependency: $($devDependency) ($($devDependencies.$devDependency))")
-                }
-            }
+            add_dependencies
+            add_dependencies_dev
         }
         'upgrade' {
-            if ($dependencies) {
-                foreach ($dependency in $dependencies.Keys) {
-                    $list += $PSCompletions.return_completion($dependency, "Current Version: $($dependencies.$dependency)")
-                }
-            }
-            if ($devDependencies) {
-                foreach ($devDependency in $devDependencies.Keys) {
-                    $list += $PSCompletions.return_completion($devDependency, "Current Version: $($devDependencies.$devDependency)")
-                }
-            }
+            add_dependencies
+            add_dependencies_dev
         }
     }
+
     return $list + $completions
 }

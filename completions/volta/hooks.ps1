@@ -1,57 +1,66 @@
 function handleCompletions($completions) {
-    if (!(Get-Command volta -ErrorAction SilentlyContinue)) {
+    if ($PSCompletions.pending.text -like '-*') {
         return $completions
     }
-
-    $list = @()
-
-    $voltaBinDir = Split-Path (Get-Command volta).Source -Parent
-    $toolsDir = "$voltaBinDir\tools\image"
-    if (!(Test-Path $toolsDir)) {
-        $toolsDir = "$(Split-Path $voltaBinDir -Parent)\tools\image"
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    # $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
     }
-    if (!(Test-Path $toolsDir)) {
-        $toolsDir = "$($env:LocalAppData)\Volta\tools\image"
+
+    function get_tools_dir {
+        $voltaBinDir = Split-Path (Get-Command volta).Source -Parent
+        $toolsDir = "$voltaBinDir\tools\image"
+        if (!(Test-Path $toolsDir)) {
+            $toolsDir = "$(Split-Path $voltaBinDir -Parent)\tools\image"
+        }
+        if (!(Test-Path $toolsDir)) {
+            $toolsDir = "$env:LocalAppData\Volta\tools\image"
+        }
+        if (!(Test-Path $toolsDir)) {
+            return
+        }
+        return $toolsDir
     }
-    if (!(Test-Path $toolsDir)) {
-        return $completions
-    }
-
-    $tool_list = @('node', 'npm', 'pnpm', 'yarn')
-
-    $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude option parameters
-    $first_item = $filter_input_arr[0] # The first subcommand
-    $last_item = $filter_input_arr[-1] # The last subcommand
-
-    switch ($last_item) {
-        'pin' {
-            foreach ($l in $tool_list) {
-                $versionList = Get-ChildItem "$toolsDir\$l" -Directory
-                foreach ($v in $versionList) {
-                    $list += $PSCompletions.return_completion("$l@$($v.BaseName)", "pin - $l@$($v.BaseName)")
-                }
+    function add_version {
+        $dir = get_tools_dir
+        if ($dir -and (Test-Path $dir -PathType Container)) {
+            Get-ChildItem $dir -Directory | ForEach-Object {
+                $tool = $_.Name
+                Get-ChildItem "$dir\$tool" -Directory | ForEach-Object { add "$tool@$($_.Name)" }
             }
+        }
+    }
+    function add_package {
+        $dir = get_tools_dir
+        if ($dir -and (Test-Path $dir -PathType Container)) {
+            Get-ChildItem "$dir\packages" -Directory | ForEach-Object { add $_.Name }
+        }
+    }
+
+    switch ($cmds[0].text) {
+        'pin' {
+            add_version
         }
         'uninstall' {
-            foreach ($l in $tool_list) {
-                $versionList = Get-ChildItem "$toolsDir\$l" -Directory
-                foreach ($v in $versionList) {
-                    $list += $PSCompletions.return_completion("$l@$($v.BaseName)", "uninstall - $l@$($v.BaseName)")
-                }
-            }
-
-            $packages = Get-ChildItem "$toolsDir\packages" -Directory
-            foreach ($p in $packages) {
-                $name = $p.BaseName
-                $list += $PSCompletions.return_completion($name, "uninstall - $name")
-            }
+            add_version
+            add_package
         }
         'which' {
-            foreach ($l in $tool_list) {
-                $list += $PSCompletions.return_completion("$l", "which - $l")
+            Get-ChildItem (Split-Path (Get-Command volta).Source -Parent) -File -Filter '*.exe' | ForEach-Object {
+                add $_.BaseName
             }
         }
     }
+
     return $list + $completions
 }

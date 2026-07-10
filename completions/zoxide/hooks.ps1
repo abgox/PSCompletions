@@ -1,21 +1,26 @@
 # Refer to: https://pscompletions.abgox.com/docs/completion/hooks
 function handleCompletions($completions) {
-    if (!(Get-Command zoxide -ErrorAction SilentlyContinue)) {
+    if ($PSCompletions.pending.text -like '-*') {
         return $completions
     }
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    # $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
 
-    $list = @()
-
-    # $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Without -*
-
-    switch ($filter_input_arr[0]) {
+    switch ($cmds[0].text) {
         'remove' {
-            zoxide query --list | ForEach-Object {
-                if ($_ -notin $filter_input_arr) {
-                    $list += $PSCompletions.return_completion($_)
-                }
-            }
+            zoxide query --list 2>$null | ForEach-Object { add $_ }
         }
     }
 

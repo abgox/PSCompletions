@@ -1,107 +1,69 @@
-﻿# Refer to: https://pscompletions.abgox.com/docs/completion/hooks
+# Refer to: https://pscompletions.abgox.com/docs/completion/hooks
 function handleCompletions($completions) {
-    $list = @()
-
-    $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude option parameters
-    $first_item = $filter_input_arr[0] # The first subcommand
-    $last_item = $filter_input_arr[-1] # The last subcommand
-
-    function return_toolchains {
-        return rustup toolchain list -q 2>$null
+    if ($PSCompletions.pending.text -like '-*') {
+        return $completions
+    }
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    # $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+    function add_toolchains {
+        rustup toolchain list -q 2>$null | ForEach-Object { add $_ }
+    }
+    function add_targets {
+        rustup target list --installed -q 2>$null | ForEach-Object { add $_ }
+    }
+    function add_components {
+        rustup component list --installed -q 2>$null | ForEach-Object { add $_ }
+    }
+    function add_components_all {
+        rustup component list -q 2>$null | ForEach-Object { add $_ }
+    }
+    function add_targets_all {
+        rustup target list -q 2>$null | ForEach-Object { add $_ }
     }
 
-    function return_targets {
-        return rustup target list --installed -q 2>$null
-    }
-
-    function return_targets_all {
-        return rustup target list -q 2>$null
-    }
-
-    function return_components {
-        return rustup component list --installed -q 2>$null
-    }
-
-    function return_components_all {
-        return rustup component list -q 2>$null
-    }
-
-    switch ($last_item) {
+    switch ($cmds[0].text) {
         'default' {
-            $toolchains = return_toolchains
-            foreach ($_ in $toolchains) {
-                $list += $PSCompletions.return_completion($_, "toolchain --- $_")
-            }
-            $list += $PSCompletions.return_completion('none', 'Remove the default toolchain')
+            add_toolchains
         }
         'uninstall' {
-            $toolchains = return_toolchains
-            foreach ($_ in $toolchains) {
-                $list += $PSCompletions.return_completion($_, "toolchain --- $_")
-            }
+            add_toolchains
         }
-        'set' {
-            if ($first_item -eq 'override') {
-                $toolchains = return_toolchains
-                foreach ($_ in $toolchains) {
-                    $list += $PSCompletions.return_completion($_, "toolchain --- $_")
-                }
+        'override' {
+            if ($cmds[1].text -eq 'set') {
+                add_toolchains
             }
         }
         'run' {
-            $toolchains = return_toolchains
-            foreach ($_ in $toolchains) {
-                $list += $PSCompletions.return_completion($_, "toolchain --- $_")
+            add_toolchains
+        }
+        'toolchain' {
+            if ($cmds[1].text -in 'install', 'uninstall') {
+                add_toolchains
             }
         }
-    }
-
-    # For toolchain uninstall subcommand
-    if ($first_item -eq 'toolchain' -and $last_item -eq 'uninstall') {
-        $toolchains = return_toolchains
-        foreach ($_ in $toolchains) {
-            $list += $PSCompletions.return_completion($_, "toolchain --- $_")
+        'target' {
+            switch ($cmds[1].text) {
+                'add' { add_targets_all }
+                'remove' { add_targets }
+            }
         }
-    }
-
-    # For target remove subcommand
-    if ($first_item -eq 'target' -and $last_item -eq 'remove') {
-        $targets = return_targets
-        foreach ($_ in $targets) {
-            $list += $PSCompletions.return_completion($_, "target --- $_")
-        }
-    }
-
-    # For component remove subcommand
-    if ($first_item -eq 'component' -and $last_item -eq 'remove') {
-        $components = return_components
-        foreach ($_ in $components) {
-            $list += $PSCompletions.return_completion($_, "component --- $_")
-        }
-    }
-
-    # For toolchain install subcommand
-    if ($first_item -eq 'toolchain' -and $last_item -eq 'install') {
-        $toolchains = return_toolchains
-        foreach ($_ in $toolchains) {
-            $list += $PSCompletions.return_completion($_, "toolchain --- $_")
-        }
-    }
-
-    # For target add subcommand
-    if ($first_item -eq 'target' -and $last_item -eq 'add') {
-        $targets = return_targets_all
-        foreach ($_ in $targets) {
-            $list += $PSCompletions.return_completion($_, "target --- $_")
-        }
-    }
-
-    # For component add subcommand
-    if ($first_item -eq 'component' -and $last_item -eq 'add') {
-        $components = return_components_all
-        foreach ($_ in $components) {
-            $list += $PSCompletions.return_completion($_, "component --- $_")
+        'component' {
+            switch ($cmds[1].text) {
+                'add' { add_components_all }
+                'remove' { add_components }
+            }
         }
     }
 

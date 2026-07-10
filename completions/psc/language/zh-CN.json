@@ -15,7 +15,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "添加所有的补全。",
             "注意：添加所有补全可能会导致 PowerShell 启动加载速度变慢。",
@@ -95,44 +95,6 @@
             "当前值: {{ $PSCompletions.config.enable_cache }} (默认值: 1)",
             "启用缓存，用于提高补全的加载速度。",
             "通常不需要修改它, 除非每次补全触发都需要重新读取 json 文件，如补全调试。"
-          ],
-          "next": [
-            {
-              "name": "0"
-            },
-            {
-              "name": "1",
-              "tip": [
-                "默认值"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_completions_update",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_completions_update }} (默认值: 1)",
-            "导入模块时显示远程的补全状态通知。",
-            "注意: 不推荐禁用它, 因为及时获取更新信息能避免一些意外错误。"
-          ],
-          "next": [
-            {
-              "name": "0"
-            },
-            {
-              "name": "1",
-              "tip": [
-                "默认值"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_module_update",
-          "tip": [
-            "当前值: {{ $PSCompletions.config.enable_module_update }} (默认值: 1)",
-            "导入模块时显示模块版本更新通知。",
-            "注意: 不推荐禁用它，因为远程仓库始终匹配模块的最新版本。"
           ],
           "next": [
             {
@@ -262,11 +224,12 @@
         "显示已经添加的补全。",
         "{{ $json.info.list.example }}"
       ],
-      "option": [
+      "next": [
         {
           "name": "--remote",
           "tip": [
-            "显示远程仓库({{ $PSCompletions.url }})中的所有可用补全。"
+            "显示远程仓库中的所有可用补全。",
+            "{{ $PSCompletions.url }}"
           ]
         }
       ]
@@ -459,13 +422,10 @@
               ]
             },
             {
-              "name": "enable_filter_subsequence_match",
+              "name": "enable_enter_when_single",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_filter_subsequence_match }} (默认值: 0)",
-                "启用模块补全菜单过滤区域的子序列匹配。",
-                "过滤器中的字符将按顺序匹配补全项中的字符, 不要求连续出现, 同时支持 '^' 前缀匹配。",
-                "例如, 'br' 可以匹配 'browse'、'fabric'、'abstract' 等。",
-                "例如, '^br' 表示第一个字符必须是 'b', 后续按子序列匹配。"
+                "当前值: {{ $PSCompletions.config.enable_enter_when_single }} (默认值: 0)",
+                "当候选补全项只有一个时直接输入, 而不是显示模块补全菜单。"
               ],
               "next": [
                 {
@@ -480,10 +440,13 @@
               ]
             },
             {
-              "name": "enable_enter_when_single",
+              "name": "enable_filter_subsequence_match",
               "tip": [
-                "当前值: {{ $PSCompletions.config.enable_enter_when_single }} (默认值: 0)",
-                "当候选补全项只有一个时直接输入, 而不是显示模块补全菜单。"
+                "当前值: {{ $PSCompletions.config.enable_filter_subsequence_match }} (默认值: 0)",
+                "启用模块补全菜单过滤区域的子序列匹配。",
+                "过滤器中的字符将按顺序匹配补全项中的字符, 不要求连续出现, 同时支持 '^' 前缀匹配。",
+                "例如, 'br' 可以匹配 'browse'、'fabric'、'abstract' 等。",
+                "例如, '^br' 表示第一个字符必须是 'b', 后续按子序列匹配。"
               ],
               "next": [
                 {
@@ -2055,7 +2018,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "重置模块 PSCompletions 的所有内容。",
             "除了模块的核心代码外，所有其他内容均会被移除。"
@@ -2069,7 +2032,7 @@
           ],
           "next": [
             {
-              "name": "*",
+              "name": "--all",
               "tip": [
                 "删除所有补全别名, 全部恢复为默认补全名。"
               ]
@@ -2084,7 +2047,7 @@
           ],
           "next": [
             {
-              "name": "*",
+              "name": "--all",
               "tip": [
                 "重置(移除)所有补全的特殊配置。",
                 "包括 psc completion 命令下可以设置的所有的配置项。"
@@ -2107,7 +2070,7 @@
           ],
           "next": [
             {
-              "name": "*",
+              "name": "--all",
               "tip": [
                 "重置所有补全菜单的配置。",
                 "包括 psc menu 命令下可以设置的所有的配置项。"
@@ -2163,7 +2126,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "移除所有的补全。",
             "注意: psc 作为 PSCompletions 模块的补全，会在移除后自动重新添加。"
@@ -2194,7 +2157,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "更新当前所有可更新的补全。",
             "{{",
@@ -2202,7 +2165,7 @@
             "else{'所有补全都是最新的!'}",
             "}}"
           ],
-          "option": [
+          "next": [
             {
               "name": "--force",
               "tip": [
@@ -2422,18 +2385,6 @@
           "   psc config language en-US     --- 设置为英文"
         ]
       },
-      "module_update": {
-        "example": [
-          "E: psc config module_update 1     --- 显示模块更新\n",
-          "   psc config module_update 0     --- 不显示模块更新"
-        ]
-      },
-      "update": {
-        "example": [
-          "E: psc config enable_completions_update 1     --- 显示补全更新\n",
-          "   psc config enable_completions_update 0     --- 不显示补全更新"
-        ]
-      },
       "url": {
         "err": [
           "<@Magenta>{{ $config_item }}<@Yellow> 配置项只需要一个值, 一个 url 地址(https://xxx)\n",
@@ -2603,7 +2554,7 @@
       "update": [
         "\n",
         "<@Cyan>[模块更新]\n",
-        "<@Blue>PSCompletions: <@Magenta>{{ $PSCompletions.version }} <@Cyan>=> <@Magenta>{{ $PSCompletions.config.enable_module_update }}\n",
+        "<@Blue>PSCompletions: <@Magenta>{{ $PSCompletions.version }} <@Cyan>=> <@Magenta>{{ $PSCompletions.new_version }}\n",
         "\n",
         "<@Cyan>[模块日志]\n",
         "Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
@@ -2624,7 +2575,7 @@
     "reset": {
       "alias": {
         "example": [
-          "E: psc reset alias *               --- 删除所有补全别名,全部恢复为默认补全名\n",
+          "E: psc reset alias --all           --- 删除所有补全别名,全部恢复为默认补全名\n",
           "   psc reset alias psc             --- 将 psc 恢复为默认补全名\n",
           "   psc reset alias psc git bun     --- 将 psc git bun 恢复为默认补全名"
         ],
@@ -2632,7 +2583,7 @@
       },
       "completion": {
         "example": [
-          "E: psc reset completion *              --- 重置(移除)所有补全的特殊配置\n",
+          "E: psc reset completion --all          --- 重置(移除)所有补全的特殊配置\n",
           "   psc reset completion psc            --- 重置(移除) psc 的特殊配置\n",
           "   psc reset completion psc language   --- 重置(移除) psc 的 language 这个特殊配置"
         ],
@@ -2655,7 +2606,7 @@
         "}}"
       ],
       "example": [
-        "E: psc reset *                --- 重置所有配置\n",
+        "E: psc reset --all            --- 重置所有配置\n",
         "   psc reset menu symbol      --- 重置所有符号配置(~?!)\n",
         "   psc reset alias psc        --- 将 psc 恢复为默认补全名\n",
         "   psc reset completion psc   --- 重置(移除) psc 的特殊配置"
@@ -2671,7 +2622,7 @@
       ],
       "menu": {
         "example": [
-          "E: psc reset menu *              --- 重置所有补全菜单配置\n",
+          "E: psc reset menu --all          --- 重置所有补全菜单配置\n",
           "   psc reset menu config         --- 重置补全菜单的自定义配置\n",
           "   psc reset menu line_theme     --- 重置模块补全菜单的边框线条主题"
         ]
@@ -2757,7 +2708,7 @@
       ],
       "example": [
         "E: psc update                 --- 检查更新\n",
-        "   psc update *               --- 更新所有待更新的补全\n",
+        "   psc update --all           --- 更新所有待更新的补全\n",
         "   psc update psc             --- 更新 psc 补全\n",
         "   psc update psc git bun     --- 更新 psc、git 和 bun 补全"
       ],
@@ -2765,7 +2716,7 @@
     },
     "update_has": [
       "<@Cyan>可以更新的补全: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
-      "更新它们: <@Magenta>psc update *"
+      "更新它们: <@Magenta>psc update --all"
     ],
     "update_info": [
       "<@Cyan>PSCompletions 远程仓库更新: \n",
@@ -2776,10 +2727,8 @@
       "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
       "if($add){ \"新增补全: <@Magenta>$($add)<@Cyan>`n使用 <@Magenta>psc add <completion><@Cyan> 进行添加`n`n\" };",
       "if($rm){ \"删除补全: <@Magenta>$($rm)<@Cyan>`n`n\" };",
-      "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update *<@Cyan> 进行更新`n`n\" };",
-      "}}",
-      "你可以运行 <@Blue>psc config enable_completions_update 0<@Cyan> 隐藏这个远程仓库状态提示。\n",
-      "但是不建议你这样做, 它是一个很恰当的提示。"
+      "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update --all<@Cyan> 进行更新`n`n\" };",
+      "}}"
     ],
     "update_no": [
       "<@Green>已添加的补全都是最新的！"

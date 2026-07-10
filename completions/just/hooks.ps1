@@ -1,22 +1,27 @@
 function handleCompletions($completions) {
-    $list = @()
-
-    $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr
-    $last_item = $filter_input_arr[-1]
-
-    function return_recipes {
-        $recipes = just --summary 2>$null | ForEach-Object {
-            $_.Split(' ')
-        }
-        return $recipes
+    if ($PSCompletions.pending.text -like '-*') {
+        return $completions
+    }
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    # $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+    function add_recipes {
+        just --summary 2>$null | ForEach-Object { add $_.Split(' ') }
     }
 
-    if (!$last_item) {
-        $recipes = return_recipes
-        foreach ($recipe in $recipes) {
-            $list += $PSCompletions.return_completion($recipe)
-        }
+    if (-not $cmds.Count) {
+        add_recipes
     }
 
     return $list + $completions

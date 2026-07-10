@@ -1,305 +1,151 @@
 function handleCompletions($completions) {
-    $list = @()
-
-    # $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude option parameters
-    # $first_item = $filter_input_arr[0] # The first subcommand
-    # $last_item = $filter_input_arr[-1] # The last subcommand
+    if ($PSCompletions.pending.text -like '-*') {
+        return $completions
+    }
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    # $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+    function add_completions {
+        $rest = $PSCompletions.data.list | Where-Object { $_ -notin $unknown_text }
+        $symbol = if ($rest.Count -gt 1) { @('SpaceTab') }else { , @() }
+        foreach ($completion in $rest) { add $completion (get_completion_info $completion) $symbol }
+    }
+    function get_completion_info {
+        param ([string]$completion)
+        @"
+{{
+`$c = Get-Content -Raw "$($PSCompletions.path.completions_json)" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty meta | Select-Object -ExpandProperty "$completion";
+`$m = `$c.'$($PSCompletions.config.language)';
+if (!`$m) { `$m = `$c.'en-US' }
+if (`$m) {
+    if (`$m.url) { 'url: ' + `$m.url; "`n"}
+    if (`$m.description) { '-----'; "`n"; `$m.description -join "`n"}
+}
+}}
+"@
+    }
 
     if ($PSCompletions.config.enable_cache) {
         $PSCompletions.info = $PSCompletions.completions.psc.info
     }
 
-    function return_completion_info {
-        param (
-            [string]$completion
-        )
-        @"
-{{
-`$c = Get-Content -Raw "$($PSCompletions.path.completions_json)" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty meta | Select-Object -ExpandProperty $completion;
-`$m = `$c.'$($PSCompletions.config.language)';
-if (!`$m) { `$m = `$c.'en-US' };
-if (`$m) {
-    if (`$m.url){
-        'url: ' + `$m.url; `"`n`";
-    }
-    if (`$m.description){
-        '-----'; `"`n`";
-        `$m.description -join `"`n`";
-    }
-};
-}}
-"@
-    }
-
-    switch ($filter_input_arr[0]) {
+    switch ($cmds[0].text) {
         'add' {
-            if ('*' -in $filter_input_arr) {
-                break
-            }
-            $symbol = @()
-            if ($filter_input_arr.Count -le 1) {
-                $add = @()
-                $rest = $PSCompletions.list.Where({ $_ -notin $PSCompletions.data.list })
-            }
-            else {
-                $add = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-                $rest = $PSCompletions.list.Where({ $_ -notin $PSCompletions.data.list -and $_ -notin $add })
-            }
-            if ($rest.Count -gt 1) {
-                $symbol = @('SpaceTab')
-            }
+            $rest = $PSCompletions.list | Where-Object { $_ -notin $unknown_text -and $_ -notin $PSCompletions.data.list }
+            $symbol = if ($rest.Count -gt 1) { @('SpaceTab') }else { , @() }
             foreach ($completion in $rest) {
-                $tip = return_completion_info $completion
-                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
+                add $completion (get_completion_info $completion) $symbol
             }
         }
-        'rm' {
-            if ('*' -in $filter_input_arr) {
-                break
-            }
-            $symbol = @()
-            if ($filter_input_arr.Count -le 1) {
-                $rm = @()
-                $rest = $PSCompletions.data.list
-            }
-            else {
-                $rm = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-                $rest = $PSCompletions.data.list.Where({ $_ -notin $rm })
-            }
-            if ($rest.Count -gt 1) {
-                $symbol = @('SpaceTab')
-            }
-            foreach ($completion in $rest) {
-                $tip = return_completion_info $completion
-                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
-            }
-        }
-        'update' {
-            if ('*' -in $filter_input_arr) {
-                break
-            }
-            $symbol = @()
-            if ($filter_input_arr.Count -le 1) {
-                $update = @()
-                $rest = $PSCompletions.update
-            }
-            else {
-                $update = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-                $rest = $PSCompletions.update.Where({ $_ -notin $update })
-            }
-            if ($rest.Count -gt 1) {
-                $symbol = @('SpaceTab')
-            }
-            foreach ($completion in $rest) {
-                $tip = return_completion_info $completion
-                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
-            }
-        }
-        'info' {
-            $symbol = @()
-            if ($filter_input_arr.Count -le 1) {
-                $add = @()
-                $rest = $PSCompletions.list
-            }
-            else {
-                $add = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-                $rest = $PSCompletions.list.Where({ $_ -notin $add })
-            }
-            if ($rest.Count -gt 1) {
-                $symbol = @('SpaceTab')
-            }
-            foreach ($completion in $rest) {
-                $tip = return_completion_info $completion
-                $list += $PSCompletions.return_completion($completion, $tip, $symbol)
-            }
-        }
-        'which' {
-            if ('*' -in $filter_input_arr) {
-                break
-            }
-            $symbol = @()
-            if ($filter_input_arr.Count -le 1) {
-                $which = @()
-                $rest = $PSCompletions.data.list
-            }
-            else {
-                $which = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-                $rest = $PSCompletions.data.list.Where({ $_ -notin $which })
-            }
-            if ($rest.Count -gt 1) {
-                $symbol = @('SpaceTab')
-            }
-            foreach ($completion in $rest) {
-                $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.which.tip), $symbol)
-            }
-        }
+        { $_ -in 'rm', 'update', 'info', 'which' } { add_completions }
         'alias' {
-            switch ($filter_input_arr[1]) {
+            switch ($cmds[1].text) {
                 'add' {
-                    if ($filter_input_arr.Count -eq 2) {
-                        foreach ($completion in $PSCompletions.data.list) {
-                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.add.tip))
-                        }
+                    if ($unknown.Count) {
+                        break
+                    }
+                    foreach ($completion in $PSCompletions.data.list) {
+                        add $completion $PSCompletions.replace_content($PSCompletions.info.alias.add.tip)
                     }
                 }
                 'rm' {
-                    if ($filter_input_arr.Count -le 2) {
-                        foreach ($completion in $PSCompletions.data.list) {
-                            $symbol = @()
-                            if ($PSCompletions.data.alias.$completion.Count -gt 1) {
-                                $symbol = @('SpaceTab')
-                            }
-                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip), $symbol)
-                        }
-                    }
-                    else {
-                        $cmd = $filter_input_arr[2]
-                        if ($filter_input_arr.Count -le 3) {
-                            $alias = @()
-                            $rest = $PSCompletions.data.alias.$cmd
-                        }
-                        else {
-                            $alias = $filter_input_arr[3..($filter_input_arr.Count - 1)]
-                            $rest = $PSCompletions.data.alias.$cmd.Where({ $_ -notin $alias })
-                        }
+                    if ($unknown.Count) {
+                        $cmd = $unknown[0].text
+                        $alias = for ($i = 0; $i -lt $unknown.Count; $i++) { if ($i) { $unknown[$i].text } }
+                        $rest = $PSCompletions.data.alias.$cmd | Where-Object { $_ -notin $alias }
                         if ($rest.Count -gt 2) {
                             $symbol = @('SpaceTab')
                         }
-                        else {
-                            $symbol = @()
-                        }
                         foreach ($completion in $rest) {
-                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v), $symbol)
+                            add -noSkip $completion $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v) $symbol
                         }
+                        break
                     }
+                    add_completions
                 }
             }
         }
         'completion' {
-            if ($filter_input_arr.Count -le 1) {
-                foreach ($completion in $PSCompletions.data.list) {
-                    $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.completion.tip), @('SpaceTab'))
-                }
+            if ($unknown.Count -ge 3) {
+                break
             }
-            else {
-                $completion = $filter_input_arr[1]
-
-                $language = $PSCompletions.get_language($completion)
-                $json = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/language/$($language).json") | ConvertFrom-Json
-
-                switch ($filter_input_arr.Count) {
-                    2 {
-                        $list += $PSCompletions.return_completion('language', $PSCompletions.replace_content($PSCompletions.info.completion.language.tip), @('SpaceTab'))
-                        $list += $PSCompletions.return_completion('enable_tip', $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip), @('SpaceTab'))
-
-                        if ($PSCompletions.config.comp_config[$completion].Count) {
-                            if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
-                                $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
-                                $list += $PSCompletions.return_completion('enable_hooks', $tip, @('SpaceTab'))
-
-                                $list += $PSCompletions.return_completion('enable_hooks_tip', $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip), @('SpaceTab'))
-                            }
-                        }
-                        foreach ($c in $json.config) {
-                            $config_item = $c.name
-                            $tip = $PSCompletions.replace_content($c.tip -join "`n") -replace '<\@\w+>', ''
-                            $symbol = @()
-                            if ($c.values) {
-                                $symbol = @('SpaceTab')
-                            }
-                            if ($filter_input_arr.Count -eq 2) {
-                                $list += $PSCompletions.return_completion($c.name, $tip, $symbol)
-                            }
-                        }
+            if ($unknown.Count -eq 0) {
+                add_completions
+                break
+            }
+            $completion = $unknown[0].text
+            if ($completion -notin $PSCompletions.list) {
+                break
+            }
+            $language = $PSCompletions.get_language($completion)
+            $json = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/language/$($language).json") | ConvertFrom-Json
+            if ($unknown.Count -eq 1) {
+                add 'language' $PSCompletions.replace_content($PSCompletions.info.completion.language.tip) @('SpaceTab')
+                add 'enable_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip) @('SpaceTab')
+                if ($PSCompletions.config.comp_config[$completion].Count) {
+                    if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
+                        $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
+                        add 'enable_hooks' $tip @('SpaceTab')
+                        add 'enable_hooks_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip) @('SpaceTab')
                     }
-                    3 {
-                        switch ($filter_input_arr[2]) {
-                            'language' {
-                                $config = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/config.json") | ConvertFrom-Json
-                                foreach ($language in $config.language) {
-                                    $list += $PSCompletions.return_completion($language, $PSCompletions.replace_content($PSCompletions.info.completion.language.tip_v))
-                                }
-                            }
-                            { $_ -in 'enable_tip', 'enable_hooks', 'enable_hooks_tip' } {
-                                foreach ($value in 0..1) {
-                                    $list += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
-                                }
-                            }
-                            default {
-                                $c = $json.config.Where({ $_.name -eq $filter_input_arr[2] })
-                                foreach ($value in $c.values) {
-                                    $list += $PSCompletions.return_completion($value, $PSCompletions.replace_content($PSCompletions.info.set_value))
-                                }
-                            }
-                        }
+                }
+                foreach ($c in $json.config) {
+                    $config_item = $c.name
+                    $tip = $PSCompletions.replace_content($c.tip -join "`n") -replace '<\@\w+>', ''
+                    $symbol = if ($c.values) { @('SpaceTab') }else { , @() }
+                    add $c.name $tip $symbol
+                }
+                break
+            }
+            switch ($unknown[1].text) {
+                'language' {
+                    $config = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/config.json") | ConvertFrom-Json
+                    foreach ($language in $config.language) {
+                        add $language $PSCompletions.replace_content($PSCompletions.info.completion.language.tip_v)
+                    }
+                }
+                { $_ -like 'enable_*' } {
+                    foreach ($value in 0..1) {
+                        add $value $PSCompletions.replace_content($PSCompletions.info.set_value)
+                    }
+                }
+                default {
+                    $c = $json.config.Where({ $_.name -eq $tokens[2].text })
+                    foreach ($value in $c.values) {
+                        add $value $PSCompletions.replace_content($PSCompletions.info.set_value)
                     }
                 }
             }
         }
         'menu' {
-            if ($filter_input_arr.Count -eq 4 -and $filter_input_arr[1] -eq 'custom' -and $filter_input_arr[2] -eq 'color' -and $filter_input_arr[3] -in $PSCompletions.menu.const.color_item) {
+            if ($cmds[1].text -eq 'custom' -and $cmds[2].text -eq 'color' -and $cmds[3].text -in $PSCompletions.menu.const.color_item) {
                 foreach ($color in $PSCompletions.menu.const.color_value) {
-                    $list += $PSCompletions.return_completion($color, $PSCompletions.replace_content($PSCompletions.info.menu.custom.color.tip))
+                    add $color $PSCompletions.replace_content($PSCompletions.info.menu.custom.color.tip)
                 }
             }
         }
         'reset' {
-            if ('*' -in $filter_input_arr) {
-                break
-            }
-            switch ($filter_input_arr[1]) {
+            switch ($cmds[1].text) {
                 'alias' {
-                    $symbol = @()
-                    if ($filter_input_arr.Count -le 1) {
-                        $reset = @()
-                        $rest = $PSCompletions.data.list
-                    }
-                    else {
-                        $reset = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-                        $rest = $PSCompletions.data.list.Where({ $_ -notin $reset })
-                    }
-                    if ($rest.Count -gt 1) {
-                        $symbol = @('SpaceTab')
-                    }
-                    foreach ($completion in $rest) {
-                        $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.reset.alias.tip), $symbol)
-                    }
+                    add_completions
                 }
                 'completion' {
-                    if ($filter_input_arr.Count -eq 2) {
-                        foreach ($completion in $PSCompletions.data.list) {
-                            if ($PSCompletions.data.config.comp_config[$completion].Keys) {
-                                $symbol = @('SpaceTab')
-                            }
-                            else {
-                                $symbol = @()
-                            }
-                            $list += $PSCompletions.return_completion($completion, $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip), $symbol )
-                        }
-                    }
-                    if ($filter_input_arr.Count -ge 3) {
-                        $selected = $filter_input_arr[3, ($filter_input_arr.Count - 1)]
-                        $completion = $filter_input_arr[2]
-                        $add = @()
-                        if ($PSCompletions.data.config.comp_config[$completion].Keys) {
-                            foreach ($config_item in $PSCompletions.data.config.comp_config.$completion.Keys) {
-                                if ($config_item -notin $selected) {
-                                    $add += $config_item
-                                }
-                            }
-                            $symbol = if ($add.Count -gt 1) { @('SpaceTab') }else { , @() }
-                            foreach ($config_item in $add) {
-                                $list += $PSCompletions.return_completion($config_item, $PSCompletions.replace_content($PSCompletions.info.reset.completion.tip_v), $symbol)
-                            }
-                        }
-                    }
+                    add_completions
                 }
             }
         }
-        default {
-            return $completions
-        }
     }
+
     return $completions + $list
 }
