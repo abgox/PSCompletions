@@ -4,6 +4,31 @@
 
 ## Unreleased
 
+## 6.8.0
+
+> ![WARNING]
+>
+> - 补全库进行了改进和重构，不完全兼容旧版本
+> - 请及时更新模块版本，并强制更新所有补全: `psc update --all --force`
+
+- 新增 `enter_when_no_match_after` 菜单配置项
+  - 设置: `psc menu config enter_when_no_match_after <N>`
+  - 在过滤区域连续输入 N 个不匹配任何补全项的字符后，关闭菜单并使用过滤内容
+  - 设置为 `0` 表示禁用（默认值）
+- 新增 `enable_filter_subsequence_match` 菜单配置项
+  - 设置: `psc menu config enable_filter_subsequence_match <1|0>`
+  - 启用后，过滤器中的字符将按顺序匹配补全项中的字符，不要求连续出现，同时支持使用 `^` 符号进行前缀匹配
+    - 例如，`br` 可以匹配 `browse`、`fabric`、`abstract` 等
+    - 例如 `^br` 表示第一个字符必须是 `b`，后续按子序列匹配
+  - 设置为 `0` 表示禁用（默认值）
+- 为了保持补全和模块的一致性，移除了两个更新检查的通知配置项
+  - `enable_completions_update`
+  - `enable_module_update`
+- 将部分命令中的 `*` 替换为语义更明确的 `--all`
+- `repeat` 属性支持使用数字作为最大重复个数
+- 重构了补全的数据结构与处理，取消了 **选项(--xxx) > 命令(xxx)** 的补全限制
+- 其他的优化和修复
+
 ## 6.7.0
 
 - 在补全定义中添加了对 `repeat` 属性的支持
