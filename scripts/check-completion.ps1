@@ -1,4 +1,4 @@
-﻿#Requires -PSEdition Core
+#Requires -PSEdition Core
 
 if (-not $env:GITHUB_ACTIONS) {
     throw 'It is a script for workflow'
@@ -58,6 +58,7 @@ $labels = [ordered]@{
 }
 $hasCompletion = $false
 $hasScriptBlock = $false
+$modifiedCompletions = @()
 
 foreach ($file in $files) {
     $match = $file.filename -match '^completions/([^/]+)/language/(.*)\.json$'
@@ -67,6 +68,10 @@ foreach ($file in $files) {
     $hasCompletion = $true
 
     $completion = $matches[1]
+
+    if ($completion -notin $modifiedCompletions) {
+        $modifiedCompletions += $completion
+    }
 
     $line = @()
 
@@ -103,7 +108,7 @@ $guide = @'
 - **Status**: The status of the file in the PR.
 - **Completion**: The completion name.
 - **Language**: The language of the completion.
-- **Script**: Whether the completion contains dynamic script, like `{{ xxx }}`.
+- **Template**: Whether the completion contains template expressions, like `{{ xxx }}`.
 
 </details>
 
@@ -114,11 +119,11 @@ if ($hasCompletion) {
         $marker,
         $guide,
         '',
-        '| Status | Completion | Language | Script |',
+        '| Status | Completion | Language | Template |',
         '| :-: | :-: | :-: | :-: |'
     ) + $results
 
-    .\scripts\sort-json.ps1
+    & $PSScriptRoot\compare-json.ps1 $modifiedCompletions
 
     git -c core.safecrlf=false add -u
     $jsonChanges = git status --porcelain | Where-Object { $_ -match '\.json$' }
@@ -127,10 +132,10 @@ if ($hasCompletion) {
             '',
             '> [!WARNING]',
             '>',
-            '> Please run it to sort JSON and commit again.',
+            '> Please run it to sort and compare JSON, then commit the changes.',
             '>',
             '> ```powershell',
-            '> .\scripts\sort-json.ps1',
+            "> .\scripts\compare-json.ps1 $($modifiedCompletions -join ',')",
             '> ```'
         )
     }
@@ -140,8 +145,8 @@ if ($hasCompletion) {
             '',
             '> [!WARNING]',
             '>',
-            '> - Some completions contain dynamic script, like `{{ xxx }}`',
-            '> - Please check them carefully before merging.'
+            '> - Some completions contain template expressions (`{{ xxx }}`) that are evaluated at runtime.',
+            '> - Please review them carefully before merging.'
         )
     }
 }
