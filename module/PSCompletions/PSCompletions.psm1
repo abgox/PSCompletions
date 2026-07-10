@@ -133,8 +133,7 @@
         if (!(download_list)) {
             return
         }
-
-        if ($arg[1] -eq '*') {
+        if ($arg | Where-Object { $_ -eq '--all' }) {
             foreach ($_ in $PSCompletions.list) {
                 $PSCompletions.add_completion($_)
                 $PSCompletions.__need_update_data = $true
@@ -172,8 +171,7 @@
             aliasMap = [ordered]@{}
             config   = $PSCompletions.data.config
         }
-
-        if ($arg[1] -eq '*') {
+        if ($arg | Where-Object { $_ -eq '--all' }) {
             foreach ($completion in $PSCompletions.data.list) {
                 $dir = Join-Path $PSCompletions.path.completions $completion
                 Remove-Item $dir -Recurse -Force -ErrorAction Ignore
@@ -181,7 +179,6 @@
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
                 }
             }
-
             $data.config.comp_config = [ordered]@{}
         }
         else {
@@ -218,7 +215,6 @@
                 }
             }
         }
-
         $remove = @()
         foreach ($_ in $data.config.comp_config.keys) {
             if ($_ -notin $data.list) {
@@ -228,7 +224,6 @@
         foreach ($_ in $remove) {
             $data.config.comp_config.Remove($_)
         }
-
         $data | ConvertTo-Json -Depth 10 | Out-File $PScompletions.path.data -Force -Encoding utf8
         $PSCompletions.data = $data
     }
@@ -275,8 +270,15 @@
         }
         else {
             $updated_list = [System.Collections.Generic.List[string]]@()
-            if ($arg[1] -eq '*') {
-                if ($arg[2] -eq '--force') {
+            $all = $false
+            $force = $false
+            $arg = $arg | ForEach-Object {
+                if ($_ -eq '--all') { $all = $true }
+                elseif ($_ -eq '--force') { $force = $true }
+                else { $_ }
+            }
+            if ($all) {
+                if ($force) {
                     foreach ($_ in $completion_list) {
                         $PSCompletions.add_completion($_)
                         $updated_list.Add($_)
@@ -302,7 +304,6 @@
                     }
                 }
             }
-
             $updated_list = $updated_list.Where({ Test-Path "$($PSCompletions.path.completions)/$_/config.json" })
             if ($updated_list) {
                 $PSCompletions.update = $PSCompletions.update.Where({ $_ -notin $updated_list })
@@ -311,7 +312,6 @@
                 $PSCompletions.__need_update_data = $false
             }
         }
-
         if ($PSCompletions.update) {
             $PSCompletions.write_with_color((_replace $PSCompletions.info.update_has))
         }
@@ -564,7 +564,7 @@
                 handle_done ($arg[2] -match 'http[s]?://' -or '' -eq $arg[2]) $PSCompletions.info.config.url.err
             }
             { $_ -like 'enable_*' } {
-                handle_done ($arg[2] -is [int] -and $arg[2] -in @(1, 0)) $PSCompletions.info.config.err.one_or_zero
+                handle_done ($arg[2] -is [int] -and $arg[2] -in 1, 0) $PSCompletions.info.config.err.one_or_zero
             }
         }
     }
@@ -610,7 +610,7 @@
         }
 
         if ($config_item -match '(enable_\w+)|(disable_\w+)') {
-            if ($new_value -notin @(1, 0)) {
+            if ($new_value -notin 1, 0) {
                 $cmd_list = $null
                 $sub_cmd = $arg[2]
                 $cmd_info = $PSCompletions.info.menu.config.err.v_1_or_0
@@ -865,7 +865,7 @@
                             return
                         }
                     }
-                    { $_ -in @('list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'completions_confirm_limit') } {
+                    { $_ -in 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'completions_confirm_limit' } {
                         $min = 0
                         if (!$is_num -or $value -lt $min) {
                             $cmd_list = $null
@@ -887,7 +887,7 @@
                         }
                     }
                     { $_ -in ($PSCompletions.menu.const.config_item | Where-Object { $_ -match '(enable_\w+)|(disable_\w+)' }) } {
-                        if (!$is_num -or $value -notin @(1, 0)) {
+                        if (!$is_num -or $value -notin 1, 0) {
                             $cmd_list = $null
                             $sub_cmd = $value
                             $cmd_info = $PSCompletions.info.menu.config.err.v_1_or_0
@@ -914,14 +914,14 @@
                 $PSCompletions.config.$config_item = $new_value
                 $PSCompletions.__need_update_data = $true
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.menu.done))
-                if ($config_item -in @('enable_menu', 'enable_menu_enhance', 'trigger_key')) {
+                if ($config_item -in 'enable_menu', 'enable_menu_enhance', 'trigger_key') {
                     $PSCompletions.handle_completion()
                 }
             }
         }
     }
     function _reset {
-        $cmd_list = @('config', 'alias', 'order', 'completion', 'menu', '*')
+        $cmd_list = @('--all', 'config', 'alias', 'order', 'completion', 'menu')
         if ($arg.Length -lt 2) {
             Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
             return
@@ -929,11 +929,12 @@
         if ($arg[1] -notin $cmd_list) {
             $sub_cmd = $arg[1]
             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
+            return
         }
 
-        if ($arg[1] -in @('alias', 'completion', 'menu')) {
-            $cmd_list = @('*')
-            if ($arg[1] -in @('alias', 'completion')) {
+        if ($arg[1] -in 'alias', 'completion', 'menu') {
+            $cmd_list = @('--all')
+            if ($arg[1] -in 'alias', 'completion') {
                 $cmd_list += $PSCompletions.data.list
             }
             elseif ($arg[1] -eq 'menu') {
@@ -943,7 +944,7 @@
                 Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.$($arg[1]).example
                 return
             }
-            if ($arg[1] -notin @('completion', 'alias') -and $arg.Length -gt 3) {
+            if ($arg[1] -notin 'completion', 'alias' -and $arg.Length -gt 3) {
                 Show-ParamError 'max' '' '' $PSCompletions.info.reset.$($arg[1]).example
                 return
             }
@@ -976,7 +977,7 @@
             'alias' {
                 $need_restart = $true
                 $change_list = [System.Collections.Generic.List[System.Object]]@()
-                $del_list = if ($arg[2] -eq '*') { , $PSCompletions.data.list }else { , $arg[2..($arg.Length - 1)] }
+                $del_list = if ($arg[2] -eq '--all') { , $PSCompletions.data.list }else { , $arg[2..($arg.Length - 1)] }
                 foreach ($completion in $del_list) {
                     if ($completion -in $PSCompletions.data.list) {
                         $old_value = $PSCompletions.data.alias[$completion] -join ' '
@@ -1056,7 +1057,7 @@
                 }
                 $old_comp_config = $PSCompletions.config.comp_config.Clone()
                 $change_list = [System.Collections.Generic.List[System.Object]]@()
-                if ($arg[2] -eq '*') {
+                if ($arg[2] -eq '--all') {
                     foreach ($_ in $PSCompletions.data.list) {
                         _do $_
                     }
@@ -1105,7 +1106,7 @@
                 }
             }
             'menu' {
-                $cmd_list = @('*', 'symbol', 'line', 'color', 'config')
+                $cmd_list = @('--all', 'symbol', 'line', 'color', 'config')
                 if ($arg[2] -notin $cmd_list) {
                     $sub_cmd = $arg[2]
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
@@ -1125,7 +1126,7 @@
                         $need_restart = $true
                         $change_list = handle_reset $PSCompletions.menu.const.config_item
                     }
-                    '*' {
+                    '--all' {
                         $need_restart = $true
                         $change_list = [System.Collections.Generic.List[System.Object]]@()
                         $change_list += handle_reset $PSCompletions.menu.const.symbol_item
@@ -1135,7 +1136,7 @@
                     }
                 }
             }
-            '*' {
+            '--all' {
                 $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.reset.init_confirm))
                 while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
                     if ($PressKey.ControlKeyState -notlike '*CtrlPressed*') {
