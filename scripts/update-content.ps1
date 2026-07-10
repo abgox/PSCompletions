@@ -131,21 +131,18 @@ if ($env:GITHUB_ACTIONS) {
     $old_info = Get-Content $path -Raw | ConvertFrom-Json -AsHashtable
     $info = [ordered]@{
         count  = 0
-        list   = @()
         update = [ordered]@{}
         meta   = [ordered]@{}
     }
     Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
         $completion = $_.Name
-        $info.list += $completion
         $info.update[$completion] = Get-StringHash $_.FullName
         $info.meta[$completion] = [ordered]@{}
         Get-ChildItem "$($_.FullName)/language" -File | ForEach-Object {
             $info.meta.$completion[$_.BaseName] = Get-Content $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json | Select-Object -ExpandProperty meta
         }
     }
-    $info.count = $info.list.Count
-
+    $info.count = $info.update.Keys.Count
     $info | ConvertTo-Json -Depth 10 | Out-File $path
 
     & $PSScriptRoot\push-change.ps1 -message 'chore: automatically update some content [skip ci]'

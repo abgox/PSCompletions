@@ -19,9 +19,10 @@
     function download_list {
         $PSCompletions.ensure_dir($PSCompletions.path.temp)
         if (!(Test-Path $PSCompletions.path.completions_json)) {
-            @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+            @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
         }
-        $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
+        $current_json = $PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json
+        $current_list = @($current_json.update.PSObject.Properties.Name)
         if ($null -eq $current_list) { $current_list = @() }
 
         $params = @{ ErrorAction = 'Stop' }
@@ -38,7 +39,7 @@
                 $errMsg += $_.Exception.Message
                 continue
             }
-            $remote_list = $response.list
+            $remote_list = @($response.update.PSObject.Properties.Name)
             try {
                 $diff = Compare-Object $remote_list $current_list -PassThru
                 if ($diff) {

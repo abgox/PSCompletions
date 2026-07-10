@@ -971,9 +971,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
             function download_list {
                 $PSCompletions.ensure_dir($PSCompletions.path.temp)
                 if (!(Test-Path $PSCompletions.path.completions_json)) {
-                    @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+                    @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
-                $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
+                $current_json = ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)
+                $current_list = @($current_json.update.PSObject.Properties.Name)
                 if ($null -eq $current_list) { $current_list = @() }
 
                 $params = @{ ErrorAction = 'Stop' }
@@ -990,7 +991,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                         $errMsg += $_.Exception.Message
                         continue
                     }
-                    $remote_list = $response.list
+                    $remote_list = @($response.update.PSObject.Properties.Name)
                     try {
                         $diff = Compare-Object $remote_list $current_list -PassThru
                         if ($diff) {
@@ -1041,7 +1042,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         }
     }
 
-    $PSCompletions.list = (ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)).list
+    $PSCompletions.list = @((ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)).update.PSObject.Properties.Name)
     $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
     $PSCompletions.change = $PSCompletions.get_content($PSCompletions.path.change)
 
@@ -2056,9 +2057,10 @@ if ($PSEdition -eq 'Core') {
 
             function download_list {
                 if (!(Test-Path $PSCompletions.path.completions_json)) {
-                    @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+                    @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
-                $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
+                $current_json = ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)
+                $current_list = @($current_json.update.PSObject.Properties.Name)
                 if ($null -eq $current_list) { $current_list = @() }
                 $isErr = $true
                 foreach ($url in $PSCompletions.urls) {
@@ -2066,7 +2068,7 @@ if ($PSEdition -eq 'Core') {
                         $response = Invoke-RestMethod -Uri "$url/completions.json" -OperationTimeoutSeconds 30 -ErrorAction Stop
                     }
                     catch { continue }
-                    $remote_list = $response.list
+                    $remote_list = @($response.update.PSObject.Properties.Name)
                     $diff = Compare-Object $remote_list $current_list -PassThru
                     if ($diff) {
                         $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
@@ -2349,16 +2351,17 @@ else {
             }
             function download_list {
                 if (!(Test-Path $PSCompletions.path.completions_json)) {
-                    @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
+                    @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
-                $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
+                $current_json = get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json
+                $current_list = @($current_json.update.PSObject.Properties.Name)
                 if ($null -eq $current_list) { $current_list = @() }
                 foreach ($url in $PSCompletions.urls) {
                     try {
                         $response = Invoke-RestMethod -Uri "$url/completions.json" -TimeoutSec 30 -ErrorAction Stop
                     }
                     catch { continue }
-                    $remote_list = $response.list
+                    $remote_list = @($response.update.PSObject.Properties.Name)
                     $diff = Compare-Object $remote_list $current_list -PassThru
                     if ($diff) {
                         $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
