@@ -100,7 +100,13 @@
                     $null = $PSCompletions.config.comp_config.Remove($_)
                 }
             }
-            $PSCompletions.data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+            $saveData = [ordered]@{}
+            foreach ($key in $PSCompletions.data.Keys) {
+                if ($key -notin 'list', 'aliasMap') {
+                    $saveData[$key] = $PSCompletions.data[$key]
+                }
+            }
+            $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
             $PSCompletions.need_update_data = $null
         }
     }
@@ -165,10 +171,8 @@
         $PSCompletions.update = @()
 
         $data = [ordered]@{
-            list     = @()
-            alias    = [ordered]@{}
-            aliasMap = [ordered]@{}
-            config   = $PSCompletions.data.config
+            alias  = [ordered]@{}
+            config = $PSCompletions.data.config
         }
         if ($arg | Where-Object { $_ -eq '--all' }) {
             foreach ($completion in $PSCompletions.data.list) {
@@ -198,30 +202,32 @@
                 else { $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion)) }
             }
             foreach ($completion in $PSCompletions.data.list.Where({ $_ -notin $remove_list })) {
-                $data.list += $completion
-            }
-            foreach ($_ in $data.list) {
-                $data.alias."$_" = @()
-                if ($PSCompletions.data.alias[$_]) {
-                    foreach ($a in $PSCompletions.data.alias.$_) {
-                        $data.alias."$_" += $a
-                        $data.aliasMap."$a" = $_
+                $data.alias."$completion" = @()
+                if ($PSCompletions.data.alias[$completion]) {
+                    foreach ($a in $PSCompletions.data.alias[$completion]) {
+                        $data.alias."$completion" += $a
                     }
                 }
                 else {
-                    $data.alias."$_" += $_
-                    $data.aliasMap."$_" = $_
+                    $data.alias."$completion" += $completion
                 }
             }
         }
         $remove = @()
         foreach ($_ in $data.config.comp_config.keys) {
-            if ($_ -notin $data.list) {
+            if ($_ -notin $data.alias.Keys) {
                 $remove += $_
             }
         }
         foreach ($_ in $remove) {
             $null = $data.config.comp_config.Remove($_)
+        }
+        $PSCompletions.data.list = @($data.alias.Keys)
+        $PSCompletions.data.aliasMap = [ordered]@{}
+        foreach ($key in $PSCompletions.data.list) {
+            foreach ($a in $data.alias[$key]) {
+                $PSCompletions.data.aliasMap[$a] = $key
+            }
         }
         $data | ConvertTo-Json -Depth 10 | Out-File $PScompletions.path.data -Force -Encoding utf8
         $PSCompletions.data = $data
@@ -511,8 +517,18 @@
             }
         }
         $PSCompletions.data.alias = $data_alias
-        $PSCompletions.data.aliasMap = $data_aliasMap
-        $PSCompletions.data | ConvertTo-Json -Depth 10 | Out-File $PScompletions.path.data -Force -Encoding utf8
+        $PSCompletions.data.list = @($data_alias.Keys)
+        $PSCompletions.data.aliasMap = [ordered]@{}
+        foreach ($key in $PSCompletions.data.list) {
+            foreach ($a in $data_alias[$key]) {
+                $PSCompletions.data.aliasMap[$a] = $key
+            }
+        }
+        $saveData = [ordered]@{}
+        foreach ($key in $PSCompletions.data.Keys) {
+            if ($key -notin 'list', 'aliasMap') { $saveData[$key] = $PSCompletions.data[$key] }
+        }
+        $saveData | ConvertTo-Json -Depth 10 | Out-File $PScompletions.path.data -Force -Encoding utf8
         if ($need_restart) {
             $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
             $need_restart = $null
@@ -995,6 +1011,7 @@
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion))
                     }
                 }
+                $PSCompletions.data.list = @($PSCompletions.data.alias.Keys)
                 $PSCompletions.data.aliasMap = [ordered]@{}
                 foreach ($_ in $PSCompletions.data.list) {
                     if ($PSCompletions.data.alias[$_]) {

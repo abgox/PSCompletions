@@ -846,7 +846,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     $done = if ($is_exist) { $PSCompletions.info.update.done }else { $PSCompletions.info.add.done }
 
     if ($completion -notin $PSCompletions.data.list) {
-        $PSCompletions.data.list += $completion
         $PSCompletions.need_update_data = $true
     }
     if (!$PSCompletions.data.alias[$completion]) {
@@ -880,6 +879,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             $PSCompletions.need_update_data = $true
         }
     }
+    $PSCompletions.data.list = @($PSCompletions.data.alias.Keys)
 
     $language = $PSCompletions.get_language($completion)
     $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
@@ -914,19 +914,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.completions = @{}
     $PSCompletions.lang_cache = @{}
     $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
+    $PSCompletions.data.list = @($PSCompletions.data.alias.Keys)
+    $PSCompletions.data.aliasMap = [ordered]@{}
+    foreach ($key in $PSCompletions.data.list) {
+        foreach ($a in $PSCompletions.data.alias[$key]) {
+            $PSCompletions.data.aliasMap[$a] = $key
+        }
+    }
     if ($null -eq $PSCompletions.data.config) {
         function new_data {
             $data = [ordered]@{
-                list     = @()
-                alias    = [ordered]@{}
-                aliasMap = [ordered]@{}
-                config   = $PSCompletions.default_config
+                alias  = [ordered]@{}
+                config = $PSCompletions.default_config
             }
             $data.config.comp_config = [ordered]@{}
             $items = Get-ChildItem -Path $PSCompletions.path.completions
             foreach ($_ in $items) {
                 $name = $_.Name
-                $data.list += $name
                 $data.alias.$name = @()
                 $path_config = Join-Path $_.FullName 'config.json'
                 if (!(Test-Path $path_config)) {
@@ -936,12 +940,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                 if ($config.alias) {
                     foreach ($a in $config.alias) {
                         $data.alias.$name += $a
-                        $data.aliasMap.$a = $name
                     }
                 }
                 else {
                     $data.alias.$name += $name
-                    $data.aliasMap.$name = $name
                 }
                 $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
                 $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
@@ -955,6 +957,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
             }
             $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
             $PSCompletions.data = $data
+            $PSCompletions.data.list = @($data.alias.Keys)
+            $PSCompletions.data.aliasMap = [ordered]@{}
+            foreach ($key in $PSCompletions.data.list) {
+                foreach ($a in $data.alias[$key]) {
+                    $PSCompletions.data.aliasMap[$a] = $key
+                }
+            }
 
             function download_list {
                 $PSCompletions.ensure_dir($PSCompletions.path.temp)
@@ -1035,7 +1044,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 
     if ('psc' -notin $PSCompletions.data.list) {
         $PSCompletions.add_completion('psc', $false)
-        $PSCompletions.data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $saveData = [ordered]@{}
+        foreach ($key in $PSCompletions.data.Keys) {
+            if ($key -notin 'list', 'aliasMap') { $saveData[$key] = $PSCompletions.data[$key] }
+        }
+        $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
         $PSCompletions.info = $PSCompletions.completions.psc.info
     }
     else {
@@ -2537,26 +2550,28 @@ if (!(Test-Path $PSCompletions.path.order)) {
 
                 if (Test-Path "$old_version_dir/data.json") {
                     Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction Ignore
+                    $oldData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
+                    if ($oldData.ContainsKey('list') -or $oldData.ContainsKey('aliasMap')) {
+                        $oldData.Remove('list')
+                        $oldData.Remove('aliasMap')
+                        $oldData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+                    }
                 }
                 else {
                     $data = [ordered]@{
-                        list     = @()
-                        alias    = [ordered]@{}
-                        aliasMap = [ordered]@{}
-                        config   = $PSCompletions.default_config
+                        alias  = [ordered]@{}
+                        config = $PSCompletions.default_config
                     }
                     $data.config.comp_config = [ordered]@{}
                     $items = Get-ChildItem -Path "$old_version_dir/completions" -ErrorAction Ignore
                     foreach ($_ in $items) {
                         $name = $_.Name
-                        $data.list += $name
                         $data.alias.$name = @()
                         $path_alias = Join-Path $_.FullName 'alias.txt'
                         if (Test-Path $path_alias) {
                             $alias_list = $PSCompletions.get_content($path_alias)
                             foreach ($a in $alias_list) {
                                 $data.alias.$name += $a
-                                $data.aliasMap.$a = $name
                             }
                         }
                         else {
@@ -2565,13 +2580,18 @@ if (!(Test-Path $PSCompletions.path.order)) {
                             if ($config.alias) {
                                 foreach ($a in $config.alias) {
                                     $data.alias.$name += $a
-                                    $data.aliasMap.$a = $name
                                 }
                             }
                             else {
                                 $data.alias.$name += $name
-                                $data.aliasMap.$name = $name
                             }
+                        }
+                    }
+                    $PSCompletions.data.list = @($data.alias.Keys)
+                    $PSCompletions.data.aliasMap = [ordered]@{}
+                    foreach ($key in $PSCompletions.data.list) {
+                        foreach ($a in $data.alias[$key]) {
+                            $PSCompletions.data.aliasMap[$a] = $key
                         }
                     }
                     $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
