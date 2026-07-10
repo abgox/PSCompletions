@@ -86,6 +86,10 @@ foreach ($c in $json.config) {
     }
 }
 
-$PSCompletions.data | ConvertTo-Json -Depth 100 | Out-File $PSCompletions.path.data -Encoding utf8 -Force
+$saveData = [ordered]@{}
+foreach ($key in $PSCompletions.data.Keys) {
+    if ($key -notin 'list', 'aliasMap') { $saveData[$key] = $PSCompletions.data[$key] }
+}
+$saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
 
 $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
