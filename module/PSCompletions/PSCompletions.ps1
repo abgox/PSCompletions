@@ -21,7 +21,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         module_update    = "$_\temp\module-update.txt"
     }
     order                   = [ordered]@{}
-    root_cmd                = ''
+    cmd                     = ''
     completions_data        = @{}
     guid                    = '00929632-527d-4dab-a5b3-21197faccd05'
     language                = $PSUICulture
@@ -37,52 +37,52 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             $buffer = ''
             $cursor = 0
             [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursor)
-            if (!$cursor) {
-                return
-            }
+            if (-not $buffer) { return }
 
             $PSCompletions.buffer = $buffer
             $PSCompletions.buffer_after_cursor = $buffer.Substring($cursor)
-            $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
-
-            $buffer = $PSCompletions.buffer_before_cursor
-            $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
-            $input_arr = @()
+            $buffer = $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
+            $isSpaceTab = $buffer[-1] -eq ' '
+            $inputs = @()
             $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
-            foreach ($match in $matches) { $input_arr += $match.Value }
+            foreach ($match in $matches) { $inputs += $match.Value }
 
-            if (!$input_arr) { return }
+            if (!$inputs) { return }
 
-            $root = $alias = $input_arr[0]
-            $PSCompletions.menu.by_TabExpansion2 = $false
+            $PSCompletions.inputs = $inputs
 
-            if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($space_tab -or ($input_arr.Count -gt 1 -and $input_arr[-1] -notmatch '^[''"]?(?:[A-Za-z]:[/\\]|(?:\.\.?|~)?[/\\]).*'))) {
-                $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
-                $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
-                $filter_list = $PSCompletions.get_completion()
-
-                if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
-                    $count = $filter_list.Count
+            function check_confirm_limit {
+                param([array]$list)
+                if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $list.Count -gt $PSCompletions.config.completions_confirm_limit) {
+                    $count = $list.Count
                     $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
                     $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
                         $text = $PSCompletions.replace_content($t)
-                        @{
-                            CompletionText = $text
-                            ListItemText   = $text
-                            ToolTip        = $tip
-                        }
+                        @{ CompletionText = $text; ListItemText = $text; ToolTip = $tip }
                     }
                     $result = $PSCompletions.menu.show_module_menu($_filter_list)
-                    if (!$result) { return '' }
+                    if (!$result) { return $null }
                 }
+                $list
+            }
+
+            $PSCompletions.alias = $alias = $inputs[0]
+            $PSCompletions.menu.by_TabExpansion2 = $false
+
+            if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($isSpaceTab -or ($inputs.Count -gt 1 -and $inputs[-1] -notmatch '^[''"]?(?:[A-Za-z]:[/\\]|(?:\.\.?|~)?[/\\]).*'))) {
+                $PSCompletions.cmd = $cmd = $PSCompletions.data.aliasMap[$alias]
+                $filter_list = $PSCompletions.get_completion($cmd, $inputs)
+
+                $filter_list = check_confirm_limit $filter_list
+                if ($null -eq $filter_list) { return '' }
                 $result = $PSCompletions.menu.show_module_menu($filter_list)
                 if ($result) {
-                    if ($space_tab -or $PSCompletions.input_arr[-1] -like '-*=') {
+                    if ($isSpaceTab) {
                         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($result)
                     }
                     else {
-                        $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[0..($input_arr.Count - 2)] }
-                        $result = if ($input_arr.Count -eq 0) { "$alias $result" }else { "$alias $($input_arr -join ' ') $result" }
+                        $middleArgs = if ($inputs.Count -le 2) { , @() } else { $inputs[1..($inputs.Count - 2)] }
+                        $result = if ($middleArgs.Count -eq 0) { "$alias $result" }else { "$alias $($middleArgs -join ' ') $result" }
                         [Microsoft.PowerShell.PSConsoleReadLine]::Replace(0, $buffer.Length, $result)
                     }
                 }
@@ -97,28 +97,17 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                 $filter_list = $completion.CompletionMatches
                 if (!$filter_list) { return }
 
-                if ($PSCompletions.config.completions_confirm_limit -gt 0 -and $filter_list.Count -gt $PSCompletions.config.completions_confirm_limit) {
-                    $count = $filter_list.Count
-                    $tip = $PSCompletions.replace_content($PSCompletions.info.module.too_many_completions.tip)
-                    $_filter_list = foreach ($t in $PSCompletions.info.module.too_many_completions.text) {
-                        $text = $PSCompletions.replace_content($t)
-                        @{
-                            CompletionText = $text
-                            ListItemText   = $text
-                            ToolTip        = $tip
-                        }
-                    }
-                    $result = $PSCompletions.menu.show_module_menu($_filter_list)
-                    if (!$result) { return '' }
-                }
+                $filter_list = check_confirm_limit $filter_list
+                if ($null -eq $filter_list) { return '' }
 
-                if (-not [System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($root)) {
-                    if ($root -eq 'PSCompletions') {
+                $cmd = $inputs[0]
+                if (-not [System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($cmd)) {
+                    if ($cmd -eq 'PSCompletions') {
                         $cmds = Get-Command
-                        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
+                        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $cmd) { $c; break } }
                     }
                     else {
-                        foreach ($c in $PSCompletions.data.alias.$root) {
+                        foreach ($c in $PSCompletions.data.alias.$cmd) {
                             $has_command = Get-Command $c -ErrorAction Ignore
                             if ($has_command) {
                                 break
@@ -126,41 +115,41 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                         }
                     }
                     if ($PSCompletions.config.enable_completions_sort -and $has_command) {
-                        $path_order = "$($PSCompletions.path.order)/$root.json"
-                        if ($PSCompletions.order."$($root)_job") {
-                            if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
-                                $PSCompletions.order[$root] = Receive-Job $PSCompletions.order."$($root)_job"
-                                Remove-Job $PSCompletions.order."$($root)_job"
-                                $PSCompletions.order.Remove("$($root)_job")
+                        $path_order = "$($PSCompletions.path.order)/$cmd.json"
+                        if ($PSCompletions.order."$($cmd)_job") {
+                            if ($PSCompletions.order."$($cmd)_job".State -eq 'Completed') {
+                                $PSCompletions.order[$cmd] = Receive-Job $PSCompletions.order."$($cmd)_job"
+                                Remove-Job $PSCompletions.order."$($cmd)_job"
+                                $PSCompletions.order.Remove("$($cmd)_job")
                             }
                         }
                         else {
                             if (Test-Path $path_order) {
                                 try {
-                                    $PSCompletions.order[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
+                                    $PSCompletions.order[$cmd] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                                 }
                                 catch {
-                                    $PSCompletions.order[$root] = $null
+                                    $PSCompletions.order[$cmd] = $null
                                 }
                             }
                             else {
-                                $PSCompletions.order[$root] = $null
+                                $PSCompletions.order[$cmd] = $null
                             }
                         }
-                        $order = $PSCompletions.order[$root]
+                        $order = $PSCompletions.order[$cmd]
                         if ($order) {
-                            $PSCompletions.__i = 0
+                            $PSCompletions.sort_counter = 0
                             $filter_list = $filter_list | Sort-Object {
-                                $PSCompletions.__i --
+                                $PSCompletions.sort_counter --
                                 $o = $order[$_.CompletionText]
                                 if ($o) { $o }
                                 else {
                                     $o = $order[$_.CompletionText + $PSCompletions.separator]
-                                    if ($o) { $o }else { $PSCompletions.__i }
+                                    if ($o) { $o }else { $PSCompletions.sort_counter }
                                 }
                             } -Descending -CaseSensitive
                         }
-                        $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
+                        $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $cmd, $path_order)
                     }
                 }
                 $PSCompletions.menu.by_TabExpansion2 = $true
@@ -250,9 +239,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
-    if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
+    if ($PSCompletions.config.comp_config[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
         $tip = ''
     }
     @{
@@ -263,9 +250,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completio
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
+    param([string]$cmd, [array]$inputs)
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
-    if ($null -eq $root) { return }
+    if ($null -eq $cmd) { return }
 
     function new_node {
         param([switch]$isOption)
@@ -403,37 +391,46 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     function match_tree {
         param($tree, [array]$argTokens, [bool]$treatLastAsComplete)
 
+        function find_option_node {
+            param($ctx, $tree, $text)
+            if ($ctx.Options.ContainsKey($text)) { return $ctx.Options[$text] }
+            $p = $ctx.Parent
+            while ($p) {
+                if ($p.Options.ContainsKey($text)) { return $p.Options[$text] }
+                $p = $p.Parent
+            }
+            if ($tree.RootOptions.ContainsKey($text)) { return $tree.RootOptions[$text] }
+            if ($tree.CommonOptions.ContainsKey($text)) { return $tree.CommonOptions[$text] }
+            return $null
+        }
+        function classify_text {
+            param($ctx, $tree, $text)
+            if (find_option_node $ctx $tree $text) { return 'option' }
+            if ($ctx.Next.ContainsKey($text)) { return 'command' }
+            return 'unknown'
+        }
+
         $context = $tree.Root
         $used = [System.Collections.Generic.Dictionary[object, int]]::new()
         $tokens = [System.Collections.Generic.List[hashtable]]::new()
 
         $count = $argTokens.Count
         $lastIndex = $count - 1
-        $prefix = ''
-        $hasPrefix = $false
+        $pending = $null
+        $hasPending = $false
 
         for ($i = 0; $i -lt $count; $i++) {
             $text = $argTokens[$i]
             $isLastUnfinished = ($i -eq $lastIndex) -and -not $treatLastAsComplete
             if ($isLastUnfinished) {
-                $prefix = $text
-                $hasPrefix = $true
+                $pending = @{ text = $text; type = classify_text $context $tree $text }
+                $hasPending = $true
                 break
             }
             $token = @{ text = $text; type = 'unknown' }
             [void]$tokens.Add($token)
 
-            $optNode = $null
-            if ($context.Options.ContainsKey($text)) { $optNode = $context.Options[$text] }
-            if (-not $optNode) {
-                $p = $context.Parent
-                while ($p) {
-                    if ($p.Options.ContainsKey($text)) { $optNode = $p.Options[$text]; break }
-                    $p = $p.Parent
-                }
-            }
-            if (-not $optNode -and $tree.RootOptions.ContainsKey($text)) { $optNode = $tree.RootOptions[$text] }
-            if (-not $optNode -and $tree.CommonOptions.ContainsKey($text)) { $optNode = $tree.CommonOptions[$text] }
+            $optNode = find_option_node $context $tree $text
 
             if ($optNode) {
                 $used[$optNode] = [int]$used[$optNode] + 1
@@ -443,16 +440,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                     if ($i -lt $count) {
                         $isValueUnfinished = ($i -eq $lastIndex) -and -not $treatLastAsComplete
                         if ($isValueUnfinished) {
-                            $prefix = $argTokens[$i]
-                            $hasPrefix = $true
+                            $pending = @{ text = $argTokens[$i]; type = 'value' }
+                            $hasPending = $true
                             break
                         }
                         $tokens.Add(@{ text = $argTokens[$i]; type = 'value' })
                         $vt = $argTokens[$i]
-                        $vo = $null
-                        if ($context.Options.ContainsKey($vt)) { $vo = $context.Options[$vt] }
-                        if (-not $vo -and $tree.RootOptions.ContainsKey($vt)) { $vo = $tree.RootOptions[$vt] }
-                        if (-not $vo -and $tree.CommonOptions.ContainsKey($vt)) { $vo = $tree.CommonOptions[$vt] }
+                        $vo = find_option_node $context $tree $vt
                         if ($vo) { $used[$vo] = [int]$used[$vo] + 1 }
                     }
                 }
@@ -472,9 +466,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         }
         $seenNames = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
         foreach ($t in $tokens) { [void]$seenNames.Add($t.text) }
-        if ($hasPrefix -and -not [string]::IsNullOrEmpty($prefix)) {
-            [void]$seenNames.Add($prefix)
-            $tokens.Add(@{ text = $prefix; type = 'prefix' })
+        if ($hasPending -and -not [string]::IsNullOrEmpty($pending.text)) {
+            [void]$seenNames.Add($pending.text)
         }
 
         $candidateNodes = [System.Collections.Generic.List[object]]::new()
@@ -509,8 +502,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         }
         foreach ($n in $tree.CommonOptionItems) { $candidateNodes.Add($n) }
 
-        if ($hasPrefix -and $context.Next.ContainsKey($prefix)) {
-            $matchedNode = $context.Next[$prefix]
+        if ($hasPending -and $context.Next.ContainsKey($pending.text)) {
+            $matchedNode = $context.Next[$pending.text]
             if (-not $used.ContainsKey($matchedNode) -or $used[$matchedNode] -eq 0) {
                 $candidateNodes.Add($matchedNode)
             }
@@ -524,61 +517,58 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             foreach ($it in (expand_node_to_items $n)) { $items.Add($it) }
         }
 
-        if (-not $hasPrefix -or [string]::IsNullOrEmpty($prefix)) {
+        if (-not $hasPending -or [string]::IsNullOrEmpty($pending.text)) {
             return @{
-                Items  = $items.ToArray()
-                Tokens = $tokens.ToArray()
+                Items   = $items.ToArray()
+                Tokens  = $tokens.ToArray()
+                Pending = $pending
             }
         }
 
-        $pattern = [System.Management.Automation.WildcardPattern]::Escape($prefix) + '*'
+        $pattern = [System.Management.Automation.WildcardPattern]::Escape($pending.text) + '*'
         return @{
-            Items  = $items.Where({ $_.CompletionText -like $pattern })
-            Tokens = $tokens.ToArray()
+            Items   = $items.Where({ $_.CompletionText -like $pattern })
+            Tokens  = $tokens.ToArray()
+            Pending = $pending
         }
     }
 
     if (!$PSCompletions.config.enable_cache) {
-        $PSCompletions.completions[$root] = $null
-        $PSCompletions.completions_data[$root] = $null
+        $PSCompletions.completions[$cmd] = $null
+        $PSCompletions.completions_data[$cmd] = $null
     }
 
-    if (!$PSCompletions.completions[$root]) {
-        $language = $PSCompletions.get_language($root)
-        $PSCompletions.completions[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$root/language/$language.json"))
+    if (!$PSCompletions.completions[$cmd]) {
+        $language = $PSCompletions.get_language($cmd)
+        $PSCompletions.completions[$cmd] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$cmd/language/$language.json"))
     }
 
-    $input_arr = @($input_arr)
-    $PSCompletions.input_arr = $input_arr
+    $PSCompletions.inputs = $inputs
 
     function handleCompletions { param($completions) return $completions }
 
-    if ($root -eq 'PSCompletions') {
+    if (!$PSCompletions.completions_data[$cmd]) {
+        $PSCompletions.completions_data[$cmd] = build_tree $PSCompletions.completions[$cmd]
+    }
+    $argTokens = if ($inputs.Count -le 1) { , @() } else { $inputs[1..($inputs.Count - 1)] }
+    $matchResult = match_tree $PSCompletions.completions_data[$cmd] $argTokens ($PSCompletions.buffer_before_cursor[-1] -eq ' ')
+    $_filter_list = $matchResult.Items
+    $PSCompletions.tokens = $matchResult.Tokens
+    $PSCompletions.pending = $matchResult.Pending
+
+    if ($cmd -eq 'PSCompletions') {
         $cmds = Get-Command
-        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $root) { $c; break } }
+        $has_command = foreach ($c in $cmds) { if ($c.Name -eq $cmd) { $c; break } }
     }
     else {
-        foreach ($c in $PSCompletions.data.alias.$root) {
+        foreach ($c in $PSCompletions.data.alias.$cmd) {
             $has_command = Get-Command $c -ErrorAction Ignore
             if ($has_command) {
                 break
             }
         }
     }
-
-    if ($has_command -and $PSCompletions.config.comp_config[$root].enable_hooks) { . "$($PSCompletions.path.completions)/$root/hooks.ps1" }
-
-    if (!$PSCompletions.completions_data[$root]) {
-        $PSCompletions.completions_data[$root] = build_tree $PSCompletions.completions[$root]
-    }
-
-    $tree = $PSCompletions.completions_data[$root]
-
-    $treatLastAsComplete = [bool]($space_tab -or ($input_arr.Count -gt 0 -and $input_arr[-1] -like '-*='))
-
-    $matchResult = match_tree $tree $input_arr $treatLastAsComplete
-    $_filter_list = $matchResult.Items
-    $PSCompletions.tokens = $matchResult.Tokens
+    if ($has_command -and $PSCompletions.config.comp_config[$cmd].enable_hooks) { . "$($PSCompletions.path.completions)/$cmd/hooks.ps1" }
 
     $_filter_list = handleCompletions ([array]$_filter_list)
 
@@ -594,66 +584,50 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             })
     }
 
-    if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($root)) {
+    if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($cmd)) {
         return $filter_list
     }
     if ($PSCompletions.config.enable_completions_sort -and $has_command) {
-        $path_order = "$($PSCompletions.path.order)/$root.json"
-        if ($PSCompletions.order."$($root)_job") {
-            if ($PSCompletions.order."$($root)_job".State -eq 'Completed') {
-                $PSCompletions.order[$root] = Receive-Job $PSCompletions.order."$($root)_job"
-                Remove-Job $PSCompletions.order."$($root)_job"
-                $PSCompletions.order.Remove("$($root)_job")
+        $path_order = "$($PSCompletions.path.order)/$cmd.json"
+        if ($PSCompletions.order."$($cmd)_job") {
+            if ($PSCompletions.order."$($cmd)_job".State -eq 'Completed') {
+                $PSCompletions.order[$cmd] = Receive-Job $PSCompletions.order."$($cmd)_job"
+                Remove-Job $PSCompletions.order."$($cmd)_job"
+                $PSCompletions.order.Remove("$($cmd)_job")
             }
         }
         else {
             if (Test-Path $path_order) {
                 try {
-                    $PSCompletions.order[$root] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
+                    $PSCompletions.order[$cmd] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                 }
                 catch {
-                    $PSCompletions.order[$root] = $null
+                    $PSCompletions.order[$cmd] = $null
                 }
             }
             else {
-                $PSCompletions.order[$root] = $null
+                $PSCompletions.order[$cmd] = $null
             }
         }
-        $order = $PSCompletions.order[$root]
+        $order = $PSCompletions.order[$cmd]
         if ($order) {
-            $PSCompletions.__i = 0
+            $PSCompletions.sort_counter = 0
             $filter_list = $filter_list | Sort-Object {
-                $PSCompletions.__i--
+                $PSCompletions.sort_counter--
                 $o = $order[$_.CompletionText]
-                if ($o) { $o } else { $PSCompletions.__i }
+                if ($o) { $o } else { $PSCompletions.sort_counter }
             } -Descending -CaseSensitive
         }
-        $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $root, $path_order)
+        $PSCompletions.order_job((Get-PSReadLineOption).HistorySavePath, $cmd, $path_order)
     }
     return $filter_list
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_runspace {
-    param(
-        [array]$list,
-        [scriptblock]$handler,
-        [scriptblock]$handleResult
-    )
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
+    param([array]$list, [scriptblock]$handler, [scriptblock]$handleResult)
     Add-Member -InputObject $PSCompletions -Force -MemberType ScriptMethod split_array {
-        param(
-            [array]$array,
-            [int]$count,
-            [bool]$by_count
-        )
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
+        param([array]$array, [int]$count, [bool]$by_count)
 
-        if ($by_count) {
-            $ChunkSize = [math]::Ceiling($array.Length / $count)
-        }
-        else {
-            $ChunkSize = $count
-        }
+        $ChunkSize = if ($by_count) { [math]::Ceiling($array.Length / $count) }else { $count }
         $chunks = for ($i = 0; $i -lt $array.Length; $i += $ChunkSize) {
             , ($array[$i..([math]::Min($i + $ChunkSize - 1, $array.Length - 1))])
         }
@@ -681,13 +655,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
     param([string]$path)
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
+
+    if ($PSCompletions.lang_cache.ContainsKey($completion)) {
+        return $PSCompletions.lang_cache[$completion]
+    }
 
     $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
 
@@ -704,11 +680,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     else {
         $language = if ($PSCompletions.language -in $content_config.language) { $PSCompletions.language }else { $content_config.language[0] }
     }
+    $PSCompletions.lang_cache[$completion] = $language
     $language
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
     param ([string]$path)
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $res = (Get-Content $path -Encoding utf8 -ErrorAction Ignore).Where({ $_ -ne '' })
     if ($res) { return $res }
@@ -716,7 +692,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_content {
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content {
     param ([string]$path, [bool]$trim = $true)
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $res = Get-Content $path -Raw -Encoding utf8 -ErrorAction Ignore
     if ($res) {
@@ -727,7 +702,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_raw_content 
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content {
     param ($data, $separator = '')
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $data = $data -join $separator
     if ($data -notlike '*{{*') { return $data }
@@ -741,48 +715,33 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color
     param([string]$str)
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
-    Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction Ignore
-
     $color_list = @()
     $str = $str -replace "`n", $PSCompletions.guid
     $str_list = foreach ($_ in ($str -split '(<\@[^>]+>.*?(?=<\@|$))').Where({ $_ -ne '' })) {
         if ($_ -match '<\@([\s\w]+)>(.*)') {
             ($matches[2] -replace $PSCompletions.guid, "`n") -replace '^<\@>', ''
             $color = $matches[1] -split ' '
-            $color_list += @{
-                color   = $color[0]
-                bgColor = $color[1]
-            }
+            $color_list += @{color = $color[0]; bgColor = $color[1] }
         }
         else {
             ($_ -replace $PSCompletions.guid, "`n") -replace '^<\@>', ''
-            $color_list += @{}
+            $color_list += @{color = $null; bgColor = $null }
         }
     }
     $str_list = @($str_list)
     for ($i = 0; $i -lt $str_list.Count; $i++) {
-        $color = $color_list[$i].color
-        $bgColor = $color_list[$i].bgColor
-        if ($color) {
-            if ($bgColor) {
-                Write-Host $str_list[$i] -ForegroundColor $color -BackgroundColor $bgColor -NoNewline
-            }
-            else {
-                Write-Host $str_list[$i] -ForegroundColor $color -NoNewline
-            }
+        $param = @{
+            Object    = $str_list[$i]
+            NoNewline = $true
         }
-        else {
-            Write-Host $str_list[$i] -NoNewline
-        }
+        if ($color_list[$i]['color']) { $param['ForegroundColor'] = $color_list[$i]['color'] }
+        if ($color_list[$i]['bgColor']) { $param['BackgroundColor'] = $color_list[$i]['bgColor'] }
+        Microsoft.PowerShell.Utility\Write-Host @param
     }
-    Write-Host ''
+    Microsoft.PowerShell.Utility\Write-Host ''
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod download_file {
-    param(
-        [string]$path,
-        [string]$file,
-        [array]$baseUrl
-    )
+    param([string]$path, [string]$file, [array]$baseUrl)
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
     $params = @{
@@ -821,10 +780,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     )
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
-    $PSCompletions.__has_add_completion = $log -and $true
+    $PSCompletions.has_add_completion = $log -and $true
 
     $PSCompletions.completions_data[$completion] = $null
     $PSCompletions.completions[$completion] = $null
+    $PSCompletions.lang_cache.Remove($completion)
 
     $url = "completions/$completion"
 
@@ -887,7 +847,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
 
     if ($completion -notin $PSCompletions.data.list) {
         $PSCompletions.data.list += $completion
-        $PSCompletions.__need_update_data = $true
+        $PSCompletions.need_update_data = $true
     }
     if (!$PSCompletions.data.alias[$completion]) {
         $PSCompletions.data.alias[$completion] = @()
@@ -904,7 +864,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
                 else {
                     $PSCompletions.data.aliasMap.$a = $completion
                 }
-                $PSCompletions.__need_update_data = $true
+                $PSCompletions.need_update_data = $true
             }
         }
     }
@@ -917,7 +877,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
             else {
                 $PSCompletions.data.aliasMap[$completion] = $completion
             }
-            $PSCompletions.__need_update_data = $true
+            $PSCompletions.need_update_data = $true
         }
     }
 
@@ -937,7 +897,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
         foreach ($_ in $json.config) {
             if (!$PSCompletions.config.comp_config[$completion].$($_.name)) {
                 $PSCompletions.config.comp_config[$completion].$($_.name) = $_.value
-                $PSCompletions.__need_update_data = $true
+                $PSCompletions.need_update_data = $true
             }
         }
     }
@@ -951,9 +911,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
     $PSCompletions.completions = @{}
+    $PSCompletions.lang_cache = @{}
     $PSCompletions.data = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
     if ($null -eq $PSCompletions.data.config) {
         function new_data {
@@ -1003,20 +962,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                     @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
                 $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
+                if ($null -eq $current_list) { $current_list = @() }
+
+                $params = @{ ErrorAction = 'Stop' }
+                if ($PSEdition -eq 'Core') { $params['OperationTimeoutSeconds'] = 30 }else { $params['TimeoutSec'] = 30 }
+
                 $isErr = $true
-
-                $params = @{
-                    ErrorAction = 'Stop'
-                }
-                if ($PSEdition -eq 'Core') {
-                    $params['OperationTimeoutSeconds'] = 30
-                }
-                else {
-                    $params['TimeoutSec'] = 30
-                }
-
                 $errMsg = @()
-
                 foreach ($url in $PSCompletions.urls) {
                     $params['Uri'] = "$url/completions.json"
                     try {
@@ -1026,26 +978,28 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                         $errMsg += $_.Exception.Message
                         continue
                     }
-
                     $remote_list = $response.list
-
-                    $diff = Compare-Object $remote_list $current_list -PassThru
-                    if ($diff) {
-                        $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
+                    try {
+                        $diff = Compare-Object $remote_list $current_list -PassThru
+                        if ($diff) {
+                            $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
+                        }
+                        else {
+                            Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
+                        }
                         $PSCompletions.list = $remote_list
+                        $new = $response | ConvertTo-Json -Compress -Depth 10
+                        $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+                        if ($new -ne $old) {
+                            $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                        }
+                        $isErr = $false
+                        return $remote_list
                     }
-                    else {
-                        Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
-                        $PSCompletions.list = $current_list
+                    catch {
+                        Write-Host $_.Exception.Message -ForegroundColor Red
+                        return $false
                     }
-
-                    $new = $response | ConvertTo-Json -Compress -Depth 10
-                    $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
-                    if ($new -ne $old) {
-                        $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
-                    }
-                    $isErr = $false
-                    return $remote_list
                 }
                 if ($isErr) {
                     $errMsg | ForEach-Object { Write-Host $_ -ForegroundColor Red }
@@ -1089,6 +1043,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
         $PSCompletions.info = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$language.json")).info
     }
 }
+Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod resolve_tip_enabled {
+    if ($this.by_TabExpansion2) {
+        return $PSCompletions.config.enable_tip_when_enhance
+    }
+    if ($PSCompletions.config.comp_config) {
+        $enable_tip = $PSCompletions.config.comp_config[$PSCompletions.cmd].enable_tip
+        if ($null -ne $enable_tip) { return $enable_tip }
+    }
+    $PSCompletions.config.enable_tip
+}
 Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powershell_menu {
     param([array]$filter_list)
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
@@ -1099,51 +1063,29 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         return ''
     }
 
-    $json = $PSCompletions.completions.$($PSCompletions.root_cmd)
+    $json = $PSCompletions.completions.$($PSCompletions.cmd)
     $info = $json.info
 
+    $PSCompletions.menu.is_show_tip = $PSCompletions.menu.resolve_tip_enabled()
+
     $suffix = $PSCompletions.config.completion_suffix
-
-    # is_show_tip
-    $enable_tip = $PSCompletions.config.comp_config.$($PSCompletions.root_cmd).enable_tip
-    if ($null -ne $enable_tip) {
-        $PSCompletions.menu.is_show_tip = $enable_tip
-    }
-    else {
-        $PSCompletions.menu.is_show_tip = $PSCompletions.config.enable_tip
-    }
-
     if ($PSCompletions.menu.is_show_tip) {
         foreach ($_ in $filter_list) {
-            if ($null -ne $_.ToolTip) {
-                $tip = $PSCompletions.replace_content($_.ToolTip -join "`n")
+            $tip = if ($null -eq $_.ToolTip) { ' ' } else {
+                $result = $PSCompletions.replace_content($_.ToolTip -join "`n")
+                if ($result) { $result } else { ' ' }
             }
-            else {
-                $tip = ' '
-            }
-            if ($PSCompletions.input_arr[-1] -like '-*=') {
-                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
-            }
-            else {
-                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
-            }
+            [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
         }
     }
     else {
         foreach ($_ in $filter_list) {
-            if ($PSCompletions.input_arr[-1] -like '-*=') {
-                [System.Management.Automation.CompletionResult]::new("$($PSCompletions.input_arr[-1])$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
-            }
-            else {
-                [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
-            }
+            [System.Management.Automation.CompletionResult]::new("$($_.CompletionText)$suffix", ($_.ListItemText + $_.padSymbols), [System.Management.Automation.CompletionResultType]::ParameterValue, ' ')
         }
     }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
     param([array]$completions)
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
     foreach ($c in $completions) {
         $aliasList = @($c)
         $alias = Get-Alias -Definition $c -ErrorAction Ignore
@@ -1153,8 +1095,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
         foreach ($a in $aliasList) {
             Register-ArgumentCompleter -Native -CommandName $a -ScriptBlock {
                 param($wordToComplete, $commandAst, $cursorPosition)
-                try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
                 $words = @(
                     foreach ($_ in $commandAst.CommandElements.Where({ $_.Extent.StartOffset -lt $cursorPosition })) {
                         $word = $_.ToString()
@@ -1187,7 +1127,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
                 $suffix = $PSCompletions.config.completion_suffix
 
                 foreach ($_ in @((argc --argc-compgen powershell $emptyS $words) -split "`n")) {
-                    $parts = ($_ -split "`t")
+                    $parts = $_ -split "`t"
                     if ($PSCompletions.config.enable_tip_when_enhance) {
                         $tip = if ('' -eq $parts[3]) { ' ' }else { $parts[3] }
                         [System.Management.Automation.CompletionResult]::new("$($parts[0])$suffix", $parts[0], [System.Management.Automation.CompletionResultType]::ParameterValue, $tip)
@@ -1202,8 +1142,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod wrap_whitespace {
     param([string]$String)
-    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
     if ([string]::IsNullOrWhiteSpace($String)) {
         return "`"$String`""
     }
@@ -1258,31 +1196,24 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             foreach ($k in $keys) {
                 Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                     # param($wordToComplete, $commandAst, $cursorPosition)
-                    try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
                     $buffer = ''
                     $cursor = 0
                     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursor)
+                    if (-not $buffer) { return }
 
                     $PSCompletions.buffer = $buffer
                     $PSCompletions.buffer_after_cursor = $buffer.Substring($cursor)
-                    $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
-
-                    $buffer = $PSCompletions.buffer_before_cursor
-                    $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
-                    $input_arr = @()
+                    $buffer = $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
+                    $inputs = @()
                     $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
-                    foreach ($match in $matches) { $input_arr += $match.Value }
+                    foreach ($match in $matches) { $inputs += $match.Value }
 
-                    if (!$input_arr) { return }
+                    if (!$inputs) { return }
 
-                    $alias = $input_arr[0]
+                    $PSCompletions.alias = $inputs[0]
+                    $PSCompletions.cmd = $cmd = $PSCompletions.data.aliasMap[$inputs[0]]
 
-                    $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
-
-                    $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
-
-                    $filter_list = $PSCompletions.get_completion()
+                    $filter_list = $PSCompletions.get_completion($cmd, $inputs)
 
                     $PSCompletions.menu.by_TabExpansion2 = $false
 
@@ -1315,8 +1246,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
 
     # menu
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_menu_list {
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         # X
         if ($menu.need_full_width -or !$config.enable_list_follow_cursor) {
             $menu.pos.X = 0
@@ -1362,8 +1291,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_menu_buffer {
         param($startPos, $endPos)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         $top = [System.Management.Automation.Host.Coordinates]::new($startPos.X, $startPos.Y)
         $bottom = [System.Management.Automation.Host.Coordinates]::new($endPos.X , $endPos.Y)
         $buffer = $rawUI.GetBufferContents([System.Management.Automation.Host.Rectangle]::new($top, $bottom))
@@ -1375,7 +1302,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_list_buffer {
         param([int]$offset)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
         $content_box = foreach ($l in $lines) {
@@ -1405,24 +1331,30 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_filter_buffer {
         param([string]$filter)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $char = $config.filter_symbol
         $middle = [System.Math]::Ceiling($char.Length / 2)
         $start = $char.Substring(0, $middle)
         $end = $char.Substring($middle)
 
+        $content = @($start, $filter, $end) -join ''
+        $width = $rawUI.LengthInBufferCells($content)
+
+        $prevWidth = if ($menu.filter_buffer_width) { $menu.filter_buffer_width } else { 0 }
+        if ($prevWidth -gt $width) {
+            $clearContent = '─' * $prevWidth
+            $rawUI.SetBufferContents(
+                @{ X = $menu.pos.X + 2; Y = $menu.pos.Y },
+                $rawUI.NewBufferCellArray(@($clearContent), $config.border_color, $bgColor)
+            )
+        }
+        $menu.filter_buffer_width = [Math]::Max($width, $prevWidth)
         $rawUI.SetBufferContents(
-            @{
-                X = $menu.pos.X + 2
-                Y = $menu.pos.Y
-            },
-            $rawUI.NewBufferCellArray(@(@($start, $filter, $end) -join ''), $config.filter_color, $bgColor)
+            @{ X = $menu.pos.X + 2; Y = $menu.pos.Y },
+            $rawUI.NewBufferCellArray(@($content), $config.filter_color, $bgColor)
         )
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_status_buffer {
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         $X = $menu.pos.X + 3
         if ($menu.is_show_above) {
             $Y = $rawUI.CursorPosition.Y - 1 - $config.height_from_menu_bottom_to_cursor_when_above
@@ -1436,7 +1368,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_tip_buffer {
         param([int]$index)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         if ($menu.is_show_above) {
             $start = 0
@@ -1484,7 +1415,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                 }
             }
 
-            $json = $PSCompletions.completions[$PSCompletions.root_cmd]
+            $json = $PSCompletions.completions[$PSCompletions.cmd]
             $info = $json.info
 
             $tip_arr = @()
@@ -1545,7 +1476,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         }
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_menu_selection {
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         if ($menu.old_selection) {
             $rawUI.SetBufferContents($menu.old_selection.pos, $menu.old_selection.buffer)
@@ -1568,7 +1498,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_menu_selection {
         param([bool]$isDown)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
         $moveDirection = if ($isDown) { 1 } else { -1 }
 
@@ -1619,7 +1548,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     $menu.page_current_index += $menu.page_max_index
                 }
             }
-
+            if ($menu.filter_list.Count - $menu.page_max_index -le 0) { return }
             $menu.offset = ($menu.offset + $moveDirection) % ($menu.filter_list.Count - $menu.page_max_index)
             if ($menu.offset -lt 0) {
                 $menu.offset += $menu.filter_list.Count - $menu.page_max_index
@@ -1636,8 +1565,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset_menu {
         param([bool]$clearAll = $true)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         if ($clearAll) {
             $menu.data.Clear()
             if ($menu.origin_full_buffer) {
@@ -1652,8 +1579,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_data {
         param([string]$type)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         switch ($type) {
             add {
                 $menu.data.Add(
@@ -1705,10 +1630,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_output {
         param($item)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         $out = $item.CompletionText.Trim()
-
         # psc add
         if ($null -eq $item.ResultType) {
             if ($PSCompletions.buffer_after_cursor -match '^\s+[^\s]') {
@@ -1799,6 +1721,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $menu.ui_height = 0
 
         $menu.filter = ''
+        $menu.filter_buffer_width = 0
         $menu.page_current_index = 0
         $menu.selected_index = 0
         $menu.offset = 0
@@ -1807,18 +1730,8 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $menu.data = [System.Collections.Generic.List[System.Object]]::new()
         $menu.no_match_count = 0
 
-        if ($menu.by_TabExpansion2) {
-            $menu.is_show_tip = $config.enable_tip_when_enhance
-        }
-        else {
-            $enable_tip = $config.comp_config[$PSCompletions.root_cmd].enable_tip
-            if ($null -eq $enable_tip) {
-                $menu.is_show_tip = $config.enable_tip
-            }
-            else {
-                $menu.is_show_tip = $enable_tip
-            }
-        }
+        $menu.is_show_tip = $PSCompletions.menu.resolve_tip_enabled()
+
         if ($config.enable_list_full_width) {
             $menu.filter_list = @($filter_list)
             $menu.ui_width = $rawUI.BufferSize.Width
@@ -1948,28 +1861,32 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         # 8: Backspace
                         if ($menu.filter) {
                             $menu.filter = $menu.filter.Substring(0, $menu.filter.Length - 1)
-                            $menu.no_match_count = 0
+                            if ($menu.no_match_count -gt 0) {
+                                $menu.no_match_count--
+                                $menu.new_menu_filter_buffer($menu.filter)
+                            }
+                            else {
+                                if ($menu.data.Count -gt 1) {
+                                    $old_buffer = $menu.data[-2].old_full_buffer
+                                    $rawUI.SetBufferContents($old_buffer.top, $old_buffer.buffer)
+                                    $menu.data.RemoveAt($menu.data.Count - 1)
+                                    $menu.handle_menu_data('get')
+                                }
+                                else {
+                                    $old_buffer = $menu.data[0].old_full_buffer
+                                    $rawUI.SetBufferContents($old_buffer.top, $old_buffer.buffer)
+                                    $menu.data.Clear()
+                                    $menu.old_selection = $null
+                                    $menu.offset = 0
+                                    $menu.selected_index = 0
+                                    $menu.page_current_index = 0
+                                }
+                            }
                         }
                         else {
                             $menu.reset_menu()
                             ''
                             break loop
-                        }
-
-                        if ($menu.data.Count -gt 1) {
-                            $old_buffer = $menu.data[-2].old_full_buffer
-                            $rawUI.SetBufferContents($old_buffer.top, $old_buffer.buffer)
-                            $menu.data.RemoveAt($menu.data.Count - 1)
-                            $menu.handle_menu_data('get')
-                        }
-                        else {
-                            $old_buffer = $menu.data[0].old_full_buffer
-                            $rawUI.SetBufferContents($old_buffer.top, $old_buffer.buffer)
-                            $menu.data.Clear()
-                            $menu.old_selection = $null
-                            $menu.offset = 0
-                            $menu.selected_index = 0
-                            $menu.page_current_index = 0
                         }
                     }
                     else {
@@ -2047,7 +1964,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                             $menu.new_menu_tip_buffer($menu.selected_index)
                             $menu.new_menu_status_buffer()
                             $menu.new_menu_filter_buffer($menu.filter)
-                            $menu.set_menu_selection(0)
+                            $menu.set_menu_selection()
 
                             $menu.handle_menu_data('add')
                         }
@@ -2072,31 +1989,23 @@ else {
         foreach ($k in $keys) {
             Register-ArgumentCompleter -Native -CommandName $k -ScriptBlock {
                 # param($wordToComplete, $commandAst, $cursorPosition)
-                try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
                 $buffer = ''
                 $cursor = 0
                 [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$buffer, [ref]$cursor)
+                if (-not $buffer) { return }
 
                 $PSCompletions.buffer = $buffer
                 $PSCompletions.buffer_after_cursor = $buffer.Substring($cursor)
-                $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
-
-                $buffer = $PSCompletions.buffer_before_cursor
-                $space_tab = if ($buffer[-1] -eq ' ') { 1 }else { 0 }
-                $input_arr = @()
+                $buffer = $PSCompletions.buffer_before_cursor = $buffer.Substring(0, $cursor)
+                $inputs = @()
                 $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
-                foreach ($match in $matches) { $input_arr += $match.Value }
+                foreach ($match in $matches) { $inputs += $match.Value }
 
-                if (!$input_arr) { return }
+                if (!$inputs) { return }
 
-                $alias = $input_arr[0]
-
-                $PSCompletions.root_cmd = $root = $PSCompletions.data.aliasMap[$alias]
-
-                $input_arr = if ($input_arr.Count -le 1) { , @() } else { $input_arr[1..($input_arr.Count - 1)] }
-
-                $filter_list = $PSCompletions.get_completion()
+                $PSCompletions.cmd = $cmd = $PSCompletions.data.aliasMap[$inputs[0]]
+                $filter_list = $PSCompletions.get_completion($cmd, $inputs)
+                $PSCompletions.menu.by_TabExpansion2 = $false
                 $PSCompletions.menu.show_powershell_menu($filter_list)
             }
         }
@@ -2105,8 +2014,6 @@ else {
 
 if ($PSEdition -eq 'Core') {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         $horizontal = $config.horizontal
         $vertical = $config.vertical
         $top_left = $config.top_left
@@ -2125,8 +2032,6 @@ if ($PSEdition -eq 'Core') {
 
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
         param([string]$json)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         ConvertFrom-Json $json -AsHashtable
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
@@ -2134,37 +2039,35 @@ if ($PSEdition -eq 'Core') {
             param($PSCompletions)
 
             function download_list {
-                $PSCompletions.ensure_dir($PSCompletions.path.temp)
                 if (!(Test-Path $PSCompletions.path.completions_json)) {
                     @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
                 $current_list = ($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).list
+                if ($null -eq $current_list) { $current_list = @() }
+                $isErr = $true
                 foreach ($url in $PSCompletions.urls) {
                     try {
                         $response = Invoke-RestMethod -Uri "$url/completions.json" -OperationTimeoutSeconds 30 -ErrorAction Stop
-                        $remote_list = $response.list
-
-                        $diff = Compare-Object $remote_list $current_list -PassThru
-                        if ($diff) {
-                            $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                            $PSCompletions.list = $remote_list
-                        }
-                        else {
-                            Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
-                            $PSCompletions.list = $current_list
-                        }
-                        $new = $response | ConvertTo-Json -Compress -Depth 10
-                        $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
-                        if ($new -ne $old) {
-                            $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
-                        }
-                        return $remote_list
                     }
-                    catch {}
+                    catch { continue }
+                    $remote_list = $response.list
+                    $diff = Compare-Object $remote_list $current_list -PassThru
+                    if ($diff) {
+                        $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
+                    }
+                    else {
+                        Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
+                    }
+                    $PSCompletions.list = $remote_list
+                    $new = $response | ConvertTo-Json -Compress -Depth 10
+                    $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+                    if ($new -ne $old) {
+                        $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                    }
                 }
-                throw
             }
 
+            $PSCompletions.ensure_dir($PSCompletions.path.temp)
             $PSCompletions.ensure_dir($PSCompletions.path.order)
             $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
 
@@ -2172,7 +2075,7 @@ if ($PSEdition -eq 'Core') {
                 if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
             }
 
-            $null = download_list
+            download_list
 
             foreach ($_ in $PSCompletions.data.list) {
                 $completion_dir = "$($PSCompletions.path.completions)/$_"
@@ -2249,7 +2152,6 @@ if ($PSEdition -eq 'Core') {
                 $need_update_list = @()
                 $update = (Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).update
                 $completion_dirs = Get-ChildItem $PSCompletions.path.completions -Directory
-
                 foreach ($c in $completion_dirs) {
                     $completion = $c.Name
                     if (-not $update.$completion) {
@@ -2281,11 +2183,9 @@ if ($PSEdition -eq 'Core') {
         } -ArgumentList $PSCompletions
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
-        param([string]$history_path, [string]$root, [string]$path_order)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
-        $PSCompletions.order."$($root)_job" = Start-ThreadJob -ScriptBlock {
-            param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
+        param([string]$history_path, [string]$cmd, [string]$path_order)
+        $PSCompletions.order."$($cmd)_job" = Start-ThreadJob -ScriptBlock {
+            param($PScompletions, [string]$path_history, [string]$cmd, [string]$path_order)
 
             $order_dir = $PSCompletions.path.order
             if (!(Test-Path $order_dir)) {
@@ -2296,19 +2196,19 @@ if ($PSEdition -eq 'Core') {
             $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
             $contents = Get-Content $path_history -Encoding utf8 -ErrorAction Ignore
             foreach ($_ in $contents) {
-                $alias = $PSCompletions.data.alias[$root]
+                $alias = $PSCompletions.data.alias[$cmd]
                 if ($null -eq $alias) {
-                    $alias = @($root)
+                    $alias = @($cmd)
                 }
                 foreach ($a in $alias) {
                     if ($_ -match "^[^\S\n]*$a\s+.+") {
                         $_ = $_ -replace '^\w+\s+', ''
-                        $input_arr = @()
+                        $inputs = @()
                         $matches = [regex]::Matches($_, $PSCompletions.input_pattern)
-                        foreach ($match in $matches) { $input_arr += $match.Value }
-                        $index += $input_arr.Count
+                        foreach ($match in $matches) { $inputs += $match.Value }
+                        $index += $inputs.Count
                         $i = 0
-                        foreach ($completion in $input_arr) {
+                        foreach ($completion in $inputs) {
                             $order[$completion] = $index + $i
                             $i--
                         }
@@ -2332,13 +2232,11 @@ if ($PSEdition -eq 'Core') {
             }
 
             return $result
-        } -ArgumentList $PScompletions, $history_path, $root, $path_order
+        } -ArgumentList $PScompletions, $history_path, $cmd, $path_order
     }
 }
 else {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
         $horizontal = '-'
         $vertical = '|'
@@ -2358,8 +2256,6 @@ else {
 
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
         param([string]$json)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
         # https://github.com/abgox/ConvertFrom-JsonAsHashtable
         function ConvertFrom-JsonAsHashtable {
             [CmdletBinding()]
@@ -2436,36 +2332,33 @@ else {
                 if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
             }
             function download_list {
-                ensure_dir $PSCompletions.path.temp
                 if (!(Test-Path $PSCompletions.path.completions_json)) {
                     @{ list = @('psc') } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
                 $current_list = (get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json).list
+                if ($null -eq $current_list) { $current_list = @() }
                 foreach ($url in $PSCompletions.urls) {
                     try {
                         $response = Invoke-RestMethod -Uri "$url/completions.json" -TimeoutSec 30 -ErrorAction Stop
-                        $remote_list = $response.list
-                        $diff = Compare-Object $remote_list $current_list -PassThru
-                        if ($diff) {
-                            $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8
-                            $PSCompletions.list = $remote_list
-                        }
-                        else {
-                            Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
-                            $PSCompletions.list = $current_list
-                        }
-                        $new = $response | ConvertTo-Json -Compress -Depth 10
-                        $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
-                        if ($new -ne $old) {
-                            $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
-                        }
-                        return $remote_list
                     }
-                    catch {}
+                    catch { continue }
+                    $remote_list = $response.list
+                    $diff = Compare-Object $remote_list $current_list -PassThru
+                    if ($diff) {
+                        $diff | Out-File $PSCompletions.path.change -Force -Encoding utf8 -ErrorAction Stop
+                    }
+                    else {
+                        Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
+                    }
+                    $new = $response | ConvertTo-Json -Compress -Depth 10
+                    $old = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 10
+                    if ($new -ne $old) {
+                        $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
+                    }
                 }
-                throw
             }
 
+            ensure_dir $PSCompletions.path.temp
             ensure_dir $PSCompletions.path.order
             ensure_dir "$($PSCompletions.path.completions)/psc"
 
@@ -2473,7 +2366,7 @@ else {
                 if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
             }
 
-            $null = download_list
+            download_list
 
             foreach ($_ in $PSCompletions.data.list) {
                 $completion_dir = "$($PSCompletions.path.completions)/$_"
@@ -2548,7 +2441,6 @@ else {
                 $need_update_list = @()
                 $update = (Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).update
                 $completion_dirs = Get-ChildItem $PSCompletions.path.completions -Directory
-
                 foreach ($c in $completion_dirs) {
                     $completion = $c.Name
                     if (-not $update.$completion) {
@@ -2579,11 +2471,9 @@ else {
         } -ArgumentList $PSCompletions
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
-        param([string]$history_path, [string]$root, [string]$path_order)
-        try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-
-        $PSCompletions.order."$($root)_job" = Start-Job -ScriptBlock {
-            param($PScompletions, [string]$path_history, [string]$root, [string]$path_order)
+        param([string]$history_path, [string]$cmd, [string]$path_order)
+        $PSCompletions.order."$($cmd)_job" = Start-Job -ScriptBlock {
+            param($PScompletions, [string]$path_history, [string]$cmd, [string]$path_order)
 
             $order_dir = $PSCompletions.path.order
             if (!(Test-Path $order_dir)) {
@@ -2597,19 +2487,19 @@ else {
             $order = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
             $contents = Get-Content $path_history -Encoding utf8 -ErrorAction Ignore
             foreach ($_ in $contents) {
-                $alias = $PSCompletions.data.alias[$root]
+                $alias = $PSCompletions.data.alias[$cmd]
                 if ($null -eq $alias) {
-                    $alias = @($root)
+                    $alias = @($cmd)
                 }
                 foreach ($a in $alias) {
                     if ($_ -match "^[^\S\n]*$a\s+.+") {
                         $_ = $_ -replace '^\w+\s+', ''
-                        $input_arr = @()
+                        $inputs = @()
                         $matches = [regex]::Matches($_, $input_pattern)
-                        foreach ($match in $matches) { $input_arr += $match.Value }
-                        $index += $input_arr.Count
+                        foreach ($match in $matches) { $inputs += $match.Value }
+                        $index += $inputs.Count
                         $i = 0
-                        foreach ($completion in $input_arr) {
+                        foreach ($completion in $inputs) {
                             $order[$completion] = $index + $i
                             $i--
                         }
@@ -2633,7 +2523,7 @@ else {
             }
 
             return $result
-        } -ArgumentList $PScompletions, $history_path, $root, $path_order
+        } -ArgumentList $PScompletions, $history_path, $cmd, $path_order
     }
 }
 
