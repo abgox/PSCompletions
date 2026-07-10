@@ -176,7 +176,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit', 'enter_when_no_match_after'
             )
         }
     }
@@ -225,6 +225,8 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         enable_list_loop                             = 1
         enable_list_full_width                       = 1
         enable_list_follow_cursor                    = 1
+
+        enter_when_no_match_after                    = 0
 
         enable_tip                                   = 1
         enable_hooks_tip                             = 1
@@ -1802,6 +1804,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
 
         # 记录每一次过滤的数据
         $menu.data = [System.Collections.Generic.List[System.Object]]::new()
+        $menu.no_match_count = 0
 
         if ($menu.by_TabExpansion2) {
             $menu.is_show_tip = $config.enable_tip_when_enhance
@@ -1944,6 +1947,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         # 8: Backspace
                         if ($menu.filter) {
                             $menu.filter = $menu.filter.Substring(0, $menu.filter.Length - 1)
+                            $menu.no_match_count = 0
                         }
                         else {
                             $menu.reset_menu()
@@ -1997,10 +2001,26 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         $menu.filter_list = $resultList.ToArray()
 
                         if (!$menu.filter_list) {
-                            $menu.filter = $menu.data[-1].filter
-                            $menu.filter_list = $menu.data[-1].filter_list
+                            $no_match_limit = $config.enter_when_no_match_after
+                            if ($no_match_limit -gt 0) {
+                                $menu.no_match_count++
+                                $menu.new_menu_filter_buffer($menu.filter)
+                                if ($menu.no_match_count -ge $no_match_limit) {
+                                    $out = $menu.filter
+                                    $menu.reset_menu()
+                                    $out
+                                    break loop
+                                }
+                                $menu.filter_list = $menu.data[-1].filter_list
+                            }
+                            else {
+                                $menu.filter = $menu.data[-1].filter
+                                $menu.filter_list = $menu.data[-1].filter_list
+                                $menu.new_menu_filter_buffer($menu.filter)
+                            }
                         }
                         else {
+                            $menu.no_match_count = 0
                             $menu.reset_menu($false)
                             $menu.parse_menu_list()
                             $menu.new_menu_border_buffer()
