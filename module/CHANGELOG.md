@@ -4,6 +4,31 @@
 
 ## Unreleased
 
+## 6.8.0
+
+> [!WARNING]
+>
+> - The completion library has been improved and refactored, which is not fully compatible with previous versions.
+> - Please update the module version in a timely manner and force-update all completions: `psc update --all --force`
+
+- Added `enter_when_no_match_after` menu configuration.
+  - Set it: `psc menu config enter_when_no_match_after <N>`
+  - After N consecutive characters in the filter that do not match any completion item, close the menu and use the filter content.
+  - Set to `0` to disable (default).
+- Added `enable_filter_subsequence_match` menu configuration.
+  - Set it: `psc menu config enable_filter_subsequence_match <1|0>`
+  - When enabled, characters in the filter match any item where they appear in order, not necessarily contiguously, also supports `^` prefix matching.
+    - For example, `br` will match 'browse', 'fabric', 'abstract', etc.
+    - For example, `^br` means the first character must be `b`, followed by subsequence matching.
+  - Set to `0` to disable (default).
+- Removed two update check notification configuration items for consistency between completions and the module.
+  - `enable_completions_update`
+  - `enable_module_update`
+- Replace `*` in some commands with `--all` which has a clearer semantic meaning.
+- The `repeat` attribute now supports using a number as the maximum repetition count.
+- Refactored the completion data structure and processing, removing the **option(--xxx) > command(xxx)** nesting restriction.
+- Other optimizations and fixes.
+
 ## 6.7.0
 
 - Added support for the `repeat` attribute in completion definition.
