@@ -176,7 +176,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
             config_item = @(
-                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit', 'enter_when_no_match_after'
+                'trigger_key', 'between_item_and_symbol', 'status_symbol', 'filter_symbol', 'completion_suffix', 'enable_menu', 'enable_menu_enhance', 'enable_menu_show_below', 'enable_tip', 'enable_hooks_tip', 'enable_tip_when_enhance', 'enable_completions_sort', 'enable_tip_follow_cursor', 'enable_list_follow_cursor', 'enable_path_with_trailing_separator', 'enable_list_loop', 'enable_enter_when_single', 'enable_list_full_width', 'enable_filter_subsequence_match', 'list_min_width', 'list_max_count_when_above', 'list_max_count_when_below', 'height_from_menu_bottom_to_cursor_when_above', 'height_from_menu_top_to_cursor_when_below', 'completions_confirm_limit', 'enter_when_no_match_after'
             )
         }
     }
@@ -225,6 +225,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         enable_list_loop                             = 1
         enable_list_full_width                       = 1
         enable_list_follow_cursor                    = 1
+        enable_filter_subsequence_match              = 0
 
         enter_when_no_match_after                    = 0
 
@@ -1973,22 +1974,40 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     }
                     else {
                         # add
-                        if ($menu.filter -match '\*$' -and $PressKey.Character -eq '*') {
-                            break
-                        }
-                        $menu.filter += $PressKey.Character
-
-                        $escapedFilter = $menu.filter -replace '(\[|\])', '`$1'
-                        if ($escapedFilter.StartsWith('^')) {
+                        if ($config.enable_filter_subsequence_match) {
+                            $menu.filter += $PressKey.Character
+                            $isPrefix = $menu.filter.Length -ge 1 -and $menu.filter[0] -eq '^'
+                            $subSeq = if ($isPrefix) { $menu.filter.Substring(1) } else { $menu.filter }
                             $comparison = {
                                 param($text)
-                                $text -like $escapedFilter.Substring(1) + '*'
+                                if ($isPrefix) {
+                                    if ($subSeq.Length -eq 0) { return $true }
+                                    if ([char]::ToLower($text[0]) -ne [char]::ToLower($subSeq[0])) { return $false }
+                                }
+                                $ti = if ($isPrefix) { 1 } else { 0 }
+                                $fi = if ($isPrefix) { 1 } else { 0 }
+                                while ($ti -lt $text.Length -and $fi -lt $subSeq.Length) {
+                                    if ([char]::ToLower($text[$ti]) -eq [char]::ToLower($subSeq[$fi])) { $fi++ }
+                                    $ti++
+                                }
+                                $fi -eq $subSeq.Length
                             }
                         }
                         else {
-                            $comparison = {
-                                param($text)
-                                $text -like "*$escapedFilter*"
+                            if ($menu.filter -match '\*$' -and $PressKey.Character -eq '*') { break }
+                            $menu.filter += $PressKey.Character
+                            $escapedFilter = $menu.filter -replace '(\[|\])', '`$1'
+                            if ($escapedFilter.StartsWith('^')) {
+                                $comparison = {
+                                    param($text)
+                                    $text -like $escapedFilter.Substring(1) + '*'
+                                }
+                            }
+                            else {
+                                $comparison = {
+                                    param($text)
+                                    $text -like "*$escapedFilter*"
+                                }
                             }
                         }
                         $list = $menu.filter_list
