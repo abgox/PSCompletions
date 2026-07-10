@@ -1,28 +1,36 @@
 function handleCompletions($completions) {
-    $list = @()
-
-    function return_branch {
-        return git branch --format='%(refname:lstrip=2)' 2>$null | Where-Object { $_ -notlike '(HEAD detached from*' }
+    if ($PSCompletions.pending.text -like '-*') {
+        return $completions
     }
-
-    function return_head {
-        $head_list = @{
-            HEAD       = (git show HEAD --relative-date -q 2>$null) -join "`n"
-            FETCH_HEAD = (git show FETCH_HEAD --relative-date -q 2>$null) -join "`n"
-            ORIG_HEAD  = (git show ORIG_HEAD --relative-date -q 2>$null) -join "`n"
-            MERGE_HEAD = (git show MERGE_HEAD --relative-date -q 2>$null) -join "`n"
-        }
-        foreach ($_ in @('HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD')) {
-            if (!$head_list[$_]) {
-                $head_list.Remove($_)
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+    function add_branch {
+        git branch --format='%(refname:lstrip=2)' 2>$null | ForEach-Object {
+            if ($_ -notlike '(HEAD detached from*') {
+                add $_ "branch --- $_"
             }
         }
-        return $head_list
     }
-    function return_commit {
-        $commit_info = [System.Collections.Generic.List[array]]::new()
+    function add_head {
+        'HEAD', 'FETCH_HEAD', 'ORIG_HEAD', 'MERGE_HEAD' | ForEach-Object {
+            add $_ ((git show $_ --relative-date -q 2>$null) -join "`n")
+        }
+    }
+    function add_commit {
         if ($PSCompletions.config.comp_config.git.max_commit -in @('', $null)) {
-            $PSCompletions.config.comp_config.git.max_commit = 100
+            $PSCompletions.config.comp_config.git.max_commit = 30
         }
         $guid = [guid]::NewGuid().Guid
         $git_info = git log --pretty="format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n$($guid)" -n $PSCompletions.config.comp_config.git.max_commit 2>$null
@@ -32,232 +40,110 @@ function handleCompletions($completions) {
                 $current_commit += $_
             }
             else {
-                $commit_info.add($current_commit)
+                $hash = $current_commit[0]
+                $date = $current_commit[1]
+                $author = $current_commit[2]
+                $commit = $current_commit[3..($current_commit.Length - 1)]
+                $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
+                add $hash $content
                 $current_commit = @()
             }
         }
-        $current_commit = $null
-        return $commit_info
     }
-
-    $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude option parameters
-    $first_item = $filter_input_arr[0] # The first subcommand
-    $last_item = $filter_input_arr[-1] # The last subcommand
-
-    switch ($first_item) {
-        'add' {
-            git status --porcelain | Where-Object { $_ -match '^.[MD] ' -or $_ -match '^\?\? ' } | ForEach-Object {
-                $path = $_.Substring(3)
-                if ($path -notin $input_arr) {
-                    $PSCompletions.return_completion($path, $_)
-                }
+    function add_stash {
+        git stash list 2>$null | ForEach-Object {
+            if ($_ -match 'stash@\{(\d+)\}') {
+                $stashId = $matches[1]
+                add $matches[1] $_
             }
         }
     }
+    function add_remote {
+        git remote 2>$null | ForEach-Object { add $_ "remote --- $_" }
+    }
+    function add_tag {
+        git tag -l 2>$null | ForEach-Object { add $_ "remote --- $_" }
+    }
 
-    switch ($last_item) {
+    switch ($cmds[0].text) {
+        'add' {
+            git status --porcelain 2>$null |
+            Where-Object { $_ -match '^.[MD] ' -or $_ -match '^\?\? ' } |
+            ForEach-Object { add $_.Substring(3) $_ }
+        }
         'checkout' {
-            $branch_list = return_branch
-            $head_list = return_head
-            $branch_head_list = $branch_list + $head_list.Keys
-
-            foreach ($_ in $branch_head_list) {
-                $info = if ($head_list[$_]) { $head_list[$_] }else { 'branch --- ' + $_ }
-                $list += $PSCompletions.return_completion($_, $info)
-            }
-            $commit_info = return_commit
-            foreach ($_ in $commit_info) {
-                $hash = $_[0]
-                $date = $_[1]
-                $author = $_[2]
-                $commit = $_[3..($_.Length - 1)]
-                $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-                $list += $PSCompletions.return_completion($hash, $content)
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
             }
         }
         'switch' {
-            $branch_list = return_branch
-            foreach ($_ in $branch_list) {
-                $info = 'branch --- ' + $_
-                $list += $PSCompletions.return_completion($_, $info)
+            if ($unknown.Count -eq 0) {
+                add_branch
             }
         }
-        { 'stash' -in $input_arr } {
-            if ($last_item -in @('show', 'pop', 'apply', 'drop')) {
-                foreach ($_ in git stash list 2>$null) {
-                    if ($_ -match 'stash@\{(\d+)\}') {
-                        $stashId = $matches[1]
-                        $list += $PSCompletions.return_completion($stashId, $_)
-                    }
-                }
+        'stash' {
+            if ($unknown.Count -eq 0 -and $cmds[1].text -in 'show', 'pop', 'apply', 'drop') {
+                add_stash
             }
         }
-        { 'branch' -in $input_arr } {
-            if ($last_item -in @('-m', '-d')) {
-                $branch_list = return_branch
-                foreach ($_ in $branch_list) {
-                    $info = 'branch --- ' + $_
-                    $list += $PSCompletions.return_completion($_, $info)
-                }
+        'branch' {
+            if ($opts[-1].text -in '-m', '-d') {
+                add_branch
             }
         }
-        { 'commit' -in $input_arr } {
-            if ($last_item -in @('-C')) {
-                $commit_info = return_commit
-                foreach ($_ in $commit_info) {
-                    $hash = $_[0]
-                    $date = $_[1]
-                    $author = $_[2]
-                    $commit = $_[3..($_.Length - 1)]
-                    $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-                    $list += $PSCompletions.return_completion($hash, $content)
-                }
+        'commit' {
+            if ($unknown.Count -eq 0 -and $opts[-1].text -in '-C', '--squash') {
+                add_commit
             }
         }
         'merge' {
-            $branch_list = return_branch
-            foreach ($_ in $branch_list) {
-                $info = 'branch --- ' + $_
-                $list += $PSCompletions.return_completion($_, $info)
+            if ($unknown.Count -eq 0) {
+                add_branch
             }
         }
         'diff' {
-            $branch_list = return_branch
-            foreach ($_ in $branch_list) {
-                $info = 'branch --- ' + $_
-                $list += $PSCompletions.return_completion($_, $info)
-            }
-            $head_list = return_head
-            foreach ($_ in $head_list.Keys) {
-                $info = $head_list.$_
-                $list += $PSCompletions.return_completion($_, $info)
-            }
-
-            $commit_info = return_commit
-            foreach ($_ in $commit_info) {
-                $hash = $_[0]
-                $date = $_[1]
-                $author = $_[2]
-                $commit = $_[3..($_.Length - 1)]
-                $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-                $list += $PSCompletions.return_completion($hash, $content)
-            }
+            add_commit
         }
-        { 'rebase' -in $input_arr } {
-            $branch_list = return_branch
-            foreach ($_ in $branch_list) {
-                $list += $PSCompletions.return_completion($_, '')
-                $list += $PSCompletions.return_completion("origin/$_", '')
-            }
-
-            if ($last_item -in @('-i', '--interactive')) {
-                $head_list = return_head
-                foreach ($_ in $head_list.Keys) {
-                    $info = $head_list.$_
-                    $list += $PSCompletions.return_completion($_, $info)
-                }
-                $commit_info = return_commit
-                foreach ($_ in $commit_info) {
-                    $hash = $_[0]
-                    $date = $_[1]
-                    $author = $_[2]
-                    $commit = $_[3..($_.Length - 1)]
-                    $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-                    $list += $PSCompletions.return_completion($hash, $content)
-                }
-            }
+        'rebase' {
+            add_branch
+            add_head
+            add_commit
         }
-        { 'reset' -in $input_arr } {
-            if ($last_item -in @('reset', '--hard', '--soft', '--mixed')) {
-                $head_list = return_head
-                foreach ($_ in $head_list.Keys) {
-                    $info = $head_list.$_
-                    $list += $PSCompletions.return_completion($_, $info)
-                }
-                $commit_info = return_commit
-                foreach ($_ in $commit_info) {
-                    $hash = $_[0]
-                    $date = $_[1]
-                    $author = $_[2]
-                    $commit = $_[3..($_.Length - 1)]
-                    $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-                    $list += $PSCompletions.return_completion($hash, $content)
-                }
+        'reset' {
+            if ($unknown.Count -eq 0) {
+                add_head
+                add_commit
             }
         }
         'show' {
-            $head_list = return_head
-            foreach ($_ in $head_list.Keys) {
-                $info = $head_list.$_
-                $list += $PSCompletions.return_completion($_, $info)
-            }
-            $commit_info = return_commit
-            foreach ($_ in $commit_info) {
-                $hash = $_[0]
-                $date = $_[1]
-                $author = $_[2]
-                $commit = $_[3..($_.Length - 1)]
-                $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-                $list += $PSCompletions.return_completion($hash, $content)
+            if ($unknown.Count -eq 0) {
+                add_head
+                add_commit
             }
         }
-        'push' {
-            $remote_list = git remote 2>$null
-            foreach ($_ in $remote_list) {
-                $info = 'remote --- ' + $_
-                $list += $PSCompletions.return_completion($_, $info)
+        { $_ -in 'push', 'pull', 'fetch' } {
+            if ($unknown.Count -eq 0) {
+                add_remote
             }
         }
-        'pull' {
-            $remote_list = git remote 2>$null
-            foreach ($_ in $remote_list) {
-                $info = 'remote --- ' + $_
-                $list += $PSCompletions.return_completion($_, $info)
-            }
-        }
-        'fetch' {
-            $remote_list = git remote 2>$null
-            foreach ($_ in $remote_list) {
-                $info = 'remote --- ' + $_
-                $list += $PSCompletions.return_completion($_, $info)
-            }
-        }
-        { 'remote' -in $input_arr } {
-            if ($last_item -in @('rename', 'rm')) {
-                $remote_list = git remote 2>$null
-                foreach ($_ in $remote_list) {
-                    $info = 'remote --- ' + $_
-                    $list += $PSCompletions.return_completion($_, $info)
-                }
+        'remote' {
+            if ($cmds[1].text -in 'rename', 'rm') {
+                add_remote
             }
         }
         'revert' {
-            $commit_info = return_commit
-            foreach ($_ in $commit_info) {
-                $hash = $_[0]
-                $date = $_[1]
-                $author = $_[2]
-                $commit = $_[3..($_.Length - 1)]
-                $content = $date + "`n" + $author + "`n" + ($commit -join "`n")
-
-                $list += $PSCompletions.return_completion($hash, $content)
+            if ($unknown.Count -eq 0) {
+                add_commit
             }
         }
-        { 'tag' -in $input_arr } {
-            if ($last_item -in @('-d', '-v')) {
-                $tag_list = git tag 2>$null
-                foreach ($_ in $tag_list) {
-                    $list += $PSCompletions.return_completion($_, "tag --- $($_)")
-                }
+        'tag' {
+            if ($opts[-1].text -in '-d', '-v') {
+                add_tag
             }
         }
     }
+
     return $list + $completions
 }

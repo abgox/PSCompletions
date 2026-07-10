@@ -1,21 +1,31 @@
-﻿function handleCompletions($completions) {
-    $list = @()
-
+function handleCompletions($completions) {
+    if ($PSCompletions.pending.text -like '-*') {
+        return $completions
+    }
     try {
         $config = scoop config
     }
     catch {
         return $completions
     }
-    $CN = $PSUICulture -like 'zh*'
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    $tokens_text = @($tokens.text)
+    $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+
     $root_path = $env:SCOOP, $config.root_path | Select-Object -First 1
     if (-not $root_path) {
-        if ($CN) {
-            throw 'Scoop 未配置 root_path, 请先进行配置: scoop config root_path <scoop_path>'
-        }
-        else {
-            throw 'Scoop does not have a root_path configuration. Please set it first: scoop config root_path <scoop_path>'
-        }
+        throw $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.warning.config)
     }
     $global_path = $env:SCOOP_GLOBAL, $config.global_path | Select-Object -First 1
     $apps_dir = "$root_path\apps", "$global_path\apps" | Where-Object { Test-Path $_ }
@@ -29,33 +39,25 @@
         $PSCompletions._scoop_config_path = "$home\.config\scoop\config.json"
     }
 
-    $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude option parameters
-    $first_item = $filter_input_arr[0] # The first subcommand
-    $last_item = $filter_input_arr[-1] # The last subcommand
-
-    switch ($first_item) {
+    switch ($cmds[0].text) {
         'bucket' {
-            switch ($filter_input_arr[1]) {
+            switch ($cmds[1].text) {
                 'rm' {
-                    if ($filter_input_arr.Count -eq 2) {
-                        $items = Get-ChildItem $buckets_dir 2>$null
-                        foreach ($_ in $items) {
-                            $bucket = $_.Name
-                            $list += $PSCompletions.return_completion($bucket, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm))
-                        }
+                    $items = Get-ChildItem $buckets_dir 2>$null
+                    foreach ($_ in $items) {
+                        add $_.Name $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm)
                     }
                 }
             }
         }
         'install' {
-            if ($input_arr[-1] -in @('-a', '--arch')) {
+            if ($tokens[-1].text -in '-a', '--arch') {
                 break
             }
 
             $PSCompletions.temp_scoop_installed_apps = $apps_dir | ForEach-Object { Get-ChildItem $_ | ForEach-Object { $_.BaseName } }
 
-            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
+            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets -split '\|'
             $dir = Get-ChildItem $buckets_dir | ForEach-Object {
                 if ($_.Name -in $exclude_buckets) {
                     return
@@ -65,43 +67,44 @@
                     path   = "$($_.FullName)\bucket"
                 }
             }
-            $list += $PSCompletions.handle_data_by_runspace($dir, {
+            $_ = $PSCompletions.handle_data_by_runspace($dir, {
                     param ($items, $PSCompletions, $Host_UI)
                     $return = @()
+                    $tokens_text = $PSCompletions.tokens.text
                     foreach ($item in $items) {
-                        Get-ChildItem $item.path -Recurse -Filter *.json | ForEach-Object {
+                        Get-ChildItem $item.path -Recurse -File -Filter *.json | ForEach-Object {
+                            if ($_.BaseName -eq 'scoop' -or $_.BaseName -in $PSCompletions.temp_scoop_installed_apps -or ($PSCompletions.pending.text -and $_.BaseName -notlike "$($PSCompletions.pending.text)*")) { return }
                             $app = "$($item.bucket)/$($_.BaseName)"
-                            if ($app -notin $PSCompletions.input_arr -and $_.BaseName -notin $PSCompletions.temp_scoop_installed_apps) {
-                                if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
-                                    $tip = ''
-                                }
-                                else {
-                                    $manifest_json = $_.FullName
-                                    $tip = @"
+                            if ($app -in $tokens_text) { return }
+                            if ($PSCompletions.config.comp_config[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
+                                $tip = ''
+                            }
+                            else {
+                                $manifest_json = $_.FullName
+                                $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-'version:  ' + `$c.version; `"`n`";
+'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                                }
-                                $return += @{
-                                    ListItemText   = $app
-                                    CompletionText = $app
-                                    symbols        = @('SpaceTab')
-                                    ToolTip        = $tip
-                                }
+                            }
+                            $return += @{
+                                ListItemText   = $app
+                                CompletionText = $app
+                                symbols        = @('SpaceTab')
+                                ToolTip        = $tip
                             }
                         }
                     }
@@ -110,6 +113,7 @@ if (`$c.description) {
                     param($results)
                     return $results
                 })
+            if ($_) { $list.AddRange($_) }
 
             <#
             使用 Scoop内部实现的 use_sqlite_cache 功能，查询数据库
@@ -123,101 +127,85 @@ if (`$c.description) {
             # Select-Object -Property name, version, bucket, binary |
             # ForEach-Object {
             #     $app = $_.bucket + "/" + $_.name
-            #     $list += @{
+            #     $list.Add(@{
             #         ListItemText   = $app
             #         CompletionText = $app
             #         symbols        = @("SpaceTab")
             #         # ToolTip        = $_.version # 不显示帮助信息，加快补全速度
-            #     }
+            #     })
             # }
         }
         'uninstall' {
-            if ($filter_input_arr.Count -gt 1) {
-                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-            }
-            else {
-                $selected = @()
-            }
             foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
-                    if ($app -eq 'scoop') { continue }
+                    if ($app -eq 'scoop' -or $app -in $unknown_text) { continue }
                     $path = $item.FullName
-                    if ($app -notin $selected) {
-                        $manifest_json = $path + '\current\manifest.json'
-                        $install_json = $path + '\current\install.json'
-                        $tip = @"
+                    $manifest_json = $path + '\current\manifest.json'
+                    $install_json = $path + '\current\install.json'
+                    $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
-'version:  ' + `$c.version; `"`n`";
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; "`n" };
+'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
-                    }
+                    add $app $tip @('SpaceTab')
                 }
             }
         }
         { $_ -in 'update', 'depends' } {
-            if ($filter_input_arr.Count -gt 1) {
-                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-            }
-            else {
-                $selected = @()
-            }
             foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
-                    if ($app -eq 'scoop') { continue }
+                    if ($app -eq 'scoop' -or $app -in $unknown_text) { continue }
                     $path = $item.FullName
-                    if ($app -notin $selected) {
-                        $manifest_json = $path + '\current\manifest.json'
-                        $install_json = $path + '\current\install.json'
-                        $tip = @"
+                    $manifest_json = $path + '\current\manifest.json'
+                    $install_json = $path + '\current\install.json'
+                    $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$b = `$i.bucket;
-if (`$b) { 'bucket:   ' + `$b; `"`n`" };
+if (`$b) { 'bucket:   ' + `$b; "`n" };
 `$v = "$root_path\buckets\`$b\bucket\$($app[0])\$($app.Split('.', 2)[0])\$app.json", "$root_path\buckets\`$b\bucket\$app.json" |
 ForEach-Object { Get-Content `$_ -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue | Select-Object -ExpandProperty version } |
 Select-Object -First 1;
 `$new = if (`$v -and `$v -ne `$c.version) { " (`$v)" } else { '' };
-'version:  ' + `$c.version + `$new; `"`n`";
+'version:  ' + `$c.version + `$new; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
-                    }
+                    add $app $tip @('SpaceTab')
                 }
             }
         }
         { $_ -in 'home', 'info', 'cat', 'reset', 'download', 'virustotal' } {
-            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets.Split('|')
+            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets -split '\|'
             $dir = Get-ChildItem $buckets_dir | ForEach-Object {
                 if ($_.Name -in $exclude_buckets) {
                     return
@@ -227,44 +215,44 @@ if (`$c.description) {
                     path   = "$($_.FullName)\bucket"
                 }
             }
-            $list += $PSCompletions.handle_data_by_runspace($dir, {
+            $_ = $PSCompletions.handle_data_by_runspace($dir, {
                     param ($items, $PSCompletions, $Host_UI)
                     $return = @()
+                    $tokens_text = $PSCompletions.tokens.text
                     foreach ($item in $items) {
-                        Get-ChildItem $item.path -Recurse -Filter *.json | ForEach-Object {
-                            if ($_.BaseName -eq 'scoop') { continue }
+                        Get-ChildItem $item.path -Recurse -File -Filter *.json | ForEach-Object {
+                            if ($_.BaseName -eq 'scoop' -or ($PSCompletions.pending.text -and $_.BaseName -notlike "$($PSCompletions.pending.text)*")) { return }
                             $app = "$($item.bucket)/$($_.BaseName)"
-                            if ($app -notin $PSCompletions.input_arr) {
-                                if ($PSCompletions.config.comp_config[$PSCompletions.root_cmd].enable_hooks_tip -eq 0) {
-                                    $tip = ''
-                                }
-                                else {
-                                    $manifest_json = $_.FullName
-                                    $tip = @"
+                            if ($app -in $tokens_text) { return }
+                            if ($PSCompletions.config.comp_config[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
+                                $tip = ''
+                            }
+                            else {
+                                $manifest_json = $_.FullName
+                                $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-'version:  ' + `$c.version; `"`n`";
+'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                                }
-                                $return += @{
-                                    ListItemText   = $app
-                                    CompletionText = $app
-                                    symbols        = @('SpaceTab')
-                                    ToolTip        = $tip
-                                }
+                            }
+                            $return += @{
+                                ListItemText   = $app
+                                CompletionText = $app
+                                symbols        = @('SpaceTab')
+                                ToolTip        = $tip
                             }
                         }
                     }
@@ -273,134 +261,111 @@ if (`$c.description) {
                     param($results)
                     return $results
                 })
+            if ($_) { $list.AddRange($_) }
         }
         'cleanup' {
-            if ($filter_input_arr.Count -gt 1) {
-                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-            }
-            else {
-                $selected = @()
-            }
             foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
-                    if ($app -eq 'scoop') { continue }
+                    if ($app -eq 'scoop' -or $app -in $unknown_text) { continue }
                     $path = $item.FullName
-                    if ($app -notin $selected) {
-                        $manifest_json = $path + '\current\manifest.json'
-                        $install_json = $path + '\current\install.json'
-                        $tip = @"
+                    $manifest_json = $path + '\current\manifest.json'
+                    $install_json = $path + '\current\install.json'
+                    $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
-'version:  ' + `$c.version; `"`n`";
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; "`n" };
+'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                        $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
-                    }
+                    add $app $tip @('SpaceTab')
                 }
             }
         }
         'hold' {
-            if ($filter_input_arr.Count -gt 1) {
-                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-            }
-            else {
-                $selected = @()
-            }
             foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
-                    if ($app -eq 'scoop') { continue }
+                    if ($app -eq 'scoop' -or $app -in $unknown_text) { continue }
                     $path = $item.FullName
-                    if ($app -notin $selected) {
-                        $manifest_json = $path + '\current\manifest.json'
-                        $install_json = $path + '\current\install.json'
-                        $hold = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold
-                        if (-not $hold) {
-                            $tip = @"
+                    $manifest_json = $path + '\current\manifest.json'
+                    $install_json = $path + '\current\install.json'
+                    $hold = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold
+                    if (-not $hold) {
+                        $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
-'version:  ' + `$c.version; `"`n`";
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; "`n" };
+'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                            $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
-                        }
+                        add $app $tip @('SpaceTab')
                     }
                 }
             }
         }
         'unhold' {
-            if ($filter_input_arr.Count -gt 1) {
-                $selected = $filter_input_arr[1..($filter_input_arr.Count - 1)]
-            }
-            else {
-                $selected = @()
-            }
             foreach ($_ in $apps_dir) {
                 foreach ($item in (Get-ChildItem $_ 2>$null)) {
                     $app = $item.Name
-                    if ($app -eq 'scoop') { continue }
+                    if ($app -eq 'scoop' -or $app -in $unknown_text) { continue }
                     $path = $item.FullName
-                    if ($app -notin $selected) {
-                        $manifest_json = $path + '\current\manifest.json'
-                        $install_json = $path + '\current\install.json'
-                        if (Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold) {
-                            $tip = @"
+                    $manifest_json = $path + '\current\manifest.json'
+                    $install_json = $path + '\current\install.json'
+                    if (Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold) {
+                        $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
-'version:  ' + `$c.version; `"`n`";
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; "`n" };
+'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                            $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
-                        }
+                        add $app $tip @('SpaceTab')
                     }
                 }
             }
         }
         'prefix' {
-            if ($filter_input_arr.Count -eq 1) {
+            if ($cmds.Count -eq 1) {
                 foreach ($_ in $apps_dir) {
                     foreach ($item in (Get-ChildItem $_ 2>$null)) {
                         $app = $item.Name
@@ -411,65 +376,50 @@ if (`$c.description) {
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-if (`$i.bucket) { 'bucket:   ' + `$i.bucket; `"`n`" };
-'version:  ' + `$c.version; `"`n`";
+if (`$i.bucket) { 'bucket:   ' + `$i.bucket; "`n" };
+'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
                         if ($app -eq 'scoop') { $tip = ' ' }
-                        $list += $PSCompletions.return_completion($app, $tip)
+                        add $app $tip
                     }
                 }
             }
         }
         'cache' {
-            if ('*' -in $filter_input_arr) {
+            if ('*' -in $tokens_text -or $cmds[1].text -ne 'rm') {
                 break
             }
-            if ($filter_input_arr.Count -ge 2 -and $filter_input_arr[1] -eq 'rm') {
-                $selected = $filter_input_arr[2..($filter_input_arr.Count - 1)]
-                $items = "$root_path\cache", $config.cache_path | ForEach-Object { if ($_) { Get-ChildItem $_ -ErrorAction SilentlyContinue } }
-                foreach ($_ in $items) {
-                    $match = $_.BaseName -match '^([^#]+#[^#]+)'
-                    if ($match) {
-                        $part = $_.Name -split '#'
-                        $path = $_.FullName
-                        $cache = $part[0..1] -join '#'
-                        if ($cache -notin $selected) {
-                            $list += $PSCompletions.return_completion($cache, $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm), @('SpaceTab'))
-                        }
-                    }
+            $items = "$root_path\cache", $config.cache_path | ForEach-Object { if ($_) { Get-ChildItem $_ -ErrorAction SilentlyContinue } }
+            foreach ($_ in $items) {
+                $match = $_.BaseName -match '^([^#]+#[^#]+)'
+                if ($match) {
+                    $part = $_.Name -split '#'
+                    $path = $_.FullName
+                    $cache = $part[0..1] -join '#'
+                    if ($cache -in $unknown_text) { continue }
+                    add $cache $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm) @('SpaceTab')
                 }
             }
         }
         'config' {
-            if ($filter_input_arr[1] -eq 'rm') {
-                foreach ($c in $config.PSObject.Properties.Name) {
-                    $info = @($PSCompletions.info.current_value + ': ' + $config.$c)
-                    $list += $PSCompletions.return_completion($c, $info)
-                }
+            if ($cmds[1].text -ne 'rm') {
+                break
             }
-        }
-        'alias' {
-            switch ($filter_input_arr[1]) {
-                'rm' {
-                    if ($filter_input_arr.Count -eq 2) {
-                        foreach ($a in (Get-Member -InputObject (scoop config alias) -MemberType NoteProperty)) {
-                            $list += $PSCompletions.return_completion($a.Name, ($a.Definition -replace '^.+=', ''))
-                        }
-                    }
-                }
+            foreach ($c in $config.PSObject.Properties.Name) {
+                add $c @($PSCompletions.info.current_value + ': ' + $config.$c)
             }
         }
     }

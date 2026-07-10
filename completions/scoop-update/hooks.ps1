@@ -1,148 +1,72 @@
-﻿function handleCompletions($completions) {
-    $list = @()
-
+function handleCompletions($completions) {
+    if ($PSCompletions.pending.text -like '-*') {
+        return $completions
+    }
     try {
         $config = scoop config
     }
     catch {
         return $completions
     }
-    $CN = $PSUICulture -like 'zh*'
+    $list = [System.Collections.Generic.List[object]]::new()
+    $tokens = @($PSCompletions.tokens)
+    # $tokens_text = @($tokens.text)
+    # $cmds = @($tokens | Where-Object type -EQ 'command')
+    # $cmds_text = @($cmds.text)
+    # $opts = @($tokens | Where-Object type -EQ 'option')
+    # $opts_text = @($opts.text)
+    $unknown = @($tokens | Where-Object type -EQ 'unknown')
+    $unknown_text = @($unknown.text)
+    function add {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+
     $root_path = $env:SCOOP, $config.root_path | Select-Object -First 1
     if (-not $root_path) {
-        if ($CN) {
-            throw 'Scoop 未配置 root_path, 请先进行配置: scoop config root_path <scoop_path>'
-        }
-        else {
-            throw 'Scoop does not have a root_path configuration. Please set it first: scoop config root_path <scoop_path>'
-        }
+        throw $PSCompletions.replace_content($PSCompletions.completions.'scoop-update'.info.tip.warning.config)
     }
+
     $global_path = $env:SCOOP_GLOBAL, $config.global_path | Select-Object -First 1
-    $apps_dir = "$root_path\apps", "$global_path\apps" | Where-Object { Test-Path $_ }
+    $apps_dir = "$root_path\apps", "$global_path\apps" | Where-Object { Test-Path -LiteralPath $_ }
     # $buckets_dir = "$root_path\buckets"
 
-    $CN = $PSUICulture -like 'zh*'
-
-    $input_arr = $PSCompletions.input_arr
-    $filter_input_arr = $PSCompletions.filter_input_arr # Exclude option parameters
-    $first_item = $filter_input_arr[0] # The first subcommand
-    $last_item = $filter_input_arr[-1] # The last subcommand
-
-    # 是否需要添加应用补全
-    $addApp = $true
-
-    if ($last_item -notlike '-*') {
-        $paramList = @(
-            '-f', '--force',
-            '-g', '--global',
-            '-i', '--independent',
-            '-k', '--no-cache',
-            '-s', '--skip-hash-check',
-            '-q', '--quiet',
-            '-a', '--all'
-        )
-        $paramAliases = @{
-            '-f'                = '--force'
-            '--force'           = '-f'
-            '-g'                = '--global'
-            '--global'          = '-g'
-            '-i'                = '--independent'
-            '--independent'     = '-i'
-            '-k'                = '--no-cache'
-            '--no-cache'        = '-k'
-            '-s'                = '--skip-hash-check'
-            '--skip-hash-check' = '-s'
-            '-q'                = '--quiet'
-            '--quiet'           = '-q'
-            '-a'                = '--all'
-            '--all'             = '-a'
-        }
-
-        if ($CN) {
-            $tips = @{
-                '-f'                = "U: -f, --force`n即使没有新版本也强制更新`n它可以实现重装的效果"
-                '--force'           = "U: -f, --force`n即使没有新版本也强制更新`n它可以实现重装的效果"
-                '-g'                = "U: -g, --global`n全局更新程序"
-                '--global'          = "U: -g, --global`n全局更新程序"
-                '-i'                = "U: -i, --independent`n不自动安装依赖项"
-                '--independent'     = "U: -i, --independent`n不自动安装依赖项"
-                '-k'                = "U: -k, --no-cache`n不使用下载缓存"
-                '--no-cache'        = "U: -k, --no-cache`n不使用下载缓存"
-                '-s'                = "U: -s, --skip-hash-check`n跳过哈希验证(使用时请谨慎!)"
-                '--skip-hash-check' = "U: -s, --skip-hash-check`n跳过哈希验证(使用时请谨慎!)"
-                '-q'                = "U: -q, --quiet`n安静模式，隐藏无关信息"
-                '--quiet'           = "U: -q, --quiet`n安静模式，隐藏无关信息"
-                '-a'                = "U: -a, --all`n更新所有已安装的程序，等同于 *"
-                '--all'             = "U: -a, --all`n更新所有已安装的程序，等同于 *"
-            }
-        }
-        else {
-            $tips = @{
-                '-f'                = "U: -f, --force`nForce update even when there isn't a newer version."
-                '--force'           = "U: -f, --force`nForce update even when there isn't a newer version."
-                '-g'                = "U: -g, --global`nUpdate the app globally."
-                '--global'          = "U: -g, --global`nUpdate the app globally."
-                '-i'                = "U: -i, --independent`nDon't install dependencies automatically."
-                '--independent'     = "U: -i, --independent`nDon't install dependencies automatically."
-                '-k'                = "U: -k, --no-cache`nDon't use the download cache."
-                '--no-cache'        = "U: -k, --no-cache`nDon't use the download cache."
-                '-s'                = "U: -s, --skip-hash-check`nSkip hash validation (use with caution!)."
-                '--skip-hash-check' = "U: -s, --skip-hash-check`nSkip hash validation (use with caution!)."
-                '-q'                = "U: -q, --quiet`nHide extraneous messages."
-                '--quiet'           = "U: -q, --quiet`nHide extraneous messages."
-                '-a'                = "U: -a, --all`nUpdate all apps (alternative to '*')"
-                '--all'             = "U: -a, --all`nUpdate all apps (alternative to '*')"
-            }
-        }
-        foreach ($param in $paramList) {
-            $shouldAdd = $true
-            if ($param -in $PSCompletions.input_arr -or $paramAliases[$param] -in $PSCompletions.input_arr) {
-                $shouldAdd = $false
-            }
-            if ($shouldAdd) {
-                $list += $PSCompletions.return_completion($param, $tips[$param], @('OptionTab'))
-            }
-        }
-    }
-
-    if ($addApp) {
-        foreach ($_ in $apps_dir) {
-            foreach ($item in (Get-ChildItem $_ 2>$null)) {
-                $app = $item.Name
-                $path = $item.FullName
-                if ($app -notin $PSCompletions.input_arr) {
-                    $manifest_json = $path + '\current\manifest.json'
-                    $install_json = $path + '\current\install.json'
-                    $tip = @"
+    $apps_dir | ForEach-Object {
+        Get-ChildItem $_ | ForEach-Object {
+            $app = $_.Name
+            $path = $_.FullName
+            if ($app -in $unknown_text) { return }
+            $manifest_json = $path + '\current\manifest.json'
+            $install_json = $path + '\current\install.json'
+            $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
 `$b = `$i.bucket;
-if (`$b) { 'bucket:   ' + `$b; `"`n`" };
+if (`$b) { 'bucket:   ' + `$b; "`n" };
 `$v = "$root_path\buckets\`$b\bucket\$($app[0])\$($app.Split('.', 2)[0])\$app.json", "$root_path\buckets\`$b\bucket\$app.json" |
 ForEach-Object { Get-Content `$_ -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue | Select-Object -ExpandProperty version } |
 Select-Object -First 1;
 `$new = if (`$v -and `$v -ne `$c.version) { " (`$v)" } else { '' };
-'version:  ' + `$c.version + `$new; `"`n`";
+'version:  ' + `$c.version + `$new; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
-if (`$category) { 'category: ' + `$category; `"`n`" };
-'homepage: ' + `$c.homepage; `"`n`";
+if (`$category) { 'category: ' + `$category; "`n" };
+'homepage: ' + `$c.homepage; "`n";
 `$persistence = @()
-if (`$c.link -or `$c.pre_install -match '(?<!#.*)(A-New-LinkFile|A-New-LinkDirectory)') { `$persistence += 'link'; }
+if (`$c.link -or `$c.pre_install -match '(?<!#.*)A-New-Link(File|Directory)') { `$persistence += 'link'; }
 if (`$c.persist) { `$persistence += 'persist'; }
-if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); `"`n`"; }
-if (`$c.admin){ 'permissions: admin'; `"`n`"; }
+if (`$persistence) { 'persistence: ' + (`$persistence -join ', '); "`n"; }
+if (`$c.admin){ 'permissions: admin'; "`n"; }
 if (`$c.description) {
-    '-----'; `"`n`";
-    `$c.description.Replace(' | ', `"`n`")
+    '-----'; "`n";
+    `$c.description.Replace(' | ', "`n")
 };
 }}
 "@
-                    $list += $PSCompletions.return_completion($app, $tip, @('SpaceTab'))
-                }
-            }
+            add $app $tip @('SpaceTab')
         }
     }
 
-    return $list
+    return $list + $completions
 }

@@ -15,7 +15,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "Add all completions.",
             "Note: Add all completions may cause PowerShell to load slowly for the start up.",
@@ -95,44 +95,6 @@
             "Current Value: {{ $PSCompletions.config.enable_cache }} (Default: 1)",
             "Enable cache.",
             "It will make the completion load faster, and it's recommended to keep the default."
-          ],
-          "next": [
-            {
-              "name": "0"
-            },
-            {
-              "name": "1",
-              "tip": [
-                "Default value."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_completions_update",
-          "tip": [
-            "Current Value: {{ $PSCompletions.config.enable_completions_update }} (Default: 1)",
-            "Show remote completion status notification when import module.",
-            "Note: It's not recommended to disable it, because it will help you get the latest update information in time."
-          ],
-          "next": [
-            {
-              "name": "0"
-            },
-            {
-              "name": "1",
-              "tip": [
-                "Default value."
-              ]
-            }
-          ]
-        },
-        {
-          "name": "enable_module_update",
-          "tip": [
-            "Current Value: {{ $PSCompletions.config.enable_module_update }} (Default: 1)",
-            "Show module version update notification when import module.",
-            "Note: It's not recommended to close it. The remote repository always matches the latest version of the module."
           ],
           "next": [
             {
@@ -261,11 +223,12 @@
         "Display the completions that have been added.",
         "{{ $json.info.list.example }}"
       ],
-      "option": [
+      "next": [
         {
           "name": "--remote",
           "tip": [
-            "Display all available completions in the repository ({{ $PSCompletions.url }})."
+            "Display all available completions in the repository.",
+            "{{ $PSCompletions.url }}"
           ]
         }
       ]
@@ -460,13 +423,10 @@
               ]
             },
             {
-              "name": "enable_filter_subsequence_match",
+              "name": "enable_enter_when_single",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_filter_subsequence_match }} (Default: 0)",
-                "Enable subsequence matching for the filter in the module completion menu.",
-                "Characters in the filter will match any item where they appear in order, not necessarily contiguously, also supports '^' prefix matching.",
-                "For example, 'br' will match 'browse', 'fabric', 'abstract', etc.",
-                "For example, '^br' means the first character must be 'b', followed by subsequence matching."
+                "Current Value: {{ $PSCompletions.config.enable_enter_when_single }} (Default: 0)",
+                "When there is only one completion item, enter it directly instead of displaying the module completion menu."
               ],
               "next": [
                 {
@@ -481,10 +441,13 @@
               ]
             },
             {
-              "name": "enable_enter_when_single",
+              "name": "enable_filter_subsequence_match",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.enable_enter_when_single }} (Default: 0)",
-                "When there is only one completion item, enter it directly instead of displaying the module completion menu."
+                "Current Value: {{ $PSCompletions.config.enable_filter_subsequence_match }} (Default: 0)",
+                "Enable subsequence matching for the filter in the module completion menu.",
+                "Characters in the filter will match any item where they appear in order, not necessarily contiguously, also supports '^' prefix matching.",
+                "For example, 'br' will match 'browse', 'fabric', 'abstract', etc.",
+                "For example, '^br' means the first character must be 'b', followed by subsequence matching."
               ],
               "next": [
                 {
@@ -2059,7 +2022,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "Reset the entire PSCompletions module.",
             "Except for the core code of the module, all other content is removed."
@@ -2073,7 +2036,7 @@
           ],
           "next": [
             {
-              "name": "*",
+              "name": "--all",
               "tip": [
                 "Reset all completions to the default completion trigger name."
               ]
@@ -2088,7 +2051,7 @@
           ],
           "next": [
             {
-              "name": "*",
+              "name": "--all",
               "tip": [
                 "Reset(Remove) the special configuration of all completions.",
                 "Include all configurations under the command ('psc completion')."
@@ -2111,7 +2074,7 @@
           ],
           "next": [
             {
-              "name": "*",
+              "name": "--all",
               "tip": [
                 "Reset all configurations of the completion menu.",
                 "Include all configuration items under the command ('psc menu')."
@@ -2167,7 +2130,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "Remove all completions.",
             "Note: psc will be automatically re-added after removing."
@@ -2198,7 +2161,7 @@
       ],
       "next": [
         {
-          "name": "*",
+          "name": "--all",
           "tip": [
             "Update all completions that can be updated.",
             "{{",
@@ -2206,7 +2169,7 @@
             "else{'All completions are the latest!'}",
             "}}"
           ],
-          "option": [
+          "next": [
             {
               "name": "--force",
               "tip": [
@@ -2426,18 +2389,6 @@
           "   psc config language zh-CN     --- Set to zh-CN"
         ]
       },
-      "module_update": {
-        "example": [
-          "E: psc config enable_module_update 1     --- Show module update\n",
-          "   psc config enable_module_update 0     --- Hide module update"
-        ]
-      },
-      "update": {
-        "example": [
-          "E: psc config enable_completions_update 1     --- Show completion update\n",
-          "   psc config enable_completions_update 0     --- Hide completion update"
-        ]
-      },
       "url": {
         "err": [
           "<@Magenta>{{ $config_item }}<@Yellow> just need a value, a url. (https://xxx)\n",
@@ -2607,7 +2558,7 @@
       "update": [
         "\n",
         "<@Cyan>[Module Update]\n",
-        "<@Blue>PSCompletions: <@Magenta>{{ $PSCompletions.version }} <@Cyan>=> <@Magenta>{{ $PSCompletions.config.enable_module_update }}\n",
+        "<@Blue>PSCompletions: <@Magenta>{{ $PSCompletions.version }} <@Cyan>=> <@Magenta>{{ $PSCompletions.new_version }}\n",
         "\n",
         "<@Cyan>[Module Changelog]\n",
         "Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
@@ -2628,7 +2579,7 @@
     "reset": {
       "alias": {
         "example": [
-          "E: psc reset alias *               --- Reset all aliases\n",
+          "E: psc reset alias --all           --- Reset all aliases\n",
           "   psc reset alias psc             --- Reset psc alias\n",
           "   psc reset alias psc git bun     --- Reset psc git bun alias"
         ],
@@ -2636,7 +2587,7 @@
       },
       "completion": {
         "example": [
-          "E: psc reset completion *              --- Reset(Remove) the special configurations of all completions\n",
+          "E: psc reset completion --all          --- Reset(Remove) the special configurations of all completions\n",
           "   psc reset completion psc            --- Reset(Remove) the special configurations of psc\n",
           "   psc reset completion psc language   --- Reset(Remove) this special configuration(language) of psc"
         ],
@@ -2659,7 +2610,7 @@
         "}}"
       ],
       "example": [
-        "E: psc reset *                --- Reset PSCompletions module\n",
+        "E: psc reset --all            --- Reset PSCompletions module\n",
         "   psc reset menu symbol      --- Reset all symbols(~?!)\n",
         "   psc reset alias psc        --- Reset psc alias\n",
         "   psc reset completion psc   --- Reset(Remove) this special configuration(language) of psc"
@@ -2675,7 +2626,7 @@
       ],
       "menu": {
         "example": [
-          "E: psc reset menu *              --- Reset all menu configurations\n",
+          "E: psc reset menu --all          --- Reset all menu configurations\n",
           "   psc reset menu config         --- Reset menu configurations\n",
           "   psc reset menu line_theme     --- Reset border line style of the module completion menu"
         ]
@@ -2761,7 +2712,7 @@
       ],
       "example": [
         "E: psc update                 --- Check update\n",
-        "   psc update *               --- Update all completions\n",
+        "   psc update --all           --- Update all completions\n",
         "   psc update psc             --- Update psc\n",
         "   psc update psc git bun     --- Update psc,git,bun"
       ],
@@ -2769,7 +2720,7 @@
     },
     "update_has": [
       "<@Cyan>Updatable completions: <@Blue>{{ $PSCompletions.update -join ' ' }}<@Cyan>\n",
-      "Update them: <@Magenta>psc update *"
+      "Update them: <@Magenta>psc update --all"
     ],
     "update_info": [
       "<@Cyan>PSCompletions remote repository update:\n",
@@ -2780,10 +2731,8 @@
       "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
       "if($add){ \"Add: <@Magenta>$($add)<@Cyan>`nUse <@Magenta>psc add <completion><@Cyan> to add.`n`n\" };",
       "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n`n\" };",
-      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update *<@Cyan> to update.`n`n\" };",
-      "}}",
-      "You can hide this update tip by running <@Blue>psc config enable_completions_update 0<@Cyan>\n",
-      "But it's not recommended to hide it, it's a kind tip."
+      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update --all<@Cyan> to update.`n`n\" };",
+      "}}"
     ],
     "update_no": [
       "<@Green>All the completions are up to date!"
