@@ -1,0 +1,750 @@
+{
+  "meta": {
+    "url": "https://docs.anthropic.com/en/docs/claude-code",
+    "description": [
+      "Claude Code - Anthropic's AI-powered coding assistant in the terminal."
+    ]
+  },
+  "root": [
+    {
+      "name": "agents",
+      "tip": [
+        "Manage background agents."
+      ],
+      "option": [
+        {
+          "name": "--add-dir",
+          "tip": [
+            "U: --add-dir <DIRECTORY>",
+            "Additional directory to allow tool access to in dispatched sessions."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <AGENT>",
+            "Default agent for sessions dispatched from agent view."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all",
+          "tip": [
+            "With --json: include completed sessions."
+          ]
+        },
+        {
+          "name": "--dangerously-skip-permissions",
+          "tip": [
+            "Alias for --permission-mode bypassPermissions."
+          ]
+        },
+        {
+          "name": "--effort",
+          "tip": [
+            "U: --effort <LEVEL>",
+            "Default effort level for sessions dispatched from agent view."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Print active sessions as a JSON array and exit."
+          ]
+        },
+        {
+          "name": "--mcp-config",
+          "tip": [
+            "U: --mcp-config <CONFIG>",
+            "MCP server configuration to apply to dispatched sessions."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--model",
+          "tip": [
+            "U: --model <MODEL>",
+            "Default model for sessions dispatched from agent view."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--permission-mode",
+          "tip": [
+            "U: --permission-mode <MODE>",
+            "Default permission mode for sessions dispatched from agent view."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--plugin-dir",
+          "tip": [
+            "U: --plugin-dir <PATH>",
+            "Load plugins from specified directory."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--settings",
+          "tip": [
+            "U: --settings <FILE-OR-JSON>",
+            "Settings file or JSON string to apply."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "tip": [
+        "Manage authentication."
+      ],
+      "next": [
+        {
+          "name": "login",
+          "tip": [
+            "Sign in to your Anthropic account."
+          ],
+          "option": [
+            {
+              "name": "--api-key",
+              "tip": [
+                "Use API key authentication."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out from your Anthropic account."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show authentication status."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "Check the health of your Claude Code installation."
+      ]
+    },
+    {
+      "name": "gateway",
+      "tip": [
+        "Run the enterprise auth/telemetry gateway."
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "Port to listen on."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "Install Claude Code native build."
+      ],
+      "option": [
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "Specify version (stable, latest, or specific version)."
+          ],
+          "next": [
+            {
+              "name": "latest",
+              "tip": [
+                "Install latest version."
+              ]
+            },
+            {
+              "name": "stable",
+              "tip": [
+                "Install stable version."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Configure and manage MCP servers."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [options] <name> <commandOrUrl> [args...]",
+            "Add an MCP server to Claude Code.",
+            "Examples:",
+            "  claude mcp add --transport http sentry https://mcp.sentry.dev/mcp",
+            "  claude mcp add my-server -e API_KEY=xxx -- npx my-mcp-server"
+          ]
+        },
+        {
+          "name": "add-from-claude-desktop",
+          "tip": [
+            "Import MCP servers from Claude Desktop.",
+            "Mac and WSL only."
+          ]
+        },
+        {
+          "name": "add-json",
+          "tip": [
+            "U: add-json [options] <name> <json>",
+            "Add an MCP server with a JSON string."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <name>",
+            "Get details about an MCP server."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List configured MCP servers."
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "U: login [options] <name>",
+            "Authenticate with an MCP server."
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "U: logout <name>",
+            "Clear stored OAuth credentials for an MCP server."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [options] <name>",
+            "Remove an MCP server."
+          ]
+        },
+        {
+          "name": "reset-project-choices",
+          "tip": [
+            "Reset all approved and rejected project-scoped servers."
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "Start the Claude Code MCP server."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "alias": [
+        "plugin"
+      ],
+      "tip": [
+        "Manage Claude Code plugins."
+      ]
+    },
+    {
+      "name": "project",
+      "tip": [
+        "Manage Claude Code project state."
+      ]
+    },
+    {
+      "name": "setup-token",
+      "tip": [
+        "Set up a long-lived authentication token.",
+        "Requires Claude subscription."
+      ]
+    },
+    {
+      "name": "ultrareview",
+      "tip": [
+        "Run a cloud-hosted multi-agent code review.",
+        "Prints the findings."
+      ],
+      "option": [
+        {
+          "name": "--base",
+          "tip": [
+            "U: --base <BRANCH>",
+            "Base branch for comparison."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "alias": [
+        "update"
+      ],
+      "tip": [
+        "Check for updates and install if available."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--add-dir",
+      "tip": [
+        "U: --add-dir <DIRECTORIES...>",
+        "Additional directories to allow tool access to."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--agent",
+      "tip": [
+        "U: --agent <AGENT>",
+        "Agent for the current session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--agents",
+      "tip": [
+        "U: --agents <JSON>",
+        "JSON object defining custom agents."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allowed-tools",
+      "tip": [
+        "U: --allowed-tools <TOOLS...>",
+        "Comma or space-separated list of tool names to allow."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--append-system-prompt",
+      "tip": [
+        "U: --append-system-prompt <PROMPT>",
+        "Append a system prompt to the default system prompt."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bare",
+      "tip": [
+        "Minimal mode: skip hooks, LSP, plugin sync, and more."
+      ]
+    },
+    {
+      "name": "--bg",
+      "tip": [
+        "Start the session as a background agent and return immediately."
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "Continue the most recent conversation."
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug [FILTER]",
+        "Enable debug mode with optional category filtering."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug-file",
+      "tip": [
+        "U: --debug-file <PATH>",
+        "Write debug logs to a specific file path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-slash-commands",
+      "tip": [
+        "Disable all skills."
+      ]
+    },
+    {
+      "name": "--disallowed-tools",
+      "tip": [
+        "U: --disallowed-tools <TOOLS...>",
+        "Comma or space-separated list of tool names to deny."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--effort",
+      "tip": [
+        "U: --effort <LEVEL>",
+        "Effort level for the current session.",
+        "Possible values: low, medium, high, xhigh, max"
+      ],
+      "next": [
+        {
+          "name": "high",
+          "tip": [
+            "High effort."
+          ]
+        },
+        {
+          "name": "low",
+          "tip": [
+            "Low effort."
+          ]
+        },
+        {
+          "name": "max",
+          "tip": [
+            "Maximum effort."
+          ]
+        },
+        {
+          "name": "medium",
+          "tip": [
+            "Medium effort."
+          ]
+        },
+        {
+          "name": "xhigh",
+          "tip": [
+            "Extra high effort."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--fallback-model",
+      "tip": [
+        "U: --fallback-model <MODEL>",
+        "Enable automatic fallback to specified model(s).",
+        "Only works with --print."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fork-session",
+      "tip": [
+        "When resuming, create a new session ID."
+      ]
+    },
+    {
+      "name": "--from-pr",
+      "tip": [
+        "U: --from-pr [VALUE]",
+        "Resume a session linked to a PR."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ide",
+      "tip": [
+        "Automatically connect to IDE on startup."
+      ]
+    },
+    {
+      "name": "--max-budget-usd",
+      "tip": [
+        "U: --max-budget-usd <AMOUNT>",
+        "Maximum dollar amount to spend on API calls.",
+        "Only works with --print."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mcp-config",
+      "tip": [
+        "U: --mcp-config <CONFIGS...>",
+        "Load MCP servers from JSON files or strings."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "Model for the current session.",
+        "Provide an alias (e.g. 'fable', 'opus', 'sonnet') or full name."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--name",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --name <NAME>",
+        "Set a display name for this session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-chrome",
+      "tip": [
+        "Disable Claude in Chrome integration."
+      ]
+    },
+    {
+      "name": "--no-session-persistence",
+      "tip": [
+        "Disable session persistence.",
+        "Only works with --print."
+      ]
+    },
+    {
+      "name": "--output-format",
+      "tip": [
+        "U: --output-format <FORMAT>",
+        "Output format (only works with --print).",
+        "Possible values: text, json, stream-json"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON output."
+          ]
+        },
+        {
+          "name": "stream-json",
+          "tip": [
+            "Streaming JSON output."
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "Plain text output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--permission-mode",
+      "tip": [
+        "U: --permission-mode <MODE>",
+        "Permission mode to use for the session.",
+        "Possible values: acceptEdits, auto, bypassPermissions, manual, dontAsk, plan"
+      ],
+      "next": [
+        {
+          "name": "acceptEdits",
+          "tip": [
+            "Accept edits automatically."
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic permission mode."
+          ]
+        },
+        {
+          "name": "bypassPermissions",
+          "tip": [
+            "Bypass all permissions."
+          ]
+        },
+        {
+          "name": "dontAsk",
+          "tip": [
+            "Don't ask for permissions."
+          ]
+        },
+        {
+          "name": "manual",
+          "tip": [
+            "Manual permission mode."
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "Plan mode."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--plugin-dir",
+      "tip": [
+        "U: --plugin-dir <PATH>",
+        "Load a plugin from a directory or .zip."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--plugin-url",
+      "tip": [
+        "U: --plugin-url <URL>",
+        "Fetch a plugin .zip from a URL."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --print",
+        "Print response and exit (useful for pipes)."
+      ]
+    },
+    {
+      "name": "--prompt-suggestions",
+      "tip": [
+        "Enable prompt suggestions."
+      ]
+    },
+    {
+      "name": "--remote-control",
+      "tip": [
+        "U: --remote-control [NAME]",
+        "Start an interactive session with Remote Control enabled."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --resume [VALUE]",
+        "Resume a conversation by session ID."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--safe-mode",
+      "tip": [
+        "Start with all customizations disabled."
+      ]
+    },
+    {
+      "name": "--session-id",
+      "tip": [
+        "U: --session-id <UUID>",
+        "Use a specific session ID for the conversation."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--settings",
+      "tip": [
+        "U: --settings <FILE-OR-JSON>",
+        "Path to a settings JSON file or a JSON string."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--strict-mcp-config",
+      "tip": [
+        "Only use MCP servers from --mcp-config."
+      ]
+    },
+    {
+      "name": "--system-prompt",
+      "tip": [
+        "U: --system-prompt <PROMPT>",
+        "System prompt to use for the session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tools",
+      "tip": [
+        "U: --tools <TOOLS...>",
+        "Specify the list of available tools."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "Override verbose mode setting from config."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Output the version number."
+      ]
+    },
+    {
+      "name": "--worktree",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --worktree [NAME]",
+        "Create a new git worktree for this session."
+      ],
+      "next": 0
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Display help for command."
+      ]
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "Model for the current session."
+      ],
+      "next": 0
+    }
+  ]
+}

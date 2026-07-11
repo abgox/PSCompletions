@@ -2,136 +2,350 @@
   "meta": {
     "url": "https://docs.ollama.com/cli",
     "description": [
-      "ollama - ollama 的命令行工具。"
+      "ollama - ollama 的命令行界面工具。"
     ]
   },
   "root": [
     {
       "name": "cp",
       "tip": [
-        "复制模型"
+        "U: ollama cp <SOURCE> <DEST>",
+        "复制模型。"
       ]
     },
     {
       "name": "create",
       "tip": [
-        "使用 modelfile 创建自定义模型。"
+        "U: ollama create <MODEL> [flags]",
+        "使用 Modelfile 创建自定义模型。"
       ],
       "option": [
         {
-          "name": "-f",
+          "name": "--draft-quantize",
           "tip": [
-            "modelfile 的路径"
+            "U: --draft-quantize <string>",
+            "将草稿模型量化到指定级别"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--experimental",
+          "tip": [
+            "启用实验性 safetensors 模型创建"
           ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --file <string>",
+            "Modelfile 的名称（默认：Modelfile）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quantize",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quantize <string>",
+            "将模型量化到指定级别（如 q4_K_M）"
+          ],
+          "next": 0
         }
       ]
     },
     {
+      "name": "help",
+      "tip": [
+        "U: ollama help [command]",
+        "任何命令的帮助。"
+      ],
+      "next": 0
+    },
+    {
       "name": "launch",
       "tip": [
-        "配置并启动外部应用程序以使用 Ollama 模型。",
-        "目前支持 OpenCode、Claude Code、Codex、VS Code 和 Droid。"
+        "U: ollama launch [flags]",
+        "配置并启动外部应用程序以使用 Ollama 模型。"
       ],
       "option": [
         {
           "name": "--config",
           "tip": [
-            "仅配置而不启动。"
+            "配置但不启动"
           ]
         },
         {
           "name": "--model",
           "tip": [
-            "使用特定模型启动。"
-          ]
+            "U: --model <string>",
+            "使用指定模型启动"
+          ],
+          "next": 0
         }
       ]
     },
     {
-      "name": "ls",
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
       "tip": [
-        "列出模型"
+        "U: ollama list",
+        "列出模型。"
       ]
     },
     {
       "name": "ps",
       "tip": [
-        "列出正在运行的模型"
+        "U: ollama ps",
+        "列出运行中的模型。"
       ]
     },
     {
       "name": "pull",
       "tip": [
-        "下载模型"
-      ]
-    },
-    {
-      "name": "push",
-      "tip": [
-        "推送模型"
-      ]
-    },
-    {
-      "name": "rm",
-      "tip": [
-        "删除模型"
-      ]
-    },
-    {
-      "name": "run",
-      "tip": [
-        "运行模型。",
-        "如果你正在运行嵌入模型，可以直接在终端中生成文本嵌入。",
-        "输出嵌入向量的 JSON 数组。"
-      ]
-    },
-    {
-      "name": "serve",
-      "tip": [
-        "启动 Ollama"
+        "U: ollama pull <MODEL> [flags]",
+        "从注册表下载模型。"
       ],
       "option": [
         {
-          "name": "--help",
+          "name": "--insecure",
           "tip": [
-            "查看可为 ollama 设置的环境变量列表。"
+            "使用不安全的注册表"
           ]
         }
       ]
     },
     {
+      "name": "push",
+      "tip": [
+        "U: ollama push <MODEL> [flags]",
+        "将模型推送到注册表。"
+      ],
+      "option": [
+        {
+          "name": "--insecure",
+          "tip": [
+            "使用不安全的注册表"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rm",
+      "tip": [
+        "U: ollama rm <MODEL>",
+        "删除模型。"
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: ollama run <MODEL> [PROMPT] [flags]",
+        "运行模型。"
+      ],
+      "option": [
+        {
+          "name": "--dimensions",
+          "tip": [
+            "U: --dimensions <int>",
+            "将输出嵌入截断到指定维度"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <string>",
+            "响应格式（如 json）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--height",
+          "tip": [
+            "U: --height <int>",
+            "图像高度（实验性）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hidethinking",
+          "tip": [
+            "隐藏思考输出（如果提供）"
+          ]
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "使用不安全的注册表"
+          ]
+        },
+        {
+          "name": "--keepalive",
+          "tip": [
+            "U: --keepalive <string>",
+            "保持模型加载的时间（如 5m）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--negative",
+          "tip": [
+            "U: --negative <str>",
+            "负面提示（实验性）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--nowordwrap",
+          "tip": [
+            "不自动将单词换行到下一行"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <int>",
+            "随机种子（实验性）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--steps",
+          "tip": [
+            "U: --steps <int>",
+            "去噪步数（实验性）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--think",
+          "tip": [
+            "U: --think [=\"true\"]",
+            "启用思考模式：true/false 或 high/medium/low"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--truncate",
+          "tip": [
+            "对于嵌入模型：截断超过上下文长度的输入"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "显示响应计时"
+          ]
+        },
+        {
+          "name": "--width",
+          "tip": [
+            "U: --width <int>",
+            "图像宽度（实验性）"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "alias": [
+        "start"
+      ],
+      "tip": [
+        "U: ollama serve",
+        "启动 Ollama。"
+      ]
+    },
+    {
       "name": "show",
       "tip": [
-        "显示指定模型的信息"
+        "U: ollama show <MODEL> [flags]",
+        "显示模型信息。"
+      ],
+      "option": [
+        {
+          "name": "--license",
+          "tip": [
+            "显示模型的许可证"
+          ]
+        },
+        {
+          "name": "--modelfile",
+          "tip": [
+            "显示模型的 Modelfile"
+          ]
+        },
+        {
+          "name": "--parameters",
+          "tip": [
+            "显示模型的参数"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "显示模型的系统消息"
+          ]
+        },
+        {
+          "name": "--template",
+          "tip": [
+            "显示模型的模板"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "显示详细的模型信息"
+          ]
+        }
       ]
     },
     {
       "name": "signin",
       "tip": [
-        "登录到 Ollama"
+        "U: ollama signin",
+        "登录 ollama.com。"
       ]
     },
     {
       "name": "signout",
       "tip": [
-        "退出 Ollama"
+        "U: ollama signout",
+        "从 ollama.com 登出。"
       ]
     },
     {
       "name": "stop",
       "tip": [
-        "停止正在运行的模型"
+        "U: ollama stop <MODEL>",
+        "停止运行中的模型。"
       ]
     }
   ],
   "option": [
     {
-      "name": "--help",
-      "alias": [
-        "-h"
-      ],
+      "name": "--nowordwrap",
       "tip": [
-        "显示 ollama 的帮助信息"
+        "不自动将单词换行到下一行。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "显示响应计时。"
       ]
     },
     {
@@ -140,7 +354,20 @@
         "-v"
       ],
       "tip": [
-        "显示 ollama 的版本"
+        "U: -v, --version",
+        "显示版本信息。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "ollama 的帮助。"
       ]
     }
   ]

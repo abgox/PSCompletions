@@ -1,0 +1,595 @@
+{
+  "meta": {
+    "url": "https://eslint.org",
+    "description": [
+      "ESLint - Pluggable JavaScript linter."
+    ]
+  },
+  "root": [
+    {
+      "name": "--env-info",
+      "tip": [
+        "Output execution environment information."
+      ]
+    },
+    {
+      "name": "--init",
+      "tip": [
+        "Run config initialization wizard."
+      ]
+    },
+    {
+      "name": "--inspect-config",
+      "tip": [
+        "Open the config inspector with the current configuration."
+      ]
+    },
+    {
+      "name": "--mcp",
+      "tip": [
+        "Start the ESLint MCP server."
+      ]
+    },
+    {
+      "name": "--print-config",
+      "tip": [
+        "U: --print-config <file>",
+        "Print the configuration for the given file."
+      ],
+      "next": 0
+    }
+  ],
+  "option": [
+    {
+      "name": "--cache",
+      "tip": [
+        "Only check changed files.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--cache-file",
+      "tip": [
+        "U: --cache-file <path>",
+        "Path to the cache file.",
+        "Deprecated: use --cache-location.",
+        "Default: .eslintcache"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-location",
+      "tip": [
+        "U: --cache-location <path>",
+        "Path to the cache file or directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-strategy",
+      "tip": [
+        "U: --cache-strategy <strategy>",
+        "Strategy to use for detecting changed files in the cache.",
+        "Possible values: metadata, content",
+        "Default: metadata"
+      ],
+      "next": [
+        {
+          "name": "content",
+          "tip": [
+            "Use file content."
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Use file metadata."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "Force enabling/disabling of color."
+      ]
+    },
+    {
+      "name": "--concurrency",
+      "tip": [
+        "U: --concurrency <int|String>",
+        "Number of linting threads, auto to choose automatically, off for no multithreading.",
+        "Default: off"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatically choose."
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "Disable multithreading."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "Use this configuration instead of eslint.config.js, eslint.config.mjs, or eslint.config.cjs."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "Output debugging information."
+      ]
+    },
+    {
+      "name": "--exit-on-fatal-error",
+      "tip": [
+        "Exit with exit code 2 in case of fatal error.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--ext",
+      "tip": [
+        "U: --ext [extensions]",
+        "Specify additional file extensions to lint."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--fix",
+      "tip": [
+        "Automatically fix problems."
+      ]
+    },
+    {
+      "name": "--fix-dry-run",
+      "tip": [
+        "Automatically fix problems without saving the changes to the file system."
+      ]
+    },
+    {
+      "name": "--fix-type",
+      "tip": [
+        "U: --fix-type <type>",
+        "Specify the types of fixes to apply.",
+        "Possible values: directive, problem, suggestion, layout"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "directive",
+          "tip": [
+            "Directive fixes."
+          ]
+        },
+        {
+          "name": "layout",
+          "tip": [
+            "Layout fixes."
+          ]
+        },
+        {
+          "name": "problem",
+          "tip": [
+            "Problem fixes."
+          ]
+        },
+        {
+          "name": "suggestion",
+          "tip": [
+            "Suggestion fixes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--flag",
+      "tip": [
+        "U: --flag [feature]",
+        "Enable a feature flag."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --format <format>",
+        "Use a specific output format.",
+        "Default: stylish",
+        "Possible values: stylish, json, json-plain, compact, tap, stylish, unix, visualstudio, sarif, jslint-xml, checkstyle"
+      ],
+      "next": [
+        {
+          "name": "checkstyle",
+          "tip": [
+            "Checkstyle format."
+          ]
+        },
+        {
+          "name": "compact",
+          "tip": [
+            "Compact format."
+          ]
+        },
+        {
+          "name": "jslint-xml",
+          "tip": [
+            "JSLint XML format."
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON format."
+          ]
+        },
+        {
+          "name": "json-plain",
+          "tip": [
+            "JSON format (no colors)."
+          ]
+        },
+        {
+          "name": "sarif",
+          "tip": [
+            "SARIF format."
+          ]
+        },
+        {
+          "name": "stylish",
+          "tip": [
+            "Default stylish format."
+          ]
+        },
+        {
+          "name": "tap",
+          "tip": [
+            "TAP format."
+          ]
+        },
+        {
+          "name": "unix",
+          "tip": [
+            "Unix format."
+          ]
+        },
+        {
+          "name": "visualstudio",
+          "tip": [
+            "Visual Studio format."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--global",
+      "tip": [
+        "U: --global [name]",
+        "Define global variables."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--ignore-pattern",
+      "tip": [
+        "U: --ignore-pattern [pattern]",
+        "Patterns of files to ignore."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--max-warnings",
+      "tip": [
+        "U: --max-warnings <int>",
+        "Number of warnings to trigger nonzero exit code.",
+        "Default: -1"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-config-lookup",
+      "tip": [
+        "Disable look up for eslint.config.js."
+      ]
+    },
+    {
+      "name": "--no-error-on-unmatched-pattern",
+      "tip": [
+        "Prevent errors when pattern is unmatched."
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "Disable use of ignore files and patterns."
+      ]
+    },
+    {
+      "name": "--no-inline-config",
+      "tip": [
+        "Prevent comments from changing config or rules."
+      ]
+    },
+    {
+      "name": "--no-warn-ignored",
+      "tip": [
+        "Suppress warnings when the file list includes ignored files."
+      ]
+    },
+    {
+      "name": "--output-file",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output-file <path>",
+        "Specify file to write report to."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parser",
+      "tip": [
+        "U: --parser <parser>",
+        "Specify the parser to be used."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parser-options",
+      "tip": [
+        "U: --parser-options <options>",
+        "Specify parser options."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pass-on-no-patterns",
+      "tip": [
+        "Exit with exit code 0 in case no file patterns are passed."
+      ]
+    },
+    {
+      "name": "--pass-on-unpruned-suppressions",
+      "tip": [
+        "Ignore unused suppressions.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--plugin",
+      "tip": [
+        "U: --plugin [name]",
+        "Specify plugins."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prune-suppressions",
+      "tip": [
+        "Prune unused suppressions.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "tip": [
+        "Report errors only.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--report-unused-disable-directives",
+      "tip": [
+        "Adds reported errors for unused eslint-disable and eslint-enable directives."
+      ]
+    },
+    {
+      "name": "--report-unused-disable-directives-severity",
+      "tip": [
+        "U: --report-unused-disable-directives-severity <severity>",
+        "Chooses severity level for reporting unused eslint-disable and eslint-enable directives.",
+        "Possible values: off, warn, error, 0, 1, 2"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Disabled."
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "Warning."
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "Error."
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error."
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "Disabled."
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--report-unused-inline-configs",
+      "tip": [
+        "U: --report-unused-inline-configs <severity>",
+        "Adds reported errors for unused eslint inline config comments.",
+        "Possible values: off, warn, error, 0, 1, 2"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Disabled."
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "Warning."
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "Error."
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error."
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "Disabled."
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--rule",
+      "tip": [
+        "U: --rule <rule>",
+        "Specify rules."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "Add statistics to the lint report.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "Lint code provided on STDIN.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--stdin-filename",
+      "tip": [
+        "U: --stdin-filename <path>",
+        "Specify filename to process STDIN as."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--suppress-all",
+      "tip": [
+        "Suppress all violations.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--suppress-rule",
+      "tip": [
+        "U: --suppress-rule [rule]",
+        "Suppress specific rules."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--suppressions-location",
+      "tip": [
+        "U: --suppressions-location <path>",
+        "Specify the location of the suppressions file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Output the version number."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "Use this configuration instead of eslint.config.js."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fix",
+      "tip": [
+        "Automatically fix problems."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Show help."
+      ]
+    }
+  ]
+}

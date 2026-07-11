@@ -1,0 +1,992 @@
+{
+  "meta": {
+    "url": "https://zellij.dev",
+    "description": [
+      "Zellij 是一个具有多个终端窗格的终端工作区。"
+    ]
+  },
+  "root": [
+    {
+      "name": "action",
+      "alias": [
+        "ac"
+      ],
+      "tip": [
+        "U: zellij action [OPTIONS] <ACTION>",
+        "向特定会话发送操作。"
+      ],
+      "next": [
+        {
+          "name": "abort",
+          "tip": [
+            "中止当前操作。"
+          ]
+        },
+        {
+          "name": "close-pane",
+          "tip": [
+            "关闭聚焦的窗格。"
+          ]
+        },
+        {
+          "name": "close-tab",
+          "tip": [
+            "关闭当前标签页。"
+          ]
+        },
+        {
+          "name": "dump-layout",
+          "tip": [
+            "转储当前布局。"
+          ]
+        },
+        {
+          "name": "dump-plugins",
+          "tip": [
+            "转储当前加载的插件。"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "U: zellij action edit [<FILE>]",
+            "使用默认编辑器编辑文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "exit-zellij",
+          "tip": [
+            "完全退出 Zellij。"
+          ]
+        },
+        {
+          "name": "focus",
+          "tip": [
+            "U: zellij action focus <DIRECTION>",
+            "将焦点聚焦到给定方向的窗格。"
+          ],
+          "next": [
+            {
+              "name": "down"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "up"
+            }
+          ]
+        },
+        {
+          "name": "goto-tab",
+          "tip": [
+            "U: zellij action goto-tab <TAB>",
+            "转到指定的标签页。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "move-focus",
+          "tip": [
+            "U: zellij action move-focus <DIRECTION>",
+            "将焦点移动到给定方向的下一个窗格。"
+          ],
+          "next": [
+            {
+              "name": "down"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "up"
+            }
+          ]
+        },
+        {
+          "name": "move-pane-down",
+          "tip": [
+            "将聚焦的窗格向下移动。"
+          ]
+        },
+        {
+          "name": "move-pane-left",
+          "tip": [
+            "将聚焦的窗格向左移动。"
+          ]
+        },
+        {
+          "name": "move-pane-right",
+          "tip": [
+            "将聚焦的窗格向右移动。"
+          ]
+        },
+        {
+          "name": "move-pane-up",
+          "tip": [
+            "将聚焦的窗格向上移动。"
+          ]
+        },
+        {
+          "name": "new-pane",
+          "tip": [
+            "U: zellij action new-pane [<DIRECTION>]",
+            "创建新窗格。"
+          ],
+          "next": [
+            {
+              "name": "down"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "up"
+            }
+          ]
+        },
+        {
+          "name": "new-tab",
+          "tip": [
+            "U: zellij action new-tab [<LAYOUT>]",
+            "创建新标签页。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "quit",
+          "tip": [
+            "退出当前会话。"
+          ]
+        },
+        {
+          "name": "rename-pane",
+          "tip": [
+            "U: zellij action rename-pane <NAME>",
+            "重命名聚焦的窗格。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "rename-tab",
+          "tip": [
+            "U: zellij action rename-tab <NAME>",
+            "重命名当前标签页。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "resize",
+          "tip": [
+            "U: zellij action resize <DIRECTION>",
+            "调整聚焦窗格的大小。"
+          ],
+          "next": [
+            {
+              "name": "decrease"
+            },
+            {
+              "name": "down"
+            },
+            {
+              "name": "increase"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "up"
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: zellij action run <COMMAND>",
+            "在新窗格中运行命令。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "scroll-down",
+          "tip": [
+            "在聚焦窗格中向下滚动。"
+          ]
+        },
+        {
+          "name": "scroll-to-bottom",
+          "tip": [
+            "滚动到聚焦窗格的底部。"
+          ]
+        },
+        {
+          "name": "scroll-up",
+          "tip": [
+            "在聚焦窗格中向上滚动。"
+          ]
+        },
+        {
+          "name": "send-action",
+          "tip": [
+            "U: zellij action send-action <ACTION>",
+            "向终端发送操作。"
+          ]
+        },
+        {
+          "name": "skip-confirm",
+          "tip": [
+            "U: zellij action skip-confirm <ACTION>",
+            "跳过给定操作的确认。"
+          ]
+        },
+        {
+          "name": "switch-pane",
+          "tip": [
+            "U: zellij action switch-pane <PANE>",
+            "切换到指定的窗格。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "switch-tab",
+          "tip": [
+            "U: zellij action switch-tab <TAB>",
+            "切换到指定的标签页。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "toggle-floating-panes",
+          "tip": [
+            "切换浮动窗格。"
+          ]
+        },
+        {
+          "name": "toggle-focus-mode",
+          "tip": [
+            "切换焦点模式。"
+          ]
+        },
+        {
+          "name": "toggle-pane-invisibility",
+          "tip": [
+            "切换聚焦窗格的不可见性。"
+          ]
+        },
+        {
+          "name": "undo-rename-pane",
+          "tip": [
+            "撤销上次窗格重命名。"
+          ]
+        },
+        {
+          "name": "undo-rename-tab",
+          "tip": [
+            "撤销上次标签页重命名。"
+          ]
+        },
+        {
+          "name": "write",
+          "tip": [
+            "U: zellij action write <BYTES>",
+            "向终端写入字节。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "write-chars",
+          "tip": [
+            "U: zellij action write-chars <CHARS>",
+            "向终端写入字符。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "attach",
+      "alias": [
+        "a"
+      ],
+      "tip": [
+        "U: zellij attach [OPTIONS] [<SESSION>]",
+        "连接到会话。"
+      ],
+      "option": [
+        {
+          "name": "--create",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "如果会话不存在则创建新会话。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "即使已连接也强制连接。"
+          ]
+        },
+        {
+          "name": "--index",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --index <INDEX>",
+            "按索引连接会话。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--layout",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --layout <LAYOUT>",
+            "新会话使用的布局。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-detach",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "不从现有会话分离。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete-all-sessions",
+      "alias": [
+        "da"
+      ],
+      "tip": [
+        "删除所有会话。"
+      ]
+    },
+    {
+      "name": "delete-session",
+      "alias": [
+        "d"
+      ],
+      "tip": [
+        "U: zellij delete-session <SESSION>",
+        "删除特定会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "edit",
+      "alias": [
+        "e"
+      ],
+      "tip": [
+        "U: zellij edit [<FILE>]",
+        "使用默认 $EDITOR / $VISUAL 编辑文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "help",
+      "tip": [
+        "打印帮助消息。"
+      ]
+    },
+    {
+      "name": "kill-all-sessions",
+      "alias": [
+        "ka"
+      ],
+      "tip": [
+        "终止所有会话。"
+      ]
+    },
+    {
+      "name": "kill-session",
+      "alias": [
+        "k"
+      ],
+      "tip": [
+        "U: zellij kill-session <SESSION>",
+        "终止特定会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "list-aliases",
+      "alias": [
+        "la"
+      ],
+      "tip": [
+        "列出现有的插件别名。"
+      ]
+    },
+    {
+      "name": "list-sessions",
+      "alias": [
+        "ls"
+      ],
+      "tip": [
+        "列出活动会话。"
+      ]
+    },
+    {
+      "name": "options",
+      "tip": [
+        "U: zellij options [OPTIONS]",
+        "更改 zellij 的行为。"
+      ],
+      "option": [
+        {
+          "name": "--auto-layout",
+          "tip": [
+            "是否自动布局窗格。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--default-cwd",
+          "tip": [
+            "U: --default-cwd <CWD>",
+            "默认工作目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--default-layout",
+          "tip": [
+            "U: --default-layout <LAYOUT>",
+            "默认布局。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--deserialize-pane-auto-switch",
+          "tip": [
+            "是否自动切换到反序列化的窗格。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--layout-dir",
+          "tip": [
+            "U: --layout-dir <LAYOUT_DIR>",
+            "布局目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--session-serialization",
+          "tip": [
+            "U: --session-serialization <SESSION_SERIALIZATION>",
+            "是否序列化会话。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--simplified-ui",
+          "tip": [
+            "U: --simplified-ui <SIMPLIFIED_UI>",
+            "是否使用简化 UI。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--theme",
+          "tip": [
+            "U: --theme <THEME>",
+            "默认主题。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--theme-dir",
+          "tip": [
+            "U: --theme-dir <THEME_DIR>",
+            "主题目录。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "pipe",
+      "tip": [
+        "U: zellij pipe [OPTIONS] [<NAME>] [-- <ARGS>...]",
+        "向一个或多个插件发送数据。"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --args <ARGS>",
+            "传递给管道的参数。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <NAME>",
+            "管道的名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--override-plugin-or-skip",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "覆盖插件或在未运行时跳过。"
+          ]
+        },
+        {
+          "name": "--plugin",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --plugin <PLUGIN>",
+            "发送到特定插件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--value",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --value <VALUE>",
+            "发送到管道的值。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "alias": [
+        "p"
+      ],
+      "tip": [
+        "U: zellij plugin [OPTIONS] <URL>",
+        "加载插件。"
+      ],
+      "option": [
+        {
+          "name": "--configuration",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --configuration <CONFIG>",
+            "插件配置。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--override-plugin-or-skip",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "覆盖插件或在未运行时跳过。"
+          ]
+        },
+        {
+          "name": "--skip-cache",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "跳过插件缓存。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "alias": [
+        "r"
+      ],
+      "tip": [
+        "U: zellij run [OPTIONS] [-- <COMMAND>...]",
+        "在新窗格中运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--close-on-exit",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "命令退出时关闭窗格。"
+          ]
+        },
+        {
+          "name": "--configuration",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --configuration <CONFIG>",
+            "插件配置。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cwd",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --cwd <CWD>",
+            "新窗格的工作目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cwd-application-root",
+          "alias": [
+            "-C"
+          ],
+          "tip": [
+            "将工作目录设置为应用程序根目录。"
+          ]
+        },
+        {
+          "name": "--direction",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --direction <DIRECTION>",
+            "打开新窗格的方向。"
+          ],
+          "next": [
+            {
+              "name": "down"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "up"
+            }
+          ]
+        },
+        {
+          "name": "--floating",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "以浮动窗格打开新窗格。"
+          ]
+        },
+        {
+          "name": "--in-place",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "就地打开新窗格。"
+          ]
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <NAME>",
+            "新窗格的名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--plugin",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --plugin <PLUGIN>",
+            "运行插件而不是命令。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "U: zellij setup [OPTIONS]",
+        "设置 zellij 并检查其配置。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "检查配置是否有错误。"
+          ]
+        },
+        {
+          "name": "--dump-completions",
+          "tip": [
+            "将 shell 补全转储到 stdout。"
+          ],
+          "next": [
+            {
+              "name": "bash"
+            },
+            {
+              "name": "fish"
+            },
+            {
+              "name": "zsh"
+            }
+          ]
+        },
+        {
+          "name": "--dump-config",
+          "tip": [
+            "将默认配置转储到 stdout。"
+          ]
+        },
+        {
+          "name": "--dump-layout",
+          "tip": [
+            "将默认布局转储到 stdout。"
+          ]
+        },
+        {
+          "name": "--dump-plugins",
+          "tip": [
+            "将默认插件转储到 stdout。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "subscribe",
+      "tip": [
+        "U: zellij subscribe <PIPE_NAME>",
+        "订阅窗格渲染更新。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "watch",
+      "alias": [
+        "w"
+      ],
+      "tip": [
+        "U: zellij watch [OPTIONS] <SESSION>",
+        "监视会话（只读）。"
+      ],
+      "option": [
+        {
+          "name": "--pane",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --pane <PANE>",
+            "监视特定窗格。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "tip": [
+        "运行 Web 服务器来提供终端会话。"
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --port <PORT>",
+            "服务端口。"
+          ],
+          "next": 0
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "指定发出额外的调试信息。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <CONFIG>",
+        "更改 zellij 查找配置文件的位置。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-dir",
+      "tip": [
+        "U: --config-dir <CONFIG_DIR>",
+        "更改 zellij 查找配置目录的位置。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--data-dir",
+      "tip": [
+        "U: --data-dir <DATA_DIR>",
+        "更改 zellij 查找插件的位置。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--layout",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --layout <LAYOUT>",
+        "预定义布局的名称或布局文件的路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--layout-string",
+      "tip": [
+        "U: --layout-string <LAYOUT_STRING>",
+        "直接使用的原始 KDL 布局字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-panes",
+      "tip": [
+        "U: --max-panes <MAX_PANES>",
+        "屏幕上的最大窗格数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--new-session-with-layout",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --new-session-with-layout <LAYOUT>",
+        "始终使用给定布局启动新会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --session <SESSION>",
+        "指定新会话的名称。"
+      ],
+      "next": 0
+    }
+  ]
+}

@@ -1,0 +1,1041 @@
+{
+  "meta": {
+    "url": "https://github.com/openai/codex",
+    "description": [
+      "Codex CLI - OpenAI 的 AI 编程助手。"
+    ]
+  },
+  "root": [
+    {
+      "name": "app",
+      "tip": [
+        "启动 Codex 桌面应用（如果缺少则打开应用安装程序）。"
+      ]
+    },
+    {
+      "name": "app-server",
+      "tip": [
+        "[实验性] 运行应用服务器或相关工具。"
+      ],
+      "option": [
+        {
+          "name": "--analytics-default-enabled",
+          "tip": [
+            "控制默认情况下是否启用分析。"
+          ]
+        },
+        {
+          "name": "--listen",
+          "tip": [
+            "U: --listen <URL>",
+            "传输端点 URL。",
+            "支持的值: stdio:// (默认), unix://, unix://PATH, ws://IP:PORT, off"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--stdio",
+          "tip": [
+            "使用 stdio 作为传输（等同于 --listen stdio://）。"
+          ]
+        },
+        {
+          "name": "--ws-audience",
+          "tip": [
+            "U: --ws-audience <AUDIENCE>",
+            "签名 JWT 承载令牌的预期受众。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ws-auth",
+          "tip": [
+            "U: --ws-auth <MODE>",
+            "非回环监听器的 Websocket 认证模式。",
+            "可选值: capability-token, signed-bearer-token"
+          ],
+          "next": [
+            {
+              "name": "capability-token",
+              "tip": [
+                "使用能力令牌认证。"
+              ]
+            },
+            {
+              "name": "signed-bearer-token",
+              "tip": [
+                "使用签名的承载令牌认证。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ws-issuer",
+          "tip": [
+            "U: --ws-issuer <ISSUER>",
+            "签名 JWT 承载令牌的预期签发者。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ws-max-clock-skew-seconds",
+          "tip": [
+            "U: --ws-max-clock-skew-seconds <SECONDS>",
+            "验证签名 JWT 承载令牌时的最大时钟偏差。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ws-shared-secret-file",
+          "tip": [
+            "U: --ws-shared-secret-file <PATH>",
+            "用于签名 JWT 承载令牌的共享密钥文件的绝对路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ws-token-file",
+          "tip": [
+            "U: --ws-token-file <PATH>",
+            "能力令牌文件的绝对路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ws-token-sha256",
+          "tip": [
+            "U: --ws-token-sha256 <HEX>",
+            "能力令牌的十六进制编码 SHA-256 摘要。"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "daemon",
+          "tip": [
+            "管理本地应用服务器守护进程。"
+          ],
+          "next": [
+            {
+              "name": "bootstrap",
+              "tip": [
+                "安装用于 SSH 驱动使用的持久化本地应用服务器管理。"
+              ]
+            },
+            {
+              "name": "disable-remote-control",
+              "tip": [
+                "为未来的启动和当前运行的托管守护进程禁用远程控制。"
+              ]
+            },
+            {
+              "name": "enable-remote-control",
+              "tip": [
+                "为未来的启动和当前运行的托管守护进程启用远程控制。"
+              ]
+            },
+            {
+              "name": "restart",
+              "tip": [
+                "重启本地应用服务器守护进程。"
+              ]
+            },
+            {
+              "name": "start",
+              "tip": [
+                "如果本地应用服务器守护进程未运行则启动它。"
+              ]
+            },
+            {
+              "name": "stop",
+              "tip": [
+                "停止本地应用服务器守护进程。"
+              ]
+            },
+            {
+              "name": "version",
+              "tip": [
+                "以 JSON 格式打印本地 CLI 和运行中的应用服务器版本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generate-json-schema",
+          "tip": [
+            "[实验性] 为应用服务器协议生成 JSON Schema。"
+          ]
+        },
+        {
+          "name": "generate-ts",
+          "tip": [
+            "[实验性] 为应用服务器协议生成 TypeScript 绑定。"
+          ]
+        },
+        {
+          "name": "proxy",
+          "tip": [
+            "将 stdio 字节代理到运行中的应用服务器控制套接字。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "apply",
+      "alias": [
+        "a"
+      ],
+      "tip": [
+        "将 Codex 代理生成的最新差异作为 git apply 应用到本地工作树。"
+      ]
+    },
+    {
+      "name": "archive",
+      "tip": [
+        "按 ID 或会话名称归档已保存的会话。"
+      ]
+    },
+    {
+      "name": "cloud",
+      "tip": [
+        "[实验性] 浏览 Codex Cloud 的任务并在本地应用更改。"
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "在本地应用 Codex Cloud 任务的差异。"
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "显示 Codex Cloud 任务的统一差异。"
+          ]
+        },
+        {
+          "name": "exec",
+          "tip": [
+            "提交新的 Codex Cloud 任务而不启动 TUI。"
+          ],
+          "option": [
+            {
+              "name": "--attempts",
+              "tip": [
+                "U: --attempts <ATTEMPTS>",
+                "助手尝试次数（多选一）。",
+                "默认值: 1"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--branch",
+              "tip": [
+                "U: --branch <BRANCH>",
+                "在 Codex Cloud 中运行的 Git 分支（默认为当前分支）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--env",
+              "tip": [
+                "U: --env <ENV_ID>",
+                "目标环境标识符。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 Codex Cloud 任务。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示 Codex Cloud 任务的状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "生成 shell 补全脚本。"
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "调试工具。"
+      ],
+      "next": [
+        {
+          "name": "app-server",
+          "tip": [
+            "工具：帮助调试应用服务器。"
+          ]
+        },
+        {
+          "name": "models",
+          "tip": [
+            "以 JSON 格式渲染原始模型目录。"
+          ]
+        },
+        {
+          "name": "prompt-input",
+          "tip": [
+            "以 JSON 格式渲染模型可见的提示输入列表。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "tip": [
+        "按 ID 或会话名称永久删除已保存的会话。"
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "诊断本地 Codex 安装、配置、认证和运行时健康状况。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "在详细的人类可读输出中展开长列表。"
+          ]
+        },
+        {
+          "name": "--ascii",
+          "tip": [
+            "在人类可读输出中使用 ASCII 状态标签和分隔符。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出经过编辑的机器可读报告。"
+          ]
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "在人类可读输出中禁用 ANSI 颜色。"
+          ]
+        },
+        {
+          "name": "--summary",
+          "tip": [
+            "仅显示分组的检查行和最终计数摘要。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "e"
+      ],
+      "tip": [
+        "以非交互方式运行 Codex。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "tip": [
+            "U: --color <COLOR>",
+            "指定输出的颜色设置。",
+            "可选值: always, never, auto"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终使用颜色输出。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "自动检测颜色支持。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不使用颜色输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ephemeral",
+          "tip": [
+            "运行时不将会话文件持久化到磁盘。"
+          ]
+        },
+        {
+          "name": "--ignore-rules",
+          "tip": [
+            "不加载用户或项目的 execpolicy .rules 文件。"
+          ]
+        },
+        {
+          "name": "--ignore-user-config",
+          "tip": [
+            "不加载 $CODEX_HOME/config.toml；认证仍使用 CODEX_HOME。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSONL 格式将事件打印到标准输出。"
+          ]
+        },
+        {
+          "name": "--output-last-message",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output-last-message <FILE>",
+            "指定将代理的最后一条消息写入的文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-schema",
+          "tip": [
+            "U: --output-schema <FILE>",
+            "描述模型最终响应形状的 JSON Schema 文件路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-git-repo-check",
+          "tip": [
+            "允许在 Git 仓库外运行 Codex。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec-server",
+      "tip": [
+        "[实验性] 运行独立的 exec-server 服务。"
+      ],
+      "option": [
+        {
+          "name": "--environment-id",
+          "tip": [
+            "U: --environment-id <ID>",
+            "远程注册时要附加的环境 ID。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--listen",
+          "tip": [
+            "U: --listen <URL>",
+            "传输端点 URL。",
+            "支持的值: ws://IP:PORT (默认), stdio, stdio://"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <NAME>",
+            "人类可读的环境名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--remote",
+          "tip": [
+            "U: --remote <URL>",
+            "使用给定的基础 URL 将此 exec-server 注册为远程环境。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--use-agent-identity-auth",
+          "tip": [
+            "使用来自 CODEX_ACCESS_TOKEN 的代理身份认证进行远程注册。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "features",
+      "tip": [
+        "检查功能标志。"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "在 config.toml 中禁用功能。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "在 config.toml 中启用功能。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已知功能及其阶段和有效状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fork",
+      "tip": [
+        "分叉之前的交互式会话（默认使用选择器；使用 --last 分叉最近的会话）。"
+      ],
+      "option": [
+        {
+          "name": "--last",
+          "tip": [
+            "不使用选择器分叉最近的会话。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "打印此消息或给定子命令的帮助。"
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "管理登录。"
+      ],
+      "option": [
+        {
+          "name": "--device-auth",
+          "tip": [
+            "使用设备认证流程。"
+          ]
+        },
+        {
+          "name": "--with-access-token",
+          "tip": [
+            "从标准输入读取访问令牌。",
+            "E: printenv CODEX_ACCESS_TOKEN | codex login --with-access-token"
+          ]
+        },
+        {
+          "name": "--with-api-key",
+          "tip": [
+            "从标准输入读取 API 密钥。",
+            "E: printenv OPENAI_API_KEY | codex login --with-api-key"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "status",
+          "tip": [
+            "显示登录状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "移除存储的认证凭据。"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "管理 Codex 的外部 MCP 服务器。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加新的 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取 MCP 服务器的详细信息。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已配置的 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "登录 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "从 MCP 服务器登出。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "移除 MCP 服务器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp-server",
+      "tip": [
+        "将 Codex 作为 MCP 服务器启动 (stdio)。"
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "管理 Codex 插件。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "从配置的市场快照安装插件。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出配置的市场快照中可用的插件。"
+          ]
+        },
+        {
+          "name": "marketplace",
+          "tip": [
+            "添加、列出、升级或移除配置的插件市场。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "tip": [
+                "将本地或 Git 市场添加到配置的市场源。"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出 Codex 当前考虑的插件市场及其根目录。"
+              ]
+            },
+            {
+              "name": "remove",
+              "tip": [
+                "按名称移除配置的市场源。"
+              ]
+            },
+            {
+              "name": "upgrade",
+              "tip": [
+                "刷新配置的 Git 市场快照。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "从本地配置和缓存中移除已安装的插件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remote-control",
+      "tip": [
+        "[实验性] 管理启用远程控制的应用服务器守护进程。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "start",
+          "tip": [
+            "启动启用远程控制的应用服务器守护进程。"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止应用服务器守护进程。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "resume",
+      "tip": [
+        "恢复之前的交互式会话（默认使用选择器；使用 --last 继续最近的会话）。"
+      ],
+      "option": [
+        {
+          "name": "--last",
+          "tip": [
+            "不使用选择器恢复最近的会话。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "review",
+      "tip": [
+        "以非交互方式运行代码审查。"
+      ]
+    },
+    {
+      "name": "sandbox",
+      "tip": [
+        "在 Codex 提供的沙箱中运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--include-managed-config",
+          "tip": [
+            "在解析显式权限配置文件时包含托管要求。"
+          ]
+        },
+        {
+          "name": "--permissions-profile",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --permissions-profile <NAME>",
+            "从活动配置堆栈中应用的命名权限配置文件。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "unarchive",
+      "tip": [
+        "按 ID 或会话名称取消归档已保存的会话。"
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "将 Codex 更新到最新版本。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--add-dir",
+      "tip": [
+        "U: --add-dir <DIR>",
+        "应该与主工作区一起可写的其他目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ask-for-approval",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --ask-for-approval <APPROVAL_POLICY>",
+        "配置模型在执行命令前需要人类批准的时机。",
+        "可选值: untrusted, on-failure, on-request, never"
+      ],
+      "next": [
+        {
+          "name": "never",
+          "tip": [
+            "从不询问用户批准。"
+          ]
+        },
+        {
+          "name": "on-failure",
+          "tip": [
+            "已弃用：在不询问用户批准的情况下运行所有命令。"
+          ]
+        },
+        {
+          "name": "on-request",
+          "tip": [
+            "模型决定何时询问用户批准。"
+          ]
+        },
+        {
+          "name": "untrusted",
+          "tip": [
+            "仅在不询问用户批准的情况下运行受信任的命令。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cd",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --cd <DIR>",
+        "告诉代理使用指定目录作为其工作根目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <key=value>",
+        "覆盖原本从 ~/.codex/config.toml 加载的配置值。",
+        "使用点分路径 (foo.bar.baz) 覆盖嵌套值。",
+        "值部分解析为 TOML。",
+        "E: -c model=\"o3\"",
+        "E: -c 'sandbox_permissions=[\"disk-full-read-access\"]'"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dangerously-bypass-approvals-and-sandbox",
+      "tip": [
+        "跳过所有确认提示并在没有沙箱的情况下执行命令。",
+        "极其危险。仅用于在外部沙箱化环境中运行。"
+      ]
+    },
+    {
+      "name": "--dangerously-bypass-hook-trust",
+      "tip": [
+        "运行启用的钩子而不需要持久化的钩子信任。",
+        "危险。仅用于已经审查钩子来源的自动化。"
+      ]
+    },
+    {
+      "name": "--disable",
+      "tip": [
+        "U: --disable <FEATURE>",
+        "禁用功能（可重复）。",
+        "等同于 -c features.<name>=false"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--enable",
+      "tip": [
+        "U: --enable <FEATURE>",
+        "启用功能（可重复）。",
+        "等同于 -c features.<name>=true"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--image",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --image <FILE>",
+        "附加到初始提示的可选图像。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--local-provider",
+      "tip": [
+        "U: --local-provider <OSS_PROVIDER>",
+        "指定要使用的本地提供商 (lmstudio 或 ollama)。",
+        "如果未与 --specified 一起指定，将使用配置默认值或显示选择。"
+      ],
+      "next": [
+        {
+          "name": "lmstudio",
+          "tip": [
+            "使用 LM Studio 作为本地提供商。"
+          ]
+        },
+        {
+          "name": "ollama",
+          "tip": [
+            "使用 Ollama 作为本地提供商。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--model",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --model <MODEL>",
+        "代理应使用的模型。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-alt-screen",
+      "tip": [
+        "禁用备用屏幕模式。",
+        "在内联模式下运行 TUI，保留终端滚动历史。"
+      ]
+    },
+    {
+      "name": "--oss",
+      "tip": [
+        "使用开源提供商。"
+      ]
+    },
+    {
+      "name": "--profile",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --profile <CONFIG_PROFILE_V2>",
+        "将 $CODEX_HOME/<name>.config.toml 叠加到基础用户配置上。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote",
+      "tip": [
+        "U: --remote <ADDR>",
+        "将 TUI 连接到远程应用服务器端点。",
+        "接受的形式: ws://host:port, wss://host:port, unix://, 或 unix://PATH。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote-auth-token-env",
+      "tip": [
+        "U: --remote-auth-token-env <ENV_VAR>",
+        "包含要发送到远程应用服务器 websocket 的承载令牌的环境变量名称。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sandbox",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --sandbox <SANDBOX_MODE>",
+        "选择执行模型生成的 shell 命令时使用的沙箱策略。",
+        "可选值: read-only, workspace-write, danger-full-access"
+      ],
+      "next": [
+        {
+          "name": "danger-full-access",
+          "tip": [
+            "沙箱允许完全访问（危险）。"
+          ]
+        },
+        {
+          "name": "read-only",
+          "tip": [
+            "沙箱允许只读访问。"
+          ]
+        },
+        {
+          "name": "workspace-write",
+          "tip": [
+            "沙箱允许写入工作区。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--search",
+      "tip": [
+        "启用实时网络搜索。",
+        "启用后，原生的 Responses web_search 工具可供模型使用。"
+      ]
+    },
+    {
+      "name": "--strict-config",
+      "tip": [
+        "当 config.toml 包含此版本 Codex 无法识别的字段时报错。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <key=value>",
+        "覆盖从 ~/.codex/config.toml 加载的配置值。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable",
+      "tip": [
+        "U: --disable <FEATURE>",
+        "禁用功能。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--enable",
+      "tip": [
+        "U: --enable <FEATURE>",
+        "启用功能。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助。"
+      ]
+    }
+  ]
+}

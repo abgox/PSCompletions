@@ -1,0 +1,850 @@
+{
+  "meta": {
+    "url": "https://github.com/vitest-dev/vitest",
+    "description": [
+      "Vitest - 下一代测试框架。"
+    ]
+  },
+  "root": [
+    {
+      "name": "bench",
+      "tip": [
+        "运行基准测试。"
+      ]
+    },
+    {
+      "name": "complete",
+      "tip": [
+        "U: complete [shell]",
+        "生成 shell 补全。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 PowerShell 补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "tip": [
+        "在开发模式下运行测试。"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init <project>",
+        "初始化新的 Vitest 项目。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "list",
+      "tip": [
+        "列出所有测试。"
+      ]
+    },
+    {
+      "name": "related",
+      "tip": [
+        "仅运行与更改文件相关的测试。"
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "运行一次测试。"
+      ]
+    },
+    {
+      "name": "watch",
+      "tip": [
+        "在监视模式下运行测试。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--allowOnly",
+      "tip": [
+        "允许标记为 only 的测试和套件。",
+        "默认: !process.env.CI"
+      ]
+    },
+    {
+      "name": "--api",
+      "tip": [
+        "U: --api [port]",
+        "指定服务器端口。",
+        "如果为 true 则设置为 51204。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--attachmentsDir",
+      "tip": [
+        "U: --attachmentsDir <dir>",
+        "context.annotate 的附件存储目录。",
+        "默认: .vitest-attachments"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bail",
+      "tip": [
+        "U: --bail <number>",
+        "当给定数量的测试失败时停止测试执行。",
+        "默认: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--browser",
+      "tip": [
+        "U: --browser <name>",
+        "在浏览器中运行测试。",
+        "等同于 --browser.enabled。",
+        "默认: false"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache",
+      "tip": [
+        "启用缓存。",
+        "使用 '--help --cache' 获取更多信息。"
+      ]
+    },
+    {
+      "name": "--changed",
+      "tip": [
+        "U: --changed [since]",
+        "运行受更改文件影响的测试。",
+        "默认: false"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--clearCache",
+      "tip": [
+        "删除所有 Vitest 缓存，包括 experimental.fsModuleCache，而不运行任何测试。",
+        "这将减少后续测试运行的性能。"
+      ]
+    },
+    {
+      "name": "--clearScreen",
+      "tip": [
+        "在监视模式下重新运行测试时清除终端屏幕。",
+        "默认: true"
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "配置文件路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--configLoader",
+      "tip": [
+        "U: --configLoader <loader>",
+        "使用 bundle 通过 esbuild 打包配置或 runner（实验性）实时处理。",
+        "此选项仅在 vite 版本 6.1.0 及以上版本中可用。",
+        "默认: bundle"
+      ],
+      "next": [
+        {
+          "name": "bundle",
+          "tip": [
+            "通过 esbuild 打包配置。"
+          ]
+        },
+        {
+          "name": "runner",
+          "tip": [
+            "实时处理配置（实验性）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--coverage",
+      "tip": [
+        "启用覆盖率报告。",
+        "使用 '--help --coverage' 获取更多信息。"
+      ]
+    },
+    {
+      "name": "--dangerouslyIgnoreUnhandledErrors",
+      "tip": [
+        "忽略发生的任何未处理错误。"
+      ]
+    },
+    {
+      "name": "--detectAsyncLeaks",
+      "tip": [
+        "检测测试文件中泄漏的异步资源。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--diff",
+      "tip": [
+        "U: --diff <path>",
+        "DiffOptions 对象或导出 DiffOptions 对象的模块路径。",
+        "使用 '--help --diff' 获取更多信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dir",
+      "tip": [
+        "U: --dir <path>",
+        "扫描测试文件的基础目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disableConsoleIntercept",
+      "tip": [
+        "禁用控制台日志的自动拦截。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--dom",
+      "tip": [
+        "使用 happy-dom 模拟浏览器 API。"
+      ]
+    },
+    {
+      "name": "--environment",
+      "tip": [
+        "U: --environment <name>",
+        "指定运行器环境，如果不在浏览器中运行。",
+        "默认: node",
+        "可选值: node, jsdom, happy-dom, miniflare"
+      ],
+      "next": [
+        {
+          "name": "happy-dom",
+          "tip": [
+            "Happy DOM 环境。"
+          ]
+        },
+        {
+          "name": "jsdom",
+          "tip": [
+            "JSDOM 环境。"
+          ]
+        },
+        {
+          "name": "miniflare",
+          "tip": [
+            "Miniflare 环境。"
+          ]
+        },
+        {
+          "name": "node",
+          "tip": [
+            "Node.js 环境。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "tip": [
+        "U: --exclude <glob>",
+        "要从测试中排除的其他文件 glob。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--execArgv",
+      "tip": [
+        "U: --execArgv <option>",
+        "在生成 worker_threads 或 child_process 时传递额外参数给 node 进程。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--expandSnapshotDiff",
+      "tip": [
+        "快照失败时显示完整差异。"
+      ]
+    },
+    {
+      "name": "--expect",
+      "tip": [
+        "expect() 匹配的配置选项。",
+        "使用 '--help --expect' 获取更多信息。"
+      ]
+    },
+    {
+      "name": "--experimental",
+      "tip": [
+        "U: --experimental <features>",
+        "实验性功能。",
+        "使用 '--help --experimental' 获取更多信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fileParallelism",
+      "tip": [
+        "是否所有测试文件并行运行。",
+        "使用 --no-file-parallelism 禁用。",
+        "默认: true"
+      ]
+    },
+    {
+      "name": "--globals",
+      "tip": [
+        "全局注入 API。"
+      ]
+    },
+    {
+      "name": "--hideSkippedTests",
+      "tip": [
+        "隐藏跳过测试的日志。"
+      ]
+    },
+    {
+      "name": "--hookTimeout",
+      "tip": [
+        "U: --hookTimeout <timeout>",
+        "钩子的默认超时时间（毫秒）。",
+        "默认: 10000",
+        "使用 0 完全禁用超时。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--includeTaskLocation",
+      "tip": [
+        "在 location 属性中收集测试和套件位置。"
+      ]
+    },
+    {
+      "name": "--inspect",
+      "tip": [
+        "U: --inspect [[host:]port]",
+        "启用 Node.js 检查器。",
+        "默认: 127.0.0.1:9229"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--inspectBrk",
+      "tip": [
+        "U: --inspectBrk [[host:]port]",
+        "启用 Node.js 检查器并在测试开始前中断。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--isolate",
+      "tip": [
+        "在隔离环境中运行每个测试文件。",
+        "使用 --no-isolate 禁用隔离。",
+        "默认: true"
+      ]
+    },
+    {
+      "name": "--listTags",
+      "tip": [
+        "U: --listTags [type]",
+        "列出所有可用标签而不是运行测试。",
+        "--list-tags=json 将以 JSON 格式输出标签（除非没有标签）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--logHeapUsage",
+      "tip": [
+        "在 node 中运行时显示每个测试的堆大小。"
+      ]
+    },
+    {
+      "name": "--maxConcurrency",
+      "tip": [
+        "U: --maxConcurrency <number>",
+        "测试文件执行期间并发测试和套件的最大数量。",
+        "默认: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--maxWorkers",
+      "tip": [
+        "U: --maxWorkers <workers>",
+        "运行测试的最大工作线程数或百分比。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mergeReports",
+      "tip": [
+        "U: --mergeReports [path]",
+        "blob 报告目录的路径。",
+        "如果使用此选项，Vitest 不会运行任何测试，只会报告之前记录的测试。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mode",
+      "tip": [
+        "U: --mode <name>",
+        "覆盖 Vite 模式。",
+        "默认: test 或 benchmark"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "从控制台输出中移除颜色。",
+        "默认: true"
+      ]
+    },
+    {
+      "name": "--open",
+      "tip": [
+        "自动打开 UI。",
+        "默认: !process.env.CI"
+      ]
+    },
+    {
+      "name": "--outputFile",
+      "tip": [
+        "U: --outputFile <filename/-s>",
+        "当同时指定支持的报告器时，将测试结果写入文件。",
+        "使用 cac 的点表示法为多个报告器输出。",
+        "E: --outputFile.tap=./tap.txt"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--passWithNoTests",
+      "tip": [
+        "未找到测试时通过。"
+      ]
+    },
+    {
+      "name": "--pool",
+      "tip": [
+        "U: --pool <pool>",
+        "指定池，如果不在浏览器中运行。",
+        "默认: forks",
+        "可选值: forks, threads, vmThreads"
+      ],
+      "next": [
+        {
+          "name": "forks",
+          "tip": [
+            "使用 child_process forks。"
+          ]
+        },
+        {
+          "name": "threads",
+          "tip": [
+            "使用 worker_threads。"
+          ]
+        },
+        {
+          "name": "vmThreads",
+          "tip": [
+            "使用 vm threads。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--printConsoleTrace",
+      "tip": [
+        "始终打印控制台堆栈跟踪。"
+      ]
+    },
+    {
+      "name": "--project",
+      "tip": [
+        "U: --project <name>",
+        "如果使用 Vitest 工作区功能，要运行的项目名称。",
+        "可以重复用于多个项目。",
+        "E: --project=1 --project=2",
+        "您也可以使用通配符过滤项目。",
+        "E: --project=packages*",
+        "使用 --project=!pattern 排除项目。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--reporter",
+      "tip": [
+        "U: --reporter <name>",
+        "指定报告器。",
+        "默认: default",
+        "可选值: default, agent, minimal, blob, verbose, dot, json, tap, tap-flat, junit, tree, hanging-process, github-actions"
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "tip": [
+            "Agent 报告器。"
+          ]
+        },
+        {
+          "name": "blob",
+          "tip": [
+            "Blob 报告器。"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "默认报告器。"
+          ]
+        },
+        {
+          "name": "dot",
+          "tip": [
+            "点报告器。"
+          ]
+        },
+        {
+          "name": "github-actions",
+          "tip": [
+            "GitHub Actions 报告器。"
+          ]
+        },
+        {
+          "name": "hanging-process",
+          "tip": [
+            "挂起进程报告器。"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 报告器。"
+          ]
+        },
+        {
+          "name": "junit",
+          "tip": [
+            "JUnit 报告器。"
+          ]
+        },
+        {
+          "name": "minimal",
+          "tip": [
+            "最小化报告器。"
+          ]
+        },
+        {
+          "name": "tap",
+          "tip": [
+            "TAP 报告器。"
+          ]
+        },
+        {
+          "name": "tap-flat",
+          "tip": [
+            "TAP flat 报告器。"
+          ]
+        },
+        {
+          "name": "tree",
+          "tip": [
+            "树形报告器。"
+          ]
+        },
+        {
+          "name": "verbose",
+          "tip": [
+            "详细报告器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--retry",
+      "tip": [
+        "U: --retry <times>",
+        "如果测试失败，重试指定次数。",
+        "默认: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --root <path>",
+        "根路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--run",
+      "tip": [
+        "禁用监视模式。"
+      ]
+    },
+    {
+      "name": "--sequence",
+      "tip": [
+        "U: --sequence <options>",
+        "测试排序方式的选项。",
+        "使用 '--help --sequence' 获取更多信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shard",
+      "tip": [
+        "U: --shard <shards>",
+        "以 <index>/<count> 格式执行的测试套件分片。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--silent",
+      "tip": [
+        "U: --silent [value]",
+        "静默测试的控制台输出。",
+        "使用 'passed-only' 仅查看失败测试的日志。"
+      ],
+      "next": [
+        {
+          "name": "passed-only",
+          "tip": [
+            "仅显示失败测试的日志。"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "静默所有输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--slowTestThreshold",
+      "tip": [
+        "U: --slowTestThreshold <threshold>",
+        "被视为慢的测试或套件的阈值（毫秒）。",
+        "默认: 300"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--standalone",
+      "tip": [
+        "启动 Vitest 而不运行测试。",
+        "测试仅在更改时运行。",
+        "如果启用了浏览器模式，UI 将自动打开。",
+        "当传递 CLI 文件过滤器时忽略此选项。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--strictTags",
+      "tip": [
+        "如果测试具有配置中未定义的标签，Vitest 是否应抛出错误。",
+        "默认: true"
+      ]
+    },
+    {
+      "name": "--tagsFilter",
+      "tip": [
+        "U: --tagsFilter <expression>",
+        "仅运行具有指定标签的测试。",
+        "您可以使用逻辑运算符 &&（与）、||（或）和 !（非）创建复杂表达式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--teardownTimeout",
+      "tip": [
+        "U: --teardownTimeout <timeout>",
+        "拆卸函数的默认超时时间（毫秒）。",
+        "默认: 10000"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--testNamePattern",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --testNamePattern <pattern>",
+        "运行完全名称匹配指定正则表达式模式的测试。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--testTimeout",
+      "tip": [
+        "U: --testTimeout <timeout>",
+        "测试的默认超时时间（毫秒）。",
+        "默认: 5000",
+        "使用 0 完全禁用超时。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--typecheck",
+      "tip": [
+        "在测试旁边启用类型检查。",
+        "默认: false",
+        "使用 '--help --typecheck' 获取更多信息。"
+      ]
+    },
+    {
+      "name": "--ui",
+      "tip": [
+        "启用 UI。"
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --update [type]",
+        "更新快照。",
+        "接受布尔值、'new'、'all' 或 'none'。"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "更新所有快照。"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "不更新快照。"
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "仅更新新快照。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "不更新任何快照。"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "更新快照。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "显示版本号。"
+      ]
+    },
+    {
+      "name": "--vmMemoryLimit",
+      "tip": [
+        "U: --vmMemoryLimit <limit>",
+        "VM 池的内存限制。",
+        "如果遇到内存泄漏，尝试调整此值。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --watch",
+        "启用监视模式。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "配置文件路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示此消息。"
+      ]
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --root <path>",
+        "根路径。"
+      ],
+      "next": 0
+    }
+  ]
+}

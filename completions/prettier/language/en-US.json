@@ -1,0 +1,791 @@
+{
+  "meta": {
+    "url": "https://prettier.io",
+    "description": [
+      "Prettier - Opinionated code formatter."
+    ]
+  },
+  "root": [
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --check",
+        "Check if the given files are formatted.",
+        "Print a human-friendly summary message and paths to unformatted files."
+      ]
+    },
+    {
+      "name": "--list-different",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list-different",
+        "Print the names of files that are different from Prettier's formatting."
+      ]
+    },
+    {
+      "name": "--write",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --write",
+        "Edit files in-place."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--arrow-parens",
+      "tip": [
+        "U: --arrow-parens <always|avoid>",
+        "Include parentheses around a sole arrow function parameter.",
+        "Default: always"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always include parentheses."
+          ]
+        },
+        {
+          "name": "avoid",
+          "tip": [
+            "Avoid parentheses when possible."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--bracket-same-line",
+      "tip": [
+        "Put > of opening tags on the last line instead of on a new line.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--cache",
+      "tip": [
+        "Only format changed files.",
+        "Cannot use with --stdin-filepath.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--cache-location",
+      "tip": [
+        "U: --cache-location <path>",
+        "Path to the cache file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-strategy",
+      "tip": [
+        "U: --cache-strategy <metadata|content>",
+        "Strategy for the cache to use for detecting changed files."
+      ],
+      "next": [
+        {
+          "name": "content",
+          "tip": [
+            "Use file content."
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Use file metadata."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--check-ignore-pragma",
+      "tip": [
+        "Check whether the file's first docblock comment contains '@noprettier' or '@noformat'.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <path>",
+        "Path to a Prettier configuration file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-precedence",
+      "tip": [
+        "U: --config-precedence <cli-override|file-override|prefer-file>",
+        "Define in which order config files and CLI options should be evaluated.",
+        "Default: cli-override"
+      ],
+      "next": [
+        {
+          "name": "cli-override",
+          "tip": [
+            "CLI options override config files."
+          ]
+        },
+        {
+          "name": "file-override",
+          "tip": [
+            "Config files override CLI options."
+          ]
+        },
+        {
+          "name": "prefer-file",
+          "tip": [
+            "Prefer config files over CLI options."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cursor-offset",
+      "tip": [
+        "U: --cursor-offset <int>",
+        "Print (to stderr) where a cursor at the given position would move to after formatting.",
+        "Default: -1"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--embedded-language-formatting",
+      "tip": [
+        "U: --embedded-language-formatting <auto|off>",
+        "Control how Prettier formats quoted code embedded in the file.",
+        "Default: auto"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatically format embedded code."
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "Don't format embedded code."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--end-of-line",
+      "tip": [
+        "U: --end-of-line <lf|crlf|cr|auto>",
+        "Which end of line characters to apply.",
+        "Default: lf"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Determine automatically."
+          ]
+        },
+        {
+          "name": "cr",
+          "tip": [
+            "Carriage return (\\r)."
+          ]
+        },
+        {
+          "name": "crlf",
+          "tip": [
+            "Carriage return + line feed (\\r\\n)."
+          ]
+        },
+        {
+          "name": "lf",
+          "tip": [
+            "Line feed (\\n)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--experimental-operator-position",
+      "tip": [
+        "U: --experimental-operator-position <start|end>",
+        "Where to print operators when binary expressions wrap lines.",
+        "Default: end"
+      ],
+      "next": [
+        {
+          "name": "end",
+          "tip": [
+            "Put operators at the end of the line."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Put operators at the start of the line."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--file-info",
+      "tip": [
+        "U: --file-info <path>",
+        "Extract info (as JSON) for a given file path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--find-config-path",
+      "tip": [
+        "U: --find-config-path <path>",
+        "Find and print the path to a configuration file for the given input file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--html-whitespace-sensitivity",
+      "tip": [
+        "U: --html-whitespace-sensitivity <css|strict|ignore>",
+        "How to handle whitespaces in HTML.",
+        "Default: css"
+      ],
+      "next": [
+        {
+          "name": "css",
+          "tip": [
+            "Respect CSS display property."
+          ]
+        },
+        {
+          "name": "ignore",
+          "tip": [
+            "Ignore whitespace."
+          ]
+        },
+        {
+          "name": "strict",
+          "tip": [
+            "Whitespace is considered sensitive."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ignore-path",
+      "tip": [
+        "U: --ignore-path <path>",
+        "Path to a file with patterns describing files to ignore.",
+        "Multiple values are accepted.",
+        "Default: [.gitignore, .prettierignore]"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--ignore-unknown",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --ignore-unknown",
+        "Ignore unknown files."
+      ]
+    },
+    {
+      "name": "--insert-pragma",
+      "tip": [
+        "Insert @format pragma into file's first docblock comment.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--jsx-single-quote",
+      "tip": [
+        "Use single quotes in JSX.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <silent|error|warn|log|debug>",
+        "What level of logs to report.",
+        "Default: log"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug level."
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level only."
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "Log and above."
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "No output."
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning and above."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-bracket-spacing",
+      "tip": [
+        "Do not print spaces between brackets."
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Do not colorize error messages."
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "Do not look for a configuration file."
+      ]
+    },
+    {
+      "name": "--no-editorconfig",
+      "tip": [
+        "Don't take .editorconfig into account when parsing configuration."
+      ]
+    },
+    {
+      "name": "--no-error-on-unmatched-pattern",
+      "tip": [
+        "Prevent errors when pattern is unmatched."
+      ]
+    },
+    {
+      "name": "--no-experimental-ternaries",
+      "tip": [
+        "Default behavior of ternaries; keep question marks on the same line as the consequent."
+      ]
+    },
+    {
+      "name": "--no-semi",
+      "tip": [
+        "Do not print semicolons, except at the beginning of lines which may need them."
+      ]
+    },
+    {
+      "name": "--object-wrap",
+      "tip": [
+        "U: --object-wrap <preserve|collapse>",
+        "How to wrap object literals.",
+        "Default: preserve"
+      ],
+      "next": [
+        {
+          "name": "collapse",
+          "tip": [
+            "Collapse object literals."
+          ]
+        },
+        {
+          "name": "preserve",
+          "tip": [
+            "Preserve object wrapping."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--parser",
+      "tip": [
+        "U: --parser <parser>",
+        "Which parser to use.",
+        "Possible values: flow, babel, babel-flow, babel-ts, typescript, acorn, espree, meriyah, css, less, scss, json, json5, jsonc, json-stringify, graphql, markdown, mdx, vue, yaml, glimmer, html, angular, lwc, mjml"
+      ],
+      "next": [
+        {
+          "name": "acorn",
+          "tip": [
+            "Acorn parser."
+          ]
+        },
+        {
+          "name": "angular",
+          "tip": [
+            "Angular parser."
+          ]
+        },
+        {
+          "name": "babel",
+          "tip": [
+            "Babel parser."
+          ]
+        },
+        {
+          "name": "babel-flow",
+          "tip": [
+            "Babel Flow parser."
+          ]
+        },
+        {
+          "name": "babel-ts",
+          "tip": [
+            "Babel TypeScript parser."
+          ]
+        },
+        {
+          "name": "css",
+          "tip": [
+            "CSS parser."
+          ]
+        },
+        {
+          "name": "espree",
+          "tip": [
+            "Espree parser."
+          ]
+        },
+        {
+          "name": "flow",
+          "tip": [
+            "Flow parser."
+          ]
+        },
+        {
+          "name": "glimmer",
+          "tip": [
+            "Glimmer parser."
+          ]
+        },
+        {
+          "name": "graphql",
+          "tip": [
+            "GraphQL parser."
+          ]
+        },
+        {
+          "name": "html",
+          "tip": [
+            "HTML parser."
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON parser."
+          ]
+        },
+        {
+          "name": "json-stringify",
+          "tip": [
+            "JSON stringify parser."
+          ]
+        },
+        {
+          "name": "json5",
+          "tip": [
+            "JSON5 parser."
+          ]
+        },
+        {
+          "name": "jsonc",
+          "tip": [
+            "JSONC parser."
+          ]
+        },
+        {
+          "name": "less",
+          "tip": [
+            "Less parser."
+          ]
+        },
+        {
+          "name": "lwc",
+          "tip": [
+            "LWC parser."
+          ]
+        },
+        {
+          "name": "markdown",
+          "tip": [
+            "Markdown parser."
+          ]
+        },
+        {
+          "name": "mdx",
+          "tip": [
+            "MDX parser."
+          ]
+        },
+        {
+          "name": "meriyah",
+          "tip": [
+            "Meriyah parser."
+          ]
+        },
+        {
+          "name": "mjml",
+          "tip": [
+            "MJML parser."
+          ]
+        },
+        {
+          "name": "scss",
+          "tip": [
+            "SCSS parser."
+          ]
+        },
+        {
+          "name": "typescript",
+          "tip": [
+            "TypeScript parser."
+          ]
+        },
+        {
+          "name": "vue",
+          "tip": [
+            "Vue parser."
+          ]
+        },
+        {
+          "name": "yaml",
+          "tip": [
+            "YAML parser."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--plugin",
+      "tip": [
+        "U: --plugin <path>",
+        "Add a plugin.",
+        "Multiple plugins can be passed as separate --plugin's.",
+        "Default: []"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--print-width",
+      "tip": [
+        "U: --print-width <int>",
+        "The line length where Prettier will try wrap.",
+        "Default: 80"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prose-wrap",
+      "tip": [
+        "U: --prose-wrap <always|never|preserve>",
+        "How to wrap prose.",
+        "Default: preserve"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always wrap prose."
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never wrap prose."
+          ]
+        },
+        {
+          "name": "preserve",
+          "tip": [
+            "Preserve prose wrapping."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--quote-props",
+      "tip": [
+        "U: --quote-props <as-needed|consistent|preserve>",
+        "Change when properties in objects are quoted.",
+        "Default: as-needed"
+      ],
+      "next": [
+        {
+          "name": "as-needed",
+          "tip": [
+            "Quote properties only when needed."
+          ]
+        },
+        {
+          "name": "consistent",
+          "tip": [
+            "Consistent quoting."
+          ]
+        },
+        {
+          "name": "preserve",
+          "tip": [
+            "Preserve existing quoting."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--range-end",
+      "tip": [
+        "U: --range-end <int>",
+        "Format code ending at a given character offset (exclusive).",
+        "Default: Infinity"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--range-start",
+      "tip": [
+        "U: --range-start <int>",
+        "Format code starting at a given character offset.",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--require-pragma",
+      "tip": [
+        "Require either '@prettier' or '@format' to be present in the file's first docblock comment.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--single-attribute-per-line",
+      "tip": [
+        "Enforce single attribute per line in HTML, Vue and JSX.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--single-quote",
+      "tip": [
+        "Use single quotes instead of double quotes.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--stdin-filepath",
+      "tip": [
+        "U: --stdin-filepath <path>",
+        "Path to the file to pretend that stdin comes from."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--support-info",
+      "tip": [
+        "Print support information as JSON."
+      ]
+    },
+    {
+      "name": "--tab-width",
+      "tip": [
+        "U: --tab-width <int>",
+        "Number of spaces per indentation level.",
+        "Default: 2"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--trailing-comma",
+      "tip": [
+        "U: --trailing-comma <all|es5|none>",
+        "Print trailing commas wherever possible when multi-line.",
+        "Default: all"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Trailing commas everywhere."
+          ]
+        },
+        {
+          "name": "es5",
+          "tip": [
+            "Trailing commas in ES5 (objects, arrays, etc.)."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No trailing commas."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--use-tabs",
+      "tip": [
+        "Indent with tabs instead of spaces.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Print Prettier version."
+      ]
+    },
+    {
+      "name": "--vue-indent-script-and-style",
+      "tip": [
+        "Indent script and style tags in Vue files.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--with-node-modules",
+      "tip": [
+        "Process files inside 'node_modules' directory."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help [flag]",
+        "Show CLI usage."
+      ],
+      "next": 0
+    }
+  ]
+}

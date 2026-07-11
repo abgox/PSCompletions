@@ -1,0 +1,920 @@
+{
+  "meta": {
+    "url": "https://github.com/BurntSushi/ripgrep",
+    "description": [
+      "ripgrep (rg) recursively searches the current directory for lines matching a regex pattern."
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version information."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--after-context",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --after-context <NUM>",
+        "Show NUM lines after each match."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--before-context",
+      "alias": [
+        "-B"
+      ],
+      "tip": [
+        "U: -B, --before-context <NUM>",
+        "Show NUM lines before each match."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--binary",
+      "tip": [
+        "Search binary files."
+      ]
+    },
+    {
+      "name": "--block-buffered",
+      "tip": [
+        "Use block buffering for output."
+      ]
+    },
+    {
+      "name": "--byte-offset",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --byte-offset",
+        "Print the byte offset before each line."
+      ]
+    },
+    {
+      "name": "--case-sensitive",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --case-sensitive",
+        "Execute the search case sensitively."
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <WHEN>",
+        "When to use colors (auto, never, always, ansi)."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "ansi"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--colors",
+      "tip": [
+        "U: --colors <COLOR_SPEC>",
+        "Specify color settings for output."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--column",
+      "tip": [
+        "Show column numbers."
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --context <NUM>",
+        "Show NUM lines before and after each match."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--context-separator",
+      "tip": [
+        "U: --context-separator <SEPARATOR>",
+        "String used to separate non-contiguous context lines."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--count",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --count",
+        "Show the number of matching lines per file."
+      ]
+    },
+    {
+      "name": "--count-matches",
+      "tip": [
+        "Show the number of individual matches per file."
+      ]
+    },
+    {
+      "name": "--crlf",
+      "tip": [
+        "Treat CRLF as a line terminator."
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "Show debug messages."
+      ]
+    },
+    {
+      "name": "--dfa-size-limit",
+      "tip": [
+        "U: --dfa-size-limit <NUM+SUFFIX>",
+        "The upper size limit of the regex DFA."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--encoding",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --encoding <ENCODING>",
+        "Specify the text encoding to use."
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "utf-16"
+        },
+        {
+          "name": "utf-8"
+        }
+      ]
+    },
+    {
+      "name": "--engine",
+      "tip": [
+        "U: --engine <ENGINE>",
+        "Specify which regular expression engine to use."
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "default"
+        },
+        {
+          "name": "pcre2"
+        }
+      ]
+    },
+    {
+      "name": "--exact-depth",
+      "tip": [
+        "U: --exact-depth <NUM>",
+        "Only show results at the exact given depth."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--files",
+      "tip": [
+        "Print each file that would be searched."
+      ]
+    },
+    {
+      "name": "--files-with-matches",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --files-with-matches",
+        "Print only the paths with at least one match."
+      ]
+    },
+    {
+      "name": "--files-without-match",
+      "tip": [
+        "Print the paths that contain zero matches."
+      ]
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --fixed-strings",
+        "Treat all patterns as literals instead of regular expressions."
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "U: -L, --follow",
+        "Follow symbolic links while traversing directories."
+      ]
+    },
+    {
+      "name": "--generate",
+      "tip": [
+        "U: --generate <KIND>",
+        "Generate shell completion scripts (bash, zsh, fish, powershell)."
+      ],
+      "next": [
+        {
+          "name": "complete-bash"
+        },
+        {
+          "name": "complete-fish"
+        },
+        {
+          "name": "complete-powershell"
+        },
+        {
+          "name": "complete-zsh"
+        },
+        {
+          "name": "man"
+        }
+      ]
+    },
+    {
+      "name": "--glob",
+      "alias": [
+        "-g"
+      ],
+      "tip": [
+        "U: -g, --glob <GLOB>",
+        "Include or exclude files and directories matching the glob."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--glob-case-insensitive",
+      "tip": [
+        "Process all glob patterns case insensitively."
+      ]
+    },
+    {
+      "name": "--heading",
+      "tip": [
+        "Print file path above clusters of matches."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help information."
+      ]
+    },
+    {
+      "name": "--hidden",
+      "alias": [
+        "-."
+      ],
+      "tip": [
+        "U: -., --hidden",
+        "Search hidden files and directories."
+      ]
+    },
+    {
+      "name": "--hyperlink-format",
+      "tip": [
+        "U: --hyperlink-format <FORMAT>",
+        "Set the format of hyperlinks."
+      ],
+      "next": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "file"
+        },
+        {
+          "name": "kitty"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "vscode"
+        }
+      ]
+    },
+    {
+      "name": "--iglob",
+      "tip": [
+        "U: --iglob <GLOB>",
+        "Include or exclude files with a case-insensitive glob."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --ignore-case",
+        "Search case insensitively."
+      ]
+    },
+    {
+      "name": "--ignore-file",
+      "tip": [
+        "U: --ignore-file <PATH>",
+        "Specify a path to an ignore file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--include-zero",
+      "tip": [
+        "Print match count even if zero."
+      ]
+    },
+    {
+      "name": "--invert-match",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --invert-match",
+        "Invert matching. Print lines that don't match."
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Enable printing results in JSON Lines format."
+      ]
+    },
+    {
+      "name": "--line-buffered",
+      "tip": [
+        "Use line buffering for output."
+      ]
+    },
+    {
+      "name": "--line-number",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --line-number",
+        "Show line numbers."
+      ]
+    },
+    {
+      "name": "--line-regexp",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --line-regexp",
+        "Only show matches surrounded by line boundaries."
+      ]
+    },
+    {
+      "name": "--max-columns",
+      "alias": [
+        "-M"
+      ],
+      "tip": [
+        "U: -M, --max-columns <NUM>",
+        "Omit lines longer than this limit."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-columns-preview",
+      "tip": [
+        "Print a preview for lines exceeding max columns."
+      ]
+    },
+    {
+      "name": "--max-depth",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --max-depth <NUM>",
+        "Limit the depth of directory traversal."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-filesize",
+      "tip": [
+        "U: --max-filesize <NUM+SUFFIX>",
+        "Ignore files larger than NUM in size."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-depth",
+      "tip": [
+        "U: --min-depth <NUM>",
+        "Only show results starting at the given depth."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mmap",
+      "tip": [
+        "Search using memory maps when possible."
+      ]
+    },
+    {
+      "name": "--multiline",
+      "alias": [
+        "-U"
+      ],
+      "tip": [
+        "U: -U, --multiline",
+        "Enable searching across multiple lines."
+      ]
+    },
+    {
+      "name": "--multiline-dotall",
+      "tip": [
+        "Enable dot all mode in multiline searching."
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "Never read configuration files."
+      ]
+    },
+    {
+      "name": "--no-filename",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --no-filename",
+        "Never print the file path."
+      ]
+    },
+    {
+      "name": "--no-heading",
+      "tip": [
+        "Do not group matches by file."
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "Do not respect ignore files (.gitignore, .ignore, etc.)."
+      ]
+    },
+    {
+      "name": "--no-ignore-dot",
+      "tip": [
+        "Do not respect .ignore or .rgignore files."
+      ]
+    },
+    {
+      "name": "--no-ignore-file-case-insensitive",
+      "tip": [
+        "Process ignore files case insensitively."
+      ]
+    },
+    {
+      "name": "--no-ignore-files",
+      "tip": [
+        "Ignore all --ignore-file flags."
+      ]
+    },
+    {
+      "name": "--no-ignore-global",
+      "tip": [
+        "Do not respect global ignore files."
+      ]
+    },
+    {
+      "name": "--no-ignore-messages",
+      "tip": [
+        "Suppress error messages about parsing ignore files."
+      ]
+    },
+    {
+      "name": "--no-ignore-parent",
+      "tip": [
+        "Do not respect ignore files in parent directories."
+      ]
+    },
+    {
+      "name": "--no-ignore-vcs",
+      "tip": [
+        "Do not respect source control ignore files."
+      ]
+    },
+    {
+      "name": "--no-line-number",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --no-line-number",
+        "Suppress line numbers."
+      ]
+    },
+    {
+      "name": "--no-messages",
+      "tip": [
+        "Suppress error messages about failed file operations."
+      ]
+    },
+    {
+      "name": "--no-mmap",
+      "tip": [
+        "Never use memory maps."
+      ]
+    },
+    {
+      "name": "--no-require-git",
+      "tip": [
+        "Respect gitignore files even without a git repository."
+      ]
+    },
+    {
+      "name": "--no-unicode",
+      "tip": [
+        "Disable Unicode mode for all patterns."
+      ]
+    },
+    {
+      "name": "--null",
+      "alias": [
+        "-0"
+      ],
+      "tip": [
+        "U: -0, --null",
+        "Follow file paths with a NUL byte."
+      ]
+    },
+    {
+      "name": "--null-data",
+      "tip": [
+        "Use NUL as a line terminator instead of newline."
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "Do not cross file system boundaries."
+      ]
+    },
+    {
+      "name": "--only-matching",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --only-matching",
+        "Print only the matched parts of a line."
+      ]
+    },
+    {
+      "name": "--passthru",
+      "tip": [
+        "Print both matching and non-matching lines."
+      ]
+    },
+    {
+      "name": "--path-separator",
+      "tip": [
+        "U: --path-separator <SEPARATOR>",
+        "Set the path separator for printing file paths."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pcre2",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --pcre2",
+        "Use the PCRE2 regex engine."
+      ]
+    },
+    {
+      "name": "--pcre2-version",
+      "tip": [
+        "Print the version of PCRE2 in use."
+      ]
+    },
+    {
+      "name": "--pre",
+      "tip": [
+        "U: --pre <COMMAND>",
+        "Search the output of COMMAND instead of file contents."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pre-glob",
+      "tip": [
+        "U: --pre-glob <GLOB>",
+        "Only apply --pre to files matching the glob."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pretty",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --pretty",
+        "Alias for --color=always --heading --line-number."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Do not print anything to stdout."
+      ]
+    },
+    {
+      "name": "--regex-size-limit",
+      "tip": [
+        "U: --regex-size-limit <NUM+SUFFIX>",
+        "The size limit of the compiled regex."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--replace",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --replace <REPLACEMENT>",
+        "Replace every match with the given text."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--search-zip",
+      "alias": [
+        "-z"
+      ],
+      "tip": [
+        "U: -z, --search-zip",
+        "Search in compressed files (gzip, bzip2, xz, etc.)."
+      ]
+    },
+    {
+      "name": "--smart-case",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --smart-case",
+        "Case insensitively if the pattern is all lowercase."
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "U: --sort <SORTBY>",
+        "Sort results in ascending order (none, path, modified, accessed, created)."
+      ],
+      "next": [
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "modified"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        }
+      ]
+    },
+    {
+      "name": "--sortr",
+      "tip": [
+        "U: --sortr <SORTBY>",
+        "Sort results in descending order."
+      ],
+      "next": [
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "modified"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "path"
+        }
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "Print aggregate statistics about the search."
+      ]
+    },
+    {
+      "name": "--stop-on-nonmatch",
+      "tip": [
+        "Stop reading a file once a non-matching line is encountered."
+      ]
+    },
+    {
+      "name": "--text",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --text",
+        "Search binary files as if they were text."
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --threads <NUM>",
+        "Set the approximate number of threads to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "Show trace messages."
+      ]
+    },
+    {
+      "name": "--trim",
+      "tip": [
+        "Remove ASCII whitespace at the beginning of each line."
+      ]
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --type <TYPE>",
+        "Filter by file type (e.g., py, js, html)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--type-add",
+      "tip": [
+        "U: --type-add <TYPESPEC>",
+        "Add a new glob for a particular file type."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--type-list",
+      "tip": [
+        "Show all supported file types and their corresponding globs."
+      ]
+    },
+    {
+      "name": "--type-not",
+      "alias": [
+        "-T"
+      ],
+      "tip": [
+        "U: -T, --type-not <TYPE>",
+        "Do not search files matching TYPE."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unrestricted",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --unrestricted",
+        "Reduce the level of smart filtering. Repeat up to 3 times."
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--vimgrep",
+      "tip": [
+        "Print results with match on its own line, including line and column numbers."
+      ]
+    },
+    {
+      "name": "--with-filename",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --with-filename",
+        "Print the file path for each matching line."
+      ]
+    },
+    {
+      "name": "--word-regexp",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --word-regexp",
+        "Only show matches surrounded by word boundaries."
+      ]
+    },
+    {
+      "name": "-e",
+      "tip": [
+        "U: -e, --regexp <PATTERN>",
+        "A pattern to search for. Can be provided multiple times."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "U: -f, --file <PATTERNFILE>",
+        "Search for patterns from the given file, one per line."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-m",
+      "tip": [
+        "U: -m, --max-count <NUM>",
+        "Limit the number of matching lines per file."
+      ],
+      "next": 0
+    }
+  ]
+}

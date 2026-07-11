@@ -1,0 +1,850 @@
+{
+  "meta": {
+    "url": "https://github.com/vitest-dev/vitest",
+    "description": [
+      "Vitest - Next generation testing framework."
+    ]
+  },
+  "root": [
+    {
+      "name": "bench",
+      "tip": [
+        "Run benchmarks."
+      ]
+    },
+    {
+      "name": "complete",
+      "tip": [
+        "U: complete [shell]",
+        "Generate shell completions."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate bash completion script."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate fish completion script."
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate PowerShell completion script."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate zsh completion script."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "tip": [
+        "Run tests in dev mode."
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init <project>",
+        "Initialize a new Vitest project."
+      ],
+      "next": 0
+    },
+    {
+      "name": "list",
+      "tip": [
+        "List all tests."
+      ]
+    },
+    {
+      "name": "related",
+      "tip": [
+        "Run only tests related to changed files."
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "Run tests once."
+      ]
+    },
+    {
+      "name": "watch",
+      "tip": [
+        "Run tests in watch mode."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--allowOnly",
+      "tip": [
+        "Allow tests and suites that are marked as only.",
+        "Default: !process.env.CI"
+      ]
+    },
+    {
+      "name": "--api",
+      "tip": [
+        "U: --api [port]",
+        "Specify server port.",
+        "If true will be set to 51204."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--attachmentsDir",
+      "tip": [
+        "U: --attachmentsDir <dir>",
+        "The directory where attachments from context.annotate are stored in.",
+        "Default: .vitest-attachments"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bail",
+      "tip": [
+        "U: --bail <number>",
+        "Stop test execution when given number of tests have failed.",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--browser",
+      "tip": [
+        "U: --browser <name>",
+        "Run tests in the browser.",
+        "Equivalent to --browser.enabled.",
+        "Default: false"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache",
+      "tip": [
+        "Enable cache.",
+        "Use '--help --cache' for more info."
+      ]
+    },
+    {
+      "name": "--changed",
+      "tip": [
+        "U: --changed [since]",
+        "Run tests that are affected by the changed files.",
+        "Default: false"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--clearCache",
+      "tip": [
+        "Delete all Vitest caches, including experimental.fsModuleCache, without running any tests.",
+        "This will reduce the performance in the subsequent test run."
+      ]
+    },
+    {
+      "name": "--clearScreen",
+      "tip": [
+        "Clear terminal screen when re-running tests during watch mode.",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "Path to config file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--configLoader",
+      "tip": [
+        "U: --configLoader <loader>",
+        "Use bundle to bundle the config with esbuild or runner (experimental) to process it on the fly.",
+        "This is only available in vite version 6.1.0 and above.",
+        "Default: bundle"
+      ],
+      "next": [
+        {
+          "name": "bundle",
+          "tip": [
+            "Bundle config with esbuild."
+          ]
+        },
+        {
+          "name": "runner",
+          "tip": [
+            "Process config on the fly (experimental)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--coverage",
+      "tip": [
+        "Enable coverage report.",
+        "Use '--help --coverage' for more info."
+      ]
+    },
+    {
+      "name": "--dangerouslyIgnoreUnhandledErrors",
+      "tip": [
+        "Ignore any unhandled errors that occur."
+      ]
+    },
+    {
+      "name": "--detectAsyncLeaks",
+      "tip": [
+        "Detect asynchronous resources leaking from the test file.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--diff",
+      "tip": [
+        "U: --diff <path>",
+        "DiffOptions object or a path to a module which exports DiffOptions object.",
+        "Use '--help --diff' for more info."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dir",
+      "tip": [
+        "U: --dir <path>",
+        "Base directory to scan for the test files."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disableConsoleIntercept",
+      "tip": [
+        "Disable automatic interception of console logging.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--dom",
+      "tip": [
+        "Mock browser API with happy-dom."
+      ]
+    },
+    {
+      "name": "--environment",
+      "tip": [
+        "U: --environment <name>",
+        "Specify runner environment, if not running in the browser.",
+        "Default: node",
+        "Possible values: node, jsdom, happy-dom, miniflare"
+      ],
+      "next": [
+        {
+          "name": "happy-dom",
+          "tip": [
+            "Happy DOM environment."
+          ]
+        },
+        {
+          "name": "jsdom",
+          "tip": [
+            "JSDOM environment."
+          ]
+        },
+        {
+          "name": "miniflare",
+          "tip": [
+            "Miniflare environment."
+          ]
+        },
+        {
+          "name": "node",
+          "tip": [
+            "Node.js environment."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "tip": [
+        "U: --exclude <glob>",
+        "Additional file globs to be excluded from test."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--execArgv",
+      "tip": [
+        "U: --execArgv <option>",
+        "Pass additional arguments to node process when spawning worker_threads or child_process."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--expandSnapshotDiff",
+      "tip": [
+        "Show full diff when snapshot fails."
+      ]
+    },
+    {
+      "name": "--expect",
+      "tip": [
+        "Configuration options for expect() matches.",
+        "Use '--help --expect' for more info."
+      ]
+    },
+    {
+      "name": "--experimental",
+      "tip": [
+        "U: --experimental <features>",
+        "Experimental features.",
+        "Use '--help --experimental' for more info."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fileParallelism",
+      "tip": [
+        "Should all test files run in parallel.",
+        "Use --no-file-parallelism to disable.",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--globals",
+      "tip": [
+        "Inject APIs globally."
+      ]
+    },
+    {
+      "name": "--hideSkippedTests",
+      "tip": [
+        "Hide logs for skipped tests."
+      ]
+    },
+    {
+      "name": "--hookTimeout",
+      "tip": [
+        "U: --hookTimeout <timeout>",
+        "Default hook timeout in milliseconds.",
+        "Default: 10000",
+        "Use 0 to disable timeout completely."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--includeTaskLocation",
+      "tip": [
+        "Collect test and suite locations in the location property."
+      ]
+    },
+    {
+      "name": "--inspect",
+      "tip": [
+        "U: --inspect [[host:]port]",
+        "Enable Node.js inspector.",
+        "Default: 127.0.0.1:9229"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--inspectBrk",
+      "tip": [
+        "U: --inspectBrk [[host:]port]",
+        "Enable Node.js inspector and break before the test starts."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--isolate",
+      "tip": [
+        "Run every test file in isolation.",
+        "To disable isolation, use --no-isolate.",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--listTags",
+      "tip": [
+        "U: --listTags [type]",
+        "List all available tags instead of running tests.",
+        "--list-tags=json will output tags in JSON format, unless there are no tags."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--logHeapUsage",
+      "tip": [
+        "Show the size of heap for each test when running in node."
+      ]
+    },
+    {
+      "name": "--maxConcurrency",
+      "tip": [
+        "U: --maxConcurrency <number>",
+        "Maximum number of concurrent tests and suites during test file execution.",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--maxWorkers",
+      "tip": [
+        "U: --maxWorkers <workers>",
+        "Maximum number or percentage of workers to run tests in."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mergeReports",
+      "tip": [
+        "U: --mergeReports [path]",
+        "Path to a blob reports directory.",
+        "If this options is used, Vitest won't run any tests, it will only report previously recorded tests."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mode",
+      "tip": [
+        "U: --mode <name>",
+        "Override Vite mode.",
+        "Default: test or benchmark"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Removes colors from the console output.",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--open",
+      "tip": [
+        "Open UI automatically.",
+        "Default: !process.env.CI"
+      ]
+    },
+    {
+      "name": "--outputFile",
+      "tip": [
+        "U: --outputFile <filename/-s>",
+        "Write test results to a file when supporter reporter is also specified.",
+        "Use cac's dot notation for individual outputs of multiple reporters.",
+        "E: --outputFile.tap=./tap.txt"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--passWithNoTests",
+      "tip": [
+        "Pass when no tests are found."
+      ]
+    },
+    {
+      "name": "--pool",
+      "tip": [
+        "U: --pool <pool>",
+        "Specify pool, if not running in the browser.",
+        "Default: forks",
+        "Possible values: forks, threads, vmThreads"
+      ],
+      "next": [
+        {
+          "name": "forks",
+          "tip": [
+            "Use child_process forks."
+          ]
+        },
+        {
+          "name": "threads",
+          "tip": [
+            "Use worker_threads."
+          ]
+        },
+        {
+          "name": "vmThreads",
+          "tip": [
+            "Use vm threads."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--printConsoleTrace",
+      "tip": [
+        "Always print console stack traces."
+      ]
+    },
+    {
+      "name": "--project",
+      "tip": [
+        "U: --project <name>",
+        "The name of the project to run if you are using Vitest workspace feature.",
+        "Can be repeated for multiple projects.",
+        "E: --project=1 --project=2",
+        "You can also filter projects using wildcards.",
+        "E: --project=packages*",
+        "Exclude projects with --project=!pattern."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--reporter",
+      "tip": [
+        "U: --reporter <name>",
+        "Specify reporters.",
+        "Default: default",
+        "Possible values: default, agent, minimal, blob, verbose, dot, json, tap, tap-flat, junit, tree, hanging-process, github-actions"
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "tip": [
+            "Agent reporter."
+          ]
+        },
+        {
+          "name": "blob",
+          "tip": [
+            "Blob reporter."
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "Default reporter."
+          ]
+        },
+        {
+          "name": "dot",
+          "tip": [
+            "Dot reporter."
+          ]
+        },
+        {
+          "name": "github-actions",
+          "tip": [
+            "GitHub Actions reporter."
+          ]
+        },
+        {
+          "name": "hanging-process",
+          "tip": [
+            "Hanging process reporter."
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON reporter."
+          ]
+        },
+        {
+          "name": "junit",
+          "tip": [
+            "JUnit reporter."
+          ]
+        },
+        {
+          "name": "minimal",
+          "tip": [
+            "Minimal reporter."
+          ]
+        },
+        {
+          "name": "tap",
+          "tip": [
+            "TAP reporter."
+          ]
+        },
+        {
+          "name": "tap-flat",
+          "tip": [
+            "TAP flat reporter."
+          ]
+        },
+        {
+          "name": "tree",
+          "tip": [
+            "Tree reporter."
+          ]
+        },
+        {
+          "name": "verbose",
+          "tip": [
+            "Verbose reporter."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--retry",
+      "tip": [
+        "U: --retry <times>",
+        "Retry the test specific number of times if it fails.",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --root <path>",
+        "Root path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--run",
+      "tip": [
+        "Disable watch mode."
+      ]
+    },
+    {
+      "name": "--sequence",
+      "tip": [
+        "U: --sequence <options>",
+        "Options for how tests should be sorted.",
+        "Use '--help --sequence' for more info."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shard",
+      "tip": [
+        "U: --shard <shards>",
+        "Test suite shard to execute in a format of <index>/<count>."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--silent",
+      "tip": [
+        "U: --silent [value]",
+        "Silent console output from tests.",
+        "Use 'passed-only' to see logs from failing tests only."
+      ],
+      "next": [
+        {
+          "name": "passed-only",
+          "tip": [
+            "Only show logs from failing tests."
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Silent all output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--slowTestThreshold",
+      "tip": [
+        "U: --slowTestThreshold <threshold>",
+        "Threshold in milliseconds for a test or suite to be considered slow.",
+        "Default: 300"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--standalone",
+      "tip": [
+        "Start Vitest without running tests.",
+        "Tests will be running only on change.",
+        "If browser mode is enabled, the UI will be opened automatically.",
+        "This option is ignored when CLI file filters are passed.",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--strictTags",
+      "tip": [
+        "Should Vitest throw an error if test has a tag that is not defined in the config.",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--tagsFilter",
+      "tip": [
+        "U: --tagsFilter <expression>",
+        "Run only tests with the specified tags.",
+        "You can use logical operators && (and), || (or) and ! (not) to create complex expressions."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--teardownTimeout",
+      "tip": [
+        "U: --teardownTimeout <timeout>",
+        "Default timeout of a teardown function in milliseconds.",
+        "Default: 10000"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--testNamePattern",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --testNamePattern <pattern>",
+        "Run tests with full names matching the specified regexp pattern."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--testTimeout",
+      "tip": [
+        "U: --testTimeout <timeout>",
+        "Default timeout of a test in milliseconds.",
+        "Default: 5000",
+        "Use 0 to disable timeout completely."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--typecheck",
+      "tip": [
+        "Enable typechecking alongside tests.",
+        "Default: false",
+        "Use '--help --typecheck' for more info."
+      ]
+    },
+    {
+      "name": "--ui",
+      "tip": [
+        "Enable UI."
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --update [type]",
+        "Update snapshot.",
+        "Accepts boolean, 'new', 'all' or 'none'."
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Update all snapshots."
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "Don't update snapshots."
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "Update only new snapshots."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "Don't update any snapshots."
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Update snapshots."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Display version number."
+      ]
+    },
+    {
+      "name": "--vmMemoryLimit",
+      "tip": [
+        "U: --vmMemoryLimit <limit>",
+        "Memory limit for VM pools.",
+        "If you see memory leaks, try to tinker this value."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --watch",
+        "Enable watch mode."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "Path to config file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Display this message."
+      ]
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --root <path>",
+        "Root path."
+      ],
+      "next": 0
+    }
+  ]
+}

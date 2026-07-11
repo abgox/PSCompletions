@@ -1,0 +1,1832 @@
+{
+  "meta": {
+    "url": "https://rclone.org",
+    "description": [
+      "Rclone - 在云存储提供商之间同步文件。"
+    ]
+  },
+  "root": [
+    {
+      "name": "about",
+      "tip": [
+        "从远程获取配额信息。"
+      ]
+    },
+    {
+      "name": "bisync",
+      "tip": [
+        "U: rclone bisync <path1> <path2> [flags]",
+        "在两个路径之间执行双向同步。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制完全重新同步"
+          ]
+        },
+        {
+          "name": "--resync",
+          "tip": [
+            "从 path1 重新同步到 path2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat",
+      "tip": [
+        "U: rclone cat <remote:path> [flags]",
+        "连接任意文件并发送到 stdout。"
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "U: rclone check <source:path> <dest:path> [flags]",
+        "检查源和目标中的文件是否匹配。"
+      ],
+      "option": [
+        {
+          "name": "--download-only",
+          "tip": [
+            "仅通过传输检查文件"
+          ]
+        },
+        {
+          "name": "--one-way",
+          "tip": [
+            "单向检查，源文件缺失时"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "tip": [
+        "U: rclone cleanup <remote:path> [flags]",
+        "如果可能，清理远程。"
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "U: rclone completion <shell>",
+        "输出指定 shell 的补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: rclone config <subcommand>",
+        "进入交互式配置会话。"
+      ],
+      "next": [
+        {
+          "name": "create"
+        },
+        {
+          "name": "delete"
+        },
+        {
+          "name": "disconnect"
+        },
+        {
+          "name": "dump"
+        },
+        {
+          "name": "edit"
+        },
+        {
+          "name": "file"
+        },
+        {
+          "name": "paths"
+        },
+        {
+          "name": "providers"
+        },
+        {
+          "name": "rename"
+        },
+        {
+          "name": "set"
+        },
+        {
+          "name": "show"
+        },
+        {
+          "name": "touch"
+        },
+        {
+          "name": "update"
+        }
+      ]
+    },
+    {
+      "name": "copy",
+      "alias": [
+        "cp"
+      ],
+      "tip": [
+        "U: rclone copy <source:path> <dest:path> [flags]",
+        "从源复制文件到目标，跳过相同的文件。"
+      ],
+      "option": [
+        {
+          "name": "--backup-dir",
+          "tip": [
+            "将备份存入此目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--compare-dest",
+          "tip": [
+            "附加比较目标"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--copy-dest",
+          "tip": [
+            "从此路径进行服务器端复制"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--drive-server-side-across-configs",
+          "tip": [
+            "允许跨账户服务器端复制"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        },
+        {
+          "name": "--ignore-existing",
+          "tip": [
+            "跳过目标已存在的文件"
+          ]
+        },
+        {
+          "name": "--max-age",
+          "tip": [
+            "仅传输早于此时间的文件"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--max-transfer",
+          "tip": [
+            "最大传输大小"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--min-age",
+          "tip": [
+            "仅传输新于此时间的文件"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-traverse",
+          "tip": [
+            "不遍历目标"
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "传输期间显示进度"
+          ]
+        },
+        {
+          "name": "--transfers",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "并行传输数量"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "copyto",
+      "tip": [
+        "U: rclone copyto <source:path> <dest:path> [flags]",
+        "从源复制文件到目标，跳过相同的文件。"
+      ]
+    },
+    {
+      "name": "copyurl",
+      "tip": [
+        "U: rclone copyurl <url> <dest:path> [flags]",
+        "将 URL 内容复制到 dest:path。"
+      ]
+    },
+    {
+      "name": "cryptcheck",
+      "tip": [
+        "U: rclone cryptcheck <source:path> <encrypted:path> [flags]",
+        "Cryptcheck 检查加密远程的完整性。"
+      ]
+    },
+    {
+      "name": "cryptdecode",
+      "tip": [
+        "U: rclone cryptdecode <encrypted:path> [flags]",
+        "Cryptdecode 返回未加密的文件名。"
+      ]
+    },
+    {
+      "name": "dedupe",
+      "tip": [
+        "U: rclone dedupe <remote:path> [flags]",
+        "交互式查找重复文件名并删除/重命名。"
+      ],
+      "option": [
+        {
+          "name": "--dedupe-mode",
+          "tip": [
+            "去重模式"
+          ],
+          "next": [
+            {
+              "name": "delete"
+            },
+            {
+              "name": "first"
+            },
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "largest"
+            },
+            {
+              "name": "list"
+            },
+            {
+              "name": "newest"
+            },
+            {
+              "name": "oldest"
+            },
+            {
+              "name": "rename"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "smallest"
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "启用交互模式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "tip": [
+        "U: rclone delete <remote:path> [flags]",
+        "删除路径中的文件。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        },
+        {
+          "name": "--rmdirs",
+          "tip": [
+            "删除文件后移除空目录"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deletefile",
+      "tip": [
+        "U: rclone deletefile <remote:path> [flags]",
+        "从远程删除单个文件。"
+      ]
+    },
+    {
+      "name": "gendocs",
+      "tip": [
+        "U: rclone gendocs <output_directory>",
+        "将 rclone 的 markdown 文档输出到指定目录。"
+      ]
+    },
+    {
+      "name": "gui",
+      "tip": [
+        "打开基于 Web 的 GUI。"
+      ],
+      "option": [
+        {
+          "name": "--auto-browser",
+          "tip": [
+            "自动在默认浏览器中打开 GUI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hashsum",
+      "tip": [
+        "U: rclone hashsum <hash> <remote:path> [flags]",
+        "为路径中的所有对象生成哈希校验文件。"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "显示 rclone 命令、标志和后端的帮助。"
+      ],
+      "next": [
+        {
+          "name": "backends"
+        },
+        {
+          "name": "flags"
+        },
+        {
+          "name": "glossary"
+        },
+        {
+          "name": "overview"
+        },
+        {
+          "name": "rclone"
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "U: rclone link <remote:path> [flags]",
+        "生成文件/文件夹的公共链接。"
+      ],
+      "option": [
+        {
+          "name": "--expire",
+          "tip": [
+            "链接过期时间"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--unlink",
+          "tip": [
+            "移除现有直接链接"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "listremotes",
+      "tip": [
+        "列出配置文件中的所有远程。"
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "tip": [
+            "显示完整远程名称而非短名称"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ls",
+      "tip": [
+        "U: rclone ls <remote:path> [flags]",
+        "列出路径中的对象，显示大小和路径。"
+      ],
+      "option": [
+        {
+          "name": "--max-depth",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "列出的最大目录深度"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "lsd",
+      "tip": [
+        "U: rclone lsd <remote:path> [flags]",
+        "列出路径中的所有目录/容器/存储桶。"
+      ]
+    },
+    {
+      "name": "lsf",
+      "tip": [
+        "U: rclone lsf <remote:path> [flags]",
+        "列出 remote:path 中的目录和对象，格式适合解析。"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "d"
+            },
+            {
+              "name": "f"
+            },
+            {
+              "name": "i"
+            },
+            {
+              "name": "p"
+            },
+            {
+              "name": "s"
+            },
+            {
+              "name": "t"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lsjson",
+      "tip": [
+        "U: rclone lsjson <remote:path> [flags]",
+        "以 JSON 格式列出路径中的目录和对象。"
+      ],
+      "option": [
+        {
+          "name": "--dirs-only",
+          "tip": [
+            "仅列出目录"
+          ]
+        },
+        {
+          "name": "--files-only",
+          "tip": [
+            "仅列出文件"
+          ]
+        },
+        {
+          "name": "--hash",
+          "tip": [
+            "在输出中包含哈希"
+          ]
+        },
+        {
+          "name": "--metadata",
+          "tip": [
+            "在输出中包含元数据"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lsl",
+      "tip": [
+        "U: rclone lsl <remote:path> [flags]",
+        "列出路径中的对象，显示修改时间、大小和路径。"
+      ]
+    },
+    {
+      "name": "md5sum",
+      "tip": [
+        "U: rclone md5sum <remote:path> [flags]",
+        "为路径中的所有对象生成 md5sum 文件。"
+      ]
+    },
+    {
+      "name": "mkdir",
+      "tip": [
+        "U: rclone mkdir <remote:path>",
+        "如果路径不存在则创建。"
+      ]
+    },
+    {
+      "name": "mount",
+      "tip": [
+        "U: rclone mount <remote:path> <mountpoint> [flags]",
+        "将远程挂载为文件系统。"
+      ],
+      "option": [
+        {
+          "name": "--allow-non-empty",
+          "tip": [
+            "允许挂载到非空目录"
+          ]
+        },
+        {
+          "name": "--allow-other",
+          "tip": [
+            "允许其他用户访问"
+          ]
+        },
+        {
+          "name": "--allow-root",
+          "tip": [
+            "允许 root 用户访问"
+          ]
+        },
+        {
+          "name": "--attr-timeout",
+          "tip": [
+            "文件属性缓存时间"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--daemon",
+          "tip": [
+            "以守护进程方式运行挂载"
+          ]
+        },
+        {
+          "name": "--daemon-wait",
+          "tip": [
+            "等待就绪挂载的时间"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir-cache",
+          "tip": [
+            "目录条目缓存时间"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir-perms",
+          "tip": [
+            "目录权限"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--file-perms",
+          "tip": [
+            "文件权限"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fuse-flag",
+          "tip": [
+            "底层 FUSE 标志"
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--no-modtime",
+          "tip": [
+            "不读写修改时间"
+          ]
+        },
+        {
+          "name": "--read-only",
+          "tip": [
+            "以只读方式挂载"
+          ]
+        },
+        {
+          "name": "--vfs-cache-max-age",
+          "tip": [
+            "缓存中对象的最大年龄"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vfs-cache-max-size",
+          "tip": [
+            "缓存中对象的最大总大小"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vfs-cache-mode",
+          "tip": [
+            "VFS 缓存模式"
+          ],
+          "next": [
+            {
+              "name": "full"
+            },
+            {
+              "name": "minimal"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "writes"
+            }
+          ]
+        },
+        {
+          "name": "--vfs-cache-poll-interval",
+          "tip": [
+            "轮询缓存的间隔"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vfs-disk-space-total-size",
+          "tip": [
+            "要使用的磁盘空间总大小"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "alias": [
+        "mv"
+      ],
+      "tip": [
+        "U: rclone move <source:path> <dest:path> [flags]",
+        "从源移动文件到目标。"
+      ],
+      "option": [
+        {
+          "name": "--backup-dir",
+          "tip": [
+            "将备份存入此目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delete-empty-src-dirs",
+          "tip": [
+            "移动后删除空源目录"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "传输期间显示进度"
+          ]
+        },
+        {
+          "name": "--transfers",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "并行传输数量"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "moveto",
+      "tip": [
+        "U: rclone moveto <source:path> <dest:path> [flags]",
+        "从源移动文件或目录到目标。"
+      ]
+    },
+    {
+      "name": "ncdu",
+      "tip": [
+        "U: rclone ncdu <remote:path> [flags]",
+        "使用基于文本的用户界面探索远程。"
+      ]
+    },
+    {
+      "name": "obscure",
+      "tip": [
+        "U: rclone obscure <password>",
+        "混淆密码以用于 rclone 配置文件。"
+      ]
+    },
+    {
+      "name": "purge",
+      "tip": [
+        "U: rclone purge <remote:path> [flags]",
+        "删除路径及其所有内容。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rc",
+      "tip": [
+        "U: rclone rc <command> [flags]",
+        "对运行中的 rclone 执行命令。"
+      ],
+      "option": [
+        {
+          "name": "--loopback",
+          "tip": [
+            "使用回环地址而非远程地址"
+          ]
+        },
+        {
+          "name": "--pass",
+          "tip": [
+            "认证密码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--url",
+          "tip": [
+            "连接 rclone rc 的 URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "认证用户名"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "rcat",
+      "tip": [
+        "U: rclone rcat <remote:path>",
+        "将标准输入复制到远程文件。"
+      ]
+    },
+    {
+      "name": "rcd",
+      "tip": [
+        "U: rclone rcd <remote:path> [flags]",
+        "运行 rclone 仅监听远程控制命令。"
+      ]
+    },
+    {
+      "name": "rmdir",
+      "tip": [
+        "U: rclone rmdir <remote:path>",
+        "删除路径中的空目录。"
+      ]
+    },
+    {
+      "name": "rmdirs",
+      "tip": [
+        "U: rclone rmdirs <remote:path> [flags]",
+        "删除路径下的空目录。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selfupdate",
+      "tip": [
+        "U: rclone selfupdate [flags]",
+        "更新 rclone 二进制文件。"
+      ],
+      "option": [
+        {
+          "name": "--beta",
+          "tip": [
+            "安装 beta 版本"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "检查可用更新"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使已是最新也强制更新"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "输出二进制路径"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "U: rclone serve <protocol> <remote:path> [flags]",
+        "通过协议提供远程服务。"
+      ],
+      "option": [
+        {
+          "name": "--addr",
+          "tip": [
+            "设置监听地址"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--auth",
+          "alias": [
+            "--user"
+          ],
+          "tip": [
+            "设置认证用户名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "TLS PEM 证书路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--client-ca",
+          "tip": [
+            "客户端 CA 证书路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--htpasswd",
+          "tip": [
+            "用于认证的 htpasswd 文件"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "--pass"
+          ],
+          "tip": [
+            "设置认证密码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--realm",
+          "tip": [
+            "设置认证域"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tls",
+          "tip": [
+            "为服务器添加 TLS (HTTPS)"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "dav"
+        },
+        {
+          "name": "docker"
+        },
+        {
+          "name": "ftp"
+        },
+        {
+          "name": "http"
+        },
+        {
+          "name": "nfs"
+        },
+        {
+          "name": "restic"
+        },
+        {
+          "name": "sftp"
+        },
+        {
+          "name": "webdav"
+        }
+      ]
+    },
+    {
+      "name": "settier",
+      "tip": [
+        "U: rclone settier <tier> <remote:path> [flags]",
+        "更改远程中对象的存储类别/层级。"
+      ]
+    },
+    {
+      "name": "sha1sum",
+      "tip": [
+        "U: rclone sha1sum <remote:path> [flags]",
+        "为路径中的所有对象生成 sha1sum 文件。"
+      ]
+    },
+    {
+      "name": "size",
+      "tip": [
+        "U: rclone size <remote:path> [flags]",
+        "打印 remote:path 中的总大小和对象数量。"
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "U: rclone sync <source:path> <dest:path> [flags]",
+        "使源和目标完全相同，仅修改目标。"
+      ],
+      "option": [
+        {
+          "name": "--backup-dir",
+          "tip": [
+            "将备份存入此目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delete",
+          "tip": [
+            "删除目标中源没有的文件"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "执行试运行，不做永久更改"
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "传输期间显示进度"
+          ]
+        },
+        {
+          "name": "--transfers",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "并行传输数量"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "touch",
+      "tip": [
+        "U: rclone touch <remote:path> [flags]",
+        "创建新文件或更改文件修改时间。"
+      ]
+    },
+    {
+      "name": "tree",
+      "tip": [
+        "U: rclone tree <remote:path> [flags]",
+        "以树状格式列出远程内容。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "包含所有文件"
+          ]
+        },
+        {
+          "name": "--dirs-only",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "仅显示目录"
+          ]
+        },
+        {
+          "name": "--files-only",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "仅显示文件"
+          ]
+        },
+        {
+          "name": "--level",
+          "alias": [
+            "-L"
+          ],
+          "tip": [
+            "显示深度"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "排序输出"
+          ],
+          "next": [
+            {
+              "name": "ctime"
+            },
+            {
+              "name": "mtime"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "size"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示版本号。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "显示版本号。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--ask-s3-secret-access-key",
+      "alias": [
+        "--ask-password"
+      ],
+      "tip": [
+        "需要时允许询问密码。"
+      ]
+    },
+    {
+      "name": "--auto-confirm",
+      "tip": [
+        "自动确认操作。"
+      ]
+    },
+    {
+      "name": "--backup-dir",
+      "tip": [
+        "U: --backup-dir <dir>",
+        "将备份存入此目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--backup-dir-delete-empty",
+      "tip": [
+        "删除备份目录中的空目录。"
+      ]
+    },
+    {
+      "name": "--bind",
+      "tip": [
+        "U: --bind <address>",
+        "要绑定的本地地址。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bwlimit",
+      "tip": [
+        "U: --bwlimit <BPS>",
+        "带宽限制。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-dir",
+      "tip": [
+        "U: --cache-dir <dir>",
+        "rclone 缓存下载的目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--checkers",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: --checkers <N>",
+        "并行运行的检查器数量。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--compare-dest",
+      "tip": [
+        "U: --compare-dest <DIR>",
+        "附加比较目标。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--compound-words",
+      "tip": [
+        "U: --compound-words <mode>",
+        "如何拆分复合词。"
+      ],
+      "next": [
+        {
+          "name": "camelCase"
+        },
+        {
+          "name": "keep"
+        },
+        {
+          "name": "keepspace"
+        },
+        {
+          "name": "off"
+        }
+      ]
+    },
+    {
+      "name": "--config-file",
+      "alias": [
+        "--config"
+      ],
+      "tip": [
+        "U: --config <config_file>",
+        "配置文件路径（默认：~/.config/rclone/rclone.conf）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-rclone-pass",
+      "alias": [
+        "--config-rclone"
+      ],
+      "tip": [
+        "U: --config-rclone <password>",
+        "rclone 配置文件加密密码。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--copy-dest",
+      "tip": [
+        "U: --copy-dest <DIR>",
+        "从此路径进行服务器端复制。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpuprofile",
+      "tip": [
+        "U: --cpuprofile <file>",
+        "将 CPU 配置文件写入文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--delete-after",
+      "tip": [
+        "传输后删除。"
+      ]
+    },
+    {
+      "name": "--delete-before",
+      "tip": [
+        "传输前删除。"
+      ]
+    },
+    {
+      "name": "--delete-during",
+      "tip": [
+        "传输期间删除。"
+      ]
+    },
+    {
+      "name": "--disable",
+      "tip": [
+        "U: --disable <feature>",
+        "禁用功能。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --dry-run",
+        "执行试运行，不做永久更改。"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-exclude"
+      ],
+      "tip": [
+        "U: --exclude <glob>",
+        "排除匹配模式的文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude-dir",
+      "tip": [
+        "U: --exclude-dir <glob>",
+        "排除匹配模式的目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude-from",
+      "tip": [
+        "U: --exclude-from <file>",
+        "从文件读取排除模式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fast-list",
+      "alias": [
+        "-FL"
+      ],
+      "tip": [
+        "U: -FL, --fast-list",
+        "如果支持则使用递归 ls。"
+      ]
+    },
+    {
+      "name": "--files-from",
+      "alias": [
+        "-files-from"
+      ],
+      "tip": [
+        "U: --files-from <file>",
+        "从文件读取文件名列表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter-from",
+      "tip": [
+        "U: --filter-from <file>",
+        "从文件读取过滤模式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示帮助。"
+      ]
+    },
+    {
+      "name": "--human-readable",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --human-readable",
+        "以人类可读格式打印大小。"
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "tip": [
+        "过滤器中忽略大小写。"
+      ]
+    },
+    {
+      "name": "--ignore-checksum",
+      "tip": [
+        "跳过传输后校验和验证。"
+      ]
+    },
+    {
+      "name": "--ignore-errors",
+      "tip": [
+        "删除错误。"
+      ]
+    },
+    {
+      "name": "--ignore-size",
+      "tip": [
+        "基于大小跳过。"
+      ]
+    },
+    {
+      "name": "--ignore-times",
+      "tip": [
+        "基于修改时间跳过。"
+      ]
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-include"
+      ],
+      "tip": [
+        "U: --include <glob>",
+        "包含匹配模式的文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--include-dir",
+      "tip": [
+        "U: --include-dir <glob>",
+        "包含匹配模式的目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--include-from",
+      "tip": [
+        "U: --include-from <file>",
+        "从文件读取包含模式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-file",
+      "tip": [
+        "U: --log-file <file>",
+        "记录到文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-format",
+      "tip": [
+        "U: --log-format <format>",
+        "逗号分隔的日志格式选项列表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <level>",
+        "日志级别。"
+      ],
+      "next": [
+        {
+          "name": "DEBUG"
+        },
+        {
+          "name": "ERROR"
+        },
+        {
+          "name": "INFO"
+        },
+        {
+          "name": "NOTICE"
+        }
+      ]
+    },
+    {
+      "name": "--max-age",
+      "tip": [
+        "U: --max-age <duration>",
+        "仅传输早于此时间的文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-depth",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --max-depth <depth>",
+        "列出的最大目录深度。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-filesize",
+      "tip": [
+        "U: --max-filesize <size>",
+        "要传输的最大文件大小。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-log-size",
+      "tip": [
+        "U: --max-log-size <size>",
+        "日志文件最大大小。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--memprofile",
+      "tip": [
+        "U: --memprofile <file>",
+        "将内存配置文件写入文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-age",
+      "tip": [
+        "U: --min-age <duration>",
+        "仅传输新于此时间的文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-filesize",
+      "tip": [
+        "U: --min-filesize <size>",
+        "要传输的最小文件大小。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--modify-window",
+      "tip": [
+        "U: --modify-window <duration>",
+        "修改时间的最大时间差。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--multi-thread-cutoff",
+      "tip": [
+        "U: --multi-thread-cutoff <size>",
+        "大于此大小的文件使用多线程传输。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--multi-thread-streams",
+      "tip": [
+        "U: --multi-thread-streams <N>",
+        "多线程下载的流数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-checksum",
+      "tip": [
+        "跳过传输后校验和验证。"
+      ]
+    },
+    {
+      "name": "--no-gzip-encoding",
+      "tip": [
+        "不设置 Accept-Encoding: gzip。"
+      ]
+    },
+    {
+      "name": "--no-traverse",
+      "tip": [
+        "不遍历目标。"
+      ]
+    },
+    {
+      "name": "--no-unicode-normalization",
+      "tip": [
+        "不规范化路径/文件名中的 unicode 字符。"
+      ]
+    },
+    {
+      "name": "--no-update-dest",
+      "tip": [
+        "不更新目标，如果存在则跳过。"
+      ]
+    },
+    {
+      "name": "--no-update-modtime",
+      "tip": [
+        "如果文件相同则不更新目标修改时间。"
+      ]
+    },
+    {
+      "name": "--obscure",
+      "tip": [
+        "U: --obscure <string>",
+        "混淆字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--order-by",
+      "tip": [
+        "U: --order-by <string>",
+        "排序输出。"
+      ],
+      "next": [
+        {
+          "name": "backend-time"
+        },
+        {
+          "name": "mod-time"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "size"
+        }
+      ]
+    },
+    {
+      "name": "--progress",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --progress",
+        "传输期间显示进度。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "尽可能少打印内容。"
+      ]
+    },
+    {
+      "name": "--retries-once",
+      "alias": [
+        "--retries"
+      ],
+      "tip": [
+        "U: --retries <N>",
+        "每次传输重试 N 次。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--retries-sleep",
+      "tip": [
+        "U: --retries-sleep <duration>",
+        "重试之间的睡眠时间。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--size-only",
+      "tip": [
+        "仅基于大小跳过。"
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "U: --sort <key>",
+        "排序输出。"
+      ],
+      "next": [
+        {
+          "name": "mod-time"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "size"
+        }
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "U: --stats <interval>",
+        "打印统计信息的间隔。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stats-one-line",
+      "tip": [
+        "以单行显示统计信息。"
+      ]
+    },
+    {
+      "name": "--stats-one-line-date",
+      "tip": [
+        "以带日期的单行显示统计信息。"
+      ]
+    },
+    {
+      "name": "--streaming-upload-cutoff",
+      "tip": [
+        "U: --streaming-upload-cutoff <size>",
+        "切换到分块上传的阈值。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--syslog",
+      "tip": [
+        "使用 syslog 进行日志记录。"
+      ]
+    },
+    {
+      "name": "--syslog-facility",
+      "tip": [
+        "U: --syslog-facility <facility>",
+        "syslog 设施。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tpslimit",
+      "tip": [
+        "U: --tpslimit <float>",
+        "限制每秒 HTTP 事务数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tpslimit-burst",
+      "tip": [
+        "U: --tpslimit-burst <int>",
+        "--tpslimit 的最大突发事务数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--track-renames",
+      "tip": [
+        "跟踪重命名。"
+      ]
+    },
+    {
+      "name": "--track-renames-suffix",
+      "tip": [
+        "U: --track-renames-suffix <suffix>",
+        "添加到重命名文件的后缀。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--transfers",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: --transfers <N>",
+        "并行文件传输数量。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --update",
+        "跳过目标上更新的文件。"
+      ]
+    },
+    {
+      "name": "--update-old-dest",
+      "tip": [
+        "使用最旧的修改时间而非最新的来决定是否覆盖。"
+      ]
+    },
+    {
+      "name": "--use-json-log",
+      "tip": [
+        "使用 json 日志格式。"
+      ]
+    },
+    {
+      "name": "--use-server-modtime",
+      "tip": [
+        "使用服务器修改时间而非客户端。"
+      ]
+    },
+    {
+      "name": "--user-agent",
+      "tip": [
+        "U: --user-agent <string>",
+        "设置用户代理。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "打印更多内容。"
+      ],
+      "repeat": 2
+    }
+  ]
+}

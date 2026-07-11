@@ -1,0 +1,584 @@
+{
+  "meta": {
+    "url": "https://github.com/sharkdp/fd",
+    "description": [
+      "A program to find entries in your filesystem."
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version information."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--absolute-path",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --absolute-path",
+        "Show the full path starting from the root."
+      ]
+    },
+    {
+      "name": "--and",
+      "tip": [
+        "U: --and <pattern>",
+        "Add additional required search patterns."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--base-directory",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --base-directory <path>",
+        "Change the current working directory of fd."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--batch-size",
+      "tip": [
+        "U: --batch-size <size>",
+        "Maximum number of arguments for --exec-batch."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--case-sensitive",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --case-sensitive",
+        "Perform a case-sensitive search."
+      ]
+    },
+    {
+      "name": "--changed-before",
+      "tip": [
+        "U: --changed-before <date|dur>",
+        "Filter by modification time (older than)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--changed-within",
+      "tip": [
+        "U: --changed-within <date|dur>",
+        "Filter by modification time (newer than)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --color <when>",
+        "When to use color (auto, always, never)."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--exact-depth",
+      "tip": [
+        "U: --exact-depth <depth>",
+        "Only show results at the exact given depth."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --exclude <pattern>",
+        "Exclude files/directories matching the glob pattern."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --exec <cmd>...",
+        "Execute a command for each search result."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exec-batch",
+      "alias": [
+        "-X"
+      ],
+      "tip": [
+        "U: -X, --exec-batch <cmd>...",
+        "Execute command with all search results as arguments."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extension",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --extension <ext>",
+        "Filter by file extension."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --fixed-strings",
+        "Treat the pattern as a literal string."
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "U: -L, --follow",
+        "Follow symbolic links."
+      ]
+    },
+    {
+      "name": "--format",
+      "tip": [
+        "U: --format <fmt>",
+        "Print results according to template."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--full-path",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --full-path",
+        "Match the pattern against the full path."
+      ]
+    },
+    {
+      "name": "--glob",
+      "alias": [
+        "-g"
+      ],
+      "tip": [
+        "U: -g, --glob",
+        "Perform a glob-based search instead of regex."
+      ]
+    },
+    {
+      "name": "--has-results",
+      "tip": [
+        "Alias for --quiet."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help information."
+      ]
+    },
+    {
+      "name": "--hidden",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --hidden",
+        "Include hidden directories and files in the search results."
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "tip": [
+        "U: --hyperlink [<when>]",
+        "Add terminal hyperlinks to file paths."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --ignore-case",
+        "Perform a case-insensitive search."
+      ]
+    },
+    {
+      "name": "--ignore-contain",
+      "tip": [
+        "U: --ignore-contain <name>",
+        "Ignore directories containing the named entry."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-file",
+      "tip": [
+        "U: --ignore-file <path>",
+        "Add a custom ignore file in .gitignore format."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-details",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list-details",
+        "Use a detailed listing format like ls -l."
+      ]
+    },
+    {
+      "name": "--max-depth",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --max-depth <depth>",
+        "Limit directory traversal to a given depth."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-results",
+      "tip": [
+        "U: --max-results <count>",
+        "Limit the number of search results."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-depth",
+      "tip": [
+        "U: --min-depth <depth>",
+        "Only show results starting at the given depth."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-ignore",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --no-ignore",
+        "Show results from files ignored by .gitignore, .ignore, etc."
+      ]
+    },
+    {
+      "name": "--no-ignore-parent",
+      "tip": [
+        "Show results from files ignored by parent directory ignore files."
+      ]
+    },
+    {
+      "name": "--no-ignore-vcs",
+      "tip": [
+        "Show results from files ignored by .gitignore files."
+      ]
+    },
+    {
+      "name": "--no-require-git",
+      "tip": [
+        "Do not require a git repository to respect gitignores."
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "Do not descend into a different file system."
+      ]
+    },
+    {
+      "name": "--path-separator",
+      "tip": [
+        "U: --path-separator <separator>",
+        "Set the path separator for printing file paths."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--print0",
+      "alias": [
+        "-0"
+      ],
+      "tip": [
+        "U: -0, --print0",
+        "Separate results by NUL character."
+      ]
+    },
+    {
+      "name": "--prune",
+      "tip": [
+        "Do not traverse into directories matching the search criteria."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Do not print anything, return exit code."
+      ]
+    },
+    {
+      "name": "--regex",
+      "tip": [
+        "Perform a regular-expression based search (default)."
+      ]
+    },
+    {
+      "name": "--search-path",
+      "tip": [
+        "U: --search-path <search-path>",
+        "Provide paths to search as an alternative to positional argument."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--show-errors",
+      "tip": [
+        "Enable display of filesystem errors."
+      ]
+    },
+    {
+      "name": "--size",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --size <size>",
+        "Limit results by file size (e.g., +100k, -1M, 500b)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--strip-cwd-prefix",
+      "tip": [
+        "U: --strip-cwd-prefix [<when>]",
+        "Strip the ./ prefix from relative paths."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --threads <num>",
+        "Set number of threads to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --type <filetype>",
+        "Filter by type: f/file, d/dir, l/symlink, x/executable, e/empty."
+      ],
+      "next": [
+        {
+          "name": "b",
+          "tip": [
+            "Block devices"
+          ]
+        },
+        {
+          "name": "block-device",
+          "tip": [
+            "Block devices"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "Character devices"
+          ]
+        },
+        {
+          "name": "char-device",
+          "tip": [
+            "Character devices"
+          ]
+        },
+        {
+          "name": "d",
+          "tip": [
+            "Directories"
+          ]
+        },
+        {
+          "name": "dir",
+          "tip": [
+            "Directories"
+          ]
+        },
+        {
+          "name": "directory",
+          "tip": [
+            "Directories"
+          ]
+        },
+        {
+          "name": "e",
+          "tip": [
+            "Empty files or directories"
+          ]
+        },
+        {
+          "name": "empty",
+          "tip": [
+            "Empty files or directories"
+          ]
+        },
+        {
+          "name": "executable",
+          "tip": [
+            "Executables"
+          ]
+        },
+        {
+          "name": "f",
+          "tip": [
+            "Regular files"
+          ]
+        },
+        {
+          "name": "file",
+          "tip": [
+            "Regular files"
+          ]
+        },
+        {
+          "name": "l",
+          "tip": [
+            "Symbolic links"
+          ]
+        },
+        {
+          "name": "p",
+          "tip": [
+            "Named pipes"
+          ]
+        },
+        {
+          "name": "pipe",
+          "tip": [
+            "Named pipes"
+          ]
+        },
+        {
+          "name": "s",
+          "tip": [
+            "Sockets"
+          ]
+        },
+        {
+          "name": "socket",
+          "tip": [
+            "Sockets"
+          ]
+        },
+        {
+          "name": "symlink",
+          "tip": [
+            "Symbolic links"
+          ]
+        },
+        {
+          "name": "x",
+          "tip": [
+            "Executables"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--unrestricted",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --unrestricted",
+        "Perform an unrestricted search, including ignored and hidden files."
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "Limit search to a single result."
+      ]
+    }
+  ]
+}

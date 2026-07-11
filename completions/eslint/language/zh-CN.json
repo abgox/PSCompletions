@@ -1,0 +1,595 @@
+{
+  "meta": {
+    "url": "https://eslint.org",
+    "description": [
+      "ESLint - 可插拔的 JavaScript linter。"
+    ]
+  },
+  "root": [
+    {
+      "name": "--env-info",
+      "tip": [
+        "输出执行环境信息。"
+      ]
+    },
+    {
+      "name": "--init",
+      "tip": [
+        "运行配置初始化向导。"
+      ]
+    },
+    {
+      "name": "--inspect-config",
+      "tip": [
+        "使用当前配置打开配置检查器。"
+      ]
+    },
+    {
+      "name": "--mcp",
+      "tip": [
+        "启动 ESLint MCP 服务器。"
+      ]
+    },
+    {
+      "name": "--print-config",
+      "tip": [
+        "U: --print-config <file>",
+        "打印给定文件的配置。"
+      ],
+      "next": 0
+    }
+  ],
+  "option": [
+    {
+      "name": "--cache",
+      "tip": [
+        "仅检查更改的文件。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--cache-file",
+      "tip": [
+        "U: --cache-file <path>",
+        "缓存文件的路径。",
+        "已弃用：请使用 --cache-location。",
+        "默认: .eslintcache"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-location",
+      "tip": [
+        "U: --cache-location <path>",
+        "缓存文件或目录的路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-strategy",
+      "tip": [
+        "U: --cache-strategy <strategy>",
+        "用于检测缓存中更改文件的策略。",
+        "可选值: metadata, content",
+        "默认: metadata"
+      ],
+      "next": [
+        {
+          "name": "content",
+          "tip": [
+            "使用文件内容。"
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "使用文件元数据。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "强制启用/禁用颜色。"
+      ]
+    },
+    {
+      "name": "--concurrency",
+      "tip": [
+        "U: --concurrency <int|String>",
+        "lint 线程数，auto 自动选择，off 不使用多线程。",
+        "默认: off"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动选择。"
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "禁用多线程。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "使用此配置而不是 eslint.config.js、eslint.config.mjs 或 eslint.config.cjs。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "输出调试信息。"
+      ]
+    },
+    {
+      "name": "--exit-on-fatal-error",
+      "tip": [
+        "发生致命错误时以退出码 2 退出。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--ext",
+      "tip": [
+        "U: --ext [extensions]",
+        "指定要 lint 的其他文件扩展名。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--fix",
+      "tip": [
+        "自动修复问题。"
+      ]
+    },
+    {
+      "name": "--fix-dry-run",
+      "tip": [
+        "自动修复问题而不将更改保存到文件系统。"
+      ]
+    },
+    {
+      "name": "--fix-type",
+      "tip": [
+        "U: --fix-type <type>",
+        "指定要应用的修复类型。",
+        "可选值: directive, problem, suggestion, layout"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "directive",
+          "tip": [
+            "指令修复。"
+          ]
+        },
+        {
+          "name": "layout",
+          "tip": [
+            "布局修复。"
+          ]
+        },
+        {
+          "name": "problem",
+          "tip": [
+            "问题修复。"
+          ]
+        },
+        {
+          "name": "suggestion",
+          "tip": [
+            "建议修复。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--flag",
+      "tip": [
+        "U: --flag [feature]",
+        "启用功能标志。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --format <format>",
+        "使用特定的输出格式。",
+        "默认: stylish",
+        "可选值: stylish, json, json-plain, compact, tap, unix, visualstudio, sarif, jslint-xml, checkstyle"
+      ],
+      "next": [
+        {
+          "name": "checkstyle",
+          "tip": [
+            "Checkstyle 格式。"
+          ]
+        },
+        {
+          "name": "compact",
+          "tip": [
+            "紧凑格式。"
+          ]
+        },
+        {
+          "name": "jslint-xml",
+          "tip": [
+            "JSLint XML 格式。"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 格式。"
+          ]
+        },
+        {
+          "name": "json-plain",
+          "tip": [
+            "JSON 格式（无颜色）。"
+          ]
+        },
+        {
+          "name": "sarif",
+          "tip": [
+            "SARIF 格式。"
+          ]
+        },
+        {
+          "name": "stylish",
+          "tip": [
+            "默认的 stylish 格式。"
+          ]
+        },
+        {
+          "name": "tap",
+          "tip": [
+            "TAP 格式。"
+          ]
+        },
+        {
+          "name": "unix",
+          "tip": [
+            "Unix 格式。"
+          ]
+        },
+        {
+          "name": "visualstudio",
+          "tip": [
+            "Visual Studio 格式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--global",
+      "tip": [
+        "U: --global [name]",
+        "定义全局变量。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--ignore-pattern",
+      "tip": [
+        "U: --ignore-pattern [pattern]",
+        "要忽略的文件模式。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--max-warnings",
+      "tip": [
+        "U: --max-warnings <int>",
+        "触发非零退出码的警告数。",
+        "默认: -1"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-config-lookup",
+      "tip": [
+        "禁用 eslint.config.js 的查找。"
+      ]
+    },
+    {
+      "name": "--no-error-on-unmatched-pattern",
+      "tip": [
+        "模式不匹配时防止错误。"
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "禁用忽略文件和模式。"
+      ]
+    },
+    {
+      "name": "--no-inline-config",
+      "tip": [
+        "防止注释更改配置或规则。"
+      ]
+    },
+    {
+      "name": "--no-warn-ignored",
+      "tip": [
+        "当文件列表包含被忽略的文件时抑制警告。"
+      ]
+    },
+    {
+      "name": "--output-file",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output-file <path>",
+        "指定要写入报告的文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parser",
+      "tip": [
+        "U: --parser <parser>",
+        "指定要使用的解析器。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parser-options",
+      "tip": [
+        "U: --parser-options <options>",
+        "指定解析器选项。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pass-on-no-patterns",
+      "tip": [
+        "未传递文件模式时以退出码 0 退出。"
+      ]
+    },
+    {
+      "name": "--pass-on-unpruned-suppressions",
+      "tip": [
+        "忽略未使用的抑制。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--plugin",
+      "tip": [
+        "U: --plugin [name]",
+        "指定插件。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prune-suppressions",
+      "tip": [
+        "修剪未使用的抑制。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "tip": [
+        "仅报告错误。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--report-unused-disable-directives",
+      "tip": [
+        "为未使用的 eslint-disable 和 eslint-enable 指令添加报告错误。"
+      ]
+    },
+    {
+      "name": "--report-unused-disable-directives-severity",
+      "tip": [
+        "U: --report-unused-disable-directives-severity <severity>",
+        "选择报告未使用的 eslint-disable 和 eslint-enable 指令的严重级别。",
+        "可选值: off, warn, error, 0, 1, 2"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "禁用。"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "警告。"
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "错误。"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "错误。"
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "禁用。"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--report-unused-inline-configs",
+      "tip": [
+        "U: --report-unused-inline-configs <severity>",
+        "为未使用的 eslint 内联配置注释添加报告错误。",
+        "可选值: off, warn, error, 0, 1, 2"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "禁用。"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "警告。"
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "错误。"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "错误。"
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "禁用。"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--rule",
+      "tip": [
+        "U: --rule <rule>",
+        "指定规则。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "在 lint 报告中添加统计信息。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "lint 通过 STDIN 提供的代码。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--stdin-filename",
+      "tip": [
+        "U: --stdin-filename <path>",
+        "指定 STDIN 作为处理的文件名。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--suppress-all",
+      "tip": [
+        "抑制所有违规。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--suppress-rule",
+      "tip": [
+        "U: --suppress-rule [rule]",
+        "抑制特定规则。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--suppressions-location",
+      "tip": [
+        "U: --suppressions-location <path>",
+        "指定抑制文件的位置。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "输出版本号。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <path>",
+        "使用此配置而不是 eslint.config.js。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fix",
+      "tip": [
+        "自动修复问题。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示帮助。"
+      ]
+    }
+  ]
+}

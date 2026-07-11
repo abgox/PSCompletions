@@ -9,129 +9,343 @@
     {
       "name": "cp",
       "tip": [
-        "Copy a model"
+        "U: ollama cp <SOURCE> <DEST>",
+        "Copy a model."
       ]
     },
     {
       "name": "create",
       "tip": [
+        "U: ollama create <MODEL> [flags]",
         "Create a customized model with modelfile."
       ],
       "option": [
         {
-          "name": "-f",
+          "name": "--draft-quantize",
           "tip": [
-            "The path of modelfile"
+            "U: --draft-quantize <string>",
+            "Quantize draft model to this level"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--experimental",
+          "tip": [
+            "Enable experimental safetensors model creation"
           ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --file <string>",
+            "Name of the Modelfile (default: Modelfile)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quantize",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quantize <string>",
+            "Quantize model to this level (e.g. q4_K_M)"
+          ],
+          "next": 0
         }
       ]
     },
     {
+      "name": "help",
+      "tip": [
+        "U: ollama help [command]",
+        "Help about any command."
+      ],
+      "next": 0
+    },
+    {
       "name": "launch",
       "tip": [
-        "Configure and launch external applications to use Ollama models. ",
-        "Now supports OpenCode, Claude Code, Codex, VS Code and Droid."
+        "U: ollama launch [flags]",
+        "Configure and launch external applications to use Ollama models."
       ],
       "option": [
         {
           "name": "--config",
           "tip": [
-            "Configure without launching."
+            "Configure without launching"
           ]
         },
         {
           "name": "--model",
           "tip": [
-            "Launch with a specific model."
-          ]
+            "U: --model <string>",
+            "Launch with a specific model"
+          ],
+          "next": 0
         }
       ]
     },
     {
-      "name": "ls",
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
       "tip": [
-        "List models"
+        "U: ollama list",
+        "List models."
       ]
     },
     {
       "name": "ps",
       "tip": [
-        "List running models"
+        "U: ollama ps",
+        "List running models."
       ]
     },
     {
       "name": "pull",
       "tip": [
-        "Download a model from a registry"
-      ]
-    },
-    {
-      "name": "push",
-      "tip": [
-        "Push a model to a registry"
-      ]
-    },
-    {
-      "name": "rm",
-      "tip": [
-        "Remove a model"
-      ]
-    },
-    {
-      "name": "run",
-      "tip": [
-        "Run a model.",
-        "If you are running an embedding model, you can generate text embeddings directly in the terminal.",
-        "The output will be a JSON array of embeddings."
-      ]
-    },
-    {
-      "name": "serve",
-      "tip": [
-        "Start Ollama"
+        "U: ollama pull <MODEL> [flags]",
+        "Download a model from a registry."
       ],
       "option": [
         {
-          "name": "--help",
+          "name": "--insecure",
           "tip": [
-            "view a list of environment variables that can be set for ollama."
+            "Use an insecure registry"
           ]
         }
       ]
     },
     {
+      "name": "push",
+      "tip": [
+        "U: ollama push <MODEL> [flags]",
+        "Push a model to a registry."
+      ],
+      "option": [
+        {
+          "name": "--insecure",
+          "tip": [
+            "Use an insecure registry"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rm",
+      "tip": [
+        "U: ollama rm <MODEL>",
+        "Remove a model."
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: ollama run <MODEL> [PROMPT] [flags]",
+        "Run a model."
+      ],
+      "option": [
+        {
+          "name": "--dimensions",
+          "tip": [
+            "U: --dimensions <int>",
+            "Truncate output embeddings to specified dimension"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <string>",
+            "Response format (e.g. json)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--height",
+          "tip": [
+            "U: --height <int>",
+            "Image height (experimental)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hidethinking",
+          "tip": [
+            "Hide thinking output (if provided)"
+          ]
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "Use an insecure registry"
+          ]
+        },
+        {
+          "name": "--keepalive",
+          "tip": [
+            "U: --keepalive <string>",
+            "Duration to keep a model loaded (e.g. 5m)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--negative",
+          "tip": [
+            "U: --negative <str>",
+            "Negative prompt (experimental)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--nowordwrap",
+          "tip": [
+            "Don't wrap words to the next line automatically"
+          ]
+        },
+        {
+          "name": "--seed",
+          "tip": [
+            "U: --seed <int>",
+            "Random seed (experimental)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--steps",
+          "tip": [
+            "U: --steps <int>",
+            "Denoising steps (experimental)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--think",
+          "tip": [
+            "U: --think [=\"true\"]",
+            "Enable thinking mode: true/false or high/medium/low"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--truncate",
+          "tip": [
+            "For embedding models: truncate inputs exceeding context length"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Show timings for response"
+          ]
+        },
+        {
+          "name": "--width",
+          "tip": [
+            "U: --width <int>",
+            "Image width (experimental)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "alias": [
+        "start"
+      ],
+      "tip": [
+        "U: ollama serve",
+        "Start Ollama."
+      ]
+    },
+    {
       "name": "show",
       "tip": [
-        "Show information for a model"
+        "U: ollama show <MODEL> [flags]",
+        "Show information for a model."
+      ],
+      "option": [
+        {
+          "name": "--license",
+          "tip": [
+            "Show license of a model"
+          ]
+        },
+        {
+          "name": "--modelfile",
+          "tip": [
+            "Show Modelfile of a model"
+          ]
+        },
+        {
+          "name": "--parameters",
+          "tip": [
+            "Show parameters of a model"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "Show system message of a model"
+          ]
+        },
+        {
+          "name": "--template",
+          "tip": [
+            "Show template of a model"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Show detailed model information"
+          ]
+        }
       ]
     },
     {
       "name": "signin",
       "tip": [
-        "Sign in to Ollama"
+        "U: ollama signin",
+        "Sign in to ollama.com."
       ]
     },
     {
       "name": "signout",
       "tip": [
-        "Sign out of Ollama"
+        "U: ollama signout",
+        "Sign out from ollama.com."
       ]
     },
     {
       "name": "stop",
       "tip": [
-        "Stop a running model"
+        "U: ollama stop <MODEL>",
+        "Stop a running model."
       ]
     }
   ],
   "option": [
     {
-      "name": "--help",
-      "alias": [
-        "-h"
-      ],
+      "name": "--nowordwrap",
       "tip": [
-        "Help for ollama"
+        "Don't wrap words to the next line automatically."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "Show timings for response."
       ]
     },
     {
@@ -140,7 +354,20 @@
         "-v"
       ],
       "tip": [
+        "U: -v, --version",
         "Show version information."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Help for ollama."
       ]
     }
   ]

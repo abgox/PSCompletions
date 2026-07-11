@@ -1,0 +1,488 @@
+{
+  "meta": {
+    "url": "https://github.com/sharkdp/bat",
+    "description": [
+      "一个带有语法高亮和 Git 集成的 cat(1) 克隆。"
+    ]
+  },
+  "root": [
+    {
+      "name": "cache",
+      "tip": [
+        "U: cache [OPTIONS]",
+        "自定义语法和主题。"
+      ],
+      "option": [
+        {
+          "name": "--acknowledgements",
+          "tip": [
+            "显示致谢信息。"
+          ]
+        },
+        {
+          "name": "--build",
+          "tip": [
+            "从头构建缓存。"
+          ]
+        },
+        {
+          "name": "--clear",
+          "tip": [
+            "删除生成的缓存文件。"
+          ]
+        },
+        {
+          "name": "--config-dir",
+          "tip": [
+            "显示配置目录。"
+          ]
+        },
+        {
+          "name": "--data-dir",
+          "tip": [
+            "显示数据目录。"
+          ]
+        },
+        {
+          "name": "--init",
+          "tip": [
+            "从 bat 的默认语法和主题初始化缓存。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--acknowledgements",
+      "tip": [
+        "显示致谢信息。"
+      ]
+    },
+    {
+      "name": "--diagnostic",
+      "tip": [
+        "显示用于错误报告的诊断信息。"
+      ]
+    },
+    {
+      "name": "--list-languages",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "U: -L, --list-languages",
+        "显示支持的语言列表。"
+      ]
+    },
+    {
+      "name": "--list-themes",
+      "tip": [
+        "显示支持的主题列表。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--binary",
+      "tip": [
+        "U: --binary <behavior>",
+        "如何处理二进制内容。"
+      ],
+      "next": [
+        {
+          "name": "as-text"
+        },
+        {
+          "name": "no-printing"
+        }
+      ]
+    },
+    {
+      "name": "--chop-long-lines",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --chop-long-lines",
+        "截断所有超过屏幕宽度的行。"
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <when>",
+        "何时使用彩色输出。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--decorations",
+      "tip": [
+        "U: --decorations <when>",
+        "何时使用通过 --style 指定的装饰。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--diff",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --diff",
+        "仅显示相对于 Git 索引添加/删除/修改的行。"
+      ]
+    },
+    {
+      "name": "--diff-context",
+      "tip": [
+        "U: --diff-context <N>",
+        "在添加/删除/修改行周围包含 N 行上下文。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-name",
+      "tip": [
+        "U: --file-name <name>",
+        "指定要显示的文件名。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--force-colorization",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --force-colorization",
+        "--decorations=always --color=always 的别名。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--highlight-line",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --highlight-line <N:M>",
+        "高亮指定的行范围。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignored-suffix",
+      "tip": [
+        "U: --ignored-suffix <suffix>",
+        "忽略扩展名进行语法检测。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--italic-text",
+      "tip": [
+        "U: --italic-text <when>",
+        "何时使用 ANSI 序列显示斜体文本。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--language",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --language <language>",
+        "显式设置语法高亮的语言。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-range",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --line-range <N:M>",
+        "仅打印指定范围的行。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--map-syntax",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --map-syntax <glob:syntax>",
+        "将 glob 模式映射到现有语法名称。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--nonprintable-notation",
+      "tip": [
+        "U: --nonprintable-notation <notation>",
+        "设置不可打印字符的表示法。"
+      ],
+      "next": [
+        {
+          "name": "caret"
+        },
+        {
+          "name": "unicode"
+        }
+      ]
+    },
+    {
+      "name": "--number",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --number",
+        "仅显示行号，无其他装饰。"
+      ]
+    },
+    {
+      "name": "--pager",
+      "tip": [
+        "U: --pager <command>",
+        "确定使用哪个分页器。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--paging",
+      "tip": [
+        "U: --paging <when>",
+        "何时使用分页器。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--plain",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --plain",
+        "仅显示纯文本样式，无装饰。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--set-terminal-title",
+      "tip": [
+        "使用分页器时将终端标题设置为文件名。"
+      ]
+    },
+    {
+      "name": "--show-all",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --show-all",
+        "显示不可打印字符，如空格、制表符或换行符。"
+      ]
+    },
+    {
+      "name": "--squeeze-blank",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --squeeze-blank",
+        "将连续空行压缩为一行。"
+      ]
+    },
+    {
+      "name": "--squeeze-limit",
+      "tip": [
+        "U: --squeeze-limit <limit>",
+        "要打印的连续空行最大数量。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--strip-ansi",
+      "tip": [
+        "U: --strip-ansi <when>",
+        "何时剥离 ANSI 转义序列。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--style",
+      "tip": [
+        "U: --style <components>",
+        "配置要显示的元素。"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "changes"
+        },
+        {
+          "name": "default"
+        },
+        {
+          "name": "full"
+        },
+        {
+          "name": "grid"
+        },
+        {
+          "name": "header"
+        },
+        {
+          "name": "header-filename"
+        },
+        {
+          "name": "header-filesize"
+        },
+        {
+          "name": "numbers"
+        },
+        {
+          "name": "plain"
+        },
+        {
+          "name": "rule"
+        },
+        {
+          "name": "snip"
+        }
+      ]
+    },
+    {
+      "name": "--tabs",
+      "tip": [
+        "U: --tabs <T>",
+        "将制表符宽度设置为 T 个空格。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--terminal-width",
+      "tip": [
+        "U: --terminal-width <width>",
+        "显式设置终端宽度。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--theme",
+      "tip": [
+        "U: --theme <theme>",
+        "设置语法高亮的主题。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--theme-dark",
+      "tip": [
+        "U: --theme-dark <theme>",
+        "深色背景终端的主题。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--theme-light",
+      "tip": [
+        "U: --theme-light <theme>",
+        "浅色背景终端的主题。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap",
+      "tip": [
+        "U: --wrap <mode>",
+        "指定文本换行模式。"
+      ],
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "character"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    }
+  ]
+}

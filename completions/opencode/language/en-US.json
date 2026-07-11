@@ -1,0 +1,983 @@
+{
+  "meta": {
+    "url": "https://github.com/nicholaswatertank/opencode",
+    "description": [
+      "opencode - AI-powered coding agent for the terminal."
+    ]
+  },
+  "root": [
+    {
+      "name": "acp",
+      "tip": [
+        "Start ACP (Agent Client Protocol) server"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "U: --cors <domains>",
+            "Additional domains to allow for CORS"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cwd",
+          "tip": [
+            "U: --cwd <string>",
+            "Working directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hostname",
+          "tip": [
+            "U: --hostname <string>",
+            "Hostname to listen on"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "Enable mDNS service discovery (defaults hostname to 0.0.0.0)"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "tip": [
+            "U: --mdns-domain <string>",
+            "Custom domain name for mDNS service (default: opencode.local)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "Port to listen on"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "tip": [
+        "Manage agents"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a new agent"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all available agents"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attach",
+      "tip": [
+        "U: attach <url>",
+        "Attach to a running opencode server"
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "Generate shell completion script"
+      ]
+    },
+    {
+      "name": "database",
+      "alias": [
+        "db"
+      ],
+      "tip": [
+        "Database tools"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "tsv"
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "path",
+          "tip": [
+            "Print the database path"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "Debugging and troubleshooting tools"
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "tip": [
+            "U: agent <name>",
+            "Show agent configuration details"
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "Show resolved configuration"
+          ]
+        },
+        {
+          "name": "file",
+          "tip": [
+            "File system debugging utilities"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Show debug information"
+          ]
+        },
+        {
+          "name": "lsp",
+          "tip": [
+            "LSP debugging utilities"
+          ]
+        },
+        {
+          "name": "paths",
+          "tip": [
+            "Show global paths (data, config, cache, state)"
+          ]
+        },
+        {
+          "name": "rg",
+          "tip": [
+            "Ripgrep debugging utilities"
+          ]
+        },
+        {
+          "name": "scrap",
+          "tip": [
+            "List all known projects"
+          ]
+        },
+        {
+          "name": "skill",
+          "tip": [
+            "List all available skills"
+          ]
+        },
+        {
+          "name": "snapshot",
+          "tip": [
+            "Snapshot debugging utilities"
+          ]
+        },
+        {
+          "name": "startup",
+          "tip": [
+            "Print startup timing"
+          ]
+        },
+        {
+          "name": "v2",
+          "tip": [
+            "Debug v2 catalog and built-in plugins"
+          ]
+        },
+        {
+          "name": "wait",
+          "tip": [
+            "Wait indefinitely (for debugging)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "U: export [sessionID]",
+        "Export session data as JSON"
+      ],
+      "option": [
+        {
+          "name": "--sanitize",
+          "tip": [
+            "Redact sensitive transcript and file data"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "github",
+      "tip": [
+        "Manage GitHub agent"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "Install the GitHub agent"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run the GitHub agent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import <file>",
+        "Import session data from JSON file or URL"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Manage MCP (Model Context Protocol) servers"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [name]",
+            "Add an MCP server"
+          ],
+          "option": [
+            {
+              "name": "--env",
+              "tip": [
+                "U: --env <KEY=VALUE>",
+                "Environment variable for a local MCP server"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <KEY=VALUE>",
+                "HTTP header for a remote MCP server"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--url",
+              "tip": [
+                "U: --url <string>",
+                "URL for a remote MCP server"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "auth",
+          "tip": [
+            "U: auth [name]",
+            "Authenticate with an OAuth-enabled MCP server"
+          ]
+        },
+        {
+          "name": "debug",
+          "tip": [
+            "U: debug <name>",
+            "Debug OAuth connection for an MCP server"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "List MCP servers and their status"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "U: logout [name]",
+            "Remove OAuth credentials for an MCP server"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "tip": [
+        "U: models [provider]",
+        "List all available models"
+      ],
+      "option": [
+        {
+          "name": "--refresh",
+          "tip": [
+            "Refresh the models cache from models.dev"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Use more verbose model output (includes metadata like costs)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "alias": [
+        "plug"
+      ],
+      "tip": [
+        "U: plugin <module>",
+        "Install plugin and update config"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Replace existing plugin version"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "Install in global config"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pr",
+      "tip": [
+        "U: pr <number>",
+        "Fetch and checkout a GitHub PR branch, then run opencode"
+      ]
+    },
+    {
+      "name": "providers",
+      "alias": [
+        "auth"
+      ],
+      "tip": [
+        "Manage AI providers and credentials"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "List providers and credentials"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "U: login [url]",
+            "Log in to a provider"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "U: logout [provider]",
+            "Log out from a configured provider"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run [message..]",
+        "Run opencode with a message"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <string>",
+            "Agent to use"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--attach",
+          "tip": [
+            "U: --attach <url>",
+            "Attach to a running opencode server"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--auto",
+          "tip": [
+            "Auto-approve permissions that are not explicitly denied (dangerous!)"
+          ]
+        },
+        {
+          "name": "--command",
+          "tip": [
+            "U: --command <string>",
+            "The command to run, use message for args"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--continue",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --continue",
+            "Continue the last session"
+          ]
+        },
+        {
+          "name": "--dir",
+          "tip": [
+            "U: --dir <string>",
+            "Directory to run in, path on remote server if attaching"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --file <files>",
+            "File(s) to attach to message"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--fork",
+          "tip": [
+            "Fork the session before continuing (requires --continue or --session)"
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "json"
+            }
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Run in direct interactive split-footer mode"
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --model <provider/model>",
+            "Model to use in the format of provider/model"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <string>",
+            "Basic auth password (defaults to OPENCODE_SERVER_PASSWORD)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "Port for the local server (defaults to random port if no value provided)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --session <string>",
+            "Session id to continue"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--share",
+          "tip": [
+            "Share the session"
+          ]
+        },
+        {
+          "name": "--thinking",
+          "tip": [
+            "Show thinking blocks"
+          ]
+        },
+        {
+          "name": "--title",
+          "tip": [
+            "U: --title <string>",
+            "Title for the session (uses truncated prompt if no value provided)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <string>",
+            "Basic auth username (defaults to OPENCODE_SERVER_USERNAME or 'opencode')"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--variant",
+          "tip": [
+            "U: --variant <string>",
+            "Model variant (provider-specific reasoning effort, e.g., high, max, minimal)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "Starts a headless opencode server"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "U: --cors <domains>",
+            "Additional domains to allow for CORS"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hostname",
+          "tip": [
+            "U: --hostname <string>",
+            "Hostname to listen on"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "Enable mDNS service discovery (defaults hostname to 0.0.0.0)"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "tip": [
+            "U: --mdns-domain <string>",
+            "Custom domain name for mDNS service (default: opencode.local)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "Port to listen on"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "session",
+      "tip": [
+        "Manage sessions"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <sessionID>",
+            "Delete a session"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List sessions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "Show token usage and cost statistics"
+      ],
+      "option": [
+        {
+          "name": "--days",
+          "tip": [
+            "U: --days <number>",
+            "Show stats for the last N days (default: all time)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--models",
+          "tip": [
+            "U: --models [number]",
+            "Show model statistics (default: hidden). Pass a number to show top N, otherwise shows all"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <string>",
+            "Filter by project (default: all projects, empty string: current project)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tools",
+          "tip": [
+            "U: --tools <number>",
+            "Number of tools to show (default: all)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "Uninstall opencode and remove all related files"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "U: upgrade [target]",
+        "Upgrade opencode to the latest or a specific version"
+      ],
+      "option": [
+        {
+          "name": "--method",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --method <method>",
+            "Installation method to use"
+          ],
+          "next": [
+            {
+              "name": "brew"
+            },
+            {
+              "name": "bun"
+            },
+            {
+              "name": "choco"
+            },
+            {
+              "name": "curl"
+            },
+            {
+              "name": "npm"
+            },
+            {
+              "name": "pnpm"
+            },
+            {
+              "name": "scoop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "tip": [
+        "Start opencode server and open web interface"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "U: --cors <domains>",
+            "Additional domains to allow for CORS"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hostname",
+          "tip": [
+            "U: --hostname <string>",
+            "Hostname to listen on"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "Enable mDNS service discovery (defaults hostname to 0.0.0.0)"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "tip": [
+            "U: --mdns-domain <string>",
+            "Custom domain name for mDNS service (default: opencode.local)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "Port to listen on"
+          ],
+          "next": 0
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--agent",
+      "tip": [
+        "U: --agent <string>",
+        "Agent to use"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--auto",
+      "tip": [
+        "Auto-approve permissions that are not explicitly denied (dangerous!)"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "Continue the last session"
+      ]
+    },
+    {
+      "name": "--cors",
+      "tip": [
+        "U: --cors <domains>",
+        "Additional domains to allow for CORS"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fork",
+      "tip": [
+        "Fork the session when continuing (use with --continue or --session)"
+      ]
+    },
+    {
+      "name": "--hostname",
+      "tip": [
+        "U: --hostname <string>",
+        "Hostname to listen on"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <level>",
+        "Log level"
+      ],
+      "next": [
+        {
+          "name": "DEBUG"
+        },
+        {
+          "name": "ERROR"
+        },
+        {
+          "name": "INFO"
+        },
+        {
+          "name": "WARN"
+        }
+      ]
+    },
+    {
+      "name": "--mdns",
+      "tip": [
+        "Enable mDNS service discovery (defaults hostname to 0.0.0.0)"
+      ]
+    },
+    {
+      "name": "--mdns-domain",
+      "tip": [
+        "U: --mdns-domain <string>",
+        "Custom domain name for mDNS service (default: opencode.local)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mini",
+      "tip": [
+        "Start the minimal interactive interface"
+      ]
+    },
+    {
+      "name": "--model",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --model <provider/model>",
+        "Model to use in the format of provider/model"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-replay",
+      "tip": [
+        "Disable mini session history replay on resume and after resize"
+      ]
+    },
+    {
+      "name": "--port",
+      "tip": [
+        "U: --port <number>",
+        "Port to listen on"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--print-logs",
+      "tip": [
+        "Print logs to stderr"
+      ]
+    },
+    {
+      "name": "--prompt",
+      "tip": [
+        "U: --prompt <string>",
+        "Prompt to use"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pure",
+      "tip": [
+        "Run without external plugins"
+      ]
+    },
+    {
+      "name": "--replay-limit",
+      "tip": [
+        "U: --replay-limit <number>",
+        "Cap visible mini replay to the newest N messages"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --session <string>",
+        "Session id to continue"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Show version number"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Show help"
+      ]
+    }
+  ]
+}

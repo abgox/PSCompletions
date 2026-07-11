@@ -1,0 +1,524 @@
+{
+  "meta": {
+    "url": "https://github.com/google-gemini/gemini-cli",
+    "description": [
+      "Gemini CLI - Google's AI-powered coding assistant in the terminal."
+    ]
+  },
+  "root": [
+    {
+      "name": "extensions",
+      "alias": [
+        "extension"
+      ],
+      "tip": [
+        "Manage Gemini CLI extensions."
+      ],
+      "next": [
+        {
+          "name": "config",
+          "tip": [
+            "U: config [name] [setting]",
+            "Configure extension settings."
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable [--scope] <name>",
+            "Disable an extension."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable [--scope] <name>",
+            "Enable an extension."
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "U: install <source> [--auto-update] [--pre-release]",
+            "Install an extension from a git repository URL or a local path."
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "U: link <path>",
+            "Link an extension from a local path."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List installed extensions."
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "U: new <path> [template]",
+            "Create a new extension from a boilerplate example."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "U: uninstall [names..]",
+            "Uninstall one or more extensions."
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [<name>] [--all]",
+            "Update all extensions or a named extension to the latest version."
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "U: validate <path>",
+            "Validate an extension from a local path."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gemma",
+      "tip": [
+        "Manage local Gemma model routing."
+      ]
+    },
+    {
+      "name": "hooks",
+      "alias": [
+        "hook"
+      ],
+      "tip": [
+        "Manage Gemini CLI hooks."
+      ],
+      "next": [
+        {
+          "name": "migrate",
+          "tip": [
+            "Migrate hooks from Claude Code to Gemini CLI."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Manage MCP servers."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name> <commandOrUrl> [args...]",
+            "Add an MCP server."
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <name>",
+            "Disable an MCP server."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <name>",
+            "Enable an MCP server."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all configured MCP servers."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name>",
+            "Remove an MCP server."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "alias": [
+        "skill"
+      ],
+      "tip": [
+        "Manage agent skills."
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <name> [--scope]",
+            "Disable an agent skill."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <name>",
+            "Enable an agent skill."
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "U: install <source> [--scope] [--path]",
+            "Install an agent skill from a git repository URL or a local path."
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "U: link <path>",
+            "Link an agent skill from a local path."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [--all]",
+            "List discovered agent skills."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "U: uninstall <name> [--scope]",
+            "Uninstall an agent skill by name."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--accept-raw-output-risk",
+      "tip": [
+        "Suppress the security warning when using --raw-output."
+      ]
+    },
+    {
+      "name": "--acp",
+      "tip": [
+        "Starts the agent in ACP mode."
+      ]
+    },
+    {
+      "name": "--admin-policy",
+      "tip": [
+        "U: --admin-policy <POLICY>",
+        "Additional admin policy files or directories to load."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--allowed-mcp-server-names",
+      "tip": [
+        "U: --allowed-mcp-server-names <NAMES>",
+        "Allowed MCP server names."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--allowed-tools",
+      "tip": [
+        "U: --allowed-tools <TOOLS>",
+        "[DEPRECATED] Tools that are allowed to run without confirmation."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--approval-mode",
+      "tip": [
+        "U: --approval-mode <MODE>",
+        "Set the approval mode.",
+        "Possible values: default, auto_edit, yolo, plan"
+      ],
+      "next": [
+        {
+          "name": "auto_edit",
+          "tip": [
+            "Auto-approve edit tools."
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "Prompt for approval."
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "Read-only mode."
+          ]
+        },
+        {
+          "name": "yolo",
+          "tip": [
+            "Auto-approve all tools."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "Run in debug mode (open debug console with F12)."
+      ]
+    },
+    {
+      "name": "--delete-session",
+      "tip": [
+        "U: --delete-session <INDEX>",
+        "Delete a session by index number."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extensions",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --extensions <EXTENSIONS>",
+        "A list of extensions to use.",
+        "If not provided, all extensions are used."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--include-directories",
+      "tip": [
+        "U: --include-directories <DIRS>",
+        "Additional directories to include in the workspace."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--list-extensions",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list-extensions",
+        "List all available extensions and exit."
+      ]
+    },
+    {
+      "name": "--list-sessions",
+      "tip": [
+        "List available sessions for the current project and exit."
+      ]
+    },
+    {
+      "name": "--model",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --model <MODEL>",
+        "Specify the model to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--output-format",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output-format <FORMAT>",
+        "The format of the CLI output.",
+        "Possible values: text, json, stream-json"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON output."
+          ]
+        },
+        {
+          "name": "stream-json",
+          "tip": [
+            "Streaming JSON output."
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "Plain text output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--policy",
+      "tip": [
+        "U: --policy <POLICY>",
+        "Additional policy files or directories to load."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --prompt <PROMPT>",
+        "Run in non-interactive (headless) mode with the given prompt.",
+        "Appended to input on stdin (if any)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prompt-interactive",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --prompt-interactive <PROMPT>",
+        "Execute the provided prompt and continue in interactive mode."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--raw-output",
+      "tip": [
+        "Disable sanitization of model output.",
+        "WARNING: This can be a security risk if the model output is untrusted."
+      ]
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --resume [SESSION]",
+        "Resume a previous session.",
+        "Use 'latest' for most recent or index number."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sandbox",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --sandbox",
+        "Run in sandbox."
+      ]
+    },
+    {
+      "name": "--screen-reader",
+      "tip": [
+        "Enable screen reader mode for accessibility."
+      ]
+    },
+    {
+      "name": "--session-file",
+      "tip": [
+        "U: --session-file <FILE>",
+        "Load a session from a JSON file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session-id",
+      "tip": [
+        "U: --session-id <UUID>",
+        "Start a new session with a manually provided UUID."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-trust",
+      "tip": [
+        "Trust the current workspace for this session."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Show version number."
+      ]
+    },
+    {
+      "name": "--worktree",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --worktree [NAME]",
+        "Start Gemini in a new git worktree.",
+        "If no name is provided, one is generated automatically."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--yolo",
+      "alias": [
+        "-y"
+      ],
+      "tip": [
+        "U: -y, --yolo",
+        "Automatically accept all actions (YOLO mode)."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "Run in debug mode."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Show help."
+      ]
+    }
+  ]
+}

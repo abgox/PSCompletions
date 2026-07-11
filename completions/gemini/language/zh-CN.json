@@ -1,0 +1,524 @@
+{
+  "meta": {
+    "url": "https://github.com/google-gemini/gemini-cli",
+    "description": [
+      "Gemini CLI - Google 的 AI 编程助手。"
+    ]
+  },
+  "root": [
+    {
+      "name": "extensions",
+      "alias": [
+        "extension"
+      ],
+      "tip": [
+        "管理 Gemini CLI 扩展。"
+      ],
+      "next": [
+        {
+          "name": "config",
+          "tip": [
+            "U: config [name] [setting]",
+            "配置扩展设置。"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable [--scope] <name>",
+            "禁用扩展。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable [--scope] <name>",
+            "启用扩展。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "U: install <source> [--auto-update] [--pre-release]",
+            "从 git 仓库 URL 或本地路径安装扩展。"
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "U: link <path>",
+            "从本地路径链接扩展。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装的扩展。"
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "U: new <path> [template]",
+            "从模板创建新扩展。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "U: uninstall [names..]",
+            "卸载一个或多个扩展。"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [<name>] [--all]",
+            "更新所有扩展或指定扩展到最新版本。"
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "U: validate <path>",
+            "验证本地路径的扩展。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gemma",
+      "tip": [
+        "管理本地 Gemma 模型路由。"
+      ]
+    },
+    {
+      "name": "hooks",
+      "alias": [
+        "hook"
+      ],
+      "tip": [
+        "管理 Gemini CLI 钩子。"
+      ],
+      "next": [
+        {
+          "name": "migrate",
+          "tip": [
+            "将钩子从 Claude Code 迁移到 Gemini CLI。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "管理 MCP 服务器。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name> <commandOrUrl> [args...]",
+            "添加 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <name>",
+            "禁用 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <name>",
+            "启用 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有已配置的 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name>",
+            "移除 MCP 服务器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "alias": [
+        "skill"
+      ],
+      "tip": [
+        "管理代理技能。"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <name> [--scope]",
+            "禁用代理技能。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <name>",
+            "启用代理技能。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "U: install <source> [--scope] [--path]",
+            "从 git 仓库 URL 或本地路径安装代理技能。"
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "U: link <path>",
+            "从本地路径链接代理技能。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [--all]",
+            "列出发现的代理技能。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "U: uninstall <name> [--scope]",
+            "按名称卸载代理技能。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--accept-raw-output-risk",
+      "tip": [
+        "使用 --raw-output 时抑制安全警告。"
+      ]
+    },
+    {
+      "name": "--acp",
+      "tip": [
+        "在 ACP 模式下启动代理。"
+      ]
+    },
+    {
+      "name": "--admin-policy",
+      "tip": [
+        "U: --admin-policy <POLICY>",
+        "要加载的其他管理员策略文件或目录。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--allowed-mcp-server-names",
+      "tip": [
+        "U: --allowed-mcp-server-names <NAMES>",
+        "允许的 MCP 服务器名称。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--allowed-tools",
+      "tip": [
+        "U: --allowed-tools <TOOLS>",
+        "[已弃用] 允许无需确认即可运行的工具。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--approval-mode",
+      "tip": [
+        "U: --approval-mode <MODE>",
+        "设置批准模式。",
+        "可选值: default, auto_edit, yolo, plan"
+      ],
+      "next": [
+        {
+          "name": "auto_edit",
+          "tip": [
+            "自动批准编辑工具。"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "请求批准。"
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "只读模式。"
+          ]
+        },
+        {
+          "name": "yolo",
+          "tip": [
+            "自动批准所有工具。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "在调试模式下运行（按 F12 打开调试控制台）。"
+      ]
+    },
+    {
+      "name": "--delete-session",
+      "tip": [
+        "U: --delete-session <INDEX>",
+        "按索引号删除会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extensions",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --extensions <EXTENSIONS>",
+        "要使用的扩展列表。",
+        "如果未提供，将使用所有扩展。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--include-directories",
+      "tip": [
+        "U: --include-directories <DIRS>",
+        "要包含在工作区中的其他目录。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--list-extensions",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list-extensions",
+        "列出所有可用扩展并退出。"
+      ]
+    },
+    {
+      "name": "--list-sessions",
+      "tip": [
+        "列出当前项目的可用会话并退出。"
+      ]
+    },
+    {
+      "name": "--model",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --model <MODEL>",
+        "指定要使用的模型。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--output-format",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output-format <FORMAT>",
+        "CLI 输出的格式。",
+        "可选值: text, json, stream-json"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出。"
+          ]
+        },
+        {
+          "name": "stream-json",
+          "tip": [
+            "流式 JSON 输出。"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "纯文本输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--policy",
+      "tip": [
+        "U: --policy <POLICY>",
+        "要加载的其他策略文件或目录。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --prompt <PROMPT>",
+        "以非交互（无头）模式运行给定的提示。",
+        "如果 stdin 有输入，会追加到输入中。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prompt-interactive",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --prompt-interactive <PROMPT>",
+        "执行提供的提示并继续在交互模式下运行。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--raw-output",
+      "tip": [
+        "禁用模型输出的清理。",
+        "警告：如果模型输出不可信，这可能存在安全风险。"
+      ]
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --resume [SESSION]",
+        "恢复之前的会话。",
+        "使用 'latest' 恢复最近的会话，或使用索引号。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sandbox",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --sandbox",
+        "在沙箱中运行。"
+      ]
+    },
+    {
+      "name": "--screen-reader",
+      "tip": [
+        "启用屏幕阅读器模式以支持无障碍访问。"
+      ]
+    },
+    {
+      "name": "--session-file",
+      "tip": [
+        "U: --session-file <FILE>",
+        "从 JSON 文件加载会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session-id",
+      "tip": [
+        "U: --session-id <UUID>",
+        "使用手动提供的 UUID 启动新会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-trust",
+      "tip": [
+        "为当前会话信任当前工作区。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "显示版本号。"
+      ]
+    },
+    {
+      "name": "--worktree",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --worktree [NAME]",
+        "在新的 git worktree 中启动 Gemini。",
+        "如果未提供名称，会自动生成。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--yolo",
+      "alias": [
+        "-y"
+      ],
+      "tip": [
+        "U: -y, --yolo",
+        "自动接受所有操作（YOLO 模式）。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "在调试模式下运行。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示帮助。"
+      ]
+    }
+  ]
+}

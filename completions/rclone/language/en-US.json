@@ -1,0 +1,1832 @@
+{
+  "meta": {
+    "url": "https://rclone.org",
+    "description": [
+      "Rclone - syncs files to and from cloud storage providers."
+    ]
+  },
+  "root": [
+    {
+      "name": "about",
+      "tip": [
+        "Get quota information from the remote."
+      ]
+    },
+    {
+      "name": "bisync",
+      "tip": [
+        "U: rclone bisync <path1> <path2> [flags]",
+        "Perform bidirectional synchronization between two paths."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force a full resync"
+          ]
+        },
+        {
+          "name": "--resync",
+          "tip": [
+            "Resync from path1 to path2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat",
+      "tip": [
+        "U: rclone cat <remote:path> [flags]",
+        "Concatenates any files and sends them to stdout."
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "U: rclone check <source:path> <dest:path> [flags]",
+        "Checks the files in the source and destination match."
+      ],
+      "option": [
+        {
+          "name": "--download-only",
+          "tip": [
+            "Check files by transferring them only"
+          ]
+        },
+        {
+          "name": "--one-way",
+          "tip": [
+            "Check one way only, source files missing"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "tip": [
+        "U: rclone cleanup <remote:path> [flags]",
+        "Clean up the remote if possible."
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "U: rclone completion <shell>",
+        "Output completion script for a given shell."
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: rclone config <subcommand>",
+        "Enter an interactive configuration session."
+      ],
+      "next": [
+        {
+          "name": "create"
+        },
+        {
+          "name": "delete"
+        },
+        {
+          "name": "disconnect"
+        },
+        {
+          "name": "dump"
+        },
+        {
+          "name": "edit"
+        },
+        {
+          "name": "file"
+        },
+        {
+          "name": "paths"
+        },
+        {
+          "name": "providers"
+        },
+        {
+          "name": "rename"
+        },
+        {
+          "name": "set"
+        },
+        {
+          "name": "show"
+        },
+        {
+          "name": "touch"
+        },
+        {
+          "name": "update"
+        }
+      ]
+    },
+    {
+      "name": "copy",
+      "alias": [
+        "cp"
+      ],
+      "tip": [
+        "U: rclone copy <source:path> <dest:path> [flags]",
+        "Copy files from source to dest, skipping identical files."
+      ],
+      "option": [
+        {
+          "name": "--backup-dir",
+          "tip": [
+            "Make backups into this directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--compare-dest",
+          "tip": [
+            "Additional compare destination"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--copy-dest",
+          "tip": [
+            "Server-side copy from this path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--drive-server-side-across-configs",
+          "tip": [
+            "Allow server-side cross-account copies"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        },
+        {
+          "name": "--ignore-existing",
+          "tip": [
+            "Skip files that exist on destination"
+          ]
+        },
+        {
+          "name": "--max-age",
+          "tip": [
+            "Only transfer files older than this"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--max-transfer",
+          "tip": [
+            "Maximum transfer size"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--min-age",
+          "tip": [
+            "Only transfer files newer than this"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-traverse",
+          "tip": [
+            "Don't traverse the destination"
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "Show progress during transfer"
+          ]
+        },
+        {
+          "name": "--transfers",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "Number of parallel transfers"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "copyto",
+      "tip": [
+        "U: rclone copyto <source:path> <dest:path> [flags]",
+        "Copy files from source to dest, skipping identical files."
+      ]
+    },
+    {
+      "name": "copyurl",
+      "tip": [
+        "U: rclone copyurl <url> <dest:path> [flags]",
+        "Copy the contents of the URL supplied to dest:path."
+      ]
+    },
+    {
+      "name": "cryptcheck",
+      "tip": [
+        "U: rclone cryptcheck <source:path> <encrypted:path> [flags]",
+        "Cryptcheck checks the integrity of an encrypted remote."
+      ]
+    },
+    {
+      "name": "cryptdecode",
+      "tip": [
+        "U: rclone cryptdecode <encrypted:path> [flags]",
+        "Cryptdecode returns unencrypted file names."
+      ]
+    },
+    {
+      "name": "dedupe",
+      "tip": [
+        "U: rclone dedupe <remote:path> [flags]",
+        "Interactively find duplicate filenames and delete/rename them."
+      ],
+      "option": [
+        {
+          "name": "--dedupe-mode",
+          "tip": [
+            "Deduplication mode"
+          ],
+          "next": [
+            {
+              "name": "delete"
+            },
+            {
+              "name": "first"
+            },
+            {
+              "name": "interactive"
+            },
+            {
+              "name": "largest"
+            },
+            {
+              "name": "list"
+            },
+            {
+              "name": "newest"
+            },
+            {
+              "name": "oldest"
+            },
+            {
+              "name": "rename"
+            },
+            {
+              "name": "skip"
+            },
+            {
+              "name": "smallest"
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "Enable interactive mode"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "tip": [
+        "U: rclone delete <remote:path> [flags]",
+        "Remove the files in path."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        },
+        {
+          "name": "--rmdirs",
+          "tip": [
+            "Remove empty directories after deleting files"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deletefile",
+      "tip": [
+        "U: rclone deletefile <remote:path> [flags]",
+        "Remove a single file from remote."
+      ]
+    },
+    {
+      "name": "gendocs",
+      "tip": [
+        "U: rclone gendocs <output_directory>",
+        "Output markdown docs for rclone to the directory supplied."
+      ]
+    },
+    {
+      "name": "gui",
+      "tip": [
+        "Open the web based GUI."
+      ],
+      "option": [
+        {
+          "name": "--auto-browser",
+          "tip": [
+            "Automatically open the GUI in the default browser"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hashsum",
+      "tip": [
+        "U: rclone hashsum <hash> <remote:path> [flags]",
+        "Produces a hashsum file for all the objects in the path."
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Show help for rclone commands, flags and backends."
+      ],
+      "next": [
+        {
+          "name": "backends"
+        },
+        {
+          "name": "flags"
+        },
+        {
+          "name": "glossary"
+        },
+        {
+          "name": "overview"
+        },
+        {
+          "name": "rclone"
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "U: rclone link <remote:path> [flags]",
+        "Generate public link to file/folder."
+      ],
+      "option": [
+        {
+          "name": "--expire",
+          "tip": [
+            "Expire the returned link in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--unlink",
+          "tip": [
+            "Remove existing direct link"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "listremotes",
+      "tip": [
+        "List all the remotes in the config file."
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "tip": [
+            "Show the full remote name instead of just the short name"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ls",
+      "tip": [
+        "U: rclone ls <remote:path> [flags]",
+        "List the objects in the path with size and path."
+      ],
+      "option": [
+        {
+          "name": "--max-depth",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "Max depth of directory to list"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "lsd",
+      "tip": [
+        "U: rclone lsd <remote:path> [flags]",
+        "List all directories/containers/buckets in the path."
+      ]
+    },
+    {
+      "name": "lsf",
+      "tip": [
+        "U: rclone lsf <remote:path> [flags]",
+        "List directories and objects in remote:path formatted for parsing."
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "d"
+            },
+            {
+              "name": "f"
+            },
+            {
+              "name": "i"
+            },
+            {
+              "name": "p"
+            },
+            {
+              "name": "s"
+            },
+            {
+              "name": "t"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lsjson",
+      "tip": [
+        "U: rclone lsjson <remote:path> [flags]",
+        "List directories and objects in the path in JSON format."
+      ],
+      "option": [
+        {
+          "name": "--dirs-only",
+          "tip": [
+            "List only directories"
+          ]
+        },
+        {
+          "name": "--files-only",
+          "tip": [
+            "List only files"
+          ]
+        },
+        {
+          "name": "--hash",
+          "tip": [
+            "Include hashes in the output"
+          ]
+        },
+        {
+          "name": "--metadata",
+          "tip": [
+            "Include metadata in the output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lsl",
+      "tip": [
+        "U: rclone lsl <remote:path> [flags]",
+        "List the objects in path with modification time, size and path."
+      ]
+    },
+    {
+      "name": "md5sum",
+      "tip": [
+        "U: rclone md5sum <remote:path> [flags]",
+        "Produces an md5sum file for all the objects in the path."
+      ]
+    },
+    {
+      "name": "mkdir",
+      "tip": [
+        "U: rclone mkdir <remote:path>",
+        "Make the path if it doesn't already exist."
+      ]
+    },
+    {
+      "name": "mount",
+      "tip": [
+        "U: rclone mount <remote:path> <mountpoint> [flags]",
+        "Mount the remote as file system on a mountpoint."
+      ],
+      "option": [
+        {
+          "name": "--allow-non-empty",
+          "tip": [
+            "Allow mounting over a non-empty directory"
+          ]
+        },
+        {
+          "name": "--allow-other",
+          "tip": [
+            "Allow access to other users"
+          ]
+        },
+        {
+          "name": "--allow-root",
+          "tip": [
+            "Allow access to root user"
+          ]
+        },
+        {
+          "name": "--attr-timeout",
+          "tip": [
+            "Time for which file attributes are cached"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--daemon",
+          "tip": [
+            "Run mount as a daemon"
+          ]
+        },
+        {
+          "name": "--daemon-wait",
+          "tip": [
+            "Time to wait for ready mount"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir-cache",
+          "tip": [
+            "Time to cache directory entries for"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir-perms",
+          "tip": [
+            "Directory permissions"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--file-perms",
+          "tip": [
+            "File permissions"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fuse-flag",
+          "tip": [
+            "Flags for underlying FUSE"
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--no-modtime",
+          "tip": [
+            "Don't read/write the modification time"
+          ]
+        },
+        {
+          "name": "--read-only",
+          "tip": [
+            "Mount with read-only access"
+          ]
+        },
+        {
+          "name": "--vfs-cache-max-age",
+          "tip": [
+            "Max age of objects in the cache"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vfs-cache-max-size",
+          "tip": [
+            "Max total size of objects in the cache"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vfs-cache-mode",
+          "tip": [
+            "Cache mode for VFS"
+          ],
+          "next": [
+            {
+              "name": "full"
+            },
+            {
+              "name": "minimal"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "writes"
+            }
+          ]
+        },
+        {
+          "name": "--vfs-cache-poll-interval",
+          "tip": [
+            "Interval to poll the cache"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--vfs-disk-space-total-size",
+          "tip": [
+            "The total size of disk space to use"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "alias": [
+        "mv"
+      ],
+      "tip": [
+        "U: rclone move <source:path> <dest:path> [flags]",
+        "Move files from source to dest."
+      ],
+      "option": [
+        {
+          "name": "--backup-dir",
+          "tip": [
+            "Make backups into this directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delete-empty-src-dirs",
+          "tip": [
+            "Delete empty source directories after move"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "Show progress during transfer"
+          ]
+        },
+        {
+          "name": "--transfers",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "Number of parallel transfers"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "moveto",
+      "tip": [
+        "U: rclone moveto <source:path> <dest:path> [flags]",
+        "Move file or directory from source to dest."
+      ]
+    },
+    {
+      "name": "ncdu",
+      "tip": [
+        "U: rclone ncdu <remote:path> [flags]",
+        "Explore a remote with a text based user interface."
+      ]
+    },
+    {
+      "name": "obscure",
+      "tip": [
+        "U: rclone obscure <password>",
+        "Obscure password for use in the rclone config file."
+      ]
+    },
+    {
+      "name": "purge",
+      "tip": [
+        "U: rclone purge <remote:path> [flags]",
+        "Remove the path and all of its contents."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rc",
+      "tip": [
+        "U: rclone rc <command> [flags]",
+        "Run a command against a running rclone."
+      ],
+      "option": [
+        {
+          "name": "--loopback",
+          "tip": [
+            "Use loopback address instead of remote address"
+          ]
+        },
+        {
+          "name": "--pass",
+          "tip": [
+            "Password for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--url",
+          "tip": [
+            "URL to connect to rclone rc"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "Username for authentication"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "rcat",
+      "tip": [
+        "U: rclone rcat <remote:path>",
+        "Copies standard input to file on remote."
+      ]
+    },
+    {
+      "name": "rcd",
+      "tip": [
+        "U: rclone rcd <remote:path> [flags]",
+        "Run rclone listening to remote control commands only."
+      ]
+    },
+    {
+      "name": "rmdir",
+      "tip": [
+        "U: rclone rmdir <remote:path>",
+        "Remove the empty directory at path."
+      ]
+    },
+    {
+      "name": "rmdirs",
+      "tip": [
+        "U: rclone rmdirs <remote:path> [flags]",
+        "Remove empty directories under the path."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selfupdate",
+      "tip": [
+        "U: rclone selfupdate [flags]",
+        "Update the rclone binary."
+      ],
+      "option": [
+        {
+          "name": "--beta",
+          "tip": [
+            "Install beta release"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "Check for available update"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force update even if already up to date"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "Output binary path"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "U: rclone serve <protocol> <remote:path> [flags]",
+        "Serve a remote over a protocol."
+      ],
+      "option": [
+        {
+          "name": "--addr",
+          "tip": [
+            "Set the listen address"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--auth",
+          "alias": [
+            "--user"
+          ],
+          "tip": [
+            "Set username for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "TLS PEM certificate path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--client-ca",
+          "tip": [
+            "Client CA certificate path"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--htpasswd",
+          "tip": [
+            "A htpasswd file for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "--pass"
+          ],
+          "tip": [
+            "Set password for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--realm",
+          "tip": [
+            "Set realm for authentication"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tls",
+          "tip": [
+            "Add TLS (HTTPS) to the server"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "dav"
+        },
+        {
+          "name": "docker"
+        },
+        {
+          "name": "ftp"
+        },
+        {
+          "name": "http"
+        },
+        {
+          "name": "nfs"
+        },
+        {
+          "name": "restic"
+        },
+        {
+          "name": "sftp"
+        },
+        {
+          "name": "webdav"
+        }
+      ]
+    },
+    {
+      "name": "settier",
+      "tip": [
+        "U: rclone settier <tier> <remote:path> [flags]",
+        "Changes storage class/tier of objects in remote."
+      ]
+    },
+    {
+      "name": "sha1sum",
+      "tip": [
+        "U: rclone sha1sum <remote:path> [flags]",
+        "Produces an sha1sum file for all the objects in the path."
+      ]
+    },
+    {
+      "name": "size",
+      "tip": [
+        "U: rclone size <remote:path> [flags]",
+        "Prints the total size and number of objects in remote:path."
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "U: rclone sync <source:path> <dest:path> [flags]",
+        "Make source and dest identical, modifying destination only."
+      ],
+      "option": [
+        {
+          "name": "--backup-dir",
+          "tip": [
+            "Make backups into this directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delete",
+          "tip": [
+            "Delete files from dest not in source"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "Perform a trial run with no permanent changes"
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "Show progress during transfer"
+          ]
+        },
+        {
+          "name": "--transfers",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "Number of parallel transfers"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "touch",
+      "tip": [
+        "U: rclone touch <remote:path> [flags]",
+        "Create new file or change file modification time."
+      ]
+    },
+    {
+      "name": "tree",
+      "tip": [
+        "U: rclone tree <remote:path> [flags]",
+        "List the contents of the remote in a tree like fashion."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "Include all files"
+          ]
+        },
+        {
+          "name": "--dirs-only",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "Show directories only"
+          ]
+        },
+        {
+          "name": "--files-only",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "Show files only"
+          ]
+        },
+        {
+          "name": "--level",
+          "alias": [
+            "-L"
+          ],
+          "tip": [
+            "Depth to display"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "Sort output"
+          ],
+          "next": [
+            {
+              "name": "ctime"
+            },
+            {
+              "name": "mtime"
+            },
+            {
+              "name": "name"
+            },
+            {
+              "name": "size"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Show the version number."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Show the version number."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--ask-s3-secret-access-key",
+      "alias": [
+        "--ask-password"
+      ],
+      "tip": [
+        "Allow asking for password when needed."
+      ]
+    },
+    {
+      "name": "--auto-confirm",
+      "tip": [
+        "Automatically confirm operations."
+      ]
+    },
+    {
+      "name": "--backup-dir",
+      "tip": [
+        "U: --backup-dir <dir>",
+        "Make backups into this directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--backup-dir-delete-empty",
+      "tip": [
+        "Delete empty directories in backup dir."
+      ]
+    },
+    {
+      "name": "--bind",
+      "tip": [
+        "U: --bind <address>",
+        "Local address to bind to."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bwlimit",
+      "tip": [
+        "U: --bwlimit <BPS>",
+        "Bandwidth limit."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-dir",
+      "tip": [
+        "U: --cache-dir <dir>",
+        "Directory for rclone to cache downloads."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--checkers",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: --checkers <N>",
+        "Number of checkers to run in parallel."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--compare-dest",
+      "tip": [
+        "U: --compare-dest <DIR>",
+        "Additional compare destination."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--compound-words",
+      "tip": [
+        "U: --compound-words <mode>",
+        "How to split compound words."
+      ],
+      "next": [
+        {
+          "name": "camelCase"
+        },
+        {
+          "name": "keep"
+        },
+        {
+          "name": "keepspace"
+        },
+        {
+          "name": "off"
+        }
+      ]
+    },
+    {
+      "name": "--config-file",
+      "alias": [
+        "--config"
+      ],
+      "tip": [
+        "U: --config <config_file>",
+        "Config file path (default: ~/.config/rclone/rclone.conf or $XDG_CONFIG_HOME/rclone/rclone.conf)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-rclone-pass",
+      "alias": [
+        "--config-rclone"
+      ],
+      "tip": [
+        "U: --config-rclone <password>",
+        "Password for rclone config file encryption."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--copy-dest",
+      "tip": [
+        "U: --copy-dest <DIR>",
+        "Server-side copy from this path."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cpuprofile",
+      "tip": [
+        "U: --cpuprofile <file>",
+        "Write CPU profile to file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--delete-after",
+      "tip": [
+        "Delete after transfer."
+      ]
+    },
+    {
+      "name": "--delete-before",
+      "tip": [
+        "Delete before transfer."
+      ]
+    },
+    {
+      "name": "--delete-during",
+      "tip": [
+        "Delete during transfer."
+      ]
+    },
+    {
+      "name": "--disable",
+      "tip": [
+        "U: --disable <feature>",
+        "Disable a feature."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --dry-run",
+        "Do a trial run with no permanent changes."
+      ]
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-exclude"
+      ],
+      "tip": [
+        "U: --exclude <glob>",
+        "Exclude files matching pattern."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude-dir",
+      "tip": [
+        "U: --exclude-dir <glob>",
+        "Exclude directories matching pattern."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude-from",
+      "tip": [
+        "U: --exclude-from <file>",
+        "Read exclude patterns from file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fast-list",
+      "alias": [
+        "-FL"
+      ],
+      "tip": [
+        "U: -FL, --fast-list",
+        "Use recursive ls if supported."
+      ]
+    },
+    {
+      "name": "--files-from",
+      "alias": [
+        "-files-from"
+      ],
+      "tip": [
+        "U: --files-from <file>",
+        "Read list of file names from file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter-from",
+      "tip": [
+        "U: --filter-from <file>",
+        "Read filter patterns from file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Show help."
+      ]
+    },
+    {
+      "name": "--human-readable",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --human-readable",
+        "Print sizes in human readable format."
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "tip": [
+        "Ignore case in filters."
+      ]
+    },
+    {
+      "name": "--ignore-checksum",
+      "tip": [
+        "Skip post transfer checksum verification."
+      ]
+    },
+    {
+      "name": "--ignore-errors",
+      "tip": [
+        "Delete errors."
+      ]
+    },
+    {
+      "name": "--ignore-size",
+      "tip": [
+        "Skip based on size."
+      ]
+    },
+    {
+      "name": "--ignore-times",
+      "tip": [
+        "Skip based on mod time."
+      ]
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-include"
+      ],
+      "tip": [
+        "U: --include <glob>",
+        "Include files matching pattern."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--include-dir",
+      "tip": [
+        "U: --include-dir <glob>",
+        "Include directories matching pattern."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--include-from",
+      "tip": [
+        "U: --include-from <file>",
+        "Read include patterns from file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-file",
+      "tip": [
+        "U: --log-file <file>",
+        "Log to a file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-format",
+      "tip": [
+        "U: --log-format <format>",
+        "Comma separated list of log format options."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <level>",
+        "Log level."
+      ],
+      "next": [
+        {
+          "name": "DEBUG"
+        },
+        {
+          "name": "ERROR"
+        },
+        {
+          "name": "INFO"
+        },
+        {
+          "name": "NOTICE"
+        }
+      ]
+    },
+    {
+      "name": "--max-age",
+      "tip": [
+        "U: --max-age <duration>",
+        "Only transfer files older than this."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-depth",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --max-depth <depth>",
+        "Max depth of directory to list."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-filesize",
+      "tip": [
+        "U: --max-filesize <size>",
+        "Maximum file size to transfer."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-log-size",
+      "tip": [
+        "U: --max-log-size <size>",
+        "Maximum size of log file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--memprofile",
+      "tip": [
+        "U: --memprofile <file>",
+        "Write memory profile to file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-age",
+      "tip": [
+        "U: --min-age <duration>",
+        "Only transfer files newer than this."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-filesize",
+      "tip": [
+        "U: --min-filesize <size>",
+        "Minimum file size to transfer."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--modify-window",
+      "tip": [
+        "U: --modify-window <duration>",
+        "Max time difference for modtime."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--multi-thread-cutoff",
+      "tip": [
+        "U: --multi-thread-cutoff <size>",
+        "Use multi-thread transfers for files larger than this."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--multi-thread-streams",
+      "tip": [
+        "U: --multi-thread-streams <N>",
+        "Number of streams for multi-thread downloads."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-checksum",
+      "tip": [
+        "Skip post transfer checksum verification."
+      ]
+    },
+    {
+      "name": "--no-gzip-encoding",
+      "tip": [
+        "Don't set Accept-Encoding: gzip."
+      ]
+    },
+    {
+      "name": "--no-traverse",
+      "tip": [
+        "Don't traverse the destination."
+      ]
+    },
+    {
+      "name": "--no-unicode-normalization",
+      "tip": [
+        "Don't normalize unicode characters in paths/filenames."
+      ]
+    },
+    {
+      "name": "--no-update-dest",
+      "tip": [
+        "Don't update dest, skip if it exists."
+      ]
+    },
+    {
+      "name": "--no-update-modtime",
+      "tip": [
+        "Don't update destination modtime if files identical."
+      ]
+    },
+    {
+      "name": "--obscure",
+      "tip": [
+        "U: --obscure <string>",
+        "Obscure a string."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--order-by",
+      "tip": [
+        "U: --order-by <string>",
+        "Order the output."
+      ],
+      "next": [
+        {
+          "name": "backend-time"
+        },
+        {
+          "name": "mod-time"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "size"
+        }
+      ]
+    },
+    {
+      "name": "--progress",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --progress",
+        "Show progress during transfer."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Print as little stuff as possible."
+      ]
+    },
+    {
+      "name": "--retries-once",
+      "alias": [
+        "--retries"
+      ],
+      "tip": [
+        "U: --retries <N>",
+        "Retry each transfer N times."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--retries-sleep",
+      "tip": [
+        "U: --retries-sleep <duration>",
+        "Sleep time between retries."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--size-only",
+      "tip": [
+        "Skip based on size only."
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "U: --sort <key>",
+        "Sort output."
+      ],
+      "next": [
+        {
+          "name": "mod-time"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "size"
+        }
+      ]
+    },
+    {
+      "name": "--stats",
+      "tip": [
+        "U: --stats <interval>",
+        "Interval between printing stats."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stats-one-line",
+      "tip": [
+        "Show the stats as a single line."
+      ]
+    },
+    {
+      "name": "--stats-one-line-date",
+      "tip": [
+        "Show the stats as a single line with date."
+      ]
+    },
+    {
+      "name": "--streaming-upload-cutoff",
+      "tip": [
+        "U: --streaming-upload-cutoff <size>",
+        "Cutoff for switching to chunked upload."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--syslog",
+      "tip": [
+        "Use syslog for logging."
+      ]
+    },
+    {
+      "name": "--syslog-facility",
+      "tip": [
+        "U: --syslog-facility <facility>",
+        "Facility for syslog."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tpslimit",
+      "tip": [
+        "U: --tpslimit <float>",
+        "Limit HTTP transactions per second."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tpslimit-burst",
+      "tip": [
+        "U: --tpslimit-burst <int>",
+        "Max burst of transactions for --tpslimit."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--track-renames",
+      "tip": [
+        "Track renames."
+      ]
+    },
+    {
+      "name": "--track-renames-suffix",
+      "tip": [
+        "U: --track-renames-suffix <suffix>",
+        "Suffix to add to renamed file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--transfers",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: --transfers <N>",
+        "Number of parallel file transfers."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --update",
+        "Skip files that are newer on dest."
+      ]
+    },
+    {
+      "name": "--update-old-dest",
+      "tip": [
+        "Use oldest instead of newest modification time for deciding whether to overwrite."
+      ]
+    },
+    {
+      "name": "--use-json-log",
+      "tip": [
+        "Use json log format."
+      ]
+    },
+    {
+      "name": "--use-server-modtime",
+      "tip": [
+        "Use server modtime instead of client."
+      ]
+    },
+    {
+      "name": "--user-agent",
+      "tip": [
+        "U: --user-agent <string>",
+        "Set the user agent."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Print lots more stuff."
+      ],
+      "repeat": 2
+    }
+  ]
+}

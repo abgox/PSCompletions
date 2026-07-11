@@ -1,0 +1,795 @@
+{
+  "meta": {
+    "url": "https://github.com/github/copilot-cli",
+    "description": [
+      "GitHub Copilot CLI - GitHub 的 AI 编程助手。"
+    ]
+  },
+  "root": [
+    {
+      "name": "completion",
+      "tip": [
+        "生成 shell 补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 PowerShell 补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "显示帮助信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "init",
+      "tip": [
+        "初始化 Copilot 指令。"
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "通过 OAuth 设备流认证 Copilot。"
+      ],
+      "option": [
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "GitHub 主机 URL。",
+            "默认: https://github.com"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "从 Copilot 登出。"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "管理 MCP 服务器配置。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [options] <name> [url-or-command-and-args...]",
+            "添加 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get [options] <name>",
+            "显示服务器详细信息。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已配置的 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [options] <name>",
+            "移除 MCP 服务器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "管理插件和插件市场。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "U: install [options] <source>",
+            "安装插件。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装的插件。"
+          ]
+        },
+        {
+          "name": "marketplace",
+          "tip": [
+            "管理插件市场。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "U: uninstall [options] <name>",
+            "卸载插件。"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [options] [name]",
+            "更新插件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "tip": [
+        "检查跨种类配置的插件。"
+      ]
+    },
+    {
+      "name": "skill",
+      "tip": [
+        "管理 Copilot 可用的技能。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [options] <source>",
+            "从文件、URL 或目录添加技能。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出可用的技能。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [options] <name-or-directory>",
+            "移除技能或自定义技能目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [channel]",
+        "下载最新版本。"
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示版本信息。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--acp",
+      "tip": [
+        "作为 Agent Client Protocol 服务器启动。"
+      ]
+    },
+    {
+      "name": "--add-dir",
+      "tip": [
+        "U: --add-dir <DIRECTORY>",
+        "添加目录到允许的文件访问列表。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--add-github-mcp-tool",
+      "tip": [
+        "U: --add-github-mcp-tool <TOOL>",
+        "添加要为 GitHub MCP 服务器启用的工具。",
+        "使用 '*' 启用所有工具。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--add-github-mcp-toolset",
+      "tip": [
+        "U: --add-github-mcp-toolset <TOOLSET>",
+        "添加要为 GitHub MCP 服务器启用的工具集。",
+        "使用 'all' 启用所有工具集。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--additional-mcp-config",
+      "tip": [
+        "U: --additional-mcp-config <JSON>",
+        "额外的 MCP 服务器配置，JSON 字符串或文件路径。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--agent",
+      "tip": [
+        "U: --agent <AGENT>",
+        "指定要使用的自定义代理。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allow-all",
+      "tip": [
+        "启用所有权限。",
+        "等同于 --allow-all-tools --allow-all-paths --allow-all-urls。"
+      ]
+    },
+    {
+      "name": "--allow-all-paths",
+      "tip": [
+        "禁用文件路径验证，允许访问任何路径。"
+      ]
+    },
+    {
+      "name": "--allow-all-tools",
+      "tip": [
+        "允许所有工具自动运行，无需确认。"
+      ]
+    },
+    {
+      "name": "--allow-all-urls",
+      "tip": [
+        "允许访问所有 URL，无需确认。"
+      ]
+    },
+    {
+      "name": "--allow-tool",
+      "tip": [
+        "U: --allow-tool[=tools...]",
+        "CLI 有权使用的工具。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allow-url",
+      "tip": [
+        "U: --allow-url[=urls...]",
+        "允许访问特定 URL 或域名。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--attachment",
+      "tip": [
+        "U: --attachment <PATH>",
+        "附加文件到初始提示。",
+        "仅在非交互模式下有效。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--autopilot",
+      "tip": [
+        "以自动驾驶模式启动。"
+      ]
+    },
+    {
+      "name": "--available-tools",
+      "tip": [
+        "U: --available-tools[=tools...]",
+        "只有这些工具可供模型使用。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--banner",
+      "tip": [
+        "显示启动横幅。"
+      ]
+    },
+    {
+      "name": "--cd",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C <DIRECTORY>",
+        "在执行任何操作前更改工作目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--connect",
+      "tip": [
+        "U: --connect[=sessionId]",
+        "直接连接到远程会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--context",
+      "tip": [
+        "U: --context <TIER>",
+        "设置上下文窗口层级。",
+        "可选值: default, long_context"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "默认上下文窗口。"
+          ]
+        },
+        {
+          "name": "long_context",
+          "tip": [
+            "长上下文窗口。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--continue",
+      "tip": [
+        "恢复最近的会话。"
+      ]
+    },
+    {
+      "name": "--deny-tool",
+      "tip": [
+        "U: --deny-tool[=tools...]",
+        "CLI 无权使用的工具。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--deny-url",
+      "tip": [
+        "U: --deny-url[=urls...]",
+        "拒绝访问特定 URL 或域名。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-builtin-mcps",
+      "tip": [
+        "禁用所有内置 MCP 服务器。"
+      ]
+    },
+    {
+      "name": "--disable-mcp-server",
+      "tip": [
+        "U: --disable-mcp-server <SERVER-NAME>",
+        "禁用特定 MCP 服务器。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--effort",
+      "tip": [
+        "U: --effort <LEVEL>",
+        "设置推理努力级别。",
+        "可选值: none, minimal, low, medium, high, xhigh, max"
+      ],
+      "next": [
+        {
+          "name": "high",
+          "tip": [
+            "高推理。"
+          ]
+        },
+        {
+          "name": "low",
+          "tip": [
+            "低推理。"
+          ]
+        },
+        {
+          "name": "max",
+          "tip": [
+            "最大推理。"
+          ]
+        },
+        {
+          "name": "medium",
+          "tip": [
+            "中等推理。"
+          ]
+        },
+        {
+          "name": "minimal",
+          "tip": [
+            "最小推理。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "无推理。"
+          ]
+        },
+        {
+          "name": "xhigh",
+          "tip": [
+            "超高推理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--experimental",
+      "tip": [
+        "启用实验性功能。"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --interactive <PROMPT>",
+        "以交互模式启动并自动执行此提示。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-dir",
+      "tip": [
+        "U: --log-dir <DIRECTORY>",
+        "设置日志文件目录。",
+        "默认: ~/.copilot/logs/"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <LEVEL>",
+        "设置日志级别。",
+        "可选值: none, error, warning, info, debug, all, default"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "所有日志。"
+          ]
+        },
+        {
+          "name": "debug",
+          "tip": [
+            "调试及以上。"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "默认级别。"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "仅错误级别。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息及以上。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "不记录日志。"
+          ]
+        },
+        {
+          "name": "warning",
+          "tip": [
+            "警告及以上。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--max-ai-credits",
+      "tip": [
+        "U: --max-ai-credits <CREDITS>",
+        "设置此会话的最大 AI 额度。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-autopilot-continues",
+      "tip": [
+        "U: --max-autopilot-continues <COUNT>",
+        "自动驾驶模式下的最大续接消息数。",
+        "默认: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mode",
+      "tip": [
+        "U: --mode <MODE>",
+        "设置初始代理模式。",
+        "可选值: interactive, plan, autopilot"
+      ],
+      "next": [
+        {
+          "name": "autopilot",
+          "tip": [
+            "自动驾驶模式。"
+          ]
+        },
+        {
+          "name": "interactive",
+          "tip": [
+            "交互模式。"
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "计划模式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "设置要使用的 AI 模型。",
+        "使用 'auto' 让 Copilot 自动选择。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--name",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --name <NAME>",
+        "为新会话设置名称。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-ask-user",
+      "tip": [
+        "禁用 ask_user 工具。"
+      ]
+    },
+    {
+      "name": "--no-auto-update",
+      "tip": [
+        "禁用自动下载 CLI 更新。"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "禁用所有颜色输出。"
+      ]
+    },
+    {
+      "name": "--no-custom-instructions",
+      "tip": [
+        "禁用从 AGENTS.md 和相关文件加载自定义指令。"
+      ]
+    },
+    {
+      "name": "--no-experimental",
+      "tip": [
+        "禁用实验性功能。"
+      ]
+    },
+    {
+      "name": "--no-remote",
+      "tip": [
+        "禁用从 GitHub 网页和移动端远程控制会话。"
+      ]
+    },
+    {
+      "name": "--no-remote-export",
+      "tip": [
+        "禁用将会话导出到 GitHub 网页和移动端。"
+      ]
+    },
+    {
+      "name": "--output-format",
+      "tip": [
+        "U: --output-format <FORMAT>",
+        "输出格式。",
+        "可选值: text, json"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出。"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "纯文本输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--plan",
+      "tip": [
+        "以计划模式启动。"
+      ]
+    },
+    {
+      "name": "--plugin-dir",
+      "tip": [
+        "U: --plugin-dir <DIRECTORY>",
+        "从本地目录加载插件。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --prompt <TEXT>",
+        "在非交互模式下执行提示。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote",
+      "tip": [
+        "启用从 GitHub 网页和移动端远程控制会话。"
+      ]
+    },
+    {
+      "name": "--remote-export",
+      "tip": [
+        "将会话导出到 GitHub 网页和移动端。"
+      ]
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --resume[=VALUE]",
+        "从之前的会话恢复。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session-id",
+      "tip": [
+        "U: --session-id <ID>",
+        "按 ID 恢复现有会话或任务。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--share",
+      "tip": [
+        "U: --share[=path]",
+        "完成后将会话共享为 markdown 文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--share-gist",
+      "tip": [
+        "将会话共享到私密 GitHub gist。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --silent",
+        "仅输出代理响应。"
+      ]
+    },
+    {
+      "name": "--stream",
+      "tip": [
+        "U: --stream <MODE>",
+        "启用或禁用流式模式。",
+        "可选值: on, off"
+      ],
+      "next": [
+        {
+          "name": "off",
+          "tip": [
+            "禁用流式。"
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "启用流式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--yolo",
+      "tip": [
+        "启用所有权限。",
+        "等同于 --allow-all-tools --allow-all-paths --allow-all-urls。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示命令帮助。"
+      ]
+    }
+  ]
+}

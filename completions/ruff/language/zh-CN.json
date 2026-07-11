@@ -1,0 +1,783 @@
+{
+  "meta": {
+    "url": "https://github.com/astral-sh/ruff",
+    "description": [
+      "Ruff - 极速的 Python linter 和代码格式化工具。"
+    ]
+  },
+  "root": [
+    {
+      "name": "analyze",
+      "tip": [
+        "对 Python 源代码运行分析。"
+      ],
+      "next": [
+        {
+          "name": "graph",
+          "tip": [
+            "生成 Python 文件依赖项或依赖者的映射。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "对给定的文件或目录运行 Ruff。"
+      ],
+      "option": [
+        {
+          "name": "--add-ignore",
+          "tip": [
+            "启用自动添加 ruff:ignore 注释到失败行。"
+          ]
+        },
+        {
+          "name": "--add-noqa",
+          "tip": [
+            "启用自动添加 noqa 指令到失败行。"
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "tip": [
+            "U: --cache-dir <CACHE_DIR>",
+            "缓存目录的路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "将每个更改文件的差异输出到 stdout。",
+            "隐含 --fix-only。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <FILE_PATTERN>",
+            "要从分析中省略的路径列表。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exit-non-zero-on-fix",
+          "tip": [
+            "如果通过 fix 修改了任何文件，则以非零状态码退出。"
+          ]
+        },
+        {
+          "name": "--exit-zero",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exit-zero",
+            "以状态码 0 退出，即使检测到 lint 违规。"
+          ]
+        },
+        {
+          "name": "--extend-exclude",
+          "tip": [
+            "U: --extend-exclude <FILE_PATTERN>",
+            "类似 --exclude，但添加额外的文件和目录。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--extend-select",
+          "tip": [
+            "U: --extend-select <RULE_CODE>",
+            "类似 --select，但在已指定的规则代码上添加额外的规则代码。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extension",
+          "tip": [
+            "U: --extension <EXTENSION>",
+            "从文件扩展名到语言的映射列表。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "应用修复以解决 lint 违规。",
+            "使用 --no-fix 禁用或 --unsafe-fixes 包含不安全的修复。"
+          ]
+        },
+        {
+          "name": "--fix-only",
+          "tip": [
+            "应用修复但不报告剩余违规。",
+            "隐含 --fix。"
+          ]
+        },
+        {
+          "name": "--fixable",
+          "tip": [
+            "U: --fixable <RULE_CODE>",
+            "要视为可修复的规则代码列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force-exclude",
+          "tip": [
+            "强制排除，即使对于直接在命令行上传递的路径。"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <RULE_CODE>",
+            "逗号分隔的规则代码列表以禁用。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-noqa",
+          "tip": [
+            "忽略所有 # noqa 注释。"
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-cache",
+            "禁用缓存读取。"
+          ]
+        },
+        {
+          "name": "--output-file",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output-file <OUTPUT_FILE>",
+            "指定要写入 linter 输出的文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <OUTPUT_FORMAT>",
+            "违规的输出序列化格式。",
+            "可选值: concise, full, json, json-lines, junit, grouped, github, gitlab, pylint, rdjson, azure, sarif"
+          ],
+          "next": [
+            {
+              "name": "azure",
+              "tip": [
+                "Azure DevOps 输出格式。"
+              ]
+            },
+            {
+              "name": "concise",
+              "tip": [
+                "简洁输出格式。"
+              ]
+            },
+            {
+              "name": "full",
+              "tip": [
+                "完整输出格式（默认）。"
+              ]
+            },
+            {
+              "name": "github",
+              "tip": [
+                "GitHub Actions 输出格式。"
+              ]
+            },
+            {
+              "name": "gitlab",
+              "tip": [
+                "GitLab Code Quality 输出格式。"
+              ]
+            },
+            {
+              "name": "grouped",
+              "tip": [
+                "分组输出格式。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 输出格式。"
+              ]
+            },
+            {
+              "name": "json-lines",
+              "tip": [
+                "JSON Lines 输出格式。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML 输出格式。"
+              ]
+            },
+            {
+              "name": "pylint",
+              "tip": [
+                "Pylint 输出格式。"
+              ]
+            },
+            {
+              "name": "rdjson",
+              "tip": [
+                "RDJSON 输出格式。"
+              ]
+            },
+            {
+              "name": "sarif",
+              "tip": [
+                "SARIF 输出格式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--per-file-ignores",
+          "tip": [
+            "U: --per-file-ignores <PER_FILE_IGNORES>",
+            "从文件模式到要排除的代码的映射列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--preview",
+          "tip": [
+            "启用预览模式；检查将包含不稳定的规则和修复。"
+          ]
+        },
+        {
+          "name": "--respect-gitignore",
+          "tip": [
+            "通过 .gitignore 遵守文件排除。"
+          ]
+        },
+        {
+          "name": "--select",
+          "tip": [
+            "U: --select <RULE_CODE>",
+            "逗号分隔的规则代码列表以启用（或 ALL）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--show-files",
+          "tip": [
+            "查看 Ruff 将使用当前设置运行的文件。"
+          ]
+        },
+        {
+          "name": "--show-fixes",
+          "tip": [
+            "显示所有已修复的 lint 违规的枚举。"
+          ]
+        },
+        {
+          "name": "--show-settings",
+          "tip": [
+            "查看 Ruff 将用于 lint 给定 Python 文件的设置。"
+          ]
+        },
+        {
+          "name": "--statistics",
+          "tip": [
+            "显示每个至少有一个违规的规则的计数。"
+          ]
+        },
+        {
+          "name": "--stdin-filename",
+          "tip": [
+            "U: --stdin-filename <STDIN_FILENAME>",
+            "通过 stdin 传递时的文件名。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-version",
+          "tip": [
+            "U: --target-version <TARGET_VERSION>",
+            "应支持的最低 Python 版本。",
+            "可选值: py37, py38, py39, py310, py311, py312, py313, py314, py315"
+          ],
+          "next": [
+            {
+              "name": "py310",
+              "tip": [
+                "目标 Python 3.10。"
+              ]
+            },
+            {
+              "name": "py311",
+              "tip": [
+                "目标 Python 3.11。"
+              ]
+            },
+            {
+              "name": "py312",
+              "tip": [
+                "目标 Python 3.12。"
+              ]
+            },
+            {
+              "name": "py313",
+              "tip": [
+                "目标 Python 3.13。"
+              ]
+            },
+            {
+              "name": "py314",
+              "tip": [
+                "目标 Python 3.14。"
+              ]
+            },
+            {
+              "name": "py315",
+              "tip": [
+                "目标 Python 3.15。"
+              ]
+            },
+            {
+              "name": "py37",
+              "tip": [
+                "目标 Python 3.7。"
+              ]
+            },
+            {
+              "name": "py38",
+              "tip": [
+                "目标 Python 3.8。"
+              ]
+            },
+            {
+              "name": "py39",
+              "tip": [
+                "目标 Python 3.9。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--unfixable",
+          "tip": [
+            "U: --unfixable <RULE_CODE>",
+            "要视为不可修复的规则代码列表。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--unsafe-fixes",
+          "tip": [
+            "包含可能不保留代码原始意图的修复。"
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --watch",
+            "在监视模式下运行，文件更改时重新运行。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "清除当前目录和任何子目录中的所有缓存。"
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "列出或描述可用的配置选项。"
+      ]
+    },
+    {
+      "name": "format",
+      "tip": [
+        "对给定的文件或目录运行 Ruff 格式化程序。"
+      ],
+      "option": [
+        {
+          "name": "--cache-dir",
+          "tip": [
+            "U: --cache-dir <CACHE_DIR>",
+            "缓存目录的路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "避免写回任何格式化的文件。",
+            "如果有任何文件将被修改，则以非零状态码退出。"
+          ]
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "输出当前文件和格式化文件之间的差异。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <FILE_PATTERN>",
+            "要从分析中省略的路径列表。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exit-non-zero-on-format",
+          "tip": [
+            "如果通过 format 修改了任何文件，则以非零状态码退出。"
+          ]
+        },
+        {
+          "name": "--extend-exclude",
+          "tip": [
+            "U: --extend-exclude <FILE_PATTERN>",
+            "类似 --exclude，但添加额外的文件和目录。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--extension",
+          "tip": [
+            "U: --extension <EXTENSION>",
+            "从文件扩展名到语言的映射列表。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--force-exclude",
+          "tip": [
+            "强制排除，即使对于直接在命令行上传递的路径。"
+          ]
+        },
+        {
+          "name": "--line-length",
+          "tip": [
+            "U: --line-length <LINE_LENGTH>",
+            "设置行长度。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-cache",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-cache",
+            "禁用缓存读取。"
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <OUTPUT_FORMAT>",
+            "违规的输出序列化格式，与 --check 一起使用时。",
+            "可选值: concise, full, json"
+          ],
+          "next": [
+            {
+              "name": "concise",
+              "tip": [
+                "简洁输出格式。"
+              ]
+            },
+            {
+              "name": "full",
+              "tip": [
+                "完整输出格式。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 输出格式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--preview",
+          "tip": [
+            "启用预览模式；启用不稳定的格式化。"
+          ]
+        },
+        {
+          "name": "--range",
+          "tip": [
+            "U: --range <RANGE>",
+            "仅格式化给定范围内的代码。",
+            "格式: <start_line>:<start_column>-<end_line>:<end_column>"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--respect-gitignore",
+          "tip": [
+            "通过 .gitignore 遵守文件排除。"
+          ]
+        },
+        {
+          "name": "--stdin-filename",
+          "tip": [
+            "U: --stdin-filename <STDIN_FILENAME>",
+            "通过 stdin 传递时的文件名。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-version",
+          "tip": [
+            "U: --target-version <TARGET_VERSION>",
+            "应支持的最低 Python 版本。"
+          ],
+          "next": [
+            {
+              "name": "py310",
+              "tip": [
+                "目标 Python 3.10。"
+              ]
+            },
+            {
+              "name": "py311",
+              "tip": [
+                "目标 Python 3.11。"
+              ]
+            },
+            {
+              "name": "py312",
+              "tip": [
+                "目标 Python 3.12。"
+              ]
+            },
+            {
+              "name": "py313",
+              "tip": [
+                "目标 Python 3.13。"
+              ]
+            },
+            {
+              "name": "py314",
+              "tip": [
+                "目标 Python 3.14。"
+              ]
+            },
+            {
+              "name": "py315",
+              "tip": [
+                "目标 Python 3.15。"
+              ]
+            },
+            {
+              "name": "py37",
+              "tip": [
+                "目标 Python 3.7。"
+              ]
+            },
+            {
+              "name": "py38",
+              "tip": [
+                "目标 Python 3.8。"
+              ]
+            },
+            {
+              "name": "py39",
+              "tip": [
+                "目标 Python 3.9。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "linter",
+      "tip": [
+        "列出所有支持的上游 linter。"
+      ]
+    },
+    {
+      "name": "rule",
+      "tip": [
+        "解释一个规则（或所有规则）。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "解释所有规则。"
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <OUTPUT_FORMAT>",
+            "输出格式。",
+            "默认: text",
+            "可选值: text, json"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 输出格式。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本输出格式。"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "server",
+      "tip": [
+        "运行语言服务器。"
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示 Ruff 的版本。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <WHEN>",
+        "控制何时使用彩色输出。",
+        "可选值: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终显示颜色。"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "如果输出到交互式终端则显示颜色。"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不显示颜色。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <CONFIG_OPTION>",
+        "TOML 配置文件的路径或 TOML 键值对。",
+        "E: --config \"lint.line-length = 100\"",
+        "E: --config \"format.quote-style = 'single'\""
+      ],
+      "next": 0
+    },
+    {
+      "name": "--isolated",
+      "tip": [
+        "忽略所有配置文件。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "打印诊断信息，但不打印其他内容。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --silent",
+        "禁用所有日志。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "启用详细日志。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <CONFIG_OPTION>",
+        "TOML 配置文件的路径或键值对。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助。"
+      ]
+    }
+  ]
+}

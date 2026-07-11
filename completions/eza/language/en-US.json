@@ -1,0 +1,755 @@
+{
+  "meta": {
+    "url": "https://eza.rocks",
+    "description": [
+      "A modern replacement for ls."
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Print version."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--absolute",
+      "tip": [
+        "U: --absolute [<on|off|follow>]",
+        "Display entries with their absolute path."
+      ],
+      "next": [
+        {
+          "name": "follow"
+        },
+        {
+          "name": "off"
+        },
+        {
+          "name": "on"
+        }
+      ]
+    },
+    {
+      "name": "--accessed",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --accessed",
+        "Show the accessed timestamp field."
+      ]
+    },
+    {
+      "name": "--across",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --across",
+        "Sort the grid across, rather than downwards."
+      ]
+    },
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --all",
+        "Show hidden files. Use twice to also show '.' and '..'."
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "--almost-all",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --almost-all",
+        "Equivalent to --all; included for compatibility with ls -A."
+      ]
+    },
+    {
+      "name": "--binary",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --binary",
+        "Show file sizes with binary prefixes."
+      ]
+    },
+    {
+      "name": "--blocksize",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --blocksize",
+        "List size of allocated file system blocks."
+      ]
+    },
+    {
+      "name": "--bytes",
+      "alias": [
+        "-B"
+      ],
+      "tip": [
+        "U: -B, --bytes",
+        "Show file sizes in bytes, without any prefixes."
+      ]
+    },
+    {
+      "name": "--changed",
+      "tip": [
+        "Show the changed timestamp field."
+      ]
+    },
+    {
+      "name": "--classify",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --classify [<WHEN>]",
+        "Display type indicator by file names."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--code",
+      "tip": [
+        "U: --code [=MODE]",
+        "Summarise lines of code by language."
+      ],
+      "next": [
+        {
+          "name": "both"
+        },
+        {
+          "name": "lines"
+        },
+        {
+          "name": "percent"
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color [<WHEN>]",
+        "When to use colours."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--color-scale",
+      "tip": [
+        "U: --color-scale [<FIELDS>...]",
+        "Highlight value of FIELDS distinctly."
+      ],
+      "next": [
+        {
+          "name": "age"
+        },
+        {
+          "name": "all"
+        },
+        {
+          "name": "size"
+        }
+      ]
+    },
+    {
+      "name": "--color-scale-mode",
+      "tip": [
+        "U: --color-scale-mode <MODE>",
+        "Mode for --color-scale."
+      ],
+      "next": [
+        {
+          "name": "fixed"
+        },
+        {
+          "name": "gradient"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-Z"
+      ],
+      "tip": [
+        "U: -Z, --context",
+        "List each file's security context."
+      ]
+    },
+    {
+      "name": "--created",
+      "alias": [
+        "-U"
+      ],
+      "tip": [
+        "U: -U, --created",
+        "Show the created timestamp field."
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-X"
+      ],
+      "tip": [
+        "U: -X, --dereference",
+        "Dereference symbolic links when displaying information."
+      ]
+    },
+    {
+      "name": "--extended",
+      "alias": [
+        "-@"
+      ],
+      "tip": [
+        "U: -@, --extended",
+        "List each file's extended attributes and sizes."
+      ]
+    },
+    {
+      "name": "--flags",
+      "alias": [
+        "-O"
+      ],
+      "tip": [
+        "U: -O, --flags",
+        "List file flags (Mac, BSD, and Windows only)."
+      ]
+    },
+    {
+      "name": "--follow-symlinks",
+      "tip": [
+        "Drill down into symbolic links that point to directories."
+      ]
+    },
+    {
+      "name": "--git",
+      "tip": [
+        "List each file's Git status, if tracked or ignored."
+      ]
+    },
+    {
+      "name": "--git-ignore",
+      "tip": [
+        "Ignore files mentioned in .gitignore."
+      ]
+    },
+    {
+      "name": "--git-repos",
+      "tip": [
+        "List root of git-tree status."
+      ]
+    },
+    {
+      "name": "--git-repos-no-status",
+      "tip": [
+        "List root of git-tree branch name (much faster)."
+      ]
+    },
+    {
+      "name": "--grid",
+      "alias": [
+        "-G"
+      ],
+      "tip": [
+        "U: -G, --grid",
+        "Display entries as a grid (default)."
+      ]
+    },
+    {
+      "name": "--group",
+      "alias": [
+        "-g"
+      ],
+      "tip": [
+        "U: -g, --group",
+        "List each file's group."
+      ]
+    },
+    {
+      "name": "--group-directories-first",
+      "tip": [
+        "List directories before other files."
+      ]
+    },
+    {
+      "name": "--group-directories-last",
+      "tip": [
+        "List directories after other files."
+      ]
+    },
+    {
+      "name": "--header",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --header",
+        "Add a header row to each column."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-?"
+      ],
+      "tip": [
+        "U: -?, --help",
+        "Print help."
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "tip": [
+        "U: --hyperlink [<WHEN>]",
+        "When to display entries as hyperlinks."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--icons",
+      "tip": [
+        "U: --icons [<WHEN>]",
+        "When to display icons."
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--ignore-glob",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --ignore-glob <GLOBS>",
+        "Glob patterns of files to ignore."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--inode",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --inode",
+        "List each file's inode number."
+      ]
+    },
+    {
+      "name": "--level",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "U: -L, --level <DEPTH>",
+        "Limit the depth of recursion."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--links",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --links",
+        "List each file's number of hard links."
+      ]
+    },
+    {
+      "name": "--loc",
+      "tip": [
+        "U: --loc [=MODE]",
+        "Add lines-of-code and language columns."
+      ],
+      "next": [
+        {
+          "name": "both"
+        },
+        {
+          "name": "lines"
+        },
+        {
+          "name": "percent"
+        }
+      ]
+    },
+    {
+      "name": "--long",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --long",
+        "Display extended file metadata as a table."
+      ]
+    },
+    {
+      "name": "--modified",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --modified",
+        "Show the modified timestamp field."
+      ]
+    },
+    {
+      "name": "--mounts",
+      "alias": [
+        "-M"
+      ],
+      "tip": [
+        "U: -M, --mounts",
+        "Show mount details (Linux and macOS only)."
+      ]
+    },
+    {
+      "name": "--no-filesize",
+      "tip": [
+        "Suppress the filesize field."
+      ]
+    },
+    {
+      "name": "--no-git",
+      "tip": [
+        "Suppress Git fields."
+      ]
+    },
+    {
+      "name": "--no-permissions",
+      "tip": [
+        "Suppress the permissions field."
+      ]
+    },
+    {
+      "name": "--no-quotes",
+      "tip": [
+        "Don't quote file names with spaces."
+      ]
+    },
+    {
+      "name": "--no-symlinks",
+      "tip": [
+        "Do not show symbolic links."
+      ]
+    },
+    {
+      "name": "--no-time",
+      "tip": [
+        "Suppress the time field."
+      ]
+    },
+    {
+      "name": "--no-user",
+      "tip": [
+        "Suppress the user field."
+      ]
+    },
+    {
+      "name": "--numeric",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --numeric",
+        "Show user and group as their numeric IDs."
+      ]
+    },
+    {
+      "name": "--octal-permissions",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --octal-permissions",
+        "List each file's permission in octal format."
+      ]
+    },
+    {
+      "name": "--oneline",
+      "alias": [
+        "-1"
+      ],
+      "tip": [
+        "U: -1, --oneline",
+        "Display one entry per line."
+      ]
+    },
+    {
+      "name": "--only-dirs",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --only-dirs",
+        "List only directories."
+      ]
+    },
+    {
+      "name": "--only-files",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --only-files",
+        "List only files."
+      ]
+    },
+    {
+      "name": "--recurse",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --recurse",
+        "Recurse into directories."
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --reverse",
+        "Reverse the sort order."
+      ]
+    },
+    {
+      "name": "--short-nix",
+      "tip": [
+        "Abbreviate Nix store hashes in file names and paths."
+      ]
+    },
+    {
+      "name": "--show-symlinks",
+      "tip": [
+        "Explicitly show symbolic links."
+      ]
+    },
+    {
+      "name": "--smart-group",
+      "tip": [
+        "Only show group if it has a different name from owner."
+      ]
+    },
+    {
+      "name": "--sort",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --sort <FIELD>",
+        "Which field to sort by."
+      ],
+      "next": [
+        {
+          "name": ".ext"
+        },
+        {
+          "name": ".name"
+        },
+        {
+          "name": ".Name"
+        },
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "age"
+        },
+        {
+          "name": "changed"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "date"
+        },
+        {
+          "name": "ext"
+        },
+        {
+          "name": "inode"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "Name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "type"
+        }
+      ]
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "Read file names from stdin."
+      ]
+    },
+    {
+      "name": "--time",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --time <FIELD>",
+        "Which timestamp field to show."
+      ],
+      "next": [
+        {
+          "name": "acc"
+        },
+        {
+          "name": "accessed"
+        },
+        {
+          "name": "ch"
+        },
+        {
+          "name": "changed"
+        },
+        {
+          "name": "cr"
+        },
+        {
+          "name": "created"
+        },
+        {
+          "name": "mod"
+        },
+        {
+          "name": "modified"
+        }
+      ]
+    },
+    {
+      "name": "--time-style",
+      "tip": [
+        "U: --time-style <STYLE>",
+        "How to format timestamps."
+      ],
+      "next": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "full-iso"
+        },
+        {
+          "name": "iso"
+        },
+        {
+          "name": "long-iso"
+        },
+        {
+          "name": "relative"
+        }
+      ]
+    },
+    {
+      "name": "--total-size",
+      "tip": [
+        "Show the size of a directory as the sum of its content."
+      ]
+    },
+    {
+      "name": "--treat-dirs-as-files",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --treat-dirs-as-files",
+        "Treat directories as files; don't list their contents."
+      ]
+    },
+    {
+      "name": "--tree",
+      "alias": [
+        "-T"
+      ],
+      "tip": [
+        "U: -T, --tree",
+        "Recurse into directories as a tree."
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --width <COLS>",
+        "Set screen width in columns."
+      ],
+      "next": 0
+    }
+  ]
+}

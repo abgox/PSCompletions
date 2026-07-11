@@ -1,0 +1,795 @@
+{
+  "meta": {
+    "url": "https://github.com/github/copilot-cli",
+    "description": [
+      "GitHub Copilot CLI - AI-powered coding assistant in the terminal."
+    ]
+  },
+  "root": [
+    {
+      "name": "completion",
+      "tip": [
+        "Generate a shell completion script."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate bash completion script."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate fish completion script."
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate PowerShell completion script."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate zsh completion script."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Display help information."
+      ],
+      "next": 0
+    },
+    {
+      "name": "init",
+      "tip": [
+        "Initialize Copilot instructions."
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "Authenticate with Copilot via OAuth device flow."
+      ],
+      "option": [
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "GitHub host URL.",
+            "Default: https://github.com"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "Log out from Copilot."
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Manage MCP server configuration."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [options] <name> [url-or-command-and-args...]",
+            "Add an MCP server."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get [options] <name>",
+            "Show server details."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List configured MCP servers."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [options] <name>",
+            "Remove an MCP server."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "Manage plugins and plugin marketplaces."
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "U: install [options] <source>",
+            "Install a plugin."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List installed plugins."
+          ]
+        },
+        {
+          "name": "marketplace",
+          "tip": [
+            "Manage plugin marketplaces."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "U: uninstall [options] <name>",
+            "Uninstall a plugin."
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [options] [name]",
+            "Update a plugin."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "tip": [
+        "Inspect configured plugins across kinds."
+      ]
+    },
+    {
+      "name": "skill",
+      "tip": [
+        "Manage skills available to Copilot."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [options] <source>",
+            "Add a skill from a file, URL, or directory."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List available skills."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [options] <name-or-directory>",
+            "Remove a skill or custom skill directory."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [channel]",
+        "Download the latest version."
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Display version information."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--acp",
+      "tip": [
+        "Start as Agent Client Protocol server."
+      ]
+    },
+    {
+      "name": "--add-dir",
+      "tip": [
+        "U: --add-dir <DIRECTORY>",
+        "Add a directory to the allowed list for file access."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--add-github-mcp-tool",
+      "tip": [
+        "U: --add-github-mcp-tool <TOOL>",
+        "Add a tool to enable for the GitHub MCP server.",
+        "Use '*' for all tools."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--add-github-mcp-toolset",
+      "tip": [
+        "U: --add-github-mcp-toolset <TOOLSET>",
+        "Add a toolset to enable for the GitHub MCP server.",
+        "Use 'all' for all toolsets."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--additional-mcp-config",
+      "tip": [
+        "U: --additional-mcp-config <JSON>",
+        "Additional MCP servers configuration as JSON string or file path."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--agent",
+      "tip": [
+        "U: --agent <AGENT>",
+        "Specify a custom agent to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allow-all",
+      "tip": [
+        "Enable all permissions.",
+        "Equivalent to --allow-all-tools --allow-all-paths --allow-all-urls."
+      ]
+    },
+    {
+      "name": "--allow-all-paths",
+      "tip": [
+        "Disable file path verification and allow access to any path."
+      ]
+    },
+    {
+      "name": "--allow-all-tools",
+      "tip": [
+        "Allow all tools to run automatically without confirmation."
+      ]
+    },
+    {
+      "name": "--allow-all-urls",
+      "tip": [
+        "Allow access to all URLs without confirmation."
+      ]
+    },
+    {
+      "name": "--allow-tool",
+      "tip": [
+        "U: --allow-tool[=tools...]",
+        "Tools the CLI has permission to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allow-url",
+      "tip": [
+        "U: --allow-url[=urls...]",
+        "Allow access to specific URLs or domains."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--attachment",
+      "tip": [
+        "U: --attachment <PATH>",
+        "Attach a file to the initial prompt.",
+        "Only valid in non-interactive mode."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--autopilot",
+      "tip": [
+        "Start in autopilot mode."
+      ]
+    },
+    {
+      "name": "--available-tools",
+      "tip": [
+        "U: --available-tools[=tools...]",
+        "Only these tools will be available to the model."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--banner",
+      "tip": [
+        "Show the startup banner."
+      ]
+    },
+    {
+      "name": "--cd",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C <DIRECTORY>",
+        "Change working directory before doing anything else."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--connect",
+      "tip": [
+        "U: --connect[=sessionId]",
+        "Connect directly to a remote session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--context",
+      "tip": [
+        "U: --context <TIER>",
+        "Set the context window tier.",
+        "Possible values: default, long_context"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Default context window."
+          ]
+        },
+        {
+          "name": "long_context",
+          "tip": [
+            "Long context window."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--continue",
+      "tip": [
+        "Resume the most recent session."
+      ]
+    },
+    {
+      "name": "--deny-tool",
+      "tip": [
+        "U: --deny-tool[=tools...]",
+        "Tools the CLI does not have permission to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--deny-url",
+      "tip": [
+        "U: --deny-url[=urls...]",
+        "Deny access to specific URLs or domains."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-builtin-mcps",
+      "tip": [
+        "Disable all built-in MCP servers."
+      ]
+    },
+    {
+      "name": "--disable-mcp-server",
+      "tip": [
+        "U: --disable-mcp-server <SERVER-NAME>",
+        "Disable a specific MCP server."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--effort",
+      "tip": [
+        "U: --effort <LEVEL>",
+        "Set the reasoning effort level.",
+        "Possible values: none, minimal, low, medium, high, xhigh, max"
+      ],
+      "next": [
+        {
+          "name": "high",
+          "tip": [
+            "High reasoning."
+          ]
+        },
+        {
+          "name": "low",
+          "tip": [
+            "Low reasoning."
+          ]
+        },
+        {
+          "name": "max",
+          "tip": [
+            "Maximum reasoning."
+          ]
+        },
+        {
+          "name": "medium",
+          "tip": [
+            "Medium reasoning."
+          ]
+        },
+        {
+          "name": "minimal",
+          "tip": [
+            "Minimal reasoning."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No reasoning."
+          ]
+        },
+        {
+          "name": "xhigh",
+          "tip": [
+            "Extra high reasoning."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--experimental",
+      "tip": [
+        "Enable experimental features."
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --interactive <PROMPT>",
+        "Start interactive mode and automatically execute this prompt."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-dir",
+      "tip": [
+        "U: --log-dir <DIRECTORY>",
+        "Set log file directory.",
+        "Default: ~/.copilot/logs/"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <LEVEL>",
+        "Set the log level.",
+        "Possible values: none, error, warning, info, debug, all, default"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "All logging."
+          ]
+        },
+        {
+          "name": "debug",
+          "tip": [
+            "Debug and above."
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "Default level."
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level only."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info and above."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No logging."
+          ]
+        },
+        {
+          "name": "warning",
+          "tip": [
+            "Warning and above."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--max-ai-credits",
+      "tip": [
+        "U: --max-ai-credits <CREDITS>",
+        "Set max AI credits for this session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-autopilot-continues",
+      "tip": [
+        "U: --max-autopilot-continues <COUNT>",
+        "Maximum number of continuation messages in autopilot mode.",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mode",
+      "tip": [
+        "U: --mode <MODE>",
+        "Set the initial agent mode.",
+        "Possible values: interactive, plan, autopilot"
+      ],
+      "next": [
+        {
+          "name": "autopilot",
+          "tip": [
+            "Autopilot mode."
+          ]
+        },
+        {
+          "name": "interactive",
+          "tip": [
+            "Interactive mode."
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "Plan mode."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "Set the AI model to use.",
+        "Use 'auto' to let Copilot pick automatically."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--name",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --name <NAME>",
+        "Set a name for the new session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-ask-user",
+      "tip": [
+        "Disable the ask_user tool."
+      ]
+    },
+    {
+      "name": "--no-auto-update",
+      "tip": [
+        "Disable downloading CLI update automatically."
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Disable all color output."
+      ]
+    },
+    {
+      "name": "--no-custom-instructions",
+      "tip": [
+        "Disable loading of custom instructions from AGENTS.md and related files."
+      ]
+    },
+    {
+      "name": "--no-experimental",
+      "tip": [
+        "Disable experimental features."
+      ]
+    },
+    {
+      "name": "--no-remote",
+      "tip": [
+        "Disable remote control of your session from GitHub web and mobile."
+      ]
+    },
+    {
+      "name": "--no-remote-export",
+      "tip": [
+        "Disable exporting your session to GitHub web and mobile."
+      ]
+    },
+    {
+      "name": "--output-format",
+      "tip": [
+        "U: --output-format <FORMAT>",
+        "Output format.",
+        "Possible values: text, json"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON output."
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "Plain text output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--plan",
+      "tip": [
+        "Start in plan mode."
+      ]
+    },
+    {
+      "name": "--plugin-dir",
+      "tip": [
+        "U: --plugin-dir <DIRECTORY>",
+        "Load a plugin from a local directory."
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --prompt <TEXT>",
+        "Execute a prompt in non-interactive mode."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote",
+      "tip": [
+        "Enable remote control of your session from GitHub web and mobile."
+      ]
+    },
+    {
+      "name": "--remote-export",
+      "tip": [
+        "Export your session to GitHub web and mobile."
+      ]
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --resume[=VALUE]",
+        "Resume from a previous session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session-id",
+      "tip": [
+        "U: --session-id <ID>",
+        "Resume an existing session or task by ID."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--share",
+      "tip": [
+        "U: --share[=path]",
+        "Share session to markdown file after completion."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--share-gist",
+      "tip": [
+        "Share session to a secret GitHub gist."
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --silent",
+        "Output only the agent response."
+      ]
+    },
+    {
+      "name": "--stream",
+      "tip": [
+        "U: --stream <MODE>",
+        "Enable or disable streaming mode.",
+        "Possible values: on, off"
+      ],
+      "next": [
+        {
+          "name": "off",
+          "tip": [
+            "Disable streaming."
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "Enable streaming."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Show version information."
+      ]
+    },
+    {
+      "name": "--yolo",
+      "tip": [
+        "Enable all permissions.",
+        "Equivalent to --allow-all-tools --allow-all-paths --allow-all-urls."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Display help for command."
+      ]
+    }
+  ]
+}

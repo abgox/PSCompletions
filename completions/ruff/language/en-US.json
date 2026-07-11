@@ -1,0 +1,782 @@
+{
+  "meta": {
+    "url": "https://github.com/astral-sh/ruff",
+    "description": [
+      "Ruff - An extremely fast Python linter and code formatter."
+    ]
+  },
+  "root": [
+    {
+      "name": "analyze",
+      "tip": [
+        "Run analysis over Python source code."
+      ],
+      "next": [
+        {
+          "name": "graph",
+          "tip": [
+            "Generate a map of Python file dependencies or dependents."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "Run Ruff on the given files or directories."
+      ],
+      "option": [
+        {
+          "name": "--add-ignore",
+          "tip": [
+            "Enable automatic additions of ruff:ignore comments to failing lines."
+          ]
+        },
+        {
+          "name": "--add-noqa",
+          "tip": [
+            "Enable automatic additions of noqa directives to failing lines."
+          ]
+        },
+        {
+          "name": "--cache-dir",
+          "tip": [
+            "U: --cache-dir <CACHE_DIR>",
+            "Path to the cache directory."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "Output a diff for each changed file to stdout.",
+            "Implies --fix-only."
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <FILE_PATTERN>",
+            "List of paths to omit from analysis."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exit-non-zero-on-fix",
+          "tip": [
+            "Exit with a non-zero status code if any files were modified via fix."
+          ]
+        },
+        {
+          "name": "--exit-zero",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exit-zero",
+            "Exit with status code 0, even upon detecting lint violations."
+          ]
+        },
+        {
+          "name": "--extend-exclude",
+          "tip": [
+            "U: --extend-exclude <FILE_PATTERN>",
+            "Like --exclude, but adds additional files and directories."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--extend-select",
+          "tip": [
+            "U: --extend-select <RULE_CODE>",
+            "Like --select, but adds additional rule codes on top of those already specified."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--extension",
+          "tip": [
+            "U: --extension <EXTENSION>",
+            "List of mappings from file extension to language."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "Apply fixes to resolve lint violations.",
+            "Use --no-fix to disable or --unsafe-fixes to include unsafe fixes."
+          ]
+        },
+        {
+          "name": "--fix-only",
+          "tip": [
+            "Apply fixes but don't report leftover violations.",
+            "Implies --fix."
+          ]
+        },
+        {
+          "name": "--fixable",
+          "tip": [
+            "U: --fixable <RULE_CODE>",
+            "List of rule codes to treat as eligible for fix."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force-exclude",
+          "tip": [
+            "Enforce exclusions, even for paths passed directly on the command-line."
+          ]
+        },
+        {
+          "name": "--ignore",
+          "tip": [
+            "U: --ignore <RULE_CODE>",
+            "Comma-separated list of rule codes to disable."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-noqa",
+          "tip": [
+            "Ignore any # noqa comments."
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-cache",
+            "Disable cache reads."
+          ]
+        },
+        {
+          "name": "--output-file",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output-file <OUTPUT_FILE>",
+            "Specify file to write the linter output to."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <OUTPUT_FORMAT>",
+            "Output serialization format for violations.",
+            "Possible values: concise, full, json, json-lines, junit, grouped, github, gitlab, pylint, rdjson, azure, sarif"
+          ],
+          "next": [
+            {
+              "name": "azure",
+              "tip": [
+                "Azure DevOps output format."
+              ]
+            },
+            {
+              "name": "concise",
+              "tip": [
+                "Concise output format."
+              ]
+            },
+            {
+              "name": "full",
+              "tip": [
+                "Full output format (default)."
+              ]
+            },
+            {
+              "name": "github",
+              "tip": [
+                "GitHub Actions output format."
+              ]
+            },
+            {
+              "name": "gitlab",
+              "tip": [
+                "GitLab Code Quality output format."
+              ]
+            },
+            {
+              "name": "grouped",
+              "tip": [
+                "Grouped output format."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON output format."
+              ]
+            },
+            {
+              "name": "json-lines",
+              "tip": [
+                "JSON Lines output format."
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML output format."
+              ]
+            },
+            {
+              "name": "pylint",
+              "tip": [
+                "Pylint output format."
+              ]
+            },
+            {
+              "name": "rdjson",
+              "tip": [
+                "RDJSON output format."
+              ]
+            },
+            {
+              "name": "sarif",
+              "tip": [
+                "SARIF output format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--per-file-ignores",
+          "tip": [
+            "U: --per-file-ignores <PER_FILE_IGNORES>",
+            "List of mappings from file pattern to code to exclude."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--preview",
+          "tip": [
+            "Enable preview mode; checks will include unstable rules and fixes."
+          ]
+        },
+        {
+          "name": "--respect-gitignore",
+          "tip": [
+            "Respect file exclusions via .gitignore."
+          ]
+        },
+        {
+          "name": "--select",
+          "tip": [
+            "U: --select <RULE_CODE>",
+            "Comma-separated list of rule codes to enable (or ALL)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--show-files",
+          "tip": [
+            "See the files Ruff will be run against with the current settings."
+          ]
+        },
+        {
+          "name": "--show-fixes",
+          "tip": [
+            "Show an enumeration of all fixed lint violations."
+          ]
+        },
+        {
+          "name": "--show-settings",
+          "tip": [
+            "See the settings Ruff will use to lint a given Python file."
+          ]
+        },
+        {
+          "name": "--statistics",
+          "tip": [
+            "Show counts for every rule with at least one violation."
+          ]
+        },
+        {
+          "name": "--stdin-filename",
+          "tip": [
+            "U: --stdin-filename <STDIN_FILENAME>",
+            "The name of the file when passing it through stdin."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-version",
+          "tip": [
+            "U: --target-version <TARGET_VERSION>",
+            "The minimum Python version that should be supported.",
+            "Possible values: py37, py38, py39, py310, py311, py312, py313, py314, py315"
+          ],
+          "next": [
+            {
+              "name": "py310",
+              "tip": [
+                "Target Python 3.10."
+              ]
+            },
+            {
+              "name": "py311",
+              "tip": [
+                "Target Python 3.11."
+              ]
+            },
+            {
+              "name": "py312",
+              "tip": [
+                "Target Python 3.12."
+              ]
+            },
+            {
+              "name": "py313",
+              "tip": [
+                "Target Python 3.13."
+              ]
+            },
+            {
+              "name": "py314",
+              "tip": [
+                "Target Python 3.14."
+              ]
+            },
+            {
+              "name": "py315",
+              "tip": [
+                "Target Python 3.15."
+              ]
+            },
+            {
+              "name": "py37",
+              "tip": [
+                "Target Python 3.7."
+              ]
+            },
+            {
+              "name": "py38",
+              "tip": [
+                "Target Python 3.8."
+              ]
+            },
+            {
+              "name": "py39",
+              "tip": [
+                "Target Python 3.9."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--unfixable",
+          "tip": [
+            "U: --unfixable <RULE_CODE>",
+            "List of rule codes to treat as ineligible for fix."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--unsafe-fixes",
+          "tip": [
+            "Include fixes that may not retain the original intent of the code."
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --watch",
+            "Run in watch mode by re-running whenever files change."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "Clear any caches in the current directory and any subdirectories."
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "List or describe the available configuration options."
+      ]
+    },
+    {
+      "name": "format",
+      "tip": [
+        "Run the Ruff formatter on the given files or directories."
+      ],
+      "option": [
+        {
+          "name": "--cache-dir",
+          "tip": [
+            "U: --cache-dir <CACHE_DIR>",
+            "Path to the cache directory."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "Avoid writing any formatted files back.",
+            "Exit with non-zero status code if any files would have been modified."
+          ]
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "Output the difference between current and formatted file."
+          ]
+        },
+        {
+          "name": "--exclude",
+          "tip": [
+            "U: --exclude <FILE_PATTERN>",
+            "List of paths to omit from analysis."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exit-non-zero-on-format",
+          "tip": [
+            "Exit with a non-zero status code if any files were modified via format."
+          ]
+        },
+        {
+          "name": "--extend-exclude",
+          "tip": [
+            "U: --extend-exclude <FILE_PATTERN>",
+            "Like --exclude, but adds additional files and directories."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--extension",
+          "tip": [
+            "U: --extension <EXTENSION>",
+            "List of mappings from file extension to language."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--force-exclude",
+          "tip": [
+            "Enforce exclusions, even for paths passed directly on the command-line."
+          ]
+        },
+        {
+          "name": "--line-length",
+          "tip": [
+            "U: --line-length <LINE_LENGTH>",
+            "Set the line-length."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-cache",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-cache",
+            "Disable cache reads."
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <OUTPUT_FORMAT>",
+            "Output serialization format for violations, when used with --check."
+          ],
+          "next": [
+            {
+              "name": "concise",
+              "tip": [
+                "Concise output format."
+              ]
+            },
+            {
+              "name": "full",
+              "tip": [
+                "Full output format."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON output format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--preview",
+          "tip": [
+            "Enable preview mode; enables unstable formatting."
+          ]
+        },
+        {
+          "name": "--range",
+          "tip": [
+            "U: --range <RANGE>",
+            "Only format the code in the given range.",
+            "Format: <start_line>:<start_column>-<end_line>:<end_column>"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--respect-gitignore",
+          "tip": [
+            "Respect file exclusions via .gitignore."
+          ]
+        },
+        {
+          "name": "--stdin-filename",
+          "tip": [
+            "U: --stdin-filename <STDIN_FILENAME>",
+            "The name of the file when passing it through stdin."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target-version",
+          "tip": [
+            "U: --target-version <TARGET_VERSION>",
+            "The minimum Python version that should be supported."
+          ],
+          "next": [
+            {
+              "name": "py310",
+              "tip": [
+                "Target Python 3.10."
+              ]
+            },
+            {
+              "name": "py311",
+              "tip": [
+                "Target Python 3.11."
+              ]
+            },
+            {
+              "name": "py312",
+              "tip": [
+                "Target Python 3.12."
+              ]
+            },
+            {
+              "name": "py313",
+              "tip": [
+                "Target Python 3.13."
+              ]
+            },
+            {
+              "name": "py314",
+              "tip": [
+                "Target Python 3.14."
+              ]
+            },
+            {
+              "name": "py315",
+              "tip": [
+                "Target Python 3.15."
+              ]
+            },
+            {
+              "name": "py37",
+              "tip": [
+                "Target Python 3.7."
+              ]
+            },
+            {
+              "name": "py38",
+              "tip": [
+                "Target Python 3.8."
+              ]
+            },
+            {
+              "name": "py39",
+              "tip": [
+                "Target Python 3.9."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "linter",
+      "tip": [
+        "List all supported upstream linters."
+      ]
+    },
+    {
+      "name": "rule",
+      "tip": [
+        "Explain a rule (or all rules)."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Explain all rules."
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <OUTPUT_FORMAT>",
+            "Output format.",
+            "Default: text",
+            "Possible values: text, json"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON output format."
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "Text output format."
+              ]
+            }
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "server",
+      "tip": [
+        "Run the language server."
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Display Ruff's version."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <WHEN>",
+        "Control when colored output is used.",
+        "Possible values: auto, always, never"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always display colors."
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Display colors if the output goes to an interactive terminal."
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never display colors."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <CONFIG_OPTION>",
+        "Either a path to a TOML configuration file, or a TOML key-value pair.",
+        "E: --config \"lint.line-length = 100\"",
+        "E: --config \"format.quote-style = 'single'\""
+      ],
+      "next": 0
+    },
+    {
+      "name": "--isolated",
+      "tip": [
+        "Ignore all configuration files."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Print diagnostics, but nothing else."
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --silent",
+        "Disable all logging."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Enable verbose logging."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version."
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <CONFIG_OPTION>",
+        "Path to a TOML configuration file or a key-value pair."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,600 @@
+{
+  "meta": {
+    "url": "https://github.com/nilaoda/N_m3u8DL-RE",
+    "description": [
+      "一个跨平台的浏览器流媒体下载器 (HLS/DASH/Smooth)。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--ad-keyword",
+      "tip": [
+        "U: --ad-keyword <REG>",
+        "设置广告分片的 URL 关键字(正则表达式)。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allow-hls-multi-ext-map",
+      "tip": [
+        "允许 HLS 中的多个 #EXT-X-MAP (实验性)。[默认: False]"
+      ]
+    },
+    {
+      "name": "--append-url-params",
+      "tip": [
+        "将输入 URL 的 Params 添加至分片, 对某些网站很有用。[默认: False]"
+      ]
+    },
+    {
+      "name": "--auto-select",
+      "tip": [
+        "自动选择所有类型的最佳轨道。[默认: False]"
+      ]
+    },
+    {
+      "name": "--auto-subtitle-fix",
+      "tip": [
+        "自动修正字幕。[默认: True]"
+      ]
+    },
+    {
+      "name": "--base-url",
+      "tip": [
+        "U: --base-url <base-url>",
+        "设置 BaseURL。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--binary-merge",
+      "tip": [
+        "二进制合并。[默认: False]"
+      ]
+    },
+    {
+      "name": "--check-segments-count",
+      "tip": [
+        "检测实际下载的分片数量和预期数量是否匹配。[默认: True]"
+      ]
+    },
+    {
+      "name": "--concurrent-download",
+      "alias": [
+        "-mt"
+      ],
+      "tip": [
+        "U: -mt, --concurrent-download",
+        "并发下载已选择的音频、视频和字幕。[默认: False]"
+      ]
+    },
+    {
+      "name": "--custom-hls-iv",
+      "tip": [
+        "U: --custom-hls-iv <FILE|HEX|BASE64>",
+        "指定 HLS 解密 IV, 可以是文件、HEX 或 Base64。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--custom-hls-key",
+      "tip": [
+        "U: --custom-hls-key <FILE|HEX|BASE64>",
+        "指定 HLS 解密 KEY, 可以是文件、HEX 或 Base64。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--custom-hls-method",
+      "tip": [
+        "U: --custom-hls-method <METHOD>",
+        "指定 HLS 加密方式。"
+      ],
+      "next": [
+        {
+          "name": "AES_128"
+        },
+        {
+          "name": "AES_128_ECB"
+        },
+        {
+          "name": "CENC"
+        },
+        {
+          "name": "CHACHA20"
+        },
+        {
+          "name": "NONE"
+        },
+        {
+          "name": "SAMPLE_AES"
+        },
+        {
+          "name": "SAMPLE_AES_CTR"
+        },
+        {
+          "name": "UNKNOWN"
+        }
+      ]
+    },
+    {
+      "name": "--custom-proxy",
+      "tip": [
+        "U: --custom-proxy <URL>",
+        "设置请求代理。",
+        "E: --custom-proxy http://127.0.0.1:8888"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--custom-range",
+      "tip": [
+        "U: --custom-range <RANGE>",
+        "仅下载部分分片。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--decryption-binary-path",
+      "tip": [
+        "U: --decryption-binary-path <PATH>",
+        "MP4 解密所用工具的全路径。",
+        "E: --decryption-binary-path C:\\Tools\\mp4decrypt.exe"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--decryption-engine",
+      "tip": [
+        "U: --decryption-engine <FFMPEG|MP4DECRYPT|SHAKA_PACKAGER>",
+        "设置解密时使用的第三方程序。[默认: MP4DECRYPT]"
+      ],
+      "next": [
+        {
+          "name": "FFMPEG"
+        },
+        {
+          "name": "MP4DECRYPT"
+        },
+        {
+          "name": "SHAKA_PACKAGER"
+        }
+      ]
+    },
+    {
+      "name": "--del-after-done",
+      "tip": [
+        "完成后删除临时文件。[默认: True]"
+      ]
+    },
+    {
+      "name": "--disable-update-check",
+      "tip": [
+        "禁用版本更新检测。[默认: False]"
+      ]
+    },
+    {
+      "name": "--download-retry-count",
+      "tip": [
+        "U: --download-retry-count <number>",
+        "每个分片下载异常时的重试次数。[默认: 3]"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--drop-audio",
+      "alias": [
+        "-da"
+      ],
+      "tip": [
+        "U: -da, --drop-audio <OPTIONS>",
+        "通过正则表达式去除符合要求的音频流。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--drop-subtitle",
+      "alias": [
+        "-ds"
+      ],
+      "tip": [
+        "U: -ds, --drop-subtitle <OPTIONS>",
+        "通过正则表达式去除符合要求的字幕流。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--drop-video",
+      "alias": [
+        "-dv"
+      ],
+      "tip": [
+        "U: -dv, --drop-video <OPTIONS>",
+        "通过正则表达式去除符合要求的视频流。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ffmpeg-binary-path",
+      "tip": [
+        "U: --ffmpeg-binary-path <PATH>",
+        "ffmpeg 可执行程序全路径。",
+        "E: --ffmpeg-binary-path C:\\Tools\\ffmpeg.exe"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--force-ansi-console",
+      "tip": [
+        "强制认定终端为支持 ANSI 且可交互的终端。"
+      ]
+    },
+    {
+      "name": "--header",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --header <header>",
+        "为 HTTP 请求设置特定的请求头。",
+        "E: -H \"Cookie: mycookie\" -H \"User-Agent: iOS\""
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-request-timeout",
+      "tip": [
+        "U: --http-request-timeout <seconds>",
+        "HTTP 请求的超时时间(秒)。[默认: 100]"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--key",
+      "tip": [
+        "U: --key <key>",
+        "设置解密密钥, 格式:",
+        "--key KID1:KEY1 --key KID2:KEY2",
+        "对于 KEY 相同的情况可以直接输入 --key KEY"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--key-text-file",
+      "tip": [
+        "U: --key-text-file <key-text-file>",
+        "设置密钥文件, 程序将从文件中按 KID 搜寻 KEY 以解密。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--live-fix-vtt-by-audio",
+      "tip": [
+        "通过读取音频文件的起始时间修正 VTT 字幕。[默认: False]"
+      ]
+    },
+    {
+      "name": "--live-keep-segments",
+      "tip": [
+        "录制直播并开启实时合并时依然保留分片。[默认: True]"
+      ]
+    },
+    {
+      "name": "--live-perform-as-vod",
+      "tip": [
+        "以点播方式下载直播流。[默认: False]"
+      ]
+    },
+    {
+      "name": "--live-pipe-mux",
+      "tip": [
+        "录制直播并开启实时合并时通过管道 + ffmpeg 实时混流到 TS 文件。[默认: False]"
+      ]
+    },
+    {
+      "name": "--live-real-time-merge",
+      "tip": [
+        "录制直播时实时合并。[默认: False]"
+      ]
+    },
+    {
+      "name": "--live-record-limit",
+      "tip": [
+        "U: --live-record-limit <HH:mm:ss>",
+        "录制直播时的录制时长限制。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--live-take-count",
+      "tip": [
+        "U: --live-take-count <NUM>",
+        "手动设置录制直播时首次获取分片的数量。[默认: 16]"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--live-wait-time",
+      "tip": [
+        "U: --live-wait-time <SEC>",
+        "手动设置直播列表刷新间隔。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-file-path",
+      "tip": [
+        "U: --log-file-path <log-file-path>",
+        "设置日志文件路径。",
+        "E: --log-file-path C:\\Logs\\log.txt"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <DEBUG|ERROR|INFO|OFF|WARN>",
+        "设置日志级别。[默认: INFO]"
+      ],
+      "next": [
+        {
+          "name": "DEBUG"
+        },
+        {
+          "name": "ERROR"
+        },
+        {
+          "name": "INFO"
+        },
+        {
+          "name": "OFF"
+        },
+        {
+          "name": "WARN"
+        }
+      ]
+    },
+    {
+      "name": "--max-speed",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --max-speed <SPEED>",
+        "设置限速, 单位支持 Mbps 或 Kbps。",
+        "E: -R 15M 或 -R 100K"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--morehelp",
+      "tip": [
+        "U: --morehelp <OPTION>",
+        "查看某个选项的详细帮助信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mp4-real-time-decryption",
+      "tip": [
+        "实时解密 MP4 分片。[默认: False]"
+      ]
+    },
+    {
+      "name": "--mux-after-done",
+      "alias": [
+        "-M"
+      ],
+      "tip": [
+        "U: -M, --mux-after-done <OPTIONS>",
+        "所有工作完成时尝试混流分离的音视频。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mux-import",
+      "tip": [
+        "U: --mux-import <OPTIONS>",
+        "混流时引入外部媒体文件。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-ansi-color",
+      "tip": [
+        "去除 ANSI 颜色。"
+      ]
+    },
+    {
+      "name": "--no-date-info",
+      "tip": [
+        "混流时不写入日期信息。[默认: False]"
+      ]
+    },
+    {
+      "name": "--no-log",
+      "tip": [
+        "关闭日志文件输出。[默认: False]"
+      ]
+    },
+    {
+      "name": "--save-dir",
+      "tip": [
+        "U: --save-dir <save-dir>",
+        "设置输出目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--save-name",
+      "tip": [
+        "U: --save-name <save-name>",
+        "设置保存文件名。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--save-pattern",
+      "tip": [
+        "U: --save-pattern <save-pattern>",
+        "设置保存文件命名模板, 支持使用变量:",
+        "<SaveName>, <Id>, <Codecs>, <Language>, <Resolution>, <Bandwidth>, <MediaType>, <Channels>, <FrameRate>, <VideoRange>, <GroupId>, <Ext>",
+        "E: --save-pattern \"<SaveName>_<Resolution>_<Bandwidth>\""
+      ],
+      "next": 0
+    },
+    {
+      "name": "--select-audio",
+      "alias": [
+        "-sa"
+      ],
+      "tip": [
+        "U: -sa, --select-audio <OPTIONS>",
+        "通过正则表达式选择符合要求的音频流。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--select-subtitle",
+      "alias": [
+        "-ss"
+      ],
+      "tip": [
+        "U: -ss, --select-subtitle <OPTIONS>",
+        "通过正则表达式选择符合要求的字幕流。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--select-video",
+      "alias": [
+        "-sv"
+      ],
+      "tip": [
+        "U: -sv, --select-video <OPTIONS>",
+        "通过正则表达式选择符合要求的视频流。使用 --morehelp 查看详细信息。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-download",
+      "tip": [
+        "跳过下载。[默认: False]"
+      ]
+    },
+    {
+      "name": "--skip-merge",
+      "tip": [
+        "跳过合并分片。[默认: False]"
+      ]
+    },
+    {
+      "name": "--sub-format",
+      "tip": [
+        "U: --sub-format <SRT|VTT>",
+        "字幕输出类型。[默认: SRT]"
+      ],
+      "next": [
+        {
+          "name": "SRT"
+        },
+        {
+          "name": "VTT"
+        }
+      ]
+    },
+    {
+      "name": "--sub-only",
+      "tip": [
+        "只选取字幕轨道。[默认: False]"
+      ]
+    },
+    {
+      "name": "--task-start-at",
+      "tip": [
+        "U: --task-start-at <yyyyMMddHHmmss>",
+        "在此时间之前不会开始执行任务。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--thread-count",
+      "tip": [
+        "U: --thread-count <number>",
+        "设置下载线程数。[默认: 16]"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tmp-dir",
+      "tip": [
+        "U: --tmp-dir <tmp-dir>",
+        "设置临时文件存储目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ui-language",
+      "tip": [
+        "U: --ui-language <en-US|zh-CN|zh-TW>",
+        "设置 UI 语言。"
+      ],
+      "next": [
+        {
+          "name": "en-US"
+        },
+        {
+          "name": "zh-CN"
+        },
+        {
+          "name": "zh-TW"
+        }
+      ]
+    },
+    {
+      "name": "--urlprocessor-args",
+      "tip": [
+        "U: --urlprocessor-args <urlprocessor-args>",
+        "此字符串将直接传递给 URL Processor。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--use-ffmpeg-concat-demuxer",
+      "tip": [
+        "使用 ffmpeg 合并时, 使用 concat 分离器而非 concat 协议。[默认: False]"
+      ]
+    },
+    {
+      "name": "--use-system-proxy",
+      "tip": [
+        "使用系统默认代理。[默认: True]"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "显示版本信息。"
+      ]
+    },
+    {
+      "name": "--write-meta-json",
+      "tip": [
+        "解析后的信息是否输出 JSON 文件。[默认: True]"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-?"
+      ],
+      "tip": [
+        "U: -?, -h, --help",
+        "显示帮助和使用信息。"
+      ]
+    }
+  ]
+}

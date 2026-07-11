@@ -1,0 +1,584 @@
+{
+  "meta": {
+    "url": "https://github.com/sharkdp/fd",
+    "description": [
+      "一个用于查找文件系统中条目的程序。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--absolute-path",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --absolute-path",
+        "显示从根目录开始的完整路径。"
+      ]
+    },
+    {
+      "name": "--and",
+      "tip": [
+        "U: --and <pattern>",
+        "添加额外的必需搜索模式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--base-directory",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --base-directory <path>",
+        "更改 fd 的当前工作目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--batch-size",
+      "tip": [
+        "U: --batch-size <size>",
+        "--exec-batch 的最大参数数量。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--case-sensitive",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --case-sensitive",
+        "执行区分大小写的搜索。"
+      ]
+    },
+    {
+      "name": "--changed-before",
+      "tip": [
+        "U: --changed-before <date|dur>",
+        "按修改时间过滤（较旧的）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--changed-within",
+      "tip": [
+        "U: --changed-within <date|dur>",
+        "按修改时间过滤（较新的）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --color <when>",
+        "何时使用颜色（auto、always、never）。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--exact-depth",
+      "tip": [
+        "U: --exact-depth <depth>",
+        "仅显示精确给定深度的结果。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --exclude <pattern>",
+        "排除匹配 glob 模式的文件/目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exec",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --exec <cmd>...",
+        "为每个搜索结果执行命令。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exec-batch",
+      "alias": [
+        "-X"
+      ],
+      "tip": [
+        "U: -X, --exec-batch <cmd>...",
+        "使用所有搜索结果作为参数执行命令。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extension",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --extension <ext>",
+        "按文件扩展名过滤。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fixed-strings",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --fixed-strings",
+        "将模式视为字面字符串。"
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "U: -L, --follow",
+        "跟随符号链接。"
+      ]
+    },
+    {
+      "name": "--format",
+      "tip": [
+        "U: --format <fmt>",
+        "根据模板打印结果。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--full-path",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --full-path",
+        "对完整路径匹配模式。"
+      ]
+    },
+    {
+      "name": "--glob",
+      "alias": [
+        "-g"
+      ],
+      "tip": [
+        "U: -g, --glob",
+        "执行基于 glob 的搜索而非正则表达式。"
+      ]
+    },
+    {
+      "name": "--has-results",
+      "tip": [
+        "--quiet 的别名。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--hidden",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --hidden",
+        "在搜索结果中包含隐藏的目录和文件。"
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "tip": [
+        "U: --hyperlink [<when>]",
+        "为文件路径添加终端超链接。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --ignore-case",
+        "执行不区分大小写的搜索。"
+      ]
+    },
+    {
+      "name": "--ignore-contain",
+      "tip": [
+        "U: --ignore-contain <name>",
+        "忽略包含指定条目的目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-file",
+      "tip": [
+        "U: --ignore-file <path>",
+        "添加 .gitignore 格式的自定义忽略文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-details",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list-details",
+        "使用类似 ls -l 的详细列表格式。"
+      ]
+    },
+    {
+      "name": "--max-depth",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --max-depth <depth>",
+        "限制目录遍历到给定深度。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-results",
+      "tip": [
+        "U: --max-results <count>",
+        "限制搜索结果的数量。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-depth",
+      "tip": [
+        "U: --min-depth <depth>",
+        "仅显示从给定深度开始的结果。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-ignore",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --no-ignore",
+        "显示被 .gitignore、.ignore 等忽略的文件结果。"
+      ]
+    },
+    {
+      "name": "--no-ignore-parent",
+      "tip": [
+        "显示被父目录忽略文件忽略的文件结果。"
+      ]
+    },
+    {
+      "name": "--no-ignore-vcs",
+      "tip": [
+        "显示被 .gitignore 文件忽略的文件结果。"
+      ]
+    },
+    {
+      "name": "--no-require-git",
+      "tip": [
+        "不要求 git 仓库来遵守 gitignore。"
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "tip": [
+        "不进入不同的文件系统。"
+      ]
+    },
+    {
+      "name": "--path-separator",
+      "tip": [
+        "U: --path-separator <separator>",
+        "设置打印文件路径时的路径分隔符。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--print0",
+      "alias": [
+        "-0"
+      ],
+      "tip": [
+        "U: -0, --print0",
+        "用 NUL 字符分隔结果。"
+      ]
+    },
+    {
+      "name": "--prune",
+      "tip": [
+        "不遍历匹配搜索条件的目录。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "不打印任何内容，仅返回退出码。"
+      ]
+    },
+    {
+      "name": "--regex",
+      "tip": [
+        "执行基于正则表达式的搜索（默认）。"
+      ]
+    },
+    {
+      "name": "--search-path",
+      "tip": [
+        "U: --search-path <search-path>",
+        "提供搜索路径作为位置参数的替代。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--show-errors",
+      "tip": [
+        "启用显示文件系统错误。"
+      ]
+    },
+    {
+      "name": "--size",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --size <size>",
+        "按文件大小限制结果（如 +100k、-1M、500b）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--strip-cwd-prefix",
+      "tip": [
+        "U: --strip-cwd-prefix [<when>]",
+        "从相对路径中去除 ./ 前缀。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --threads <num>",
+        "设置使用的线程数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--type",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --type <filetype>",
+        "按类型过滤：f/file、d/dir、l/symlink、x/executable、e/empty。"
+      ],
+      "next": [
+        {
+          "name": "b",
+          "tip": [
+            "块设备"
+          ]
+        },
+        {
+          "name": "block-device",
+          "tip": [
+            "块设备"
+          ]
+        },
+        {
+          "name": "c",
+          "tip": [
+            "字符设备"
+          ]
+        },
+        {
+          "name": "char-device",
+          "tip": [
+            "字符设备"
+          ]
+        },
+        {
+          "name": "d",
+          "tip": [
+            "目录"
+          ]
+        },
+        {
+          "name": "dir",
+          "tip": [
+            "目录"
+          ]
+        },
+        {
+          "name": "directory",
+          "tip": [
+            "目录"
+          ]
+        },
+        {
+          "name": "e",
+          "tip": [
+            "空文件或目录"
+          ]
+        },
+        {
+          "name": "empty",
+          "tip": [
+            "空文件或目录"
+          ]
+        },
+        {
+          "name": "executable",
+          "tip": [
+            "可执行文件"
+          ]
+        },
+        {
+          "name": "f",
+          "tip": [
+            "普通文件"
+          ]
+        },
+        {
+          "name": "file",
+          "tip": [
+            "普通文件"
+          ]
+        },
+        {
+          "name": "l",
+          "tip": [
+            "符号链接"
+          ]
+        },
+        {
+          "name": "p",
+          "tip": [
+            "命名管道"
+          ]
+        },
+        {
+          "name": "pipe",
+          "tip": [
+            "命名管道"
+          ]
+        },
+        {
+          "name": "s",
+          "tip": [
+            "套接字"
+          ]
+        },
+        {
+          "name": "socket",
+          "tip": [
+            "套接字"
+          ]
+        },
+        {
+          "name": "symlink",
+          "tip": [
+            "符号链接"
+          ]
+        },
+        {
+          "name": "x",
+          "tip": [
+            "可执行文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--unrestricted",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --unrestricted",
+        "执行无限制搜索，包含被忽略和隐藏的文件。"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "将搜索限制为单个结果。"
+      ]
+    }
+  ]
+}

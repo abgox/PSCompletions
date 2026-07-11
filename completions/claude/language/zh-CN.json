@@ -1,0 +1,750 @@
+{
+  "meta": {
+    "url": "https://docs.anthropic.com/en/docs/claude-code",
+    "description": [
+      "Claude Code - Anthropic 的 AI 编程助手。"
+    ]
+  },
+  "root": [
+    {
+      "name": "agents",
+      "tip": [
+        "管理后台代理。"
+      ],
+      "option": [
+        {
+          "name": "--add-dir",
+          "tip": [
+            "U: --add-dir <DIRECTORY>",
+            "分派会话中允许工具访问的其他目录。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <AGENT>",
+            "从代理视图分派会话的默认代理。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all",
+          "tip": [
+            "与 --json 一起使用：包含已完成的会话。"
+          ]
+        },
+        {
+          "name": "--dangerously-skip-permissions",
+          "tip": [
+            "--permission-mode bypassPermissions 的别名。"
+          ]
+        },
+        {
+          "name": "--effort",
+          "tip": [
+            "U: --effort <LEVEL>",
+            "从代理视图分派会话的默认努力级别。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "将活动会话打印为 JSON 数组并退出。"
+          ]
+        },
+        {
+          "name": "--mcp-config",
+          "tip": [
+            "U: --mcp-config <CONFIG>",
+            "应用于分派会话的 MCP 服务器配置。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--model",
+          "tip": [
+            "U: --model <MODEL>",
+            "从代理视图分派会话的默认模型。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--permission-mode",
+          "tip": [
+            "U: --permission-mode <MODE>",
+            "从代理视图分派会话的默认权限模式。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--plugin-dir",
+          "tip": [
+            "U: --plugin-dir <PATH>",
+            "从指定目录加载插件。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--settings",
+          "tip": [
+            "U: --settings <FILE-OR-JSON>",
+            "要应用的设置文件或 JSON 字符串。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "tip": [
+        "管理认证。"
+      ],
+      "next": [
+        {
+          "name": "login",
+          "tip": [
+            "登录到你的 Anthropic 账户。"
+          ],
+          "option": [
+            {
+              "name": "--api-key",
+              "tip": [
+                "使用 API 密钥认证。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "从 Anthropic 账户登出。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示认证状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "检查 Claude Code 安装的健康状况。"
+      ]
+    },
+    {
+      "name": "gateway",
+      "tip": [
+        "运行企业认证/遥测网关。"
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "监听的端口。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "安装 Claude Code 原生构建。"
+      ],
+      "option": [
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "指定版本（stable, latest 或特定版本）。"
+          ],
+          "next": [
+            {
+              "name": "latest",
+              "tip": [
+                "安装最新版本。"
+              ]
+            },
+            {
+              "name": "stable",
+              "tip": [
+                "安装稳定版本。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "配置和管理 MCP 服务器。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [options] <name> <commandOrUrl> [args...]",
+            "向 Claude Code 添加 MCP 服务器。",
+            "示例:",
+            "  claude mcp add --transport http sentry https://mcp.sentry.dev/mcp",
+            "  claude mcp add my-server -e API_KEY=xxx -- npx my-mcp-server"
+          ]
+        },
+        {
+          "name": "add-from-claude-desktop",
+          "tip": [
+            "从 Claude Desktop 导入 MCP 服务器。",
+            "仅限 Mac 和 WSL。"
+          ]
+        },
+        {
+          "name": "add-json",
+          "tip": [
+            "U: add-json [options] <name> <json>",
+            "使用 JSON 字符串添加 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <name>",
+            "获取 MCP 服务器的详细信息。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已配置的 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "U: login [options] <name>",
+            "认证 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "U: logout <name>",
+            "清除 MCP 服务器的存储的 OAuth 凭据。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [options] <name>",
+            "移除 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "reset-project-choices",
+          "tip": [
+            "重置所有已批准和拒绝的项目范围服务器。"
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "启动 Claude Code MCP 服务器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "alias": [
+        "plugin"
+      ],
+      "tip": [
+        "管理 Claude Code 插件。"
+      ]
+    },
+    {
+      "name": "project",
+      "tip": [
+        "管理 Claude Code 项目状态。"
+      ]
+    },
+    {
+      "name": "setup-token",
+      "tip": [
+        "设置长期认证令牌。",
+        "需要 Claude 订阅。"
+      ]
+    },
+    {
+      "name": "ultrareview",
+      "tip": [
+        "运行云托管的多代理代码审查。",
+        "打印审查结果。"
+      ],
+      "option": [
+        {
+          "name": "--base",
+          "tip": [
+            "U: --base <BRANCH>",
+            "用于比较的基础分支。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "alias": [
+        "update"
+      ],
+      "tip": [
+        "检查更新并在可用时安装。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--add-dir",
+      "tip": [
+        "U: --add-dir <DIRECTORIES...>",
+        "允许工具访问的其他目录。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--agent",
+      "tip": [
+        "U: --agent <AGENT>",
+        "当前会话的代理。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--agents",
+      "tip": [
+        "U: --agents <JSON>",
+        "定义自定义代理的 JSON 对象。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allowed-tools",
+      "tip": [
+        "U: --allowed-tools <TOOLS...>",
+        "允许的工具名称的逗号或空格分隔列表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--append-system-prompt",
+      "tip": [
+        "U: --append-system-prompt <PROMPT>",
+        "将系统提示追加到默认系统提示。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bare",
+      "tip": [
+        "最小模式：跳过钩子、LSP、插件同步等。"
+      ]
+    },
+    {
+      "name": "--bg",
+      "tip": [
+        "作为后台代理启动会话并立即返回。"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "继续最近的对话。"
+      ]
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug [FILTER]",
+        "启用调试模式，可选类别过滤。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug-file",
+      "tip": [
+        "U: --debug-file <PATH>",
+        "将调试日志写入特定文件路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-slash-commands",
+      "tip": [
+        "禁用所有技能。"
+      ]
+    },
+    {
+      "name": "--disallowed-tools",
+      "tip": [
+        "U: --disallowed-tools <TOOLS...>",
+        "要拒绝的工具名称的逗号或空格分隔列表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--effort",
+      "tip": [
+        "U: --effort <LEVEL>",
+        "当前会话的努力级别。",
+        "可选值: low, medium, high, xhigh, max"
+      ],
+      "next": [
+        {
+          "name": "high",
+          "tip": [
+            "高努力。"
+          ]
+        },
+        {
+          "name": "low",
+          "tip": [
+            "低努力。"
+          ]
+        },
+        {
+          "name": "max",
+          "tip": [
+            "最大努力。"
+          ]
+        },
+        {
+          "name": "medium",
+          "tip": [
+            "中等努力。"
+          ]
+        },
+        {
+          "name": "xhigh",
+          "tip": [
+            "超高努力。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--fallback-model",
+      "tip": [
+        "U: --fallback-model <MODEL>",
+        "启用自动回退到指定模型。",
+        "仅与 --print 一起使用。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fork-session",
+      "tip": [
+        "恢复时创建新的会话 ID。"
+      ]
+    },
+    {
+      "name": "--from-pr",
+      "tip": [
+        "U: --from-pr [VALUE]",
+        "恢复链接到 PR 的会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ide",
+      "tip": [
+        "启动时自动连接到 IDE。"
+      ]
+    },
+    {
+      "name": "--max-budget-usd",
+      "tip": [
+        "U: --max-budget-usd <AMOUNT>",
+        "API 调用的最大美元金额。",
+        "仅与 --print 一起使用。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mcp-config",
+      "tip": [
+        "U: --mcp-config <CONFIGS...>",
+        "从 JSON 文件或字符串加载 MCP 服务器。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "当前会话的模型。",
+        "提供别名（如 'fable', 'opus', 'sonnet'）或完整名称。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--name",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --name <NAME>",
+        "设置此会话的显示名称。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-chrome",
+      "tip": [
+        "禁用 Claude in Chrome 集成。"
+      ]
+    },
+    {
+      "name": "--no-session-persistence",
+      "tip": [
+        "禁用会话持久化。",
+        "仅与 --print 一起使用。"
+      ]
+    },
+    {
+      "name": "--output-format",
+      "tip": [
+        "U: --output-format <FORMAT>",
+        "输出格式（仅与 --print 一起使用）。",
+        "可选值: text, json, stream-json"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出。"
+          ]
+        },
+        {
+          "name": "stream-json",
+          "tip": [
+            "流式 JSON 输出。"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "纯文本输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--permission-mode",
+      "tip": [
+        "U: --permission-mode <MODE>",
+        "会话使用的权限模式。",
+        "可选值: acceptEdits, auto, bypassPermissions, manual, dontAsk, plan"
+      ],
+      "next": [
+        {
+          "name": "acceptEdits",
+          "tip": [
+            "自动接受编辑。"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "自动权限模式。"
+          ]
+        },
+        {
+          "name": "bypassPermissions",
+          "tip": [
+            "绕过所有权限。"
+          ]
+        },
+        {
+          "name": "dontAsk",
+          "tip": [
+            "不请求权限。"
+          ]
+        },
+        {
+          "name": "manual",
+          "tip": [
+            "手动权限模式。"
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "计划模式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--plugin-dir",
+      "tip": [
+        "U: --plugin-dir <PATH>",
+        "从目录或 .zip 加载插件。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--plugin-url",
+      "tip": [
+        "U: --plugin-url <URL>",
+        "从 URL 获取插件 .zip。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --print",
+        "打印响应并退出（适用于管道）。"
+      ]
+    },
+    {
+      "name": "--prompt-suggestions",
+      "tip": [
+        "启用提示建议。"
+      ]
+    },
+    {
+      "name": "--remote-control",
+      "tip": [
+        "U: --remote-control [NAME]",
+        "启动启用远程控制的交互式会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --resume [VALUE]",
+        "按会话 ID 恢复对话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--safe-mode",
+      "tip": [
+        "禁用所有自定义启动。"
+      ]
+    },
+    {
+      "name": "--session-id",
+      "tip": [
+        "U: --session-id <UUID>",
+        "为对话使用特定的会话 ID。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--settings",
+      "tip": [
+        "U: --settings <FILE-OR-JSON>",
+        "设置 JSON 文件的路径或 JSON 字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--strict-mcp-config",
+      "tip": [
+        "仅使用来自 --mcp-config 的 MCP 服务器。"
+      ]
+    },
+    {
+      "name": "--system-prompt",
+      "tip": [
+        "U: --system-prompt <PROMPT>",
+        "会话使用的系统提示。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tools",
+      "tip": [
+        "U: --tools <TOOLS...>",
+        "指定可用工具列表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "覆盖配置中的详细模式设置。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "输出版本号。"
+      ]
+    },
+    {
+      "name": "--worktree",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --worktree [NAME]",
+        "为此会话创建新的 git worktree。"
+      ],
+      "next": 0
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示命令帮助。"
+      ]
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "当前会话的模型。"
+      ],
+      "next": 0
+    }
+  ]
+}

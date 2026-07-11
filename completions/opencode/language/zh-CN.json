@@ -1,0 +1,983 @@
+{
+  "meta": {
+    "url": "https://github.com/nicholaswatertank/opencode",
+    "description": [
+      "opencode - 面向终端的 AI 编程助手。"
+    ]
+  },
+  "root": [
+    {
+      "name": "acp",
+      "tip": [
+        "启动 ACP（Agent Client Protocol）服务器"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "U: --cors <domains>",
+            "允许 CORS 的额外域名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cwd",
+          "tip": [
+            "U: --cwd <string>",
+            "工作目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hostname",
+          "tip": [
+            "U: --hostname <string>",
+            "监听主机名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "启用 mDNS 服务发现（默认主机名为 0.0.0.0）"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "tip": [
+            "U: --mdns-domain <string>",
+            "mDNS 服务的自定义域名（默认：opencode.local）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "监听端口"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "tip": [
+        "管理代理"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建新代理"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有可用代理"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attach",
+      "tip": [
+        "U: attach <url>",
+        "连接到正在运行的 opencode 服务器"
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "生成 shell 补全脚本"
+      ]
+    },
+    {
+      "name": "database",
+      "alias": [
+        "db"
+      ],
+      "tip": [
+        "数据库工具"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "tsv"
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "path",
+          "tip": [
+            "打印数据库路径"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "调试和故障排除工具"
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "tip": [
+            "U: agent <name>",
+            "显示代理配置详情"
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "显示解析后的配置"
+          ]
+        },
+        {
+          "name": "file",
+          "tip": [
+            "文件系统调试工具"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "显示调试信息"
+          ]
+        },
+        {
+          "name": "lsp",
+          "tip": [
+            "LSP 调试工具"
+          ]
+        },
+        {
+          "name": "paths",
+          "tip": [
+            "显示全局路径（数据、配置、缓存、状态）"
+          ]
+        },
+        {
+          "name": "rg",
+          "tip": [
+            "ripgrep 调试工具"
+          ]
+        },
+        {
+          "name": "scrap",
+          "tip": [
+            "列出所有已知项目"
+          ]
+        },
+        {
+          "name": "skill",
+          "tip": [
+            "列出所有可用技能"
+          ]
+        },
+        {
+          "name": "snapshot",
+          "tip": [
+            "快照调试工具"
+          ]
+        },
+        {
+          "name": "startup",
+          "tip": [
+            "打印启动计时"
+          ]
+        },
+        {
+          "name": "v2",
+          "tip": [
+            "调试 v2 目录和内置插件"
+          ]
+        },
+        {
+          "name": "wait",
+          "tip": [
+            "无限期等待（用于调试）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "U: export [sessionID]",
+        "将会话数据导出为 JSON"
+      ],
+      "option": [
+        {
+          "name": "--sanitize",
+          "tip": [
+            "编辑敏感的对话记录和文件数据"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "github",
+      "tip": [
+        "管理 GitHub 代理"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "安装 GitHub 代理"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "运行 GitHub 代理"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import <file>",
+        "从 JSON 文件或 URL 导入会话数据"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "管理 MCP（Model Context Protocol）服务器"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [name]",
+            "添加 MCP 服务器"
+          ],
+          "option": [
+            {
+              "name": "--env",
+              "tip": [
+                "U: --env <KEY=VALUE>",
+                "本地 MCP 服务器的环境变量"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header <KEY=VALUE>",
+                "远程 MCP 服务器的 HTTP 头"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--url",
+              "tip": [
+                "U: --url <string>",
+                "远程 MCP 服务器的 URL"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "auth",
+          "tip": [
+            "U: auth [name]",
+            "通过 OAuth 认证 MCP 服务器"
+          ]
+        },
+        {
+          "name": "debug",
+          "tip": [
+            "U: debug <name>",
+            "调试 MCP 服务器的 OAuth 连接"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "列出 MCP 服务器及其状态"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "U: logout [name]",
+            "删除 MCP 服务器的 OAuth 凭据"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "tip": [
+        "U: models [provider]",
+        "列出所有可用模型"
+      ],
+      "option": [
+        {
+          "name": "--refresh",
+          "tip": [
+            "从 models.dev 刷新模型缓存"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "使用更详细的模型输出（包含成本等元数据）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "alias": [
+        "plug"
+      ],
+      "tip": [
+        "U: plugin <module>",
+        "安装插件并更新配置"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "替换现有插件版本"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global",
+            "在全局配置中安装"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pr",
+      "tip": [
+        "U: pr <number>",
+        "拉取并检出 GitHub PR 分支，然后运行 opencode"
+      ]
+    },
+    {
+      "name": "providers",
+      "alias": [
+        "auth"
+      ],
+      "tip": [
+        "管理 AI 提供商和凭据"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "列出提供商和凭据"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "U: login [url]",
+            "登录提供商"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "U: logout [provider]",
+            "从已配置的提供商登出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run [message..]",
+        "使用消息运行 opencode"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <string>",
+            "使用的代理"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--attach",
+          "tip": [
+            "U: --attach <url>",
+            "连接到正在运行的 opencode 服务器"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--auto",
+          "tip": [
+            "自动批准未明确拒绝的权限（危险！）"
+          ]
+        },
+        {
+          "name": "--command",
+          "tip": [
+            "U: --command <string>",
+            "要运行的命令，使用 message 作为参数"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--continue",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --continue",
+            "继续上一个会话"
+          ]
+        },
+        {
+          "name": "--dir",
+          "tip": [
+            "U: --dir <string>",
+            "运行目录，连接时为远程服务器上的路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --file <files>",
+            "附加到消息的文件"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--fork",
+          "tip": [
+            "继续前分叉会话（需要 --continue 或 --session）"
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "json"
+            }
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "以直接交互式分栏模式运行"
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --model <provider/model>",
+            "使用 provider/model 格式的模型"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <string>",
+            "基本认证密码（默认为 OPENCODE_SERVER_PASSWORD）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "本地服务器端口（未提供值时默认为随机端口）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --session <string>",
+            "要继续的会话 ID"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--share",
+          "tip": [
+            "共享会话"
+          ]
+        },
+        {
+          "name": "--thinking",
+          "tip": [
+            "显示思考块"
+          ]
+        },
+        {
+          "name": "--title",
+          "tip": [
+            "U: --title <string>",
+            "会话标题（未提供值时使用截断的提示词）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <string>",
+            "基本认证用户名（默认为 OPENCODE_SERVER_USERNAME 或 'opencode'）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--variant",
+          "tip": [
+            "U: --variant <string>",
+            "模型变体（提供商特定的推理强度，如 high、max、minimal）"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "启动无头 opencode 服务器"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "U: --cors <domains>",
+            "允许 CORS 的额外域名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hostname",
+          "tip": [
+            "U: --hostname <string>",
+            "监听主机名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "启用 mDNS 服务发现（默认主机名为 0.0.0.0）"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "tip": [
+            "U: --mdns-domain <string>",
+            "mDNS 服务的自定义域名（默认：opencode.local）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "监听端口"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "session",
+      "tip": [
+        "管理会话"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <sessionID>",
+            "删除会话"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出会话"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "显示 token 使用量和成本统计"
+      ],
+      "option": [
+        {
+          "name": "--days",
+          "tip": [
+            "U: --days <number>",
+            "显示最近 N 天的统计（默认：全部）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--models",
+          "tip": [
+            "U: --models [number]",
+            "显示模型统计（默认：隐藏）。传入数字显示前 N 个，否则显示全部"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <string>",
+            "按项目过滤（默认：所有项目，空字符串：当前项目）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tools",
+          "tip": [
+            "U: --tools <number>",
+            "显示的工具数量（默认：全部）"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "卸载 opencode 并删除所有相关文件"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "U: upgrade [target]",
+        "将 opencode 升级到最新版本或指定版本"
+      ],
+      "option": [
+        {
+          "name": "--method",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --method <method>",
+            "使用的安装方法"
+          ],
+          "next": [
+            {
+              "name": "brew"
+            },
+            {
+              "name": "bun"
+            },
+            {
+              "name": "choco"
+            },
+            {
+              "name": "curl"
+            },
+            {
+              "name": "npm"
+            },
+            {
+              "name": "pnpm"
+            },
+            {
+              "name": "scoop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "tip": [
+        "启动 opencode 服务器并打开 Web 界面"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "U: --cors <domains>",
+            "允许 CORS 的额外域名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hostname",
+          "tip": [
+            "U: --hostname <string>",
+            "监听主机名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "启用 mDNS 服务发现（默认主机名为 0.0.0.0）"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "tip": [
+            "U: --mdns-domain <string>",
+            "mDNS 服务的自定义域名（默认：opencode.local）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <number>",
+            "监听端口"
+          ],
+          "next": 0
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--agent",
+      "tip": [
+        "U: --agent <string>",
+        "使用的代理"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--auto",
+      "tip": [
+        "自动批准未明确拒绝的权限（危险！）"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "继续上一个会话"
+      ]
+    },
+    {
+      "name": "--cors",
+      "tip": [
+        "U: --cors <domains>",
+        "允许 CORS 的额外域名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fork",
+      "tip": [
+        "继续时分叉会话（与 --continue 或 --session 一起使用）"
+      ]
+    },
+    {
+      "name": "--hostname",
+      "tip": [
+        "U: --hostname <string>",
+        "监听主机名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <level>",
+        "日志级别"
+      ],
+      "next": [
+        {
+          "name": "DEBUG"
+        },
+        {
+          "name": "ERROR"
+        },
+        {
+          "name": "INFO"
+        },
+        {
+          "name": "WARN"
+        }
+      ]
+    },
+    {
+      "name": "--mdns",
+      "tip": [
+        "启用 mDNS 服务发现（默认主机名为 0.0.0.0）"
+      ]
+    },
+    {
+      "name": "--mdns-domain",
+      "tip": [
+        "U: --mdns-domain <string>",
+        "mDNS 服务的自定义域名（默认：opencode.local）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mini",
+      "tip": [
+        "启动最小化交互界面"
+      ]
+    },
+    {
+      "name": "--model",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --model <provider/model>",
+        "使用 provider/model 格式的模型"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-replay",
+      "tip": [
+        "禁用恢复和调整大小后的迷你会话历史重放"
+      ]
+    },
+    {
+      "name": "--port",
+      "tip": [
+        "U: --port <number>",
+        "监听端口"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--print-logs",
+      "tip": [
+        "将日志输出到 stderr"
+      ]
+    },
+    {
+      "name": "--prompt",
+      "tip": [
+        "U: --prompt <string>",
+        "使用的提示词"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pure",
+      "tip": [
+        "不加载外部插件运行"
+      ]
+    },
+    {
+      "name": "--replay-limit",
+      "tip": [
+        "U: --replay-limit <number>",
+        "将迷你重放限制为最新的 N 条消息"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --session <string>",
+        "要继续的会话 ID"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "显示版本号"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示帮助信息"
+      ]
+    }
+  ]
+}

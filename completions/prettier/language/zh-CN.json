@@ -1,0 +1,791 @@
+{
+  "meta": {
+    "url": "https://prettier.io",
+    "description": [
+      "Prettier - 固执己见的代码格式化工具。"
+    ]
+  },
+  "root": [
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --check",
+        "检查给定文件是否已格式化。",
+        "打印人类友好的摘要消息和未格式化文件的路径。"
+      ]
+    },
+    {
+      "name": "--list-different",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --list-different",
+        "打印与 Prettier 格式不同的文件名。"
+      ]
+    },
+    {
+      "name": "--write",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --write",
+        "就地编辑文件。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--arrow-parens",
+      "tip": [
+        "U: --arrow-parens <always|avoid>",
+        "在单个箭头函数参数周围包含括号。",
+        "默认: always"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终包含括号。"
+          ]
+        },
+        {
+          "name": "avoid",
+          "tip": [
+            "尽可能避免括号。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--bracket-same-line",
+      "tip": [
+        "将开始标签的 > 放在最后一行而不是新行上。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--cache",
+      "tip": [
+        "仅格式化已更改的文件。",
+        "不能与 --stdin-filepath 一起使用。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--cache-location",
+      "tip": [
+        "U: --cache-location <path>",
+        "缓存文件的路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-strategy",
+      "tip": [
+        "U: --cache-strategy <metadata|content>",
+        "缓存用于检测更改文件的策略。"
+      ],
+      "next": [
+        {
+          "name": "content",
+          "tip": [
+            "使用文件内容。"
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "使用文件元数据。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--check-ignore-pragma",
+      "tip": [
+        "检查文件的第一个文档块注释是否包含 '@noprettier' 或 '@noformat'。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <path>",
+        "Prettier 配置文件的路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-precedence",
+      "tip": [
+        "U: --config-precedence <cli-override|file-override|prefer-file>",
+        "定义配置文件和 CLI 选项的评估顺序。",
+        "默认: cli-override"
+      ],
+      "next": [
+        {
+          "name": "cli-override",
+          "tip": [
+            "CLI 选项覆盖配置文件。"
+          ]
+        },
+        {
+          "name": "file-override",
+          "tip": [
+            "配置文件覆盖 CLI 选项。"
+          ]
+        },
+        {
+          "name": "prefer-file",
+          "tip": [
+            "优先使用配置文件而不是 CLI 选项。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cursor-offset",
+      "tip": [
+        "U: --cursor-offset <int>",
+        "打印（到 stderr）格式化后光标在给定位置会移动到的位置。",
+        "默认: -1"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--embedded-language-formatting",
+      "tip": [
+        "U: --embedded-language-formatting <auto|off>",
+        "控制 Prettier 如何格式化文件中嵌入的引号代码。",
+        "默认: auto"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动格式化嵌入代码。"
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "不格式化嵌入代码。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--end-of-line",
+      "tip": [
+        "U: --end-of-line <lf|crlf|cr|auto>",
+        "应用哪种行尾字符。",
+        "默认: lf"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动确定。"
+          ]
+        },
+        {
+          "name": "cr",
+          "tip": [
+            "回车 (\\r)。"
+          ]
+        },
+        {
+          "name": "crlf",
+          "tip": [
+            "回车 + 换行 (\\r\\n)。"
+          ]
+        },
+        {
+          "name": "lf",
+          "tip": [
+            "换行符 (\\n)。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--experimental-operator-position",
+      "tip": [
+        "U: --experimental-operator-position <start|end>",
+        "当二元表达式换行时，在哪里打印运算符。",
+        "默认: end"
+      ],
+      "next": [
+        {
+          "name": "end",
+          "tip": [
+            "将运算符放在行尾。"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "将运算符放在行首。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--file-info",
+      "tip": [
+        "U: --file-info <path>",
+        "提取给定文件路径的信息（作为 JSON）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--find-config-path",
+      "tip": [
+        "U: --find-config-path <path>",
+        "查找并打印给定输入文件的配置文件路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--html-whitespace-sensitivity",
+      "tip": [
+        "U: --html-whitespace-sensitivity <css|strict|ignore>",
+        "如何处理 HTML 中的空白。",
+        "默认: css"
+      ],
+      "next": [
+        {
+          "name": "css",
+          "tip": [
+            "遵循 CSS display 属性。"
+          ]
+        },
+        {
+          "name": "ignore",
+          "tip": [
+            "忽略空白。"
+          ]
+        },
+        {
+          "name": "strict",
+          "tip": [
+            "空白被视为敏感。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ignore-path",
+      "tip": [
+        "U: --ignore-path <path>",
+        "包含描述要忽略的文件模式的文件路径。",
+        "接受多个值。",
+        "默认: [.gitignore, .prettierignore]"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--ignore-unknown",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --ignore-unknown",
+        "忽略未知文件。"
+      ]
+    },
+    {
+      "name": "--insert-pragma",
+      "tip": [
+        "在文件的第一个文档块注释中插入 @format 指令。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--jsx-single-quote",
+      "tip": [
+        "在 JSX 中使用单引号。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <silent|error|warn|log|debug>",
+        "报告哪个级别的日志。",
+        "默认: log"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "调试级别。"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "仅错误级别。"
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "日志及以上。"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "无输出。"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告及以上。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-bracket-spacing",
+      "tip": [
+        "不在括号之间打印空格。"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "不为错误消息着色。"
+      ]
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "不查找配置文件。"
+      ]
+    },
+    {
+      "name": "--no-editorconfig",
+      "tip": [
+        "解析配置时不考虑 .editorconfig。"
+      ]
+    },
+    {
+      "name": "--no-error-on-unmatched-pattern",
+      "tip": [
+        "模式不匹配时防止错误。"
+      ]
+    },
+    {
+      "name": "--no-experimental-ternaries",
+      "tip": [
+        "三元运算符的默认行为；将问号保持在与结果相同的行上。"
+      ]
+    },
+    {
+      "name": "--no-semi",
+      "tip": [
+        "不打印分号，除非在可能需要的行首。"
+      ]
+    },
+    {
+      "name": "--object-wrap",
+      "tip": [
+        "U: --object-wrap <preserve|collapse>",
+        "如何包装对象字面量。",
+        "默认: preserve"
+      ],
+      "next": [
+        {
+          "name": "collapse",
+          "tip": [
+            "折叠对象字面量。"
+          ]
+        },
+        {
+          "name": "preserve",
+          "tip": [
+            "保留对象包装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--parser",
+      "tip": [
+        "U: --parser <parser>",
+        "使用哪个解析器。",
+        "可选值: flow, babel, babel-flow, babel-ts, typescript, acorn, espree, meriyah, css, less, scss, json, json5, jsonc, json-stringify, graphql, markdown, mdx, vue, yaml, glimmer, html, angular, lwc, mjml"
+      ],
+      "next": [
+        {
+          "name": "acorn",
+          "tip": [
+            "Acorn 解析器。"
+          ]
+        },
+        {
+          "name": "angular",
+          "tip": [
+            "Angular 解析器。"
+          ]
+        },
+        {
+          "name": "babel",
+          "tip": [
+            "Babel 解析器。"
+          ]
+        },
+        {
+          "name": "babel-flow",
+          "tip": [
+            "Babel Flow 解析器。"
+          ]
+        },
+        {
+          "name": "babel-ts",
+          "tip": [
+            "Babel TypeScript 解析器。"
+          ]
+        },
+        {
+          "name": "css",
+          "tip": [
+            "CSS 解析器。"
+          ]
+        },
+        {
+          "name": "espree",
+          "tip": [
+            "Espree 解析器。"
+          ]
+        },
+        {
+          "name": "flow",
+          "tip": [
+            "Flow 解析器。"
+          ]
+        },
+        {
+          "name": "glimmer",
+          "tip": [
+            "Glimmer 解析器。"
+          ]
+        },
+        {
+          "name": "graphql",
+          "tip": [
+            "GraphQL 解析器。"
+          ]
+        },
+        {
+          "name": "html",
+          "tip": [
+            "HTML 解析器。"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 解析器。"
+          ]
+        },
+        {
+          "name": "json-stringify",
+          "tip": [
+            "JSON 字符串化解析器。"
+          ]
+        },
+        {
+          "name": "json5",
+          "tip": [
+            "JSON5 解析器。"
+          ]
+        },
+        {
+          "name": "jsonc",
+          "tip": [
+            "JSONC 解析器。"
+          ]
+        },
+        {
+          "name": "less",
+          "tip": [
+            "Less 解析器。"
+          ]
+        },
+        {
+          "name": "lwc",
+          "tip": [
+            "LWC 解析器。"
+          ]
+        },
+        {
+          "name": "markdown",
+          "tip": [
+            "Markdown 解析器。"
+          ]
+        },
+        {
+          "name": "mdx",
+          "tip": [
+            "MDX 解析器。"
+          ]
+        },
+        {
+          "name": "meriyah",
+          "tip": [
+            "Meriyah 解析器。"
+          ]
+        },
+        {
+          "name": "mjml",
+          "tip": [
+            "MJML 解析器。"
+          ]
+        },
+        {
+          "name": "scss",
+          "tip": [
+            "SCSS 解析器。"
+          ]
+        },
+        {
+          "name": "typescript",
+          "tip": [
+            "TypeScript 解析器。"
+          ]
+        },
+        {
+          "name": "vue",
+          "tip": [
+            "Vue 解析器。"
+          ]
+        },
+        {
+          "name": "yaml",
+          "tip": [
+            "YAML 解析器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--plugin",
+      "tip": [
+        "U: --plugin <path>",
+        "添加插件。",
+        "可以作为单独的 --plugin 传递多个插件。",
+        "默认: []"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--print-width",
+      "tip": [
+        "U: --print-width <int>",
+        "Prettier 尝试换行的行长度。",
+        "默认: 80"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prose-wrap",
+      "tip": [
+        "U: --prose-wrap <always|never|preserve>",
+        "如何包装散文。",
+        "默认: preserve"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终包装散文。"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不包装散文。"
+          ]
+        },
+        {
+          "name": "preserve",
+          "tip": [
+            "保留散文包装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--quote-props",
+      "tip": [
+        "U: --quote-props <as-needed|consistent|preserve>",
+        "更改对象中属性的引号时机。",
+        "默认: as-needed"
+      ],
+      "next": [
+        {
+          "name": "as-needed",
+          "tip": [
+            "仅在需要时引用属性。"
+          ]
+        },
+        {
+          "name": "consistent",
+          "tip": [
+            "一致的引号。"
+          ]
+        },
+        {
+          "name": "preserve",
+          "tip": [
+            "保留现有引号。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--range-end",
+      "tip": [
+        "U: --range-end <int>",
+        "格式化以给定字符偏移量结束的代码（排他）。",
+        "默认: Infinity"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--range-start",
+      "tip": [
+        "U: --range-start <int>",
+        "从给定字符偏移量开始格式化代码。",
+        "默认: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--require-pragma",
+      "tip": [
+        "要求文件的第一个文档块注释中存在 '@prettier' 或 '@format'。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--single-attribute-per-line",
+      "tip": [
+        "在 HTML、Vue 和 JSX 中强制每行一个属性。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--single-quote",
+      "tip": [
+        "使用单引号而不是双引号。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--stdin-filepath",
+      "tip": [
+        "U: --stdin-filepath <path>",
+        "假装 stdin 来自的文件路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--support-info",
+      "tip": [
+        "以 JSON 格式打印支持信息。"
+      ]
+    },
+    {
+      "name": "--tab-width",
+      "tip": [
+        "U: --tab-width <int>",
+        "每个缩进级别的空格数。",
+        "默认: 2"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--trailing-comma",
+      "tip": [
+        "U: --trailing-comma <all|es5|none>",
+        "多行时尽可能打印尾随逗号。",
+        "默认: all"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "到处都用尾随逗号。"
+          ]
+        },
+        {
+          "name": "es5",
+          "tip": [
+            "ES5 中的尾随逗号（对象、数组等）。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "没有尾随逗号。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--use-tabs",
+      "tip": [
+        "使用制表符而不是空格缩进。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "打印 Prettier 版本。"
+      ]
+    },
+    {
+      "name": "--vue-indent-script-and-style",
+      "tip": [
+        "缩进 Vue 文件中的 script 和 style 标签。",
+        "默认: false"
+      ]
+    },
+    {
+      "name": "--with-node-modules",
+      "tip": [
+        "处理 'node_modules' 目录内的文件。"
+      ]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help [flag]",
+        "显示 CLI 用法。"
+      ],
+      "next": 0
+    }
+  ]
+}
