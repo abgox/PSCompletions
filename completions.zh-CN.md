@@ -16,14 +16,21 @@
 |[base64](https://uutils.org)|[**en-US**](/completions/base64/language/en-US.json)<br>[**zh-CN**](/completions/base64/language/zh-CN.json)|编码/解码数据并打印到标准输出。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[basename](https://uutils.org)|[**en-US**](/completions/basename/language/en-US.json)<br>[**zh-CN**](/completions/basename/language/zh-CN.json)|打印去除前导目录组件后的名称。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[basenc](https://uutils.org)|[**en-US**](/completions/basenc/language/en-US.json)<br>[**zh-CN**](/completions/basenc/language/zh-CN.json)|编码/解码数据并打印到标准输出。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
+|[bat](https://github.com/sharkdp/bat)|[**en-US**](/completions/bat/language/en-US.json)<br>[**zh-CN**](/completions/bat/language/zh-CN.json)|一个带有语法高亮和 Git 集成的 cat(1) 克隆。|
 |[bun](https://bun.sh)|[**en-US**](/completions/bun/language/en-US.json)<br>[**zh-CN**](/completions/bun/language/zh-CN.json)|Bun - JavaScript 运行时和工具包。|
 |[cargo](https://rustwiki.org/zh-CN/cargo/)|[**en-US**](/completions/cargo/language/en-US.json)<br>[**zh-CN**](/completions/cargo/language/zh-CN.json)|cargo - Rust 包管理器。|
 |[chfs](http://iscute.cn/chfs)|[**en-US**](/completions/chfs/language/en-US.json)<br>[**zh-CN**](/completions/chfs/language/zh-CN.json)|CuteHttpFileServer - 一个免费的、HTTP协议的文件共享服务器。|
 |[choco](https://chocolatey.org/)|[**en-US**](/completions/choco/language/en-US.json)<br>[**zh-CN**](/completions/choco/language/zh-CN.json)|choco(chocolatey) - 软件管理。|
 |[cksum](https://uutils.org)|[**en-US**](/completions/cksum/language/en-US.json)<br>[**zh-CN**](/completions/cksum/language/zh-CN.json)|打印每个文件的 CRC 和大小。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
+|[claude](https://docs.anthropic.com/en/docs/claude-code)|[**en-US**](/completions/claude/language/en-US.json)<br>[**zh-CN**](/completions/claude/language/zh-CN.json)|Claude Code - Anthropic 的 AI 编程助手。|
+|[cmake](https://cmake.org)|[**en-US**](/completions/cmake/language/en-US.json)<br>[**zh-CN**](/completions/cmake/language/zh-CN.json)|CMake - 跨平台构建系统生成器。|
+|[code](https://code.visualstudio.com)|[**en-US**](/completions/code/language/en-US.json)<br>[**zh-CN**](/completions/code/language/zh-CN.json)|code - Visual Studio Code 的命令行界面|
+|[codex](https://github.com/openai/codex)|[**en-US**](/completions/codex/language/en-US.json)<br>[**zh-CN**](/completions/codex/language/zh-CN.json)|Codex CLI - OpenAI 的 AI 编程助手。|
 |[comm](https://uutils.org)|[**en-US**](/completions/comm/language/en-US.json)<br>[**zh-CN**](/completions/comm/language/zh-CN.json)|逐行比较两个已排序的文件。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[conda](https://github.com/conda/conda)|[**en-US**](/completions/conda/language/en-US.json)<br>[**zh-CN**](/completions/conda/language/zh-CN.json)|conda - 二进制包和环境管理器。|
+|[copilot](https://github.com/github/copilot-cli)|[**en-US**](/completions/copilot/language/en-US.json)<br>[**zh-CN**](/completions/copilot/language/zh-CN.json)|GitHub Copilot CLI - GitHub 的 AI 编程助手。|
 |[csplit](https://uutils.org)|[**en-US**](/completions/csplit/language/en-US.json)<br>[**zh-CN**](/completions/csplit/language/zh-CN.json)|根据上下文行将文件分割成多个部分。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
+|[curl](https://curl.se)|[**en-US**](/completions/curl/language/en-US.json)<br>[**zh-CN**](/completions/curl/language/zh-CN.json)|curl - 一个用于通过 URL 传输数据的命令行工具和库。|
 |[cut](https://uutils.org)|[**en-US**](/completions/cut/language/en-US.json)<br>[**zh-CN**](/completions/cut/language/zh-CN.json)|从标准输入或输入文件的每一行中打印指定的字节或字段列。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[date](https://uutils.org)|[**en-US**](/completions/date/language/en-US.json)<br>[**zh-CN**](/completions/date/language/zh-CN.json)|打印或设置系统日期和时间。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[dd](https://uutils.org)|[**en-US**](/completions/dd/language/en-US.json)<br>[**zh-CN**](/completions/dd/language/zh-CN.json)|复制并转换文件系统资源。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
@@ -35,29 +42,40 @@
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|[**en-US**](/completions/dotnet/language/en-US.json)<br>[**zh-CN**](/completions/dotnet/language/zh-CN.json)|dotnet - .NET CLI 的通用驱动程序。|
 |[du](https://uutils.org)|[**en-US**](/completions/du/language/en-US.json)<br>[**zh-CN**](/completions/du/language/zh-CN.json)|估算文件空间使用量。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[env](https://uutils.org)|[**en-US**](/completions/env/language/en-US.json)<br>[**zh-CN**](/completions/env/language/zh-CN.json)|在环境中将每个 NAME 设置为 VALUE 并运行 COMMAND。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
+|[eslint](https://eslint.org)|[**en-US**](/completions/eslint/language/en-US.json)<br>[**zh-CN**](/completions/eslint/language/zh-CN.json)|ESLint - 可插拔的 JavaScript linter。|
+|[eza](https://eza.rocks)|[**en-US**](/completions/eza/language/en-US.json)<br>[**zh-CN**](/completions/eza/language/zh-CN.json)|ls 的现代替代品。|
 |[factor](https://uutils.org)|[**en-US**](/completions/factor/language/en-US.json)<br>[**zh-CN**](/completions/factor/language/zh-CN.json)|打印给定数字的质因数。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
+|[fd](https://github.com/sharkdp/fd)|[**en-US**](/completions/fd/language/en-US.json)<br>[**zh-CN**](/completions/fd/language/zh-CN.json)|一个用于查找文件系统中条目的程序。|
 |[ffmpeg](https://ffmpeg.org/)|[**en-US**](/completions/ffmpeg/language/en-US.json)<br>[**zh-CN**](/completions/ffmpeg/language/zh-CN.json)|一个完整的跨平台解决方案，用于记录、转换和流式传输音频和视频。|
 |[fmt](https://uutils.org)|[**en-US**](/completions/fmt/language/en-US.json)<br>[**zh-CN**](/completions/fmt/language/zh-CN.json)|从输入文件（或标准输入）重新格式化段落到标准输出。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[fnm](https://github.com/Schniz/fnm)|[**en-US**](/completions/fnm/language/en-US.json)<br>[**zh-CN**](/completions/fnm/language/zh-CN.json)|快速、简单的 Node.js 版本管理器，使用 Rust 构建。|
 |[fold](https://uutils.org)|[**en-US**](/completions/fold/language/en-US.json)<br>[**zh-CN**](/completions/fold/language/zh-CN.json)|将每个文件（或未给出文件时的标准输入）写入标准输出，同时断开长行。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[fzf](https://junegunn.github.io/fzf)|[**en-US**](/completions/fzf/language/en-US.json)<br>[**zh-CN**](/completions/fzf/language/zh-CN.json)|fzf 是一个用于任何类型列表的交互式过滤程序。|
+|[gemini](https://github.com/google-gemini/gemini-cli)|[**en-US**](/completions/gemini/language/en-US.json)<br>[**zh-CN**](/completions/gemini/language/zh-CN.json)|Gemini CLI - Google 的 AI 编程助手。|
 |[gh](https://cli.github.com/)|[**en-US**](/completions/gh/language/en-US.json)<br>[**zh-CN**](/completions/gh/language/zh-CN.json)|gh - GitHub CLI 是一个命令行工具，用于从终端与 GitHub 进行交互。|
 |[git](https://git-scm.com)|[**en-US**](/completions/git/language/en-US.json)<br>[**zh-CN**](/completions/git/language/zh-CN.json)|Git - 版本控制系统。|
 |[go](https://pkg.go.dev/cmd/go)|[**en-US**](/completions/go/language/en-US.json)<br>[**zh-CN**](/completions/go/language/zh-CN.json)|go - Go语言源代码管理工具|
 |[godot](https://godotengine.org)|[**en-US**](/completions/godot/language/en-US.json)<br>[**zh-CN**](/completions/godot/language/zh-CN.json)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|
+|[gradle](https://gradle.org)|[**en-US**](/completions/gradle/language/en-US.json)<br>[**zh-CN**](/completions/gradle/language/zh-CN.json)|Gradle - 一个强大的 JVM 构建系统。|
 |[hashsum](https://uutils.org)|[**en-US**](/completions/hashsum/language/en-US.json)<br>[**zh-CN**](/completions/hashsum/language/zh-CN.json)|计算并校验消息摘要。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[head](https://uutils.org)|[**en-US**](/completions/head/language/en-US.json)<br>[**zh-CN**](/completions/head/language/zh-CN.json)|打印每个 'FILE' 的前 10 行到标准输出。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[helm](https://helm.sh)|[**en-US**](/completions/helm/language/en-US.json)<br>[**zh-CN**](/completions/helm/language/zh-CN.json)|Kubernetes 包管理器。|
 |[jj](https://jj-vcs.github.io/)|[**en-US**](/completions/jj/language/en-US.json)<br>[**zh-CN**](/completions/jj/language/zh-CN.json)|Jujutsu (jj) - 一个与 Git 兼容的版本控制系统，既简单又强大。|
 |[jjui](https://idursun.github.io/jjui/)|[**en-US**](/completions/jjui/language/en-US.json)<br>[**zh-CN**](/completions/jjui/language/zh-CN.json)|Jujutsu UI (jjui) 是一个为与 Jujutsu (jj) 版本控制系统交互而设计的文本用户界面 (TUI)|
 |[join](https://uutils.org)|[**en-US**](/completions/join/language/en-US.json)<br>[**zh-CN**](/completions/join/language/zh-CN.json)|对于具有相同连接字段的每对输入行，写一行到标准输出。<br>默认连接字段是第一个，由空格分隔。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[jq](https://jqlang.org/)|[**en-US**](/completions/jq/language/en-US.json)<br>[**zh-CN**](/completions/jq/language/zh-CN.json)|一款轻量且灵活的命令行 JSON 处理器。|
 |[just](https://github.com/casey/just)|[**en-US**](/completions/just/language/en-US.json)<br>[**zh-CN**](/completions/just/language/zh-CN.json)|just - 一个命令运行器。|
 |[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/)|[**en-US**](/completions/kubectl/language/en-US.json)<br>[**zh-CN**](/completions/kubectl/language/zh-CN.json)|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br>kubectl 是它的命令行工具|
+|[lazydocker](https://github.com/jesseduffield/lazydocker)|[**en-US**](/completions/lazydocker/language/en-US.json)<br>[**zh-CN**](/completions/lazydocker/language/zh-CN.json)|Lazydocker - 管理所有 docker 的更懒惰方式。|
+|[lazygit](https://github.com/jesseduffield/lazygit)|[**en-US**](/completions/lazygit/language/en-US.json)<br>[**zh-CN**](/completions/lazygit/language/zh-CN.json)|Lazygit - 一个简单的 git 命令终端 UI。|
 |[link](https://uutils.org)|[**en-US**](/completions/link/language/en-US.json)<br>[**zh-CN**](/completions/link/language/zh-CN.json)|调用 link 函数为现有的 FILE1 创建名为 FILE2 的链接。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[ln](https://uutils.org)|[**en-US**](/completions/ln/language/en-US.json)<br>[**zh-CN**](/completions/ln/language/zh-CN.json)|在文件之间创建链接。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[md5sum](https://uutils.org)|[**en-US**](/completions/md5sum/language/en-US.json)<br>[**zh-CN**](/completions/md5sum/language/zh-CN.json)|计算和检查消息摘要。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[mise](https://mise.jdx.dev/)|[**en-US**](/completions/mise/language/en-US.json)<br>[**zh-CN**](/completions/mise/language/zh-CN.json)|mise - 多语言工具版本管理器、环境变量管理器和任务运行器|
 |[mktemp](https://uutils.org)|[**en-US**](/completions/mktemp/language/en-US.json)<br>[**zh-CN**](/completions/mktemp/language/zh-CN.json)|创建临时文件或目录。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
+|[mvn](https://maven.apache.org)|[**en-US**](/completions/mvn/language/en-US.json)<br>[**zh-CN**](/completions/mvn/language/zh-CN.json)|Apache Maven - 一个软件项目管理和理解工具。|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|[**en-US**](/completions/mysql/language/en-US.json)<br>[**zh-CN**](/completions/mysql/language/zh-CN.json)|MySQL 命令行客户端|
+|[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|[**en-US**](/completions/N_m3u8DL-RE/language/en-US.json)<br>[**zh-CN**](/completions/N_m3u8DL-RE/language/zh-CN.json)|一个跨平台的浏览器流媒体下载器 (HLS/DASH/Smooth)。|
 |[ngrok](https://ngrok.com/)|[**en-US**](/completions/ngrok/language/en-US.json)<br>[**zh-CN**](/completions/ngrok/language/zh-CN.json)|ngrok - 面向开发人员的统一入口平台。<br>将 localhost 连接到 Internet 以测试应用程序和 API。|
 |[nl](https://uutils.org)|[**en-US**](/completions/nl/language/en-US.json)<br>[**zh-CN**](/completions/nl/language/zh-CN.json)|为文件的行编号。<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
 |[node](https://nodejs.org/)|[**en-US**](/completions/node/language/en-US.json)<br>[**zh-CN**](/completions/node/language/zh-CN.json)|Node.js - 一个免费、开源、跨平台的 JavaScript 运行时环境。|
@@ -66,27 +84,39 @@
 |[nrm](https://github.com/Pana/nrm)|[**en-US**](/completions/nrm/language/en-US.json)<br>[**zh-CN**](/completions/nrm/language/zh-CN.json)|nrm - npm 镜像源管理。|
 |[nssm](https://nssm.cc)|[**en-US**](/completions/nssm/language/en-US.json)<br>[**zh-CN**](/completions/nssm/language/zh-CN.json)|NSSM - 不坑爹的服务管理器 (Non-Sucking Service Manager)<br>可以将任意可执行程序安装为 Windows 服务并管理其运行|
 |[numfmt](https://uutils.org)|[**en-US**](/completions/numfmt/language/en-US.json)<br>[**zh-CN**](/completions/numfmt/language/zh-CN.json)|将数字与人类可读字符串相互转换。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
+|[nvim](https://neovim.io/)|[**en-US**](/completions/nvim/language/en-US.json)<br>[**zh-CN**](/completions/nvim/language/zh-CN.json)|nvim - 专注于可扩展性和易用性的 Vim 分支。|
 |[nvm](https://github.com/nvm-sh/nvm)|[**en-US**](/completions/nvm/language/en-US.json)<br>[**zh-CN**](/completions/nvm/language/zh-CN.json)|nvm - Node 版本管理器。|
 |[od](https://uutils.org)|[**en-US**](/completions/od/language/en-US.json)<br>[**zh-CN**](/completions/od/language/zh-CN.json)|以八进制和其他格式转储文件。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[oh-my-posh](https://ohmyposh.dev)|[**en-US**](/completions/oh-my-posh/language/en-US.json)<br>[**zh-CN**](/completions/oh-my-posh/language/zh-CN.json)|oh-my-posh 是一款跨平台工具，用于渲染你的终端提示符。|
-|[ollama](https://docs.ollama.com/cli)|[**en-US**](/completions/ollama/language/en-US.json)<br>[**zh-CN**](/completions/ollama/language/zh-CN.json)|ollama - ollama 的命令行工具。|
+|[ollama](https://docs.ollama.com/cli)|[**en-US**](/completions/ollama/language/en-US.json)<br>[**zh-CN**](/completions/ollama/language/zh-CN.json)|ollama - ollama 的命令行界面工具。|
+|[opencode](https://github.com/nicholaswatertank/opencode)|[**en-US**](/completions/opencode/language/en-US.json)<br>[**zh-CN**](/completions/opencode/language/zh-CN.json)|opencode - 面向终端的 AI 编程助手。|
 |[paste](https://uutils.org)|[**en-US**](/completions/paste/language/en-US.json)<br>[**zh-CN**](/completions/paste/language/zh-CN.json)|将每个文件中按顺序对应的行用制表符分隔后写入标准输出。<br>补全基于 [uutils/coreutils](https://github.com/uutils/coreutils) 编写。|
 |[pdm](https://github.com/pdm-project/pdm)|[**en-US**](/completions/pdm/language/en-US.json)<br>[**zh-CN**](/completions/pdm/language/zh-CN.json)|一个现代化的 Python 包和依赖管理器，支持最新的 PEP 标准。|
 |[pip](https://github.com/pypa/pip)|[**en-US**](/completions/pip/language/en-US.json)<br>[**zh-CN**](/completions/pip/language/zh-CN.json)|pip - Python 包管理器。|
 |[pnpm](https://pnpm.io/zh/)|[**en-US**](/completions/pnpm/language/en-US.json)<br>[**zh-CN**](/completions/pnpm/language/zh-CN.json)|pnpm - 软件包管理器。|
+|[podman](https://podman.io)|[**en-US**](/completions/podman/language/en-US.json)<br>[**zh-CN**](/completions/podman/language/zh-CN.json)|Podman - 管理 pods、容器和镜像。|
 |[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|[**en-US**](/completions/powershell/language/en-US.json)<br>[**zh-CN**](/completions/powershell/language/zh-CN.json)|Windows PowerShell 命令行 CLI. (powershell.exe)|
+|[prettier](https://prettier.io)|[**en-US**](/completions/prettier/language/en-US.json)<br>[**zh-CN**](/completions/prettier/language/zh-CN.json)|Prettier - 固执己见的代码格式化工具。|
 |[psc](https://pscompletions.abgox.com)|[**en-US**](/completions/psc/language/en-US.json)<br>[**zh-CN**](/completions/psc/language/zh-CN.json)|PSCompletions 模块的补全<br>如果移除它，将会自动重新添加|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|[**en-US**](/completions/pwsh/language/en-US.json)<br>[**zh-CN**](/completions/pwsh/language/zh-CN.json)|PowerShell 命令行 CLI。(pwsh.exe)|
 |[python](https://www.python.org)|[**en-US**](/completions/python/language/en-US.json)<br>[**zh-CN**](/completions/python/language/zh-CN.json)|python - 命令行。|
+|[rclone](https://rclone.org)|[**en-US**](/completions/rclone/language/en-US.json)<br>[**zh-CN**](/completions/rclone/language/zh-CN.json)|Rclone - 在云存储提供商之间同步文件。|
+|[rg](https://github.com/BurntSushi/ripgrep)|[**en-US**](/completions/rg/language/en-US.json)<br>[**zh-CN**](/completions/rg/language/zh-CN.json)|ripgrep (rg) 递归搜索当前目录中匹配正则表达式的行。|
+|[ruff](https://github.com/astral-sh/ruff)|[**en-US**](/completions/ruff/language/en-US.json)<br>[**zh-CN**](/completions/ruff/language/zh-CN.json)|Ruff - 极速的 Python linter 和代码格式化工具。|
 |[rustup](https://rustup.rs)|[**en-US**](/completions/rustup/language/en-US.json)<br>[**zh-CN**](/completions/rustup/language/zh-CN.json)|rustup - Rust 工具链安装器。|
 |[scoop](https://scoop.sh)|[**en-US**](/completions/scoop/language/en-US.json)<br>[**zh-CN**](/completions/scoop/language/zh-CN.json)|Scoop - 适用于 Windows 的命令行安装程序|
 |[scoop-checkver](https://scoop.sh)|[**en-US**](/completions/scoop-checkver/language/en-US.json)<br>[**zh-CN**](/completions/scoop-checkver/language/zh-CN.json)|它用于本地检查 Scoop 清单的更新<br>使用 .\bin\checkver.ps1 去触发补全|
 |[scoop-install](https://gitee.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-install/language/en-US.json)<br>[**zh-CN**](/completions/scoop-install/language/zh-CN.json)|一个 PowerShell 脚本，它允许你添加 Scoop 配置，在 Scoop 安装应用时使用替换后的 url 而不是原始的 url。|
 |[scoop-update](https://gitee.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-update/language/en-US.json)<br>[**zh-CN**](/completions/scoop-update/language/zh-CN.json)|一个 PowerShell 脚本，它允许你添加 Scoop 配置，在 Scoop 更新应用时使用替换后的 url 而不是原始的 url。|
 |[sfsu](https://github.com/winpax/sfsu)|[**en-US**](/completions/sfsu/language/en-US.json)<br>[**zh-CN**](/completions/sfsu/language/zh-CN.json)|可以替代 Scoop 最慢部分的实用工具，运行速度提升 30-100 倍。|
+|[starship](https://github.com/starship/starship)|[**en-US**](/completions/starship/language/en-US.json)<br>[**zh-CN**](/completions/starship/language/zh-CN.json)|Starship - 面向宇航员的跨 shell 提示符。|
 |[svn](https://subversion.apache.org)|[**en-US**](/completions/svn/language/en-US.json)<br>[**zh-CN**](/completions/svn/language/zh-CN.json)|SVN - Subversion 版本控制系统。|
+|[ty](https://github.com/astral-sh/ruff)|[**en-US**](/completions/ty/language/en-US.json)<br>[**zh-CN**](/completions/ty/language/zh-CN.json)|ty - 极速的 Python 类型检查器。|
 |[uv](https://docs.astral.sh/uv/)|[**en-US**](/completions/uv/language/en-US.json)<br>[**zh-CN**](/completions/uv/language/zh-CN.json)|一个极其快速的 Python 包和项目管理器，用 Rust 编写。|
+|[vite](https://github.com/vitejs/vite)|[**en-US**](/completions/vite/language/en-US.json)<br>[**zh-CN**](/completions/vite/language/zh-CN.json)|Vite - 下一代前端工具链。|
+|[vitest](https://github.com/vitest-dev/vitest)|[**en-US**](/completions/vitest/language/en-US.json)<br>[**zh-CN**](/completions/vitest/language/zh-CN.json)|Vitest - 下一代测试框架。|
 |[volta](https://volta.sh)|[**en-US**](/completions/volta/language/en-US.json)<br>[**zh-CN**](/completions/volta/language/zh-CN.json)|volta - 无障碍 JavaScript 工具管理器。|
+|[wget](https://www.gnu.org/software/wget/)|[**en-US**](/completions/wget/language/en-US.json)<br>[**zh-CN**](/completions/wget/language/zh-CN.json)|GNU Wget - 一个非交互式网络检索器。|
 |[winget](https://github.com/microsoft/winget-cli)|[**en-US**](/completions/winget/language/en-US.json)<br>[**zh-CN**](/completions/winget/language/zh-CN.json)|WinGet - Windows 程序包管理器。|
 |[wsh](https://github.com/wavetermdev/waveterm)|[**en-US**](/completions/wsh/language/en-US.json)<br>[**zh-CN**](/completions/wsh/language/zh-CN.json)|wsh 是一个小工具，让你直接从命令行使用 Wave Terminal 做一些很酷的事情。|
 |[wsl](https://github.com/microsoft/WSL)|[**en-US**](/completions/wsl/language/en-US.json)<br>[**zh-CN**](/completions/wsl/language/zh-CN.json)|WSL - 适用于 Linux 的 Windows 子系统。|
@@ -94,6 +124,7 @@
 |[ya](https://yazi-rs.github.io/)|[**en-US**](/completions/ya/language/en-US.json)<br>[**zh-CN**](/completions/ya/language/zh-CN.json)|Yazi - 一款基于异步 I/O、用 Rust 编写的超快速终端文件管理器。|
 |[yarn](https://classic.yarnpkg.com/)|[**en-US**](/completions/yarn/language/en-US.json)<br>[**zh-CN**](/completions/yarn/language/zh-CN.json)|yarn - 快速、可靠且安全的依赖管理。|
 |[yazi](https://yazi-rs.github.io/)|[**en-US**](/completions/yazi/language/en-US.json)<br>[**zh-CN**](/completions/yazi/language/zh-CN.json)|Yazi - 一款基于异步 I/O、用 Rust 编写的超快速终端文件管理器。|
+|[zellij](https://zellij.dev)|[**en-US**](/completions/zellij/language/en-US.json)<br>[**zh-CN**](/completions/zellij/language/zh-CN.json)|Zellij 是一个具有多个终端窗格的终端工作区。|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|[**en-US**](/completions/zoxide/language/en-US.json)<br>[**zh-CN**](/completions/zoxide/language/zh-CN.json)|一个更智能的终端 cd 命令|
 
 <!-- prettier-ignore-end -->
