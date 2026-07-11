@@ -1,7 +1,8 @@
 #Requires -Version 7.0
 
 param(
-    [string]$CompletionName
+    [string]$CompletionName,
+    [switch]$AddHooks
 )
 
 Set-StrictMode -Off
@@ -37,10 +38,21 @@ if (Test-Path $completion_dir) {
 $PSCompletions.ensure_dir($completion_dir)
 $PSCompletions.ensure_dir("$completion_dir/language")
 
-Copy-Item "$($PSScriptRoot)/template/config.json" "$completion_dir/config.json" -Force
-
+$config = [ordered]@{
+    language = @('en-US', 'zh-CN')
+}
 Copy-Item "$($PSScriptRoot)/template/language/en-US.json" "$completion_dir/language/en-US.json" -Force
 Copy-Item "$($PSScriptRoot)/template/language/zh-CN.json" "$completion_dir/language/zh-CN.json" -Force
-Copy-Item "$($PSScriptRoot)/template/hooks.ps1" "$completion_dir/hooks.ps1" -Force
 
-$PSCompletions.write_with_color($PSCompletions.replace_content($text.success))
+if ($AddHooks) {
+    $config.hooks = $true
+    Copy-Item "$($PSScriptRoot)/template/hooks.ps1" "$completion_dir/hooks.ps1" -Force
+}
+$config | ConvertTo-Json | Out-File "$completion_dir/config.json" -Force
+
+if ($AddHooks) {
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.successWithHooks))
+}
+else {
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text.success))
+}

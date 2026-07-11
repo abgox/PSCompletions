@@ -9,8 +9,16 @@
       "<@Red>你应该输入一个有效的语言。\n",
       "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $CompletionName }} -BaseLang zh-CN"
     ],
+    "summary": [
+      "<@Cyan>────────────────────────────────────────────────────────",
+      "<@Blue>共 {{ $totalFiles }} 个补全 <@Cyan>| <@Green>已完成: {{ $completedFiles }} <@Cyan>| <@Magenta>有问题: {{ $issueFiles }}",
+      "<@Cyan>────────────────────────────────────────────────────────"
+    ],
     "langHeader": [
       "\n<@Magenta>=== {{ $targetShortPath }} === 缺少: {{ $missing }} | 多余: {{ $extra }} | 翻译: {{ $translated }}/{{ $total }} ({{ $rate }}%)"
+    ],
+    "langHeaderComplete": [
+      "<@Green> {{ $targetShortPath }} — {{ $translated }}/{{ $total }} ({{ $rate }}%)"
     ],
     "missingInTarget": [
       "\n<@Red>缺少的项:"
@@ -39,8 +47,11 @@
     "exist": "<@Red>补全目录已经存在!",
     "success": [
       "<@Green>补全 <@Magenta>{{ $CompletionName }}<@Green> 创建完成!\n",
-      "你可以通过 <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> 链接补全以在编写补全时获得实时预览\n",
-      "如果不需要 hooks，请删除 <@Magenta>config.json<@Green> 中的 <@Magenta>hooks<@Green> 属性和 hooks.ps1 文件，然后重新链接补全"
+      "你可以通过 <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> 链接补全以在编写补全时获得实时预览"
+    ],
+    "successWithHooks": [
+      "<@Green>补全 <@Magenta>{{ $CompletionName }}<@Green> 已创建并包含 hooks!\n",
+      "你可以通过 <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> 链接补全以在编写补全时获得实时预览"
     ],
     "err": {
       "name": "<@Red>补全名称不能为空!"
@@ -56,7 +67,7 @@
     "noExist": "<@Magenta>{{ $CompletionName }}<@Red> 不存在。",
     "linkDone": [
       "<@Green>补全 <@Magenta>{{ $CompletionName }}<@Green> 已链接到 PSCompletions 模块中: <@Magenta>{{ $test_dir }}<@Green>\n\n",
-      "<@Green>建议: 通过 <@Magenta>psc config enable_cache 0<@Green> 禁用补全缓存，以预览最新的实时更改\n",
+      "<@Green>建议: 通过 <@Magenta>psc config enable_cache 0<@Green> 临时禁用补全缓存，以预览最新的实时更改\n",
       "<@Yellow>注意: 补全链接仅用于本地，<@Magenta>psc add<@Yellow> 和 <@Magenta>psc update<@Yellow> 会忽略它们"
     ]
   },

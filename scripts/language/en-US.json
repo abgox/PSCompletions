@@ -9,8 +9,16 @@
       "<@Red>You should enter a valid language.\n",
       "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $CompletionName }} -BaseLang zh-CN"
     ],
+    "summary": [
+      "<@Cyan>────────────────────────────────────────────────────────",
+      "<@Blue>Total: {{ $totalFiles }} completions <@Cyan>| <@Green>Complete: {{ $completedFiles }} <@Cyan>| <@Magenta>Issues: {{ $issueFiles }}",
+      "<@Cyan>────────────────────────────────────────────────────────"
+    ],
     "langHeader": [
       "\n<@Magenta>=== {{ $targetShortPath }} === Missing: {{ $missing }} | Extra: {{ $extra }} | Translated: {{ $translated }}/{{ $total }} ({{ $rate }}%)"
+    ],
+    "langHeaderComplete": [
+      "\n<@Green> {{ $targetShortPath }} — {{ $translated }}/{{ $total }} ({{ $rate }}%)"
     ],
     "missingInTarget": [
       "\n<@Red>Missing items:"
@@ -39,8 +47,11 @@
     "exist": "<@Red>The completion directory already exists!",
     "success": [
       "<@Green>Completion <@Magenta>{{ $CompletionName }}<@Green> created successfully!\n",
-      "You can link the completion via <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> to get a real-time preview while writing completions\n",
-      "If hooks are not required, please remove the <@Magenta>hooks<@Green> property from <@Magenta>config.json<@Green> and the hooks.ps1 file, then re-link the completion"
+      "You can link the completion via <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> to get a real-time preview while writing completions."
+    ],
+    "successWithHooks": [
+      "<@Green>Completion <@Magenta>{{ $CompletionName }}<@Green> created successfully with hooks!\n",
+      "You can link the completion via <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> to get a real-time preview while writing completions."
     ],
     "err": {
       "name": "<@Red>Completion name cannot be empty!"
@@ -52,17 +63,17 @@
       "e.g. <@Magenta>.\\scripts\\link-completion.ps1 git\n",
       "<@Cyan>Valid completion names are listed below: \n<@Blue>{{ $completions_list -join ' ' }}"
     ],
-    "exist": "<@Red>The completion directory already exists. Please use <@Magenta>psc rm {{ $CompletionName }}<@Red> to remove it first",
+    "exist": "<@Red>The completion directory already exists. Please use <@Magenta>psc rm {{ $CompletionName }}<@Red> to remove it first.",
     "noExist": "<@Magenta>{{ $CompletionName }}<@Red> does not exist.",
     "linkDone": [
       "<@Green>Completion <@Magenta>{{ $CompletionName }}<@Green> has been linked to the PSCompletions module: <@Magenta>{{ $test_dir }}<@Green>\n\n",
-      "<@Green>Recommendation: Disable completion cache via <@Magenta>psc config enable_cache 0<@Green> to preview the latest changes in real-time\n",
-      "<@Yellow>Note: Completion links are for local use only; <@Magenta>psc add<@Yellow> and <@Magenta>psc update<@Yellow> will ignore them"
+      "<@Green>Recommendation: Temporarily disable completion cache via <@Magenta>psc config enable_cache 0<@Green> to preview the latest changes in real-time.\n",
+      "<@Yellow>Note: Completion links are for local use only; <@Magenta>psc add<@Yellow> and <@Magenta>psc update<@Yellow> will ignore them."
     ]
   },
   "publish-module": {
     "requireKey": [
-      "<@Red>Parameter <@Magenta>NuGetApiKey<@Red> is required"
+      "<@Red>Parameter <@Magenta>NuGetApiKey<@Red> is required."
     ]
   }
 }

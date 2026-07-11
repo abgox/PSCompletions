@@ -1,11 +1,13 @@
 #Requires -Version 7.0
 
 param(
+    [Parameter(Position = 0, ValueFromRemainingArguments)]
     [array]$CompletionList,
     [ArgumentCompletions('en-US', 'zh-CN')]
-    [string]$BaseLang = 'en-US'
+    [string]$BaseLang
 )
 
+if (-not $BaseLang) { $BaseLang = 'en-US' }
 if (-not $CompletionList) {
     $CompletionList = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
 }
@@ -24,6 +26,7 @@ $text = $text.'compare-json'
 
 function outText {
     param($text)
+    if ($text -is [array]) { $text = $text -join "`n" }
     $PSCompletions.write_with_color($PSCompletions.replace_content($text))
 }
 
@@ -54,6 +57,25 @@ function Compare-Lang {
         semanticMismatch = @()
         valueDiff        = @()
         untranslated     = @()
+    }
+
+    function Normalize-Value {
+        param($Value, [string]$Key = '')
+
+        if ($null -eq $Value) { return $null }
+        if ($Value -is [System.Collections.IDictionary]) {
+            if ($Value.ContainsKey('name') -and $Key -in 'root', 'option', 'common_option', 'next', 'alias') {
+                return , @($Value)
+            }
+            if ($Key -eq 'alias' -and $Value.Count -eq 0) {
+                return @()
+            }
+        }
+        if ($Value -is [string] -and $Key -eq 'alias') {
+            return , @($Value)
+        }
+
+        return $Value
     }
 
     function Test-NamedObjectArray {
@@ -108,6 +130,8 @@ function Compare-Lang {
             Compare-TranslatableText -BaseVal $BaseVal -TargetVal $TargetVal -Path $Path
             return
         }
+        $BaseVal = Normalize-Value -Value $BaseVal -Key $Key
+        $TargetVal = Normalize-Value -Value $TargetVal -Key $Key
 
         $baseType = Get-ValueType $BaseVal
         $targetType = Get-ValueType $TargetVal
@@ -191,7 +215,7 @@ function Compare-Lang {
         $allKeys = @($baseKeys) + @($targetKeys) | Select-Object -Unique
 
         foreach ($key in $allKeys) {
-            # if ($key -eq 'name') { continue }
+            if ($Path -eq 'meta' -and $key -eq 'url') { continue }
 
             $baseVal = if ($BaseObj -and $BaseObj.ContainsKey($key)) { $BaseObj[$key] } else { $null }
             $targetVal = if ($TargetObj -and $TargetObj.ContainsKey($key)) { $TargetObj[$key] } else { $null }
@@ -253,6 +277,8 @@ function Compare-Lang {
     }
 }
 
+$allResults = @()
+
 foreach ($CompletionName in $CompletionList) {
     if (!$CompletionName.Trim()) {
         outText $text.invalidName
@@ -281,39 +307,83 @@ foreach ($CompletionName in $CompletionList) {
         $result = Compare-Lang $baseJson $targetJson $lang
         $stats = $result.stats
 
-        $targetShortPath = "$CompletionName/$lang.json"
         $missing = $stats.missingInTarget.Count
         $extra = $stats.extraInTarget.Count
         $translated = $stats.translatedTips
         $total = $stats.totalTips
         $rate = $result.rate
-        $count = $stats.untranslated.Count
 
+        if ($total -eq 0) { continue }
+
+        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0
+
+        $allResults += @{
+            completion = $CompletionName
+            lang       = $lang
+            stats      = $stats
+            rate       = $rate
+            missing    = $missing
+            extra      = $extra
+            translated = $translated
+            total      = $total
+            hasIssues  = $hasIssues
+        }
+    }
+}
+
+$totalFiles = $allResults.Count
+$completedFiles = ($allResults | Where-Object { -not $_.hasIssues }).Count
+$issueFiles = ($allResults | Where-Object { $_.hasIssues }).Count
+
+outText $text.summary
+
+$issueResults = @($allResults | Where-Object { $_.hasIssues })
+if ($issueResults.Count -gt 0) {
+    foreach ($r in $issueResults) {
+        $targetShortPath = "$($r.completion)/$($r.lang).json"
+        $missing = $r.missing
+        $extra = $r.extra
+        $translated = $r.translated
+        $total = $r.total
+        $rate = $r.rate
+        $count = $r.stats.untranslated.Count
         outText $text.langHeader
 
-        if ($stats.missingInTarget.Count -gt 0) {
+        if ($r.stats.missingInTarget.Count -gt 0) {
             outText $text.missingInTarget
-            foreach ($item in $stats.missingInTarget) { outText "<@Cyan>  $($item.path)" }
+            foreach ($item in $r.stats.missingInTarget) { outText "<@Cyan>  $($item.path)" }
         }
-        if ($stats.extraInTarget.Count -gt 0) {
+        if ($r.stats.extraInTarget.Count -gt 0) {
             outText $text.extraInTarget
-            foreach ($item in $stats.extraInTarget) { outText "<@Cyan>  $($item.path)" }
+            foreach ($item in $r.stats.extraInTarget) { outText "<@Cyan>  $($item.path)" }
         }
-        if ($stats.typeMismatch.Count -gt 0) {
+        if ($r.stats.typeMismatch.Count -gt 0) {
             outText $text.typeMismatch
-            foreach ($item in $stats.typeMismatch) { outText "<@Cyan>  $($item.path)" }
+            foreach ($item in $r.stats.typeMismatch) { outText "<@Cyan>  $($item.path)" }
         }
-        if ($stats.semanticMismatch.Count -gt 0) {
+        if ($r.stats.semanticMismatch.Count -gt 0) {
             outText $text.semanticMismatch
-            foreach ($item in $stats.semanticMismatch) { outText "<@Cyan>  $($item.path)" }
+            foreach ($item in $r.stats.semanticMismatch) { outText "<@Cyan>  $($item.path)" }
         }
-        if ($stats.valueDiff.Count -gt 0) {
+        if ($r.stats.valueDiff.Count -gt 0) {
             outText $text.valueDiff
-            foreach ($item in $stats.valueDiff) { outText "<@Cyan>  $($item.path)" }
+            foreach ($item in $r.stats.valueDiff) { outText "<@Cyan>  $($item.path)" }
         }
-        if ($stats.untranslated.Count -gt 0) {
+        if ($r.stats.untranslated.Count -gt 0) {
             outText $text.untranslated
-            foreach ($item in $stats.untranslated) { outText "<@Cyan>  $($item.path)" }
+            foreach ($item in $r.stats.untranslated) { outText "<@Cyan>  $($item.path)" }
         }
+    }
+}
+
+$completeResults = @($allResults | Where-Object { -not $_.hasIssues })
+if ($completeResults.Count -gt 0) {
+    Write-Host
+    foreach ($r in $completeResults) {
+        $targetShortPath = "$($r.completion)/$($r.lang).json"
+        $translated = $r.translated
+        $total = $r.total
+        $rate = $r.rate
+        outText $text.langHeaderComplete
     }
 }
