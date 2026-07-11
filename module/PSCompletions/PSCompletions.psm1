@@ -188,10 +188,11 @@
         else {
             $remove_list = @()
             foreach ($completion in $arg[1..($arg.Length - 1)]) {
-                if ($completion -in $PSCompletions.data.list) {
+                $dir = Join-Path $PSCompletions.path.completions $completion
+                $exist = Test-Path $dir
+                if ($completion -in $PSCompletions.data.list -or $exist) {
                     $remove_list += $completion
-                    $dir = Join-Path $PSCompletions.path.completions $completion
-                    if (!(Test-Path $dir)) {
+                    if (!$exist) {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.no_completion))
                         continue
                     }
