@@ -70,6 +70,8 @@ Each subcommand is an item object:
 
 **Naming convention**: `name` should be the longest/full name, and `alias` should contain the remaining shorter names.
 
+> **Important**: If `name` contains spaces, it MUST be wrapped in quotes (single or double) to pass schema validation.
+
 #### `option` - Options
 
 Options are also item objects, but cannot nest `option` (only `next`):
@@ -90,6 +92,31 @@ Options are also item objects, but cannot nest `option` (only `next`):
 
 **Important**: If the description mentions specific allowed values, add them as `next` items instead of using `next: 0`. This enables better completion suggestions.
 
+#### Duplicate Prevention
+
+Within the same level (same array), there should be no duplicate `name` values:
+
+- `root` array: no duplicate subcommand names
+- `option` array: no duplicate option names
+- `common_option` array: no duplicate option names
+- `next` array: no duplicate item names
+
+#### `option` vs `common_option`
+
+Do NOT duplicate the same option in both `option` and `common_option`. Pick one based on where it's available:
+
+| Availability                                              | Where to put                     |
+| --------------------------------------------------------- | -------------------------------- |
+| Only at root level (e.g., `--version`)                    | `option`                         |
+| At root AND all subcommands (e.g., `--help`, `--verbose`) | `common_option`                  |
+| Only for specific subcommands                             | That subcommand's `option` array |
+
+- `option` items are shown **only at the root command level**
+- `common_option` items are shown **for all completions** — root level and every subcommand
+- If a subcommand has its own `option` array, do NOT repeat options from `common_option` — they are already available
+
+Typical pattern: `--help` goes in `common_option` (works everywhere), `--version` goes in `option` (root-level only).
+
 #### `tip` Format Rules
 
 - Each array element is one line, no line breaks allowed
@@ -97,6 +124,10 @@ Options are also item objects, but cannot nest `option` (only `next`):
 - **Usage line** (`U:` prefix): List aliases with different separators for commands vs options
   - Subcommands use `|`: `U: add|install <app>`
   - Options use `,`: `U: -g, --global` or `U: -g, --global <xxx>`
+- **Usage line must start from the current command level, NOT the root command**
+  - Root level subcommand: `U: install [FLAGS]` (not `U: tool install [FLAGS]`)
+  - Nested subcommand: `U: config set <key> <value>` (not `U: tool config set <key> <value>`)
+  - The usage line shows how to invoke THIS command, so it starts with this command's name
 - **Description line**: Brief explanation of what this item does
 - **Example line**: `E: scoop install git` or `E: --color always`
 - If `tip` exists, it must contain at least a description line — cannot be only a usage line
@@ -179,11 +210,3 @@ When a tool releases a new version with new subcommands or options:
 2. **Only translate tip content** - `name`, `alias`, and other fields don't need translation
 3. **Space between Chinese and English** - Spaces required between Chinese and English/numbers
 4. **Don't translate proper nouns** - Command names, option names, tool names stay as-is
-
-## Notes
-
-- `common_option` options are shown for all completions
-- `option` options are only shown at the root command level
-- Subcommand `option` options are only shown after that subcommand is typed
-- Use `-h` or `--help` as the help option name
-- **Avoid duplication**: If a subcommand's option already exists in `common_option` with the same description, don't repeat it in the subcommand's `option`

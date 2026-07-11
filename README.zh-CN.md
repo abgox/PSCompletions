@@ -15,14 +15,11 @@
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/v/PSCompletions?label=version" alt="module version" />
     </a>
+    <a href="./completions.zh-CN.md">
+        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2FPSCompletions%2Frefs%2Fheads%2Fmain%2Fcompletions.json&query=%24.count&label=completions" alt="completions" />
+    </a>
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/dt/PSCompletions" alt="PowerShell Gallery" />
-    </a>
-    <a href="https://github.com/abgox/PSCompletions">
-        <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions" alt="code size" />
-    </a>
-    <a href="https://github.com/abgox/PSCompletions">
-        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions" alt="repo size" />
     </a>
     <a href="https://github.com/abgox/PSCompletions">
         <img src="https://img.shields.io/github/created-at/abgox/PSCompletions" alt="created" />
@@ -39,10 +36,10 @@
 
 ## 介绍
 
-> [!Tip]
+> [!TIP]
 >
-> - [PowerShell(pwsh)](https://microsoft.com/powershell): 跨平台的 PowerShell (Core)，运行 `pwsh`/`pwsh.exe` 启动
-> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell (Desktop)，运行 `powershell`/`powershell.exe` 启动
+> - [PowerShell(pwsh)](https://microsoft.com/powershell): 跨平台的 PowerShell (**Core**)，运行 `pwsh`/`pwsh.exe` 启动
+> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell (**Desktop**)，运行 `powershell`/`powershell.exe` 启动
 > - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell(pwsh)](https://microsoft.com/powershell)
 
 一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
@@ -58,7 +55,7 @@
 
 ## 演示
 
-> [!Tip]
+> [!TIP]
 >
 > - 如果这里无法显示，[可前往官网查看](https://pscompletions.abgox.com)
 > - [点击查看 Bilibili 中的介绍及教学视频](https://www.bilibili.com/video/BV15Gp7zmE2e)
@@ -88,7 +85,7 @@
      Install-PSResource PSCompletions
      ```
 
-   - [Scoop](https://scoop.sh/)
+   - [Scoop](https://scoop.sh)
      - 添加 [abyss](https://abyss.abgox.com) bucket ([Github](https://github.com/abgox/abyss) 或 [Gitee](https://gitee.com/abgox/abyss))
      - 安装它
 
@@ -102,7 +99,7 @@
    Import-Module PSCompletions
    ```
 
-> [!Tip]
+> [!TIP]
 >
 > - 如果使用了 `. $Profile`，请运行 `psc` 以重载模块的按键绑定及数据
 > - 参考: https://pscompletions.abgox.com/docs/source-profile
@@ -133,7 +130,6 @@
 - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): 适用于 PowerShell 的 GUI 风格的制表符补全菜单
   - PSCompletions 的 [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 受到了它的启发
 
-## 补全列表
+## 补全
 
-- [简体中文](./completions.zh-CN.md)
-- [English](./completions.md)
+[简体中文](./completions.zh-CN.md) | [English](./completions.md)

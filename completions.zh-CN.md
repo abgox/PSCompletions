@@ -1,6 +1,8 @@
 # 补全
 
-[English](./completions.md)
+<img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2FPSCompletions%2Frefs%2Fheads%2Fmain%2Fcompletions.json&query=%24.count&label=completions" alt="completions" />
+
+[English](./completions.md) | [简体中文](./completions.zh-CN.md)
 
 <!-- prettier-ignore-start -->
 |Completion|Language|Description|

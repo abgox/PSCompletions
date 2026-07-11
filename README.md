@@ -15,14 +15,11 @@
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/v/PSCompletions?label=version" alt="module version" />
     </a>
+    <a href="./completions.md">
+        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2FPSCompletions%2Frefs%2Fheads%2Fmain%2Fcompletions.json&query=%24.count&label=completions" alt="completions" />
+    </a>
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/dt/PSCompletions" alt="PowerShell Gallery" />
-    </a>
-    <a href="https://github.com/abgox/PSCompletions">
-        <img src="https://img.shields.io/github/languages/code-size/abgox/PSCompletions" alt="code size" />
-    </a>
-    <a href="https://github.com/abgox/PSCompletions">
-        <img src="https://img.shields.io/github/repo-size/abgox/PSCompletions" alt="repo size" />
     </a>
     <a href="https://github.com/abgox/PSCompletions">
         <img src="https://img.shields.io/github/created-at/abgox/PSCompletions" alt="created" />
@@ -39,10 +36,10 @@
 
 ## Introduce
 
-> [!Tip]
+> [!TIP]
 >
-> - [PowerShell(pwsh)](https://microsoft.com/powershell): A cross-platform PowerShell (Core). Start it by running `pwsh`/`pwsh.exe`.
-> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell (Desktop) which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
+> - [PowerShell(pwsh)](https://microsoft.com/powershell): A cross-platform PowerShell (**Core**). Start it by running `pwsh`/`pwsh.exe`.
+> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell (**Desktop**) which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
 > - They can both use `PSCompletions`, but [PowerShell(pwsh)](https://microsoft.com/powershell) is more recommended.
 
 A completion manager for a better and simpler tab-completion experience in `PowerShell`.
@@ -58,7 +55,7 @@ A completion manager for a better and simpler tab-completion experience in `Powe
 
 ## Demo
 
-> [!Tip]
+> [!TIP]
 >
 > - If it cannot be displayed here, [you can check it on the official website](https://pscompletions.abgox.com).
 > - [Click to view the videos on Bilibili.](https://www.bilibili.com/video/BV15Gp7zmE2e)
@@ -88,7 +85,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
      Install-PSResource PSCompletions
      ```
 
-   - [Scoop](https://scoop.sh/)
+   - [Scoop](https://scoop.sh)
      - Add the [abyss](https://abyss.abgox.com) bucket via [Github](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss).
 
      - Install it.
@@ -103,7 +100,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
    Import-Module PSCompletions
    ```
 
-> [!Tip]
+> [!TIP]
 >
 > - If you use `. $Profile`, please run `psc` to reload the module's key bindings and data.
 > - Refer to: https://pscompletions.abgox.com/docs/source-profile
@@ -134,7 +131,6 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): GUI-style tab-completion menu for PowerShell.
   - [The module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu) of PSCompletions is inspired by it.
 
-## Available Completions
+## Completions
 
-- [English](./completions.md)
-- [简体中文](./completions.zh-CN.md)
+[English](./completions.md) | [简体中文](./completions.zh-CN.md)
