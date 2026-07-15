@@ -1276,7 +1276,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                 $menu.pos.X = $edge
             }
         }
-
         # Y
         $menu.ui_height = $menu.filter_list.Count + 2
         if ($menu.is_show_above) {
@@ -1322,7 +1321,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         param([int]$offset)
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
-        $content_box = foreach ($l in $lines) {
+        [array]$content_box = foreach ($l in $lines) {
             $item = $menu.filter_list[$l]
             $text = $item.ListItemText -replace '\x1B\[[\d;]*m', ''
             $text = $text + $item.padSymbols
@@ -1340,12 +1339,29 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                 }
             }
         }
-        $rawUI.SetBufferContents(@{
-                X = $menu.pos.X + 1
-                Y = $menu.pos.Y + 1
-            },
-            $rawUI.NewBufferCellArray($content_box, $config.item_color, $bgColor)
+        $X = $menu.pos.X + 1
+        $baseY = $menu.pos.Y + 1
+        $selIndex = $menu.page_current_index
+        $rawUI.SetBufferContents(
+            @{ X = $X; Y = $baseY + $selIndex },
+            $rawUI.NewBufferCellArray(@($content_box[$selIndex]), $config.selected_color, $config.selected_bgcolor)
         )
+        if ($selIndex -gt 0) {
+            $rawUI.SetBufferContents(
+                @{ X = $X; Y = $baseY },
+                $rawUI.NewBufferCellArray($content_box[0..($selIndex - 1)], $config.item_color, $bgColor)
+            )
+        }
+        if ($selIndex -lt $content_box.Count - 1) {
+            $rawUI.SetBufferContents(
+                @{ X = $X; Y = $baseY + $selIndex + 1 },
+                $rawUI.NewBufferCellArray($content_box[($selIndex + 1)..($content_box.Count - 1)], $config.item_color, $bgColor)
+            )
+        }
+        $menu.old_selection = @{
+            pos    = @{ X = $X; Y = $baseY + $selIndex }
+            buffer = $rawUI.NewBufferCellArray(@($content_box[$selIndex]), $config.item_color, $bgColor)
+        }
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_filter_buffer {
         param([string]$filter)
@@ -1380,7 +1396,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         else {
             $Y = $menu.pos.Y + $menu.ui_height - 1
         }
-
         $current = "$(([string]($menu.selected_index + 1)).PadLeft($menu.filter_list.Count.ToString().Length, '0'))"
         $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@("$current$($config.status_symbol)$($menu.filter_list.Count)"), $config.status_color, $bgColor))
     }
@@ -1432,7 +1447,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     $x = 1
                 }
             }
-
             $json = $PSCompletions.completions[$PSCompletions.cmd]
             $info = $json.info
 
@@ -1462,9 +1476,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     $currentLine += $char
                     $currentWidth += $charWidth
                 }
-
                 $outputString += $currentLine
-
                 $tip_arr += $outputString.Split("`n")
             }
 
@@ -1494,11 +1506,9 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         }
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_menu_selection {
-
         if ($menu.old_selection) {
             $rawUI.SetBufferContents($menu.old_selection.pos, $menu.old_selection.buffer)
         }
-
         $X = $menu.pos.X + 1
         $to_X = $X + $menu.list_max_width - 1
         $Y = $menu.pos.Y + 1 + $menu.page_current_index
@@ -1515,19 +1525,17 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@([string]::Join('', $content)), $config.selected_color, $config.selected_bgcolor))
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_menu_selection {
-        param([bool]$isDown)
-
+        param(
+            [bool]$isDown
+        )
         $moveDirection = if ($isDown) { 1 } else { -1 }
-
-        $is_move = if ($isDown) {
+        $isMove = if ($isDown) {
             $menu.page_current_index -lt $menu.page_max_index
         }
         else {
             $menu.page_current_index -gt 0
         }
-
         $new_selected_index = $menu.selected_index + $moveDirection
-
         if ($config.enable_list_loop) {
             $menu.selected_index = ($new_selected_index + $menu.filter_list.Count) % $menu.filter_list.Count
         }
@@ -1542,8 +1550,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                 $new_selected_index
             }
         }
-
-        if ($is_move) {
+        if ($isMove) {
             $menu.page_current_index = ($menu.page_current_index + $moveDirection) % ($menu.page_max_index + 1)
             if ($menu.page_current_index -lt 0) {
                 $menu.page_current_index += $menu.page_max_index + 1
@@ -1554,7 +1561,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             $menu.handle_menu_data('edit')
             return
         }
-
         if ($config.enable_list_loop -or ($new_selected_index -ge 0 -and $new_selected_index -lt $menu.filter_list.Count)) {
             if ($isDown) {
                 if ($menu.selected_index -eq 0) {
@@ -1571,11 +1577,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             if ($menu.offset -lt 0) {
                 $menu.offset += $menu.filter_list.Count - $menu.page_max_index
             }
-
-            $menu.old_selection = $null
             $menu.new_menu_list_buffer($menu.offset)
-            $menu.set_menu_selection()
-            $menu.new_menu_filter_buffer($menu.filter)
             $menu.new_menu_status_buffer()
             $menu.new_menu_tip_buffer($menu.selected_index)
             $menu.handle_menu_data('edit')
@@ -1584,7 +1586,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset_menu {
         param([bool]$clearAll = $true)
         if ($clearAll) {
-            $menu.data.Clear()
+            $menu.cache.Clear()
             if ($menu.origin_full_buffer) {
                 $rawUI.SetBufferContents($menu.origin_full_buffer.top, $menu.origin_full_buffer.buffer)
                 $menu.origin_full_buffer = $null
@@ -1599,49 +1601,47 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         param([string]$type)
         switch ($type) {
             add {
-                $menu.data.Add(
-                    @{
-                        page_current_index = $menu.page_current_index
-                        page_max_index     = $menu.page_max_index
-                        selected_index     = $menu.selected_index
-                        offset             = $menu.offset
-                        filter             = $menu.filter
-                        filter_list        = $menu.filter_list
-                        old_selection      = $menu.old_selection.Clone()
-                        old_full_buffer    = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
-
-                        # XXX: 这里必须使用基础类型，否则有可能出现数据不一致，导致菜单塌陷
-                        ui_height          = $menu.ui_height
-                        pos_y              = $menu.pos.Y
-                    }
-                )
-            }
-            get {
-                $data = $menu.data[-1]
-                $menu.page_current_index = $data.page_current_index
-                $menu.page_max_index = $data.page_max_index
-                $menu.selected_index = $data.selected_index
-                $menu.offset = $data.offset
-                $menu.filter = $data.filter
-                $menu.filter_list = $data.filter_list
-                $menu.old_selection = $data.old_selection
-
-                $menu.ui_height = $data.ui_height
-                $menu.pos.Y = $data.pos_y
-            }
-            edit {
-                $menu.data[-1] = @{
+                $menu.cache[$menu.filter] = @{
                     page_current_index = $menu.page_current_index
                     page_max_index     = $menu.page_max_index
                     selected_index     = $menu.selected_index
                     offset             = $menu.offset
                     filter             = $menu.filter
                     filter_list        = $menu.filter_list
-                    old_selection      = $menu.old_selection.Clone()
+                    old_selection      = if ($menu.old_selection) { $menu.old_selection.Clone() } else { $null }
                     old_full_buffer    = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
-
                     ui_height          = $menu.ui_height
                     pos_y              = $menu.pos.Y
+                }
+            }
+            get {
+                $data = $menu.cache[$menu.filter]
+                if ($null -ne $data) {
+                    $menu.page_current_index = $data.page_current_index
+                    $menu.page_max_index = $data.page_max_index
+                    $menu.selected_index = $data.selected_index
+                    $menu.offset = $data.offset
+                    $menu.filter = $data.filter
+                    $menu.filter_list = $data.filter_list
+                    $menu.old_selection = $data.old_selection
+                    $menu.ui_height = $data.ui_height
+                    $menu.pos.Y = $data.pos_y
+                }
+            }
+            edit {
+                if ($menu.cache.Contains($menu.filter)) {
+                    $menu.cache[$menu.filter] = @{
+                        page_current_index = $menu.page_current_index
+                        page_max_index     = $menu.page_max_index
+                        selected_index     = $menu.selected_index
+                        offset             = $menu.offset
+                        filter             = $menu.filter
+                        filter_list        = $menu.filter_list
+                        old_selection      = if ($menu.old_selection) { $menu.old_selection.Clone() } else { $null }
+                        old_full_buffer    = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
+                        ui_height          = $menu.ui_height
+                        pos_y              = $menu.pos.Y
+                    }
                 }
             }
         }
@@ -1656,7 +1656,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             }
             return "$out$suffix"
         }
-
         if ($item.ResultType -in
             [System.Management.Automation.CompletionResultType]::Method,
             [System.Management.Automation.CompletionResultType]::Property,
@@ -1666,7 +1665,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         ) {
             return $out
         }
-
         # Directory, registry key, or other container types
         $_out = $null
         if ($item.ResultType -eq [System.Management.Automation.CompletionResultType]::ProviderContainer) {
@@ -1718,7 +1716,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                 return $out -replace "$lastChar`$", ''
             }
         }
-
         return "$out$suffix"
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module_menu {
@@ -1744,11 +1741,10 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $menu.selected_index = 0
         $menu.offset = 0
 
-        # 记录每一次过滤的数据
-        $menu.data = [System.Collections.Generic.List[System.Object]]::new()
+        $menu.cache = [System.Collections.Specialized.OrderedDictionary]::new()
         $menu.no_match_count = 0
 
-        $menu.is_show_tip = $PSCompletions.menu.resolve_tip_enabled()
+        $menu.is_show_tip = $menu.resolve_tip_enabled()
 
         if ($config.enable_list_full_width) {
             $menu.filter_list = @($filter_list)
@@ -1809,7 +1805,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             return ''
         }
         $current_encoding = [console]::OutputEncoding
-        [console]::OutputEncoding = $PSCompletions.menu.encoding
+        [console]::OutputEncoding = $menu.encoding
 
         # 记录 buffer
         $menu.origin_full_buffer = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
@@ -1820,7 +1816,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $menu.new_menu_tip_buffer($menu.selected_index)
         $menu.new_menu_status_buffer()
         $menu.new_menu_filter_buffer($menu.filter)
-        $menu.set_menu_selection()
 
         $menu.handle_menu_data('add')
 
@@ -1853,7 +1848,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     $menu.reset_menu()
                     break loop
                 }
-
                 # 向上
                 # 38: Up
                 # 85: Ctrl + u
@@ -1874,32 +1868,12 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                 }
                 # filter character
                 { $PressKey.Character } {
+                    $oldFilterKey = $menu.filter
                     # remove
                     if ($PressKey.Character -eq 8) {
                         # 8: Backspace
                         if ($menu.filter) {
                             $menu.filter = $menu.filter.Substring(0, $menu.filter.Length - 1)
-                            if ($menu.no_match_count -gt 0) {
-                                $menu.no_match_count--
-                                $menu.new_menu_filter_buffer($menu.filter)
-                            }
-                            else {
-                                if ($menu.data.Count -gt 1) {
-                                    $old_buffer = $menu.data[-2].old_full_buffer
-                                    $rawUI.SetBufferContents($old_buffer.top, $old_buffer.buffer)
-                                    $menu.data.RemoveAt($menu.data.Count - 1)
-                                    $menu.handle_menu_data('get')
-                                }
-                                else {
-                                    $old_buffer = $menu.data[0].old_full_buffer
-                                    $rawUI.SetBufferContents($old_buffer.top, $old_buffer.buffer)
-                                    $menu.data.Clear()
-                                    $menu.old_selection = $null
-                                    $menu.offset = 0
-                                    $menu.selected_index = 0
-                                    $menu.page_current_index = 0
-                                }
-                            }
                         }
                         else {
                             $menu.reset_menu()
@@ -1909,28 +1883,44 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     }
                     else {
                         # add
-                        if ($config.enable_filter_subsequence_match) {
-                            $menu.filter += $PressKey.Character
-                            $isPrefix = $menu.filter.Length -ge 1 -and $menu.filter[0] -eq '^'
-                            $subSeq = if ($isPrefix) { $menu.filter.Substring(1) } else { $menu.filter }
-                            $comparison = {
-                                param($text)
-                                if ($isPrefix) {
-                                    if ($subSeq.Length -eq 0) { return $true }
-                                    if ([char]::ToLower($text[0]) -ne [char]::ToLower($subSeq[0])) { return $false }
-                                }
-                                $ti = if ($isPrefix) { 1 } else { 0 }
-                                $fi = if ($isPrefix) { 1 } else { 0 }
-                                while ($ti -lt $text.Length -and $fi -lt $subSeq.Length) {
-                                    if ([char]::ToLower($text[$ti]) -eq [char]::ToLower($subSeq[$fi])) { $fi++ }
-                                    $ti++
-                                }
-                                $fi -eq $subSeq.Length
+                        if ($PressKey.Character -eq '^') {
+                            if ($menu.filter.StartsWith('^')) {
+                                $menu.filter = $menu.filter.Substring(1)
+                            }
+                            else {
+                                $menu.filter = '^' + $menu.filter
                             }
                         }
                         else {
-                            if ($menu.filter -match '\*$' -and $PressKey.Character -eq '*') { break }
                             $menu.filter += $PressKey.Character
+                        }
+                    }
+                    if ($menu.cache.Contains($menu.filter)) {
+                        $state = $menu.cache[$menu.filter]
+                        $rawUI.SetBufferContents($state.old_full_buffer.top, $state.old_full_buffer.buffer)
+                        $menu.handle_menu_data('get')
+                    }
+                    else {
+                        if ($config.enable_filter_subsequence_match) {
+                            $isPrefix = $menu.filter.Length -ge 1 -and $menu.filter[0] -eq '^'
+                            $subSeq = if ($isPrefix) { $menu.filter.Substring(1) } else { $menu.filter }
+                            if ([string]::IsNullOrEmpty($subSeq)) {
+                                $pattern = ''
+                            }
+                            else {
+                                $escapedChars = foreach ($_ in [char[]]$subSeq) { [regex]::Escape($_) }
+                                $pattern = $escapedChars -join '.*'
+                                if ($isPrefix) {
+                                    $pattern = '^' + $pattern
+                                }
+                            }
+                            $comparison = {
+                                param($text)
+                                if ([string]::IsNullOrEmpty($pattern)) { return $true }
+                                $text -match $pattern
+                            }
+                        }
+                        else {
                             $escapedFilter = $menu.filter -replace '(\[|\])', '`$1'
                             if ($escapedFilter.StartsWith('^')) {
                                 $comparison = {
@@ -1945,31 +1935,30 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                                 }
                             }
                         }
-                        $list = $menu.filter_list
+                        $list = $menu.cache[''].filter_list
+                        if (!$list) { $list = $filter_list }
                         $resultList = [System.Collections.Generic.List[System.Object]]::new($list.Count)
                         foreach ($f in $list) {
-                            if ($comparison.Invoke($f.ListItemText)) {
+                            if ($comparison.Invoke($f.ListItemText -replace '\x1B\[[\d;]*m', '')) {
                                 $resultList.Add($f)
                             }
                         }
                         $menu.filter_list = $resultList.ToArray()
-
                         if (!$menu.filter_list) {
-                            $no_match_limit = $config.enter_when_no_match_after
-                            if ($no_match_limit -gt 0) {
+                            if ($config.enter_when_no_match_after -gt 0) {
                                 $menu.no_match_count++
                                 $menu.new_menu_filter_buffer($menu.filter)
-                                if ($menu.no_match_count -ge $no_match_limit) {
+                                if ($menu.no_match_count -ge $config.enter_when_no_match_after) {
                                     $out = $menu.filter
                                     $menu.reset_menu()
-                                    $out
+                                    $out -replace '^\^', ''
                                     break loop
                                 }
-                                $menu.filter_list = $menu.data[-1].filter_list
+                                $menu.handle_menu_data('add')
                             }
                             else {
-                                $menu.filter = $menu.data[-1].filter
-                                $menu.filter_list = $menu.data[-1].filter_list
+                                $menu.filter = $oldFilterKey
+                                $menu.handle_menu_data('get')
                                 $menu.new_menu_filter_buffer($menu.filter)
                             }
                         }
@@ -1982,8 +1971,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                             $menu.new_menu_tip_buffer($menu.selected_index)
                             $menu.new_menu_status_buffer()
                             $menu.new_menu_filter_buffer($menu.filter)
-                            $menu.set_menu_selection()
-
                             $menu.handle_menu_data('add')
                         }
                     }
