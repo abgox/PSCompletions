@@ -3,7 +3,7 @@
 Set-StrictMode -Off
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
-if (-not (Test-Path $textPath)) {
+if (-not (Test-Path -LiteralPath $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
@@ -16,7 +16,7 @@ function Get-StringHash {
         [string]$Directory
     )
 
-    if (-not (Test-Path $Directory)) { return }
+    if (-not (Test-Path -LiteralPath $Directory)) { return }
 
     $files = Get-ChildItem -Path $Directory -File -Recurse | Sort-Object -Property FullName
     if (-not $files) { return }
@@ -76,9 +76,9 @@ function New-MarkdownList {
         $infoEn += "[$($_.Name)]($($completionData.'en-US'.meta.url))"
         $infoZh += "[$($_.Name)]($($completionData.'zh-CN'.meta.url))"
 
-        $langInfo = Format-LanguageInfo -Name $_.BaseName -LangList $langList
-        $infoEn += $langInfo -join '<br>'
-        $infoZh += $langInfo -join '<br>'
+        # $langInfo = Format-LanguageInfo -Name $_.BaseName -LangList $langList
+        # $infoEn += $langInfo -join '<br>'
+        # $infoZh += $langInfo -join '<br>'
 
         $infoEn += $completionData.'en-US'.meta.description -join '<br>'
         $infoZh += $completionData.'zh-CN'.meta.description -join '<br>'
@@ -87,7 +87,8 @@ function New-MarkdownList {
         $contentZh += '|' + ($infoZh -join '|') + '|'
     }
 
-    $header = @('|Completion|Language|Description|', '|:-:|-|-|')
+    # $header = @('|Completion|Language|Description|', '|:-:|-|-|')
+    $header = @('|Completion|Description|', '|:-:|-|')
 
     return @{
         'en-US' = $header + $contentEn + "`n<!-- prettier-ignore-end -->"

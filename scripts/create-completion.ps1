@@ -8,7 +8,7 @@ param(
 Set-StrictMode -Off
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
-if (!(Test-Path $textPath)) {
+if (!(Test-Path -LiteralPath $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
@@ -24,8 +24,8 @@ if (!$CompletionName.Trim()) {
 
 $root_dir = Split-Path $PSScriptRoot -Parent
 $completion_dir = "$root_dir/completions/$CompletionName"
-if (Test-Path $completion_dir) {
-    if (Test-Path "$completion_dir/config.json") {
+if (Test-Path -LiteralPath $completion_dir) {
+    if (Test-Path -LiteralPath "$completion_dir/config.json") {
         $PSCompletions.write_with_color($text.exist)
         return
     }

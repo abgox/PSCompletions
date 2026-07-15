@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$branch = 'main',
     [string]$author = 'github-actions[bot]',
     [string]$email = '41898282+github-actions[bot]@users.noreply.github.com',

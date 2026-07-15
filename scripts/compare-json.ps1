@@ -15,7 +15,7 @@ if (-not $CompletionList) {
 Set-StrictMode -Off
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
-if (!(Test-Path $textPath)) {
+if (!(Test-Path -LiteralPath $textPath)) {
     $textPath = "$PSScriptRoot/language/en-US.json"
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
@@ -230,10 +230,10 @@ function Compare-Lang {
     function Compare-NamedArray {
         param([array]$BaseArr, [array]$TargetArr, [string]$Path)
 
-        $targetByName = @{}
+        $targetByName = [System.Collections.Generic.Dictionary[string, object]]::new([System.StringComparer]::Ordinal)
         foreach ($item in $TargetArr) { if ($item.name) { $targetByName[$item.name] = $item } }
 
-        $baseByName = @{}
+        $baseByName = [System.Collections.Generic.Dictionary[string, object]]::new([System.StringComparer]::Ordinal)
         foreach ($item in $BaseArr) { if ($item.name) { $baseByName[$item.name] = $item } }
 
         foreach ($baseItem in $BaseArr) {
@@ -285,18 +285,16 @@ foreach ($CompletionName in $CompletionList) {
         continue
     }
     $langDir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'completions', $CompletionName, 'language')
-    if (!(Test-Path $langDir)) {
-        outText $text.invalidLang
+    if (!(Test-Path -LiteralPath $langDir)) {
         continue
     }
     $allLangFiles = Get-ChildItem -Path $langDir -Filter '*.json' | ForEach-Object { $_.BaseName }
     $otherLangs = $allLangFiles | Where-Object { $_ -ne $BaseLang } | Sort-Object
     if ($otherLangs.Count -eq 0) {
-        outText "<@Yellow>No language files found besides $BaseLang"
         continue
     }
     $baseJson = [System.IO.Path]::Combine($langDir, $BaseLang + '.json')
-    if (!(Test-Path $baseJson)) {
+    if (!(Test-Path -LiteralPath $baseJson)) {
         outText $text.invalidLang
         continue
     }
@@ -331,14 +329,23 @@ foreach ($CompletionName in $CompletionList) {
     }
 }
 
+$issueResults = @()
+$completeResults = @()
+foreach ($r in $allResults) {
+    if ($r.hasIssues) {
+        $issueResults += $r
+    }
+    else {
+        $completeResults += $r
+    }
+}
 $totalFiles = $allResults.Count
-$completedFiles = ($allResults | Where-Object { -not $_.hasIssues }).Count
-$issueFiles = ($allResults | Where-Object { $_.hasIssues }).Count
+$issueFiles = $issueResults.Count
+$completedFiles = $completeResults.Count
 
 outText $text.summary
 
-$issueResults = @($allResults | Where-Object { $_.hasIssues })
-if ($issueResults.Count -gt 0) {
+if ($issueFiles -gt 0) {
     foreach ($r in $issueResults) {
         $targetShortPath = "$($r.completion)/$($r.lang).json"
         $missing = $r.missing
@@ -376,8 +383,7 @@ if ($issueResults.Count -gt 0) {
     }
 }
 
-$completeResults = @($allResults | Where-Object { -not $_.hasIssues })
-if ($completeResults.Count -gt 0) {
+if ($completedFiles -gt 0) {
     Write-Host
     foreach ($r in $completeResults) {
         $targetShortPath = "$($r.completion)/$($r.lang).json"
