@@ -1,0 +1,2671 @@
+{
+  "meta": {
+    "url": "https://docs.openclaw.ai/cli",
+    "description": [
+      "The Command Line Interface (CLI) of OpenClaw"
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "tip": [
+        "Run an ACP bridge backed by the Gateway."
+      ],
+      "option": [
+        {
+          "name": "--no-prefix-cwd",
+          "tip": [
+            "Do not prefix prompts with the working directory."
+          ]
+        },
+        {
+          "name": "--password",
+          "tip": [
+            "U: --password <password>",
+            "Gateway password (if required)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password-file",
+          "tip": [
+            "U: --password-file <path>",
+            "Read gateway password from file."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--provenance",
+          "tip": [
+            "U: --provenance <mode>",
+            "ACP provenance mode."
+          ],
+          "next": [
+            {
+              "name": "meta",
+              "tip": [
+                "Meta provenance"
+              ]
+            },
+            {
+              "name": "meta+receipt",
+              "tip": [
+                "Meta + receipt provenance"
+              ]
+            },
+            {
+              "name": "off",
+              "tip": [
+                "Provenance off"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--require-existing",
+          "tip": [
+            "Fail if the session key/label does not exist."
+          ]
+        },
+        {
+          "name": "--reset-session",
+          "tip": [
+            "Reset the session key before first use."
+          ]
+        },
+        {
+          "name": "--session",
+          "tip": [
+            "U: --session <key>",
+            "Default session key (e.g. agent:main:main)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--session-label",
+          "tip": [
+            "U: --session-label <label>",
+            "Default session label to resolve."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "Gateway token (if required)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token-file",
+          "tip": [
+            "U: --token-file <path>",
+            "Read gateway token from file."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--url",
+          "tip": [
+            "U: --url <url>",
+            "Gateway WebSocket URL."
+          ],
+          "next": 0
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "Verbose logging to stderr."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "client",
+          "tip": [
+            "Run an interactive ACP client against the local ACP bridge."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "tip": [
+        "Run an agent turn via the Gateway (use --local for embedded)."
+      ]
+    },
+    {
+      "name": "agents",
+      "tip": [
+        "Manage isolated agents (workspaces + auth + routing)."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add a new isolated agent."
+          ]
+        },
+        {
+          "name": "bind",
+          "tip": [
+            "Add routing bindings for an agent."
+          ]
+        },
+        {
+          "name": "bindings",
+          "tip": [
+            "List routing bindings."
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "Delete an agent and prune workspace/state."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List configured agents."
+          ]
+        },
+        {
+          "name": "set-identity",
+          "tip": [
+            "Update an agent identity (name/theme/emoji/avatar)."
+          ]
+        },
+        {
+          "name": "unbind",
+          "tip": [
+            "Remove routing bindings for an agent."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "approvals",
+      "tip": [
+        "Manage exec approvals (gateway or node host)."
+      ],
+      "next": [
+        {
+          "name": "allowlist",
+          "tip": [
+            "Edit the per-agent allowlist."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Fetch exec approvals snapshot."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Replace exec approvals with a JSON file."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attach",
+      "tip": [
+        "Attach Claude Code to a gateway session with scoped MCP tools."
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "Inspect metadata-only agent run and tool action records."
+      ]
+    },
+    {
+      "name": "backup",
+      "tip": [
+        "Create and verify local backup archives for OpenClaw state."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Write a backup archive for config, credentials, sessions, and workspaces."
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "Validate a backup archive and its embedded manifest."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "capability",
+      "tip": [
+        "Run provider capability commands (fallback alias: infer)."
+      ]
+    },
+    {
+      "name": "channels",
+      "tip": [
+        "Manage connected chat channels and accounts."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add or update a channel account."
+          ]
+        },
+        {
+          "name": "capabilities",
+          "tip": [
+            "Show provider capabilities (intents/scopes + supported features)."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List chat channels (configured by default; pass --all for installable catalog)."
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Link a channel account (if supported)."
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out of a channel session (if supported)."
+          ]
+        },
+        {
+          "name": "logs",
+          "tip": [
+            "Show recent channel logs from the gateway log file."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Disable or delete a channel account."
+          ]
+        },
+        {
+          "name": "resolve",
+          "tip": [
+            "Resolve channel/user names to IDs."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show gateway channel status (use status --deep for local)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "chat",
+      "tip": [
+        "Open a local terminal UI (alias for tui --local)."
+      ]
+    },
+    {
+      "name": "clawbot",
+      "tip": [
+        "Legacy clawbot command aliases."
+      ]
+    },
+    {
+      "name": "commitments",
+      "tip": [
+        "List and manage inferred follow-up commitments."
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "Generate shell completion script."
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "Non-interactive config helpers (get/set/patch/unset/file/schema/validate).",
+        "Run without subcommand for guided setup."
+      ],
+      "option": [
+        {
+          "name": "--section",
+          "tip": [
+            "U: --section <section>",
+            "Configuration sections for guided setup (repeatable)."
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "file",
+          "tip": [
+            "Print the active config file path."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Get a config value by dot path."
+          ]
+        },
+        {
+          "name": "patch",
+          "tip": [
+            "Patch config from a JSON5 object in one validated write."
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "Print the JSON schema for openclaw.json."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set config values by path (value mode, ref/provider builder mode, or batch JSON mode)."
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "Remove a config value by dot path."
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "Validate the current config against the schema without starting the gateway."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "configure",
+      "tip": [
+        "Interactive configuration for credentials, channels, gateway, and agent defaults."
+      ]
+    },
+    {
+      "name": "crestodian",
+      "tip": [
+        "Open the ring-zero setup and repair helper."
+      ]
+    },
+    {
+      "name": "cron",
+      "tip": [
+        "Manage cron jobs (via Gateway)."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add a cron job."
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "Disable a cron job."
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "Edit a cron job (patch fields)."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "Enable a cron job."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Get a cron job as JSON."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List cron jobs."
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "Remove a cron job."
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run a cron job now (debug)."
+          ]
+        },
+        {
+          "name": "runs",
+          "tip": [
+            "Show cron run history."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show a cron job."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show cron scheduler status."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "daemon",
+      "tip": [
+        "Manage the Gateway service (launchd/systemd/schtasks)."
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "Install the Gateway service."
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "Restart the Gateway service."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Start the Gateway service."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show service install status + probe connectivity/capability."
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Stop the Gateway service."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall the Gateway service."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "tip": [
+        "Open the Control UI with your current token."
+      ]
+    },
+    {
+      "name": "devices",
+      "tip": [
+        "Device pairing and auth tokens."
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "Approve a pending device pairing request."
+          ]
+        },
+        {
+          "name": "clear",
+          "tip": [
+            "Clear paired devices from the gateway table."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List pending and paired devices."
+          ]
+        },
+        {
+          "name": "reject",
+          "tip": [
+            "Reject a pending device pairing request."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove a paired device entry."
+          ]
+        },
+        {
+          "name": "revoke",
+          "tip": [
+            "Revoke a device token for a role."
+          ]
+        },
+        {
+          "name": "rotate",
+          "tip": [
+            "Rotate a device token for a role."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "directory",
+      "tip": [
+        "Lookup contact and group IDs for supported chat channels."
+      ],
+      "next": [
+        {
+          "name": "groups",
+          "tip": [
+            "Group directory."
+          ]
+        },
+        {
+          "name": "peers",
+          "tip": [
+            "Peer directory (contacts/users)."
+          ]
+        },
+        {
+          "name": "self",
+          "tip": [
+            "Show the current account user."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dns",
+      "tip": [
+        "DNS helpers for wide-area discovery (Tailscale + CoreDNS)."
+      ],
+      "next": [
+        {
+          "name": "setup",
+          "tip": [
+            "Set up CoreDNS to serve your discovery domain."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "tip": [
+        "Search the live OpenClaw docs."
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "Health checks + quick fixes for the gateway and channels."
+      ]
+    },
+    {
+      "name": "exec-approvals",
+      "tip": [
+        "Manage exec approvals (alias for approvals)."
+      ],
+      "next": [
+        {
+          "name": "allowlist",
+          "tip": [
+            "Edit the per-agent allowlist."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Fetch exec approvals snapshot."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Replace exec approvals with a JSON file."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec-policy",
+      "tip": [
+        "Show or synchronize requested exec policy with host approvals."
+      ]
+    },
+    {
+      "name": "gateway",
+      "tip": [
+        "Run, inspect, and query the WebSocket Gateway."
+      ],
+      "option": [
+        {
+          "name": "--allow-unconfigured",
+          "tip": [
+            "Allow gateway start without enforcing gateway.mode=local in config."
+          ]
+        },
+        {
+          "name": "--auth",
+          "tip": [
+            "U: --auth <mode>",
+            "Gateway auth mode."
+          ],
+          "next": [
+            {
+              "name": "none",
+              "tip": [
+                "No authentication"
+              ]
+            },
+            {
+              "name": "password",
+              "tip": [
+                "Password-based authentication"
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "Token-based authentication"
+              ]
+            },
+            {
+              "name": "trusted-proxy",
+              "tip": [
+                "Trusted proxy authentication"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--bind",
+          "tip": [
+            "U: --bind <mode>",
+            "Bind mode."
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Auto-detect bind mode"
+              ]
+            },
+            {
+              "name": "custom",
+              "tip": [
+                "Custom bind mode"
+              ]
+            },
+            {
+              "name": "lan",
+              "tip": [
+                "Bind to LAN"
+              ]
+            },
+            {
+              "name": "loopback",
+              "tip": [
+                "Bind to loopback"
+              ]
+            },
+            {
+              "name": "tailnet",
+              "tip": [
+                "Bind to Tailscale"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cli-backend-logs",
+          "tip": [
+            "Only show CLI backend logs in the console."
+          ]
+        },
+        {
+          "name": "--compact",
+          "tip": [
+            "Alias for --ws-log compact."
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "Create a dev config + workspace if missing."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Kill any existing listener on the target port before starting."
+          ]
+        },
+        {
+          "name": "--password",
+          "tip": [
+            "U: --password <password>",
+            "Password for auth mode=password."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password-file",
+          "tip": [
+            "U: --password-file <path>",
+            "Read gateway password from file."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <port>",
+            "Port for the gateway WebSocket."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--raw-stream",
+          "tip": [
+            "Log raw model stream events to jsonl."
+          ]
+        },
+        {
+          "name": "--raw-stream-path",
+          "tip": [
+            "U: --raw-stream-path <path>",
+            "Raw stream jsonl path."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--reset",
+          "tip": [
+            "Reset dev config + credentials + sessions + workspace (requires --dev)."
+          ]
+        },
+        {
+          "name": "--tailscale",
+          "tip": [
+            "U: --tailscale <mode>",
+            "Tailscale exposure mode."
+          ],
+          "next": [
+            {
+              "name": "funnel",
+              "tip": [
+                "Tailscale funnel"
+              ]
+            },
+            {
+              "name": "off",
+              "tip": [
+                "Tailscale off"
+              ]
+            },
+            {
+              "name": "serve",
+              "tip": [
+                "Tailscale serve"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--tailscale-reset-on-exit",
+          "tip": [
+            "Reset Tailscale serve/funnel configuration on shutdown."
+          ]
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "Shared token required in connect.params.auth.token."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Verbose logging to stdout/stderr."
+          ]
+        },
+        {
+          "name": "--ws-log",
+          "tip": [
+            "U: --ws-log <style>",
+            "WebSocket log style."
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Auto-detect log style"
+              ]
+            },
+            {
+              "name": "compact",
+              "tip": [
+                "Compact log style"
+              ]
+            },
+            {
+              "name": "full",
+              "tip": [
+                "Full log style"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "call",
+          "tip": [
+            "Call a Gateway method."
+          ]
+        },
+        {
+          "name": "diagnostics",
+          "tip": [
+            "Export local support diagnostics."
+          ]
+        },
+        {
+          "name": "discover",
+          "tip": [
+            "Discover gateways via Bonjour (local + wide-area if configured)."
+          ]
+        },
+        {
+          "name": "health",
+          "tip": [
+            "Fetch Gateway health."
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install the Gateway service."
+          ]
+        },
+        {
+          "name": "probe",
+          "tip": [
+            "Show gateway reachability, auth capability, and read-probe summary."
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "Restart the Gateway service."
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run the WebSocket Gateway (foreground)."
+          ]
+        },
+        {
+          "name": "stability",
+          "tip": [
+            "Fetch payload-free Gateway stability diagnostics."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Start the Gateway service."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show gateway service status + probe connectivity/capability."
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Stop the Gateway service."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall the Gateway service."
+          ]
+        },
+        {
+          "name": "usage-cost",
+          "tip": [
+            "Fetch usage cost summary from session logs."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "health",
+      "tip": [
+        "Fetch health from the running gateway."
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Display help for command."
+      ]
+    },
+    {
+      "name": "hooks",
+      "tip": [
+        "Manage internal agent hooks."
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "Check hooks eligibility status."
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "Disable a hook."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "Enable a hook."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Show detailed information about a hook."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all hooks."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "infer",
+      "tip": [
+        "Run provider-backed inference commands through a stable CLI surface."
+      ],
+      "next": [
+        {
+          "name": "audio",
+          "tip": [
+            "Audio transcription."
+          ]
+        },
+        {
+          "name": "embedding",
+          "tip": [
+            "Embedding providers."
+          ]
+        },
+        {
+          "name": "image",
+          "tip": [
+            "Image generation and description."
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "Inspect one canonical capability id."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List canonical capability ids and supported transports."
+          ]
+        },
+        {
+          "name": "model",
+          "tip": [
+            "Text inference and model catalog commands."
+          ]
+        },
+        {
+          "name": "tts",
+          "tip": [
+            "Text to speech."
+          ]
+        },
+        {
+          "name": "video",
+          "tip": [
+            "Video generation and description."
+          ]
+        },
+        {
+          "name": "web",
+          "tip": [
+            "Web capabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "Tail gateway file logs via RPC."
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Manage OpenClaw mcp.servers config and channel bridge."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add one MCP server from flags and probe it before saving."
+          ]
+        },
+        {
+          "name": "configure",
+          "tip": [
+            "Update MCP server operator controls without replacing the server."
+          ]
+        },
+        {
+          "name": "doctor",
+          "tip": [
+            "Check configured MCP servers for static setup problems."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List OpenClaw-managed MCP servers from mcp.servers."
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Authorize an OAuth MCP server."
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Clear stored OAuth credentials for an MCP server."
+          ]
+        },
+        {
+          "name": "probe",
+          "tip": [
+            "Connect to configured MCP servers and list available capabilities."
+          ]
+        },
+        {
+          "name": "reload",
+          "tip": [
+            "Dispose cached MCP runtimes so new config is used on the next turn."
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "Expose OpenClaw channels over MCP stdio."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set one OpenClaw-managed MCP server from a JSON object."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show one OpenClaw-managed MCP server or the full mcp.servers config."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show configured MCP server transport status without connecting."
+          ]
+        },
+        {
+          "name": "tools",
+          "tip": [
+            "Update per-server MCP tool include/exclude filters."
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "Remove one OpenClaw-managed MCP server."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "memory",
+      "tip": [
+        "Search, inspect, and reindex memory files."
+      ],
+      "next": [
+        {
+          "name": "index",
+          "tip": [
+            "Reindex memory files."
+          ]
+        },
+        {
+          "name": "promote",
+          "tip": [
+            "Rank short-term recalls and optionally append top entries to MEMORY.md."
+          ]
+        },
+        {
+          "name": "promote-explain",
+          "tip": [
+            "Explain a specific promotion candidate and its score breakdown."
+          ]
+        },
+        {
+          "name": "rem-backfill",
+          "tip": [
+            "Write grounded historical REM summaries into DREAMS.md for UI review."
+          ]
+        },
+        {
+          "name": "rem-harness",
+          "tip": [
+            "Preview REM reflections, candidate truths, and deep promotions without writing."
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "Search memory files."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show memory search index status."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "tip": [
+        "Send, read, and manage messages and channel actions."
+      ],
+      "next": [
+        {
+          "name": "ban",
+          "tip": [
+            "Ban a member."
+          ]
+        },
+        {
+          "name": "broadcast",
+          "tip": [
+            "Broadcast a message to multiple targets."
+          ]
+        },
+        {
+          "name": "channel",
+          "tip": [
+            "Channel actions."
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "Delete a message."
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "Edit a message."
+          ]
+        },
+        {
+          "name": "emoji",
+          "tip": [
+            "Emoji actions."
+          ]
+        },
+        {
+          "name": "event",
+          "tip": [
+            "Event actions."
+          ]
+        },
+        {
+          "name": "kick",
+          "tip": [
+            "Kick a member."
+          ]
+        },
+        {
+          "name": "member",
+          "tip": [
+            "Member actions."
+          ]
+        },
+        {
+          "name": "permissions",
+          "tip": [
+            "Fetch channel permissions."
+          ]
+        },
+        {
+          "name": "pin",
+          "tip": [
+            "Pin a message."
+          ]
+        },
+        {
+          "name": "pins",
+          "tip": [
+            "List pinned messages."
+          ]
+        },
+        {
+          "name": "poll",
+          "tip": [
+            "Send a poll."
+          ]
+        },
+        {
+          "name": "react",
+          "tip": [
+            "Add or remove a reaction."
+          ]
+        },
+        {
+          "name": "reactions",
+          "tip": [
+            "List reactions on a message."
+          ]
+        },
+        {
+          "name": "read",
+          "tip": [
+            "Read recent messages."
+          ]
+        },
+        {
+          "name": "role",
+          "tip": [
+            "Role actions."
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "Search Discord messages."
+          ]
+        },
+        {
+          "name": "send",
+          "tip": [
+            "Send a message."
+          ]
+        },
+        {
+          "name": "sticker",
+          "tip": [
+            "Sticker actions."
+          ]
+        },
+        {
+          "name": "thread",
+          "tip": [
+            "Thread actions."
+          ]
+        },
+        {
+          "name": "timeout",
+          "tip": [
+            "Timeout a member."
+          ]
+        },
+        {
+          "name": "unpin",
+          "tip": [
+            "Unpin a message."
+          ]
+        },
+        {
+          "name": "voice",
+          "tip": [
+            "Voice actions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migrate",
+      "tip": [
+        "Import state from another agent system."
+      ],
+      "option": [
+        {
+          "name": "--backup-output",
+          "tip": [
+            "U: --backup-output <path>",
+            "Pre-migration backup archive path or directory."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Preview only; do not apply changes."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Allow dangerous options such as --no-backup."
+          ]
+        },
+        {
+          "name": "--from",
+          "tip": [
+            "U: --from <path>",
+            "Source directory to migrate from."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--include-secrets",
+          "tip": [
+            "Import supported credentials and secrets."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--no-auth-credentials",
+          "tip": [
+            "Skip auth credential migration."
+          ]
+        },
+        {
+          "name": "--no-backup",
+          "tip": [
+            "Skip the pre-migration OpenClaw backup."
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "Overwrite conflicting target files after item-level backups."
+          ]
+        },
+        {
+          "name": "--plugin",
+          "tip": [
+            "U: --plugin <name>",
+            "Select one Codex plugin to migrate."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--skill",
+          "tip": [
+            "U: --skill <name>",
+            "Select one skill to migrate."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--verify-plugin-apps",
+          "tip": [
+            "Codex only: verify source plugin app accessibility."
+          ]
+        },
+        {
+          "name": "--yes",
+          "tip": [
+            "Apply without prompting after preview."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "Apply a migration after a verified backup."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List migration providers."
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "Preview a migration without changing OpenClaw state."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "tip": [
+        "Model discovery, scanning, and configuration."
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <id>",
+            "Agent id to inspect (overrides OPENCLAW_AGENT_DIR)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--status-json",
+          "tip": [
+            "Output JSON (alias for models status --json)."
+          ]
+        },
+        {
+          "name": "--status-plain",
+          "tip": [
+            "Plain output (alias for models status --plain)."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "aliases",
+          "tip": [
+            "Manage model aliases."
+          ]
+        },
+        {
+          "name": "auth",
+          "tip": [
+            "Manage model auth profiles."
+          ]
+        },
+        {
+          "name": "fallbacks",
+          "tip": [
+            "Manage model fallback list."
+          ]
+        },
+        {
+          "name": "image-fallbacks",
+          "tip": [
+            "Manage image model fallback list."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List models (configured by default)."
+          ]
+        },
+        {
+          "name": "scan",
+          "tip": [
+            "Scan OpenRouter free models for tools + images."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set the default model."
+          ]
+        },
+        {
+          "name": "set-image",
+          "tip": [
+            "Set the image model."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show configured model state."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "tip": [
+        "Run and manage the headless node host service."
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "Install the node host service."
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "Restart the node host service."
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run the headless node host (foreground)."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Start the node host service."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show node host status."
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Stop the node host service."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall the node host service."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nodes",
+      "tip": [
+        "Manage gateway-owned nodes (pairing, status, invoke, and media)."
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "Approve a pending pairing request."
+          ]
+        },
+        {
+          "name": "camera",
+          "tip": [
+            "Capture camera media from a paired node."
+          ]
+        },
+        {
+          "name": "canvas",
+          "tip": [
+            "Capture or render canvas content from a paired node."
+          ]
+        },
+        {
+          "name": "describe",
+          "tip": [
+            "Describe a node (capabilities + supported invoke commands)."
+          ]
+        },
+        {
+          "name": "invoke",
+          "tip": [
+            "Invoke a command on a paired node."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List pending and paired nodes."
+          ]
+        },
+        {
+          "name": "location",
+          "tip": [
+            "Fetch location from a paired node."
+          ]
+        },
+        {
+          "name": "notify",
+          "tip": [
+            "Send a local notification on a node (mac only)."
+          ]
+        },
+        {
+          "name": "pending",
+          "tip": [
+            "List pending pairing requests."
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Send an APNs test push to an iOS node."
+          ]
+        },
+        {
+          "name": "reject",
+          "tip": [
+            "Reject a pending pairing request."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove a paired node entry."
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "Rename a paired node (display name override)."
+          ]
+        },
+        {
+          "name": "screen",
+          "tip": [
+            "Capture screen recordings from a paired node."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "List known nodes with connection status and capabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "onboard",
+      "tip": [
+        "Guided setup for auth, models, Gateway, workspace, channels, and skills."
+      ]
+    },
+    {
+      "name": "pairing",
+      "tip": [
+        "Secure DM pairing (approve inbound requests)."
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "Approve a pairing code and allow that sender."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List pending pairing requests."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "tip": [
+        "Manage OpenClaw plugins and extensions."
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "Generate simple tool plugin metadata."
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "Disable a plugin in config."
+          ]
+        },
+        {
+          "name": "doctor",
+          "tip": [
+            "Report plugin load issues."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "Enable a plugin in config."
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "Create a plugin project."
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "Inspect plugin details."
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install a plugin or hook pack."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List discovered plugins."
+          ]
+        },
+        {
+          "name": "marketplace",
+          "tip": [
+            "Inspect Claude-compatible plugin marketplaces."
+          ]
+        },
+        {
+          "name": "registry",
+          "tip": [
+            "Inspect or rebuild the persisted plugin registry."
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "Search ClawHub plugin packages."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall a plugin."
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "Update installed plugins and tracked hook packs."
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "Validate simple tool plugin metadata."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "promos",
+      "tip": [
+        "Discover and claim promotional model offers from ClawHub."
+      ],
+      "next": [
+        {
+          "name": "claim",
+          "tip": [
+            "Claim a promotion: set up provider auth and register its models."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List active promotions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy",
+      "tip": [
+        "Run the OpenClaw debug proxy and inspect captured traffic."
+      ],
+      "next": [
+        {
+          "name": "blob",
+          "tip": [
+            "Read a captured payload blob by id."
+          ]
+        },
+        {
+          "name": "coverage",
+          "tip": [
+            "Report current debug proxy transport coverage and remaining gaps."
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "Delete all captured traffic metadata and blobs."
+          ]
+        },
+        {
+          "name": "query",
+          "tip": [
+            "Run a built-in query preset against captured traffic."
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run a child command with OpenClaw debug proxy capture enabled."
+          ]
+        },
+        {
+          "name": "sessions",
+          "tip": [
+            "List recent capture sessions."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Start the local explicit debug proxy."
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "Validate the operator-managed network proxy."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "qr",
+      "tip": [
+        "Generate a mobile pairing QR code and setup code."
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "Reset local config/state (keeps the CLI installed)."
+      ]
+    },
+    {
+      "name": "sandbox",
+      "tip": [
+        "Manage sandbox containers (Docker-based agent isolation)."
+      ],
+      "next": [
+        {
+          "name": "explain",
+          "tip": [
+            "Explain effective sandbox/tool policy for a session/agent."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List sandbox containers and their status."
+          ]
+        },
+        {
+          "name": "recreate",
+          "tip": [
+            "Remove containers to force recreation with updated config."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "secrets",
+      "tip": [
+        "Secrets runtime controls."
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "Apply a previously generated secrets plan."
+          ]
+        },
+        {
+          "name": "audit",
+          "tip": [
+            "Audit plaintext secrets, unresolved refs, and precedence drift."
+          ]
+        },
+        {
+          "name": "configure",
+          "tip": [
+            "Interactive secrets helper (provider setup + SecretRef mapping + preflight)."
+          ]
+        },
+        {
+          "name": "reload",
+          "tip": [
+            "Re-resolve secret references and atomically swap runtime snapshot."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "security",
+      "tip": [
+        "Audit local config and state for common security foot-guns."
+      ],
+      "next": [
+        {
+          "name": "audit",
+          "tip": [
+            "Audit config + local state for common security foot-guns."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sessions",
+      "tip": [
+        "List stored conversation sessions."
+      ],
+      "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "U: --active <minutes>",
+            "Only show sessions updated within the past N minutes."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <id>",
+            "Agent id to inspect."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-agents",
+          "tip": [
+            "Aggregate sessions across all configured agents."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output as JSON."
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <count>",
+            "Max sessions to show (default: 100; use \"all\" for full output)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--store",
+          "tip": [
+            "U: --store <path>",
+            "Path to session store."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Verbose logging."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "cleanup",
+          "tip": [
+            "Run session-store maintenance now."
+          ]
+        },
+        {
+          "name": "compact",
+          "tip": [
+            "Compact a stored session transcript via the running gateway."
+          ]
+        },
+        {
+          "name": "export-trajectory",
+          "tip": [
+            "Export a redacted trajectory bundle for a stored session."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List stored conversation sessions."
+          ]
+        },
+        {
+          "name": "tail",
+          "tip": [
+            "Tail human-readable session trajectory progress."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "Alias for openclaw onboard."
+      ]
+    },
+    {
+      "name": "skills",
+      "tip": [
+        "List and inspect available skills."
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <id>",
+            "Target agent workspace."
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "Check which skills are ready, visible, or missing requirements."
+          ]
+        },
+        {
+          "name": "curator",
+          "tip": [
+            "Inspect and manage skill lifecycle curation."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Show detailed information about a skill."
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install a skill from ClawHub, git, or a local directory."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all available skills."
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "Search ClawHub skills."
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "Update ClawHub-installed skills in the active or shared managed directory."
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "Verify a ClawHub skill with ClawHub."
+          ]
+        },
+        {
+          "name": "workshop",
+          "tip": [
+            "Manage pending skill proposals."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Show channel health and recent session recipients."
+      ]
+    },
+    {
+      "name": "system",
+      "tip": [
+        "System tools (events, heartbeat, presence)."
+      ],
+      "next": [
+        {
+          "name": "event",
+          "tip": [
+            "Enqueue a system event and optionally trigger a heartbeat."
+          ]
+        },
+        {
+          "name": "heartbeat",
+          "tip": [
+            "Heartbeat controls."
+          ]
+        },
+        {
+          "name": "presence",
+          "tip": [
+            "List system presence entries."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tasks",
+      "tip": [
+        "Inspect durable background tasks and TaskFlow state."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output as JSON."
+          ]
+        },
+        {
+          "name": "--runtime",
+          "tip": [
+            "U: --runtime <name>",
+            "Filter by kind (subagent, acp, cron, cli)."
+          ],
+          "next": [
+            {
+              "name": "acp",
+              "tip": [
+                "ACP runtime"
+              ]
+            },
+            {
+              "name": "cli",
+              "tip": [
+                "CLI runtime"
+              ]
+            },
+            {
+              "name": "cron",
+              "tip": [
+                "Cron runtime"
+              ]
+            },
+            {
+              "name": "subagent",
+              "tip": [
+                "Subagent runtime"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--status",
+          "tip": [
+            "U: --status <name>",
+            "Filter by status."
+          ],
+          "next": [
+            {
+              "name": "cancelled",
+              "tip": [
+                "Cancelled status"
+              ]
+            },
+            {
+              "name": "failed",
+              "tip": [
+                "Failed status"
+              ]
+            },
+            {
+              "name": "lost",
+              "tip": [
+                "Lost status"
+              ]
+            },
+            {
+              "name": "queued",
+              "tip": [
+                "Queued status"
+              ]
+            },
+            {
+              "name": "running",
+              "tip": [
+                "Running status"
+              ]
+            },
+            {
+              "name": "succeeded",
+              "tip": [
+                "Succeeded status"
+              ]
+            },
+            {
+              "name": "timed_out",
+              "tip": [
+                "Timed out status"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "audit",
+          "tip": [
+            "Show stale or broken background tasks and TaskFlows."
+          ]
+        },
+        {
+          "name": "cancel",
+          "tip": [
+            "Cancel a running background task."
+          ]
+        },
+        {
+          "name": "flow",
+          "tip": [
+            "Inspect durable TaskFlow state under tasks."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List tracked background tasks."
+          ]
+        },
+        {
+          "name": "maintenance",
+          "tip": [
+            "Preview or apply tasks and TaskFlow maintenance."
+          ]
+        },
+        {
+          "name": "notify",
+          "tip": [
+            "Set task notify policy."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show one background task by task id, run id, or session key."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "terminal",
+      "tip": [
+        "Open a local terminal UI (alias for tui --local)."
+      ]
+    },
+    {
+      "name": "transcripts",
+      "tip": [
+        "Inspect stored transcripts."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List stored transcript sessions."
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "Print a stored transcripts artifact path."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Print a transcript summary markdown file."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tui",
+      "tip": [
+        "Open a terminal UI connected to the Gateway."
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "Uninstall the gateway service + local data (CLI remains)."
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "Update OpenClaw and inspect update channel status."
+      ],
+      "option": [
+        {
+          "name": "--acknowledge-clawhub-risk",
+          "tip": [
+            "Acknowledge ClawHub release trust warnings during post-update plugin sync."
+          ]
+        },
+        {
+          "name": "--channel",
+          "tip": [
+            "U: --channel <channel>",
+            "Persist update channel (git + npm)."
+          ],
+          "next": [
+            {
+              "name": "beta",
+              "tip": [
+                "Beta channel"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "Dev channel"
+              ]
+            },
+            {
+              "name": "extended-stable",
+              "tip": [
+                "Extended stable channel"
+              ]
+            },
+            {
+              "name": "stable",
+              "tip": [
+                "Stable channel"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Preview update actions without making changes."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output result as JSON."
+          ]
+        },
+        {
+          "name": "--no-restart",
+          "tip": [
+            "Skip restarting the gateway service after a successful update."
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <dist-tag|version|spec>",
+            "Override the package target for this update."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <seconds>",
+            "Timeout for each update step in seconds (default: 1800)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "tip": [
+            "Skip confirmation prompts (non-interactive)."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "repair",
+          "tip": [
+            "Repair post-update doctor and plugin convergence."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show update channel and version status."
+          ]
+        },
+        {
+          "name": "wizard",
+          "tip": [
+            "Interactive update wizard."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "webhooks",
+      "tip": [
+        "Webhook helpers and integrations."
+      ],
+      "next": [
+        {
+          "name": "gmail",
+          "tip": [
+            "Gmail Pub/Sub hooks (via gogcli)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "worktrees",
+      "tip": [
+        "Create, inspect, restore, and clean up managed worktrees."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a managed worktree."
+          ]
+        },
+        {
+          "name": "gc",
+          "tip": [
+            "Run managed worktree cleanup now."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List active and restorable managed worktrees."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Snapshot and remove a managed worktree."
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "Restore a managed worktree from its snapshot."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--container",
+      "tip": [
+        "U: --container <name>",
+        "Run the CLI inside a running Podman/Docker container named <name>."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dev",
+      "tip": [
+        "Dev profile: isolate state under ~/.openclaw-dev, default gateway port 19001, and shift derived ports."
+      ]
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <level>",
+        "Global log level override for file + console."
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug messages"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error messages"
+          ]
+        },
+        {
+          "name": "fatal",
+          "tip": [
+            "Fatal errors only"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Informational messages"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent logging"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace messages"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning messages"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Disable ANSI colors."
+      ]
+    },
+    {
+      "name": "--profile",
+      "tip": [
+        "U: --profile <name>",
+        "Use a named profile (isolates OPENCLAW_STATE_DIR/OPENCLAW_CONFIG_PATH under ~/.openclaw-<name>)."
+      ],
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Display help for command."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Output the version number."
+      ]
+    }
+  ]
+}

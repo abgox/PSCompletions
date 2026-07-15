@@ -1,0 +1,386 @@
+{
+  "meta": {
+    "url": "https://github.com/muesli/duf",
+    "description": [
+      "更好的 df 替代品，用于显示磁盘使用情况。"
+    ]
+  },
+  "option": [
+    {
+      "name": "-all",
+      "tip": [
+        "包含伪文件系统、重复文件系统、不可访问的文件系统"
+      ]
+    },
+    {
+      "name": "-avail-threshold",
+      "tip": [
+        "U: -avail-threshold <THRESHOLD>",
+        "指定可用列的着色阈值（黄色、红色）",
+        "必须是整数，可选 SI 前缀（默认 \"10G,1G\"）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-hide",
+      "tip": [
+        "U: -hide <DEVICES>",
+        "隐藏特定设备，用逗号分隔"
+      ],
+      "next": [
+        {
+          "name": "binds",
+          "tip": [
+            "隐藏绑定挂载"
+          ]
+        },
+        {
+          "name": "fuse",
+          "tip": [
+            "隐藏 FUSE 设备"
+          ]
+        },
+        {
+          "name": "local",
+          "tip": [
+            "隐藏本地设备"
+          ]
+        },
+        {
+          "name": "loops",
+          "tip": [
+            "隐藏回环设备"
+          ]
+        },
+        {
+          "name": "network",
+          "tip": [
+            "隐藏网络设备"
+          ]
+        },
+        {
+          "name": "special",
+          "tip": [
+            "隐藏特殊设备"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-hide-fs",
+      "tip": [
+        "U: -hide-fs <FS>",
+        "隐藏特定文件系统，用逗号分隔"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-hide-mp",
+      "tip": [
+        "U: -hide-mp <MOUNTPOINTS>",
+        "隐藏特定挂载点，用逗号分隔（支持通配符）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-inodes",
+      "tip": [
+        "列出 inode 信息而不是块使用情况"
+      ]
+    },
+    {
+      "name": "-json",
+      "tip": [
+        "以 JSON 格式输出所有设备"
+      ]
+    },
+    {
+      "name": "-only",
+      "tip": [
+        "U: -only <DEVICES>",
+        "仅显示特定设备，用逗号分隔"
+      ],
+      "next": [
+        {
+          "name": "binds",
+          "tip": [
+            "仅显示绑定挂载"
+          ]
+        },
+        {
+          "name": "fuse",
+          "tip": [
+            "仅显示 FUSE 设备"
+          ]
+        },
+        {
+          "name": "local",
+          "tip": [
+            "仅显示本地设备"
+          ]
+        },
+        {
+          "name": "loops",
+          "tip": [
+            "仅显示回环设备"
+          ]
+        },
+        {
+          "name": "network",
+          "tip": [
+            "仅显示网络设备"
+          ]
+        },
+        {
+          "name": "special",
+          "tip": [
+            "仅显示特殊设备"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-only-fs",
+      "tip": [
+        "U: -only-fs <FS>",
+        "仅显示特定文件系统，用逗号分隔"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-only-mp",
+      "tip": [
+        "U: -only-mp <MOUNTPOINTS>",
+        "仅显示特定挂载点，用逗号分隔（支持通配符）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-output",
+      "tip": [
+        "U: -output <FIELDS>",
+        "输出字段，用逗号分隔"
+      ],
+      "next": [
+        {
+          "name": "avail",
+          "tip": [
+            "显示可用"
+          ]
+        },
+        {
+          "name": "filesystem",
+          "tip": [
+            "显示文件系统"
+          ]
+        },
+        {
+          "name": "inodes",
+          "tip": [
+            "显示 inode"
+          ]
+        },
+        {
+          "name": "inodes_avail",
+          "tip": [
+            "显示可用 inode"
+          ]
+        },
+        {
+          "name": "inodes_usage",
+          "tip": [
+            "显示 inode 使用率"
+          ]
+        },
+        {
+          "name": "inodes_used",
+          "tip": [
+            "显示已使用 inode"
+          ]
+        },
+        {
+          "name": "mountpoint",
+          "tip": [
+            "显示挂载点"
+          ]
+        },
+        {
+          "name": "size",
+          "tip": [
+            "显示大小"
+          ]
+        },
+        {
+          "name": "type",
+          "tip": [
+            "显示类型"
+          ]
+        },
+        {
+          "name": "usage",
+          "tip": [
+            "显示使用率"
+          ]
+        },
+        {
+          "name": "used",
+          "tip": [
+            "显示已使用"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-sort",
+      "tip": [
+        "U: -sort <FIELD>",
+        "按字段排序输出（默认 \"mountpoint\"）"
+      ],
+      "next": [
+        {
+          "name": "avail",
+          "tip": [
+            "按可用排序"
+          ]
+        },
+        {
+          "name": "filesystem",
+          "tip": [
+            "按文件系统排序"
+          ]
+        },
+        {
+          "name": "inodes",
+          "tip": [
+            "按 inode 排序"
+          ]
+        },
+        {
+          "name": "inodes_avail",
+          "tip": [
+            "按可用 inode 排序"
+          ]
+        },
+        {
+          "name": "inodes_usage",
+          "tip": [
+            "按 inode 使用率排序"
+          ]
+        },
+        {
+          "name": "inodes_used",
+          "tip": [
+            "按已使用 inode 排序"
+          ]
+        },
+        {
+          "name": "mountpoint",
+          "tip": [
+            "按挂载点排序"
+          ]
+        },
+        {
+          "name": "size",
+          "tip": [
+            "按大小排序"
+          ]
+        },
+        {
+          "name": "type",
+          "tip": [
+            "按类型排序"
+          ]
+        },
+        {
+          "name": "usage",
+          "tip": [
+            "按使用率排序"
+          ]
+        },
+        {
+          "name": "used",
+          "tip": [
+            "按已使用排序"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-style",
+      "tip": [
+        "U: -style <STYLE>",
+        "样式：unicode、ascii（默认 \"unicode\"）"
+      ],
+      "next": [
+        {
+          "name": "ascii",
+          "tip": [
+            "ASCII 样式"
+          ]
+        },
+        {
+          "name": "unicode",
+          "tip": [
+            "Unicode 样式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-theme",
+      "tip": [
+        "U: -theme <THEME>",
+        "颜色主题：dark、light、ansi（默认 \"dark\"）"
+      ],
+      "next": [
+        {
+          "name": "ansi",
+          "tip": [
+            "ANSI 主题"
+          ]
+        },
+        {
+          "name": "dark",
+          "tip": [
+            "深色主题"
+          ]
+        },
+        {
+          "name": "light",
+          "tip": [
+            "浅色主题"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-usage-threshold",
+      "tip": [
+        "U: -usage-threshold <THRESHOLD>",
+        "指定使用率条的着色阈值（黄色、红色）",
+        "浮点数，范围 0 到 1（默认 \"0.5,0.9\"）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-version",
+      "tip": [
+        "显示版本"
+      ]
+    },
+    {
+      "name": "-warnings",
+      "tip": [
+        "输出所有警告到 STDERR"
+      ]
+    },
+    {
+      "name": "-width",
+      "tip": [
+        "U: -width <WIDTH>",
+        "最大输出宽度"
+      ],
+      "next": 0
+    }
+  ]
+}

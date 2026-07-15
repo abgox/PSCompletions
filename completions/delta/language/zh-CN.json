@@ -1,0 +1,940 @@
+{
+  "meta": {
+    "url": "https://github.com/dandavison/delta",
+    "description": [
+      "Git 和 diff 输出的查看器。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--24-bit-color",
+      "tip": [
+        "U: --24-bit-color <auto|always|never>",
+        "已弃用：请使用 --true-color。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--blame-code-style",
+      "tip": [
+        "U: --blame-code-style <STYLE>",
+        "git blame 行代码部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--blame-format",
+      "tip": [
+        "U: --blame-format <FMT>",
+        "git blame 提交元数据的格式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--blame-palette",
+      "tip": [
+        "U: --blame-palette <COLORS>",
+        "git blame 行使用的背景颜色（空格分隔）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--blame-separator-format",
+      "tip": [
+        "U: --blame-separator-format <FMT>",
+        "git blame 行中 blame 格式和代码部分之间的分隔符。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--blame-separator-style",
+      "tip": [
+        "U: --blame-separator-style <STYLE>",
+        "blame-separator-format 的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--blame-timestamp-format",
+      "tip": [
+        "U: --blame-timestamp-format <FMT>",
+        "delta 接收到的原始 git 输出中 git blame 时间戳的格式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--blame-timestamp-output-format",
+      "tip": [
+        "U: --blame-timestamp-output-format <FMT>",
+        "git blame 时间戳输出的格式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--color-only",
+      "tip": [
+        "不以任何方式从结构上修改输入。",
+        "但根据你的 delta 配置对 hunk 行进行着色和高亮。"
+      ]
+    },
+    {
+      "name": "--commit-decoration-style",
+      "tip": [
+        "U: --commit-decoration-style <STYLE>",
+        "提交哈希装饰的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--commit-regex",
+      "tip": [
+        "U: --commit-regex <REGEX>",
+        "解析 git 输出时用于标识提交行的正则表达式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--commit-style",
+      "tip": [
+        "U: --commit-style <STYLE>",
+        "提交哈希行的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <PATH>",
+        "加载 PATH 指定的配置文件，而不是 ~/.gitconfig。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dark",
+      "tip": [
+        "使用适合深色终端背景的默认颜色。"
+      ]
+    },
+    {
+      "name": "--default-language",
+      "tip": [
+        "U: --default-language <LANG>",
+        "用于语法高亮的默认语言。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--detect-dark-light",
+      "tip": [
+        "U: --detect-dark-light <DETECT_DARK_LIGHT>",
+        "通过查询终端颜色来检测终端是深色还是浅色。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--diff-args",
+      "alias": [
+        "-@"
+      ],
+      "tip": [
+        "U: -@, --diff-args <STRING>",
+        "使用 delta 对两个文件进行 diff 时传递给 `git diff` 的额外参数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--diff-highlight",
+      "tip": [
+        "模拟 diff-highlight。"
+      ]
+    },
+    {
+      "name": "--diff-so-fancy",
+      "tip": [
+        "模拟 diff-so-fancy。"
+      ]
+    },
+    {
+      "name": "--diff-stat-align-width",
+      "tip": [
+        "U: --diff-stat-align-width <N>",
+        "diff stat 部分中文件路径分配的宽度。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--features",
+      "tip": [
+        "U: --features <FEATURES>",
+        "要激活的 delta 特性名称（空格分隔）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-added-label",
+      "tip": [
+        "U: --file-added-label <STRING>",
+        "在添加的文件路径前显示的文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-copied-label",
+      "tip": [
+        "U: --file-copied-label <STRING>",
+        "在复制的文件路径前显示的文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-decoration-style",
+      "tip": [
+        "U: --file-decoration-style <STYLE>",
+        "文件装饰的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-modified-label",
+      "tip": [
+        "U: --file-modified-label <STRING>",
+        "在修改的文件路径前显示的文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-removed-label",
+      "tip": [
+        "U: --file-removed-label <STRING>",
+        "在删除的文件路径前显示的文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-renamed-label",
+      "tip": [
+        "U: --file-renamed-label <STRING>",
+        "在重命名的文件路径前显示的文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-style",
+      "tip": [
+        "U: --file-style <STYLE>",
+        "文件部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-transformation",
+      "tip": [
+        "U: --file-transformation <SED_CMD>",
+        "用于转换文件路径显示的 sed 风格命令。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--generate-completion",
+      "tip": [
+        "U: --generate-completion <GENERATE_COMPLETION>",
+        "为指定 shell 打印补全文件。"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "elvish"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "--grep-context-line-style",
+      "tip": [
+        "U: --grep-context-line-style <STYLE>",
+        "grep 输出中不匹配行的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--grep-file-style",
+      "tip": [
+        "U: --grep-file-style <STYLE>",
+        "grep 输出中文件路径的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--grep-header-decoration-style",
+      "tip": [
+        "U: --grep-header-decoration-style <STYLE>",
+        "grep 输出中头部装饰的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--grep-header-file-style",
+      "tip": [
+        "U: --grep-header-file-style <STYLE>",
+        "grep 输出中头部文件路径部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--grep-line-number-style",
+      "tip": [
+        "U: --grep-line-number-style <STYLE>",
+        "grep 输出中行号的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--grep-match-line-style",
+      "tip": [
+        "U: --grep-match-line-style <STYLE>",
+        "grep 输出中匹配行的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--grep-match-word-style",
+      "tip": [
+        "U: --grep-match-word-style <STYLE>",
+        "grep 输出中匹配行内匹配子字符串的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--grep-output-type",
+      "tip": [
+        "U: --grep-output-type <OUTPUT_TYPE>",
+        "grep 输出格式。"
+      ],
+      "next": [
+        {
+          "name": "classic"
+        },
+        {
+          "name": "ripgrep"
+        }
+      ]
+    },
+    {
+      "name": "--grep-separator-symbol",
+      "tip": [
+        "U: --grep-separator-symbol <STRING>",
+        "grep 输出中文件路径和行号后打印的分隔符。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息（使用 '-h' 查看摘要）。"
+      ]
+    },
+    {
+      "name": "--hunk-header-decoration-style",
+      "tip": [
+        "U: --hunk-header-decoration-style <STYLE>",
+        "hunk-header 装饰的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hunk-header-file-style",
+      "tip": [
+        "U: --hunk-header-file-style <STYLE>",
+        "hunk-header 文件路径部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hunk-header-line-number-style",
+      "tip": [
+        "U: --hunk-header-line-number-style <STYLE>",
+        "hunk-header 行号部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hunk-header-style",
+      "tip": [
+        "U: --hunk-header-style <STYLE>",
+        "hunk-header 的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hunk-label",
+      "tip": [
+        "U: --hunk-label <STRING>",
+        "在 hunk 头部前显示的文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hyperlinks",
+      "tip": [
+        "将提交哈希、文件名和行号渲染为超链接。"
+      ]
+    },
+    {
+      "name": "--hyperlinks-commit-link-format",
+      "tip": [
+        "U: --hyperlinks-commit-link-format <FMT>",
+        "提交超链接的格式字符串（需要 --hyperlinks）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hyperlinks-file-link-format",
+      "tip": [
+        "U: --hyperlinks-file-link-format <FMT>",
+        "文件超链接的格式字符串（需要 --hyperlinks）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--inline-hint-style",
+      "tip": [
+        "U: --inline-hint-style <STYLE>",
+        "短内联提示文本的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--inspect-raw-lines",
+      "tip": [
+        "U: --inspect-raw-lines <true|false>",
+        "--color-moved 支持的终止开关。"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
+      ]
+    },
+    {
+      "name": "--keep-plus-minus-markers",
+      "tip": [
+        "像 git 一样在添加/删除的行前添加 +/- 字符。"
+      ]
+    },
+    {
+      "name": "--light",
+      "tip": [
+        "使用适合浅色终端背景的默认颜色。"
+      ]
+    },
+    {
+      "name": "--line-buffer-size",
+      "tip": [
+        "U: --line-buffer-size <N>",
+        "内部行缓冲区大小。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-fill-method",
+      "tip": [
+        "U: --line-fill-method <STRING>",
+        "并排模式中的行填充方法。"
+      ],
+      "next": [
+        {
+          "name": "ansi"
+        },
+        {
+          "name": "spaces"
+        }
+      ]
+    },
+    {
+      "name": "--line-numbers",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --line-numbers",
+        "在 diff 旁显示行号。"
+      ]
+    },
+    {
+      "name": "--line-numbers-left-format",
+      "tip": [
+        "U: --line-numbers-left-format <FMT>",
+        "行号左列的格式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-numbers-left-style",
+      "tip": [
+        "U: --line-numbers-left-style <STYLE>",
+        "行号左列的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-numbers-minus-style",
+      "tip": [
+        "U: --line-numbers-minus-style <STYLE>",
+        "文件旧版本（减号）中行号的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-numbers-plus-style",
+      "tip": [
+        "U: --line-numbers-plus-style <STYLE>",
+        "文件新版本（加号）中行号的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-numbers-right-format",
+      "tip": [
+        "U: --line-numbers-right-format <FMT>",
+        "行号右列的格式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-numbers-right-style",
+      "tip": [
+        "U: --line-numbers-right-style <STYLE>",
+        "行号右列的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--line-numbers-zero-style",
+      "tip": [
+        "U: --line-numbers-zero-style <STYLE>",
+        "未更改（零）行中行号的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-languages",
+      "tip": [
+        "列出支持的语言和关联的文件扩展名。"
+      ]
+    },
+    {
+      "name": "--list-syntax-themes",
+      "tip": [
+        "列出可用的语法高亮颜色主题。"
+      ]
+    },
+    {
+      "name": "--map-styles",
+      "tip": [
+        "U: --map-styles <STYLES_MAP>",
+        "将原始输入中遇到的样式映射到所需的输出样式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-line-distance",
+      "tip": [
+        "U: --max-line-distance <DIST>",
+        "行内 diff 算法中的最大行对距离参数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-line-length",
+      "tip": [
+        "U: --max-line-length <N>",
+        "截断长于此值的行。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-syntax-highlighting-length",
+      "tip": [
+        "U: --max-syntax-highlighting-length <N>",
+        "超过此字符数后停止语法高亮行。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--merge-conflict-begin-symbol",
+      "tip": [
+        "U: --merge-conflict-begin-symbol <STRING>",
+        "标记合并冲突区域开始的字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--merge-conflict-end-symbol",
+      "tip": [
+        "U: --merge-conflict-end-symbol <STRING>",
+        "标记合并冲突区域结束的字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--merge-conflict-ours-diff-header-decoration-style",
+      "tip": [
+        "U: --merge-conflict-ours-diff-header-decoration-style <STYLE>",
+        "'ours' 合并冲突 diff 上方头部装饰的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--merge-conflict-ours-diff-header-style",
+      "tip": [
+        "U: --merge-conflict-ours-diff-header-style <STYLE>",
+        "'ours' 分支合并冲突 diff 上方头部的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--merge-conflict-theirs-diff-header-decoration-style",
+      "tip": [
+        "U: --merge-conflict-theirs-diff-header-decoration-style <STYLE>",
+        "'theirs' 合并冲突 diff 上方头部装饰的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--merge-conflict-theirs-diff-header-style",
+      "tip": [
+        "U: --merge-conflict-theirs-diff-header-style <STYLE>",
+        "'theirs' 分支合并冲突 diff 上方头部的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--minus-emph-style",
+      "tip": [
+        "U: --minus-emph-style <STYLE>",
+        "删除行中强调部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--minus-empty-line-marker-style",
+      "tip": [
+        "U: --minus-empty-line-marker-style <STYLE>",
+        "删除空行标记的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--minus-non-emph-style",
+      "tip": [
+        "U: --minus-non-emph-style <STYLE>",
+        "具有强调部分的删除行中非强调部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--minus-style",
+      "tip": [
+        "U: --minus-style <STYLE>",
+        "删除行的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--navigate",
+      "tip": [
+        "激活 diff 导航。",
+        "使用 n 向前跳转，使用 N 向后跳转。"
+      ]
+    },
+    {
+      "name": "--navigate-regex",
+      "tip": [
+        "U: --navigate-regex <REGEX>",
+        "定义导航停止点的正则表达式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-gitconfig",
+      "tip": [
+        "不从 git config 读取任何设置。"
+      ]
+    },
+    {
+      "name": "--pager",
+      "tip": [
+        "U: --pager <CMD>",
+        "使用哪个分页器。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--paging",
+      "tip": [
+        "U: --paging <auto|always|never>",
+        "显示输出时是否使用分页器。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--parse-ansi",
+      "tip": [
+        "以人类可读的形式显示 ANSI 颜色转义序列。"
+      ]
+    },
+    {
+      "name": "--plus-emph-style",
+      "tip": [
+        "U: --plus-emph-style <STYLE>",
+        "添加行中强调部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--plus-empty-line-marker-style",
+      "tip": [
+        "U: --plus-empty-line-marker-style <STYLE>",
+        "添加空行标记的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--plus-non-emph-style",
+      "tip": [
+        "U: --plus-non-emph-style <STYLE>",
+        "具有强调部分的添加行中非强调部分的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--plus-style",
+      "tip": [
+        "U: --plus-style <STYLE>",
+        "添加行的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--raw",
+      "tip": [
+        "不以任何方式修改输入。",
+        "这主要用于测试 delta。"
+      ]
+    },
+    {
+      "name": "--relative-paths",
+      "tip": [
+        "输出所有相对于当前目录的文件路径。"
+      ]
+    },
+    {
+      "name": "--right-arrow",
+      "tip": [
+        "U: --right-arrow <STRING>",
+        "与更改的文件路径一起显示的文本。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--show-colors",
+      "tip": [
+        "显示可用的命名颜色。"
+      ]
+    },
+    {
+      "name": "--show-config",
+      "tip": [
+        "显示所有 Delta 选项的活动值。"
+      ]
+    },
+    {
+      "name": "--show-syntax-themes",
+      "tip": [
+        "显示可用语法高亮主题的示例 diff。"
+      ]
+    },
+    {
+      "name": "--show-themes",
+      "tip": [
+        "显示可用 delta 主题的示例 diff。"
+      ]
+    },
+    {
+      "name": "--side-by-side",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --side-by-side",
+        "以并排布局显示 diff。"
+      ]
+    },
+    {
+      "name": "--syntax-theme",
+      "tip": [
+        "U: --syntax-theme <SYNTAX_THEME>",
+        "要使用的语法高亮主题。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tabs",
+      "tip": [
+        "U: --tabs <N>",
+        "替换制表符的空格数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--true-color",
+      "tip": [
+        "U: --true-color <auto|always|never>",
+        "是否发出 24 位（真彩色）RGB 颜色代码。"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本。"
+      ]
+    },
+    {
+      "name": "--whitespace-error-style",
+      "tip": [
+        "U: --whitespace-error-style <STYLE>",
+        "空白错误的样式字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --width <N>",
+        "下划线/上划线装饰的宽度。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--word-diff-regex",
+      "tip": [
+        "U: --word-diff-regex <REGEX>",
+        "行内 diff 算法中定义'单词'的正则表达式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap-left-symbol",
+      "tip": [
+        "U: --wrap-left-symbol <STRING>",
+        "行尾换行内容符号（左对齐）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap-max-lines",
+      "tip": [
+        "U: --wrap-max-lines <N>",
+        "如果行不适合，应换行的频率。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap-right-percent",
+      "tip": [
+        "U: --wrap-right-percent <PERCENT>",
+        "右对齐换行内容的阈值。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap-right-prefix-symbol",
+      "tip": [
+        "U: --wrap-right-prefix-symbol <STRING>",
+        "预换行内容符号（右对齐）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap-right-symbol",
+      "tip": [
+        "U: --wrap-right-symbol <STRING>",
+        "行尾换行内容符号（右对齐）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--zero-style",
+      "tip": [
+        "U: --zero-style <STYLE>",
+        "未更改行的样式字符串。"
+      ],
+      "next": 0
+    }
+  ]
+}

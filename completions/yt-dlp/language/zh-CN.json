@@ -1,0 +1,2140 @@
+{
+  "meta": {
+    "url": "https://github.com/yt-dlp/yt-dlp",
+    "description": [
+      "功能丰富的命令行音视频下载工具"
+    ]
+  },
+  "option": [
+    {
+      "name": "--abort-on-error",
+      "tip": [
+        "出错时中止下载后续视频"
+      ]
+    },
+    {
+      "name": "--abort-on-unavailable-fragments",
+      "tip": [
+        "片段不可用时中止下载"
+      ]
+    },
+    {
+      "name": "--add-headers",
+      "tip": [
+        "U: --add-headers FIELD:VALUE",
+        "指定自定义 HTTP 头及其值"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--age-limit",
+      "tip": [
+        "U: --age-limit YEARS",
+        "仅下载适合给定年龄的视频"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--alias",
+      "tip": [
+        "U: --alias ALIASES OPTIONS",
+        "为选项字符串创建别名"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--ap-list-mso",
+      "tip": [
+        "列出所有支持的多系统运营商"
+      ]
+    },
+    {
+      "name": "--ap-mso",
+      "tip": [
+        "U: --ap-mso MSO",
+        "Adobe Pass 多系统运营商（电视提供商）标识符"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ap-password",
+      "tip": [
+        "U: --ap-password PASSWORD",
+        "多系统运营商账户密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ap-username",
+      "tip": [
+        "U: --ap-username USERNAME",
+        "多系统运营商账户登录名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--audio-format",
+      "tip": [
+        "U: --audio-format FORMAT",
+        "使用 -x 时转换音频的格式"
+      ],
+      "next": [
+        {
+          "name": "aac",
+          "tip": [
+            "AAC 格式"
+          ]
+        },
+        {
+          "name": "alac",
+          "tip": [
+            "ALAC 格式"
+          ]
+        },
+        {
+          "name": "best",
+          "tip": [
+            "最佳格式（默认）"
+          ]
+        },
+        {
+          "name": "flac",
+          "tip": [
+            "FLAC 格式"
+          ]
+        },
+        {
+          "name": "m4a",
+          "tip": [
+            "M4A 格式"
+          ]
+        },
+        {
+          "name": "mp3",
+          "tip": [
+            "MP3 格式"
+          ]
+        },
+        {
+          "name": "opus",
+          "tip": [
+            "Opus 格式"
+          ]
+        },
+        {
+          "name": "vorbis",
+          "tip": [
+            "Vorbis 格式"
+          ]
+        },
+        {
+          "name": "wav",
+          "tip": [
+            "WAV 格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--audio-multistreams",
+      "tip": [
+        "允许多个音频流合并到单个文件中"
+      ]
+    },
+    {
+      "name": "--audio-quality",
+      "tip": [
+        "U: --audio-quality QUALITY",
+        "指定 ffmpeg 音频质量：0（最佳）到 10（最差）用于 VBR 或特定比特率如 128K（默认 5）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--batch-file",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --batch-file FILE",
+        "包含要下载的 URL 的文件（\"-\" 表示标准输入）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bidi-workaround",
+      "tip": [
+        "解决终端缺乏双向文本支持的问题"
+      ]
+    },
+    {
+      "name": "--break-match-filters",
+      "tip": [
+        "U: --break-match-filters FILTER",
+        "与 --match-filters 相同，但在视频被拒绝时停止下载"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--break-on-existing",
+      "tip": [
+        "遇到存档中已存在的文件时停止下载"
+      ]
+    },
+    {
+      "name": "--break-per-input",
+      "tip": [
+        "更改 --max-downloads 等选项以按输入 URL 重置"
+      ]
+    },
+    {
+      "name": "--buffer-size",
+      "tip": [
+        "U: --buffer-size SIZE",
+        "下载缓冲区大小，如 1024 或 16K（默认 1024）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache-dir",
+      "tip": [
+        "U: --cache-dir DIR",
+        "yt-dlp 可永久存储下载信息的文件系统位置"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-all-formats",
+      "tip": [
+        "检查所有格式是否实际可下载"
+      ]
+    },
+    {
+      "name": "--check-formats",
+      "tip": [
+        "确保仅从实际可下载的格式中选择"
+      ]
+    },
+    {
+      "name": "--clean-info-json",
+      "tip": [
+        "从 infojson 中删除某些内部元数据如文件名（默认）"
+      ]
+    },
+    {
+      "name": "--client-certificate",
+      "tip": [
+        "U: --client-certificate CERTFILE",
+        "PEM 格式的客户端证书文件路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--client-certificate-key",
+      "tip": [
+        "U: --client-certificate-key KEYFILE",
+        "客户端证书私钥文件路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--client-certificate-password",
+      "tip": [
+        "U: --client-certificate-password PASSWORD",
+        "客户端证书私钥密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color [STREAM:]POLICY",
+        "是否在输出中使用颜色代码"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终使用颜色代码"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "自动检测（默认）"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不使用颜色代码"
+          ]
+        },
+        {
+          "name": "no_color",
+          "tip": [
+            "使用非彩色终端序列"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--compat-options",
+      "tip": [
+        "U: --compat-options OPTS",
+        "帮助保持与 youtube-dl 兼容性的选项"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--concat-playlist",
+      "tip": [
+        "U: --concat-playlist POLICY",
+        "连接播放列表中的视频"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终连接"
+          ]
+        },
+        {
+          "name": "multi_video",
+          "tip": [
+            "仅当视频构成单个节目时（默认）"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不连接"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--concurrent-fragments",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --concurrent-fragments N",
+        "同时下载的 dash/hlsnative 视频片段数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-locations",
+      "tip": [
+        "U: --config-locations PATH",
+        "主配置文件的位置"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--console-title",
+      "tip": [
+        "在控制台标题栏中显示进度"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "恢复部分下载的文件/片段（默认）"
+      ]
+    },
+    {
+      "name": "--convert-subtitles",
+      "alias": [
+        "--convert-subs"
+      ],
+      "tip": [
+        "U: --convert-subs FORMAT",
+        "将字幕转换为另一种格式"
+      ],
+      "next": [
+        {
+          "name": "ass",
+          "tip": [
+            "转换为 ASS 格式"
+          ]
+        },
+        {
+          "name": "lrc",
+          "tip": [
+            "转换为 LRC 格式"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "禁用转换"
+          ]
+        },
+        {
+          "name": "srt",
+          "tip": [
+            "转换为 SRT 格式"
+          ]
+        },
+        {
+          "name": "vtt",
+          "tip": [
+            "转换为 VTT 格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--convert-thumbnails",
+      "tip": [
+        "U: --convert-thumbnails FORMAT",
+        "将缩略图转换为另一种格式"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cookies",
+      "tip": [
+        "U: --cookies FILE",
+        "从 Netscape 格式的文件读取 cookies"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cookies-from-browser",
+      "tip": [
+        "U: --cookies-from-browser BROWSER[+KEYRING][:PROFILE][::CONTAINER]",
+        "从浏览器加载 cookies 的名称"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--date",
+      "tip": [
+        "U: --date DATE",
+        "仅下载此日期上传的视频"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dateafter",
+      "tip": [
+        "U: --dateafter DATE",
+        "仅下载此日期或之后上传的视频"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--datebefore",
+      "tip": [
+        "U: --datebefore DATE",
+        "仅下载此日期或之前上传的视频"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--default-search",
+      "tip": [
+        "U: --default-search PREFIX",
+        "对未限定的 URL 使用此前缀"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--download-archive",
+      "tip": [
+        "U: --download-archive FILE",
+        "仅下载未在存档文件中列出的视频"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--download-sections",
+      "tip": [
+        "U: --download-sections REGEX",
+        "仅下载匹配正则表达式的章节"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--dump-json",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --dump-json",
+        "静默模式，但打印每个视频的 JSON 信息"
+      ]
+    },
+    {
+      "name": "--dump-pages",
+      "tip": [
+        "以 base64 编码打印下载的页面以调试问题"
+      ]
+    },
+    {
+      "name": "--dump-single-json",
+      "alias": [
+        "-J"
+      ],
+      "tip": [
+        "U: -J, --dump-single-json",
+        "静默模式，但打印每个 URL 或 infojson 的 JSON 信息"
+      ]
+    },
+    {
+      "name": "--embed-chapters",
+      "alias": [
+        "--add-chapters"
+      ],
+      "tip": [
+        "U: --add-chapters, --embed-chapters",
+        "在视频文件中添加章节标记"
+      ]
+    },
+    {
+      "name": "--embed-info-json",
+      "tip": [
+        "将 infojson 作为附件嵌入 mkv/mka 视频文件"
+      ]
+    },
+    {
+      "name": "--embed-metadata",
+      "alias": [
+        "--add-metadata"
+      ],
+      "tip": [
+        "U: --add-metadata, --embed-metadata",
+        "将元数据嵌入视频文件"
+      ]
+    },
+    {
+      "name": "--embed-subs",
+      "tip": [
+        "在视频中嵌入字幕（仅适用于 mp4、webm 和 mkv 视频）"
+      ]
+    },
+    {
+      "name": "--embed-thumbnail",
+      "tip": [
+        "将缩略图嵌入视频作为封面"
+      ]
+    },
+    {
+      "name": "--enable-file-urls",
+      "tip": [
+        "启用 file:// URL（出于安全原因默认禁用）"
+      ]
+    },
+    {
+      "name": "--encoding",
+      "tip": [
+        "U: --encoding ENCODING",
+        "强制使用指定的编码（实验性）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exec",
+      "tip": [
+        "U: --exec [WHEN:]CMD",
+        "执行命令，可选前缀指定执行时间"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--external-downloader",
+      "alias": [
+        "--downloader"
+      ],
+      "tip": [
+        "U: --downloader [PROTO:]NAME",
+        "要使用的外部下载器的名称或路径"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "aria2c",
+          "tip": [
+            "使用 aria2c"
+          ]
+        },
+        {
+          "name": "axel",
+          "tip": [
+            "使用 axel"
+          ]
+        },
+        {
+          "name": "curl",
+          "tip": [
+            "使用 curl"
+          ]
+        },
+        {
+          "name": "ffmpeg",
+          "tip": [
+            "使用 ffmpeg"
+          ]
+        },
+        {
+          "name": "httpie",
+          "tip": [
+            "使用 httpie"
+          ]
+        },
+        {
+          "name": "native",
+          "tip": [
+            "使用原生下载器"
+          ]
+        },
+        {
+          "name": "wget",
+          "tip": [
+            "使用 wget"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--external-downloader-args",
+      "alias": [
+        "--downloader-args"
+      ],
+      "tip": [
+        "U: --downloader-args NAME:ARGS",
+        "将这些参数传递给外部下载器"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--extract-audio",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --extract-audio",
+        "将视频文件转换为纯音频文件（需要 ffmpeg 和 ffprobe）"
+      ]
+    },
+    {
+      "name": "--extractor-args",
+      "tip": [
+        "U: --extractor-args IE_KEY:ARGS",
+        "将 ARGS 参数传递给 IE_KEY 提取器"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--extractor-descriptions",
+      "tip": [
+        "输出所有支持的提取器的描述并退出"
+      ]
+    },
+    {
+      "name": "--extractor-retries",
+      "tip": [
+        "U: --extractor-retries RETRIES",
+        "已知提取器错误的重试次数（默认 3）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ffmpeg-location",
+      "tip": [
+        "U: --ffmpeg-location PATH",
+        "ffmpeg 二进制文件的位置"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--file-access-retries",
+      "tip": [
+        "U: --file-access-retries RETRIES",
+        "文件访问错误的重试次数（默认 3）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fixup",
+      "tip": [
+        "U: --fixup POLICY",
+        "自动纠正文件的已知缺陷"
+      ],
+      "next": [
+        {
+          "name": "detect_or_warn",
+          "tip": [
+            "如果可能则修复文件，否则警告（默认）"
+          ]
+        },
+        {
+          "name": "force",
+          "tip": [
+            "即使文件已存在也尝试修复"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "不执行任何操作"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "仅发出警告"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--flat-playlist",
+      "tip": [
+        "不提取播放列表的 URL 结果条目"
+      ]
+    },
+    {
+      "name": "--force-download-archive",
+      "alias": [
+        "--force-write-archive"
+      ],
+      "tip": [
+        "U: --force-write-archive, --force-download-archive",
+        "即使使用了 -s 也强制写入下载存档条目"
+      ]
+    },
+    {
+      "name": "--force-ipv4",
+      "alias": [
+        "-4"
+      ],
+      "tip": [
+        "U: -4, --force-ipv4",
+        "通过 IPv4 进行所有连接"
+      ]
+    },
+    {
+      "name": "--force-ipv6",
+      "alias": [
+        "-6"
+      ],
+      "tip": [
+        "U: -6, --force-ipv6",
+        "通过 IPv6 进行所有连接"
+      ]
+    },
+    {
+      "name": "--force-keyframes-at-cuts",
+      "tip": [
+        "在下载/分割/移除部分时在剪切点强制关键帧"
+      ]
+    },
+    {
+      "name": "--force-overwrites",
+      "tip": [
+        "覆盖所有视频和元数据文件（包含 --no-continue）"
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --format FORMAT",
+        "视频格式代码，详见 FORMAT SELECTION"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--format-sort",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --format-sort SORTORDER",
+        "按给定字段排序格式"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--format-sort-force",
+      "alias": [
+        "--S-force"
+      ],
+      "tip": [
+        "U: --S-force, --format-sort-force",
+        "强制用户指定的排序顺序优先于所有字段"
+      ]
+    },
+    {
+      "name": "--format-sort-reset",
+      "tip": [
+        "忽略之前用户指定的排序顺序并重置为默认值"
+      ]
+    },
+    {
+      "name": "--fragment-retries",
+      "tip": [
+        "U: --fragment-retries RETRIES",
+        "片段的重试次数（默认 10）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--geo-verification-proxy",
+      "tip": [
+        "U: --geo-verification-proxy URL",
+        "使用此代理验证某些地域限制站点的 IP 地址"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hls-split-discontinuity",
+      "tip": [
+        "在不连续处（如广告中断）将 HLS 播放列表拆分为不同格式"
+      ]
+    },
+    {
+      "name": "--hls-use-mpegts",
+      "tip": [
+        "对 HLS 视频使用 mpegts 容器（直播流默认）"
+      ]
+    },
+    {
+      "name": "--http-chunk-size",
+      "tip": [
+        "U: --http-chunk-size SIZE",
+        "基于块的 HTTP 下载的块大小（实验性）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-config",
+      "alias": [
+        "--no-config"
+      ],
+      "tip": [
+        "U: --no-config, --ignore-config",
+        "不加载除 --config-locations 给定的配置文件以外的任何配置文件"
+      ]
+    },
+    {
+      "name": "--ignore-errors",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --ignore-errors",
+        "忽略下载和后处理错误"
+      ]
+    },
+    {
+      "name": "--ignore-no-formats-error",
+      "tip": [
+        "忽略\"无视频格式\"错误（实验性）"
+      ]
+    },
+    {
+      "name": "--impersonate",
+      "tip": [
+        "U: --impersonate CLIENT[:OS]",
+        "模拟的客户端"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--js-runtimes",
+      "tip": [
+        "U: --js-runtimes RUNTIME[:PATH]",
+        "要启用的额外 JavaScript 运行时"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--keep-fragments",
+      "tip": [
+        "下载完成后保留在磁盘上的片段"
+      ]
+    },
+    {
+      "name": "--keep-video",
+      "alias": [
+        "-k"
+      ],
+      "tip": [
+        "U: -k, --keep-video",
+        "后处理后保留在磁盘上的中间视频文件"
+      ]
+    },
+    {
+      "name": "--lazy-playlist",
+      "tip": [
+        "按接收顺序处理播放列表中的条目"
+      ]
+    },
+    {
+      "name": "--legacy-server-connect",
+      "tip": [
+        "显式允许连接到不支持 RFC 5746 的服务器的 HTTPS 连接"
+      ]
+    },
+    {
+      "name": "--limit-rate",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --limit-rate RATE",
+        "最大下载速率（字节/秒）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--list-extractors",
+      "tip": [
+        "列出所有支持的提取器并退出"
+      ]
+    },
+    {
+      "name": "--list-formats",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --list-formats",
+        "列出每个视频的可用格式"
+      ]
+    },
+    {
+      "name": "--list-impersonate-targets",
+      "tip": [
+        "列出可用于模拟的客户端"
+      ]
+    },
+    {
+      "name": "--list-subs",
+      "tip": [
+        "列出每个视频的可用字幕"
+      ]
+    },
+    {
+      "name": "--list-thumbnails",
+      "tip": [
+        "列出每个视频的可用缩略图"
+      ]
+    },
+    {
+      "name": "--live-from-start",
+      "tip": [
+        "从头开始下载直播流（实验性）"
+      ]
+    },
+    {
+      "name": "--load-info-json",
+      "tip": [
+        "U: --load-info-json FILE",
+        "包含视频信息的 JSON 文件"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mark-watched",
+      "tip": [
+        "标记视频已观看（即使使用 --simulate）"
+      ]
+    },
+    {
+      "name": "--match-filters",
+      "tip": [
+        "U: --match-filters FILTER",
+        "通用视频过滤器"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--max-downloads",
+      "tip": [
+        "U: --max-downloads NUMBER",
+        "下载 NUMBER 个文件后中止"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-filesize",
+      "tip": [
+        "U: --max-filesize SIZE",
+        "如果文件大小大于 SIZE 则中止下载"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-sleep-interval",
+      "tip": [
+        "U: --max-sleep-interval SECONDS",
+        "最大休眠秒数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--merge-output-format",
+      "tip": [
+        "U: --merge-output-format FORMAT",
+        "合并格式时可使用的容器，用 \"/\" 分隔"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-filesize",
+      "tip": [
+        "U: --min-filesize SIZE",
+        "如果文件大小小于 SIZE 则中止下载"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-sleep-interval",
+      "alias": [
+        "--sleep-interval"
+      ],
+      "tip": [
+        "U: --sleep-interval SECONDS",
+        "每次下载前休眠的秒数（最小时间）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mtime",
+      "tip": [
+        "使用 Last-modified 头设置文件修改时间"
+      ]
+    },
+    {
+      "name": "--netrc",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --netrc",
+        "使用 .netrc 认证数据"
+      ]
+    },
+    {
+      "name": "--netrc-cmd",
+      "tip": [
+        "U: --netrc-cmd NETRC_CMD",
+        "执行以获取提取器凭证的命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--netrc-location",
+      "tip": [
+        "U: --netrc-location PATH",
+        ".netrc 认证数据的位置"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--newline",
+      "tip": [
+        "以新行输出进度条"
+      ]
+    },
+    {
+      "name": "--no-abort-on-error",
+      "tip": [
+        "出错时继续下载下一个视频（默认）"
+      ]
+    },
+    {
+      "name": "--no-allow-dynamic-mpd",
+      "alias": [
+        "--ignore-dynamic-mpd"
+      ],
+      "tip": [
+        "U: --no-allow-dynamic-mpd, --ignore-dynamic-mpd",
+        "不处理动态 DASH 清单"
+      ]
+    },
+    {
+      "name": "--no-audio-multistreams",
+      "tip": [
+        "每个输出文件仅下载一个音频流（默认）"
+      ]
+    },
+    {
+      "name": "--no-batch-file",
+      "tip": [
+        "不从批处理文件读取 URL（默认）"
+      ]
+    },
+    {
+      "name": "--no-break-match-filters",
+      "tip": [
+        "不使用任何 --break-match-filters（默认）"
+      ]
+    },
+    {
+      "name": "--no-break-on-existing",
+      "tip": [
+        "遇到存档中已存在的文件时不停止下载（默认）"
+      ]
+    },
+    {
+      "name": "--no-break-per-input",
+      "tip": [
+        "--break-on-existing 和类似选项终止整个下载队列（默认）"
+      ]
+    },
+    {
+      "name": "--no-cache-dir",
+      "tip": [
+        "禁用文件系统缓存"
+      ]
+    },
+    {
+      "name": "--no-check-certificates",
+      "tip": [
+        "跳过 HTTPS 证书验证"
+      ]
+    },
+    {
+      "name": "--no-check-formats",
+      "tip": [
+        "不检查格式是否实际可下载"
+      ]
+    },
+    {
+      "name": "--no-clean-info-json",
+      "tip": [
+        "将所有字段写入 infojson"
+      ]
+    },
+    {
+      "name": "--no-continue",
+      "tip": [
+        "不恢复部分下载的片段"
+      ]
+    },
+    {
+      "name": "--no-cookies",
+      "tip": [
+        "不从文件读取/dump cookies（默认）"
+      ]
+    },
+    {
+      "name": "--no-cookies-from-browser",
+      "tip": [
+        "不从浏览器加载 cookies（默认）"
+      ]
+    },
+    {
+      "name": "--no-download-archive",
+      "tip": [
+        "不使用存档文件（默认）"
+      ]
+    },
+    {
+      "name": "--no-embed-chapters",
+      "alias": [
+        "--no-add-chapters"
+      ],
+      "tip": [
+        "U: --no-add-chapters, --no-embed-chapters",
+        "不添加章节标记（默认）"
+      ]
+    },
+    {
+      "name": "--no-embed-info-json",
+      "tip": [
+        "不将 infojson 作为附件嵌入视频文件"
+      ]
+    },
+    {
+      "name": "--no-embed-metadata",
+      "alias": [
+        "--no-add-metadata"
+      ],
+      "tip": [
+        "U: --no-add-metadata, --no-embed-metadata",
+        "不向文件添加元数据（默认）"
+      ]
+    },
+    {
+      "name": "--no-embed-subs",
+      "tip": [
+        "不嵌入字幕（默认）"
+      ]
+    },
+    {
+      "name": "--no-embed-thumbnail",
+      "tip": [
+        "不嵌入缩略图（默认）"
+      ]
+    },
+    {
+      "name": "--no-exec",
+      "tip": [
+        "移除之前定义的任何 --exec"
+      ]
+    },
+    {
+      "name": "--no-flat-playlist",
+      "tip": [
+        "完全提取播放列表中的视频（默认）"
+      ]
+    },
+    {
+      "name": "--no-force-keyframes-at-cuts",
+      "tip": [
+        "在剪切/分割/移除部分时不强制关键帧（默认）"
+      ]
+    },
+    {
+      "name": "--no-force-overwrites",
+      "tip": [
+        "不覆盖视频，但覆盖相关文件（默认）"
+      ]
+    },
+    {
+      "name": "--no-format-sort-force",
+      "tip": [
+        "某些字段优先于用户指定的排序顺序（默认）"
+      ]
+    },
+    {
+      "name": "--no-hls-split-discontinuity",
+      "tip": [
+        "不在不连续处将 HLS 播放列表拆分为不同格式（默认）"
+      ]
+    },
+    {
+      "name": "--no-hls-use-mpegts",
+      "tip": [
+        "不对 HLS 视频使用 mpegts 容器"
+      ]
+    },
+    {
+      "name": "--no-ignore-dynamic-mpd",
+      "alias": [
+        "--allow-dynamic-mpd"
+      ],
+      "tip": [
+        "U: --no-ignore-dynamic-mpd, --allow-dynamic-mpd",
+        "处理动态 DASH 清单（默认）"
+      ]
+    },
+    {
+      "name": "--no-ignore-no-formats-error",
+      "tip": [
+        "当找不到可下载的视频格式时抛出错误（默认）"
+      ]
+    },
+    {
+      "name": "--no-js-runtimes",
+      "tip": [
+        "清除要启用的 JavaScript 运行时，包括默认值"
+      ]
+    },
+    {
+      "name": "--no-keep-fragments",
+      "tip": [
+        "下载完成后删除下载的片段（默认）"
+      ]
+    },
+    {
+      "name": "--no-keep-video",
+      "tip": [
+        "后处理后删除中间视频文件（默认）"
+      ]
+    },
+    {
+      "name": "--no-lazy-playlist",
+      "tip": [
+        "在整个播放列表解析完成后才处理视频（默认）"
+      ]
+    },
+    {
+      "name": "--no-live-from-start",
+      "tip": [
+        "从当前时间下载直播流（默认）"
+      ]
+    },
+    {
+      "name": "--no-mark-watched",
+      "tip": [
+        "不标记视频已观看（默认）"
+      ]
+    },
+    {
+      "name": "--no-match-filters",
+      "tip": [
+        "不使用任何 --match-filters（默认）"
+      ]
+    },
+    {
+      "name": "--no-mtime",
+      "tip": [
+        "不使用 Last-modified 头设置文件修改时间（默认）"
+      ]
+    },
+    {
+      "name": "--no-overwrites",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --no-overwrites",
+        "不覆盖任何文件"
+      ]
+    },
+    {
+      "name": "--no-part",
+      "tip": [
+        "不使用 .part 文件 - 直接写入输出文件"
+      ]
+    },
+    {
+      "name": "--no-playlist",
+      "tip": [
+        "如果 URL 指向视频和播放列表，则仅下载视频"
+      ]
+    },
+    {
+      "name": "--no-plugin-dirs",
+      "tip": [
+        "清除要搜索的插件目录，包括默认值"
+      ]
+    },
+    {
+      "name": "--no-post-overwrites",
+      "tip": [
+        "不覆盖后处理后的文件"
+      ]
+    },
+    {
+      "name": "--no-prefer-free-formats",
+      "tip": [
+        "不给免费容器任何特殊偏好（默认）"
+      ]
+    },
+    {
+      "name": "--no-progress",
+      "tip": [
+        "不打印进度条"
+      ]
+    },
+    {
+      "name": "--no-quiet",
+      "tip": [
+        "取消安静模式（默认）"
+      ]
+    },
+    {
+      "name": "--no-remote-components",
+      "tip": [
+        "禁止获取所有远程组件"
+      ]
+    },
+    {
+      "name": "--no-remove-chapters",
+      "tip": [
+        "不从文件中移除任何章节（默认）"
+      ]
+    },
+    {
+      "name": "--no-resize-buffer",
+      "tip": [
+        "不自动调整缓冲区大小"
+      ]
+    },
+    {
+      "name": "--no-restrict-filenames",
+      "tip": [
+        "允许文件名中的 Unicode 字符、\"&\" 和空格（默认）"
+      ]
+    },
+    {
+      "name": "--no-simulate",
+      "tip": [
+        "即使使用了打印/列出选项也下载视频"
+      ]
+    },
+    {
+      "name": "--no-split-chapters",
+      "tip": [
+        "不基于章节分割视频（默认）"
+      ]
+    },
+    {
+      "name": "--no-sponsorblock",
+      "tip": [
+        "禁用 --sponsorblock-mark 和 --sponsorblock-remove"
+      ]
+    },
+    {
+      "name": "--no-update",
+      "tip": [
+        "不检查更新（默认）"
+      ]
+    },
+    {
+      "name": "--no-video-multistreams",
+      "tip": [
+        "每个输出文件仅下载一个视频流（默认）"
+      ]
+    },
+    {
+      "name": "--no-wait-for-video",
+      "tip": [
+        "不等待计划的流（默认）"
+      ]
+    },
+    {
+      "name": "--no-warnings",
+      "tip": [
+        "忽略警告"
+      ]
+    },
+    {
+      "name": "--no-windows-filenames",
+      "tip": [
+        "仅最小限度地清理文件名"
+      ]
+    },
+    {
+      "name": "--no-write-automatic-subs",
+      "alias": [
+        "--no-write-auto-subs"
+      ],
+      "tip": [
+        "U: --no-write-automatic-subs, --no-write-auto-subs",
+        "不写入自动生成的字幕（默认）"
+      ]
+    },
+    {
+      "name": "--no-write-comments",
+      "alias": [
+        "--no-get-comments"
+      ],
+      "tip": [
+        "U: --no-get-comments, --no-write-comments",
+        "除非提取速度很快，否则不获取视频评论（默认）"
+      ]
+    },
+    {
+      "name": "--no-write-description",
+      "tip": [
+        "不写入视频描述（默认）"
+      ]
+    },
+    {
+      "name": "--no-write-info-json",
+      "tip": [
+        "不写入视频元数据（默认）"
+      ]
+    },
+    {
+      "name": "--no-write-playlist-metafiles",
+      "tip": [
+        "使用 --write-info-json 等时不写入播放列表元数据"
+      ]
+    },
+    {
+      "name": "--no-write-subs",
+      "tip": [
+        "不写入字幕文件（默认）"
+      ]
+    },
+    {
+      "name": "--no-write-thumbnail",
+      "tip": [
+        "不将缩略图写入磁盘（默认）"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output [TYPES:]TEMPLATE",
+        "输出文件名模板"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--output-na-placeholder",
+      "tip": [
+        "U: --output-na-placeholder TEXT",
+        "--output 中不可用字段的占位符（默认: \"NA\"）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parse-metadata",
+      "tip": [
+        "U: --parse-metadata [WHEN:]FROM:TO",
+        "从其他字段解析附加元数据如标题/艺术家"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--part",
+      "tip": [
+        "使用 .part 文件而不是直接写入输出文件（默认）"
+      ]
+    },
+    {
+      "name": "--password",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --password PASSWORD",
+        "账户密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--paths",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --paths [TYPES:]PATH",
+        "文件应下载到的路径"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--playlist-items",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --playlist-items ITEM_SPEC",
+        "要下载的播放列表项的逗号分隔索引"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--playlist-random",
+      "tip": [
+        "以随机顺序下载播放列表视频"
+      ]
+    },
+    {
+      "name": "--plugin-dirs",
+      "tip": [
+        "U: --plugin-dirs DIR",
+        "搜索插件的附加目录路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--post-overwrites",
+      "tip": [
+        "覆盖后处理后的文件（默认）"
+      ]
+    },
+    {
+      "name": "--postprocessor-args",
+      "alias": [
+        "--ppa"
+      ],
+      "tip": [
+        "U: --ppa, --postprocessor-args NAME:ARGS",
+        "将这些参数传递给后处理器"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prefer-free-formats",
+      "tip": [
+        "优先选择具有免费容器的视频格式，而非相同质量的非免费格式"
+      ]
+    },
+    {
+      "name": "--prefer-insecure",
+      "tip": [
+        "使用未加密连接获取视频信息"
+      ]
+    },
+    {
+      "name": "--preset-alias",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --preset-alias PRESET",
+        "应用预定义的选项集"
+      ],
+      "next": [
+        {
+          "name": "aac",
+          "tip": [
+            "转换为 aac 格式"
+          ]
+        },
+        {
+          "name": "mkv",
+          "tip": [
+            "转换为 mkv 格式"
+          ]
+        },
+        {
+          "name": "mp3",
+          "tip": [
+            "转换为 mp3 格式"
+          ]
+        },
+        {
+          "name": "mp4",
+          "tip": [
+            "转换为 mp4 格式"
+          ]
+        },
+        {
+          "name": "sleep",
+          "tip": [
+            "请求间休眠"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-O"
+      ],
+      "tip": [
+        "U: -O, --print [WHEN:]TEMPLATE",
+        "打印到屏幕的字段名或输出模板"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--print-to-file",
+      "tip": [
+        "U: --print-to-file [WHEN:]TEMPLATE FILE",
+        "将给定模板追加到文件"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--print-traffic",
+      "tip": [
+        "显示发送和接收的 HTTP 流量"
+      ]
+    },
+    {
+      "name": "--progress",
+      "tip": [
+        "即使在安静模式下也显示进度条"
+      ]
+    },
+    {
+      "name": "--progress-delta",
+      "tip": [
+        "U: --progress-delta SECONDS",
+        "进度输出之间的时间（默认: 0）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--progress-template",
+      "tip": [
+        "U: --progress-template [TYPES:]TEMPLATE",
+        "进度输出的模板"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--proxy",
+      "tip": [
+        "U: --proxy URL",
+        "使用指定的 HTTP/HTTPS/SOCKS 代理"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "启用安静模式"
+      ]
+    },
+    {
+      "name": "--recode-video",
+      "tip": [
+        "U: --recode-video FORMAT",
+        "必要时将视频重新编码为另一种格式"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote-components",
+      "tip": [
+        "U: --remote-components COMPONENT",
+        "允许 yt-dlp 在需要时获取的远程组件"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remove-chapters",
+      "tip": [
+        "U: --remove-chapters REGEX",
+        "移除标题匹配给定正则表达式的章节"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--remux-video",
+      "tip": [
+        "U: --remux-video FORMAT",
+        "必要时将视频重新封装到另一个容器中"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--replace-in-metadata",
+      "tip": [
+        "U: --replace-in-metadata [WHEN:]FIELDS REGEX REPLACE",
+        "使用给定的正则表达式替换元数据字段中的文本"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--resize-buffer",
+      "tip": [
+        "缓冲区大小自动调整（默认）"
+      ]
+    },
+    {
+      "name": "--restrict-filenames",
+      "tip": [
+        "将文件名限制为仅 ASCII 字符，并避免 \"&\" 和空格"
+      ]
+    },
+    {
+      "name": "--retries",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --retries RETRIES",
+        "重试次数（默认 10），或 \"infinite\""
+      ],
+      "next": 0
+    },
+    {
+      "name": "--retry-sleep",
+      "tip": [
+        "U: --retry-sleep [TYPE:]EXPR",
+        "重试之间的休眠时间（秒）"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--rm-cache-dir",
+      "tip": [
+        "删除所有文件系统缓存文件"
+      ]
+    },
+    {
+      "name": "--simulate",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --simulate",
+        "不下载视频，不向磁盘写入任何内容"
+      ]
+    },
+    {
+      "name": "--skip-download",
+      "alias": [
+        "--no-download"
+      ],
+      "tip": [
+        "U: --no-download, --skip-download",
+        "不下载视频但写入所有相关文件"
+      ]
+    },
+    {
+      "name": "--skip-playlist-after-errors",
+      "tip": [
+        "U: --skip-playlist-after-errors N",
+        "允许的失败次数，之后跳过播放列表的其余部分"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-unavailable-fragments",
+      "tip": [
+        "跳过 DASH、hlsnative 和 ISM 下载中不可用的片段（默认）"
+      ]
+    },
+    {
+      "name": "--sleep-requests",
+      "tip": [
+        "U: --sleep-requests SECONDS",
+        "数据提取期间请求之间的休眠秒数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sleep-subtitles",
+      "tip": [
+        "U: --sleep-subtitles SECONDS",
+        "每次字幕下载前的休眠秒数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--socket-timeout",
+      "tip": [
+        "U: --socket-timeout SECONDS",
+        "放弃前的等待时间（秒）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--source-address",
+      "tip": [
+        "U: --source-address IP",
+        "要绑定的客户端 IP 地址"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--split-chapters",
+      "tip": [
+        "基于内部章节将视频拆分为多个文件"
+      ]
+    },
+    {
+      "name": "--sponsorblock-api",
+      "tip": [
+        "U: --sponsorblock-api URL",
+        "SponsorBlock API 位置，默认为 https://sponsor.ajay.app"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sponsorblock-chapter-title",
+      "tip": [
+        "U: --sponsorblock-chapter-title TEMPLATE",
+        "--sponsorblock-mark 创建的章节标题的输出模板"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sponsorblock-mark",
+      "tip": [
+        "U: --sponsorblock-mark CATS",
+        "要创建章节的 SponsorBlock 类别，用逗号分隔"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sponsorblock-remove",
+      "tip": [
+        "U: --sponsorblock-remove CATS",
+        "要从视频文件中移除的 SponsorBlock 类别"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sub-format",
+      "tip": [
+        "U: --sub-format FORMAT",
+        "字幕格式；接受用 \"/\" 分隔的格式偏好"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sub-langs",
+      "tip": [
+        "U: --sub-langs LANGS",
+        "要下载的字幕语言，用逗号分隔"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--throttled-rate",
+      "tip": [
+        "U: --throttled-rate RATE",
+        "低于此速率的最小下载速率时假定被限速"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--trim-filenames",
+      "tip": [
+        "U: --trim-filenames LENGTH",
+        "将文件名长度（不包括扩展名）限制为指定的字符数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--twofactor",
+      "alias": [
+        "-2"
+      ],
+      "tip": [
+        "U: -2, --twofactor TWOFACTOR",
+        "两步验证代码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-U"
+      ],
+      "tip": [
+        "U: -U, --update",
+        "将此程序更新到最新的稳定版本"
+      ]
+    },
+    {
+      "name": "--update-to",
+      "tip": [
+        "U: --update-to [CHANNEL]@[TAG]",
+        "升级/降级到特定版本"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--use-extractors",
+      "alias": [
+        "--ies"
+      ],
+      "tip": [
+        "U: --ies, --use-extractors NAMES",
+        "要使用的提取器名称，用逗号分隔"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--use-postprocessor",
+      "tip": [
+        "U: --use-postprocessor NAME[:ARGS]",
+        "要启用的插件后处理器的名称"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--username",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --username USERNAME",
+        "使用此账户 ID 登录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "打印各种调试信息"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印程序版本并退出"
+      ]
+    },
+    {
+      "name": "--video-multistreams",
+      "tip": [
+        "允许多个视频流合并到单个文件中"
+      ]
+    },
+    {
+      "name": "--video-password",
+      "tip": [
+        "U: --video-password PASSWORD",
+        "视频特定密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wait-for-video",
+      "tip": [
+        "U: --wait-for-video MIN[-MAX]",
+        "等待计划的流变得可用"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--windows-filenames",
+      "tip": [
+        "强制文件名为 Windows 兼容"
+      ]
+    },
+    {
+      "name": "--write-all-thumbnails",
+      "tip": [
+        "将所有缩略图格式写入磁盘"
+      ]
+    },
+    {
+      "name": "--write-automatic-subs",
+      "alias": [
+        "--write-auto-subs"
+      ],
+      "tip": [
+        "U: --write-automatic-subs, --write-auto-subs",
+        "写入自动生成的字幕文件"
+      ]
+    },
+    {
+      "name": "--write-comments",
+      "alias": [
+        "--get-comments"
+      ],
+      "tip": [
+        "U: --get-comments, --write-comments",
+        "获取视频评论以放置在 infojson 中"
+      ]
+    },
+    {
+      "name": "--write-description",
+      "tip": [
+        "将视频描述写入 .description 文件"
+      ]
+    },
+    {
+      "name": "--write-desktop-link",
+      "tip": [
+        "写入 .desktop Linux 互联网快捷方式"
+      ]
+    },
+    {
+      "name": "--write-info-json",
+      "tip": [
+        "将视频元数据写入 .info.json 文件（可能包含个人信息）"
+      ]
+    },
+    {
+      "name": "--write-link",
+      "tip": [
+        "根据当前平台写入互联网快捷方式文件"
+      ]
+    },
+    {
+      "name": "--write-pages",
+      "tip": [
+        "将下载的中间页面写入文件以调试问题"
+      ]
+    },
+    {
+      "name": "--write-playlist-metafiles",
+      "tip": [
+        "除视频元数据外还写入播放列表元数据（默认）"
+      ]
+    },
+    {
+      "name": "--write-subs",
+      "tip": [
+        "写入字幕文件"
+      ]
+    },
+    {
+      "name": "--write-thumbnail",
+      "tip": [
+        "将缩略图写入磁盘"
+      ]
+    },
+    {
+      "name": "--write-url-link",
+      "tip": [
+        "写入 .url Windows 互联网快捷方式"
+      ]
+    },
+    {
+      "name": "--write-webloc-link",
+      "tip": [
+        "写入 .webloc macOS 互联网快捷方式"
+      ]
+    },
+    {
+      "name": "--xattrs",
+      "tip": [
+        "将元数据写入视频文件的 xattrs（使用 Dublin Core 和 XDG 标准）"
+      ]
+    },
+    {
+      "name": "--xff",
+      "tip": [
+        "U: --xff VALUE",
+        "如何伪造 X-Forwarded-For HTTP 头"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--yes-playlist",
+      "tip": [
+        "如果 URL 指向视频和播放列表，则下载播放列表（默认）"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助文本并退出"
+      ]
+    },
+    {
+      "name": "--no-config-locations",
+      "tip": [
+        "不加载任何自定义配置文件（默认）"
+      ]
+    }
+  ]
+}

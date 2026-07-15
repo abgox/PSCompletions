@@ -1,0 +1,386 @@
+{
+  "meta": {
+    "url": "https://github.com/muesli/duf",
+    "description": [
+      "Better df alternative for displaying disk usage."
+    ]
+  },
+  "option": [
+    {
+      "name": "-all",
+      "tip": [
+        "Include pseudo, duplicate, inaccessible file systems"
+      ]
+    },
+    {
+      "name": "-avail-threshold",
+      "tip": [
+        "U: -avail-threshold <THRESHOLD>",
+        "Specifies the coloring threshold (yellow, red) of the avail column",
+        "Must be integer with optional SI prefixes (default \"10G,1G\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-hide",
+      "tip": [
+        "U: -hide <DEVICES>",
+        "Hide specific devices, separated with commas"
+      ],
+      "next": [
+        {
+          "name": "binds",
+          "tip": [
+            "Hide bind mounts"
+          ]
+        },
+        {
+          "name": "fuse",
+          "tip": [
+            "Hide FUSE devices"
+          ]
+        },
+        {
+          "name": "local",
+          "tip": [
+            "Hide local devices"
+          ]
+        },
+        {
+          "name": "loops",
+          "tip": [
+            "Hide loop devices"
+          ]
+        },
+        {
+          "name": "network",
+          "tip": [
+            "Hide network devices"
+          ]
+        },
+        {
+          "name": "special",
+          "tip": [
+            "Hide special devices"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-hide-fs",
+      "tip": [
+        "U: -hide-fs <FS>",
+        "Hide specific filesystems, separated with commas"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-hide-mp",
+      "tip": [
+        "U: -hide-mp <MOUNTPOINTS>",
+        "Hide specific mount points, separated with commas (supports wildcards)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-inodes",
+      "tip": [
+        "List inode information instead of block usage"
+      ]
+    },
+    {
+      "name": "-json",
+      "tip": [
+        "Output all devices in JSON format"
+      ]
+    },
+    {
+      "name": "-only",
+      "tip": [
+        "U: -only <DEVICES>",
+        "Show only specific devices, separated with commas"
+      ],
+      "next": [
+        {
+          "name": "binds",
+          "tip": [
+            "Show only bind mounts"
+          ]
+        },
+        {
+          "name": "fuse",
+          "tip": [
+            "Show only FUSE devices"
+          ]
+        },
+        {
+          "name": "local",
+          "tip": [
+            "Show only local devices"
+          ]
+        },
+        {
+          "name": "loops",
+          "tip": [
+            "Show only loop devices"
+          ]
+        },
+        {
+          "name": "network",
+          "tip": [
+            "Show only network devices"
+          ]
+        },
+        {
+          "name": "special",
+          "tip": [
+            "Show only special devices"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-only-fs",
+      "tip": [
+        "U: -only-fs <FS>",
+        "Only show specific filesystems, separated with commas"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-only-mp",
+      "tip": [
+        "U: -only-mp <MOUNTPOINTS>",
+        "Only show specific mount points, separated with commas (supports wildcards)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-output",
+      "tip": [
+        "U: -output <FIELDS>",
+        "Output fields, separated with commas"
+      ],
+      "next": [
+        {
+          "name": "avail",
+          "tip": [
+            "Show available"
+          ]
+        },
+        {
+          "name": "filesystem",
+          "tip": [
+            "Show filesystem"
+          ]
+        },
+        {
+          "name": "inodes",
+          "tip": [
+            "Show inodes"
+          ]
+        },
+        {
+          "name": "inodes_avail",
+          "tip": [
+            "Show inodes available"
+          ]
+        },
+        {
+          "name": "inodes_usage",
+          "tip": [
+            "Show inodes usage"
+          ]
+        },
+        {
+          "name": "inodes_used",
+          "tip": [
+            "Show inodes used"
+          ]
+        },
+        {
+          "name": "mountpoint",
+          "tip": [
+            "Show mountpoint"
+          ]
+        },
+        {
+          "name": "size",
+          "tip": [
+            "Show size"
+          ]
+        },
+        {
+          "name": "type",
+          "tip": [
+            "Show type"
+          ]
+        },
+        {
+          "name": "usage",
+          "tip": [
+            "Show usage"
+          ]
+        },
+        {
+          "name": "used",
+          "tip": [
+            "Show used"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-sort",
+      "tip": [
+        "U: -sort <FIELD>",
+        "Sort output by field (default \"mountpoint\")"
+      ],
+      "next": [
+        {
+          "name": "avail",
+          "tip": [
+            "Sort by available"
+          ]
+        },
+        {
+          "name": "filesystem",
+          "tip": [
+            "Sort by filesystem"
+          ]
+        },
+        {
+          "name": "inodes",
+          "tip": [
+            "Sort by inodes"
+          ]
+        },
+        {
+          "name": "inodes_avail",
+          "tip": [
+            "Sort by inodes available"
+          ]
+        },
+        {
+          "name": "inodes_usage",
+          "tip": [
+            "Sort by inodes usage"
+          ]
+        },
+        {
+          "name": "inodes_used",
+          "tip": [
+            "Sort by inodes used"
+          ]
+        },
+        {
+          "name": "mountpoint",
+          "tip": [
+            "Sort by mountpoint"
+          ]
+        },
+        {
+          "name": "size",
+          "tip": [
+            "Sort by size"
+          ]
+        },
+        {
+          "name": "type",
+          "tip": [
+            "Sort by type"
+          ]
+        },
+        {
+          "name": "usage",
+          "tip": [
+            "Sort by usage"
+          ]
+        },
+        {
+          "name": "used",
+          "tip": [
+            "Sort by used"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-style",
+      "tip": [
+        "U: -style <STYLE>",
+        "Style: unicode, ascii (default \"unicode\")"
+      ],
+      "next": [
+        {
+          "name": "ascii",
+          "tip": [
+            "ASCII style"
+          ]
+        },
+        {
+          "name": "unicode",
+          "tip": [
+            "Unicode style"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-theme",
+      "tip": [
+        "U: -theme <THEME>",
+        "Color themes: dark, light, ansi (default \"dark\")"
+      ],
+      "next": [
+        {
+          "name": "ansi",
+          "tip": [
+            "ANSI theme"
+          ]
+        },
+        {
+          "name": "dark",
+          "tip": [
+            "Dark theme"
+          ]
+        },
+        {
+          "name": "light",
+          "tip": [
+            "Light theme"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-usage-threshold",
+      "tip": [
+        "U: -usage-threshold <THRESHOLD>",
+        "Specifies the coloring threshold (yellow, red) of the usage bars",
+        "Floating point number from 0 to 1 (default \"0.5,0.9\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-version",
+      "tip": [
+        "Display version"
+      ]
+    },
+    {
+      "name": "-warnings",
+      "tip": [
+        "Output all warnings to STDERR"
+      ]
+    },
+    {
+      "name": "-width",
+      "tip": [
+        "U: -width <WIDTH>",
+        "Max output width"
+      ],
+      "next": 0
+    }
+  ]
+}

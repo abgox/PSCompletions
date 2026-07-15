@@ -29,11 +29,11 @@ function handleCompletions($completions) {
         }
     }
     function add_commit {
-        if ($PSCompletions.config.comp_config.git.max_commit -in @('', $null)) {
-            $PSCompletions.config.comp_config.git.max_commit = 30
+        if ($PSCompletions.config.completion.git.max_commit -in '', $null) {
+            $PSCompletions.config.completion.git.max_commit = 30
         }
         $guid = [guid]::NewGuid().Guid
-        $git_info = git log --pretty="format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n$($guid)" -n $PSCompletions.config.comp_config.git.max_commit 2>$null
+        $git_info = git log --pretty="format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n$($guid)" -n $PSCompletions.config.completion.git.max_commit 2>$null
         $current_commit = @()
         foreach ($_ in $git_info) {
             if ($_ -ne $guid) {

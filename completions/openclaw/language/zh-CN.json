@@ -1,0 +1,2671 @@
+{
+  "meta": {
+    "url": "https://docs.openclaw.ai/cli",
+    "description": [
+      "OpenClaw 的命令行界面 (CLI)"
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "tip": [
+        "运行由 Gateway 支持的 ACP 桥接。"
+      ],
+      "option": [
+        {
+          "name": "--no-prefix-cwd",
+          "tip": [
+            "不以工作目录为前缀。"
+          ]
+        },
+        {
+          "name": "--password",
+          "tip": [
+            "U: --password <password>",
+            "网关密码（如果需要）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password-file",
+          "tip": [
+            "U: --password-file <path>",
+            "从文件读取网关密码。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--provenance",
+          "tip": [
+            "U: --provenance <mode>",
+            "ACP 来源模式。"
+          ],
+          "next": [
+            {
+              "name": "meta",
+              "tip": [
+                "元数据来源"
+              ]
+            },
+            {
+              "name": "meta+receipt",
+              "tip": [
+                "元数据 + 回执来源"
+              ]
+            },
+            {
+              "name": "off",
+              "tip": [
+                "来源关闭"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--require-existing",
+          "tip": [
+            "如果会话键/标签不存在则失败。"
+          ]
+        },
+        {
+          "name": "--reset-session",
+          "tip": [
+            "在首次使用前重置会话键。"
+          ]
+        },
+        {
+          "name": "--session",
+          "tip": [
+            "U: --session <key>",
+            "默认会话键（例如 agent:main:main）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--session-label",
+          "tip": [
+            "U: --session-label <label>",
+            "要解析的默认会话标签。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "网关令牌（如果需要）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token-file",
+          "tip": [
+            "U: --token-file <path>",
+            "从文件读取网关令牌。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--url",
+          "tip": [
+            "U: --url <url>",
+            "网关 WebSocket URL。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-v",
+          "tip": [
+            "将详细日志输出到 stderr。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "client",
+          "tip": [
+            "对本地 ACP 桥接运行交互式 ACP 客户端。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "tip": [
+        "通过 Gateway 运行代理回合（使用 --local 进行嵌入式运行）。"
+      ]
+    },
+    {
+      "name": "agents",
+      "tip": [
+        "管理隔离的代理（工作区 + 认证 + 路由）。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加新的隔离代理。"
+          ]
+        },
+        {
+          "name": "bind",
+          "tip": [
+            "为代理添加路由绑定。"
+          ]
+        },
+        {
+          "name": "bindings",
+          "tip": [
+            "列出路由绑定。"
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "删除代理并清理工作区/状态。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已配置的代理。"
+          ]
+        },
+        {
+          "name": "set-identity",
+          "tip": [
+            "更新代理身份（名称/主题/表情/头像）。"
+          ]
+        },
+        {
+          "name": "unbind",
+          "tip": [
+            "移除代理的路由绑定。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "approvals",
+      "tip": [
+        "管理执行审批（网关或节点主机）。"
+      ],
+      "next": [
+        {
+          "name": "allowlist",
+          "tip": [
+            "编辑每个代理的允许列表。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取执行审批快照。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "用 JSON 文件替换执行审批。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attach",
+      "tip": [
+        "将 Claude Code 附加到网关会话，使用范围化的 MCP 工具。"
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "检查仅元数据的代理运行和工具操作记录。"
+      ]
+    },
+    {
+      "name": "backup",
+      "tip": [
+        "创建和验证 OpenClaw 状态的本地备份存档。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "为配置、凭据、会话和工作区创建备份存档。"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "验证备份存档及其嵌入的清单。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "capability",
+      "tip": [
+        "运行提供商能力命令（后备别名：infer）。"
+      ]
+    },
+    {
+      "name": "channels",
+      "tip": [
+        "管理连接的聊天频道和账户。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加或更新频道账户。"
+          ]
+        },
+        {
+          "name": "capabilities",
+          "tip": [
+            "显示提供商能力（意图/范围 + 支持的功能）。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出聊天频道（默认已配置；传递 --all 可查看可安装目录）。"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "链接频道账户（如果支持）。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "注销频道会话（如果支持）。"
+          ]
+        },
+        {
+          "name": "logs",
+          "tip": [
+            "从网关日志文件显示最近的频道日志。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "禁用或删除频道账户。"
+          ]
+        },
+        {
+          "name": "resolve",
+          "tip": [
+            "将频道/用户名解析为 ID。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示网关频道状态（使用 status --deep 查看本地）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "chat",
+      "tip": [
+        "打开本地终端 UI（tui --local 的别名）。"
+      ]
+    },
+    {
+      "name": "clawbot",
+      "tip": [
+        "旧版 clawbot 命令别名。"
+      ]
+    },
+    {
+      "name": "commitments",
+      "tip": [
+        "列出和管理推断的后续承诺。"
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "生成 shell 补全脚本。"
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "非交互式配置助手（get/set/patch/unset/file/schema/validate）。",
+        "不带子命令运行可进行引导式设置。"
+      ],
+      "option": [
+        {
+          "name": "--section",
+          "tip": [
+            "U: --section <section>",
+            "引导式设置的配置部分（可重复）。"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "file",
+          "tip": [
+            "打印活动配置文件路径。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "通过点路径获取配置值。"
+          ]
+        },
+        {
+          "name": "patch",
+          "tip": [
+            "通过一次验证写入从 JSON5 对象修补配置。"
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "打印 openclaw.json 的 JSON 模式。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "通过路径设置配置值（值模式、引用/提供者构建器模式或批量 JSON 模式）。"
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "通过点路径删除配置值。"
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "在不启动网关的情况下根据模式验证当前配置。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "configure",
+      "tip": [
+        "交互式配置凭据、频道、网关和代理默认值。"
+      ]
+    },
+    {
+      "name": "crestodian",
+      "tip": [
+        "打开零层设置和修复助手。"
+      ]
+    },
+    {
+      "name": "cron",
+      "tip": [
+        "管理定时任务（通过 Gateway）。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加定时任务。"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "禁用定时任务。"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "编辑定时任务（修补字段）。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "启用定时任务。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "以 JSON 格式获取定时任务。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出定时任务。"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "删除定时任务。"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "立即运行定时任务（调试）。"
+          ]
+        },
+        {
+          "name": "runs",
+          "tip": [
+            "显示定时任务运行历史。"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "显示定时任务。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示定时调度器状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "daemon",
+      "tip": [
+        "管理 Gateway 服务（launchd/systemd/schtasks）。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "安装 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "重启 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "启动 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示服务安装状态 + 探测连接/能力。"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "卸载 Gateway 服务。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "tip": [
+        "使用当前令牌打开控制 UI。"
+      ]
+    },
+    {
+      "name": "devices",
+      "tip": [
+        "设备配对和认证令牌。"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "批准待处理的设备配对请求。"
+          ]
+        },
+        {
+          "name": "clear",
+          "tip": [
+            "从网关表中清除已配对的设备。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出待处理和已配对的设备。"
+          ]
+        },
+        {
+          "name": "reject",
+          "tip": [
+            "拒绝待处理的设备配对请求。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "移除已配对的设备条目。"
+          ]
+        },
+        {
+          "name": "revoke",
+          "tip": [
+            "撤销设备的角色令牌。"
+          ]
+        },
+        {
+          "name": "rotate",
+          "tip": [
+            "轮换设备的角色令牌。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "directory",
+      "tip": [
+        "查找支持的聊天频道的联系人和群组 ID。"
+      ],
+      "next": [
+        {
+          "name": "groups",
+          "tip": [
+            "群组目录。"
+          ]
+        },
+        {
+          "name": "peers",
+          "tip": [
+            "对等目录（联系人/用户）。"
+          ]
+        },
+        {
+          "name": "self",
+          "tip": [
+            "显示当前账户用户。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dns",
+      "tip": [
+        "广域发现的 DNS 助手（Tailscale + CoreDNS）。"
+      ],
+      "next": [
+        {
+          "name": "setup",
+          "tip": [
+            "设置 CoreDNS 以服务您的发现域。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "tip": [
+        "搜索在线 OpenClaw 文档。"
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "网关和频道的健康检查 + 快速修复。"
+      ]
+    },
+    {
+      "name": "exec-approvals",
+      "tip": [
+        "管理执行审批（approvals 的别名）。"
+      ],
+      "next": [
+        {
+          "name": "allowlist",
+          "tip": [
+            "编辑每个代理的允许列表。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取执行审批快照。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "用 JSON 文件替换执行审批。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec-policy",
+      "tip": [
+        "显示或同步请求的执行策略与主机审批。"
+      ]
+    },
+    {
+      "name": "gateway",
+      "tip": [
+        "运行、检查和查询 WebSocket Gateway。"
+      ],
+      "option": [
+        {
+          "name": "--allow-unconfigured",
+          "tip": [
+            "允许在不强制 gateway.mode=local 的情况下启动网关。"
+          ]
+        },
+        {
+          "name": "--auth",
+          "tip": [
+            "U: --auth <mode>",
+            "网关认证模式。"
+          ],
+          "next": [
+            {
+              "name": "none",
+              "tip": [
+                "无认证"
+              ]
+            },
+            {
+              "name": "password",
+              "tip": [
+                "基于密码的认证"
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "基于令牌的认证"
+              ]
+            },
+            {
+              "name": "trusted-proxy",
+              "tip": [
+                "受信任代理认证"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--bind",
+          "tip": [
+            "U: --bind <mode>",
+            "绑定模式。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动检测绑定模式"
+              ]
+            },
+            {
+              "name": "custom",
+              "tip": [
+                "自定义绑定模式"
+              ]
+            },
+            {
+              "name": "lan",
+              "tip": [
+                "绑定到局域网"
+              ]
+            },
+            {
+              "name": "loopback",
+              "tip": [
+                "绑定到回环地址"
+              ]
+            },
+            {
+              "name": "tailnet",
+              "tip": [
+                "绑定到 Tailscale"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cli-backend-logs",
+          "tip": [
+            "仅在控制台显示 CLI 后端日志。"
+          ]
+        },
+        {
+          "name": "--compact",
+          "tip": [
+            "--ws-log compact 的别名。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "tip": [
+            "如果缺少则创建开发配置 + 工作区。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "在启动前终止目标端口上的任何现有监听器。"
+          ]
+        },
+        {
+          "name": "--password",
+          "tip": [
+            "U: --password <password>",
+            "auth mode=password 的密码。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password-file",
+          "tip": [
+            "U: --password-file <path>",
+            "从文件读取网关密码。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <port>",
+            "网关 WebSocket 的端口。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--raw-stream",
+          "tip": [
+            "将原始模型流事件记录到 jsonl。"
+          ]
+        },
+        {
+          "name": "--raw-stream-path",
+          "tip": [
+            "U: --raw-stream-path <path>",
+            "原始流 jsonl 路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--reset",
+          "tip": [
+            "重置开发配置 + 凭据 + 会话 + 工作区（需要 --dev）。"
+          ]
+        },
+        {
+          "name": "--tailscale",
+          "tip": [
+            "U: --tailscale <mode>",
+            "Tailscale 暴露模式。"
+          ],
+          "next": [
+            {
+              "name": "funnel",
+              "tip": [
+                "Tailscale funnel "
+              ]
+            },
+            {
+              "name": "off",
+              "tip": [
+                "Tailscale 关闭"
+              ]
+            },
+            {
+              "name": "serve",
+              "tip": [
+                "Tailscale serve "
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--tailscale-reset-on-exit",
+          "tip": [
+            "关闭时重置 Tailscale serve/funnel 配置。"
+          ]
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "connect.params.auth.token 中需要的共享令牌。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "将详细日志输出到 stdout/stderr。"
+          ]
+        },
+        {
+          "name": "--ws-log",
+          "tip": [
+            "U: --ws-log <style>",
+            "WebSocket 日志样式。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动检测日志样式"
+              ]
+            },
+            {
+              "name": "compact",
+              "tip": [
+                "紧凑日志样式"
+              ]
+            },
+            {
+              "name": "full",
+              "tip": [
+                "完整日志样式"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "call",
+          "tip": [
+            "调用 Gateway 方法。"
+          ]
+        },
+        {
+          "name": "diagnostics",
+          "tip": [
+            "导出本地支持诊断。"
+          ]
+        },
+        {
+          "name": "discover",
+          "tip": [
+            "通过 Bonjour 发现网关（本地 + 广域，如果已配置）。"
+          ]
+        },
+        {
+          "name": "health",
+          "tip": [
+            "获取网关健康状态。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "安装 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "probe",
+          "tip": [
+            "显示网关可达性、认证能力和读取探测摘要。"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "重启 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "运行 WebSocket Gateway（前台）。"
+          ]
+        },
+        {
+          "name": "stability",
+          "tip": [
+            "获取无负载的 Gateway 稳定性诊断。"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "启动 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示网关服务状态 + 探测连接/能力。"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "卸载 Gateway 服务。"
+          ]
+        },
+        {
+          "name": "usage-cost",
+          "tip": [
+            "从会话日志获取使用成本摘要。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "health",
+      "tip": [
+        "从运行的网关获取健康状态。"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "显示命令帮助。"
+      ]
+    },
+    {
+      "name": "hooks",
+      "tip": [
+        "管理内部代理钩子。"
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "检查钩子资格状态。"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "禁用钩子。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "启用钩子。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "显示钩子的详细信息。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有钩子。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "infer",
+      "tip": [
+        "通过稳定的 CLI 接口运行提供商支持的推理命令。"
+      ],
+      "next": [
+        {
+          "name": "audio",
+          "tip": [
+            "音频转录。"
+          ]
+        },
+        {
+          "name": "embedding",
+          "tip": [
+            "嵌入提供商。"
+          ]
+        },
+        {
+          "name": "image",
+          "tip": [
+            "图像生成和描述。"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "检查一个规范能力 ID。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出规范能力 ID 和支持的传输。"
+          ]
+        },
+        {
+          "name": "model",
+          "tip": [
+            "文本推理和模型目录命令。"
+          ]
+        },
+        {
+          "name": "tts",
+          "tip": [
+            "文本转语音。"
+          ]
+        },
+        {
+          "name": "video",
+          "tip": [
+            "视频生成和描述。"
+          ]
+        },
+        {
+          "name": "web",
+          "tip": [
+            "Web 功能。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "通过 RPC 尾随网关文件日志。"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "管理 OpenClaw mcp.servers 配置和频道桥接。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "从标志添加一个 MCP 服务器并在保存前探测它。"
+          ]
+        },
+        {
+          "name": "configure",
+          "tip": [
+            "更新 MCP 服务器操作员控制而不替换服务器。"
+          ]
+        },
+        {
+          "name": "doctor",
+          "tip": [
+            "检查已配置的 MCP 服务器是否存在静态设置问题。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出从 mcp.servers 管理的 OpenClaw MCP 服务器。"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "授权 OAuth MCP 服务器。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "清除 MCP 服务器的已存储 OAuth 凭据。"
+          ]
+        },
+        {
+          "name": "probe",
+          "tip": [
+            "连接到已配置的 MCP 服务器并列出可用功能。"
+          ]
+        },
+        {
+          "name": "reload",
+          "tip": [
+            "释放缓存的 MCP 运行时，以便在下一轮使用新配置。"
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "通过 MCP stdio 暴露 OpenClaw 频道。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "从 JSON 对象设置一个 OpenClaw 管理的 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "显示一个 OpenClaw 管理的 MCP 服务器或完整的 mcp.servers 配置。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "在不连接的情况下显示已配置的 MCP 服务器传输状态。"
+          ]
+        },
+        {
+          "name": "tools",
+          "tip": [
+            "更新每个服务器的 MCP 工具包含/排除过滤器。"
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "移除一个 OpenClaw 管理的 MCP 服务器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "memory",
+      "tip": [
+        "搜索、检查和重新索引内存文件。"
+      ],
+      "next": [
+        {
+          "name": "index",
+          "tip": [
+            "重新索引内存文件。"
+          ]
+        },
+        {
+          "name": "promote",
+          "tip": [
+            "排名短期记忆并可选地将顶级条目追加到 MEMORY.md。"
+          ]
+        },
+        {
+          "name": "promote-explain",
+          "tip": [
+            "解释特定的推广候选者及其分数细分。"
+          ]
+        },
+        {
+          "name": "rem-backfill",
+          "tip": [
+            "将有根据的历史 REM 摘要写入 DREAMS.md 以供 UI 审查。"
+          ]
+        },
+        {
+          "name": "rem-harness",
+          "tip": [
+            "预览 REM 反思、候选真相和深度推广，而不写入。"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "搜索内存文件。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示内存搜索索引状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "tip": [
+        "发送、读取和管理消息和频道操作。"
+      ],
+      "next": [
+        {
+          "name": "ban",
+          "tip": [
+            "封禁成员。"
+          ]
+        },
+        {
+          "name": "broadcast",
+          "tip": [
+            "向多个目标广播消息。"
+          ]
+        },
+        {
+          "name": "channel",
+          "tip": [
+            "频道操作。"
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "删除消息。"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "编辑消息。"
+          ]
+        },
+        {
+          "name": "emoji",
+          "tip": [
+            "表情操作。"
+          ]
+        },
+        {
+          "name": "event",
+          "tip": [
+            "事件操作。"
+          ]
+        },
+        {
+          "name": "kick",
+          "tip": [
+            "踢出成员。"
+          ]
+        },
+        {
+          "name": "member",
+          "tip": [
+            "成员操作。"
+          ]
+        },
+        {
+          "name": "permissions",
+          "tip": [
+            "获取频道权限。"
+          ]
+        },
+        {
+          "name": "pin",
+          "tip": [
+            "置顶消息。"
+          ]
+        },
+        {
+          "name": "pins",
+          "tip": [
+            "列出已置顶的消息。"
+          ]
+        },
+        {
+          "name": "poll",
+          "tip": [
+            "发送投票。"
+          ]
+        },
+        {
+          "name": "react",
+          "tip": [
+            "添加或移除反应。"
+          ]
+        },
+        {
+          "name": "reactions",
+          "tip": [
+            "列出消息上的反应。"
+          ]
+        },
+        {
+          "name": "read",
+          "tip": [
+            "读取最近的消息。"
+          ]
+        },
+        {
+          "name": "role",
+          "tip": [
+            "角色操作。"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "搜索 Discord 消息。"
+          ]
+        },
+        {
+          "name": "send",
+          "tip": [
+            "发送消息。"
+          ]
+        },
+        {
+          "name": "sticker",
+          "tip": [
+            "贴纸操作。"
+          ]
+        },
+        {
+          "name": "thread",
+          "tip": [
+            "线程操作。"
+          ]
+        },
+        {
+          "name": "timeout",
+          "tip": [
+            "超时成员。"
+          ]
+        },
+        {
+          "name": "unpin",
+          "tip": [
+            "取消置顶消息。"
+          ]
+        },
+        {
+          "name": "voice",
+          "tip": [
+            "语音操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migrate",
+      "tip": [
+        "从另一个代理系统导入状态。"
+      ],
+      "option": [
+        {
+          "name": "--backup-output",
+          "tip": [
+            "U: --backup-output <path>",
+            "预迁移备份存档路径或目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "仅预览；不应用更改。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "允许危险选项，例如 --no-backup。"
+          ]
+        },
+        {
+          "name": "--from",
+          "tip": [
+            "U: --from <path>",
+            "要迁移的源目录。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--include-secrets",
+          "tip": [
+            "导入支持的凭据和密钥。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--no-auth-credentials",
+          "tip": [
+            "跳过认证凭据迁移。"
+          ]
+        },
+        {
+          "name": "--no-backup",
+          "tip": [
+            "跳过预迁移 OpenClaw 备份。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "在项目级备份后覆盖冲突的目标文件。"
+          ]
+        },
+        {
+          "name": "--plugin",
+          "tip": [
+            "U: --plugin <name>",
+            "选择一个要迁移的 Codex 插件。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--skill",
+          "tip": [
+            "U: --skill <name>",
+            "选择一个要迁移的技能。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--verify-plugin-apps",
+          "tip": [
+            "仅限 Codex：在规划原生插件激活前验证源插件应用可访问性。"
+          ]
+        },
+        {
+          "name": "--yes",
+          "tip": [
+            "预览后直接应用，不再提示。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "在验证备份后应用迁移。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出迁移提供者。"
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "预览迁移而不更改 OpenClaw 状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "tip": [
+        "模型发现、扫描和配置。"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <id>",
+            "要检查的代理 ID（覆盖 OPENCLAW_AGENT_DIR）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--status-json",
+          "tip": [
+            "输出 JSON（models status --json 的别名）。"
+          ]
+        },
+        {
+          "name": "--status-plain",
+          "tip": [
+            "纯文本输出（models status --plain 的别名）。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "aliases",
+          "tip": [
+            "管理模型别名。"
+          ]
+        },
+        {
+          "name": "auth",
+          "tip": [
+            "管理模型认证配置文件。"
+          ]
+        },
+        {
+          "name": "fallbacks",
+          "tip": [
+            "管理模型回退列表。"
+          ]
+        },
+        {
+          "name": "image-fallbacks",
+          "tip": [
+            "管理图像模型回退列表。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出模型（默认已配置）。"
+          ]
+        },
+        {
+          "name": "scan",
+          "tip": [
+            "扫描 OpenRouter 免费模型的工具 + 图像。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置默认模型。"
+          ]
+        },
+        {
+          "name": "set-image",
+          "tip": [
+            "设置图像模型。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示已配置的模型状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "tip": [
+        "运行和管理无头节点主机服务。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "安装节点主机服务。"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "重启节点主机服务。"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "运行无头节点主机（前台）。"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "启动节点主机服务。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示节点主机状态。"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止节点主机服务。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "卸载节点主机服务。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nodes",
+      "tip": [
+        "管理网关拥有的节点（配对、状态、调用和媒体）。"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "批准待处理的配对请求。"
+          ]
+        },
+        {
+          "name": "camera",
+          "tip": [
+            "从配对的节点捕获相机媒体。"
+          ]
+        },
+        {
+          "name": "canvas",
+          "tip": [
+            "从配对的节点捕获或渲染画布内容。"
+          ]
+        },
+        {
+          "name": "describe",
+          "tip": [
+            "描述节点（功能 + 支持的调用命令）。"
+          ]
+        },
+        {
+          "name": "invoke",
+          "tip": [
+            "在配对的节点上调用命令。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出待处理和已配对的节点。"
+          ]
+        },
+        {
+          "name": "location",
+          "tip": [
+            "从配对的节点获取位置。"
+          ]
+        },
+        {
+          "name": "notify",
+          "tip": [
+            "在节点上发送本地通知（仅 Mac）。"
+          ]
+        },
+        {
+          "name": "pending",
+          "tip": [
+            "列出待处理的配对请求。"
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "向 iOS 节点发送 APNs 测试推送。"
+          ]
+        },
+        {
+          "name": "reject",
+          "tip": [
+            "拒绝待处理的配对请求。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "移除已配对的节点条目。"
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "重命名已配对的节点（显示名称覆盖）。"
+          ]
+        },
+        {
+          "name": "screen",
+          "tip": [
+            "从配对的节点捕获屏幕录制。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "列出已知节点的连接状态和功能。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "onboard",
+      "tip": [
+        "引导设置认证、模型、Gateway、工作区、频道和技能。"
+      ]
+    },
+    {
+      "name": "pairing",
+      "tip": [
+        "安全的直接消息配对（批准入站请求）。"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "批准配对代码并允许该发送者。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出待处理的配对请求。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "tip": [
+        "管理 OpenClaw 插件和扩展。"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "生成简单工具插件元数据。"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "在配置中禁用插件。"
+          ]
+        },
+        {
+          "name": "doctor",
+          "tip": [
+            "报告插件加载问题。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "在配置中启用插件。"
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "创建插件项目。"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "检查插件详细信息。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "安装插件或钩子包。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出发现的插件。"
+          ]
+        },
+        {
+          "name": "marketplace",
+          "tip": [
+            "检查 Claude 兼容的插件市场。"
+          ]
+        },
+        {
+          "name": "registry",
+          "tip": [
+            "检查或重建持久化的插件注册表。"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "搜索 ClawHub 插件包。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "卸载插件。"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "更新已安装的插件和跟踪的钩子包。"
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "验证简单工具插件元数据。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "promos",
+      "tip": [
+        "从 ClawHub 发现和领取推广模型优惠。"
+      ],
+      "next": [
+        {
+          "name": "claim",
+          "tip": [
+            "领取促销：设置提供者认证并注册其模型。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出活动促销。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy",
+      "tip": [
+        "运行 OpenClaw 调试代理并检查捕获的流量。"
+      ],
+      "next": [
+        {
+          "name": "blob",
+          "tip": [
+            "通过 ID 读取捕获的有效负载 blob。"
+          ]
+        },
+        {
+          "name": "coverage",
+          "tip": [
+            "报告当前调试代理传输覆盖率和剩余差距。"
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "删除所有捕获的流量元数据和 blob。"
+          ]
+        },
+        {
+          "name": "query",
+          "tip": [
+            "对捕获的流量运行内置查询预设。"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "运行启用 OpenClaw 调试代理捕获的子命令。"
+          ]
+        },
+        {
+          "name": "sessions",
+          "tip": [
+            "列出最近的捕获会话。"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "启动本地显式调试代理。"
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "验证操作员管理的网络代理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "qr",
+      "tip": [
+        "生成移动配对二维码和设置代码。"
+      ]
+    },
+    {
+      "name": "reset",
+      "tip": [
+        "重置本地配置/状态（保留 CLI）。"
+      ]
+    },
+    {
+      "name": "sandbox",
+      "tip": [
+        "管理沙箱容器（基于 Docker 的代理隔离）。"
+      ],
+      "next": [
+        {
+          "name": "explain",
+          "tip": [
+            "解释会话/代理的有效沙箱/工具策略。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出沙箱容器及其状态。"
+          ]
+        },
+        {
+          "name": "recreate",
+          "tip": [
+            "删除容器以强制使用更新的配置重新创建。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "secrets",
+      "tip": [
+        "密钥运行时控制。"
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "应用先前生成的密钥计划。"
+          ]
+        },
+        {
+          "name": "audit",
+          "tip": [
+            "审计明文密钥、未解析的引用和优先级偏差。"
+          ]
+        },
+        {
+          "name": "configure",
+          "tip": [
+            "交互式密钥助手（提供者设置 + SecretRef 映射 + 预检）。"
+          ]
+        },
+        {
+          "name": "reload",
+          "tip": [
+            "重新解析密钥引用并原子交换运行时快照。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "security",
+      "tip": [
+        "审计本地配置和状态中常见的安全隐患。"
+      ],
+      "next": [
+        {
+          "name": "audit",
+          "tip": [
+            "审计配置 + 本地状态中常见的安全隐患。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sessions",
+      "tip": [
+        "列出存储的对话会话。"
+      ],
+      "option": [
+        {
+          "name": "--active",
+          "tip": [
+            "U: --active <minutes>",
+            "仅显示过去 N 分钟内更新的会话。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <id>",
+            "要检查的代理 ID。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all-agents",
+          "tip": [
+            "聚合所有已配置代理的会话。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出为 JSON。"
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <count>",
+            "最大显示会话数（默认：100；使用 \"all\" 获取完整输出）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--store",
+          "tip": [
+            "U: --store <path>",
+            "会话存储路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "详细日志。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "cleanup",
+          "tip": [
+            "立即运行会话存储维护。"
+          ]
+        },
+        {
+          "name": "compact",
+          "tip": [
+            "通过运行的网关压缩存储的会话转录。"
+          ]
+        },
+        {
+          "name": "export-trajectory",
+          "tip": [
+            "导出已存储会话的编辑轨迹包。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出存储的对话会话。"
+          ]
+        },
+        {
+          "name": "tail",
+          "tip": [
+            "尾随人类可读的会话轨迹进度。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "openclaw onboard 的别名。"
+      ]
+    },
+    {
+      "name": "skills",
+      "tip": [
+        "列出和检查可用技能。"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <id>",
+            "目标代理工作区。"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "检查哪些技能已就绪、可见或缺少要求。"
+          ]
+        },
+        {
+          "name": "curator",
+          "tip": [
+            "检查和管理技能生命周期管理。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "显示技能的详细信息。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "从 ClawHub、git 或本地目录安装技能。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有可用技能。"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "搜索 ClawHub 技能。"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "更新 ClawHub 安装的技能。"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "通过 ClawHub 验证 ClawHub 技能。"
+          ]
+        },
+        {
+          "name": "workshop",
+          "tip": [
+            "管理待处理的技能提案。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "显示频道健康状况和最近的会话接收者。"
+      ]
+    },
+    {
+      "name": "system",
+      "tip": [
+        "系统工具（事件、心跳、在线状态）。"
+      ],
+      "next": [
+        {
+          "name": "event",
+          "tip": [
+            "入队系统事件并可选地触发心跳。"
+          ]
+        },
+        {
+          "name": "heartbeat",
+          "tip": [
+            "心跳控制。"
+          ]
+        },
+        {
+          "name": "presence",
+          "tip": [
+            "列出系统在线状态条目。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tasks",
+      "tip": [
+        "检查持久后台任务和 TaskFlow 状态。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出为 JSON。"
+          ]
+        },
+        {
+          "name": "--runtime",
+          "tip": [
+            "U: --runtime <name>",
+            "按类型过滤。"
+          ],
+          "next": [
+            {
+              "name": "acp",
+              "tip": [
+                "ACP 运行时"
+              ]
+            },
+            {
+              "name": "cli",
+              "tip": [
+                "CLI 运行时"
+              ]
+            },
+            {
+              "name": "cron",
+              "tip": [
+                "定时运行时"
+              ]
+            },
+            {
+              "name": "subagent",
+              "tip": [
+                "子代理运行时"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--status",
+          "tip": [
+            "U: --status <name>",
+            "按状态过滤。"
+          ],
+          "next": [
+            {
+              "name": "cancelled",
+              "tip": [
+                "已取消状态"
+              ]
+            },
+            {
+              "name": "failed",
+              "tip": [
+                "失败状态"
+              ]
+            },
+            {
+              "name": "lost",
+              "tip": [
+                "丢失状态"
+              ]
+            },
+            {
+              "name": "queued",
+              "tip": [
+                "排队状态"
+              ]
+            },
+            {
+              "name": "running",
+              "tip": [
+                "运行中状态"
+              ]
+            },
+            {
+              "name": "succeeded",
+              "tip": [
+                "成功状态"
+              ]
+            },
+            {
+              "name": "timed_out",
+              "tip": [
+                "超时状态"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "audit",
+          "tip": [
+            "显示过期或损坏的后台任务和 TaskFlow。"
+          ]
+        },
+        {
+          "name": "cancel",
+          "tip": [
+            "取消正在运行的后台任务。"
+          ]
+        },
+        {
+          "name": "flow",
+          "tip": [
+            "检查任务下的持久 TaskFlow 状态。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出跟踪的后台任务。"
+          ]
+        },
+        {
+          "name": "maintenance",
+          "tip": [
+            "预览或应用任务和 TaskFlow 维护。"
+          ]
+        },
+        {
+          "name": "notify",
+          "tip": [
+            "设置任务通知策略。"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "通过任务 ID、运行 ID 或会话键显示一个后台任务。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "terminal",
+      "tip": [
+        "打开本地终端 UI（tui --local 的别名）。"
+      ]
+    },
+    {
+      "name": "transcripts",
+      "tip": [
+        "检查存储的转录。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出存储的转录会话。"
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "打印存储的转录工件路径。"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "打印转录摘要 markdown 文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tui",
+      "tip": [
+        "打开连接到 Gateway 的终端 UI。"
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "卸载网关服务 + 本地数据（保留 CLI）。"
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "更新 OpenClaw 并检查更新频道状态。"
+      ],
+      "option": [
+        {
+          "name": "--acknowledge-clawhub-risk",
+          "tip": [
+            "在更新后插件同步期间确认 ClawHub 发布信任警告。"
+          ]
+        },
+        {
+          "name": "--channel",
+          "tip": [
+            "U: --channel <channel>",
+            "持久化更新频道（git + npm）。"
+          ],
+          "next": [
+            {
+              "name": "beta",
+              "tip": [
+                "测试频道"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "开发频道"
+              ]
+            },
+            {
+              "name": "extended-stable",
+              "tip": [
+                "扩展稳定频道"
+              ]
+            },
+            {
+              "name": "stable",
+              "tip": [
+                "稳定频道"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "预览更新操作而不进行更改。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出结果。"
+          ]
+        },
+        {
+          "name": "--no-restart",
+          "tip": [
+            "成功更新后跳过重启网关服务。"
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <dist-tag|version|spec>",
+            "覆盖此更新的包目标。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <seconds>",
+            "每个更新步骤的超时时间（秒，默认：1800）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "tip": [
+            "跳过确认提示（非交互式）。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "repair",
+          "tip": [
+            "修复更新后的 doctor 和插件收敛。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示更新频道和版本状态。"
+          ]
+        },
+        {
+          "name": "wizard",
+          "tip": [
+            "交互式更新向导。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "webhooks",
+      "tip": [
+        "Webhook 助手和集成。"
+      ],
+      "next": [
+        {
+          "name": "gmail",
+          "tip": [
+            "Gmail Pub/Sub 钩子（通过 gogcli）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "worktrees",
+      "tip": [
+        "创建、检查、恢复和清理托管的工作树。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建托管工作树。"
+          ]
+        },
+        {
+          "name": "gc",
+          "tip": [
+            "立即运行托管工作树清理。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出活动和可恢复的托管工作树。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "快照并移除托管工作树。"
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "从快照恢复托管工作树。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--container",
+      "tip": [
+        "U: --container <name>",
+        "在名为 <name> 的运行中的 Podman/Docker 容器内运行 CLI。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dev",
+      "tip": [
+        "开发配置文件：在 ~/.openclaw-dev 下隔离状态，默认网关端口 19001，并移动派生端口。"
+      ]
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <level>",
+        "文件 + 控制台的全局日志级别覆盖。"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "调试消息"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "错误消息"
+          ]
+        },
+        {
+          "name": "fatal",
+          "tip": [
+            "仅致命错误"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息消息"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "静默日志"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "跟踪消息"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告消息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "禁用 ANSI 颜色。"
+      ]
+    },
+    {
+      "name": "--profile",
+      "tip": [
+        "U: --profile <name>",
+        "使用命名配置文件（在 ~/.openclaw-<name> 下隔离 OPENCLAW_STATE_DIR/OPENCLAW_CONFIG_PATH）。"
+      ],
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示命令帮助。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "输出版本号。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,617 @@
+{
+  "meta": {
+    "url": "https://github.com/ducaale/xh",
+    "description": [
+      "一个友好且快速的 HTTP 请求发送工具。",
+      "用 Rust 编写的 HTTPie 替代品。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "tip": [
+        "跟踪重定向时显示中间请求/响应。"
+      ]
+    },
+    {
+      "name": "--auth",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --auth <USER[:PASS]|TOKEN>",
+        "使用 USER 和 PASS 或 TOKEN 进行身份验证。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--auth-type",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --auth-type <TYPE>",
+        "指定身份验证机制。"
+      ],
+      "next": [
+        {
+          "name": "basic",
+          "tip": [
+            "基本身份验证。"
+          ]
+        },
+        {
+          "name": "bearer",
+          "tip": [
+            "Bearer 令牌。"
+          ]
+        },
+        {
+          "name": "digest",
+          "tip": [
+            "摘要身份验证。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--body",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --body",
+        "仅打印响应正文。"
+      ]
+    },
+    {
+      "name": "--cert",
+      "tip": [
+        "U: --cert <FILE>",
+        "使用客户端 SSL 证书。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cert-key",
+      "tip": [
+        "U: --cert-key <FILE>",
+        "与 --cert 一起使用的私钥文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-status",
+      "tip": [
+        "如果服务器返回错误，则以错误状态码退出。"
+      ]
+    },
+    {
+      "name": "--compress",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --compress",
+        "使用 Deflate 算法压缩内容。"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "恢复中断的下载。"
+      ]
+    },
+    {
+      "name": "--curl",
+      "tip": [
+        "打印转换为 curl 命令的输出。"
+      ]
+    },
+    {
+      "name": "--curl-long",
+      "tip": [
+        "使用 curl 标志的长格式。"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "打印完整的错误堆栈跟踪和调试日志消息。"
+      ]
+    },
+    {
+      "name": "--download",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --download",
+        "将正文下载到文件。"
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --follow",
+        "跟踪重定向。"
+      ]
+    },
+    {
+      "name": "--form",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --form",
+        "将数据项序列化为表单字段。"
+      ]
+    },
+    {
+      "name": "--format-options",
+      "tip": [
+        "U: --format-options <OPTIONS>",
+        "设置输出格式选项。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--generate",
+      "tip": [
+        "U: --generate <KIND>",
+        "生成 Shell 补全或手册页。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash 补全。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish 补全。"
+          ]
+        },
+        {
+          "name": "man",
+          "tip": [
+            "手册页。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell 补全。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh 补全。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--headers",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --headers",
+        "仅打印响应头。"
+      ]
+    },
+    {
+      "name": "--help",
+      "tip": [
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--history-print",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --history-print <FORMAT>",
+        "与 --print 相同，但仅适用于中间请求。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-version",
+      "tip": [
+        "U: --http-version <VERSION>",
+        "要使用的 HTTP 版本。"
+      ],
+      "next": [
+        {
+          "name": "1.0",
+          "tip": [
+            "HTTP 1.0 "
+          ]
+        },
+        {
+          "name": "1.1",
+          "tip": [
+            "HTTP 1.1 "
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "HTTP/2 "
+          ]
+        },
+        {
+          "name": "2-prior-knowledge",
+          "tip": [
+            "HTTP/2 先验知识。"
+          ]
+        },
+        {
+          "name": "3-prior-knowledge",
+          "tip": [
+            "HTTP/3 先验知识。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--https",
+      "tip": [
+        "如果 URL 中未指定，则使用 HTTPS 请求。"
+      ]
+    },
+    {
+      "name": "--ignore-netrc",
+      "tip": [
+        "不使用 .netrc 中的凭据。"
+      ]
+    },
+    {
+      "name": "--ignore-stdin",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --ignore-stdin",
+        "不尝试读取 stdin。"
+      ]
+    },
+    {
+      "name": "--interface",
+      "tip": [
+        "U: --interface <NAME>",
+        "绑定到网络接口或本地 IP 地址。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ipv4",
+      "alias": [
+        "-4"
+      ],
+      "tip": [
+        "U: -4, --ipv4",
+        "将主机名仅解析为 IPv4 地址。"
+      ]
+    },
+    {
+      "name": "--ipv6",
+      "alias": [
+        "-6"
+      ],
+      "tip": [
+        "U: -6, --ipv6",
+        "将主机名仅解析为 IPv6 地址。"
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --json",
+        "将数据项序列化为 JSON 对象（默认）。"
+      ]
+    },
+    {
+      "name": "--max-redirects",
+      "tip": [
+        "U: --max-redirects <NUM>",
+        "跟踪的重定向次数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--meta",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --meta",
+        "仅打印响应元数据。"
+      ]
+    },
+    {
+      "name": "--multipart",
+      "tip": [
+        "即使没有文件也强制使用 multipart/form-data 请求。"
+      ]
+    },
+    {
+      "name": "--native-tls",
+      "tip": [
+        "使用系统 TLS 库而不是 rustls。"
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "构造 HTTP 请求但不发送。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output <FILE>",
+        "将输出保存到文件而不是 stdout。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pretty",
+      "tip": [
+        "U: --pretty <STYLE>",
+        "控制输出处理。"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "所有格式化（默认）。"
+          ]
+        },
+        {
+          "name": "colors",
+          "tip": [
+            "仅颜色。"
+          ]
+        },
+        {
+          "name": "format",
+          "tip": [
+            "仅格式化。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "无格式化。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --print <FORMAT>",
+        "指定输出应包含内容的字符串。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--proxy",
+      "tip": [
+        "U: --proxy <PROTOCOL:URL>",
+        "为指定协议使用代理。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "不打印到 stdout 或 stderr。"
+      ]
+    },
+    {
+      "name": "--raw",
+      "tip": [
+        "U: --raw <RAW>",
+        "传递原始请求数据而不进行额外处理。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--resolve",
+      "tip": [
+        "U: --resolve <HOST:ADDRESS>",
+        "覆盖特定域名的 DNS 解析。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--response-charset",
+      "tip": [
+        "U: --response-charset <ENCODING>",
+        "覆盖响应编码。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--response-mime",
+      "tip": [
+        "U: --response-mime <MIME>",
+        "覆盖响应 MIME 类型。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session",
+      "tip": [
+        "U: --session <FILE>",
+        "创建或复用会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session-read-only",
+      "tip": [
+        "U: --session-read-only <FILE>",
+        "创建或读取会话而不更新它。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ssl",
+      "tip": [
+        "U: --ssl <VERSION>",
+        "强制使用特定的 TLS 版本。"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）。"
+          ]
+        },
+        {
+          "name": "tls1",
+          "tip": [
+            "TLS 1.0 "
+          ]
+        },
+        {
+          "name": "tls1.1",
+          "tip": [
+            "TLS 1.1 "
+          ]
+        },
+        {
+          "name": "tls1.2",
+          "tip": [
+            "TLS 1.2 "
+          ]
+        },
+        {
+          "name": "tls1.3",
+          "tip": [
+            "TLS 1.3 "
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--stream",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --stream",
+        "始终流式传输响应正文。"
+      ]
+    },
+    {
+      "name": "--style",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --style <THEME>",
+        "输出着色样式。"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）。"
+          ]
+        },
+        {
+          "name": "fruity",
+          "tip": [
+            "Fruity 主题。"
+          ]
+        },
+        {
+          "name": "monokai",
+          "tip": [
+            "Monokai 主题。"
+          ]
+        },
+        {
+          "name": "solarized",
+          "tip": [
+            "Solarized 主题。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timeout",
+      "tip": [
+        "U: --timeout <SEC>",
+        "请求的连接超时时间。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unix-socket",
+      "tip": [
+        "U: --unix-socket <FILE>",
+        "使用 Unix 域套接字连接。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "打印完整的请求和响应。"
+      ]
+    },
+    {
+      "name": "--verify",
+      "tip": [
+        "U: --verify <VERIFY>",
+        "SSL 验证（no 跳过，或 CA 包路径）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "显示版本号。"
+      ]
+    }
+  ]
+}

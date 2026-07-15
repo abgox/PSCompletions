@@ -1,0 +1,545 @@
+{
+  "meta": {
+    "url": "https://github.com/watchexec/watchexec",
+    "description": [
+      "在监视的文件更改时执行命令",
+      "递归监视更改并运行命令"
+    ]
+  },
+  "option": [
+    {
+      "name": "--bell",
+      "tip": [
+        "命令完成时响终端铃声"
+      ]
+    },
+    {
+      "name": "--clear",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --clear",
+        "运行命令前清屏"
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <MODE>",
+        "何时使用终端颜色"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终使用颜色"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不使用颜色"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--completions",
+      "tip": [
+        "U: --completions <SHELL>",
+        "生成 shell 补全脚本"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash 补全 "
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Elvish 补全 "
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish 补全 "
+          ]
+        },
+        {
+          "name": "nu",
+          "tip": [
+            "Nushell 补全 "
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell 补全 "
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh 补全 "
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debounce",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debounce <TIMEOUT>",
+        "在采取操作前等待新事件的时间"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--delay-run",
+      "tip": [
+        "U: --delay-run <DURATION>",
+        "运行命令前休眠"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--emit-events-to",
+      "tip": [
+        "U: --emit-events-to <MODE>",
+        "配置事件发送方式"
+      ],
+      "next": [
+        {
+          "name": "file",
+          "tip": [
+            "发送到文件"
+          ]
+        },
+        {
+          "name": "json-file",
+          "tip": [
+            "以 JSON 格式发送到文件"
+          ]
+        },
+        {
+          "name": "json-stdio",
+          "tip": [
+            "以 JSON 格式发送到标准输入输出"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "不发送事件（默认）"
+          ]
+        },
+        {
+          "name": "stdio",
+          "tip": [
+            "发送到标准输入输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--env",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --env <KEY=VALUE>",
+        "为命令添加环境变量"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--exit-on-error",
+      "tip": [
+        "命令出错时退出"
+      ]
+    },
+    {
+      "name": "--exts",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --exts <EXTENSIONS>",
+        "要过滤的文件扩展名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --filter <PATTERN>",
+        "要过滤的文件名模式"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--filter-prog",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --filter-prog <EXPRESSION>",
+        "使用 jaq 语法过滤程序"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fs-events",
+      "tip": [
+        "U: --fs-events <EVENTS>",
+        "要过滤的文件系统事件"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助"
+      ]
+    },
+    {
+      "name": "--ignore",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --ignore <PATTERN>",
+        "要排除的文件名模式"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--ignore-nothing",
+      "tip": [
+        "不排除任何内容"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --interactive",
+        "响应按键操作以退出、重启或暂停"
+      ]
+    },
+    {
+      "name": "--log-file",
+      "tip": [
+        "U: --log-file [<PATH>]",
+        "将诊断日志写入文件"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--map-signal",
+      "tip": [
+        "U: --map-signal <SIGNAL:SIGNAL>",
+        "将操作系统信号转换为命令信号"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--no-default-ignore",
+      "tip": [
+        "不使用内部默认忽略规则"
+      ]
+    },
+    {
+      "name": "--no-project-ignore",
+      "tip": [
+        "不加载项目本地忽略规则"
+      ]
+    },
+    {
+      "name": "--no-vcs-ignore",
+      "tip": [
+        "不加载 gitignore"
+      ]
+    },
+    {
+      "name": "--notify",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --notify",
+        "命令开始和结束时发出提醒"
+      ]
+    },
+    {
+      "name": "--on-busy-update",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --on-busy-update <MODE>",
+        "命令运行时收到事件时的操作"
+      ],
+      "next": [
+        {
+          "name": "do-nothing",
+          "tip": [
+            "运行期间忽略事件（默认）"
+          ]
+        },
+        {
+          "name": "queue",
+          "tip": [
+            "当前运行结束后再次运行"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "终止并重启"
+          ]
+        },
+        {
+          "name": "signal",
+          "tip": [
+            "发送信号"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--only-emit-events",
+      "tip": [
+        "仅将事件发送到标准输出，不运行任何命令"
+      ]
+    },
+    {
+      "name": "--poll",
+      "tip": [
+        "U: --poll [<INTERVAL>]",
+        "轮询文件系统更改"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--postpone",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --postpone",
+        "等待首次更改后再运行命令"
+      ]
+    },
+    {
+      "name": "--print-events",
+      "tip": [
+        "打印触发操作的事件"
+      ]
+    },
+    {
+      "name": "--project-origin",
+      "tip": [
+        "U: --project-origin <DIR>",
+        "设置项目源"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "不打印启动和停止消息"
+      ]
+    },
+    {
+      "name": "--restart",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --restart",
+        "如果进程仍在运行则重启"
+      ]
+    },
+    {
+      "name": "--shell",
+      "tip": [
+        "U: --shell <SHELL>",
+        "使用不同的 shell"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--signal",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --signal <SIGNAL>",
+        "进程仍在运行时发送信号"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stdin-quit",
+      "tip": [
+        "标准输入关闭时退出"
+      ]
+    },
+    {
+      "name": "--stop-signal",
+      "tip": [
+        "U: --stop-signal <SIGNAL>",
+        "停止命令时发送的信号"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stop-timeout",
+      "tip": [
+        "U: --stop-timeout <TIMEOUT>",
+        "等待命令正常退出的时间"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timeout",
+      "tip": [
+        "U: --timeout <TIMEOUT>",
+        "如果命令运行超过此时长则终止"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timings",
+      "tip": [
+        "打印命令运行所花费的时间"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "设置诊断日志级别"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本"
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --watch <PATH>",
+        "监视特定文件或目录"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--watch-file",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --watch-file <PATH>",
+        "从文件中监视文件和目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--watch-non-recursive",
+      "alias": [
+        "-W"
+      ],
+      "tip": [
+        "U: -W, --watch-non-recursive <PATH>",
+        "监视特定目录，不递归"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--workdir",
+      "tip": [
+        "U: --workdir <DIR>",
+        "设置工作目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap-process",
+      "tip": [
+        "U: --wrap-process <MODE>",
+        "配置进程的包装方式"
+      ],
+      "next": [
+        {
+          "name": "group",
+          "tip": [
+            "使用进程组（默认）"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "直接运行命令"
+          ]
+        },
+        {
+          "name": "session",
+          "tip": [
+            "使用进程会话"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-n",
+      "tip": [
+        "--shell=none 的简写"
+      ]
+    }
+  ]
+}

@@ -28,11 +28,11 @@ function handleCompletions($completions) {
         throw $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.warning.config)
     }
     $global_path = $env:SCOOP_GLOBAL, $config.global_path | Select-Object -First 1
-    $apps_dir = "$root_path\apps", "$global_path\apps" | Where-Object { Test-Path $_ }
+    $apps_dir = "$root_path\apps", "$global_path\apps" | Where-Object { Test-Path -LiteralPath $_ }
     $buckets_dir = "$root_path\buckets"
 
     $config_path = "$root_path\config.json"
-    if (Test-Path $config_path) {
+    if (Test-Path -LiteralPath $config_path) {
         $PSCompletions._scoop_config_path = $config_path
     }
     else {
@@ -57,7 +57,7 @@ function handleCompletions($completions) {
 
             $PSCompletions.temp_scoop_installed_apps = $apps_dir | ForEach-Object { Get-ChildItem $_ | ForEach-Object { $_.BaseName } }
 
-            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets -split '\|'
+            $exclude_buckets = $PSCompletions.config.completion.scoop.exclude_buckets -split '\|'
             $dir = Get-ChildItem $buckets_dir | ForEach-Object {
                 if ($_.Name -in $exclude_buckets) {
                     return
@@ -73,10 +73,11 @@ function handleCompletions($completions) {
                     $tokens_text = $PSCompletions.tokens.text
                     foreach ($item in $items) {
                         Get-ChildItem $item.path -Recurse -File -Filter *.json | ForEach-Object {
-                            if ($_.BaseName -eq 'scoop' -or $_.BaseName -in $PSCompletions.temp_scoop_installed_apps -or ($PSCompletions.pending.text -and $_.BaseName -notlike "$($PSCompletions.pending.text)*")) { return }
+                            if ($_.BaseName -eq 'scoop' -or $_.BaseName -in $PSCompletions.temp_scoop_installed_apps) { return }
                             $app = "$($item.bucket)/$($_.BaseName)"
                             if ($app -in $tokens_text) { return }
-                            if ($PSCompletions.config.comp_config[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
+                            if ($PSCompletions.pending.text -and ($_.BaseName -notlike "$($PSCompletions.pending.text)*" -and $app -notlike "$($PSCompletions.pending.text)*")) { return }
+                            if ($PSCompletions.config.completion[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
                                 $tip = ''
                             }
                             else {
@@ -113,7 +114,7 @@ if (`$c.description) {
                     param($results)
                     return $results
                 })
-            if ($_) { $list.AddRange($_) }
+            if ($_) { $list.AddRange(@($_)) }
 
             <#
             使用 Scoop内部实现的 use_sqlite_cache 功能，查询数据库
@@ -205,7 +206,7 @@ if (`$c.description) {
             }
         }
         { $_ -in 'home', 'info', 'cat', 'reset', 'download', 'virustotal' } {
-            $exclude_buckets = $PSCompletions.config.comp_config.scoop.exclude_buckets -split '\|'
+            $exclude_buckets = $PSCompletions.config.completion.scoop.exclude_buckets -split '\|'
             $dir = Get-ChildItem $buckets_dir | ForEach-Object {
                 if ($_.Name -in $exclude_buckets) {
                     return
@@ -221,10 +222,11 @@ if (`$c.description) {
                     $tokens_text = $PSCompletions.tokens.text
                     foreach ($item in $items) {
                         Get-ChildItem $item.path -Recurse -File -Filter *.json | ForEach-Object {
-                            if ($_.BaseName -eq 'scoop' -or ($PSCompletions.pending.text -and $_.BaseName -notlike "$($PSCompletions.pending.text)*")) { return }
+                            if ($_.BaseName -eq 'scoop') { return }
                             $app = "$($item.bucket)/$($_.BaseName)"
                             if ($app -in $tokens_text) { return }
-                            if ($PSCompletions.config.comp_config[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
+                            if ($PSCompletions.pending.text -and ($_.BaseName -notlike "$($PSCompletions.pending.text)*" -and $app -notlike "$($PSCompletions.pending.text)*")) { return }
+                            if ($PSCompletions.config.completion[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
                                 $tip = ''
                             }
                             else {
@@ -261,7 +263,7 @@ if (`$c.description) {
                     param($results)
                     return $results
                 })
-            if ($_) { $list.AddRange($_) }
+            if ($_) { $list.AddRange(@($_)) }
         }
         'cleanup' {
             foreach ($_ in $apps_dir) {

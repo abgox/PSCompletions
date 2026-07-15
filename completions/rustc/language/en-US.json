@@ -1,0 +1,672 @@
+{
+  "meta": {
+    "url": "https://doc.rust-lang.org/rustc",
+    "description": [
+      "The Rust compiler"
+    ]
+  },
+  "option": [
+    {
+      "name": "--allow",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --allow <LINT>",
+        "Set lint allowed."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cap-lints",
+      "tip": [
+        "U: --cap-lints <LEVEL>",
+        "Set the most restrictive lint level.",
+        "More restrictive lints are capped at this level."
+      ],
+      "next": [
+        {
+          "name": "allow",
+          "tip": [
+            "Cap at allow level"
+          ]
+        },
+        {
+          "name": "deny",
+          "tip": [
+            "Cap at deny level"
+          ]
+        },
+        {
+          "name": "forbid",
+          "tip": [
+            "Cap at forbid level"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Cap at warn level"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cfg",
+      "tip": [
+        "U: --cfg <SPEC>",
+        "Configure the compilation environment.",
+        "SPEC supports the syntax `<NAME>=[\"<VALUE>\"]`."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-cfg",
+      "tip": [
+        "U: --check-cfg <SPEC>",
+        "Provide list of expected cfgs for checking."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--codegen",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --codegen <OPT>[=<VALUE>]",
+        "Set a codegen option.",
+        "Use -C help to list available options."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <WHEN>",
+        "Configure coloring of output."
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always colorize output"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Colorize if output goes to a tty (default)"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never colorize output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--crate-name",
+      "tip": [
+        "U: --crate-name <NAME>",
+        "Specify the name of the crate being built."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--crate-type",
+      "tip": [
+        "U: --crate-type <TYPE>",
+        "Comma separated list of types of crates for the compiler to emit."
+      ],
+      "next": [
+        {
+          "name": "bin",
+          "tip": [
+            "Binary executable"
+          ]
+        },
+        {
+          "name": "cdylib",
+          "tip": [
+            "C-compatible dynamic library"
+          ]
+        },
+        {
+          "name": "dylib",
+          "tip": [
+            "Rust dynamic library"
+          ]
+        },
+        {
+          "name": "lib",
+          "tip": [
+            "Rust library"
+          ]
+        },
+        {
+          "name": "proc-macro",
+          "tip": [
+            "Procedural macro"
+          ]
+        },
+        {
+          "name": "rlib",
+          "tip": [
+            "Rust static library"
+          ]
+        },
+        {
+          "name": "staticlib",
+          "tip": [
+            "C-compatible static library"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--deny",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --deny <LINT>",
+        "Set lint denied."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--diagnostic-width",
+      "tip": [
+        "U: --diagnostic-width <WIDTH>",
+        "Inform rustc of the width of the output so that diagnostics can be truncated to fit."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--edition",
+      "tip": [
+        "U: --edition <EDITION>",
+        "Specify which edition of the compiler to use when compiling code.",
+        "The default is 2015 and the latest stable edition is 2024."
+      ],
+      "next": [
+        {
+          "name": "2015",
+          "tip": [
+            "Rust 2015 edition"
+          ]
+        },
+        {
+          "name": "2018",
+          "tip": [
+            "Rust 2018 edition"
+          ]
+        },
+        {
+          "name": "2021",
+          "tip": [
+            "Rust 2021 edition"
+          ]
+        },
+        {
+          "name": "2024",
+          "tip": [
+            "Rust 2024 edition"
+          ]
+        },
+        {
+          "name": "future",
+          "tip": [
+            "Future/unstable edition"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--emit",
+      "tip": [
+        "U: --emit <TYPE>[=<FILE>]",
+        "Comma separated list of types of output for the compiler to emit."
+      ],
+      "next": [
+        {
+          "name": "asm",
+          "tip": [
+            "Assembly output (CRATE_NAME.s)"
+          ]
+        },
+        {
+          "name": "dep-info",
+          "tip": [
+            "Dependency info (CRATE_NAME.d)"
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "Linked output (platform dependent)"
+          ]
+        },
+        {
+          "name": "llvm-bc",
+          "tip": [
+            "LLVM bitcode (CRATE_NAME.bc)"
+          ]
+        },
+        {
+          "name": "llvm-ir",
+          "tip": [
+            "LLVM IR (CRATE_NAME.ll)"
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Metadata (libCRATE_NAME.rmeta)"
+          ]
+        },
+        {
+          "name": "mir",
+          "tip": [
+            "MIR output (CRATE_NAME.mir)"
+          ]
+        },
+        {
+          "name": "obj",
+          "tip": [
+            "Object file (CRATE_NAME.o)"
+          ]
+        },
+        {
+          "name": "thin-link-bitcode",
+          "tip": [
+            "Thin link bitcode (CRATE_NAME.indexing.o)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--error-format",
+      "tip": [
+        "U: --error-format <FORMAT>",
+        "How errors and other messages are produced."
+      ],
+      "next": [
+        {
+          "name": "human",
+          "tip": [
+            "Human readable output"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON output"
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "Short format output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--explain",
+      "tip": [
+        "U: --explain <OPT>",
+        "Provide a detailed explanation of an error message."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extern",
+      "tip": [
+        "U: --extern <NAME>[=<PATH>]",
+        "Specify where an external rust library is located."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--forbid",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --forbid <LINT>",
+        "Set lint forbidden."
+      ]
+    },
+    {
+      "name": "--force-warn",
+      "tip": [
+        "U: --force-warn <LINT>",
+        "Set lint force-warn."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "U: --json <CONFIG>",
+        "Configure the JSON output of the compiler."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--out-dir",
+      "tip": [
+        "U: --out-dir <DIR>",
+        "Write output to compiler-chosen filename in DIR."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--print",
+      "tip": [
+        "U: --print <INFO>[=<FILE>]",
+        "Compiler information to print on stdout (or to a file)."
+      ],
+      "next": [
+        {
+          "name": "all-target-specs-json",
+          "tip": [
+            "Print all target specs as JSON"
+          ]
+        },
+        {
+          "name": "calling-conventions",
+          "tip": [
+            "Print calling conventions"
+          ]
+        },
+        {
+          "name": "cfg",
+          "tip": [
+            "Print active cfgs"
+          ]
+        },
+        {
+          "name": "check-cfg",
+          "tip": [
+            "Print check-cfgs"
+          ]
+        },
+        {
+          "name": "code-models",
+          "tip": [
+            "Print code models"
+          ]
+        },
+        {
+          "name": "crate-name",
+          "tip": [
+            "Print crate name"
+          ]
+        },
+        {
+          "name": "crate-root-lint-levels",
+          "tip": [
+            "Print crate root lint levels"
+          ]
+        },
+        {
+          "name": "deployment-target",
+          "tip": [
+            "Print deployment target"
+          ]
+        },
+        {
+          "name": "file-names",
+          "tip": [
+            "Print file names"
+          ]
+        },
+        {
+          "name": "host-tuple",
+          "tip": [
+            "Print host tuple"
+          ]
+        },
+        {
+          "name": "link-args",
+          "tip": [
+            "Print link arguments"
+          ]
+        },
+        {
+          "name": "native-static-libs",
+          "tip": [
+            "Print native static libraries"
+          ]
+        },
+        {
+          "name": "relocation-models",
+          "tip": [
+            "Print relocation models"
+          ]
+        },
+        {
+          "name": "split-debuginfo",
+          "tip": [
+            "Print split debuginfo modes"
+          ]
+        },
+        {
+          "name": "stack-protector-strategies",
+          "tip": [
+            "Print stack protector strategies"
+          ]
+        },
+        {
+          "name": "supported-crate-types",
+          "tip": [
+            "Print supported crate types"
+          ]
+        },
+        {
+          "name": "sysroot",
+          "tip": [
+            "Print sysroot"
+          ]
+        },
+        {
+          "name": "target-cpus",
+          "tip": [
+            "Print target CPUs"
+          ]
+        },
+        {
+          "name": "target-features",
+          "tip": [
+            "Print target features"
+          ]
+        },
+        {
+          "name": "target-libdir",
+          "tip": [
+            "Print target lib directory"
+          ]
+        },
+        {
+          "name": "target-list",
+          "tip": [
+            "Print available targets"
+          ]
+        },
+        {
+          "name": "target-spec-json",
+          "tip": [
+            "Print target spec as JSON"
+          ]
+        },
+        {
+          "name": "tls-models",
+          "tip": [
+            "Print TLS models"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--remap-path-prefix",
+      "tip": [
+        "U: --remap-path-prefix <FROM>=<TO>",
+        "Remap source names in all output (compiler messages and output files)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remap-path-scope",
+      "tip": [
+        "U: --remap-path-scope <SCOPE>",
+        "Defines which scopes of paths should be remapped by `--remap-path-prefix`."
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Remap all paths"
+          ]
+        },
+        {
+          "name": "coverage",
+          "tip": [
+            "Remap coverage paths"
+          ]
+        },
+        {
+          "name": "debuginfo",
+          "tip": [
+            "Remap debuginfo paths"
+          ]
+        },
+        {
+          "name": "diagnostics",
+          "tip": [
+            "Remap diagnostic paths"
+          ]
+        },
+        {
+          "name": "macro",
+          "tip": [
+            "Remap macro paths"
+          ]
+        },
+        {
+          "name": "object",
+          "tip": [
+            "Remap object paths"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--sysroot",
+      "tip": [
+        "U: --sysroot <PATH>",
+        "Override the system root."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--target",
+      "tip": [
+        "U: --target <TARGET>",
+        "Target tuple for which the code is compiled."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--test",
+      "tip": [
+        "Build a test harness."
+      ]
+    },
+    {
+      "name": "--warn",
+      "alias": [
+        "-W"
+      ],
+      "tip": [
+        "U: -W, --warn <LINT>",
+        "Set lint warnings."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "Equivalent to -C debuginfo=2."
+      ]
+    },
+    {
+      "name": "-l",
+      "tip": [
+        "U: -l [<KIND>[:<MODIFIERS>]=]<NAME>[:<RENAME>]",
+        "Link the generated crate(s) to the specified native library NAME.",
+        "KIND can be: static, framework, or dylib (default)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-L",
+      "tip": [
+        "U: -L [<KIND>=]<PATH>",
+        "Add a directory to the library search path.",
+        "KIND can be: dependency, crate, native, framework, or all (default)."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "U: -o <FILENAME>",
+        "Write output to FILENAME."
+      ],
+      "next": 0
+    },
+    {
+      "name": "-O",
+      "tip": [
+        "Equivalent to -C opt-level=3."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Display this message."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Use verbose output."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version info and exit."
+      ]
+    }
+  ]
+}

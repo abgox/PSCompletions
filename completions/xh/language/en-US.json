@@ -1,0 +1,617 @@
+{
+  "meta": {
+    "url": "https://github.com/ducaale/xh",
+    "description": [
+      "A friendly and fast tool for sending HTTP requests",
+      "HTTPie alternative written in Rust"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "tip": [
+        "Show intermediary requests/responses while following redirects"
+      ]
+    },
+    {
+      "name": "--auth",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --auth <USER[:PASS]|TOKEN>",
+        "Authenticate as USER with PASS or with TOKEN"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--auth-type",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --auth-type <TYPE>",
+        "Specify the auth mechanism"
+      ],
+      "next": [
+        {
+          "name": "basic",
+          "tip": [
+            "Basic authentication"
+          ]
+        },
+        {
+          "name": "bearer",
+          "tip": [
+            "Bearer token"
+          ]
+        },
+        {
+          "name": "digest",
+          "tip": [
+            "Digest authentication"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--body",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --body",
+        "Print only the response body"
+      ]
+    },
+    {
+      "name": "--cert",
+      "tip": [
+        "U: --cert <FILE>",
+        "Use a client side certificate for SSL"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cert-key",
+      "tip": [
+        "U: --cert-key <FILE>",
+        "A private key file to use with --cert"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-status",
+      "tip": [
+        "Exit with error status code if server replies with error"
+      ]
+    },
+    {
+      "name": "--compress",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --compress",
+        "Content compressed with Deflate algorithm"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "Resume an interrupted download"
+      ]
+    },
+    {
+      "name": "--curl",
+      "tip": [
+        "Print a translation to a curl command"
+      ]
+    },
+    {
+      "name": "--curl-long",
+      "tip": [
+        "Use the long versions of curl's flags"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "Print full error stack traces and debug log messages"
+      ]
+    },
+    {
+      "name": "--download",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --download",
+        "Download the body to a file"
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --follow",
+        "Follow redirects"
+      ]
+    },
+    {
+      "name": "--form",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --form",
+        "Serialize data items as form fields"
+      ]
+    },
+    {
+      "name": "--format-options",
+      "tip": [
+        "U: --format-options <OPTIONS>",
+        "Set output formatting options"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--generate",
+      "tip": [
+        "U: --generate <KIND>",
+        "Generate shell completions or man pages"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash completion"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish completion"
+          ]
+        },
+        {
+          "name": "man",
+          "tip": [
+            "Man page"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell completion"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh completion"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--headers",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --headers",
+        "Print only the response headers"
+      ]
+    },
+    {
+      "name": "--help",
+      "tip": [
+        "Print help"
+      ]
+    },
+    {
+      "name": "--history-print",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --history-print <FORMAT>",
+        "The same as --print but applies only to intermediary requests"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-version",
+      "tip": [
+        "U: --http-version <VERSION>",
+        "HTTP version to use"
+      ],
+      "next": [
+        {
+          "name": "1.0",
+          "tip": [
+            "HTTP 1.0"
+          ]
+        },
+        {
+          "name": "1.1",
+          "tip": [
+            "HTTP 1.1"
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "HTTP/2"
+          ]
+        },
+        {
+          "name": "2-prior-knowledge",
+          "tip": [
+            "HTTP/2 prior knowledge"
+          ]
+        },
+        {
+          "name": "3-prior-knowledge",
+          "tip": [
+            "HTTP/3 prior knowledge"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--https",
+      "tip": [
+        "Make HTTPS requests if not specified in the URL"
+      ]
+    },
+    {
+      "name": "--ignore-netrc",
+      "tip": [
+        "Do not use credentials from .netrc"
+      ]
+    },
+    {
+      "name": "--ignore-stdin",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --ignore-stdin",
+        "Do not attempt to read stdin"
+      ]
+    },
+    {
+      "name": "--interface",
+      "tip": [
+        "U: --interface <NAME>",
+        "Bind to a network interface or local IP address"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ipv4",
+      "alias": [
+        "-4"
+      ],
+      "tip": [
+        "U: -4, --ipv4",
+        "Resolve hostname to IPv4 addresses only"
+      ]
+    },
+    {
+      "name": "--ipv6",
+      "alias": [
+        "-6"
+      ],
+      "tip": [
+        "U: -6, --ipv6",
+        "Resolve hostname to IPv6 addresses only"
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --json",
+        "Serialize data items as a JSON object (default)"
+      ]
+    },
+    {
+      "name": "--max-redirects",
+      "tip": [
+        "U: --max-redirects <NUM>",
+        "Number of redirects to follow"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--meta",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --meta",
+        "Print only the response metadata"
+      ]
+    },
+    {
+      "name": "--multipart",
+      "tip": [
+        "Force a multipart/form-data request even without files"
+      ]
+    },
+    {
+      "name": "--native-tls",
+      "tip": [
+        "Use the system TLS library instead of rustls"
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "Construct HTTP requests without sending them"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output <FILE>",
+        "Save output to FILE instead of stdout"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pretty",
+      "tip": [
+        "U: --pretty <STYLE>",
+        "Controls output processing"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "All formatting (default)"
+          ]
+        },
+        {
+          "name": "colors",
+          "tip": [
+            "Colors only"
+          ]
+        },
+        {
+          "name": "format",
+          "tip": [
+            "Formatting only"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No formatting"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --print <FORMAT>",
+        "String specifying what the output should contain"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--proxy",
+      "tip": [
+        "U: --proxy <PROTOCOL:URL>",
+        "Use a proxy for a protocol"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Do not print to stdout or stderr"
+      ]
+    },
+    {
+      "name": "--raw",
+      "tip": [
+        "U: --raw <RAW>",
+        "Pass raw request data without extra processing"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--resolve",
+      "tip": [
+        "U: --resolve <HOST:ADDRESS>",
+        "Override DNS resolution for specific domain"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--response-charset",
+      "tip": [
+        "U: --response-charset <ENCODING>",
+        "Override the response encoding"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--response-mime",
+      "tip": [
+        "U: --response-mime <MIME>",
+        "Override the response mime type"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session",
+      "tip": [
+        "U: --session <FILE>",
+        "Create or reuse a session"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session-read-only",
+      "tip": [
+        "U: --session-read-only <FILE>",
+        "Create or read a session without updating it"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ssl",
+      "tip": [
+        "U: --ssl <VERSION>",
+        "Force a particular TLS version"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic (default)"
+          ]
+        },
+        {
+          "name": "tls1",
+          "tip": [
+            "TLS 1.0"
+          ]
+        },
+        {
+          "name": "tls1.1",
+          "tip": [
+            "TLS 1.1"
+          ]
+        },
+        {
+          "name": "tls1.2",
+          "tip": [
+            "TLS 1.2"
+          ]
+        },
+        {
+          "name": "tls1.3",
+          "tip": [
+            "TLS 1.3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--stream",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --stream",
+        "Always stream the response body"
+      ]
+    },
+    {
+      "name": "--style",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --style <THEME>",
+        "Output coloring style"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic (default)"
+          ]
+        },
+        {
+          "name": "fruity",
+          "tip": [
+            "Fruity theme"
+          ]
+        },
+        {
+          "name": "monokai",
+          "tip": [
+            "Monokai theme"
+          ]
+        },
+        {
+          "name": "solarized",
+          "tip": [
+            "Solarized theme"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timeout",
+      "tip": [
+        "U: --timeout <SEC>",
+        "Connection timeout of the request"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--unix-socket",
+      "tip": [
+        "U: --unix-socket <FILE>",
+        "Connect using a Unix domain socket"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Print the whole request as well as the response"
+      ]
+    },
+    {
+      "name": "--verify",
+      "tip": [
+        "U: --verify <VERIFY>",
+        "SSL verification (no to skip, or CA bundle path)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version"
+      ]
+    }
+  ]
+}

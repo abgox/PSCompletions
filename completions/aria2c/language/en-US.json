@@ -1,0 +1,1935 @@
+{
+  "meta": {
+    "url": "https://aria2.github.io",
+    "description": [
+      "Lightweight multi-protocol and multi-source download utility."
+    ]
+  },
+  "option": [
+    {
+      "name": "--all-proxy",
+      "tip": [
+        "U: --all-proxy <PROXY>",
+        "Use a proxy server for all protocols"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--all-proxy-passwd",
+      "tip": [
+        "U: --all-proxy-passwd <PASSWD>",
+        "Set password for --all-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--all-proxy-user",
+      "tip": [
+        "U: --all-proxy-user <USER>",
+        "Set user for --all-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allow-overwrite",
+      "tip": [
+        "Restart download from scratch if the corresponding control file doesn't exist",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--allow-piece-length-change",
+      "tip": [
+        "Allow piece length change when resuming download",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--always-resume",
+      "tip": [
+        "Always resume download. If true, aria2 always tries to resume",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--async-dns",
+      "tip": [
+        "Enable asynchronous DNS",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--async-dns-server",
+      "tip": [
+        "U: --async-dns-server <IPADDRESS>",
+        "Comma separated list of DNS server address used in asynchronous DNS resolver"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--auto-file-renaming",
+      "tip": [
+        "Rename file name if the same file already exists",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--auto-save-interval",
+      "tip": [
+        "U: --auto-save-interval <SEC>",
+        "Save a control file(*.aria2) every SEC seconds",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-detach-seed-only",
+      "tip": [
+        "Exclude seed only downloads when counting concurrent active downloads",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-enable-hook-after-hash-check",
+      "tip": [
+        "Allow hook command invocation after hash check in BitTorrent download",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--bt-enable-lpd",
+      "tip": [
+        "Enable Local Peer Discovery",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-exclude-tracker",
+      "tip": [
+        "U: --bt-exclude-tracker <URI>",
+        "Comma separated list of BitTorrent tracker's announce URI to remove"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-external-ip",
+      "tip": [
+        "U: --bt-external-ip <IPADDRESS>",
+        "Specify the external IP address to use in BitTorrent download and DHT"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-force-encryption",
+      "tip": [
+        "Requires BitTorrent message payload encryption with arc4",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-hash-check-seed",
+      "tip": [
+        "After hash check and file is complete, continue to seed file",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--bt-load-saved-metadata",
+      "tip": [
+        "Before getting torrent metadata from DHT, first try to read file saved by --bt-save-metadata",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-lpd-interface",
+      "tip": [
+        "U: --bt-lpd-interface <INTERFACE>",
+        "Use given interface for Local Peer Discovery"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-max-open-files",
+      "tip": [
+        "U: --bt-max-open-files <NUM>",
+        "Specify maximum number of files to open in multi-file BitTorrent/Metalink downloads",
+        "Default: 100"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-max-peers",
+      "tip": [
+        "U: --bt-max-peers <NUM>",
+        "Specify the maximum number of peers per torrent. 0 means unlimited",
+        "Default: 55"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-metadata-only",
+      "tip": [
+        "Download metadata only. Effective only when BitTorrent Magnet URI is used",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-min-crypto-level",
+      "tip": [
+        "U: --bt-min-crypto-level <plain|arc4>",
+        "Set minimum level of encryption method",
+        "Default: plain"
+      ],
+      "next": [
+        {
+          "name": "arc4",
+          "tip": [
+            "ARC4 encryption"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "Plain encryption"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--bt-prioritize-piece",
+      "tip": [
+        "U: --bt-prioritize-piece <head[=SIZE],tail[=SIZE]>",
+        "Try to download first and last pieces of each file first"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-remove-unselected-file",
+      "tip": [
+        "Removes the unselected files when download is completed in BitTorrent",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-request-peer-speed-limit",
+      "tip": [
+        "U: --bt-request-peer-speed-limit <SPEED>",
+        "If the whole download speed is lower than SPEED, aria2 increases the number of peers",
+        "Default: 50K"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-require-crypto",
+      "tip": [
+        "If true, aria2 doesn't accept legacy BitTorrent handshake",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-save-metadata",
+      "tip": [
+        "Save metadata as .torrent file. Effective only when BitTorrent Magnet URI is used",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-seed-unverified",
+      "tip": [
+        "Seed previously downloaded files without verifying piece hashes",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-stop-timeout",
+      "tip": [
+        "U: --bt-stop-timeout <SEC>",
+        "Stop BitTorrent download if download speed is 0 in consecutive SEC seconds",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker",
+      "tip": [
+        "U: --bt-tracker <URI>",
+        "Comma separated list of additional BitTorrent tracker's announce URI"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker-connect-timeout",
+      "tip": [
+        "U: --bt-tracker-connect-timeout <SEC>",
+        "Set the connect timeout in seconds to establish connection to tracker",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker-interval",
+      "tip": [
+        "U: --bt-tracker-interval <SEC>",
+        "Set the interval in seconds between tracker requests",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker-timeout",
+      "tip": [
+        "U: --bt-tracker-timeout <SEC>",
+        "Set timeout in seconds",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ca-certificate",
+      "tip": [
+        "U: --ca-certificate <FILE>",
+        "Use the certificate authorities in FILE to verify the peers"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--certificate",
+      "tip": [
+        "U: --certificate <FILE>",
+        "Use the client certificate in FILE"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-certificate",
+      "tip": [
+        "Verify the peer using certificates specified in --ca-certificate",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--check-integrity",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --check-integrity",
+        "Check file integrity by validating piece hashes or a hash of entire file",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--checksum",
+      "tip": [
+        "U: --checksum <TYPE=DIGEST>",
+        "Set checksum. TYPE is hash type, DIGEST is hex digest"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--conditional-get",
+      "tip": [
+        "Download file only when the local file is older than remote file",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--conf-path",
+      "tip": [
+        "U: --conf-path <PATH>",
+        "Change the configuration file path to PATH"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--connect-timeout",
+      "tip": [
+        "U: --connect-timeout <SEC>",
+        "Set the connect timeout in seconds",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--console-log-level",
+      "tip": [
+        "U: --console-log-level <LEVEL>",
+        "Set log level to output to console",
+        "Default: notice"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug level"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info level"
+          ]
+        },
+        {
+          "name": "notice",
+          "tip": [
+            "Notice level"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning level"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--content-disposition-default-utf8",
+      "tip": [
+        "Handle quoted string in Content-Disposition header as UTF-8 instead of ISO-8859-1",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "Continue downloading a partially downloaded file",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--daemon",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --daemon",
+        "Run as daemon",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--deferred-input",
+      "tip": [
+        "If true, aria2 does not read all URIs at startup but reads one by one",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--dht-entry-point",
+      "tip": [
+        "U: --dht-entry-point <HOST:PORT>",
+        "Set host and port as an entry point to IPv4 DHT network"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-entry-point6",
+      "tip": [
+        "U: --dht-entry-point6 <HOST:PORT>",
+        "Set host and port as an entry point to IPv6 DHT network"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-file-path",
+      "tip": [
+        "U: --dht-file-path <PATH>",
+        "Change the IPv4 DHT routing table file to PATH"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-file-path6",
+      "tip": [
+        "U: --dht-file-path6 <PATH>",
+        "Change the IPv6 DHT routing table file to PATH"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-listen-addr6",
+      "tip": [
+        "U: --dht-listen-addr6 <ADDR>",
+        "Specify address to bind socket for IPv6 DHT"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-listen-port",
+      "tip": [
+        "U: --dht-listen-port <PORT...>",
+        "Set UDP listening port used by DHT(IPv4, IPv6) and UDP tracker",
+        "Default: 6881-6999"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-message-timeout",
+      "tip": [
+        "U: --dht-message-timeout <SEC>",
+        "Set timeout in seconds",
+        "Default: 10"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dir",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --dir <DIR>",
+        "The directory to store the downloaded file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-ipv6",
+      "tip": [
+        "Disable IPv6",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--disk-cache",
+      "tip": [
+        "U: --disk-cache <SIZE>",
+        "Enable disk cache. SIZE can include K or M",
+        "Default: 16M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--download-result",
+      "tip": [
+        "U: --download-result <OPT>",
+        "Change the way 'Download Results' is formatted",
+        "Default: default"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Print GID, status, average download speed and path/URI"
+          ]
+        },
+        {
+          "name": "full",
+          "tip": [
+            "Print GID, status, speed, percentage of progress and path/URI"
+          ]
+        },
+        {
+          "name": "hide",
+          "tip": [
+            "Hide Download Results"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "If true, aria2 just checks whether the remote file is available and doesn't download data",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--dscp",
+      "tip": [
+        "U: --dscp <DSCP>",
+        "Set DSCP value in outgoing IP packets of BitTorrent traffic for QoS",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--enable-async-dns6",
+      "tip": [
+        "Enable IPv6 name resolution in asynchronous DNS resolver",
+        "(deprecated)"
+      ]
+    },
+    {
+      "name": "--enable-color",
+      "tip": [
+        "Enable color output for a terminal",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-dht",
+      "tip": [
+        "Enable IPv4 DHT functionality. It also enables UDP tracker support",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-dht6",
+      "tip": [
+        "Enable IPv6 DHT functionality",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--enable-http-keep-alive",
+      "tip": [
+        "Enable HTTP/1.1 persistent connection",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-http-pipelining",
+      "tip": [
+        "Enable HTTP/1.1 pipelining",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--enable-mmap",
+      "tip": [
+        "Map files into memory",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--enable-peer-exchange",
+      "tip": [
+        "Enable Peer Exchange extension",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-rpc",
+      "tip": [
+        "Enable JSON-RPC/XML-RPC server",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--event-poll",
+      "tip": [
+        "U: --event-poll <POLL>",
+        "Specify the method for polling events",
+        "Default: select"
+      ],
+      "next": [
+        {
+          "name": "select",
+          "tip": [
+            "Use select() for polling"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--file-allocation",
+      "tip": [
+        "U: --file-allocation <METHOD>",
+        "Specify file allocation method",
+        "Default: prealloc"
+      ],
+      "next": [
+        {
+          "name": "falloc",
+          "tip": [
+            "Allocate large files almost instantly (ext4, btrfs, xfs, NTFS)"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "Don't pre-allocate file space"
+          ]
+        },
+        {
+          "name": "prealloc",
+          "tip": [
+            "Pre-allocate file space before download begins"
+          ]
+        },
+        {
+          "name": "trunc",
+          "tip": [
+            "Use ftruncate() to truncate a file to a specified length"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--follow-metalink",
+      "tip": [
+        "U: --follow-metalink <VALUE>",
+        "When a metalink file is downloaded, parse it and download its contents",
+        "Default: true"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "Download metalink file to disk without parsing"
+          ]
+        },
+        {
+          "name": "mem",
+          "tip": [
+            "Keep metalink in memory without writing to disk"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Parse metalink and download contents"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--follow-torrent",
+      "tip": [
+        "U: --follow-torrent <VALUE>",
+        "When a .torrent file is downloaded, parse it and download its contents",
+        "Default: true"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "Download .torrent file to disk without parsing"
+          ]
+        },
+        {
+          "name": "mem",
+          "tip": [
+            "Keep torrent in memory without writing to disk"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Parse torrent and download contents"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--force-save",
+      "tip": [
+        "Save download with --save-session option even if completed or removed",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--force-sequential",
+      "alias": [
+        "-Z"
+      ],
+      "tip": [
+        "U: -Z, --force-sequential",
+        "Fetch URIs in the command-line sequentially",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--ftp-passwd",
+      "tip": [
+        "Set FTP password. This affects all URLs"
+      ]
+    },
+    {
+      "name": "--ftp-pasv",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --ftp-pasv",
+        "Use the passive mode in FTP. If false, the active mode will be used",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--ftp-proxy",
+      "tip": [
+        "U: --ftp-proxy <PROXY>",
+        "Use a proxy server for FTP"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ftp-proxy-passwd",
+      "tip": [
+        "U: --ftp-proxy-passwd <PASSWD>",
+        "Set password for --ftp-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ftp-proxy-user",
+      "tip": [
+        "U: --ftp-proxy-user <USER>",
+        "Set user for --ftp-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ftp-reuse-connection",
+      "tip": [
+        "Reuse connection in FTP",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--ftp-type",
+      "tip": [
+        "U: --ftp-type <TYPE>",
+        "Set FTP transfer type",
+        "Default: binary"
+      ],
+      "next": [
+        {
+          "name": "ascii",
+          "tip": [
+            "ASCII transfer type"
+          ]
+        },
+        {
+          "name": "binary",
+          "tip": [
+            "Binary transfer type"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ftp-user",
+      "tip": [
+        "Set FTP user. This affects all URLs"
+      ]
+    },
+    {
+      "name": "--gid",
+      "tip": [
+        "U: --gid <GID>",
+        "Set GID manually. The GID must be hex string of 16 characters"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hash-check-only",
+      "tip": [
+        "After hash check, abort download whether or not download is complete",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--header",
+      "tip": [
+        "U: --header <HEADER>",
+        "Append HEADER to HTTP request header"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--http-accept-gzip",
+      "tip": [
+        "Send 'Accept-Encoding: deflate, gzip' request header and inflate response",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--http-auth-challenge",
+      "tip": [
+        "Send HTTP authorization header only when it is requested by the server",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--http-no-cache",
+      "tip": [
+        "Send Cache-Control: no-cache and Pragma: no-cache header to avoid cached content",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--http-passwd",
+      "tip": [
+        "Set HTTP password. This affects all URLs"
+      ]
+    },
+    {
+      "name": "--http-proxy",
+      "tip": [
+        "U: --http-proxy <PROXY>",
+        "Use a proxy server for HTTP"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-proxy-passwd",
+      "tip": [
+        "U: --http-proxy-passwd <PASSWD>",
+        "Set password for --http-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-proxy-user",
+      "tip": [
+        "U: --http-proxy-user <USER>",
+        "Set user for --http-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-user",
+      "tip": [
+        "Set HTTP user. This affects all URLs"
+      ]
+    },
+    {
+      "name": "--https-proxy",
+      "tip": [
+        "U: --https-proxy <PROXY>",
+        "Use a proxy server for HTTPS"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--https-proxy-passwd",
+      "tip": [
+        "U: --https-proxy-passwd <PASSWD>",
+        "Set password for --https-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--https-proxy-user",
+      "tip": [
+        "U: --https-proxy-user <USER>",
+        "Set user for --https-proxy"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--human-readable",
+      "tip": [
+        "Print sizes and speed in human readable format in the console readout",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--index-out",
+      "alias": [
+        "-O"
+      ],
+      "tip": [
+        "U: -O, --index-out <INDEX=PATH>",
+        "Set file path for file with index=INDEX"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--input-file",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --input-file <FILE>",
+        "Downloads URIs found in FILE"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--interface",
+      "tip": [
+        "U: --interface <INTERFACE>",
+        "Bind sockets to given interface"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--keep-unfinished-download-result",
+      "tip": [
+        "Keep unfinished download results even if exceeding --max-download-result",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--listen-port",
+      "tip": [
+        "U: --listen-port <PORT...>",
+        "Set TCP port number for BitTorrent downloads",
+        "Default: 6881-6999"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--load-cookies",
+      "tip": [
+        "U: --load-cookies <FILE>",
+        "Load Cookies from FILE using the Firefox3 format"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --log <LOG>",
+        "The file name of the log file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <LEVEL>",
+        "Set log level to output to file specified using --log option",
+        "Default: debug"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug level"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info level"
+          ]
+        },
+        {
+          "name": "notice",
+          "tip": [
+            "Notice level"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning level"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--lowest-speed-limit",
+      "tip": [
+        "U: --lowest-speed-limit <SPEED>",
+        "Close connection if download speed is lower than or equal to this value",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-concurrent-downloads",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --max-concurrent-downloads <N>",
+        "Set maximum number of parallel downloads",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-connection-per-server",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --max-connection-per-server <NUM>",
+        "The maximum number of connections to one server for each download",
+        "Default: 1"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-download-limit",
+      "tip": [
+        "U: --max-download-limit <SPEED>",
+        "Set max download speed per each download in bytes/sec. 0 means unrestricted",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-download-result",
+      "tip": [
+        "U: --max-download-result <NUM>",
+        "Set maximum number of download result kept in memory",
+        "Default: 1000"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-file-not-found",
+      "tip": [
+        "U: --max-file-not-found <NUM>",
+        "Force the download to fail after NUM 'file not found' responses",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-mmap-limit",
+      "tip": [
+        "U: --max-mmap-limit <SIZE>",
+        "Set the maximum file size to enable mmap"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-overall-download-limit",
+      "tip": [
+        "U: --max-overall-download-limit <SPEED>",
+        "Set max overall download speed in bytes/sec. 0 means unrestricted",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-overall-upload-limit",
+      "tip": [
+        "U: --max-overall-upload-limit <SPEED>",
+        "Set max overall upload speed in bytes/sec. 0 means unrestricted",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-resume-failure-tries",
+      "tip": [
+        "U: --max-resume-failure-tries <N>",
+        "When used with --always-resume=false, aria2 downloads from scratch after N failures",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-tries",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --max-tries <N>",
+        "Set number of tries. 0 means unlimited",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-upload-limit",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --max-upload-limit <SPEED>",
+        "Set max upload speed per each torrent in bytes/sec. 0 means unrestricted",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-base-uri",
+      "tip": [
+        "U: --metalink-base-uri <URI>",
+        "Specify base URI to resolve relative URI in metalink file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-enable-unique-protocol",
+      "tip": [
+        "If true, aria2 uses one of several protocols available for a mirror in a metalink file",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--metalink-file",
+      "alias": [
+        "-M"
+      ],
+      "tip": [
+        "U: -M, --metalink-file <METALINK_FILE>",
+        "The file path to the .meta4 and .metalink file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-language",
+      "tip": [
+        "U: --metalink-language <LANGUAGE>",
+        "The language of the file to download"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-location",
+      "tip": [
+        "U: --metalink-location <LOCATION>",
+        "The location of the preferred server"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-os",
+      "tip": [
+        "U: --metalink-os <OS>",
+        "The operating system of the file to download"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-preferred-protocol",
+      "tip": [
+        "U: --metalink-preferred-protocol <PROTO>",
+        "Specify preferred protocol",
+        "Default: none"
+      ],
+      "next": [
+        {
+          "name": "ftp",
+          "tip": [
+            "FTP protocol"
+          ]
+        },
+        {
+          "name": "http",
+          "tip": [
+            "HTTP protocol"
+          ]
+        },
+        {
+          "name": "https",
+          "tip": [
+            "HTTPS protocol"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No preferred protocol"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--metalink-version",
+      "tip": [
+        "U: --metalink-version <VERSION>",
+        "The version of the file to download"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-split-size",
+      "alias": [
+        "-k"
+      ],
+      "tip": [
+        "U: -k, --min-split-size <SIZE>",
+        "aria2 does not split less than 2*SIZE byte range",
+        "Default: 20M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-tls-version",
+      "tip": [
+        "U: --min-tls-version <VERSION>",
+        "Specify minimum SSL/TLS version to enable",
+        "Default: TLSv1.2"
+      ],
+      "next": [
+        {
+          "name": "TLSv1.1",
+          "tip": [
+            "TLS version 1.1"
+          ]
+        },
+        {
+          "name": "TLSv1.2",
+          "tip": [
+            "TLS version 1.2"
+          ]
+        },
+        {
+          "name": "TLSv1.3",
+          "tip": [
+            "TLS version 1.3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--multiple-interface",
+      "tip": [
+        "U: --multiple-interface <INTERFACES>",
+        "Comma separated list of interfaces to bind sockets to"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--netrc-path",
+      "tip": [
+        "U: --netrc-path <FILE>",
+        "Specify the path to the netrc file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-conf",
+      "tip": [
+        "Disable loading aria2.conf file",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--no-file-allocation-limit",
+      "tip": [
+        "U: --no-file-allocation-limit <SIZE>",
+        "No file allocation is made for files whose size is smaller than SIZE",
+        "Default: 5M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-netrc",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --no-netrc",
+        "Disables netrc support",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--no-proxy",
+      "tip": [
+        "U: --no-proxy <DOMAINS>",
+        "Specify comma separated hostnames, domains or network address where proxy should not be used"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-want-digest-header",
+      "tip": [
+        "Disable Want-Digest header when doing requests",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--on-bt-download-complete",
+      "tip": [
+        "U: --on-bt-download-complete <COMMAND>",
+        "Set the command to be executed after download completed but before seeding"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-complete",
+      "tip": [
+        "U: --on-download-complete <COMMAND>",
+        "Set the command to be executed after download completed"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-error",
+      "tip": [
+        "U: --on-download-error <COMMAND>",
+        "Set the command to be executed after download aborted due to error"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-pause",
+      "tip": [
+        "U: --on-download-pause <COMMAND>",
+        "Set the command to be executed after download was paused"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-start",
+      "tip": [
+        "U: --on-download-start <COMMAND>",
+        "Set the command to be executed after download got started"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-stop",
+      "tip": [
+        "U: --on-download-stop <COMMAND>",
+        "Set the command to be executed after download stopped"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--optimize-concurrent-downloads",
+      "tip": [
+        "Optimizes the number of concurrent downloads according to the bandwidth available",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--out",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --out <FILE>",
+        "The file name of the downloaded file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parameterized-uri",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --parameterized-uri",
+        "Enable parameterized URI support",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--pause",
+      "tip": [
+        "Pause download after added. Effective only when --enable-rpc=true",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--pause-metadata",
+      "tip": [
+        "Pause downloads created as a result of metadata download",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--peer-agent",
+      "tip": [
+        "U: --peer-agent <PEER_AGENT>",
+        "Set client reported during Extended torrent handshakes",
+        "Default: aria2/1.37.0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--peer-id-prefix",
+      "tip": [
+        "U: --peer-id-prefix <PEER_ID_PREFIX>",
+        "Specify the prefix of peer ID"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--piece-length",
+      "tip": [
+        "U: --piece-length <LENGTH>",
+        "Set a piece length for HTTP/FTP downloads",
+        "Default: 1M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--private-key",
+      "tip": [
+        "U: --private-key <FILE>",
+        "Use the private key in FILE"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--proxy-method",
+      "tip": [
+        "U: --proxy-method <METHOD>",
+        "Set the method to use in proxy request",
+        "Default: get"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "Use GET method"
+          ]
+        },
+        {
+          "name": "tunnel",
+          "tip": [
+            "Use tunnel method"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Make aria2 quiet (no console output)",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--realtime-chunk-checksum",
+      "tip": [
+        "Validate chunk of data by calculating checksum while downloading",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--referer",
+      "tip": [
+        "U: --referer <REFERER>",
+        "Set an http referrer (Referer). This affects all http/https downloads"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote-time",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --remote-time",
+        "Retrieve timestamp of the remote file and apply it to the local file",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--remove-control-file",
+      "tip": [
+        "Remove control file before download",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--retry-wait",
+      "tip": [
+        "U: --retry-wait <SEC>",
+        "Set the seconds to wait between retries",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reuse-uri",
+      "tip": [
+        "Reuse already used URIs if no unused URIs are left",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--rpc-allow-origin-all",
+      "tip": [
+        "Add Access-Control-Allow-Origin header with value '*' to the RPC response",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--rpc-certificate",
+      "tip": [
+        "U: --rpc-certificate <FILE>",
+        "Use the certificate in FILE for RPC server"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-listen-all",
+      "tip": [
+        "Listen incoming JSON-RPC/XML-RPC requests on all network interfaces",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--rpc-listen-port",
+      "tip": [
+        "U: --rpc-listen-port <PORT>",
+        "Specify a port number for JSON-RPC/XML-RPC server to listen to",
+        "Default: 6800"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-max-request-size",
+      "tip": [
+        "U: --rpc-max-request-size <SIZE>",
+        "Set max size of JSON-RPC/XML-RPC request",
+        "Default: 2M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-passwd",
+      "tip": [
+        "Set JSON-RPC/XML-RPC password",
+        "(deprecated, use --rpc-secret instead)"
+      ]
+    },
+    {
+      "name": "--rpc-private-key",
+      "tip": [
+        "U: --rpc-private-key <FILE>",
+        "Use the private key in FILE for RPC server"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-save-upload-metadata",
+      "tip": [
+        "Save the uploaded torrent or metalink metadata in the directory specified by --dir",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--rpc-secret",
+      "tip": [
+        "U: --rpc-secret <TOKEN>",
+        "Set RPC secret authorization token"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-secure",
+      "tip": [
+        "RPC transport will be encrypted by SSL/TLS",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--rpc-user",
+      "tip": [
+        "Set JSON-RPC/XML-RPC user",
+        "(deprecated, use --rpc-secret instead)"
+      ]
+    },
+    {
+      "name": "--save-cookies",
+      "tip": [
+        "U: --save-cookies <FILE>",
+        "Save Cookies to FILE in Mozilla/Firefox/Netscape format"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--save-not-found",
+      "tip": [
+        "Save download with --save-session option even if the file was not found",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--save-session",
+      "tip": [
+        "U: --save-session <FILE>",
+        "Save error/unfinished downloads to FILE on exit"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--save-session-interval",
+      "tip": [
+        "U: --save-session-interval <SEC>",
+        "Save error/unfinished downloads every SEC seconds",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--seed-ratio",
+      "tip": [
+        "U: --seed-ratio <RATIO>",
+        "Specify share ratio. Seed completed torrents until share ratio reaches RATIO",
+        "Default: 1.0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--seed-time",
+      "tip": [
+        "U: --seed-time <MINUTES>",
+        "Specify seeding time in (fractional) minutes"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--select-file",
+      "tip": [
+        "U: --select-file <INDEX...>",
+        "Set file to download by specifying its index"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--server-stat-if",
+      "tip": [
+        "U: --server-stat-if <FILE>",
+        "Specify the filename to load performance profile of the servers"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--server-stat-of",
+      "tip": [
+        "U: --server-stat-of <FILE>",
+        "Specify the filename to which performance profile of the servers is saved"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--server-stat-timeout",
+      "tip": [
+        "U: --server-stat-timeout <SEC>",
+        "Specifies timeout in seconds to invalidate performance profile of the servers",
+        "Default: 86400"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--show-console-readout",
+      "tip": [
+        "Show console readout",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--show-files",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --show-files",
+        "Print file listing of .torrent, .meta4 and .metalink file and exit",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--socket-recv-buffer-size",
+      "tip": [
+        "U: --socket-recv-buffer-size <SIZE>",
+        "Set the maximum socket receive buffer in bytes",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--split",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --split <N>",
+        "Download a file using N connections",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ssh-host-key-md",
+      "tip": [
+        "U: --ssh-host-key-md <TYPE=DIGEST>",
+        "Set checksum for SSH host public key"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stderr",
+      "tip": [
+        "Redirect all console output that would be printed in stdout to stderr",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--stop",
+      "tip": [
+        "U: --stop <SEC>",
+        "Stop application after SEC seconds has passed",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stop-with-process",
+      "tip": [
+        "U: --stop-with-process <PID>",
+        "Stop application when process PID is not running"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stream-piece-selector",
+      "tip": [
+        "U: --stream-piece-selector <SELECTOR>",
+        "Specify piece selection algorithm used in HTTP/FTP download",
+        "Default: default"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Selects piece to reduce the number of establishing connection"
+          ]
+        },
+        {
+          "name": "geom",
+          "tip": [
+            "Like inorder but exponentially keeps space from previously selected piece"
+          ]
+        },
+        {
+          "name": "inorder",
+          "tip": [
+            "Selects piece which has minimum index"
+          ]
+        },
+        {
+          "name": "random",
+          "tip": [
+            "Selects piece randomly"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--summary-interval",
+      "tip": [
+        "U: --summary-interval <SEC>",
+        "Set interval to output download progress summary",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timeout",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --timeout <SEC>",
+        "Set timeout in seconds",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--torrent-file",
+      "alias": [
+        "-T"
+      ],
+      "tip": [
+        "U: -T, --torrent-file <TORRENT_FILE>",
+        "The path to the .torrent file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--truncate-console-readout",
+      "tip": [
+        "Truncate console readout to fit in a single line",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--uri-selector",
+      "tip": [
+        "U: --uri-selector <SELECTOR>",
+        "Specify URI selection algorithm",
+        "Default: feedback"
+      ],
+      "next": [
+        {
+          "name": "adaptive",
+          "tip": [
+            "Selects one of the best mirrors for the first connections"
+          ]
+        },
+        {
+          "name": "feedback",
+          "tip": [
+            "Uses download speed observed in previous downloads"
+          ]
+        },
+        {
+          "name": "inorder",
+          "tip": [
+            "URI is tried in the order appeared in the URI list"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--use-head",
+      "tip": [
+        "Use HEAD method for the first request to the HTTP server",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--user-agent",
+      "alias": [
+        "-U"
+      ],
+      "tip": [
+        "U: -U, --user-agent <USER_AGENT>",
+        "Set user agent for http(s) downloads",
+        "Default: aria2/1.37.0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Print the version number and exit"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help[=TAG|KEYWORD]",
+        "Print usage and exit. Use --help=#TAG to filter by tag"
+      ]
+    }
+  ]
+}

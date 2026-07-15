@@ -2,7 +2,7 @@
   "meta": {
     "url": "https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh",
     "description": [
-      "PowerShell 命令行 CLI。(pwsh.exe)"
+      "PowerShell 命令行。"
     ]
   },
   "option": [
@@ -12,6 +12,7 @@
         "-v"
       ],
       "tip": [
+        "U: -v, --version",
         "显示版本信息。"
       ]
     },
@@ -21,7 +22,7 @@
         "-c"
       ],
       "tip": [
-        "U: -Command <-|string|scriptBlock> [args]",
+        "U: -c, -Command <-|string|scriptBlock> [args]",
         "Command 的值可以是 -、脚本块或字符串。 如果 Command 的值为 -，则将从标准输入读取命令文本。",
         "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-command---c"
       ],
@@ -37,7 +38,7 @@
         "-cwa"
       ],
       "tip": [
-        "U: -CommandWithArgs <string>",
+        "U: -cwa, -CommandWithArgs <string>",
         "使用参数执行 PowerShell 命令。",
         "与 -Command 不同，此参数填充可供命令使用的 $args 内置 -i 变量。",
         "第一个字符串是命令。 用空格分隔的其他字符串是参数。"
@@ -59,7 +60,7 @@
         "-config"
       ],
       "tip": [
-        "U: -ConfigurationName <string>",
+        "U: -config, -ConfigurationName <string>",
         "指定运行 PowerShell 的配置终结点。",
         "可以是在本地计算机上注册的任何终结点，包括默认 PowerShell 远程处理终结点或具有特定用户角色功能的自定义终结点。"
       ],
@@ -82,7 +83,7 @@
         "-e"
       ],
       "tip": [
-        "U: -EncodedCommand <Base64EncodedCommand>",
+        "U: -ec, -e, -EncodedCommand <Base64EncodedCommand>",
         "接受命令的 Base-e64 编码字符串版本。",
         "使用此参数将命令提交到需要复杂嵌套引用的 PowerShell。",
         "Base64 表示形式必须是 UTF-16LE 编码的字符串。"
@@ -96,7 +97,7 @@
         "-ex"
       ],
       "tip": [
-        "U: -ExecutionPolicy <ExecutionPolicy>",
+        "U: -ep, -ex, -ExecutionPolicy <ExecutionPolicy>",
         "为当前会话设置默认执行策略，并将其保存在 $env:PSExecutionPolicyPreference 环境变量中。",
         "此参数不会更改持久配置的执行策略。",
         "此参数仅适用于 Windows 计算机。在非 Windows 平台上，将忽略提供的参数和值。"
@@ -109,7 +110,7 @@
         "-f"
       ],
       "tip": [
-        "U: -File <filePath> [args]",
+        "U: -f, -File <filePath> [args]",
         "File 的值可以是 -,文件路径和可选参数。如果值为 -，则从标准输入读取命令。",
         "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
       ],
@@ -126,7 +127,7 @@
         "-if"
       ],
       "tip": [
-        "U: -InputFormat <string>",
+        "U: -inp, -if, -InputFormat <string>",
         "描述发送到 PowerShell 的数据格式。",
         "有效值为 Text (文本字符串) 或 XML (序列化 CLIXML 格式)。"
       ],
@@ -145,6 +146,7 @@
         "-i"
       ],
       "tip": [
+        "U: -i, -Interactive",
         "向用户显示交互式提示。",
         "NonInteractive 参数的反函数。"
       ]
@@ -155,6 +157,7 @@
         "-l"
       ],
       "tip": [
+        "U: -l, -Login",
         "在 Linux 和 macOS 上，使用 /bin/sh 以登录 shell 的形式启动 PowerShell，以执行 /etc/profile 和 ~/.profile 等登录配置文件。",
         "在 Windows 上，此开关不执行任何操作。"
       ]
@@ -172,6 +175,7 @@
         "-noe"
       ],
       "tip": [
+        "U: -noe, -NoExit",
         "运行启动命令后不退出。",
         "E: pwsh -NoExit -Command Get-Date"
       ]
@@ -182,6 +186,7 @@
         "-nol"
       ],
       "tip": [
+        "U: -nol, -NoLogo",
         "在交互式会话启动时隐藏横幅。"
       ]
     },
@@ -191,6 +196,7 @@
         "-noni"
       ],
       "tip": [
+        "U: -noni, -NonInteractive",
         "此开关用于创建不应要求用户输入的会话。 ",
         "这对于在计划任务或 CI/CD 管道中运行的脚本非常有用。",
         "任何尝试使用交互式功能（如 Read-Host 或确认提示）都会导致语句终止错误而不是挂起。"
@@ -202,6 +208,7 @@
         "-nop"
       ],
       "tip": [
+        "U: -nop, -NoProfile",
         "不加载 PowerShell 配置文件。"
       ]
     },
@@ -218,7 +225,7 @@
         "-o"
       ],
       "tip": [
-        "U: -OutputFormat <string>",
+        "U: -of, -o, -OutputFormat <string>",
         "确定 PowerShell 输出内容的格式。",
         "有效值为 Text (文本字符串) 或 XML (序列化 CLIXML 格式)。"
       ],
@@ -237,7 +244,7 @@
         "-settings"
       ],
       "tip": [
-        "U: -SettingsFile <filePath>",
+        "U: -settings, -SettingsFile <filePath>",
         "替代会话的 system-wide powershell.config.json 设置文件。",
         "默认情况下，system-wide 设置从 $PSHOME 目录中的 powershell.config.json 读取。",
         "请注意，-ConfigurationName 参数指定的终结点不使用这些设置。"
@@ -250,6 +257,7 @@
         "-sshs"
       ],
       "tip": [
+        "U: -sshs, -SSHServerMode",
         "在 sshd_config 中用于将 PowerShell 作为 SSH 子系统运行。",
         " 不用于任何其他用途或不受支持。"
       ]
@@ -267,7 +275,7 @@
         "-w"
       ],
       "tip": [
-        "U: -WindowStyle <style>",
+        "U: -w, -WindowStyle <style>",
         "为会话设置窗口样式。",
         "有效值包括 Normal、Minimized、Maximized 和 Hidden。",
         "在非 Windows 平台上使用此参数会导致错误。"
@@ -306,7 +314,7 @@
         "-wo"
       ],
       "tip": [
-        "U: -WorkingDirectory <directoryPath>",
+        "U: -wd, -wo, -WorkingDirectory <directoryPath>",
         "通过在启动时执行来设置初始工作目录。",
         "支持任何有效的 PowerShell 文件路径。",
         "E: pwsh -WorkingDirectory ~"
@@ -321,7 +329,7 @@
       ]
     }
   ],
-  "common_option": [
+  "global_option": [
     {
       "name": "--help",
       "alias": [
@@ -330,6 +338,7 @@
         "/?"
       ],
       "tip": [
+        "U: -?, -h, /?, --help",
         "显示帮助信息。"
       ]
     }

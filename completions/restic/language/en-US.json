@@ -1,0 +1,716 @@
+{
+  "meta": {
+    "url": "https://restic.net",
+    "description": [
+      "A backup program",
+      "Save multiple revisions of files and directories in an encrypted repository"
+    ]
+  },
+  "next": [
+    {
+      "name": "backup",
+      "tip": [
+        "U: backup [FLAGS] [FILE/DIR]...",
+        "Create a new backup of files and/or directories"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "Do not upload or write any data"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exclude <PATTERN>",
+            "Exclude a pattern"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exclude-caches",
+          "tip": [
+            "Exclude cache directories marked with CACHEDIR.TAG"
+          ]
+        },
+        {
+          "name": "--exclude-file",
+          "tip": [
+            "U: --exclude-file <FILE>",
+            "Read exclude patterns from a file"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exclude-larger-than",
+          "tip": [
+            "U: --exclude-larger-than <SIZE>",
+            "Max size of files to back up"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--files-from",
+          "tip": [
+            "U: --files-from <FILE>",
+            "Read files to backup from file"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force re-reading source files"
+          ]
+        },
+        {
+          "name": "--group-by",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --group-by <GROUP>",
+            "Group snapshots by host, paths and/or tags"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --host <HOSTNAME>",
+            "Set the hostname for the snapshot"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--one-file-system",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "U: -x, --one-file-system",
+            "Exclude other file systems"
+          ]
+        },
+        {
+          "name": "--parent",
+          "tip": [
+            "U: --parent <SNAPSHOT>",
+            "Use this parent snapshot"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "Read backup from stdin"
+          ]
+        },
+        {
+          "name": "--stdin-filename",
+          "tip": [
+            "U: --stdin-filename <FILENAME>",
+            "Filename to use when reading from stdin"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAGS>",
+            "Add tags for the new snapshot"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--time",
+          "tip": [
+            "U: --time <TIME>",
+            "Time of the backup"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "U: check",
+        "Check the repository for errors"
+      ],
+      "option": [
+        {
+          "name": "--read-data",
+          "tip": [
+            "Read all data and verify checksums"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "tip": [
+        "U: diff <SNAPSHOT1> <SNAPSHOT2>",
+        "Show differences between two snapshots"
+      ]
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "U: dump <SNAPSHOT> <PATH>",
+        "Print backed-up files or folders to stdout"
+      ]
+    },
+    {
+      "name": "find",
+      "tip": [
+        "U: find <PATTERN>",
+        "Find a file, a directory or restic IDs"
+      ]
+    },
+    {
+      "name": "forget",
+      "tip": [
+        "U: forget [FLAGS] [SNAPSHOT ID]...",
+        "Remove snapshots from the repository"
+      ],
+      "option": [
+        {
+          "name": "--compact",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --compact",
+            "Use compact output format"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "Do not delete anything"
+          ]
+        },
+        {
+          "name": "--group-by",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --group-by <GROUP>",
+            "Group snapshots by host, paths and/or tags"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "Only consider snapshots for this host"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-daily",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --keep-daily <N>",
+            "Keep the last n daily snapshots"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-hourly",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --keep-hourly <N>",
+            "Keep the last n hourly snapshots"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-last",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --keep-last <N>",
+            "Keep the last n snapshots"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-monthly",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --keep-monthly <N>",
+            "Keep the last n monthly snapshots"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-tag",
+          "tip": [
+            "U: --keep-tag <TAG>",
+            "Keep snapshots with this tag"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--keep-weekly",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --keep-weekly <N>",
+            "Keep the last n weekly snapshots"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-within",
+          "tip": [
+            "U: --keep-within <DURATION>",
+            "Keep snapshots newer than duration"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-yearly",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --keep-yearly <N>",
+            "Keep the last n yearly snapshots"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <PATH>",
+            "Only consider snapshots including path"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "Automatically run the prune command"
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "Only consider snapshots including tag"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init",
+        "Initialize a new repository"
+      ]
+    },
+    {
+      "name": "key",
+      "tip": [
+        "U: key",
+        "Manage keys (passwords)"
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "U: list",
+        "List objects in the repository"
+      ]
+    },
+    {
+      "name": "ls",
+      "tip": [
+        "U: ls <SNAPSHOT>",
+        "List files in a snapshot"
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --long",
+            "Use long listing format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migrate",
+      "tip": [
+        "U: migrate",
+        "Apply migrations"
+      ]
+    },
+    {
+      "name": "prune",
+      "tip": [
+        "U: prune",
+        "Remove unneeded data from the repository"
+      ]
+    },
+    {
+      "name": "recover",
+      "tip": [
+        "U: recover",
+        "Recover data not referenced by snapshots"
+      ]
+    },
+    {
+      "name": "repair",
+      "tip": [
+        "U: repair",
+        "Repair the repository"
+      ]
+    },
+    {
+      "name": "restore",
+      "tip": [
+        "U: restore [FLAGS] <SNAPSHOTID>",
+        "Extract the data from a snapshot"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Do not write any data"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exclude <PATTERN>",
+            "Exclude a pattern"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --host <HOST>",
+            "Only consider snapshots for this host"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --include <PATTERN>",
+            "Include a pattern"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <PATH>",
+            "Only consider snapshots including path"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "Only consider snapshots including tag"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --target <DIR>",
+            "Directory to extract data to"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "self-update",
+      "tip": [
+        "U: self-update",
+        "Update the restic binary"
+      ]
+    },
+    {
+      "name": "snapshots",
+      "tip": [
+        "U: snapshots [FLAGS] [SNAPSHOTID]...",
+        "List all snapshots"
+      ],
+      "option": [
+        {
+          "name": "--compact",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --compact",
+            "Use compact output format"
+          ]
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "Only consider snapshots for this host"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--latest",
+          "tip": [
+            "U: --latest <N>",
+            "Only show the last n snapshots"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <PATH>",
+            "Only consider snapshots including path"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "Only consider snapshots including tag"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "U: stats",
+        "Scan the repository and show basic statistics"
+      ]
+    },
+    {
+      "name": "tag",
+      "tip": [
+        "U: tag",
+        "Modify tags on snapshots"
+      ]
+    },
+    {
+      "name": "unlock",
+      "tip": [
+        "U: unlock",
+        "Remove locks other processes created"
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "U: version",
+        "Print version information"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--cache-dir",
+      "tip": [
+        "U: --cache-dir <DIR>",
+        "Set the cache directory"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--compression",
+      "tip": [
+        "U: --compression <MODE>",
+        "Compression mode"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic (default)"
+          ]
+        },
+        {
+          "name": "better",
+          "tip": [
+            "Better compression"
+          ]
+        },
+        {
+          "name": "fastest",
+          "tip": [
+            "Fastest compression"
+          ]
+        },
+        {
+          "name": "max",
+          "tip": [
+            "Maximum compression"
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "No compression"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Help for restic"
+      ]
+    },
+    {
+      "name": "--insecure-tls",
+      "tip": [
+        "Skip TLS certificate verification"
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Set output mode to JSON"
+      ]
+    },
+    {
+      "name": "--limit-download",
+      "tip": [
+        "U: --limit-download <RATE>",
+        "Limit downloads to max rate in KiB/s"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--limit-upload",
+      "tip": [
+        "U: --limit-upload <RATE>",
+        "Limit uploads to max rate in KiB/s"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-cache",
+      "tip": [
+        "Do not use a local cache"
+      ]
+    },
+    {
+      "name": "--password-file",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --password-file <FILE>",
+        "File to read the repository password from"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Do not output comprehensive progress report"
+      ]
+    },
+    {
+      "name": "--repo",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --repo <REPOSITORY>",
+        "Repository to backup to or restore from"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Be verbose"
+      ]
+    }
+  ]
+}

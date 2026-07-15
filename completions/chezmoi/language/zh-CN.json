@@ -1,0 +1,617 @@
+{
+  "meta": {
+    "url": "https://chezmoi.io",
+    "description": [
+      "在多台不同的机器上安全管理你的 dotfiles"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "tip": [
+        "U: add [TARGET]...",
+        "将现有的文件、目录或符号链接添加到源状态"
+      ]
+    },
+    {
+      "name": "age",
+      "tip": [
+        "U: age",
+        "与 age 交互"
+      ]
+    },
+    {
+      "name": "age-keygen",
+      "tip": [
+        "U: age-keygen",
+        "生成 age 身份密钥"
+      ]
+    },
+    {
+      "name": "apply",
+      "tip": [
+        "U: apply [TARGET]...",
+        "更新目标目录以匹配目标状态"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "不进行任何修改"
+          ]
+        },
+        {
+          "name": "--init",
+          "tip": [
+            "从模板重新创建配置文件"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "递归进入子目录（默认为 true）"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "使输出更详细"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "archive",
+      "tip": [
+        "U: archive",
+        "生成目标状态的 tar 归档文件"
+      ]
+    },
+    {
+      "name": "cat",
+      "tip": [
+        "U: cat [TARGET]...",
+        "打印文件的目标内容"
+      ]
+    },
+    {
+      "name": "cat-config",
+      "tip": [
+        "U: cat-config",
+        "打印配置文件"
+      ]
+    },
+    {
+      "name": "cd",
+      "tip": [
+        "U: cd",
+        "在源目录中启动一个 shell"
+      ]
+    },
+    {
+      "name": "chattr",
+      "tip": [
+        "U: chattr <ATTRIBUTE>=<VALUE> <TARGET>",
+        "更改源状态中目标的属性"
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "U: completion [SHELL]",
+        "生成 shell 补全代码"
+      ]
+    },
+    {
+      "name": "data",
+      "tip": [
+        "U: data",
+        "打印模板数据"
+      ]
+    },
+    {
+      "name": "decrypt",
+      "tip": [
+        "U: decrypt [FILE]",
+        "解密文件或标准输入"
+      ]
+    },
+    {
+      "name": "destroy",
+      "tip": [
+        "U: destroy [TARGET]...",
+        "永久删除一个条目"
+      ]
+    },
+    {
+      "name": "diff",
+      "tip": [
+        "U: diff [TARGET]...",
+        "打印目标状态与目标目录状态之间的差异"
+      ]
+    },
+    {
+      "name": "docker",
+      "tip": [
+        "U: docker",
+        "在 Docker 容器中使用你的 dotfiles"
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "U: doctor",
+        "检查系统是否存在潜在问题"
+      ]
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "U: dump [TARGET]...",
+        "生成目标状态的转储"
+      ]
+    },
+    {
+      "name": "dump-config",
+      "tip": [
+        "U: dump-config",
+        "转储配置值"
+      ]
+    },
+    {
+      "name": "edit",
+      "tip": [
+        "U: edit [TARGET]...",
+        "编辑目标的源状态"
+      ]
+    },
+    {
+      "name": "edit-config",
+      "tip": [
+        "U: edit-config",
+        "编辑配置文件"
+      ]
+    },
+    {
+      "name": "encrypt",
+      "tip": [
+        "U: encrypt [FILE]",
+        "加密文件或标准输入"
+      ]
+    },
+    {
+      "name": "execute-template",
+      "tip": [
+        "U: execute-template [TEMPLATE]...",
+        "执行给定的模板"
+      ]
+    },
+    {
+      "name": "forget",
+      "tip": [
+        "U: forget [TARGET]...",
+        "从源状态中移除目标"
+      ]
+    },
+    {
+      "name": "git",
+      "tip": [
+        "U: git [ARG]...",
+        "在源目录中运行 git"
+      ]
+    },
+    {
+      "name": "ignored",
+      "tip": [
+        "U: ignored",
+        "打印被忽略的目标"
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import [FILE]",
+        "将归档文件导入到源状态"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [REPO] [FLAGS]",
+        "设置源目录并更新目标目录"
+      ],
+      "option": [
+        {
+          "name": "--apply",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --apply",
+            "更新目标目录"
+          ]
+        },
+        {
+          "name": "--guess-repo-url",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --guess-repo-url",
+            "猜测仓库 URL（默认为 true）"
+          ]
+        },
+        {
+          "name": "--purge",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --purge",
+            "运行后清除配置和源目录"
+          ]
+        },
+        {
+          "name": "--purge-binary",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --purge-binary",
+            "运行后清除 chezmoi 二进制文件"
+          ]
+        },
+        {
+          "name": "--ssh",
+          "tip": [
+            "使用 SSH 而非 HTTPS 来猜测仓库 URL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "managed",
+      "tip": [
+        "U: managed",
+        "列出已管理的条目"
+      ]
+    },
+    {
+      "name": "merge",
+      "tip": [
+        "U: merge [TARGET]...",
+        "在目标目录、源状态和目标状态之间执行三路合并"
+      ]
+    },
+    {
+      "name": "merge-all",
+      "tip": [
+        "U: merge-all",
+        "对每个修改过的文件执行三路合并"
+      ]
+    },
+    {
+      "name": "purge",
+      "tip": [
+        "U: purge",
+        "清除 chezmoi 的配置和数据"
+      ]
+    },
+    {
+      "name": "re-add",
+      "tip": [
+        "U: re-add",
+        "重新添加已修改的文件"
+      ]
+    },
+    {
+      "name": "secret",
+      "tip": [
+        "U: secret [ARG]...",
+        "与密钥管理器交互"
+      ]
+    },
+    {
+      "name": "source-path",
+      "tip": [
+        "U: source-path [TARGET]...",
+        "打印目标的源路径"
+      ]
+    },
+    {
+      "name": "ssh",
+      "tip": [
+        "U: ssh [HOST]",
+        "SSH 到主机并初始化 dotfiles"
+      ]
+    },
+    {
+      "name": "state",
+      "tip": [
+        "U: state [ARG]...",
+        "操作持久化状态"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "U: status [TARGET]...",
+        "显示目标的状态"
+      ]
+    },
+    {
+      "name": "target-path",
+      "tip": [
+        "U: target-path [SOURCE]",
+        "打印源路径的目标路径"
+      ]
+    },
+    {
+      "name": "unmanaged",
+      "tip": [
+        "U: unmanaged",
+        "列出未管理的文件"
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update",
+        "拉取并应用所有更改"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "U: upgrade",
+        "将 chezmoi 升级到最新发布版本"
+      ]
+    },
+    {
+      "name": "verify",
+      "tip": [
+        "U: verify",
+        "如果目标目录状态与目标状态匹配则成功退出"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <BOOL>",
+        "为输出添加颜色"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "禁用颜色"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "启用颜色"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <PATH>",
+        "设置配置文件"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-format",
+      "tip": [
+        "U: --config-format <FORMAT>",
+        "设置配置文件格式"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON 格式"
+          ]
+        },
+        {
+          "name": "toml",
+          "tip": [
+            "TOML 格式"
+          ]
+        },
+        {
+          "name": "yaml",
+          "tip": [
+            "YAML 格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "在输出中包含调试信息"
+      ]
+    },
+    {
+      "name": "--destination",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --destination <PATH>",
+        "设置目标目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --dry-run",
+        "不进行任何修改"
+      ]
+    },
+    {
+      "name": "--force",
+      "tip": [
+        "不经提示直接进行所有更改"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "chezmoi 帮助信息"
+      ]
+    },
+    {
+      "name": "--keep-going",
+      "alias": [
+        "-k"
+      ],
+      "tip": [
+        "U: -k, --keep-going",
+        "出错后继续执行"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "不使用分页器"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output <PATH>",
+        "将输出写入路径而非标准输出"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--progress",
+      "tip": [
+        "U: --progress <BOOL>",
+        "显示进度条"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "禁用进度条"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "启用进度条"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--refresh-externals",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --refresh-externals <VALUE>",
+        "刷新外部缓存"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终刷新"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不刷新"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --source <PATH>",
+        "设置源目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--source-path",
+      "tip": [
+        "通过源路径指定目标"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "使输出更详细"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印版本"
+      ]
+    }
+  ]
+}

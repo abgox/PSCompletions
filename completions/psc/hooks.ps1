@@ -93,8 +93,8 @@ if (`$m) {
             if ($unknown.Count -eq 1) {
                 add 'language' $PSCompletions.replace_content($PSCompletions.info.completion.language.tip) @('SpaceTab')
                 add 'enable_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip) @('SpaceTab')
-                if ($PSCompletions.config.comp_config[$completion].Count) {
-                    if ($PSCompletions.config.comp_config[$completion].keys.Contains('enable_hooks')) {
+                if ($PSCompletions.config.completion[$completion].Count) {
+                    if ($PSCompletions.config.completion[$completion].keys.Contains('enable_hooks')) {
                         $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
                         add 'enable_hooks' $tip @('SpaceTab')
                         add 'enable_hooks_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip) @('SpaceTab')

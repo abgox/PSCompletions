@@ -1,0 +1,672 @@
+{
+  "meta": {
+    "url": "https://doc.rust-lang.org/rustc",
+    "description": [
+      "Rust 编译器"
+    ]
+  },
+  "option": [
+    {
+      "name": "--allow",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --allow <LINT>",
+        "设置允许的 lint。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cap-lints",
+      "tip": [
+        "U: --cap-lints <LEVEL>",
+        "设置最严格的 lint 级别。",
+        "更严格的 lint 被限制在此级别。"
+      ],
+      "next": [
+        {
+          "name": "allow",
+          "tip": [
+            "限制在 allow 级别"
+          ]
+        },
+        {
+          "name": "deny",
+          "tip": [
+            "限制在 deny 级别"
+          ]
+        },
+        {
+          "name": "forbid",
+          "tip": [
+            "限制在 forbid 级别"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "限制在 warn 级别"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cfg",
+      "tip": [
+        "U: --cfg <SPEC>",
+        "配置编译环境。",
+        "SPEC 支持语法 `<NAME>=[\"<VALUE>\"]`。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-cfg",
+      "tip": [
+        "U: --check-cfg <SPEC>",
+        "提供用于检查的预期 cfg 列表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--codegen",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --codegen <OPT>[=<VALUE>]",
+        "设置代码生成选项。",
+        "使用 -C help 列出可用选项。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <WHEN>",
+        "配置输出着色。"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终着色输出"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "如果输出到 tty 则着色（默认）"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不着色输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--crate-name",
+      "tip": [
+        "U: --crate-name <NAME>",
+        "指定正在构建的 crate 的名称。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--crate-type",
+      "tip": [
+        "U: --crate-type <TYPE>",
+        "编译器要生成的 crate 类型的逗号分隔列表。"
+      ],
+      "next": [
+        {
+          "name": "bin",
+          "tip": [
+            "二进制可执行文件"
+          ]
+        },
+        {
+          "name": "cdylib",
+          "tip": [
+            "C 兼容动态库"
+          ]
+        },
+        {
+          "name": "dylib",
+          "tip": [
+            "Rust 动态库"
+          ]
+        },
+        {
+          "name": "lib",
+          "tip": [
+            "Rust 库"
+          ]
+        },
+        {
+          "name": "proc-macro",
+          "tip": [
+            "过程宏"
+          ]
+        },
+        {
+          "name": "rlib",
+          "tip": [
+            "Rust 静态库"
+          ]
+        },
+        {
+          "name": "staticlib",
+          "tip": [
+            "C 兼容静态库"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--deny",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --deny <LINT>",
+        "设置拒绝的 lint。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--diagnostic-width",
+      "tip": [
+        "U: --diagnostic-width <WIDTH>",
+        "告知 rustc 输出宽度，以便诊断信息可以被截断以适应。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--edition",
+      "tip": [
+        "U: --edition <EDITION>",
+        "指定编译代码时使用的编译器版本。",
+        "默认为 2015，最新稳定版本为 2024。"
+      ],
+      "next": [
+        {
+          "name": "2015",
+          "tip": [
+            "Rust 2015 版本"
+          ]
+        },
+        {
+          "name": "2018",
+          "tip": [
+            "Rust 2018 版本"
+          ]
+        },
+        {
+          "name": "2021",
+          "tip": [
+            "Rust 2021 版本"
+          ]
+        },
+        {
+          "name": "2024",
+          "tip": [
+            "Rust 2024 版本"
+          ]
+        },
+        {
+          "name": "future",
+          "tip": [
+            "未来/不稳定版本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--emit",
+      "tip": [
+        "U: --emit <TYPE>[=<FILE>]",
+        "编译器要生成的输出类型的逗号分隔列表。"
+      ],
+      "next": [
+        {
+          "name": "asm",
+          "tip": [
+            "汇编输出 (CRATE_NAME.s)"
+          ]
+        },
+        {
+          "name": "dep-info",
+          "tip": [
+            "依赖信息 (CRATE_NAME.d)"
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "链接输出（平台相关）"
+          ]
+        },
+        {
+          "name": "llvm-bc",
+          "tip": [
+            "LLVM 位码 (CRATE_NAME.bc)"
+          ]
+        },
+        {
+          "name": "llvm-ir",
+          "tip": [
+            "LLVM IR (CRATE_NAME.ll) "
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "元数据 (libCRATE_NAME.rmeta)"
+          ]
+        },
+        {
+          "name": "mir",
+          "tip": [
+            "MIR 输出 (CRATE_NAME.mir)"
+          ]
+        },
+        {
+          "name": "obj",
+          "tip": [
+            "目标文件 (CRATE_NAME.o)"
+          ]
+        },
+        {
+          "name": "thin-link-bitcode",
+          "tip": [
+            "Thin 链接位码 (CRATE_NAME.indexing.o)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--error-format",
+      "tip": [
+        "U: --error-format <FORMAT>",
+        "错误和其他消息的生成方式。"
+      ],
+      "next": [
+        {
+          "name": "human",
+          "tip": [
+            "人类可读的输出"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出"
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "短格式输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--explain",
+      "tip": [
+        "U: --explain <OPT>",
+        "提供错误消息的详细解释。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extern",
+      "tip": [
+        "U: --extern <NAME>[=<PATH>]",
+        "指定外部 Rust 库的位置。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--forbid",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --forbid <LINT>",
+        "设置禁止的 lint。"
+      ]
+    },
+    {
+      "name": "--force-warn",
+      "tip": [
+        "U: --force-warn <LINT>",
+        "设置强制警告的 lint。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "U: --json <CONFIG>",
+        "配置编译器的 JSON 输出。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--out-dir",
+      "tip": [
+        "U: --out-dir <DIR>",
+        "将输出写入 DIR 中编译器选择的文件名。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--print",
+      "tip": [
+        "U: --print <INFO>[=<FILE>]",
+        "在标准输出（或文件）上打印编译器信息。"
+      ],
+      "next": [
+        {
+          "name": "all-target-specs-json",
+          "tip": [
+            "以 JSON 格式打印所有目标规格"
+          ]
+        },
+        {
+          "name": "calling-conventions",
+          "tip": [
+            "打印调用约定"
+          ]
+        },
+        {
+          "name": "cfg",
+          "tip": [
+            "打印活动 cfg"
+          ]
+        },
+        {
+          "name": "check-cfg",
+          "tip": [
+            "打印检查 cfg"
+          ]
+        },
+        {
+          "name": "code-models",
+          "tip": [
+            "打印代码模型"
+          ]
+        },
+        {
+          "name": "crate-name",
+          "tip": [
+            "打印 crate 名称"
+          ]
+        },
+        {
+          "name": "crate-root-lint-levels",
+          "tip": [
+            "打印 crate 根 lint 级别"
+          ]
+        },
+        {
+          "name": "deployment-target",
+          "tip": [
+            "打印部署目标"
+          ]
+        },
+        {
+          "name": "file-names",
+          "tip": [
+            "打印文件名"
+          ]
+        },
+        {
+          "name": "host-tuple",
+          "tip": [
+            "打印主机元组"
+          ]
+        },
+        {
+          "name": "link-args",
+          "tip": [
+            "打印链接参数"
+          ]
+        },
+        {
+          "name": "native-static-libs",
+          "tip": [
+            "打印本地静态库"
+          ]
+        },
+        {
+          "name": "relocation-models",
+          "tip": [
+            "打印重定位模型"
+          ]
+        },
+        {
+          "name": "split-debuginfo",
+          "tip": [
+            "打印分离调试信息模式"
+          ]
+        },
+        {
+          "name": "stack-protector-strategies",
+          "tip": [
+            "打印栈保护策略"
+          ]
+        },
+        {
+          "name": "supported-crate-types",
+          "tip": [
+            "打印支持的 crate 类型"
+          ]
+        },
+        {
+          "name": "sysroot",
+          "tip": [
+            "打印系统根目录"
+          ]
+        },
+        {
+          "name": "target-cpus",
+          "tip": [
+            "打印目标 CPU"
+          ]
+        },
+        {
+          "name": "target-features",
+          "tip": [
+            "打印目标特性"
+          ]
+        },
+        {
+          "name": "target-libdir",
+          "tip": [
+            "打印目标库目录"
+          ]
+        },
+        {
+          "name": "target-list",
+          "tip": [
+            "打印可用目标"
+          ]
+        },
+        {
+          "name": "target-spec-json",
+          "tip": [
+            "以 JSON 格式打印目标规格"
+          ]
+        },
+        {
+          "name": "tls-models",
+          "tip": [
+            "打印 TLS 模型"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--remap-path-prefix",
+      "tip": [
+        "U: --remap-path-prefix <FROM>=<TO>",
+        "重映射所有输出中的源名称（编译器消息和输出文件）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remap-path-scope",
+      "tip": [
+        "U: --remap-path-scope <SCOPE>",
+        "定义 `--remap-path-prefix` 应重映射的路径范围。"
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "重映射所有路径"
+          ]
+        },
+        {
+          "name": "coverage",
+          "tip": [
+            "重映射覆盖率路径"
+          ]
+        },
+        {
+          "name": "debuginfo",
+          "tip": [
+            "重映射调试信息路径"
+          ]
+        },
+        {
+          "name": "diagnostics",
+          "tip": [
+            "重映射诊断路径"
+          ]
+        },
+        {
+          "name": "macro",
+          "tip": [
+            "重映射宏路径"
+          ]
+        },
+        {
+          "name": "object",
+          "tip": [
+            "重映射对象路径"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--sysroot",
+      "tip": [
+        "U: --sysroot <PATH>",
+        "覆盖系统根目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--target",
+      "tip": [
+        "U: --target <TARGET>",
+        "代码编译的目标元组。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--test",
+      "tip": [
+        "构建测试工具。"
+      ]
+    },
+    {
+      "name": "--warn",
+      "alias": [
+        "-W"
+      ],
+      "tip": [
+        "U: -W, --warn <LINT>",
+        "设置警告的 lint。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "等同于 -C debuginfo=2。"
+      ]
+    },
+    {
+      "name": "-l",
+      "tip": [
+        "U: -l [<KIND>[:<MODIFIERS>]=]<NAME>[:<RENAME>]",
+        "将生成的 crate 链接到指定的本地库 NAME。",
+        "KIND 可以是: static, framework, 或 dylib（默认）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-L",
+      "tip": [
+        "U: -L [<KIND>=]<PATH>",
+        "添加库搜索路径。",
+        "KIND 可以是: dependency, crate, native, framework, 或 all（默认）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "U: -o <FILENAME>",
+        "将输出写入 FILENAME。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-O",
+      "tip": [
+        "等同于 -C opt-level=3。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示此消息。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "使用详细输出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息并退出。"
+      ]
+    }
+  ]
+}

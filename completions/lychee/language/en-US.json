@@ -1,0 +1,571 @@
+{
+  "meta": {
+    "url": "https://github.com/lycheeverse/lychee",
+    "description": [
+      "A fast, asynchronous link checker",
+      "Detects broken URLs and mail addresses in local files and websites"
+    ]
+  },
+  "option": [
+    {
+      "name": "--accept",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --accept <ACCEPT>",
+        "A list of accepted status codes for valid links"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--accept-timeouts",
+      "tip": [
+        "Accept timed out requests and return exit code 0"
+      ]
+    },
+    {
+      "name": "--archive",
+      "tip": [
+        "U: --archive <ARCHIVE>",
+        "Web archive to use for suggestions"
+      ],
+      "next": [
+        {
+          "name": "wayback",
+          "tip": [
+            "Wayback Machine"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--base-url",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --base-url <BASE_URL>",
+        "Base URL for resolving relative URLs in local files"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--basic-auth",
+      "tip": [
+        "U: --basic-auth <BASIC_AUTH>",
+        "Basic authentication support"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache",
+      "tip": [
+        "Use request cache stored on disk"
+      ]
+    },
+    {
+      "name": "--cache-exclude-status",
+      "tip": [
+        "U: --cache-exclude-status <STATUS>",
+        "Status codes to exclude from cache"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <FILE>",
+        "Configuration file to use"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cookie-jar",
+      "tip": [
+        "U: --cookie-jar <COOKIE_JAR>",
+        "Read and write cookies using the given file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dump",
+      "tip": [
+        "Don't check links, just dump all extracted links"
+      ]
+    },
+    {
+      "name": "--dump-inputs",
+      "tip": [
+        "Don't check links, just dump all input sources"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "tip": [
+        "U: --exclude <EXCLUDE>",
+        "Exclude URLs and mail addresses from checking"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude-all-private",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --exclude-all-private",
+        "Exclude all private IPs from checking"
+      ]
+    },
+    {
+      "name": "--exclude-path",
+      "tip": [
+        "U: --exclude-path <PATH>",
+        "Exclude paths from getting checked"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extensions",
+      "tip": [
+        "U: --extensions <EXTENSIONS>",
+        "A list of file extensions to check"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--files-from",
+      "tip": [
+        "U: --files-from <PATH>",
+        "Read input filenames from the given file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --format <FORMAT>",
+        "Output format of final status report"
+      ],
+      "next": [
+        {
+          "name": "compact",
+          "tip": [
+            "Compact format (default)"
+          ]
+        },
+        {
+          "name": "detailed",
+          "tip": [
+            "Detailed format"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON format"
+          ]
+        },
+        {
+          "name": "junit",
+          "tip": [
+            "JUnit format"
+          ]
+        },
+        {
+          "name": "markdown",
+          "tip": [
+            "Markdown format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--generate",
+      "tip": [
+        "U: --generate <KIND>",
+        "Generate special output instead of checking"
+      ],
+      "next": [
+        {
+          "name": "complete-bash",
+          "tip": [
+            "Generate Bash completion"
+          ]
+        },
+        {
+          "name": "complete-elvish",
+          "tip": [
+            "Generate Elvish completion"
+          ]
+        },
+        {
+          "name": "complete-fish",
+          "tip": [
+            "Generate Fish completion"
+          ]
+        },
+        {
+          "name": "complete-powershell",
+          "tip": [
+            "Generate PowerShell completion"
+          ]
+        },
+        {
+          "name": "complete-zsh",
+          "tip": [
+            "Generate Zsh completion"
+          ]
+        },
+        {
+          "name": "man",
+          "tip": [
+            "Generate man page"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--github-token",
+      "tip": [
+        "U: --github-token <TOKEN>",
+        "GitHub API token for checking github.com links"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--header",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --header <HEADER:VALUE>",
+        "Set custom header for requests"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help"
+      ]
+    },
+    {
+      "name": "--hidden",
+      "tip": [
+        "Do not skip hidden directories and files"
+      ]
+    },
+    {
+      "name": "--include",
+      "tip": [
+        "U: --include <INCLUDE>",
+        "URLs to check (supports regex)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--include-mail",
+      "tip": [
+        "Also check email addresses"
+      ]
+    },
+    {
+      "name": "--insecure",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --insecure",
+        "Proceed for insecure server connections"
+      ]
+    },
+    {
+      "name": "--max-concurrency",
+      "tip": [
+        "U: --max-concurrency <NUM>",
+        "Maximum number of concurrent network requests"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-redirects",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --max-redirects <MAX>",
+        "Maximum number of allowed redirects"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-retries",
+      "tip": [
+        "U: --max-retries <NUM>",
+        "Maximum number of retries per request"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--method",
+      "alias": [
+        "-X"
+      ],
+      "tip": [
+        "U: -X, --method <METHOD>",
+        "Request method"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "GET method (default)"
+          ]
+        },
+        {
+          "name": "head",
+          "tip": [
+            "HEAD method"
+          ]
+        },
+        {
+          "name": "post",
+          "tip": [
+            "POST method"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--min-tls",
+      "tip": [
+        "U: --min-tls <VERSION>",
+        "Minimum accepted TLS version"
+      ],
+      "next": [
+        {
+          "name": "TLSv1_0",
+          "tip": [
+            "TLS 1.0"
+          ]
+        },
+        {
+          "name": "TLSv1_1",
+          "tip": [
+            "TLS 1.1"
+          ]
+        },
+        {
+          "name": "TLSv1_2",
+          "tip": [
+            "TLS 1.2"
+          ]
+        },
+        {
+          "name": "TLSv1_3",
+          "tip": [
+            "TLS 1.3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mode",
+      "tip": [
+        "U: --mode <MODE>",
+        "Set the output display mode"
+      ],
+      "next": [
+        {
+          "name": "color",
+          "tip": [
+            "Colored output (default)"
+          ]
+        },
+        {
+          "name": "emoji",
+          "tip": [
+            "Emoji output"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "Plain text"
+          ]
+        },
+        {
+          "name": "task",
+          "tip": [
+            "Task output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "Do not skip files ignored by .gitignore"
+      ]
+    },
+    {
+      "name": "--no-progress",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --no-progress",
+        "Do not show progress bar"
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "Only check local files and block network requests"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output <FILE>",
+        "Output file of status report"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Less output per occurrence"
+      ]
+    },
+    {
+      "name": "--remap",
+      "tip": [
+        "U: --remap <REMAP>",
+        "Remap URI matching pattern to different URI"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--require-https",
+      "tip": [
+        "When HTTPS is available, treat HTTP links as errors"
+      ]
+    },
+    {
+      "name": "--retry-wait-time",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --retry-wait-time <SECONDS>",
+        "Minimum wait time in seconds between retries"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--root-dir",
+      "tip": [
+        "U: --root-dir <DIR>",
+        "Root directory for resolving absolute links in local files"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--scheme",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --scheme <SCHEME>",
+        "Only test links with the given schemes"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-missing",
+      "tip": [
+        "Skip missing input files"
+      ]
+    },
+    {
+      "name": "--suggest",
+      "tip": [
+        "Suggest link replacements for broken links using a web archive"
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-T"
+      ],
+      "tip": [
+        "U: -T, --threads <THREADS>",
+        "Number of threads to utilize"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timeout",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --timeout <TIMEOUT>",
+        "Website timeout in seconds"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--user-agent",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --user-agent <AGENT>",
+        "User agent"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Set verbosity level"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version"
+      ]
+    }
+  ]
+}

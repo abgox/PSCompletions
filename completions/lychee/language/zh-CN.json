@@ -1,0 +1,571 @@
+{
+  "meta": {
+    "url": "https://github.com/lycheeverse/lychee",
+    "description": [
+      "一个快速、异步的链接检查器。",
+      "检测本地文件和网站中的失效 URL 和邮件地址。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--accept",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --accept <ACCEPT>",
+        "接受指定的状态码列表作为有效链接。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--accept-timeouts",
+      "tip": [
+        "接受超时请求并返回退出码 0。"
+      ]
+    },
+    {
+      "name": "--archive",
+      "tip": [
+        "U: --archive <ARCHIVE>",
+        "使用 Web 存档来提供建议。"
+      ],
+      "next": [
+        {
+          "name": "wayback",
+          "tip": [
+            "Wayback Machine "
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--base-url",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --base-url <BASE_URL>",
+        "用于解析本地文件中相对 URL 的基础 URL。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--basic-auth",
+      "tip": [
+        "U: --basic-auth <BASIC_AUTH>",
+        "基本身份验证支持。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cache",
+      "tip": [
+        "使用存储在磁盘上的请求缓存。"
+      ]
+    },
+    {
+      "name": "--cache-exclude-status",
+      "tip": [
+        "U: --cache-exclude-status <STATUS>",
+        "从缓存中排除的状态码。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <FILE>",
+        "要使用的配置文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--cookie-jar",
+      "tip": [
+        "U: --cookie-jar <COOKIE_JAR>",
+        "使用给定文件读取和写入 cookie。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dump",
+      "tip": [
+        "不检查链接，仅转储所有提取的链接。"
+      ]
+    },
+    {
+      "name": "--dump-inputs",
+      "tip": [
+        "不检查链接，仅转储所有输入源。"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "tip": [
+        "U: --exclude <EXCLUDE>",
+        "从检查中排除 URL 和邮件地址。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--exclude-all-private",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --exclude-all-private",
+        "从检查中排除所有私有 IP。"
+      ]
+    },
+    {
+      "name": "--exclude-path",
+      "tip": [
+        "U: --exclude-path <PATH>",
+        "排除不检查的路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--extensions",
+      "tip": [
+        "U: --extensions <EXTENSIONS>",
+        "要检查的文件扩展名列表。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--files-from",
+      "tip": [
+        "U: --files-from <PATH>",
+        "从给定文件中读取输入文件名。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --format <FORMAT>",
+        "最终状态报告的输出格式。"
+      ],
+      "next": [
+        {
+          "name": "compact",
+          "tip": [
+            "紧凑格式（默认）。"
+          ]
+        },
+        {
+          "name": "detailed",
+          "tip": [
+            "详细格式。"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 格式。"
+          ]
+        },
+        {
+          "name": "junit",
+          "tip": [
+            "JUnit 格式。"
+          ]
+        },
+        {
+          "name": "markdown",
+          "tip": [
+            "Markdown 格式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--generate",
+      "tip": [
+        "U: --generate <KIND>",
+        "生成特殊输出而不是检查链接。"
+      ],
+      "next": [
+        {
+          "name": "complete-bash",
+          "tip": [
+            "生成 Bash 补全。"
+          ]
+        },
+        {
+          "name": "complete-elvish",
+          "tip": [
+            "生成 Elvish 补全。"
+          ]
+        },
+        {
+          "name": "complete-fish",
+          "tip": [
+            "生成 Fish 补全。"
+          ]
+        },
+        {
+          "name": "complete-powershell",
+          "tip": [
+            "生成 PowerShell 补全。"
+          ]
+        },
+        {
+          "name": "complete-zsh",
+          "tip": [
+            "生成 Zsh 补全。"
+          ]
+        },
+        {
+          "name": "man",
+          "tip": [
+            "生成 man 手册页。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--github-token",
+      "tip": [
+        "U: --github-token <TOKEN>",
+        "用于检查 GitHub 链接的 GitHub API 令牌。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--header",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --header <HEADER:VALUE>",
+        "为请求设置自定义头部。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--hidden",
+      "tip": [
+        "不跳过隐藏目录和文件。"
+      ]
+    },
+    {
+      "name": "--include",
+      "tip": [
+        "U: --include <INCLUDE>",
+        "要检查的 URL（支持正则表达式）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--include-mail",
+      "tip": [
+        "同时检查邮件地址。"
+      ]
+    },
+    {
+      "name": "--insecure",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --insecure",
+        "允许不安全的服务器连接。"
+      ]
+    },
+    {
+      "name": "--max-concurrency",
+      "tip": [
+        "U: --max-concurrency <NUM>",
+        "最大并发网络请求数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-redirects",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --max-redirects <MAX>",
+        "允许的最大重定向次数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-retries",
+      "tip": [
+        "U: --max-retries <NUM>",
+        "每个请求的最大重试次数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--method",
+      "alias": [
+        "-X"
+      ],
+      "tip": [
+        "U: -X, --method <METHOD>",
+        "请求方法。"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "GET 方法（默认）。"
+          ]
+        },
+        {
+          "name": "head",
+          "tip": [
+            "HEAD 方法。"
+          ]
+        },
+        {
+          "name": "post",
+          "tip": [
+            "POST 方法。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--min-tls",
+      "tip": [
+        "U: --min-tls <VERSION>",
+        "接受的最低 TLS 版本。"
+      ],
+      "next": [
+        {
+          "name": "TLSv1_0",
+          "tip": [
+            "TLS 1.0 "
+          ]
+        },
+        {
+          "name": "TLSv1_1",
+          "tip": [
+            "TLS 1.1 "
+          ]
+        },
+        {
+          "name": "TLSv1_2",
+          "tip": [
+            "TLS 1.2 "
+          ]
+        },
+        {
+          "name": "TLSv1_3",
+          "tip": [
+            "TLS 1.3 "
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mode",
+      "tip": [
+        "U: --mode <MODE>",
+        "设置输出显示模式。"
+      ],
+      "next": [
+        {
+          "name": "color",
+          "tip": [
+            "彩色输出（默认）。"
+          ]
+        },
+        {
+          "name": "emoji",
+          "tip": [
+            "Emoji 输出。"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "纯文本。"
+          ]
+        },
+        {
+          "name": "task",
+          "tip": [
+            "任务输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "不跳过被 .gitignore 忽略的文件。"
+      ]
+    },
+    {
+      "name": "--no-progress",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --no-progress",
+        "不显示进度条。"
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "仅检查本地文件并阻止网络请求。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output <FILE>",
+        "状态报告的输出文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "减少每次出现的输出。"
+      ]
+    },
+    {
+      "name": "--remap",
+      "tip": [
+        "U: --remap <REMAP>",
+        "将 URI 匹配模式重映射到不同的 URI。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--require-https",
+      "tip": [
+        "当 HTTPS 可用时，将 HTTP 链接视为错误。"
+      ]
+    },
+    {
+      "name": "--retry-wait-time",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --retry-wait-time <SECONDS>",
+        "重试之间的最小等待时间（秒）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--root-dir",
+      "tip": [
+        "U: --root-dir <DIR>",
+        "用于解析本地文件中绝对链接的根目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--scheme",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --scheme <SCHEME>",
+        "仅测试使用给定协议的链接。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-missing",
+      "tip": [
+        "跳过缺失的输入文件。"
+      ]
+    },
+    {
+      "name": "--suggest",
+      "tip": [
+        "使用 Web 存档为失效链接建议替代链接。"
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-T"
+      ],
+      "tip": [
+        "U: -T, --threads <THREADS>",
+        "使用的线程数。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timeout",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --timeout <TIMEOUT>",
+        "网站超时时间（秒）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--user-agent",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --user-agent <AGENT>",
+        "User agent "
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "设置详细级别。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "显示版本号。"
+      ]
+    }
+  ]
+}

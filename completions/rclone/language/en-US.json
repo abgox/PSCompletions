@@ -2,10 +2,10 @@
   "meta": {
     "url": "https://rclone.org",
     "description": [
-      "Rclone - syncs files to and from cloud storage providers."
+      "Syncs files to and from cloud storage providers."
     ]
   },
-  "root": [
+  "next": [
     {
       "name": "about",
       "tip": [
@@ -15,7 +15,7 @@
     {
       "name": "bisync",
       "tip": [
-        "U: rclone bisync <path1> <path2> [flags]",
+        "U: bisync <path1> <path2> [flags]",
         "Perform bidirectional synchronization between two paths."
       ],
       "option": [
@@ -42,14 +42,14 @@
     {
       "name": "cat",
       "tip": [
-        "U: rclone cat <remote:path> [flags]",
+        "U: cat <remote:path> [flags]",
         "Concatenates any files and sends them to stdout."
       ]
     },
     {
       "name": "check",
       "tip": [
-        "U: rclone check <source:path> <dest:path> [flags]",
+        "U: check <source:path> <dest:path> [flags]",
         "Checks the files in the source and destination match."
       ],
       "option": [
@@ -70,14 +70,14 @@
     {
       "name": "cleanup",
       "tip": [
-        "U: rclone cleanup <remote:path> [flags]",
+        "U: cleanup <remote:path> [flags]",
         "Clean up the remote if possible."
       ]
     },
     {
       "name": "completion",
       "tip": [
-        "U: rclone completion <shell>",
+        "U: completion <shell>",
         "Output completion script for a given shell."
       ],
       "next": [
@@ -98,7 +98,7 @@
     {
       "name": "config",
       "tip": [
-        "U: rclone config <subcommand>",
+        "U: config <subcommand>",
         "Enter an interactive configuration session."
       ],
       "next": [
@@ -149,7 +149,7 @@
         "cp"
       ],
       "tip": [
-        "U: rclone copy <source:path> <dest:path> [flags]",
+        "U: cp|copy <source:path> <dest:path> [flags]",
         "Copy files from source to dest, skipping identical files."
       ],
       "option": [
@@ -186,6 +186,7 @@
             "-n"
           ],
           "tip": [
+            "U: -n, --dry-run",
             "Perform a trial run with no permanent changes"
           ]
         },
@@ -234,6 +235,7 @@
             "-P"
           ],
           "tip": [
+            "U: -P, --transfers",
             "Number of parallel transfers"
           ],
           "next": 0
@@ -243,35 +245,35 @@
     {
       "name": "copyto",
       "tip": [
-        "U: rclone copyto <source:path> <dest:path> [flags]",
+        "U: copyto <source:path> <dest:path> [flags]",
         "Copy files from source to dest, skipping identical files."
       ]
     },
     {
       "name": "copyurl",
       "tip": [
-        "U: rclone copyurl <url> <dest:path> [flags]",
+        "U: copyurl <url> <dest:path> [flags]",
         "Copy the contents of the URL supplied to dest:path."
       ]
     },
     {
       "name": "cryptcheck",
       "tip": [
-        "U: rclone cryptcheck <source:path> <encrypted:path> [flags]",
+        "U: cryptcheck <source:path> <encrypted:path> [flags]",
         "Cryptcheck checks the integrity of an encrypted remote."
       ]
     },
     {
       "name": "cryptdecode",
       "tip": [
-        "U: rclone cryptdecode <encrypted:path> [flags]",
+        "U: cryptdecode <encrypted:path> [flags]",
         "Cryptdecode returns unencrypted file names."
       ]
     },
     {
       "name": "dedupe",
       "tip": [
-        "U: rclone dedupe <remote:path> [flags]",
+        "U: dedupe <remote:path> [flags]",
         "Interactively find duplicate filenames and delete/rename them."
       ],
       "option": [
@@ -325,6 +327,7 @@
             "-i"
           ],
           "tip": [
+            "U: -i, --interactive",
             "Enable interactive mode"
           ]
         }
@@ -333,7 +336,7 @@
     {
       "name": "delete",
       "tip": [
-        "U: rclone delete <remote:path> [flags]",
+        "U: delete <remote:path> [flags]",
         "Remove the files in path."
       ],
       "option": [
@@ -354,14 +357,14 @@
     {
       "name": "deletefile",
       "tip": [
-        "U: rclone deletefile <remote:path> [flags]",
+        "U: deletefile <remote:path> [flags]",
         "Remove a single file from remote."
       ]
     },
     {
       "name": "gendocs",
       "tip": [
-        "U: rclone gendocs <output_directory>",
+        "U: gendocs <output_directory>",
         "Output markdown docs for rclone to the directory supplied."
       ]
     },
@@ -382,7 +385,7 @@
     {
       "name": "hashsum",
       "tip": [
-        "U: rclone hashsum <hash> <remote:path> [flags]",
+        "U: hashsum <hash> <remote:path> [flags]",
         "Produces a hashsum file for all the objects in the path."
       ]
     },
@@ -412,7 +415,7 @@
     {
       "name": "link",
       "tip": [
-        "U: rclone link <remote:path> [flags]",
+        "U: link <remote:path> [flags]",
         "Generate public link to file/folder."
       ],
       "option": [
@@ -448,7 +451,7 @@
     {
       "name": "ls",
       "tip": [
-        "U: rclone ls <remote:path> [flags]",
+        "U: ls <remote:path> [flags]",
         "List the objects in the path with size and path."
       ],
       "option": [
@@ -458,6 +461,7 @@
             "-d"
           ],
           "tip": [
+            "U: -d, --max-depth",
             "Max depth of directory to list"
           ],
           "next": 0
@@ -467,14 +471,14 @@
     {
       "name": "lsd",
       "tip": [
-        "U: rclone lsd <remote:path> [flags]",
+        "U: lsd <remote:path> [flags]",
         "List all directories/containers/buckets in the path."
       ]
     },
     {
       "name": "lsf",
       "tip": [
-        "U: rclone lsf <remote:path> [flags]",
+        "U: lsf <remote:path> [flags]",
         "List directories and objects in remote:path formatted for parsing."
       ],
       "option": [
@@ -509,7 +513,7 @@
     {
       "name": "lsjson",
       "tip": [
-        "U: rclone lsjson <remote:path> [flags]",
+        "U: lsjson <remote:path> [flags]",
         "List directories and objects in the path in JSON format."
       ],
       "option": [
@@ -542,28 +546,28 @@
     {
       "name": "lsl",
       "tip": [
-        "U: rclone lsl <remote:path> [flags]",
+        "U: lsl <remote:path> [flags]",
         "List the objects in path with modification time, size and path."
       ]
     },
     {
       "name": "md5sum",
       "tip": [
-        "U: rclone md5sum <remote:path> [flags]",
+        "U: md5sum <remote:path> [flags]",
         "Produces an md5sum file for all the objects in the path."
       ]
     },
     {
       "name": "mkdir",
       "tip": [
-        "U: rclone mkdir <remote:path>",
+        "U: mkdir <remote:path>",
         "Make the path if it doesn't already exist."
       ]
     },
     {
       "name": "mount",
       "tip": [
-        "U: rclone mount <remote:path> <mountpoint> [flags]",
+        "U: mount <remote:path> <mountpoint> [flags]",
         "Mount the remote as file system on a mountpoint."
       ],
       "option": [
@@ -701,7 +705,7 @@
         "mv"
       ],
       "tip": [
-        "U: rclone move <source:path> <dest:path> [flags]",
+        "U: mv|move <source:path> <dest:path> [flags]",
         "Move files from source to dest."
       ],
       "option": [
@@ -724,6 +728,7 @@
             "-n"
           ],
           "tip": [
+            "U: -n, --dry-run",
             "Perform a trial run with no permanent changes"
           ]
         },
@@ -739,6 +744,7 @@
             "-P"
           ],
           "tip": [
+            "U: -P, --transfers",
             "Number of parallel transfers"
           ],
           "next": 0
@@ -748,28 +754,28 @@
     {
       "name": "moveto",
       "tip": [
-        "U: rclone moveto <source:path> <dest:path> [flags]",
+        "U: moveto <source:path> <dest:path> [flags]",
         "Move file or directory from source to dest."
       ]
     },
     {
       "name": "ncdu",
       "tip": [
-        "U: rclone ncdu <remote:path> [flags]",
+        "U: ncdu <remote:path> [flags]",
         "Explore a remote with a text based user interface."
       ]
     },
     {
       "name": "obscure",
       "tip": [
-        "U: rclone obscure <password>",
+        "U: obscure <password>",
         "Obscure password for use in the rclone config file."
       ]
     },
     {
       "name": "purge",
       "tip": [
-        "U: rclone purge <remote:path> [flags]",
+        "U: purge <remote:path> [flags]",
         "Remove the path and all of its contents."
       ],
       "option": [
@@ -784,7 +790,7 @@
     {
       "name": "rc",
       "tip": [
-        "U: rclone rc <command> [flags]",
+        "U: rc <command> [flags]",
         "Run a command against a running rclone."
       ],
       "option": [
@@ -820,28 +826,28 @@
     {
       "name": "rcat",
       "tip": [
-        "U: rclone rcat <remote:path>",
+        "U: rcat <remote:path>",
         "Copies standard input to file on remote."
       ]
     },
     {
       "name": "rcd",
       "tip": [
-        "U: rclone rcd <remote:path> [flags]",
+        "U: rcd <remote:path> [flags]",
         "Run rclone listening to remote control commands only."
       ]
     },
     {
       "name": "rmdir",
       "tip": [
-        "U: rclone rmdir <remote:path>",
+        "U: rmdir <remote:path>",
         "Remove the empty directory at path."
       ]
     },
     {
       "name": "rmdirs",
       "tip": [
-        "U: rclone rmdirs <remote:path> [flags]",
+        "U: rmdirs <remote:path> [flags]",
         "Remove empty directories under the path."
       ],
       "option": [
@@ -856,7 +862,7 @@
     {
       "name": "selfupdate",
       "tip": [
-        "U: rclone selfupdate [flags]",
+        "U: selfupdate [flags]",
         "Update the rclone binary."
       ],
       "option": [
@@ -884,6 +890,7 @@
             "-o"
           ],
           "tip": [
+            "U: -o, --output",
             "Output binary path"
           ],
           "next": 0
@@ -893,7 +900,7 @@
     {
       "name": "serve",
       "tip": [
-        "U: rclone serve <protocol> <remote:path> [flags]",
+        "U: serve <protocol> <remote:path> [flags]",
         "Serve a remote over a protocol."
       ],
       "option": [
@@ -910,6 +917,7 @@
             "--user"
           ],
           "tip": [
+            "U: --user, --auth",
             "Set username for authentication"
           ],
           "next": 0
@@ -941,6 +949,7 @@
             "--pass"
           ],
           "tip": [
+            "U: --pass, --password",
             "Set password for authentication"
           ],
           "next": 0
@@ -989,28 +998,28 @@
     {
       "name": "settier",
       "tip": [
-        "U: rclone settier <tier> <remote:path> [flags]",
+        "U: settier <tier> <remote:path> [flags]",
         "Changes storage class/tier of objects in remote."
       ]
     },
     {
       "name": "sha1sum",
       "tip": [
-        "U: rclone sha1sum <remote:path> [flags]",
+        "U: sha1sum <remote:path> [flags]",
         "Produces an sha1sum file for all the objects in the path."
       ]
     },
     {
       "name": "size",
       "tip": [
-        "U: rclone size <remote:path> [flags]",
+        "U: size <remote:path> [flags]",
         "Prints the total size and number of objects in remote:path."
       ]
     },
     {
       "name": "sync",
       "tip": [
-        "U: rclone sync <source:path> <dest:path> [flags]",
+        "U: sync <source:path> <dest:path> [flags]",
         "Make source and dest identical, modifying destination only."
       ],
       "option": [
@@ -1033,6 +1042,7 @@
             "-n"
           ],
           "tip": [
+            "U: -n, --dry-run",
             "Perform a trial run with no permanent changes"
           ]
         },
@@ -1048,6 +1058,7 @@
             "-P"
           ],
           "tip": [
+            "U: -P, --transfers",
             "Number of parallel transfers"
           ],
           "next": 0
@@ -1057,14 +1068,14 @@
     {
       "name": "touch",
       "tip": [
-        "U: rclone touch <remote:path> [flags]",
+        "U: touch <remote:path> [flags]",
         "Create new file or change file modification time."
       ]
     },
     {
       "name": "tree",
       "tip": [
-        "U: rclone tree <remote:path> [flags]",
+        "U: tree <remote:path> [flags]",
         "List the contents of the remote in a tree like fashion."
       ],
       "option": [
@@ -1074,6 +1085,7 @@
             "-a"
           ],
           "tip": [
+            "U: -a, --all",
             "Include all files"
           ]
         },
@@ -1083,6 +1095,7 @@
             "-d"
           ],
           "tip": [
+            "U: -d, --dirs-only",
             "Show directories only"
           ]
         },
@@ -1092,6 +1105,7 @@
             "-f"
           ],
           "tip": [
+            "U: -f, --files-only",
             "Show files only"
           ]
         },
@@ -1101,6 +1115,7 @@
             "-L"
           ],
           "tip": [
+            "U: -L, --level",
             "Depth to display"
           ],
           "next": 0
@@ -1146,13 +1161,14 @@
       ]
     }
   ],
-  "common_option": [
+  "global_option": [
     {
       "name": "--ask-s3-secret-access-key",
       "alias": [
         "--ask-password"
       ],
       "tip": [
+        "U: --ask-password, --ask-s3-secret-access-key",
         "Allow asking for password when needed."
       ]
     },
@@ -1776,7 +1792,7 @@
         "-P"
       ],
       "tip": [
-        "U: --transfers <N>",
+        "U: -P, --transfers <N>",
         "Number of parallel file transfers."
       ],
       "next": 0

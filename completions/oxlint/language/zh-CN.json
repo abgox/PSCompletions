@@ -1,0 +1,395 @@
+{
+  "meta": {
+    "url": "https://oxc.rs",
+    "description": [
+      "TypeScript 和 JavaScript 检查器，兼容 ESLint 配置，用于正确性和部分风格规则"
+    ]
+  },
+  "option": [
+    {
+      "name": "--allow",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --allow <NAME>",
+        "允许该规则或类别（抑制检查）"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <PATH>",
+        "Oxlint 配置文件（所有运行时均支持 .json 和 .jsonc）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "U: --debug <OPTIONS>",
+        "启用调试输出选项。选项以逗号分隔"
+      ],
+      "next": [
+        {
+          "name": "files",
+          "tip": [
+            "打印将被检查的文件列表，然后退出"
+          ]
+        },
+        {
+          "name": "timings",
+          "tip": [
+            "启用每条规则的计时信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--deny",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --deny <NAME>",
+        "拒绝该规则或类别（发出错误）"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--deny-warnings",
+      "tip": [
+        "确保警告产生非零退出码"
+      ]
+    },
+    {
+      "name": "--disable-nested-config",
+      "tip": [
+        "禁用自动加载嵌套配置文件"
+      ]
+    },
+    {
+      "name": "--disable-oxc-plugin",
+      "tip": [
+        "禁用 oxc 独有规则（默认开启）"
+      ]
+    },
+    {
+      "name": "--disable-typescript-plugin",
+      "tip": [
+        "禁用 TypeScript 插件（默认开启）"
+      ]
+    },
+    {
+      "name": "--disable-unicorn-plugin",
+      "tip": [
+        "禁用 unicorn 插件（默认开启）"
+      ]
+    },
+    {
+      "name": "--fix",
+      "tip": [
+        "修复尽可能多的问题。输出中仅报告未修复的问题"
+      ]
+    },
+    {
+      "name": "--fix-dangerously",
+      "tip": [
+        "应用危险的修复和建议"
+      ]
+    },
+    {
+      "name": "--fix-suggestions",
+      "tip": [
+        "应用可自动修复的建议。可能会改变程序行为"
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --format <ARG>",
+        "使用指定的输出格式"
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "tip": [
+            "Agent 格式"
+          ]
+        },
+        {
+          "name": "checkstyle",
+          "tip": [
+            "Checkstyle 格式"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "默认格式"
+          ]
+        },
+        {
+          "name": "github",
+          "tip": [
+            "GitHub 格式"
+          ]
+        },
+        {
+          "name": "gitlab",
+          "tip": [
+            "GitLab 格式"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 格式"
+          ]
+        },
+        {
+          "name": "junit",
+          "tip": [
+            "JUnit 格式"
+          ]
+        },
+        {
+          "name": "sarif",
+          "tip": [
+            "SARIF 格式"
+          ]
+        },
+        {
+          "name": "stylish",
+          "tip": [
+            "Stylish 格式"
+          ]
+        },
+        {
+          "name": "unix",
+          "tip": [
+            "Unix 格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ignore-path",
+      "tip": [
+        "U: --ignore-path <PATH>",
+        "指定用作 .eslintignore 的文件"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-pattern",
+      "tip": [
+        "U: --ignore-pattern <PAT>",
+        "指定要忽略的文件模式（除 .eslintignore 中的模式外）"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--import-plugin",
+      "tip": [
+        "启用 import 插件并检测 ESM 问题"
+      ]
+    },
+    {
+      "name": "--init",
+      "tip": [
+        "使用默认值初始化 oxlint 配置"
+      ]
+    },
+    {
+      "name": "--jest-plugin",
+      "tip": [
+        "启用 Jest 插件并检测测试问题"
+      ]
+    },
+    {
+      "name": "--jsdoc-plugin",
+      "tip": [
+        "启用 jsdoc 插件并检测 JSDoc 问题"
+      ]
+    },
+    {
+      "name": "--jsx-a11y-plugin",
+      "tip": [
+        "启用 JSX-a11y 插件并检测无障碍问题"
+      ]
+    },
+    {
+      "name": "--lsp",
+      "tip": [
+        "启动语言服务器"
+      ]
+    },
+    {
+      "name": "--max-warnings",
+      "tip": [
+        "U: --max-warnings <INT>",
+        "指定警告阈值，可用于在项目中有太多警告级规则违规时强制退出并报错"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--nextjs-plugin",
+      "tip": [
+        "启用 Next.js 插件并检测 Next.js 问题"
+      ]
+    },
+    {
+      "name": "--no-ignore",
+      "tip": [
+        "禁用从 .eslintignore 文件、--ignore-path 标志和 --ignore-pattern 标志中排除文件"
+      ]
+    },
+    {
+      "name": "--node-plugin",
+      "tip": [
+        "启用 node 插件并检测 node 使用问题"
+      ]
+    },
+    {
+      "name": "--print-config",
+      "tip": [
+        "输出将被使用的配置。使用时不执行检查，仅配置相关选项有效"
+      ]
+    },
+    {
+      "name": "--promise-plugin",
+      "tip": [
+        "启用 promise 插件并检测 promise 使用问题"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "tip": [
+        "禁用警告报告，仅报告错误"
+      ]
+    },
+    {
+      "name": "--react-perf-plugin",
+      "tip": [
+        "启用 React 性能插件并检测渲染性能问题"
+      ]
+    },
+    {
+      "name": "--react-plugin",
+      "tip": [
+        "启用 react 插件（默认关闭）"
+      ]
+    },
+    {
+      "name": "--report-unused-disable-directives",
+      "tip": [
+        "报告指令注释（如 // oxlint-disable-line），即使该行原本不会报告任何错误"
+      ]
+    },
+    {
+      "name": "--report-unused-disable-directives-severity",
+      "tip": [
+        "U: --report-unused-disable-directives-severity <SEVERITY>",
+        "与 --report-unused-disable-directives 相同，但允许指定严重级别"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rules",
+      "tip": [
+        "列出当前注册的所有规则"
+      ]
+    },
+    {
+      "name": "--silent",
+      "tip": [
+        "不显示任何诊断信息"
+      ]
+    },
+    {
+      "name": "--threads",
+      "tip": [
+        "U: --threads <INT>",
+        "使用的线程数。设为 1 仅使用单个 CPU 核心"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tsconfig",
+      "tip": [
+        "U: --tsconfig <PATH>",
+        "覆盖用于导入解析的 TypeScript 配置"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--type-aware",
+      "tip": [
+        "启用需要类型信息的规则"
+      ]
+    },
+    {
+      "name": "--type-check",
+      "tip": [
+        "启用实验性类型检查（包含 TypeScript 编译器诊断）"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息"
+      ]
+    },
+    {
+      "name": "--vitest-plugin",
+      "tip": [
+        "启用 Vitest 插件并检测测试问题"
+      ]
+    },
+    {
+      "name": "--vue-plugin",
+      "tip": [
+        "启用 vue 插件并检测 vue 使用问题"
+      ]
+    },
+    {
+      "name": "--warn",
+      "alias": [
+        "-W"
+      ],
+      "tip": [
+        "U: -W, --warn <NAME>",
+        "拒绝该规则或类别（发出警告）"
+      ],
+      "repeat": 99,
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息"
+      ]
+    }
+  ]
+}

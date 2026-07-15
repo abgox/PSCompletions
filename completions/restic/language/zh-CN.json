@@ -1,0 +1,716 @@
+{
+  "meta": {
+    "url": "https://restic.net",
+    "description": [
+      "备份程序",
+      "在加密仓库中保存文件和目录的多个修订版本"
+    ]
+  },
+  "next": [
+    {
+      "name": "backup",
+      "tip": [
+        "U: backup [FLAGS] [FILE/DIR]...",
+        "创建文件和/或目录的新备份"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "不上传或写入任何数据"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exclude <PATTERN>",
+            "排除匹配模式"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exclude-caches",
+          "tip": [
+            "排除标记有 CACHEDIR.TAG 的缓存目录"
+          ]
+        },
+        {
+          "name": "--exclude-file",
+          "tip": [
+            "U: --exclude-file <FILE>",
+            "从文件读取排除模式"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--exclude-larger-than",
+          "tip": [
+            "U: --exclude-larger-than <SIZE>",
+            "要备份的文件最大尺寸"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--files-from",
+          "tip": [
+            "U: --files-from <FILE>",
+            "从文件读取要备份的文件列表"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "强制重新读取源文件"
+          ]
+        },
+        {
+          "name": "--group-by",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --group-by <GROUP>",
+            "按主机、路径和/或标签分组快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --host <HOSTNAME>",
+            "设置快照的主机名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--one-file-system",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "U: -x, --one-file-system",
+            "排除其他文件系统"
+          ]
+        },
+        {
+          "name": "--parent",
+          "tip": [
+            "U: --parent <SNAPSHOT>",
+            "使用此父快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从 stdin 读取备份"
+          ]
+        },
+        {
+          "name": "--stdin-filename",
+          "tip": [
+            "U: --stdin-filename <FILENAME>",
+            "从 stdin 读取时使用的文件名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAGS>",
+            "为新快照添加标签"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--time",
+          "tip": [
+            "U: --time <TIME>",
+            "备份时间"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "U: check",
+        "检查仓库是否存在错误"
+      ],
+      "option": [
+        {
+          "name": "--read-data",
+          "tip": [
+            "读取所有数据并验证校验和"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "tip": [
+        "U: diff <SNAPSHOT1> <SNAPSHOT2>",
+        "显示两个快照之间的差异"
+      ]
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "U: dump <SNAPSHOT> <PATH>",
+        "将备份的文件或文件夹输出到 stdout"
+      ]
+    },
+    {
+      "name": "find",
+      "tip": [
+        "U: find <PATTERN>",
+        "查找文件、目录或 restic ID"
+      ]
+    },
+    {
+      "name": "forget",
+      "tip": [
+        "U: forget [FLAGS] [SNAPSHOT ID]...",
+        "从仓库中移除快照"
+      ],
+      "option": [
+        {
+          "name": "--compact",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --compact",
+            "使用紧凑输出格式"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "不删除任何内容"
+          ]
+        },
+        {
+          "name": "--group-by",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --group-by <GROUP>",
+            "按主机、路径和/或标签分组快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "仅考虑此主机的快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-daily",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --keep-daily <N>",
+            "保留最近 n 个每日快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-hourly",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --keep-hourly <N>",
+            "保留最近 n 个每小时快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-last",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --keep-last <N>",
+            "保留最近 n 个快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-monthly",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --keep-monthly <N>",
+            "保留最近 n 个每月快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-tag",
+          "tip": [
+            "U: --keep-tag <TAG>",
+            "保留具有此标签的快照"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--keep-weekly",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --keep-weekly <N>",
+            "保留最近 n 个每周快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-within",
+          "tip": [
+            "U: --keep-within <DURATION>",
+            "保留比指定时间范围更新的快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--keep-yearly",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --keep-yearly <N>",
+            "保留最近 n 个每年快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <PATH>",
+            "仅考虑包含此路径的快照"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "自动运行 prune 命令"
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "仅考虑包含此标签的快照"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init",
+        "初始化新仓库"
+      ]
+    },
+    {
+      "name": "key",
+      "tip": [
+        "U: key",
+        "管理密钥（密码）"
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "U: list",
+        "列出仓库中的对象"
+      ]
+    },
+    {
+      "name": "ls",
+      "tip": [
+        "U: ls <SNAPSHOT>",
+        "列出快照中的文件"
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --long",
+            "使用长列表格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migrate",
+      "tip": [
+        "U: migrate",
+        "应用迁移"
+      ]
+    },
+    {
+      "name": "prune",
+      "tip": [
+        "U: prune",
+        "从仓库中移除不需要的数据"
+      ]
+    },
+    {
+      "name": "recover",
+      "tip": [
+        "U: recover",
+        "恢复未被快照引用的数据"
+      ]
+    },
+    {
+      "name": "repair",
+      "tip": [
+        "U: repair",
+        "修复仓库"
+      ]
+    },
+    {
+      "name": "restore",
+      "tip": [
+        "U: restore [FLAGS] <SNAPSHOTID>",
+        "从快照中提取数据"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不写入任何数据"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exclude <PATTERN>",
+            "排除匹配模式"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --host <HOST>",
+            "仅考虑此主机的快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --include <PATTERN>",
+            "包含匹配模式"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <PATH>",
+            "仅考虑包含此路径的快照"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "仅考虑包含此标签的快照"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --target <DIR>",
+            "数据提取到的目录"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "self-update",
+      "tip": [
+        "U: self-update",
+        "更新 restic 二进制文件"
+      ]
+    },
+    {
+      "name": "snapshots",
+      "tip": [
+        "U: snapshots [FLAGS] [SNAPSHOTID]...",
+        "列出所有快照"
+      ],
+      "option": [
+        {
+          "name": "--compact",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --compact",
+            "使用紧凑输出格式"
+          ]
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "仅考虑此主机的快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--latest",
+          "tip": [
+            "U: --latest <N>",
+            "仅显示最近 n 个快照"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "tip": [
+            "U: --path <PATH>",
+            "仅考虑包含此路径的快照"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "U: --tag <TAG>",
+            "仅考虑包含此标签的快照"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "U: stats",
+        "扫描仓库并显示基本统计信息"
+      ]
+    },
+    {
+      "name": "tag",
+      "tip": [
+        "U: tag",
+        "修改快照上的标签"
+      ]
+    },
+    {
+      "name": "unlock",
+      "tip": [
+        "U: unlock",
+        "移除其他进程创建的锁"
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "U: version",
+        "打印版本信息"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--cache-dir",
+      "tip": [
+        "U: --cache-dir <DIR>",
+        "设置缓存目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--compression",
+      "tip": [
+        "U: --compression <MODE>",
+        "压缩模式"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）"
+          ]
+        },
+        {
+          "name": "better",
+          "tip": [
+            "更好的压缩"
+          ]
+        },
+        {
+          "name": "fastest",
+          "tip": [
+            "最快的压缩"
+          ]
+        },
+        {
+          "name": "max",
+          "tip": [
+            "最大压缩"
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "不压缩"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "restic 帮助"
+      ]
+    },
+    {
+      "name": "--insecure-tls",
+      "tip": [
+        "跳过 TLS 证书验证"
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "将输出模式设置为 JSON"
+      ]
+    },
+    {
+      "name": "--limit-download",
+      "tip": [
+        "U: --limit-download <RATE>",
+        "将下载速率限制为最大 KiB/s"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--limit-upload",
+      "tip": [
+        "U: --limit-upload <RATE>",
+        "将上传速率限制为最大 KiB/s"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-cache",
+      "tip": [
+        "不使用本地缓存"
+      ]
+    },
+    {
+      "name": "--password-file",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --password-file <FILE>",
+        "从文件读取仓库密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "不输出综合进度报告"
+      ]
+    },
+    {
+      "name": "--repo",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --repo <REPOSITORY>",
+        "备份或恢复的仓库"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "启用详细输出"
+      ]
+    }
+  ]
+}

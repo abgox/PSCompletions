@@ -1,0 +1,917 @@
+{
+  "meta": {
+    "url": "https://esbuild.github.io/",
+    "description": [
+      "Extremely fast JavaScript and CSS bundler and minifier."
+    ]
+  },
+  "option": [
+    {
+      "name": "--abs-paths",
+      "tip": [
+        "U: --abs-paths=<TYPE>",
+        "Emit absolute instead of relative paths in these situations"
+      ],
+      "next": [
+        {
+          "name": "code",
+          "tip": [
+            "Absolute paths in generated code"
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "Absolute paths in log messages"
+          ]
+        },
+        {
+          "name": "metafile",
+          "tip": [
+            "Absolute paths in metafile JSON"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--allow-overwrite",
+      "tip": [
+        "Allow output files to overwrite input files"
+      ]
+    },
+    {
+      "name": "--analyze",
+      "tip": [
+        "Print a report about the contents of the bundle (use \"--analyze=verbose\" for a detailed report)"
+      ]
+    },
+    {
+      "name": "--asset-names",
+      "tip": [
+        "U: --asset-names=<TEMPLATE>",
+        "Path template to use for \"file\" loader files (default \"[name]-[hash]\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--banner:T=...",
+      "alias": [
+        "--banner"
+      ],
+      "tip": [
+        "U: --banner:<TYPE>=<TEXT>",
+        "Text to be prepended to each output file of type T (css | js)"
+      ]
+    },
+    {
+      "name": "--bundle",
+      "tip": [
+        "Bundle all dependencies into the output files"
+      ]
+    },
+    {
+      "name": "--certfile",
+      "tip": [
+        "U: --certfile=<FILE>",
+        "Certificate for serving HTTPS (see also \"--keyfile\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--charset",
+      "tip": [
+        "Do not escape UTF-8 code points"
+      ]
+    },
+    {
+      "name": "--chunk-names",
+      "tip": [
+        "U: --chunk-names=<TEMPLATE>",
+        "Path template to use for code splitting chunks (default \"[name]-[hash]\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color=<VALUE>",
+        "Force use of color terminal escapes"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "Disable color output"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Force color output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cors-origin",
+      "tip": [
+        "U: --cors-origin=<ORIGIN>",
+        "Allow cross-origin requests from this origin"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--define:K=V",
+      "alias": [
+        "--define"
+      ],
+      "tip": [
+        "U: --define:K=V",
+        "Substitute K with V while parsing"
+      ]
+    },
+    {
+      "name": "--drop",
+      "tip": [
+        "U: --drop:<TYPE>",
+        "Remove certain constructs"
+      ],
+      "next": [
+        {
+          "name": "console",
+          "tip": [
+            "Remove all console.* calls"
+          ]
+        },
+        {
+          "name": "debugger",
+          "tip": [
+            "Remove all debugger statements"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--drop-labels",
+      "tip": [
+        "U: --drop-labels=<LABELS>",
+        "Remove labeled statements with these label names"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--entry-names",
+      "tip": [
+        "U: --entry-names=<TEMPLATE>",
+        "Path template to use for entry point output paths (default \"[dir]/[name]\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--external:M",
+      "alias": [
+        "--external"
+      ],
+      "tip": [
+        "U: --external:M",
+        "Exclude module M from the bundle (can use * wildcards)"
+      ]
+    },
+    {
+      "name": "--footer",
+      "tip": [
+        "U: --footer:<TYPE>=<TEXT>",
+        "Text to be appended to each output file of type T (css | js)"
+      ]
+    },
+    {
+      "name": "--format",
+      "tip": [
+        "U: --format=<FORMAT>",
+        "Output format"
+      ],
+      "next": [
+        {
+          "name": "cjs",
+          "tip": [
+            "CommonJS module (default for node)"
+          ]
+        },
+        {
+          "name": "esm",
+          "tip": [
+            "ES module"
+          ]
+        },
+        {
+          "name": "iife",
+          "tip": [
+            "Immediately-invoked function expression (default for browser)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--global-name",
+      "tip": [
+        "U: --global-name=<NAME>",
+        "The name of the global for the IIFE format"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-annotations",
+      "tip": [
+        "Enable this to work with packages that have incorrect tree-shaking annotations"
+      ]
+    },
+    {
+      "name": "--inject",
+      "tip": [
+        "U: --inject:<FILE>",
+        "Import the file F into all input files and automatically replace matching globals with imports"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--jsx",
+      "tip": [
+        "U: --jsx=<MODE>",
+        "Set to \"automatic\" to use React's automatic runtime or to \"preserve\" to disable transforming JSX to JS"
+      ],
+      "next": [
+        {
+          "name": "automatic",
+          "tip": [
+            "Use React's automatic runtime"
+          ]
+        },
+        {
+          "name": "preserve",
+          "tip": [
+            "Disable transforming JSX to JS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--jsx-dev",
+      "tip": [
+        "Use React's automatic runtime in development mode"
+      ]
+    },
+    {
+      "name": "--jsx-factory",
+      "tip": [
+        "U: --jsx-factory=<EXPR>",
+        "What to use for JSX instead of React.createElement"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--jsx-fragment",
+      "tip": [
+        "U: --jsx-fragment=<EXPR>",
+        "What to use for JSX instead of React.Fragment"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--jsx-import-source",
+      "tip": [
+        "U: --jsx-import-source=<PKG>",
+        "Override the package name for the automatic runtime (default \"react\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--jsx-side-effects",
+      "tip": [
+        "Do not remove unused JSX expressions"
+      ]
+    },
+    {
+      "name": "--keep-names",
+      "tip": [
+        "Preserve \"name\" on functions and classes"
+      ]
+    },
+    {
+      "name": "--keyfile",
+      "tip": [
+        "U: --keyfile=<FILE>",
+        "Key for serving HTTPS (see also \"--certfile\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--legal-comments",
+      "tip": [
+        "U: --legal-comments=<WHERE>",
+        "Where to place legal comments (default eof when bundling, inline otherwise)"
+      ],
+      "next": [
+        {
+          "name": "eof",
+          "tip": [
+            "Move to the end of the file"
+          ]
+        },
+        {
+          "name": "external",
+          "tip": [
+            "Move to a separate file and link"
+          ]
+        },
+        {
+          "name": "inline",
+          "tip": [
+            "Preserve in the original location"
+          ]
+        },
+        {
+          "name": "linked",
+          "tip": [
+            "Move to a separate file"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "Omit all legal comments"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--line-limit",
+      "tip": [
+        "U: --line-limit=<CHARS>",
+        "Lines longer than this will be wrapped onto a new line"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--loader:X=L",
+      "alias": [
+        "--loader"
+      ],
+      "tip": [
+        "U: --loader:<EXT>=<LOADER>",
+        "Use loader L to load file extension X"
+      ],
+      "next": [
+        {
+          "name": "base64",
+          "tip": [
+            "Data URL with base64 encoding"
+          ]
+        },
+        {
+          "name": "binary",
+          "tip": [
+            "Binary data"
+          ]
+        },
+        {
+          "name": "copy",
+          "tip": [
+            "Copy file to output and return URL"
+          ]
+        },
+        {
+          "name": "css",
+          "tip": [
+            "CSS"
+          ]
+        },
+        {
+          "name": "dataurl",
+          "tip": [
+            "Data URL"
+          ]
+        },
+        {
+          "name": "empty",
+          "tip": [
+            "Empty content"
+          ]
+        },
+        {
+          "name": "file",
+          "tip": [
+            "File loader"
+          ]
+        },
+        {
+          "name": "global-css",
+          "tip": [
+            "Global CSS (no modules)"
+          ]
+        },
+        {
+          "name": "js",
+          "tip": [
+            "JavaScript"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON"
+          ]
+        },
+        {
+          "name": "jsx",
+          "tip": [
+            "JSX (React)"
+          ]
+        },
+        {
+          "name": "local-css",
+          "tip": [
+            "CSS Modules"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "Text content"
+          ]
+        },
+        {
+          "name": "ts",
+          "tip": [
+            "TypeScript"
+          ]
+        },
+        {
+          "name": "tsx",
+          "tip": [
+            "TypeScript JSX"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level=<LEVEL>",
+        "Disable logging (default info)"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Show debug and above"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Show errors only"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Show info and above (default)"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Disable all logging"
+          ]
+        },
+        {
+          "name": "verbose",
+          "tip": [
+            "Show all log messages"
+          ]
+        },
+        {
+          "name": "warning",
+          "tip": [
+            "Show warnings and errors only"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-limit",
+      "tip": [
+        "U: --log-limit=<N>",
+        "Maximum message count or 0 to disable (default 6)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-override",
+      "tip": [
+        "U: --log-override:<ID>=<LEVEL>",
+        "Use log level Y for log messages with identifier X"
+      ]
+    },
+    {
+      "name": "--main-fields",
+      "tip": [
+        "U: --main-fields=<FIELDS>",
+        "Override the main file order in package.json"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mangle-cache",
+      "tip": [
+        "U: --mangle-cache=<FILE>",
+        "Save \"mangle props\" decisions to a JSON file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mangle-props",
+      "tip": [
+        "U: --mangle-props=<REGEX>",
+        "Rename all properties matching a regular expression"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mangle-quoted",
+      "tip": [
+        "U: --mangle-quoted=<VALUE>",
+        "Enable renaming of quoted properties"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "Disable renaming of quoted properties"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Enable renaming of quoted properties"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--metafile",
+      "tip": [
+        "U: --metafile=<FILE>",
+        "Write metadata about the build to a JSON file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--minify",
+      "tip": [
+        "Minify the output (sets all --minify-* flags)"
+      ]
+    },
+    {
+      "name": "--minify-identifiers",
+      "tip": [
+        "Shorten identifiers in output files"
+      ]
+    },
+    {
+      "name": "--minify-syntax",
+      "tip": [
+        "Use equivalent but shorter syntax in output files"
+      ]
+    },
+    {
+      "name": "--minify-whitespace",
+      "tip": [
+        "Remove whitespace in output files"
+      ]
+    },
+    {
+      "name": "--out-extension",
+      "tip": [
+        "U: --out-extension:<EXT>=<NEW_EXT>",
+        "Use a custom output extension instead of the default"
+      ]
+    },
+    {
+      "name": "--outbase",
+      "tip": [
+        "U: --outbase=<DIR>",
+        "The base path used to determine entry point output paths"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--outdir",
+      "tip": [
+        "U: --outdir=<DIR>",
+        "The output directory (for multiple entry points)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--outfile",
+      "tip": [
+        "U: --outfile=<FILE>",
+        "The output file (for one entry point)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--packages",
+      "tip": [
+        "U: --packages=<MODE>",
+        "Set to \"external\" to avoid bundling any package"
+      ],
+      "next": [
+        {
+          "name": "external",
+          "tip": [
+            "Don't bundle any packages"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--platform",
+      "tip": [
+        "U: --platform=<PLATFORM>",
+        "Platform target (default browser)"
+      ],
+      "next": [
+        {
+          "name": "browser",
+          "tip": [
+            "Browser target (default)"
+          ]
+        },
+        {
+          "name": "neutral",
+          "tip": [
+            "Platform-neutral target"
+          ]
+        },
+        {
+          "name": "node",
+          "tip": [
+            "Node.js target"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--preserve-symlinks",
+      "tip": [
+        "Disable symlink resolution for module lookup"
+      ]
+    },
+    {
+      "name": "--public-path",
+      "tip": [
+        "U: --public-path=<PATH>",
+        "Set the base URL for the \"file\" loader"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--pure",
+      "tip": [
+        "U: --pure=<NAME>",
+        "Mark the name N as a pure function for tree shaking"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reserve-props",
+      "tip": [
+        "U: --reserve-props=<PROPS>",
+        "Do not mangle these properties"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--resolve-extensions",
+      "tip": [
+        "U: --resolve-extensions=<EXTS>",
+        "A comma-separated list of implicit extensions (default \".tsx,.ts,.jsx,.js,.css,.json\")"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--serve",
+      "tip": [
+        "U: --serve=<HOST:PORT>",
+        "Start a local HTTP server on this host:port for outputs"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--serve-fallback",
+      "tip": [
+        "U: --serve-fallback=<FILE>",
+        "Serve this HTML page when the request doesn't match"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--servedir",
+      "tip": [
+        "U: --servedir=<DIR>",
+        "What to serve in addition to generated output files"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--source-root",
+      "tip": [
+        "U: --source-root=<DIR>",
+        "Sets the \"sourceRoot\" field in generated source maps"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sourcefile",
+      "tip": [
+        "U: --sourcefile=<FILE>",
+        "Set the source file for the source map (for stdin)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sourcemap",
+      "tip": [
+        "Emit a source map"
+      ]
+    },
+    {
+      "name": "--sourcemap=external",
+      "tip": [
+        "Do not link to the source map with a comment"
+      ]
+    },
+    {
+      "name": "--sourcemap=inline",
+      "tip": [
+        "Emit the source map with an inline data URL"
+      ]
+    },
+    {
+      "name": "--sources-content",
+      "tip": [
+        "U: --sources-content=<VALUE>",
+        "Whether to include \"sourcesContent\" in generated source maps"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "Omit sourcesContent in generated source maps"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--splitting",
+      "tip": [
+        "Enable code splitting (currently only for esm)"
+      ]
+    },
+    {
+      "name": "--supported",
+      "tip": [
+        "U: --supported:<FEATURE>=<VALUE>",
+        "Consider syntax F to be supported (true | false)"
+      ]
+    },
+    {
+      "name": "--target",
+      "tip": [
+        "U: --target=<TARGET>",
+        "Environment target (default esnext)"
+      ],
+      "next": [
+        {
+          "name": "chrome58",
+          "tip": [
+            "Chrome 58"
+          ]
+        },
+        {
+          "name": "edge16",
+          "tip": [
+            "Edge 16"
+          ]
+        },
+        {
+          "name": "es2017",
+          "tip": [
+            "ES2017"
+          ]
+        },
+        {
+          "name": "es2020",
+          "tip": [
+            "ES2020"
+          ]
+        },
+        {
+          "name": "esnext",
+          "tip": [
+            "Latest ECMAScript version (default)"
+          ]
+        },
+        {
+          "name": "firefox57",
+          "tip": [
+            "Firefox 57"
+          ]
+        },
+        {
+          "name": "ie9",
+          "tip": [
+            "Internet Explorer 9"
+          ]
+        },
+        {
+          "name": "node10",
+          "tip": [
+            "Node.js 10"
+          ]
+        },
+        {
+          "name": "opera45",
+          "tip": [
+            "Opera 45"
+          ]
+        },
+        {
+          "name": "safari11",
+          "tip": [
+            "Safari 11"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--tree-shaking",
+      "tip": [
+        "U: --tree-shaking=<VALUE>",
+        "Force tree shaking on or off"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "Disable tree shaking"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Enable tree shaking"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--tsconfig",
+      "tip": [
+        "U: --tsconfig=<FILE>",
+        "Use this tsconfig.json file instead of other ones"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--tsconfig-raw",
+      "tip": [
+        "U: --tsconfig-raw=<JSON>",
+        "Override all tsconfig.json files with this string"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Print the current version and exit"
+      ]
+    },
+    {
+      "name": "--watch",
+      "tip": [
+        "Watch mode: rebuild on file system changes (stops when stdin is closed, use \"--watch=forever\" to ignore stdin)"
+      ]
+    },
+    {
+      "name": "--watch-delay",
+      "tip": [
+        "U: --watch-delay=<MS>",
+        "Wait before watch mode rebuilds (in milliseconds)"
+      ],
+      "next": 0
+    }
+  ]
+}

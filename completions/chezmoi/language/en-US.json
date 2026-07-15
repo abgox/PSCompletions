@@ -1,0 +1,617 @@
+{
+  "meta": {
+    "url": "https://chezmoi.io",
+    "description": [
+      "Manage your dotfiles across multiple diverse machines, securely"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "tip": [
+        "U: add [TARGET]...",
+        "Add an existing file, directory, or symlink to the source state"
+      ]
+    },
+    {
+      "name": "age",
+      "tip": [
+        "U: age",
+        "Interact with age"
+      ]
+    },
+    {
+      "name": "age-keygen",
+      "tip": [
+        "U: age-keygen",
+        "Generate an age identity"
+      ]
+    },
+    {
+      "name": "apply",
+      "tip": [
+        "U: apply [TARGET]...",
+        "Update the destination directory to match the target state"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "Do not make any modifications"
+          ]
+        },
+        {
+          "name": "--init",
+          "tip": [
+            "Recreate config file from template"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --recursive",
+            "Recurse into subdirectories (default true)"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Make output more verbose"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "archive",
+      "tip": [
+        "U: archive",
+        "Generate a tar archive of the target state"
+      ]
+    },
+    {
+      "name": "cat",
+      "tip": [
+        "U: cat [TARGET]...",
+        "Print the target contents of a file"
+      ]
+    },
+    {
+      "name": "cat-config",
+      "tip": [
+        "U: cat-config",
+        "Print the configuration file"
+      ]
+    },
+    {
+      "name": "cd",
+      "tip": [
+        "U: cd",
+        "Launch a shell in the source directory"
+      ]
+    },
+    {
+      "name": "chattr",
+      "tip": [
+        "U: chattr <ATTRIBUTE>=<VALUE> <TARGET>",
+        "Change the attributes of a target in the source state"
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "U: completion [SHELL]",
+        "Generate shell completion code"
+      ]
+    },
+    {
+      "name": "data",
+      "tip": [
+        "U: data",
+        "Print the template data"
+      ]
+    },
+    {
+      "name": "decrypt",
+      "tip": [
+        "U: decrypt [FILE]",
+        "Decrypt file or standard input"
+      ]
+    },
+    {
+      "name": "destroy",
+      "tip": [
+        "U: destroy [TARGET]...",
+        "Permanently delete an entry"
+      ]
+    },
+    {
+      "name": "diff",
+      "tip": [
+        "U: diff [TARGET]...",
+        "Print the diff between the target state and the destination state"
+      ]
+    },
+    {
+      "name": "docker",
+      "tip": [
+        "U: docker",
+        "Use your dotfiles in a Docker container"
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "U: doctor",
+        "Check your system for potential problems"
+      ]
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "U: dump [TARGET]...",
+        "Generate a dump of the target state"
+      ]
+    },
+    {
+      "name": "dump-config",
+      "tip": [
+        "U: dump-config",
+        "Dump the configuration values"
+      ]
+    },
+    {
+      "name": "edit",
+      "tip": [
+        "U: edit [TARGET]...",
+        "Edit the source state of a target"
+      ]
+    },
+    {
+      "name": "edit-config",
+      "tip": [
+        "U: edit-config",
+        "Edit the configuration file"
+      ]
+    },
+    {
+      "name": "encrypt",
+      "tip": [
+        "U: encrypt [FILE]",
+        "Encrypt file or standard input"
+      ]
+    },
+    {
+      "name": "execute-template",
+      "tip": [
+        "U: execute-template [TEMPLATE]...",
+        "Execute the given template(s)"
+      ]
+    },
+    {
+      "name": "forget",
+      "tip": [
+        "U: forget [TARGET]...",
+        "Remove a target from the source state"
+      ]
+    },
+    {
+      "name": "git",
+      "tip": [
+        "U: git [ARG]...",
+        "Run git in the source directory"
+      ]
+    },
+    {
+      "name": "ignored",
+      "tip": [
+        "U: ignored",
+        "Print ignored targets"
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "U: import [FILE]",
+        "Import an archive into the source state"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [REPO] [FLAGS]",
+        "Setup the source directory and update the destination directory"
+      ],
+      "option": [
+        {
+          "name": "--apply",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --apply",
+            "Update destination directory"
+          ]
+        },
+        {
+          "name": "--guess-repo-url",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --guess-repo-url",
+            "Guess the repo URL (default true)"
+          ]
+        },
+        {
+          "name": "--purge",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --purge",
+            "Purge config and source directories after running"
+          ]
+        },
+        {
+          "name": "--purge-binary",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --purge-binary",
+            "Purge chezmoi binary after running"
+          ]
+        },
+        {
+          "name": "--ssh",
+          "tip": [
+            "Use SSH instead of HTTPS for guessing repo URL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "managed",
+      "tip": [
+        "U: managed",
+        "List the managed entries"
+      ]
+    },
+    {
+      "name": "merge",
+      "tip": [
+        "U: merge [TARGET]...",
+        "Perform a three-way merge between destination, source, and target state"
+      ]
+    },
+    {
+      "name": "merge-all",
+      "tip": [
+        "U: merge-all",
+        "Perform a three-way merge for each modified file"
+      ]
+    },
+    {
+      "name": "purge",
+      "tip": [
+        "U: purge",
+        "Purge chezmoi's configuration and data"
+      ]
+    },
+    {
+      "name": "re-add",
+      "tip": [
+        "U: re-add",
+        "Re-add modified files"
+      ]
+    },
+    {
+      "name": "secret",
+      "tip": [
+        "U: secret [ARG]...",
+        "Interact with a secret manager"
+      ]
+    },
+    {
+      "name": "source-path",
+      "tip": [
+        "U: source-path [TARGET]...",
+        "Print the source path of a target"
+      ]
+    },
+    {
+      "name": "ssh",
+      "tip": [
+        "U: ssh [HOST]",
+        "SSH to a host and initialize dotfiles"
+      ]
+    },
+    {
+      "name": "state",
+      "tip": [
+        "U: state [ARG]...",
+        "Manipulate the persistent state"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "U: status [TARGET]...",
+        "Show the status of targets"
+      ]
+    },
+    {
+      "name": "target-path",
+      "tip": [
+        "U: target-path [SOURCE]",
+        "Print the target path of a source path"
+      ]
+    },
+    {
+      "name": "unmanaged",
+      "tip": [
+        "U: unmanaged",
+        "List the unmanaged files"
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update",
+        "Pull and apply any changes"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "U: upgrade",
+        "Upgrade chezmoi to the latest released version"
+      ]
+    },
+    {
+      "name": "verify",
+      "tip": [
+        "U: verify",
+        "Exit with success if the destination state matches the target state"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <BOOL>",
+        "Colorize output"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic (default)"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "Disable color"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Enable color"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --config <PATH>",
+        "Set config file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config-format",
+      "tip": [
+        "U: --config-format <FORMAT>",
+        "Set config file format"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON format"
+          ]
+        },
+        {
+          "name": "toml",
+          "tip": [
+            "TOML format"
+          ]
+        },
+        {
+          "name": "yaml",
+          "tip": [
+            "YAML format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "Include debug information in output"
+      ]
+    },
+    {
+      "name": "--destination",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --destination <PATH>",
+        "Set destination directory"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --dry-run",
+        "Do not make any modifications"
+      ]
+    },
+    {
+      "name": "--force",
+      "tip": [
+        "Make all changes without prompting"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Help for chezmoi"
+      ]
+    },
+    {
+      "name": "--keep-going",
+      "alias": [
+        "-k"
+      ],
+      "tip": [
+        "U: -k, --keep-going",
+        "Keep going after an error"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "tip": [
+        "Do not use the pager"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output <PATH>",
+        "Write output to path instead of stdout"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--progress",
+      "tip": [
+        "U: --progress <BOOL>",
+        "Display progress bars"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic (default)"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "Disable progress bars"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Enable progress bars"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--refresh-externals",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --refresh-externals <VALUE>",
+        "Refresh external cache"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always refresh"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic (default)"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never refresh"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --source <PATH>",
+        "Set source directory"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--source-path",
+      "tip": [
+        "Specify targets by source path"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Make output more verbose"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Print version"
+      ]
+    }
+  ]
+}

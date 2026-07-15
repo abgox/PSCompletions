@@ -2,11 +2,10 @@
   "meta": {
     "url": "https://pscompletions.abgox.com",
     "description": [
-      "PSCompletions 模块的补全",
-      "如果移除它，将会自动重新添加"
+      "PSCompletions 模块的补全。"
     ]
   },
-  "root": [
+  "next": [
     {
       "name": "add",
       "tip": [
@@ -27,7 +26,7 @@
     {
       "name": "alias",
       "tip": [
-        "管理补全触发的别名。",
+        "管理触发补全的别名。",
         "{{ $info.alias.example }}"
       ],
       "next": [
@@ -94,7 +93,7 @@
           "tip": [
             "当前值: {{ $PSCompletions.config.enable_cache }} (默认值: 1)",
             "启用缓存，用于提高补全的加载速度。",
-            "通常不需要修改它, 除非每次补全触发都需要重新读取 json 文件，如补全调试。"
+            "通常不应该禁用它, 除非每次触发补全都希望重新读取 json 文件，如补全调试。"
           ],
           "next": [
             {
@@ -2207,7 +2206,7 @@
         "   '';",
         "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
         "   '默认值: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
         "   if ($v -ne $null){ '当前值: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
@@ -2249,7 +2248,7 @@
           ]
         },
         "example": [
-          "E: psc alias add git g gi            --- 为 git 添加 g 和 gi 这两个别名\n",
+          "E: psc alias add git git.exe g       --- 为 git 添加 git.exe 和 g 这两个别名\n",
           "   psc alias add scoop scoop.ps1     --- 为 scoop 添加 scoop.ps1 这个别名"
         ],
         "tip": [
@@ -2261,18 +2260,18 @@
         "{{",
         "if($arg[1] -eq 'add') {",
         "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> 新增了一个别名 <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
+        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发别名: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
         "}",
         "elseif($arg[1] -eq 'rm') {",
         "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> 移除了一个别名 <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发名: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
+        "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发别名: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
         "}",
         "}}"
       ],
       "example": [
-        "E: psc alias list             --- 列出所有别名\n",
-        "   psc alias add git g gi     --- 为 git 添加 g 和 gi 这两个别名\n",
-        "   psc alias rm git g gi      --- 为 git 删除 g 和 gi 这两个别名"
+        "E: psc alias list                  --- 列出所有别名\n",
+        "   psc alias add git git.exe g     --- 为 git 添加 git.exe 和 g 这两个别名\n",
+        "   psc alias rm git git.exe g      --- 为 git 删除 git.exe 和 g 这两个别名"
       ],
       "list": {
         "example": [
@@ -2292,7 +2291,7 @@
           ],
           "no_alias": "<@Magenta>{{ $alias }}<@Red> 不是 {{ $completion }} 的别名",
           "unique": [
-            "<@Red>移除 <@Magenta>{{ $alias }}<@Red> 失败, 因为它是补全 <@Magenta>{{ $completion }}<@Red> 唯一的补全触发名\n",
+            "<@Red>移除 <@Magenta>{{ $alias }}<@Red> 失败, 因为它是补全 <@Magenta>{{ $completion }}<@Red> 唯一的补全触发别名\n",
             "如果你想要修改它, 你应该先添加一个新别名, 再移除这个旧别名"
           ]
         },
@@ -2335,7 +2334,7 @@
           "每个补全默认带有多个特殊配置: <@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow> | <@Magenta>' }} <@Yellow>(需要 hooks)",
           "\n",
           "{{",
-          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
+          "$config = $PSCompletions.config.completion.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
           "if($config){ \"$($arg[1]) 额外的可用配置项: <@Magenta>$($config -join ' ')\" }",
           "}}"
         ]
@@ -2400,7 +2399,7 @@
     "current_value": "当前值",
     "description": [
       "<@Cyan>[模块描述]\n",
-      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- 一个补全管理器，为 PowerShell 带来更出色、更简便的 Tab 补全体验\n",
+      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) - 一个补全管理器，为 PowerShell 带来更出色、更简便的 Tab 补全体验\n",
       "\n",
       "<@Cyan>[模块版本]\n",
       "<@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
@@ -2409,24 +2408,33 @@
       "Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
       "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
       "\n",
+      "{{",
+      "if ($PSEdition -eq 'Desktop'){",
+      "$m = '<@Cyan>[环境提示]', '当前正在使用 <@Red>Windows PowerShell 5.1 (Desktop)<@Cyan>，推荐使用 <@Blue>PowerShell 7+ (Core)<@Cyan>','<@Blue>PSCompletions<@Cyan> 在 Windows PowerShell 5.1 上仅维持兼容状态，<@Red>使用体验较差<@Cyan>';",
+      "$m -join \"`n\";",
+      "\"`n`n\"",
+      "}",
+      "}}",
       "<@Cyan>[模块用法]\n",
-      "输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>Space<@Cyan> (空格) 和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法\n",
+      "输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>Space<@Cyan>（空格）和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法\n",
       "运行 <@Magenta>psc<@Cyan> 会再次显示此页内容，并重载模块的数据和按键绑定\n",
       "\n",
       "<@Cyan>[模块补全菜单]\n",
-      "<@Blue>PSCompletions<@Cyan> 提供了一个更强大的模块补全菜单 <@Yellow>(目前仅 Windows 可用)<@Cyan>\n",
+      "<@Blue>PSCompletions<@Cyan> 提供了一个更强大的模块补全菜单{{ if(!$IsWindows){ ' <@Yellow>(目前仅 Windows 可用)<@Cyan>' } }}\n",
       "\n",
-      "可以输入字符进行过滤，支持三个匹配符:\n",
-      "  - <@Magenta>^<@Cyan>: 匹配开头\n",
+      "可以输入字符进行过滤（模糊匹配），支持三个匹配符:\n",
+      "  - <@Magenta>^<@Cyan>: 匹配开头（再次输入则移除）\n",
       "  - <@Magenta>?<@Cyan>: 匹配一个任意字符\n",
       "  - <@Magenta>*<@Cyan>: 匹配一个或多个任意字符\n",
+      "也可以启用子序列模糊匹配: <@Magenta>psc menu config enable_filter_subsequence_match 1<@Cyan>",
+      "\n",
       "\n",
       "按键绑定:\n",
-      "  - 选用当前选中的补全项: <@Magenta>Space<@Cyan> (空格) | <@Magenta>Enter<@Cyan> (回车)\n",
+      "  - 选用当前选中的补全项: <@Magenta>Space<@Cyan>（空格）| <@Magenta>Enter<@Cyan>（回车）\n",
       "      - 当只有一个补全项时，也可以使用 <@Magenta>Tab<@Cyan>\n",
-      "  - 删除过滤字符: <@Magenta>Backspace<@Cyan> (退格)\n",
+      "  - 删除过滤字符: <@Magenta>Backspace<@Cyan>（退格）\n",
       "  - 退出模块补全菜单: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
-      "      - 当过滤区域没有字符时，也可以使用 <@Magenta>Backspace<@Cyan> (退格)\n",
+      "      - 当过滤区域没有字符时，也可以使用 <@Magenta>Backspace<@Cyan>（退格）\n",
       "  - 选择上一个补全项:  <@Magenta>Up<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
       "  - 选择下一个补全项: <@Magenta>Down<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
       "\n",
@@ -2442,7 +2450,8 @@
       "\n",
       "如果有使用问题, 请提交 issue: https://github.com/abgox/PSCompletions/issues\n",
       "\n",
-      "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@Cyan>"
+      "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@>",
+      "\n"
     ],
     "err": {
       "deny_change_menu_line_style": [
@@ -2697,7 +2706,7 @@
         "   '';",
         "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
         "   '默认值: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
         "   if ($v -ne $null){ '当前值: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
@@ -2719,15 +2728,15 @@
       "更新它们: <@Magenta>psc update --all"
     ],
     "update_info": [
-      "<@Cyan>PSCompletions 远程仓库更新: \n",
+      "<@Cyan>PSCompletions 更新了补全库:\n",
       "{{",
       "$change=$PSCompletions.get_content($PSCompletions.path.change);",
       "$add=@();",
       "$rm=@();",
       "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
-      "if($add){ \"新增补全: <@Magenta>$($add)<@Cyan>`n使用 <@Magenta>psc add <completion><@Cyan> 进行添加`n`n\" };",
-      "if($rm){ \"删除补全: <@Magenta>$($rm)<@Cyan>`n`n\" };",
-      "if($PSCompletions.update){ \"更新补全: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update --all<@Cyan> 进行更新`n`n\" };",
+      "if($rm){ \"删除: <@Magenta>$($rm)<@Cyan>`n\" };",
+      "if($add){ \"新增: <@Magenta>$($add)<@Cyan>`n使用 <@Magenta>psc add <completion><@Cyan> 进行添加`n`n\" };",
+      "if($PSCompletions.update){ \"更新: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update --all<@Cyan> 进行更新`n\" };",
       "}}"
     ],
     "update_no": [

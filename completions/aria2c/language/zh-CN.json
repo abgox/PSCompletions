@@ -1,0 +1,1935 @@
+{
+  "meta": {
+    "url": "https://aria2.github.io",
+    "description": [
+      "轻量级多协议多源下载工具。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all-proxy",
+      "tip": [
+        "U: --all-proxy <PROXY>",
+        "对所有协议使用代理服务器"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--all-proxy-passwd",
+      "tip": [
+        "U: --all-proxy-passwd <PASSWD>",
+        "设置 --all-proxy 的密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--all-proxy-user",
+      "tip": [
+        "U: --all-proxy-user <USER>",
+        "设置 --all-proxy 的用户名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--allow-overwrite",
+      "tip": [
+        "如果对应的控制文件不存在则从头重新下载",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--allow-piece-length-change",
+      "tip": [
+        "恢复下载时允许分片长度变化",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--always-resume",
+      "tip": [
+        "始终恢复下载。如果为 true，aria2 始终尝试恢复",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--async-dns",
+      "tip": [
+        "启用异步 DNS",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--async-dns-server",
+      "tip": [
+        "U: --async-dns-server <IPADDRESS>",
+        "异步 DNS 解析器使用的 DNS 服务器地址的逗号分隔列表"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--auto-file-renaming",
+      "tip": [
+        "如果同名文件已存在则自动重命名",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--auto-save-interval",
+      "tip": [
+        "U: --auto-save-interval <SEC>",
+        "每隔 SEC 秒保存一次控制文件 (*.aria2)",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-detach-seed-only",
+      "tip": [
+        "在计算并发活动下载数时排除仅做种的下载",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-enable-hook-after-hash-check",
+      "tip": [
+        "允许在 BitTorrent 下载的哈希检查后调用钩子命令",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--bt-enable-lpd",
+      "tip": [
+        "启用本地 Peer 发现",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-exclude-tracker",
+      "tip": [
+        "U: --bt-exclude-tracker <URI>",
+        "要移除的 BitTorrent tracker 公告 URI 的逗号分隔列表"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-external-ip",
+      "tip": [
+        "U: --bt-external-ip <IPADDRESS>",
+        "指定在 BitTorrent 下载和 DHT 中使用的外部 IP 地址"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-force-encryption",
+      "tip": [
+        "要求 BitTorrent 消息负载使用 arc4 加密",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-hash-check-seed",
+      "tip": [
+        "哈希检查且文件完整后继续做种",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--bt-load-saved-metadata",
+      "tip": [
+        "从 DHT 获取 torrent 元数据前先尝试读取 --bt-save-metadata 保存的文件",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-lpd-interface",
+      "tip": [
+        "U: --bt-lpd-interface <INTERFACE>",
+        "为本地 Peer 发现使用指定接口"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-max-open-files",
+      "tip": [
+        "U: --bt-max-open-files <NUM>",
+        "指定多文件 BitTorrent/Metalink 下载中全局最大打开文件数",
+        "Default: 100"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-max-peers",
+      "tip": [
+        "U: --bt-max-peers <NUM>",
+        "指定每个种子的最大 peer 数。0 表示不限制",
+        "Default: 55"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-metadata-only",
+      "tip": [
+        "仅下载元数据。仅在使用 BitTorrent Magnet URI 时有效",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-min-crypto-level",
+      "tip": [
+        "U: --bt-min-crypto-level <plain|arc4>",
+        "设置加密方法的最低级别",
+        "Default: plain"
+      ],
+      "next": [
+        {
+          "name": "arc4",
+          "tip": [
+            "ARC4 加密"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "普通加密"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--bt-prioritize-piece",
+      "tip": [
+        "U: --bt-prioritize-piece <head[=SIZE],tail[=SIZE]>",
+        "尝试优先下载每个文件的首尾分片"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-remove-unselected-file",
+      "tip": [
+        "BitTorrent 下载完成时删除未选择的文件",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-request-peer-speed-limit",
+      "tip": [
+        "U: --bt-request-peer-speed-limit <SPEED>",
+        "如果整体下载速度低于 SPEED，aria2 会增加 peer 数量",
+        "Default: 50K"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-require-crypto",
+      "tip": [
+        "如果为 true，aria2 不接受传统 BitTorrent 握手",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-save-metadata",
+      "tip": [
+        "将元数据保存为 .torrent 文件。仅在使用 BitTorrent Magnet URI 时有效",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-seed-unverified",
+      "tip": [
+        "不验证分片哈希即对先前下载的文件进行做种",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--bt-stop-timeout",
+      "tip": [
+        "U: --bt-stop-timeout <SEC>",
+        "如果下载速度在连续 SEC 秒内为 0 则停止 BitTorrent 下载",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker",
+      "tip": [
+        "U: --bt-tracker <URI>",
+        "额外 BitTorrent tracker 公告 URI 的逗号分隔列表"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker-connect-timeout",
+      "tip": [
+        "U: --bt-tracker-connect-timeout <SEC>",
+        "设置连接 tracker 的超时时间 (秒)",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker-interval",
+      "tip": [
+        "U: --bt-tracker-interval <SEC>",
+        "设置 tracker 请求之间的间隔 (秒)",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--bt-tracker-timeout",
+      "tip": [
+        "U: --bt-tracker-timeout <SEC>",
+        "设置超时时间 (秒)",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ca-certificate",
+      "tip": [
+        "U: --ca-certificate <FILE>",
+        "使用 FILE 中的证书颁发机构来验证对等方"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--certificate",
+      "tip": [
+        "U: --certificate <FILE>",
+        "使用 FILE 中的客户端证书"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--check-certificate",
+      "tip": [
+        "使用 --ca-certificate 指定的证书验证对等方",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--check-integrity",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --check-integrity",
+        "通过验证分片哈希或整个文件的哈希来检查文件完整性",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--checksum",
+      "tip": [
+        "U: --checksum <TYPE=DIGEST>",
+        "设置校验和。TYPE 是哈希类型，DIGEST 是十六进制摘要"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--conditional-get",
+      "tip": [
+        "仅在本地文件比远程文件旧时下载",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--conf-path",
+      "tip": [
+        "U: --conf-path <PATH>",
+        "将配置文件路径更改为 PATH"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--connect-timeout",
+      "tip": [
+        "U: --connect-timeout <SEC>",
+        "设置连接超时时间 (秒)",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--console-log-level",
+      "tip": [
+        "U: --console-log-level <LEVEL>",
+        "设置输出到控制台的日志级别",
+        "Default: notice"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "调试级别"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "错误级别"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息级别"
+          ]
+        },
+        {
+          "name": "notice",
+          "tip": [
+            "通知级别"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告级别"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--content-disposition-default-utf8",
+      "tip": [
+        "将 Content-Disposition 头中的引号字符串作为 UTF-8 而非 ISO-8859-1 处理",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "继续下载部分下载的文件",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--daemon",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --daemon",
+        "以守护进程方式运行",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--deferred-input",
+      "tip": [
+        "如果为 true，aria2 启动时不会读取所有 URI，而是逐个读取",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--dht-entry-point",
+      "tip": [
+        "U: --dht-entry-point <HOST:PORT>",
+        "设置 IPv4 DHT 网络的入口点"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-entry-point6",
+      "tip": [
+        "U: --dht-entry-point6 <HOST:PORT>",
+        "设置 IPv6 DHT 网络的入口点"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-file-path",
+      "tip": [
+        "U: --dht-file-path <PATH>",
+        "将 IPv4 DHT 路由表文件更改为 PATH"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-file-path6",
+      "tip": [
+        "U: --dht-file-path6 <PATH>",
+        "将 IPv6 DHT 路由表文件更改为 PATH"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-listen-addr6",
+      "tip": [
+        "U: --dht-listen-addr6 <ADDR>",
+        "指定 IPv6 DHT 绑定套接字的地址"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-listen-port",
+      "tip": [
+        "U: --dht-listen-port <PORT...>",
+        "设置 DHT (IPv4, IPv6) 和 UDP tracker 使用的 UDP 监听端口",
+        "Default: 6881-6999"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dht-message-timeout",
+      "tip": [
+        "U: --dht-message-timeout <SEC>",
+        "设置超时时间 (秒)",
+        "Default: 10"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--dir",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --dir <DIR>",
+        "存储下载文件的目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-ipv6",
+      "tip": [
+        "禁用 IPv6",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--disk-cache",
+      "tip": [
+        "U: --disk-cache <SIZE>",
+        "启用磁盘缓存。SIZE 可以包含 K 或 M",
+        "Default: 16M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--download-result",
+      "tip": [
+        "U: --download-result <OPT>",
+        "更改\"下载结果\"的显示格式",
+        "Default: default"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "打印 GID、状态、平均下载速度和路径/URI"
+          ]
+        },
+        {
+          "name": "full",
+          "tip": [
+            "打印 GID、状态、速度、进度百分比和路径/URI"
+          ]
+        },
+        {
+          "name": "hide",
+          "tip": [
+            "隐藏下载结果"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "如果为 true，aria2 仅检查远程文件是否可用而不下载数据",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--dscp",
+      "tip": [
+        "U: --dscp <DSCP>",
+        "设置 BitTorrent 流量出站 IP 包中的 DSCP 值 (用于 QoS)",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--enable-async-dns6",
+      "tip": [
+        "在异步 DNS 解析器中启用 IPv6 名称解析",
+        "(已弃用)"
+      ]
+    },
+    {
+      "name": "--enable-color",
+      "tip": [
+        "为终端启用彩色输出",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-dht",
+      "tip": [
+        "启用 IPv4 DHT 功能。同时启用 UDP tracker 支持",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-dht6",
+      "tip": [
+        "启用 IPv6 DHT 功能",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--enable-http-keep-alive",
+      "tip": [
+        "启用 HTTP/1.1 持久连接",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-http-pipelining",
+      "tip": [
+        "启用 HTTP/1.1 管道化",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--enable-mmap",
+      "tip": [
+        "将文件映射到内存",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--enable-peer-exchange",
+      "tip": [
+        "启用 Peer Exchange 扩展",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--enable-rpc",
+      "tip": [
+        "启用 JSON-RPC/XML-RPC 服务器",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--event-poll",
+      "tip": [
+        "U: --event-poll <POLL>",
+        "指定事件轮询方法",
+        "Default: select"
+      ],
+      "next": [
+        {
+          "name": "select",
+          "tip": [
+            "使用 select() 进行轮询"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--file-allocation",
+      "tip": [
+        "U: --file-allocation <METHOD>",
+        "指定文件分配方式",
+        "Default: prealloc"
+      ],
+      "next": [
+        {
+          "name": "falloc",
+          "tip": [
+            "几乎立即分配大文件 (ext4, btrfs, xfs, NTFS)"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "不预分配文件空间"
+          ]
+        },
+        {
+          "name": "prealloc",
+          "tip": [
+            "下载开始前预分配文件空间"
+          ]
+        },
+        {
+          "name": "trunc",
+          "tip": [
+            "使用 ftruncate() 将文件截断到指定长度"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--follow-metalink",
+      "tip": [
+        "U: --follow-metalink <VALUE>",
+        "下载 metalink 文件时解析并下载其内容",
+        "Default: true"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "将 metalink 文件下载到磁盘但不解析"
+          ]
+        },
+        {
+          "name": "mem",
+          "tip": [
+            "将 metalink 保留在内存中而不写入磁盘"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "解析 metalink 并下载内容"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--follow-torrent",
+      "tip": [
+        "U: --follow-torrent <VALUE>",
+        "下载 .torrent 文件时解析并下载其内容",
+        "Default: true"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "将 .torrent 文件下载到磁盘但不解析"
+          ]
+        },
+        {
+          "name": "mem",
+          "tip": [
+            "将 torrent 保留在内存中而不写入磁盘"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "解析 torrent 并下载内容"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--force-save",
+      "tip": [
+        "即使下载已完成或已删除，也通过 --save-session 选项保存",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--force-sequential",
+      "alias": [
+        "-Z"
+      ],
+      "tip": [
+        "U: -Z, --force-sequential",
+        "按命令行顺序依次获取 URI",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--ftp-passwd",
+      "tip": [
+        "设置 FTP 密码。影响所有 URL"
+      ]
+    },
+    {
+      "name": "--ftp-pasv",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --ftp-pasv",
+        "使用 FTP 被动模式。如果为 false 则使用主动模式",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--ftp-proxy",
+      "tip": [
+        "U: --ftp-proxy <PROXY>",
+        "使用 FTP 代理服务器"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ftp-proxy-passwd",
+      "tip": [
+        "U: --ftp-proxy-passwd <PASSWD>",
+        "设置 --ftp-proxy 的密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ftp-proxy-user",
+      "tip": [
+        "U: --ftp-proxy-user <USER>",
+        "设置 --ftp-proxy 的用户名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ftp-reuse-connection",
+      "tip": [
+        "在 FTP 中重用连接",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--ftp-type",
+      "tip": [
+        "U: --ftp-type <TYPE>",
+        "设置 FTP 传输类型",
+        "Default: binary"
+      ],
+      "next": [
+        {
+          "name": "ascii",
+          "tip": [
+            "ASCII 传输类型"
+          ]
+        },
+        {
+          "name": "binary",
+          "tip": [
+            "二进制传输类型"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ftp-user",
+      "tip": [
+        "设置 FTP 用户名。影响所有 URL"
+      ]
+    },
+    {
+      "name": "--gid",
+      "tip": [
+        "U: --gid <GID>",
+        "手动设置 GID。GID 必须是 16 个字符的十六进制字符串"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hash-check-only",
+      "tip": [
+        "哈希检查后，无论下载是否完成都中止下载",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--header",
+      "tip": [
+        "U: --header <HEADER>",
+        "将 HEADER 追加到 HTTP 请求头"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--http-accept-gzip",
+      "tip": [
+        "发送 'Accept-Encoding: deflate, gzip' 请求头并在服务器响应时解压",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--http-auth-challenge",
+      "tip": [
+        "仅在服务器请求时发送 HTTP 授权头",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--http-no-cache",
+      "tip": [
+        "发送 Cache-Control: no-cache 和 Pragma: no-cache 头以避免缓存内容",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--http-passwd",
+      "tip": [
+        "设置 HTTP 密码。影响所有 URL"
+      ]
+    },
+    {
+      "name": "--http-proxy",
+      "tip": [
+        "U: --http-proxy <PROXY>",
+        "使用 HTTP 代理服务器"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-proxy-passwd",
+      "tip": [
+        "U: --http-proxy-passwd <PASSWD>",
+        "设置 --http-proxy 的密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-proxy-user",
+      "tip": [
+        "U: --http-proxy-user <USER>",
+        "设置 --http-proxy 的用户名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--http-user",
+      "tip": [
+        "设置 HTTP 用户名。影响所有 URL"
+      ]
+    },
+    {
+      "name": "--https-proxy",
+      "tip": [
+        "U: --https-proxy <PROXY>",
+        "使用 HTTPS 代理服务器"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--https-proxy-passwd",
+      "tip": [
+        "U: --https-proxy-passwd <PASSWD>",
+        "设置 --https-proxy 的密码"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--https-proxy-user",
+      "tip": [
+        "U: --https-proxy-user <USER>",
+        "设置 --https-proxy 的用户名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--human-readable",
+      "tip": [
+        "在控制台输出中以人类可读格式打印大小和速度",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--index-out",
+      "alias": [
+        "-O"
+      ],
+      "tip": [
+        "U: -O, --index-out <INDEX=PATH>",
+        "为索引为 INDEX 的文件设置文件路径"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--input-file",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --input-file <FILE>",
+        "下载 FILE 中找到的 URI"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--interface",
+      "tip": [
+        "U: --interface <INTERFACE>",
+        "将套接字绑定到指定接口"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--keep-unfinished-download-result",
+      "tip": [
+        "即使超过 --max-download-result 也保留未完成的下载结果",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--listen-port",
+      "tip": [
+        "U: --listen-port <PORT...>",
+        "设置 BitTorrent 下载的 TCP 端口号",
+        "Default: 6881-6999"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--load-cookies",
+      "tip": [
+        "U: --load-cookies <FILE>",
+        "从 FILE 加载 Cookie (Firefox3 格式)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --log <LOG>",
+        "日志文件名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <LEVEL>",
+        "设置输出到 --log 指定文件的日志级别",
+        "Default: debug"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "调试级别"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "错误级别"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息级别"
+          ]
+        },
+        {
+          "name": "notice",
+          "tip": [
+            "通知级别"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告级别"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--lowest-speed-limit",
+      "tip": [
+        "U: --lowest-speed-limit <SPEED>",
+        "如果下载速度低于或等于此值则关闭连接",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-concurrent-downloads",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --max-concurrent-downloads <N>",
+        "设置最大并行下载数",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-connection-per-server",
+      "alias": [
+        "-x"
+      ],
+      "tip": [
+        "U: -x, --max-connection-per-server <NUM>",
+        "每个下载对单个服务器的最大连接数",
+        "Default: 1"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-download-limit",
+      "tip": [
+        "U: --max-download-limit <SPEED>",
+        "设置每个下载的最大下载速度 (字节/秒)。0 表示不限制",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-download-result",
+      "tip": [
+        "U: --max-download-result <NUM>",
+        "设置内存中保留的最大下载结果数",
+        "Default: 1000"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-file-not-found",
+      "tip": [
+        "U: --max-file-not-found <NUM>",
+        "在收到 NUM 次 \"文件未找到\" 响应后强制下载失败",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-mmap-limit",
+      "tip": [
+        "U: --max-mmap-limit <SIZE>",
+        "设置启用 mmap 的最大文件大小"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-overall-download-limit",
+      "tip": [
+        "U: --max-overall-download-limit <SPEED>",
+        "设置总体最大下载速度 (字节/秒)。0 表示不限制",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-overall-upload-limit",
+      "tip": [
+        "U: --max-overall-upload-limit <SPEED>",
+        "设置总体最大上传速度 (字节/秒)。0 表示不限制",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-resume-failure-tries",
+      "tip": [
+        "U: --max-resume-failure-tries <N>",
+        "与 --always-resume=false 配合使用，aria2 在 N 次失败后从头下载",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-tries",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --max-tries <N>",
+        "设置重试次数。0 表示不限制",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--max-upload-limit",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --max-upload-limit <SPEED>",
+        "设置每个种子的最大上传速度 (字节/秒)。0 表示不限制",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-base-uri",
+      "tip": [
+        "U: --metalink-base-uri <URI>",
+        "指定用于解析 metalink 文件中相对 URI 的基础 URI"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-enable-unique-protocol",
+      "tip": [
+        "如果为 true，aria2 在 metalink 文件的镜像有多个可用协议时只使用其中一个",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--metalink-file",
+      "alias": [
+        "-M"
+      ],
+      "tip": [
+        "U: -M, --metalink-file <METALINK_FILE>",
+        ".meta4 和 .metalink 文件的路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-language",
+      "tip": [
+        "U: --metalink-language <LANGUAGE>",
+        "要下载的文件语言"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-location",
+      "tip": [
+        "U: --metalink-location <LOCATION>",
+        "首选服务器的位置"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-os",
+      "tip": [
+        "U: --metalink-os <OS>",
+        "要下载的文件操作系统"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--metalink-preferred-protocol",
+      "tip": [
+        "U: --metalink-preferred-protocol <PROTO>",
+        "指定首选协议",
+        "Default: none"
+      ],
+      "next": [
+        {
+          "name": "ftp",
+          "tip": [
+            "FTP 协议"
+          ]
+        },
+        {
+          "name": "http",
+          "tip": [
+            "HTTP 协议"
+          ]
+        },
+        {
+          "name": "https",
+          "tip": [
+            "HTTPS 协议"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "无首选协议"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--metalink-version",
+      "tip": [
+        "U: --metalink-version <VERSION>",
+        "要下载的文件版本"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-split-size",
+      "alias": [
+        "-k"
+      ],
+      "tip": [
+        "U: -k, --min-split-size <SIZE>",
+        "aria2 不会分割小于 2*SIZE 字节的范围",
+        "Default: 20M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-tls-version",
+      "tip": [
+        "U: --min-tls-version <VERSION>",
+        "指定要启用的最低 SSL/TLS 版本",
+        "Default: TLSv1.2"
+      ],
+      "next": [
+        {
+          "name": "TLSv1.1",
+          "tip": [
+            "TLS 1.1 版本"
+          ]
+        },
+        {
+          "name": "TLSv1.2",
+          "tip": [
+            "TLS 1.2 版本"
+          ]
+        },
+        {
+          "name": "TLSv1.3",
+          "tip": [
+            "TLS 1.3 版本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--multiple-interface",
+      "tip": [
+        "U: --multiple-interface <INTERFACES>",
+        "要绑定套接字的接口的逗号分隔列表"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--netrc-path",
+      "tip": [
+        "U: --netrc-path <FILE>",
+        "指定 netrc 文件的路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-conf",
+      "tip": [
+        "禁用加载 aria2.conf 文件",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--no-file-allocation-limit",
+      "tip": [
+        "U: --no-file-allocation-limit <SIZE>",
+        "对小于 SIZE 的文件不进行文件分配",
+        "Default: 5M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-netrc",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --no-netrc",
+        "禁用 netrc 支持",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--no-proxy",
+      "tip": [
+        "U: --no-proxy <DOMAINS>",
+        "指定不使用代理的主机名、域名或网络地址的逗号分隔列表"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-want-digest-header",
+      "tip": [
+        "禁用请求时的 Want-Digest 头",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--on-bt-download-complete",
+      "tip": [
+        "U: --on-bt-download-complete <COMMAND>",
+        "设置 BitTorrent 下载完成后但在做种前要执行的命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-complete",
+      "tip": [
+        "U: --on-download-complete <COMMAND>",
+        "设置下载完成后要执行的命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-error",
+      "tip": [
+        "U: --on-download-error <COMMAND>",
+        "设置下载因错误中止后要执行的命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-pause",
+      "tip": [
+        "U: --on-download-pause <COMMAND>",
+        "设置下载暂停后要执行的命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-start",
+      "tip": [
+        "U: --on-download-start <COMMAND>",
+        "设置下载开始后要执行的命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--on-download-stop",
+      "tip": [
+        "U: --on-download-stop <COMMAND>",
+        "设置下载停止后要执行的命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--optimize-concurrent-downloads",
+      "tip": [
+        "根据可用带宽优化并行下载数",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--out",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --out <FILE>",
+        "下载文件的文件名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parameterized-uri",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --parameterized-uri",
+        "启用参数化 URI 支持",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--pause",
+      "tip": [
+        "添加后暂停下载。仅在 --enable-rpc=true 时有效",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--pause-metadata",
+      "tip": [
+        "暂停由元数据下载创建的下载",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--peer-agent",
+      "tip": [
+        "U: --peer-agent <PEER_AGENT>",
+        "设置扩展 torrent 握手中报告的客户端",
+        "Default: aria2/1.37.0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--peer-id-prefix",
+      "tip": [
+        "U: --peer-id-prefix <PEER_ID_PREFIX>",
+        "指定 peer ID 的前缀"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--piece-length",
+      "tip": [
+        "U: --piece-length <LENGTH>",
+        "设置 HTTP/FTP 下载的分片长度",
+        "Default: 1M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--private-key",
+      "tip": [
+        "U: --private-key <FILE>",
+        "使用 FILE 中的私钥"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--proxy-method",
+      "tip": [
+        "U: --proxy-method <METHOD>",
+        "设置代理请求使用的方法",
+        "Default: get"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "使用 GET 方法"
+          ]
+        },
+        {
+          "name": "tunnel",
+          "tip": [
+            "使用隧道方法"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "使 aria2 静默 (无控制台输出)",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--realtime-chunk-checksum",
+      "tip": [
+        "下载时通过计算校验和来验证数据块",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--referer",
+      "tip": [
+        "U: --referer <REFERER>",
+        "设置 HTTP Referer。影响所有 HTTP/HTTPS 下载"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--remote-time",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --remote-time",
+        "从远程 HTTP/FTP 服务器检索文件时间戳并应用到本地文件",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--remove-control-file",
+      "tip": [
+        "下载前删除控制文件",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--retry-wait",
+      "tip": [
+        "U: --retry-wait <SEC>",
+        "设置重试之间的等待时间 (秒)",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reuse-uri",
+      "tip": [
+        "如果没有未使用的 URI 则重用已使用的 URI",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--rpc-allow-origin-all",
+      "tip": [
+        "在 RPC 响应中添加值为 '*' 的 Access-Control-Allow-Origin 头",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--rpc-certificate",
+      "tip": [
+        "U: --rpc-certificate <FILE>",
+        "使用 FILE 中的证书作为 RPC 服务器证书"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-listen-all",
+      "tip": [
+        "在所有网络接口上监听 JSON-RPC/XML-RPC 请求",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--rpc-listen-port",
+      "tip": [
+        "U: --rpc-listen-port <PORT>",
+        "指定 JSON-RPC/XML-RPC 服务器监听的端口号",
+        "Default: 6800"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-max-request-size",
+      "tip": [
+        "U: --rpc-max-request-size <SIZE>",
+        "设置 JSON-RPC/XML-RPC 请求的最大大小",
+        "Default: 2M"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-passwd",
+      "tip": [
+        "设置 JSON-RPC/XML-RPC 密码",
+        "(已弃用，请改用 --rpc-secret)"
+      ]
+    },
+    {
+      "name": "--rpc-private-key",
+      "tip": [
+        "U: --rpc-private-key <FILE>",
+        "使用 FILE 中的私钥作为 RPC 服务器私钥"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-save-upload-metadata",
+      "tip": [
+        "将上传的 torrent 或 metalink 元数据保存在 --dir 指定的目录中",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--rpc-secret",
+      "tip": [
+        "U: --rpc-secret <TOKEN>",
+        "设置 RPC 密钥授权令牌"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--rpc-secure",
+      "tip": [
+        "RPC 传输将通过 SSL/TLS 加密",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--rpc-user",
+      "tip": [
+        "设置 JSON-RPC/XML-RPC 用户名",
+        "(已弃用，请改用 --rpc-secret)"
+      ]
+    },
+    {
+      "name": "--save-cookies",
+      "tip": [
+        "U: --save-cookies <FILE>",
+        "以 Mozilla/Firefox/Netscape 格式将 Cookie 保存到 FILE"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--save-not-found",
+      "tip": [
+        "即使服务器上未找到文件，也通过 --save-session 选项保存",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--save-session",
+      "tip": [
+        "U: --save-session <FILE>",
+        "退出时将错误/未完成的下载保存到 FILE"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--save-session-interval",
+      "tip": [
+        "U: --save-session-interval <SEC>",
+        "每隔 SEC 秒保存一次错误/未完成的下载",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--seed-ratio",
+      "tip": [
+        "U: --seed-ratio <RATIO>",
+        "指定分享比率。做种直到达到 RATIO",
+        "Default: 1.0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--seed-time",
+      "tip": [
+        "U: --seed-time <MINUTES>",
+        "指定做种时间 (可以是小数，单位为分钟)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--select-file",
+      "tip": [
+        "U: --select-file <INDEX...>",
+        "通过指定索引来设置要下载的文件"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--server-stat-if",
+      "tip": [
+        "U: --server-stat-if <FILE>",
+        "指定加载服务器性能配置的文件名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--server-stat-of",
+      "tip": [
+        "U: --server-stat-of <FILE>",
+        "指定保存服务器性能配置的文件名"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--server-stat-timeout",
+      "tip": [
+        "U: --server-stat-timeout <SEC>",
+        "设置使服务器性能配置失效的超时时间 (秒)",
+        "Default: 86400"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--show-console-readout",
+      "tip": [
+        "显示控制台输出",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--show-files",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --show-files",
+        "打印 .torrent、.meta4 和 .metalink 文件的文件列表并退出",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--socket-recv-buffer-size",
+      "tip": [
+        "U: --socket-recv-buffer-size <SIZE>",
+        "设置最大套接字接收缓冲区 (字节)",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--split",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --split <N>",
+        "使用 N 个连接下载文件",
+        "Default: 5"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ssh-host-key-md",
+      "tip": [
+        "U: --ssh-host-key-md <TYPE=DIGEST>",
+        "设置 SSH 主机公钥的校验和"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stderr",
+      "tip": [
+        "将所有本应输出到 stdout 的控制台输出重定向到 stderr",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--stop",
+      "tip": [
+        "U: --stop <SEC>",
+        "在 SEC 秒后停止应用程序",
+        "Default: 0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stop-with-process",
+      "tip": [
+        "U: --stop-with-process <PID>",
+        "当进程 PID 不再运行时停止应用程序"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stream-piece-selector",
+      "tip": [
+        "U: --stream-piece-selector <SELECTOR>",
+        "指定 HTTP/FTP 下载中使用的分片选择算法",
+        "Default: default"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "选择分片以减少建立连接数"
+          ]
+        },
+        {
+          "name": "geom",
+          "tip": [
+            "类似 inorder 但指数级增大与前一个分片的间距"
+          ]
+        },
+        {
+          "name": "inorder",
+          "tip": [
+            "选择索引最小的分片"
+          ]
+        },
+        {
+          "name": "random",
+          "tip": [
+            "随机选择分片"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--summary-interval",
+      "tip": [
+        "U: --summary-interval <SEC>",
+        "设置输出下载进度摘要的间隔",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timeout",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --timeout <SEC>",
+        "设置超时时间 (秒)",
+        "Default: 60"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--torrent-file",
+      "alias": [
+        "-T"
+      ],
+      "tip": [
+        "U: -T, --torrent-file <TORRENT_FILE>",
+        ".torrent 文件的路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--truncate-console-readout",
+      "tip": [
+        "截断控制台输出以适应单行",
+        "Default: true"
+      ]
+    },
+    {
+      "name": "--uri-selector",
+      "tip": [
+        "U: --uri-selector <SELECTOR>",
+        "指定 URI 选择算法",
+        "Default: feedback"
+      ],
+      "next": [
+        {
+          "name": "adaptive",
+          "tip": [
+            "为首次连接选择最佳镜像之一"
+          ]
+        },
+        {
+          "name": "feedback",
+          "tip": [
+            "使用之前下载观察到的速度"
+          ]
+        },
+        {
+          "name": "inorder",
+          "tip": [
+            "按 URI 列表中的顺序尝试"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--use-head",
+      "tip": [
+        "对 HTTP 服务器的第一个请求使用 HEAD 方法",
+        "Default: false"
+      ]
+    },
+    {
+      "name": "--user-agent",
+      "alias": [
+        "-U"
+      ],
+      "tip": [
+        "U: -U, --user-agent <USER_AGENT>",
+        "设置 HTTP(S) 下载的用户代理",
+        "Default: aria2/1.37.0"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "打印版本号并退出"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help[=TAG|KEYWORD]",
+        "打印用法并退出。使用 --help=#TAG 按标签过滤"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,395 @@
+{
+  "meta": {
+    "url": "https://github.com/sharkdp/hyperfine",
+    "description": [
+      "一个命令行基准测试工具"
+    ]
+  },
+  "option": [
+    {
+      "name": "--cleanup",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --cleanup <CMD>",
+        "在所有基准测试运行完成后执行 CMD"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--command-name",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --command-name <NAME>",
+        "为命令指定一个有意义的名称"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--conclude",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --conclude <CMD>",
+        "在每次计时运行后执行 CMD"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-asciidoc",
+      "tip": [
+        "U: --export-asciidoc <FILE>",
+        "将计时汇总统计导出为 AsciiDoc 表格"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-csv",
+      "tip": [
+        "U: --export-csv <FILE>",
+        "将计时汇总统计导出为 CSV 格式"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-json",
+      "tip": [
+        "U: --export-json <FILE>",
+        "将计时汇总统计和计时数据导出为 JSON 格式"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-markdown",
+      "tip": [
+        "U: --export-markdown <FILE>",
+        "将计时汇总统计导出为 Markdown 表格"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--export-orgmode",
+      "tip": [
+        "U: --export-orgmode <FILE>",
+        "将计时汇总统计导出为 Emacs org-mode 表格"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息"
+      ]
+    },
+    {
+      "name": "--ignore-failure",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --ignore-failure",
+        "忽略被测试程序的失败"
+      ]
+    },
+    {
+      "name": "--input",
+      "tip": [
+        "U: --input <WHERE>",
+        "控制基准测试的输入来源"
+      ],
+      "next": [
+        {
+          "name": "null",
+          "tip": [
+            "从 /dev/null 读取（默认）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--max-runs",
+      "alias": [
+        "-M"
+      ],
+      "tip": [
+        "U: -M, --max-runs <NUM>",
+        "每个命令最多执行 NUM 次运行"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--min-runs",
+      "alias": [
+        "-m"
+      ],
+      "tip": [
+        "U: -m, --min-runs <NUM>",
+        "每个命令至少执行 NUM 次运行"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--output",
+      "tip": [
+        "U: --output <WHERE>",
+        "控制基准测试的输出重定向位置"
+      ],
+      "next": [
+        {
+          "name": "inherit",
+          "tip": [
+            "不重定向输出"
+          ]
+        },
+        {
+          "name": "null",
+          "tip": [
+            "将输出重定向到 /dev/null（默认）"
+          ]
+        },
+        {
+          "name": "pipe",
+          "tip": [
+            "通过管道传输输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--parameter-list",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "U: -L, --parameter-list <VAR> <VALUES>",
+        "为逗号分隔列表中的每个值执行基准测试"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parameter-scan",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --parameter-scan <VAR> <MIN> <MAX>",
+        "为 MIN..MAX 范围内的每个值执行基准测试"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--parameter-step-size",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --parameter-step-size <DELTA>",
+        "以 DELTA 为步长遍历 MIN..MAX 范围"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prepare",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --prepare <CMD>",
+        "在每次计时运行前执行 CMD"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reference",
+      "tip": [
+        "U: --reference <CMD>",
+        "用于相对比较的参考命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reference-name",
+      "tip": [
+        "U: --reference-name <NAME>",
+        "为参考命令指定一个有意义的名称"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--runs",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --runs <NUM>",
+        "每个命令恰好执行 NUM 次运行"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--setup",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --setup <CMD>",
+        "在每组计时运行前执行 CMD"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--shell",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --shell <SHELL>",
+        "设置用于执行基准测试命令的 shell"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--show-output",
+      "tip": [
+        "打印基准测试的 stdout 和 stderr"
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "U: --sort <METHOD>",
+        "指定速度比较摘要的排序方式"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "按时间排序（默认）"
+          ]
+        },
+        {
+          "name": "command",
+          "tip": [
+            "按命令输入顺序排序"
+          ]
+        },
+        {
+          "name": "mean-time",
+          "tip": [
+            "按平均运行时间排序"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--style",
+      "tip": [
+        "U: --style <TYPE>",
+        "设置输出样式类型"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动（默认）"
+          ]
+        },
+        {
+          "name": "basic",
+          "tip": [
+            "基本输出"
+          ]
+        },
+        {
+          "name": "color",
+          "tip": [
+            "带颜色但无交互输出"
+          ]
+        },
+        {
+          "name": "full",
+          "tip": [
+            "带所有效果的完整输出"
+          ]
+        },
+        {
+          "name": "nocolor",
+          "tip": [
+            "交互式但无颜色"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "禁用所有输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--time-unit",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --time-unit <UNIT>",
+        "设置使用的时间单位"
+      ],
+      "next": [
+        {
+          "name": "microsecond",
+          "tip": [
+            "微秒"
+          ]
+        },
+        {
+          "name": "millisecond",
+          "tip": [
+            "毫秒"
+          ]
+        },
+        {
+          "name": "second",
+          "tip": [
+            "秒"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息"
+      ]
+    },
+    {
+      "name": "--warmup",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --warmup <NUM>",
+        "在实际基准测试前执行 NUM 次预热运行"
+      ],
+      "next": 0
+    },
+    {
+      "name": "-N",
+      "tip": [
+        "--shell=none 的别名"
+      ]
+    }
+  ]
+}

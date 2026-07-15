@@ -2,11 +2,10 @@
   "meta": {
     "url": "https://pscompletions.abgox.com",
     "description": [
-      "PSCompletions module's completion.",
-      "If removed, it will be automatically added again."
+      "PSCompletions module's completion."
     ]
   },
-  "root": [
+  "next": [
     {
       "name": "add",
       "tip": [
@@ -93,8 +92,8 @@
           "name": "enable_cache",
           "tip": [
             "Current Value: {{ $PSCompletions.config.enable_cache }} (Default: 1)",
-            "Enable cache.",
-            "It will make the completion load faster, and it's recommended to keep the default."
+            "Enable caching to improve completion loading speed.",
+            "Usually should not be disabled, unless you want to re-read the JSON file every time completion is triggered, e.g., when debugging completions."
           ],
           "next": [
             {
@@ -2211,7 +2210,7 @@
         "   '';",
         "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
         "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
         "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
@@ -2253,7 +2252,7 @@
           ]
         },
         "example": [
-          "E: psc alias add git g gi            --- Add g and gi aliases for git\n",
+          "E: psc alias add git git.exe g       --- Add git.exe and g aliases for git\n",
           "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 alias for scoop"
         ],
         "tip": [
@@ -2274,9 +2273,9 @@
         "}}"
       ],
       "example": [
-        "E: psc alias list             --- List all aliases\n",
-        "   psc alias add git g gi     --- Add g and gi aliases for git\n",
-        "   psc alias rm git g gi      --- Remove g and gi aliases for git"
+        "E: psc alias list                  --- List all aliases\n",
+        "   psc alias add git git.exe g     --- Add git.exe and g aliases for git\n",
+        "   psc alias rm git git.exe g      --- Remove git.exe and g aliases for git"
       ],
       "list": {
         "example": [
@@ -2339,7 +2338,7 @@
           "By default, each completion comes with multiple special configurations: <@Magenta>{{ $PSCompletions.default_completion_item -join '<@Yellow> | <@Magenta>' }} <@Yellow>(Require hooks)",
           "\n",
           "{{",
-          "$config = $PSCompletions.config.comp_config.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
+          "$config = $PSCompletions.config.completion.$($arg[1]).Keys | Where-Object { $_ -notin $PSCompletions.default_completion_item };",
           "if($config){ \"$($arg[1])'s additional special configuration: <@Magenta>$($config -join ' ')\" }",
           "}}"
         ]
@@ -2404,7 +2403,7 @@
     "current_value": "Current Value",
     "description": [
       "<@Cyan>[Module Description]\n",
-      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) --- A completion manager for a better and simpler tab-completion experience in PowerShell\n",
+      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) - A completion manager for a better and simpler tab-completion experience in PowerShell\n",
       "\n",
       "<@Cyan>[Module Version]\n",
       "<@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
@@ -2413,17 +2412,26 @@
       "  Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
       "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
       "\n",
+      "{{",
+      "if ($PSEdition -eq 'Desktop'){",
+      "$m = '<@Cyan>[Environment Notice]', 'You are currently using <@Red>Windows PowerShell 5.1 (Desktop)<@Cyan>, it is recommended to use <@Blue>PowerShell 7+ (Core)<@Cyan>.','<@Blue>PSCompletions<@Cyan> only maintains compatibility on Windows PowerShell 5.1, and <@Red>the experience is degraded<@Cyan>.';",
+      "$m -join \"`n\";",
+      "\"`n`n\"",
+      "}",
+      "}}",
       "<@Cyan>[Module Usage]\n",
       "Enter <@Magenta>psc<@Cyan>, press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key, you will quickly learn all usages by reading the completion tip.\n",
       "Run <@Magenta>psc<@Cyan> will display this page content again and reload the module's data and key bindings.\n",
       "\n",
       "<@Cyan>[Module Completion Menu]\n",
-      "<@Blue>PSCompletions<@Cyan> provides a more powerful module completion menu. <@Yellow>(Currently only available on Windows)<@Cyan>\n",
+      "<@Blue>PSCompletions<@Cyan> provides a more powerful module completion menu.{{ if(!$IsWindows){ ' <@Yellow>(Currently only available on Windows)<@Cyan>' } }}\n",
       "\n",
-      "You can enter characters to filter, and three matching symbols are supported:\n",
-      "  - <@Magenta>^<@Cyan>: Match the beginning.\n",
+      "You can enter characters to filter (Fuzzy matching), and three matching symbols are supported:\n",
+      "  - <@Magenta>^<@Cyan>: Match the beginning. (Enter again to remove)\n",
       "  - <@Magenta>?<@Cyan>: Match any single character.\n",
       "  - <@Magenta>*<@Cyan>: Match one or more any characters.\n",
+      "Also can enable subsequence fuzzy matching: <@Magenta>psc menu config enable_filter_subsequence_match 1<@Cyan>",
+      "\n",
       "\n",
       "Here are some key bindings:\n",
       "  - Apply the selected completion item: <@Magenta>Space<@Cyan> | <@Magenta>Enter<@Cyan>\n",
@@ -2446,7 +2454,8 @@
       "\n",
       "If you have a problem using it, you can submit an issue: https://github.com/abgox/PSCompletions/issues\n",
       "\n",
-      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>."
+      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@>.",
+      "\n"
     ],
     "err": {
       "deny_change_menu_line_style": [
@@ -2701,7 +2710,7 @@
         "   '';",
         "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
         "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.comp_config[$completion].($_.name);",
+        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
         "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
         "   $PSCompletions.replace_content($_.tip, \"`n\")",
         " };",
@@ -2723,15 +2732,15 @@
       "Update them: <@Magenta>psc update --all"
     ],
     "update_info": [
-      "<@Cyan>PSCompletions remote repository update:\n",
+      "<@Cyan>PSCompletions has updated the completion library:\n",
       "{{",
       "$change=$PSCompletions.get_content($PSCompletions.path.change);",
       "$add=@();",
       "$rm=@();",
       "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
+      "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n\" };",
       "if($add){ \"Add: <@Magenta>$($add)<@Cyan>`nUse <@Magenta>psc add <completion><@Cyan> to add.`n`n\" };",
-      "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n`n\" };",
-      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update --all<@Cyan> to update.`n`n\" };",
+      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update --all<@Cyan> to update.`n\" };",
       "}}"
     ],
     "update_no": [

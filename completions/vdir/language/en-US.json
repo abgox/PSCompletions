@@ -1,0 +1,532 @@
+{
+  "meta": {
+    "url": "https://uutils.org",
+    "description": [
+      "List information about the FILEs."
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --all",
+        "do not ignore entries starting with ."
+      ]
+    },
+    {
+      "name": "--almost-all",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --almost-all",
+        "do not list implied . and .."
+      ]
+    },
+    {
+      "name": "--author",
+      "tip": [
+        "U: --author",
+        "with -l, print the author of each file"
+      ]
+    },
+    {
+      "name": "--block-size",
+      "tip": [
+        "U: --block-size=SIZE",
+        "with -l, scale sizes by SIZE when printing them"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--classify",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --classify",
+        "append indicator (one of */=>@|) to entries"
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color[=WHEN]",
+        "colorize the output; WHEN can be 'always', 'auto', or 'never'"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-Z"
+      ],
+      "tip": [
+        "U: -Z, --context",
+        "print any security context of each file"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "tip": [
+        "U: -L, --dereference",
+        "when showing file information for a symbolic link, show information for the file the link references"
+      ]
+    },
+    {
+      "name": "--dereference-command-line",
+      "alias": [
+        "-H"
+      ],
+      "tip": [
+        "U: -H, --dereference-command-line",
+        "follow symbolic links listed on the command line"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --directory",
+        "list directories themselves, not their contents"
+      ]
+    },
+    {
+      "name": "--dired",
+      "alias": [
+        "-D"
+      ],
+      "tip": [
+        "U: -D, --dired",
+        "generate output designed for Emacs' dired mode"
+      ]
+    },
+    {
+      "name": "--escape",
+      "alias": [
+        "-b"
+      ],
+      "tip": [
+        "U: -b, --escape",
+        "print C-style escapes for nongraphic characters"
+      ]
+    },
+    {
+      "name": "--file-type",
+      "tip": [
+        "U: --file-type",
+        "likewise, except do not append '*'"
+      ]
+    },
+    {
+      "name": "--format",
+      "tip": [
+        "U: --format=WORD",
+        "across -x, commas -m, horizontal -x, long -l, single-column -1, verbose -l, vertical -C"
+      ],
+      "next": [
+        {
+          "name": "across"
+        },
+        {
+          "name": "commas"
+        },
+        {
+          "name": "horizontal"
+        },
+        {
+          "name": "long"
+        },
+        {
+          "name": "single-column"
+        },
+        {
+          "name": "verbose"
+        },
+        {
+          "name": "vertical"
+        }
+      ]
+    },
+    {
+      "name": "--full-time",
+      "tip": [
+        "U: --full-time",
+        "like -l --time-style=full-iso"
+      ]
+    },
+    {
+      "name": "--group-directories-first",
+      "tip": [
+        "U: --group-directories-first",
+        "group directories before files"
+      ]
+    },
+    {
+      "name": "--hide",
+      "tip": [
+        "U: --hide=PATTERN",
+        "do not list implied entries matching shell PATTERN"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--hide-control-chars",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --hide-control-chars",
+        "print ? instead of nongraphic characters"
+      ]
+    },
+    {
+      "name": "--human-readable",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --human-readable",
+        "with -l and -s, print sizes like 1K 234M 2G etc."
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "tip": [
+        "U: --hyperlink[=WHEN]",
+        "hyperlink file names; WHEN can be 'always', 'auto', or 'never'"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--ignore",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --ignore=PATTERN",
+        "do not list implied entries matching shell PATTERN"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--ignore-backups",
+      "alias": [
+        "-B"
+      ],
+      "tip": [
+        "U: -B, --ignore-backups",
+        "do not list implied entries ending with ~"
+      ]
+    },
+    {
+      "name": "--indicator-style",
+      "tip": [
+        "U: --indicator-style=WORD",
+        "append indicator with style WORD to entry names"
+      ],
+      "next": [
+        {
+          "name": "classify"
+        },
+        {
+          "name": "file-type"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "slash"
+        }
+      ]
+    },
+    {
+      "name": "--inode",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --inode",
+        "print the index number of each file"
+      ]
+    },
+    {
+      "name": "--kibibytes",
+      "alias": [
+        "-k"
+      ],
+      "tip": [
+        "U: -k, --kibibytes",
+        "default to 1024-byte blocks for disk usage"
+      ]
+    },
+    {
+      "name": "--literal",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --literal",
+        "print entry names without quoting"
+      ]
+    },
+    {
+      "name": "--long",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l",
+        "use a long listing format"
+      ]
+    },
+    {
+      "name": "--no-group",
+      "alias": [
+        "-G"
+      ],
+      "tip": [
+        "U: -G, --no-group",
+        "in a long listing, don't print group names"
+      ]
+    },
+    {
+      "name": "--numeric-uid-gid",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --numeric-uid-gid",
+        "like -l, but list numeric user and group IDs"
+      ]
+    },
+    {
+      "name": "--quote-name",
+      "alias": [
+        "-Q"
+      ],
+      "tip": [
+        "U: -Q, --quote-name",
+        "enclose entry names in double quotes"
+      ]
+    },
+    {
+      "name": "--quoting-style",
+      "tip": [
+        "U: --quoting-style=WORD",
+        "use quoting style WORD for entry names"
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "escape"
+        },
+        {
+          "name": "literal"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "shell-always"
+        },
+        {
+          "name": "shell-escape"
+        },
+        {
+          "name": "shell-escape-always"
+        }
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R"
+      ],
+      "tip": [
+        "U: -R, --recursive",
+        "list subdirectories recursively"
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --reverse",
+        "reverse order while sorting"
+      ]
+    },
+    {
+      "name": "--show-control-chars",
+      "tip": [
+        "U: --show-control-chars",
+        "show nongraphic characters as-is"
+      ]
+    },
+    {
+      "name": "--si",
+      "tip": [
+        "U: --si",
+        "likewise, but use powers of 1000 not 1024"
+      ]
+    },
+    {
+      "name": "--size",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --size",
+        "print the allocated size of each file, in blocks"
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "U: --sort=WORD",
+        "sort by WORD instead of name"
+      ],
+      "next": [
+        {
+          "name": "extension"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "version"
+        }
+      ]
+    },
+    {
+      "name": "--tabsize",
+      "alias": [
+        "-T"
+      ],
+      "tip": [
+        "U: -T, --tabsize=COLS",
+        "assume tab stops at each COLS instead of 8"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--time",
+      "tip": [
+        "U: --time=WORD",
+        "change the default of using modification times"
+      ],
+      "next": [
+        {
+          "name": "access"
+        },
+        {
+          "name": "atime"
+        },
+        {
+          "name": "birth"
+        },
+        {
+          "name": "creation"
+        },
+        {
+          "name": "ctime"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "use"
+        }
+      ]
+    },
+    {
+      "name": "--time-style",
+      "tip": [
+        "U: --time-style=TIME_STYLE",
+        "time/date format with -l"
+      ],
+      "next": [
+        {
+          "name": "full-iso"
+        },
+        {
+          "name": "iso"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "long-iso"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "U: --version",
+        "output version information and exit"
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --width=COLS",
+        "set output width to COLS. 0 means no limit"
+      ],
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "U: --help",
+        "display this help and exit"
+      ]
+    }
+  ]
+}

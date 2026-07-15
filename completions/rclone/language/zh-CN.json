@@ -2,10 +2,10 @@
   "meta": {
     "url": "https://rclone.org",
     "description": [
-      "Rclone - 在云存储提供商之间同步文件。"
+      "在云存储提供商之间同步文件。"
     ]
   },
-  "root": [
+  "next": [
     {
       "name": "about",
       "tip": [
@@ -15,7 +15,7 @@
     {
       "name": "bisync",
       "tip": [
-        "U: rclone bisync <path1> <path2> [flags]",
+        "U: bisync <path1> <path2> [flags]",
         "在两个路径之间执行双向同步。"
       ],
       "option": [
@@ -42,14 +42,14 @@
     {
       "name": "cat",
       "tip": [
-        "U: rclone cat <remote:path> [flags]",
+        "U: cat <remote:path> [flags]",
         "连接任意文件并发送到 stdout。"
       ]
     },
     {
       "name": "check",
       "tip": [
-        "U: rclone check <source:path> <dest:path> [flags]",
+        "U: check <source:path> <dest:path> [flags]",
         "检查源和目标中的文件是否匹配。"
       ],
       "option": [
@@ -70,14 +70,14 @@
     {
       "name": "cleanup",
       "tip": [
-        "U: rclone cleanup <remote:path> [flags]",
+        "U: cleanup <remote:path> [flags]",
         "如果可能，清理远程。"
       ]
     },
     {
       "name": "completion",
       "tip": [
-        "U: rclone completion <shell>",
+        "U: completion <shell>",
         "输出指定 shell 的补全脚本。"
       ],
       "next": [
@@ -98,7 +98,7 @@
     {
       "name": "config",
       "tip": [
-        "U: rclone config <subcommand>",
+        "U: config <subcommand>",
         "进入交互式配置会话。"
       ],
       "next": [
@@ -149,7 +149,7 @@
         "cp"
       ],
       "tip": [
-        "U: rclone copy <source:path> <dest:path> [flags]",
+        "U: cp|copy <source:path> <dest:path> [flags]",
         "从源复制文件到目标，跳过相同的文件。"
       ],
       "option": [
@@ -186,6 +186,7 @@
             "-n"
           ],
           "tip": [
+            "U: -n, --dry-run",
             "执行试运行，不做永久更改"
           ]
         },
@@ -234,6 +235,7 @@
             "-P"
           ],
           "tip": [
+            "U: -P, --transfers",
             "并行传输数量"
           ],
           "next": 0
@@ -243,35 +245,35 @@
     {
       "name": "copyto",
       "tip": [
-        "U: rclone copyto <source:path> <dest:path> [flags]",
+        "U: copyto <source:path> <dest:path> [flags]",
         "从源复制文件到目标，跳过相同的文件。"
       ]
     },
     {
       "name": "copyurl",
       "tip": [
-        "U: rclone copyurl <url> <dest:path> [flags]",
+        "U: copyurl <url> <dest:path> [flags]",
         "将 URL 内容复制到 dest:path。"
       ]
     },
     {
       "name": "cryptcheck",
       "tip": [
-        "U: rclone cryptcheck <source:path> <encrypted:path> [flags]",
+        "U: cryptcheck <source:path> <encrypted:path> [flags]",
         "Cryptcheck 检查加密远程的完整性。"
       ]
     },
     {
       "name": "cryptdecode",
       "tip": [
-        "U: rclone cryptdecode <encrypted:path> [flags]",
+        "U: cryptdecode <encrypted:path> [flags]",
         "Cryptdecode 返回未加密的文件名。"
       ]
     },
     {
       "name": "dedupe",
       "tip": [
-        "U: rclone dedupe <remote:path> [flags]",
+        "U: dedupe <remote:path> [flags]",
         "交互式查找重复文件名并删除/重命名。"
       ],
       "option": [
@@ -325,6 +327,7 @@
             "-i"
           ],
           "tip": [
+            "U: -i, --interactive",
             "启用交互模式"
           ]
         }
@@ -333,7 +336,7 @@
     {
       "name": "delete",
       "tip": [
-        "U: rclone delete <remote:path> [flags]",
+        "U: delete <remote:path> [flags]",
         "删除路径中的文件。"
       ],
       "option": [
@@ -354,14 +357,14 @@
     {
       "name": "deletefile",
       "tip": [
-        "U: rclone deletefile <remote:path> [flags]",
+        "U: deletefile <remote:path> [flags]",
         "从远程删除单个文件。"
       ]
     },
     {
       "name": "gendocs",
       "tip": [
-        "U: rclone gendocs <output_directory>",
+        "U: gendocs <output_directory>",
         "将 rclone 的 markdown 文档输出到指定目录。"
       ]
     },
@@ -382,7 +385,7 @@
     {
       "name": "hashsum",
       "tip": [
-        "U: rclone hashsum <hash> <remote:path> [flags]",
+        "U: hashsum <hash> <remote:path> [flags]",
         "为路径中的所有对象生成哈希校验文件。"
       ]
     },
@@ -412,7 +415,7 @@
     {
       "name": "link",
       "tip": [
-        "U: rclone link <remote:path> [flags]",
+        "U: link <remote:path> [flags]",
         "生成文件/文件夹的公共链接。"
       ],
       "option": [
@@ -448,7 +451,7 @@
     {
       "name": "ls",
       "tip": [
-        "U: rclone ls <remote:path> [flags]",
+        "U: ls <remote:path> [flags]",
         "列出路径中的对象，显示大小和路径。"
       ],
       "option": [
@@ -458,6 +461,7 @@
             "-d"
           ],
           "tip": [
+            "U: -d, --max-depth",
             "列出的最大目录深度"
           ],
           "next": 0
@@ -467,14 +471,14 @@
     {
       "name": "lsd",
       "tip": [
-        "U: rclone lsd <remote:path> [flags]",
+        "U: lsd <remote:path> [flags]",
         "列出路径中的所有目录/容器/存储桶。"
       ]
     },
     {
       "name": "lsf",
       "tip": [
-        "U: rclone lsf <remote:path> [flags]",
+        "U: lsf <remote:path> [flags]",
         "列出 remote:path 中的目录和对象，格式适合解析。"
       ],
       "option": [
@@ -509,7 +513,7 @@
     {
       "name": "lsjson",
       "tip": [
-        "U: rclone lsjson <remote:path> [flags]",
+        "U: lsjson <remote:path> [flags]",
         "以 JSON 格式列出路径中的目录和对象。"
       ],
       "option": [
@@ -542,28 +546,28 @@
     {
       "name": "lsl",
       "tip": [
-        "U: rclone lsl <remote:path> [flags]",
+        "U: lsl <remote:path> [flags]",
         "列出路径中的对象，显示修改时间、大小和路径。"
       ]
     },
     {
       "name": "md5sum",
       "tip": [
-        "U: rclone md5sum <remote:path> [flags]",
+        "U: md5sum <remote:path> [flags]",
         "为路径中的所有对象生成 md5sum 文件。"
       ]
     },
     {
       "name": "mkdir",
       "tip": [
-        "U: rclone mkdir <remote:path>",
+        "U: mkdir <remote:path>",
         "如果路径不存在则创建。"
       ]
     },
     {
       "name": "mount",
       "tip": [
-        "U: rclone mount <remote:path> <mountpoint> [flags]",
+        "U: mount <remote:path> <mountpoint> [flags]",
         "将远程挂载为文件系统。"
       ],
       "option": [
@@ -701,7 +705,7 @@
         "mv"
       ],
       "tip": [
-        "U: rclone move <source:path> <dest:path> [flags]",
+        "U: mv|move <source:path> <dest:path> [flags]",
         "从源移动文件到目标。"
       ],
       "option": [
@@ -724,6 +728,7 @@
             "-n"
           ],
           "tip": [
+            "U: -n, --dry-run",
             "执行试运行，不做永久更改"
           ]
         },
@@ -739,6 +744,7 @@
             "-P"
           ],
           "tip": [
+            "U: -P, --transfers",
             "并行传输数量"
           ],
           "next": 0
@@ -748,28 +754,28 @@
     {
       "name": "moveto",
       "tip": [
-        "U: rclone moveto <source:path> <dest:path> [flags]",
+        "U: moveto <source:path> <dest:path> [flags]",
         "从源移动文件或目录到目标。"
       ]
     },
     {
       "name": "ncdu",
       "tip": [
-        "U: rclone ncdu <remote:path> [flags]",
+        "U: ncdu <remote:path> [flags]",
         "使用基于文本的用户界面探索远程。"
       ]
     },
     {
       "name": "obscure",
       "tip": [
-        "U: rclone obscure <password>",
+        "U: obscure <password>",
         "混淆密码以用于 rclone 配置文件。"
       ]
     },
     {
       "name": "purge",
       "tip": [
-        "U: rclone purge <remote:path> [flags]",
+        "U: purge <remote:path> [flags]",
         "删除路径及其所有内容。"
       ],
       "option": [
@@ -784,7 +790,7 @@
     {
       "name": "rc",
       "tip": [
-        "U: rclone rc <command> [flags]",
+        "U: rc <command> [flags]",
         "对运行中的 rclone 执行命令。"
       ],
       "option": [
@@ -820,28 +826,28 @@
     {
       "name": "rcat",
       "tip": [
-        "U: rclone rcat <remote:path>",
+        "U: rcat <remote:path>",
         "将标准输入复制到远程文件。"
       ]
     },
     {
       "name": "rcd",
       "tip": [
-        "U: rclone rcd <remote:path> [flags]",
+        "U: rcd <remote:path> [flags]",
         "运行 rclone 仅监听远程控制命令。"
       ]
     },
     {
       "name": "rmdir",
       "tip": [
-        "U: rclone rmdir <remote:path>",
+        "U: rmdir <remote:path>",
         "删除路径中的空目录。"
       ]
     },
     {
       "name": "rmdirs",
       "tip": [
-        "U: rclone rmdirs <remote:path> [flags]",
+        "U: rmdirs <remote:path> [flags]",
         "删除路径下的空目录。"
       ],
       "option": [
@@ -856,7 +862,7 @@
     {
       "name": "selfupdate",
       "tip": [
-        "U: rclone selfupdate [flags]",
+        "U: selfupdate [flags]",
         "更新 rclone 二进制文件。"
       ],
       "option": [
@@ -884,6 +890,7 @@
             "-o"
           ],
           "tip": [
+            "U: -o, --output",
             "输出二进制路径"
           ],
           "next": 0
@@ -893,7 +900,7 @@
     {
       "name": "serve",
       "tip": [
-        "U: rclone serve <protocol> <remote:path> [flags]",
+        "U: serve <protocol> <remote:path> [flags]",
         "通过协议提供远程服务。"
       ],
       "option": [
@@ -910,6 +917,7 @@
             "--user"
           ],
           "tip": [
+            "U: --user, --auth",
             "设置认证用户名"
           ],
           "next": 0
@@ -941,6 +949,7 @@
             "--pass"
           ],
           "tip": [
+            "U: --pass, --password",
             "设置认证密码"
           ],
           "next": 0
@@ -989,28 +998,28 @@
     {
       "name": "settier",
       "tip": [
-        "U: rclone settier <tier> <remote:path> [flags]",
+        "U: settier <tier> <remote:path> [flags]",
         "更改远程中对象的存储类别/层级。"
       ]
     },
     {
       "name": "sha1sum",
       "tip": [
-        "U: rclone sha1sum <remote:path> [flags]",
+        "U: sha1sum <remote:path> [flags]",
         "为路径中的所有对象生成 sha1sum 文件。"
       ]
     },
     {
       "name": "size",
       "tip": [
-        "U: rclone size <remote:path> [flags]",
+        "U: size <remote:path> [flags]",
         "打印 remote:path 中的总大小和对象数量。"
       ]
     },
     {
       "name": "sync",
       "tip": [
-        "U: rclone sync <source:path> <dest:path> [flags]",
+        "U: sync <source:path> <dest:path> [flags]",
         "使源和目标完全相同，仅修改目标。"
       ],
       "option": [
@@ -1033,6 +1042,7 @@
             "-n"
           ],
           "tip": [
+            "U: -n, --dry-run",
             "执行试运行，不做永久更改"
           ]
         },
@@ -1048,6 +1058,7 @@
             "-P"
           ],
           "tip": [
+            "U: -P, --transfers",
             "并行传输数量"
           ],
           "next": 0
@@ -1057,14 +1068,14 @@
     {
       "name": "touch",
       "tip": [
-        "U: rclone touch <remote:path> [flags]",
+        "U: touch <remote:path> [flags]",
         "创建新文件或更改文件修改时间。"
       ]
     },
     {
       "name": "tree",
       "tip": [
-        "U: rclone tree <remote:path> [flags]",
+        "U: tree <remote:path> [flags]",
         "以树状格式列出远程内容。"
       ],
       "option": [
@@ -1074,6 +1085,7 @@
             "-a"
           ],
           "tip": [
+            "U: -a, --all",
             "包含所有文件"
           ]
         },
@@ -1083,6 +1095,7 @@
             "-d"
           ],
           "tip": [
+            "U: -d, --dirs-only",
             "仅显示目录"
           ]
         },
@@ -1092,6 +1105,7 @@
             "-f"
           ],
           "tip": [
+            "U: -f, --files-only",
             "仅显示文件"
           ]
         },
@@ -1101,6 +1115,7 @@
             "-L"
           ],
           "tip": [
+            "U: -L, --level",
             "显示深度"
           ],
           "next": 0
@@ -1146,13 +1161,14 @@
       ]
     }
   ],
-  "common_option": [
+  "global_option": [
     {
       "name": "--ask-s3-secret-access-key",
       "alias": [
         "--ask-password"
       ],
       "tip": [
+        "U: --ask-password, --ask-s3-secret-access-key",
         "需要时允许询问密码。"
       ]
     },
@@ -1776,7 +1792,7 @@
         "-P"
       ],
       "tip": [
-        "U: --transfers <N>",
+        "U: -P, --transfers <N>",
         "并行文件传输数量。"
       ],
       "next": 0

@@ -1,0 +1,545 @@
+{
+  "meta": {
+    "url": "https://github.com/watchexec/watchexec",
+    "description": [
+      "Execute commands when watched files change",
+      "Recursively monitors for changes and runs commands"
+    ]
+  },
+  "option": [
+    {
+      "name": "--bell",
+      "tip": [
+        "Ring the terminal bell on command completion"
+      ]
+    },
+    {
+      "name": "--clear",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --clear",
+        "Clear screen before running command"
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "U: --color <MODE>",
+        "When to use terminal colours"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always use colors"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Automatic (default)"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never use colors"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--completions",
+      "tip": [
+        "U: --completions <SHELL>",
+        "Generate a shell completions script"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash completion"
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Elvish completion"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish completion"
+          ]
+        },
+        {
+          "name": "nu",
+          "tip": [
+            "Nushell completion"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell completion"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh completion"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--debounce",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debounce <TIMEOUT>",
+        "Time to wait for new events before taking action"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--delay-run",
+      "tip": [
+        "U: --delay-run <DURATION>",
+        "Sleep before running the command"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--emit-events-to",
+      "tip": [
+        "U: --emit-events-to <MODE>",
+        "Configure event emission"
+      ],
+      "next": [
+        {
+          "name": "file",
+          "tip": [
+            "Emit to file"
+          ]
+        },
+        {
+          "name": "json-file",
+          "tip": [
+            "Emit JSON to file"
+          ]
+        },
+        {
+          "name": "json-stdio",
+          "tip": [
+            "Emit JSON to stdio"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No event emission (default)"
+          ]
+        },
+        {
+          "name": "stdio",
+          "tip": [
+            "Emit to stdio"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--env",
+      "alias": [
+        "-E"
+      ],
+      "tip": [
+        "U: -E, --env <KEY=VALUE>",
+        "Add env vars to the command"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--exit-on-error",
+      "tip": [
+        "Exit when the command has an error"
+      ]
+    },
+    {
+      "name": "--exts",
+      "alias": [
+        "-e"
+      ],
+      "tip": [
+        "U: -e, --exts <EXTENSIONS>",
+        "Filename extensions to filter to"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-f"
+      ],
+      "tip": [
+        "U: -f, --filter <PATTERN>",
+        "Filename patterns to filter to"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--filter-prog",
+      "alias": [
+        "-j"
+      ],
+      "tip": [
+        "U: -j, --filter-prog <EXPRESSION>",
+        "Filter programs in jaq syntax"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fs-events",
+      "tip": [
+        "U: --fs-events <EVENTS>",
+        "Filesystem events to filter to"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help"
+      ]
+    },
+    {
+      "name": "--ignore",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --ignore <PATTERN>",
+        "Filename patterns to filter out"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--ignore-nothing",
+      "tip": [
+        "Don't ignore anything at all"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-I"
+      ],
+      "tip": [
+        "U: -I, --interactive",
+        "Respond to keypresses to quit, restart, or pause"
+      ]
+    },
+    {
+      "name": "--log-file",
+      "tip": [
+        "U: --log-file [<PATH>]",
+        "Write diagnostic logs to a file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--map-signal",
+      "tip": [
+        "U: --map-signal <SIGNAL:SIGNAL>",
+        "Translate signals from the OS to signals for the command"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--no-default-ignore",
+      "tip": [
+        "Don't use internal default ignores"
+      ]
+    },
+    {
+      "name": "--no-project-ignore",
+      "tip": [
+        "Don't load project-local ignores"
+      ]
+    },
+    {
+      "name": "--no-vcs-ignore",
+      "tip": [
+        "Don't load gitignores"
+      ]
+    },
+    {
+      "name": "--notify",
+      "alias": [
+        "-N"
+      ],
+      "tip": [
+        "U: -N, --notify",
+        "Alert when commands start and end"
+      ]
+    },
+    {
+      "name": "--on-busy-update",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --on-busy-update <MODE>",
+        "What to do when receiving events while the command is running"
+      ],
+      "next": [
+        {
+          "name": "do-nothing",
+          "tip": [
+            "Ignore events while running (default)"
+          ]
+        },
+        {
+          "name": "queue",
+          "tip": [
+            "Run again when current run finishes"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "Terminate and restart"
+          ]
+        },
+        {
+          "name": "signal",
+          "tip": [
+            "Send a signal"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--only-emit-events",
+      "tip": [
+        "Only emit events to stdout, run no commands"
+      ]
+    },
+    {
+      "name": "--poll",
+      "tip": [
+        "U: --poll [<INTERVAL>]",
+        "Poll for filesystem changes"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--postpone",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --postpone",
+        "Wait until first change before running command"
+      ]
+    },
+    {
+      "name": "--print-events",
+      "tip": [
+        "Print events that trigger actions"
+      ]
+    },
+    {
+      "name": "--project-origin",
+      "tip": [
+        "U: --project-origin <DIR>",
+        "Set the project origin"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Don't print starting and stopping messages"
+      ]
+    },
+    {
+      "name": "--restart",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --restart",
+        "Restart the process if it's still running"
+      ]
+    },
+    {
+      "name": "--shell",
+      "tip": [
+        "U: --shell <SHELL>",
+        "Use a different shell"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--signal",
+      "alias": [
+        "-s"
+      ],
+      "tip": [
+        "U: -s, --signal <SIGNAL>",
+        "Send a signal to the process when it's still running"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stdin-quit",
+      "tip": [
+        "Exit when stdin closes"
+      ]
+    },
+    {
+      "name": "--stop-signal",
+      "tip": [
+        "U: --stop-signal <SIGNAL>",
+        "Signal to send to stop the command"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--stop-timeout",
+      "tip": [
+        "U: --stop-timeout <TIMEOUT>",
+        "Time to wait for the command to exit gracefully"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timeout",
+      "tip": [
+        "U: --timeout <TIMEOUT>",
+        "Kill the command if it runs longer than this duration"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--timings",
+      "tip": [
+        "Print how long the command took to run"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Set diagnostic log level"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version"
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "tip": [
+        "U: -w, --watch <PATH>",
+        "Watch a specific file or directory"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--watch-file",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --watch-file <PATH>",
+        "Watch files and directories from a file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--watch-non-recursive",
+      "alias": [
+        "-W"
+      ],
+      "tip": [
+        "U: -W, --watch-non-recursive <PATH>",
+        "Watch a specific directory, non-recursively"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--workdir",
+      "tip": [
+        "U: --workdir <DIR>",
+        "Set the working directory"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--wrap-process",
+      "tip": [
+        "U: --wrap-process <MODE>",
+        "Configure how the process is wrapped"
+      ],
+      "next": [
+        {
+          "name": "group",
+          "tip": [
+            "Use a process group (default)"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "Run command directly"
+          ]
+        },
+        {
+          "name": "session",
+          "tip": [
+            "Use a process session"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-n",
+      "tip": [
+        "Shorthand for --shell=none"
+      ]
+    }
+  ]
+}

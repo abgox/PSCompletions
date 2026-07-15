@@ -1,0 +1,1756 @@
+{
+  "meta": {
+    "url": "https://python-poetry.org",
+    "description": [
+      "Python dependency manager and packaging tool. "
+    ]
+  },
+  "next": [
+    {
+      "name": "about",
+      "tip": [
+        "显示 Poetry 的相关信息。"
+      ]
+    },
+    {
+      "name": "add",
+      "tip": [
+        "U: add <name>...",
+        "添加新的依赖到 pyproject.toml 并安装。"
+      ],
+      "option": [
+        {
+          "name": "--allow-prereleases",
+          "tip": [
+            "接受预发布版本。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --dev",
+            "作为开发依赖添加。",
+            "等同于 -G dev。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行。",
+            "隐式启用 --verbose。"
+          ]
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --editable",
+            "以可编辑方式添加 vcs/path 依赖。"
+          ]
+        },
+        {
+          "name": "--extras",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --extras <EXTRAS>",
+            "为依赖启用的 extras。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --group <GROUP>",
+            "要添加依赖的组。",
+            "默认: main"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "不执行操作。",
+            "仅更新 lockfile。"
+          ]
+        },
+        {
+          "name": "--markers",
+          "tip": [
+            "U: --markers <MARKERS>",
+            "描述何时应安装依赖的环境标记。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "U: --optional <OPTIONAL>",
+            "作为可选依赖添加到某个 extra。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform <PLATFORM>",
+            "依赖需要安装的平台。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "U: --python <PYTHON>",
+            "依赖需要安装的 Python 版本。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "tip": [
+            "U: --source <SOURCE>",
+            "用于安装包的源名称。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "U: build [options]",
+        "构建包，默认为 tarball 和 wheel 格式。"
+      ],
+      "option": [
+        {
+          "name": "--clean",
+          "tip": [
+            "构建前清理输出目录。"
+          ]
+        },
+        {
+          "name": "--config-settings",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --config-settings <key=value>",
+            "提供传递给后端的配置设置。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "限制格式为 sdist 或 wheel。"
+          ],
+          "next": [
+            {
+              "name": "sdist",
+              "tip": [
+                "源码分发。"
+              ]
+            },
+            {
+              "name": "wheel",
+              "tip": [
+                "Wheel 格式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--local-version",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --local-version <LOCAL-VERSION>",
+            "添加或替换构建的本地版本标签。",
+            "(已弃用)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <OUTPUT>",
+            "设置构建产物的输出目录。",
+            "默认: dist"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "管理 Poetry 的缓存。"
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "U: clear [<cache>]",
+            "清除 Poetry 的缓存。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "清除缓存中的所有条目。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 Poetry 的缓存。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "U: check [options]",
+        "验证 pyproject.toml 的内容及其与 poetry.lock 的一致性。"
+      ],
+      "option": [
+        {
+          "name": "--lock",
+          "tip": [
+            "检查 poetry.lock 是否存在且与当前 pyproject.toml 版本匹配。"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "如果检查报告警告则失败。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config [options] [<key> [<value>...]]",
+        "管理配置设置。"
+      ],
+      "option": [
+        {
+          "name": "--list",
+          "tip": [
+            "列出配置设置。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "从项目的本地配置中设置/获取。"
+          ]
+        },
+        {
+          "name": "--migrate",
+          "tip": [
+            "迁移过时的配置设置。"
+          ]
+        },
+        {
+          "name": "--unset",
+          "tip": [
+            "取消配置设置。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "调试 Poetry 内部。"
+      ],
+      "next": [
+        {
+          "name": "info",
+          "tip": [
+            "显示调试信息。"
+          ]
+        },
+        {
+          "name": "resolve",
+          "tip": [
+            "U: resolve [<package>...]",
+            "调试依赖解析。"
+          ],
+          "option": [
+            {
+              "name": "--extras",
+              "alias": [
+                "-E"
+              ],
+              "tip": [
+                "U: -E, --extras <EXTRAS>",
+                "为依赖启用的 extras。",
+                "可多次指定。"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--install",
+              "tip": [
+                "显示当前系统将安装的内容。"
+              ]
+            },
+            {
+              "name": "--python",
+              "tip": [
+                "U: --python <PYTHON>",
+                "用于解析的 Python 版本。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tree",
+              "tip": [
+                "显示依赖树。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tags",
+          "tip": [
+            "显示项目当前活动环境的兼容标签。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "管理 Poetry 的虚拟环境。"
+      ],
+      "next": [
+        {
+          "name": "activate",
+          "tip": [
+            "打印激活虚拟环境的命令。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "显示当前环境的信息。"
+          ],
+          "option": [
+            {
+              "name": "--executable",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --executable",
+                "仅显示环境的 Python 可执行文件路径。"
+              ]
+            },
+            {
+              "name": "--path",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --path",
+                "仅显示环境的路径。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出与当前项目关联的所有虚拟环境。"
+          ],
+          "option": [
+            {
+              "name": "--full-path",
+              "tip": [
+                "输出虚拟环境的完整路径。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [<python>...]",
+            "删除与项目关联的虚拟环境。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "删除与项目关联的所有托管虚拟环境。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "use",
+          "tip": [
+            "U: use <python>",
+            "激活或为当前项目创建新的虚拟环境。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "U: help [<command_name>]",
+        "显示命令的帮助信息。"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [options]",
+        "在当前目录创建基本的 pyproject.toml 文件。"
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <AUTHOR>",
+            "包的作者名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dependency",
+          "tip": [
+            "U: --dependency <DEPENDENCY>",
+            "需要的包，可选版本约束。",
+            "例如 requests:^2.10.0",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "U: --description <DESCRIPTION>",
+            "包的描述。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dev-dependency",
+          "tip": [
+            "U: --dev-dependency <DEV-DEPENDENCY>",
+            "开发所需的包。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--license",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --license <LICENSE>",
+            "包的许可证。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <NAME>",
+            "包的名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "U: --python <PYTHON>",
+            "兼容的 Python 版本。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "U: install [options]",
+        "安装项目依赖。"
+      ],
+      "option": [
+        {
+          "name": "--all-extras",
+          "tip": [
+            "安装所有额外依赖。"
+          ]
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "安装所有组的依赖。"
+          ]
+        },
+        {
+          "name": "--compile",
+          "tip": [
+            "将 Python 源文件编译为字节码。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行。",
+            "隐式启用 --verbose。"
+          ]
+        },
+        {
+          "name": "--extras",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --extras <EXTRAS>",
+            "要安装的额外依赖集。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--no-directory",
+          "tip": [
+            "不安装任何目录路径依赖。",
+            "用于 Docker 层缓存。"
+          ]
+        },
+        {
+          "name": "--no-root",
+          "tip": [
+            "不安装根包（当前项目）。"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "仅包含的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--only-root",
+          "tip": [
+            "排除所有依赖。"
+          ]
+        },
+        {
+          "name": "--sync",
+          "tip": [
+            "同步环境与锁定的包。",
+            "(已弃用)"
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "要包含的可选依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "要忽略的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "列出命令。"
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "U: lock [options]",
+        "锁定项目依赖。"
+      ],
+      "option": [
+        {
+          "name": "--regenerate",
+          "tip": [
+            "忽略现有的 lock 文件，从头创建新的 lock 文件覆盖。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "new",
+      "tip": [
+        "U: new [options] <path>",
+        "在 <path> 创建新的 Python 项目。"
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <AUTHOR>",
+            "包的作者名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dependency",
+          "tip": [
+            "U: --dependency <DEPENDENCY>",
+            "需要的包，可选版本约束。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "U: --description <DESCRIPTION>",
+            "包的描述。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dev-dependency",
+          "tip": [
+            "U: --dev-dependency <DEV-DEPENDENCY>",
+            "开发所需的包。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--flat",
+          "tip": [
+            "使用 flat 布局。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "允许交互式指定项目配置。"
+          ]
+        },
+        {
+          "name": "--license",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --license <LICENSE>",
+            "包的许可证。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <NAME>",
+            "设置生成的包名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "U: --python <PYTHON>",
+            "兼容的 Python 版本。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--readme",
+          "tip": [
+            "U: --readme <README>",
+            "指定 readme 文件格式。",
+            "默认: md"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--src",
+          "tip": [
+            "使用 src 布局。",
+            "(已弃用，现在是默认选项)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "U: publish [options]",
+        "发布包到远程仓库。"
+      ],
+      "option": [
+        {
+          "name": "--build",
+          "tip": [
+            "发布前构建包。"
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <CERT>",
+            "访问仓库的证书颁发机构。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--client-cert",
+          "tip": [
+            "U: --client-cert <CLIENT-CERT>",
+            "访问仓库的客户端证书。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dist-dir",
+          "tip": [
+            "U: --dist-dir <DIST-DIR>",
+            "存储构建产物的 dist 目录。",
+            "默认: dist"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "执行除上传包以外的所有操作。"
+          ]
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <PASSWORD>",
+            "访问仓库的密码。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repository",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --repository <REPOSITORY>",
+            "发布包的目标仓库。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-existing",
+          "tip": [
+            "忽略仓库中已存在文件的错误。"
+          ]
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <USERNAME>",
+            "访问仓库的用户名。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "python",
+      "tip": [
+        "管理 Python 版本（实验性功能）。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "U: install <python>",
+            "安装指定的 Python 版本。",
+            "来自 Python Standalone Builds 项目。"
+          ],
+          "option": [
+            {
+              "name": "--clean",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --clean",
+                "如果检查失败则清理安装。"
+              ]
+            },
+            {
+              "name": "--free-threaded",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --free-threaded",
+                "如果可用则使用 free-threaded 版本。"
+              ]
+            },
+            {
+              "name": "--implementation",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --implementation <IMPLEMENTATION>",
+                "使用的 Python 实现。",
+                "默认: cpython"
+              ],
+              "next": [
+                {
+                  "name": "cpython",
+                  "tip": [
+                    "CPython 实现。"
+                  ]
+                },
+                {
+                  "name": "pypy",
+                  "tip": [
+                    "PyPy 实现。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--reinstall",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --reinstall",
+                "如果安装已存在则重新安装。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [<version>]",
+            "显示此环境可用的 Python 版本。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "列出所有版本，包括可下载的版本。"
+              ]
+            },
+            {
+              "name": "--free-threaded",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --free-threaded",
+                "仅列出 free-threaded Python 版本。"
+              ]
+            },
+            {
+              "name": "--implementation",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --implementation <IMPLEMENTATION>",
+                "搜索的 Python 实现。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--managed",
+              "alias": [
+                "-m"
+              ],
+              "tip": [
+                "U: -m, --managed",
+                "仅列出 Poetry 托管的 Python 版本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [<python>...]",
+            "如果由 Poetry 托管则删除指定的 Python 版本。"
+          ],
+          "option": [
+            {
+              "name": "--free-threaded",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --free-threaded",
+                "如果可用则使用 free-threaded 版本。"
+              ]
+            },
+            {
+              "name": "--implementation",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --implementation <IMPLEMENTATION>",
+                "使用的 Python 实现。",
+                "默认: cpython"
+              ],
+              "next": [
+                {
+                  "name": "cpython",
+                  "tip": [
+                    "CPython 实现。"
+                  ]
+                },
+                {
+                  "name": "pypy",
+                  "tip": [
+                    "PyPy 实现。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "U: remove <packages>...",
+        "从项目依赖中删除包。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --dev",
+            "从开发依赖中删除包。",
+            "等同于 -G dev。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行。",
+            "隐式启用 --verbose。"
+          ]
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --group <GROUP>",
+            "要删除依赖的组。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "不执行操作。",
+            "仅更新 lockfile。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run <args>...",
+        "在适当的环境中运行命令。"
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search <tokens>...",
+        "在远程仓库中搜索包。"
+      ]
+    },
+    {
+      "name": "self",
+      "tip": [
+        "管理 Poetry 自身的安装。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>...",
+            "向 Poetry 的运行时环境添加额外的包。"
+          ],
+          "option": [
+            {
+              "name": "--allow-prereleases",
+              "tip": [
+                "接受预发布版本。"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "输出操作但不执行。",
+                "隐式启用 --verbose。"
+              ]
+            },
+            {
+              "name": "--editable",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --editable",
+                "以可编辑方式添加 vcs/path 依赖。"
+              ]
+            },
+            {
+              "name": "--extras",
+              "alias": [
+                "-E"
+              ],
+              "tip": [
+                "U: -E, --extras <EXTRAS>",
+                "为依赖启用的 extras。",
+                "可多次指定。"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "tip": [
+                "U: --source <SOURCE>",
+                "用于安装包的源名称。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "安装此 Poetry 安装所需的锁定包。"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "输出操作但不执行。",
+                "隐式启用 --verbose。"
+              ]
+            },
+            {
+              "name": "--sync",
+              "tip": [
+                "同步环境与锁定的包。",
+                "(已弃用)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock",
+          "tip": [
+            "锁定 Poetry 安装的系统要求。"
+          ],
+          "option": [
+            {
+              "name": "--regenerate",
+              "tip": [
+                "忽略现有的 lock 文件，从头创建新的 lock 文件覆盖。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <packages>...",
+            "从 Poetry 的运行时环境删除额外的包。"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "输出操作但不执行。",
+                "隐式启用 --verbose。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show [<package>]",
+            "显示 Poetry 运行时环境中的包。"
+          ],
+          "option": [
+            {
+              "name": "--addons",
+              "tip": [
+                "仅列出已安装的附加组件包。"
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --format <FORMAT>",
+                "指定输出格式 (json 或 text)。",
+                "默认: text"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式。"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "文本格式（默认）。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "tip": [
+                "U: -l, --latest",
+                "显示最新版本。"
+              ]
+            },
+            {
+              "name": "--outdated",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --outdated",
+                "仅显示已过时包的最新版本。"
+              ]
+            },
+            {
+              "name": "--tree",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tree",
+                "以树形列出依赖。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "plugins",
+              "tip": [
+                "显示当前已安装插件的信息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "根据锁定的包同步 Poetry 自身的环境。"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "输出操作但不执行。",
+                "隐式启用 --verbose。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [<version>]",
+            "更新 Poetry 到最新版本。"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "输出操作但不执行。",
+                "隐式启用 --verbose。"
+              ]
+            },
+            {
+              "name": "--preview",
+              "tip": [
+                "允许安装预发布版本。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "tip": [
+        "U: show [<package>]",
+        "显示包的信息。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "显示所有包（包括与当前系统不兼容的包）。"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "指定输出格式 (json 或 text)。",
+            "默认: text",
+            "json 不能与 --tree 组合使用。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本格式（默认）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --latest",
+            "显示最新版本。"
+          ]
+        },
+        {
+          "name": "--no-truncate",
+          "tip": [
+            "不根据终端宽度截断输出。"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "仅包含的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--outdated",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --outdated",
+            "仅显示已过时包的最新版本。"
+          ]
+        },
+        {
+          "name": "--top-level",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --top-level",
+            "仅显示顶层依赖。"
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tree",
+            "以树形列出依赖。"
+          ]
+        },
+        {
+          "name": "--why",
+          "tip": [
+            "显示包是直接依赖还是被其他包需要。"
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "要包含的可选依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "要忽略的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "source",
+      "tip": [
+        "管理项目的源仓库。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name> [<url>]",
+            "为项目添加源配置。"
+          ],
+          "option": [
+            {
+              "name": "--priority",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --priority <PRIORITY>",
+                "设置此源的优先级。",
+                "可选: primary, supplemental, explicit。"
+              ],
+              "next": [
+                {
+                  "name": "explicit",
+                  "tip": [
+                    "显式源。"
+                  ]
+                },
+                {
+                  "name": "primary",
+                  "tip": [
+                    "主要源（默认）。"
+                  ]
+                },
+                {
+                  "name": "supplemental",
+                  "tip": [
+                    "补充源。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name>",
+            "删除为项目配置的源。"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show [<source>...]",
+            "显示为项目配置的源的信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "U: sync [options]",
+        "根据 lockfile 更新项目环境。"
+      ],
+      "option": [
+        {
+          "name": "--all-extras",
+          "tip": [
+            "安装所有额外依赖。"
+          ]
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "安装所有组的依赖。"
+          ]
+        },
+        {
+          "name": "--compile",
+          "tip": [
+            "将 Python 源文件编译为字节码。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行。",
+            "隐式启用 --verbose。"
+          ]
+        },
+        {
+          "name": "--extras",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --extras <EXTRAS>",
+            "要安装的额外依赖集。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--no-directory",
+          "tip": [
+            "不安装任何目录路径依赖。",
+            "用于 Docker 层缓存。"
+          ]
+        },
+        {
+          "name": "--no-root",
+          "tip": [
+            "不安装根包（当前项目）。"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "仅包含的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--only-root",
+          "tip": [
+            "排除所有依赖。"
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "要包含的可选依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "要忽略的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [<packages>...]",
+        "根据 pyproject.toml 文件更新依赖。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "输出操作但不执行。",
+            "隐式启用 --verbose。"
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "不执行操作。",
+            "仅更新 lockfile。"
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "仅包含的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--sync",
+          "tip": [
+            "同步环境与锁定的包和指定的组。"
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "要包含的可选依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "要忽略的依赖组。",
+            "可多次指定。"
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "U: version [<version>]",
+        "显示项目版本或升级版本。",
+        "有效的升级规则: patch, minor, major, prepatch, preminor, premajor, prerelease。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不更新 pyproject.toml 文件。"
+          ]
+        },
+        {
+          "name": "--next-phase",
+          "tip": [
+            "递增当前版本的阶段。"
+          ]
+        },
+        {
+          "name": "--short",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --short",
+            "仅输出版本号。"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--ansi",
+      "tip": [
+        "强制 ANSI 输出。"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --directory <DIR>",
+        "Poetry 命令的工作目录。",
+        "默认: 当前工作目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示给定命令的帮助信息。"
+      ]
+    },
+    {
+      "name": "--no-ansi",
+      "tip": [
+        "禁用 ANSI 输出。"
+      ]
+    },
+    {
+      "name": "--no-cache",
+      "tip": [
+        "禁用 Poetry 源缓存。"
+      ]
+    },
+    {
+      "name": "--no-interaction",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --no-interaction",
+        "不询问任何交互式问题。"
+      ]
+    },
+    {
+      "name": "--no-plugins",
+      "tip": [
+        "禁用插件。"
+      ]
+    },
+    {
+      "name": "--project",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --project <DIR>",
+        "指定另一个路径作为项目根目录。",
+        "所有参数将相对于当前工作目录解析。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "不输出任何消息。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "增加消息详细程度。",
+        "1 为正常输出，2 为更详细，3 为调试。",
+        "可重复最多 3 次。"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "显示应用版本。"
+      ]
+    }
+  ]
+}

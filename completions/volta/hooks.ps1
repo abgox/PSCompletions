@@ -20,20 +20,20 @@ function handleCompletions($completions) {
     function get_tools_dir {
         $voltaBinDir = Split-Path (Get-Command volta).Source -Parent
         $toolsDir = "$voltaBinDir\tools\image"
-        if (!(Test-Path $toolsDir)) {
+        if (!(Test-Path -LiteralPath $toolsDir)) {
             $toolsDir = "$(Split-Path $voltaBinDir -Parent)\tools\image"
         }
-        if (!(Test-Path $toolsDir)) {
+        if (!(Test-Path -LiteralPath $toolsDir)) {
             $toolsDir = "$env:LocalAppData\Volta\tools\image"
         }
-        if (!(Test-Path $toolsDir)) {
+        if (!(Test-Path -LiteralPath $toolsDir)) {
             return
         }
         return $toolsDir
     }
     function add_version {
         $dir = get_tools_dir
-        if ($dir -and (Test-Path $dir -PathType Container)) {
+        if ($dir -and (Test-Path -LiteralPath $dir -PathType Container)) {
             Get-ChildItem $dir -Directory | ForEach-Object {
                 $tool = $_.Name
                 Get-ChildItem "$dir\$tool" -Directory | ForEach-Object { add "$tool@$($_.Name)" }
@@ -42,7 +42,7 @@ function handleCompletions($completions) {
     }
     function add_package {
         $dir = get_tools_dir
-        if ($dir -and (Test-Path $dir -PathType Container)) {
+        if ($dir -and (Test-Path -LiteralPath $dir -PathType Container)) {
             Get-ChildItem "$dir\packages" -Directory | ForEach-Object { add $_.Name }
         }
     }

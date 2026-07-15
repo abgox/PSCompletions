@@ -1,0 +1,1756 @@
+{
+  "meta": {
+    "url": "https://python-poetry.org",
+    "description": [
+      "Python dependency manager and packaging tool."
+    ]
+  },
+  "next": [
+    {
+      "name": "about",
+      "tip": [
+        "Show information about Poetry."
+      ]
+    },
+    {
+      "name": "add",
+      "tip": [
+        "U: add <name>...",
+        "Add a new dependency to pyproject.toml and install it."
+      ],
+      "option": [
+        {
+          "name": "--allow-prereleases",
+          "tip": [
+            "Accept prereleases."
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --dev",
+            "Add as a development dependency.",
+            "Shortcut for -G dev."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Output the operations but do not execute anything.",
+            "Implicitly enables --verbose."
+          ]
+        },
+        {
+          "name": "--editable",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --editable",
+            "Add vcs/path dependencies as editable."
+          ]
+        },
+        {
+          "name": "--extras",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --extras <EXTRAS>",
+            "Extras to activate for the dependency.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --group <GROUP>",
+            "The group to add the dependency to.",
+            "Default: main"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "Do not perform operations.",
+            "Only update the lockfile."
+          ]
+        },
+        {
+          "name": "--markers",
+          "tip": [
+            "U: --markers <MARKERS>",
+            "Environment markers which describe when the dependency should be installed."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "U: --optional <OPTIONAL>",
+            "Add as an optional dependency to an extra."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform <PLATFORM>",
+            "Platforms for which the dependency must be installed."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "U: --python <PYTHON>",
+            "Python version for which the dependency must be installed."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "tip": [
+            "U: --source <SOURCE>",
+            "Name of the source to use to install the package."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "U: build [options]",
+        "Build a package, as a tarball and a wheel by default."
+      ],
+      "option": [
+        {
+          "name": "--clean",
+          "tip": [
+            "Clean output directory before building."
+          ]
+        },
+        {
+          "name": "--config-settings",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --config-settings <key=value>",
+            "Provide config settings that should be passed to backend.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "Limit the format to either sdist or wheel."
+          ],
+          "next": [
+            {
+              "name": "sdist",
+              "tip": [
+                "Source distribution."
+              ]
+            },
+            {
+              "name": "wheel",
+              "tip": [
+                "Wheel format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--local-version",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --local-version <LOCAL-VERSION>",
+            "Add or replace a local version label to the build.",
+            "(deprecated)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output <OUTPUT>",
+            "Set output directory for build artifacts.",
+            "Default: dist"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "Manage Poetry's caches."
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "U: clear [<cache>]",
+            "Clear Poetry's caches."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Clear all entries in the cache."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List Poetry's caches."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "U: check [options]",
+        "Validate the content of pyproject.toml and its consistency with poetry.lock."
+      ],
+      "option": [
+        {
+          "name": "--lock",
+          "tip": [
+            "Checks that poetry.lock exists for the current version of pyproject.toml."
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Fail if check reports warnings."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config [options] [<key> [<value>...]]",
+        "Manage configuration settings."
+      ],
+      "option": [
+        {
+          "name": "--list",
+          "tip": [
+            "List configuration settings."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Set/Get from the project's local configuration."
+          ]
+        },
+        {
+          "name": "--migrate",
+          "tip": [
+            "Migrate outdated configuration settings."
+          ]
+        },
+        {
+          "name": "--unset",
+          "tip": [
+            "Unset configuration setting."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "Debug Poetry's internals."
+      ],
+      "next": [
+        {
+          "name": "info",
+          "tip": [
+            "Show debug information."
+          ]
+        },
+        {
+          "name": "resolve",
+          "tip": [
+            "U: resolve [<package>...]",
+            "Debug dependency resolution."
+          ],
+          "option": [
+            {
+              "name": "--extras",
+              "alias": [
+                "-E"
+              ],
+              "tip": [
+                "U: -E, --extras <EXTRAS>",
+                "Extras to activate for the dependency.",
+                "Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--install",
+              "tip": [
+                "Show what would be installed for the current system."
+              ]
+            },
+            {
+              "name": "--python",
+              "tip": [
+                "U: --python <PYTHON>",
+                "Python version(s) to use for resolution."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tree",
+              "tip": [
+                "Display the dependency tree."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tags",
+          "tip": [
+            "Show compatible tags for your project's current active environment."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "Manage Poetry's virtual environments."
+      ],
+      "next": [
+        {
+          "name": "activate",
+          "tip": [
+            "Print the command to activate a virtual environment."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Display information about the current environment."
+          ],
+          "option": [
+            {
+              "name": "--executable",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --executable",
+                "Only display the environment's python executable path."
+              ]
+            },
+            {
+              "name": "--path",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --path",
+                "Only display the environment's path."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all virtualenvs associated with the current project."
+          ],
+          "option": [
+            {
+              "name": "--full-path",
+              "tip": [
+                "Output the full paths of the virtualenvs."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [<python>...]",
+            "Remove virtual environments associated with the project."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Remove all managed virtual environments associated with the project."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "use",
+          "tip": [
+            "U: use <python>",
+            "Activate or create a new virtualenv for the current project."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "U: help [<command_name>]",
+        "Display help for a command."
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [options]",
+        "Create a basic pyproject.toml file in the current directory."
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <AUTHOR>",
+            "Author name of the package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dependency",
+          "tip": [
+            "U: --dependency <DEPENDENCY>",
+            "Package to require with optional version constraint.",
+            "e.g. requests:^2.10.0",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "U: --description <DESCRIPTION>",
+            "Description of the package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dev-dependency",
+          "tip": [
+            "U: --dev-dependency <DEV-DEPENDENCY>",
+            "Package to require for development.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--license",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --license <LICENSE>",
+            "License of the package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <NAME>",
+            "Name of the package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "U: --python <PYTHON>",
+            "Compatible Python versions."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "tip": [
+        "U: install [options]",
+        "Install the project dependencies."
+      ],
+      "option": [
+        {
+          "name": "--all-extras",
+          "tip": [
+            "Install all extra dependencies."
+          ]
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "Install dependencies from all groups."
+          ]
+        },
+        {
+          "name": "--compile",
+          "tip": [
+            "Compile Python source files to bytecode."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Output the operations but do not execute anything.",
+            "Implicitly enables --verbose."
+          ]
+        },
+        {
+          "name": "--extras",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --extras <EXTRAS>",
+            "Extra sets of dependencies to install.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--no-directory",
+          "tip": [
+            "Do not install any directory path dependencies.",
+            "Useful for caching Docker layers."
+          ]
+        },
+        {
+          "name": "--no-root",
+          "tip": [
+            "Do not install the root package (the current project)."
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "The only dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--only-root",
+          "tip": [
+            "Exclude all dependencies."
+          ]
+        },
+        {
+          "name": "--sync",
+          "tip": [
+            "Synchronize the environment with the locked packages.",
+            "(deprecated)"
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "The optional dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "The dependency groups to ignore.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "List commands."
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "U: lock [options]",
+        "Lock the project dependencies."
+      ],
+      "option": [
+        {
+          "name": "--regenerate",
+          "tip": [
+            "Ignore existing lock file and overwrite it with a new lock file created from scratch."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "new",
+      "tip": [
+        "U: new [options] <path>",
+        "Create a new Python project at <path>."
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <AUTHOR>",
+            "Author name of the package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dependency",
+          "tip": [
+            "U: --dependency <DEPENDENCY>",
+            "Package to require with optional version constraint.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--description",
+          "tip": [
+            "U: --description <DESCRIPTION>",
+            "Description of the package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dev-dependency",
+          "tip": [
+            "U: --dev-dependency <DEV-DEPENDENCY>",
+            "Package to require for development.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--flat",
+          "tip": [
+            "Use the flat layout for the project."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Allow interactive specification of project configuration."
+          ]
+        },
+        {
+          "name": "--license",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --license <LICENSE>",
+            "License of the package."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <NAME>",
+            "Set the resulting package name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "U: --python <PYTHON>",
+            "Compatible Python versions."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--readme",
+          "tip": [
+            "U: --readme <README>",
+            "Specify the readme file format.",
+            "Default: md"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--src",
+          "tip": [
+            "Use the src layout for the project.",
+            "(deprecated, this is the default now)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "U: publish [options]",
+        "Publish a package to a remote repository."
+      ],
+      "option": [
+        {
+          "name": "--build",
+          "tip": [
+            "Build the package before publishing."
+          ]
+        },
+        {
+          "name": "--cert",
+          "tip": [
+            "U: --cert <CERT>",
+            "Certificate authority to access the repository."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--client-cert",
+          "tip": [
+            "U: --client-cert <CLIENT-CERT>",
+            "Client certificate to access the repository."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dist-dir",
+          "tip": [
+            "U: --dist-dir <DIST-DIR>",
+            "Dist directory where built artifacts are stored.",
+            "Default: dist"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Perform all actions except upload the package."
+          ]
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <PASSWORD>",
+            "The password to access the repository."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repository",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --repository <REPOSITORY>",
+            "The repository to publish the package to."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-existing",
+          "tip": [
+            "Ignore errors from files already existing in the repository."
+          ]
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <USERNAME>",
+            "The username to access the repository."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "python",
+      "tip": [
+        "Manage Python versions (experimental)."
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "U: install <python>",
+            "Install a specified Python version.",
+            "From Python Standalone Builds project."
+          ],
+          "option": [
+            {
+              "name": "--clean",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --clean",
+                "Clean up installation if check fails."
+              ]
+            },
+            {
+              "name": "--free-threaded",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --free-threaded",
+                "Use free-threaded version if available."
+              ]
+            },
+            {
+              "name": "--implementation",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --implementation <IMPLEMENTATION>",
+                "Python implementation to use.",
+                "Default: cpython"
+              ],
+              "next": [
+                {
+                  "name": "cpython",
+                  "tip": [
+                    "CPython implementation."
+                  ]
+                },
+                {
+                  "name": "pypy",
+                  "tip": [
+                    "PyPy implementation."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--reinstall",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --reinstall",
+                "Reinstall if installation already exists."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [<version>]",
+            "Show Python versions available for this environment."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "List all versions, including those available for download."
+              ]
+            },
+            {
+              "name": "--free-threaded",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --free-threaded",
+                "List only free-threaded Python versions."
+              ]
+            },
+            {
+              "name": "--implementation",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --implementation <IMPLEMENTATION>",
+                "Python implementation to search for."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--managed",
+              "alias": [
+                "-m"
+              ],
+              "tip": [
+                "U: -m, --managed",
+                "List only Poetry managed Python versions."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove [<python>...]",
+            "Remove a specified Python version if managed by Poetry."
+          ],
+          "option": [
+            {
+              "name": "--free-threaded",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --free-threaded",
+                "Use free-threaded version if available."
+              ]
+            },
+            {
+              "name": "--implementation",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --implementation <IMPLEMENTATION>",
+                "Python implementation to use.",
+                "Default: cpython"
+              ],
+              "next": [
+                {
+                  "name": "cpython",
+                  "tip": [
+                    "CPython implementation."
+                  ]
+                },
+                {
+                  "name": "pypy",
+                  "tip": [
+                    "PyPy implementation."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "tip": [
+        "U: remove <packages>...",
+        "Remove a package from the project dependencies."
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "tip": [
+            "U: -D, --dev",
+            "Remove a package from the development dependencies.",
+            "Shortcut for -G dev."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Output the operations but do not execute anything.",
+            "Implicitly enables --verbose."
+          ]
+        },
+        {
+          "name": "--group",
+          "alias": [
+            "-G"
+          ],
+          "tip": [
+            "U: -G, --group <GROUP>",
+            "The group to remove the dependency from."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "Do not perform operations.",
+            "Only update the lockfile."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run <args>...",
+        "Run a command in the appropriate environment."
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search <tokens>...",
+        "Search for packages on remote repositories."
+      ]
+    },
+    {
+      "name": "self",
+      "tip": [
+        "Manage Poetry's own installation."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>...",
+            "Add additional packages to Poetry's runtime environment."
+          ],
+          "option": [
+            {
+              "name": "--allow-prereleases",
+              "tip": [
+                "Accept prereleases."
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Output the operations but do not execute anything.",
+                "Implicitly enables --verbose."
+              ]
+            },
+            {
+              "name": "--editable",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --editable",
+                "Add vcs/path dependencies as editable."
+              ]
+            },
+            {
+              "name": "--extras",
+              "alias": [
+                "-E"
+              ],
+              "tip": [
+                "U: -E, --extras <EXTRAS>",
+                "Extras to activate for the dependency.",
+                "Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--source",
+              "tip": [
+                "U: --source <SOURCE>",
+                "Name of the source to use to install the package."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install locked packages required by this Poetry installation."
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Output the operations but do not execute anything.",
+                "Implicitly enables --verbose."
+              ]
+            },
+            {
+              "name": "--sync",
+              "tip": [
+                "Synchronize the environment with the locked packages.",
+                "(deprecated)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock",
+          "tip": [
+            "Lock the Poetry installation's system requirements."
+          ],
+          "option": [
+            {
+              "name": "--regenerate",
+              "tip": [
+                "Ignore existing lock file and overwrite it with a new lock file created from scratch."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <packages>...",
+            "Remove additional packages from Poetry's runtime environment."
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Output the operations but do not execute anything.",
+                "Implicitly enables --verbose."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show [<package>]",
+            "Show packages from Poetry's runtime environment."
+          ],
+          "option": [
+            {
+              "name": "--addons",
+              "tip": [
+                "List only add-on packages installed."
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --format <FORMAT>",
+                "Specify the output format (json or text).",
+                "Default: text"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format."
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "Text format (default)."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "tip": [
+                "U: -l, --latest",
+                "Show the latest version."
+              ]
+            },
+            {
+              "name": "--outdated",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --outdated",
+                "Show the latest version but only for packages that are outdated."
+              ]
+            },
+            {
+              "name": "--tree",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tree",
+                "List the dependencies as a tree."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "plugins",
+              "tip": [
+                "Show information about the currently installed plugins."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "Sync Poetry's own environment according to the locked packages."
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Output the operations but do not execute anything.",
+                "Implicitly enables --verbose."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [<version>]",
+            "Update Poetry to the latest version."
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Output the operations but do not execute anything.",
+                "Implicitly enables --verbose."
+              ]
+            },
+            {
+              "name": "--preview",
+              "tip": [
+                "Allow the installation of pre-release versions."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "tip": [
+        "U: show [<package>]",
+        "Show information about packages."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "Show all packages (even those not compatible with current system)."
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "Specify the output format (json or text).",
+            "Default: text",
+            "json cannot be combined with --tree."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format."
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "Text format (default)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --latest",
+            "Show the latest version."
+          ]
+        },
+        {
+          "name": "--no-truncate",
+          "tip": [
+            "Do not truncate the output based on the terminal width."
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "The only dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--outdated",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --outdated",
+            "Show the latest version but only for packages that are outdated."
+          ]
+        },
+        {
+          "name": "--top-level",
+          "alias": [
+            "-T"
+          ],
+          "tip": [
+            "U: -T, --top-level",
+            "Show only top-level dependencies."
+          ]
+        },
+        {
+          "name": "--tree",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tree",
+            "List the dependencies as a tree."
+          ]
+        },
+        {
+          "name": "--why",
+          "tip": [
+            "Display whether packages are direct dependencies or required by others."
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "The optional dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "The dependency groups to ignore.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "source",
+      "tip": [
+        "Manage source repositories for the project."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name> [<url>]",
+            "Add source configuration for project."
+          ],
+          "option": [
+            {
+              "name": "--priority",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --priority <PRIORITY>",
+                "Set the priority of this source.",
+                "One of: primary, supplemental, explicit."
+              ],
+              "next": [
+                {
+                  "name": "explicit",
+                  "tip": [
+                    "Explicit source."
+                  ]
+                },
+                {
+                  "name": "primary",
+                  "tip": [
+                    "Primary source (default)."
+                  ]
+                },
+                {
+                  "name": "supplemental",
+                  "tip": [
+                    "Supplemental source."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name>",
+            "Remove source configured for the project."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show [<source>...]",
+            "Show information about sources configured for the project."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "U: sync [options]",
+        "Update the project's environment according to the lockfile."
+      ],
+      "option": [
+        {
+          "name": "--all-extras",
+          "tip": [
+            "Install all extra dependencies."
+          ]
+        },
+        {
+          "name": "--all-groups",
+          "tip": [
+            "Install dependencies from all groups."
+          ]
+        },
+        {
+          "name": "--compile",
+          "tip": [
+            "Compile Python source files to bytecode."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Output the operations but do not execute anything.",
+            "Implicitly enables --verbose."
+          ]
+        },
+        {
+          "name": "--extras",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --extras <EXTRAS>",
+            "Extra sets of dependencies to install.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--no-directory",
+          "tip": [
+            "Do not install any directory path dependencies.",
+            "Useful for caching Docker layers."
+          ]
+        },
+        {
+          "name": "--no-root",
+          "tip": [
+            "Do not install the root package (the current project)."
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "The only dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--only-root",
+          "tip": [
+            "Exclude all dependencies."
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "The optional dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "The dependency groups to ignore.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [<packages>...]",
+        "Update dependencies according to the pyproject.toml file."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Output the operations but do not execute anything.",
+            "Implicitly enables --verbose."
+          ]
+        },
+        {
+          "name": "--lock",
+          "tip": [
+            "Do not perform operations.",
+            "Only update the lockfile."
+          ]
+        },
+        {
+          "name": "--only",
+          "tip": [
+            "U: --only <ONLY>",
+            "The only dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--sync",
+          "tip": [
+            "Synchronize the environment with the locked packages and the specified groups."
+          ]
+        },
+        {
+          "name": "--with",
+          "tip": [
+            "U: --with <WITH>",
+            "The optional dependency groups to include.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--without",
+          "tip": [
+            "U: --without <WITHOUT>",
+            "The dependency groups to ignore.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "U: version [<version>]",
+        "Show the version of the project or bump it.",
+        "Valid bump rules: patch, minor, major, prepatch, preminor, premajor, prerelease."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Do not update pyproject.toml file."
+          ]
+        },
+        {
+          "name": "--next-phase",
+          "tip": [
+            "Increment the phase of the current version."
+          ]
+        },
+        {
+          "name": "--short",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --short",
+            "Output the version number only."
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--ansi",
+      "tip": [
+        "Force ANSI output."
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --directory <DIR>",
+        "The working directory for the Poetry command.",
+        "Default: current working directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Display help for the given command."
+      ]
+    },
+    {
+      "name": "--no-ansi",
+      "tip": [
+        "Disable ANSI output."
+      ]
+    },
+    {
+      "name": "--no-cache",
+      "tip": [
+        "Disable Poetry source caches."
+      ]
+    },
+    {
+      "name": "--no-interaction",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --no-interaction",
+        "Do not ask any interactive question."
+      ]
+    },
+    {
+      "name": "--no-plugins",
+      "tip": [
+        "Disable plugins."
+      ]
+    },
+    {
+      "name": "--project",
+      "alias": [
+        "-P"
+      ],
+      "tip": [
+        "U: -P, --project <DIR>",
+        "Specify another path as the project root.",
+        "All arguments will be resolved relative to the current working directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "Do not output any message."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Increase the verbosity of messages.",
+        "1 for normal output, 2 for more verbose, 3 for debug.",
+        "Can be repeated up to 3 times."
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Display this application version."
+      ]
+    }
+  ]
+}
