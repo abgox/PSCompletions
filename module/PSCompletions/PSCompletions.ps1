@@ -123,7 +123,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                             }
                         }
                         else {
-                            if (Test-Path $path_order) {
+                            if (Test-Path -LiteralPath $path_order) {
                                 try {
                                     $PSCompletions.order[$cmd] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                                 }
@@ -596,7 +596,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             }
         }
         else {
-            if (Test-Path $path_order) {
+            if (Test-Path -LiteralPath $path_order) {
                 try {
                     $PSCompletions.order[$cmd] = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path_order))
                 }
@@ -655,7 +655,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_data_by_r
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir {
     param([string]$path)
 
-    if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
+    if (!(Test-Path -LiteralPath $path)) { New-Item -ItemType Directory $path > $null }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
     param ([string]$completion)
@@ -791,7 +791,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
 
     $completion_dir = Join-Path $PSCompletions.path.completions $completion
 
-    $is_exist = Test-Path $completion_dir
+    $is_exist = Test-Path -LiteralPath $completion_dir
     if ($is_exist -and (Get-Item $completion_dir).LinkType) {
         return
     }
@@ -937,7 +937,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                 $name = $_.Name
                 $data.alias.$name = @()
                 $path_config = Join-Path $_.FullName 'config.json'
-                if (!(Test-Path $path_config)) {
+                if (!(Test-Path -LiteralPath $path_config)) {
                     continue
                 }
                 $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
@@ -971,7 +971,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
 
             function download_list {
                 $PSCompletions.ensure_dir($PSCompletions.path.temp)
-                if (!(Test-Path $PSCompletions.path.completions_json)) {
+                if (!(Test-Path -LiteralPath $PSCompletions.path.completions_json)) {
                     @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
                 $current_json = ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)
@@ -2057,7 +2057,7 @@ if ($PSEdition -eq 'Core') {
             param($PSCompletions)
 
             function download_list {
-                if (!(Test-Path $PSCompletions.path.completions_json)) {
+                if (!(Test-Path -LiteralPath $PSCompletions.path.completions_json)) {
                     @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
                 $current_json = ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)
@@ -2089,7 +2089,7 @@ if ($PSEdition -eq 'Core') {
                 $currentTime = Get-Date
                 $updateInterval = [TimeSpan]::FromHours(6)
 
-                if (Test-Path $PSCompletions.path.last_update) {
+                if (Test-Path -LiteralPath $PSCompletions.path.last_update) {
                     $lastUpdate = Get-Content $PSCompletions.path.last_update -Encoding utf8 | Get-Date
                     if ($lastUpdate) {
                         $timeSinceLast = $currentTime - $lastUpdate
@@ -2127,11 +2127,11 @@ if ($PSEdition -eq 'Core') {
                         continue
                     }
                     $completion_dir = $PSCompletions.path.completions + "/$completion"
-                    if (-not (Test-Path $completion_dir) -or (Get-Item $completion_dir).LinkType) {
+                    if (-not (Test-Path -LiteralPath $completion_dir) -or (Get-Item $completion_dir).LinkType) {
                         continue
                     }
                     $p = "$completion_dir/.update"
-                    if (-not (Test-Path $p)) {
+                    if (-not (Test-Path -LiteralPath $p)) {
                         $need_update_list += $completion
                         continue
                     }
@@ -2152,7 +2152,7 @@ if ($PSEdition -eq 'Core') {
             $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
 
             $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
-                if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
+                if (!(Test-Path -LiteralPath $_)) { '' | Out-File $_ -Force -Encoding utf8 }
             }
 
             download_list
@@ -2168,13 +2168,13 @@ if ($PSEdition -eq 'Core') {
                     continue
                 }
 
-                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                if ($null -ne $item.LinkType -and -not (Test-Path -LiteralPath $item.Target)) {
                     Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
                     continue
                 }
 
                 $path = "$completion_dir/config.json"
-                if (!(Test-Path $path)) {
+                if (!(Test-Path -LiteralPath $path)) {
                     try {
                         $PSCompletions.download_file("completions/$_/config.json", $path, $PSCompletions.urls)
                     }
@@ -2186,13 +2186,13 @@ if ($PSEdition -eq 'Core') {
                 $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                 foreach ($lang in $json_config.language) {
                     $path_lang = "$completion_dir/language/$lang.json"
-                    if (!(Test-Path $path_lang)) {
+                    if (!(Test-Path -LiteralPath $path_lang)) {
                         $PSCompletions.download_file("completions/$_/language/$lang.json", $path_lang, $PSCompletions.urls)
                     }
                 }
                 if ($null -ne $json_config.hooks) {
                     $path_hooks = "$completion_dir/hooks.ps1"
-                    if (!(Test-Path $path_hooks)) {
+                    if (!(Test-Path -LiteralPath $path_hooks)) {
                         $PSCompletions.download_file("completions/$_/hooks.ps1", $path_hooks, $PSCompletions.urls)
                     }
                 }
@@ -2205,7 +2205,7 @@ if ($PSEdition -eq 'Core') {
             param($PScompletions, [string]$path_history, [string]$cmd, [string]$path_order)
 
             $order_dir = $PSCompletions.path.order
-            if (!(Test-Path $order_dir)) {
+            if (!(Test-Path -LiteralPath $order_dir)) {
                 New-Item -ItemType Directory -Path $order_dir -Force | Out-Null
             }
 
@@ -2346,10 +2346,10 @@ else {
             }
             function ensure_dir {
                 param([string]$path)
-                if (!(Test-Path $path)) { New-Item -ItemType Directory $path > $null }
+                if (!(Test-Path -LiteralPath $path)) { New-Item -ItemType Directory $path > $null }
             }
             function download_list {
-                if (!(Test-Path $PSCompletions.path.completions_json)) {
+                if (!(Test-Path -LiteralPath $PSCompletions.path.completions_json)) {
                     @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
                 }
                 $current_json = get_raw_content $PSCompletions.path.completions_json | ConvertFrom-Json
@@ -2379,7 +2379,7 @@ else {
                 $currentTime = Get-Date
                 $updateInterval = [TimeSpan]::FromHours(6)
 
-                if (Test-Path $PSCompletions.path.last_update) {
+                if (Test-Path -LiteralPath $PSCompletions.path.last_update) {
                     $lastUpdate = Get-Content $PSCompletions.path.last_update -Encoding utf8 | Get-Date
                     if ($lastUpdate) {
                         $timeSinceLast = $currentTime - $lastUpdate
@@ -2417,11 +2417,11 @@ else {
                         continue
                     }
                     $completion_dir = $PSCompletions.path.completions + "/$completion"
-                    if (-not (Test-Path $completion_dir) -or (Get-Item $completion_dir).LinkType) {
+                    if (-not (Test-Path -LiteralPath $completion_dir) -or (Get-Item $completion_dir).LinkType) {
                         continue
                     }
                     $p = "$completion_dir/.update"
-                    if (-not (Test-Path $p)) {
+                    if (-not (Test-Path -LiteralPath $p)) {
                         $need_update_list += $completion
                         continue
                     }
@@ -2442,7 +2442,7 @@ else {
             ensure_dir "$($PSCompletions.path.completions)/psc"
 
             $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
-                if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
+                if (!(Test-Path -LiteralPath $_)) { '' | Out-File $_ -Force -Encoding utf8 }
             }
 
             download_list
@@ -2457,12 +2457,12 @@ else {
                 catch {
                     continue
                 }
-                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                if ($null -ne $item.LinkType -and -not (Test-Path -LiteralPath $item.Target)) {
                     Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
                     continue
                 }
                 $path = "$completion_dir/config.json"
-                if (!(Test-Path $path)) {
+                if (!(Test-Path -LiteralPath $path)) {
                     try {
                         download_file "completions/$_/config.json" $path $PSCompletions.urls
                     }
@@ -2474,13 +2474,13 @@ else {
                 $json_config = get_raw_content $path | ConvertFrom-Json
                 foreach ($lang in $json_config.language) {
                     $path_lang = "$completion_dir/language/$lang.json"
-                    if (!(Test-Path $path_lang)) {
+                    if (!(Test-Path -LiteralPath $path_lang)) {
                         download_file "completions/$_/language/$lang.json" $path_lang $PSCompletions.urls
                     }
                 }
                 if ($null -ne $json_config.hooks) {
                     $path_hooks = "$completion_dir/hooks.ps1"
-                    if (!(Test-Path $path_hooks)) {
+                    if (!(Test-Path -LiteralPath $path_hooks)) {
                         download_file "completions/$_/hooks.ps1" $path_hooks $PSCompletions.urls
                     }
                 }
@@ -2493,7 +2493,7 @@ else {
             param($PScompletions, [string]$path_history, [string]$cmd, [string]$path_order)
 
             $order_dir = $PSCompletions.path.order
-            if (!(Test-Path $order_dir)) {
+            if (!(Test-Path -LiteralPath $order_dir)) {
                 New-Item -ItemType Directory -Path $order_dir -Force | Out-Null
             }
 
@@ -2549,7 +2549,7 @@ if (!(Test-Path -LiteralPath $PSCompletions.path.order)) {
         function _moveData {
             param($Dir, $JsonFile, $CompletionsDir)
             $PSCompletions.ensure_dir($CompletionsDir)
-            if (!(Test-Path $JsonFile) -and (Test-Path "$Dir/data.json")) {
+            if (!(Test-Path -LiteralPath $JsonFile) -and (Test-Path -LiteralPath "$Dir/data.json")) {
                 Move-Item "$Dir/data.json" $JsonFile -Force -ErrorAction Ignore
                 $oldData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($JsonFile))
                 if ($oldData -and ($oldData.ContainsKey('list') -or $oldData.ContainsKey('aliasMap'))) {
@@ -2560,7 +2560,7 @@ if (!(Test-Path -LiteralPath $PSCompletions.path.order)) {
                 (Get-Content -Raw $JsonFile) -replace '"comp_config"\s*:', '"completion":' | Out-File $JsonFile -Force -Encoding utf8
             }
             $Dir, $PSCompletions.path.root | ForEach-Object {
-                if (Test-Path "$_/completions" -PathType Container) {
+                if (Test-Path -LiteralPath "$_/completions" -PathType Container) {
                     Get-ChildItem "$_/completions" -Directory | ForEach-Object { Copy-Item $_.FullName $CompletionsDir -Force -Recurse }
                     Remove-Item "$_/completions" -Force -Recurse -ErrorAction Ignore
                 }
@@ -2570,13 +2570,13 @@ if (!(Test-Path -LiteralPath $PSCompletions.path.order)) {
         if ($null -eq $version) {
             $scoop_persist = Join-Path $PSCompletions.path.root.Replace('\modules\PSCompletions', '') 'persist'
             foreach ($_ in "$scoop_persist/abgox.PSCompletions", "$scoop_persist/pscompletions") {
-                if (Test-Path $_ -PathType Container) { _moveData $_ "$_/data/settings.json" "$_/data/completions" }
+                if (Test-Path -LiteralPath $_ -PathType Container) { _moveData $_ "$_/data/settings.json" "$_/data/completions" }
             }
             return
         }
         if ($version.Count -ge 2) {
             $oldVerDir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $version[-2]
-            if (Test-Path "$oldVerDir/data" -PathType Container) { Move-Item "$oldVerDir/data" $PSCompletions.path.root -Force -ErrorAction Ignore }
+            if (Test-Path -LiteralPath "$oldVerDir/data" -PathType Container) { Move-Item "$oldVerDir/data" $PSCompletions.path.root -Force -ErrorAction Ignore }
         }
         else {
             $oldVerDir = $PSCompletions.path.root

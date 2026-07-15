@@ -18,7 +18,7 @@
     }
     function download_list {
         $PSCompletions.ensure_dir($PSCompletions.path.temp)
-        if (!(Test-Path $PSCompletions.path.completions_json)) {
+        if (!(Test-Path -LiteralPath $PSCompletions.path.completions_json)) {
             @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
         }
         $current_json = $PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json
@@ -177,7 +177,7 @@
             foreach ($completion in (Get-ChildItem $PSCompletions.path.completions -Directory).Name) {
                 $dir = Join-Path $PSCompletions.path.completions $completion
                 Remove-Item $dir -Recurse -Force -ErrorAction Ignore
-                if (!(Test-Path $dir)) {
+                if (!(Test-Path -LiteralPath $dir)) {
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
                 }
             }
@@ -188,7 +188,7 @@
             $remove_list = @()
             foreach ($completion in $arg[1..($arg.Length - 1)]) {
                 $dir = Join-Path $PSCompletions.path.completions $completion
-                $exist = Test-Path $dir
+                $exist = Test-Path -LiteralPath $dir
                 if ($completion -in $PSCompletions.data.list -or $exist) {
                     $remove_list += $completion
                     if (!$exist) {
@@ -196,7 +196,7 @@
                         continue
                     }
                     Remove-Item $dir -Recurse -Force -ErrorAction Ignore
-                    if (!(Test-Path $dir)) {
+                    if (!(Test-Path -LiteralPath $dir)) {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
                     }
                 }
@@ -259,11 +259,11 @@
                     continue
                 }
                 $completion_dir = $PSCompletions.path.completions + "/$completion"
-                if (-not (Test-Path $completion_dir) -or (Get-Item $completion_dir).LinkType) {
+                if (-not (Test-Path -LiteralPath $completion_dir) -or (Get-Item $completion_dir).LinkType) {
                     continue
                 }
                 $p = "$completion_dir/.update"
-                if (-not (Test-Path $p)) {
+                if (-not (Test-Path -LiteralPath $p)) {
                     $need_update_list += $completion
                     Remove-Item "$($PSCompletions.path.completions)/$completion/guid.json" -Force -ErrorAction Ignore
                     continue
@@ -312,7 +312,7 @@
                     }
                 }
             }
-            $updated_list = $updated_list.Where({ Test-Path "$($PSCompletions.path.completions)/$_/config.json" })
+            $updated_list = $updated_list.Where({ Test-Path -LiteralPath "$($PSCompletions.path.completions)/$_/config.json" })
             if ($updated_list) {
                 $PSCompletions.update = $PSCompletions.update.Where({ $_ -notin $updated_list })
             }
@@ -352,7 +352,7 @@
                 }
             }
             $path = Join-Path $PSCompletions.path.completions $completion
-            if (Test-Path $path) {
+            if (Test-Path -LiteralPath $path) {
                 $out.Path = $path
                 $update = Get-Content "$path\.update" -Raw -Encoding utf8 -ErrorAction Ignore
                 if ($update -and $update.Trim()) {
