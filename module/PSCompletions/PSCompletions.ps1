@@ -2085,56 +2085,6 @@ if ($PSEdition -eq 'Core') {
                     }
                 }
             }
-
-            $PSCompletions.ensure_dir($PSCompletions.path.temp)
-            $PSCompletions.ensure_dir($PSCompletions.path.order)
-            $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
-
-            $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
-                if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
-            }
-
-            download_list
-
-            foreach ($_ in $PSCompletions.data.list) {
-                $completion_dir = "$($PSCompletions.path.completions)/$_"
-                try {
-                    $item = Get-Item $completion_dir -ErrorAction Stop
-                }
-                catch {
-                    continue
-                }
-
-                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
-                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
-                    continue
-                }
-
-                $path = "$completion_dir/config.json"
-                if (!(Test-Path $path)) {
-                    try {
-                        $PSCompletions.download_file("completions/$_/config.json", $path, $PSCompletions.urls)
-                    }
-                    catch {
-                        continue
-                    }
-                }
-                $PSCompletions.ensure_dir("$completion_dir/language")
-                $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
-                foreach ($lang in $json_config.language) {
-                    $path_lang = "$completion_dir/language/$lang.json"
-                    if (!(Test-Path $path_lang)) {
-                        $PSCompletions.download_file("completions/$_/language/$lang.json", $path_lang, $PSCompletions.urls)
-                    }
-                }
-                if ($null -ne $json_config.hooks) {
-                    $path_hooks = "$completion_dir/hooks.ps1"
-                    if (!(Test-Path $path_hooks)) {
-                        $PSCompletions.download_file("completions/$_/hooks.ps1", $path_hooks, $PSCompletions.urls)
-                    }
-                }
-            }
-
             function check_update {
                 $currentTime = Get-Date
                 $updateInterval = [TimeSpan]::FromHours(6)
@@ -2183,7 +2133,6 @@ if ($PSEdition -eq 'Core') {
                     $p = "$completion_dir/.update"
                     if (-not (Test-Path $p)) {
                         $need_update_list += $completion
-                        Remove-Item "$($PSCompletions.path.completions)/$completion/guid.json" -Force -ErrorAction Ignore
                         continue
                     }
                     $content = Get-Content $p -Raw -Encoding utf8 -ErrorAction Ignore
@@ -2198,7 +2147,56 @@ if ($PSEdition -eq 'Core') {
                 $currentTime.ToString('o') | Out-File $PSCompletions.path.last_update -Force -Encoding utf8
             }
 
+            $PSCompletions.ensure_dir($PSCompletions.path.temp)
+            $PSCompletions.ensure_dir($PSCompletions.path.order)
+            $PSCompletions.ensure_dir("$($PSCompletions.path.completions)/psc")
+
+            $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
+                if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
+            }
+
+            download_list
+
             check_update
+
+            foreach ($_ in $PSCompletions.data.list) {
+                $completion_dir = "$($PSCompletions.path.completions)/$_"
+                try {
+                    $item = Get-Item $completion_dir -ErrorAction Stop
+                }
+                catch {
+                    continue
+                }
+
+                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
+                    continue
+                }
+
+                $path = "$completion_dir/config.json"
+                if (!(Test-Path $path)) {
+                    try {
+                        $PSCompletions.download_file("completions/$_/config.json", $path, $PSCompletions.urls)
+                    }
+                    catch {
+                        continue
+                    }
+                }
+                $PSCompletions.ensure_dir("$completion_dir/language")
+                $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
+                foreach ($lang in $json_config.language) {
+                    $path_lang = "$completion_dir/language/$lang.json"
+                    if (!(Test-Path $path_lang)) {
+                        $PSCompletions.download_file("completions/$_/language/$lang.json", $path_lang, $PSCompletions.urls)
+                    }
+                }
+                if ($null -ne $json_config.hooks) {
+                    $path_hooks = "$completion_dir/hooks.ps1"
+                    if (!(Test-Path $path_hooks)) {
+                        $PSCompletions.download_file("completions/$_/hooks.ps1", $path_hooks, $PSCompletions.urls)
+                    }
+                }
+            }
         } -ArgumentList $PSCompletions
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
@@ -2377,54 +2375,6 @@ else {
                     }
                 }
             }
-
-            ensure_dir $PSCompletions.path.temp
-            ensure_dir $PSCompletions.path.order
-            ensure_dir "$($PSCompletions.path.completions)/psc"
-
-            $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
-                if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
-            }
-
-            download_list
-
-            foreach ($_ in $PSCompletions.data.list) {
-                $completion_dir = "$($PSCompletions.path.completions)/$_"
-                try {
-                    $item = Get-Item $completion_dir -ErrorAction Stop
-                }
-                catch {
-                    continue
-                }
-                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
-                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
-                    continue
-                }
-                $path = "$completion_dir/config.json"
-                if (!(Test-Path $path)) {
-                    try {
-                        download_file "completions/$_/config.json" $path $PSCompletions.urls
-                    }
-                    catch {
-                        continue
-                    }
-                }
-                ensure_dir "$completion_dir/language"
-                $json_config = get_raw_content $path | ConvertFrom-Json
-                foreach ($lang in $json_config.language) {
-                    $path_lang = "$completion_dir/language/$lang.json"
-                    if (!(Test-Path $path_lang)) {
-                        download_file "completions/$_/language/$lang.json" $path_lang $PSCompletions.urls
-                    }
-                }
-                if ($null -ne $json_config.hooks) {
-                    $path_hooks = "$completion_dir/hooks.ps1"
-                    if (!(Test-Path $path_hooks)) {
-                        download_file "completions/$_/hooks.ps1" $path_hooks $PSCompletions.urls
-                    }
-                }
-            }
-
             function check_update {
                 $currentTime = Get-Date
                 $updateInterval = [TimeSpan]::FromHours(6)
@@ -2473,7 +2423,6 @@ else {
                     $p = "$completion_dir/.update"
                     if (-not (Test-Path $p)) {
                         $need_update_list += $completion
-                        Remove-Item "$($PSCompletions.path.completions)/$completion/guid.json" -Force -ErrorAction Ignore
                         continue
                     }
                     $content = Get-Content $p -Raw -Encoding utf8 -ErrorAction Ignore
@@ -2487,7 +2436,55 @@ else {
 
                 $currentTime.ToString('o') | Out-File $PSCompletions.path.last_update -Force -Encoding utf8
             }
+
+            ensure_dir $PSCompletions.path.temp
+            ensure_dir $PSCompletions.path.order
+            ensure_dir "$($PSCompletions.path.completions)/psc"
+
+            $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
+                if (!(Test-Path $_)) { '' | Out-File $_ -Force -Encoding utf8 }
+            }
+
+            download_list
+
             check_update
+
+            foreach ($_ in $PSCompletions.data.list) {
+                $completion_dir = "$($PSCompletions.path.completions)/$_"
+                try {
+                    $item = Get-Item $completion_dir -ErrorAction Stop
+                }
+                catch {
+                    continue
+                }
+                if ($null -ne $item.LinkType -and -not (Test-Path $item.Target)) {
+                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
+                    continue
+                }
+                $path = "$completion_dir/config.json"
+                if (!(Test-Path $path)) {
+                    try {
+                        download_file "completions/$_/config.json" $path $PSCompletions.urls
+                    }
+                    catch {
+                        continue
+                    }
+                }
+                ensure_dir "$completion_dir/language"
+                $json_config = get_raw_content $path | ConvertFrom-Json
+                foreach ($lang in $json_config.language) {
+                    $path_lang = "$completion_dir/language/$lang.json"
+                    if (!(Test-Path $path_lang)) {
+                        download_file "completions/$_/language/$lang.json" $path_lang $PSCompletions.urls
+                    }
+                }
+                if ($null -ne $json_config.hooks) {
+                    $path_hooks = "$completion_dir/hooks.ps1"
+                    if (!(Test-Path $path_hooks)) {
+                        download_file "completions/$_/hooks.ps1" $path_hooks $PSCompletions.urls
+                    }
+                }
+            }
         } -ArgumentList $PSCompletions
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod order_job {
