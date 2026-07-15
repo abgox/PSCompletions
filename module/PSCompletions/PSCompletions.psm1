@@ -168,15 +168,13 @@
             Show-ParamError 'min' 'rm'
             return
         }
-        Clear-Content $PSCompletions.path.update -Force -ErrorAction Ignore
-        $PSCompletions.update = @()
 
         $data = [ordered]@{
             alias  = [ordered]@{}
             config = $PSCompletions.data.config
         }
         if ($arg | Where-Object { $_ -eq '--all' }) {
-            foreach ($completion in $PSCompletions.data.list) {
+            foreach ($completion in (Get-ChildItem $PSCompletions.path.completions -Directory).Name) {
                 $dir = Join-Path $PSCompletions.path.completions $completion
                 Remove-Item $dir -Recurse -Force -ErrorAction Ignore
                 if (!(Test-Path $dir)) {
@@ -184,6 +182,7 @@
                 }
             }
             $data.config.completion = [ordered]@{}
+            $PSCompletions.update = @()
         }
         else {
             $remove_list = @()
@@ -214,7 +213,9 @@
                     $data.alias."$completion" += $completion
                 }
             }
+            $PSCompletions.update = $PSCompletions.update | Where-Object { $_ -notin $remove_list }
         }
+        $PSCompletions.update | Out-File $PSCompletions.path.update -Force -ErrorAction Ignore
         $remove = @()
         foreach ($_ in $data.config.completion.keys) {
             if ($_ -notin $data.alias.Keys) {
