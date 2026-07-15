@@ -1115,14 +1115,9 @@
                     if ($PressKey.ControlKeyState -notlike '*CtrlPressed*') {
                         if ($PressKey.VirtualKeyCode -eq 13) {
                             # 13: Enter
-                            Remove-Item $PSCompletions.path.temp -Force -Recurse -ErrorAction Ignore
-                            '{}' | Out-File $PSCompletions.path.data -Encoding utf8 -ErrorAction Ignore
-
-                            foreach ($_ in Get-ChildItem $PSCompletions.path.completions -Force -Recurse) {
-                                Remove-Item $_.FullName -Force -Recurse -ErrorAction Ignore
-                            }
-
+                            Remove-Item ($PSCompletions.path.root + '/data') -Force -Recurse -ErrorAction Ignore
                             $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_done))
+                            $PSCompletions.ensure_dir($PSCompletions.path.completions)
                             $PSCompletions.init_data()
                         }
                         else {
