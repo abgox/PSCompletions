@@ -780,6 +780,8 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     )
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
+    if ($completion -notin $PSCompletions.list) { return }
+
     $PSCompletions.has_add_completion = $log -and $true
 
     $PSCompletions.completions_data[$completion] = $null
