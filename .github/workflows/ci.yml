@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update-content:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Update Content
+        shell: pwsh
+        run: |
+          .\scripts\update-content.ps1
+
+  publish-module:
+    runs-on: windows-latest
+    needs: update-content
+    if: "startsWith(github.event.head_commit.message, 'release(module): ')"
+    env:
+      PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate and Publish
+        run: .\scripts\publish-to-gallery.ps1
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: update-content
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  sync-repos:
+    runs-on: ubuntu-latest
+    needs: update-content
+    steps:
+      - uses: abgox/hub-mirror-action@abgox
+        with:
+          src: github/abgox
+          dst: gitee/abgox
+          dst_key: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+          dst_token: ""
+          force_update: true
+          static_list: ${{ github.event.repository.name }}
