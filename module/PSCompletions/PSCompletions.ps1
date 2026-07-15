@@ -6,7 +6,7 @@ if ($PSCompletions.guid) { return }
 
 $_ = "$PSScriptRoot\data"
 New-Variable -Name PSCompletions -Option Constant -Value @{
-    version                 = '6.8.0'
+    version                 = '6.9.0'
     path                    = @{
         root             = $PSScriptRoot
         completions      = "$_\completions"

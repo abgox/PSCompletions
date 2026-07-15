@@ -4,6 +4,16 @@
 
 ## Unreleased
 
+## 6.9.0
+
+- Improved rendering performance and caching mechanism for module completion menu.
+- Allow toggling prefix matching by typing `^` at any time.
+- Unified the naming of the completion data structure fields:
+  - `root` => `next`
+  - `common_option` => `global_option`
+- Improved the data storage structure
+- Other optimizations and fixes.
+
 ## 6.8.0
 
 > [!WARNING]
