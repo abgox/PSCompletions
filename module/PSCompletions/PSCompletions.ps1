@@ -346,11 +346,11 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             Root              = new_node
             RootOptions       = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
             RootOptionItems   = [System.Collections.Generic.List[object]]::new()
-            CommonOptions     = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
-            CommonOptionItems = [System.Collections.Generic.List[object]]::new()
+            GlobalOptions     = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
+            GlobalOptionItems = [System.Collections.Generic.List[object]]::new()
         }
-        if ($languageJson.root) {
-            foreach ($cmdRaw in $languageJson.root) {
+        if ($languageJson.next) {
+            foreach ($cmdRaw in $languageJson.next) {
                 $node = build_node $cmdRaw -parent $tree.Root
                 add_to_bucket $tree.Root.Next $tree.Root.NextItems $node
             }
@@ -363,10 +363,10 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 add_to_bucket $tree.RootOptions $tree.RootOptionItems $node
             }
         }
-        if ($languageJson.common_option) {
-            foreach ($cmdRaw in $languageJson.common_option) {
+        if ($languageJson.global_option) {
+            foreach ($cmdRaw in $languageJson.global_option) {
                 $node = build_node $cmdRaw -isOption -parent $tree.Root
-                add_to_bucket $tree.CommonOptions $tree.CommonOptionItems $node
+                add_to_bucket $tree.GlobalOptions $tree.GlobalOptionItems $node
             }
         }
         $tree
@@ -400,7 +400,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 $p = $p.Parent
             }
             if ($tree.RootOptions.ContainsKey($text)) { return $tree.RootOptions[$text] }
-            if ($tree.CommonOptions.ContainsKey($text)) { return $tree.CommonOptions[$text] }
+            if ($tree.GlobalOptions.ContainsKey($text)) { return $tree.GlobalOptions[$text] }
             return $null
         }
         function classify_text {
@@ -500,7 +500,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
                 foreach ($n in $optSource.OptionItems) { $candidateNodes.Add($n) }
             }
         }
-        foreach ($n in $tree.CommonOptionItems) { $candidateNodes.Add($n) }
+        foreach ($n in $tree.GlobalOptionItems) { $candidateNodes.Add($n) }
 
         if ($hasPending -and $context.Next.ContainsKey($pending.text)) {
             $matchedNode = $context.Next[$pending.text]

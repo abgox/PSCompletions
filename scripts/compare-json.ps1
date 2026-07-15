@@ -64,7 +64,7 @@ function Compare-Lang {
 
         if ($null -eq $Value) { return $null }
         if ($Value -is [System.Collections.IDictionary]) {
-            if ($Value.ContainsKey('name') -and $Key -in 'root', 'option', 'common_option', 'next', 'alias') {
+            if ($Value.ContainsKey('name') -and $Key -in 'next', 'option', 'global_option', 'alias') {
                 return , @($Value)
             }
             if ($Key -eq 'alias' -and $Value.Count -eq 0) {

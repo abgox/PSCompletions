@@ -157,7 +157,7 @@
       "additionalProperties": false
     },
     "next": {
-      "markdownDescription": "Next command completion\n- It can be an array or the number `0`\n- If it is an array\n  - Items in the array are automatically added to the completions.\n  - If there are `hooks`, they will be added dynamically.\n- If it is the number `0`\n  - It indicates that a content should be input at this time.\n  - However, [PSCompletions](https://pscompletions.abgox.com) is unable to provide completions, and users need to input manually.\n  - `0` tells [PSCompletions](https://pscompletions.abgox.com) that it should display symbols of the `WriteSpaceTab` type to achieve symbol prediction.",
+      "markdownDescription": "Next subcommand completion\n- It can be an array or the number `0`\n- If it is an array\n  - Items in the array are automatically added to the completions.\n  - If there are `hooks`, they will be added dynamically.\n- If it is the number `0`\n  - It indicates that a content should be input at this time.\n  - However, [PSCompletions](https://pscompletions.abgox.com) is unable to provide completions, and users need to input manually.\n  - `0` tells [PSCompletions](https://pscompletions.abgox.com) that it should display symbols of the `WriteSpaceTab` type to achieve symbol prediction.",
       "type": [
         "array",
         "number"
@@ -184,7 +184,7 @@
     "option": {
       "type": "array",
       "uniqueItems": true,
-      "markdownDescription": "Option class completion\n - Usually starts with `-` or `--`\n - For example, `--list`",
+      "markdownDescription": "Next optional completion\n - Usually starts with `-` or `--`\n - For example, `--list`",
       "items": {
         "$ref": "#/definitions/item"
       }
@@ -224,28 +224,36 @@
                 }
               },
               "errorMessage": "Each item in the array will automatically add a line break at the end when displayed, so line breaks are not allowed."
+            },
+            {
+              "items": {
+                "not": {
+                  "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                },
+                "errorMessage": "Chinese and English must be separated by a space"
+              }
             }
           ]
         }
       },
       "additionalProperties": false
     },
-    "root": {
-      "description": "Root command",
+    "next": {
+      "description": "Subcommand completion for the root command",
       "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/next-item"
       }
     },
     "option": {
-      "markdownDescription": "Optional completion for the root command\n- If there is only one root command other than optional completions, they will be displayed\n- Unless you have used it or its alias",
+      "markdownDescription": "Optional completion for the root command",
       "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/item"
       }
     },
-    "common_option": {
-      "markdownDescription": "Common optional completion\n- Any time you trigger completion, they will be displayed\n- Unless you have used it or its alias",
+    "global_option": {
+      "markdownDescription": "Global optional completion\n- Any time you trigger completion, they will be displayed\n- Unless you have used it or its alias",
       "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/item"

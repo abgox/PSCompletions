@@ -157,7 +157,7 @@
       "additionalProperties": false
     },
     "next": {
-      "markdownDescription": "下一个命令补全\n- 它可以是一个数组或数字 `0`\n- 如果是数组\n  - 数组中的项会自动添加到补全中\n  - 如果有 `hooks`，会动态添加\n- 如果是数字 `0`\n  - 它表示此时应该输入一个内容\n  - 但是 [PSCompletions](https://pscompletions.abgox.com) 无力提供补全，需要用户自行输入\n  - `0` 就是告诉 [PSCompletions](https://pscompletions.abgox.com) 应该显示 `WriteSpaceTab` 类型的符号，以实现符号预测",
+      "markdownDescription": "下一个子命令补全\n- 它可以是一个数组或数字 `0`\n- 如果是数组\n  - 数组中的项会自动添加到补全中\n  - 如果有 `hooks`，会动态添加\n- 如果是数字 `0`\n  - 它表示此时应该输入一个内容\n  - 但是 [PSCompletions](https://pscompletions.abgox.com) 无力提供补全，需要用户自行输入\n  - `0` 就是告诉 [PSCompletions](https://pscompletions.abgox.com) 应该显示 `WriteSpaceTab` 类型的符号，以实现符号预测",
       "type": [
         "array",
         "number"
@@ -184,7 +184,7 @@
     "option": {
       "type": "array",
       "uniqueItems": true,
-      "markdownDescription": "选项类补全\n - 通常以 `-` 或 `--` 开头\n - 例如 `--list`",
+      "markdownDescription": "下一个选项类补全\n - 通常以 `-` 或 `--` 开头\n - 例如 `--list`",
       "items": {
         "$ref": "#/definitions/item"
       }
@@ -224,28 +224,36 @@
                 }
               },
               "errorMessage": "数组中的每个项会在显示时末尾自动添加换行符，因此不允许使用换行符"
+            },
+            {
+              "items": {
+                "not": {
+                  "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                },
+                "errorMessage": "中文和英文之间必须有空格"
+              }
             }
           ]
         }
       },
       "additionalProperties": false
     },
-    "root": {
-      "description": "根命令",
+    "next": {
+      "description": "根命令的子命令补全",
       "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/next-item"
       }
     },
     "option": {
-      "markdownDescription": "根命令的选项类补全\n- 如果除了选项类补全以外，只有一个根命令，就会显示它们\n- 除非你已经使用过它或它的别名了",
+      "markdownDescription": "根命令的选项类补全",
       "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/item"
       }
     },
-    "common_option": {
-      "markdownDescription": "通用的选项类补全\n- 任何情况下触发补全，都会显示它们\n- 除非你已经使用过它或它的别名了",
+    "global_option": {
+      "markdownDescription": "全局的选项类补全\n- 任何情况下触发补全，都会显示它们\n- 除非你已经使用过它或它的别名了",
       "$ref": "#/definitions/array",
       "items": {
         "$ref": "#/definitions/item"

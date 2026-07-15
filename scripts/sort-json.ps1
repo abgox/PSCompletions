@@ -1,4 +1,4 @@
-﻿#Requires -Version 7.0
+#Requires -Version 7.0
 
 param(
     [string[]]$CompletionList
@@ -22,12 +22,12 @@ function Sort-JsonStructure {
     $json = Get-Content $InputFile -Raw | ConvertFrom-Json
 
     # 顶层属性顺序
-    $topLevelOrder = @('meta', 'root', 'option', 'common_option', 'config', 'info')
+    $topLevelOrder = @('meta', 'next', 'option', 'global_option', 'config', 'info')
     # meta 属性顺序
     $metaOrder = @('url', 'description')
     # config 属性顺序
     $configOrder = @('name', 'value', 'values', 'tip')
-    # root/option/common_option 属性顺序
+    # next/option/global_option 属性顺序
     $itemPropertyOrder = @('name', 'alias', 'tip', 'repeat', 'option', 'next')
 
     # 递归排序函数
@@ -86,7 +86,7 @@ function Sort-JsonStructure {
     # Sort top-level properties
     foreach ($prop in $topLevelOrder) {
         if ($json.PSObject.Properties.Name -contains $prop) {
-            if ($prop -in @('root', 'option', 'common_option')) {
+            if ($prop -in @('next', 'option', 'global_option')) {
                 $inputObject = $json.$prop | Sort-Object { [System.Tuple]::Create($_.name.ToUpperInvariant(), $_.name) }
                 $sortedJson[$prop] = Sort-ObjectRecursively -inputObject @($inputObject) -propertyOrder $itemPropertyOrder
             }
@@ -138,9 +138,9 @@ function Optimize-CompletionJson {
             if ($item.option) { Optimize-Entry $item.option }
         }
     }
-    Optimize-Entry $content.root
+    Optimize-Entry $content.next
     Optimize-Entry $content.option
-    Optimize-Entry $content.common_option
+    Optimize-Entry $content.global_option
 
     $newJson = $content | ConvertTo-Json -Depth 100
     $newJson | Out-File -FilePath $Path -Encoding utf8
