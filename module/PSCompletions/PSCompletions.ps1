@@ -4,14 +4,13 @@ Microsoft.PowerShell.Core\Set-StrictMode -Off
 
 if ($PSCompletions.guid) { return }
 
-$_ = $PSScriptRoot
+$_ = "$PSScriptRoot\data"
 New-Variable -Name PSCompletions -Option Constant -Value @{
     version                 = '6.8.0'
     path                    = @{
-        root             = $_
+        root             = $PSScriptRoot
         completions      = "$_\completions"
-        core             = "$_\core"
-        data             = "$_\data.json"
+        data             = "$_\settings.json"
         temp             = "$_\temp"
         order            = "$_\temp\order"
         completions_json = "$_\temp\completions.json"
@@ -239,7 +238,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod return_completion {
     param([string]$name, $tip = ' ', [array]$symbols)
-    if ($PSCompletions.config.comp_config[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
+    if ($PSCompletions.config.completion[$PSCompletions.cmd].enable_hooks_tip -eq 0) {
         $tip = ''
     }
     @{
@@ -568,7 +567,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
             }
         }
     }
-    if ($has_command -and $PSCompletions.config.comp_config[$cmd].enable_hooks) { . "$($PSCompletions.path.completions)/$cmd/hooks.ps1" }
+    if ($has_command -and $PSCompletions.config.completion[$cmd].enable_hooks) { . "$($PSCompletions.path.completions)/$cmd/hooks.ps1" }
 
     $_filter_list = handleCompletions ([array]$_filter_list)
 
@@ -673,7 +672,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language {
         $content_config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
         $content_config | ConvertTo-Json -Compress | Out-File $path_config -Encoding utf8 -Force
     }
-    $config_language = $PSCompletions.config.comp_config[$completion].language
+    $config_language = $PSCompletions.config.completion[$completion].language
     if ($config_language) {
         $language = if ($config_language -in $content_config.language) { $config_language }else { $content_config.language[0] }
     }
@@ -893,22 +892,22 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod add_completion {
     if ($log) { $PSCompletions.write_with_color($PSCompletions.replace_content($done)) }
 
     if ($json.config) {
-        if (!$PSCompletions.config.comp_config[$completion]) {
-            $PSCompletions.config.comp_config[$completion] = [ordered]@{}
+        if (!$PSCompletions.config.completion[$completion]) {
+            $PSCompletions.config.completion[$completion] = [ordered]@{}
         }
         foreach ($_ in $json.config) {
-            if (!$PSCompletions.config.comp_config[$completion].$($_.name)) {
-                $PSCompletions.config.comp_config[$completion].$($_.name) = $_.value
+            if (!$PSCompletions.config.completion[$completion].$($_.name)) {
+                $PSCompletions.config.completion[$completion].$($_.name) = $_.value
                 $PSCompletions.need_update_data = $true
             }
         }
     }
     if ($null -ne $config.hooks) {
-        if (!$PSCompletions.config.comp_config[$completion]) {
-            $PSCompletions.config.comp_config[$completion] = [ordered]@{}
+        if (!$PSCompletions.config.completion[$completion]) {
+            $PSCompletions.config.completion[$completion] = [ordered]@{}
         }
-        if ($null -eq $PSCompletions.config.comp_config[$completion].enable_hooks) {
-            $PSCompletions.config.comp_config[$completion].enable_hooks = [int]$config.hooks
+        if ($null -eq $PSCompletions.config.completion[$completion].enable_hooks) {
+            $PSCompletions.config.completion[$completion].enable_hooks = [int]$config.hooks
         }
     }
 }
@@ -932,7 +931,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                 alias  = [ordered]@{}
                 config = $PSCompletions.default_config
             }
-            $data.config.comp_config = [ordered]@{}
+            $data.config.completion = [ordered]@{}
             $items = Get-ChildItem -Path $PSCompletions.path.completions
             foreach ($_ in $items) {
                 $name = $_.Name
@@ -952,12 +951,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
                 }
                 $language = if ($PSCompletions.language -eq 'zh-CN') { 'zh-CN' }else { 'en-US' }
                 $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($_.FullName)/language/$language.json"))
-                $data.config.comp_config.$name = [ordered]@{}
+                $data.config.completion.$name = [ordered]@{}
                 foreach ($_ in $json.config) {
-                    $data.config.comp_config.$name.$($_.name) = $_.value
+                    $data.config.completion.$name.$($_.name) = $_.value
                 }
                 if ($null -ne $config.hooks) {
-                    $data.config.comp_config.$name.enable_hooks = [int]$config.hooks
+                    $data.config.completion.$name.enable_hooks = [int]$config.hooks
                 }
             }
             $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
@@ -1066,8 +1065,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod resolve_tip
     if ($this.by_TabExpansion2) {
         return $PSCompletions.config.enable_tip_when_enhance
     }
-    if ($PSCompletions.config.comp_config) {
-        $enable_tip = $PSCompletions.config.comp_config[$PSCompletions.cmd].enable_tip
+    if ($PSCompletions.config.completion) {
+        $enable_tip = $PSCompletions.config.completion[$PSCompletions.cmd].enable_tip
         if ($null -ne $enable_tip) { return $enable_tip }
     }
     $PSCompletions.config.enable_tip
@@ -2548,77 +2547,47 @@ else {
     }
 }
 
-if (!(Test-Path $PSCompletions.path.order)) {
+if (!(Test-Path -LiteralPath $PSCompletions.path.order)) {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
-        $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction Ignore).Name | Sort-Object { [Version]$_ } -ErrorAction Ignore | Where-Object { $_ -match '^\d+\.\d.*' }
-        if ($version -is [array]) {
-            $old_version = $version[-2]
-            if ($old_version -match '^\d+\.\d.*' -and $old_version -ge '4') {
-                $old_version_dir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $old_version
-
-                if (Test-Path "$old_version_dir/data.json") {
-                    Move-Item "$old_version_dir/data.json" $PSCompletions.path.data -Force -ErrorAction Ignore
-                    $oldData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($PSCompletions.path.data))
-                    if ($oldData.ContainsKey('list') -or $oldData.ContainsKey('aliasMap')) {
-                        $oldData.Remove('list')
-                        $oldData.Remove('aliasMap')
-                        $oldData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
-                    }
+        function _moveData {
+            param($Dir, $JsonFile, $CompletionsDir)
+            $PSCompletions.ensure_dir($CompletionsDir)
+            if (!(Test-Path $JsonFile) -and (Test-Path "$Dir/data.json")) {
+                Move-Item "$Dir/data.json" $JsonFile -Force -ErrorAction Ignore
+                $oldData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($JsonFile))
+                if ($oldData -and ($oldData.ContainsKey('list') -or $oldData.ContainsKey('aliasMap'))) {
+                    $oldData.Remove('list')
+                    $oldData.Remove('aliasMap')
+                    $oldData | ConvertTo-Json -Depth 10 | Out-File $JsonFile -Force -Encoding utf8
                 }
-                else {
-                    $data = [ordered]@{
-                        alias  = [ordered]@{}
-                        config = $PSCompletions.default_config
-                    }
-                    $data.config.comp_config = [ordered]@{}
-                    $items = Get-ChildItem -Path "$old_version_dir/completions" -ErrorAction Ignore
-                    foreach ($_ in $items) {
-                        $name = $_.Name
-                        $data.alias.$name = @()
-                        $path_alias = Join-Path $_.FullName 'alias.txt'
-                        if (Test-Path $path_alias) {
-                            $alias_list = $PSCompletions.get_content($path_alias)
-                            foreach ($a in $alias_list) {
-                                $data.alias.$name += $a
-                            }
-                        }
-                        else {
-                            $path_config = Join-Path $_.FullName 'config.json'
-                            $config = $PSCompletions.get_raw_content($path_config) | ConvertFrom-Json
-                            if ($config.alias) {
-                                foreach ($a in $config.alias) {
-                                    $data.alias.$name += $a
-                                }
-                            }
-                            else {
-                                $data.alias.$name += $name
-                            }
-                        }
-                    }
-                    $PSCompletions.data.list = @($data.alias.Keys)
-                    $PSCompletions.data.aliasMap = [ordered]@{}
-                    foreach ($key in $PSCompletions.data.list) {
-                        foreach ($a in $data.alias[$key]) {
-                            $PSCompletions.data.aliasMap[$a] = $key
-                        }
-                    }
-                    $data | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
-                }
-                Get-ChildItem "$old_version_dir/completions" -Directory | ForEach-Object {
-                    if ($_.Name -ne 'psc') {
-                        Move-Item $_.FullName $PSCompletions.path.completions -Force -ErrorAction Ignore
-                    }
-                }
-                Get-ChildItem "$old_version_dir/temp" | ForEach-Object {
-                    if ($_.Name -ne 'completions.json') {
-                        Move-Item $_.FullName $PSCompletions.path.temp -Force -ErrorAction Ignore
-                    }
+                (Get-Content -Raw $JsonFile) -replace '"comp_config"\s*:', '"completion":' | Out-File $JsonFile -Force -Encoding utf8
+            }
+            $Dir, $PSCompletions.path.root | ForEach-Object {
+                if (Test-Path "$_/completions" -PathType Container) {
+                    Get-ChildItem "$_/completions" -Directory | ForEach-Object { Copy-Item $_.FullName $CompletionsDir -Force -Recurse }
+                    Remove-Item "$_/completions" -Force -Recurse -ErrorAction Ignore
                 }
             }
         }
+        $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction Ignore).Name | Where-Object { $_ -match '^\d+\.\d.*' } | Sort-Object { [Version]$_ }
+        if ($null -eq $version) {
+            $scoop_persist = Join-Path $PSCompletions.path.root.Replace('\modules\PSCompletions', '') 'persist'
+            foreach ($_ in "$scoop_persist/abgox.PSCompletions", "$scoop_persist/pscompletions") {
+                if (Test-Path $_ -PathType Container) { _moveData $_ "$_/data/settings.json" "$_/data/completions" }
+            }
+            return
+        }
+        if ($version.Count -ge 2) {
+            $oldVerDir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $version[-2]
+            if (Test-Path "$oldVerDir/data" -PathType Container) { Move-Item "$oldVerDir/data" $PSCompletions.path.root -Force -ErrorAction Ignore }
+        }
+        else {
+            $oldVerDir = $PSCompletions.path.root
+        }
+        _moveData $oldVerDir $PSCompletions.path.data $PSCompletions.path.completions
     }
-    $PSCompletions.ensure_dir($PSCompletions.path.completions)
     $PSCompletions.move_old_version()
+    $PSCompletions.ensure_dir($PSCompletions.path.completions)
     $PSCompletions.ensure_dir($PSCompletions.path.temp)
     $PSCompletions.ensure_dir($PSCompletions.path.order)
     $PSCompletions.is_init = $true

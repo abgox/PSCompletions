@@ -97,8 +97,8 @@
     function Out-Data {
         if ($PSCompletions.need_update_data) {
             foreach ($_ in $PSCompletions.data.list) {
-                if (-not $PSCompletions.config.comp_config[$_].Count) {
-                    $null = $PSCompletions.config.comp_config.Remove($_)
+                if (-not $PSCompletions.config.completion[$_].Count) {
+                    $null = $PSCompletions.config.completion.Remove($_)
                 }
             }
             $saveData = [ordered]@{}
@@ -183,7 +183,7 @@
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.done))
                 }
             }
-            $data.config.comp_config = [ordered]@{}
+            $data.config.completion = [ordered]@{}
         }
         else {
             $remove_list = @()
@@ -216,13 +216,13 @@
             }
         }
         $remove = @()
-        foreach ($_ in $data.config.comp_config.keys) {
+        foreach ($_ in $data.config.completion.keys) {
             if ($_ -notin $data.alias.Keys) {
                 $remove += $_
             }
         }
         foreach ($_ in $remove) {
-            $null = $data.config.comp_config.Remove($_)
+            $null = $data.config.completion.Remove($_)
         }
         $PSCompletions.data.list = @($data.alias.Keys)
         $PSCompletions.data.aliasMap = [ordered]@{}
@@ -603,24 +603,24 @@
         }
         $config_list = $PSCompletions.default_completion_item
 
-        if ($null -eq $PSCompletions.config.comp_config.$($arg[1])) {
-            $PSCompletions.config.comp_config.$($arg[1]) = [ordered]@{}
+        if ($null -eq $PSCompletions.config.completion.$($arg[1])) {
+            $PSCompletions.config.completion.$($arg[1]) = [ordered]@{}
         }
 
-        if ($arg[2] -notin $config_list -and $null -eq $PSCompletions.config.comp_config.$($arg[1]).$($arg[2])) {
-            $cmd_list = $config_list + ($PSCompletions.config.comp_config.$($arg[1]).keys.Where({ $_ -notin $config_list }))
+        if ($arg[2] -notin $config_list -and $null -eq $PSCompletions.config.completion.$($arg[1]).$($arg[2])) {
+            $cmd_list = $config_list + ($PSCompletions.config.completion.$($arg[1]).keys.Where({ $_ -notin $config_list }))
             $sub_cmd = $arg[2]
             Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
             return
         }
         if ($arg.Length -eq 3) {
-            Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.comp_config.$($arg[1]).$($arg[2]))
+            Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.completion.$($arg[1]).$($arg[2]))
             return
         }
 
         $completion = $arg[1]
         $config_item = $arg[2]
-        $old_value = $PSCompletions.config.comp_config[$completion].$config_item
+        $old_value = $PSCompletions.config.completion[$completion].$config_item
         $new_value = $arg[3]
         if ($new_value -match '^-?\d+$') {
             $new_value = [int]$new_value
@@ -635,7 +635,7 @@
                 return
             }
         }
-        $PSCompletions.config.comp_config[$completion].$config_item = $new_value
+        $PSCompletions.config.completion[$completion].$config_item = $new_value
         $PSCompletions.need_update_data = $true
         $PSCompletions.write_with_color((_replace $PSCompletions.info.completion.done))
 
@@ -1036,41 +1036,41 @@
                 return
             }
             'completion' {
-                $old_comp_config = $PSCompletions.config.comp_config.Clone()
+                $old_config = $PSCompletions.config.completion.Clone()
                 $change_list = [System.Collections.Generic.List[System.Object]]@()
                 $list = if ($arg | Where-Object { $_ -eq '--all' }) { $PSCompletions.data.list } else { $arg[2..($arg.Length - 1)] }
                 foreach ($c in $list) {
-                    $PSCompletions.config.comp_config[$c] = [ordered]@{}
+                    $PSCompletions.config.completion[$c] = [ordered]@{}
                     $path = "$($PSCompletions.path.completions)/$c/config.json"
                     $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
                     if ($null -eq $json_config) { continue }
                     $path = "$($PSCompletions.path.completions)/$c/language/$($json_config.language[0]).json"
                     $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content($path))
                     foreach ($item in $json.config) {
-                        $PSCompletions.config.comp_config[$c].$($item.name) = $item.value
+                        $PSCompletions.config.completion[$c].$($item.name) = $item.value
                         $change_list.Add(@{
                                 cmd       = $c
                                 item      = $item.name
-                                old_value = $old_comp_config[$c].$($item.name)
+                                old_value = $old_config[$c].$($item.name)
                                 new_value = $item.value
                             })
                     }
                     foreach ($item in $PSCompletions.default_completion_item) {
-                        if ($null -ne $old_comp_config[$c].$item) {
+                        if ($null -ne $old_config[$c].$item) {
                             $change_list.Add(@{
                                     cmd       = $c
                                     item      = $item
-                                    old_value = $old_comp_config[$c].$($item)
+                                    old_value = $old_config[$c].$($item)
                                     new_value = $null
                                 })
                         }
                     }
                     if ($null -ne $json_config.hooks) {
-                        $PSCompletions.config.comp_config[$c].enable_hooks = [int]$json_config.hooks
+                        $PSCompletions.config.completion[$c].enable_hooks = [int]$json_config.hooks
                         $change_list.Add(@{
                                 cmd       = $c
                                 item      = $item
-                                old_value = $old_comp_config[$c].enable_hooks
+                                old_value = $old_config[$c].enable_hooks
                                 new_value = [int]$json_config.hooks
                             })
                     }
