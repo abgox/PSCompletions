@@ -5,126 +5,177 @@
 [简体中文](./completions.zh-CN.md) | [English](./completions.md)
 
 <!-- prettier-ignore-start -->
-|Completion|Language|Description|
-|:-:|-|-|
-|[7z](https://7-zip.org/)|[**en-US**](/completions/7z/language/en-US.json)<br>[**zh-CN**](/completions/7z/language/zh-CN.json)|The command line cli of 7-Zip|
-|[adb](https://developer.android.com/tools/adb)|[**en-US**](/completions/adb/language/en-US.json)<br>[**zh-CN**](/completions/adb/language/zh-CN.json)|adb is a command-line tool that lets you communicate with a device.|
-|[arch](https://uutils.org)|[**en-US**](/completions/arch/language/en-US.json)<br>[**zh-CN**](/completions/arch/language/zh-CN.json)|Display machine architecture.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[b2sum](https://uutils.org)|[**en-US**](/completions/b2sum/language/en-US.json)<br>[**zh-CN**](/completions/b2sum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[b3sum](https://uutils.org)|[**en-US**](/completions/b3sum/language/en-US.json)<br>[**zh-CN**](/completions/b3sum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[base32](https://uutils.org)|[**en-US**](/completions/base32/language/en-US.json)<br>[**zh-CN**](/completions/base32/language/zh-CN.json)|Encode/decode data and print to standard output.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[base64](https://uutils.org)|[**en-US**](/completions/base64/language/en-US.json)<br>[**zh-CN**](/completions/base64/language/zh-CN.json)|Encode/decode data and print to standard output.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[basename](https://uutils.org)|[**en-US**](/completions/basename/language/en-US.json)<br>[**zh-CN**](/completions/basename/language/zh-CN.json)|Print NAME with any leading directory components removed.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[basenc](https://uutils.org)|[**en-US**](/completions/basenc/language/en-US.json)<br>[**zh-CN**](/completions/basenc/language/zh-CN.json)|Encode/decode data and print to standard output.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[bat](https://github.com/sharkdp/bat)|[**en-US**](/completions/bat/language/en-US.json)<br>[**zh-CN**](/completions/bat/language/zh-CN.json)|A cat(1) clone with syntax highlighting and Git integration.|
-|[bun](https://bun.sh)|[**en-US**](/completions/bun/language/en-US.json)<br>[**zh-CN**](/completions/bun/language/zh-CN.json)|Bun - JavaScript all-in-one toolkit.|
-|[cargo](https://rustwiki.org/en/cargo)|[**en-US**](/completions/cargo/language/en-US.json)<br>[**zh-CN**](/completions/cargo/language/zh-CN.json)|cargo - Rust package manager.|
-|[chfs](http://iscute.cn/chfs)|[**en-US**](/completions/chfs/language/en-US.json)<br>[**zh-CN**](/completions/chfs/language/zh-CN.json)|CuteHttpFileServer - A free, HTTP protocol file sharing server cross-platform file sharing server.|
-|[choco](https://chocolatey.org/)|[**en-US**](/completions/choco/language/en-US.json)<br>[**zh-CN**](/completions/choco/language/zh-CN.json)|choco(chocolatey) - Software Manager.|
-|[cksum](https://uutils.org)|[**en-US**](/completions/cksum/language/en-US.json)<br>[**zh-CN**](/completions/cksum/language/zh-CN.json)|Print CRC and size for each file.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[claude](https://docs.anthropic.com/en/docs/claude-code)|[**en-US**](/completions/claude/language/en-US.json)<br>[**zh-CN**](/completions/claude/language/zh-CN.json)|Claude Code - Anthropic's AI-powered coding assistant in the terminal.|
-|[cmake](https://cmake.org)|[**en-US**](/completions/cmake/language/en-US.json)<br>[**zh-CN**](/completions/cmake/language/zh-CN.json)|CMake - cross-platform build system generator.|
-|[code](https://code.visualstudio.com)|[**en-US**](/completions/code/language/en-US.json)<br>[**zh-CN**](/completions/code/language/zh-CN.json)|code - The command line interface of Visual Studio Code|
-|[codex](https://github.com/openai/codex)|[**en-US**](/completions/codex/language/en-US.json)<br>[**zh-CN**](/completions/codex/language/zh-CN.json)|Codex CLI - AI-powered coding assistant by OpenAI.|
-|[comm](https://uutils.org)|[**en-US**](/completions/comm/language/en-US.json)<br>[**zh-CN**](/completions/comm/language/zh-CN.json)|Compare two sorted files line by line.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[conda](https://github.com/conda/conda)|[**en-US**](/completions/conda/language/en-US.json)<br>[**zh-CN**](/completions/conda/language/zh-CN.json)|conda - binary package and environment manager.|
-|[copilot](https://github.com/github/copilot-cli)|[**en-US**](/completions/copilot/language/en-US.json)<br>[**zh-CN**](/completions/copilot/language/zh-CN.json)|GitHub Copilot CLI - AI-powered coding assistant in the terminal.|
-|[csplit](https://uutils.org)|[**en-US**](/completions/csplit/language/en-US.json)<br>[**zh-CN**](/completions/csplit/language/zh-CN.json)|Split a file into sections determined by context lines.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[curl](https://curl.se)|[**en-US**](/completions/curl/language/en-US.json)<br>[**zh-CN**](/completions/curl/language/zh-CN.json)|curl - a command line tool and library for transferring data with URLs.|
-|[cut](https://uutils.org)|[**en-US**](/completions/cut/language/en-US.json)<br>[**zh-CN**](/completions/cut/language/zh-CN.json)|Print specified byte or field columns from each line of stdin or the input files.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[date](https://uutils.org)|[**en-US**](/completions/date/language/en-US.json)<br>[**zh-CN**](/completions/date/language/zh-CN.json)|Print or set the system date and time.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[dd](https://uutils.org)|[**en-US**](/completions/dd/language/en-US.json)<br>[**zh-CN**](/completions/dd/language/zh-CN.json)|Copy, and optionally convert, a file system resource.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[deno](https://deno.com/)|[**en-US**](/completions/deno/language/en-US.json)<br>[**zh-CN**](/completions/deno/language/zh-CN.json)|Deno - A modern JavaScript and TypeScript runtime|
-|[df](https://uutils.org)|[**en-US**](/completions/df/language/en-US.json)<br>[**zh-CN**](/completions/df/language/zh-CN.json)|Show information about the file system on which each FILE resides, or all file systems by default.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[dircolors](https://uutils.org)|[**en-US**](/completions/dircolors/language/en-US.json)<br>[**zh-CN**](/completions/dircolors/language/zh-CN.json)|Output commands to set the LS_COLORS environment variable.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[dirname](https://uutils.org)|[**en-US**](/completions/dirname/language/en-US.json)<br>[**zh-CN**](/completions/dirname/language/zh-CN.json)|Strip last component from file name.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[docker](https://www.docker.com)|[**en-US**](/completions/docker/language/en-US.json)<br>[**zh-CN**](/completions/docker/language/zh-CN.json)|docker - Container Application Development.|
-|[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|[**en-US**](/completions/dotnet/language/en-US.json)<br>[**zh-CN**](/completions/dotnet/language/zh-CN.json)|dotnet - The generic driver for the .NET CLI.|
-|[du](https://uutils.org)|[**en-US**](/completions/du/language/en-US.json)<br>[**zh-CN**](/completions/du/language/zh-CN.json)|Estimate file space usage.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[env](https://uutils.org)|[**en-US**](/completions/env/language/en-US.json)<br>[**zh-CN**](/completions/env/language/zh-CN.json)|Set each NAME to VALUE in the environment and run COMMAND.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[eslint](https://eslint.org)|[**en-US**](/completions/eslint/language/en-US.json)<br>[**zh-CN**](/completions/eslint/language/zh-CN.json)|ESLint - Pluggable JavaScript linter.|
-|[eza](https://eza.rocks)|[**en-US**](/completions/eza/language/en-US.json)<br>[**zh-CN**](/completions/eza/language/zh-CN.json)|A modern replacement for ls.|
-|[factor](https://uutils.org)|[**en-US**](/completions/factor/language/en-US.json)<br>[**zh-CN**](/completions/factor/language/zh-CN.json)|Print the prime factors of the given NUMBER(s).<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[fd](https://github.com/sharkdp/fd)|[**en-US**](/completions/fd/language/en-US.json)<br>[**zh-CN**](/completions/fd/language/zh-CN.json)|A program to find entries in your filesystem.|
-|[ffmpeg](https://ffmpeg.org/)|[**en-US**](/completions/ffmpeg/language/en-US.json)<br>[**zh-CN**](/completions/ffmpeg/language/zh-CN.json)|A complete, cross-platform solution to record, convert and stream audio and video.|
-|[fmt](https://uutils.org)|[**en-US**](/completions/fmt/language/en-US.json)<br>[**zh-CN**](/completions/fmt/language/zh-CN.json)|Reformat paragraphs from input files (or stdin) to stdout.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[fnm](https://github.com/Schniz/fnm)|[**en-US**](/completions/fnm/language/en-US.json)<br>[**zh-CN**](/completions/fnm/language/zh-CN.json)|Fast and simple Node.js version manager, built in Rust.|
-|[fold](https://uutils.org)|[**en-US**](/completions/fold/language/en-US.json)<br>[**zh-CN**](/completions/fold/language/zh-CN.json)|Writes each file (or standard input if no files are given) to standard output whilst breaking long lines.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[fzf](https://junegunn.github.io/fzf)|[**en-US**](/completions/fzf/language/en-US.json)<br>[**zh-CN**](/completions/fzf/language/zh-CN.json)|fzf is an interactive filter program for any kind of list.|
-|[gemini](https://github.com/google-gemini/gemini-cli)|[**en-US**](/completions/gemini/language/en-US.json)<br>[**zh-CN**](/completions/gemini/language/zh-CN.json)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
-|[gh](https://cli.github.com/)|[**en-US**](/completions/gh/language/en-US.json)<br>[**zh-CN**](/completions/gh/language/zh-CN.json)|gh - GitHub CLI is a command-line tool for using GitHub from your terminal.|
-|[git](https://git-scm.com)|[**en-US**](/completions/git/language/en-US.json)<br>[**zh-CN**](/completions/git/language/zh-CN.json)|Git - Version control system.|
-|[go](https://pkg.go.dev/cmd/go)|[**en-US**](/completions/go/language/en-US.json)<br>[**zh-CN**](/completions/go/language/zh-CN.json)|go - Go is a tool for managing Go source code.|
-|[godot](https://godotengine.org)|[**en-US**](/completions/godot/language/en-US.json)<br>[**zh-CN**](/completions/godot/language/zh-CN.json)|Godot Engine - Free and open source 2D and 3D game engine.|
-|[gradle](https://gradle.org)|[**en-US**](/completions/gradle/language/en-US.json)<br>[**zh-CN**](/completions/gradle/language/zh-CN.json)|Gradle - a powerful build system for the JVM.|
-|[hashsum](https://uutils.org)|[**en-US**](/completions/hashsum/language/en-US.json)<br>[**zh-CN**](/completions/hashsum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[head](https://uutils.org)|[**en-US**](/completions/head/language/en-US.json)<br>[**zh-CN**](/completions/head/language/zh-CN.json)|Print the first 10 lines of each 'FILE' to standard output.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[helm](https://helm.sh)|[**en-US**](/completions/helm/language/en-US.json)<br>[**zh-CN**](/completions/helm/language/zh-CN.json)|The Kubernetes package manager.|
-|[jj](https://jj-vcs.github.io/)|[**en-US**](/completions/jj/language/en-US.json)<br>[**zh-CN**](/completions/jj/language/zh-CN.json)|Jujutsu (jj) - A Git-compatible version control system that is both simple and powerful.|
-|[jjui](https://idursun.github.io/jjui/)|[**en-US**](/completions/jjui/language/en-US.json)<br>[**zh-CN**](/completions/jjui/language/zh-CN.json)|Jujutsu UI (jjui) is a Text User Interface (TUI) designed for interacting with the Jujutsu version control system.|
-|[join](https://uutils.org)|[**en-US**](/completions/join/language/en-US.json)<br>[**zh-CN**](/completions/join/language/zh-CN.json)|For each pair of input lines with identical join fields, write a line to standard output.<br>The default join field is the first, delimited by blanks.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[jq](https://jqlang.org/)|[**en-US**](/completions/jq/language/en-US.json)<br>[**zh-CN**](/completions/jq/language/zh-CN.json)|A lightweight and flexible command-line JSON processor.|
-|[just](https://github.com/casey/just)|[**en-US**](/completions/just/language/en-US.json)<br>[**zh-CN**](/completions/just/language/zh-CN.json)|just - a command runner.|
-|[kubectl](https://kubernetes.io/docs/reference/kubectl/)|[**en-US**](/completions/kubectl/language/en-US.json)<br>[**zh-CN**](/completions/kubectl/language/zh-CN.json)|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br>kubectl is its command-line tool.|
-|[lazydocker](https://github.com/jesseduffield/lazydocker)|[**en-US**](/completions/lazydocker/language/en-US.json)<br>[**zh-CN**](/completions/lazydocker/language/zh-CN.json)|Lazydocker - the lazier way to manage everything docker.|
-|[lazygit](https://github.com/jesseduffield/lazygit)|[**en-US**](/completions/lazygit/language/en-US.json)<br>[**zh-CN**](/completions/lazygit/language/zh-CN.json)|Lazygit - a simple terminal UI for git commands.|
-|[link](https://uutils.org)|[**en-US**](/completions/link/language/en-US.json)<br>[**zh-CN**](/completions/link/language/zh-CN.json)|Call the link function to create a link named FILE2 to an existing FILE1.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[ln](https://uutils.org)|[**en-US**](/completions/ln/language/en-US.json)<br>[**zh-CN**](/completions/ln/language/zh-CN.json)|Make links between files.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[md5sum](https://uutils.org)|[**en-US**](/completions/md5sum/language/en-US.json)<br>[**zh-CN**](/completions/md5sum/language/zh-CN.json)|Compute and check message digests.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[mise](https://mise.jdx.dev/)|[**en-US**](/completions/mise/language/en-US.json)<br>[**zh-CN**](/completions/mise/language/zh-CN.json)|mise - Polyglot tool version manager, env vars manager and task runner|
-|[mktemp](https://uutils.org)|[**en-US**](/completions/mktemp/language/en-US.json)<br>[**zh-CN**](/completions/mktemp/language/zh-CN.json)|Create a temporary file or directory.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[mvn](https://maven.apache.org)|[**en-US**](/completions/mvn/language/en-US.json)<br>[**zh-CN**](/completions/mvn/language/zh-CN.json)|Apache Maven - a software project management and comprehension tool.|
-|[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|[**en-US**](/completions/mysql/language/en-US.json)<br>[**zh-CN**](/completions/mysql/language/zh-CN.json)|MySQL command line client|
-|[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|[**en-US**](/completions/N_m3u8DL-RE/language/en-US.json)<br>[**zh-CN**](/completions/N_m3u8DL-RE/language/zh-CN.json)|A cross-platform browser stream downloader (HLS/DASH/Smooth).|
-|[ngrok](https://ngrok.com/)|[**en-US**](/completions/ngrok/language/en-US.json)<br>[**zh-CN**](/completions/ngrok/language/zh-CN.json)|ngrok - Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
-|[nl](https://uutils.org)|[**en-US**](/completions/nl/language/en-US.json)<br>[**zh-CN**](/completions/nl/language/zh-CN.json)|Number lines of files.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[node](https://nodejs.org/)|[**en-US**](/completions/node/language/en-US.json)<br>[**zh-CN**](/completions/node/language/zh-CN.json)|Node.js - A free, open-source, cross-platform JavaScript runtime environment.|
-|[npm](https://www.npmjs.com/)|[**en-US**](/completions/npm/language/en-US.json)<br>[**zh-CN**](/completions/npm/language/zh-CN.json)|npm - package manager.|
-|[nproc](https://uutils.org)|[**en-US**](/completions/nproc/language/en-US.json)<br>[**zh-CN**](/completions/nproc/language/zh-CN.json)|Print the number of cores available to the current process.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[nrm](https://github.com/Pana/nrm)|[**en-US**](/completions/nrm/language/en-US.json)<br>[**zh-CN**](/completions/nrm/language/zh-CN.json)|nrm - npm registry manager.|
-|[nssm](https://nssm.cc)|[**en-US**](/completions/nssm/language/en-US.json)<br>[**zh-CN**](/completions/nssm/language/zh-CN.json)|NSSM - the Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
-|[numfmt](https://uutils.org)|[**en-US**](/completions/numfmt/language/en-US.json)<br>[**zh-CN**](/completions/numfmt/language/zh-CN.json)|Convert numbers from/to human-readable strings.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[nvim](https://neovim.io/)|[**en-US**](/completions/nvim/language/en-US.json)<br>[**zh-CN**](/completions/nvim/language/zh-CN.json)|nvim - Vim-fork focused on extensibility and usability.|
-|[nvm](https://github.com/nvm-sh/nvm)|[**en-US**](/completions/nvm/language/en-US.json)<br>[**zh-CN**](/completions/nvm/language/zh-CN.json)|nvm - Node Version Manager.|
-|[od](https://uutils.org)|[**en-US**](/completions/od/language/en-US.json)<br>[**zh-CN**](/completions/od/language/zh-CN.json)|Dump files in octal and other formats.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[oh-my-posh](https://ohmyposh.dev)|[**en-US**](/completions/oh-my-posh/language/en-US.json)<br>[**zh-CN**](/completions/oh-my-posh/language/zh-CN.json)|oh-my-posh is a cross platform tool to render your prompt.|
-|[ollama](https://docs.ollama.com/cli)|[**en-US**](/completions/ollama/language/en-US.json)<br>[**zh-CN**](/completions/ollama/language/zh-CN.json)|ollama - ollama's command line interface tool.|
-|[opencode](https://github.com/nicholaswatertank/opencode)|[**en-US**](/completions/opencode/language/en-US.json)<br>[**zh-CN**](/completions/opencode/language/zh-CN.json)|opencode - AI-powered coding agent for the terminal.|
-|[paste](https://uutils.org)|[**en-US**](/completions/paste/language/en-US.json)<br>[**zh-CN**](/completions/paste/language/zh-CN.json)|Write lines consisting of the sequentially corresponding lines from each 'FILE', separated by 'TAB's, to standard output.<br>Completion was written based on [uutils/coreutils](https://github.com/uutils/coreutils).|
-|[pdm](https://github.com/pdm-project/pdm)|[**en-US**](/completions/pdm/language/en-US.json)<br>[**zh-CN**](/completions/pdm/language/zh-CN.json)|A modern Python package and dependency manager supporting the latest PEP standards.|
-|[pip](https://github.com/pypa/pip)|[**en-US**](/completions/pip/language/en-US.json)<br>[**zh-CN**](/completions/pip/language/zh-CN.json)|pip - Python Package Manager.|
-|[pnpm](https://pnpm.io/)|[**en-US**](/completions/pnpm/language/en-US.json)<br>[**zh-CN**](/completions/pnpm/language/zh-CN.json)|pnpm - Package Manager.|
-|[podman](https://podman.io)|[**en-US**](/completions/podman/language/en-US.json)<br>[**zh-CN**](/completions/podman/language/zh-CN.json)|Podman - manage pods, containers and images.|
-|[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|[**en-US**](/completions/powershell/language/en-US.json)<br>[**zh-CN**](/completions/powershell/language/zh-CN.json)|Windows PowerShell CLI. (powershell.exe)|
-|[prettier](https://prettier.io)|[**en-US**](/completions/prettier/language/en-US.json)<br>[**zh-CN**](/completions/prettier/language/zh-CN.json)|Prettier - Opinionated code formatter.|
-|[psc](https://pscompletions.abgox.com)|[**en-US**](/completions/psc/language/en-US.json)<br>[**zh-CN**](/completions/psc/language/zh-CN.json)|PSCompletions module's completion.<br>If removed, it will be automatically added again.|
-|[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|[**en-US**](/completions/pwsh/language/en-US.json)<br>[**zh-CN**](/completions/pwsh/language/zh-CN.json)|PowerShell CLI. (pwsh.exe)|
-|[python](https://www.python.org)|[**en-US**](/completions/python/language/en-US.json)<br>[**zh-CN**](/completions/python/language/zh-CN.json)|python - command-line.|
-|[rclone](https://rclone.org)|[**en-US**](/completions/rclone/language/en-US.json)<br>[**zh-CN**](/completions/rclone/language/zh-CN.json)|Rclone - syncs files to and from cloud storage providers.|
-|[rg](https://github.com/BurntSushi/ripgrep)|[**en-US**](/completions/rg/language/en-US.json)<br>[**zh-CN**](/completions/rg/language/zh-CN.json)|ripgrep (rg) recursively searches the current directory for lines matching a regex pattern.|
-|[ruff](https://github.com/astral-sh/ruff)|[**en-US**](/completions/ruff/language/en-US.json)<br>[**zh-CN**](/completions/ruff/language/zh-CN.json)|Ruff - An extremely fast Python linter and code formatter.|
-|[rustup](https://rustup.rs)|[**en-US**](/completions/rustup/language/en-US.json)<br>[**zh-CN**](/completions/rustup/language/zh-CN.json)|rustup - The Rust toolchain installer.|
-|[scoop](https://scoop.sh)|[**en-US**](/completions/scoop/language/en-US.json)<br>[**zh-CN**](/completions/scoop/language/zh-CN.json)|Scoop - A command-line installer for Windows.|
-|[scoop-checkver](https://scoop.sh)|[**en-US**](/completions/scoop-checkver/language/en-US.json)<br>[**zh-CN**](/completions/scoop-checkver/language/zh-CN.json)|It is used to check for updates to Scoop manifests locally.<br>Use .\bin\checkver.ps1 to trigger completions.|
-|[scoop-install](https://github.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-install/language/en-US.json)<br>[**zh-CN**](/completions/scoop-install/language/zh-CN.json)|A PowerShell script that allows you to add Scoop configurations to use a replaced url instead of the original url when installing the app in Scoop.|
-|[scoop-update](https://github.com/abgox/scoop-tools)|[**en-US**](/completions/scoop-update/language/en-US.json)<br>[**zh-CN**](/completions/scoop-update/language/zh-CN.json)|A PowerShell script that allows you to add Scoop configurations to use a replaced url instead of the original url when updating the app in Scoop.|
-|[sfsu](https://github.com/winpax/sfsu)|[**en-US**](/completions/sfsu/language/en-US.json)<br>[**zh-CN**](/completions/sfsu/language/zh-CN.json)|Scoop utilities that can replace the slowest parts of Scoop, and run anywhere from 30-100 times faster.|
-|[starship](https://github.com/starship/starship)|[**en-US**](/completions/starship/language/en-US.json)<br>[**zh-CN**](/completions/starship/language/zh-CN.json)|Starship - The cross-shell prompt for astronauts.|
-|[svn](https://subversion.apache.org)|[**en-US**](/completions/svn/language/en-US.json)<br>[**zh-CN**](/completions/svn/language/zh-CN.json)|SVN - Subversion version control system.|
-|[ty](https://github.com/astral-sh/ruff)|[**en-US**](/completions/ty/language/en-US.json)<br>[**zh-CN**](/completions/ty/language/zh-CN.json)|ty - An extremely fast Python type checker.|
-|[uv](https://docs.astral.sh/uv/)|[**en-US**](/completions/uv/language/en-US.json)<br>[**zh-CN**](/completions/uv/language/zh-CN.json)|An extremely fast Python package and project manager, written in Rust.|
-|[vite](https://github.com/vitejs/vite)|[**en-US**](/completions/vite/language/en-US.json)<br>[**zh-CN**](/completions/vite/language/zh-CN.json)|Vite - Next generation frontend tooling.|
-|[vitest](https://github.com/vitest-dev/vitest)|[**en-US**](/completions/vitest/language/en-US.json)<br>[**zh-CN**](/completions/vitest/language/zh-CN.json)|Vitest - Next generation testing framework.|
-|[volta](https://volta.sh)|[**en-US**](/completions/volta/language/en-US.json)<br>[**zh-CN**](/completions/volta/language/zh-CN.json)|volta - Accessible JavaScript Tool Manager.|
-|[wget](https://www.gnu.org/software/wget/)|[**en-US**](/completions/wget/language/en-US.json)<br>[**zh-CN**](/completions/wget/language/zh-CN.json)|GNU Wget - a non-interactive network retriever.|
-|[winget](https://github.com/microsoft/winget-cli)|[**en-US**](/completions/winget/language/en-US.json)<br>[**zh-CN**](/completions/winget/language/zh-CN.json)|WinGet - Windows package manager.|
-|[wsh](https://github.com/wavetermdev/waveterm)|[**en-US**](/completions/wsh/language/en-US.json)<br>[**zh-CN**](/completions/wsh/language/zh-CN.json)|wsh is a small utility that lets you do cool things with Wave Terminal, right from the command line.|
-|[wsl](https://github.com/microsoft/WSL)|[**en-US**](/completions/wsl/language/en-US.json)<br>[**zh-CN**](/completions/wsl/language/zh-CN.json)|WSL - Windows Subsystem for Linux.|
-|[wt](https://github.com/microsoft/terminal)|[**en-US**](/completions/wt/language/en-US.json)<br>[**zh-CN**](/completions/wt/language/zh-CN.json)|Windows Terminal command line.<br>You can use it to start a terminal.|
-|[ya](https://yazi-rs.github.io/)|[**en-US**](/completions/ya/language/en-US.json)<br>[**zh-CN**](/completions/ya/language/zh-CN.json)|Yazi - Blazing fast terminal file manager written in Rust, based on async I/O.|
-|[yarn](https://classic.yarnpkg.com/)|[**en-US**](/completions/yarn/language/en-US.json)<br>[**zh-CN**](/completions/yarn/language/zh-CN.json)|yarn - Fast, reliable, and secure dependency management.|
-|[yazi](https://yazi-rs.github.io/)|[**en-US**](/completions/yazi/language/en-US.json)<br>[**zh-CN**](/completions/yazi/language/zh-CN.json)|Yazi - Blazing fast terminal file manager written in Rust, based on async I/O.|
-|[zellij](https://zellij.dev)|[**en-US**](/completions/zellij/language/en-US.json)<br>[**zh-CN**](/completions/zellij/language/zh-CN.json)|Zellij is a terminal workspace with multiple terminal panes.|
-|[zoxide](https://github.com/ajeetdsouza/zoxide)|[**en-US**](/completions/zoxide/language/en-US.json)<br>[**zh-CN**](/completions/zoxide/language/zh-CN.json)|A smarter cd command for your terminal|
+|Completion|Description|
+|:-:|-|
+|[7z](https://7-zip.org/)|The command line interface of 7-Zip.|
+|[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
+|[aria2c](https://aria2.github.io)|Lightweight multi-protocol and multi-source download utility.|
+|[b2sum](https://uutils.org)|Compute and check BLAKE2 message digests.|
+|[b3sum](https://uutils.org)|Compute and check BLAKE3 message digests.|
+|[base32](https://uutils.org)|Encode/decode data and print to standard output.|
+|[base64](https://uutils.org)|Encode/decode data and print to standard output.|
+|[basename](https://uutils.org)|Print NAME with leading directory components removed.|
+|[basenc](https://uutils.org)|Encode/decode data and print to standard output.|
+|[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
+|[biome](https://biomejs.dev/)|Toolchain for web projects.|
+|[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
+|[cargo](https://doc.rust-lang.org/cargo/)|Rust package manager.|
+|[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
+|[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - a free HTTP protocol file sharing server.|
+|[choco](https://chocolatey.org/)|Chocolatey software manager.|
+|[cksum](https://uutils.org)|Print CRC and size for each file.|
+|[claude](https://docs.anthropic.com/en/docs/claude-code)|Claude Code - Anthropic's AI-powered coding assistant in the terminal.|
+|[cmake](https://cmake.org)|Cross-platform build system generator.|
+|[code](https://code.visualstudio.com)|Command line interface of Visual Studio Code.|
+|[codex](https://github.com/openai/codex)|Codex CLI - AI-powered coding assistant by OpenAI.|
+|[comm](https://uutils.org)|Compare two sorted files line by line.|
+|[conda](https://github.com/conda/conda)|Binary package and environment manager.|
+|[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - AI-powered coding assistant in the terminal.|
+|[croc](https://github.com/schollz/croc)|Easily and securely transfer files from one computer to another.|
+|[csplit](https://uutils.org)|Split a file into sections determined by context lines.|
+|[curl](https://curl.se)|Command line tool and library for transferring data with URLs.|
+|[cut](https://uutils.org)|Print specified byte or field columns from each line.|
+|[cypress](https://www.cypress.io/)|Fast, easy and reliable testing for anything in a browser.|
+|[date](https://uutils.org)|Print or set the system date and time.|
+|[delta](https://github.com/dandavison/delta)|Viewer for git and diff output.|
+|[deno](https://deno.com/)|A modern JavaScript and TypeScript runtime.|
+|[df](https://uutils.org)|Show information about file system space usage.|
+|[dircolors](https://uutils.org)|Output commands to set the LS_COLORS environment variable.|
+|[dirname](https://uutils.org)|Strip last component from file name.|
+|[docker](https://www.docker.com)|Container Application Development.|
+|[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
+|[du](https://uutils.org)|Estimate file space usage.|
+|[duf](https://github.com/muesli/duf)|Better df alternative for displaying disk usage.|
+|[dufs](https://github.com/sigoden/dufs)|Distinctive utility file server.|
+|[dust](https://github.com/bootandy/dust)|Like du but more intuitive.|
+|[env](https://uutils.org)|Set each NAME to VALUE in the environment and run COMMAND.|
+|[esbuild](https://esbuild.github.io/)|Extremely fast JavaScript and CSS bundler and minifier.|
+|[eslint](https://eslint.org)|Pluggable JavaScript linter.|
+|[expand](https://www.gnu.org/software/coreutils/)|Convert tabs in each FILE to spaces.|
+|[eza](https://eza.rocks)|A modern replacement for ls.|
+|[factor](https://uutils.org)|Print the prime factors of the given NUMBER(s).|
+|[fd](https://github.com/sharkdp/fd)|Program to find entries in your filesystem.|
+|[ffmpeg](https://ffmpeg.org/)|Complete, cross-platform solution to record, convert and stream audio and video.|
+|[fmt](https://uutils.org)|Reformat paragraphs from input files to stdout.|
+|[fnm](https://github.com/Schniz/fnm)|Fast and simple Node.js version manager, built in Rust.|
+|[fold](https://uutils.org)|Write each file to stdout whilst breaking long lines.|
+|[fx](https://fx.wtf)|Terminal JSON viewer|
+|[fzf](https://junegunn.github.io/fzf)|Interactive filter program for any kind of list.|
+|[gcc](https://gcc.gnu.org)|The GNU Compiler Collection|
+|[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
+|[gh](https://cli.github.com/)|GitHub command-line tool.|
+|[git](https://git-scm.com)|Version control system.|
+|[gitversion](https://gitversion.net/)|A tool that generates a Semantic Version number based on your Git history.|
+|[go](https://pkg.go.dev/cmd/go)|Tool for managing Go source code.|
+|[godot](https://godotengine.org)|Godot Engine - Free and open source 2D and 3D game engine.|
+|[gpg](https://gnupg.org)|GNU Privacy Guard - A complete and free implementation of the OpenPGP standard as defined by RFC4880|
+|[gradle](https://gradle.org)|Powerful build system for the JVM.|
+|[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
+|[hashsum](https://uutils.org)|Compute and check message digests.|
+|[head](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
+|[helm](https://helm.sh)|Kubernetes package manager.|
+|[hostname](https://uutils.org)|Display or set the system's host name.|
+|[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
+|[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
+|[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool<br>A jq clone focused on correctness and performance|
+|[jj](https://jj-vcs.github.io/)|Jujutsu (jj) - Git-compatible version control system.|
+|[jjui](https://idursun.github.io/jjui/)|Text User Interface for the Jujutsu version control system.|
+|[join](https://uutils.org)|Join lines of two files on a common field.|
+|[jq](https://jqlang.org/)|Lightweight and flexible command-line JSON processor.|
+|[just](https://github.com/casey/just)|A command runner.|
+|[kubectl](https://kubernetes.io/docs/reference/kubectl/)|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br>kubectl is its command-line tool.|
+|[lazydocker](https://github.com/jesseduffield/lazydocker)|The lazier way to manage everything docker.|
+|[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
+|[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
+|[ln](https://uutils.org)|Make links between files.|
+|[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
+|[md5sum](https://uutils.org)|Compute and check MD5 message digests.|
+|[mise](https://mise.jdx.dev/)|Polyglot tool version manager, env vars manager and task runner.|
+|[mktemp](https://uutils.org)|Create a temporary file or directory.|
+|[more](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/more)|Display the contents of a text file one screen at a time.|
+|[mvn](https://maven.apache.org)|Apache Maven, a software project management tool.|
+|[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
+|[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
+|[ngrok](https://ngrok.com/)|Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
+|[nl](https://uutils.org)|Number lines of files.|
+|[node](https://nodejs.org/)|A free, open-source, cross-platform JavaScript runtime environment.|
+|[nodemon](https://github.com/remy/nodemon)|Monitor for changes and automatically restart Node.js server.|
+|[npm](https://www.npmjs.com/)|Node.js package manager.|
+|[nproc](https://uutils.org)|Print the number of cores available to the current process.|
+|[nrm](https://github.com/Pana/nrm)|npm registry manager.|
+|[nssm](https://nssm.cc)|The Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
+|[numfmt](https://uutils.org)|Convert numbers from/to human-readable strings.|
+|[nvim](https://neovim.io/)|Vim-fork focused on extensibility and usability.|
+|[nvm](https://github.com/nvm-sh/nvm)|Node.js Version Manager.|
+|[od](https://uutils.org)|Dump files in octal and other formats.|
+|[oh-my-posh](https://ohmyposh.dev)|Cross-platform tool to render your prompt.|
+|[ollama](https://docs.ollama.com/cli)|Local large language model runner.|
+|[openclaw](https://docs.openclaw.ai/cli)|The Command Line Interface (CLI) of OpenClaw|
+|[opencode](https://github.com/nicholaswatertank/opencode)|AI-powered coding agent for the terminal.|
+|[ouch](https://github.com/ouch-org/ouch)|A command-line utility for easily compressing and decompressing files and directories<br>Supported formats: tar, zip, gz, 7z, xz, lzma, bz2, bz3, lz4, zst, rar, br|
+|[oxfmt](https://oxc.rs)|An extremely fast formatter and code style guide linter for JavaScript, TypeScript, JSX, and TSX|
+|[oxlint](https://oxc.rs)|TypeScript and JavaScript linter and ESLint compatible config for correctness and some stylistic rules|
+|[pandoc](https://pandoc.org)|Universal document converter.|
+|[paste](https://uutils.org)|Write sequentially corresponding lines from each FILE to stdout.|
+|[pathchk](https://www.gnu.org/software/coreutils/)|Diagnose invalid or unportable file names.|
+|[pdfcpu](https://github.com/pdfcpu/pdfcpu)|A Go PDF processor<br>Command-line tools for working with PDF files|
+|[pdm](https://github.com/pdm-project/pdm)|Modern Python package and dependency manager.|
+|[pip](https://github.com/pypa/pip)|Python Package Manager.|
+|[playwright](https://playwright.dev/)|Framework for web testing and automation.|
+|[pm2](https://pm2.keymetrics.io/)|Node.js process manager with built-in load balancer.|
+|[pnpm](https://pnpm.io/)|Fast, disk-space-efficient package manager.|
+|[podman](https://podman.io)|Manage pods, containers and images.|
+|[poetry](https://python-poetry.org)|Python dependency manager and packaging tool.|
+|[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|Windows PowerShell CLI.|
+|[pr](https://www.gnu.org/software/coreutils/)|Paginate or columnate FILE(s) for printing.|
+|[prettier](https://prettier.io)|Opinionated code formatter.|
+|[printenv](https://www.gnu.org/software/coreutils/)|Print the values of environment VARIABLE(s).|
+|[psc](https://pscompletions.abgox.com)|PSCompletions module's completion.|
+|[ptx](https://uutils.org)|Output a permuted index of the words in the input files.|
+|[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
+|[python](https://www.python.org)|Python interpreter command-line.|
+|[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
+|[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
+|[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
+|[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
+|[rustc](https://doc.rust-lang.org/rustc)|The Rust compiler|
+|[rustup](https://rustup.rs)|The Rust toolchain installer.|
+|[scoop](https://scoop.sh)|A command-line installer for Windows.|
+|[scoop-checkver](https://scoop.sh)|Check for updates to Scoop manifests.<br>Use .\bin\checkver.ps1 to trigger completions.|
+|[scoop-install](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
+|[scoop-update](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
+|[sd](https://github.com/chmln/sd)|An intuitive find & replace CLI<br>sed alternative|
+|[sfsu](https://github.com/winpax/sfsu)|Scoop utilities, 30-100x faster than native Scoop.|
+|[sqlite3](https://www.sqlite.org)|SQLite command line interface.|
+|[ssh-keygen](https://www.openssh.com)|OpenSSH key generation utility.|
+|[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
+|[svn](https://subversion.apache.org)|Subversion version control system.|
+|[swc](https://swc.rs/)|Super-fast TypeScript/JavaScript compiler.|
+|[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|The TypeScript Compiler.|
+|[tsx](https://tsx.hirok.io)|TypeScript Execute. The easiest way to run TypeScript in Node.js.|
+|[ty](https://github.com/astral-sh/ruff)|An extremely fast Python type checker.|
+|[typst](https://typst.app)|A new markup-based typesetting system.|
+|[uv](https://docs.astral.sh/uv/)|Extremely fast Python package and project manager, written in Rust.|
+|[vdir](https://uutils.org)|List information about the FILEs.|
+|[vhs](https://github.com/charmbracelet/vhs)|Your CLI home video recorder.<br>Record terminal GIFs from shell scripts|
+|[viddy](https://github.com/sachaos/viddy)|A modern watch command<br>Time machine and pager etc.|
+|[vite](https://github.com/vitejs/vite)|Next generation frontend tooling.|
+|[vitest](https://github.com/vitest-dev/vitest)|Next generation testing framework.|
+|[volta](https://volta.sh)|JavaScript tool manager.|
+|[watchexec](https://github.com/watchexec/watchexec)|Execute commands when watched files change<br>Recursively monitors for changes and runs commands|
+|[wget](https://www.gnu.org/software/wget/)|Non-interactive network retriever.|
+|[winget](https://github.com/microsoft/winget-cli)|Windows package manager.|
+|[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI tool<br>Deploy, manage, and develop on Cloudflare's edge platform|
+|[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal helper utility.|
+|[wsl](https://github.com/microsoft/WSL)|Windows Subsystem for Linux.|
+|[wt](https://github.com/microsoft/terminal)|Windows Terminal command line.|
+|[xh](https://github.com/ducaale/xh)|A friendly and fast tool for sending HTTP requests<br>HTTPie alternative written in Rust|
+|[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
+|[ya](https://yazi-rs.github.io/)|Yazi - Blazing fast terminal file manager written in Rust.|
+|[yarn](https://classic.yarnpkg.com/)|Fast, reliable, and secure dependency management.|
+|[yazi](https://yazi-rs.github.io/)|Blazing fast terminal file manager written in Rust.|
+|[yt-dlp](https://github.com/yt-dlp/yt-dlp)|A feature-rich command-line audio/video downloader|
+|[zellij](https://zellij.dev)|Terminal workspace with multiple terminal panes.|
+|[zoxide](https://github.com/ajeetdsouza/zoxide)|Smarter cd command for your terminal.|
 
 <!-- prettier-ignore-end -->
