@@ -19,6 +19,7 @@
 |[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
 |[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
+|[carapace](https://carapace.sh/)|A multi-shell completion binary|
 |[cargo](https://doc.rust-lang.org/cargo/)|Rust package manager.|
 |[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - a free HTTP protocol file sharing server.|
@@ -44,6 +45,7 @@
 |[dirname](https://uutils.org)|Strip last component from file name.|
 |[docker](https://www.docker.com)|Container Application Development.|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
+|[dsc](https://github.com/PowerShell/DSC)|An open source command line application that abstracts the management of software components declaratively and idempotently.|
 |[du](https://uutils.org)|Estimate file space usage.|
 |[duf](https://github.com/muesli/duf)|Better df alternative for displaying disk usage.|
 |[dufs](https://github.com/sigoden/dufs)|Distinctive utility file server.|
@@ -66,6 +68,7 @@
 |[gh](https://cli.github.com/)|GitHub command-line tool.|
 |[git](https://git-scm.com)|Version control system.|
 |[gitversion](https://gitversion.net/)|A tool that generates a Semantic Version number based on your Git history.|
+|[glow](https://github.com/charmbracelet/glow)|Render markdown on the CLI, with pizzazz!|
 |[go](https://pkg.go.dev/cmd/go)|Tool for managing Go source code.|
 |[godot](https://godotengine.org)|Godot Engine - Free and open source 2D and 3D game engine.|
 |[gpg](https://gnupg.org)|GNU Privacy Guard - A complete and free implementation of the OpenPGP standard as defined by RFC4880|
@@ -89,6 +92,7 @@
 |[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
 |[ln](https://uutils.org)|Make links between files.|
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
+|[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
 |[md5sum](https://uutils.org)|Compute and check MD5 message digests.|
 |[mise](https://mise.jdx.dev/)|Polyglot tool version manager, env vars manager and task runner.|
 |[mktemp](https://uutils.org)|Create a temporary file or directory.|
@@ -151,6 +155,7 @@
 |[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
 |[svn](https://subversion.apache.org)|Subversion version control system.|
 |[swc](https://swc.rs/)|Super-fast TypeScript/JavaScript compiler.|
+|[tombi](https://tombi-toml.github.io/tombi/)|TOML Toolkit|
 |[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|The TypeScript Compiler.|
 |[tsx](https://tsx.hirok.io)|TypeScript Execute. The easiest way to run TypeScript in Node.js.|
 |[ty](https://github.com/astral-sh/ruff)|An extremely fast Python type checker.|

@@ -19,6 +19,7 @@
 |[bat](https://github.com/sharkdp/bat)|带语法高亮和 Git 集成的 cat 替代品。|
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
 |[bun](https://bun.sh)|JavaScript 全能工具包。|
+|[carapace](https://carapace.sh/)|多 shell 补全二进制文件|
 |[cargo](https://doc.rust-lang.org/cargo/)|Rust 包管理器。|
 |[chezmoi](https://chezmoi.io)|在多台不同的机器上安全管理你的 dotfiles|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - 免费的 HTTP 协议文件共享服务器。|
@@ -44,6 +45,7 @@
 |[dirname](https://uutils.org)|去除文件名的最后一个组件。|
 |[docker](https://www.docker.com)|容器应用开发。|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|.NET CLI 的通用驱动程序。|
+|[dsc](https://github.com/PowerShell/DSC)|一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。|
 |[du](https://uutils.org)|估算文件空间使用情况。|
 |[duf](https://github.com/muesli/duf)|更好的 df 替代品，用于显示磁盘使用情况。|
 |[dufs](https://github.com/sigoden/dufs)|独特的实用文件服务器。|
@@ -66,6 +68,7 @@
 |[gh](https://cli.github.com/)|GitHub 命令行工具。|
 |[git](https://git-scm.com)|版本控制系统。|
 |[gitversion](https://gitversion.net/)|一款可依据 Git 提交历史生成语义化版本号的工具|
+|[glow](https://github.com/charmbracelet/glow)|在终端中渲染 Markdown 文件！|
 |[go](https://pkg.go.dev/cmd/go)|管理 Go 源代码的工具。|
 |[godot](https://godotengine.org)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|
 |[gpg](https://gnupg.org)|GNU Privacy Guard - 一款依据 RFC4880 规范实现的完整且免费的 OpenPGP 标准工具|
@@ -89,6 +92,7 @@
 |[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
 |[ln](https://uutils.org)|创建文件之间的链接。|
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
+|[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
 |[md5sum](https://uutils.org)|计算和校验 MD5 消息摘要。|
 |[mise](https://mise.jdx.dev/)|多语言工具版本管理器、环境变量管理器和任务运行器。|
 |[mktemp](https://uutils.org)|创建临时文件或目录。|
@@ -151,6 +155,7 @@
 |[starship](https://github.com/starship/starship)|跨平台终端提示符。|
 |[svn](https://subversion.apache.org)|Subversion 版本控制系统。|
 |[swc](https://swc.rs/)|超快的 TypeScript/JavaScript 编译器。|
+|[tombi](https://tombi-toml.github.io/tombi/)|TOML 工具包|
 |[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|TypeScript 编译器。|
 |[tsx](https://tsx.hirok.io)|TypeScript Execute。在 Node.js 中运行 TypeScript 的最简单方式。|
 |[ty](https://github.com/astral-sh/ruff)|极速的 Python 类型检查器。|
