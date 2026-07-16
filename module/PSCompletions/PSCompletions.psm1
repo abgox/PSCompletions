@@ -1031,7 +1031,7 @@
             }
             'order' {
                 foreach ($_ in Get-ChildItem $PSCompletions.path.order) {
-                    Remove-Item $_.FullName -Force -Recurse -ErrorAction Ignore
+                    Remove-Item $_.FullName -Force -Recurse
                 }
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.order.done))
                 return
@@ -1115,7 +1115,9 @@
                     if ($PressKey.ControlKeyState -notlike '*CtrlPressed*') {
                         if ($PressKey.VirtualKeyCode -eq 13) {
                             # 13: Enter
-                            Remove-Item ($PSCompletions.path.root + '/data') -Force -Recurse -ErrorAction Ignore
+                            Get-ChildItem ($PSCompletions.path.root + '/data') | ForEach-Object {
+                                Remove-Item $_.FullName -Force -Recurse
+                            }
                             $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_done))
                             $PSCompletions.ensure_dir($PSCompletions.path.completions)
                             $PSCompletions.init_data()
