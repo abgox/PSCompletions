@@ -1372,17 +1372,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $end = $char.Substring($middle)
 
         $content = @($start, $filter, $end) -join ''
-        $width = $rawUI.LengthInBufferCells($content)
-
-        $prevWidth = if ($menu.filter_buffer_width) { $menu.filter_buffer_width } else { 0 }
-        if ($prevWidth -gt $width) {
-            $clearContent = '─' * $prevWidth
-            $rawUI.SetBufferContents(
-                @{ X = $menu.pos.X + 2; Y = $menu.pos.Y },
-                $rawUI.NewBufferCellArray(@($clearContent), $config.border_color, $bgColor)
-            )
-        }
-        $menu.filter_buffer_width = [Math]::Max($width, $prevWidth)
         $rawUI.SetBufferContents(
             @{ X = $menu.pos.X + 2; Y = $menu.pos.Y },
             $rawUI.NewBufferCellArray(@($content), $config.filter_color, $bgColor)
@@ -1558,7 +1547,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             $menu.set_menu_selection()
             $menu.new_menu_status_buffer()
             $menu.new_menu_tip_buffer($menu.selected_index)
-            $menu.handle_menu_data('edit')
+            $menu.handle_menu_cache('edit')
             return
         }
         if ($config.enable_list_loop -or ($new_selected_index -ge 0 -and $new_selected_index -lt $menu.filter_list.Count)) {
@@ -1580,7 +1569,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             $menu.new_menu_list_buffer($menu.offset)
             $menu.new_menu_status_buffer()
             $menu.new_menu_tip_buffer($menu.selected_index)
-            $menu.handle_menu_data('edit')
+            $menu.handle_menu_cache('edit')
         }
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset_menu {
@@ -1597,7 +1586,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $menu.selected_index = 0
         $menu.page_current_index = 0
     }
-    Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_data {
+    Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_cache {
         param([string]$type)
         switch ($type) {
             add {
@@ -1612,6 +1601,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     old_full_buffer    = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
                     ui_height          = $menu.ui_height
                     pos_y              = $menu.pos.Y
+                    no_match_count     = $menu.no_match_count
                 }
             }
             get {
@@ -1626,6 +1616,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     $menu.old_selection = $data.old_selection
                     $menu.ui_height = $data.ui_height
                     $menu.pos.Y = $data.pos_y
+                    $menu.no_match_count = $data.no_match_count
                 }
             }
             edit {
@@ -1641,6 +1632,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         old_full_buffer    = $menu.get_menu_buffer($menu.buffer_start, $menu.buffer_end)
                         ui_height          = $menu.ui_height
                         pos_y              = $menu.pos.Y
+                        no_match_count     = $menu.no_match_count
                     }
                 }
             }
@@ -1736,7 +1728,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $menu.ui_height = 0
 
         $menu.filter = ''
-        $menu.filter_buffer_width = 0
         $menu.page_current_index = 0
         $menu.selected_index = 0
         $menu.offset = 0
@@ -1817,7 +1808,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         $menu.new_menu_status_buffer()
         $menu.new_menu_filter_buffer($menu.filter)
 
-        $menu.handle_menu_data('add')
+        $menu.handle_menu_cache('add')
 
         :loop while (($PressKey = $rawUI.ReadKey('NoEcho,IncludeKeyDown,AllowCtrlC')).VirtualKeyCode) {
             $pressShift = 0x10 -band [int]$PressKey.ControlKeyState
@@ -1898,7 +1889,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     if ($menu.cache.Contains($menu.filter)) {
                         $state = $menu.cache[$menu.filter]
                         $rawUI.SetBufferContents($state.old_full_buffer.top, $state.old_full_buffer.buffer)
-                        $menu.handle_menu_data('get')
+                        $menu.handle_menu_cache('get')
                     }
                     else {
                         if ($config.enable_filter_subsequence_match) {
@@ -1947,18 +1938,24 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         if (!$menu.filter_list) {
                             if ($config.enter_when_no_match_after -gt 0) {
                                 $menu.no_match_count++
-                                $menu.new_menu_filter_buffer($menu.filter)
                                 if ($menu.no_match_count -ge $config.enter_when_no_match_after) {
                                     $out = $menu.filter
                                     $menu.reset_menu()
                                     $out -replace '^\^', ''
                                     break loop
                                 }
-                                $menu.handle_menu_data('add')
+                                $realBadCount = $menu.no_match_count
+                                $currentFilter = $menu.filter
+                                $menu.filter = $oldFilterKey
+                                $menu.handle_menu_cache('get')
+                                $menu.no_match_count = $realBadCount
+                                $menu.filter = $currentFilter
+                                $menu.new_menu_filter_buffer($menu.filter)
+                                $menu.handle_menu_cache('add')
                             }
                             else {
                                 $menu.filter = $oldFilterKey
-                                $menu.handle_menu_data('get')
+                                $menu.handle_menu_cache('get')
                                 $menu.new_menu_filter_buffer($menu.filter)
                             }
                         }
@@ -1971,7 +1968,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                             $menu.new_menu_tip_buffer($menu.selected_index)
                             $menu.new_menu_status_buffer()
                             $menu.new_menu_filter_buffer($menu.filter)
-                            $menu.handle_menu_data('add')
+                            $menu.handle_menu_cache('add')
                         }
                     }
                     break

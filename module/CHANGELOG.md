@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+- Improved filter state caching and rendering for [module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu).
+
 ## 6.9.0
 
 - Improved rendering performance and caching mechanism for module completion menu.

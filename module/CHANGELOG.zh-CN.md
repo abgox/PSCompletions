@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+- 优化了 [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 的过滤状态缓存与渲染逻辑
+
 ## 6.9.0
 
 - 改进了模块补全菜单的渲染性能和缓存机制
