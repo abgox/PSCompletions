@@ -66,6 +66,9 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             }
 
             $PSCompletions.alias = $alias = $inputs[0]
+            if ($null -eq $PSCompletions.data.aliasMap[$alias]) {
+                $alias = $inputs[0] -replace '\.(exe|cmd|bat)$', ''
+            }
             $PSCompletions.menu.by_TabExpansion2 = $false
 
             if ($null -ne $PSCompletions.data.aliasMap[$alias] -and ($isSpaceTab -or ($inputs.Count -gt 1 -and $inputs[-1] -notmatch '^[''"]?(?:[A-Za-z]:[/\\]|(?:\.\.?|~)?[/\\]).*'))) {
@@ -81,7 +84,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                     }
                     else {
                         $middleArgs = if ($inputs.Count -le 2) { , @() } else { $inputs[1..($inputs.Count - 2)] }
-                        $result = if ($middleArgs.Count -eq 0) { "$alias $result" }else { "$alias $($middleArgs -join ' ') $result" }
+                        $result = if ($middleArgs.Count -eq 0) { "$($inputs[0]) $result" }else { "$($inputs[0]) $($middleArgs -join ' ') $result" }
                         [Microsoft.PowerShell.PSConsoleReadLine]::Replace(0, $buffer.Length, $result)
                     }
                 }
@@ -1228,8 +1231,11 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
 
                     if (!$inputs) { return }
 
-                    $PSCompletions.alias = $inputs[0]
-                    $PSCompletions.cmd = $cmd = $PSCompletions.data.aliasMap[$inputs[0]]
+                    $PSCompletions.alias = $alias = $inputs[0]
+                    if ($null -eq $PSCompletions.data.aliasMap[$alias]) {
+                        $alias = $inputs[0] -replace '\.(exe|cmd|bat)$', ''
+                    }
+                    $PSCompletions.cmd = $cmd = $PSCompletions.data.aliasMap[$alias]
 
                     $filter_list = $PSCompletions.get_completion($cmd, $inputs)
 
@@ -2005,7 +2011,11 @@ else {
 
                 if (!$inputs) { return }
 
-                $PSCompletions.cmd = $cmd = $PSCompletions.data.aliasMap[$inputs[0]]
+                $PSCompletions.alias = $alias = $inputs[0]
+                if ($null -eq $PSCompletions.data.aliasMap[$alias]) {
+                    $alias = $inputs[0] -replace '\.(exe|cmd|bat)$', ''
+                }
+                $PSCompletions.cmd = $cmd = $PSCompletions.data.aliasMap[$alias]
                 $filter_list = $PSCompletions.get_completion($cmd, $inputs)
                 $PSCompletions.menu.by_TabExpansion2 = $false
                 $PSCompletions.menu.show_powershell_menu($filter_list)

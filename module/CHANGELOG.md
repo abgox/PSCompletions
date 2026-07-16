@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+- Support triggering completions by ignoring executable file suffixes.
+  - Typing `git.exe` will trigger the same completions as `git`.
+  - No longer need to use `psc alias` to manually add aliases with `.exe`/`.cmd`/`.bat` suffixes.
 - Improved filter state caching and rendering for [module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu).
 
 ## 6.9.0

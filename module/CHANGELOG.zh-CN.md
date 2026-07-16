@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+- 支持忽略可执行文件后缀来触发补全
+  - 输入 `git.exe` 也会触发与 `git` 相同的补全
+  - 不再需要使用 `psc alias` 手动添加带有 `.exe`/`.cmd`/`.bat` 后缀的别名
 - 优化了 [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 的过滤状态缓存与渲染逻辑
 
 ## 6.9.0
