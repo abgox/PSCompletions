@@ -1327,7 +1327,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         param([int]$offset)
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
-        [array]$content_box = foreach ($l in $lines) {
+        $menu.content_box = [array]$content_box = foreach ($l in $lines) {
             $item = $menu.filter_list[$l]
             $text = $item.ListItemText -replace '\x1B\[[\d;]*m', ''
             $text = $text + $item.padSymbols
@@ -1500,25 +1500,6 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             $rawUI.SetBufferContents($pos, $rawUI.NewBufferCellArray($tip_arr, $config.tip_color, $bgColor))
         }
     }
-    Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod set_menu_selection {
-        if ($menu.old_selection) {
-            $rawUI.SetBufferContents($menu.old_selection.pos, $menu.old_selection.buffer)
-        }
-        $X = $menu.pos.X + 1
-        $to_X = $X + $menu.list_max_width - 1
-        $Y = $menu.pos.Y + 1 + $menu.page_current_index
-        $Rectangle = [System.Management.Automation.Host.Rectangle]::new($X, $Y, $to_X, $Y)
-        $LineBuffer = $rawUI.GetBufferContents($Rectangle)
-        $menu.old_selection = @{
-            pos    = @{X = $X; Y = $Y }
-            buffer = $LineBuffer
-        }
-        # 给原本的内容设置前景颜色和背景颜色
-        # XXX: 对于多字节字符，需要过滤掉 Trailing 类型字符以确保正确渲染
-        $LineBuffer = $LineBuffer.Where({ $_.BufferCellType -ne 'Trailing' })
-        $content = foreach ($i in $LineBuffer) { $i.Character }
-        $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray(@([string]::Join('', $content)), $config.selected_color, $config.selected_bgcolor))
-    }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod move_menu_selection {
         param(
             [bool]$isDown
@@ -1550,7 +1531,19 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
             if ($menu.page_current_index -lt 0) {
                 $menu.page_current_index += $menu.page_max_index + 1
             }
-            $menu.set_menu_selection()
+
+            if ($menu.old_selection) {
+                $rawUI.SetBufferContents($menu.old_selection.pos, $menu.old_selection.buffer)
+            }
+            $X = $menu.pos.X + 1
+            $Y = $menu.pos.Y + 1 + $menu.page_current_index
+            $selected = @($menu.content_box[$menu.page_current_index])
+            $menu.old_selection = @{
+                pos    = @{X = $X; Y = $Y }
+                buffer = $rawUI.NewBufferCellArray($selected, $config.item_color, $bgColor)
+            }
+            $rawUI.SetBufferContents(@{ X = $X; Y = $Y }, $rawUI.NewBufferCellArray($selected, $config.selected_color, $config.selected_bgcolor))
+
             $menu.new_menu_status_buffer()
             $menu.new_menu_tip_buffer($menu.selected_index)
             $menu.handle_menu_cache('edit')
@@ -1608,6 +1601,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     ui_height          = $menu.ui_height
                     pos_y              = $menu.pos.Y
                     no_match_count     = $menu.no_match_count
+                    content_box        = $menu.content_box
                 }
             }
             get {
@@ -1623,6 +1617,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                     $menu.ui_height = $data.ui_height
                     $menu.pos.Y = $data.pos_y
                     $menu.no_match_count = $data.no_match_count
+                    $menu.content_box = $data.content_box
                 }
             }
             edit {
@@ -1639,6 +1634,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
                         ui_height          = $menu.ui_height
                         pos_y              = $menu.pos.Y
                         no_match_count     = $menu.no_match_count
+                        content_box        = $menu.content_box
                     }
                 }
             }
