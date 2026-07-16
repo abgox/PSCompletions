@@ -168,7 +168,10 @@ With `-AddHooks` parameter, `hooks.ps1` is also generated.
 ```
 
 - `language` (required): Language array, corresponds to files in `language/` directory
-- `alias` (optional): Alternative command names that trigger this completion; if not set, directory name is used
+- `alias` (optional): Alternative command names that trigger this completion
+  - **If not set**, the directory name is used as the trigger name
+  - **If set**, the directory name is **ignored** — only the names in this array are used
+  - **Omit `.cmd`, `.exe`, `.bat` suffixes** — just use the command name (e.g., `git` not `git.exe`)
 - `hooks` (optional): Set to `true` to enable dynamic completions, requires `hooks.ps1` to exist
 
 ### Top-Level Fields
@@ -307,6 +310,7 @@ No duplicate `name` within the same array. `compare-json.ps1` matches by `name` 
 - [ ] No meaningless `U:` lines — options without alias AND without argument must NOT have `U:`
 - [ ] `zh-CN.json` and `en-US.json` have identical structure — only `tip` content is translated
 - [ ] `name`, `alias`, and other non-`tip` fields unchanged during translation
+- [ ] No file extensions (`.cmd`, `.exe`, `.bat`) in `config.json` `alias` field
 - [ ] `.\scripts\compare-json.ps1 <command>` runs clean
 
 All items satisfied = task complete. Re-run `compare-json.ps1 <command>` after changes stabilize to confirm no _content_ differences. Run without `<command>` to check all completions (slower), or with `<command>` to check just one.
