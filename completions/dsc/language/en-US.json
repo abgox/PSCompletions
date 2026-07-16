@@ -1,0 +1,1366 @@
+{
+  "meta": {
+    "url": "https://github.com/PowerShell/DSC",
+    "description": [
+      "An open source command line application that abstracts the management of software components declaratively and idempotently."
+    ]
+  },
+  "next": [
+    {
+      "name": "completer",
+      "tip": [
+        "U: completer <SHELL>",
+        "Generate a shell completion script"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate bash completion script"
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Generate elvish completion script"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate fish completion script"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate powershell completion script"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate zsh completion script"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config [OPTIONS] <COMMAND>",
+        "Apply a configuration document"
+      ],
+      "option": [
+        {
+          "name": "--parameters",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --parameters <JSON|YAML>",
+            "Parameters to pass to the configuration as JSON or YAML"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--parameters-file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --parameters-file <FILE>",
+            "Parameters to pass to the configuration as a JSON or YAML file"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--system-root",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --system-root <PATH>",
+            "Specify the operating system root path if not targeting the current running OS"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "export",
+          "tip": [
+            "Export the current configuration"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Retrieve the current configuration"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "Print this message or the help of the given subcommand(s)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set the current configuration"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--what-if",
+              "alias": [
+                "-w"
+              ],
+              "tip": [
+                "Run as a what-if operation instead of executing the configuration or resource"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "tip": [
+            "Test the current configuration"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "extension",
+      "tip": [
+        "U: extension <COMMAND>",
+        "Operations on DSC extensions"
+      ],
+      "next": [
+        {
+          "name": "help",
+          "tip": [
+            "Print this message or the help of the given subcommand(s)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [EXTENSION_NAME]",
+            "List or find extensions"
+          ],
+          "option": [
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "table-no-truncate",
+                  "tip": [
+                    "Table format without truncation"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "function",
+      "tip": [
+        "U: function <COMMAND>",
+        "Operations on DSC functions"
+      ],
+      "next": [
+        {
+          "name": "help",
+          "tip": [
+            "Print this message or the help of the given subcommand(s)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [FUNCTION_NAME]",
+            "List or find functions"
+          ],
+          "option": [
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "table-no-truncate",
+                  "tip": [
+                    "Table format without truncation"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Print this message or the help of the given subcommand(s)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Use DSC as a MCP server"
+      ]
+    },
+    {
+      "name": "resource",
+      "tip": [
+        "U: resource <COMMAND>",
+        "Invoke a specific DSC resource"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "Invoke the delete operation to a resource"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "The name of the resource to invoke"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "The version of the resource to invoke in semver format"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--what-if",
+              "alias": [
+                "-w"
+              ],
+              "tip": [
+                "Run as a what-if operation instead of executing the configuration or resource"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "export",
+          "tip": [
+            "Retrieve all resource instances"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "The name of the resource to invoke"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "The version of the resource to invoke in semver format"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Invoke the get operation to a resource"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "Get all instances of the resource"
+              ]
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "json-array",
+                  "tip": [
+                    "JSON array format"
+                  ]
+                },
+                {
+                  "name": "pass-through",
+                  "tip": [
+                    "Pass-through format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "The name of the resource to invoke"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "The version of the resource to invoke in semver format"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "Print this message or the help of the given subcommand(s)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [RESOURCE_NAME]",
+            "List or find resources"
+          ],
+          "option": [
+            {
+              "name": "--adapter",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --adapter <ADAPTER_NAME>",
+                "Adapter filter to limit the resource search"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--description",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --description <DESCRIPTION>",
+                "Description keyword to search for in the resource description"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "table-no-truncate",
+                  "tip": [
+                    "Table format without truncation"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--tags",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tags <TAGS>",
+                "Tag to search for in the resource tags"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "Get the JSON schema for a resource"
+          ],
+          "option": [
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "The name of the resource to invoke"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "The version of the resource to invoke in semver format"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Invoke the set operation to a resource"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "The name of the resource to invoke"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "The version of the resource to invoke in semver format"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--what-if",
+              "alias": [
+                "-w"
+              ],
+              "tip": [
+                "Run as a what-if operation instead of executing the configuration or resource"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "tip": [
+            "Invoke the test operation to a resource"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "The path to a file used as input to the configuration or resource. Use '-' for the file to read from STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "The input document as JSON or YAML to pass to the configuration or resource"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "The output format to use"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "Pretty-printed JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "The name of the resource to invoke"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "The version of the resource to invoke in semver format"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "schema",
+      "tip": [
+        "U: schema --type <TYPE>",
+        "Get the JSON schema for a DSC type"
+      ],
+      "option": [
+        {
+          "name": "--output-format",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output-format <FORMAT>",
+            "The output format to use"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "pretty-json",
+              "tip": [
+                "Pretty-printed JSON format"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--type",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --type <TYPE>",
+            "The type of DSC schema to get"
+          ],
+          "next": [
+            {
+              "name": "configuration",
+              "tip": [
+                "Configuration schema"
+              ]
+            },
+            {
+              "name": "configuration-get-result",
+              "tip": [
+                "Configuration get result schema"
+              ]
+            },
+            {
+              "name": "configuration-set-result",
+              "tip": [
+                "Configuration set result schema"
+              ]
+            },
+            {
+              "name": "configuration-test-result",
+              "tip": [
+                "Configuration test result schema"
+              ]
+            },
+            {
+              "name": "dsc-resource",
+              "tip": [
+                "DSC resource schema"
+              ]
+            },
+            {
+              "name": "extension-discover-result",
+              "tip": [
+                "Extension discover result schema"
+              ]
+            },
+            {
+              "name": "extension-manifest",
+              "tip": [
+                "Extension manifest schema"
+              ]
+            },
+            {
+              "name": "function-definition",
+              "tip": [
+                "Function definition schema"
+              ]
+            },
+            {
+              "name": "get-result",
+              "tip": [
+                "Get result schema"
+              ]
+            },
+            {
+              "name": "include",
+              "tip": [
+                "Include schema"
+              ]
+            },
+            {
+              "name": "manifest-list",
+              "tip": [
+                "Manifest list schema"
+              ]
+            },
+            {
+              "name": "resolve-result",
+              "tip": [
+                "Resolve result schema"
+              ]
+            },
+            {
+              "name": "resource",
+              "tip": [
+                "Resource schema"
+              ]
+            },
+            {
+              "name": "resource-manifest",
+              "tip": [
+                "Resource manifest schema"
+              ]
+            },
+            {
+              "name": "restart-required",
+              "tip": [
+                "Restart required schema"
+              ]
+            },
+            {
+              "name": "set-result",
+              "tip": [
+                "Set result schema"
+              ]
+            },
+            {
+              "name": "test-result",
+              "tip": [
+                "Test result schema"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--progress-format",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --progress-format <FORMAT>",
+        "Progress format to use"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "If interactive, use a progress bar. If not interactive, no progress is shown"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "Show progress as JSON"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "No progress is shown"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--trace-format",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --trace-format <FORMAT>",
+        "Trace format to use"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Default format"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON format"
+          ]
+        },
+        {
+          "name": "plaintext",
+          "tip": [
+            "Plaintext format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--trace-level",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --trace-level <LEVEL>",
+        "Trace level to use"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug level"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info level"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace level"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warn level"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help"
+      ]
+    }
+  ]
+}

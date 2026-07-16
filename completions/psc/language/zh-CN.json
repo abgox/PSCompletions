@@ -577,7 +577,7 @@
                 "当前值: {{ $PSCompletions.config.enable_menu_show_below }} (默认值: 0)",
                 "当模块补全菜单需要在光标上方显示时，滚动内容缓冲区，让光标回到顶部，然后在光标下方显示菜单。",
                 "对于缓冲区重绘存在差异的问题，它是一个不错的解决方案。",
-                "参考: https://github.com/abgox/PSCompletions/issues/93"
+                "参考: https://pscompletions.abgox.com/docs/module-completion-menu-redraw"
               ],
               "next": [
                 {
@@ -670,8 +670,7 @@
               "name": "enter_when_no_match_after",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enter_when_no_match_after }} (默认值: 0)",
-                "在过滤区域连续输入 N 个不匹配任何补全项的字符后, 关闭菜单并使用过滤区域的内容。",
-                "在此过程中, 每个输入的字符都会显示在过滤区域中。",
+                "连续输入 N 个不匹配任何补全项的字符后，自动关闭模块补全菜单并使用当前输入内容。",
                 "设置为 0 表示禁用。"
               ],
               "next": [
@@ -689,6 +688,12 @@
                 },
                 {
                   "name": "3"
+                },
+                {
+                  "name": "4"
+                },
+                {
+                  "name": "5"
                 }
               ]
             },
@@ -2248,7 +2253,7 @@
           ]
         },
         "example": [
-          "E: psc alias add git git.exe g       --- 为 git 添加 git.exe 和 g 这两个别名\n",
+          "E: psc alias add git g gi            --- 为 git 添加 g 和 gi 这两个别名\n",
           "   psc alias add scoop scoop.ps1     --- 为 scoop 添加 scoop.ps1 这个别名"
         ],
         "tip": [
@@ -2269,9 +2274,9 @@
         "}}"
       ],
       "example": [
-        "E: psc alias list                  --- 列出所有别名\n",
-        "   psc alias add git git.exe g     --- 为 git 添加 git.exe 和 g 这两个别名\n",
-        "   psc alias rm git git.exe g      --- 为 git 删除 git.exe 和 g 这两个别名"
+        "E: psc alias list             --- 列出所有别名\n",
+        "   psc alias add git g gi     --- 为 git 添加 g 和 gi 这两个别名\n",
+        "   psc alias rm git g gi      --- 为 git 删除 g 和 gi 这两个别名"
       ],
       "list": {
         "example": [
@@ -2417,13 +2422,13 @@
       "}}",
       "<@Cyan>[模块用法]\n",
       "输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>Space<@Cyan>（空格）和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法\n",
-      "运行 <@Magenta>psc<@Cyan> 会再次显示此页内容，并重载模块的数据和按键绑定\n",
+      "运行 <@Magenta>psc<@Cyan> 会再次显示此页内容，并重载模块的按键绑定和数据\n",
       "\n",
       "<@Cyan>[模块补全菜单]\n",
       "<@Blue>PSCompletions<@Cyan> 提供了一个更强大的模块补全菜单{{ if(!$IsWindows){ ' <@Yellow>(目前仅 Windows 可用)<@Cyan>' } }}\n",
       "\n",
       "可以输入字符进行过滤（模糊匹配），支持三个匹配符:\n",
-      "  - <@Magenta>^<@Cyan>: 匹配开头（再次输入则移除）\n",
+      "  - <@Magenta>^<@Cyan>: 匹配开头（再次输入则切换）\n",
       "  - <@Magenta>?<@Cyan>: 匹配一个任意字符\n",
       "  - <@Magenta>*<@Cyan>: 匹配一个或多个任意字符\n",
       "也可以启用子序列模糊匹配: <@Magenta>psc menu config enable_filter_subsequence_match 1<@Cyan>",
@@ -2438,6 +2443,10 @@
       "  - 选择上一个补全项:  <@Magenta>Up<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
       "  - 选择下一个补全项: <@Magenta>Down<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
       "\n",
+      "路径补全:\n",
+      "  - 使用路径标识符可以显式获取路径补全: <@Magenta>/<@Cyan> <@Magenta>./<@Cyan> <@Magenta>../<@Cyan> <@Magenta>~/<@Cyan> | <@Magenta>\\<@Cyan> <@Magenta>.\\<@Cyan> <@Magenta>..\\<@Cyan> <@Magenta>~\\<@Cyan>\n",
+      "  - 参考: <@Blue>https://pscompletions.abgox.com/docs/path-completion<@Cyan>\n",
+      "\n",
       "<@Cyan>[全局命名]\n",
       "<@Blue>PSCompletions<@Cyan> 模块只会占用两个全局命名，<@Yellow>它们应该是只读的，不应该修改或覆盖它们<@Cyan>\n",
       "  <@Magenta>PSCompletions<@Cyan>: 函数名, 模块导出的核心函数，<@Magenta>psc<@Cyan> 是它的默认别名\n",
@@ -2448,9 +2457,7 @@
       "Github  : <@Blue>https://github.com/abgox/PSCompletions<@Cyan>\n",
       "Gitee   : <@Blue>https://gitee.com/abgox/PSCompletions<@Cyan>\n",
       "\n",
-      "如果有使用问题, 请提交 issue: https://github.com/abgox/PSCompletions/issues\n",
-      "\n",
-      "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@>",
+      "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@Cyan>",
       "\n"
     ],
     "err": {

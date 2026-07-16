@@ -1,0 +1,423 @@
+{
+  "meta": {
+    "url": "https://github.com/cantino/mcfly",
+    "description": [
+      "Fly through your shell history"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "tip": [
+        "U: add [OPTIONS] [COMMAND]...",
+        "Add commands to the history"
+      ],
+      "option": [
+        {
+          "name": "--append-to-histfile",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --append-to-histfile <HISTFILE>",
+            "Also append command to the given file"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <PATH>",
+            "Directory where command was run (default $PWD)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exit <EXIT_CODE>",
+            "Exit code of command"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--old-dir",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --old-dir <PATH>",
+            "The previous directory the user was in before running the command (default $OLDPWD)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--when",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --when <UNIX_EPOCH>",
+            "The time that the command was run (default now)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "U: dump [OPTIONS]",
+        "Dump history into stdout; the results are sorted by timestamp"
+      ],
+      "option": [
+        {
+          "name": "--before",
+          "tip": [
+            "U: --before <BEFORE>",
+            "Select all commands ran before the point"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "The format to dump in (default json)"
+          ],
+          "next": [
+            {
+              "name": "csv",
+              "tip": [
+                "CSV format"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--regex",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --regex <REGEX>",
+            "Require commands to match the pattern"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <SINCE>",
+            "Select all commands ran since the point"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--sort",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --sort <ORDER>",
+            "Sort order (default ASC)"
+          ],
+          "next": [
+            {
+              "name": "ASC",
+              "tip": [
+                "Ascending order"
+              ]
+            },
+            {
+              "name": "DESC",
+              "tip": [
+                "Descending order"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init <SHELL>",
+        "Prints the shell code used to execute mcfly"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Initialize for bash"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Initialize for fish"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Initialize for powershell"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Initialize for zsh"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "tip": [
+        "U: move <OLD_DIR_PATH> <NEW_DIR_PATH>",
+        "Record a directory having been moved; moves command records from the old path to the new one"
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search [OPTIONS] [COMMAND]...",
+        "Search the history"
+      ],
+      "option": [
+        {
+          "name": "--delete_without_confirm",
+          "tip": [
+            "Delete entry without confirm"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <PATH>",
+            "Directory where command was run (default $PWD)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fuzzy",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --fuzzy <FUZZY>",
+            "Fuzzy-find results. 0 is off; higher numbers weight shorter/earlier matches more"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-selection",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output-selection <PATH>",
+            "Write results to file, including selection mode, new commandline, and any shell-specific requests"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--results",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --results <NUMBER>",
+            "Number of results to return"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "U: stats [OPTIONS]",
+        "Prints stats"
+      ],
+      "option": [
+        {
+          "name": "--cmds",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --cmds <cmds>",
+            "The number of \"top-n\" commands (default: 10)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dirs",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dirs <dirs>",
+            "Break down by top directories (default: 0, which doesn't limit by directory)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global-commands-to-ignore",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global-commands-to-ignore <global_cmds_to_ignore>",
+            "Global commands to ignore (default: 10)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--min-cmd-length",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --min-cmd-length <min_cmd_length>",
+            "The minimum command length to be listed in the \"top-n\" commands (default: 0)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-dir",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --only-dir <ONLY_DIR>",
+            "Only show commands from a given directory"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "train",
+      "tip": [
+        "U: train [OPTIONS]",
+        "Train the suggestion engine (developer tool)"
+      ],
+      "option": [
+        {
+          "name": "--refresh_cache",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --refresh_cache",
+            "Refresh the suggestion cache"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "Debug"
+      ]
+    },
+    {
+      "name": "--history_format",
+      "tip": [
+        "U: --history_format <FORMAT>",
+        "Shell history file format (default: bash)"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash history format"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish history format"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh history format"
+          ]
+        },
+        {
+          "name": "zsh-extended",
+          "tip": [
+            "Zsh extended history format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mcfly_history",
+      "tip": [
+        "U: --mcfly_history <MCFLY_HISTORY>",
+        "Shell history file to read from when adding or searching (defaults to $MCFLY_HISTORY)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session_id",
+      "tip": [
+        "U: --session_id <SESSION_ID>",
+        "Session ID to record or search under (defaults to $MCFLY_SESSION_ID)"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help"
+      ]
+    }
+  ]
+}

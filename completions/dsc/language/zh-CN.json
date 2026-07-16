@@ -1,0 +1,1366 @@
+{
+  "meta": {
+    "url": "https://github.com/PowerShell/DSC",
+    "description": [
+      "一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。"
+    ]
+  },
+  "next": [
+    {
+      "name": "completer",
+      "tip": [
+        "U: completer <SHELL>",
+        "生成 shell 自动补全脚本"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 自动补全脚本"
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "生成 elvish 自动补全脚本"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 自动补全脚本"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 powershell 自动补全脚本"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 自动补全脚本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config [OPTIONS] <COMMAND>",
+        "应用配置文档"
+      ],
+      "option": [
+        {
+          "name": "--parameters",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --parameters <JSON|YAML>",
+            "传递给配置的参数，格式为 JSON 或 YAML"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--parameters-file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --parameters-file <FILE>",
+            "传递给配置的参数文件，格式为 JSON 或 YAML"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--system-root",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --system-root <PATH>",
+            "指定操作系统根路径，用于非当前运行的操作系统"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "export",
+          "tip": [
+            "导出当前配置"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取当前配置"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "打印此消息或给定子命令的帮助"
+          ],
+          "next": 0
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置当前配置"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--what-if",
+              "alias": [
+                "-w"
+              ],
+              "tip": [
+                "以 what-if 模式运行，不执行实际操作"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "tip": [
+            "测试当前配置"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "extension",
+      "tip": [
+        "U: extension <COMMAND>",
+        "DSC 扩展操作"
+      ],
+      "next": [
+        {
+          "name": "help",
+          "tip": [
+            "打印此消息或给定子命令的帮助"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [EXTENSION_NAME]",
+            "列出或查找扩展"
+          ],
+          "option": [
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "table-no-truncate",
+                  "tip": [
+                    "表格格式，不截断"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "function",
+      "tip": [
+        "U: function <COMMAND>",
+        "DSC 函数操作"
+      ],
+      "next": [
+        {
+          "name": "help",
+          "tip": [
+            "打印此消息或给定子命令的帮助"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [FUNCTION_NAME]",
+            "列出或查找函数"
+          ],
+          "option": [
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "table-no-truncate",
+                  "tip": [
+                    "表格格式，不截断"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "打印此消息或给定子命令的帮助"
+      ],
+      "next": 0
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "使用 DSC 作为 MCP 服务器"
+      ]
+    },
+    {
+      "name": "resource",
+      "tip": [
+        "U: resource <COMMAND>",
+        "调用特定的 DSC 资源"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "调用资源的 delete 操作"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "要调用的资源名称"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "要调用的资源版本，semver 格式"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--what-if",
+              "alias": [
+                "-w"
+              ],
+              "tip": [
+                "以 what-if 模式运行，不执行实际操作"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "export",
+          "tip": [
+            "获取所有资源实例"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "要调用的资源名称"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "要调用的资源版本，semver 格式"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "调用资源的 get 操作"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "获取资源的所有实例"
+              ]
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "json-array",
+                  "tip": [
+                    "JSON 数组格式"
+                  ]
+                },
+                {
+                  "name": "pass-through",
+                  "tip": [
+                    "直接传递格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "要调用的资源名称"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "要调用的资源版本，semver 格式"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "打印此消息或给定子命令的帮助"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [RESOURCE_NAME]",
+            "列出或查找资源"
+          ],
+          "option": [
+            {
+              "name": "--adapter",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --adapter <ADAPTER_NAME>",
+                "适配器过滤器，限制资源搜索范围"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--description",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --description <DESCRIPTION>",
+                "在资源描述中搜索的关键字"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "table-no-truncate",
+                  "tip": [
+                    "表格格式，不截断"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--tags",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tags <TAGS>",
+                "在资源标签中搜索的标签"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "获取资源的 JSON schema"
+          ],
+          "option": [
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "要调用的资源名称"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "要调用的资源版本，semver 格式"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "调用资源的 set 操作"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "要调用的资源名称"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "要调用的资源版本，semver 格式"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--what-if",
+              "alias": [
+                "-w"
+              ],
+              "tip": [
+                "以 what-if 模式运行，不执行实际操作"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "test",
+          "tip": [
+            "调用资源的 test 操作"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --file <FILE>",
+                "用作输入的文件路径。使用 '-' 从 STDIN 读取。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input <INPUT>",
+                "作为 JSON 或 YAML 传递给配置或资源的输入文档"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--output-format",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output-format <FORMAT>",
+                "使用的输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "pretty-json",
+                  "tip": [
+                    "美化 JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--resource",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resource <RESOURCE>",
+                "要调用的资源名称"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --version <VERSION>",
+                "要调用的资源版本，semver 格式"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "schema",
+      "tip": [
+        "U: schema --type <TYPE>",
+        "获取 DSC 类型的 JSON schema"
+      ],
+      "option": [
+        {
+          "name": "--output-format",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output-format <FORMAT>",
+            "使用的输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "pretty-json",
+              "tip": [
+                "美化 JSON 格式"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--type",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --type <TYPE>",
+            "要获取的 DSC schema 类型"
+          ],
+          "next": [
+            {
+              "name": "configuration",
+              "tip": [
+                "配置 schema"
+              ]
+            },
+            {
+              "name": "configuration-get-result",
+              "tip": [
+                "配置 get 结果 schema"
+              ]
+            },
+            {
+              "name": "configuration-set-result",
+              "tip": [
+                "配置 set 结果 schema"
+              ]
+            },
+            {
+              "name": "configuration-test-result",
+              "tip": [
+                "配置 test 结果 schema"
+              ]
+            },
+            {
+              "name": "dsc-resource",
+              "tip": [
+                "DSC 资源 schema"
+              ]
+            },
+            {
+              "name": "extension-discover-result",
+              "tip": [
+                "扩展发现结果 schema"
+              ]
+            },
+            {
+              "name": "extension-manifest",
+              "tip": [
+                "扩展清单 schema"
+              ]
+            },
+            {
+              "name": "function-definition",
+              "tip": [
+                "函数定义 schema"
+              ]
+            },
+            {
+              "name": "get-result",
+              "tip": [
+                "get 结果 schema"
+              ]
+            },
+            {
+              "name": "include",
+              "tip": [
+                "include schema "
+              ]
+            },
+            {
+              "name": "manifest-list",
+              "tip": [
+                "清单列表 schema"
+              ]
+            },
+            {
+              "name": "resolve-result",
+              "tip": [
+                "resolve 结果 schema"
+              ]
+            },
+            {
+              "name": "resource",
+              "tip": [
+                "资源 schema"
+              ]
+            },
+            {
+              "name": "resource-manifest",
+              "tip": [
+                "资源清单 schema"
+              ]
+            },
+            {
+              "name": "restart-required",
+              "tip": [
+                "restart required schema "
+              ]
+            },
+            {
+              "name": "set-result",
+              "tip": [
+                "set 结果 schema"
+              ]
+            },
+            {
+              "name": "test-result",
+              "tip": [
+                "test 结果 schema"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--progress-format",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --progress-format <FORMAT>",
+        "使用的进度格式"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "交互模式下使用进度条，非交互模式下不显示进度"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "以 JSON 格式显示进度"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "不显示进度"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--trace-format",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --trace-format <FORMAT>",
+        "使用的跟踪格式"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "默认格式"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 格式"
+          ]
+        },
+        {
+          "name": "plaintext",
+          "tip": [
+            "纯文本格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--trace-level",
+      "alias": [
+        "-l"
+      ],
+      "tip": [
+        "U: -l, --trace-level <LEVEL>",
+        "使用的跟踪级别"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "调试级别"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "错误级别"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息级别"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "跟踪级别"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告级别"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息"
+      ]
+    }
+  ]
+}

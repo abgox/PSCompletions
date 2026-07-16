@@ -578,7 +578,7 @@
                 "Current Value: {{ $PSCompletions.config.enable_menu_show_below }} (Default: 0)",
                 "When the module completion menu needs to be displayed above the cursor, scroll the content buffer to let the cursor return to the top, and display the menu below the cursor.",
                 "It is a good solution to the problem of differences in buffer redrawing.",
-                "Refer to: https://github.com/abgox/PSCompletions/issues/93"
+                "Refer to: https://pscompletions.abgox.com/docs/module-completion-menu-redraw"
               ],
               "next": [
                 {
@@ -671,9 +671,8 @@
               "name": "enter_when_no_match_after",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enter_when_no_match_after }} (Default: 0)",
-                "After N consecutive characters typed in the filter that do not match any completion item, close the menu and use the filter content.",
-                "During this process, each typed character will be displayed in the filter area.",
-                "If it is 0, it means disabled."
+                "After N consecutive characters that don't match any completion item are typed, auto-close the module completion menu and use the typed text.",
+                "Set to 0 to disable."
               ],
               "next": [
                 {
@@ -690,6 +689,12 @@
                 },
                 {
                   "name": "3"
+                },
+                {
+                  "name": "4"
+                },
+                {
+                  "name": "5"
                 }
               ]
             },
@@ -2252,7 +2257,7 @@
           ]
         },
         "example": [
-          "E: psc alias add git git.exe g       --- Add git.exe and g aliases for git\n",
+          "E: psc alias add git g gi            --- Add g and gi aliases for git\n",
           "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 alias for scoop"
         ],
         "tip": [
@@ -2273,9 +2278,9 @@
         "}}"
       ],
       "example": [
-        "E: psc alias list                  --- List all aliases\n",
-        "   psc alias add git git.exe g     --- Add git.exe and g aliases for git\n",
-        "   psc alias rm git git.exe g      --- Remove git.exe and g aliases for git"
+        "E: psc alias list             --- List all aliases\n",
+        "   psc alias add git g gi     --- Add g and gi aliases for git\n",
+        "   psc alias rm git g gi      --- Remove g and gi aliases for git"
       ],
       "list": {
         "example": [
@@ -2409,8 +2414,8 @@
       "<@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
       "\n",
       "<@Cyan>[Module Changelog]\n",
-      "  Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
-      "  Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
+      "Github: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
+      "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
       "\n",
       "{{",
       "if ($PSEdition -eq 'Desktop'){",
@@ -2421,19 +2426,19 @@
       "}}",
       "<@Cyan>[Module Usage]\n",
       "Enter <@Magenta>psc<@Cyan>, press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key, you will quickly learn all usages by reading the completion tip.\n",
-      "Run <@Magenta>psc<@Cyan> will display this page content again and reload the module's data and key bindings.\n",
+      "Run <@Magenta>psc<@Cyan> will display this page content again and reload the module's key bindings and data.\n",
       "\n",
       "<@Cyan>[Module Completion Menu]\n",
       "<@Blue>PSCompletions<@Cyan> provides a more powerful module completion menu.{{ if(!$IsWindows){ ' <@Yellow>(Currently only available on Windows)<@Cyan>' } }}\n",
       "\n",
       "You can enter characters to filter (Fuzzy matching), and three matching symbols are supported:\n",
-      "  - <@Magenta>^<@Cyan>: Match the beginning. (Enter again to remove)\n",
+      "  - <@Magenta>^<@Cyan>: Match the beginning. (Enter again to toggle)\n",
       "  - <@Magenta>?<@Cyan>: Match any single character.\n",
       "  - <@Magenta>*<@Cyan>: Match one or more any characters.\n",
       "Also can enable subsequence fuzzy matching: <@Magenta>psc menu config enable_filter_subsequence_match 1<@Cyan>",
       "\n",
       "\n",
-      "Here are some key bindings:\n",
+      "Key Bindings:\n",
       "  - Apply the selected completion item: <@Magenta>Space<@Cyan> | <@Magenta>Enter<@Cyan>\n",
       "      - You can also use <@Magenta>Tab<@Cyan> when there's only one completion.\n",
       "  - Delete filter characters: <@Magenta>Backspace<@Cyan>\n",
@@ -2441,6 +2446,10 @@
       "      - You can also use <@Magenta>Backspace<@Cyan> when there're no characters in the filter area.\n",
       "  - Select previous completion item:  <@Magenta>Up<@Cyan>  | <@Magenta>Shift + Tab<@Cyan> | <@Magenta>Ctrl + u<@Cyan> | <@Magenta>Ctrl + p<@Cyan> | <@Magenta>Ctrl + k<@Cyan>\n",
       "  - Select   next   completion item: <@Magenta>Down<@Cyan> |     <@Magenta>Tab<@Cyan>     | <@Magenta>Ctrl + d<@Cyan> | <@Magenta>Ctrl + n<@Cyan> | <@Magenta>Ctrl + j<@Cyan>\n",
+      "\n",
+      "Path Completions:\n",
+      "  - Use path identifiers to explicitly get path completions: <@Magenta>/<@Cyan> <@Magenta>./<@Cyan> <@Magenta>../<@Cyan> <@Magenta>~/<@Cyan> | <@Magenta>\\<@Cyan> <@Magenta>.\\<@Cyan> <@Magenta>..\\<@Cyan> <@Magenta>~\\<@Cyan>\n",
+      "  - Refer to: <@Blue>https://pscompletions.abgox.com/docs/path-completion<@Cyan>\n",
       "\n",
       "<@Cyan>[Global Name]\n",
       "<@Blue>PSCompletions<@Cyan> will take up two global names. <@Yellow>They should be read-only, and you should not modify or override them.<@Cyan>\n",
@@ -2452,9 +2461,7 @@
       "Github  : <@Blue>https://github.com/abgox/PSCompletions<@Cyan>\n",
       "Gitee   : <@Blue>https://gitee.com/abgox/PSCompletions<@Cyan>\n",
       "\n",
-      "If you have a problem using it, you can submit an issue: https://github.com/abgox/PSCompletions/issues\n",
-      "\n",
-      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@>.",
+      "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>.",
       "\n"
     ],
     "err": {

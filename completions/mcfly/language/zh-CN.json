@@ -1,0 +1,423 @@
+{
+  "meta": {
+    "url": "https://github.com/cantino/mcfly",
+    "description": [
+      "在 Shell 历史记录中快速穿梭"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "tip": [
+        "U: add [OPTIONS] [COMMAND]...",
+        "将命令添加到历史记录"
+      ],
+      "option": [
+        {
+          "name": "--append-to-histfile",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --append-to-histfile <HISTFILE>",
+            "同时将命令追加到指定文件"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <PATH>",
+            "命令执行时的目录（默认 $PWD）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exit <EXIT_CODE>",
+            "命令的退出码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--old-dir",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --old-dir <PATH>",
+            "执行命令前用户所在的目录（默认 $OLDPWD）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--when",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --when <UNIX_EPOCH>",
+            "命令执行的时间（默认为当前时间）"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "U: dump [OPTIONS]",
+        "将历史记录输出到标准输出；结果按时间戳排序"
+      ],
+      "option": [
+        {
+          "name": "--before",
+          "tip": [
+            "U: --before <BEFORE>",
+            "选择在此时间点之前运行的所有命令"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "输出格式（默认 json）"
+          ],
+          "next": [
+            {
+              "name": "csv",
+              "tip": [
+                "CSV 格式"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--regex",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --regex <REGEX>",
+            "要求命令匹配指定的正则表达式"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <SINCE>",
+            "选择在此时间点之后运行的所有命令"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--sort",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --sort <ORDER>",
+            "排序方式（默认 ASC）"
+          ],
+          "next": [
+            {
+              "name": "ASC",
+              "tip": [
+                "升序"
+              ]
+            },
+            {
+              "name": "DESC",
+              "tip": [
+                "降序"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init <SHELL>",
+        "输出用于执行 mcfly 的 shell 代码"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "为 bash 初始化"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "为 fish 初始化"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "为 powershell 初始化"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "为 zsh 初始化"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "tip": [
+        "U: move <OLD_DIR_PATH> <NEW_DIR_PATH>",
+        "记录目录移动；将命令记录从旧路径迁移到新路径"
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search [OPTIONS] [COMMAND]...",
+        "搜索历史记录"
+      ],
+      "option": [
+        {
+          "name": "--delete_without_confirm",
+          "tip": [
+            "无需确认直接删除条目"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <PATH>",
+            "命令执行时的目录（默认 $PWD）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fuzzy",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --fuzzy <FUZZY>",
+            "模糊搜索结果。0 为关闭；数值越高，越倾向于匹配较短或较早的记录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-selection",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output-selection <PATH>",
+            "将结果写入文件，包含选择模式、新命令行以及特定 shell 的请求"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--results",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --results <NUMBER>",
+            "返回的结果数量"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "U: stats [OPTIONS]",
+        "输出统计信息"
+      ],
+      "option": [
+        {
+          "name": "--cmds",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --cmds <cmds>",
+            "\"top-n\"命令的数量（默认: 10）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dirs",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dirs <dirs>",
+            "按顶级目录分类显示（默认: 0，即不限制目录）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--global-commands-to-ignore",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --global-commands-to-ignore <global_cmds_to_ignore>",
+            "全局忽略的命令数量（默认: 10）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--min-cmd-length",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --min-cmd-length <min_cmd_length>",
+            "列入\"top-n\"命令的最小命令长度（默认: 0）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--only-dir",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --only-dir <ONLY_DIR>",
+            "仅显示来自指定目录的命令"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "train",
+      "tip": [
+        "U: train [OPTIONS]",
+        "训练建议引擎（开发者工具）"
+      ],
+      "option": [
+        {
+          "name": "--refresh_cache",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --refresh_cache",
+            "刷新建议缓存"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "调试模式"
+      ]
+    },
+    {
+      "name": "--history_format",
+      "tip": [
+        "U: --history_format <FORMAT>",
+        "Shell 历史文件格式（默认: bash）"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash 历史格式"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish 历史格式"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh 历史格式"
+          ]
+        },
+        {
+          "name": "zsh-extended",
+          "tip": [
+            "Zsh 扩展历史格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mcfly_history",
+      "tip": [
+        "U: --mcfly_history <MCFLY_HISTORY>",
+        "添加或搜索时读取的 shell 历史文件（默认 $MCFLY_HISTORY）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--session_id",
+      "tip": [
+        "U: --session_id <SESSION_ID>",
+        "记录或搜索时使用的会话 ID（默认 $MCFLY_SESSION_ID）"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本信息"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息"
+      ]
+    }
+  ]
+}
