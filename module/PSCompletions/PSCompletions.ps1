@@ -2050,7 +2050,6 @@ if ($PSEdition -eq 'Core') {
                 $current_json = ConvertFrom-Json $PSCompletions.get_raw_content($PSCompletions.path.completions_json)
                 $current_list = @($current_json.update.PSObject.Properties.Name)
                 if ($null -eq $current_list) { $current_list = @() }
-                $isErr = $true
                 foreach ($url in $PSCompletions.urls) {
                     try {
                         $response = Invoke-RestMethod -Uri "$url/completions.json" -OperationTimeoutSeconds 30 -ErrorAction Stop
@@ -2070,6 +2069,7 @@ if ($PSEdition -eq 'Core') {
                     if ($new -ne $old) {
                         $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                     }
+                    break
                 }
             }
             function check_update {
@@ -2081,10 +2081,13 @@ if ($PSEdition -eq 'Core') {
                     if ($lastUpdate) {
                         $timeSinceLast = $currentTime - $lastUpdate
                         if ($timeSinceLast -lt $updateInterval) {
+                            Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                             return
                         }
                     }
                 }
+
+                download_list
 
                 # module
                 $urls = $PSCompletions.urls + 'https://pscompletions.abgox.com'
@@ -2141,8 +2144,6 @@ if ($PSEdition -eq 'Core') {
             $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
                 if (!(Test-Path -LiteralPath $_)) { '' | Out-File $_ -Force -Encoding utf8 }
             }
-
-            download_list
 
             check_update
 
@@ -2360,6 +2361,7 @@ else {
                     if ($new -ne $old) {
                         $new | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force -ErrorAction Stop
                     }
+                    break
                 }
             }
             function check_update {
@@ -2371,10 +2373,13 @@ else {
                     if ($lastUpdate) {
                         $timeSinceLast = $currentTime - $lastUpdate
                         if ($timeSinceLast -lt $updateInterval) {
+                            Clear-Content $PSCompletions.path.change -Force -ErrorAction Ignore
                             return
                         }
                     }
                 }
+
+                download_list
 
                 # module
                 $urls = $PSCompletions.urls + 'https://pscompletions.abgox.com'
@@ -2431,8 +2436,6 @@ else {
             $PSCompletions.path.change, $PSCompletions.path.update | ForEach-Object {
                 if (!(Test-Path -LiteralPath $_)) { '' | Out-File $_ -Force -Encoding utf8 }
             }
-
-            download_list
 
             check_update
 
@@ -2602,9 +2605,14 @@ else {
 
 if (Test-Path -LiteralPath $PSCompletions.path.module_update) {
     $PSCompletions.new_version = (Get-Content -Raw $PSCompletions.path.module_update).Trim()
-    $PSCompletions.version_list = $PSCompletions.new_version, $PSCompletions.version | Sort-Object { [version] $_ } -Descending -ErrorAction Ignore
-    if ($PSCompletions.new_version -ne $PSCompletions.version) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
+    if ($PSCompletions.new_version -match '^[\d\.]+$') {
+        $PSCompletions.version_list = $PSCompletions.new_version, $PSCompletions.version | Sort-Object { [version] $_ } -ErrorAction Ignore
+        if ($PSCompletions.version_list[-1] -ne $PSCompletions.version) {
+            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
+        }
+        else {
+            Remove-Item $PSCompletions.path.module_update -Force -ErrorAction SilentlyContinue
+        }
     }
     else {
         Remove-Item $PSCompletions.path.module_update -Force -ErrorAction SilentlyContinue
