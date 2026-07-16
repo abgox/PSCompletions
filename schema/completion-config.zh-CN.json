@@ -7,7 +7,15 @@
   "definitions": {
     "string": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "allOf": [
+        {
+          "not": {
+            "pattern": "\\s"
+          },
+          "errorMessage": "请移除空格"
+        }
+      ]
     },
     "array": {
       "type": "array",
@@ -659,10 +667,19 @@
     "alias": {
       "$ref": "#/definitions/array",
       "items": {
-        "type": "string",
-        "minLength": 1
+        "allOf": [
+          {
+            "$ref": "#/definitions/string"
+          },
+          {
+            "not": {
+              "pattern": "\\.(cmd|exe|bat)$"
+            },
+            "errorMessage": "请省略 .cmd、.exe、.bat 后缀，直接使用命令名称"
+          }
+        ]
       },
-      "description": "补全的默认触发别名，如果没有设置，则使用目录名"
+      "markdownDescription": "补全的触发别名\n\n- 如果不设置，则使用目录名\n- 如果设置了，则目录名会被忽略，仅使用此字段中的名称"
     }
   },
   "additionalProperties": false

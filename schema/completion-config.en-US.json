@@ -7,7 +7,15 @@
   "definitions": {
     "string": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "allOf": [
+        {
+          "not": {
+            "pattern": "\\s"
+          },
+          "errorMessage": "Please remove whitespace"
+        }
+      ]
     },
     "array": {
       "type": "array",
@@ -659,10 +667,19 @@
     "alias": {
       "$ref": "#/definitions/array",
       "items": {
-        "type": "string",
-        "minLength": 1
+        "allOf": [
+          {
+            "$ref": "#/definitions/string"
+          },
+          {
+            "not": {
+              "pattern": "\\.(cmd|exe|bat)$"
+            },
+            "errorMessage": "Please omit .cmd, .exe, .bat suffixes, use the command name directly"
+          }
+        ]
       },
-      "description": "Default trigger alias for completions, if not set, the directory name will be used"
+      "markdownDescription": "Trigger alias for completions\n\n- If not set, the directory name is used\n- If set, the directory name is ignored and only the names in this array are used"
     }
   },
   "additionalProperties": false
