@@ -28,7 +28,7 @@
 
 ---
 
-![socialify](https://abgox.com/github-socialify-PSCompletions.svg)
+![PSCompletions](https://abgox.com/github-socialify-PSCompletions.svg)
 
 <p align="center">
   <strong>Star ⭐️ or <a href="https://abgox.com/donate">Donate 💰</a> if you like it!</strong>
@@ -38,9 +38,9 @@
 
 > [!TIP]
 >
-> - [PowerShell(pwsh)](https://microsoft.com/powershell): A cross-platform PowerShell (**Core**). Start it by running `pwsh`/`pwsh.exe`.
-> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell (**Desktop**) which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
-> - They can both use `PSCompletions`, but [PowerShell(pwsh)](https://microsoft.com/powershell) is more recommended.
+> - [PowerShell (Core)](https://microsoft.com/powershell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
+> - [Windows PowerShell (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
+> - They can both use `PSCompletions`, but [PowerShell (Core)](https://microsoft.com/powershell) is more recommended.
 
 A completion manager for a better and simpler tab-completion experience in `PowerShell`.
 
@@ -64,11 +64,11 @@ A completion manager for a better and simpler tab-completion experience in `Powe
 
 ## What's new
 
-See the [Changelog](./module/CHANGELOG.md) for details.
+See the [changelog](./module/CHANGELOG.md) for details.
 
 ## Contribution
 
-See the [Contribution Guide](./.github/contributing.md) for details.
+See the [contribution guide](./.github/contributing.md) for details.
 
 ## How to install
 
@@ -94,7 +94,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
        scoop install abyss/abgox.PSCompletions
        ```
 
-2. Import the module.
+2. [Import the module.](https://pscompletions.abgox.com/docs/direct-import-module)
 
    ```powershell
    Import-Module PSCompletions
@@ -102,7 +102,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 > [!TIP]
 >
-> - If you use `. $Profile`, please run `psc` to reload the module's key bindings and data.
+> - If you use `. $PROFILE`, please run `psc` to reload the module's key bindings and data.
 > - Refer to: https://pscompletions.abgox.com/docs/source-profile
 
 ## How to use
@@ -122,7 +122,7 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
   - For more details, please refer to: https://pscompletions.abgox.com/docs/menu-enhance
 
-- Use [PSFzf](https://github.com/kelleyma49/PSFzf) as the completion menu, refer to [Work with PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf).
+- [Use PSFzf as the completion menu.](https://pscompletions.abgox.com/docs/tools/psfzf)
 
 ## Acknowledgements
 
@@ -133,4 +133,5 @@ See the [Contribution Guide](./.github/contributing.md) for details.
 
 ## Completions
 
-[English](./completions.md) | [简体中文](./completions.zh-CN.md)
+- [English](./completions.md)
+- [简体中文](./completions.zh-CN.md)

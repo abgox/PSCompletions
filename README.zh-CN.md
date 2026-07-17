@@ -28,7 +28,7 @@
 
 ---
 
-![socialify](https://abgox.com/github-socialify-PSCompletions.svg)
+![PSCompletions](https://abgox.com/github-socialify-PSCompletions.svg)
 
 <p align="center">
   <strong>喜欢这个项目？请给它 Star ⭐️ 或 <a href="https://abgox.com/donate">赞赏 💰</a></strong>
@@ -38,9 +38,9 @@
 
 > [!TIP]
 >
-> - [PowerShell(pwsh)](https://microsoft.com/powershell): 跨平台的 PowerShell (**Core**)，运行 `pwsh`/`pwsh.exe` 启动
-> - [Windows PowerShell](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell (**Desktop**)，运行 `powershell`/`powershell.exe` 启动
-> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell(pwsh)](https://microsoft.com/powershell)
+> - [PowerShell (Core)](https://microsoft.com/powershell): 跨平台的 PowerShell，运行 `pwsh`/`pwsh.exe` 启动
+> - [Windows PowerShell (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell，运行 `powershell`/`powershell.exe` 启动
+> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell (Core)](https://microsoft.com/powershell)
 
 一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
 
@@ -93,7 +93,7 @@
        scoop install abyss/abgox.PSCompletions
        ```
 
-2. 导入模块
+2. [导入模块](https://pscompletions.abgox.com/docs/direct-import-module)
 
    ```powershell
    Import-Module PSCompletions
@@ -101,7 +101,7 @@
 
 > [!TIP]
 >
-> - 如果使用了 `. $Profile`，请运行 `psc` 以重载模块的按键绑定及数据
+> - 如果使用了 `. $PROFILE`，请运行 `psc` 以重载模块的按键绑定及数据
 > - 参考: https://pscompletions.abgox.com/docs/source-profile
 
 ## 使用
@@ -121,7 +121,7 @@
 
   - 更多详情，参考: https://pscompletions.abgox.com/docs/menu-enhance
 
-- 使用 [PSFzf](https://github.com/kelleyma49/PSFzf) 作为补全菜单，参考 [与 PSFzf 结合使用](https://pscompletions.abgox.com/docs/tools/psfzf)
+- [使用 PSFzf 作为补全菜单](https://pscompletions.abgox.com/docs/tools/psfzf)
 
 ## 致谢
 
@@ -132,4 +132,5 @@
 
 ## 补全
 
-[简体中文](./completions.zh-CN.md) | [English](./completions.md)
+- [简体中文](./completions.zh-CN.md)
+- [English](./completions.md)
