@@ -100,6 +100,7 @@
 |[mvn](https://maven.apache.org)|Apache Maven，软件项目管理工具。|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL 命令行客户端。|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|跨平台浏览器流下载器 (HLS/DASH/Smooth)。|
+|[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
 |[ngrok](https://ngrok.com/)|面向开发人员的统一入口平台。<br>将 localhost 连接到 Internet 以测试应用程序和 API。|
 |[nl](https://uutils.org)|为文件行编号。|
 |[node](https://nodejs.org/)|一个免费、开源、跨平台的 JavaScript 运行时环境。|
@@ -162,6 +163,7 @@
 |[typst](https://typst.app)|一个基于标记的新排版系统。|
 |[uv](https://docs.astral.sh/uv/)|极速 Python 包和项目管理器，使用 Rust 编写。|
 |[vdir](https://uutils.org)|列出文件信息。|
+|[vercel](https://vercel.com)|用于部署和管理 Vercel 项目的命令行工具|
 |[vhs](https://github.com/charmbracelet/vhs)|你的 CLI 家庭录像机<br>从 Shell 脚本录制终端 GIF|
 |[viddy](https://github.com/sachaos/viddy)|现代 watch 命令<br>时间机器和分页器等|
 |[vite](https://github.com/vitejs/vite)|下一代前端工具链。|

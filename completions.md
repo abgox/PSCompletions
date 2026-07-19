@@ -100,6 +100,7 @@
 |[mvn](https://maven.apache.org)|Apache Maven, a software project management tool.|
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
+|[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
 |[ngrok](https://ngrok.com/)|Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
 |[nl](https://uutils.org)|Number lines of files.|
 |[node](https://nodejs.org/)|A free, open-source, cross-platform JavaScript runtime environment.|
@@ -162,6 +163,7 @@
 |[typst](https://typst.app)|A new markup-based typesetting system.|
 |[uv](https://docs.astral.sh/uv/)|Extremely fast Python package and project manager, written in Rust.|
 |[vdir](https://uutils.org)|List information about the FILEs.|
+|[vercel](https://vercel.com)|The Vercel CLI for deploying and managing your Vercel projects|
 |[vhs](https://github.com/charmbracelet/vhs)|Your CLI home video recorder.<br>Record terminal GIFs from shell scripts|
 |[viddy](https://github.com/sachaos/viddy)|A modern watch command<br>Time machine and pager etc.|
 |[vite](https://github.com/vitejs/vite)|Next generation frontend tooling.|
