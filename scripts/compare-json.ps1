@@ -4,15 +4,13 @@ param(
     [Parameter(Position = 0, ValueFromRemainingArguments)]
     [array]$CompletionList,
     [ArgumentCompletions('en-US', 'zh-CN')]
-    [string]$BaseLang
+    [string]$BaseLang,
+    [switch]$All
 )
 
-if (-not $BaseLang) { $BaseLang = 'en-US' }
-if (-not $CompletionList) {
-    $CompletionList = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
-}
-
 Set-StrictMode -Off
+
+. $PSScriptRoot\utils.ps1
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path -LiteralPath $textPath)) {
@@ -28,6 +26,20 @@ function outText {
     param($text)
     if ($text -is [array]) { $text = $text -join "`n" }
     $PSCompletions.write_with_color($PSCompletions.replace_content($text))
+}
+
+if (-not $BaseLang) { $BaseLang = 'en-US' }
+if (-not $CompletionList) {
+    if ($All) {
+        $CompletionList = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
+    }
+    else {
+        $CompletionList = Get-RecentCompletions -CompletionsDir "$PSScriptRoot\..\completions"
+        if ($CompletionList.Count -eq 0) {
+            outText $text.noRecent
+            return
+        }
+    }
 }
 
 function Get-ValueType {
@@ -57,6 +69,7 @@ function Compare-Lang {
         semanticMismatch = @()
         valueDiff        = @()
         untranslated     = @()
+        duplicateItems   = @()
     }
 
     function Normalize-Value {
@@ -86,6 +99,26 @@ function Compare-Lang {
             }
         }
         return $false
+    }
+
+    function Test-Duplicates {
+        param([array]$Arr, [string]$Path, [string]$Side)
+
+        if ($null -eq $Arr -or $Arr.Count -lt 2) { return }
+
+        $sideLabel = if ($Side -eq 'base') { $BaseLang } else { $targetLang }
+        $seen = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+
+        foreach ($item in $Arr) {
+            if ($item -isnot [System.Collections.IDictionary]) { continue }
+            $n = $item.name
+            if ($null -eq $n) { continue }
+            if (-not $seen.Add([string]$n)) {
+                $currentPath = if ($Path) { "$Path > $n" } else { "$n" }
+                $suffix = " (<@Red>$sideLabel<@Cyan>)"
+                $stats.duplicateItems += @{ path = "$currentPath$suffix"; name = $currentPath }
+            }
+        }
     }
 
     function Compare-TranslatableText {
@@ -165,6 +198,9 @@ function Compare-Lang {
         if ($baseType -eq 'Array' -or $targetType -eq 'Array') {
             $baseArr = @($BaseVal)
             $targetArr = @($TargetVal)
+
+            Test-Duplicates -Arr $baseArr -Path $Path -Side 'base'
+            Test-Duplicates -Arr $targetArr -Path $Path -Side 'target'
 
             if (Test-NamedObjectArray $baseArr $targetArr) {
                 if ($baseType -ne $targetType) {
@@ -298,7 +334,7 @@ foreach ($CompletionName in $CompletionList) {
         outText $text.invalidLang
         continue
     }
-    & $PSScriptRoot\sort-json.ps1 $CompletionName
+    & $PSScriptRoot\sort-json.ps1 $CompletionName -Quiet
 
     foreach ($lang in $otherLangs) {
         $targetJson = [System.IO.Path]::Combine($langDir, $lang + '.json')
@@ -313,7 +349,7 @@ foreach ($CompletionName in $CompletionList) {
 
         if ($total -eq 0) { continue }
 
-        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0
+        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0 -or $stats.duplicateItems.Count -gt 0
 
         $allResults += @{
             completion = $CompletionName
@@ -375,6 +411,10 @@ if ($issueFiles -gt 0) {
         if ($r.stats.valueDiff.Count -gt 0) {
             outText $text.valueDiff
             foreach ($item in $r.stats.valueDiff) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.duplicateItems.Count -gt 0) {
+            outText $text.duplicateItems
+            foreach ($item in $r.stats.duplicateItems) { outText "<@Cyan>  $($item.path)" }
         }
         if ($r.stats.untranslated.Count -gt 0) {
             outText $text.untranslated

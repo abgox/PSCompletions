@@ -1,13 +1,46 @@
 #Requires -Version 7.0
 
 param(
-    [string[]]$CompletionList
+    [string[]]$CompletionList,
+    [switch]$All,
+    [switch]$Quiet
 )
 
-$completions_dir = "$PSScriptRoot\..\completions"
+Set-StrictMode -Off
+
+. $PSScriptRoot\utils.ps1
+
+$completionsDir = "$PSScriptRoot\..\completions"
+
+$textPath = "$PSScriptRoot/language/$PSCulture.json"
+if (!(Test-Path -LiteralPath $textPath)) {
+    $textPath = "$PSScriptRoot/language/en-US.json"
+}
+$text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
+
+if (!$PSCompletions) { . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1 }
+
+$text = $text.'sort-json'
+
+function outText {
+    param($text)
+    if ($text -is [array]) { $text = $text -join "`n" }
+    $PSCompletions.write_with_color($PSCompletions.replace_content($text))
+}
 
 if (-not $CompletionList) {
-    $CompletionList = (Get-ChildItem $completions_dir -Directory).Name
+    if ($All) {
+        $CompletionList = (Get-ChildItem $completionsDir -Directory).Name
+    }
+    else {
+        $CompletionList = Get-RecentCompletions -CompletionsDir $completionsDir
+        if ($CompletionList.Count -eq 0) {
+            if (-not $Quiet) {
+                outText $text.noRecent
+            }
+            return
+        }
+    }
 }
 
 function Sort-JsonStructure {
@@ -146,9 +179,38 @@ function Optimize-CompletionJson {
     $newJson | Out-File -FilePath $Path -Encoding utf8
 }
 
+$allResults = @()
+
 foreach ($completion in $CompletionList) {
-    Get-ChildItem "$completions_dir\$completion\language" -File -Filter *.json | ForEach-Object {
-        Optimize-CompletionJson $_.FullName
-        Sort-JsonStructure -InputFile $_.FullName -OutputFile $_.FullName
+    $langDir = "$completionsDir\$completion\language"
+    if (!(Test-Path -LiteralPath $langDir)) {
+        continue
+    }
+    $langFiles = Get-ChildItem -Path $langDir -File -Filter '*.json'
+    if ($langFiles.Count -eq 0) {
+        continue
+    }
+    $sortedCount = 0
+    foreach ($file in $langFiles) {
+        Optimize-CompletionJson $file.FullName
+        Sort-JsonStructure -InputFile $file.FullName -OutputFile $file.FullName
+        $sortedCount++
+    }
+    $allResults += @{
+        completion  = $completion
+        totalFiles  = $langFiles.Count
+        sortedFiles = $sortedCount
+    }
+}
+
+$processedCount = $allResults.Count
+$sortedFilesTotal = if ($allResults.Count -gt 0) { ($allResults | Measure-Object -Property sortedFiles -Sum).Sum } else { 0 }
+if (-not $Quiet) {
+    outText $text.summary
+    foreach ($r in $allResults) {
+        $completion = $r.completion
+        $sortedFiles = $r.sortedFiles
+        $totalFiles = $r.totalFiles
+        outText $text.sortedHeader
     }
 }
