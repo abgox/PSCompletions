@@ -23,6 +23,16 @@
           ]
         },
         {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "Don't actually add any file(s) to the index, only show what would be added."
+          ]
+        },
+        {
           "name": "--edit",
           "alias": [
             "-e"
@@ -48,6 +58,22 @@
             "If some files could not be added because of errors indexing them, do not abort the operation, but continue adding the others.",
             "The command shall still exit with non-zero status.",
             "The configuration variable add.ignoreErrors can be set to true to make this the default behaviour."
+          ]
+        },
+        {
+          "name": "--ignore-removal",
+          "tip": [
+            "Ignore paths removed in the working tree (same as --no-all)."
+          ]
+        },
+        {
+          "name": "--intent-to-add",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "U: -N, --intent-to-add",
+            "Record only the fact that the path will be added later."
           ]
         },
         {
@@ -81,6 +107,12 @@
           "name": "--renormalize",
           "tip": [
             "renormalize EOL of tracked files (implies -u)"
+          ]
+        },
+        {
+          "name": "--sparse",
+          "tip": [
+            "Allow updating entries outside of the sparse-checkout cone."
           ]
         },
         {
@@ -300,16 +332,147 @@
       ],
       "option": [
         {
-          "name": "-a",
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
           "tip": [
-            "List all branches, including local and remote branches."
+            "U: -a, --all",
+            "List both remote-tracking and local branches."
           ]
+        },
+        {
+          "name": "--contains",
+          "tip": [
+            "U: --contains <commit>",
+            "Print only branches that contain the commit."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--copy",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --copy [<old_branch>] <new_branch>",
+            "Copy a branch and its reflog."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force creation, move/rename, deletion."
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "Format to use for the output."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--merged",
+          "tip": [
+            "U: --merged <commit>",
+            "Print only branches that are merged."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--move",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --move [<old_branch>] <new_branch>",
+            "Move/rename a branch and its reflog."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-merged",
+          "tip": [
+            "U: --no-merged <commit>",
+            "Print only branches that are not merged."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--points-at",
+          "tip": [
+            "U: --points-at <object>",
+            "Print only branches of the object."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--recurse-submodules",
+          "tip": [
+            "Recurse through submodules."
+          ]
+        },
+        {
+          "name": "--remotes",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --remotes",
+            "Act on remote-tracking branches."
+          ]
+        },
+        {
+          "name": "--set-upstream-to",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --set-upstream-to <upstream>",
+            "Change the upstream info."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--show-current",
+          "tip": [
+            "Show current branch name."
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "U: --sort <key>",
+            "Field name to sort on."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--unset-upstream",
+          "tip": [
+            "Unset the upstream info."
+          ]
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "U: -C [<old_branch>] <new_branch>",
+            "Copy a branch, even if target exists."
+          ],
+          "next": []
         },
         {
           "name": "-d",
           "tip": [
             "U: -d <branch>",
-            "Delete the specified branch."
+            "Delete the specified branch (only if fully merged)."
           ],
           "next": []
         },
@@ -317,30 +480,23 @@
           "name": "-D",
           "tip": [
             "U: -D <branch>",
-            "Force delete the specified branch."
-          ],
-          "next": []
-        },
-        {
-          "name": "-m",
-          "tip": [
-            "U: -m <old_branch> <new_branch>",
-            "Rename the specified branch."
+            "Force delete the specified branch (even if not merged)."
           ],
           "next": []
         },
         {
           "name": "-M",
           "tip": [
-            "U: -M <old_branch> <new_branch>",
-            "Force rename the specified branch."
+            "U: -M [<old_branch>] <new_branch>",
+            "Move/rename a branch, even if target exists."
           ],
           "next": []
         },
         {
           "name": "-v",
           "tip": [
-            "View local branches with their last commit information."
+            "U: -v, --verbose",
+            "Show hash and subject. Give twice for upstream branch."
           ]
         },
         {
@@ -454,7 +610,7 @@
     {
       "name": "checkout",
       "tip": [
-        "Switch branches or paths in the working tree.",
+        "Switch branches or restore files in the working tree.",
         "E: checkout <branch>           --- Switch branches",
         "   checkout <commit_hash>      --- Switch to a specific commit",
         "   checkout -b <new_branch>    --- Create and switch to a new branch"
@@ -467,30 +623,126 @@
           ]
         },
         {
+          "name": "--conflict",
+          "tip": [
+            "U: --conflict <style>",
+            "Conflict style (merge, diff3, or zdiff3)."
+          ],
+          "next": [
+            {
+              "name": "diff3"
+            },
+            {
+              "name": "merge"
+            },
+            {
+              "name": "zdiff3"
+            }
+          ]
+        },
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --detach",
+            "Detach HEAD at named commit."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force checkout (throw away local modifications)."
+          ]
+        },
+        {
+          "name": "--guess",
+          "tip": [
+            "Second guess 'git checkout <no-such-branch>' (default)."
+          ]
+        },
+        {
+          "name": "--merge",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --merge",
+            "Perform a 3-way merge with the new branch."
+          ]
+        },
+        {
           "name": "--orphan",
           "tip": [
-            "U: --orphan <new_branch>",
-            "Create a new orphan branch"
+            "U: --orphan <new-branch>",
+            "Create a new orphan branch."
+          ]
+        },
+        {
+          "name": "--ours",
+          "tip": [
+            "Checkout our version for unmerged files."
+          ]
+        },
+        {
+          "name": "--overlay",
+          "tip": [
+            "Use overlay mode (default)."
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Select hunks interactively."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress progress reporting."
+          ]
+        },
+        {
+          "name": "--theirs",
+          "tip": [
+            "Checkout their version for unmerged files."
+          ]
+        },
+        {
+          "name": "--track",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --track[=(direct|inherit)]",
+            "Set branch tracking configuration."
           ]
         },
         {
           "name": "-b",
           "tip": [
-            "U: -b <new_branch>",
-            "Create and switch to a new branch"
+            "U: -b <branch>",
+            "Create and checkout a new branch."
           ]
         },
         {
           "name": "-B",
           "tip": [
-            "U: -B <new_branch>",
-            "Forcefully create (overwrite if the branch exists) and switch to a branch"
-          ]
-        },
-        {
-          "name": "-f",
-          "tip": [
-            "Forcefully discard changes in both the index and the working directory."
+            "U: -B <branch>",
+            "Create/reset and checkout a branch."
           ]
         },
         {
@@ -560,6 +812,81 @@
       "name": "clean",
       "tip": [
         "Remove untracked files from the working tree."
+      ],
+      "option": [
+        {
+          "name": "--directories",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --directories",
+            "Remove whole directories."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "Dry run."
+          ]
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exclude <pattern>",
+            "Add <pattern> to ignore rules."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Interactive cleaning."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Do not print names of files removed."
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "Remove ignored files, too."
+          ]
+        },
+        {
+          "name": "-X",
+          "tip": [
+            "Remove only ignored files."
+          ]
+        }
       ]
     },
     {
@@ -792,6 +1119,19 @@
           ]
         },
         {
+          "name": "--allow-empty",
+          "tip": [
+            "Usually recording a commit that has the exact same tree as its sole parent commit is a mistake, and the command prevents you from making such a commit.",
+            "This option bypasses the safety, and is primarily for use by foreign SCM interface scripts."
+          ]
+        },
+        {
+          "name": "--allow-empty-message",
+          "tip": [
+            "Allow commits with an empty commit message."
+          ]
+        },
+        {
           "name": "--amend",
           "tip": [
             "Modify the message of the last commit(Create a new commit, replacing the last one)"
@@ -831,6 +1171,12 @@
           ]
         },
         {
+          "name": "--dry-run",
+          "tip": [
+            "Do not create a commit, but show a list of paths that are to be committed."
+          ]
+        },
+        {
           "name": "--edit",
           "alias": [
             "-e"
@@ -848,6 +1194,17 @@
           "next": []
         },
         {
+          "name": "--gpg-sign",
+          "alias": [
+            "-S"
+          ],
+          "tip": [
+            "U: -S, --gpg-sign[=<key-id>]",
+            "GPG-sign commits."
+          ],
+          "next": 0
+        },
+        {
           "name": "--long",
           "tip": [
             "When doing a dry-run, give the output in the long-format.",
@@ -861,7 +1218,22 @@
           ]
         },
         {
-          "name": "--no-signoff"
+          "name": "--no-gpg-sign",
+          "tip": [
+            "Do not GPG-sign commits."
+          ]
+        },
+        {
+          "name": "--no-signoff",
+          "tip": [
+            "Do not add a Signed-off-by trailer."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "Bypass pre-commit and commit-msg hooks."
+          ]
         },
         {
           "name": "--patch",
@@ -879,6 +1251,16 @@
             "When doing a dry-run, give the output in a porcelain-ready format.",
             "See https://git-scm.com/docs/git-status for details.",
             "Implies `--dry-run`."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress commit summary message."
           ]
         },
         {
@@ -914,6 +1296,16 @@
           "next": []
         },
         {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Show unified diff between the HEAD commit and what would be committed."
+          ]
+        },
+        {
           "name": "-C",
           "tip": [
             "U: -C <commit>",
@@ -944,13 +1336,6 @@
             "Get the commit message from the given file and launch an editor for editing."
           ],
           "next": 0
-        },
-        {
-          "name": "—allow-empty",
-          "tip": [
-            "Usually recording a commit that has the exact same tree as its sole parent commit is a mistake, and the command prevents you from making such a commit.",
-            "This option bypasses the safety, and is primarily for use by foreign SCM interface scripts."
-          ]
         }
       ]
     },
@@ -1417,9 +1802,142 @@
       ],
       "option": [
         {
+          "name": "--binary",
+          "tip": [
+            "Omit text for binary files."
+          ]
+        },
+        {
+          "name": "--cached",
+          "tip": [
+            "Same as --staged."
+          ]
+        },
+        {
           "name": "--color-words",
           "tip": [
             "Compare word differences between the working directory and the latest commit."
+          ]
+        },
+        {
+          "name": "--diff-algorithm",
+          "tip": [
+            "U: --diff-algorithm <algorithm>",
+            "Choose a diff algorithm."
+          ],
+          "next": [
+            {
+              "name": "histogram",
+              "tip": [
+                "Histogram diff algorithm."
+              ]
+            },
+            {
+              "name": "minimal",
+              "tip": [
+                "Spend extra time to find minimal diff."
+              ]
+            },
+            {
+              "name": "myers",
+              "tip": [
+                "Default minimal diff algorithm."
+              ]
+            },
+            {
+              "name": "patience",
+              "tip": [
+                "Patience diff algorithm."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--find-copies-harder",
+          "tip": [
+            "Try unchanged files as candidate for copy detection."
+          ]
+        },
+        {
+          "name": "--ignore-all-space",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --ignore-all-space",
+            "Ignore all whitespace when comparing lines."
+          ]
+        },
+        {
+          "name": "--ignore-blank-lines",
+          "alias": [
+            "-B"
+          ],
+          "tip": [
+            "U: -B, --ignore-blank-lines",
+            "Ignore changes whose lines are all blank."
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --ignore-space-change",
+            "Ignore changes in amount of whitespace."
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "Show only names of changed files."
+          ]
+        },
+        {
+          "name": "--name-status",
+          "tip": [
+            "Show names and status of changed files."
+          ]
+        },
+        {
+          "name": "--no-index",
+          "tip": [
+            "Compare two files on the filesystem (not in a repository)."
+          ]
+        },
+        {
+          "name": "--no-pager",
+          "tip": [
+            "Do not pipe diff output into a pager."
+          ]
+        },
+        {
+          "name": "--no-renames",
+          "tip": [
+            "Turn off rename detection."
+          ]
+        },
+        {
+          "name": "--numstat",
+          "tip": [
+            "Show numeric diffstat instead of patch."
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Output patch format."
+          ]
+        },
+        {
+          "name": "--shortstat",
+          "tip": [
+            "Show only the summary line for --stat."
           ]
         },
         {
@@ -1427,6 +1945,63 @@
           "tip": [
             "Compare differences between the index and the latest commit."
           ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show diffstat instead of patch."
+          ]
+        },
+        {
+          "name": "--text",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --text",
+            "Treat all files as text."
+          ]
+        },
+        {
+          "name": "--word-diff",
+          "tip": [
+            "Show a word diff instead of a line diff."
+          ]
+        },
+        {
+          "name": "-B",
+          "tip": [
+            "U: -B[m][<n>]",
+            "Detect complete rewrites."
+          ]
+        },
+        {
+          "name": "-C",
+          "tip": [
+            "U: -C[m][<n>]",
+            "Detect copies."
+          ]
+        },
+        {
+          "name": "-M",
+          "tip": [
+            "U: -M[m][<n>]",
+            "Detect renames."
+          ]
+        },
+        {
+          "name": "-R",
+          "tip": [
+            "Swap input file pairs."
+          ]
+        },
+        {
+          "name": "-S",
+          "tip": [
+            "U: -S<string>",
+            "Find filepair whose only one side contains the string."
+          ],
+          "next": 0
         }
       ]
     },
@@ -1481,7 +2056,142 @@
         {
           "name": "--all",
           "tip": [
-            "fetch from all remotes"
+            "Fetch from all remotes."
+          ]
+        },
+        {
+          "name": "--depth",
+          "tip": [
+            "U: --depth <depth>",
+            "Deepen history of shallow clone."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Dry run."
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <args>",
+            "Object filtering."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force overwrite of local reference."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --jobs <n>",
+            "Number of submodules fetched in parallel."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--multiple",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --multiple",
+            "Fetch from multiple remotes."
+          ]
+        },
+        {
+          "name": "--prune",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --prune",
+            "Prune remote-tracking branches no longer on remote."
+          ]
+        },
+        {
+          "name": "--prune-tags",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --prune-tags",
+            "Prune local tags no longer on remote and clobber changed tags."
+          ]
+        },
+        {
+          "name": "--recurse-submodules",
+          "tip": [
+            "Control recursive fetching of submodules."
+          ]
+        },
+        {
+          "name": "--set-upstream",
+          "tip": [
+            "Set upstream for git pull/fetch."
+          ]
+        },
+        {
+          "name": "--shallow-exclude",
+          "tip": [
+            "U: --shallow-exclude <ref>",
+            "Deepen history of shallow clone, excluding ref."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shallow-since",
+          "tip": [
+            "U: --shallow-since <time>",
+            "Deepen history of shallow repository based on time."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--show-forced-updates",
+          "tip": [
+            "Check for forced-updates on all updated branches."
+          ]
+        },
+        {
+          "name": "--tags",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tags",
+            "Fetch all tags and associated objects."
+          ]
+        },
+        {
+          "name": "--unshallow",
+          "tip": [
+            "Convert to a complete repository."
+          ]
+        },
+        {
+          "name": "--write-commit-graph",
+          "tip": [
+            "Write the commit-graph after fetching."
+          ]
+        },
+        {
+          "name": "--write-fetch-head",
+          "tip": [
+            "Write fetched references to the FETCH_HEAD file (default)."
           ]
         }
       ]
@@ -2019,10 +2729,105 @@
           ]
         },
         {
+          "name": "--all-match",
+          "tip": [
+            "Limit to commits that match all --grep patterns."
+          ]
+        },
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <pattern>",
+            "Limit to commits by a specific author."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--before",
+          "alias": [
+            "--until"
+          ],
+          "tip": [
+            "U: --until, --before <date>",
+            "Show commits older than a specific date."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--committer",
+          "tip": [
+            "U: --committer <pattern>",
+            "Limit to commits by a specific committer."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--decorate",
+          "tip": [
+            "U: --decorate[=short|full|auto|no]",
+            "Decorate options."
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "full"
+            },
+            {
+              "name": "no"
+            },
+            {
+              "name": "short"
+            }
+          ]
+        },
+        {
+          "name": "--decorate-refs",
+          "tip": [
+            "U: --decorate-refs <pattern>",
+            "Only decorate refs that match <pattern>."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--first-parent",
+          "tip": [
+            "Follow only the first parent commit upon seeing a merge commit."
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "Similar to --pretty, but with --format you can specify a format string."
+          ],
+          "next": 0
+        },
+        {
           "name": "--graph",
           "tip": [
             "Display branch and merge history in ASCII art alongside the log."
           ]
+        },
+        {
+          "name": "--grep",
+          "tip": [
+            "U: --grep <pattern>",
+            "Limit to commits with a matching commit message."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--max-count",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --max-count <number>",
+            "Limit the number of commits to output."
+          ],
+          "next": 0
         },
         {
           "name": "--name-only",
@@ -2037,57 +2842,82 @@
           ]
         },
         {
+          "name": "--no-merges",
+          "tip": [
+            "Do not output a commit that has more than one parent."
+          ]
+        },
+        {
           "name": "--oneline",
           "tip": [
             "Display each commit message on one line."
           ]
         },
         {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Show each update's differences in patch format."
+          ]
+        },
+        {
           "name": "--pretty",
           "tip": [
+            "U: --pretty=<format>",
             "Display commit history in a custom format."
-          ]
-        },
-        {
-          "name": "--pretty=format:\"\"",
-          "tip": [
-            "Control the format of displayed information."
-          ]
-        },
-        {
-          "name": "--pretty=full",
-          "tip": [
-            "Display hash, Author, Commit, and commit info."
-          ]
-        },
-        {
-          "name": "--pretty=fuller",
-          "tip": [
-            "Display hash, Author, AuthorDate, Commit, CommitDate, and commit info."
-          ]
-        },
-        {
-          "name": "--pretty=oneline",
-          "tip": [
-            "Display each commit message on one line, showing only the hash and commit message."
-          ]
-        },
-        {
-          "name": "--pretty=short",
-          "tip": [
-            "Display hash, Author, and commit info."
+          ],
+          "next": [
+            {
+              "name": "format:<string>",
+              "tip": [
+                "Control the format of displayed information."
+              ]
+            },
+            {
+              "name": "full",
+              "tip": [
+                "Display hash, Author, Commit, and commit info."
+              ]
+            },
+            {
+              "name": "fuller",
+              "tip": [
+                "Display hash, Author, AuthorDate, Commit, CommitDate, and commit info."
+              ]
+            },
+            {
+              "name": "oneline",
+              "tip": [
+                "Display each commit message on one line, showing only the hash and commit message."
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "Display hash, Author, and commit info."
+              ]
+            }
           ]
         },
         {
           "name": "--relative-date",
           "tip": [
-            "Display dates in a shorter relative format instead of the full format (e.g. 2 weeks ago)"
+            "Display dates in a shorter relative format instead of the full format (e.g. 2 weeks ago)."
+          ]
+        },
+        {
+          "name": "--reverse",
+          "tip": [
+            "Output the commits in reverse chronological order."
           ]
         },
         {
           "name": "--shortstat",
           "tip": [
-            "Show only the summary line for --stat"
+            "Show only the summary line for --stat."
           ]
         },
         {
@@ -2097,25 +2927,41 @@
           ]
         },
         {
-          "name": "--stat",
+          "name": "--since",
+          "alias": [
+            "--after"
+          ],
           "tip": [
-            "Show statistics about file modifications in each commit.",
-            "Each commit lists the modified files, added and removed lines, and a summary of all line changes at the end."
-          ]
-        },
-        {
-          "name": "-n",
-          "tip": [
-            "U: -n <n>",
-            "Show the last n commit messages."
+            "U: --since, --after <date>",
+            "Show commits more recent than a specific date."
           ],
           "next": 0
         },
         {
-          "name": "-p",
+          "name": "--source",
           "tip": [
-            "Show each update's differences in patch format, more detailed than --stat"
+            "Show source."
           ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show statistics about file modifications in each commit."
+          ]
+        },
+        {
+          "name": "--use-mailmap",
+          "tip": [
+            "Use mail map file."
+          ]
+        },
+        {
+          "name": "-L",
+          "tip": [
+            "U: -L <range:file>",
+            "Trace the evolution of line range <start>,<end> or function :<funcname> in <file>."
+          ],
+          "next": 0
         }
       ]
     },
@@ -2168,9 +3014,114 @@
           ]
         },
         {
+          "name": "--allow-unrelated-histories",
+          "tip": [
+            "Allow merging unrelated histories."
+          ]
+        },
+        {
+          "name": "--autostash",
+          "tip": [
+            "Automatically stash/stash pop before and after."
+          ]
+        },
+        {
           "name": "--continue",
           "tip": [
             "Continue the current merge operation."
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Edit message before committing."
+          ]
+        },
+        {
+          "name": "--ff-only",
+          "tip": [
+            "Abort if fast-forward is not possible."
+          ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --file <path>",
+            "Read message from file."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--gpg-sign",
+          "alias": [
+            "-S"
+          ],
+          "tip": [
+            "U: -S, --gpg-sign[=<key-id>]",
+            "GPG sign commit."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--into-name",
+          "tip": [
+            "U: --into-name <name>",
+            "Use <name> instead of the real target."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--log",
+          "tip": [
+            "U: --log[=<n>]",
+            "Add (at most <n>) entries from shortlog to merge commit message."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <message>",
+            "Merge commit message (for a non-fast-forward merge)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-ff",
+          "tip": [
+            "Create a merge commit even if fast-forward is possible."
+          ]
+        },
+        {
+          "name": "--no-stat",
+          "tip": [
+            "Do not show a diffstat at the end of the merge."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "Bypass pre-merge-commit and commit-msg hooks."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Be more quiet."
           ]
         },
         {
@@ -2180,10 +3131,128 @@
           ]
         },
         {
+          "name": "--signoff",
+          "tip": [
+            "Add a Signed-off-by trailer."
+          ]
+        },
+        {
           "name": "--squash",
           "tip": [
             "Compresses the merge result into a single commit and does not preserve the commit history of the source branch.",
             "Then you need to specify a new commit message."
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "Show a diffstat at the end of the merge."
+          ]
+        },
+        {
+          "name": "--strategy",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --strategy <strategy>",
+            "Merge strategy to use."
+          ],
+          "next": [
+            {
+              "name": "octopus",
+              "tip": [
+                "Resolves cases with more than two heads."
+              ]
+            },
+            {
+              "name": "ort",
+              "tip": [
+                "Default merge strategy for pulling or merging one branch."
+              ]
+            },
+            {
+              "name": "ours",
+              "tip": [
+                "Resolves any number of heads, but the resulting tree is always that of the current branch."
+              ]
+            },
+            {
+              "name": "recursive",
+              "tip": [
+                "Synonym for ort."
+              ]
+            },
+            {
+              "name": "resolve",
+              "tip": [
+                "Can only resolve two heads using a 3-way merge algorithm."
+              ]
+            },
+            {
+              "name": "subtree",
+              "tip": [
+                "A modified ort strategy, adjusted for subtree merging."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--strategy-option",
+          "alias": [
+            "-X"
+          ],
+          "tip": [
+            "U: -X, --strategy-option <option=value>",
+            "Option for selected merge strategy."
+          ],
+          "next": [
+            {
+              "name": "diff-algorithm=(minimal|patience|histogram|myers)",
+              "tip": [
+                "Use a different diff algorithm while merging."
+              ]
+            },
+            {
+              "name": "histogram",
+              "tip": [
+                "Use histogram diff algorithm."
+              ]
+            },
+            {
+              "name": "ours",
+              "tip": [
+                "Conflicting hunks are auto-resolved by favoring our version."
+              ]
+            },
+            {
+              "name": "patience",
+              "tip": [
+                "Use patience diff algorithm."
+              ]
+            },
+            {
+              "name": "theirs",
+              "tip": [
+                "Conflicting hunks are auto-resolved by favoring their version."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Be more verbose."
+          ]
+        },
+        {
+          "name": "--verify-signatures",
+          "tip": [
+            "Verify that the named commit has a valid GPG signature."
           ]
         }
       ]
@@ -2387,7 +3456,82 @@
         {
           "name": "--all",
           "tip": [
-            "fetch from all remotes"
+            "Fetch from all remotes."
+          ]
+        },
+        {
+          "name": "--allow-unrelated-histories",
+          "tip": [
+            "Allow merging unrelated histories."
+          ]
+        },
+        {
+          "name": "--autostash",
+          "tip": [
+            "Automatically stash/stash pop before and after."
+          ]
+        },
+        {
+          "name": "--depth",
+          "tip": [
+            "U: --depth <depth>",
+            "Deepen history of shallow clone."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Dry run."
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Edit message before committing."
+          ]
+        },
+        {
+          "name": "--ff-only",
+          "tip": [
+            "Abort if fast-forward is not possible."
+          ]
+        },
+        {
+          "name": "--jobs",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --jobs[=<n>]",
+            "Number of submodules pulled in parallel."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-commit",
+          "tip": [
+            "Perform a merge but do not auto-commit."
+          ]
+        },
+        {
+          "name": "--no-ff",
+          "tip": [
+            "Create a merge commit even if fast-forward is possible."
+          ]
+        },
+        {
+          "name": "--prune",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --prune",
+            "Prune remote-tracking branches no longer on remote."
           ]
         },
         {
@@ -2396,8 +3540,85 @@
             "-r"
           ],
           "tip": [
-            "U: -r, --rebase",
+            "U: -r, --rebase[=(false|true|merges|interactive)]",
             "Rebase the current branch on top of the upstream branch after fetching."
+          ]
+        },
+        {
+          "name": "--squash",
+          "tip": [
+            "Create a single commit instead of doing a merge."
+          ]
+        },
+        {
+          "name": "--strategy",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --strategy <strategy>",
+            "Merge strategy to use."
+          ],
+          "next": [
+            {
+              "name": "octopus",
+              "tip": [
+                "Resolves cases with more than two heads."
+              ]
+            },
+            {
+              "name": "ort",
+              "tip": [
+                "Default merge strategy for pulling or merging one branch."
+              ]
+            },
+            {
+              "name": "ours",
+              "tip": [
+                "Resolves any number of heads, but the resulting tree is always that of the current branch."
+              ]
+            },
+            {
+              "name": "recursive",
+              "tip": [
+                "Synonym for ort."
+              ]
+            },
+            {
+              "name": "resolve",
+              "tip": [
+                "Can only resolve two heads using a 3-way merge algorithm."
+              ]
+            },
+            {
+              "name": "subtree",
+              "tip": [
+                "A modified ort strategy, adjusted for subtree merging."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--strategy-option",
+          "alias": [
+            "-X"
+          ],
+          "tip": [
+            "U: -X, --strategy-option <option=value>",
+            "Option for selected merge strategy."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--tags",
+          "tip": [
+            "Fetch all tags and associated objects."
+          ]
+        },
+        {
+          "name": "--verify-signatures",
+          "tip": [
+            "Verify that the named commit has a valid GPG signature."
           ]
         }
       ]
@@ -2411,13 +3632,122 @@
         {
           "name": "--all",
           "tip": [
-            "push all branches"
+            "Push all branches."
+          ]
+        },
+        {
+          "name": "--atomic",
+          "tip": [
+            "Request atomic transaction on remote side."
+          ]
+        },
+        {
+          "name": "--delete",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --delete",
+            "Delete refs."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --dry-run",
+            "Dry run."
+          ]
+        },
+        {
+          "name": "--follow-tags",
+          "tip": [
+            "Push missing but relevant tags."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force updates. Use with care."
+          ]
+        },
+        {
+          "name": "--force-with-lease",
+          "tip": [
+            "U: --force-with-lease[=<refname>:<expect>]",
+            "Require old value of ref to be at this value. Safer than --force."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--mirror",
+          "tip": [
+            "Mirror all refs."
+          ]
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "Prune locally removed refs."
+          ]
+        },
+        {
+          "name": "--push-option",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --push-option <server-specific>",
+            "Option to transmit to the server."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--recurse-submodules",
+          "tip": [
+            "U: --recurse-submodules (check|on-demand|no)",
+            "Control recursive pushing of submodules."
+          ],
+          "next": [
+            {
+              "name": "check"
+            },
+            {
+              "name": "no"
+            },
+            {
+              "name": "on-demand"
+            }
+          ]
+        },
+        {
+          "name": "--set-upstream",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --set-upstream",
+            "Set upstream for git pull/status."
+          ]
+        },
+        {
+          "name": "--signed",
+          "tip": [
+            "U: --signed[=(yes|no|if-asked)]",
+            "GPG sign the push."
           ]
         },
         {
           "name": "--tags",
           "tip": [
-            "push all tags"
+            "Push all tags (can't be used with --all or --mirror)."
           ]
         }
       ]
@@ -2454,9 +3784,94 @@
           ]
         },
         {
+          "name": "--apply",
+          "tip": [
+            "Use apply strategies to rebase."
+          ]
+        },
+        {
+          "name": "--autosquash",
+          "tip": [
+            "Move commits that begin with squash!/fixup! under -i."
+          ]
+        },
+        {
+          "name": "--autostash",
+          "tip": [
+            "Automatically stash/stash pop before and after."
+          ]
+        },
+        {
+          "name": "--committer-date-is-author-date",
+          "tip": [
+            "Make committer date match author date."
+          ]
+        },
+        {
           "name": "--continue",
           "tip": [
             "Continue the rebase operation, typically used after resolving conflicts."
+          ]
+        },
+        {
+          "name": "--empty",
+          "tip": [
+            "U: --empty (drop|keep|stop)",
+            "How to handle commits that become empty."
+          ],
+          "next": [
+            {
+              "name": "drop",
+              "tip": [
+                "Drop empty commits."
+              ]
+            },
+            {
+              "name": "keep",
+              "tip": [
+                "Keep empty commits."
+              ]
+            },
+            {
+              "name": "stop",
+              "tip": [
+                "Stop on empty commits."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exec",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "U: -x, --exec <exec>",
+            "Add exec lines after each commit of the editable list."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fork-point",
+          "tip": [
+            "Use 'merge-base --fork-point' to refine upstream."
+          ]
+        },
+        {
+          "name": "--gpg-sign",
+          "alias": [
+            "-S"
+          ],
+          "tip": [
+            "U: -S, --gpg-sign[=<key-id>]",
+            "GPG-sign commits."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--ignore-whitespace",
+          "tip": [
+            "Ignore changes in whitespace."
           ]
         },
         {
@@ -2470,18 +3885,99 @@
           ]
         },
         {
-          "name": "--merge",
+          "name": "--keep-base",
           "tip": [
-            "Merge a branch into the target branch instead of applying commits sequentially."
+            "Use the merge-base of upstream and branch as the current base."
+          ]
+        },
+        {
+          "name": "--merge",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --merge",
+            "Use merging strategies to rebase."
+          ]
+        },
+        {
+          "name": "--no-autosquash",
+          "tip": [
+            "Disable autosquash."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "Allow pre-rebase hook to run."
           ]
         },
         {
           "name": "--onto",
           "tip": [
-            "U: --onto <new_base_branch>",
-            "Specify a new base branch to apply commits from the current branch onto."
+            "U: --onto <newbase>",
+            "Rebase onto given branch instead of upstream."
           ],
           "next": 0
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Be quiet. Implies --no-stat."
+          ]
+        },
+        {
+          "name": "--quit",
+          "tip": [
+            "Abort but keep HEAD where it is."
+          ]
+        },
+        {
+          "name": "--reapply-cherry-picks",
+          "tip": [
+            "Apply all changes, even those already present upstream."
+          ]
+        },
+        {
+          "name": "--rebase-merges",
+          "tip": [
+            "U: --rebase-merges[=<mode>]",
+            "Try to rebase merges instead of skipping them."
+          ]
+        },
+        {
+          "name": "--rerere-autoupdate",
+          "tip": [
+            "Update the index with reused conflict resolution if possible."
+          ]
+        },
+        {
+          "name": "--reschedule-failed-exec",
+          "tip": [
+            "Automatically re-schedule any `exec` that fails."
+          ]
+        },
+        {
+          "name": "--root",
+          "tip": [
+            "Rebase all reachable commits up to the root(s)."
+          ]
+        },
+        {
+          "name": "--show-current-patch",
+          "tip": [
+            "Show the patch file being applied or merged."
+          ]
+        },
+        {
+          "name": "--signoff",
+          "tip": [
+            "Add a Signed-off-by trailer to each commit."
+          ]
         },
         {
           "name": "--skip",
@@ -2490,18 +3986,42 @@
           ]
         },
         {
-          "name": "-p",
+          "name": "--strategy",
+          "alias": [
+            "-s"
+          ],
           "tip": [
-            "Preserve the structure of merge commits to maintain merge history."
+            "U: -s, --strategy <strategy>",
+            "Use the given merge strategy."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--strategy-option",
+          "alias": [
+            "-X"
+          ],
+          "tip": [
+            "U: -X, --strategy-option <option>",
+            "Pass the argument through to the merge strategy."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--update-refs",
+          "tip": [
+            "Update branches that point to commits that are being rebased."
           ]
         },
         {
-          "name": "-x",
-          "tip": [
-            "U: -x <cmd>",
-            "Execute a specified command after each commit is applied, useful for automation such as testing and linting."
+          "name": "--verbose",
+          "alias": [
+            "-v"
           ],
-          "next": 0
+          "tip": [
+            "U: -v, --verbose",
+            "Display a diffstat of what changed upstream."
+          ]
         }
       ]
     },
@@ -2651,6 +4171,32 @@
       ]
     },
     {
+      "name": "replay",
+      "tip": [
+        "EXPERIMENTAL: Replay commits on a new base, works with bare repos too."
+      ],
+      "option": [
+        {
+          "name": "--abort",
+          "tip": [
+            "Abort the replay operation and clean up."
+          ]
+        },
+        {
+          "name": "--continue",
+          "tip": [
+            "Continue the replay operation after resolving conflicts."
+          ]
+        },
+        {
+          "name": "--quit",
+          "tip": [
+            "Abort the replay operation."
+          ]
+        }
+      ]
+    },
+    {
       "name": "repo",
       "tip": [
         "Retrieve information about the repository."
@@ -2715,23 +4261,58 @@
         {
           "name": "--hard",
           "tip": [
-            "Move HEAD to a specified commit and remove all changes, including those in the working directory and the index. Be cautious, as this is irreversible."
-          ],
-          "next": []
+            "Reset HEAD, index and working tree. Be cautious, as this is irreversible."
+          ]
+        },
+        {
+          "name": "--keep",
+          "tip": [
+            "Reset HEAD but keep local changes."
+          ]
+        },
+        {
+          "name": "--merge",
+          "tip": [
+            "Reset HEAD, index and working tree (similar to --hard, but with merge safety)."
+          ]
         },
         {
           "name": "--mixed",
           "tip": [
-            "Default behavior: Move HEAD to a specified commit and move changes from both the working directory and the staging area to the working directory."
+            "Reset HEAD and index (default). Changes are kept in the working tree."
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
           ],
-          "next": []
+          "tip": [
+            "U: -p, --patch",
+            "Select hunks interactively."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Be quiet, only report errors."
+          ]
+        },
+        {
+          "name": "--recurse-submodules",
+          "tip": [
+            "Control recursive updating of submodules."
+          ]
         },
         {
           "name": "--soft",
           "tip": [
-            "Move HEAD to a specified commit, keeping changes in both the working directory and the staging area (index)."
-          ],
-          "next": []
+            "Reset only HEAD. Changes are kept in the index and working tree."
+          ]
         }
       ]
     },
@@ -2739,6 +4320,117 @@
       "name": "restore",
       "tip": [
         "Restore working tree files."
+      ],
+      "option": [
+        {
+          "name": "--conflict",
+          "tip": [
+            "U: --conflict <style>",
+            "Conflict style (merge, diff3, or zdiff3)."
+          ],
+          "next": [
+            {
+              "name": "diff3"
+            },
+            {
+              "name": "merge"
+            },
+            {
+              "name": "zdiff3"
+            }
+          ]
+        },
+        {
+          "name": "--ignore-unmerged",
+          "tip": [
+            "Ignore unmerged entries."
+          ]
+        },
+        {
+          "name": "--merge",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --merge",
+            "Perform a 3-way merge with the new branch."
+          ]
+        },
+        {
+          "name": "--ours",
+          "tip": [
+            "Checkout our version for unmerged files."
+          ]
+        },
+        {
+          "name": "--overlay",
+          "tip": [
+            "Use overlay mode."
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --patch",
+            "Select hunks interactively."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress progress reporting."
+          ]
+        },
+        {
+          "name": "--recurse-submodules",
+          "tip": [
+            "Control recursive updating of submodules."
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <tree-ish>",
+            "Which tree-ish to checkout from."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--staged",
+          "alias": [
+            "-S"
+          ],
+          "tip": [
+            "U: -S, --staged",
+            "Restore the index."
+          ]
+        },
+        {
+          "name": "--theirs",
+          "tip": [
+            "Checkout their version for unmerged files."
+          ]
+        },
+        {
+          "name": "--worktree",
+          "alias": [
+            "-W"
+          ],
+          "tip": [
+            "U: -W, --worktree",
+            "Restore the working tree (default)."
+          ]
+        }
       ]
     },
     {
@@ -2968,6 +4660,12 @@
       ],
       "option": [
         {
+          "name": "--ahead-behind",
+          "tip": [
+            "Compute full ahead/behind values."
+          ]
+        },
+        {
           "name": "--branch",
           "alias": [
             "-b"
@@ -2975,6 +4673,73 @@
           "tip": [
             "U: -b, --branch",
             "Show branch and tracking information, even in short format."
+          ]
+        },
+        {
+          "name": "--ignore-submodules",
+          "tip": [
+            "U: --ignore-submodules[=<when>]",
+            "Ignore changes to submodules. When: all, dirty, untracked."
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "dirty"
+            },
+            {
+              "name": "untracked"
+            }
+          ]
+        },
+        {
+          "name": "--ignored",
+          "tip": [
+            "U: --ignored[=<mode>]",
+            "Show ignored files. Modes: traditional, matching, no."
+          ],
+          "next": [
+            {
+              "name": "matching"
+            },
+            {
+              "name": "no"
+            },
+            {
+              "name": "traditional"
+            }
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show status in long format (default)."
+          ]
+        },
+        {
+          "name": "--null",
+          "alias": [
+            "-z"
+          ],
+          "tip": [
+            "U: -z, --null",
+            "Terminate entries with NUL."
+          ]
+        },
+        {
+          "name": "--porcelain",
+          "tip": [
+            "U: --porcelain[=<version>]",
+            "Machine-readable output."
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "2"
+            }
           ]
         },
         {
@@ -2991,6 +4756,27 @@
           "name": "--show-stash",
           "tip": [
             "Show the number of hidden entries in the stash."
+          ]
+        },
+        {
+          "name": "--untracked-files",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --untracked-files[=<mode>]",
+            "Show untracked files. Modes: all, normal, no."
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "no"
+            },
+            {
+              "name": "normal"
+            }
           ]
         },
         {
@@ -3238,13 +5024,41 @@
           ]
         },
         {
+          "name": "--conflict",
+          "tip": [
+            "U: --conflict <style>",
+            "Conflict style (merge, diff3, or zdiff3)."
+          ],
+          "next": [
+            {
+              "name": "diff3"
+            },
+            {
+              "name": "merge"
+            },
+            {
+              "name": "zdiff3"
+            }
+          ]
+        },
+        {
           "name": "--create",
           "alias": [
             "-c"
           ],
           "tip": [
-            "U: -c, --create <new_branch>",
-            "Create a new branch and switch to it."
+            "U: -c, --create <branch>",
+            "Create and switch to a new branch."
+          ]
+        },
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --detach",
+            "Detach HEAD at named commit."
           ]
         },
         {
@@ -3257,8 +5071,78 @@
             "U: --force, -f, --discard-changes",
             "Proceed even if the index or the working tree differs from HEAD.",
             "Both the index and working tree are restored to match the switching target.",
-            "If --recurse-submodules is specified, submodule content is also restored to match the switching target.",
             "This is used to throw away local changes."
+          ]
+        },
+        {
+          "name": "--force-create",
+          "alias": [
+            "-C"
+          ],
+          "tip": [
+            "U: -C, --force-create <branch>",
+            "Create/reset and switch to a branch."
+          ]
+        },
+        {
+          "name": "--guess",
+          "tip": [
+            "Second guess 'git switch <no-such-branch>' (default)."
+          ]
+        },
+        {
+          "name": "--ignore-other-worktrees",
+          "tip": [
+            "Do not check if another worktree is using this branch."
+          ]
+        },
+        {
+          "name": "--merge",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --merge",
+            "Perform a 3-way merge with the new branch."
+          ]
+        },
+        {
+          "name": "--orphan",
+          "tip": [
+            "U: --orphan <new-branch>",
+            "New unborn branch."
+          ]
+        },
+        {
+          "name": "--overwrite-ignore",
+          "tip": [
+            "Update ignored files (default)."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress progress reporting."
+          ]
+        },
+        {
+          "name": "--recurse-submodules",
+          "tip": [
+            "Control recursive updating of submodules."
+          ]
+        },
+        {
+          "name": "--track",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --track[=(direct|inherit)]",
+            "Set branch tracking configuration."
           ]
         }
       ]
@@ -3291,6 +5175,28 @@
           "next": 0
         },
         {
+          "name": "--cleanup",
+          "tip": [
+            "U: --cleanup <mode>",
+            "How to strip spaces and #comments from message."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--contains",
+          "tip": [
+            "U: --contains <commit>",
+            "Print only tags that contain the commit."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--create-reflog",
+          "tip": [
+            "Create a reflog."
+          ]
+        },
+        {
           "name": "--delete",
           "alias": [
             "-d"
@@ -3302,14 +5208,125 @@
           "next": []
         },
         {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edit",
+            "Force edit of tag message."
+          ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --file <file>",
+            "Read message from file."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Replace the tag if exists."
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "Format to use for the output."
+          ],
+          "next": 0
+        },
+        {
           "name": "--list",
           "alias": [
             "-l"
           ],
           "tip": [
             "U: -l, --list [pattern]",
-            "List tags (can use wildcards)",
+            "List tags (can use wildcards).",
             "E: -l v1.0*"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--local-user",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --local-user <key-id>",
+            "Use another key to sign the tag."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--merged",
+          "tip": [
+            "U: --merged <commit>",
+            "Print only tags that are merged."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <message>",
+            "Tag message."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-contains",
+          "tip": [
+            "U: --no-contains <commit>",
+            "Print only tags that don't contain the commit."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-merged",
+          "tip": [
+            "U: --no-merged <commit>",
+            "Print only tags that are not merged."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--points-at",
+          "tip": [
+            "U: --points-at <object>",
+            "Print only tags of the object."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--sign",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --sign",
+            "Annotated and GPG-signed tag."
+          ]
+        },
+        {
+          "name": "--sort",
+          "tip": [
+            "U: --sort <key>",
+            "Field name to sort on."
           ],
           "next": 0
         },
@@ -3320,22 +5337,16 @@
           ],
           "tip": [
             "U: -v, --verify <tag>",
-            "Verify tags"
+            "Verify tags."
           ],
           "next": []
-        },
-        {
-          "name": "-e"
-        },
-        {
-          "name": "-m"
         },
         {
           "name": "-n",
           "tip": [
             "U: -n[num]",
-            "[num] specifies how many lines from the annotation, if any, are printed when using -l. Implies --list.",
-            "The default is not to print any annotation lines. If no number is given to -n, only the first line is printed. If the tag is not annotated, the commit message is displayed instead."
+            "[num] specifies how many lines from the annotation, if any, are printed when using -l.",
+            "The default is not to print any annotation lines."
           ]
         }
       ]

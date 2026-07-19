@@ -17,9 +17,15 @@ function handleCompletions($completions) {
     # $opts_text = @($opts.text)
     $unknown = @($tokens | Where-Object type -EQ 'unknown')
     $unknown_text = @($unknown.text)
-    function add {
+    # function add {
+    #     param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+    #     if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+    #     $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    # }
+
+    function add2 {
         param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
-        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text -replace '.+[/\\]', '')*"))) { return }
         $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
     }
 
@@ -41,12 +47,12 @@ function handleCompletions($completions) {
             $install_json = $path + '\current\install.json'
             $tip = @"
 {{
-`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json;
 `$b = `$i.bucket;
 if (`$b) { 'bucket:   ' + `$b; "`n" };
 `$v = "$root_path\buckets\`$b\bucket\$($app[0])\$($app.Split('.', 2)[0])\$app.json", "$root_path\buckets\`$b\bucket\$app.json" |
-ForEach-Object { Get-Content `$_ -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue | Select-Object -ExpandProperty version } |
+ForEach-Object { (Get-Content `$_ -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).version } |
 Select-Object -First 1;
 `$new = if (`$v -and `$v -ne `$c.version) { " (`$v)" } else { '' };
 'version:  ' + `$c.version + `$new; "`n";
@@ -64,7 +70,7 @@ if (`$c.description) {
 };
 }}
 "@
-            add $app $tip @('SpaceTab')
+            add2 $app $tip @('SpaceTab')
         }
     }
 

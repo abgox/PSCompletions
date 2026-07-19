@@ -23,6 +23,12 @@ function handleCompletions($completions) {
         $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
     }
 
+    function add2 {
+        param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
+        if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text -replace '.+[/\\]', '')*"))) { return }
+        $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+
     $root_path = $env:SCOOP, $config.root_path | Select-Object -First 1
     if (-not $root_path) {
         throw $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.warning.config)
@@ -164,7 +170,7 @@ if (`$c.description) {
 };
 }}
 "@
-                    add $app $tip @('SpaceTab')
+                    add2 $app $tip @('SpaceTab')
                 }
             }
         }
@@ -178,12 +184,12 @@ if (`$c.description) {
                     $install_json = $path + '\current\install.json'
                     $tip = @"
 {{
-`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json;
 `$b = `$i.bucket;
 if (`$b) { 'bucket:   ' + `$b; "`n" };
 `$v = "$root_path\buckets\`$b\bucket\$($app[0])\$($app.Split('.', 2)[0])\$app.json", "$root_path\buckets\`$b\bucket\$app.json" |
-ForEach-Object { Get-Content `$_ -Raw -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue | Select-Object -ExpandProperty version } |
+ForEach-Object { (Get-Content `$_ -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).version } |
 Select-Object -First 1;
 `$new = if (`$v -and `$v -ne `$c.version) { " (`$v)" } else { '' };
 'version:  ' + `$c.version + `$new; "`n";
@@ -201,7 +207,7 @@ if (`$c.description) {
 };
 }}
 "@
-                    add $app $tip @('SpaceTab')
+                    add2 $app $tip @('SpaceTab')
                 }
             }
         }
@@ -293,7 +299,7 @@ if (`$c.description) {
 };
 }}
 "@
-                    add $app $tip @('SpaceTab')
+                    add2 $app $tip @('SpaceTab')
                 }
             }
         }
@@ -305,12 +311,11 @@ if (`$c.description) {
                     $path = $item.FullName
                     $manifest_json = $path + '\current\manifest.json'
                     $install_json = $path + '\current\install.json'
-                    $hold = Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold
-                    if (-not $hold) {
+                    if (-not (Get-Content -Raw $install_json -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).hold) {
                         $tip = @"
 {{
-`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
-`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
+`$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json;
+`$i = Get-Content -Raw "$install_json" -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json;
 if (`$i.bucket) { 'bucket:   ' + `$i.bucket; "`n" };
 'version:  ' + `$c.version; "`n";
 `$category = if (`$c.psmodule) { 'psmodule' } elseif(`$c.font) { 'font' } else { `$null };
@@ -327,7 +332,7 @@ if (`$c.description) {
 };
 }}
 "@
-                        add $app $tip @('SpaceTab')
+                        add2 $app $tip @('SpaceTab')
                     }
                 }
             }
@@ -340,7 +345,7 @@ if (`$c.description) {
                     $path = $item.FullName
                     $manifest_json = $path + '\current\manifest.json'
                     $install_json = $path + '\current\install.json'
-                    if (Get-Content -Raw $install_json -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json | Select-Object -ExpandProperty hold) {
+                    if ((Get-Content -Raw $install_json -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).hold) {
                         $tip = @"
 {{
 `$c = Get-Content -Raw "$manifest_json" -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;
@@ -361,7 +366,7 @@ if (`$c.description) {
 };
 }}
 "@
-                        add $app $tip @('SpaceTab')
+                        add2 $app $tip @('SpaceTab')
                     }
                 }
             }
@@ -395,7 +400,7 @@ if (`$c.description) {
 }}
 "@
                         if ($app -eq 'scoop') { $tip = ' ' }
-                        add $app $tip
+                        add2 $app $tip
                     }
                 }
             }
