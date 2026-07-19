@@ -1,0 +1,1625 @@
+{
+  "meta": {
+    "url": "https://www.netlify.com",
+    "description": [
+      "The Netlify CLI for managing and deploying your Netlify sites"
+    ]
+  },
+  "next": [
+    {
+      "name": "agents",
+      "tip": [
+        "Manage Netlify AI agent tasks"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create and run a new agent task on your site"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List agent tasks for the current site"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show <taskId>",
+            "Show details of a specific agent task"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Stop a running agent task"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "tip": [
+        "U: api [apiMethod]",
+        "Run any Netlify API method"
+      ],
+      "option": [
+        {
+          "name": "--data",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --data <data>",
+            "Data to use"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "List out available API methods"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blobs",
+      "tip": [
+        "Manage objects in Netlify Blobs"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <store> <key>",
+            "Delete an object from a Netlify Blobs store"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <store> <key>",
+            "Read an object from a Netlify Blobs store"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list <store>",
+            "List objects in a Netlify Blobs store"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <store> <key>",
+            "Write to a Netlify Blobs store"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "Build on your local machine"
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "Specify a deploy context for environment variables"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "Branch deploy context"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "Deploy preview context"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "Dev context"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production context"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry",
+          "tip": [
+            "Dry run: show instructions without running them"
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "For monorepos, specify the name of the application to run the command in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--offline",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --offline",
+            "Disables any features that require network access"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "tip": [
+        "Claim an anonymously deployed site and link it to your account"
+      ],
+      "option": [
+        {
+          "name": "--site",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --site <siteId>",
+            "The site ID of the anonymous deploy to claim (required)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "The drop token provided when the site was deployed (required)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "clone",
+      "tip": [
+        "U: clone <repo> [targetDir]",
+        "Clone a remote repository and link it to an existing project on Netlify"
+      ],
+      "option": [
+        {
+          "name": "--id",
+          "tip": [
+            "U: --id <id>",
+            "ID of existing Netlify project to link to"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <name>",
+            "Name of existing Netlify project to link to"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "Generate shell completion script"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "Generates completion script for your preferred shell"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "U: create [prompt]",
+        "Create a new Netlify project using an AI agent"
+      ],
+      "option": [
+        {
+          "name": "--account-slug",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --account-slug <slug>",
+            "Account slug to create the project under"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <agent>",
+            "Agent type"
+          ],
+          "next": [
+            {
+              "name": "claude",
+              "tip": [
+                "Claude agent"
+              ]
+            },
+            {
+              "name": "codex",
+              "tip": [
+                "Codex agent"
+              ]
+            },
+            {
+              "name": "gemini",
+              "tip": [
+                "Gemini agent"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "Directory to create the project in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "U: --git <provider>",
+            "Create a git repository and push source code"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output result as JSON"
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --model <model>",
+            "Model to use for the agent"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <name>",
+            "Project name (subdomain)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-download",
+          "tip": [
+            "Skip downloading source code after the agent run completes"
+          ]
+        },
+        {
+          "name": "--no-wait",
+          "tip": [
+            "Return immediately after starting the agent run without polling for completion"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --prompt <prompt>",
+            "Description of the site to create"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repo-owner",
+          "tip": [
+            "U: --repo-owner <owner>",
+            "GitHub org or user to create the repo under"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "database",
+      "alias": [
+        "db"
+      ],
+      "tip": [
+        "U: database|db",
+        "Provision a production ready Postgres database with a single command"
+      ],
+      "next": [
+        {
+          "name": "migrations",
+          "tip": [
+            "Manage database migrations"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply database migrations to the local development database"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output result as JSON"
+                  ]
+                },
+                {
+                  "name": "--to",
+                  "tip": [
+                    "U: --to <name>",
+                    "Target migration name or prefix to apply up to (applies all if omitted)"
+                  ],
+                  "next": 0
+                }
+              ]
+            },
+            {
+              "name": "new",
+              "tip": [
+                "Create a new migration"
+              ],
+              "option": [
+                {
+                  "name": "--description",
+                  "alias": [
+                    "-d"
+                  ],
+                  "tip": [
+                    "U: -d, --description <description>",
+                    "Purpose of the migration (used to generate the file name)"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output result as JSON"
+                  ]
+                },
+                {
+                  "name": "--scheme",
+                  "alias": [
+                    "-s"
+                  ],
+                  "tip": [
+                    "U: -s, --scheme <scheme>",
+                    "Numbering scheme for migration prefixes"
+                  ],
+                  "next": [
+                    {
+                      "name": "sequential",
+                      "tip": [
+                        "Sequential numbering"
+                      ]
+                    },
+                    {
+                      "name": "timestamp",
+                      "tip": [
+                        "Timestamp-based numbering"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "pull",
+              "tip": [
+                "Pull migrations and overwrite local migration files"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "alias": [
+                    "-b"
+                  ],
+                  "tip": [
+                    "U: -b, --branch [branch]",
+                    "Pull migrations for a specific branch (defaults to 'production')"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--force",
+                  "tip": [
+                    "Skip confirmation prompt"
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output result as JSON"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "Reset the local development database, removing all data and tables"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output result as JSON"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Check the status of the database, including applied and pending migrations"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "tip": [
+                "U: -b, --branch <branch>",
+                "Netlify branch name to query; defaults to the local development database"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output result as JSON"
+              ]
+            },
+            {
+              "name": "--show-credentials",
+              "tip": [
+                "Include the full connection string (including username and password) in the output"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "tip": [
+        "Deploy your project to Netlify"
+      ],
+      "option": [
+        {
+          "name": "--alias",
+          "tip": [
+            "U: --alias <name>",
+            "Specifies the alias for deployment (max 37 characters)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--allow-anonymous",
+          "tip": [
+            "If not logged in, deploy anonymously and create a claimable site"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "Specify a deploy context for environment variables read during the build"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "Branch deploy context"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "Deploy preview context"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "Dev context"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production context"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--created-via",
+          "tip": [
+            "U: --created-via <source>",
+            "Specify the source of the deploy"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "Specify a folder to deploy"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "For monorepos, specify the name of the application to run the command in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --functions <folder>",
+            "Specify a functions folder to deploy"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output deployment data as JSON"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <message>",
+            "A short message to include in the deploy log"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-build",
+          "tip": [
+            "Do not run build command before deploying"
+          ]
+        },
+        {
+          "name": "--open",
+          "alias": [
+            "-O"
+          ],
+          "tip": [
+            "U: -O, --open",
+            "Open project after deploy"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --prod",
+            "Deploy to production"
+          ]
+        },
+        {
+          "name": "--prod-if-unlocked",
+          "tip": [
+            "Deploy to production if unlocked, create a draft otherwise"
+          ]
+        },
+        {
+          "name": "--site",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --site <name-or-id>",
+            "A project name or ID to deploy to"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--site-name",
+          "tip": [
+            "U: --site-name <name>",
+            "Name for a new site. Implies --create-site if the site does not already exist."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-functions-cache",
+          "tip": [
+            "Ignore any functions created as part of a previous build or deploy commands"
+          ]
+        },
+        {
+          "name": "--team",
+          "tip": [
+            "U: --team <slug>",
+            "Specify team slug when creating a site"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <number>",
+            "Timeout to wait for deployment to finish"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trigger",
+          "tip": [
+            "Trigger a new build of your project on Netlify without uploading local files"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "tip": [
+        "Local dev server"
+      ],
+      "option": [
+        {
+          "name": "--command",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --command <command>",
+            "Command to run"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "Specify a deploy context for environment variables"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "Branch deploy context"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "Deploy preview context"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "Dev context"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production context"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "tip": [
+            "U: --country <geoCountry>",
+            "Two-letter country code to use as mock geolocation"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "Dir with static files"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--edge-inspect",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edge-inspect [address]",
+            "Enable the V8 Inspector Protocol for Edge Functions"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--edge-inspect-brk",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --edge-inspect-brk [address]",
+            "Enable the V8 Inspector Protocol for Edge Functions and pause on first line"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "For monorepos, specify the name of the application to run the command in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--framework",
+          "tip": [
+            "U: --framework <name>",
+            "Framework to use. Defaults to #auto which automatically detects a framework"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --functions <folder>",
+            "Specify a functions folder to serve"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions-port",
+          "tip": [
+            "U: --functions-port <port>",
+            "Port of functions server"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--geo",
+          "tip": [
+            "U: --geo <mode>",
+            "Force geolocation data to be updated, use cached data, or use a mock location"
+          ],
+          "next": [
+            {
+              "name": "cache",
+              "tip": [
+                "Use cached data from the last 24h if found"
+              ]
+            },
+            {
+              "name": "mock",
+              "tip": [
+                "Use a mock location"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "Force geolocation data to be updated"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--live",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --live [subdomain]",
+            "Start a public live session; optionally supply a subdomain"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-open",
+          "tip": [
+            "Disables the automatic opening of a browser window"
+          ]
+        },
+        {
+          "name": "--offline",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --offline",
+            "Disables any features that require network access"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --port <port>",
+            "Port of netlify dev"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-gitignore",
+          "tip": [
+            "Skip adding .netlify to .gitignore file"
+          ]
+        },
+        {
+          "name": "--target-port",
+          "tip": [
+            "U: --target-port <port>",
+            "Port of target app server"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "exec",
+          "tip": [
+            "Runs a command within the netlify dev environment"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "Control environment variables for the current project"
+      ],
+      "next": [
+        {
+          "name": "clone",
+          "tip": [
+            "Clone environment variables from one project to another"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <varName>",
+            "Get resolved value of specified environment variable"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "U: import <fileName>",
+            "Import and set environment variables from .env file"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Lists resolved environment variables for project"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <varName> <value>",
+            "Set value of environment variable"
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "U: unset <varName>",
+            "Unset an environment variable which removes it from the UI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "functions",
+      "tip": [
+        "Manage netlify functions"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "Build functions locally"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create --name <name>",
+            "Create a new function locally"
+          ]
+        },
+        {
+          "name": "invoke",
+          "tip": [
+            "Trigger a function while in netlify dev with simulated data"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List functions that exist locally"
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "Serve functions locally"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "Configure continuous deployment for a new or existing project"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "Reinitialize CI hooks if the linked project is already configured to use CI"
+          ]
+        },
+        {
+          "name": "--git-remote-name",
+          "tip": [
+            "U: --git-remote-name <name>",
+            "Name of Git remote to use"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manual",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manual",
+            "Manually configure a git remote for CI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "Link a local repo or project folder to an existing project on Netlify"
+      ],
+      "option": [
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "For monorepos, specify the name of the application to run the command in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git-remote-name",
+          "tip": [
+            "U: --git-remote-name <name>",
+            "Name of Git remote to use"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git-remote-url",
+          "tip": [
+            "U: --git-remote-url <name>",
+            "URL of the repository (or Github owner/repo) to link to"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--id",
+          "tip": [
+            "U: --id <id>",
+            "ID of project to link to"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <name>",
+            "Name of project to link to"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "Login to your Netlify account"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check <ticket-id>",
+            "Check the status of a login ticket created with --request"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output as JSON (for use with --request or --check)"
+          ]
+        },
+        {
+          "name": "--new",
+          "tip": [
+            "Login to new Netlify account"
+          ]
+        },
+        {
+          "name": "--request",
+          "tip": [
+            "U: --request <message>",
+            "Create a login ticket for agent/human-in-the-loop auth"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "View logs from your project"
+      ],
+      "option": [
+        {
+          "name": "--edge-function",
+          "tip": [
+            "U: --edge-function <name...>",
+            "Filter to specific edge functions by name or path"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "For monorepos, specify the name of the application to run the command in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --follow",
+            "Stream logs in real time instead of showing historical logs"
+          ]
+        },
+        {
+          "name": "--function",
+          "tip": [
+            "U: --function <name...>",
+            "Filter to specific functions by name"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output logs as JSON Lines"
+          ]
+        },
+        {
+          "name": "--level",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --level <levels...>",
+            "Log levels to include"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug level"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error level"
+              ]
+            },
+            {
+              "name": "fatal",
+              "tip": [
+                "Fatal level"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info level"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "Trace level"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn level"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <time>",
+            "Start of the historical log window. Accepts a duration (e.g. 10m, 1h, 24h) or an ISO 8601 timestamp"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <type...>",
+            "Log sources to include"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "deploy",
+              "tip": [
+                "Deploy source"
+              ]
+            },
+            {
+              "name": "edge-functions",
+              "tip": [
+                "Edge functions source"
+              ]
+            },
+            {
+              "name": "functions",
+              "tip": [
+                "Functions source"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until <time>",
+            "End of the historical log window"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--url",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --url <url>",
+            "Show logs for the deploy behind the given URL"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "tip": [
+        "Open settings for the project linked to the current folder"
+      ],
+      "option": [
+        {
+          "name": "--admin",
+          "tip": [
+            "Open Netlify project admin UI"
+          ]
+        },
+        {
+          "name": "--site",
+          "tip": [
+            "Open project site"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "admin",
+          "tip": [
+            "Opens current project admin UI in Netlify"
+          ]
+        },
+        {
+          "name": "site",
+          "tip": [
+            "Opens current project url in browser"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "recipes",
+      "tip": [
+        "U: recipes [name]",
+        "Create and modify files in a project using pre-defined recipes"
+      ],
+      "option": [
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <name>",
+            "Recipe name to use"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List the recipes available to create and modify files in a project"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "Build the project for production and serve locally"
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "Specify a deploy context for environment variables"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "Branch deploy context"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "Deploy preview context"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "Dev context"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production context"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "tip": [
+            "U: --country <geoCountry>",
+            "Two-letter country code to use as mock geolocation"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "Dir with static files"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "For monorepos, specify the name of the application to run the command in"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --functions <folder>",
+            "Specify a functions folder to serve"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions-port",
+          "tip": [
+            "U: --functions-port <port>",
+            "Port of functions server"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--geo",
+          "tip": [
+            "U: --geo <mode>",
+            "Force geolocation data to be updated, use cached data, or use a mock location"
+          ],
+          "next": [
+            {
+              "name": "cache",
+              "tip": [
+                "Use cached data from the last 24h if found"
+              ]
+            },
+            {
+              "name": "mock",
+              "tip": [
+                "Use a mock location"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "Force geolocation data to be updated"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--offline",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --offline",
+            "Disables any features that require network access"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --port <port>",
+            "Port of netlify dev"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "sites",
+      "tip": [
+        "Handle various project operations"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create an empty project (advanced)"
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "Delete a project"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all projects you have access to"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "Search for projects by name"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Print status information"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output status information as JSON"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Output system info"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "hooks",
+          "tip": [
+            "Print hook information of the linked project"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "tip": [
+        "Switch your active Netlify account"
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "tip": [
+            "U: --email <email>",
+            "Switch to the account matching this email address"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "teams",
+      "tip": [
+        "Handle various team operations"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List all teams you have access to"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "tip": [
+        "Unlink a local folder from a Netlify project"
+      ]
+    },
+    {
+      "name": "watch",
+      "tip": [
+        "Watch for project deploy to finish"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--auth",
+      "tip": [
+        "U: --auth <token>",
+        "Netlify auth token - can be used to run this command without logging in"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "Print debugging information"
+      ]
+    },
+    {
+      "name": "--filter",
+      "tip": [
+        "U: --filter <app>",
+        "For monorepos, specify the name of the application to run the command in"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Display help for command"
+      ]
+    }
+  ]
+}

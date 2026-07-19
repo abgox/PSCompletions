@@ -1,0 +1,1625 @@
+{
+  "meta": {
+    "url": "https://www.netlify.com",
+    "description": [
+      "用于管理和部署 Netlify 站点的命令行工具"
+    ]
+  },
+  "next": [
+    {
+      "name": "agents",
+      "tip": [
+        "管理 Netlify AI 代理任务"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "在你的站点上创建并运行新的代理任务"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出当前站点的代理任务"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show <taskId>",
+            "显示特定代理任务的详细信息"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止正在运行的代理任务"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "tip": [
+        "U: api [apiMethod]",
+        "运行任何 Netlify API 方法"
+      ],
+      "option": [
+        {
+          "name": "--data",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --data <data>",
+            "要使用的数据"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "列出可用的 API 方法"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blobs",
+      "tip": [
+        "管理 Netlify Blobs 中的对象"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <store> <key>",
+            "从 Netlify Blobs 存储中删除对象"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <store> <key>",
+            "从 Netlify Blobs 存储中读取对象"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list <store>",
+            "列出 Netlify Blobs 存储中的对象"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <store> <key>",
+            "写入 Netlify Blobs 存储"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "在本地机器上构建"
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "指定环境变量的部署上下文"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "分支部署上下文"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "部署预览上下文"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "开发上下文"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产上下文"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry",
+          "tip": [
+            "空运行：显示指令但不执行"
+          ]
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "对于 monorepo，指定要运行命令的应用名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--offline",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --offline",
+            "禁用任何需要网络访问的功能"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "tip": [
+        "认领匿名部署的站点并将其链接到你的账户"
+      ],
+      "option": [
+        {
+          "name": "--site",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --site <siteId>",
+            "要认领的匿名部署的站点 ID（必需）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <token>",
+            "站点部署时提供的 drop 令牌（必需）"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "clone",
+      "tip": [
+        "U: clone <repo> [targetDir]",
+        "克隆远程仓库并将其链接到 Netlify 上的现有项目"
+      ],
+      "option": [
+        {
+          "name": "--id",
+          "tip": [
+            "U: --id <id>",
+            "要链接的现有 Netlify 项目的 ID"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <name>",
+            "要链接的现有 Netlify 项目的名称"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "生成 shell 补全脚本"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "为你的首选 shell 生成补全脚本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "U: create [prompt]",
+        "使用 AI 代理创建新的 Netlify 项目"
+      ],
+      "option": [
+        {
+          "name": "--account-slug",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --account-slug <slug>",
+            "要在其下创建项目的账户 slug"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--agent",
+          "tip": [
+            "U: --agent <agent>",
+            "代理类型"
+          ],
+          "next": [
+            {
+              "name": "claude",
+              "tip": [
+                "Claude 代理"
+              ]
+            },
+            {
+              "name": "codex",
+              "tip": [
+                "Codex 代理"
+              ]
+            },
+            {
+              "name": "gemini",
+              "tip": [
+                "Gemini 代理"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "创建项目的目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "U: --git <provider>",
+            "创建 git 仓库并推送源代码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "将结果输出为 JSON"
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --model <model>",
+            "代理使用的模型"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <name>",
+            "项目名称（子域名）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-download",
+          "tip": [
+            "代理运行完成后跳过下载源代码"
+          ]
+        },
+        {
+          "name": "--no-wait",
+          "tip": [
+            "启动代理运行后立即返回，不轮询完成状态"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --prompt <prompt>",
+            "要创建的站点描述"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repo-owner",
+          "tip": [
+            "U: --repo-owner <owner>",
+            "创建仓库的 GitHub 组织或用户"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "database",
+      "alias": [
+        "db"
+      ],
+      "tip": [
+        "U: database|db",
+        "使用单个命令配置生产就绪的 Postgres 数据库"
+      ],
+      "next": [
+        {
+          "name": "migrations",
+          "tip": [
+            "管理数据库迁移"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "将数据库迁移应用到本地开发数据库"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "将结果输出为 JSON"
+                  ]
+                },
+                {
+                  "name": "--to",
+                  "tip": [
+                    "U: --to <name>",
+                    "要应用到的目标迁移名称或前缀（省略则应用全部）"
+                  ],
+                  "next": 0
+                }
+              ]
+            },
+            {
+              "name": "new",
+              "tip": [
+                "创建新迁移"
+              ],
+              "option": [
+                {
+                  "name": "--description",
+                  "alias": [
+                    "-d"
+                  ],
+                  "tip": [
+                    "U: -d, --description <description>",
+                    "迁移的目的（用于生成文件名）"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "将结果输出为 JSON"
+                  ]
+                },
+                {
+                  "name": "--scheme",
+                  "alias": [
+                    "-s"
+                  ],
+                  "tip": [
+                    "U: -s, --scheme <scheme>",
+                    "迁移前缀的编号方案"
+                  ],
+                  "next": [
+                    {
+                      "name": "sequential",
+                      "tip": [
+                        "顺序编号"
+                      ]
+                    },
+                    {
+                      "name": "timestamp",
+                      "tip": [
+                        "基于时间戳的编号"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "pull",
+              "tip": [
+                "拉取迁移并覆盖本地迁移文件"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "alias": [
+                    "-b"
+                  ],
+                  "tip": [
+                    "U: -b, --branch [branch]",
+                    "拉取特定分支的迁移（默认为 'production'）"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--force",
+                  "tip": [
+                    "跳过确认提示"
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "将结果输出为 JSON"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "重置本地开发数据库，删除所有数据和表"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "将结果输出为 JSON"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "检查数据库状态，包括已应用和待处理的迁移"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "tip": [
+                "U: -b, --branch <branch>",
+                "要查询的 Netlify 分支名称；默认为本地开发数据库"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "将结果输出为 JSON"
+              ]
+            },
+            {
+              "name": "--show-credentials",
+              "tip": [
+                "在输出中包含完整的连接字符串（包括用户名和密码）"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "tip": [
+        "将你的项目部署到 Netlify"
+      ],
+      "option": [
+        {
+          "name": "--alias",
+          "tip": [
+            "U: --alias <name>",
+            "指定部署的别名（最多 37 个字符）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--allow-anonymous",
+          "tip": [
+            "如果未登录，匿名部署并创建可认领的站点"
+          ]
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "指定构建期间读取的环境变量的部署上下文"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "分支部署上下文"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "部署预览上下文"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "开发上下文"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产上下文"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--created-via",
+          "tip": [
+            "U: --created-via <source>",
+            "指定部署的来源"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "指定要部署的文件夹"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "对于 monorepo，指定要运行命令的应用名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --functions <folder>",
+            "指定要部署的函数文件夹"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "将部署数据输出为 JSON"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <message>",
+            "包含在部署日志中的简短消息"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-build",
+          "tip": [
+            "部署前不运行构建命令"
+          ]
+        },
+        {
+          "name": "--open",
+          "alias": [
+            "-O"
+          ],
+          "tip": [
+            "U: -O, --open",
+            "部署后打开项目"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --prod",
+            "部署到生产环境"
+          ]
+        },
+        {
+          "name": "--prod-if-unlocked",
+          "tip": [
+            "如果已解锁则部署到生产环境，否则创建草稿"
+          ]
+        },
+        {
+          "name": "--site",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --site <name-or-id>",
+            "要部署到的项目名称或 ID"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--site-name",
+          "tip": [
+            "U: --site-name <name>",
+            "新站点的名称。如果站点不存在则暗示 --create-site"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-functions-cache",
+          "tip": [
+            "忽略之前构建或部署命令创建的任何函数"
+          ]
+        },
+        {
+          "name": "--team",
+          "tip": [
+            "U: --team <slug>",
+            "创建站点时指定团队 slug"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <number>",
+            "等待部署完成的超时时间"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trigger",
+          "tip": [
+            "在 Netlify 上触发新构建而不上传本地文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "tip": [
+        "本地开发服务器"
+      ],
+      "option": [
+        {
+          "name": "--command",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --command <command>",
+            "要运行的命令"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "指定环境变量的部署上下文"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "分支部署上下文"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "部署预览上下文"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "开发上下文"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产上下文"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "tip": [
+            "U: --country <geoCountry>",
+            "用作模拟地理位置的两位字母国家代码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "包含静态文件的目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--edge-inspect",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --edge-inspect [address]",
+            "为 Edge Functions 启用 V8 Inspector Protocol"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--edge-inspect-brk",
+          "alias": [
+            "-E"
+          ],
+          "tip": [
+            "U: -E, --edge-inspect-brk [address]",
+            "为 Edge Functions 启用 V8 Inspector Protocol 并在第一行暂停"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "对于 monorepo，指定要运行命令的应用名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--framework",
+          "tip": [
+            "U: --framework <name>",
+            "要使用的框架。默认为 #auto，自动检测框架"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --functions <folder>",
+            "指定要服务的函数文件夹"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions-port",
+          "tip": [
+            "U: --functions-port <port>",
+            "函数服务器的端口"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--geo",
+          "tip": [
+            "U: --geo <mode>",
+            "强制更新地理位置数据、使用缓存数据或使用模拟位置"
+          ],
+          "next": [
+            {
+              "name": "cache",
+              "tip": [
+                "如果找到则使用最近 24 小时的缓存数据"
+              ]
+            },
+            {
+              "name": "mock",
+              "tip": [
+                "使用模拟位置"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "强制更新地理位置数据"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--live",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --live [subdomain]",
+            "启动公共实时会话；可选提供子域名"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-open",
+          "tip": [
+            "禁用自动打开浏览器窗口"
+          ]
+        },
+        {
+          "name": "--offline",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --offline",
+            "禁用任何需要网络访问的功能"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --port <port>",
+            "netlify dev 的端口"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-gitignore",
+          "tip": [
+            "跳过将 .netlify 添加到 .gitignore 文件"
+          ]
+        },
+        {
+          "name": "--target-port",
+          "tip": [
+            "U: --target-port <port>",
+            "目标应用服务器的端口"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "exec",
+          "tip": [
+            "在 netlify dev 环境中运行命令"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "控制当前项目的环境变量"
+      ],
+      "next": [
+        {
+          "name": "clone",
+          "tip": [
+            "将环境变量从一个项目克隆到另一个项目"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <varName>",
+            "获取指定环境变量的解析值"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "U: import <fileName>",
+            "从 .env 文件导入并设置环境变量"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目的解析环境变量"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <varName> <value>",
+            "设置环境变量的值"
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "U: unset <varName>",
+            "取消设置环境变量，将其从 UI 中移除"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "functions",
+      "tip": [
+        "管理 netlify functions"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "在本地构建函数"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create --name <name>",
+            "在本地创建新函数"
+          ]
+        },
+        {
+          "name": "invoke",
+          "tip": [
+            "在 netlify dev 中使用模拟数据触发函数"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出本地存在的函数"
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "在本地服务函数"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "为新项目或现有项目配置持续部署"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "如果链接的项目已配置使用 CI，则重新初始化 CI hooks"
+          ]
+        },
+        {
+          "name": "--git-remote-name",
+          "tip": [
+            "U: --git-remote-name <name>",
+            "要使用的 Git remote 名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--manual",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --manual",
+            "手动为 CI 配置 git remote"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "将本地仓库或项目文件夹链接到 Netlify 上的现有项目"
+      ],
+      "option": [
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "对于 monorepo，指定要运行命令的应用名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git-remote-name",
+          "tip": [
+            "U: --git-remote-name <name>",
+            "要使用的 Git remote 名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--git-remote-url",
+          "tip": [
+            "U: --git-remote-url <name>",
+            "要链接的仓库 URL（或 Github owner/repo）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--id",
+          "tip": [
+            "U: --id <id>",
+            "要链接的项目 ID"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name <name>",
+            "要链接的项目名称"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "登录到你的 Netlify 账户"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "U: --check <ticket-id>",
+            "检查使用 --request 创建的登录票据的状态"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出（用于 --request 或 --check）"
+          ]
+        },
+        {
+          "name": "--new",
+          "tip": [
+            "登录到新的 Netlify 账户"
+          ]
+        },
+        {
+          "name": "--request",
+          "tip": [
+            "U: --request <message>",
+            "为代理/人在环中身份验证创建登录票据"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "查看项目的日志"
+      ],
+      "option": [
+        {
+          "name": "--edge-function",
+          "tip": [
+            "U: --edge-function <name...>",
+            "按名称或路径过滤特定 edge functions"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "对于 monorepo，指定要运行命令的应用名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --follow",
+            "实时流式传输日志而非显示历史日志"
+          ]
+        },
+        {
+          "name": "--function",
+          "tip": [
+            "U: --function <name...>",
+            "按名称过滤特定函数"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "将日志输出为 JSON Lines"
+          ]
+        },
+        {
+          "name": "--level",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --level <levels...>",
+            "要包含的日志级别"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "调试级别"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "错误级别"
+              ]
+            },
+            {
+              "name": "fatal",
+              "tip": [
+                "致命级别"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "信息级别"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "跟踪级别"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "警告级别"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <time>",
+            "历史日志窗口的开始。接受持续时间（如 10m, 1h, 24h）或 ISO 8601 时间戳"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --source <type...>",
+            "要包含的日志来源"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "deploy",
+              "tip": [
+                "Deploy 来源"
+              ]
+            },
+            {
+              "name": "edge-functions",
+              "tip": [
+                "Edge functions 来源"
+              ]
+            },
+            {
+              "name": "functions",
+              "tip": [
+                "Functions 来源"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until <time>",
+            "历史日志窗口的结束"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--url",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --url <url>",
+            "显示给定 URL 后面部署的日志"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "tip": [
+        "打开链接到当前文件夹的项目的设置"
+      ],
+      "option": [
+        {
+          "name": "--admin",
+          "tip": [
+            "打开 Netlify 项目管理 UI"
+          ]
+        },
+        {
+          "name": "--site",
+          "tip": [
+            "打开项目站点"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "admin",
+          "tip": [
+            "在 Netlify 中打开当前项目的管理 UI"
+          ]
+        },
+        {
+          "name": "site",
+          "tip": [
+            "在浏览器中打开当前项目的 url"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "recipes",
+      "tip": [
+        "U: recipes [name]",
+        "使用预定义的 recipes 在项目中创建和修改文件"
+      ],
+      "option": [
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --name <name>",
+            "要使用的 recipe 名称"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出可用于在项目中创建和修改文件的 recipes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "为生产环境构建项目并在本地服务"
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "tip": [
+            "U: --context <context>",
+            "指定环境变量的部署上下文"
+          ],
+          "next": [
+            {
+              "name": "branch-deploy",
+              "tip": [
+                "分支部署上下文"
+              ]
+            },
+            {
+              "name": "deploy-preview",
+              "tip": [
+                "部署预览上下文"
+              ]
+            },
+            {
+              "name": "dev",
+              "tip": [
+                "开发上下文"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产上下文"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "tip": [
+            "U: --country <geoCountry>",
+            "用作模拟地理位置的两位字母国家代码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --dir <path>",
+            "包含静态文件的目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "tip": [
+            "U: --filter <app>",
+            "对于 monorepo，指定要运行命令的应用名称"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --functions <folder>",
+            "指定要服务的函数文件夹"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--functions-port",
+          "tip": [
+            "U: --functions-port <port>",
+            "函数服务器的端口"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--geo",
+          "tip": [
+            "U: --geo <mode>",
+            "强制更新地理位置数据、使用缓存数据或使用模拟位置"
+          ],
+          "next": [
+            {
+              "name": "cache",
+              "tip": [
+                "如果找到则使用最近 24 小时的缓存数据"
+              ]
+            },
+            {
+              "name": "mock",
+              "tip": [
+                "使用模拟位置"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "强制更新地理位置数据"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--offline",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --offline",
+            "禁用任何需要网络访问的功能"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --port <port>",
+            "netlify dev 的端口"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "sites",
+      "tip": [
+        "处理各种项目操作"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建空项目（高级）"
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "删除项目"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出你有权限访问的所有项目"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "按名称搜索项目"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "打印状态信息"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "将状态信息输出为 JSON"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "输出系统信息"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "hooks",
+          "tip": [
+            "打印链接项目的 hook 信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "tip": [
+        "切换你的活动 Netlify 账户"
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "tip": [
+            "U: --email <email>",
+            "切换到与此电子邮件地址匹配的账户"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "teams",
+      "tip": [
+        "处理各种团队操作"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出你有权限访问的所有团队"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "tip": [
+        "从 Netlify 项目取消链接本地文件夹"
+      ]
+    },
+    {
+      "name": "watch",
+      "tip": [
+        "监视项目部署完成"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--auth",
+      "tip": [
+        "U: --auth <token>",
+        "Netlify auth 令牌 - 可用于在不登录的情况下运行此命令"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "打印调试信息"
+      ]
+    },
+    {
+      "name": "--filter",
+      "tip": [
+        "U: --filter <app>",
+        "对于 monorepo，指定要运行命令的应用名称"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "显示命令帮助"
+      ]
+    }
+  ]
+}

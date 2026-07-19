@@ -1,0 +1,3617 @@
+{
+  "meta": {
+    "url": "https://vercel.com",
+    "description": [
+      "The Vercel CLI for deploying and managing your Vercel projects"
+    ]
+  },
+  "next": [
+    {
+      "name": "activity",
+      "tip": [
+        "List user activity events"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "Show all team events (ignore linked project auto-scoping)"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <NUMBER>",
+            "Number of results to return per page (default: 20, max: 100)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--next",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "U: -N, --next <MS>",
+            "Show next page of results"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "Filter by project"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <DATE>",
+            "Show events after this date (ISO 8601 or relative: 1d, 7d, 30d)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--type",
+          "tip": [
+            "U: --type <TYPE>",
+            "Filter by event type (repeatable, comma-separated)"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until <DATE>",
+            "Show events before this date (ISO 8601 or relative)"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "types",
+          "tip": [
+            "List available event types with descriptions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "tip": [
+        "U: agent [init]",
+        "Generate AGENTS.md with Vercel best practices"
+      ]
+    },
+    {
+      "name": "agent-runs",
+      "tip": [
+        "Inspect Agent Runs observability data"
+      ],
+      "next": [
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <runId>",
+            "Show metadata, lifecycle events, usage, and subagent data for an Agent Run"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List Agent Runs for a project"
+          ]
+        },
+        {
+          "name": "projects",
+          "tip": [
+            "List projects in the current team with Agent Runs activity"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "U: trace <runId>",
+            "Show the trace for an Agent Run (turns, messages, reasoning, and tool calls)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ai-gateway",
+      "tip": [
+        "Manage AI Gateway resources"
+      ],
+      "next": [
+        {
+          "name": "api-keys",
+          "tip": [
+            "Manage AI Gateway API keys"
+          ]
+        },
+        {
+          "name": "coding-agents",
+          "tip": [
+            "Connect local coding agents to the AI Gateway"
+          ]
+        },
+        {
+          "name": "models",
+          "tip": [
+            "Manage AI Gateway models"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "Manage AI Gateway routing rules (Beta)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "alerts",
+      "tip": [
+        "List alerts for a project or team"
+      ],
+      "option": [
+        {
+          "name": "--ai",
+          "tip": [
+            "Print AI-focused sections instead of table output"
+          ]
+        },
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "Show team-wide alerts"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <NUMBER>",
+            "Number of results to return per page (default: 20, max: 100)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "Filter by project"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <ISO_DATE>",
+            "Start of time range (ISO-8601). Defaults to 24 hours ago"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--type",
+          "tip": [
+            "U: --type <TYPE>",
+            "Filter by alert type (repeatable, comma-separated)"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until <ISO_DATE>",
+            "End of time range (ISO-8601). Defaults to now"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <groupId>",
+            "Show details for a single alert group"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "Create, list, update, or delete alert notification rules"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "alias",
+      "tip": [
+        "Manages your domain aliases"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "Show all aliases"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <alias>",
+            "Remove an alias using its hostname"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <id-or-url> <alias>",
+            "Create a new alias (default)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "tip": [
+        "U: api [endpoint]",
+        "Make authenticated HTTP requests to the Vercel API [beta]"
+      ],
+      "option": [
+        {
+          "name": "--dangerously-skip-permissions",
+          "tip": [
+            "Skip confirmation prompts for DELETE operations (use with caution)"
+          ]
+        },
+        {
+          "name": "--field",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --field <KEY=VALUE>",
+            "Add a typed parameter. Use @file for file contents"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--generate",
+          "tip": [
+            "U: --generate <FORMAT>",
+            "Generate output instead of executing"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--header",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --header <KEY:VALUE>",
+            "Add a custom HTTP header"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --include",
+            "Include response headers in output"
+          ]
+        },
+        {
+          "name": "--input",
+          "tip": [
+            "U: --input <FILE>",
+            "Read request body from file (use - for stdin)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--method",
+          "alias": [
+            "-X"
+          ],
+          "tip": [
+            "U: -X, --method <METHOD>",
+            "HTTP method (GET, POST, PUT, PATCH, DELETE)"
+          ],
+          "next": [
+            {
+              "name": "DELETE",
+              "tip": [
+                "DELETE request"
+              ]
+            },
+            {
+              "name": "GET",
+              "tip": [
+                "GET request"
+              ]
+            },
+            {
+              "name": "PATCH",
+              "tip": [
+                "PATCH request"
+              ]
+            },
+            {
+              "name": "POST",
+              "tip": [
+                "POST request"
+              ]
+            },
+            {
+              "name": "PUT",
+              "tip": [
+                "PUT request"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--paginate",
+          "tip": [
+            "Fetch all pages of results"
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "Output raw JSON without pretty-printing"
+          ]
+        },
+        {
+          "name": "--raw-field",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --raw-field <KEY=VALUE>",
+            "Add a string option (no type parsing)"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "Force refresh the cached OpenAPI spec"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Suppress response output"
+          ]
+        },
+        {
+          "name": "--spec-url",
+          "tip": [
+            "U: --spec-url <URL>",
+            "Fetch endpoints from a custom OpenAPI spec URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Show debug information including full request/response"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List all available API endpoints"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bisect",
+      "tip": [
+        "Use binary search to find the deployment that introduced a bug"
+      ],
+      "option": [
+        {
+          "name": "--bad",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --bad <URL>",
+            "Known bad URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--good",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --good <URL>",
+            "Known good URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--open",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --open <URL>",
+            "Automatically open each URL in the browser"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --path <PATH>",
+            "Subpath of the deployment URL to test"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--run",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --run <SCRIPT>",
+            "Test script to run for each deployment"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "blob",
+      "tip": [
+        "Manages your Blob stores and files"
+      ],
+      "option": [
+        {
+          "name": "--oidc-token",
+          "tip": [
+            "U: --oidc-token <String>",
+            "OIDC token for the Blob store (must be passed with --store-id)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--rw-token",
+          "tip": [
+            "U: --rw-token <String>",
+            "Read_Write_Token for the Blob store"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--store-id",
+          "tip": [
+            "U: --store-id <String>",
+            "Blob store id, with or without the store_ prefix (must be passed with --oidc-token)"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "copy",
+          "tip": [
+            "U: copy <fromUrlOrPathname> <toPathname>",
+            "Copy a file in the Blob store"
+          ]
+        },
+        {
+          "name": "create-store",
+          "tip": [
+            "U: create-store [name]",
+            "Create a new Blob store"
+          ]
+        },
+        {
+          "name": "del",
+          "tip": [
+            "U: del <urlsOrPathnames>",
+            "Delete a file from the Blob store"
+          ]
+        },
+        {
+          "name": "delete-store",
+          "tip": [
+            "U: delete-store <storeId>",
+            "Delete a Blob store"
+          ]
+        },
+        {
+          "name": "empty-store",
+          "tip": [
+            "Delete all blobs in a Blob store"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <urlOrPathname>",
+            "Download a blob by URL or pathname"
+          ]
+        },
+        {
+          "name": "get-store",
+          "tip": [
+            "U: get-store [storeId]",
+            "Get a Blob store"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all files in the Blob store"
+          ]
+        },
+        {
+          "name": "list-stores",
+          "tip": [
+            "List all Blob stores"
+          ]
+        },
+        {
+          "name": "presign",
+          "tip": [
+            "U: presign <pathname>",
+            "Generate a presigned URL for Blob operations"
+          ]
+        },
+        {
+          "name": "put",
+          "tip": [
+            "U: put <pathToFile>",
+            "Upload a file to the Blob store"
+          ]
+        },
+        {
+          "name": "signed-token",
+          "tip": [
+            "Issue a short-lived signed token for Blob operations"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "Build the project locally into './vercel/output'"
+      ],
+      "option": [
+        {
+          "name": "--id",
+          "tip": [
+            "U: --id <ID>",
+            "Deployment ID to pull environment variables from"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output",
+          "tip": [
+            "U: --output <DIR>",
+            "Directory where built assets will be written to"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "Build a production deployment"
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "Project name or ID (defaults to the linked project)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--standalone",
+          "tip": [
+            "Create a standalone build with all dependencies inlined into function output folders"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "Specify the target environment"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "Development environment"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "Preview environment"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production environment"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip the confirmation prompt about pulling environment variables and project settings"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "buy",
+      "tip": [
+        "Purchase Vercel products for your team"
+      ],
+      "next": [
+        {
+          "name": "addon",
+          "tip": [
+            "U: addon <addon-name> <quantity>",
+            "Purchase a Vercel addon for your team"
+          ]
+        },
+        {
+          "name": "credits",
+          "tip": [
+            "U: credits <credit-type> <amount>",
+            "Purchase Vercel credits for your team"
+          ]
+        },
+        {
+          "name": "domain",
+          "tip": [
+            "U: domain <domain>",
+            "Purchase a domain name"
+          ]
+        },
+        {
+          "name": "pro",
+          "tip": [
+            "Purchase a Vercel Pro subscription for your team"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "Manages cache for your current Project"
+      ],
+      "next": [
+        {
+          "name": "dangerously-delete",
+          "tip": [
+            "Dangerously delete all cached content by tag"
+          ]
+        },
+        {
+          "name": "invalidate",
+          "tip": [
+            "Invalidate all cached content by tag"
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "Purge cache for the current project"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "certs",
+      "tip": [
+        "Manages your SSL certificates"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add a new certificate"
+          ]
+        },
+        {
+          "name": "issue",
+          "tip": [
+            "U: issue <cn>",
+            "Issue a new certificate for a domain"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Show all available certificates"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "Remove a certificate by id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "connect",
+      "tip": [
+        "Manage connectors [beta]"
+      ],
+      "next": [
+        {
+          "name": "attach",
+          "tip": [
+            "U: attach <connector>",
+            "Attach a Vercel project to a connector for one or more environments"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create <type>",
+            "Create a new connector"
+          ]
+        },
+        {
+          "name": "detach",
+          "tip": [
+            "U: detach <connector>",
+            "Detach a Vercel project from a connector"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List connectors linked to the current project"
+          ]
+        },
+        {
+          "name": "open",
+          "tip": [
+            "U: open <id>",
+            "Open a connector in the Vercel dashboard"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <connector>",
+            "Delete a connector"
+          ]
+        },
+        {
+          "name": "revoke-tokens",
+          "tip": [
+            "U: revoke-tokens <connector>",
+            "Revoke tokens issued from a connector"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "U: token <id>",
+            "Get a token for a connector"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <id>",
+            "Update connector branding (icon and colors)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contract",
+      "tip": [
+        "Show contract information for billing periods"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "crons",
+      "alias": [
+        "cron"
+      ],
+      "tip": [
+        "U: cron|crons",
+        "Manage cron jobs for a project [beta]"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add a cron job to vercel.json"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all cron jobs for a project"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run [path]",
+            "Trigger a cron job to run immediately"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "curl",
+      "tip": [
+        "U: curl <path>",
+        "cURL requests to your linked project's deployment [beta]"
+      ],
+      "option": [
+        {
+          "name": "--deployment",
+          "tip": [
+            "U: --deployment <ID|URL>",
+            "The deployment ID or URL to target"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "With --trace, emit { response, requestId } as JSON on stdout"
+          ]
+        },
+        {
+          "name": "--protection-bypass",
+          "tip": [
+            "U: --protection-bypass <SECRET>",
+            "Protection bypass secret for accessing protected deployments"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "Capture a session trace for the request and print the trace request id"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip confirmation when linking is required"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "tip": [
+        "U: deploy [path]",
+        "Performs a deployment (default command)"
+      ],
+      "option": [
+        {
+          "name": "--archive",
+          "tip": [
+            "U: --archive <FORMAT>",
+            "Compress the deployment code into an archive before uploading"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--build-env",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --build-env <KEY=VALUE>",
+            "Specify environment variables during build-time"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--dry",
+          "tip": [
+            "Inspect the detected framework preset and source files without deploying"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env <KEY=VALUE>",
+            "Specify environment variables during run-time"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force a new deployment even if nothing has changed"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--guidance",
+          "tip": [
+            "Receive command suggestions once deployment is complete"
+          ]
+        },
+        {
+          "name": "--logs",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --logs",
+            "Print the build logs"
+          ]
+        },
+        {
+          "name": "--meta",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --meta <KEY=VALUE>",
+            "Specify metadata for the deployment"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--no-wait",
+          "tip": [
+            "Don't wait for the deployment to finish"
+          ]
+        },
+        {
+          "name": "--prebuilt",
+          "tip": [
+            "Use in combination with `vc build`. Deploy an existing build"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "Create a production deployment (shorthand for --target=production)"
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "Project name or ID (defaults to the linked project)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--regions",
+          "tip": [
+            "U: --regions <REGION>",
+            "Set default regions to enable the deployment on"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-domain",
+          "tip": [
+            "Disable the automatic promotion of the relevant domains to a new production deployment"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "Specify the target deployment environment"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "Development environment"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "Preview environment"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production environment"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--with-cache",
+          "tip": [
+            "Retain build cache when using --force"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Use default options to skip all prompts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy-hooks",
+      "tip": [
+        "Manage deploy hooks for Git-triggered builds"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "U: create [name]",
+            "Create a deploy hook for a Git branch"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List deploy hooks for a project"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "Remove a deploy hook by id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "tip": [
+        "Start a local development server"
+      ],
+      "option": [
+        {
+          "name": "--listen",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --listen <URI>",
+            "Specify a URI endpoint on which to listen [0.0.0.0:3000]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-L"
+          ],
+          "tip": [
+            "U: -L, --local",
+            "Start the dev server without linking to a Vercel project"
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "Project name or ID (defaults to the linked project)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Accept default value for all prompts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dns",
+      "tip": [
+        "U: dns [name]",
+        "Manages your DNS records"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <domain> <details>",
+            "Add a new DNS entry"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "U: import <domain> <zonefile>",
+            "Import a DNS zone file"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [domain]",
+            "List DNS entries"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "Remove a DNS entry using its ID"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "domains",
+      "tip": [
+        "U: domains [name]",
+        "Manages your domain names"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <domain> [project]",
+            "Add a domain name that you already own to a Vercel Team"
+          ]
+        },
+        {
+          "name": "buy",
+          "tip": [
+            "U: buy <domain>",
+            "Purchase a new domain name"
+          ]
+        },
+        {
+          "name": "check",
+          "tip": [
+            "U: check <domain>",
+            "Check if a domain is available to buy"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <domain>",
+            "Displays information related to a domain"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Show all domains in a list (default)"
+          ]
+        },
+        {
+          "name": "move",
+          "tip": [
+            "U: move <domain> <destination>",
+            "Move ownership of a domain name to another Vercel Team"
+          ]
+        },
+        {
+          "name": "price",
+          "tip": [
+            "U: price <domain>",
+            "Show registrar price quotes for one or more domains"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <domain>",
+            "Remove ownership of a domain name from a Vercel Team"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "U: search <query>",
+            "Discover domain-name candidates from a keyword or fragment"
+          ]
+        },
+        {
+          "name": "transfer-in",
+          "tip": [
+            "U: transfer-in <domain>",
+            "Transfer in a domain name to Vercel"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "U: verify <domain>",
+            "Check a domain's DNS configuration and explain what to fix"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "edge-config",
+      "tip": [
+        "Manage Edge Config stores"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <slug>",
+            "Create an Edge Config store"
+          ]
+        },
+        {
+          "name": "backups",
+          "tip": [
+            "U: backups <id-or-slug>",
+            "List, inspect, or restore Edge Config backups"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <id-or-slug>",
+            "Show metadata for an Edge Config"
+          ]
+        },
+        {
+          "name": "items",
+          "tip": [
+            "U: items <id-or-slug>",
+            "List items in an Edge Config, or fetch one item with --key"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List Edge Config stores for the current team"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id-or-slug>",
+            "Delete an Edge Config store"
+          ]
+        },
+        {
+          "name": "tokens",
+          "tip": [
+            "U: tokens <id-or-slug>",
+            "List, create, or revoke read tokens for an Edge Config"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <id-or-slug>",
+            "Rename an Edge Config and/or patch items"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "Manages the Environment Variables for your current Project"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name> [environment] [git-branch]",
+            "Add an Environment Variable"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [environment] [git-branch]",
+            "List all Environment Variables for a Project"
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "U: pull [filename]",
+            "Pull all Development Environment Variables from the cloud and write to a file [.env.local]"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name> [environment]",
+            "Remove an Environment Variable"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run <command>",
+            "Run a command with environment variables from the linked Vercel project"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <name> [environment]",
+            "Update the value of an existing Environment Variable"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "firewall",
+      "tip": [
+        "Manages Vercel Firewall configuration and custom rules"
+      ],
+      "next": [
+        {
+          "name": "attack-mode",
+          "tip": [
+            "Manage attack mode, which challenges all incoming requests with a verification page"
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "Show draft changes that have been made but not yet published"
+          ]
+        },
+        {
+          "name": "discard",
+          "tip": [
+            "Permanently discard all unpublished draft changes"
+          ]
+        },
+        {
+          "name": "ip-blocks",
+          "tip": [
+            "Manage IP blocking rules that deny access from specific addresses or ranges"
+          ]
+        },
+        {
+          "name": "overview",
+          "tip": [
+            "Show a summary of your project's firewall configuration"
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "Publish all draft firewall changes to production"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "Manage custom firewall rules that control how traffic is handled based on conditions"
+          ]
+        },
+        {
+          "name": "system-bypass",
+          "tip": [
+            "Manage system bypass rules that allow specific IPs to skip firewall checks"
+          ]
+        },
+        {
+          "name": "system-mitigations",
+          "tip": [
+            "Manage automatic DDoS protection and system-level traffic filtering"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flags",
+      "tip": [
+        "Manage feature flags for a Vercel project"
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "tip": [
+            "U: archive <flag>",
+            "Archive a feature flag"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create <slug>",
+            "Create a new feature flag"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <flag>",
+            "Shortcut to serve the false variant of a boolean feature flag"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <flag>",
+            "Shortcut to serve the true variant of a boolean feature flag"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <flag>",
+            "Display information about a feature flag"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all feature flags for the current project"
+          ]
+        },
+        {
+          "name": "open",
+          "tip": [
+            "U: open [flag]",
+            "Open feature flags in the Vercel dashboard"
+          ]
+        },
+        {
+          "name": "override",
+          "tip": [
+            "U: override [flag=value]",
+            "Encrypt flag overrides into a secure token for the vercel-flag-overrides cookie"
+          ]
+        },
+        {
+          "name": "prepare",
+          "tip": [
+            "Prepare flag definition fallbacks for the build"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <flag>",
+            "Delete a feature flag"
+          ]
+        },
+        {
+          "name": "rollout",
+          "tip": [
+            "U: rollout <flag>",
+            "Configure a progressive rollout for a feature flag in an environment"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "Manage conditional rules for feature flags"
+          ]
+        },
+        {
+          "name": "sdk-keys",
+          "tip": [
+            "Manage SDK keys for feature flags"
+          ]
+        },
+        {
+          "name": "segments",
+          "tip": [
+            "Manage feature flag segments"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <flag>",
+            "Set the served variant for a feature flag in an environment"
+          ]
+        },
+        {
+          "name": "split",
+          "tip": [
+            "U: split <flag>",
+            "Configure a weighted split for a feature flag in an environment"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <flag>",
+            "Update an existing feature flag"
+          ]
+        },
+        {
+          "name": "versions",
+          "tip": [
+            "List and compare version history for a feature flag"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "git",
+      "tip": [
+        "Manage Git provider repository for your current Project"
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "tip": [
+            "U: connect [git-url]",
+            "Connect your Vercel Project to your Git repository or provide the remote URL"
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "Disconnect the Git repository from your Vercel Project"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "httpstat",
+      "tip": [
+        "U: httpstat <path>",
+        "Visualize HTTP timing statistics for deployments"
+      ],
+      "option": [
+        {
+          "name": "--deployment",
+          "tip": [
+            "U: --deployment <ID|URL>",
+            "The deployment ID or URL to target"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--protection-bypass",
+          "tip": [
+            "U: --protection-bypass <SECRET>",
+            "Protection bypass secret for accessing protected deployments"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip confirmation when linking is required"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "alias": [
+        "i"
+      ],
+      "tip": [
+        "U: init|install [example]",
+        "Initialize an example project"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Overwrite destination directory if exists"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "inspect",
+      "tip": [
+        "U: inspect <id>",
+        "Displays information related to a deployment"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--logs",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --logs",
+            "Prints the build logs instead of the deployment summary"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIME>",
+            "Time to wait for deployment completion [3m]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "Blocks until deployment completes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "U: link [path]",
+        "Link local directory to a Vercel Project"
+      ],
+      "option": [
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "Set the project name or ID to link"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repo",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --repo",
+            "Link multiple projects from the Git repository (alpha)"
+          ]
+        },
+        {
+          "name": "--team",
+          "tip": [
+            "U: --team <TEAM_ID_OR_SLUG>",
+            "Set the team ID or slug; use with --project for non-interactive links"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip questions when setting up with default team and settings"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add projects to an existing repository link created by link --repo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "tip": [
+        "U: ls|list [app]",
+        "Lists deployments"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "List resources across all projects"
+          ]
+        },
+        {
+          "name": "--environment",
+          "tip": [
+            "U: --environment <TARGET>",
+            "Filter by environment"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <NUMBER>",
+            "Number of results to return per page (default: 20, max: 100)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--meta",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --meta <KEY=VALUE>",
+            "Filter deployments by metadata"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--next",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "U: -N, --next <MS>",
+            "Show next page of results"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--policy",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --policy <KEY=VALUE>",
+            "See deployments with provided Deployment Retention policies"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--status",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --status <STATUS>",
+            "Filter deployments by their status (comma-separated for multiple)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Accept default value for all prompts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "U: login [email]",
+        "Logs into your account or creates a new one"
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "Logs out of your account"
+      ]
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "U: logs [url]",
+        "Displays the logs for a deployment"
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --branch",
+            "Filter by git branch (defaults to current branch)"
+          ]
+        },
+        {
+          "name": "--deployment",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --deployment",
+            "Filter logs to a specific deployment ID or URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--environment",
+          "tip": [
+            "U: --environment",
+            "Filter by environment: production or preview"
+          ],
+          "next": [
+            {
+              "name": "preview",
+              "tip": [
+                "Preview environment"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production environment"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--expand",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "U: -x, --expand",
+            "Show full log message below each request line"
+          ]
+        },
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --follow",
+            "Stream live runtime logs"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --json",
+            "Output logs as JSON Lines for piping to other tools"
+          ]
+        },
+        {
+          "name": "--level",
+          "tip": [
+            "U: --level",
+            "Filter by log level"
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error level"
+              ]
+            },
+            {
+              "name": "fatal",
+              "tip": [
+                "Fatal level"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info level"
+              ]
+            },
+            {
+              "name": "warning",
+              "tip": [
+                "Warning level"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --limit",
+            "Maximum number of results (default: 100)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-branch",
+          "tip": [
+            "Disable auto-detection of git branch"
+          ]
+        },
+        {
+          "name": "--no-follow",
+          "tip": [
+            "No-op; deployment arguments only stream logs when --follow is set"
+          ]
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "Project name or ID (defaults to the linked project)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --query",
+            "Advanced search query (supports filter syntax)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--request-id",
+          "tip": [
+            "U: --request-id",
+            "Filter by request ID"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since",
+            "Start time (ISO format or relative: 1h, 30m)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "tip": [
+            "U: --source",
+            "Filter by source"
+          ],
+          "next": [
+            {
+              "name": "edge-function",
+              "tip": [
+                "Edge Function"
+              ]
+            },
+            {
+              "name": "edge-middleware",
+              "tip": [
+                "Edge Middleware"
+              ]
+            },
+            {
+              "name": "serverless",
+              "tip": [
+                "Serverless"
+              ]
+            },
+            {
+              "name": "static",
+              "tip": [
+                "Static"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--status-code",
+          "tip": [
+            "U: --status-code",
+            "Filter by HTTP status code (e.g., 500, 4xx)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until",
+            "End time (ISO format or relative, default: now)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Set up MCP agents and configuration"
+      ],
+      "option": [
+        {
+          "name": "--clients",
+          "tip": [
+            "U: --clients <CLIENTS>",
+            "Comma-separated list of MCP clients to set up"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "Set up project-specific MCP access for the currently linked project"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metrics",
+      "tip": [
+        "U: metrics <metric>",
+        "Queries observability metrics for your project or team"
+      ],
+      "option": [
+        {
+          "name": "--aggregation",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --aggregation <FN>",
+            "Aggregation function (default: sum for counts/bytes/currency, avg for durations/memory/ratios)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all",
+          "tip": [
+            "Query across all projects for the team"
+          ]
+        },
+        {
+          "name": "--bucket-timezone",
+          "tip": [
+            "U: --bucket-timezone <ZONE>",
+            "IANA timezone for calendar bucket alignment only"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --filter <EXPR>",
+            "OData filter expression (repeatable, ANDed together)"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--granularity",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --granularity <SIZE>",
+            "Time bucket size: 5m, 15m, 1h, 1d (default: auto)"
+          ],
+          "next": [
+            {
+              "name": "15m",
+              "tip": [
+                "15 minutes"
+              ]
+            },
+            {
+              "name": "1d",
+              "tip": [
+                "1 day"
+              ]
+            },
+            {
+              "name": "1h",
+              "tip": [
+                "1 hour"
+              ]
+            },
+            {
+              "name": "5m",
+              "tip": [
+                "5 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--group-by",
+          "tip": [
+            "U: --group-by <DIM>",
+            "Dimensions to group by (repeatable)"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --limit <N>",
+            "Max groups per time bucket (default: 10)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--order",
+          "tip": [
+            "U: --order <asc|desc>",
+            "Order direction for grouped results"
+          ],
+          "next": [
+            {
+              "name": "asc",
+              "tip": [
+                "Ascending"
+              ]
+            },
+            {
+              "name": "desc",
+              "tip": [
+                "Descending"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--order-by",
+          "tip": [
+            "U: --order-by <value|count>",
+            "Order grouped results by value or count (default: count)"
+          ],
+          "next": [
+            {
+              "name": "count",
+              "tip": [
+                "Order by count"
+              ]
+            },
+            {
+              "name": "value",
+              "tip": [
+                "Order by value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "Limit query to production environment"
+          ]
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "Project name or ID (defaults to the linked project)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --since <TIME>",
+            "Start time: relative (1h, 30m, 2d) or ISO date (default: 1h)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --until <TIME>",
+            "End time (default: now)"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "schema",
+          "tip": [
+            "U: schema [metric-or-prefix]",
+            "List available metrics or inspect a specific metric"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "microfrontends",
+      "tip": [
+        "Manages your microfrontends"
+      ],
+      "next": [
+        {
+          "name": "add-to-group",
+          "tip": [
+            "Add the current project to a microfrontends group"
+          ]
+        },
+        {
+          "name": "create-group",
+          "tip": [
+            "Create a new microfrontends group"
+          ]
+        },
+        {
+          "name": "delete-group",
+          "tip": [
+            "Delete a microfrontends group and all of its settings"
+          ]
+        },
+        {
+          "name": "inspect-group",
+          "tip": [
+            "Inspect a microfrontends group and return project metadata"
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "Pull a Vercel Microfrontends configuration into your project"
+          ]
+        },
+        {
+          "name": "remove-from-group",
+          "tip": [
+            "Remove the current project from its microfrontends group"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "oauth-apps",
+      "tip": [
+        "Register Vercel Apps (OAuth) and manage team installations"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List OAuth apps"
+          ]
+        },
+        {
+          "name": "open",
+          "tip": [
+            "U: open [name]",
+            "Open an OAuth app in the Vercel dashboard"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "tip": [
+        "Opens the current project in the Vercel Dashboard"
+      ],
+      "option": [
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip confirmation when linking is required"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "tip": [
+        "Manages your Projects"
+      ],
+      "next": [
+        {
+          "name": "access-groups",
+          "tip": [
+            "U: access-groups [name]",
+            "List access groups for a project"
+          ]
+        },
+        {
+          "name": "access-summary",
+          "tip": [
+            "U: access-summary [name]",
+            "Show member counts by team role for project access"
+          ]
+        },
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>",
+            "Add a new project"
+          ]
+        },
+        {
+          "name": "checks",
+          "tip": [
+            "U: checks [name]",
+            "List, add, or remove deployment checks for a project"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect [name]",
+            "Displays information related to a project"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Show all projects in the selected scope"
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "U: members [name]",
+            "List project members for a project"
+          ]
+        },
+        {
+          "name": "protection",
+          "tip": [
+            "U: protection [action] [name]",
+            "Show or toggle deployment protection settings for a project"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name>",
+            "Delete a project"
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "U: rename <name> <new-name>",
+            "Rename a project"
+          ]
+        },
+        {
+          "name": "speed-insights",
+          "tip": [
+            "U: speed-insights [name]",
+            "Enable Speed Insights for a project"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "U: token [name]",
+            "Get a development OIDC token for a project"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [name]",
+            "Update one or more project settings"
+          ]
+        },
+        {
+          "name": "web-analytics",
+          "tip": [
+            "U: web-analytics [name]",
+            "Enable Web Analytics for a project"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "promote",
+      "tip": [
+        "U: promote <url|id>",
+        "Promote an existing deployment to current"
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIME>",
+            "Time to wait for promotion completion [3m]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip the confirmation prompt when linking a Project"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "status",
+          "tip": [
+            "U: status [project]",
+            "Show the status of any current pending promotions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pull",
+      "tip": [
+        "U: pull [path]",
+        "Pull your Project Settings from the cloud"
+      ],
+      "option": [
+        {
+          "name": "--environment",
+          "tip": [
+            "U: --environment <TARGET>",
+            "Deployment environment [development]"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "Development environment"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "Preview environment"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production environment"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--git-branch",
+          "tip": [
+            "U: --git-branch <NAME>",
+            "Specify the Git branch to pull specific Environment Variables for"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "Project name or ID (defaults to the linked project)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip questions when setting up new project using default scope and settings"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "redeploy",
+      "tip": [
+        "U: redeploy <url|id>",
+        "Rebuild and deploy a previous deployment"
+      ],
+      "option": [
+        {
+          "name": "--no-wait",
+          "tip": [
+            "Don't wait for the redeploy to finish"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "Redeploy to a specific target environment"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "Development environment"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "Preview environment"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "Production environment"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "redirects",
+      "tip": [
+        "Manages redirects for your current Project"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [source] [destination]",
+            "Add a new redirect"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all redirects for the current project"
+          ]
+        },
+        {
+          "name": "list-versions",
+          "tip": [
+            "List all versions of redirects"
+          ]
+        },
+        {
+          "name": "promote",
+          "tip": [
+            "U: promote <version-id>",
+            "Promote a staged redirects version to production"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <source>",
+            "Remove a redirect"
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "U: restore <version-id>",
+            "Restore a previous redirects version"
+          ]
+        },
+        {
+          "name": "upload",
+          "tip": [
+            "U: upload <file>",
+            "Upload redirects from a CSV or JSON file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "tip": [
+        "U: rm|remove <id>",
+        "Removes a deployment"
+      ],
+      "option": [
+        {
+          "name": "--safe",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --safe",
+            "Skip deployments with an active alias"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Skip confirmation"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rollback",
+      "tip": [
+        "U: rollback <url|id>",
+        "Quickly revert back to a previous deployment"
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIME>",
+            "Time to wait for rollback completion [3m]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Accept default value for all prompts"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "status",
+          "tip": [
+            "U: status [project]",
+            "Show the status of any current pending rollbacks"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rolling-release",
+      "alias": [
+        "rr"
+      ],
+      "tip": [
+        "U: rr|rolling-release",
+        "Manage rolling releases for gradual traffic shifting"
+      ],
+      "next": [
+        {
+          "name": "abort",
+          "tip": [
+            "Abort an active rolling release"
+          ]
+        },
+        {
+          "name": "approve",
+          "tip": [
+            "Approve the current stage of an active rolling release"
+          ]
+        },
+        {
+          "name": "complete",
+          "tip": [
+            "Complete an active rolling release"
+          ]
+        },
+        {
+          "name": "configure",
+          "tip": [
+            "Configure rolling release settings for a project"
+          ]
+        },
+        {
+          "name": "fetch",
+          "tip": [
+            "Fetch details about a rolling release"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Start a rolling release"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "routes",
+      "tip": [
+        "Manages routing rules for your current Project"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [name]",
+            "Add a new routing rule to the project"
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <name-or-id>",
+            "Delete one or more routing rules"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <name-or-id>",
+            "Disable a routing rule without deleting it"
+          ]
+        },
+        {
+          "name": "discard-staging",
+          "tip": [
+            "Discard staged routing changes"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "U: edit <name-or-id>",
+            "Edit an existing routing rule"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <name-or-id>",
+            "Enable a disabled routing rule"
+          ]
+        },
+        {
+          "name": "export",
+          "tip": [
+            "U: export [name-or-id]",
+            "Export routes to a vercel.json or vercel.ts file"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <name-or-id>",
+            "Show detailed information about a specific route"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all routing rules for the current project"
+          ]
+        },
+        {
+          "name": "list-versions",
+          "tip": [
+            "List all versions of routing rules"
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "Publish staged routing changes to production"
+          ]
+        },
+        {
+          "name": "reorder",
+          "tip": [
+            "U: reorder <name-or-id>",
+            "Move a routing rule to a different position"
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "U: restore <version-id>",
+            "Restore a previous routing version to production"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sandbox",
+      "tip": [
+        "Interact with Vercel Sandbox"
+      ],
+      "next": [
+        {
+          "name": "config",
+          "tip": [
+            "View and update sandbox configuration"
+          ]
+        },
+        {
+          "name": "connect",
+          "tip": [
+            "Start an interactive shell in an existing sandbox"
+          ]
+        },
+        {
+          "name": "copy",
+          "tip": [
+            "Copy files between your local filesystem and a remote sandbox"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "Create a sandbox in the specified account and project"
+          ]
+        },
+        {
+          "name": "exec",
+          "tip": [
+            "Execute a command in an existing sandbox"
+          ]
+        },
+        {
+          "name": "fork",
+          "tip": [
+            "Fork an existing sandbox into a new one"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all sandboxes for the specified account and project"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Log in to the Sandbox CLI"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out of the Sandbox CLI"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Permanently remove one or more sandboxes"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Create and run a command in a sandbox"
+          ]
+        },
+        {
+          "name": "sessions",
+          "tip": [
+            "Manage sandbox sessions"
+          ]
+        },
+        {
+          "name": "snapshot",
+          "tip": [
+            "Take a snapshot of the filesystem of a sandbox"
+          ]
+        },
+        {
+          "name": "snapshots",
+          "tip": [
+            "Manage sandbox snapshots"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Stop the current session of one or more sandboxes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "tip": [
+        "U: skills [query]",
+        "Discover agent skills relevant to your project"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <FORMAT>",
+            "Specify output format"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output results as JSON"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "Accept default value for all prompts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "tip": [
+        "U: switch [scope]",
+        "Switches between different scopes"
+      ]
+    },
+    {
+      "name": "target",
+      "tip": [
+        "Manage custom environments for your Project"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List targets defined for the current Project"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "teams",
+      "tip": [
+        "Manages your teams"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Create a new team"
+          ]
+        },
+        {
+          "name": "invite",
+          "tip": [
+            "U: invite <email>",
+            "Invite a new member to a team"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Show all teams that you're a member of"
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "List members for the currently scoped team"
+          ]
+        },
+        {
+          "name": "request",
+          "tip": [
+            "U: request [userId]",
+            "Show join-request status for the current team"
+          ]
+        },
+        {
+          "name": "sso",
+          "tip": [
+            "Show SAML / SSO configuration for the current team"
+          ]
+        },
+        {
+          "name": "switch",
+          "tip": [
+            "U: switch [name]",
+            "Switch to a different team"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "telemetry",
+      "tip": [
+        "Enable or disable telemetry collection"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "Disables telemetry collection"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "Enables telemetry collection"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Shows whether telemetry collection is enabled or disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tokens",
+      "tip": [
+        "Manage your personal Vercel authentication tokens"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>",
+            "Create a new personal authentication token"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List your personal authentication tokens"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "Delete a personal authentication token by ID"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "traces",
+      "tip": [
+        "Fetch and capture traces for your project's deployment"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "U: create <path>",
+            "Capture a session trace for a request (alias for vercel curl --trace)"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get [requestId]",
+            "Fetch a captured trace by request id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "Upgrade the Vercel CLI to the latest version"
+      ]
+    },
+    {
+      "name": "usage",
+      "tip": [
+        "Show billing usage for the current billing period"
+      ],
+      "option": [
+        {
+          "name": "--breakdown",
+          "tip": [
+            "U: --breakdown <PERIOD>",
+            "Show usage breakdown by time period"
+          ],
+          "next": [
+            {
+              "name": "daily",
+              "tip": [
+                "Daily breakdown"
+              ]
+            },
+            {
+              "name": "monthly",
+              "tip": [
+                "Monthly breakdown"
+              ]
+            },
+            {
+              "name": "weekly",
+              "tip": [
+                "Weekly breakdown"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "Specify the output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--from",
+          "tip": [
+            "U: --from <DATE>",
+            "Start date (YYYY-MM-DD, interpreted as midnight LA time)"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--group-by",
+          "tip": [
+            "U: --group-by <DIMENSION>",
+            "Group usage by a dimension instead of aggregated totals"
+          ],
+          "next": [
+            {
+              "name": "project",
+              "tip": [
+                "Group by project"
+              ]
+            },
+            {
+              "name": "region",
+              "tip": [
+                "Group by region"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--to",
+          "tip": [
+            "U: --to <DATE>",
+            "End date (YYYY-MM-DD, interpreted as end of day LA time)"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "vcr",
+      "tip": [
+        "Manages your Container Registry repositories and images"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>",
+            "Create a container registry repository"
+          ]
+        },
+        {
+          "name": "image",
+          "tip": [
+            "List, inspect, or delete images in a repository"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <repository>",
+            "Show details for a single repository"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "U: login <engine>",
+            "Authenticate a container tool (docker, podman, or buildah) with the Vercel Container Registry"
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "List container registry repositories for a project"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm <repository>",
+            "Delete a container registry repository"
+          ]
+        },
+        {
+          "name": "tag",
+          "tip": [
+            "List or inspect a repository's tags"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "webhooks",
+      "tip": [
+        "Manages webhooks [beta]"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "U: create <url>",
+            "Create a new webhook"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <id>",
+            "Displays information related to a webhook"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Show all webhooks"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "Remove a webhook"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "whoami",
+      "tip": [
+        "Shows the username of the currently logged in user"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--cwd",
+      "tip": [
+        "U: --cwd <DIR>",
+        "Current working directory"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "Debug mode [off]"
+      ]
+    },
+    {
+      "name": "--global-config",
+      "alias": [
+        "-Q"
+      ],
+      "tip": [
+        "U: -Q, --global-config <DIR>",
+        "Path to the global .vercel directory"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Output usage information"
+      ]
+    },
+    {
+      "name": "--local-config",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --local-config <FILE>",
+        "Path to the local vercel.json file"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "No color mode [off]"
+      ]
+    },
+    {
+      "name": "--non-interactive",
+      "tip": [
+        "Run without interactive prompts (default when agent detected)"
+      ]
+    },
+    {
+      "name": "--scope",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --scope",
+        "Set a custom scope"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--token",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --token <TOKEN>",
+        "Login token"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Output the version number"
+      ]
+    }
+  ]
+}

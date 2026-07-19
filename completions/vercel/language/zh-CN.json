@@ -1,0 +1,3617 @@
+{
+  "meta": {
+    "url": "https://vercel.com",
+    "description": [
+      "用于部署和管理 Vercel 项目的命令行工具"
+    ]
+  },
+  "next": [
+    {
+      "name": "activity",
+      "tip": [
+        "列出用户活动事件"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "显示所有团队事件（忽略链接项目的自动范围）"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <NUMBER>",
+            "每页返回的结果数（默认: 20，最大: 100）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--next",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "U: -N, --next <MS>",
+            "显示下一页结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "按项目过滤"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <DATE>",
+            "显示此日期之后的事件（ISO 8601 或相对值: 1d, 7d, 30d）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--type",
+          "tip": [
+            "U: --type <TYPE>",
+            "按事件类型过滤（可重复，逗号分隔）"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until <DATE>",
+            "显示此日期之前的事件（ISO 8601 或相对值）"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "types",
+          "tip": [
+            "列出可用的事件类型及其描述"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "tip": [
+        "U: agent [init]",
+        "生成包含 Vercel 最佳实践的 AGENTS.md"
+      ]
+    },
+    {
+      "name": "agent-runs",
+      "tip": [
+        "检查 Agent Runs 可观测性数据"
+      ],
+      "next": [
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <runId>",
+            "显示 Agent Run 的元数据、生命周期事件、使用情况和子代理数据"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目的 Agent Runs"
+          ]
+        },
+        {
+          "name": "projects",
+          "tip": [
+            "列出当前团队中有 Agent Runs 活动的项目"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "U: trace <runId>",
+            "显示 Agent Run 的跟踪信息（轮次、消息、推理和工具调用）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ai-gateway",
+      "tip": [
+        "管理 AI Gateway 资源"
+      ],
+      "next": [
+        {
+          "name": "api-keys",
+          "tip": [
+            "管理 AI Gateway API 密钥"
+          ]
+        },
+        {
+          "name": "coding-agents",
+          "tip": [
+            "将本地编码代理连接到 AI Gateway"
+          ]
+        },
+        {
+          "name": "models",
+          "tip": [
+            "管理 AI Gateway 模型"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "管理 AI Gateway 路由规则（Beta）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "alerts",
+      "tip": [
+        "列出项目或团队的警报"
+      ],
+      "option": [
+        {
+          "name": "--ai",
+          "tip": [
+            "打印 AI 聚焦部分而非表格输出"
+          ]
+        },
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "显示团队范围的警报"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <NUMBER>",
+            "每页返回的结果数（默认: 20，最大: 100）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "按项目过滤"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <ISO_DATE>",
+            "时间范围的开始（ISO-8601）。默认为 24 小时前"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--type",
+          "tip": [
+            "U: --type <TYPE>",
+            "按警报类型过滤（可重复，逗号分隔）"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until <ISO_DATE>",
+            "时间范围的结束（ISO-8601）。默认为当前时间"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <groupId>",
+            "显示单个警报组的详细信息"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "创建、列出、更新或删除警报通知规则"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "alias",
+      "tip": [
+        "管理你的域名别名"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "显示所有别名"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <alias>",
+            "使用主机名删除别名"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <id-or-url> <alias>",
+            "创建新别名（默认）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "tip": [
+        "U: api [endpoint]",
+        "向 Vercel API 发送经过身份验证的 HTTP 请求 [beta]"
+      ],
+      "option": [
+        {
+          "name": "--dangerously-skip-permissions",
+          "tip": [
+            "跳过 DELETE 操作的确认提示（谨慎使用）"
+          ]
+        },
+        {
+          "name": "--field",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --field <KEY=VALUE>",
+            "添加类型化参数。使用 @file 读取文件内容"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--generate",
+          "tip": [
+            "U: --generate <FORMAT>",
+            "生成输出而非执行"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--header",
+          "alias": [
+            "-H"
+          ],
+          "tip": [
+            "U: -H, --header <KEY:VALUE>",
+            "添加自定义 HTTP 头"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --include",
+            "在输出中包含响应头"
+          ]
+        },
+        {
+          "name": "--input",
+          "tip": [
+            "U: --input <FILE>",
+            "从文件读取请求体（使用 - 表示标准输入）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--method",
+          "alias": [
+            "-X"
+          ],
+          "tip": [
+            "U: -X, --method <METHOD>",
+            "HTTP 方法（GET, POST, PUT, PATCH, DELETE）"
+          ],
+          "next": [
+            {
+              "name": "DELETE",
+              "tip": [
+                "DELETE 请求"
+              ]
+            },
+            {
+              "name": "GET",
+              "tip": [
+                "GET 请求"
+              ]
+            },
+            {
+              "name": "PATCH",
+              "tip": [
+                "PATCH 请求"
+              ]
+            },
+            {
+              "name": "POST",
+              "tip": [
+                "POST 请求"
+              ]
+            },
+            {
+              "name": "PUT",
+              "tip": [
+                "PUT 请求"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--paginate",
+          "tip": [
+            "获取所有页面的结果"
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "输出原始 JSON 而不进行格式化"
+          ]
+        },
+        {
+          "name": "--raw-field",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --raw-field <KEY=VALUE>",
+            "添加字符串选项（不进行类型解析）"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "强制刷新缓存的 OpenAPI 规范"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "抑制响应输出"
+          ]
+        },
+        {
+          "name": "--spec-url",
+          "tip": [
+            "U: --spec-url <URL>",
+            "从自定义 OpenAPI 规范 URL 获取端点"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "显示调试信息，包括完整的请求/响应"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出所有可用的 API 端点"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bisect",
+      "tip": [
+        "使用二分查找找到引入 bug 的部署"
+      ],
+      "option": [
+        {
+          "name": "--bad",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --bad <URL>",
+            "已知有问题的 URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--good",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --good <URL>",
+            "已知正常的 URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--open",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --open <URL>",
+            "自动在浏览器中打开每个 URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --path <PATH>",
+            "要测试的部署 URL 的子路径"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--run",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --run <SCRIPT>",
+            "为每个部署运行的测试脚本"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "blob",
+      "tip": [
+        "管理你的 Blob 存储和文件"
+      ],
+      "option": [
+        {
+          "name": "--oidc-token",
+          "tip": [
+            "U: --oidc-token <String>",
+            "Blob 存储的 OIDC 令牌（必须与 --store-id 一起传递）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--rw-token",
+          "tip": [
+            "U: --rw-token <String>",
+            "Blob 存储的 Read_Write_Token"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--store-id",
+          "tip": [
+            "U: --store-id <String>",
+            "Blob 存储 id，带或不带 store_ 前缀（必须与 --oidc-token 一起传递）"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "copy",
+          "tip": [
+            "U: copy <fromUrlOrPathname> <toPathname>",
+            "在 Blob 存储中复制文件"
+          ]
+        },
+        {
+          "name": "create-store",
+          "tip": [
+            "U: create-store [name]",
+            "创建新的 Blob 存储"
+          ]
+        },
+        {
+          "name": "del",
+          "tip": [
+            "U: del <urlsOrPathnames>",
+            "从 Blob 存储中删除文件"
+          ]
+        },
+        {
+          "name": "delete-store",
+          "tip": [
+            "U: delete-store <storeId>",
+            "删除 Blob 存储"
+          ]
+        },
+        {
+          "name": "empty-store",
+          "tip": [
+            "删除 Blob 存储中的所有 blob"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <urlOrPathname>",
+            "通过 URL 或路径名下载 blob"
+          ]
+        },
+        {
+          "name": "get-store",
+          "tip": [
+            "U: get-store [storeId]",
+            "获取 Blob 存储"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 Blob 存储中的所有文件"
+          ]
+        },
+        {
+          "name": "list-stores",
+          "tip": [
+            "列出所有 Blob 存储"
+          ]
+        },
+        {
+          "name": "presign",
+          "tip": [
+            "U: presign <pathname>",
+            "生成用于 Blob 操作的预签名 URL"
+          ]
+        },
+        {
+          "name": "put",
+          "tip": [
+            "U: put <pathToFile>",
+            "将文件上传到 Blob 存储"
+          ]
+        },
+        {
+          "name": "signed-token",
+          "tip": [
+            "颁发用于 Blob 操作的短期签名令牌"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "在本地将项目构建到 './vercel/output'"
+      ],
+      "option": [
+        {
+          "name": "--id",
+          "tip": [
+            "U: --id <ID>",
+            "用于拉取环境变量的部署 ID"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output",
+          "tip": [
+            "U: --output <DIR>",
+            "构建资源写入的目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "构建生产部署"
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "项目名称或 ID（默认使用已链接的项目）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--standalone",
+          "tip": [
+            "创建独立构建，将所有依赖内联到函数输出文件夹中"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "指定目标环境"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "开发环境"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "预览环境"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产环境"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "跳过拉取环境变量和项目设置的确认提示"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "buy",
+      "tip": [
+        "为你的团队购买 Vercel 产品"
+      ],
+      "next": [
+        {
+          "name": "addon",
+          "tip": [
+            "U: addon <addon-name> <quantity>",
+            "为你的团队购买 Vercel 附加组件"
+          ]
+        },
+        {
+          "name": "credits",
+          "tip": [
+            "U: credits <credit-type> <amount>",
+            "为你的团队购买 Vercel 积分"
+          ]
+        },
+        {
+          "name": "domain",
+          "tip": [
+            "U: domain <domain>",
+            "购买域名"
+          ]
+        },
+        {
+          "name": "pro",
+          "tip": [
+            "为你的团队购买 Vercel Pro 订阅"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "管理当前项目的缓存"
+      ],
+      "next": [
+        {
+          "name": "dangerously-delete",
+          "tip": [
+            "危险操作：按标签删除所有缓存内容"
+          ]
+        },
+        {
+          "name": "invalidate",
+          "tip": [
+            "按标签使所有缓存内容失效"
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "清除当前项目的缓存"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "certs",
+      "tip": [
+        "管理你的 SSL 证书"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加新证书"
+          ]
+        },
+        {
+          "name": "issue",
+          "tip": [
+            "U: issue <cn>",
+            "为域名签发新证书"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "显示所有可用证书"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "按 id 删除证书"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "connect",
+      "tip": [
+        "管理连接器 [beta]"
+      ],
+      "next": [
+        {
+          "name": "attach",
+          "tip": [
+            "U: attach <connector>",
+            "将 Vercel 项目附加到连接器的一个或多个环境"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create <type>",
+            "创建新连接器"
+          ]
+        },
+        {
+          "name": "detach",
+          "tip": [
+            "U: detach <connector>",
+            "从连接器分离 Vercel 项目"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出链接到当前项目的连接器"
+          ]
+        },
+        {
+          "name": "open",
+          "tip": [
+            "U: open <id>",
+            "在 Vercel 控制面板中打开连接器"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <connector>",
+            "删除连接器"
+          ]
+        },
+        {
+          "name": "revoke-tokens",
+          "tip": [
+            "U: revoke-tokens <connector>",
+            "吊销从连接器颁发的令牌"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "U: token <id>",
+            "获取连接器的令牌"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <id>",
+            "更新连接器品牌（图标和颜色）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contract",
+      "tip": [
+        "显示计费期间的合同信息"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "crons",
+      "alias": [
+        "cron"
+      ],
+      "tip": [
+        "U: cron|crons",
+        "管理项目的定时任务 [beta]"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "向 vercel.json 添加定时任务"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目的所有定时任务"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run [path]",
+            "立即触发定时任务运行"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "curl",
+      "tip": [
+        "U: curl <path>",
+        "向已链接项目的部署发送 cURL 请求 [beta]"
+      ],
+      "option": [
+        {
+          "name": "--deployment",
+          "tip": [
+            "U: --deployment <ID|URL>",
+            "目标部署 ID 或 URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "与 --trace 一起使用时，将 { response, requestId } 作为 JSON 输出到标准输出"
+          ]
+        },
+        {
+          "name": "--protection-bypass",
+          "tip": [
+            "U: --protection-bypass <SECRET>",
+            "用于访问受保护部署的保护绕过密钥"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "捕获请求的会话跟踪并打印跟踪请求 id"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "跳过需要链接时的确认"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "tip": [
+        "U: deploy [path]",
+        "执行部署（默认命令）"
+      ],
+      "option": [
+        {
+          "name": "--archive",
+          "tip": [
+            "U: --archive <FORMAT>",
+            "在上传前将部署代码压缩为归档文件"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--build-env",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --build-env <KEY=VALUE>",
+            "在构建时指定环境变量"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--dry",
+          "tip": [
+            "检查检测到的框架预设和源文件，不执行部署"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env <KEY=VALUE>",
+            "在运行时指定环境变量"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "即使没有任何更改也强制执行新部署"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--guidance",
+          "tip": [
+            "部署完成后接收命令建议"
+          ]
+        },
+        {
+          "name": "--logs",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --logs",
+            "打印构建日志"
+          ]
+        },
+        {
+          "name": "--meta",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --meta <KEY=VALUE>",
+            "指定部署的元数据"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--no-wait",
+          "tip": [
+            "不等待部署完成"
+          ]
+        },
+        {
+          "name": "--prebuilt",
+          "tip": [
+            "与 `vc build` 配合使用，部署已有的构建"
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "创建生产部署（--target=production 的简写）"
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "项目名称或 ID（默认使用已链接的项目）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--regions",
+          "tip": [
+            "U: --regions <REGION>",
+            "设置部署启用的默认区域"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--skip-domain",
+          "tip": [
+            "禁用新生产部署相关域名的自动提升"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "指定目标部署环境"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "开发环境"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "预览环境"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产环境"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--with-cache",
+          "tip": [
+            "使用 --force 时保留构建缓存"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "使用默认选项跳过所有提示"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy-hooks",
+      "tip": [
+        "管理用于 Git 触发构建的部署钩子"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "U: create [name]",
+            "为 Git 分支创建部署钩子"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目的部署钩子"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "按 id 删除部署钩子"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "tip": [
+        "启动本地开发服务器"
+      ],
+      "option": [
+        {
+          "name": "--listen",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --listen <URI>",
+            "指定监听的 URI 端点 [0.0.0.0:3000]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-L"
+          ],
+          "tip": [
+            "U: -L, --local",
+            "启动开发服务器时不链接到 Vercel 项目"
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "项目名称或 ID（默认使用已链接的项目）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "接受所有提示的默认值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dns",
+      "tip": [
+        "U: dns [name]",
+        "管理你的 DNS 记录"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <domain> <details>",
+            "添加新的 DNS 条目"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "U: import <domain> <zonefile>",
+            "导入 DNS 区域文件"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [domain]",
+            "列出 DNS 条目"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "使用 ID 删除 DNS 条目"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "domains",
+      "tip": [
+        "U: domains [name]",
+        "管理你的域名"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <domain> [project]",
+            "将你已拥有的域名添加到 Vercel 团队"
+          ]
+        },
+        {
+          "name": "buy",
+          "tip": [
+            "U: buy <domain>",
+            "购买新域名"
+          ]
+        },
+        {
+          "name": "check",
+          "tip": [
+            "U: check <domain>",
+            "检查域名是否可购买"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <domain>",
+            "显示与域名相关的信息"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "以列表形式显示所有域名（默认）"
+          ]
+        },
+        {
+          "name": "move",
+          "tip": [
+            "U: move <domain> <destination>",
+            "将域名所有权转移到另一个 Vercel 团队"
+          ]
+        },
+        {
+          "name": "price",
+          "tip": [
+            "U: price <domain>",
+            "显示一个或多个域名的注册商报价"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <domain>",
+            "从 Vercel 团队移除域名所有权"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "U: search <query>",
+            "从关键词或片段发现域名候选"
+          ]
+        },
+        {
+          "name": "transfer-in",
+          "tip": [
+            "U: transfer-in <domain>",
+            "将域名转入 Vercel"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "U: verify <domain>",
+            "检查域名的 DNS 配置并说明如何修复"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "edge-config",
+      "tip": [
+        "管理 Edge Config 存储"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <slug>",
+            "创建 Edge Config 存储"
+          ]
+        },
+        {
+          "name": "backups",
+          "tip": [
+            "U: backups <id-or-slug>",
+            "列出、检查或恢复 Edge Config 备份"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <id-or-slug>",
+            "显示 Edge Config 的元数据"
+          ]
+        },
+        {
+          "name": "items",
+          "tip": [
+            "U: items <id-or-slug>",
+            "列出 Edge Config 中的项目，或使用 --key 获取单个项目"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出当前团队的 Edge Config 存储"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id-or-slug>",
+            "删除 Edge Config 存储"
+          ]
+        },
+        {
+          "name": "tokens",
+          "tip": [
+            "U: tokens <id-or-slug>",
+            "列出、创建或吊销 Edge Config 的读取令牌"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <id-or-slug>",
+            "重命名 Edge Config 和/或修补项目"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "tip": [
+        "管理当前项目的环境变量"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name> [environment] [git-branch]",
+            "添加环境变量"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [environment] [git-branch]",
+            "列出项目的所有环境变量"
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "U: pull [filename]",
+            "从云端拉取所有开发环境变量并写入文件 [.env.local]"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name> [environment]",
+            "删除环境变量"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run <command>",
+            "使用已链接 Vercel 项目的环境变量运行命令"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <name> [environment]",
+            "更新现有环境变量的值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "firewall",
+      "tip": [
+        "管理 Vercel 防火墙配置和自定义规则"
+      ],
+      "next": [
+        {
+          "name": "attack-mode",
+          "tip": [
+            "管理攻击模式，该模式会用验证页面挑战所有传入请求"
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "显示已做出但尚未发布的草稿更改"
+          ]
+        },
+        {
+          "name": "discard",
+          "tip": [
+            "永久丢弃所有未发布的草稿更改"
+          ]
+        },
+        {
+          "name": "ip-blocks",
+          "tip": [
+            "管理拒绝来自特定地址或范围访问的 IP 阻止规则"
+          ]
+        },
+        {
+          "name": "overview",
+          "tip": [
+            "显示项目防火墙配置的摘要"
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "将所有草稿防火墙更改发布到生产环境"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "管理基于条件控制流量处理的自定义防火墙规则"
+          ]
+        },
+        {
+          "name": "system-bypass",
+          "tip": [
+            "管理允许特定 IP 跳过防火墙检查的系统绕过规则"
+          ]
+        },
+        {
+          "name": "system-mitigations",
+          "tip": [
+            "管理自动 DDoS 防护和系统级流量过滤"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flags",
+      "tip": [
+        "管理 Vercel 项目的功能标志"
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "tip": [
+            "U: archive <flag>",
+            "归档功能标志"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create <slug>",
+            "创建新的功能标志"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <flag>",
+            "快捷方式：在环境中服务布尔功能标志的 false 变体"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <flag>",
+            "快捷方式：在环境中服务布尔功能标志的 true 变体"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <flag>",
+            "显示功能标志的信息"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出当前项目的所有功能标志"
+          ]
+        },
+        {
+          "name": "open",
+          "tip": [
+            "U: open [flag]",
+            "在 Vercel 控制面板中打开功能标志"
+          ]
+        },
+        {
+          "name": "override",
+          "tip": [
+            "U: override [flag=value]",
+            "将标志覆盖加密为 vercel-flag-overrides cookie 的安全令牌"
+          ]
+        },
+        {
+          "name": "prepare",
+          "tip": [
+            "为构建准备标志定义回退"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <flag>",
+            "删除功能标志"
+          ]
+        },
+        {
+          "name": "rollout",
+          "tip": [
+            "U: rollout <flag>",
+            "在环境中配置功能标志的渐进式推出"
+          ]
+        },
+        {
+          "name": "rules",
+          "tip": [
+            "管理功能标志的条件规则"
+          ]
+        },
+        {
+          "name": "sdk-keys",
+          "tip": [
+            "管理功能标志的 SDK 密钥"
+          ]
+        },
+        {
+          "name": "segments",
+          "tip": [
+            "管理功能标志的细分"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <flag>",
+            "在环境中设置功能标志的服务变体"
+          ]
+        },
+        {
+          "name": "split",
+          "tip": [
+            "U: split <flag>",
+            "在环境中配置功能标志的加权拆分"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <flag>",
+            "更新现有功能标志"
+          ]
+        },
+        {
+          "name": "versions",
+          "tip": [
+            "列出和比较功能标志的版本历史"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "git",
+      "tip": [
+        "管理当前项目的 Git 提供商仓库"
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "tip": [
+            "U: connect [git-url]",
+            "将 Vercel 项目连接到 Git 仓库或提供远程 URL"
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "从 Vercel 项目断开 Git 仓库连接"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "httpstat",
+      "tip": [
+        "U: httpstat <path>",
+        "可视化部署的 HTTP 时序统计"
+      ],
+      "option": [
+        {
+          "name": "--deployment",
+          "tip": [
+            "U: --deployment <ID|URL>",
+            "目标部署 ID 或 URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--protection-bypass",
+          "tip": [
+            "U: --protection-bypass <SECRET>",
+            "用于访问受保护部署的保护绕过密钥"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "跳过需要链接时的确认"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "alias": [
+        "i"
+      ],
+      "tip": [
+        "U: init|install [example]",
+        "初始化示例项目"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "如果目标目录已存在则覆盖"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "inspect",
+      "tip": [
+        "U: inspect <id>",
+        "显示与部署相关的信息"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--logs",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --logs",
+            "打印构建日志而非部署摘要"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIME>",
+            "等待部署完成的时间 [3m]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "阻塞直到部署完成"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "U: link [path]",
+        "将本地目录链接到 Vercel 项目"
+      ],
+      "option": [
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "设置要链接的项目名称或 ID"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repo",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --repo",
+            "从 Git 仓库链接多个项目（alpha）"
+          ]
+        },
+        {
+          "name": "--team",
+          "tip": [
+            "U: --team <TEAM_ID_OR_SLUG>",
+            "设置团队 ID 或 slug；与 --project 一起用于非交互式链接"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "跳过设置默认团队和设置时的问题"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "将项目添加到由 link --repo 创建的现有仓库链接中"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "tip": [
+        "U: ls|list [app]",
+        "列出部署"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "列出所有项目的资源"
+          ]
+        },
+        {
+          "name": "--environment",
+          "tip": [
+            "U: --environment <TARGET>",
+            "按环境过滤"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <NUMBER>",
+            "每页返回的结果数（默认: 20，最大: 100）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--meta",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --meta <KEY=VALUE>",
+            "按元数据过滤部署"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--next",
+          "alias": [
+            "-N"
+          ],
+          "tip": [
+            "U: -N, --next <MS>",
+            "显示下一页结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--policy",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --policy <KEY=VALUE>",
+            "查看具有指定部署保留策略的部署"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--status",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --status <STATUS>",
+            "按状态过滤部署（多个状态用逗号分隔）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "接受所有提示的默认值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "U: login [email]",
+        "登录到你的账户或创建新账户"
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "退出你的账户"
+      ]
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "U: logs [url]",
+        "显示部署的日志"
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --branch",
+            "按 git 分支过滤（默认为当前分支）"
+          ]
+        },
+        {
+          "name": "--deployment",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --deployment",
+            "将日志过滤到特定的部署 ID 或 URL"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--environment",
+          "tip": [
+            "U: --environment",
+            "按环境过滤：production 或 preview"
+          ],
+          "next": [
+            {
+              "name": "preview",
+              "tip": [
+                "预览环境"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产环境"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--expand",
+          "alias": [
+            "-x"
+          ],
+          "tip": [
+            "U: -x, --expand",
+            "在每个请求行下方显示完整的日志消息"
+          ]
+        },
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --follow",
+            "流式传输实时运行时日志"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "tip": [
+            "U: -j, --json",
+            "将日志输出为 JSON Lines 以便传递给其他工具"
+          ]
+        },
+        {
+          "name": "--level",
+          "tip": [
+            "U: --level",
+            "按日志级别过滤"
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "错误级别"
+              ]
+            },
+            {
+              "name": "fatal",
+              "tip": [
+                "致命级别"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "信息级别"
+              ]
+            },
+            {
+              "name": "warning",
+              "tip": [
+                "警告级别"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --limit",
+            "最大结果数（默认: 100）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-branch",
+          "tip": [
+            "禁用 git 分支的自动检测"
+          ]
+        },
+        {
+          "name": "--no-follow",
+          "tip": [
+            "空操作；部署参数仅在设置 --follow 时流式传输日志"
+          ]
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "项目名称或 ID（默认使用已链接的项目）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--query",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --query",
+            "高级搜索查询（支持过滤语法）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--request-id",
+          "tip": [
+            "U: --request-id",
+            "按请求 ID 过滤"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since",
+            "开始时间（ISO 格式或相对值: 1h, 30m）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--source",
+          "tip": [
+            "U: --source",
+            "按来源过滤"
+          ],
+          "next": [
+            {
+              "name": "edge-function",
+              "tip": [
+                "Edge Function "
+              ]
+            },
+            {
+              "name": "edge-middleware",
+              "tip": [
+                "Edge Middleware "
+              ]
+            },
+            {
+              "name": "serverless",
+              "tip": [
+                "Serverless "
+              ]
+            },
+            {
+              "name": "static",
+              "tip": [
+                "Static "
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--status-code",
+          "tip": [
+            "U: --status-code",
+            "按 HTTP 状态码过滤（例如: 500, 4xx）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "tip": [
+            "U: --until",
+            "结束时间（ISO 格式或相对值，默认: 当前时间）"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "设置 MCP 代理和配置"
+      ],
+      "option": [
+        {
+          "name": "--clients",
+          "tip": [
+            "U: --clients <CLIENTS>",
+            "要设置的 MCP 客户端的逗号分隔列表"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "为当前已链接的项目设置项目特定的 MCP 访问"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metrics",
+      "tip": [
+        "U: metrics <metric>",
+        "查询项目或团队的可观测性指标"
+      ],
+      "option": [
+        {
+          "name": "--aggregation",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --aggregation <FN>",
+            "聚合函数（默认: 计数/字节/货币用 sum，持续时间/内存/比率用 avg）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--all",
+          "tip": [
+            "查询团队的所有项目"
+          ]
+        },
+        {
+          "name": "--bucket-timezone",
+          "tip": [
+            "U: --bucket-timezone <ZONE>",
+            "仅用于日历存储桶对齐的 IANA 时区"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --filter <EXPR>",
+            "OData 过滤表达式（可重复，AND 连接）"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--granularity",
+          "alias": [
+            "-g"
+          ],
+          "tip": [
+            "U: -g, --granularity <SIZE>",
+            "时间桶大小: 5m, 15m, 1h, 1d（默认: auto）"
+          ],
+          "next": [
+            {
+              "name": "15m",
+              "tip": [
+                "15 分钟"
+              ]
+            },
+            {
+              "name": "1d",
+              "tip": [
+                "1 天"
+              ]
+            },
+            {
+              "name": "1h",
+              "tip": [
+                "1 小时"
+              ]
+            },
+            {
+              "name": "5m",
+              "tip": [
+                "5 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--group-by",
+          "tip": [
+            "U: --group-by <DIM>",
+            "分组维度（可重复）"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-l"
+          ],
+          "tip": [
+            "U: -l, --limit <N>",
+            "每个时间桶的最大分组数（默认: 10）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--order",
+          "tip": [
+            "U: --order <asc|desc>",
+            "分组结果的排序方向"
+          ],
+          "next": [
+            {
+              "name": "asc",
+              "tip": [
+                "升序"
+              ]
+            },
+            {
+              "name": "desc",
+              "tip": [
+                "降序"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--order-by",
+          "tip": [
+            "U: --order-by <value|count>",
+            "按值或计数排序分组结果（默认: count）"
+          ],
+          "next": [
+            {
+              "name": "count",
+              "tip": [
+                "按计数排序"
+              ]
+            },
+            {
+              "name": "value",
+              "tip": [
+                "按值排序"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--prod",
+          "tip": [
+            "将查询限制为生产环境"
+          ]
+        },
+        {
+          "name": "--project",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --project <NAME_OR_ID>",
+            "项目名称或 ID（默认使用已链接的项目）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--since",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --since <TIME>",
+            "开始时间: 相对值（1h, 30m, 2d）或 ISO 日期（默认: 1h）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--until",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --until <TIME>",
+            "结束时间（默认: 当前时间）"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "schema",
+          "tip": [
+            "U: schema [metric-or-prefix]",
+            "列出可用指标或检查特定指标"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "microfrontends",
+      "tip": [
+        "管理你的微前端"
+      ],
+      "next": [
+        {
+          "name": "add-to-group",
+          "tip": [
+            "将当前项目添加到微前端组"
+          ]
+        },
+        {
+          "name": "create-group",
+          "tip": [
+            "创建新的微前端组"
+          ]
+        },
+        {
+          "name": "delete-group",
+          "tip": [
+            "删除微前端组及其所有设置"
+          ]
+        },
+        {
+          "name": "inspect-group",
+          "tip": [
+            "检查微前端组并返回项目元数据"
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "将 Vercel 微前端配置拉取到你的项目中"
+          ]
+        },
+        {
+          "name": "remove-from-group",
+          "tip": [
+            "从微前端组中移除当前项目"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "oauth-apps",
+      "tip": [
+        "注册 Vercel Apps (OAuth) 并管理团队安装"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出 OAuth 应用"
+          ]
+        },
+        {
+          "name": "open",
+          "tip": [
+            "U: open [name]",
+            "在 Vercel 控制面板中打开 OAuth 应用"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "tip": [
+        "在 Vercel 控制面板中打开当前项目"
+      ],
+      "option": [
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "跳过需要链接时的确认"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "tip": [
+        "管理你的项目"
+      ],
+      "next": [
+        {
+          "name": "access-groups",
+          "tip": [
+            "U: access-groups [name]",
+            "列出项目的访问组"
+          ]
+        },
+        {
+          "name": "access-summary",
+          "tip": [
+            "U: access-summary [name]",
+            "显示项目访问的团队角色成员计数"
+          ]
+        },
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>",
+            "添加新项目"
+          ]
+        },
+        {
+          "name": "checks",
+          "tip": [
+            "U: checks [name]",
+            "列出、添加或删除项目的部署检查"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect [name]",
+            "显示与项目相关的信息"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "显示选定范围内的所有项目"
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "U: members [name]",
+            "列出项目的成员"
+          ]
+        },
+        {
+          "name": "protection",
+          "tip": [
+            "U: protection [action] [name]",
+            "显示或切换项目的部署保护设置"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name>",
+            "删除项目"
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "U: rename <name> <new-name>",
+            "重命名项目"
+          ]
+        },
+        {
+          "name": "speed-insights",
+          "tip": [
+            "U: speed-insights [name]",
+            "为项目启用 Speed Insights"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "U: token [name]",
+            "获取项目的开发 OIDC 令牌"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [name]",
+            "更新一个或多个项目设置"
+          ]
+        },
+        {
+          "name": "web-analytics",
+          "tip": [
+            "U: web-analytics [name]",
+            "为项目启用 Web Analytics"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "promote",
+      "tip": [
+        "U: promote <url|id>",
+        "将现有部署提升为当前部署"
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIME>",
+            "等待提升完成的时间 [3m]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "跳过链接项目时的确认提示"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "status",
+          "tip": [
+            "U: status [project]",
+            "显示当前任何待处理提升的状态"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pull",
+      "tip": [
+        "U: pull [path]",
+        "从云端拉取项目设置"
+      ],
+      "option": [
+        {
+          "name": "--environment",
+          "tip": [
+            "U: --environment <TARGET>",
+            "部署环境 [development]"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "开发环境"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "预览环境"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产环境"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--git-branch",
+          "tip": [
+            "U: --git-branch <NAME>",
+            "指定要拉取特定环境变量的 Git 分支"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "U: --project <NAME_OR_ID>",
+            "项目名称或 ID（默认使用已链接的项目）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "使用默认范围和设置跳过设置新项目时的问题"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "redeploy",
+      "tip": [
+        "U: redeploy <url|id>",
+        "重新构建并部署之前的部署"
+      ],
+      "option": [
+        {
+          "name": "--no-wait",
+          "tip": [
+            "不等待重新部署完成"
+          ]
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target <TARGET>",
+            "重新部署到指定的目标环境"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "开发环境"
+              ]
+            },
+            {
+              "name": "preview",
+              "tip": [
+                "预览环境"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "生产环境"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "redirects",
+      "tip": [
+        "管理当前项目的重定向"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [source] [destination]",
+            "添加新重定向"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出当前项目的所有重定向"
+          ]
+        },
+        {
+          "name": "list-versions",
+          "tip": [
+            "列出所有重定向版本"
+          ]
+        },
+        {
+          "name": "promote",
+          "tip": [
+            "U: promote <version-id>",
+            "将暂存的重定向版本提升到生产环境"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <source>",
+            "删除重定向"
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "U: restore <version-id>",
+            "恢复之前的重定向版本"
+          ]
+        },
+        {
+          "name": "upload",
+          "tip": [
+            "U: upload <file>",
+            "从 CSV 或 JSON 文件上传重定向"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "tip": [
+        "U: rm|remove <id>",
+        "删除部署"
+      ],
+      "option": [
+        {
+          "name": "--safe",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --safe",
+            "跳过具有活动别名的部署"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "跳过确认"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rollback",
+      "tip": [
+        "U: rollback <url|id>",
+        "快速回退到之前的部署"
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "tip": [
+            "U: --timeout <TIME>",
+            "等待回滚完成的时间 [3m]"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "接受所有提示的默认值"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "status",
+          "tip": [
+            "U: status [project]",
+            "显示当前任何待处理回滚的状态"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rolling-release",
+      "alias": [
+        "rr"
+      ],
+      "tip": [
+        "U: rr|rolling-release",
+        "管理渐进式发布的滚动发布"
+      ],
+      "next": [
+        {
+          "name": "abort",
+          "tip": [
+            "中止活动滚动发布"
+          ]
+        },
+        {
+          "name": "approve",
+          "tip": [
+            "批准活动滚动发布的当前阶段"
+          ]
+        },
+        {
+          "name": "complete",
+          "tip": [
+            "完成活动滚动发布"
+          ]
+        },
+        {
+          "name": "configure",
+          "tip": [
+            "配置项目的滚动发布设置"
+          ]
+        },
+        {
+          "name": "fetch",
+          "tip": [
+            "获取滚动发布的详细信息"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "开始滚动发布"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "routes",
+      "tip": [
+        "管理当前项目的路由规则"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [name]",
+            "向项目添加新的路由规则"
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <name-or-id>",
+            "删除一个或多个路由规则"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <name-or-id>",
+            "禁用路由规则而不删除它"
+          ]
+        },
+        {
+          "name": "discard-staging",
+          "tip": [
+            "丢弃暂存的路由更改"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "U: edit <name-or-id>",
+            "编辑现有路由规则"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <name-or-id>",
+            "启用已禁用的路由规则"
+          ]
+        },
+        {
+          "name": "export",
+          "tip": [
+            "U: export [name-or-id]",
+            "将路由导出到 vercel.json 或 vercel.ts 文件"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <name-or-id>",
+            "显示特定路由的详细信息"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出当前项目的所有路由规则"
+          ]
+        },
+        {
+          "name": "list-versions",
+          "tip": [
+            "列出所有路由规则版本"
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "将暂存的路由更改发布到生产环境"
+          ]
+        },
+        {
+          "name": "reorder",
+          "tip": [
+            "U: reorder <name-or-id>",
+            "将路由规则移动到不同位置"
+          ]
+        },
+        {
+          "name": "restore",
+          "tip": [
+            "U: restore <version-id>",
+            "将之前的路由版本恢复到生产环境"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sandbox",
+      "tip": [
+        "与 Vercel Sandbox 交互"
+      ],
+      "next": [
+        {
+          "name": "config",
+          "tip": [
+            "查看和更新沙盒配置"
+          ]
+        },
+        {
+          "name": "connect",
+          "tip": [
+            "在现有沙盒中启动交互式 shell"
+          ]
+        },
+        {
+          "name": "copy",
+          "tip": [
+            "在本地文件系统和远程沙盒之间复制文件"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "在指定帐户和项目中创建沙盒"
+          ]
+        },
+        {
+          "name": "exec",
+          "tip": [
+            "在现有沙盒中执行命令"
+          ]
+        },
+        {
+          "name": "fork",
+          "tip": [
+            "将现有沙盒分叉为新沙盒"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出指定帐户和项目的所有沙盒"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "登录到 Sandbox CLI"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "退出 Sandbox CLI"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "永久删除一个或多个沙盒"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "在沙盒中创建并运行命令"
+          ]
+        },
+        {
+          "name": "sessions",
+          "tip": [
+            "管理沙盒会话"
+          ]
+        },
+        {
+          "name": "snapshot",
+          "tip": [
+            "拍摄沙盒文件系统的快照"
+          ]
+        },
+        {
+          "name": "snapshots",
+          "tip": [
+            "管理沙盒快照"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止一个或多个沙盒的当前会话"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "tip": [
+        "U: skills [query]",
+        "发现与你的项目相关的代理技能"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "将结果输出为 JSON"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "tip": [
+            "U: -y, --yes",
+            "接受所有提示的默认值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "tip": [
+        "U: switch [scope]",
+        "在不同范围之间切换"
+      ]
+    },
+    {
+      "name": "target",
+      "tip": [
+        "管理项目的自定义环境"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出为当前项目定义的目标"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "teams",
+      "tip": [
+        "管理你的团队"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "创建新团队"
+          ]
+        },
+        {
+          "name": "invite",
+          "tip": [
+            "U: invite <email>",
+            "邀请新成员加入团队"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "显示你是成员的所有团队"
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "列出当前范围团队的成员"
+          ]
+        },
+        {
+          "name": "request",
+          "tip": [
+            "U: request [userId]",
+            "显示当前团队的加入请求状态"
+          ]
+        },
+        {
+          "name": "sso",
+          "tip": [
+            "显示当前团队的 SAML / SSO 配置"
+          ]
+        },
+        {
+          "name": "switch",
+          "tip": [
+            "U: switch [name]",
+            "切换到不同的团队"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "telemetry",
+      "tip": [
+        "启用或禁用遥测收集"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "禁用遥测收集"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "启用遥测收集"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示遥测收集是否已启用或禁用"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tokens",
+      "tip": [
+        "管理你的个人 Vercel 身份验证令牌"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>",
+            "创建新的个人身份验证令牌"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出你的个人身份验证令牌"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "按 ID 删除个人身份验证令牌"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "traces",
+      "tip": [
+        "获取和捕获项目部署的跟踪信息"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "U: create <path>",
+            "捕获请求的会话跟踪（vercel curl --trace 的别名）"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get [requestId]",
+            "按请求 id 获取捕获的跟踪信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "将 Vercel CLI 升级到最新版本"
+      ]
+    },
+    {
+      "name": "usage",
+      "tip": [
+        "显示当前计费期间的计费使用情况"
+      ],
+      "option": [
+        {
+          "name": "--breakdown",
+          "tip": [
+            "U: --breakdown <PERIOD>",
+            "按时间段显示使用情况细分"
+          ],
+          "next": [
+            {
+              "name": "daily",
+              "tip": [
+                "每日细分"
+              ]
+            },
+            {
+              "name": "monthly",
+              "tip": [
+                "每月细分"
+              ]
+            },
+            {
+              "name": "weekly",
+              "tip": [
+                "每周细分"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --format <FORMAT>",
+            "指定输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--from",
+          "tip": [
+            "U: --from <DATE>",
+            "开始日期（YYYY-MM-DD，解释为洛杉矶时间午夜）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--group-by",
+          "tip": [
+            "U: --group-by <DIMENSION>",
+            "按维度分组使用情况而非聚合总计"
+          ],
+          "next": [
+            {
+              "name": "project",
+              "tip": [
+                "按项目分组"
+              ]
+            },
+            {
+              "name": "region",
+              "tip": [
+                "按区域分组"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--to",
+          "tip": [
+            "U: --to <DATE>",
+            "结束日期（YYYY-MM-DD，解释为洛杉矶时间当天结束）"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "vcr",
+      "tip": [
+        "管理你的容器注册表仓库和镜像"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add <name>",
+            "创建容器注册表仓库"
+          ]
+        },
+        {
+          "name": "image",
+          "tip": [
+            "列出、检查或删除仓库中的镜像"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect <repository>",
+            "显示单个仓库的详细信息"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "U: login <engine>",
+            "使用容器工具（docker、podman 或 buildah）对 Vercel 容器注册表进行身份验证"
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出项目的容器注册表仓库"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm <repository>",
+            "删除容器注册表仓库"
+          ]
+        },
+        {
+          "name": "tag",
+          "tip": [
+            "列出或检查仓库的标签"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "webhooks",
+      "tip": [
+        "管理 webhook [beta]"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "U: create <url>",
+            "创建新 webhook"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <id>",
+            "显示与 webhook 相关的信息"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "显示所有 webhook"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <id>",
+            "删除 webhook"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "whoami",
+      "tip": [
+        "显示当前登录用户的用户名"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--cwd",
+      "tip": [
+        "U: --cwd <DIR>",
+        "当前工作目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "tip": [
+        "U: -d, --debug",
+        "调试模式 [off]"
+      ]
+    },
+    {
+      "name": "--global-config",
+      "alias": [
+        "-Q"
+      ],
+      "tip": [
+        "U: -Q, --global-config <DIR>",
+        "全局 .vercel 目录的路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "输出使用信息"
+      ]
+    },
+    {
+      "name": "--local-config",
+      "alias": [
+        "-A"
+      ],
+      "tip": [
+        "U: -A, --local-config <FILE>",
+        "本地 vercel.json 文件的路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "无颜色模式 [off]"
+      ]
+    },
+    {
+      "name": "--non-interactive",
+      "tip": [
+        "不使用交互式提示运行（检测到代理时的默认值）"
+      ]
+    },
+    {
+      "name": "--scope",
+      "alias": [
+        "-S"
+      ],
+      "tip": [
+        "U: -S, --scope",
+        "设置自定义范围"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--token",
+      "alias": [
+        "-t"
+      ],
+      "tip": [
+        "U: -t, --token <TOKEN>",
+        "登录令牌"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "输出版本号"
+      ]
+    }
+  ]
+}
