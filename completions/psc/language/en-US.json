@@ -2419,7 +2419,7 @@
       "\n",
       "{{",
       "if ($PSEdition -eq 'Desktop'){",
-      "$m = '<@Cyan>[Environment Notice]', 'You are currently using <@Red>Windows PowerShell 5.1 (Desktop)<@Cyan>, it is recommended to use <@Blue>PowerShell 7+ (Core)<@Cyan>.','<@Blue>PSCompletions<@Cyan> only maintains compatibility on Windows PowerShell 5.1, and <@Red>the experience is degraded<@Cyan>.';",
+      "$m = '<@Cyan>[Environment Notice]', 'You are currently using <@Red>Windows PowerShell 5+ (Desktop)<@Cyan>, it is recommended to use <@Blue>PowerShell 7+ (Core)<@Cyan>.','<@Blue>PSCompletions<@Cyan> only maintains compatibility on Windows PowerShell 5+ (Desktop), and <@Red>the experience is degraded<@Cyan>.';",
       "$m -join \"`n\";",
       "\"`n`n\"",
       "}",
@@ -2429,7 +2429,7 @@
       "Run <@Magenta>psc<@Cyan> will display this page content again and reload the module's key bindings and data.\n",
       "\n",
       "<@Cyan>[Module Completion Menu]\n",
-      "<@Blue>PSCompletions<@Cyan> provides a more powerful module completion menu.{{ if(!$IsWindows){ ' <@Yellow>(Currently only available on Windows)<@Cyan>' } }}\n",
+      "<@Blue>PSCompletions<@Cyan> provides a more powerful module completion menu.{{ if(!($IsWindows -or $PSEdition -eq 'Desktop')){ ' <@Yellow>(Currently only available on Windows)<@Cyan>' } }}\n",
       "\n",
       "You can enter characters to filter (Fuzzy matching), and three matching symbols are supported:\n",
       "  - <@Magenta>^<@Cyan>: Match the beginning. (Enter again to toggle)\n",
@@ -2466,8 +2466,8 @@
     ],
     "err": {
       "deny_change_menu_line_style": [
-        "<@Red>In Windows PowerShell 5.1, due to its rendering issues, the border line style of the module completion menu cannot be modified.\n",
-        "It is recommended to use PowerShell (pwsh) as it does not have such restrictions."
+        "<@Red>In Windows PowerShell 5+ (Desktop), due to its rendering issues, the border line style of the module completion menu cannot be modified.\n",
+        "It is recommended to use PowerShell 7+ (Core) as it does not have such restrictions."
       ],
       "has_wildcard": [
         "<@Red>It contains wildcard characters."
