@@ -259,124 +259,50 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
 
     function new_node {
         param([switch]$isOption)
-        @{
-            Name          = $null
-            Alias         = @()
-            Tip           = $null
-            Repeat        = 0
-            IsOption      = $isOption.IsPresent
-            HasNextDef    = $false
-            HasOptionDef  = $false
-            NextIsArray   = $false
-            OptionIsArray = $false
-            Next          = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase)
-            Options       = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase)
-            NextItems     = [System.Collections.Generic.List[object]]::new()
-            OptionItems   = [System.Collections.Generic.List[object]]::new()
-            Parent        = $null
-        }
-    }
-    function node_all_names {
-        param($node)
-        @($node.Name) + @($node.Alias)
+        @{ Name = $null; Alias = @(); Tip = $null; Repeat = 0; IsOption = $isOption.IsPresent; HasNextDef = $false; HasOptionDef = $false; NextIsArray = $false; OptionIsArray = $false; Next = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase); Options = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase); NextItems = [System.Collections.Generic.List[object]]::new(); OptionItems = [System.Collections.Generic.List[object]]::new(); Parent = $null }
     }
     function node_symbols {
         param($node)
         $symbols = @()
         if ($node.IsOption) {
-            if (-not $node.HasNextDef -and -not $node.HasOptionDef) {
-                $symbols += 'stay'
-            }
-            else {
-                $symbols += 'input'
-                if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' }
-            }
+            if (-not $node.HasNextDef -and -not $node.HasOptionDef) { $symbols += 'stay' }
+            else { $symbols += 'input'; if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' } }
         }
-        else {
-            if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' }
-        }
+        else { if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' } }
         $symbols
     }
-    function node_takes_free_input {
-        param($node)
-        $node.IsOption -and ($node.HasNextDef -or $node.HasOptionDef) -and -not ($node.NextIsArray -or $node.OptionIsArray)
-    }
-    function node_has_candidates_after {
-        param($node)
-        $node.NextIsArray -or $node.OptionIsArray
-    }
+    function node_takes_free_input { param($node); $node.IsOption -and ($node.HasNextDef -or $node.HasOptionDef) -and -not ($node.NextIsArray -or $node.OptionIsArray) }
+    function node_has_candidates_after { param($node); $node.NextIsArray -or $node.OptionIsArray }
     function add_to_bucket {
         param($dict, $items, $node)
-        foreach ($key in (node_all_names $node)) {
-            if ($null -eq $key) { continue }
-
-            $dict[$key] = $node
-        }
+        foreach ($key in @($node.Name) + @($node.Alias)) { if ($null -ne $key) { $dict[$key] = $node } }
         $items.Add($node)
     }
     function build_node {
         param($rawCmd, [switch]$isOption, $parent)
-
         $node = new_node -isOption:$isOption
-        $node.Parent = $parent
-        $node.Name = $rawCmd.name
-        $node.Alias = @($rawCmd.alias | Where-Object { $_ -is [string] })
+        $node.Parent = $parent; $node.Name = $rawCmd.name
+        $node.Alias = @($rawCmd.alias | Where-Object { $_ })
         $node.Tip = $rawCmd.tip
         $node.Repeat = if ($null -eq $rawCmd.repeat) { 0 } else { [int]$rawCmd.repeat }
-        $node.HasNextDef = $null -ne $rawCmd.next
-        $node.HasOptionDef = $null -ne $rawCmd.option
-        $node.NextIsArray = $rawCmd.next -is [array]
-        $node.OptionIsArray = $rawCmd.option -is [array]
-        if ($node.NextIsArray) {
-            foreach ($childRaw in $rawCmd.next) {
-                $child = build_node $childRaw -parent $node
-                add_to_bucket $node.Next $node.NextItems $child
-            }
-        }
-        if ($node.OptionIsArray) {
-            foreach ($childRaw in $rawCmd.option) {
-                $child = build_node $childRaw -isOption -parent $node
-                add_to_bucket $node.Options $node.OptionItems $child
-            }
-        }
+        $node.HasNextDef = $null -ne $rawCmd.next; $node.HasOptionDef = $null -ne $rawCmd.option
+        $node.NextIsArray = $rawCmd.next -is [array]; $node.OptionIsArray = $rawCmd.option -is [array]
+        if ($node.NextIsArray) { foreach ($c in $rawCmd.next) { $ch = build_node $c -parent $node; add_to_bucket $node.Next $node.NextItems $ch } }
+        if ($node.OptionIsArray) { foreach ($c in $rawCmd.option) { $ch = build_node $c -isOption -parent $node; add_to_bucket $node.Options $node.OptionItems $ch } }
         $node
     }
     function build_tree {
-        param($languageJson)
-
-        $tree = @{
-            Root              = new_node
-            RootOptions       = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
-            RootOptionItems   = [System.Collections.Generic.List[object]]::new()
-            GlobalOptions     = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal)
-            GlobalOptionItems = [System.Collections.Generic.List[object]]::new()
-        }
-        if ($languageJson.next) {
-            foreach ($cmdRaw in $languageJson.next) {
-                $node = build_node $cmdRaw -parent $tree.Root
-                add_to_bucket $tree.Root.Next $tree.Root.NextItems $node
-            }
-            $tree.Root.HasNextDef = $true
-            $tree.Root.NextIsArray = $true
-        }
-        if ($languageJson.option) {
-            foreach ($cmdRaw in $languageJson.option) {
-                $node = build_node $cmdRaw -isOption -parent $tree.Root
-                add_to_bucket $tree.RootOptions $tree.RootOptionItems $node
-            }
-        }
-        if ($languageJson.global_option) {
-            foreach ($cmdRaw in $languageJson.global_option) {
-                $node = build_node $cmdRaw -isOption -parent $tree.Root
-                add_to_bucket $tree.GlobalOptions $tree.GlobalOptionItems $node
-            }
-        }
-        $tree
+        param($json)
+        $t = @{ Root = new_node; RootOptions = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal); RootOptionItems = [System.Collections.Generic.List[object]]::new(); GlobalOptions = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal); GlobalOptionItems = [System.Collections.Generic.List[object]]::new() }
+        if ($json.next) { foreach ($r in $json.next) { $n = build_node $r -parent $t.Root; add_to_bucket $t.Root.Next $t.Root.NextItems $n } $t.Root.HasNextDef = $true; $t.Root.NextIsArray = $true }
+        if ($json.option) { foreach ($r in $json.option) { $n = build_node $r -isOption -parent $t.Root; add_to_bucket $t.RootOptions $t.RootOptionItems $n } }
+        if ($json.global_option) { foreach ($r in $json.global_option) { $n = build_node $r -isOption -parent $t.Root; add_to_bucket $t.GlobalOptions $t.GlobalOptionItems $n } }
+        $t
     }
     function expand_node_to_items {
         param($node)
         $symbols = node_symbols $node
-        $names = node_all_names $node
+        $names = @($node.Name) + @($node.Alias)
         $result = [System.Collections.Generic.List[object]]::new()
         foreach ($n in $names) {
             $result.Add(@{
@@ -538,6 +464,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
     if (!$PSCompletions.config.enable_cache) {
         $PSCompletions.completions[$cmd] = $null
         $PSCompletions.completions_data[$cmd] = $null
+    }
+
+    # V5: Check if start_job has completed and merge pre-loaded data
+    if ($PSEdition -eq 'Desktop' -and $PSCompletions.job -and $PSCompletions.job.State -eq 'Completed') {
+        try {
+            $preload_data = Receive-Job $PSCompletions.job -ErrorAction Ignore
+            if ($preload_data -is [hashtable]) {
+                foreach ($key in $preload_data.Keys) {
+                    if (!$PSCompletions.completions_data[$key]) {
+                        $PSCompletions.completions[$key] = $preload_data[$key].json
+                        $PSCompletions.completions_data[$key] = $preload_data[$key].tree
+                    }
+                }
+            }
+        }
+        catch {}
+        $PSCompletions.job = $null
     }
 
     if (!$PSCompletions.completions[$cmd]) {
@@ -2181,43 +2124,96 @@ if ($PSEdition -eq 'Core') {
 
             check_update
 
-            foreach ($_ in $PSCompletions.data.list) {
-                $completion_dir = "$($PSCompletions.path.completions)/$_"
-                try {
-                    $item = Get-Item $completion_dir -ErrorAction Stop
-                }
-                catch {
-                    continue
+            # Pre-load recently used completions (V7: parallel runspaces)
+            $order_dir = $PSCompletions.path.order
+            if (Test-Path -LiteralPath $order_dir) {
+                $recent_cmds = @(Get-ChildItem -Path $order_dir -File -Filter '*.json' -ErrorAction Ignore |
+                    Sort-Object LastWriteTime -Descending |
+                    ForEach-Object { $_.BaseName })
+
+                $completionsDir = $PSCompletions.path.completions
+                $globalLanguage = $PSCompletions.language
+                $completionConfig = $PSCompletions.config.completion
+                $runspacePool = [runspacefactory]::CreateRunspacePool(1, 10)
+                $runspacePool.Open()
+                $jobs = @()
+
+                foreach ($cmd in $recent_cmds) {
+                    $ps = [powershell]::Create()
+                    $ps.RunspacePool = $runspacePool
+                    [void]$ps.AddScript({
+                            param([string]$completionsDir, [string]$cmd, [string]$globalLanguage, [hashtable]$completionConfig)
+                            function new_node {
+                                param([switch]$isOption)
+                                @{ Name = $null; Alias = @(); Tip = $null; Repeat = 0; IsOption = $isOption.IsPresent; HasNextDef = $false; HasOptionDef = $false; NextIsArray = $false; OptionIsArray = $false; Next = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase); Options = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase); NextItems = [System.Collections.Generic.List[object]]::new(); OptionItems = [System.Collections.Generic.List[object]]::new(); Parent = $null }
+                            }
+                            function add_to_bucket {
+                                param($dict, $items, $node)
+                                foreach ($key in @($node.Name) + @($node.Alias)) { if ($null -ne $key) { $dict[$key] = $node } }
+                                $items.Add($node)
+                            }
+                            function build_node {
+                                param($rawCmd, [switch]$isOption, $parent)
+                                $node = new_node -isOption:$isOption
+                                $node.Parent = $parent; $node.Name = $rawCmd.name
+                                $node.Alias = @($rawCmd.alias | Where-Object { $_ })
+                                $node.Tip = $rawCmd.tip
+                                $node.Repeat = if ($null -eq $rawCmd.repeat) { 0 } else { [int]$rawCmd.repeat }
+                                $node.HasNextDef = $null -ne $rawCmd.next; $node.HasOptionDef = $null -ne $rawCmd.option
+                                $node.NextIsArray = $rawCmd.next -is [array]; $node.OptionIsArray = $rawCmd.option -is [array]
+                                if ($node.NextIsArray) { foreach ($c in $rawCmd.next) { $ch = build_node $c -parent $node; add_to_bucket $node.Next $node.NextItems $ch } }
+                                if ($node.OptionIsArray) { foreach ($c in $rawCmd.option) { $ch = build_node $c -isOption -parent $node; add_to_bucket $node.Options $node.OptionItems $ch } }
+                                $node
+                            }
+                            function build_tree {
+                                param($json)
+                                $t = @{ Root = new_node; RootOptions = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal); RootOptionItems = [System.Collections.Generic.List[object]]::new(); GlobalOptions = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal); GlobalOptionItems = [System.Collections.Generic.List[object]]::new() }
+                                if ($json.next) { foreach ($r in $json.next) { $n = build_node $r -parent $t.Root; add_to_bucket $t.Root.Next $t.Root.NextItems $n } $t.Root.HasNextDef = $true; $t.Root.NextIsArray = $true }
+                                if ($json.option) { foreach ($r in $json.option) { $n = build_node $r -isOption -parent $t.Root; add_to_bucket $t.RootOptions $t.RootOptionItems $n } }
+                                if ($json.global_option) { foreach ($r in $json.global_option) { $n = build_node $r -isOption -parent $t.Root; add_to_bucket $t.GlobalOptions $t.GlobalOptionItems $n } }
+                                $t
+                            }
+                            $language = $null
+                            $config_path = "$completionsDir/$cmd/config.json"
+                            if (Test-Path -LiteralPath $config_path) {
+                                try {
+                                    $c = Get-Content $config_path -Raw -Encoding utf8 | ConvertFrom-Json
+                                    if ($c.language) {
+                                        $userLang = $completionConfig[$cmd].language
+                                        if ($userLang) {
+                                            $language = if ($userLang -in $c.language) { $userLang } else { $c.language[0] }
+                                        }
+                                        else {
+                                            $language = if ($globalLanguage -in $c.language) { $globalLanguage } else { $c.language[0] }
+                                        }
+                                    }
+                                }
+                                catch {}
+                            }
+                            if (!$language) { $language = 'en-US' }
+                            $lang_path = "$completionsDir/$cmd/language/$language.json"
+                            if (Test-Path -LiteralPath $lang_path) {
+                                $content = Get-Content $lang_path -Raw -Encoding utf8
+                                $json = ConvertFrom-Json $content -AsHashtable
+                                @{ cmd = $cmd; json = $json; tree = (build_tree $json) }
+                            }
+                        }).AddArgument($completionsDir).AddArgument($cmd).AddArgument($globalLanguage).AddArgument($completionConfig)
+                    $jobs += @{ PowerShell = $ps; Handle = $ps.BeginInvoke() }
                 }
 
-                if ($null -ne $item.LinkType -and -not (Test-Path -LiteralPath $item.Target)) {
-                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
-                    continue
-                }
-
-                $path = "$completion_dir/config.json"
-                if (!(Test-Path -LiteralPath $path)) {
+                foreach ($job in $jobs) {
                     try {
-                        $PSCompletions.download_file("completions/$_/config.json", $path, $PSCompletions.urls)
+                        $result = $job.PowerShell.EndInvoke($job.Handle)
+                        if ($result -and $result.cmd -and !$PSCompletions.completions_data[$result.cmd]) {
+                            $PSCompletions.completions[$result.cmd] = $result.json
+                            $PSCompletions.completions_data[$result.cmd] = $result.tree
+                        }
                     }
-                    catch {
-                        continue
-                    }
+                    catch {}
+                    $job.PowerShell.Dispose()
                 }
-                $PSCompletions.ensure_dir("$completion_dir/language")
-                $json_config = $PSCompletions.get_raw_content($path) | ConvertFrom-Json
-                foreach ($lang in $json_config.language) {
-                    $path_lang = "$completion_dir/language/$lang.json"
-                    if (!(Test-Path -LiteralPath $path_lang)) {
-                        $PSCompletions.download_file("completions/$_/language/$lang.json", $path_lang, $PSCompletions.urls)
-                    }
-                }
-                if ($null -ne $json_config.hooks) {
-                    $path_hooks = "$completion_dir/hooks.ps1"
-                    if (!(Test-Path -LiteralPath $path_hooks)) {
-                        $PSCompletions.download_file("completions/$_/hooks.ps1", $path_hooks, $PSCompletions.urls)
-                    }
-                }
+                $runspacePool.Close()
+                $runspacePool.Dispose()
             }
         } -ArgumentList $PSCompletions
     }
@@ -2300,47 +2296,24 @@ else {
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable {
         param([string]$json)
         # https://github.com/abgox/ConvertFrom-JsonAsHashtable
-        function ConvertFrom-JsonAsHashtable {
-            [CmdletBinding()]
-            param([Parameter(ValueFromPipeline = $true)]$InputObject)
-            begin { $buffer = [System.Text.StringBuilder]::new() }
-            process {
-                if ($InputObject -is [array]) { [void]$buffer.AppendLine(($InputObject -join "`n")) }
-                else { [void]$buffer.AppendLine($InputObject) }
+        if ($PSVersionTable.PSVersion.Major -ge 7) { return ConvertFrom-Json $json -AsHashtable }
+        # V5: optimized for completion JSON schema (strings, numbers, arrays, objects)
+        $parsed = ConvertFrom-Json $json
+        function ConvertObj {
+            param($obj)
+            if ($obj -is [System.Management.Automation.PSCustomObject]) {
+                $ht = @{}
+                foreach ($p in $obj.PSObject.Properties) { $ht[$p.Name] = ConvertObj $p.Value }
+                return $ht
             }
-            end {
-                $jsonString = $buffer.ToString().Trim()
-                if (-not $jsonString) { return $null }
-                if ($PSVersionTable.PSVersion.Major -ge 7) { return ConvertFrom-Json $jsonString -AsHashtable }
-                $jsonString = [regex]::Replace($jsonString, '(?<!\\)""\s*:', { '"emptyKey_' + [Guid]::NewGuid() + '":' })
-                $jsonString = [regex]::Replace($jsonString, ',\s*(?=[}\]]\s*$)', '')
-                $parsed = ConvertFrom-Json $jsonString
-                function ConvertRecursively {
-                    param($obj)
-                    if ($null -eq $obj) { return $null }
-                    if ($obj -is [System.Collections.IDictionary]) {
-                        $ht = @{}
-                        $keys = $obj.Keys
-                        foreach ($k in $keys) { $ht[$k] = ConvertRecursively $obj[$k] }
-                        return $ht
-                    }
-                    if ($obj -is [System.Management.Automation.PSCustomObject]) {
-                        $ht = @{}
-                        $props = $obj.PSObject.Properties
-                        foreach ($p in $props) { $ht[$p.Name] = ConvertRecursively $p.Value }
-                        return $ht
-                    }
-                    if ($obj -is [System.Collections.IEnumerable] -and -not ($obj -is [string]) -and -not ($obj -is [byte[]])) {
-                        $list = [System.Collections.Generic.List[object]]::new()
-                        foreach ($item in $obj) { $list.Add((ConvertRecursively $item)) }
-                        return , $list.ToArray()
-                    }
-                    return $obj
-                }
-                return ConvertRecursively $parsed
+            if ($obj -is [array]) {
+                $list = [System.Collections.Generic.List[object]]::new($obj.Count)
+                foreach ($item in $obj) { $list.Add((ConvertObj $item)) }
+                return , $list.ToArray()
             }
+            return $obj
         }
-        ConvertFrom-JsonAsHashtable $json
+        ConvertObj $parsed
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
         $PSCompletions.job = Start-Job -ScriptBlock {
@@ -2354,21 +2327,6 @@ else {
                     return $res
                 }
                 ''
-            }
-            function download_file {
-                param([string]$path, [string]$file, [array]$baseUrl)
-                $isErr = $true
-                for ($i = 0; $i -lt $baseUrl.Count; $i++) {
-                    $item = $baseUrl[$i]
-                    $url = $item + '/' + $path
-                    try {
-                        Invoke-RestMethod -Uri $url -OutFile $file -TimeoutSec 30 -ErrorAction Stop
-                        $isErr = $false
-                        break
-                    }
-                    catch {}
-                }
-                if ($isErr) { throw }
             }
             function ensure_dir {
                 param([string]$path)
@@ -2477,40 +2435,121 @@ else {
 
             check_update
 
-            foreach ($_ in $PSCompletions.data.list) {
-                $completion_dir = "$($PSCompletions.path.completions)/$_"
-                try {
-                    $item = Get-Item $completion_dir -ErrorAction Stop
-                }
-                catch {
-                    continue
-                }
-                if ($null -ne $item.LinkType -and -not (Test-Path -LiteralPath $item.Target)) {
-                    Remove-Item $completion_dir -Force -Recurse -ErrorAction Ignore
-                    continue
-                }
-                $path = "$completion_dir/config.json"
-                if (!(Test-Path -LiteralPath $path)) {
-                    try {
-                        download_file "completions/$_/config.json" $path $PSCompletions.urls
+            # Pre-load recently used completions (parallel runspaces)
+            $order_dir = $PSCompletions.path.order
+            if (Test-Path -LiteralPath $order_dir) {
+                $recent_cmds = @(Get-ChildItem -Path $order_dir -File -Filter '*.json' -ErrorAction Ignore |
+                    Sort-Object LastWriteTime -Descending |
+                    Select-Object -First 50 |
+                    ForEach-Object { $_.BaseName })
+
+                if ($recent_cmds) {
+                    $completionsDir = $PSCompletions.path.completions
+                    $globalLanguage = $PSCompletions.language
+                    $completionConfig = $PSCompletions.config.completion
+
+                    $runspacePool = [runspacefactory]::CreateRunspacePool(1, 10)
+                    $runspacePool.Open()
+                    $rsJobs = @()
+
+                    foreach ($cmd in $recent_cmds) {
+                        $ps = [powershell]::Create()
+                        $ps.RunspacePool = $runspacePool
+                        [void]$ps.AddScript({
+                                param([string]$completionsDir, [string]$cmd, [string]$globalLanguage, [hashtable]$completionConfig)
+                                function ConvertFrom-JsonAsHashtable {
+                                    param([string]$json)
+                                    # https://github.com/abgox/ConvertFrom-JsonAsHashtable
+                                    if ($PSVersionTable.PSVersion.Major -ge 7) { return ConvertFrom-Json $json -AsHashtable }
+                                    # V5: optimized for completion JSON schema (strings, numbers, arrays, objects)
+                                    function ConvertObj {
+                                        param($obj)
+                                        if ($obj -is [System.Management.Automation.PSCustomObject]) {
+                                            $ht = @{}
+                                            foreach ($p in $obj.PSObject.Properties) { $ht[$p.Name] = ConvertObj $p.Value }
+                                            return $ht
+                                        }
+                                        if ($obj -is [array]) {
+                                            $list = [System.Collections.Generic.List[object]]::new($obj.Count)
+                                            foreach ($item in $obj) { $list.Add((ConvertObj $item)) }
+                                            return , $list.ToArray()
+                                        }
+                                        return $obj
+                                    }
+                                    ConvertObj (ConvertFrom-Json $json)
+                                }
+                                function new_node {
+                                    param([switch]$isOption)
+                                    @{ Name = $null; Alias = @(); Tip = $null; Repeat = 0; IsOption = $isOption.IsPresent; HasNextDef = $false; HasOptionDef = $false; NextIsArray = $false; OptionIsArray = $false; Next = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase); Options = [System.Collections.Hashtable]::New([System.StringComparer]::OrdinalIgnoreCase); NextItems = [System.Collections.Generic.List[object]]::new(); OptionItems = [System.Collections.Generic.List[object]]::new(); Parent = $null }
+                                }
+                                function add_to_bucket {
+                                    param($dict, $items, $node)
+                                    foreach ($key in @($node.Name) + @($node.Alias)) { if ($null -ne $key) { $dict[$key] = $node } }
+                                    $items.Add($node)
+                                }
+                                function build_node {
+                                    param($rawCmd, [switch]$isOption, $parent)
+                                    $node = new_node -isOption:$isOption
+                                    $node.Parent = $parent; $node.Name = $rawCmd.name
+                                    $node.Alias = @($rawCmd.alias | Where-Object { $_ })
+                                    $node.Tip = $rawCmd.tip
+                                    $node.Repeat = if ($null -eq $rawCmd.repeat) { 0 } else { [int]$rawCmd.repeat }
+                                    $node.HasNextDef = $null -ne $rawCmd.next; $node.HasOptionDef = $null -ne $rawCmd.option
+                                    $node.NextIsArray = $rawCmd.next -is [array]; $node.OptionIsArray = $rawCmd.option -is [array]
+                                    if ($node.NextIsArray) { foreach ($c in $rawCmd.next) { $ch = build_node $c -parent $node; add_to_bucket $node.Next $node.NextItems $ch } }
+                                    if ($node.OptionIsArray) { foreach ($c in $rawCmd.option) { $ch = build_node $c -isOption -parent $node; add_to_bucket $node.Options $node.OptionItems $ch } }
+                                    $node
+                                }
+                                function build_tree {
+                                    param($json)
+                                    $t = @{ Root = new_node; RootOptions = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal); RootOptionItems = [System.Collections.Generic.List[object]]::new(); GlobalOptions = [System.Collections.Hashtable]::New([System.StringComparer]::Ordinal); GlobalOptionItems = [System.Collections.Generic.List[object]]::new() }
+                                    if ($json.next) { foreach ($r in $json.next) { $n = build_node $r -parent $t.Root; add_to_bucket $t.Root.Next $t.Root.NextItems $n } $t.Root.HasNextDef = $true; $t.Root.NextIsArray = $true }
+                                    if ($json.option) { foreach ($r in $json.option) { $n = build_node $r -isOption -parent $t.Root; add_to_bucket $t.RootOptions $t.RootOptionItems $n } }
+                                    if ($json.global_option) { foreach ($r in $json.global_option) { $n = build_node $r -isOption -parent $t.Root; add_to_bucket $t.GlobalOptions $t.GlobalOptionItems $n } }
+                                    $t
+                                }
+                                $language = $null
+                                $config_path = "$completionsDir/$cmd/config.json"
+                                if (Test-Path -LiteralPath $config_path) {
+                                    try {
+                                        $c = Get-Content $config_path -Raw -Encoding utf8 | ConvertFrom-Json
+                                        if ($c.language) {
+                                            $userLang = $completionConfig[$cmd].language
+                                            if ($userLang) {
+                                                $language = if ($userLang -in $c.language) { $userLang } else { $c.language[0] }
+                                            }
+                                            else {
+                                                $language = if ($globalLanguage -in $c.language) { $globalLanguage } else { $c.language[0] }
+                                            }
+                                        }
+                                    }
+                                    catch {}
+                                }
+                                if (!$language) { $language = 'en-US' }
+                                $lang_path = "$completionsDir/$cmd/language/$language.json"
+                                if (Test-Path -LiteralPath $lang_path) {
+                                    $content = Get-Content $lang_path -Raw -Encoding utf8
+                                    $json = ConvertFrom-JsonAsHashtable $content
+                                    @{ cmd = $cmd; json = $json; tree = (build_tree $json) }
+                                }
+                            }).AddArgument($completionsDir).AddArgument($cmd).AddArgument($globalLanguage).AddArgument($completionConfig)
+                        $rsJobs += @{ PowerShell = $ps; Handle = $ps.BeginInvoke() }
                     }
-                    catch {
-                        continue
+
+                    $preload_result = @{}
+                    foreach ($job in $rsJobs) {
+                        try {
+                            $result = $job.PowerShell.EndInvoke($job.Handle)
+                            if ($result -and $result.cmd) {
+                                $preload_result[$result.cmd] = @{ json = $result.json; tree = $result.tree }
+                            }
+                        }
+                        catch {}
+                        $job.PowerShell.Dispose()
                     }
-                }
-                ensure_dir "$completion_dir/language"
-                $json_config = get_raw_content $path | ConvertFrom-Json
-                foreach ($lang in $json_config.language) {
-                    $path_lang = "$completion_dir/language/$lang.json"
-                    if (!(Test-Path -LiteralPath $path_lang)) {
-                        download_file "completions/$_/language/$lang.json" $path_lang $PSCompletions.urls
-                    }
-                }
-                if ($null -ne $json_config.hooks) {
-                    $path_hooks = "$completion_dir/hooks.ps1"
-                    if (!(Test-Path -LiteralPath $path_hooks)) {
-                        download_file "completions/$_/hooks.ps1" $path_hooks $PSCompletions.urls
-                    }
+                    $runspacePool.Close()
+                    $runspacePool.Dispose()
+                    $preload_result
                 }
             }
         } -ArgumentList $PSCompletions
