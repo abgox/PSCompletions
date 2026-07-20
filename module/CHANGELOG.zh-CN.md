@@ -4,6 +4,15 @@
 
 ## Unreleased
 
+## 6.11.0
+
+- 重命名 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 使含义更直观：
+  - `SpaceTab` => `continue`
+  - `OptionTab` => `stay`
+  - `WriteSpaceTab` => `input`
+- 新增后台预加载最近使用的补全，提升补全加载速度
+- 其他的优化和修复
+
 ## 6.10.0
 
 - 支持忽略可执行文件后缀来触发补全

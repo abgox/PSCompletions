@@ -4,6 +4,15 @@
 
 ## Unreleased
 
+## 6.11.0
+
+- Renamed [predict symbols](https://pscompletions.abgox.com/docs/completion-predict-symbol) for clearer naming:
+  - `SpaceTab` => `continue`
+  - `OptionTab` => `stay`
+  - `WriteSpaceTab` => `input`
+- Added background pre-loading of recently used completions for faster
+- Other optimizations and fixes
+
 ## 6.10.0
 
 - Support triggering completions by ignoring executable file suffixes.
