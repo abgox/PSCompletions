@@ -9,7 +9,7 @@
     {
       "name": "add",
       "tip": [
-        "添加补全(一个或多个)。",
+        "添加补全（一个或多个）。",
         "{{ $info.add.example }}"
       ],
       "next": [
@@ -26,14 +26,14 @@
     {
       "name": "alias",
       "tip": [
-        "管理触发补全的别名。",
+        "管理补全的触发别名。",
         "{{ $info.alias.example }}"
       ],
       "next": [
         {
           "name": "add",
           "tip": [
-            "为指定补全添加一个别名。",
+            "添加补全的触发别名（一个或多个）。",
             "{{ $info.alias.add.example }}"
           ],
           "next": []
@@ -41,13 +41,13 @@
         {
           "name": "list",
           "tip": [
-            "显示所有补全别名。"
+            "显示所有补全的触发别名。"
           ]
         },
         {
           "name": "rm",
           "tip": [
-            "删除补全别名(一个或多个)。",
+            "删除补全的触发别名（一个或多个）。",
             "{{ $info.example.alias.rm.example }}"
           ],
           "next": []
@@ -74,16 +74,20 @@
           "name": "enable_auto_alias_setup",
           "tip": [
             "当前值: {{ $PSCompletions.config.enable_auto_alias_setup }} (默认值: 1)",
-            "自动使用 Set-Alias 添加 psc alias 定义的别名"
+            "自动使用 Set-Alias 添加 psc alias 定义的触发别名"
           ],
           "next": [
             {
-              "name": "0"
+              "name": "0",
+              "tip": [
+                "禁止通过 Set-Alias 自动设置补全的触发别名。"
+              ]
             },
             {
               "name": "1",
               "tip": [
-                "默认值"
+                "默认值",
+                "通过 Set-Alias 自动设置补全的触发别名。"
               ]
             }
           ]
@@ -97,12 +101,16 @@
           ],
           "next": [
             {
-              "name": "0"
+              "name": "0",
+              "tip": [
+                "禁用补全缓存。"
+              ]
             },
             {
               "name": "1",
               "tip": [
-                "默认值"
+                "默认值",
+                "缓存补全数据以提高加载速度。"
               ]
             }
           ]
@@ -212,7 +220,7 @@
     {
       "name": "info",
       "tip": [
-        "获取补全信息(一个或多个)。",
+        "获取补全信息（一个或多个）。",
         "{{ $info.info.example }}"
       ],
       "next": []
@@ -410,12 +418,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "禁用基于命令历史的动态排序。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "根据命令历史对补全项进行排序。"
                   ]
                 }
               ]
@@ -424,17 +436,21 @@
               "name": "enable_enter_when_single",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_enter_when_single }} (默认值: 0)",
-                "当候选补全项只有一个时直接输入, 而不是显示模块补全菜单。"
+                "当候选补全项只有一个时直接选用, 而不是显示模块补全菜单。"
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "只有一个补全项时直接选用，不显示菜单。"
                   ]
                 },
                 {
-                  "name": "1"
+                  "name": "1",
+                  "tip": [
+                    "只有一个补全项时直接选用，不显示菜单。"
+                  ]
                 }
               ]
             },
@@ -451,11 +467,15 @@
                 {
                   "name": "0",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "禁用模块补全菜单过滤区域的子序列匹配。"
                   ]
                 },
                 {
-                  "name": "1"
+                  "name": "1",
+                  "tip": [
+                    "启用模块补全菜单过滤区域的子序列匹配。"
+                  ]
                 }
               ]
             },
@@ -467,12 +487,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "隐藏通过 hooks 动态添加的补全项的提示信息。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "显示通过 hooks 动态添加的补全项的提示信息。"
                   ]
                 }
               ]
@@ -486,12 +510,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "补全列表显示在固定位置。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "补全列表跟随输入光标显示。"
                   ]
                 }
               ]
@@ -505,12 +533,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "补全列表不使用全宽显示，可能影响性能。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "补全列表使用终端全宽显示。"
                   ]
                 }
               ]
@@ -523,12 +555,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "禁用补全列表的循环滚动。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "启用补全列表的循环滚动。"
                   ]
                 }
               ]
@@ -542,12 +578,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "禁用模块补全菜单，回退到 PowerShell 原生补全。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "使用模块补全菜单替代 PowerShell 原生补全。"
                   ]
                 }
               ]
@@ -561,12 +601,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "禁用模块补全菜单的增强功能，例如: 全局管理补全。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "启用模块补全菜单的增强功能，例如: 全局管理补全。"
                   ]
                 }
               ]
@@ -583,11 +627,15 @@
                 {
                   "name": "0",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "当光标下方的空间不足时，将菜单显示在光标上方。"
                   ]
                 },
                 {
-                  "name": "1"
+                  "name": "1",
+                  "tip": [
+                    "当光标下方的空间不足时，通过滚动缓冲区，强制将菜单显示在光标下方。"
+                  ]
                 }
               ]
             },
@@ -601,12 +649,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "路径补全移除尾部分隔符。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "路径补全添加尾部分隔符。"
                   ]
                 }
               ]
@@ -619,12 +671,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "隐藏补全提示信息。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "显示补全提示信息。"
                   ]
                 }
               ]
@@ -638,12 +694,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "提示信息显示在固定位置。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "提示信息跟随输入光标显示。"
                   ]
                 }
               ]
@@ -652,16 +712,20 @@
               "name": "enable_tip_when_enhance",
               "tip": [
                 "当前值: {{ $PSCompletions.config.enable_tip_when_enhance }} (默认值: 1)",
-                "对于不是通过 'psc add' 添加的补全，显示它们的命令提示信息。"
+                "对于不是通过 'psc add' 添加的补全，尝试显示它们的命令提示信息。"
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "隐藏非 psc add 添加的补全项的提示信息。"
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "默认值"
+                    "默认值",
+                    "显示非 psc add 添加的补全项的提示信息。"
                   ]
                 }
               ]
@@ -2031,14 +2095,14 @@
         {
           "name": "alias",
           "tip": [
-            "将所有补全或指定的补全恢复为默认补全名。",
+            "重置补全的触发别名。",
             "{{ $info.reset.alias.example }}"
           ],
           "next": [
             {
               "name": "--all",
               "tip": [
-                "删除所有补全别名, 全部恢复为默认补全名。"
+                "重置所有补全的触发别名。"
               ]
             }
           ]
@@ -2046,14 +2110,14 @@
         {
           "name": "completion",
           "tip": [
-            "重置(移除)所有补全或指定补全的特殊配置。",
+            "重置补全的特殊配置。",
             "{{ $info.reset.completion.example }}"
           ],
           "next": [
             {
               "name": "--all",
               "tip": [
-                "重置(移除)所有补全的特殊配置。",
+                "重置所有补全的特殊配置。",
                 "包括 psc completion 命令下可以设置的所有的配置项。"
               ]
             }
@@ -2125,7 +2189,7 @@
     {
       "name": "rm",
       "tip": [
-        "移除补全(一个或多个)。",
+        "移除补全（一个或多个）。",
         "{{ $info.rm.example }}"
       ],
       "next": [
@@ -2156,7 +2220,7 @@
     {
       "name": "update",
       "tip": [
-        "更新补全(一个或多个)。",
+        "更新补全（一个或多个）。",
         "{{ $info.update.example }}"
       ],
       "next": [
@@ -2240,47 +2304,47 @@
     "alias": {
       "add": {
         "err": {
-          "cmd_exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 是已存在的命令, 请设置其他别名",
-          "exist": "<@Red>别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 已经是 {{ $completion }} 的别名了",
+          "cmd_exist": "<@Red>触发别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 是已存在的命令, 请设置其他触发别名",
+          "exist": "<@Red>触发别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 已经是 {{ $completion }} 的触发别名了",
           "min_k": [
             "<@Yellow>",
             "你应该继续输入一个已经安装了的补全名称\n",
-            "然后再输入一个或多个你想添加的别名"
+            "然后再输入一个或多个你想添加的触发别名"
           ],
           "min_v": [
             "<@Yellow>",
-            "你还需要继续输入一个或多个你想为 {{ $completion }} 添加的别名"
+            "你还需要继续输入一个或多个你想为 {{ $completion }} 添加的触发别名"
           ]
         },
         "example": [
-          "E: psc alias add git g gi            --- 为 git 添加 g 和 gi 这两个别名\n",
-          "   psc alias add scoop scoop.ps1     --- 为 scoop 添加 scoop.ps1 这个别名"
+          "E: psc alias add git g gi            --- 为 git 添加 g 和 gi 这两个触发别名\n",
+          "   psc alias add scoop scoop.ps1     --- 为 scoop 添加 scoop.ps1 这个触发别名"
         ],
         "tip": [
-          "{{ \"当前别名列表: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
-          "为 {{ $completion }} 添加一个或多个别名"
+          "{{ \"当前触发别名列表: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
+          "为 {{ $completion }} 添加一个或多个触发别名"
         ]
       },
       "done": [
         "{{",
         "if($arg[1] -eq 'add') {",
-        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> 新增了一个别名 <@Magenta>$_<@Green>`n\" };",
+        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> 新增了一个触发别名 <@Magenta>$_<@Green>`n\" };",
         "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发别名: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
         "}",
         "elseif($arg[1] -eq 'rm') {",
-        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> 移除了一个别名 <@Magenta>$_<@Green>`n\" };",
+        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> 移除了一个触发别名 <@Magenta>$_<@Green>`n\" };",
         "\"<@Green>现在 <@Magenta>$($completion)<@Green> 可用的补全触发别名: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
         "}",
         "}}"
       ],
       "example": [
-        "E: psc alias list             --- 列出所有别名\n",
-        "   psc alias add git g gi     --- 为 git 添加 g 和 gi 这两个别名\n",
-        "   psc alias rm git g gi      --- 为 git 删除 g 和 gi 这两个别名"
+        "E: psc alias list             --- 列出所有触发别名\n",
+        "   psc alias add git g gi     --- 为 git 添加 g 和 gi 这两个触发别名\n",
+        "   psc alias rm git g gi      --- 为 git 删除 g 和 gi 这两个触发别名"
       ],
       "list": {
         "example": [
-          "E: psc alias list     --- 列出所有别名"
+          "E: psc alias list     --- 列出所有触发别名"
         ]
       },
       "rm": {
@@ -2288,25 +2352,25 @@
           "min_k": [
             "<@Yellow>",
             "你应该继续输入一个已经安装了的补全名称\n",
-            "然后再输入一个或多个你想移除的此补全的别名"
+            "然后再输入一个或多个你想移除的此补全的触发别名"
           ],
           "min_v": [
             "<@Yellow>",
-            "你还需要继续输入一个或多个你想为 {{ $completion }} 移除的别名"
+            "你还需要继续输入一个或多个你想为 {{ $completion }} 移除的触发别名"
           ],
-          "no_alias": "<@Magenta>{{ $alias }}<@Red> 不是 {{ $completion }} 的别名",
+          "no_alias": "<@Magenta>{{ $alias }}<@Red> 不是 {{ $completion }} 的触发别名",
           "unique": [
             "<@Red>移除 <@Magenta>{{ $alias }}<@Red> 失败, 因为它是补全 <@Magenta>{{ $completion }}<@Red> 唯一的补全触发别名\n",
-            "如果你想要修改它, 你应该先添加一个新别名, 再移除这个旧别名"
+            "如果你想要修改它, 你应该先添加一个新的触发别名, 再移除这个旧的触发别名"
           ]
         },
         "example": [
-          "E: psc alias rm git g gi            --- 为 git 删除 g 和 gi 这两个别名\n",
-          "   psc alias rm scoop scoop.ps1     --- 为 scoop 删除 scoop.ps1 这个别名"
+          "E: psc alias rm git g gi            --- 为 git 删除 g 和 gi 这两个触发别名\n",
+          "   psc alias rm scoop scoop.ps1     --- 为 scoop 删除 scoop.ps1 这个触发别名"
         ],
-        "tip": "为 {{ $completion }} 移除一个或多个别名",
+        "tip": "为 {{ $completion }} 移除一个或多个触发别名",
         "tip_v": [
-          "移除此别名。"
+          "移除此触发别名。"
         ]
       }
     },
@@ -2510,7 +2574,7 @@
           "v_ge_le": "<@Red>应该是一个大于等于 <@Magenta>{{ $min }}<@Red> 且小于等于 <@Magenta>{{ $max }}<@Red> 的整数数字"
         },
         "example": [
-          "E: psc menu config enable_enter_when_single 1     --- 只有一个补全项时自动应用\n",
+          "E: psc menu config enable_enter_when_single 1     --- 只有一个补全项时直接选用\n",
           "   psc menu config enable_tip 0                   --- 不显示补全提示信息\n",
           "   psc menu config enable_menu 0                  --- 禁用模块补全菜单"
         ]
@@ -2529,7 +2593,7 @@
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
       ],
       "example": [
-        "E: psc menu config enable_enter_when_single 1       --- 只有一个补全项时自动应用\n",
+        "E: psc menu config enable_enter_when_single 1       --- 只有一个补全项时直接选用\n",
         "   psc menu config enable_tip 0                     --- 不显示补全提示信息\n",
         "   psc menu symbol continue \"\"                      --- 隐藏符号\n",
         "   psc menu line_theme single_line_round_border     --- 切换模块补全菜单的内置边框线条主题"
@@ -2591,20 +2655,20 @@
     "reset": {
       "alias": {
         "example": [
-          "E: psc reset alias --all           --- 删除所有补全别名,全部恢复为默认补全名\n",
-          "   psc reset alias psc             --- 将 psc 恢复为默认补全名\n",
-          "   psc reset alias psc git bun     --- 将 psc git bun 恢复为默认补全名"
+          "E: psc reset alias --all           --- 重置所有触发别名\n",
+          "   psc reset alias psc             --- 重置 psc 触发别名\n",
+          "   psc reset alias psc git bun     --- 重置 psc git bun 触发别名"
         ],
-        "tip": "将 {{ $completion }} 恢复为默认补全名"
+        "tip": "重置 {{ $completion }} 的触发别名"
       },
       "completion": {
         "example": [
-          "E: psc reset completion --all          --- 重置(移除)所有补全的特殊配置\n",
-          "   psc reset completion psc            --- 重置(移除) psc 的特殊配置\n",
-          "   psc reset completion psc language   --- 重置(移除) psc 的 language 这个特殊配置"
+          "E: psc reset completion --all          --- 重置所有补全的特殊配置\n",
+          "   psc reset completion psc            --- 重置 psc 的特殊配置\n",
+          "   psc reset completion psc language   --- 重置 psc 的 language 这个特殊配置"
         ],
-        "tip": "重置(移除) {{ $completion }} 的所有特殊配置或指定的特殊配置",
-        "tip_v": "重置(移除) {{ $completion }} 的特殊配置 --- {{ $config_item }}"
+        "tip": "重置 {{ $completion }} 的特殊配置",
+        "tip_v": "重置 {{ $completion }} 的特殊配置 --- {{ $config_item }}"
       },
       "done": [
         "{{",
@@ -2624,8 +2688,8 @@
       "example": [
         "E: psc reset --all            --- 重置所有配置\n",
         "   psc reset menu symbol      --- 重置所有符号配置(~?!)\n",
-        "   psc reset alias psc        --- 将 psc 恢复为默认补全名\n",
-        "   psc reset completion psc   --- 重置(移除) psc 的特殊配置"
+        "   psc reset alias psc        --- 重置 psc 触发别名\n",
+        "   psc reset completion psc   --- 重置 psc 的特殊配置"
       ],
       "init_confirm": [
         "<@Yellow>是否完全重置 PSCompletions 模块？\n",

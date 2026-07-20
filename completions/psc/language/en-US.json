@@ -26,14 +26,14 @@
     {
       "name": "alias",
       "tip": [
-        "Manage the alias that triggers completion.",
+        "Manage trigger aliases for completions.",
         "{{ $info.alias.example }}"
       ],
       "next": [
         {
           "name": "add",
           "tip": [
-            "Add one or more alias for the specified completion.",
+            "Add trigger aliases for completions (one or more).",
             "{{ $info.alias.add.example }}"
           ],
           "next": []
@@ -41,13 +41,13 @@
         {
           "name": "list",
           "tip": [
-            "Display all completion aliases."
+            "Display all trigger aliases for completions."
           ]
         },
         {
           "name": "rm",
           "tip": [
-            "Remove completion alias.(one or more)",
+            "Remove trigger aliases for completions (one or more).",
             "{{ $info.example.alias.rm.example }}"
           ],
           "next": []
@@ -74,16 +74,20 @@
           "name": "enable_auto_alias_setup",
           "tip": [
             "Current Value: {{ $PSCompletions.config.enable_auto_alias_setup }} (Default: 1)",
-            "Automatically use 'Set-Alias' to add aliases defined by 'psc alias'."
+            "Automatically set completion aliases via 'Set-Alias'."
           ],
           "next": [
             {
-              "name": "0"
+              "name": "0",
+              "tip": [
+                "Disable automatic alias setup via 'Set-Alias'."
+              ]
             },
             {
               "name": "1",
               "tip": [
-                "Default value."
+                "Default value.",
+                "Automatically set completion aliases via 'Set-Alias'."
               ]
             }
           ]
@@ -97,12 +101,16 @@
           ],
           "next": [
             {
-              "name": "0"
+              "name": "0",
+              "tip": [
+                "Disable completion caching."
+              ]
             },
             {
               "name": "1",
               "tip": [
-                "Default value."
+                "Default value.",
+                "Cache completion data to improve loading speed."
               ]
             }
           ]
@@ -411,12 +419,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Disable dynamic completion sorting."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Sort completion items based on command history."
                   ]
                 }
               ]
@@ -431,11 +443,15 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Enter the only item directly without showing the menu."
                   ]
                 },
                 {
-                  "name": "1"
+                  "name": "1",
+                  "tip": [
+                    "Enter the only item directly without showing the menu."
+                  ]
                 }
               ]
             },
@@ -452,11 +468,15 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Disable subsequence matching in the filter area."
                   ]
                 },
                 {
-                  "name": "1"
+                  "name": "1",
+                  "tip": [
+                    "Enable subsequence matching in the filter area."
+                  ]
                 }
               ]
             },
@@ -468,12 +488,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Hide tips for dynamically added completion items."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Show tips for dynamically added completion items."
                   ]
                 }
               ]
@@ -487,12 +511,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "The completion list is displayed at a fixed position."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "The completion list follows the input cursor."
                   ]
                 }
               ]
@@ -506,12 +534,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "The completion list is not full width. May degrade performance."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "The completion list uses full terminal width."
                   ]
                 }
               ]
@@ -524,12 +556,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Disable list looping in the completion menu."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Enable list looping in the completion menu."
                   ]
                 }
               ]
@@ -543,12 +579,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Disable the module completion menu, fall back to PowerShell native completion."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Use the module completion menu instead of PowerShell native completion."
                   ]
                 }
               ]
@@ -562,12 +602,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Disable enhanced menu features like global completion management."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Enable enhanced menu features like global completion management."
                   ]
                 }
               ]
@@ -584,11 +628,15 @@
                 {
                   "name": "0",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Display the menu above the cursor when space below is limited."
                   ]
                 },
                 {
-                  "name": "1"
+                  "name": "1",
+                  "tip": [
+                    "Scroll buffer to force the menu below the cursor when space below is limited."
+                  ]
                 }
               ]
             },
@@ -602,12 +650,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Path completion without trailing separator."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Add a trailing separator to path completions."
                   ]
                 }
               ]
@@ -620,12 +672,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Hide the completion tip."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Show the completion tip."
                   ]
                 }
               ]
@@ -639,12 +695,16 @@
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "The tip is displayed at a fixed position."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "The tip follows the input cursor."
                   ]
                 }
               ]
@@ -653,16 +713,20 @@
               "name": "enable_tip_when_enhance",
               "tip": [
                 "Current Value: {{ $PSCompletions.config.enable_tip_when_enhance }} (Default: 1)",
-                "For completions not added via 'psc add', display their completion tip."
+                "For completions not added via 'psc add', try to display their tip."
               ],
               "next": [
                 {
-                  "name": "0"
+                  "name": "0",
+                  "tip": [
+                    "Hide tips for completions not added via 'psc add'."
+                  ]
                 },
                 {
                   "name": "1",
                   "tip": [
-                    "Default value."
+                    "Default value.",
+                    "Show tips for completions not added via 'psc add'."
                   ]
                 }
               ]
@@ -2035,14 +2099,14 @@
         {
           "name": "alias",
           "tip": [
-            "Reset all completions or specified completions to the default completion trigger name.",
+            "Reset trigger aliases for completions.",
             "{{ $info.reset.alias.example }}"
           ],
           "next": [
             {
               "name": "--all",
               "tip": [
-                "Reset all completions to the default completion trigger name."
+                "Reset all trigger aliases for completions."
               ]
             }
           ]
@@ -2050,14 +2114,14 @@
         {
           "name": "completion",
           "tip": [
-            "Reset(Remove) the special configuration of all completions or specified completions.",
+            "Reset the special configuration of completions.",
             "{{ $info.reset.completion.example }}"
           ],
           "next": [
             {
               "name": "--all",
               "tip": [
-                "Reset(Remove) the special configuration of all completions.",
+                "Reset the special configuration of all completions.",
                 "Include all configurations under the command ('psc completion')."
               ]
             }
@@ -2244,47 +2308,47 @@
     "alias": {
       "add": {
         "err": {
-          "cmd_exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> already exists, please set other alias.",
-          "exist": "<@Red>Alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> is already an alias for {{ $completion }}.",
+          "cmd_exist": "<@Red>Trigger alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> already exists, please set other alias.",
+          "exist": "<@Red>Trigger alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> is already a trigger alias for {{ $completion }}.",
           "min_k": [
             "<@Yellow>",
             "You should continue to enter a completion name that is already installed.\n",
-            "Then enter one or more alias you want to add."
+            "Then enter one or more trigger aliases you want to add."
           ],
           "min_v": [
             "<@Yellow>",
-            "You need to continue entering one or more alias that you want to add for {{ $completion }}."
+            "You need to continue entering one or more trigger aliases that you want to add for {{ $completion }}."
           ]
         },
         "example": [
-          "E: psc alias add git g gi            --- Add g and gi aliases for git\n",
-          "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 alias for scoop"
+          "E: psc alias add git g gi            --- Add g and gi trigger aliases for git\n",
+          "   psc alias add scoop scoop.ps1     --- Add scoop.ps1 trigger alias for scoop"
         ],
         "tip": [
-          "{{ \"Current aliases: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
-          "Add one or more aliases for {{ $completion }}."
+          "{{ \"Current trigger aliases: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
+          "Add one or more trigger aliases for {{ $completion }}."
         ]
       },
       "done": [
         "{{",
         "if($arg[1] -eq 'add') {",
-        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> add an alias <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available alias: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
+        "foreach($_ in $add_list){ \"<@Magenta>$($completion)<@Green> added a trigger alias <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available trigger aliases: <@Magenta>$($PSCompletions.data.alias.$completion -join ' ') $($add_list -join ' ')\"",
         "}",
         "elseif($arg[1] -eq 'rm') {",
-        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> remove an alias <@Magenta>$_<@Green>`n\" };",
-        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available alias: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
+        "foreach($_ in $rm_list){ \"<@Magenta>$($completion)<@Green> removed a trigger alias <@Magenta>$_<@Green>`n\" };",
+        "\"<@Green>Now <@Magenta>$($completion)<@Green>'s available trigger aliases: <@Magenta>$(($PSCompletions.data.alias.$completion | Where-Object { $_ -notin $rm_list }) -join ' ')\"",
         "}",
         "}}"
       ],
       "example": [
-        "E: psc alias list             --- List all aliases\n",
-        "   psc alias add git g gi     --- Add g and gi aliases for git\n",
-        "   psc alias rm git g gi      --- Remove g and gi aliases for git"
+        "E: psc alias list             --- List all trigger aliases\n",
+        "   psc alias add git g gi     --- Add g and gi trigger aliases for git\n",
+        "   psc alias rm git g gi      --- Remove g and gi trigger aliases for git"
       ],
       "list": {
         "example": [
-          "E: psc alias list     --- List all aliases"
+          "E: psc alias list     --- List all trigger aliases"
         ]
       },
       "rm": {
@@ -2292,25 +2356,25 @@
           "min_k": [
             "<@Yellow>",
             "You should continue to enter a completion name that is already installed.\n",
-            "Then enter one or more alias you want to remove."
+            "Then enter one or more trigger aliases you want to remove."
           ],
           "min_v": [
             "<@Yellow>",
-            "You need to continue entering one or more alias that you want to remove for {{ $completion }}."
+            "You need to continue entering one or more trigger aliases that you want to remove for {{ $completion }}."
           ],
-          "no_alias": "<@Magenta>{{ $alias }}<@Red> isn't the alias of {{ $completion }}",
+          "no_alias": "<@Magenta>{{ $alias }}<@Red> isn't a trigger alias of {{ $completion }}",
           "unique": [
-            "<@Magenta>{{ $alias }}<@Red> cannot be removed because it's the only alias of <@Magenta>{{ $completion }}<@Red>.\n",
-            "If you want to change it, you should first add a new alias and then remove the old alias."
+            "<@Magenta>{{ $alias }}<@Red> cannot be removed because it's the only trigger alias of <@Magenta>{{ $completion }}<@Red>.\n",
+            "If you want to change it, you should first add a new trigger alias and then remove the old one."
           ]
         },
         "example": [
-          "E: psc alias rm git g gi            --- Remove g and gi aliases for git\n",
-          "   psc alias rm scoop scoop.ps1     --- Remove scoop.ps1 alias for scoop"
+          "E: psc alias rm git g gi            --- Remove g and gi trigger aliases for git\n",
+          "   psc alias rm scoop scoop.ps1     --- Remove scoop.ps1 trigger alias for scoop"
         ],
-        "tip": "Remove one or more aliases for {{ $completion }}.",
+        "tip": "Remove one or more trigger aliases for {{ $completion }}.",
         "tip_v": [
-          "Remove this alias."
+          "Remove this trigger alias."
         ]
       }
     },
@@ -2514,7 +2578,7 @@
           "v_ge_le": "<@Red>It should be an integer number greater than or equal to <@Magenta>{{ $min }}<@Red> and less than or equal to <@Magenta>{{ $max }}<@Red>."
         },
         "example": [
-          "E: psc menu config enable_enter_when_single 1     --- Auto-apply when there's only one completion item\n",
+          "E: psc menu config enable_enter_when_single 1     --- Enter it directly when there's only one completion item\n",
           "   psc menu config enable_tip 0                   --- Hide completion tip\n",
           "   psc menu config enable_menu 0                  --- Disable the module completion menu"
         ]
@@ -2533,7 +2597,7 @@
         "<@Blue>{{ $config_item }}<@Green>: <@Magenta>{{ $PSCompletions.wrap_whitespace($old_value) }}<@Green> => <@Magenta>{{ $PSCompletions.wrap_whitespace($new_value) }}"
       ],
       "example": [
-        "E: psc menu config enable_enter_when_single 1       --- Auto-apply when there's only one completion item\n",
+        "E: psc menu config enable_enter_when_single 1       --- Enter it directly when there's only one completion item\n",
         "   psc menu config enable_tip 0                     --- Hide completion tip\n",
         "   psc menu symbol continue \"\"                      --- Hide symbol\n",
         "   psc menu line_theme single_line_round_border     --- Toggle the built-in border style theme of the module completion menu"
@@ -2595,20 +2659,20 @@
     "reset": {
       "alias": {
         "example": [
-          "E: psc reset alias --all           --- Reset all aliases\n",
-          "   psc reset alias psc             --- Reset psc alias\n",
-          "   psc reset alias psc git bun     --- Reset psc git bun alias"
+          "E: psc reset alias --all           --- Reset all trigger aliases\n",
+          "   psc reset alias psc             --- Reset psc trigger alias\n",
+          "   psc reset alias psc git bun     --- Reset psc git bun trigger aliases"
         ],
-        "tip": "Reset {{ $completion }}'s alias to default."
+        "tip": "Reset {{ $completion }}'s trigger alias to default."
       },
       "completion": {
         "example": [
-          "E: psc reset completion --all          --- Reset(Remove) the special configurations of all completions\n",
-          "   psc reset completion psc            --- Reset(Remove) the special configurations of psc\n",
-          "   psc reset completion psc language   --- Reset(Remove) this special configuration(language) of psc"
+          "E: psc reset completion --all          --- Reset the special configurations of all completions\n",
+          "   psc reset completion psc            --- Reset the special configurations of psc\n",
+          "   psc reset completion psc language   --- Reset this special configuration(language) of psc"
         ],
-        "tip": "Reset(Remove) the special configurations of {{ $completion }}",
-        "tip_v": "Reset(Remove) this special configuration of {{ $completion }} --- {{ $config_item }}"
+        "tip": "Reset the special configurations of {{ $completion }}",
+        "tip_v": "Reset this special configuration of {{ $completion }} --- {{ $config_item }}"
       },
       "done": [
         "{{",
@@ -2629,7 +2693,7 @@
         "E: psc reset --all            --- Reset PSCompletions module\n",
         "   psc reset menu symbol      --- Reset all symbols(~?!)\n",
         "   psc reset alias psc        --- Reset psc alias\n",
-        "   psc reset completion psc   --- Reset(Remove) this special configuration(language) of psc"
+        "   psc reset completion psc   --- Reset this special configuration of psc"
       ],
       "init_confirm": [
         "<@Yellow>Reset the PSCompletions module, are you sure?\n",
