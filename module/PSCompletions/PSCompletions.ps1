@@ -1270,6 +1270,9 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
 
     # menu
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod parse_menu_list {
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
         # X
         if ($menu.need_full_width -or !$config.enable_list_follow_cursor) {
             $menu.pos.X = 0
@@ -1314,6 +1317,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod get_menu_buffer {
         param($startPos, $endPos)
+        $rawUI = $Host.UI.RawUI
         $top = [System.Management.Automation.Host.Coordinates]::new($startPos.X, $startPos.Y)
         $bottom = [System.Management.Automation.Host.Coordinates]::new($endPos.X , $endPos.Y)
         $buffer = $rawUI.GetBufferContents([System.Management.Automation.Host.Rectangle]::new($top, $bottom))
@@ -1325,6 +1329,10 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_list_buffer {
         param([int]$offset)
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
+        $bgColor = $rawUI.BackgroundColor
 
         $lines = $offset..($menu.ui_height - 3 + $offset)
         $menu.content_box = [array]$content_box = foreach ($l in $lines) {
@@ -1371,6 +1379,10 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_filter_buffer {
         param([string]$filter)
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
+        $bgColor = $rawUI.BackgroundColor
 
         $char = $config.filter_symbol
         $middle = [System.Math]::Ceiling($char.Length / 2)
@@ -1384,6 +1396,10 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         )
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_status_buffer {
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
+        $bgColor = $rawUI.BackgroundColor
         $X = $menu.pos.X + 3
         if ($menu.is_show_above) {
             $Y = $rawUI.CursorPosition.Y - 1 - $config.height_from_menu_bottom_to_cursor_when_above
@@ -1396,6 +1412,10 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_tip_buffer {
         param([int]$index)
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
+        $bgColor = $rawUI.BackgroundColor
 
         if ($menu.is_show_above) {
             $start = 0
@@ -1504,6 +1524,9 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
         param(
             [bool]$isDown
         )
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
         $moveDirection = if ($isDown) { 1 } else { -1 }
         $isMove = if ($isDown) {
             $menu.page_current_index -lt $menu.page_max_index
@@ -1573,6 +1596,8 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod reset_menu {
         param([bool]$clearAll = $true)
+        $menu = $PSCompletions.menu
+        $rawUI = $Host.UI.RawUI
         if ($clearAll) {
             $menu.cache.Clear()
             if ($menu.origin_full_buffer) {
@@ -1587,6 +1612,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_cache {
         param([string]$type)
+        $menu = $PSCompletions.menu
         switch ($type) {
             add {
                 $menu.cache[$menu.filter] = @{
@@ -1642,6 +1668,7 @@ Refer to: https://pscompletions.abgox.com/docs/require-admin
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_output {
         param($item)
+        $suffix = $PSCompletions.config.completion_suffix
         $out = $item.CompletionText.Trim()
         # psc add
         if ($null -eq $item.ResultType) {
@@ -2022,6 +2049,10 @@ else {
 
 if ($PSEdition -eq 'Core') {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
+        $bgColor = $rawUI.BackgroundColor
         $horizontal = $config.horizontal
         $vertical = $config.vertical
         $top_left = $config.top_left
@@ -2246,6 +2277,10 @@ if ($PSEdition -eq 'Core') {
 else {
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod new_menu_border_buffer {
         # XXX: 在 Windows PowerShell 5.x 中，边框使用以下符号以处理兼容性问题
+        $menu = $PSCompletions.menu
+        $config = $PSCompletions.config
+        $rawUI = $Host.UI.RawUI
+        $bgColor = $rawUI.BackgroundColor
         $horizontal = '-'
         $vertical = '|'
         $top_left = '+'
