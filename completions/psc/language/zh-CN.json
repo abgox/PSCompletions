@@ -1942,33 +1942,10 @@
           ],
           "next": [
             {
-              "name": "OptionTab",
+              "name": "continue",
               "tip": [
-                "当前值: {{ $PSCompletions.config.OptionTab }}",
-                "使用 psc menu symbol OptionTab \"\" 可以隐藏这个符号。"
-              ],
-              "next": [
-                {
-                  "name": "?",
-                  "tip": [
-                    "设置为 ? (默认值)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "设置为 \"\"",
-                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
-                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "SpaceTab",
-              "tip": [
-                "当前值: {{ $PSCompletions.config.SpaceTab }}",
-                "使用 psc menu symbol SpaceTab \"\" 可以隐藏这个符号。"
+                "当前值: {{ $PSCompletions.config.continue }}",
+                "使用 psc menu symbol continue \"\" 可以隐藏这个符号。"
               ],
               "next": [
                 {
@@ -1988,16 +1965,39 @@
               ]
             },
             {
-              "name": "WriteSpaceTab",
+              "name": "input",
               "tip": [
-                "当前值: {{ $PSCompletions.config.WriteSpaceTab }}",
-                "使用 psc menu symbol WriteSpaceTab \"\" 可以隐藏这个符号。"
+                "当前值: {{ $PSCompletions.config.input }}",
+                "使用 psc menu symbol input \"\" 可以隐藏这个符号。"
               ],
               "next": [
                 {
                   "name": "!",
                   "tip": [
                     "设置为 ! (默认值)"
+                  ]
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "设置为 \"\"",
+                    "这可以隐藏符号, 但是不建议这样做, 更建议修改为你喜欢的符号。",
+                    "因为符号是为了让你能够直观感知到是否可以继续获取补全。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "stay",
+              "tip": [
+                "当前值: {{ $PSCompletions.config.stay }}",
+                "使用 psc menu symbol stay \"\" 可以隐藏这个符号。"
+              ],
+              "next": [
+                {
+                  "name": "?",
+                  "tip": [
+                    "设置为 ? (默认值)"
                   ]
                 },
                 {
@@ -2105,9 +2105,9 @@
               "name": "symbol",
               "tip": [
                 "重置符号为默认值。",
-                "SpaceTab      => ~",
-                "WriteSpaceTab => !",
-                "OptionTab     => ?"
+                "continue => ~",
+                "stay     => ?",
+                "input    => !"
               ]
             }
           ]
@@ -2531,7 +2531,7 @@
       "example": [
         "E: psc menu config enable_enter_when_single 1       --- 只有一个补全项时自动应用\n",
         "   psc menu config enable_tip 0                     --- 不显示补全提示信息\n",
-        "   psc menu symbol SpaceTab \"\"                      --- 隐藏符号\n",
+        "   psc menu symbol continue \"\"                      --- 隐藏符号\n",
         "   psc menu line_theme single_line_round_border     --- 切换模块补全菜单的内置边框线条主题"
       ],
       "line_theme": {
@@ -2546,9 +2546,9 @@
       },
       "symbol": {
         "example": [
-          "E: psc menu symbol SpaceTab ~        --- 设置符号为 ~\n",
-          "   psc menu symbol OptionTab ?       --- 设置符号为 ?\n",
-          "   psc menu symbol WriteSpaceTab !   --- 设置符号为 !"
+          "E: psc menu symbol continue ~     --- 设置符号为 ~\n",
+          "   psc menu symbol stay ?         --- 设置符号为 ?\n",
+          "   psc menu symbol input !        --- 设置符号为 !"
         ]
       }
     },

@@ -162,7 +162,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             }
         }
         const                         = @{
-            symbol_item = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
+            symbol_item = @('continue', 'stay', 'input')
             line_item   = @('horizontal', 'vertical', 'top_left', 'bottom_left', 'top_right', 'bottom_right')
             color_item  = @('item_color', 'filter_color', 'border_color', 'status_color', 'tip_color', 'selected_color', 'selected_bgcolor')
             color_value = @('White', 'Black', 'Gray', 'DarkGray', 'Red', 'DarkRed', 'Green', 'DarkGreen', 'Blue', 'DarkBlue', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta')
@@ -179,9 +179,9 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         enable_cache                                 = 1
 
         # menu symbol
-        SpaceTab                                     = '~'
-        OptionTab                                    = '?'
-        WriteSpaceTab                                = '!'
+        continue                                     = '~'
+        stay                                         = '?'
+        input                                        = '!'
 
         # menu line
         horizontal                                   = [string][char]9472 # ─
@@ -285,15 +285,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         $symbols = @()
         if ($node.IsOption) {
             if (-not $node.HasNextDef -and -not $node.HasOptionDef) {
-                $symbols += 'OptionTab'
+                $symbols += 'stay'
             }
             else {
-                $symbols += 'WriteSpaceTab'
-                if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'SpaceTab' }
+                $symbols += 'input'
+                if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' }
             }
         }
         else {
-            if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'SpaceTab' }
+            if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' }
         }
         $symbols
     }
@@ -2550,7 +2550,7 @@ if (!(Test-Path -LiteralPath $PSCompletions.path.order)) {
                     $oldData.Remove('aliasMap')
                     $oldData | ConvertTo-Json -Depth 10 | Out-File $JsonFile -Force -Encoding utf8
                 }
-                (Get-Content -Raw $JsonFile) -replace '"comp_config"\s*:', '"completion":' | Out-File $JsonFile -Force -Encoding utf8
+                (Get-Content $JsonFile) -replace '"comp_config"\s*:', '"completion":' -replace '"OptionTab"\s*:', '"stay":' -replace '"WriteSpaceTab"\s*:', '"input":' -replace '"SpaceTab"\s*:', '"continue":' | Set-Content $JsonFile -Force -Encoding utf8
             }
             $Dir, $PSCompletions.path.root | ForEach-Object {
                 if (Test-Path -LiteralPath "$_/completions" -PathType Container) {

@@ -18,7 +18,7 @@ function handleCompletions($completions) {
     }
     function add_completions {
         $rest = $PSCompletions.data.list | Where-Object { $_ -notin $unknown_text }
-        $symbol = if ($rest.Count -gt 1) { @('SpaceTab') }else { , @() }
+        $symbol = if ($rest.Count -gt 1) { @('continue') }else { , @() }
         foreach ($completion in $rest) { add $completion (get_completion_info $completion) $symbol }
     }
     function get_completion_info {
@@ -43,7 +43,7 @@ if (`$m) {
     switch ($cmds[0].text) {
         'add' {
             $rest = $PSCompletions.list | Where-Object { $_ -notin $unknown_text -and $_ -notin $PSCompletions.data.list }
-            $symbol = if ($rest.Count -gt 1) { @('SpaceTab') }else { , @() }
+            $symbol = if ($rest.Count -gt 1) { @('continue') }else { , @() }
             foreach ($completion in $rest) {
                 add $completion (get_completion_info $completion) $symbol
             }
@@ -65,7 +65,7 @@ if (`$m) {
                         $alias = for ($i = 0; $i -lt $unknown.Count; $i++) { if ($i) { $unknown[$i].text } }
                         $rest = $PSCompletions.data.alias.$cmd | Where-Object { $_ -notin $alias }
                         if ($rest.Count -gt 2) {
-                            $symbol = @('SpaceTab')
+                            $symbol = @('continue')
                         }
                         foreach ($completion in $rest) {
                             add -noSkip $completion $PSCompletions.replace_content($PSCompletions.info.alias.rm.tip_v) $symbol
@@ -91,19 +91,19 @@ if (`$m) {
             $language = $PSCompletions.get_language($completion)
             $json = $PSCompletions.get_raw_content("$($PSCompletions.path.completions)/$($completion)/language/$($language).json") | ConvertFrom-Json
             if ($unknown.Count -eq 1) {
-                add 'language' $PSCompletions.replace_content($PSCompletions.info.completion.language.tip) @('SpaceTab')
-                add 'enable_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip) @('SpaceTab')
+                add 'language' $PSCompletions.replace_content($PSCompletions.info.completion.language.tip) @('continue')
+                add 'enable_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_tip.tip) @('continue')
                 if ($PSCompletions.config.completion[$completion].Count) {
                     if ($PSCompletions.config.completion[$completion].keys.Contains('enable_hooks')) {
                         $tip = $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks.tip) -replace '<@\w+>', ''
-                        add 'enable_hooks' $tip @('SpaceTab')
-                        add 'enable_hooks_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip) @('SpaceTab')
+                        add 'enable_hooks' $tip @('continue')
+                        add 'enable_hooks_tip' $PSCompletions.replace_content($PSCompletions.info.completion.enable_hooks_tip.tip) @('continue')
                     }
                 }
                 foreach ($c in $json.config) {
                     $config_item = $c.name
                     $tip = $PSCompletions.replace_content($c.tip -join "`n") -replace '<\@\w+>', ''
-                    $symbol = if ($c.values) { @('SpaceTab') }else { , @() }
+                    $symbol = if ($c.values) { @('continue') }else { , @() }
                     add $c.name $tip $symbol
                 }
                 break

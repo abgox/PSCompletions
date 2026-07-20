@@ -1943,34 +1943,10 @@
           ],
           "next": [
             {
-              "name": "OptionTab",
+              "name": "continue",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.OptionTab }}",
-                "You can hide it by the command. (psc menu symbol OptionTab \"\")"
-              ],
-              "next": [
-                {
-                  "name": "?",
-                  "tip": [
-                    "Set to ? (Default)"
-                  ]
-                },
-                {
-                  "name": "\"\"",
-                  "tip": [
-                    "Set to \"\"",
-                    "It can hide symbols, but it's not recommended.",
-                    "It's more recommended that you modify them to your liking.",
-                    "Because these symbols let you know if you can continue to get completions."
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "SpaceTab",
-              "tip": [
-                "Current Value: {{ $PSCompletions.config.SpaceTab }}",
-                "You can hide it by the command. (psc menu symbol SpaceTab \"\")"
+                "Current Value: {{ $PSCompletions.config.continue }}",
+                "You can hide it by the command. (psc menu symbol continue \"\")"
               ],
               "next": [
                 {
@@ -1991,16 +1967,40 @@
               ]
             },
             {
-              "name": "WriteSpaceTab",
+              "name": "input",
               "tip": [
-                "Current Value: {{ $PSCompletions.config.WriteSpaceTab }}",
-                "You can hide it by the command. (psc menu symbol WriteSpaceTab \"\")"
+                "Current Value: {{ $PSCompletions.config.input }}",
+                "You can hide it by the command. (psc menu symbol input \"\")"
               ],
               "next": [
                 {
                   "name": "!",
                   "tip": [
                     "Set to ! (Default)"
+                  ]
+                },
+                {
+                  "name": "\"\"",
+                  "tip": [
+                    "Set to \"\"",
+                    "It can hide symbols, but it's not recommended.",
+                    "It's more recommended that you modify them to your liking.",
+                    "Because these symbols let you know if you can continue to get completions."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "stay",
+              "tip": [
+                "Current Value: {{ $PSCompletions.config.stay }}",
+                "You can hide it by the command. (psc menu symbol stay \"\")"
+              ],
+              "next": [
+                {
+                  "name": "?",
+                  "tip": [
+                    "Set to ? (Default)"
                   ]
                 },
                 {
@@ -2109,9 +2109,9 @@
               "name": "symbol",
               "tip": [
                 "Reset symbols to default values.",
-                "SpaceTab      => ~",
-                "WriteSpaceTab => !",
-                "OptionTab     => ?"
+                "continue => ~",
+                "stay     => ?",
+                "input    => !"
               ]
             }
           ]
@@ -2535,7 +2535,7 @@
       "example": [
         "E: psc menu config enable_enter_when_single 1       --- Auto-apply when there's only one completion item\n",
         "   psc menu config enable_tip 0                     --- Hide completion tip\n",
-        "   psc menu symbol SpaceTab \"\"                      --- Hide symbol\n",
+        "   psc menu symbol continue \"\"                      --- Hide symbol\n",
         "   psc menu line_theme single_line_round_border     --- Toggle the built-in border style theme of the module completion menu"
       ],
       "line_theme": {
@@ -2550,9 +2550,9 @@
       },
       "symbol": {
         "example": [
-          "E: psc menu symbol SpaceTab ~\n",
-          "   psc menu symbol OptionTab ?\n",
-          "   psc menu symbol WriteSpaceTab !"
+          "E: psc menu symbol continue ~\n",
+          "   psc menu symbol stay ?\n",
+          "   psc menu symbol input !"
         ]
       }
     },

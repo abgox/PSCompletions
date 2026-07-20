@@ -655,7 +655,7 @@
         }
         switch ($arg[1]) {
             'symbol' {
-                $cmd_list = @('SpaceTab', 'WriteSpaceTab', 'OptionTab')
+                $cmd_list = @('continue', 'stay', 'input')
                 if ($arg.Length -eq 2) {
                     Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.$($arg[1]).example
                     return

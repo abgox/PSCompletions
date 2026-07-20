@@ -70,7 +70,7 @@ if (`$c.description) {
 };
 }}
 "@
-            add2 $app $tip @('SpaceTab')
+            add2 $app $tip @('continue')
         }
     }
 

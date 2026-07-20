@@ -83,7 +83,7 @@ if (`$c.description) {
                     $return += @{
                         ListItemText   = $app
                         CompletionText = $app
-                        symbols        = @('SpaceTab')
+                        symbols        = @('continue')
                         ToolTip        = $tip
                     }
                 }

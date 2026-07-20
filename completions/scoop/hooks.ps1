@@ -110,7 +110,7 @@ if (`$c.description) {
                             $return += @{
                                 ListItemText   = $app
                                 CompletionText = $app
-                                symbols        = @('SpaceTab')
+                                symbols        = @('continue')
                                 ToolTip        = $tip
                             }
                         }
@@ -137,7 +137,7 @@ if (`$c.description) {
             #     $list.Add(@{
             #         ListItemText   = $app
             #         CompletionText = $app
-            #         symbols        = @("SpaceTab")
+            #         symbols        = @("continue")
             #         # ToolTip        = $_.version # 不显示帮助信息，加快补全速度
             #     })
             # }
@@ -170,7 +170,7 @@ if (`$c.description) {
 };
 }}
 "@
-                    add2 $app $tip @('SpaceTab')
+                    add2 $app $tip @('continue')
                 }
             }
         }
@@ -207,7 +207,7 @@ if (`$c.description) {
 };
 }}
 "@
-                    add2 $app $tip @('SpaceTab')
+                    add2 $app $tip @('continue')
                 }
             }
         }
@@ -259,7 +259,7 @@ if (`$c.description) {
                             $return += @{
                                 ListItemText   = $app
                                 CompletionText = $app
-                                symbols        = @('SpaceTab')
+                                symbols        = @('continue')
                                 ToolTip        = $tip
                             }
                         }
@@ -299,7 +299,7 @@ if (`$c.description) {
 };
 }}
 "@
-                    add2 $app $tip @('SpaceTab')
+                    add2 $app $tip @('continue')
                 }
             }
         }
@@ -332,7 +332,7 @@ if (`$c.description) {
 };
 }}
 "@
-                        add2 $app $tip @('SpaceTab')
+                        add2 $app $tip @('continue')
                     }
                 }
             }
@@ -366,7 +366,7 @@ if (`$c.description) {
 };
 }}
 "@
-                        add2 $app $tip @('SpaceTab')
+                        add2 $app $tip @('continue')
                     }
                 }
             }
@@ -417,7 +417,7 @@ if (`$c.description) {
                     $path = $_.FullName
                     $cache = $part[0..1] -join '#'
                     if ($cache -in $unknown_text) { continue }
-                    add $cache $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm) @('SpaceTab')
+                    add $cache $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm) @('continue')
                 }
             }
         }
