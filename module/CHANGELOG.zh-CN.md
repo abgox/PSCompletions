@@ -4,9 +4,14 @@
 
 ## Unreleased
 
+## 6.11.1
+
+- 简化了 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 的语义
+- 其他的优化和修复
+
 ## 6.11.0
 
-- 重命名 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 使含义更直观：
+- 重命名 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 使语义更直观：
   - `SpaceTab` => `continue`
   - `OptionTab` => `stay`
   - `WriteSpaceTab` => `input`

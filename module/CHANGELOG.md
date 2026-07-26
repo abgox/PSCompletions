@@ -4,9 +4,14 @@
 
 ## Unreleased
 
+## 6.11.1
+
+- Simplified the semantics of [completion predict symbol](https://pscompletions.abgox.com/docs/completion-predict-symbol)
+- Other optimizations and fixes
+
 ## 6.11.0
 
-- Renamed [predict symbols](https://pscompletions.abgox.com/docs/completion-predict-symbol) for clearer naming:
+- Renamed [completion predict symbol](https://pscompletions.abgox.com/docs/completion-predict-symbol) for clearer semantics:
   - `SpaceTab` => `continue`
   - `OptionTab` => `stay`
   - `WriteSpaceTab` => `input`
