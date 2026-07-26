@@ -967,6 +967,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_powers
         }
     }
 }
+# TODO: Remove in v7.0.0 if argc-completions project is discontinued.
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod argc_completions {
     param([array]$completions)
     foreach ($c in $completions) {
