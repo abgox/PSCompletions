@@ -252,13 +252,21 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         param($node)
         $symbols = @()
         if ($node.IsOption) {
-            if (!$node.HasNextDef -and !$node.HasOptionDef) { $symbols += 'stay' }
-            else { $symbols += 'input'; if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' } }
+            $symbols += if ($node.NextIsArray -or $node.OptionIsArray) { 'continue' }
+            elseif ($node.HasNextDef -or $node.HasOptionDef) { 'input' }
+            else { 'stay' }
         }
-        else { if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' } }
+        else {
+            if ($node.NextIsArray -or $node.OptionIsArray) { $symbols += 'continue' }
+            elseif ($node.HasNextDef) { $symbols += 'input' }
+        }
         $symbols
     }
-    function node_takes_free_input { param($node); $node.IsOption -and ($node.HasNextDef -or $node.HasOptionDef) -and !($node.NextIsArray -or $node.OptionIsArray) }
+    function node_takes_free_input {
+        param($node)
+        if ($node.IsOption) { $node.HasNextDef -or $node.HasOptionDef -and !($node.NextIsArray -or $node.OptionIsArray) }
+        else { $node.HasNextDef -and !$node.NextIsArray }
+    }
     function node_has_candidates_after { param($node); $node.NextIsArray -or $node.OptionIsArray }
     function add_to_bucket {
         param($dict, $items, $node)
