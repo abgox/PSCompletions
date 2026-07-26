@@ -70,7 +70,7 @@ if (`$c.description) {
 };
 }}
 "@
-            add2 $app $tip @('continue')
+            add2 $app $tip 'stay'
         }
     }
 
