@@ -71,7 +71,103 @@ function handleCompletions($completions) {
             Where-Object { $_ -match '^.[MD] ' -or $_ -match '^\?\? ' } |
             ForEach-Object { add $_.Substring(3) $_ }
         }
+        'bisect' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
         'checkout' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
+        'cherry' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
+        'cherry-pick' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
+        'describe' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
+        'diff' {
+            add_commit
+        }
+        'format-patch' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
+        'grep' {
+            if ($unknown.Count -eq 0) {
+                add_commit
+            }
+        }
+        'log' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
+        'merge-base' {
+            if ($unknown.Count -eq 0) {
+                add_branch
+                add_head
+                add_commit
+            }
+        }
+        'notes' {
+            if ($unknown.Count -eq 0) {
+                add_commit
+            }
+        }
+        'rebase' {
+            add_branch
+            add_head
+            add_commit
+            if ($opts[-1].text -eq '--strategy') {
+                'resolve', 'recursive', 'ours', 'subtree', 'octopus', 'ours' | ForEach-Object {
+                    add $_ "strategy --- $_"
+                }
+            }
+        }
+        'reset' {
+            if ($unknown.Count -eq 0) {
+                add_head
+                add_commit
+            }
+        }
+        'revert' {
+            if ($unknown.Count -eq 0) {
+                add_commit
+            }
+        }
+        'show' {
+            if ($unknown.Count -eq 0) {
+                add_head
+                add_commit
+            }
+        }
+        'shortlog' {
             if ($unknown.Count -eq 0) {
                 add_branch
                 add_head
@@ -83,18 +179,25 @@ function handleCompletions($completions) {
                 add_branch
             }
         }
-        'stash' {
-            if ($unknown.Count -eq 0 -and $cmds[1].text -in 'show', 'pop', 'apply', 'drop') {
-                add_stash
-            }
-        }
         'branch' {
-            if ($opts[-1].text -in '-m', '-d') {
+            if ($opts[-1].text -in '-m', '-d', '-c', '--copy', '--move') {
+                add_branch
+            }
+            elseif ($opts[-1].text -in '--contains', '--merged', '--no-merged') {
+                add_commit
+            }
+            elseif ($opts[-1].text -eq '--points-at') {
+                add_branch
+                add_head
+                add_commit
+                add_tag
+            }
+            elseif ($opts[-1].text -eq '--set-upstream-to') {
                 add_branch
             }
         }
         'commit' {
-            if ($unknown.Count -eq 0 -and $opts[-1].text -in '-C', '--squash') {
+            if ($unknown.Count -eq 0 -and $opts[-1].text -in '-c', '--fixup', '--squash') {
                 add_commit
             }
         }
@@ -103,29 +206,18 @@ function handleCompletions($completions) {
                 add_branch
             }
         }
-        'diff' {
-            add_commit
-        }
-        'rebase' {
-            add_branch
-            add_head
-            add_commit
-        }
-        'reset' {
-            if ($unknown.Count -eq 0) {
-                add_head
-                add_commit
-            }
-        }
-        'show' {
-            if ($unknown.Count -eq 0) {
-                add_head
-                add_commit
+        'stash' {
+            if ($unknown.Count -eq 0 -and $cmds[1].text -in 'show', 'pop', 'apply', 'drop') {
+                add_stash
             }
         }
         { $_ -in 'push', 'pull', 'fetch' } {
             if ($unknown.Count -eq 0) {
                 add_remote
+            }
+            if ($opts[-1].text -eq '--shallow-exclude') {
+                add_branch
+                add_tag
             }
         }
         'remote' {
@@ -133,13 +225,17 @@ function handleCompletions($completions) {
                 add_remote
             }
         }
-        'revert' {
-            if ($unknown.Count -eq 0) {
-                add_commit
-            }
-        }
         'tag' {
             if ($opts[-1].text -in '-d', '-v') {
+                add_tag
+            }
+            elseif ($opts[-1].text -in '--contains', '--merged', '--no-contains', '--no-merged') {
+                add_commit
+            }
+            elseif ($opts[-1].text -eq '--points-at') {
+                add_branch
+                add_head
+                add_commit
                 add_tag
             }
         }

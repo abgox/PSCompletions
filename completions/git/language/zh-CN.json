@@ -347,7 +347,7 @@
             "U: --contains <commit>",
             "仅打印包含该提交的分支。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--copy",
@@ -384,7 +384,7 @@
             "U: --merged <commit>",
             "仅打印已合并的分支。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--move",
@@ -403,7 +403,7 @@
             "U: --no-merged <commit>",
             "仅打印未合并的分支。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--points-at",
@@ -729,6 +729,20 @@
           "tip": [
             "U: -t, --track[=(direct|inherit)]",
             "设置分支跟踪配置。"
+          ],
+          "next": [
+            {
+              "name": "direct",
+              "tip": [
+                "直接设置上游配置。"
+              ]
+            },
+            {
+              "name": "inherit",
+              "tip": [
+                "从检出的分支继承上游配置。"
+              ]
+            }
           ]
         },
         {
@@ -831,7 +845,7 @@
           ],
           "tip": [
             "U: -n, --dry-run",
-            "试运行。"
+            "仅展示将要执行的操作，不实际做出任何修改。"
           ]
         },
         {
@@ -1138,9 +1152,56 @@
           ]
         },
         {
+          "name": "--author",
+          "tip": [
+            "U: --author <author>",
+            "覆盖提交作者。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--branch",
           "tip": [
             "即使在短文中也要显示分支和跟踪信息。"
+          ]
+        },
+        {
+          "name": "--cleanup",
+          "tip": [
+            "U: --cleanup <mode>",
+            "确定在提交之前如何清理提供的提交消息。"
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "如果要编辑消息则与 strip 相同，否则与 whitespace 相同。"
+              ]
+            },
+            {
+              "name": "scissors",
+              "tip": [
+                "与 whitespace 相同，但会截断从（包括）下面找到的行开始的所有内容。"
+              ]
+            },
+            {
+              "name": "strip",
+              "tip": [
+                "去除开头和结尾的空行、尾部空白、注释并折叠连续空行。"
+              ]
+            },
+            {
+              "name": "verbatim",
+              "tip": [
+                "完全不更改消息。"
+              ]
+            },
+            {
+              "name": "whitespace",
+              "tip": [
+                "与 strip 相同，但 #commentary 不会被移除。"
+              ]
+            }
           ]
         },
         {
@@ -1187,6 +1248,17 @@
           ]
         },
         {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --file <file>",
+            "从 <file> 中获取提交消息。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--fixup",
           "tip": [
             "当前添加的 commit 是以前某一个 commit 的修正。",
@@ -1206,11 +1278,33 @@
           "next": 0
         },
         {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --include",
+            "在创建暂存内容的提交之前，也暂存命令行上给定路径的内容。"
+          ]
+        },
+        {
           "name": "--long",
           "tip": [
             "当做干运行时，以长格式给出输出。",
             "意味着 --dry-run。"
           ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <msg>",
+            "使用 <msg> 作为提交消息。",
+            "多个 -m 值将作为单独的段落连接。"
+          ],
+          "next": 0
         },
         {
           "name": "--no-edit",
@@ -1225,15 +1319,50 @@
           ]
         },
         {
+          "name": "--no-post-rewrite",
+          "tip": [
+            "绕过 post-rewrite 钩子。"
+          ]
+        },
+        {
           "name": "--no-signoff",
           "tip": [
             "不添加 Signed-off-by 行。"
           ]
         },
         {
+          "name": "--no-status",
+          "tip": [
+            "在使用编辑器准备提交消息时，不将 git-status(1) 的输出包含在提交消息模板中。"
+          ]
+        },
+        {
           "name": "--no-verify",
+          "alias": [
+            "-n"
+          ],
           "tip": [
             "绕过 pre-commit 和 commit-msg 钩子。"
+          ]
+        },
+        {
+          "name": "--null",
+          "alias": [
+            "-z"
+          ],
+          "tip": [
+            "U: -z, --null",
+            "在显示短格式或瓷器格式的 git-status(1) 输出时，逐字打印文件名并以 NUL 终止条目。"
+          ]
+        },
+        {
+          "name": "--only",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --only",
+            "通过获取指定路径的更新工作树内容来创建提交，忽略已为其他路径暂存的内容。"
           ]
         },
         {
@@ -1245,6 +1374,20 @@
             "U: -p, --patch",
             "交互式地选择要提交的更改"
           ]
+        },
+        {
+          "name": "--pathspec-file-nul",
+          "tip": [
+            "路径规范元素以 NUL 字符分隔。"
+          ]
+        },
+        {
+          "name": "--pathspec-from-file",
+          "tip": [
+            "U: --pathspec-from-file <file>",
+            "路径规范通过 <file> 而不是命令行参数传递。"
+          ],
+          "next": 0
         },
         {
           "name": "--porcelain",
@@ -1264,11 +1407,33 @@
           ]
         },
         {
+          "name": "--reedit-message",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --reedit-message <commit>",
+            "与 -C 类似，但使用 -c 时会调用编辑器，以便用户可以进一步编辑提交消息。"
+          ],
+          "next": []
+        },
+        {
           "name": "--reset-author",
           "tip": [
             "当与 -C/-c/--amend 选项一起使用时，或者当在一个冲突的 cherry-pick 之后提交时，声明所产生的提交的作者身份现在属于提交者。",
             "这也是对作者时间戳的更新。"
           ]
+        },
+        {
+          "name": "--reuse-message",
+          "alias": [
+            "-C"
+          ],
+          "tip": [
+            "U: -C, --reuse-message <commit>",
+            "获取一个已存在的提交对象，并在创建提交时重用日志信息和作者信息。"
+          ],
+          "next": []
         },
         {
           "name": "--short",
@@ -1294,6 +1459,57 @@
             "以后执行互动式的 git rebase 的时候，这两个 commit 将会合并成一个。"
           ],
           "next": []
+        },
+        {
+          "name": "--status",
+          "tip": [
+            "包含 git-status 输出在提交消息模板中(默认: on)。"
+          ]
+        },
+        {
+          "name": "--template",
+          "tip": [
+            "U: --template <file>",
+            "在编辑提交消息时, 使用 <file> 中的内容启动编辑器。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trailer",
+          "tip": [
+            "U: --trailer <token>[=|:] <value>",
+            "指定一个 (<token>, <value>) 对, 应作为 trailer 应用。"
+          ]
+        },
+        {
+          "name": "--untracked-files",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --untracked-files[=<mode>]",
+            "显示未跟踪的文件。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "也显示未跟踪目录中的单个文件。"
+              ]
+            },
+            {
+              "name": "no",
+              "tip": [
+                "不显示未跟踪的文件。"
+              ]
+            },
+            {
+              "name": "normal",
+              "tip": [
+                "显示未跟踪的文件和目录。"
+              ]
+            }
+          ]
         },
         {
           "name": "--verbose",
@@ -1354,25 +1570,27 @@
     {
       "name": "config",
       "tip": [
-        "U: config [--global] ...",
-        "检索和配置仓库或全局选项。"
+        "获取和设置仓库或全局选项。"
       ],
       "option": [
         {
-          "name": "--edit",
-          "alias": [
-            "-e"
-          ],
+          "name": "--all",
           "tip": [
-            "U: -e, --edit",
-            "编辑当前仓库的配置。"
+            "对于 get/set/unset: 返回所有匹配的值(不仅仅是第一个)。"
           ]
         },
         {
-          "name": "--get",
+          "name": "--default",
           "tip": [
-            "获取配置值(通常可以省略)。",
-            "E: [--global] [--get] user.name"
+            "U: --default <value>",
+            "对于 get: 当配置变量未找到时使用 <value> 作为默认值。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fixed-value",
+          "tip": [
+            "对于 get/unset: 精确匹配值, 而不是将其视为正则表达式。"
           ]
         },
         {
@@ -1382,91 +1600,88 @@
           ]
         },
         {
-          "name": "--unset",
+          "name": "--includes",
           "tip": [
-            "移除配置。",
-            "E: [--global] --unset user.name"
+            "对于 list/get: 在查找值时展开配置文件中的 include 指令。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "对于写入选项: 写入仓库 .git/config 文件(默认)。"
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "对于 list: 只显示匹配配置项的名称, 而不是它们的值。"
+          ]
+        },
+        {
+          "name": "--no-include",
+          "tip": [
+            "对于 list/get: 不展开配置文件中的 include 指令。"
+          ]
+        },
+        {
+          "name": "--regexp",
+          "tip": [
+            "对于 get: 将名称视为正则表达式。"
+          ]
+        },
+        {
+          "name": "--show-origin",
+          "tip": [
+            "对于所有选项: 显示每个配置值的来源(配置文件位置)。"
+          ]
+        },
+        {
+          "name": "--show-scope",
+          "tip": [
+            "对于所有选项: 显示每个配置值的作用域(local, global, system, worktree)。"
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "对于写入选项: 写入系统级 $(prefix)/etc/gitconfig 而不是仓库 .git/config。"
+          ]
+        },
+        {
+          "name": "--type",
+          "tip": [
+            "U: --type <type>",
+            "对于 set: 强制执行特定的值类型。",
+            "类型: bool, int, bool-or-int, path, expiry-date, color。"
           ],
           "next": [
             {
-              "name": "color.branch",
-              "tip": [
-                "移除配置 ---  branch 命令的自动着色。"
-              ]
+              "name": "bool"
             },
             {
-              "name": "color.diff",
-              "tip": [
-                "移除配置 --- diff 命令的自动着色。"
-              ]
+              "name": "bool-or-int"
             },
             {
-              "name": "color.interactive",
-              "tip": [
-                "移除配置 ---  交互式命令(-i)的自动着色。"
-              ]
+              "name": "color"
             },
             {
-              "name": "color.status",
-              "tip": [
-                "移除配置 ---  status 命令的自动着色。"
-              ]
+              "name": "expiry-date"
             },
             {
-              "name": "color.ui",
-              "tip": [
-                "移除配置 --- 命令自动着色。"
-              ]
+              "name": "int"
             },
             {
-              "name": "commit.gpgsign",
-              "tip": [
-                "移除配置 --- 是否对提交进行 GPG 签名。"
-              ]
-            },
-            {
-              "name": "commit.template",
-              "tip": [
-                "移除配置 --- 默认提交模板。"
-              ]
-            },
-            {
-              "name": "core.editor",
-              "tip": [
-                "移除配置 --- 默认编辑器。"
-              ]
-            },
-            {
-              "name": "gpg.program",
-              "tip": [
-                "移除配置 ---  GPG 程序路径。"
-              ]
-            },
-            {
-              "name": "https.proxy",
-              "tip": [
-                "移除配置 ---  Git https 代理。"
-              ]
-            },
-            {
-              "name": "user.email",
-              "tip": [
-                "移除配置 --- 邮箱。"
-              ]
-            },
-            {
-              "name": "user.name",
-              "tip": [
-                "移除配置 --- 用户名。"
-              ]
-            },
-            {
-              "name": "user.signingkey",
-              "tip": [
-                "移除配置 ---  GPG 签名的私钥。"
-              ]
+              "name": "path"
             }
           ]
+        },
+        {
+          "name": "--work-tree",
+          "tip": [
+            "U: --work-tree <path>",
+            "对于写入选项: 设置工作树的路径。"
+          ],
+          "next": 0
         }
       ],
       "next": [
@@ -1673,6 +1888,19 @@
           ]
         },
         {
+          "name": "edit",
+          "tip": [
+            "打开编辑器修改配置文件。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <name>",
+            "获取给定配置键的值。"
+          ]
+        },
+        {
           "name": "gpg.program",
           "tip": [
             "配置 GPG 程序路径。"
@@ -1688,6 +1916,40 @@
         },
         {
           "name": "init.defaultBranch"
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有变量及其值。"
+          ]
+        },
+        {
+          "name": "remove-section",
+          "tip": [
+            "U: remove-section <name>",
+            "删除配置节及其所有条目。"
+          ]
+        },
+        {
+          "name": "rename-section",
+          "tip": [
+            "U: rename-section <old-name> <new-name>",
+            "将配置节重命名为新名称。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <name> <value>",
+            "设置给定配置键的值。"
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "U: unset <name>",
+            "删除配置条目。"
+          ]
         },
         {
           "name": "user.email",
@@ -2061,6 +2323,30 @@
           ]
         },
         {
+          "name": "--append",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --append",
+            "将引用名称和对象名称追加到现有的 .git/FETCH_HEAD。"
+          ]
+        },
+        {
+          "name": "--atomic",
+          "tip": [
+            "使用原子事务更新本地引用。"
+          ]
+        },
+        {
+          "name": "--deepen",
+          "tip": [
+            "U: --deepen <depth>",
+            "从当前浅克隆边界加深历史。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--depth",
           "tip": [
             "U: --depth <depth>",
@@ -2071,14 +2357,14 @@
         {
           "name": "--dry-run",
           "tip": [
-            "试运行。"
+            "仅展示将要执行的操作，不实际做出任何修改。"
           ]
         },
         {
           "name": "--filter",
           "tip": [
-            "U: --filter <args>",
-            "对象过滤。"
+            "U: --filter <filter-spec>",
+            "使用部分克隆功能来获取可访问对象的子集。"
           ],
           "next": 0
         },
@@ -2093,6 +2379,26 @@
           ]
         },
         {
+          "name": "--ipv4",
+          "alias": [
+            "-4"
+          ],
+          "tip": [
+            "U: -4, --ipv4",
+            "仅使用 IPv4 地址。"
+          ]
+        },
+        {
+          "name": "--ipv6",
+          "alias": [
+            "-6"
+          ],
+          "tip": [
+            "U: -6, --ipv6",
+            "仅使用 IPv6 地址。"
+          ]
+        },
+        {
           "name": "--jobs",
           "alias": [
             "-j"
@@ -2104,13 +2410,36 @@
           "next": 0
         },
         {
-          "name": "--multiple",
+          "name": "--keep",
           "alias": [
-            "-m"
+            "-k"
           ],
+          "tip": [
+            "U: -k, --keep",
+            "保留下载的包。"
+          ]
+        },
+        {
+          "name": "--multiple",
           "tip": [
             "U: -m, --multiple",
             "从多个远程仓库获取。"
+          ]
+        },
+        {
+          "name": "--no-tags",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-tags",
+            "禁用自动标签跟踪。"
+          ]
+        },
+        {
+          "name": "--no-write-fetch-head",
+          "tip": [
+            "不写入 FETCH_HEAD 文件。"
           ]
         },
         {
@@ -2134,9 +2463,26 @@
           ]
         },
         {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "将 --quiet 传递给 git-fetch-pack 并静默其他 git 命令。"
+          ]
+        },
+        {
           "name": "--recurse-submodules",
           "tip": [
             "控制递归获取子模块。"
+          ]
+        },
+        {
+          "name": "--refetch",
+          "tip": [
+            "获取所有对象, 就像全新克隆一样。",
+            "重新应用部分克隆过滤器。"
           ]
         },
         {
@@ -2168,6 +2514,12 @@
           ]
         },
         {
+          "name": "--stdin",
+          "tip": [
+            "从标准输入逐行读取引用规范。"
+          ]
+        },
+        {
           "name": "--tags",
           "alias": [
             "-t"
@@ -2181,6 +2533,22 @@
           "name": "--unshallow",
           "tip": [
             "转换为完整的仓库。"
+          ]
+        },
+        {
+          "name": "--update-shallow",
+          "tip": [
+            "更新 .git/shallow 并接受需要更新它的引用。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "详细输出。"
           ]
         },
         {
@@ -2318,6 +2686,12 @@
       "name": "get-tar-commit-id",
       "tip": [
         "从使用 git archive 创建的归档中提取提交 ID。"
+      ]
+    },
+    {
+      "name": "gitk",
+      "tip": [
+        "Git 仓库浏览器。"
       ]
     },
     {
@@ -3318,9 +3692,39 @@
       ],
       "option": [
         {
-          "name": "-f",
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
           "tip": [
-            "强制移动或重命名文件、目录或符号链接, 并暂存更改。"
+            "U: -n, --dry-run",
+            "不执行任何操作; 只显示会发生什么。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "即使 <destination> 存在, 也强制重命名或移动文件。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "报告正在移动的文件名称。"
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "跳过会导致错误条件的移动或重命名操作。"
           ]
         }
       ]
@@ -3482,7 +3886,7 @@
         {
           "name": "--dry-run",
           "tip": [
-            "试运行。"
+            "仅展示将要执行的操作，不实际做出任何修改。"
           ]
         },
         {
@@ -3658,7 +4062,7 @@
           ],
           "tip": [
             "U: -n, --dry-run",
-            "试运行。"
+            "仅展示将要执行的操作，不实际做出任何修改。"
           ]
         },
         {
@@ -3678,6 +4082,12 @@
           ]
         },
         {
+          "name": "--force-if-includes",
+          "tip": [
+            "仅当远程跟踪引用的提示已在本地集成时才强制更新。"
+          ]
+        },
+        {
           "name": "--force-with-lease",
           "tip": [
             "U: --force-with-lease[=<refname>:<expect>]",
@@ -3686,9 +4096,54 @@
           "next": 0
         },
         {
+          "name": "--ipv4",
+          "alias": [
+            "-4"
+          ],
+          "tip": [
+            "U: -4, --ipv4",
+            "仅使用 IPv4 地址。"
+          ]
+        },
+        {
+          "name": "--ipv6",
+          "alias": [
+            "-6"
+          ],
+          "tip": [
+            "U: -6, --ipv6",
+            "仅使用 IPv6 地址。"
+          ]
+        },
+        {
           "name": "--mirror",
           "tip": [
             "镜像所有引用。"
+          ]
+        },
+        {
+          "name": "--no-atomic",
+          "tip": [
+            "不使用原子推送。"
+          ]
+        },
+        {
+          "name": "--no-force-with-lease",
+          "tip": [
+            "取消命令行上所有先前的 --force-with-lease 选项。"
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "完全绕过 pre-push 钩子。"
+          ]
+        },
+        {
+          "name": "--porcelain",
+          "tip": [
+            "生成机器可读的输出。",
+            "以制表符分隔的状态行输出到标准输出。"
           ]
         },
         {
@@ -3710,22 +4165,33 @@
           "next": 0
         },
         {
-          "name": "--recurse-submodules",
-          "tip": [
-            "U: --recurse-submodules (check|on-demand|no)",
-            "控制递归推送子模块。"
+          "name": "--quiet",
+          "alias": [
+            "-q"
           ],
-          "next": [
-            {
-              "name": "check"
-            },
-            {
-              "name": "no"
-            },
-            {
-              "name": "on-demand"
-            }
+          "tip": [
+            "U: -q, --quiet",
+            "抑制所有输出, 包括更新引用的列表。"
           ]
+        },
+        {
+          "name": "--receive-pack",
+          "alias": [
+            "--exec"
+          ],
+          "tip": [
+            "U: --exec, --receive-pack <git-receive-pack>",
+            "远程端 git-receive-pack 程序的路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repo",
+          "tip": [
+            "U: --repo <repository>",
+            "等同于 <repository> 参数。"
+          ],
+          "next": 0
         },
         {
           "name": "--set-upstream",
@@ -3748,6 +4214,23 @@
           "name": "--tags",
           "tip": [
             "推送所有标签（不能与 --all 或 --mirror 一起使用）。"
+          ]
+        },
+        {
+          "name": "--thin",
+          "tip": [
+            "将 --thin 传递给 git-send-pack。",
+            "当发送方和接收方共享对象时减少发送的数据。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "详细运行。"
           ]
         }
       ]
@@ -4341,10 +4824,24 @@
           ]
         },
         {
+          "name": "--ignore-skip-worktree-bits",
+          "tip": [
+            "忽略稀疏模式，恢复路径规范中的所有文件。"
+          ]
+        },
+        {
           "name": "--ignore-unmerged",
           "tip": [
             "忽略未合并的条目。"
           ]
+        },
+        {
+          "name": "--inter-hunk-context",
+          "tip": [
+            "U: --inter-hunk-context <n>",
+            "显示差异块之间的上下文，最多 <n> 行。"
+          ],
+          "next": 0
         },
         {
           "name": "--merge",
@@ -4354,6 +4851,24 @@
           "tip": [
             "U: -m, --merge",
             "与新分支执行三路合并。"
+          ]
+        },
+        {
+          "name": "--no-overlay",
+          "tip": [
+            "使用非覆盖模式（默认）。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "禁用进度报告。"
+          ]
+        },
+        {
+          "name": "--no-recurse-submodules",
+          "tip": [
+            "不更新子模块的工作树。"
           ]
         },
         {
@@ -4376,6 +4891,26 @@
           "tip": [
             "U: -p, --patch",
             "交互式选择代码块。"
+          ]
+        },
+        {
+          "name": "--pathspec-file-nul",
+          "tip": [
+            "路径规范元素以 NUL 字符分隔。"
+          ]
+        },
+        {
+          "name": "--pathspec-from-file",
+          "tip": [
+            "U: --pathspec-from-file <file>",
+            "路径规范通过 <file> 而不是命令行参数传递。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "即使未连接到终端也启用进度报告。"
           ]
         },
         {
@@ -4422,6 +4957,17 @@
           ]
         },
         {
+          "name": "--unified",
+          "alias": [
+            "-U"
+          ],
+          "tip": [
+            "U: -U, --unified <n>",
+            "生成带有 <n> 行上下文的差异。"
+          ],
+          "next": 0
+        },
+        {
           "name": "--worktree",
           "alias": [
             "-W"
@@ -4466,9 +5012,46 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
           "tip": [
-            "强制从工作目录中删除指定的文件, 即使它已被修改并暂存。"
+            "U: -n, --dry-run",
+            "不实际删除任何文件。",
+            "只显示它们是否存在于索引中以及是否会被删除。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "覆盖最新检查。"
+          ]
+        },
+        {
+          "name": "--ignore-unmatch",
+          "tip": [
+            "即使没有匹配的文件, 也以零状态退出。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "抑制每个文件的输出。"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "当给出前导目录名时, 允许递归删除。"
           ]
         }
       ]
@@ -4584,9 +5167,23 @@
           "next": []
         },
         {
+          "name": "branch",
+          "tip": [
+            "U: branch <branchname> [<stash>]",
+            "从 stash 提交创建并检出新分支, 应用 stash, 删除 stash。"
+          ]
+        },
+        {
           "name": "clear",
           "tip": [
             "清除 stash。"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create [<message>]",
+            "创建一个 stash 条目并返回其对象名称, 而不存储它。"
           ]
         },
         {
@@ -4597,6 +5194,20 @@
             "E: drop 1   --- 移除第二个 stash (stash@{1})"
           ],
           "next": []
+        },
+        {
+          "name": "export",
+          "tip": [
+            "U: export (--print | --to-ref <ref>) [<stash>...]",
+            "将 stash 导出到提交链, 以便通过 fetch/push 传输。"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "U: import <commit>",
+            "从指定提交(由 export 创建)导入 stash 并添加到 stash 列表。"
+          ]
         },
         {
           "name": "list",
@@ -4619,6 +5230,56 @@
             "暂存更改(相当于 'git stash')。"
           ],
           "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "暂存所有被忽略和未跟踪的文件。"
+              ]
+            },
+            {
+              "name": "--include-untracked",
+              "alias": [
+                "-u"
+              ],
+              "tip": [
+                "U: -u, --include-untracked",
+                "暂存所有未跟踪的文件。"
+              ]
+            },
+            {
+              "name": "--keep-index",
+              "alias": [
+                "-k"
+              ],
+              "tip": [
+                "U: -k, --[no-]keep-index",
+                "保留已添加到索引的更改。"
+              ]
+            },
+            {
+              "name": "--patch",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --patch",
+                "交互式选择要暂存的代码块。"
+              ]
+            },
+            {
+              "name": "--staged",
+              "alias": [
+                "-S"
+              ],
+              "tip": [
+                "U: -S, --staged",
+                "仅暂存当前已暂存的更改。"
+              ]
+            },
             {
               "name": "-m",
               "tip": [
@@ -4647,6 +5308,13 @@
                 "查看 stash 的详细 diff 信息。"
               ]
             }
+          ]
+        },
+        {
+          "name": "store",
+          "tip": [
+            "U: store [(-m | --message) <message>] [-q | --quiet] <commit>",
+            "将通过 git stash create 创建的给定 stash 存储在 stash ref 中。"
           ]
         }
       ]
@@ -4808,6 +5476,13 @@
       ],
       "next": [
         {
+          "name": "absorbgitdirs",
+          "tip": [
+            "U: absorbgitdirs [<path>...]",
+            "如果子模块位于工作树的子目录中, 将其 git 目录移动到 .git/modules/ 并设置 .git 文件。"
+          ]
+        },
+        {
           "name": "add",
           "tip": [
             "向当前项目添加一个新的子模块。"
@@ -4829,6 +5504,29 @@
           "name": "init",
           "tip": [
             "为当前项目初始化子模块。"
+          ]
+        },
+        {
+          "name": "set-branch",
+          "tip": [
+            "U: set-branch (--default|--branch <branch>) [<path>]",
+            "设置子模块的默认远程跟踪分支或分支。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "next": 0
+            },
+            {
+              "name": "--default"
+            }
+          ]
+        },
+        {
+          "name": "set-url",
+          "tip": [
+            "U: set-url <path> <newurl>",
+            "更新子模块的远程 URL。"
           ]
         },
         {
@@ -5047,7 +5745,8 @@
           "tip": [
             "U: -c, --create <branch>",
             "创建并切换到新分支。"
-          ]
+          ],
+          "next": 0
         },
         {
           "name": "--detach",
@@ -5105,6 +5804,36 @@
           ]
         },
         {
+          "name": "--no-guess",
+          "tip": [
+            "禁用对 'git switch <no-such-branch>' 的二次猜测。"
+          ]
+        },
+        {
+          "name": "--no-overwrite-ignore",
+          "tip": [
+            "不更新被忽略的文件。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "禁用进度报告。"
+          ]
+        },
+        {
+          "name": "--no-recurse-submodules",
+          "tip": [
+            "不更新子模块的工作树。"
+          ]
+        },
+        {
+          "name": "--no-track",
+          "tip": [
+            "不设置上游配置。"
+          ]
+        },
+        {
           "name": "--orphan",
           "tip": [
             "U: --orphan <new-branch>",
@@ -5115,6 +5844,12 @@
           "name": "--overwrite-ignore",
           "tip": [
             "更新被忽略的文件（默认）。"
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "即使未连接到终端, 也强制报告进度状态。"
           ]
         },
         {
@@ -5141,6 +5876,20 @@
           "tip": [
             "U: -t, --track[=(direct|inherit)]",
             "设置分支跟踪配置。"
+          ],
+          "next": [
+            {
+              "name": "direct",
+              "tip": [
+                "直接设置上游配置。"
+              ]
+            },
+            {
+              "name": "inherit",
+              "tip": [
+                "从检出的分支继承上游配置。"
+              ]
+            }
           ]
         }
       ]
@@ -5178,7 +5927,38 @@
             "U: --cleanup <mode>",
             "如何去除消息中的空格和 # 注释。"
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "如果要编辑消息则与 strip 相同，否则与 whitespace 相同。"
+              ]
+            },
+            {
+              "name": "scissors",
+              "tip": [
+                "与 whitespace 相同，但会截断从（包括）下面找到的行开始的所有内容。"
+              ]
+            },
+            {
+              "name": "strip",
+              "tip": [
+                "去除开头和结尾的空行、尾部空白、注释并折叠连续空行。"
+              ]
+            },
+            {
+              "name": "verbatim",
+              "tip": [
+                "完全不更改消息。"
+              ]
+            },
+            {
+              "name": "whitespace",
+              "tip": [
+                "与 strip 相同，但 #commentary 不会被移除。"
+              ]
+            }
+          ]
         },
         {
           "name": "--contains",
@@ -5186,7 +5966,7 @@
             "U: --contains <commit>",
             "仅打印包含该提交的标签。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--create-reflog",
@@ -5273,7 +6053,7 @@
             "U: --merged <commit>",
             "仅打印已合并的标签。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--message",
@@ -5292,7 +6072,7 @@
             "U: --no-contains <commit>",
             "仅打印不包含该提交的标签。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-merged",
@@ -5300,7 +6080,7 @@
             "U: --no-merged <commit>",
             "仅打印未合并的标签。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--points-at",
@@ -5508,6 +6288,13 @@
           ]
         },
         {
+          "name": "repair",
+          "tip": [
+            "U: repair [<path>...]",
+            "修复给定路径或默认工作树中的工作树管理文件。"
+          ]
+        },
+        {
           "name": "reset",
           "tip": [
             "将工作目录重置到特定状态。"
@@ -5525,6 +6312,12 @@
             "解锁当前工作目录, 允许并发访问。"
           ]
         }
+      ]
+    },
+    {
+      "name": "write-tree",
+      "tip": [
+        "从当前索引创建一个树对象。"
       ]
     }
   ],

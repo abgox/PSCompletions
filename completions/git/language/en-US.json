@@ -347,7 +347,7 @@
             "U: --contains <commit>",
             "Print only branches that contain the commit."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--copy",
@@ -384,7 +384,7 @@
             "U: --merged <commit>",
             "Print only branches that are merged."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--move",
@@ -403,7 +403,7 @@
             "U: --no-merged <commit>",
             "Print only branches that are not merged."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--points-at",
@@ -729,6 +729,20 @@
           "tip": [
             "U: -t, --track[=(direct|inherit)]",
             "Set branch tracking configuration."
+          ],
+          "next": [
+            {
+              "name": "direct",
+              "tip": [
+                "Set up upstream configuration directly."
+              ]
+            },
+            {
+              "name": "inherit",
+              "tip": [
+                "Inherit upstream configuration from the branch being checked out."
+              ]
+            }
           ]
         },
         {
@@ -831,7 +845,7 @@
           ],
           "tip": [
             "U: -n, --dry-run",
-            "Dry run."
+            "Show what would be done, without making changes."
           ]
         },
         {
@@ -1138,9 +1152,56 @@
           ]
         },
         {
+          "name": "--author",
+          "tip": [
+            "U: --author <author>",
+            "Override the commit author."
+          ],
+          "next": 0
+        },
+        {
           "name": "--branch",
           "tip": [
             "Show the branch and tracking info even in short-format."
+          ]
+        },
+        {
+          "name": "--cleanup",
+          "tip": [
+            "U: --cleanup <mode>",
+            "Determine how the supplied commit message should be cleaned up before committing."
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "Same as strip if the message is to be edited, otherwise whitespace."
+              ]
+            },
+            {
+              "name": "scissors",
+              "tip": [
+                "Same as whitespace except that everything from (and including) the line found below is truncated."
+              ]
+            },
+            {
+              "name": "strip",
+              "tip": [
+                "Strip leading and trailing empty lines, trailing whitespace, commentary and collapse consecutive empty lines."
+              ]
+            },
+            {
+              "name": "verbatim",
+              "tip": [
+                "Do not change the message at all."
+              ]
+            },
+            {
+              "name": "whitespace",
+              "tip": [
+                "Same as strip except #commentary is not removed."
+              ]
+            }
           ]
         },
         {
@@ -1187,6 +1248,17 @@
           ]
         },
         {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "tip": [
+            "U: -F, --file <file>",
+            "Take the commit message from <file>."
+          ],
+          "next": 0
+        },
+        {
           "name": "--fixup",
           "tip": [
             "Create a new commit which \"fixes up\" <commit> when applied with `git rebase --autosquash.`"
@@ -1205,11 +1277,33 @@
           "next": 0
         },
         {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --include",
+            "Before making a commit out of staged contents, also stage the contents of paths given on the command line."
+          ]
+        },
+        {
           "name": "--long",
           "tip": [
             "When doing a dry-run, give the output in the long-format.",
             "Implies `--dry-run`."
           ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --message <msg>",
+            "Use <msg> as the commit message.",
+            "Multiple -m values are concatenated as separate paragraphs."
+          ],
+          "next": 0
         },
         {
           "name": "--no-edit",
@@ -1224,15 +1318,51 @@
           ]
         },
         {
+          "name": "--no-post-rewrite",
+          "tip": [
+            "Bypass the post-rewrite hook."
+          ]
+        },
+        {
           "name": "--no-signoff",
           "tip": [
             "Do not add a Signed-off-by trailer."
           ]
         },
         {
-          "name": "--no-verify",
+          "name": "--no-status",
           "tip": [
-            "Bypass pre-commit and commit-msg hooks."
+            "Do not include the output of git-status(1) in the commit message template."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-verify",
+            "Bypass the pre-commit and commit-msg hooks."
+          ]
+        },
+        {
+          "name": "--null",
+          "alias": [
+            "-z"
+          ],
+          "tip": [
+            "U: -z, --null",
+            "When showing short or porcelain git-status(1) output, print the filename verbatim and terminate the entries with NUL."
+          ]
+        },
+        {
+          "name": "--only",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --only",
+            "Make a commit by taking the updated working tree contents of the paths specified, disregarding any contents that have been staged for other paths."
           ]
         },
         {
@@ -1246,10 +1376,23 @@
           ]
         },
         {
+          "name": "--pathspec-file-nul",
+          "tip": [
+            "Pathspec elements are separated with NUL character."
+          ]
+        },
+        {
+          "name": "--pathspec-from-file",
+          "tip": [
+            "U: --pathspec-from-file <file>",
+            "Pathspec is passed in <file> instead of commandline args."
+          ],
+          "next": 0
+        },
+        {
           "name": "--porcelain",
           "tip": [
             "When doing a dry-run, give the output in a porcelain-ready format.",
-            "See https://git-scm.com/docs/git-status for details.",
             "Implies `--dry-run`."
           ]
         },
@@ -1264,6 +1407,17 @@
           ]
         },
         {
+          "name": "--reedit-message",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --reedit-message <commit>",
+            "Like -C, but with -c the editor is invoked, so that the user can further edit the commit message."
+          ],
+          "next": []
+        },
+        {
           "name": "--reset-author",
           "tip": [
             "When used with -C/-c/--amend options, or when committing after a conflicting cherry-pick, declare that the authorship of the resulting commit now belongs to the committer.",
@@ -1271,10 +1425,20 @@
           ]
         },
         {
+          "name": "--reuse-message",
+          "alias": [
+            "-C"
+          ],
+          "tip": [
+            "U: -C, --reuse-message <commit>",
+            "Take an existing commit object and reuse the log message and author information when creating a commit."
+          ],
+          "next": []
+        },
+        {
           "name": "--short",
           "tip": [
             "When doing a dry-run, give the output in the short-format.",
-            "See https://git-scm.com/docs/git-status for details.",
             "Implies `--dry-run`."
           ]
         },
@@ -1285,15 +1449,67 @@
           ],
           "tip": [
             "U: -s, --signoff",
-            "Add Signed-off-by line by the committer at the end of the commit log message."
+            "Add a Signed-off-by trailer by the committer at the end of the commit log message."
           ]
         },
         {
           "name": "--squash",
           "tip": [
-            "Construct a commit message for use with `rebase --autosquash`."
+            "U: --squash <commit>",
+            "Construct a commit message for use with `git rebase --autosquash`."
           ],
           "next": []
+        },
+        {
+          "name": "--status",
+          "tip": [
+            "Include git-status output in the commit message template (default: on)."
+          ]
+        },
+        {
+          "name": "--template",
+          "tip": [
+            "U: --template <file>",
+            "Start the editor with the contents in <file> when editing the commit message."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--trailer",
+          "tip": [
+            "U: --trailer <token>[=|:] <value>",
+            "Specify a (<token>, <value>) pair that should be applied as a trailer."
+          ]
+        },
+        {
+          "name": "--untracked-files",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --untracked-files[=<mode>]",
+            "Show untracked files."
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "Also shows individual files in untracked directories."
+              ]
+            },
+            {
+              "name": "no",
+              "tip": [
+                "Show no untracked files."
+              ]
+            },
+            {
+              "name": "normal",
+              "tip": [
+                "Shows untracked files and directories."
+              ]
+            }
+          ]
         },
         {
           "name": "--verbose",
@@ -1354,118 +1570,118 @@
     {
       "name": "config",
       "tip": [
-        "Retrieve and configure repository or global options."
+        "Get and set repository or global options."
       ],
       "option": [
         {
-          "name": "--edit",
-          "alias": [
-            "-e"
-          ],
+          "name": "--all",
           "tip": [
-            "U: -e, --edit",
-            "Edit the configuration for the current repository."
+            "For get/set/unset: return all matching values (not just the first)."
           ]
         },
         {
-          "name": "--get",
+          "name": "--default",
           "tip": [
-            "Get config value (Usually can be omitted)",
-            "E: [--global] [--get] user.name"
+            "U: --default <value>",
+            "For get: use <value> as the default when the config variable is not found."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--fixed-value",
+          "tip": [
+            "For get/unset: match the value exactly rather than treating it as a regular expression."
           ]
         },
         {
           "name": "--global",
           "tip": [
-            "Perform global settings."
+            "For writing options: write to global ~/.gitconfig file rather than the repository .git/config."
           ]
         },
         {
-          "name": "--unset",
+          "name": "--includes",
           "tip": [
-            "Remove config.",
-            "E: [--global] --unset user.name"
+            "For list/get: expand include directives in config files when looking up values."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "For writing options: write to the repository .git/config file (default)."
+          ]
+        },
+        {
+          "name": "--name-only",
+          "tip": [
+            "For list: show only the names of matching config entries, not their values."
+          ]
+        },
+        {
+          "name": "--no-include",
+          "tip": [
+            "For list/get: do not expand include directives in config files."
+          ]
+        },
+        {
+          "name": "--regexp",
+          "tip": [
+            "For get: treat the name as a regular expression."
+          ]
+        },
+        {
+          "name": "--show-origin",
+          "tip": [
+            "For all options: show the origin (config file location) of each configuration value."
+          ]
+        },
+        {
+          "name": "--show-scope",
+          "tip": [
+            "For all options: show the scope (local, global, system, worktree) of each configuration value."
+          ]
+        },
+        {
+          "name": "--system",
+          "tip": [
+            "For writing options: write to system-wide $(prefix)/etc/gitconfig rather than the repository .git/config."
+          ]
+        },
+        {
+          "name": "--type",
+          "tip": [
+            "U: --type <type>",
+            "For set: enforce a specific value type.",
+            "Types: bool, int, bool-or-int, path, expiry-date, color."
           ],
           "next": [
             {
-              "name": "color.branch",
-              "tip": [
-                "Remove config --- the auto-coloring for the branch command."
-              ]
+              "name": "bool"
             },
             {
-              "name": "color.diff",
-              "tip": [
-                "Remove config --- the auto-coloring for the diff command."
-              ]
+              "name": "bool-or-int"
             },
             {
-              "name": "color.interactive",
-              "tip": [
-                "Remove config --- the auto-coloring for the -i (interactive) command."
-              ]
+              "name": "color"
             },
             {
-              "name": "color.status",
-              "tip": [
-                "Remove config --- the auto-coloring for the status command."
-              ]
+              "name": "expiry-date"
             },
             {
-              "name": "color.ui",
-              "tip": [
-                "Remove config --- the command auto-coloring."
-              ]
+              "name": "int"
             },
             {
-              "name": "commit.gpgsign",
-              "tip": [
-                "Remove config --- whether to sign commits with GPG."
-              ]
-            },
-            {
-              "name": "commit.template",
-              "tip": [
-                "Remove config --- the default commit template."
-              ]
-            },
-            {
-              "name": "core.editor",
-              "tip": [
-                "Remove config --- the default editor."
-              ]
-            },
-            {
-              "name": "gpg.program",
-              "tip": [
-                "Remove config --- the GPG program path."
-              ]
-            },
-            {
-              "name": "https.proxy",
-              "tip": [
-                "Remove config --- the Git https proxy."
-              ]
-            },
-            {
-              "name": "user.email",
-              "tip": [
-                "Remove config --- the email."
-              ]
-            },
-            {
-              "name": "user.name",
-              "tip": [
-                "Remove config --- the username."
-              ]
-            },
-            {
-              "name": "user.signingkey",
-              "tip": [
-                "Remove config --- the GPG signing key."
-              ]
+              "name": "path"
             }
           ]
+        },
+        {
+          "name": "--work-tree",
+          "tip": [
+            "U: --work-tree <path>",
+            "For writing options: set the path to the working tree."
+          ],
+          "next": 0
         }
       ],
       "next": [
@@ -1672,6 +1888,19 @@
           ]
         },
         {
+          "name": "edit",
+          "tip": [
+            "Open an editor to modify the configuration file."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <name>",
+            "Get the value for a given config key."
+          ]
+        },
+        {
           "name": "gpg.program",
           "tip": [
             "Configure the GPG program path."
@@ -1687,6 +1916,40 @@
         },
         {
           "name": "init.defaultBranch"
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all variables and their values."
+          ]
+        },
+        {
+          "name": "remove-section",
+          "tip": [
+            "U: remove-section <name>",
+            "Remove a config section and all its entries."
+          ]
+        },
+        {
+          "name": "rename-section",
+          "tip": [
+            "U: rename-section <old-name> <new-name>",
+            "Rename a config section to a new name."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <name> <value>",
+            "Set the value for a given config key."
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "U: unset <name>",
+            "Remove a config entry."
+          ]
         },
         {
           "name": "user.email",
@@ -2056,8 +2319,32 @@
         {
           "name": "--all",
           "tip": [
-            "Fetch from all remotes."
+            "Fetch all remotes."
           ]
+        },
+        {
+          "name": "--append",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --append",
+            "Append ref names and object names to existing .git/FETCH_HEAD."
+          ]
+        },
+        {
+          "name": "--atomic",
+          "tip": [
+            "Use atomic transaction to update local refs."
+          ]
+        },
+        {
+          "name": "--deepen",
+          "tip": [
+            "U: --deepen <depth>",
+            "Deepen history of shallow clone from the current shallow boundary."
+          ],
+          "next": 0
         },
         {
           "name": "--depth",
@@ -2070,14 +2357,14 @@
         {
           "name": "--dry-run",
           "tip": [
-            "Dry run."
+            "Show what would be done, without making changes."
           ]
         },
         {
           "name": "--filter",
           "tip": [
-            "U: --filter <args>",
-            "Object filtering."
+            "U: --filter <filter-spec>",
+            "Use partial clone feature to request subset of reachable objects."
           ],
           "next": 0
         },
@@ -2092,6 +2379,26 @@
           ]
         },
         {
+          "name": "--ipv4",
+          "alias": [
+            "-4"
+          ],
+          "tip": [
+            "U: -4, --ipv4",
+            "Use IPv4 addresses only."
+          ]
+        },
+        {
+          "name": "--ipv6",
+          "alias": [
+            "-6"
+          ],
+          "tip": [
+            "U: -6, --ipv6",
+            "Use IPv6 addresses only."
+          ]
+        },
+        {
           "name": "--jobs",
           "alias": [
             "-j"
@@ -2103,13 +2410,35 @@
           "next": 0
         },
         {
-          "name": "--multiple",
+          "name": "--keep",
           "alias": [
-            "-m"
+            "-k"
           ],
           "tip": [
-            "U: -m, --multiple",
-            "Fetch from multiple remotes."
+            "U: -k, --keep",
+            "Keep downloaded pack."
+          ]
+        },
+        {
+          "name": "--multiple",
+          "tip": [
+            "Allow several repository and group arguments."
+          ]
+        },
+        {
+          "name": "--no-tags",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --no-tags",
+            "Disable automatic tag following."
+          ]
+        },
+        {
+          "name": "--no-write-fetch-head",
+          "tip": [
+            "Do not write FETCH_HEAD file."
           ]
         },
         {
@@ -2133,9 +2462,26 @@
           ]
         },
         {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Pass --quiet to git-fetch-pack and silence other git commands."
+          ]
+        },
+        {
           "name": "--recurse-submodules",
           "tip": [
             "Control recursive fetching of submodules."
+          ]
+        },
+        {
+          "name": "--refetch",
+          "tip": [
+            "Fetch all objects as a fresh clone would.",
+            "Reapply partial clone filter."
           ]
         },
         {
@@ -2167,6 +2513,12 @@
           ]
         },
         {
+          "name": "--stdin",
+          "tip": [
+            "Read refspecs, one per line, from stdin."
+          ]
+        },
+        {
           "name": "--tags",
           "alias": [
             "-t"
@@ -2183,9 +2535,25 @@
           ]
         },
         {
+          "name": "--update-shallow",
+          "tip": [
+            "Update .git/shallow and accept refs that require updating it."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Be verbose."
+          ]
+        },
+        {
           "name": "--write-commit-graph",
           "tip": [
-            "Write the commit-graph after fetching."
+            "Write a commit-graph after fetching."
           ]
         },
         {
@@ -2317,6 +2685,12 @@
       "name": "get-tar-commit-id",
       "tip": [
         "Extract commit ID from an archive created using git archive."
+      ]
+    },
+    {
+      "name": "gitk",
+      "tip": [
+        "The Git repository browser."
       ]
     },
     {
@@ -3318,9 +3692,39 @@
       ],
       "option": [
         {
-          "name": "-f",
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
           "tip": [
-            "Forcefully move or rename a file, directory, or symbolic link, and stage the change."
+            "U: -n, --dry-run",
+            "Do nothing; only show what would happen."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force renaming or moving of a file even if the <destination> exists."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Report the names of files as they are moved."
+          ]
+        },
+        {
+          "name": "-k",
+          "tip": [
+            "Skip move or rename actions which would lead to an error condition."
           ]
         }
       ]
@@ -3482,7 +3886,7 @@
         {
           "name": "--dry-run",
           "tip": [
-            "Dry run."
+            "Show what would be done, without making changes."
           ]
         },
         {
@@ -3658,7 +4062,7 @@
           ],
           "tip": [
             "U: -n, --dry-run",
-            "Dry run."
+            "Show what would be done, without making changes."
           ]
         },
         {
@@ -3678,17 +4082,69 @@
           ]
         },
         {
+          "name": "--force-if-includes",
+          "tip": [
+            "Force an update only if the tip of the remote-tracking ref has been integrated locally."
+          ]
+        },
+        {
           "name": "--force-with-lease",
           "tip": [
             "U: --force-with-lease[=<refname>:<expect>]",
-            "Require old value of ref to be at this value. Safer than --force."
+            "Require old value of ref to be at this value.",
+            "Safer than --force."
           ],
           "next": 0
+        },
+        {
+          "name": "--ipv4",
+          "alias": [
+            "-4"
+          ],
+          "tip": [
+            "U: -4, --ipv4",
+            "Use IPv4 addresses only."
+          ]
+        },
+        {
+          "name": "--ipv6",
+          "alias": [
+            "-6"
+          ],
+          "tip": [
+            "U: -6, --ipv6",
+            "Use IPv6 addresses only."
+          ]
         },
         {
           "name": "--mirror",
           "tip": [
             "Mirror all refs."
+          ]
+        },
+        {
+          "name": "--no-atomic",
+          "tip": [
+            "Do not use atomic pushes."
+          ]
+        },
+        {
+          "name": "--no-force-with-lease",
+          "tip": [
+            "Cancel all previous --force-with-lease options on the command line."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "Bypass the pre-push hook completely."
+          ]
+        },
+        {
+          "name": "--porcelain",
+          "tip": [
+            "Produce machine-readable output.",
+            "Tab-separated status lines to stdout."
           ]
         },
         {
@@ -3710,22 +4166,33 @@
           "next": 0
         },
         {
-          "name": "--recurse-submodules",
-          "tip": [
-            "U: --recurse-submodules (check|on-demand|no)",
-            "Control recursive pushing of submodules."
+          "name": "--quiet",
+          "alias": [
+            "-q"
           ],
-          "next": [
-            {
-              "name": "check"
-            },
-            {
-              "name": "no"
-            },
-            {
-              "name": "on-demand"
-            }
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress all output, including listing of updated refs."
           ]
+        },
+        {
+          "name": "--receive-pack",
+          "alias": [
+            "--exec"
+          ],
+          "tip": [
+            "U: --exec, --receive-pack <git-receive-pack>",
+            "Path to the git-receive-pack program on the remote end."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--repo",
+          "tip": [
+            "U: --repo <repository>",
+            "Equivalent to the <repository> argument."
+          ],
+          "next": 0
         },
         {
           "name": "--set-upstream",
@@ -3734,7 +4201,7 @@
           ],
           "tip": [
             "U: -u, --set-upstream",
-            "Set upstream for git pull/status."
+            "For every branch that is up to date or successfully pushed, add upstream reference."
           ]
         },
         {
@@ -3748,6 +4215,23 @@
           "name": "--tags",
           "tip": [
             "Push all tags (can't be used with --all or --mirror)."
+          ]
+        },
+        {
+          "name": "--thin",
+          "tip": [
+            "Pass --thin to git-send-pack.",
+            "Reduces sent data when sender and receiver share objects."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --verbose",
+            "Run verbously."
           ]
         }
       ]
@@ -4341,10 +4825,24 @@
           ]
         },
         {
+          "name": "--ignore-skip-worktree-bits",
+          "tip": [
+            "Ignore sparse patterns and restore any files in pathspec."
+          ]
+        },
+        {
           "name": "--ignore-unmerged",
           "tip": [
             "Ignore unmerged entries."
           ]
+        },
+        {
+          "name": "--inter-hunk-context",
+          "tip": [
+            "U: --inter-hunk-context <n>",
+            "Show the context between diff hunks, up to <n> lines."
+          ],
+          "next": 0
         },
         {
           "name": "--merge",
@@ -4354,6 +4852,24 @@
           "tip": [
             "U: -m, --merge",
             "Perform a 3-way merge with the new branch."
+          ]
+        },
+        {
+          "name": "--no-overlay",
+          "tip": [
+            "Use no-overlay mode (default)."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Disable progress reporting."
+          ]
+        },
+        {
+          "name": "--no-recurse-submodules",
+          "tip": [
+            "Do not update submodules working trees."
           ]
         },
         {
@@ -4376,6 +4892,26 @@
           "tip": [
             "U: -p, --patch",
             "Select hunks interactively."
+          ]
+        },
+        {
+          "name": "--pathspec-file-nul",
+          "tip": [
+            "Pathspec elements are separated with NUL character."
+          ]
+        },
+        {
+          "name": "--pathspec-from-file",
+          "tip": [
+            "U: --pathspec-from-file <file>",
+            "Pathspec is passed in <file> instead of commandline args."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "Enable progress reporting even if not attached to a terminal."
           ]
         },
         {
@@ -4422,6 +4958,17 @@
           ]
         },
         {
+          "name": "--unified",
+          "alias": [
+            "-U"
+          ],
+          "tip": [
+            "U: -U, --unified <n>",
+            "Generate diffs with <n> lines of context."
+          ],
+          "next": 0
+        },
+        {
           "name": "--worktree",
           "alias": [
             "-W"
@@ -4466,9 +5013,46 @@
           ]
         },
         {
-          "name": "-f",
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
           "tip": [
-            "Forcefully delete the specified file from the working directory, even if it has been modified and staged."
+            "U: -n, --dry-run",
+            "Don't actually remove any file(s).",
+            "Just show if they exist in the index and would otherwise be removed."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Override the up-to-date check."
+          ]
+        },
+        {
+          "name": "--ignore-unmatch",
+          "tip": [
+            "Exit with a zero status even if no files matched."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress the per-file output."
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "Allow recursive removal when a leading directory name is given."
           ]
         }
       ]
@@ -4585,9 +5169,23 @@
           "next": []
         },
         {
+          "name": "branch",
+          "tip": [
+            "U: branch <branchname> [<stash>]",
+            "Create and checkout a new branch from stash commit, apply stash, drop stash."
+          ]
+        },
+        {
           "name": "clear",
           "tip": [
             "Clear the stash."
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create [<message>]",
+            "Create a stash entry and return its object name without storing it."
           ]
         },
         {
@@ -4598,6 +5196,20 @@
             "E: drop 1   ---  Remove the second stash. (stash@{1})"
           ],
           "next": []
+        },
+        {
+          "name": "export",
+          "tip": [
+            "U: export (--print | --to-ref <ref>) [<stash>...]",
+            "Export stashes to a chain of commits for transfer via fetch/push."
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "U: import <commit>",
+            "Import stashes from specified commit (created by export) and add to stash list."
+          ]
         },
         {
           "name": "list",
@@ -4622,8 +5234,59 @@
           ],
           "option": [
             {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "Stash all ignored and untracked files."
+              ]
+            },
+            {
+              "name": "--include-untracked",
+              "alias": [
+                "-u"
+              ],
+              "tip": [
+                "U: -u, --include-untracked",
+                "Stash all untracked files."
+              ]
+            },
+            {
+              "name": "--keep-index",
+              "alias": [
+                "-k"
+              ],
+              "tip": [
+                "U: -k, --[no-]keep-index",
+                "Leave changes already added to index intact."
+              ]
+            },
+            {
+              "name": "--patch",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --patch",
+                "Interactively select hunks to stash."
+              ]
+            },
+            {
+              "name": "--staged",
+              "alias": [
+                "-S"
+              ],
+              "tip": [
+                "U: -S, --staged",
+                "Stash only changes that are currently staged."
+              ]
+            },
+            {
               "name": "-m",
               "tip": [
+                "U: -m, --message <message>",
                 "Specify a descriptive message for this stash.",
                 "E: -m \"Remark\" (equivalent to 'git stash -m \"Remark\"')"
               ],
@@ -4649,6 +5312,13 @@
                 "Show the diff of the stash."
               ]
             }
+          ]
+        },
+        {
+          "name": "store",
+          "tip": [
+            "U: store [(-m | --message) <message>] [-q | --quiet] <commit>",
+            "Store a given stash created via git stash create in the stash ref."
           ]
         }
       ]
@@ -4810,6 +5480,13 @@
       ],
       "next": [
         {
+          "name": "absorbgitdirs",
+          "tip": [
+            "U: absorbgitdirs [<path>...]",
+            "If a submodule is located in a subdirectory of the working tree, move its git directory into .git/modules/ and set up a .git file."
+          ]
+        },
+        {
           "name": "add",
           "tip": [
             "Add a new submodule to the current project."
@@ -4831,6 +5508,29 @@
           "name": "init",
           "tip": [
             "Initialize submodules for the current project."
+          ]
+        },
+        {
+          "name": "set-branch",
+          "tip": [
+            "U: set-branch (--default|--branch <branch>) [<path>]",
+            "Set the default remote-tracking branch or the branch of a submodule."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "next": 0
+            },
+            {
+              "name": "--default"
+            }
+          ]
+        },
+        {
+          "name": "set-url",
+          "tip": [
+            "U: set-url <path> <newurl>",
+            "Update the remote URL of a submodule."
           ]
         },
         {
@@ -5049,7 +5749,8 @@
           "tip": [
             "U: -c, --create <branch>",
             "Create and switch to a new branch."
-          ]
+          ],
+          "next": 0
         },
         {
           "name": "--detach",
@@ -5107,6 +5808,36 @@
           ]
         },
         {
+          "name": "--no-guess",
+          "tip": [
+            "Disable second guessing of 'git switch <no-such-branch>'."
+          ]
+        },
+        {
+          "name": "--no-overwrite-ignore",
+          "tip": [
+            "Do not update ignored files."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Disable progress reporting."
+          ]
+        },
+        {
+          "name": "--no-recurse-submodules",
+          "tip": [
+            "Do not update submodules working trees."
+          ]
+        },
+        {
+          "name": "--no-track",
+          "tip": [
+            "Do not set up upstream configuration."
+          ]
+        },
+        {
           "name": "--orphan",
           "tip": [
             "U: --orphan <new-branch>",
@@ -5117,6 +5848,12 @@
           "name": "--overwrite-ignore",
           "tip": [
             "Update ignored files (default)."
+          ]
+        },
+        {
+          "name": "--progress",
+          "tip": [
+            "Force progress status reporting even if not attached to a terminal."
           ]
         },
         {
@@ -5143,6 +5880,20 @@
           "tip": [
             "U: -t, --track[=(direct|inherit)]",
             "Set branch tracking configuration."
+          ],
+          "next": [
+            {
+              "name": "direct",
+              "tip": [
+                "Set up upstream configuration directly."
+              ]
+            },
+            {
+              "name": "inherit",
+              "tip": [
+                "Inherit upstream configuration from the branch being checked out."
+              ]
+            }
           ]
         }
       ]
@@ -5180,7 +5931,38 @@
             "U: --cleanup <mode>",
             "How to strip spaces and #comments from message."
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "Same as strip if the message is to be edited, otherwise whitespace."
+              ]
+            },
+            {
+              "name": "scissors",
+              "tip": [
+                "Same as whitespace except that everything from (and including) the line found below is truncated."
+              ]
+            },
+            {
+              "name": "strip",
+              "tip": [
+                "Strip leading and trailing empty lines, trailing whitespace, commentary and collapse consecutive empty lines."
+              ]
+            },
+            {
+              "name": "verbatim",
+              "tip": [
+                "Do not change the message at all."
+              ]
+            },
+            {
+              "name": "whitespace",
+              "tip": [
+                "Same as strip except #commentary is not removed."
+              ]
+            }
+          ]
         },
         {
           "name": "--contains",
@@ -5188,7 +5970,7 @@
             "U: --contains <commit>",
             "Print only tags that contain the commit."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--create-reflog",
@@ -5275,7 +6057,7 @@
             "U: --merged <commit>",
             "Print only tags that are merged."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--message",
@@ -5294,7 +6076,7 @@
             "U: --no-contains <commit>",
             "Print only tags that don't contain the commit."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-merged",
@@ -5302,7 +6084,7 @@
             "U: --no-merged <commit>",
             "Print only tags that are not merged."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--points-at",
@@ -5494,7 +6276,7 @@
         {
           "name": "prune",
           "tip": [
-            "Remove empty directories from the working tree."
+            "Remove stale working tree administrative files."
           ]
         },
         {
@@ -5507,6 +6289,13 @@
           "name": "remove",
           "tip": [
             "Remove a working tree from the current repository."
+          ]
+        },
+        {
+          "name": "repair",
+          "tip": [
+            "U: repair [<path>...]",
+            "Repair worktree administrative files in the given paths, or the default working tree."
           ]
         },
         {
@@ -5527,6 +6316,12 @@
             "Unlock the current working tree to allow concurrent access."
           ]
         }
+      ]
+    },
+    {
+      "name": "write-tree",
+      "tip": [
+        "Create a tree object from the current index."
       ]
     }
   ],
