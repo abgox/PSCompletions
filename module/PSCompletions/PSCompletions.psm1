@@ -3,20 +3,17 @@
 
     $arg = $args
 
-    Set-Alias Write-Host Microsoft.PowerShell.Utility\Write-Host -ErrorAction Ignore
-    Set-Alias Write-Output Microsoft.PowerShell.Utility\Write-Output -ErrorAction Ignore
-
     function _replace {
         param ($data, $separator = '')
-        $data = $data -join $separator
+        $data = [string]::Join($separator, @($data))
         if ($data -notlike '*{{*') { return $data }
         $matches = [regex]::Matches($data, $PSCompletions.replace_pattern)
         foreach ($match in $matches) {
-            $data = $data.Replace($match.Value, (Invoke-Expression $match.Groups[1].Value) -join $separator )
+            $data = $data.Replace($match.Value, [string]::Join($separator, @(Invoke-Expression $match.Groups[1].Value)))
         }
-        if ($data -match $PSCompletions.replace_pattern) { (_replace $data) }else { return $data }
+        if ($data -match $PSCompletions.replace_pattern) { _replace $data }else { return $data }
     }
-    function download_list {
+    function _download_list {
         $PSCompletions.ensure_dir($PSCompletions.path.temp)
         if (!(Test-Path -LiteralPath $PSCompletions.path.completions_json)) {
             @{ update = @{ psc = '' }; meta = @{} } | ConvertTo-Json -Compress | Out-File $PSCompletions.path.completions_json -Encoding utf8 -Force
@@ -26,7 +23,7 @@
         if ($null -eq $current_list) { $current_list = @() }
 
         $params = @{ ErrorAction = 'Stop' }
-        if ($PSEdition -eq 'Core') { $params['OperationTimeoutSeconds'] = 30 }else { $params['TimeoutSec'] = 30 }
+        if ($PSEdition -eq 'Core') { $params['OperationTimeoutSeconds'] = 30 } else { $params['TimeoutSec'] = 30 }
 
         $isErr = $true
         $errMsg = @()
@@ -67,76 +64,43 @@
             return $false
         }
     }
-    function Show-ParamError {
+    function _param_err {
         param($flag, $cmd, $err_info = $PSCompletions.info.$cmd.err.$flag, $example = $PSCompletions.info.$cmd.example)
-
         $err = if ($flag -eq 'min') { $PSCompletions.info.param_min }
         elseif ($flag -eq 'max') { $PSCompletions.info.param_max }
         else { $PSCompletions.info.param_err }
         $PSCompletions.write_with_color((_replace $err))
-
-        if ($err_info) {
-            $PSCompletions.write_with_color((_replace $err_info))
-        }
-        if ($example) {
-            $PSCompletions.write_with_color('<@Cyan>' + (_replace $example))
-        }
+        if ($err_info) { $PSCompletions.write_with_color((_replace $err_info)) }
+        if ($example) { $PSCompletions.write_with_color('<@Cyan>' + (_replace $example)) }
     }
-    function Show-List {
+    function show_list {
         $max_len = ($PSCompletions.data.list | Measure-Object -Maximum Length).Maximum
         $max_len = [Math]::Max($max_len, 10)
         foreach ($_ in $PSCompletions.data.list) {
             $alias = $PSCompletions.data.alias.$_ -join ' '
-            $data.Add([PSCustomObject]@{
-                    Completion = $_
-                    Alias      = $alias
-                })
+            $data.Add([PSCustomObject]@{ Completion = $_; Alias = $alias })
         }
         $data
-    }
-    function Out-Data {
-        if ($PSCompletions.need_update_data) {
-            foreach ($_ in $PSCompletions.data.list) {
-                if (-not $PSCompletions.config.completion[$_].Count) {
-                    $null = $PSCompletions.config.completion.Remove($_)
-                }
-            }
-            $saveData = [ordered]@{}
-            foreach ($key in $PSCompletions.data.Keys) {
-                if ($key -notin 'list', 'aliasMap') {
-                    $saveData[$key] = $PSCompletions.data[$key]
-                }
-            }
-            $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
-            $PSCompletions.need_update_data = $null
-        }
     }
     function _list {
         $data = [System.Collections.Generic.List[System.Object]]@()
         if ($arg[1] -eq '--remote') {
-            if (!(download_list)) {
-                return
-            }
+            if (!(_download_list)) { return }
             $max_len = ($PSCompletions.list | Measure-Object -Maximum Length).Maximum
             foreach ($_ in $PSCompletions.list) {
                 $status = if ($PSCompletions.data.alias[$_]) { $PSCompletions.info.list.added }else { $null }
-                $data.Add([PSCustomObject]@{
-                        Completion = $_
-                        Status     = $status
-                    })
+                $data.Add([PSCustomObject]@{ Completion = $_; Status = $status })
             }
-            $data
+            return $data
         }
-        else {
-            Show-List
-        }
+        show_list
     }
     function _add {
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' 'add'
+            _param_err 'min' 'add'
             return
         }
-        if (!(download_list)) {
+        if (!(_download_list)) {
             return
         }
         if ($arg | Where-Object { $_ -eq '--all' }) {
@@ -159,20 +123,14 @@
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.add.err.no))
             }
         }
-        if (!$PSCompletions.use_module_completion_menu) {
-            $PSCompletions.handle_completion()
-        }
+        if (!$PSCompletions.use_module_completion_menu) { $PSCompletions.handle_completion() }
     }
     function _rm {
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' 'rm'
+            _param_err 'min' 'rm'
             return
         }
-
-        $data = [ordered]@{
-            alias  = [ordered]@{}
-            config = $PSCompletions.data.config
-        }
+        $data = [ordered]@{ alias = [ordered]@{}; config = $PSCompletions.data.config }
         if ($arg | Where-Object { $_ -eq '--all' }) {
             foreach ($completion in (Get-ChildItem $PSCompletions.path.completions -Directory).Name) {
                 $dir = Join-Path $PSCompletions.path.completions $completion
@@ -217,61 +175,35 @@
         }
         $PSCompletions.update | Out-File $PSCompletions.path.update -Force -ErrorAction Ignore
         $remove = @()
-        foreach ($_ in $data.config.completion.keys) {
-            if ($_ -notin $data.alias.Keys) {
-                $remove += $_
-            }
-        }
-        foreach ($_ in $remove) {
-            $null = $data.config.completion.Remove($_)
-        }
+        foreach ($_ in $data.config.completion.keys) { if ($_ -notin $data.alias.Keys) { $remove += $_ } }
+        foreach ($_ in $remove) { $null = $data.config.completion.Remove($_) }
         $PSCompletions.data.list = @($data.alias.Keys)
         $PSCompletions.data.aliasMap = [ordered]@{}
         foreach ($key in $PSCompletions.data.list) {
-            foreach ($a in $data.alias[$key]) {
-                $PSCompletions.data.aliasMap[$a] = $key
-            }
+            foreach ($a in $data.alias[$key]) { $PSCompletions.data.aliasMap[$a] = $key }
         }
         $data | ConvertTo-Json -Depth 10 | Out-File $PScompletions.path.data -Force -Encoding utf8
         $PSCompletions.data = $data
     }
     function _update {
         $completion_list = $PSCompletions.data.list.Where({ $_ -in $PSCompletions.list })
-        $params = @{
-            ErrorAction = 'Stop'
-        }
-        if ($PSEdition -eq 'Core') {
-            $params['OperationTimeoutSeconds'] = 30
-        }
-        else {
-            $params['TimeoutSec'] = 30
-        }
-
+        $params = @{ ErrorAction = 'Stop' }
+        if ($PSEdition -eq 'Core') { $params['OperationTimeoutSeconds'] = 30 } else { $params['TimeoutSec'] = 30 }
         if ($arg.Length -lt 2) {
-            # 如果只是使用 psc update 则检查更新
-            if (!(download_list)) {
-                return
-            }
+            if (!(_download_list)) { return }
             $update = (Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json).update
             $need_update_list = [System.Collections.Generic.List[string]]@()
             foreach ($completion in $completion_list) {
-                if (-not $update.$completion) {
-                    continue
-                }
+                if (-not $update.$completion) { continue }
                 $completion_dir = $PSCompletions.path.completions + "/$completion"
-                if (-not (Test-Path -LiteralPath $completion_dir) -or (Get-Item $completion_dir).LinkType) {
-                    continue
-                }
+                if (-not (Test-Path -LiteralPath $completion_dir) -or (Get-Item $completion_dir).LinkType) { continue }
                 $p = "$completion_dir/.update"
                 if (-not (Test-Path -LiteralPath $p)) {
                     $need_update_list += $completion
-                    Remove-Item "$($PSCompletions.path.completions)/$completion/guid.json" -Force -ErrorAction Ignore
                     continue
                 }
                 $content = Get-Content $p -Raw -Encoding utf8 -ErrorAction Ignore
-                if ($content -and $content.Trim() -eq $update.$completion) {
-                    continue
-                }
+                if ($content -and $content.Trim() -eq $update.$completion) { continue }
                 $need_update_list += $completion
             }
             $PSCompletions.update = $need_update_list
@@ -330,19 +262,15 @@
     }
     function _info {
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' 'info'
+            _param_err 'min' 'info'
             return
         }
         $info = Get-Content $PSCompletions.path.completions_json -Raw -Encoding utf8 -ErrorAction Ignore | ConvertFrom-Json
         $lang = $PSCompletions.config.language
         foreach ($completion in $arg[1..($arg.Length - 1)]) {
-            $out = [ordered]@{
-                Name = $completion
-            }
+            $out = [ordered]@{ Name = $completion }
             $alias = $PSCompletions.data.alias[$completion]
-            if ($alias) {
-                $out.Alias = $alias
-            }
+            if ($alias) { $out.Alias = $alias }
             if ($info.meta.$completion) {
                 $meta = $info.meta.$completion.$lang
                 if (!$meta) { $meta = $info.meta.$completion.'en-US' }
@@ -355,26 +283,19 @@
             if (Test-Path -LiteralPath $path) {
                 $out.Path = $path
                 $update = Get-Content "$path\.update" -Raw -Encoding utf8 -ErrorAction Ignore
-                if ($update -and $update.Trim()) {
-                    $out.Update = $update.Trim()
-                }
+                if ($update -and $update.Trim()) { $out.Update = $update.Trim() }
                 $updated = Get-Item "$path\.update" -ErrorAction Ignore | Select-Object -ExpandProperty LastWriteTime
-                if ($updated) {
-                    $out.Updated = $updated
-                }
+                if ($updated) { $out.Updated = $updated }
             }
-
             Write-Output ([PSCustomObject]$out)
         }
     }
     function _search {
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' 'search'
+            _param_err 'min' 'search'
             return
         }
-        if (!(download_list)) {
-            return
-        }
+        if (!(_download_list)) { return }
         $result = $PSCompletions.list.Where({ $_ -like $arg[1] })
         if ($result) {
             $result
@@ -385,7 +306,7 @@
     }
     function _which {
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' 'which'
+            _param_err 'min' 'which'
             return
         }
         foreach ($completion in $arg[1..($arg.Length - 1)]) {
@@ -400,21 +321,19 @@
     function _alias {
         $cmd_list = @('list', 'add', 'rm')
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' '' $PSCompletions.info.sub_cmd
+            _param_err 'min' '' $PSCompletions.info.sub_cmd
             return
         }
         if ($arg[1] -notin $cmd_list) {
             $sub_cmd = $arg[1]
-            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
+            _param_err 'err' '' $PSCompletions.info.sub_cmd
             return
         }
-
         if ($arg[1] -eq 'list') {
             $data = [System.Collections.Generic.List[System.Object]]@()
-            Show-List
+            show_list
             return
         }
-
         $data_alias = [ordered]@{}
         $data_aliasMap = [ordered]@{}
         foreach ($_ in $PSCompletions.data.list) {
@@ -435,39 +354,39 @@
                 $completion = $arg[2]
                 if ($null -eq $arg[2]) {
                     $cmd_list = $PSCompletions.data.list
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.add.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.add.example
                     return
                 }
                 else {
                     if ($arg[2] -notin $PSCompletions.data.list) {
-                        Show-ParamError 'err' '' $PSCompletions.info.no_completion
+                        _param_err 'err' '' $PSCompletions.info.no_completion
                         return
                     }
                 }
                 if ($null -eq $arg[3]) {
-                    Show-ParamError 'min' '' $PSCompletions.info.alias.add.err.min_v $PSCompletions.info.alias.add.example
+                    _param_err 'min' '' $PSCompletions.info.alias.add.err.min_v $PSCompletions.info.alias.add.example
                     return
                 }
                 $add_list = @()
                 foreach ($alias in $arg[3..($arg.Length - 1)]) {
                     $alias = ($alias -split ' ')[0]
                     if ($alias -in $data_alias[$completion]) {
-                        Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.exist
+                        _param_err 'err' '' $PSCompletions.info.alias.add.err.exist
                         Write-Host
                         continue
                     }
                     if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($alias)) {
-                        Show-ParamError 'err' '' $PSCompletions.info.err.has_wildcard
+                        _param_err 'err' '' $PSCompletions.info.err.has_wildcard
                         Write-Host
                         continue
                     }
                     if ($alias -eq 'PSCompletions') {
-                        Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
+                        _param_err 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         continue
                     }
                     $has_command = Get-Command $alias -ErrorAction Ignore
                     if (($alias -notmatch '.*\.\w+$') -and $has_command.CommandType -eq 'Alias') {
-                        Show-ParamError 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
+                        _param_err 'err' '' $PSCompletions.info.alias.add.err.cmd_exist
                         continue
                     }
                     $data_alias[$completion].Add($alias)
@@ -483,20 +402,19 @@
                 $completion = $arg[2]
                 if ($null -eq $arg[2]) {
                     $cmd_list = $PSCompletions.data.list
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.rm.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.alias.rm.example
                     return
                 }
                 else {
                     if ($arg[2] -notin $PSCompletions.data.list) {
-                        Show-ParamError 'err' '' $PSCompletions.info.no_completion
+                        _param_err 'err' '' $PSCompletions.info.no_completion
                         return
                     }
                 }
                 if ($null -eq $arg[3]) {
-                    Show-ParamError 'min' '' $PSCompletions.info.alias.rm.err.min_v $PSCompletions.info.alias.rm.example
+                    _param_err 'min' '' $PSCompletions.info.alias.rm.err.min_v $PSCompletions.info.alias.rm.example
                     return
                 }
-
                 $rm_list = @()
                 foreach ($alias in $arg[3..($arg.Length - 1)]) {
                     if ($alias -in $PSCompletions.data.aliasMap.Keys) {
@@ -523,9 +441,7 @@
         $PSCompletions.data.list = @($data_alias.Keys)
         $PSCompletions.data.aliasMap = [ordered]@{}
         foreach ($key in $PSCompletions.data.list) {
-            foreach ($a in $data_alias[$key]) {
-                $PSCompletions.data.aliasMap[$a] = $key
-            }
+            foreach ($a in $data_alias[$key]) { $PSCompletions.data.aliasMap[$a] = $key }
         }
         $saveData = [ordered]@{}
         foreach ($key in $PSCompletions.data.Keys) {
@@ -541,23 +457,20 @@
         $cmd_list = $PSCompletions.config_item
         $config_item = $arg[1]
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' '' $PSCompletions.info.sub_cmd  $PSCompletions.info.config.example
+            _param_err 'min' '' $PSCompletions.info.sub_cmd  $PSCompletions.info.config.example
             return
         }
-
         if ($arg[1] -notin $cmd_list) {
             $sub_cmd = $arg[1]
-            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
+            _param_err 'err' '' $PSCompletions.info.sub_cmd
             return
         }
-
         if ($arg[1] -in $cmd_list) {
             if ($arg.Length -eq 2) {
                 Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.$($arg[1]))
                 return
             }
         }
-
         function handle_done {
             param([bool]$is_can, $err_info, $example = $PSCompletions.info.config.$($arg[1]).example)
             if ($arg.Length -eq 3) {
@@ -569,7 +482,7 @@
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.config.done))
                 }
                 else {
-                    Show-ParamError 'err' '' $err_info $example
+                    _param_err 'err' '' $err_info $example
                 }
             }
         }
@@ -589,57 +502,50 @@
     function _completion {
         $cmd_list = $PSCompletions.data.list
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.completion.example
+            _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.completion.example
             return
         }
         if ($arg[1] -notin $PSCompletions.data.list) {
             $cmd_list = $PSCompletions.data.list
             $sub_cmd = $arg[1]
-            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
+            _param_err 'err' '' $PSCompletions.info.sub_cmd
             return
         }
         if ($arg.Length -lt 3) {
-            Show-ParamError 'min' 'completion'
+            _param_err 'min' 'completion'
             return
         }
         $config_list = $PSCompletions.default_completion_item
-
         if ($null -eq $PSCompletions.config.completion.$($arg[1])) {
             $PSCompletions.config.completion.$($arg[1]) = [ordered]@{}
         }
-
         if ($arg[2] -notin $config_list -and $null -eq $PSCompletions.config.completion.$($arg[1]).$($arg[2])) {
             $cmd_list = $config_list + ($PSCompletions.config.completion.$($arg[1]).keys.Where({ $_ -notin $config_list }))
             $sub_cmd = $arg[2]
-            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd
+            _param_err 'err' '' $PSCompletions.info.sub_cmd
             return
         }
         if ($arg.Length -eq 3) {
             Write-Output $PSCompletions.wrap_whitespace($PSCompletions.config.completion.$($arg[1]).$($arg[2]))
             return
         }
-
         $completion = $arg[1]
         $config_item = $arg[2]
         $old_value = $PSCompletions.config.completion[$completion].$config_item
         $new_value = $arg[3]
-        if ($new_value -match '^-?\d+$') {
-            $new_value = [int]$new_value
-        }
-
+        if ($new_value -match '^-?\d+$') { $new_value = [int]$new_value }
         if ($config_item -match '(enable_\w+)|(disable_\w+)') {
             if ($new_value -notin 1, 0) {
                 $cmd_list = $null
                 $sub_cmd = $arg[2]
                 $cmd_info = $PSCompletions.info.menu.config.err.v_1_or_0
-                Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.completion.example
+                _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.completion.example
                 return
             }
         }
         $PSCompletions.config.completion[$completion].$config_item = $new_value
         $PSCompletions.need_update_data = $true
         $PSCompletions.write_with_color((_replace $PSCompletions.info.completion.done))
-
         if ($config_item -eq 'language' -and $PSCompletions.config.enable_cache) {
             $PSCompletions.write_with_color((_replace $PSCompletions.info.module.restart))
         }
@@ -647,22 +553,22 @@
     function _menu {
         $cmd_list = @('symbol', 'line_theme', 'color_theme', 'custom', 'config')
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' 'menu' $PSCompletions.info.sub_cmd
+            _param_err 'min' 'menu' $PSCompletions.info.sub_cmd
             return
         }
         if ($arg[1] -notin $cmd_list) {
-            Show-ParamError 'err' 'menu' $PSCompletions.info.sub_cmd
+            _param_err 'err' 'menu' $PSCompletions.info.sub_cmd
         }
         switch ($arg[1]) {
             'symbol' {
                 $cmd_list = @('continue', 'stay', 'input')
                 if ($arg.Length -eq 2) {
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.$($arg[1]).example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.$($arg[1]).example
                     return
                 }
                 if ($arg[2] -notin $cmd_list) {
                     $sub_cmd = $arg[2]
-                    Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.$($arg[1]).example
+                    _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.$($arg[1]).example
                 }
                 $config_item = $arg[2]
                 if ($arg.Length -eq 3) {
@@ -682,14 +588,13 @@
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.err.deny_change_menu_line_style))
                     return
                 }
-
                 $cmd_list = @('double_line_rect_border', 'bold_line_rect_border', 'single_line_rect_border', 'single_line_round_border', 'boldTB_slimLR_border', 'slimTB_boldLR_border', 'doubleTB_singleLR_border', 'singleTB_doubleLR_border')
                 if ($arg.Length -lt 3) {
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.line_theme.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.line_theme.example
                     return
                 }
                 if ($arg[2] -notin $cmd_list) {
-                    Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.line_theme.example
+                    _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.line_theme.example
                     return
                 }
                 switch ($arg[2]) {
@@ -768,7 +673,7 @@
                 $pure_color_list = @('Red', 'DarkRed', 'Blue', 'DarkBlue', 'Green', 'DarkGreen', 'Cyan', 'DarkCyan', 'Yellow', 'DarkYellow', 'Magenta', 'DarkMagenta', 'Gray', 'DarkGray')
                 $cmd_list = @('Default') + $pure_color_list
                 if ($arg.Length -lt 3) {
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.color_theme.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.color_theme.example
                     return
                 }
                 switch ($arg[2]) {
@@ -793,7 +698,7 @@
                         $PSCompletions.config.selected_bgcolor = $_
                     }
                     default {
-                        Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.color_theme.example
+                        _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.color_theme.example
                         return
                     }
                 }
@@ -803,11 +708,11 @@
             'custom' {
                 $cmd_list = @('color', 'line')
                 if ($arg.Length -lt 3) {
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
                     return
                 }
                 if ($arg[2] -notin $cmd_list) {
-                    Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
+                    _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
                     return
                 }
                 if ($arg[2] -eq 'line' -and $PSEdition -eq 'Desktop') {
@@ -816,12 +721,12 @@
                 }
                 if ($arg.Length -lt 4) {
                     $cmd_list = $PSCompletions.menu.const."$($arg[2])_item"
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
                     return
                 }
                 if ($arg[3] -notin $PSCompletions.menu.const."$($arg[2])_item") {
                     $cmd_list = $PSCompletions.menu.const."$($arg[2])_item"
-                    Show-ParamError 'err'  '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
+                    _param_err 'err'  '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
                     return
                 }
                 if ($arg.Length -lt 5) {
@@ -831,7 +736,7 @@
                 if ($arg.Length -gt 5) {
                     if ($arg[2] -eq 'color' -and $arg[4] -notin $PSCompletions.menu.const.color_value) {
                         $cmd_list = $PSCompletions.menu.const.color_value
-                        Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
+                        _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.custom.example
                         return
                     }
                 }
@@ -845,11 +750,11 @@
             'config' {
                 $cmd_list = $PSCompletions.menu.const.config_item
                 if ($arg.Length -lt 3) {
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                     return
                 }
                 if ($arg[2] -notin $cmd_list) {
-                    Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
+                    _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                     return
                 }
                 if ($arg.Length -eq 3) {
@@ -864,7 +769,6 @@
                     $value = $arg[3]
                     $is_num = $false
                 }
-
                 switch ($arg[2]) {
                     'trigger_key' {
                         try {
@@ -879,7 +783,7 @@
                             }
                         }
                         catch {
-                            Show-ParamError 'err' 'trigger_key' $PSCompletions.info.menu.config.err.trigger_key
+                            _param_err 'err' 'trigger_key' $PSCompletions.info.menu.config.err.trigger_key
                             return
                         }
                     }
@@ -889,7 +793,7 @@
                             $cmd_list = $null
                             $sub_cmd = $value
                             $cmd_info = _replace $PSCompletions.info.menu.config.err.v_ge
-                            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
+                            _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }
                     }
@@ -900,7 +804,7 @@
                             $cmd_list = $null
                             $sub_cmd = $value
                             $cmd_info = _replace $PSCompletions.info.menu.config.err.v_ge_le
-                            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
+                            _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }
                     }
@@ -909,19 +813,19 @@
                             $cmd_list = $null
                             $sub_cmd = $value
                             $cmd_info = $PSCompletions.info.menu.config.err.v_1_or_0
-                            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
+                            _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.menu.config.example
                             return
                         }
                     }
                     'filter_symbol' {
                         if ($value.Trim().Length -lt 2) {
-                            Show-ParamError 'err' 'filter_symbol' $PSCompletions.info.menu.config.err.filter_symbol
+                            _param_err 'err' 'filter_symbol' $PSCompletions.info.menu.config.err.filter_symbol
                             return
                         }
                     }
                     'completion_suffix' {
                         if ($value -notmatch '^\s*$') {
-                            Show-ParamError 'err' 'completion_suffix' $PSCompletions.info.menu.config.err.completion_suffix
+                            _param_err 'err' 'completion_suffix' $PSCompletions.info.menu.config.err.completion_suffix
                             return
                         }
                     }
@@ -941,15 +845,14 @@
     function _reset {
         $cmd_list = @('--all', 'config', 'alias', 'order', 'completion', 'menu')
         if ($arg.Length -lt 2) {
-            Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
+            _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
             return
         }
         if ($arg[1] -notin $cmd_list) {
             $sub_cmd = $arg[1]
-            Show-ParamError 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
+            _param_err 'err' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
             return
         }
-
         if ($arg[1] -in 'alias', 'completion', 'menu') {
             $cmd_list = @('--all')
             if ($arg[1] -in 'alias', 'completion') {
@@ -959,18 +862,18 @@
                 $cmd_list += @('symbol', 'line', 'color', 'config')
             }
             if ($arg.Length -eq 2) {
-                Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.$($arg[1]).example
+                _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.$($arg[1]).example
                 return
             }
             if ($arg[1] -notin 'completion', 'alias' -and $arg.Length -gt 3) {
-                Show-ParamError 'max' '' '' $PSCompletions.info.reset.$($arg[1]).example
+                _param_err 'max' '' '' $PSCompletions.info.reset.$($arg[1]).example
                 return
             }
         }
         else {
             if ($arg.Length -ne 2) {
                 $cmd_list = $null
-                Show-ParamError 'max' '' '' $PSCompletions.info.reset.example
+                _param_err 'max' '' '' $PSCompletions.info.reset.example
                 return
             }
         }
@@ -1082,7 +985,7 @@
                 $cmd_list = @('--all', 'symbol', 'line', 'color', 'config')
                 if ($arg[2] -notin $cmd_list) {
                     $sub_cmd = $arg[2]
-                    Show-ParamError 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
+                    _param_err 'min' '' $PSCompletions.info.sub_cmd $PSCompletions.info.reset.example
                     return
                 }
                 switch ($arg[2]) {
@@ -1145,54 +1048,38 @@
     $need_init = $true
     $PSCompletions.need_update_data = $null
     switch ($arg[0]) {
-        'list' {
-            _list
-            $need_init = $false
-        }
-        'add' {
-            _add
-        }
-        'rm' {
-            _rm
-        }
-        'update' {
-            _update
-        }
-        'info' {
-            _info
-        }
-        'search' {
-            _search
-            $need_init = $false
-        }
-        'which' {
-            _which
-            $need_init = $false
-        }
-        'alias' {
-            _alias
-        }
-        'config' {
-            _config
-        }
-        'completion' {
-            _completion
-        }
-        'menu' {
-            _menu
-        }
-        'reset' {
-            _reset
-        }
+        'list' { _list; $need_init = $false }
+        'add' { _add }
+        'rm' { _rm }
+        'update' { _update }
+        'info' { _info }
+        'search' { _search; $need_init = $false }
+        'which' { _which; $need_init = $false }
+        'alias' { _alias }
+        'config' { _config }
+        'completion' { _completion }
+        'menu' { _menu }
+        'reset' { _reset }
         default {
             # https://pscompletions.abgox.com/docs/source-profile
             $PSCompletions.init_data()
             $PSCompletions.handle_completion()
+            $PSCompletions.start_job()
             _help
             return
         }
     }
-    Out-Data
+    if ($PSCompletions.need_update_data) {
+        foreach ($_ in $PSCompletions.data.list) {
+            if (-not $PSCompletions.config.completion[$_].Count) { $null = $PSCompletions.config.completion.Remove($_) }
+        }
+        $saveData = [ordered]@{}
+        foreach ($key in $PSCompletions.data.Keys) {
+            if ($key -notin 'list', 'aliasMap') { $saveData[$key] = $PSCompletions.data[$key] }
+        }
+        $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+        $PSCompletions.need_update_data = $null
+    }
     if ($need_init) { $PSCompletions.init_data() }
 }
 
