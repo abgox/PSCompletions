@@ -78,6 +78,14 @@ function handleCompletions($completions) {
                 add_commit
             }
         }
+        'config' {
+            if ($cmds[-1].text -in 'unset', 'get') {
+                $configItem = $PSCompletions.completions.git.next.Where({ $_.name -eq 'config' }).next.Where({ $_.name -eq 'set' }).next
+                foreach ($i in $configItem) {
+                    add $i.name $i.tip
+                }
+            }
+        }
         'checkout' {
             if ($unknown.Count -eq 0) {
                 add_branch
