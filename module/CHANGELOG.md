@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+## 6.11.2
+
+- Optimized the module initialization sequence
+- Unified the hardcoded path separators to `/`
+- Other optimizations and fixes
+
 ## 6.11.1
 
 - Simplified the semantics of [completion predict symbol](https://pscompletions.abgox.com/docs/completion-predict-symbol)

@@ -4,6 +4,12 @@
 
 ## Unreleased
 
+## 6.11.2
+
+- 优化了模块初始化序列
+- 统一了硬编码的路径分隔符为 `/`
+- 其他的优化和修复
+
 ## 6.11.1
 
 - 简化了 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 的语义
