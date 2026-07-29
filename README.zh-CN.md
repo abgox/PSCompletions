@@ -5,7 +5,8 @@
     <a href="README.zh-CN.md">简体中文</a> |
     <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
-    <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
+    <a href="https://gitee.com/abgox/PSCompletions">Gitee</a> |
+    <a href="https://gitcode.com/abgox/PSCompletions">Gitcode</a>
 </p>
 
 <p align="center">
@@ -38,20 +39,17 @@
 
 > [!TIP]
 >
-> - [PowerShell (Core)](https://microsoft.com/powershell): 跨平台的 PowerShell，运行 `pwsh`/`pwsh.exe` 启动
-> - [Windows PowerShell (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell，运行 `powershell`/`powershell.exe` 启动
-> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell (Core)](https://microsoft.com/powershell)
+> - [PowerShell 7+ (Core)](https://microsoft.com/powershell): 跨平台的 PowerShell，运行 `pwsh`/`pwsh.exe` 启动
+> - [Windows PowerShell 5+ (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell，运行 `powershell`/`powershell.exe` 启动
+> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell 7+ (Core)](https://microsoft.com/powershell)
 
 一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
 
 - [内置的补全库](./completions.zh-CN.md)
 - [更强大的模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu)
-- [支持多种语言: en-US, zh-CN 等](https://pscompletions.abgox.com/docs/language)
+- [支持多种语言: en-US、zh-CN 等](https://pscompletions.abgox.com/docs/language)
 - [根据命令历史记录动态排序补全项](https://pscompletions.abgox.com/docs/sort-completion-items)
-- 与其他工具协作
-  - [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions)
-  - [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
-  - [PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf)
+- 与其他工具协作: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions)、[Carapace](https://pscompletions.abgox.com/docs/tools/carapace)、[PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf) 等
 
 ## 演示
 

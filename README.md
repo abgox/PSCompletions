@@ -5,7 +5,8 @@
     <a href="README.md">English</a> |
     <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
-    <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
+    <a href="https://gitee.com/abgox/PSCompletions">Gitee</a> |
+    <a href="https://gitcode.com/abgox/PSCompletions">Gitcode</a>
 </p>
 
 <p align="center">
@@ -38,9 +39,9 @@
 
 > [!TIP]
 >
-> - [PowerShell (Core)](https://microsoft.com/powershell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
-> - [Windows PowerShell (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
-> - They can both use `PSCompletions`, but [PowerShell (Core)](https://microsoft.com/powershell) is more recommended.
+> - [PowerShell 7+ (Core)](https://microsoft.com/powershell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
+> - [Windows PowerShell 5+ (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
+> - They can both use `PSCompletions`, but [PowerShell 7+ (Core)](https://microsoft.com/powershell) is more recommended.
 
 A completion manager for a better and simpler tab-completion experience in `PowerShell`.
 
@@ -48,10 +49,7 @@ A completion manager for a better and simpler tab-completion experience in `Powe
 - [More powerful module completion menu.](https://pscompletions.abgox.com/docs/module-completion-menu)
 - [Support multiple languages: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
 - [Sort completion items dynamically based on command history.](https://pscompletions.abgox.com/docs/sort-completion-items)
-- Work with other tools.
-  - [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions)
-  - [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
-  - [PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf)
+- Work with other tools: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions), [Carapace](https://pscompletions.abgox.com/docs/tools/carapace), [PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf), etc.
 
 ## Demo
 
