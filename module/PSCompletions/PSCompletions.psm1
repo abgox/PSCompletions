@@ -1061,12 +1061,19 @@
         'menu' { _menu }
         'reset' { _reset }
         default {
+            $need_init = $false
             # https://pscompletions.abgox.com/docs/source-profile
             $PSCompletions.init_data()
+            $defaultKeys = $PSCompletions.default_config.Keys
+            foreach ($key in $defaultKeys) {
+                if ($null -eq $PSCompletions.config.$key) {
+                    $PSCompletions.config.$key = $PSCompletions.default_config.$key
+                    $PSCompletions.need_update_data = $true
+                }
+            }
             $PSCompletions.handle_completion()
             $PSCompletions.start_job()
             _help
-            return
         }
     }
     if ($PSCompletions.need_update_data) {

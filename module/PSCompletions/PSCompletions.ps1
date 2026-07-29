@@ -2478,7 +2478,6 @@ if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
                     $oldData.Remove('aliasMap')
                     $oldData | ConvertTo-Json -Depth 10 | Out-File $JsonFile -Force -Encoding utf8
                 }
-                (Get-Content $JsonFile) -replace '"comp_config"\s*:', '"completion":' -replace '"OptionTab"\s*:', '"stay":' -replace '"WriteSpaceTab"\s*:', '"input":' -replace '"SpaceTab"\s*:', '"continue":' | Set-Content $JsonFile -Force -Encoding utf8
             }
             $Dir, $PSCompletions.path.root | ForEach-Object {
                 if ([System.IO.Directory]::Exists("$_/completions")) {
@@ -2544,6 +2543,7 @@ if ([System.IO.File]::Exists($PSCompletions.path.module_update)) {
         }
         else {
             Remove-Item $PSCompletions.path.module_update -Force -ErrorAction SilentlyContinue
+            (Get-Content $PSCompletions.path.data) -replace '"comp_config"\s*:', '"completion":' -replace '"OptionTab"\s*:', '"stay":' -replace '"WriteSpaceTab"\s*:', '"input":' -replace '"SpaceTab"\s*:', '"continue":' | Set-Content $PSCompletions.path.data -Force -Encoding utf8
         }
     }
     else {
