@@ -2511,12 +2511,14 @@ if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
     $PSCompletions.is_init = $true
 }
 
+
 $PSCompletions.init_data()
+$PSCompletions.start_job()
+$PSCompletions.handle_completion()
 
 if ($PSCompletions.is_init) {
     $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.description))
 }
-$PSCompletions.handle_completion()
 if ($PSCompletions.config.enable_auto_alias_setup) {
     $Matches = $PSCompletions.data.aliasMap.Keys
     foreach ($_ in $Matches) {
@@ -2533,7 +2535,6 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
 else {
     Microsoft.PowerShell.Utility\Set-Alias psc PSCompletions -Force -ErrorAction Ignore
 }
-
 if ([System.IO.File]::Exists($PSCompletions.path.module_update)) {
     $PSCompletions.new_version = (Get-Content -Raw $PSCompletions.path.module_update).Trim()
     if ($PSCompletions.new_version -match '^[\d\.]+$') {
@@ -2554,5 +2555,3 @@ else {
         $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
     }
 }
-
-$PSCompletions.start_job()
