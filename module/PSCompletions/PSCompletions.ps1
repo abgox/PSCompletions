@@ -4,20 +4,20 @@ Microsoft.PowerShell.Core\Set-StrictMode -Off
 
 if ($PSCompletions.guid) { return }
 
-$_ = "$PSScriptRoot\data"
+$_ = "$PSScriptRoot/data"
 New-Variable -Name PSCompletions -Option Constant -Value @{
     version                 = '6.11.1'
     path                    = @{
         root             = $PSScriptRoot
-        completions      = "$_\completions"
-        data             = "$_\settings.json"
-        temp             = "$_\temp"
-        order            = "$_\temp\order"
-        completions_json = "$_\temp\completions.json"
-        update           = "$_\temp\update.txt"
-        change           = "$_\temp\change.txt"
-        last_update      = "$_\temp\last-update.txt"
-        module_update    = "$_\temp\module-update.txt"
+        completions      = "$_/completions"
+        data             = "$_/settings.json"
+        temp             = "$_/temp"
+        order            = "$_/temp/order"
+        completions_json = "$_/temp/completions.json"
+        update           = "$_/temp/update.txt"
+        change           = "$_/temp/change.txt"
+        last_update      = "$_/temp/last-update.txt"
+        module_update    = "$_/temp/module-update.txt"
     }
     order                   = [ordered]@{}
     cmd                     = ''

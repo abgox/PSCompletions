@@ -282,9 +282,9 @@
             $path = Join-Path $PSCompletions.path.completions $completion
             if (Test-Path -LiteralPath $path) {
                 $out.Path = $path
-                $update = Get-Content "$path\.update" -Raw -Encoding utf8 -ErrorAction Ignore
+                $update = Get-Content "$path/.update" -Raw -Encoding utf8 -ErrorAction Ignore
                 if ($update -and $update.Trim()) { $out.Update = $update.Trim() }
-                $updated = Get-Item "$path\.update" -ErrorAction Ignore | Select-Object -ExpandProperty LastWriteTime
+                $updated = Get-Item "$path/.update" -ErrorAction Ignore | Select-Object -ExpandProperty LastWriteTime
                 if ($updated) { $out.Updated = $updated }
             }
             Write-Output ([PSCustomObject]$out)
