@@ -8,7 +8,7 @@ function handleCompletions($completions) {
     # $tokens_text = @($tokens.text)
     $cmds = @($tokens | Where-Object type -EQ 'command')
     # $cmds_text = @($cmds.text)
-    # $opts = @($tokens | Where-Object type -EQ 'option')
+    $opts = @($tokens | Where-Object type -EQ 'option')
     # $opts_text = @($opts.text)
     $unknown = @($tokens | Where-Object type -EQ 'unknown')
     $unknown_text = @($unknown.text)
@@ -16,6 +16,10 @@ function handleCompletions($completions) {
         param([string]$completion, [array]$tip = $completion, [array]$symbol = @(), [switch]$noSkip)
         if ((-not $completion -or -not $noSkip) -and ($completion -in $unknown_text -or ($PSCompletions.pending -and $completion -notlike "$($PSCompletions.pending.text)*"))) { return }
         $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
+    }
+
+    if ($opts[-1].text -in '-Dir', '-Version', '-Segment', '-MaxConcurrency', '-TimeoutSec') {
+        return $completions
     }
 
     $manifests = Get-ChildItem bucket -Recurse -File -Filter *.json -ErrorAction Ignore
