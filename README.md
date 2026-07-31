@@ -2,7 +2,6 @@
 
 <p align="center">
     <a href="README.zh-CN.md">简体中文</a> |
-    <a href="README.md">English</a> |
     <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a> |
@@ -29,10 +28,10 @@
 
 ---
 
-![PSCompletions](https://abgox.com/github-socialify-PSCompletions.svg)
+![PSCompletions](https://me.abgox.com/github-socialify-PSCompletions.svg)
 
 <p align="center">
-  <strong>Star ⭐️ or <a href="https://abgox.com/donate">Donate 💰</a> if you like it!</strong>
+  <strong>Star ⭐️ or <a href="https://me.abgox.com/donate">Donate 💰</a> if you like it!</strong>
 </p>
 
 ## Introduce
@@ -105,9 +104,7 @@ See the [contribution guide](./.github/contributing.md) for details.
 
 ## How to use
 
-- Use the [built-in completion library](./completions.md), like `git`.
-  1. Add completion: `psc add git`
-  2. Then you can enter `git`, press `Space` and `Tab` key to get command completion.
+- Use the [built-in completion library](./completions.md): `psc add git`
 
 - Use official completion or other completion libraries.
   - If there is an official completion for `xxx`, a similar command may be run:
@@ -129,7 +126,6 @@ See the [contribution guide](./.github/contributing.md) for details.
 - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): GUI-style tab-completion menu for PowerShell.
   - [The module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu) of PSCompletions is inspired by it.
 
-## Completions
+## License
 
-- [English](./completions.md)
-- [简体中文](./completions.zh-CN.md)
+[MIT](./license) © [abgox](https://me.abgox.com)

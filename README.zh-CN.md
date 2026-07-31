@@ -2,7 +2,6 @@
 
 <p align="center">
     <a href="README.md">English</a> |
-    <a href="README.zh-CN.md">简体中文</a> |
     <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
     <a href="https://github.com/abgox/PSCompletions">Github</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a> |
@@ -29,10 +28,10 @@
 
 ---
 
-![PSCompletions](https://abgox.com/github-socialify-PSCompletions.svg)
+![PSCompletions](https://me.abgox.com/github-socialify-PSCompletions.zh-CN.svg)
 
 <p align="center">
-  <strong>喜欢这个项目？请给它 Star ⭐️ 或 <a href="https://abgox.com/donate">赞赏 💰</a></strong>
+  <strong>喜欢这个项目？请给它 Star ⭐️ 或 <a href="https://me.abgox.com/donate">赞赏 💰</a></strong>
 </p>
 
 ## 介绍
@@ -62,11 +61,11 @@
 
 ## 新的变化
 
-请查阅 [更新日志](./module/CHANGELOG.zh-CN.md)
+请查看 [更新日志](./module/CHANGELOG.zh-CN.md)
 
 ## 贡献
 
-请查阅 [贡献指南](./.github/contributing.md)
+请查看 [贡献指南](./.github/contributing.md)
 
 ## 安装
 
@@ -99,15 +98,12 @@
 
 > [!TIP]
 >
-> - 如果使用了 `. $PROFILE`，请运行 `psc` 以重载模块的按键绑定及数据
+> - 如果使用了 `. $PROFILE`，请运行 `psc` 以重载模块的按键绑定和数据
 > - 参考: https://pscompletions.abgox.com/docs/source-profile
 
 ## 使用
 
-- 使用 [内置的补全库](./completions.zh-CN.md)，以 `git` 补全为例
-  1. 使用 `psc add git` 添加补全
-  2. 输入 `git`，按下 `Space`(空格键) 和 `Tab` 键获取命令补全
-
+- 使用 [内置的补全库](./completions.zh-CN.md): `psc add git`
 - 使用官方补全或其他的补全库
   - 如果存在官方补全，可以使用类似的命令
 
@@ -128,7 +124,6 @@
 - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): 适用于 PowerShell 的 GUI 风格的制表符补全菜单
   - PSCompletions 的 [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 受到了它的启发
 
-## 补全
+## License
 
-- [简体中文](./completions.zh-CN.md)
-- [English](./completions.md)
+[MIT](./license) © [abgox](https://me.abgox.com)
