@@ -5,6 +5,7 @@
 [简体中文](./completions.zh-CN.md) | [English](./completions.md)
 
 <!-- prettier-ignore-start -->
+
 |Completion|Description|
 |:-:|-|
 |[7z](https://7-zip.org/)|The command line interface of 7-Zip.|

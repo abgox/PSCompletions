@@ -5,6 +5,7 @@
 [English](./completions.md) | [简体中文](./completions.zh-CN.md)
 
 <!-- prettier-ignore-start -->
+
 |Completion|Description|
 |:-:|-|
 |[7z](https://7-zip.org/)|7-Zip 的命令行界面。|
