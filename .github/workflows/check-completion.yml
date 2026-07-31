@@ -8,15 +8,14 @@ concurrency:
   group: check-completion-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-  pull-requests: write
-  issues: write
-
 jobs:
   check:
     name: Check Completion
     runs-on: windows-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     env:
       REPO: ${{ github.repository }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -65,8 +64,7 @@ jobs:
 
       - name: Check Completion
         shell: pwsh
-        run: |
-          .\scripts\check-completion.ps1
+        run: .\scripts\check-completion.ps1
 
       - name: Comment PR
         uses: actions/github-script@v9
