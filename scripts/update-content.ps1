@@ -87,8 +87,8 @@ function New-MarkdownList {
         $contentZh += '|' + ($infoZh -join '|') + '|'
     }
 
-    # $header = @('|Completion|Language|Description|', '|:-:|-|-|')
-    $header = @('|Completion|Description|', '|:-:|-|')
+    # $header = @('', '|Completion|Language|Description|', '|:-:|-|-|')
+    $header = @('', '|Completion|Description|', '|:-:|-|')
 
     return @{
         'en-US' = $header + $contentEn + "`n<!-- prettier-ignore-end -->"
