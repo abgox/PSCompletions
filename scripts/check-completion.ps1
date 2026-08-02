@@ -4,7 +4,7 @@ if (-not $env:GITHUB_ACTIONS) {
     throw 'It is a script for workflow'
 }
 
-function Add-GithubLabel {
+function Add-GitHubLabel {
     param(
         [ValidateNotNullOrEmpty()]
         [String[]]$Label
@@ -13,7 +13,7 @@ function Add-GithubLabel {
     Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/issues/$pr/labels" -Headers $headers -Method Post -Body (@{ labels = $Label } | ConvertTo-Json) -ContentType 'application/json'
 }
 
-function Remove-GithubLabel {
+function Remove-GitHubLabel {
     param(
         [ValidateNotNullOrEmpty()]
         [string[]]$Label
@@ -167,5 +167,5 @@ $rm_labels = @()
 
 $labels.Keys | ForEach-Object { if ($labels.$_) { $add_labels += $_ } else { $rm_labels += $_ } }
 
-if ($add_labels) { Add-GithubLabel $add_labels }
-if ($rm_labels) { Remove-GithubLabel $rm_labels }
+if ($add_labels) { Add-GitHubLabel $add_labels }
+if ($rm_labels) { Remove-GitHubLabel $rm_labels }

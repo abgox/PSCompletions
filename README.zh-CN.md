@@ -3,9 +3,9 @@
 <p align="center">
     <a href="README.md">English</a> |
     <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
-    <a href="https://github.com/abgox/PSCompletions">Github</a> |
+    <a href="https://github.com/abgox/PSCompletions">GitHub</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a> |
-    <a href="https://gitcode.com/abgox/PSCompletions">Gitcode</a>
+    <a href="https://gitcode.com/abgox/PSCompletions">GitCode</a>
 </p>
 
 <p align="center">
@@ -83,7 +83,7 @@
      ```
 
    - [Scoop](https://scoop.sh)
-     - 添加 [abyss](https://abyss.abgox.com) bucket ([Github](https://github.com/abgox/abyss) 或 [Gitee](https://gitee.com/abgox/abyss))
+     - 添加 [abyss](https://abyss.abgox.com) bucket ([GitHub](https://github.com/abgox/abyss) 或 [Gitee](https://gitee.com/abgox/abyss))
      - 安装它
 
        ```shell
@@ -126,4 +126,4 @@
 
 ## License
 
-[MIT](./license) © [abgox](https://me.abgox.com)
+[MIT](./LICENSE) © [abgox](https://me.abgox.com)

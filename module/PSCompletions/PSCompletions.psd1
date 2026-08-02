@@ -25,7 +25,7 @@
 A completion manager for a better and simpler tab-completion experience in PowerShell.
 It provides a more powerful module completion menu with sorting and filtering.
 - Website: https://pscompletions.abgox.com
-- Github:  https://github.com/abgox/PSCompletions
+- GitHub:  https://github.com/abgox/PSCompletions
 - Gitee:   https://gitee.com/abgox/PSCompletions
 '@
 
