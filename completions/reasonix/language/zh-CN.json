@@ -1,0 +1,1249 @@
+{
+  "meta": {
+    "url": "https://reasonix.io",
+    "description": [
+      "面向终端的 DeepSeek 原生 AI 编码智能体。"
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "tip": [
+        "U: acp [OPTIONS]",
+        "通过 stdio 提供 Agent Client Protocol 服务。"
+      ],
+      "option": [
+        {
+          "name": "--model",
+          "tip": [
+            "U: --model <NAME>",
+            "提供者名称（默认：配置的 default_model）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--planner",
+          "tip": [
+            "U: --planner <POLICY>",
+            "规划器策略。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动规划器。"
+              ]
+            },
+            {
+              "name": "off",
+              "tip": [
+                "关闭规划器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <PROFILE>",
+            "运行时配置文件。"
+          ],
+          "next": [
+            {
+              "name": "balanced",
+              "tip": [
+                "平衡配置。"
+              ]
+            },
+            {
+              "name": "delivery",
+              "tip": [
+                "交付配置。"
+              ]
+            },
+            {
+              "name": "economy",
+              "tip": [
+                "经济配置。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sandbox-bash",
+          "tip": [
+            "U: --sandbox-bash <POLICY>",
+            "Bash 沙箱策略。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动沙箱。"
+              ]
+            },
+            {
+              "name": "enforce",
+              "tip": [
+                "强制沙箱。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sandbox-network",
+          "tip": [
+            "U: --sandbox-network <POLICY>",
+            "沙箱网络策略。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动网络沙箱。"
+              ]
+            },
+            {
+              "name": "off",
+              "tip": [
+                "网络沙箱关闭。"
+              ]
+            },
+            {
+              "name": "on",
+              "tip": [
+                "网络沙箱开启。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--workspace-only",
+          "tip": [
+            "将写入限制在会话工作目录内。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config <SUBCOMMAND>",
+        "配置 reasonix 设置。"
+      ],
+      "next": [
+        {
+          "name": "compact-ratio",
+          "tip": [
+            "U: compact-ratio [--local] [65..85]",
+            "配置自动压缩阈值。"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "tip": [
+                "写入 ./reasonix.toml 而不是用户配置。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "currency",
+          "tip": [
+            "U: currency [auto|CNY|USD]",
+            "配置定价货币（仅用户级别）。"
+          ]
+        },
+        {
+          "name": "reasoning-language",
+          "tip": [
+            "U: reasoning-language [--local] [auto|zh|en]",
+            "配置可见的推理语言。"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "tip": [
+                "写入 ./reasonix.toml 而不是用户配置。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "telemetry",
+          "tip": [
+            "U: telemetry [auto|on|off]",
+            "配置无内容的 CLI 使用指标。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "U: doctor [OPTIONS]",
+        "打印编辑后的本地诊断信息。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式打印诊断信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "显示帮助。"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "显示如何生成项目记忆（AGENTS.md）。"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "U: mcp <SUBCOMMAND>",
+        "管理 reasonix.toml 中的 MCP 服务器。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "U: add [name] [OPTIONS] -- <command> [args...]",
+            "添加 MCP 服务器。"
+          ],
+          "option": [
+            {
+              "name": "--env",
+              "tip": [
+                "U: --env K=V",
+                "设置环境变量（可重复，stdio）。"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--header",
+              "tip": [
+                "U: --header K=V",
+                "设置 HTTP 头（可重复，远程）。"
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--http",
+              "tip": [
+                "U: --http <url>",
+                "远程 HTTP 传输。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--sse",
+              "tip": [
+                "U: --sse <url>",
+                "远程 SSE 传输。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "browse",
+          "tip": [
+            "U: browse [query] [--limit N] [--json]",
+            "浏览可用的 MCP 服务器。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--limit",
+              "tip": [
+                "U: --limit <N>",
+                "限制结果数量。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "U: disable <name>",
+            "禁用 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "U: enable <name>",
+            "启用 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <name>",
+            "显示配置的 MCP 服务器详细信息。"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "从外部配置导入 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "U: install <registry-name> [--as <name>]",
+            "从注册表安装 MCP 服务器。"
+          ],
+          "option": [
+            {
+              "name": "--as",
+              "tip": [
+                "U: --as <name>",
+                "已安装服务器的自定义名称。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出配置的 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "U: remove <name>",
+            "移除 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "retry",
+          "tip": [
+            "U: retry <name>",
+            "重试连接 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update <name>",
+            "更新 MCP 服务器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "report",
+      "tip": [
+        "U: report [SUBCOMMAND] [ID]",
+        "审查并显式发送本地 CLI 崩溃报告。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete [ID]",
+            "删除本地报告而不发送。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出本地 CLI 崩溃报告。"
+          ]
+        },
+        {
+          "name": "send",
+          "tip": [
+            "U: send [ID]",
+            "发送已审查的报告，成功后删除。"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "U: show [ID]",
+            "预览报告（省略 ID 时显示最新的）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "review",
+      "tip": [
+        "U: review [OPTIONS]",
+        "AI 驱动的本地差异代码审查。"
+      ],
+      "option": [
+        {
+          "name": "--base",
+          "tip": [
+            "U: --base <BRANCH>",
+            "用于差异比较的基础分支/提交（默认为 HEAD）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--commit",
+          "tip": [
+            "U: --commit <SHA>",
+            "审查特定提交。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--instructions",
+          "tip": [
+            "U: --instructions <TEXT>",
+            "附加到提示的额外审查说明。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--model",
+          "tip": [
+            "U: --model <NAME>",
+            "提供者名称覆盖（默认：配置的 default_model）。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run [OPTIONS] <task>",
+        "在一次性模式下运行编码任务。"
+      ],
+      "option": [
+        {
+          "name": "--add-dir",
+          "tip": [
+            "U: --add-dir <PATH>",
+            "允许工具访问额外目录（可重复）。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--continue",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --continue",
+            "恢复最近保存的会话。"
+          ]
+        },
+        {
+          "name": "--copy",
+          "tip": [
+            "与 --resume/--continue 一起使用：复制会话并在副本中继续。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "tip": [
+            "U: --dir <PATH>",
+            "首先切换到此目录（项目根目录）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--effort",
+          "tip": [
+            "U: --effort <LEVEL>",
+            "会话推理强度覆盖。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--events-jsonl",
+          "tip": [
+            "以 JSONL 格式输出编辑后的结构化事件流。"
+          ]
+        },
+        {
+          "name": "--max-steps",
+          "tip": [
+            "U: --max-steps <N>",
+            "一次性最大工具调用轮数（0 = 自动）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--metrics",
+          "tip": [
+            "U: --metrics <PATH>",
+            "将运行的 JSON token/cache/cost 摘要写入此路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--model",
+          "tip": [
+            "U: --model <NAME>",
+            "提供者名称（默认：配置的 default_model）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <FORMAT>",
+            "输出格式。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 输出。"
+              ]
+            },
+            {
+              "name": "stream-json",
+              "tip": [
+                "流式 JSON 输出。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "纯文本输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--permission-mode",
+          "tip": [
+            "U: --permission-mode <MODE>",
+            "权限模式。"
+          ],
+          "next": [
+            {
+              "name": "acceptEdits",
+              "tip": [
+                "自动批准文件编辑。"
+              ]
+            },
+            {
+              "name": "ask",
+              "tip": [
+                "需要时询问批准。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "自动批准普通操作。"
+              ]
+            },
+            {
+              "name": "bypassPermissions",
+              "tip": [
+                "绕过所有权限检查。"
+              ]
+            },
+            {
+              "name": "dontAsk",
+              "tip": [
+                "不询问批准。"
+              ]
+            },
+            {
+              "name": "manual",
+              "tip": [
+                "每个操作都需要手动批准。"
+              ]
+            },
+            {
+              "name": "plan",
+              "tip": [
+                "计划模式，不编辑。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <PROFILE>",
+            "运行时配置文件。"
+          ],
+          "next": [
+            {
+              "name": "balanced",
+              "tip": [
+                "平衡配置。"
+              ]
+            },
+            {
+              "name": "delivery",
+              "tip": [
+                "交付配置。"
+              ]
+            },
+            {
+              "name": "economy",
+              "tip": [
+                "经济配置。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--resume",
+          "tip": [
+            "U: --resume <PATH>",
+            "恢复特定的会话文件（非交互式；优先于 --continue）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--show-thinking",
+          "tip": [
+            "显示思考文本而不是折叠的思考标记。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "U: serve [OPTIONS]",
+        "通过 HTTP+SSE 提供服务（可选认证）。"
+      ],
+      "option": [
+        {
+          "name": "--addr",
+          "tip": [
+            "U: --addr <HOST:PORT>",
+            "监听地址（默认 \"127.0.0.1:8787\"）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--auth",
+          "tip": [
+            "U: --auth <MODE>",
+            "认证模式。"
+          ],
+          "next": [
+            {
+              "name": "none",
+              "tip": [
+                "无认证。"
+              ]
+            },
+            {
+              "name": "password",
+              "tip": [
+                "密码认证。"
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "预共享令牌认证。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--behind-proxy",
+          "tip": [
+            "信任来自反向代理的 X-Forwarded-For / X-Forwarded-Proto 头。"
+          ]
+        },
+        {
+          "name": "--hash-password",
+          "tip": [
+            "打印 --password 的 bcrypt 哈希值并退出。"
+          ]
+        },
+        {
+          "name": "--max-steps",
+          "tip": [
+            "U: --max-steps <N>",
+            "一次性最大工具调用轮数（0 = 自动）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--model",
+          "tip": [
+            "U: --model <NAME>",
+            "提供者名称（默认：配置的 default_model）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "tip": [
+            "U: --password <STR>",
+            "auth=password 的密码。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--pid-file",
+          "tip": [
+            "U: --pid-file <PATH>",
+            "将服务器进程 ID 写入此文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--port-file",
+          "tip": [
+            "U: --port-file <PATH>",
+            "在绑定后将实际绑定的监听地址写入此文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--profile",
+          "tip": [
+            "U: --profile <PROFILE>",
+            "运行时配置文件。"
+          ],
+          "next": [
+            {
+              "name": "balanced",
+              "tip": [
+                "平衡配置。"
+              ]
+            },
+            {
+              "name": "delivery",
+              "tip": [
+                "交付配置。"
+              ]
+            },
+            {
+              "name": "economy",
+              "tip": [
+                "经济配置。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--resume",
+          "tip": [
+            "U: --resume <PATH>",
+            "恢复已保存的会话文件。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token",
+          "tip": [
+            "U: --token <STR>",
+            "auth=token 的预共享令牌（如果为空则自动生成）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--token-file",
+          "tip": [
+            "U: --token-file <PATH>",
+            "从此文件读取 auth=token 预共享令牌。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "U: setup [path]",
+        "交互式配置向导；写入 reasonix.toml（+ .env）。"
+      ]
+    },
+    {
+      "name": "subagent",
+      "tip": [
+        "U: subagent <SUBCOMMAND>",
+        "管理和运行隔离的子代理配置文件。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "U: create <name> --description TEXT (--prompt TEXT | --prompt-file PATH) [OPTIONS]",
+            "创建新的子代理配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--color",
+              "tip": [
+                "U: --color <NAME>",
+                "子代理的颜色名称。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--description",
+              "tip": [
+                "U: --description <TEXT>",
+                "子代理的描述。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--dir",
+              "tip": [
+                "U: --dir <PATH>",
+                "工作目录。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--effort",
+              "tip": [
+                "U: --effort <LEVEL>",
+                "推理强度级别。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--model",
+              "tip": [
+                "U: --model <REF>",
+                "模型引用。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--prompt",
+              "tip": [
+                "U: --prompt <TEXT>",
+                "系统提示文本。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--prompt-file",
+              "tip": [
+                "U: --prompt-file <PATH>",
+                "从文件读取系统提示（- 表示标准输入）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--scope",
+              "tip": [
+                "U: --scope <SCOPE>",
+                "子代理的范围。"
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "全局范围。"
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "项目范围。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--tools",
+              "tip": [
+                "U: --tools <a,b>",
+                "逗号分隔的允许工具列表。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <name> --yes [--dir PATH]",
+            "删除子代理配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "tip": [
+                "U: --dir <PATH>",
+                "工作目录。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--yes",
+              "tip": [
+                "跳过确认提示。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "U: edit <name> [OPTIONS]",
+            "编辑现有的子代理配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--color",
+              "tip": [
+                "U: --color <NAME>",
+                "子代理的颜色名称。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--description",
+              "tip": [
+                "U: --description <TEXT>",
+                "子代理的描述。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--dir",
+              "tip": [
+                "U: --dir <PATH>",
+                "工作目录。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--effort",
+              "tip": [
+                "U: --effort <LEVEL>",
+                "推理强度级别。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--model",
+              "tip": [
+                "U: --model <REF>",
+                "模型引用。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--prompt",
+              "tip": [
+                "U: --prompt <TEXT>",
+                "系统提示文本。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--prompt-file",
+              "tip": [
+                "U: --prompt-file <PATH>",
+                "从文件读取系统提示（- 表示标准输入）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tools",
+              "tip": [
+                "U: --tools <a,b>",
+                "逗号分隔的允许工具列表。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [--dir PATH]",
+            "列出子代理配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "tip": [
+                "U: --dir <PATH>",
+                "要列出的目录。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run <name> [--model REF] [--max-steps N] [--dir PATH] <task>",
+            "运行子代理执行任务。"
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "tip": [
+                "U: --dir <PATH>",
+                "工作目录。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--max-steps",
+              "tip": [
+                "U: --max-steps <N>",
+                "最大工具调用轮数。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--model",
+              "tip": [
+                "U: --model <REF>",
+                "模型引用。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "try",
+          "tip": [
+            "U: try <name> [--model REF] [--max-steps N] [--dir PATH] <task>",
+            "尝试运行子代理（非持久化）。"
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "tip": [
+                "U: --dir <PATH>",
+                "工作目录。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--max-steps",
+              "tip": [
+                "U: --max-steps <N>",
+                "最大工具调用轮数。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--model",
+              "tip": [
+                "U: --model <REF>",
+                "模型引用。"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "alias": [
+        "update"
+      ],
+      "tip": [
+        "U: upgrade [--check] [--force]",
+        "更新到最新的官方版本。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "检查更新但不安装。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使已是最新版本也重新安装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印版本。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--add-dir",
+      "tip": [
+        "U: --add-dir <PATH>",
+        "允许工具访问额外目录（可重复）。"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--allowed-tools",
+      "tip": [
+        "U: --allowed-tools <RULES>",
+        "逗号或空格分隔的允许权限规则。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "恢复最近保存的会话。"
+      ]
+    },
+    {
+      "name": "--effort",
+      "tip": [
+        "U: --effort <LEVEL>",
+        "会话推理强度覆盖。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <NAME>",
+        "提供者名称（默认：配置的 default_model）。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--output-format",
+      "tip": [
+        "U: --output-format <FORMAT>",
+        "输出格式。"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出。"
+          ]
+        },
+        {
+          "name": "stream-json",
+          "tip": [
+            "流式 JSON 输出。"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "纯文本输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--permission-mode",
+      "tip": [
+        "U: --permission-mode <MODE>",
+        "权限模式。"
+      ],
+      "next": [
+        {
+          "name": "acceptEdits",
+          "tip": [
+            "自动批准文件编辑。"
+          ]
+        },
+        {
+          "name": "ask",
+          "tip": [
+            "需要时询问批准。"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "自动批准普通操作。"
+          ]
+        },
+        {
+          "name": "bypassPermissions",
+          "tip": [
+            "绕过所有权限检查。"
+          ]
+        },
+        {
+          "name": "dontAsk",
+          "tip": [
+            "不询问批准。"
+          ]
+        },
+        {
+          "name": "manual",
+          "tip": [
+            "每个操作都需要手动批准。"
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "计划模式，不编辑。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --print",
+        "仅打印最终响应。"
+      ]
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --resume [QUERY]",
+        "恢复特定的会话。"
+      ],
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示帮助。"
+      ]
+    }
+  ]
+}

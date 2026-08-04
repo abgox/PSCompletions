@@ -1,0 +1,2196 @@
+{
+  "meta": {
+    "url": "https://atuin.sh",
+    "description": [
+      "Magical shell history.",
+      "Atuin replaces your existing shell history with a SQLite database, and records additional context for your commands."
+    ]
+  },
+  "next": [
+    {
+      "name": "account",
+      "tip": [
+        "Manage your sync account"
+      ],
+      "next": [
+        {
+          "name": "change-password",
+          "tip": [
+            "Change your password"
+          ],
+          "option": [
+            {
+              "name": "--current-password",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --current-password <CURRENT_PASSWORD>",
+                "Current password"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--new-password",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --new-password <NEW_PASSWORD>",
+                "New password"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--totp-code",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --totp-code <TOTP_CODE>",
+                "The two-factor authentication code for your account, if any"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "Delete your account, and all synced data"
+          ],
+          "option": [
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --password <PASSWORD>",
+                "Password"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--totp-code",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --totp-code <TOTP_CODE>",
+                "The two-factor authentication code for your account, if any"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "Link your CLI sync account to your Hub account"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Login to the configured server"
+          ],
+          "option": [
+            {
+              "name": "--key",
+              "alias": [
+                "-k"
+              ],
+              "tip": [
+                "U: -k, --key <KEY>",
+                "The encryption key for your account"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --password <PASSWORD>",
+                "Password"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--totp-code",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --totp-code <TOTP_CODE>",
+                "The two-factor authentication code for your account, if any"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--username",
+              "alias": [
+                "-u"
+              ],
+              "tip": [
+                "U: -u, --username <USERNAME>",
+                "Username"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out"
+          ]
+        },
+        {
+          "name": "register",
+          "tip": [
+            "Register a new account"
+          ],
+          "option": [
+            {
+              "name": "--email",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --email <EMAIL>",
+                "Email"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --password <PASSWORD>",
+                "Password"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--username",
+              "alias": [
+                "-u"
+              ],
+              "tip": [
+                "U: -u, --username <USERNAME>",
+                "Username"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ai",
+      "tip": [
+        "Run the AI assistant"
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "U: init [SHELL]",
+            "Initialize shell integration",
+            "Defaults to 'auto'"
+          ]
+        },
+        {
+          "name": "inline",
+          "tip": [
+            "U: inline [COMMAND]",
+            "Inline completion mode with small TUI overlay"
+          ],
+          "option": [
+            {
+              "name": "--api-endpoint",
+              "tip": [
+                "U: --api-endpoint <API_ENDPOINT>",
+                "Custom API endpoint",
+                "Defaults to reading from the 'ai.endpoint' setting"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--api-token",
+              "tip": [
+                "U: --api-token <API_TOKEN>",
+                "Custom API token",
+                "Defaults to reading from the 'ai.api_token' setting"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --verbose",
+                "Enable verbose logging"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "Manage configuration"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "U: get <KEY>",
+            "Get a configuration value from your config.toml file or after defaults and overrides are applied"
+          ],
+          "option": [
+            {
+              "name": "--resolved",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resolved",
+                "Print the value after defaults and overrides are applied"
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --verbose",
+                "Print both the config file value and the resolved value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "tip": [
+            "U: print [KEY]",
+            "Print all configuration values from your config.toml file in TOML format",
+            "If a key is provided, only print the value of that key and all its children"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <KEY> <VALUE>",
+            "Set a configuration value in your config.toml file"
+          ],
+          "option": [
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --type <TYPE>",
+                "Store value as an explicit type",
+                "Defaults to auto"
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "Automatically determine the type of the value"
+                  ]
+                },
+                {
+                  "name": "boolean",
+                  "tip": [
+                    "Store value as a boolean"
+                  ]
+                },
+                {
+                  "name": "float",
+                  "tip": [
+                    "Store the value as a float"
+                  ]
+                },
+                {
+                  "name": "integer",
+                  "tip": [
+                    "Store value as an integer"
+                  ]
+                },
+                {
+                  "name": "string",
+                  "tip": [
+                    "Store value as a string"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contributors",
+      "tip": [
+        "List contributors"
+      ]
+    },
+    {
+      "name": "daemon",
+      "tip": [
+        "*Experimental* Manage the background daemon"
+      ],
+      "option": [
+        {
+          "name": "--show-logs",
+          "tip": [
+            "Also write daemon logs to the console (useful for debugging)"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "restart",
+          "tip": [
+            "Restart the daemon (stop, then start in background)"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Start the daemon server"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Force start: kill existing daemon process and reset the socket"
+              ]
+            },
+            {
+              "name": "--show-logs",
+              "tip": [
+                "Also write daemon logs to the console (useful for debugging)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show the daemon's current status"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Stop the daemon gracefully"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "default-config",
+      "tip": [
+        "Print the default atuin configuration (config.toml)"
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "Run the doctor to check for common issues"
+      ]
+    },
+    {
+      "name": "dotfiles",
+      "tip": [
+        "Manage your dotfiles with Atuin"
+      ],
+      "next": [
+        {
+          "name": "alias",
+          "tip": [
+            "Manage shell aliases with Atuin"
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "tip": [
+                "Delete all aliases"
+              ]
+            },
+            {
+              "name": "delete",
+              "tip": [
+                "U: delete <NAME>",
+                "Delete an alias"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List all aliases"
+              ],
+              "option": [
+                {
+                  "name": "--name",
+                  "alias": [
+                    "-n"
+                  ],
+                  "tip": [
+                    "U: -n, --name <NAME>",
+                    "Filter aliases by name (substring match)"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--reverse",
+                  "alias": [
+                    "-r"
+                  ],
+                  "tip": [
+                    "U: -r, --reverse",
+                    "Sort in reverse (descending) order"
+                  ]
+                },
+                {
+                  "name": "--sort-by",
+                  "tip": [
+                    "U: --sort-by <SORT_BY>",
+                    "Sort results by field",
+                    "Defaults to name"
+                  ],
+                  "next": [
+                    {
+                      "name": "name",
+                      "tip": [
+                        "Sort by alias name"
+                      ]
+                    },
+                    {
+                      "name": "value",
+                      "tip": [
+                        "Sort by alias value"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--value",
+                  "alias": [
+                    "-v"
+                  ],
+                  "tip": [
+                    "U: -v, --value <VALUE>",
+                    "Filter aliases by value (substring match)"
+                  ],
+                  "next": 0
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "tip": [
+                "U: set <NAME> <VALUE>",
+                "Set an alias"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "var",
+          "tip": [
+            "Manage shell and environment variables with Atuin"
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "tip": [
+                "U: delete <NAME>",
+                "Delete a variable"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List all variables"
+              ],
+              "option": [
+                {
+                  "name": "--exports-only",
+                  "tip": [
+                    "Show only exported variables"
+                  ]
+                },
+                {
+                  "name": "--name",
+                  "alias": [
+                    "-n"
+                  ],
+                  "tip": [
+                    "U: -n, --name <NAME>",
+                    "Filter variables by name (substring match)"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--reverse",
+                  "alias": [
+                    "-r"
+                  ],
+                  "tip": [
+                    "U: -r, --reverse",
+                    "Sort in reverse (descending) order"
+                  ]
+                },
+                {
+                  "name": "--shell-only",
+                  "tip": [
+                    "Show only non-exported (shell) variables"
+                  ]
+                },
+                {
+                  "name": "--sort-by",
+                  "tip": [
+                    "U: --sort-by <SORT_BY>",
+                    "Sort results by field",
+                    "Defaults to name"
+                  ],
+                  "next": [
+                    {
+                      "name": "name",
+                      "tip": [
+                        "Sort by variable name"
+                      ]
+                    },
+                    {
+                      "name": "value",
+                      "tip": [
+                        "Sort by variable value"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--value",
+                  "alias": [
+                    "-v"
+                  ],
+                  "tip": [
+                    "U: -v, --value <VALUE>",
+                    "Filter variables by value (substring match)"
+                  ],
+                  "next": 0
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "tip": [
+                "U: set <NAME> <VALUE>",
+                "Set a variable"
+              ],
+              "option": [
+                {
+                  "name": "--no-export",
+                  "alias": [
+                    "-n"
+                  ],
+                  "tip": [
+                    "U: -n, --no-export",
+                    "Do not export the variable to the environment"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gen-completions",
+      "tip": [
+        "U: gen-completions --shell <SHELL>",
+        "Generate shell completions"
+      ],
+      "option": [
+        {
+          "name": "--out-dir",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --out-dir <OUT_DIR>",
+            "Set the output directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shell",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --shell <SHELL>",
+            "Set the shell for generating completions"
+          ],
+          "next": [
+            {
+              "name": "bash",
+              "tip": [
+                "Bash completions"
+              ]
+            },
+            {
+              "name": "elvish",
+              "tip": [
+                "Elvish completions"
+              ]
+            },
+            {
+              "name": "fish",
+              "tip": [
+                "Fish completions"
+              ]
+            },
+            {
+              "name": "nushell",
+              "tip": [
+                "Nushell completions"
+              ]
+            },
+            {
+              "name": "powershell",
+              "tip": [
+                "PowerShell completions"
+              ]
+            },
+            {
+              "name": "zsh",
+              "tip": [
+                "Zsh completions"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "U: help [COMMAND]",
+        "Print this message or the help of the given subcommand(s)"
+      ]
+    },
+    {
+      "name": "history",
+      "tip": [
+        "Manipulate shell history"
+      ],
+      "next": [
+        {
+          "name": "dedup",
+          "tip": [
+            "U: dedup --before <BEFORE> --dupkeep <DUPKEEP>",
+            "Delete duplicate history entries (that have the same command, cwd and hostname)"
+          ],
+          "option": [
+            {
+              "name": "--before",
+              "alias": [
+                "-b"
+              ],
+              "tip": [
+                "U: -b, --before <BEFORE>",
+                "Only delete results added before this date"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --dry-run",
+                "List matching history lines without performing the actual deletion"
+              ]
+            },
+            {
+              "name": "--dupkeep",
+              "tip": [
+                "U: --dupkeep <DUPKEEP>",
+                "How many recent duplicates to keep"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "end",
+          "tip": [
+            "U: end --exit <EXIT> <ID>",
+            "Finishes a new command in the history (adds time, exit code)"
+          ],
+          "option": [
+            {
+              "name": "--duration",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --duration <DURATION>",
+                "The duration of the command"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exit",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --exit <EXIT>",
+                "The exit code of the command"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "init-store",
+          "tip": [
+            "Initialize the history store"
+          ]
+        },
+        {
+          "name": "last",
+          "tip": [
+            "Get the last command that was run"
+          ],
+          "option": [
+            {
+              "name": "--cmd-only",
+              "tip": [
+                "Show only the text of the command"
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --format <FORMAT>",
+                "Format string for output",
+                "Available variables: {command}, {directory}, {duration}, {user}, {host}, {author}, {intent}, {time}, {session}, {uuid}, {relativetime}"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--human",
+              "tip": [
+                "Use human-readable formatting for time"
+              ]
+            },
+            {
+              "name": "--timezone",
+              "alias": [
+                "--tz"
+              ],
+              "tip": [
+                "U: --tz, --timezone <TIMEZONE>",
+                "Display the command time in another timezone",
+                "Accepts 'local'/'l' or a UTC offset like '+9', '-2:30'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all items in history"
+          ],
+          "option": [
+            {
+              "name": "--cmd-only",
+              "tip": [
+                "Show only the text of the command"
+              ]
+            },
+            {
+              "name": "--cwd",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --cwd",
+                "Filter by current working directory"
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --format <FORMAT>",
+                "Format string for output",
+                "Available variables: {command}, {directory}, {duration}, {user}, {host}, {author}, {intent}, {exit}, {time}, {session}, {uuid}"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--human",
+              "tip": [
+                "Use human-readable formatting for time"
+              ]
+            },
+            {
+              "name": "--print0",
+              "tip": [
+                "Terminate the output with a null, for better multiline support"
+              ]
+            },
+            {
+              "name": "--reverse",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --reverse [<REVERSE>]",
+                "Reverse the order of results",
+                "Defaults to true"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Do not reverse the order of results"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Reverse the order of results"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--session",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --session",
+                "Filter by session"
+              ]
+            },
+            {
+              "name": "--timezone",
+              "alias": [
+                "--tz"
+              ],
+              "tip": [
+                "U: --tz, --timezone <TIMEZONE>",
+                "Display the command time in another timezone",
+                "Accepts 'local'/'l' or a UTC offset like '+9', '-2:30'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Delete history entries matching the configured exclusion filters"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --dry-run",
+                "List matching history lines without performing the actual deletion"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "U: start [COMMAND]...",
+            "Begins a new command in the history"
+          ],
+          "option": [
+            {
+              "name": "--author",
+              "tip": [
+                "U: --author <AUTHOR>",
+                "Author of this command, eg `ellie`, `claude`, or `copilot`"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--intent",
+              "tip": [
+                "U: --intent <INTENT>",
+                "Optional intent/rationale for running this command"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "tail",
+          "tip": [
+            "Stream history events from the daemon as they are received"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hook",
+      "tip": [
+        "Manage AI-agent shell hooks"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "U: install <AGENT>",
+            "Install hooks for an AI agent to capture commands in atuin history"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "Import shell history from file"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Import history for the current shell"
+          ]
+        },
+        {
+          "name": "bash",
+          "tip": [
+            "Import history from the bash history file"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Import history from the fish history file"
+          ]
+        },
+        {
+          "name": "nu",
+          "tip": [
+            "Import history from the nu history file"
+          ]
+        },
+        {
+          "name": "nu-hist-db",
+          "tip": [
+            "Import history from the nu history file"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Import history from the powershell history file"
+          ]
+        },
+        {
+          "name": "replxx",
+          "tip": [
+            "Import history from the replxx history file"
+          ]
+        },
+        {
+          "name": "resh",
+          "tip": [
+            "Import history from the resh history file"
+          ]
+        },
+        {
+          "name": "xonsh",
+          "tip": [
+            "Import history from xonsh json files"
+          ]
+        },
+        {
+          "name": "xonsh-sqlite",
+          "tip": [
+            "Import history from xonsh sqlite db"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Import history from the zsh history file"
+          ]
+        },
+        {
+          "name": "zsh-hist-db",
+          "tip": [
+            "Import history from the zsh history file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "Information about dotfiles locations and ENV vars"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init <SHELL>",
+        "Print Atuin's shell init script"
+      ],
+      "option": [
+        {
+          "name": "--disable-ai",
+          "tip": [
+            "Disable the binding of ? to Atuin AI"
+          ]
+        },
+        {
+          "name": "--disable-ctrl-r",
+          "tip": [
+            "Disable the binding of CTRL-R to atuin"
+          ]
+        },
+        {
+          "name": "--disable-up-arrow",
+          "tip": [
+            "Disable the binding of the Up Arrow key to atuin"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash setup"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish setup"
+          ]
+        },
+        {
+          "name": "nu",
+          "tip": [
+            "Nu setup"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell setup"
+          ]
+        },
+        {
+          "name": "xonsh",
+          "tip": [
+            "Xonsh setup"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh setup"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "key",
+      "tip": [
+        "Print the encryption key for transfer to another machine"
+      ],
+      "option": [
+        {
+          "name": "--base64",
+          "tip": [
+            "Switch to base64 output of the key"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kv",
+      "tip": [
+        "Get or set small key-value pairs"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <KEYS>...",
+            "Delete one or more key-value pairs"
+          ],
+          "option": [
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "Namespace for the key-value pair",
+                "Defaults to 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <KEY>",
+            "Retrieve a saved value"
+          ],
+          "option": [
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "Namespace for the key-value pair",
+                "Defaults to 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all keys in a namespace, or in all namespaces"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all-namespaces",
+                "List all keys in all namespaces"
+              ]
+            },
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "Namespace to list keys from",
+                "Defaults to 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "rebuild",
+          "tip": [
+            "Rebuild the KV store"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set --key <KEY> [VALUE]",
+            "Set a key-value pair",
+            "Reads from stdin if VALUE is not provided"
+          ],
+          "option": [
+            {
+              "name": "--key",
+              "alias": [
+                "-k"
+              ],
+              "tip": [
+                "U: -k, --key <KEY>",
+                "Key to set"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "Namespace for the key-value pair",
+                "Defaults to 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "Login to the configured server"
+      ],
+      "option": [
+        {
+          "name": "--key",
+          "alias": [
+            "-k"
+          ],
+          "tip": [
+            "U: -k, --key <KEY>",
+            "The encryption key for your account"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <PASSWORD>",
+            "Password"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--totp-code",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --totp-code <TOTP_CODE>",
+            "The two-factor authentication code for your account, if any"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <USERNAME>",
+            "Username"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "Log out"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Start an MCP server exposing history search to AI tools (stdio)"
+      ]
+    },
+    {
+      "name": "pty-proxy",
+      "tip": [
+        "PTY proxy for atuin"
+      ],
+      "option": [
+        {
+          "name": "--debug-osc133",
+          "tip": [
+            "Highlight OSC 133 prompt, input, output, and exit-code regions"
+          ]
+        },
+        {
+          "name": "--shell",
+          "tip": [
+            "U: --shell <PATH>",
+            "Path to the shell binary that atuin pty-proxy should spawn",
+            "Defaults to the system login shell",
+            "Only valid when no subcommand is given"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "U: init [SHELL]",
+            "Print shell code to initialize atuin pty-proxy on shell startup",
+            "If omitted, attempt auto-detection"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "register",
+      "tip": [
+        "Register with the configured server"
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --email <EMAIL>",
+            "Email"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <PASSWORD>",
+            "Password"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <USERNAME>",
+            "Username"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "scripts",
+      "tip": [
+        "Manage your scripts with Atuin"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <NAME>",
+            "Delete a script"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --force",
+                "Force deletion without confirmation"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "U: edit <NAME>",
+            "Edit a script"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --description <DESCRIPTION>",
+                "Description of the script"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-edit",
+              "tip": [
+                "Skip opening editor"
+              ]
+            },
+            {
+              "name": "--no-tags",
+              "tip": [
+                "Remove all tags from the script"
+              ]
+            },
+            {
+              "name": "--rename",
+              "tip": [
+                "U: --rename <RENAME>",
+                "Rename the script"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--script",
+              "tip": [
+                "U: --script <SCRIPT>",
+                "Script content"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--shebang",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --shebang <SHEBANG>",
+                "Shebang for the script"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tags",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tags <TAGS>",
+                "Replace all existing tags with these new tags"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <NAME>",
+            "Get a script"
+          ],
+          "option": [
+            {
+              "name": "--script",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --script",
+                "Display only the executable script with shebang"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all scripts"
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "U: new <NAME>",
+            "Create a new script"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --description <DESCRIPTION>",
+                "Description of the script"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--last",
+              "tip": [
+                "U: --last [<LAST>]",
+                "Use the last command as the script content",
+                "Optionally specify a number to use the last N commands"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-edit",
+              "tip": [
+                "Skip opening editor when using --last"
+              ]
+            },
+            {
+              "name": "--script",
+              "tip": [
+                "U: --script <SCRIPT>",
+                "Script content"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--shebang",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --shebang <SHEBANG>",
+                "Shebang for the script"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tags",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tags <TAGS>",
+                "Tags for the script"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run <NAME>",
+            "Run a script"
+          ],
+          "option": [
+            {
+              "name": "--var",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --var <VAR>",
+                "Specify template variables in the format KEY=VALUE",
+                "Can be specified multiple times"
+              ],
+              "repeat": 99,
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search [QUERY]...",
+        "Interactive history search"
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "tip": [
+            "U: --after <AFTER>",
+            "Only include results after this date"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <AUTHOR>",
+            "Filter by author",
+            "Supports $all-user (non-agents), $all-agent, or literal names",
+            "Can be specified multiple times"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--before",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --before <BEFORE>",
+            "Only include results added before this date"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cmd-only",
+          "tip": [
+            "Show only the text of the command"
+          ]
+        },
+        {
+          "name": "--cwd",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --cwd <CWD>",
+            "Filter search result by directory"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delete",
+          "tip": [
+            "Delete anything matching this query",
+            "Will not print out the match"
+          ]
+        },
+        {
+          "name": "--delete-it-all",
+          "tip": [
+            "Delete EVERYTHING!"
+          ]
+        },
+        {
+          "name": "--exclude-cwd",
+          "tip": [
+            "U: --exclude-cwd <EXCLUDE_CWD>",
+            "Exclude directory from results"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exclude-exit",
+          "tip": [
+            "U: --exclude-exit <EXCLUDE_EXIT>",
+            "Exclude results with this exit code"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exit <EXIT>",
+            "Filter search result by exit code"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter-mode",
+          "tip": [
+            "U: --filter-mode <FILTER_MODE>",
+            "Allow overriding filter mode over config"
+          ],
+          "next": [
+            {
+              "name": "directory",
+              "tip": [
+                "Directory scope"
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "Global scope"
+              ]
+            },
+            {
+              "name": "host",
+              "tip": [
+                "Host scope"
+              ]
+            },
+            {
+              "name": "session",
+              "tip": [
+                "Session scope"
+              ]
+            },
+            {
+              "name": "session-preload",
+              "tip": [
+                "Session preload scope"
+              ]
+            },
+            {
+              "name": "workspace",
+              "tip": [
+                "Workspace scope"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "Format string for output",
+            "Available variables: {command}, {directory}, {duration}, {user}, {host}, {time}, {exit}, {relativetime}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--human",
+          "tip": [
+            "Use human-readable formatting for time"
+          ]
+        },
+        {
+          "name": "--include-duplicates",
+          "tip": [
+            "Include duplicate commands in the output (non-interactive only)"
+          ]
+        },
+        {
+          "name": "--inline-height",
+          "tip": [
+            "U: --inline-height <INLINE_HEIGHT>",
+            "Set the maximum number of lines Atuin's interface should take up"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Open interactive search UI"
+          ]
+        },
+        {
+          "name": "--keymap-mode",
+          "tip": [
+            "U: --keymap-mode <KEYMAP_MODE>",
+            "Notify the keymap at the shell's side",
+            "Defaults to auto"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Auto-detect keymap"
+              ]
+            },
+            {
+              "name": "emacs",
+              "tip": [
+                "Emacs keymap"
+              ]
+            },
+            {
+              "name": "vim-insert",
+              "tip": [
+                "Vim insert mode keymap"
+              ]
+            },
+            {
+              "name": "vim-normal",
+              "tip": [
+                "Vim normal mode keymap"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <LIMIT>",
+            "How many entries to return at most"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--offset",
+          "tip": [
+            "U: --offset <OFFSET>",
+            "Offset from the start of the results"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--print0",
+          "tip": [
+            "Terminate the output with a null, for better multiline handling"
+          ]
+        },
+        {
+          "name": "--reverse",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --reverse",
+            "Reverse the order of results, oldest first"
+          ]
+        },
+        {
+          "name": "--search-mode",
+          "tip": [
+            "U: --search-mode <SEARCH_MODE>",
+            "Allow overriding search mode over config",
+            "For non-interactive searches, 'daemon-fuzzy' and 'skim' behave like 'fuzzy'"
+          ],
+          "next": [
+            {
+              "name": "daemon-fuzzy",
+              "tip": [
+                "Daemon fuzzy search"
+              ]
+            },
+            {
+              "name": "full-text",
+              "tip": [
+                "Full-text search"
+              ]
+            },
+            {
+              "name": "fuzzy",
+              "tip": [
+                "Fuzzy search"
+              ]
+            },
+            {
+              "name": "prefix",
+              "tip": [
+                "Prefix search"
+              ]
+            },
+            {
+              "name": "skim",
+              "tip": [
+                "Skim search"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--shell",
+          "tip": [
+            "U: --shell <SHELL>",
+            "Filter by the shell that was used to run the command",
+            "If passed multiple times, commands from any of the shells will be shown",
+            "Use \"\" to include commands for which the shell is unknown"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--timezone",
+          "alias": [
+            "--tz"
+          ],
+          "tip": [
+            "U: --tz, --timezone [<TIMEZONE>]",
+            "Display the command time in another timezone",
+            "Accepts 'local'/'l' or a UTC offset like '+9', '-2:30'"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "Setup Atuin features"
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "U: stats [PERIOD]...",
+        "Calculate statistics for your history"
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --count <COUNT>",
+            "How many top commands to list",
+            "Defaults to 10"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter-mode",
+          "tip": [
+            "U: --filter-mode <FILTER_MODE>",
+            "Filter commands by scope"
+          ],
+          "next": [
+            {
+              "name": "directory",
+              "tip": [
+                "Directory scope"
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "Global scope"
+              ]
+            },
+            {
+              "name": "host",
+              "tip": [
+                "Host scope"
+              ]
+            },
+            {
+              "name": "session",
+              "tip": [
+                "Session scope"
+              ]
+            },
+            {
+              "name": "session-preload",
+              "tip": [
+                "Session preload scope"
+              ]
+            },
+            {
+              "name": "workspace",
+              "tip": [
+                "Workspace scope"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ngram-size",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --ngram-size <NGRAM_SIZE>",
+            "The number of consecutive commands to consider",
+            "Defaults to 1"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Display the sync status"
+      ]
+    },
+    {
+      "name": "store",
+      "tip": [
+        "Manage the atuin data store"
+      ],
+      "next": [
+        {
+          "name": "pull",
+          "tip": [
+            "Pull records from the remote sync server (one way sync)"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Force pull records",
+                "First wipes the local store, then downloads all records from the remote"
+              ]
+            },
+            {
+              "name": "--page",
+              "tip": [
+                "U: --page <PAGE>",
+                "Page size: how many records to download at once",
+                "Defaults to 100"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tag <TAG>",
+                "The tag to pull (eg, 'history')",
+                "Defaults to all tags"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "Delete all records in the store that cannot be decrypted with the current key"
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Push all records to the remote sync server (one way sync)"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Force push records",
+                "Overrides both host and tag to be all hosts and all tags",
+                "First clears the remote store, then uploads all of the local store"
+              ]
+            },
+            {
+              "name": "--host",
+              "tip": [
+                "U: --host <HOST>",
+                "The host to push, in the form of a UUID host ID",
+                "Defaults to the current host"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--page",
+              "tip": [
+                "U: --page <PAGE>",
+                "Page size: how many records to upload at once",
+                "Defaults to 100"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tag <TAG>",
+                "The tag to push (eg, 'history')",
+                "Defaults to all tags"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "rebuild",
+          "tip": [
+            "U: rebuild <TAG>",
+            "Rebuild a store (eg atuin store rebuild history)"
+          ]
+        },
+        {
+          "name": "rekey",
+          "tip": [
+            "U: rekey [KEY]",
+            "Re-encrypt the store with a new key (potential for data loss!)",
+            "Omit KEY for a randomly-generated key"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Print the current status of the record store"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "Verify that all records in the store can be decrypted with the current key"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "Sync with the configured server"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force re-download everything"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uuid",
+      "tip": [
+        "Generate a UUID"
+      ]
+    },
+    {
+      "name": "wrapped",
+      "tip": [
+        "U: wrapped [YEAR]",
+        "Show wrapped year summary"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help"
+      ]
+    }
+  ]
+}

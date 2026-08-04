@@ -1,0 +1,360 @@
+{
+  "meta": {
+    "url": "https://aube.jdx.dev",
+    "description": [
+      "Fetch a package into a throwaway environment and run its binary (aube dlx standalone)"
+    ]
+  },
+  "option": [
+    {
+      "name": "--allow-build",
+      "tip": [
+        "U: --allow-build=<PKG>",
+        "Allow named packages to run lifecycle scripts during transient install"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "Force colored output even when stderr is not a TTY"
+      ]
+    },
+    {
+      "name": "--diag",
+      "tip": [
+        "U: --diag [<MODE>]",
+        "Enable cold-install diagnostics"
+      ],
+      "next": [
+        {
+          "name": "full",
+          "tip": [
+            "Full diagnostics mode"
+          ]
+        },
+        {
+          "name": "live",
+          "tip": [
+            "Live diagnostics mode"
+          ]
+        },
+        {
+          "name": "summary",
+          "tip": [
+            "Summary diagnostics mode"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace diagnostics mode"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--diag-file",
+      "tip": [
+        "U: --diag-file <PATH>",
+        "Path for diag JSONL trace"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--diag-threshold-ms",
+      "tip": [
+        "U: --diag-threshold-ms <MS>",
+        "Live mode threshold ms"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-global-virtual-store",
+      "alias": [
+        "--disable-gvs"
+      ],
+      "tip": [
+        "U: --disable-gvs, --disable-global-virtual-store",
+        "Force shared global virtual store off"
+      ]
+    },
+    {
+      "name": "--enable-global-virtual-store",
+      "alias": [
+        "--enable-gvs"
+      ],
+      "tip": [
+        "U: --enable-gvs, --enable-global-virtual-store",
+        "Force shared global virtual store on"
+      ]
+    },
+    {
+      "name": "--fail-if-no-match",
+      "tip": [
+        "Error when workspace selector matches nothing"
+      ]
+    },
+    {
+      "name": "--fetch-retries",
+      "tip": [
+        "U: --fetch-retries <N>",
+        "Number of retry attempts"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-factor",
+      "tip": [
+        "U: --fetch-retry-factor <N>",
+        "Exponential backoff factor"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-maxtimeout",
+      "tip": [
+        "U: --fetch-retry-maxtimeout <MS>",
+        "Upper bound ms"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-mintimeout",
+      "tip": [
+        "U: --fetch-retry-mintimeout <MS>",
+        "Lower bound ms"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-timeout",
+      "tip": [
+        "U: --fetch-timeout <MS>",
+        "Per-request HTTP timeout"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --filter <WORKSPACE>",
+        "Scope to workspace packages"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--filter-prod",
+      "tip": [
+        "U: --filter-prod <PATTERN>",
+        "Production-only filter"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--frozen-lockfile",
+      "tip": [
+        "Error if lockfile drifts"
+      ]
+    },
+    {
+      "name": "--loglevel",
+      "tip": [
+        "U: --loglevel <LEVEL>",
+        "Set log level"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug log level"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error log level"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info log level"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent log level"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace log level"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning log level"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Disable colored output"
+      ]
+    },
+    {
+      "name": "--no-frozen-lockfile",
+      "tip": [
+        "Always re-resolve"
+      ]
+    },
+    {
+      "name": "--package",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --package <PACKAGE>",
+        "Install a specific package"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prefer-frozen-lockfile",
+      "tip": [
+        "Use when fresh, re-resolve when stale"
+      ]
+    },
+    {
+      "name": "--prefix",
+      "alias": [
+        "--dir",
+        "--cd",
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --prefix <DIR>",
+        "Change to directory before running"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --recursive",
+        "Run across every workspace package"
+      ]
+    },
+    {
+      "name": "--registry",
+      "tip": [
+        "U: --registry <URL>",
+        "Override default registry URL"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reporter",
+      "tip": [
+        "U: --reporter <NAME>",
+        "Output format"
+      ],
+      "next": [
+        {
+          "name": "append-only",
+          "tip": [
+            "Append-only output format"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "Default output format"
+          ]
+        },
+        {
+          "name": "ndjson",
+          "tip": [
+            "NDJSON output format"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent output format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--shell-mode",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --shell-mode",
+        "Run assembled command line through sh -c"
+      ]
+    },
+    {
+      "name": "--silent",
+      "tip": [
+        "Suppress all non-error output"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Enable verbose/debug logging (shortcut for --loglevel debug)"
+      ]
+    },
+    {
+      "name": "--workspace-root",
+      "tip": [
+        "Run from workspace root"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version and check for updates"
+      ]
+    }
+  ]
+}

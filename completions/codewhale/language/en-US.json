@@ -1,0 +1,2445 @@
+{
+  "meta": {
+    "url": "https://codewhale.net",
+    "description": [
+      "Open-source, community-driven terminal coding agent for DeepSeek V4 and other models."
+    ]
+  },
+  "next": [
+    {
+      "name": "app-server",
+      "tip": [
+        "U: app-server [OPTIONS]",
+        "Run the canonical runtime API / control plane (HTTP/SSE, mobile, stdio)."
+      ],
+      "option": [
+        {
+          "name": "--auth-token",
+          "tip": [
+            "U: --auth-token <AUTH_TOKEN>",
+            "Bearer token for runtime API routes."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--config",
+          "tip": [
+            "U: --config <CONFIG>",
+            "Config file path."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cors-origin",
+          "tip": [
+            "U: --cors-origin <CORS_ORIGIN>",
+            "Additional CORS origin to allow."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "Bind host. Defaults to 127.0.0.1; with --mobile and no host, binds 0.0.0.0."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--http",
+          "tip": [
+            "Serve the full HTTP/SSE runtime API (/v1/*)."
+          ]
+        },
+        {
+          "name": "--insecure-no-auth",
+          "tip": [
+            "Disable runtime API auth when no token is configured."
+          ]
+        },
+        {
+          "name": "--mobile",
+          "tip": [
+            "Serve the runtime API plus the phone-friendly mobile control page."
+          ]
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "Bind port. Defaults to 7878 for --http/--mobile, 8787 for legacy."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--qr",
+          "tip": [
+            "Show a QR code for the mobile URL in the terminal (requires --mobile)."
+          ]
+        },
+        {
+          "name": "--stdio",
+          "tip": [
+            "Run the app-server JSON-RPC control transport over stdio (no listener)."
+          ]
+        },
+        {
+          "name": "--workers",
+          "tip": [
+            "U: --workers <WORKERS>",
+            "Background task worker count (1-8)."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "apply",
+      "tip": [
+        "U: apply [ARGS]...",
+        "Apply a patch file or stdin to the working tree."
+      ],
+      "next": 0
+    },
+    {
+      "name": "auth",
+      "tip": [
+        "U: auth <COMMAND>",
+        "Manage authentication credentials and provider mode."
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "U: clear --provider <PROVIDER>",
+            "Delete a provider's key from config and secret-store storage."
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Provider name."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "external-consent",
+          "tip": [
+            "U: external-consent [OPTIONS] --provider <PROVIDER> --mode <MODE>",
+            "Explicitly allow read-only access to one credential file owned by another CLI."
+          ],
+          "option": [
+            {
+              "name": "--mode",
+              "tip": [
+                "U: --mode <MODE>",
+                "Consent mode."
+              ],
+              "next": [
+                {
+                  "name": "managed"
+                },
+                {
+                  "name": "read-only"
+                }
+              ]
+            },
+            {
+              "name": "--path",
+              "tip": [
+                "U: --path <PATH>",
+                "Exact credential file path."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Provider name."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            },
+            {
+              "name": "--yes",
+              "tip": [
+                "Confirm the disclosed exact read-only grant without an interactive prompt."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "external-revoke",
+          "tip": [
+            "U: external-revoke --provider <PROVIDER>",
+            "Revoke access to another CLI's credential file for one provider."
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Provider name."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get --provider <PROVIDER>",
+            "Report the effective credential route for a provider. Never prints a credential."
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Provider name."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all known providers with their runtime-effective auth state, without revealing credentials."
+          ]
+        },
+        {
+          "name": "print-api-key",
+          "tip": [
+            "U: print-api-key --provider <PROVIDER>",
+            "Pipe the runtime-effective API key to a local client; refuses terminals."
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Provider name."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set [OPTIONS] --provider <PROVIDER>",
+            "Save an API key to the shared user config file."
+          ],
+          "option": [
+            {
+              "name": "--api-key",
+              "tip": [
+                "U: --api-key <API_KEY>",
+                "Inline value (discouraged — appears in shell history)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--api-key-stdin",
+              "tip": [
+                "Read the key from stdin instead of prompting."
+              ]
+            },
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Provider name."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "U: status [OPTIONS]",
+            "Show current provider and runtime-effective credential route state."
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Show status for a specific provider only."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "xai-device",
+          "tip": [
+            "Sign in to xAI/Grok with an SSH-friendly device code."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "U: completion <SHELL>",
+        "Generate shell completions."
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "elvish"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "tip": [
+        "U: completions [ARGS]...",
+        "Generate shell completions for the TUI binary."
+      ],
+      "next": 0
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config <COMMAND>",
+        "Read/write/list config values."
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "U: get <KEY>",
+            "Get a config value by key."
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all config values."
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "Print the config file path."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <KEY> <VALUE>",
+            "Set a config value."
+          ],
+          "next": 0
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "U: unset <KEY>",
+            "Remove a config value."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "U: doctor [ARGS]...",
+        "Run Codewhale diagnostics."
+      ],
+      "next": 0
+    },
+    {
+      "name": "eval",
+      "tip": [
+        "U: eval [ARGS]...",
+        "Run the offline TUI evaluation harness."
+      ],
+      "next": 0
+    },
+    {
+      "name": "exec",
+      "tip": [
+        "U: exec [ARGS]...",
+        "Run a non-interactive prompt through the TUI runtime.",
+        "E: codewhale exec \"explain this function\" --- Explain a function",
+        "E: codewhale exec --auto \"list crates/ with ls\" --- Auto-approve tool use",
+        "E: codewhale exec --auto --output-format stream-json \"fix the failing test\" --- Stream JSON output"
+      ],
+      "option": [
+        {
+          "name": "--auto",
+          "tip": [
+            "Enable tool-backed agent mode with auto-approvals."
+          ]
+        },
+        {
+          "name": "--continue",
+          "tip": [
+            "Continue the most recent session for this workspace."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit summary JSON."
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <FORMAT>",
+            "Output format."
+          ],
+          "next": [
+            {
+              "name": "stream-json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--resume",
+          "tip": [
+            "U: --resume <SESSION_ID>",
+            "Resume a previous session by ID or prefix."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--session-id",
+          "tip": [
+            "U: --session-id <SESSION_ID>",
+            "Resume a previous session by ID or prefix."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "features",
+      "tip": [
+        "U: features [ARGS]...",
+        "Inspect TUI feature flags."
+      ],
+      "next": 0
+    },
+    {
+      "name": "fleet",
+      "tip": [
+        "U: fleet [ARGS]...",
+        "Manage durable Agent Fleet runs via the TUI runtime."
+      ],
+      "next": 0
+    },
+    {
+      "name": "fork",
+      "tip": [
+        "U: fork [ARGS]...",
+        "Fork a saved TUI session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [ARGS]...",
+        "Create a default AGENTS.md in the current directory."
+      ],
+      "next": 0
+    },
+    {
+      "name": "lane",
+      "tip": [
+        "U: lane <COMMAND>",
+        "Manage running workflow instances (Lanes) and Runtime backends."
+      ],
+      "next": [
+        {
+          "name": "attach",
+          "tip": [
+            "U: attach [OPTIONS] <LANE_ID>",
+            "Attach to a tmux-backed lane (prints attach command; execs when possible)."
+          ],
+          "option": [
+            {
+              "name": "--print",
+              "tip": [
+                "Only print the attach command; do not exec."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "interrupt",
+          "tip": [
+            "U: interrupt [OPTIONS] <LANE_ID>",
+            "Interrupt a running lane. Accepts an exact lane id, optionally fenced as <lane-id>@<seq>."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Emit JSON."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [OPTIONS]",
+            "List known lanes (newest first)."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Emit JSON."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logs",
+          "tip": [
+            "U: logs [OPTIONS] <LANE_ID>",
+            "Tail the lane stream-json / NDJSON journal."
+          ],
+          "option": [
+            {
+              "name": "--follow",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --follow",
+                "Follow the log file (like tail -f)."
+              ]
+            },
+            {
+              "name": "--tail",
+              "tip": [
+                "U: --tail <TAIL>",
+                "Number of trailing lines when not following (default 50)."
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "U: restart [OPTIONS] <LANE_ID>",
+            "Restart a lane in place (declared, no backend — reports why)."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Emit JSON."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "resume",
+          "tip": [
+            "U: resume [OPTIONS] <LANE_ID>",
+            "Resume a stopped lane (declared, no backend — reports why)."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Emit JSON."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "start",
+          "tip": [
+            "U: start [OPTIONS] [COMMAND]...",
+            "Start a lane under a Runtime backend (tmux|inline|vm|ci)."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "tip": [
+                "U: --branch <BRANCH>",
+                "Branch name for the worktree (requires --worktree-repo)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--fleet",
+              "tip": [
+                "U: --fleet <FLEET>",
+                "Fleet roster name (e.g. stopship)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--goal",
+              "tip": [
+                "U: --goal <GOAL>",
+                "Free-form goal text."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--issue",
+              "tip": [
+                "U: --issue <ISSUE>",
+                "Issue id binding."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--runtime",
+              "tip": [
+                "U: --runtime <RUNTIME>",
+                "Runtime backend."
+              ],
+              "next": [
+                {
+                  "name": "ci"
+                },
+                {
+                  "name": "inline"
+                },
+                {
+                  "name": "tmux"
+                },
+                {
+                  "name": "vm"
+                }
+              ]
+            },
+            {
+              "name": "--workflow",
+              "tip": [
+                "U: --workflow <WORKFLOW>",
+                "Workflow name (e.g. stopship)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-path",
+              "tip": [
+                "U: --worktree-path <DIR>",
+                "Worktree path (defaults to <repo>/.codewhale/lanes/<lane-id>)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-repo",
+              "tip": [
+                "U: --worktree-repo <DIR>",
+                "Create an isolated worktree under this repo root."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-ttl-secs",
+              "tip": [
+                "U: --worktree-ttl-secs <WORKTREE_TTL_SECS>",
+                "Worktree cleanup TTL seconds after stop (0 = immediate on stop)."
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "status",
+          "tip": [
+            "U: status [OPTIONS] <LANE_ID>",
+            "Show one lane's status and attach metadata."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Emit JSON."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "U: stop <LANE_ID>",
+            "Stop a running lane and run worktree TTL cleanup. Compatibility spelling for lane interrupt."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "U: login [OPTIONS]",
+        "Configure provider credentials."
+      ],
+      "option": [
+        {
+          "name": "--api-key",
+          "tip": [
+            "U: --api-key <API_KEY>",
+            "API key for the provider."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "Remove saved authentication state."
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "U: mcp [ARGS]...",
+        "Manage TUI MCP servers."
+      ],
+      "next": 0
+    },
+    {
+      "name": "mcp-server",
+      "tip": [
+        "Run MCP server mode over stdio."
+      ]
+    },
+    {
+      "name": "metrics",
+      "tip": [
+        "U: metrics [OPTIONS]",
+        "Print a usage rollup from the audit log and session store."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Emit machine-readable JSON."
+          ]
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <DURATION>",
+            "Restrict to events newer than this duration (e.g. 7d, 24h, 30m, now-2h)."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "model",
+      "tip": [
+        "U: model <COMMAND>",
+        "Resolve or list available models across providers."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "U: list [OPTIONS]",
+            "List available models."
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Filter by provider."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "resolve",
+          "tip": [
+            "U: resolve [OPTIONS] [MODEL]",
+            "Resolve a model name to its full identifier."
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "Filter by provider."
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <MODEL>",
+            "Set the default model (e.g. pro, flash, deepseek-v4-pro)."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "tip": [
+        "U: models [ARGS]...",
+        "List live provider API models via the TUI binary."
+      ],
+      "next": 0
+    },
+    {
+      "name": "rc",
+      "tip": [
+        "U: rc [ARGS]...",
+        "Launch an interactive session and hand it to the Codewhale web app."
+      ],
+      "next": 0
+    },
+    {
+      "name": "remote-setup",
+      "tip": [
+        "U: remote-setup [OPTIONS]",
+        "Generate a remote Codewhale agent deploy bundle (cloud + chat bridge)."
+      ],
+      "option": [
+        {
+          "name": "--apply",
+          "tip": [
+            "Run the cloud CLI to auto-provision (not yet implemented)."
+          ]
+        },
+        {
+          "name": "--bridge",
+          "tip": [
+            "U: --bridge <BRIDGE>",
+            "Chat bridge slug. Skips the prompt."
+          ],
+          "next": [
+            {
+              "name": "feishu"
+            },
+            {
+              "name": "telegram"
+            }
+          ]
+        },
+        {
+          "name": "--cloud",
+          "tip": [
+            "U: --cloud <CLOUD>",
+            "Cloud target slug. Skips the prompt."
+          ],
+          "next": [
+            {
+              "name": "azure"
+            },
+            {
+              "name": "digitalocean"
+            },
+            {
+              "name": "lighthouse"
+            }
+          ]
+        },
+        {
+          "name": "--generate-only",
+          "tip": [
+            "Emit the bundle, do not provision (default)."
+          ]
+        },
+        {
+          "name": "--non-interactive",
+          "tip": [
+            "Fail instead of prompting if any required value is missing."
+          ]
+        },
+        {
+          "name": "--out",
+          "tip": [
+            "U: --out <DIR>",
+            "Bundle output directory (default ./codewhale-deploy/<cloud>-<bridge>)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--provider",
+          "tip": [
+            "U: --provider <PROVIDER>",
+            "Provider slug; validated against the provider registry. Skips the prompt."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "tip": [
+            "Skip the final confirmation gate (CI / non-interactive)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "resume",
+      "tip": [
+        "U: resume [ARGS]...",
+        "Resume a saved TUI session."
+      ],
+      "next": 0
+    },
+    {
+      "name": "review",
+      "tip": [
+        "U: review [ARGS]...",
+        "Run a Codewhale-powered code review over a git diff."
+      ],
+      "next": 0
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run [ARGS]...",
+        "Run interactive/non-interactive flows via the TUI binary."
+      ],
+      "next": 0
+    },
+    {
+      "name": "sandbox",
+      "tip": [
+        "U: sandbox <COMMAND>",
+        "Evaluate sandbox/approval policy decisions."
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "U: check [OPTIONS] <COMMAND>",
+            "Check sandbox policy for a command."
+          ],
+          "option": [
+            {
+              "name": "--ask",
+              "tip": [
+                "U: --ask <ASK>",
+                "Approval ask mode."
+              ],
+              "next": [
+                {
+                  "name": "never"
+                },
+                {
+                  "name": "on-failure"
+                },
+                {
+                  "name": "on-request"
+                },
+                {
+                  "name": "unless-trusted"
+                }
+              ]
+            }
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "U: serve [ARGS]...",
+        "Run a local TUI server."
+      ],
+      "option": [
+        {
+          "name": "--acp",
+          "tip": [
+            "Start ACP server over stdio for editor clients."
+          ]
+        },
+        {
+          "name": "--auth-token",
+          "tip": [
+            "U: --auth-token <TOKEN>",
+            "Require this bearer token for /v1/* runtime API routes."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cors-origin",
+          "tip": [
+            "U: --cors-origin <URL>",
+            "Additional CORS origin to allow (repeatable)."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "Bind host (default 127.0.0.1; --mobile defaults to 0.0.0.0)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--http",
+          "tip": [
+            "Start runtime HTTP/SSE API server."
+          ]
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "Disable runtime API auth when no token is configured."
+          ]
+        },
+        {
+          "name": "--mcp",
+          "tip": [
+            "Start MCP server over stdio."
+          ]
+        },
+        {
+          "name": "--mobile",
+          "tip": [
+            "Start runtime HTTP/SSE API server with the mobile control page."
+          ]
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "Bind port (default: 7878)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--qr",
+          "tip": [
+            "Show a QR code for the mobile URL (requires --mobile)."
+          ]
+        },
+        {
+          "name": "--web",
+          "tip": [
+            "Start the embedded loopback-only browser client."
+          ]
+        },
+        {
+          "name": "--workers",
+          "tip": [
+            "U: --workers <WORKERS>",
+            "Background task worker count (1-8)."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "sessions",
+      "tip": [
+        "U: sessions [ARGS]...",
+        "List saved TUI sessions."
+      ],
+      "next": 0
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "U: setup [ARGS]...",
+        "Bootstrap MCP config and/or skills directories."
+      ],
+      "next": 0
+    },
+    {
+      "name": "speech",
+      "alias": [
+        "tts"
+      ],
+      "tip": [
+        "U: speech|tts [ARGS]...",
+        "Generate speech audio with Xiaomi MiMo TTS models via the TUI binary."
+      ],
+      "next": 0
+    },
+    {
+      "name": "thread",
+      "tip": [
+        "U: thread <COMMAND>",
+        "Manage thread/session metadata and resume/fork flows."
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "tip": [
+            "U: archive <THREAD_ID>",
+            "Archive a thread."
+          ],
+          "next": 0
+        },
+        {
+          "name": "clear-name",
+          "tip": [
+            "U: clear-name <THREAD_ID>",
+            "Remove the custom name from a thread, restoring the default (unnamed) rendering in thread list."
+          ],
+          "next": 0
+        },
+        {
+          "name": "fork",
+          "tip": [
+            "U: fork <THREAD_ID>",
+            "Fork a thread."
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [OPTIONS]",
+            "List threads."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Show all threads including archived."
+              ]
+            },
+            {
+              "name": "--limit",
+              "tip": [
+                "U: --limit <LIMIT>",
+                "Maximum number of threads to show."
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "read",
+          "tip": [
+            "U: read <THREAD_ID>",
+            "Read a thread's content."
+          ],
+          "next": 0
+        },
+        {
+          "name": "resume",
+          "tip": [
+            "U: resume <THREAD_ID>",
+            "Resume a thread."
+          ],
+          "next": 0
+        },
+        {
+          "name": "set-name",
+          "tip": [
+            "U: set-name <THREAD_ID> <NAME>",
+            "Set a custom name for a thread."
+          ],
+          "next": 0
+        },
+        {
+          "name": "unarchive",
+          "tip": [
+            "U: unarchive <THREAD_ID>",
+            "Unarchive a thread."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [OPTIONS]",
+        "Check for and apply updates to the codewhale binary."
+      ],
+      "option": [
+        {
+          "name": "--beta",
+          "tip": [
+            "Update to the latest beta release instead of the latest stable release."
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "Only check the latest release; do not download or replace binaries."
+          ]
+        },
+        {
+          "name": "--proxy",
+          "tip": [
+            "U: --proxy <URL>",
+            "Proxy URL to use for update HTTP requests."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "tip": [
+        "U: web [OPTIONS]",
+        "Open the first-class local browser client over the canonical Runtime API."
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "Loopback port for the local Runtime API and embedded client (default: 7878)."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "workflow",
+      "tip": [
+        "U: workflow <COMMAND>",
+        "Run checked-in Workflows through a Lane Runtime backend."
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "U: run [OPTIONS] --fleet <FLEET> <WORKFLOW>",
+            "Run a checked-in Workflow through a Runtime-backed Lane."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "tip": [
+                "U: --branch <BRANCH>",
+                "Branch name for the worktree (requires --worktree-repo)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--fleet",
+              "tip": [
+                "U: --fleet <FLEET>",
+                "Named Fleet roster (e.g. stopship). Required for role-resolved Workflow runs."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--goal",
+              "tip": [
+                "U: --goal <GOAL>",
+                "Free-form goal text recorded on the Lane and passed into workflow args."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--issue",
+              "tip": [
+                "U: --issue <ISSUE>",
+                "Issue id binding recorded on the Lane and passed into workflow args."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--runtime",
+              "tip": [
+                "U: --runtime <RUNTIME>",
+                "Runtime backend."
+              ],
+              "next": [
+                {
+                  "name": "ci"
+                },
+                {
+                  "name": "inline"
+                },
+                {
+                  "name": "tmux"
+                },
+                {
+                  "name": "vm"
+                }
+              ]
+            },
+            {
+              "name": "--source-path",
+              "tip": [
+                "U: --source-path <PATH>",
+                "Explicit Workflow source path, overriding name-based resolution."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--token-budget",
+              "tip": [
+                "U: --token-budget <TOKEN_BUDGET>",
+                "Optional shared Workflow token budget."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--verify",
+              "tip": [
+                "Run verifier gates after a successful Workflow completion."
+              ]
+            },
+            {
+              "name": "--worktree-path",
+              "tip": [
+                "U: --worktree-path <DIR>",
+                "Worktree path (defaults to <repo>/.codewhale/lanes/<lane-id>)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-repo",
+              "tip": [
+                "U: --worktree-repo <DIR>",
+                "Create an isolated worktree under this repo root."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-ttl-secs",
+              "tip": [
+                "U: --worktree-ttl-secs <WORKTREE_TTL_SECS>",
+                "Worktree cleanup TTL seconds after stop (0 = immediate on stop)."
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--api-key",
+      "tip": [
+        "U: --api-key <API_KEY>",
+        "API key for the provider."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--approval-policy",
+      "tip": [
+        "U: --approval-policy <APPROVAL_POLICY>",
+        "Approval policy."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--base-url",
+      "tip": [
+        "U: --base-url <BASE_URL>",
+        "Base URL for the provider API."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <CONFIG>",
+        "Path to config file."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "Continue the most recent interactive session for this workspace."
+      ]
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <LOG_LEVEL>",
+        "Log level."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "Model to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mouse-capture",
+      "tip": [
+        "Enable mouse capture in TUI."
+      ]
+    },
+    {
+      "name": "--no-mouse-capture",
+      "tip": [
+        "Disable mouse capture in TUI."
+      ]
+    },
+    {
+      "name": "--no-project-config",
+      "tip": [
+        "Skip loading project-level config, including the workspace-specific overlay from user config. Must appear before the subcommand."
+      ]
+    },
+    {
+      "name": "--output-mode",
+      "tip": [
+        "U: --output-mode <OUTPUT_MODE>",
+        "Output mode."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--profile",
+      "tip": [
+        "U: --profile <PROFILE>",
+        "Config profile to use."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --prompt <PROMPT>",
+        "Prompt to pass to the model."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--provider",
+      "tip": [
+        "U: --provider <PROVIDER>",
+        "Provider selector; exec/fleet also accept configured custom provider identifiers."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sandbox-mode",
+      "tip": [
+        "U: --sandbox-mode <SANDBOX_MODE>",
+        "Sandbox mode."
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-onboarding",
+      "tip": [
+        "Skip onboarding flow."
+      ]
+    },
+    {
+      "name": "--telemetry",
+      "tip": [
+        "U: --telemetry <TELEMETRY>",
+        "Enable or disable telemetry."
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
+      ]
+    },
+    {
+      "name": "--verbosity",
+      "tip": [
+        "U: --verbosity <LEVEL>",
+        "Controls transcript and output verbosity."
+      ],
+      "next": [
+        {
+          "name": "concise"
+        },
+        {
+          "name": "normal"
+        }
+      ]
+    },
+    {
+      "name": "--workspace",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --workspace <DIR>",
+        "Workspace directory for TUI file tools."
+      ],
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version."
+      ]
+    }
+  ]
+}
