@@ -1,0 +1,1701 @@
+{
+  "meta": {
+    "url": "https://learn.microsoft.com/en-us/windows/wsl/wsl-container",
+    "description": [
+      "WSL container CLI — build, run and interact with Linux containers built into WSL."
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "tip": [
+        "U: build [OPTIONS] PATH|URL",
+        "Build an image from a Containerfile or Dockerfile."
+      ],
+      "option": [
+        {
+          "name": "--build-arg",
+          "tip": [
+            "U: --build-arg KEY=VALUE",
+            "Set build-time variables. Can be repeated.",
+            "E: --build-arg HTTP_PROXY=http://proxy --- Set proxy during build"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --file FILE",
+            "Path to the Containerfile or Dockerfile."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--label",
+          "tip": [
+            "U: --label KEY=VALUE",
+            "Set metadata for an image. Can be repeated."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "Do not use cache when building the image."
+          ]
+        },
+        {
+          "name": "--pull",
+          "tip": [
+            "Always attempt to pull a newer version of the image."
+          ]
+        },
+        {
+          "name": "--tag",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tag NAME[:TAG]",
+            "Name and optionally a tag for the image."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--target",
+          "tip": [
+            "U: --target STAGE",
+            "Set the target build stage to build."
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": ".",
+          "tip": [
+            "Use the current directory as build context."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "container",
+      "tip": [
+        "Manage containers."
+      ],
+      "next": [
+        {
+          "name": "attach",
+          "tip": [
+            "U: attach CONTAINER",
+            "Attach local stdin, stdout and stderr to a running container."
+          ],
+          "next": 0
+        },
+        {
+          "name": "commit",
+          "tip": [
+            "U: commit CONTAINER [REPOSITORY[:TAG]]",
+            "Create a new image from a container's changes."
+          ],
+          "next": 0
+        },
+        {
+          "name": "cp",
+          "tip": [
+            "U: cp SRC_PATH DEST_PATH",
+            "Copy files or folders between a container and the local filesystem.",
+            "E: cp mycontainer:/app/log.txt . --- Copy file from container to host"
+          ],
+          "next": 0
+        },
+        {
+          "name": "create",
+          "tip": [
+            "U: create [OPTIONS] IMAGE [COMMAND] [ARG...]",
+            "Create a new container without starting it."
+          ],
+          "next": 0
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "U: diff CONTAINER",
+            "Inspect changes to files or directories on a container's filesystem."
+          ],
+          "next": 0
+        },
+        {
+          "name": "exec",
+          "tip": [
+            "U: exec [OPTIONS] CONTAINER COMMAND [ARG...]",
+            "Execute a command in a running container."
+          ],
+          "option": [
+            {
+              "name": "--detach",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --detach",
+                "Detached mode: run command in the background."
+              ]
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --env KEY=VALUE",
+                "Set environment variables. Can be repeated."
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--interactive",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --interactive",
+                "Keep STDIN open even if not attached."
+              ]
+            },
+            {
+              "name": "--tty",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tty",
+                "Allocate a pseudo-TTY."
+              ]
+            },
+            {
+              "name": "--user",
+              "alias": [
+                "-u"
+              ],
+              "tip": [
+                "U: -u, --user USER",
+                "Username or UID to run the command as."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--workdir",
+              "alias": [
+                "-w"
+              ],
+              "tip": [
+                "U: -w, --workdir DIR",
+                "Working directory inside the container."
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "export",
+          "tip": [
+            "U: export CONTAINER",
+            "Export a container's filesystem as a tar archive."
+          ],
+          "next": 0
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect CONTAINER [CONTAINER...]",
+            "Display detailed information on one or more containers."
+          ],
+          "next": 0
+        },
+        {
+          "name": "kill",
+          "tip": [
+            "U: kill CONTAINER [CONTAINER...]",
+            "Kill one or more running containers."
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls",
+            "ps"
+          ],
+          "tip": [
+            "U: ls|list|ps [OPTIONS]",
+            "List containers."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "Show all containers (default shows just running)."
+              ]
+            },
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --filter KEY=VALUE",
+                "Filter output based on conditions. Can be repeated."
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--format",
+              "tip": [
+                "U: --format TEMPLATE",
+                "Pretty-print containers using a Go template."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--last",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --last N",
+                "Show n last created containers (includes all states)."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "tip": [
+                "U: -l, --latest",
+                "Show the latest created container (includes all states)."
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --quiet",
+                "Only display container IDs."
+              ]
+            },
+            {
+              "name": "--size",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --size",
+                "Display total file sizes."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logs",
+          "tip": [
+            "U: logs CONTAINER",
+            "Fetch the logs of a container."
+          ],
+          "option": [
+            {
+              "name": "--follow",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --follow",
+                "Follow log output."
+              ]
+            },
+            {
+              "name": "--tail",
+              "tip": [
+                "U: --tail LINES",
+                "Number of lines to show from the end of the logs."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--timestamps",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --timestamps",
+                "Show timestamps."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "pause",
+          "tip": [
+            "U: pause CONTAINER [CONTAINER...]",
+            "Pause all processes within one or more containers."
+          ],
+          "next": 0
+        },
+        {
+          "name": "port",
+          "tip": [
+            "U: port CONTAINER [PRIVATE_PORT[/PROTO]]",
+            "List port mappings or a specific mapping for the container."
+          ],
+          "next": 0
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Remove all stopped containers."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --force",
+                "Do not prompt for confirmation."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "U: rename CONTAINER NEW_NAME",
+            "Rename a container."
+          ],
+          "next": 0
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "U: restart CONTAINER [CONTAINER...]",
+            "Restart one or more containers."
+          ],
+          "option": [
+            {
+              "name": "--time",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --time SECONDS",
+                "Seconds to wait for stop before killing the container."
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm [OPTIONS] CONTAINER [CONTAINER...]",
+            "Remove one or more containers."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --force",
+                "Force the removal of a running container (uses SIGKILL)."
+              ]
+            },
+            {
+              "name": "--volumes",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --volumes",
+                "Remove anonymous volumes associated with the container."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run [OPTIONS] IMAGE [COMMAND] [ARG...]",
+            "Create and run a new container from an image."
+          ],
+          "next": 0
+        },
+        {
+          "name": "start",
+          "tip": [
+            "U: start CONTAINER [CONTAINER...]",
+            "Start one or more stopped containers."
+          ],
+          "option": [
+            {
+              "name": "--attach",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --attach",
+                "Attach STDOUT or STDERR and forward signals."
+              ]
+            },
+            {
+              "name": "--interactive",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --interactive",
+                "Attach container's STDIN."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "stats",
+          "tip": [
+            "U: stats [OPTIONS] [CONTAINER...]",
+            "Display a live stream of container(s) resource usage statistics."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "Show all containers (default shows just running)."
+              ]
+            },
+            {
+              "name": "--format",
+              "tip": [
+                "U: --format TEMPLATE",
+                "Pretty-print stats using a Go template."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-stream",
+              "tip": [
+                "Disable streaming stats and only pull the first result."
+              ]
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "Do not truncate output."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "U: stop CONTAINER [CONTAINER...]",
+            "Stop one or more running containers."
+          ],
+          "option": [
+            {
+              "name": "--time",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --time SECONDS",
+                "Seconds to wait for stop before killing it."
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "top",
+          "tip": [
+            "U: top CONTAINER",
+            "Display the running processes of a container."
+          ],
+          "next": 0
+        },
+        {
+          "name": "unpause",
+          "tip": [
+            "U: unpause CONTAINER [CONTAINER...]",
+            "Unpause all processes within one or more containers."
+          ],
+          "next": 0
+        },
+        {
+          "name": "update",
+          "tip": [
+            "U: update [OPTIONS] CONTAINER [CONTAINER...]",
+            "Update configuration of one or more containers."
+          ],
+          "next": 0
+        },
+        {
+          "name": "wait",
+          "tip": [
+            "U: wait CONTAINER [CONTAINER...]",
+            "Block until one or more containers stop, then print their exit codes."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "tip": [
+        "U: exec [OPTIONS] CONTAINER COMMAND [ARG...]",
+        "Execute a command in a running container."
+      ],
+      "option": [
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --detach",
+            "Detached mode: run command in the background."
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env KEY=VALUE",
+            "Set environment variables. Can be repeated."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Keep STDIN open even if not attached."
+          ]
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tty",
+            "Allocate a pseudo-TTY."
+          ]
+        },
+        {
+          "name": "--user",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --user USER",
+            "Username or UID to run the command as."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--workdir",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --workdir DIR",
+            "Working directory inside the container."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "image",
+      "tip": [
+        "Manage images."
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "U: build [OPTIONS] PATH|URL",
+            "Build an image from a Containerfile or Dockerfile."
+          ],
+          "next": 0
+        },
+        {
+          "name": "history",
+          "tip": [
+            "U: history IMAGE",
+            "Show the history of an image."
+          ],
+          "next": 0
+        },
+        {
+          "name": "import",
+          "tip": [
+            "U: import FILE|URL [REPOSITORY[:TAG]]",
+            "Import the contents from a tarball to create a filesystem image."
+          ],
+          "next": 0
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "U: inspect IMAGE [IMAGE...]",
+            "Display detailed information on one or more images."
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "tip": [
+            "U: ls|list [OPTIONS]",
+            "List images."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "Show all images (default hides intermediate images)."
+              ]
+            },
+            {
+              "name": "--digests",
+              "tip": [
+                "Show digests."
+              ]
+            },
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --filter KEY=VALUE",
+                "Filter output based on conditions. Can be repeated."
+              ],
+              "repeat": 99,
+              "next": 0
+            },
+            {
+              "name": "--format",
+              "tip": [
+                "U: --format TEMPLATE",
+                "Pretty-print images using a Go template."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "Do not truncate output."
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --quiet",
+                "Only show image IDs."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "load",
+          "tip": [
+            "U: load [OPTIONS]",
+            "Load an image from a tar archive or STDIN."
+          ],
+          "option": [
+            {
+              "name": "--input",
+              "alias": [
+                "-i"
+              ],
+              "tip": [
+                "U: -i, --input FILE",
+                "Read from tar archive file, instead of STDIN."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --quiet",
+                "Suppress the load output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Remove unused images."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all",
+                "Remove all unused images, not just dangling ones."
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --force",
+                "Do not prompt for confirmation."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "U: pull NAME[:TAG|@DIGEST]",
+            "Download an image from a registry."
+          ],
+          "option": [
+            {
+              "name": "--platform",
+              "tip": [
+                "U: --platform PLATFORM",
+                "Set platform if server is multi-platform capable."
+              ],
+              "next": 0
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --quiet",
+                "Suppress verbose output."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "push",
+          "tip": [
+            "U: push NAME[:TAG]",
+            "Upload an image to a registry."
+          ],
+          "option": [
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "tip": [
+                "U: -q, --quiet",
+                "Suppress verbose output."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "U: rm IMAGE [IMAGE...]",
+            "Remove one or more images."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --force",
+                "Force removal of the image."
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "save",
+          "tip": [
+            "U: save IMAGE [IMAGE...]",
+            "Save one or more images to a tar archive (streamed to STDOUT by default)."
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "tip": [
+                "U: -o, --output FILE",
+                "Write to a file, instead of STDOUT."
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "tag",
+          "tip": [
+            "U: tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]",
+            "Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE."
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "images",
+      "tip": [
+        "List images."
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "Display system-wide information."
+      ]
+    },
+    {
+      "name": "inspect",
+      "tip": [
+        "U: inspect NAME|ID [NAME|ID...]",
+        "Return low-level information on WSL container objects."
+      ],
+      "next": 0
+    },
+    {
+      "name": "kill",
+      "tip": [
+        "U: kill CONTAINER [CONTAINER...]",
+        "Kill one or more running containers."
+      ],
+      "next": 0
+    },
+    {
+      "name": "load",
+      "tip": [
+        "U: load [OPTIONS]",
+        "Load an image from a tar archive or STDIN."
+      ],
+      "option": [
+        {
+          "name": "--input",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --input FILE",
+            "Read from tar archive file, instead of STDIN."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress the load output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "U: login [OPTIONS] [SERVER]",
+        "Log in to a registry."
+      ],
+      "option": [
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password PASSWORD",
+            "Password."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username USERNAME",
+            "Username."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "U: logout [SERVER]",
+        "Log out from a registry."
+      ],
+      "next": 0
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "U: logs CONTAINER",
+        "Fetch the logs of a container."
+      ],
+      "option": [
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --follow",
+            "Follow log output."
+          ]
+        },
+        {
+          "name": "--tail",
+          "tip": [
+            "U: --tail LINES",
+            "Number of lines to show from the end of the logs."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--timestamps",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --timestamps",
+            "Show timestamps."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "pause",
+      "tip": [
+        "U: pause CONTAINER [CONTAINER...]",
+        "Pause all processes within one or more containers."
+      ],
+      "next": 0
+    },
+    {
+      "name": "port",
+      "tip": [
+        "U: port CONTAINER [PRIVATE_PORT[/PROTO]]",
+        "List port mappings or a specific mapping for the container."
+      ],
+      "next": 0
+    },
+    {
+      "name": "ps",
+      "tip": [
+        "List containers."
+      ]
+    },
+    {
+      "name": "pull",
+      "tip": [
+        "U: pull NAME[:TAG|@DIGEST]",
+        "Download an image from a registry."
+      ],
+      "option": [
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform PLATFORM",
+            "Set platform if server is multi-platform capable."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress verbose output."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "push",
+      "tip": [
+        "U: push NAME[:TAG]",
+        "Upload an image to a registry."
+      ],
+      "option": [
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "tip": [
+            "U: -q, --quiet",
+            "Suppress verbose output."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "rename",
+      "tip": [
+        "U: rename CONTAINER NEW_NAME",
+        "Rename a container."
+      ],
+      "next": 0
+    },
+    {
+      "name": "restart",
+      "tip": [
+        "U: restart CONTAINER [CONTAINER...]",
+        "Restart one or more containers."
+      ],
+      "option": [
+        {
+          "name": "--time",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --time SECONDS",
+            "Seconds to wait for stop before killing the container."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "rm",
+      "tip": [
+        "U: rm [OPTIONS] CONTAINER [CONTAINER...]",
+        "Remove one or more containers."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force the removal of a running container (uses SIGKILL)."
+          ]
+        },
+        {
+          "name": "--volumes",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --volumes",
+            "Remove anonymous volumes associated with the container."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "rmi",
+      "tip": [
+        "U: rmi [OPTIONS] IMAGE [IMAGE...]",
+        "Remove one or more images."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "Force removal of the image."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run [OPTIONS] IMAGE [COMMAND] [ARG...]",
+        "Create and run a new container from an image.",
+        "E: run --rm -it ubuntu:latest bash --- Run interactive Ubuntu container",
+        "E: run -d -p 8080:80 --name web nginx --- Run Nginx in background on port 8080"
+      ],
+      "option": [
+        {
+          "name": "--cpus",
+          "tip": [
+            "U: --cpus NUMBER",
+            "Number of CPUs."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "tip": [
+            "U: -d, --detach",
+            "Run container in background and print container ID."
+          ]
+        },
+        {
+          "name": "--entrypoint",
+          "tip": [
+            "U: --entrypoint CMD",
+            "Overwrite the default ENTRYPOINT of the image."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --env KEY=VALUE",
+            "Set environment variables. Can be repeated."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--gpus",
+          "tip": [
+            "U: --gpus all|DEVICE",
+            "GPU devices to add to the container (use 'all' to pass all GPUs).",
+            "E: --gpus all --- Pass all GPUs to the container"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "Pass all available GPUs."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--hostname",
+          "alias": [
+            "-h"
+          ],
+          "tip": [
+            "U: -h, --hostname HOSTNAME",
+            "Container host name."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Keep STDIN open even if not attached."
+          ]
+        },
+        {
+          "name": "--label",
+          "tip": [
+            "U: --label KEY=VALUE",
+            "Set meta data on a container. Can be repeated."
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--memory",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --memory LIMIT",
+            "Memory limit (e.g. 512m, 2g)."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--name",
+          "tip": [
+            "U: --name NAME",
+            "Assign a name to the container."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--network",
+          "tip": [
+            "U: --network NAME",
+            "Connect a container to a network."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--platform",
+          "tip": [
+            "U: --platform PLATFORM",
+            "Set platform if server is multi-platform capable."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--publish",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --publish HOST_PORT:CONTAINER_PORT",
+            "Publish a container's port(s) to the host. Can be repeated.",
+            "E: -p 8080:80 --- Map host 8080 to container port 80"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--publish-all",
+          "alias": [
+            "-P"
+          ],
+          "tip": [
+            "U: -P, --publish-all",
+            "Publish all exposed ports to random ports."
+          ]
+        },
+        {
+          "name": "--pull",
+          "tip": [
+            "U: --pull always|missing|never",
+            "Pull image before running."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always pull the image, even if present locally."
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "Pull only if the image is missing locally (default)."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never pull the image, use only local images."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--read-only",
+          "tip": [
+            "Mount the container's root filesystem as read only."
+          ]
+        },
+        {
+          "name": "--restart",
+          "tip": [
+            "U: --restart POLICY",
+            "Restart policy to apply when a container exits."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always restart the container regardless of exit status."
+              ]
+            },
+            {
+              "name": "no",
+              "tip": [
+                "Do not automatically restart (default)."
+              ]
+            },
+            {
+              "name": "on-failure",
+              "tip": [
+                "Restart only if the container exits with non-zero status."
+              ]
+            },
+            {
+              "name": "unless-stopped",
+              "tip": [
+                "Always restart unless explicitly stopped."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--rm",
+          "tip": [
+            "Automatically remove the container when it exits."
+          ]
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --tty",
+            "Allocate a pseudo-TTY."
+          ]
+        },
+        {
+          "name": "--user",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --user USER",
+            "Username or UID to run the container as."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--volume",
+          "alias": [
+            "-v"
+          ],
+          "tip": [
+            "U: -v, --volume HOST_PATH:CONTAINER_PATH",
+            "Bind mount a volume. Can be repeated.",
+            "E: -v C:\\data:/data --- Mount host folder into container"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--workdir",
+          "alias": [
+            "-w"
+          ],
+          "tip": [
+            "U: -w, --workdir DIR",
+            "Working directory inside the container."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "save",
+      "tip": [
+        "U: save IMAGE [IMAGE...]",
+        "Save one or more images to a tar archive."
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --output FILE",
+            "Write to a file, instead of STDOUT."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search TERM",
+        "Search Docker Hub for images."
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format TEMPLATE",
+            "Pretty-print search using a Go template."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit MAX",
+            "Max number of search results."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "Do not truncate output."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "start",
+      "tip": [
+        "U: start CONTAINER [CONTAINER...]",
+        "Start one or more stopped containers."
+      ],
+      "option": [
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "Attach container's STDIN."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "U: stats [OPTIONS] [CONTAINER...]",
+        "Display a live stream of container(s) resource usage statistics."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "tip": [
+            "U: -a, --all",
+            "Show all containers (default shows just running)."
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format TEMPLATE",
+            "Pretty-print stats using a Go template."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--no-stream",
+          "tip": [
+            "Disable streaming stats and only pull the first result."
+          ]
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "Do not truncate output."
+          ]
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "stop",
+      "tip": [
+        "U: stop CONTAINER [CONTAINER...]",
+        "Stop one or more running containers."
+      ],
+      "option": [
+        {
+          "name": "--time",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --time SECONDS",
+            "Seconds to wait for stop before killing it."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "tag",
+      "tip": [
+        "U: tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]",
+        "Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE."
+      ],
+      "next": 0
+    },
+    {
+      "name": "top",
+      "tip": [
+        "U: top CONTAINER",
+        "Display the running processes of a container."
+      ],
+      "next": 0
+    },
+    {
+      "name": "unpause",
+      "tip": [
+        "U: unpause CONTAINER [CONTAINER...]",
+        "Unpause all processes within one or more containers."
+      ],
+      "next": 0
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [OPTIONS] CONTAINER [CONTAINER...]",
+        "Update configuration of one or more containers."
+      ],
+      "option": [
+        {
+          "name": "--cpus",
+          "tip": [
+            "U: --cpus NUMBER",
+            "Number of CPUs."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--memory",
+          "alias": [
+            "-m"
+          ],
+          "tip": [
+            "U: -m, --memory LIMIT",
+            "Memory limit."
+          ],
+          "next": 0
+        },
+        {
+          "name": "--restart",
+          "tip": [
+            "U: --restart POLICY",
+            "Restart policy to apply when a container exits."
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Show the WSL container CLI version information."
+      ]
+    },
+    {
+      "name": "wait",
+      "tip": [
+        "U: wait CONTAINER [CONTAINER...]",
+        "Block until one or more containers stop, then print their exit codes."
+      ],
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Show help for wslc or a subcommand."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --version",
+        "Show the wslc version."
+      ]
+    }
+  ]
+}

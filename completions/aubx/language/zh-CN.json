@@ -1,0 +1,360 @@
+{
+  "meta": {
+    "url": "https://aube.jdx.dev",
+    "description": [
+      "将包下载到临时环境并运行其二进制文件 (aube dlx 独立版)"
+    ]
+  },
+  "option": [
+    {
+      "name": "--allow-build",
+      "tip": [
+        "U: --allow-build=<PKG>",
+        "允许指定包在临时安装期间运行生命周期脚本"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "强制启用彩色输出，即使 stderr 不是 TTY"
+      ]
+    },
+    {
+      "name": "--diag",
+      "tip": [
+        "U: --diag [<MODE>]",
+        "启用冷安装诊断"
+      ],
+      "next": [
+        {
+          "name": "full",
+          "tip": [
+            "Full 诊断模式"
+          ]
+        },
+        {
+          "name": "live",
+          "tip": [
+            "Live 诊断模式"
+          ]
+        },
+        {
+          "name": "summary",
+          "tip": [
+            "Summary 诊断模式"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace 诊断模式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--diag-file",
+      "tip": [
+        "U: --diag-file <PATH>",
+        "诊断 JSONL 跟踪文件路径"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--diag-threshold-ms",
+      "tip": [
+        "U: --diag-threshold-ms <MS>",
+        "Live 模式阈值毫秒数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-global-virtual-store",
+      "alias": [
+        "--disable-gvs"
+      ],
+      "tip": [
+        "U: --disable-gvs, --disable-global-virtual-store",
+        "强制关闭共享全局虚拟存储"
+      ]
+    },
+    {
+      "name": "--enable-global-virtual-store",
+      "alias": [
+        "--enable-gvs"
+      ],
+      "tip": [
+        "U: --enable-gvs, --enable-global-virtual-store",
+        "强制开启共享全局虚拟存储"
+      ]
+    },
+    {
+      "name": "--fail-if-no-match",
+      "tip": [
+        "当工作区选择器未匹配任何内容时报错"
+      ]
+    },
+    {
+      "name": "--fetch-retries",
+      "tip": [
+        "U: --fetch-retries <N>",
+        "重试次数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-factor",
+      "tip": [
+        "U: --fetch-retry-factor <N>",
+        "指数退避因子"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-maxtimeout",
+      "tip": [
+        "U: --fetch-retry-maxtimeout <MS>",
+        "超时上限毫秒数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-mintimeout",
+      "tip": [
+        "U: --fetch-retry-mintimeout <MS>",
+        "超时下限毫秒数"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-timeout",
+      "tip": [
+        "U: --fetch-timeout <MS>",
+        "每次请求的 HTTP 超时"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --filter <WORKSPACE>",
+        "限定作用域到指定工作区包"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--filter-prod",
+      "tip": [
+        "U: --filter-prod <PATTERN>",
+        "仅生产环境过滤器"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--frozen-lockfile",
+      "tip": [
+        "如果锁文件发生漂移则报错"
+      ]
+    },
+    {
+      "name": "--loglevel",
+      "tip": [
+        "U: --loglevel <LEVEL>",
+        "设置日志级别"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug 日志级别"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error 日志级别"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info 日志级别"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent 日志级别"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace 日志级别"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning 日志级别"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "禁用彩色输出"
+      ]
+    },
+    {
+      "name": "--no-frozen-lockfile",
+      "tip": [
+        "始终重新解析"
+      ]
+    },
+    {
+      "name": "--package",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --package <PACKAGE>",
+        "安装指定的包"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--prefer-frozen-lockfile",
+      "tip": [
+        "新鲜时使用，过期时重新解析"
+      ]
+    },
+    {
+      "name": "--prefix",
+      "alias": [
+        "--dir",
+        "--cd",
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --prefix <DIR>",
+        "运行前切换到指定目录"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --recursive",
+        "在所有工作区包上运行"
+      ]
+    },
+    {
+      "name": "--registry",
+      "tip": [
+        "U: --registry <URL>",
+        "覆盖默认注册表 URL"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reporter",
+      "tip": [
+        "U: --reporter <NAME>",
+        "输出格式"
+      ],
+      "next": [
+        {
+          "name": "append-only",
+          "tip": [
+            "Append-only 输出格式"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "默认输出格式"
+          ]
+        },
+        {
+          "name": "ndjson",
+          "tip": [
+            "NDJSON 输出格式"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent 输出格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--shell-mode",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --shell-mode",
+        "通过 sh -c 运行组合后的命令行"
+      ]
+    },
+    {
+      "name": "--silent",
+      "tip": [
+        "抑制所有非错误输出"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "启用详细/调试日志记录 (--loglevel debug 的快捷方式)"
+      ]
+    },
+    {
+      "name": "--workspace-root",
+      "tip": [
+        "从工作区根目录运行"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助信息"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本并检查更新"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2445 @@
+{
+  "meta": {
+    "url": "https://codewhale.net",
+    "description": [
+      "面向 DeepSeek V4 及其他模型、由社区驱动的开源终端代码智能代理"
+    ]
+  },
+  "next": [
+    {
+      "name": "app-server",
+      "tip": [
+        "U: app-server [OPTIONS]",
+        "运行规范的运行时 API / 控制平面（HTTP/SSE、移动端、stdio）。"
+      ],
+      "option": [
+        {
+          "name": "--auth-token",
+          "tip": [
+            "U: --auth-token <AUTH_TOKEN>",
+            "运行时 API 路由的承载令牌。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--config",
+          "tip": [
+            "U: --config <CONFIG>",
+            "配置文件路径。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cors-origin",
+          "tip": [
+            "U: --cors-origin <CORS_ORIGIN>",
+            "允许的额外 CORS 来源。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "绑定主机。默认为 127.0.0.1；使用 --mobile 且无主机时绑定 0.0.0.0。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--http",
+          "tip": [
+            "提供完整的 HTTP/SSE 运行时 API（/v1/*）。"
+          ]
+        },
+        {
+          "name": "--insecure-no-auth",
+          "tip": [
+            "未配置令牌时禁用运行时 API 认证。"
+          ]
+        },
+        {
+          "name": "--mobile",
+          "tip": [
+            "提供运行时 API 和手机友好的移动端控制页面。"
+          ]
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "绑定端口。--http/--mobile 默认为 7878，旧版为 8787。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--qr",
+          "tip": [
+            "在终端显示移动端 URL 的二维码（需要 --mobile）。"
+          ]
+        },
+        {
+          "name": "--stdio",
+          "tip": [
+            "通过 stdio 运行 app-server JSON-RPC 控制传输（无监听器）。"
+          ]
+        },
+        {
+          "name": "--workers",
+          "tip": [
+            "U: --workers <WORKERS>",
+            "后台任务工作线程数（1-8）。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "apply",
+      "tip": [
+        "U: apply [ARGS]...",
+        "将补丁文件或 stdin 应用到工作树。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "auth",
+      "tip": [
+        "U: auth <COMMAND>",
+        "管理认证凭据和提供商模式。"
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "U: clear --provider <PROVIDER>",
+            "从配置和密钥存储中删除提供商的密钥。"
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "提供商名称。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "external-consent",
+          "tip": [
+            "U: external-consent [OPTIONS] --provider <PROVIDER> --mode <MODE>",
+            "显式允许对另一个 CLI 拥有的凭据文件进行只读访问。"
+          ],
+          "option": [
+            {
+              "name": "--mode",
+              "tip": [
+                "U: --mode <MODE>",
+                "同意模式。"
+              ],
+              "next": [
+                {
+                  "name": "managed"
+                },
+                {
+                  "name": "read-only"
+                }
+              ]
+            },
+            {
+              "name": "--path",
+              "tip": [
+                "U: --path <PATH>",
+                "精确的凭据文件路径。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "提供商名称。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            },
+            {
+              "name": "--yes",
+              "tip": [
+                "无需交互式提示即可确认公开的精确只读授权。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "external-revoke",
+          "tip": [
+            "U: external-revoke --provider <PROVIDER>",
+            "撤销对另一个 CLI 凭据文件的访问权限。"
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "提供商名称。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get --provider <PROVIDER>",
+            "报告提供商的有效凭据路由。永远不会打印凭据。"
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "提供商名称。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有已知提供商及其运行时有效的认证状态，不泄露凭据。"
+          ]
+        },
+        {
+          "name": "print-api-key",
+          "tip": [
+            "U: print-api-key --provider <PROVIDER>",
+            "将运行时有效的 API 密钥管道传输到本地客户端；拒绝终端。"
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "提供商名称。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set [OPTIONS] --provider <PROVIDER>",
+            "将 API 密钥保存到共享用户配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--api-key",
+              "tip": [
+                "U: --api-key <API_KEY>",
+                "内联值（不推荐 — 会出现在 shell 历史中）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--api-key-stdin",
+              "tip": [
+                "从 stdin 读取密钥而不是提示输入。"
+              ]
+            },
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "提供商名称。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "U: status [OPTIONS]",
+            "显示当前提供商和运行时有效的凭据路由状态。"
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "仅显示特定提供商的状态。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "xai-device",
+          "tip": [
+            "使用 SSH 友好的设备代码登录 xAI/Grok。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "U: completion <SHELL>",
+        "生成 shell 补全。"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "elvish"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "powershell"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "tip": [
+        "U: completions [ARGS]...",
+        "为 TUI 二进制文件生成 shell 补全。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "config",
+      "tip": [
+        "U: config <COMMAND>",
+        "读取/写入/列出配置值。"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "U: get <KEY>",
+            "通过键获取配置值。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有配置值。"
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "打印配置文件路径。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <KEY> <VALUE>",
+            "设置配置值。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "U: unset <KEY>",
+            "删除配置值。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "U: doctor [ARGS]...",
+        "运行 Codewhale 诊断。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "eval",
+      "tip": [
+        "U: eval [ARGS]...",
+        "运行离线 TUI 评估工具。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "exec",
+      "tip": [
+        "U: exec [ARGS]...",
+        "通过 TUI 运行时运行非交互式提示。",
+        "E: codewhale exec \"explain this function\" --- 解释一个函数",
+        "E: codewhale exec --auto \"list crates/ with ls\" --- 自动批准工具使用",
+        "E: codewhale exec --auto --output-format stream-json \"fix the failing test\" --- 流式 JSON 输出"
+      ],
+      "option": [
+        {
+          "name": "--auto",
+          "tip": [
+            "启用工具支持的代理模式并自动批准。"
+          ]
+        },
+        {
+          "name": "--continue",
+          "tip": [
+            "继续此工作区最近的会话。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出摘要 JSON。"
+          ]
+        },
+        {
+          "name": "--output-format",
+          "tip": [
+            "U: --output-format <FORMAT>",
+            "输出格式。"
+          ],
+          "next": [
+            {
+              "name": "stream-json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--resume",
+          "tip": [
+            "U: --resume <SESSION_ID>",
+            "通过 ID 或前缀恢复之前的会话。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--session-id",
+          "tip": [
+            "U: --session-id <SESSION_ID>",
+            "通过 ID 或前缀恢复之前的会话。"
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "features",
+      "tip": [
+        "U: features [ARGS]...",
+        "检查 TUI 功能标志。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "fleet",
+      "tip": [
+        "U: fleet [ARGS]...",
+        "通过 TUI 运行时管理持久化代理舰队运行。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "fork",
+      "tip": [
+        "U: fork [ARGS]...",
+        "分叉已保存的 TUI 会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init [ARGS]...",
+        "在当前目录创建默认的 AGENTS.md。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "lane",
+      "tip": [
+        "U: lane <COMMAND>",
+        "管理工作流实例（Lanes）和运行时后端。"
+      ],
+      "next": [
+        {
+          "name": "attach",
+          "tip": [
+            "U: attach [OPTIONS] <LANE_ID>",
+            "附加到 tmux 支持的 lane（打印附加命令；尽可能执行）。"
+          ],
+          "option": [
+            {
+              "name": "--print",
+              "tip": [
+                "仅打印附加命令；不执行。"
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "interrupt",
+          "tip": [
+            "U: interrupt [OPTIONS] <LANE_ID>",
+            "中断运行中的 lane。接受精确的 lane id，可选地用 <lane-id>@<seq> 围栏。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "输出 JSON。"
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [OPTIONS]",
+            "列出已知的 lanes（最新优先）。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "输出 JSON。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logs",
+          "tip": [
+            "U: logs [OPTIONS] <LANE_ID>",
+            "跟踪 lane stream-json / NDJSON 日志。"
+          ],
+          "option": [
+            {
+              "name": "--follow",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --follow",
+                "跟踪日志文件（类似 tail -f）。"
+              ]
+            },
+            {
+              "name": "--tail",
+              "tip": [
+                "U: --tail <TAIL>",
+                "不跟踪时的尾部行数（默认 50）。"
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "U: restart [OPTIONS] <LANE_ID>",
+            "原地重启 lane（已声明，无后端 — 报告原因）。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "输出 JSON。"
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "resume",
+          "tip": [
+            "U: resume [OPTIONS] <LANE_ID>",
+            "恢复已停止的 lane（已声明，无后端 — 报告原因）。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "输出 JSON。"
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "start",
+          "tip": [
+            "U: start [OPTIONS] [COMMAND]...",
+            "在运行时后端（tmux|inline|vm|ci）下启动 lane。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "tip": [
+                "U: --branch <BRANCH>",
+                "工作树的分支名称（需要 --worktree-repo）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--fleet",
+              "tip": [
+                "U: --fleet <FLEET>",
+                "舰队名册名称（例如 stopship）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--goal",
+              "tip": [
+                "U: --goal <GOAL>",
+                "自由格式目标文本。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--issue",
+              "tip": [
+                "U: --issue <ISSUE>",
+                "issue id 绑定。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--runtime",
+              "tip": [
+                "U: --runtime <RUNTIME>",
+                "运行时后端。"
+              ],
+              "next": [
+                {
+                  "name": "ci"
+                },
+                {
+                  "name": "inline"
+                },
+                {
+                  "name": "tmux"
+                },
+                {
+                  "name": "vm"
+                }
+              ]
+            },
+            {
+              "name": "--workflow",
+              "tip": [
+                "U: --workflow <WORKFLOW>",
+                "工作流名称（例如 stopship）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-path",
+              "tip": [
+                "U: --worktree-path <DIR>",
+                "工作树路径（默认为 <repo>/.codewhale/lanes/<lane-id>）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-repo",
+              "tip": [
+                "U: --worktree-repo <DIR>",
+                "在此仓库根目录下创建隔离的工作树。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-ttl-secs",
+              "tip": [
+                "U: --worktree-ttl-secs <WORKTREE_TTL_SECS>",
+                "停止后工作树清理 TTL 秒数（0 = 立即清理）。"
+              ],
+              "next": 0
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "status",
+          "tip": [
+            "U: status [OPTIONS] <LANE_ID>",
+            "显示一个 lane 的状态和附加元数据。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "输出 JSON。"
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "U: stop <LANE_ID>",
+            "停止运行中的 lane 并运行工作树 TTL 清理。lane interrupt 的兼容拼写。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "U: login [OPTIONS]",
+        "配置提供商凭据。"
+      ],
+      "option": [
+        {
+          "name": "--api-key",
+          "tip": [
+            "U: --api-key <API_KEY>",
+            "提供商的 API 密钥。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "删除已保存的认证状态。"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "U: mcp [ARGS]...",
+        "管理 TUI MCP 服务器。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "mcp-server",
+      "tip": [
+        "通过 stdio 运行 MCP 服务器模式。"
+      ]
+    },
+    {
+      "name": "metrics",
+      "tip": [
+        "U: metrics [OPTIONS]",
+        "从审计日志和会话存储中打印使用量汇总。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON。"
+          ]
+        },
+        {
+          "name": "--since",
+          "tip": [
+            "U: --since <DURATION>",
+            "限制为比此时长更新的事件（例如 7d、24h、30m、now-2h）。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "model",
+      "tip": [
+        "U: model <COMMAND>",
+        "解析或列出跨提供商的可用模型。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "U: list [OPTIONS]",
+            "列出可用模型。"
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "按提供商过滤。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "resolve",
+          "tip": [
+            "U: resolve [OPTIONS] [MODEL]",
+            "将模型名称解析为其完整标识符。"
+          ],
+          "option": [
+            {
+              "name": "--provider",
+              "tip": [
+                "U: --provider <PROVIDER>",
+                "按提供商过滤。"
+              ],
+              "next": [
+                {
+                  "name": "anthropic"
+                },
+                {
+                  "name": "arcee"
+                },
+                {
+                  "name": "atlascloud"
+                },
+                {
+                  "name": "deepinfra"
+                },
+                {
+                  "name": "deepseek"
+                },
+                {
+                  "name": "fireworks"
+                },
+                {
+                  "name": "huggingface"
+                },
+                {
+                  "name": "long-cat"
+                },
+                {
+                  "name": "meta"
+                },
+                {
+                  "name": "minimax"
+                },
+                {
+                  "name": "minimax-anthropic"
+                },
+                {
+                  "name": "moonshot"
+                },
+                {
+                  "name": "novita"
+                },
+                {
+                  "name": "nvidia-nim"
+                },
+                {
+                  "name": "ollama"
+                },
+                {
+                  "name": "openai"
+                },
+                {
+                  "name": "openai-codex"
+                },
+                {
+                  "name": "opencode-go"
+                },
+                {
+                  "name": "opencode-zen"
+                },
+                {
+                  "name": "openmodel"
+                },
+                {
+                  "name": "openrouter"
+                },
+                {
+                  "name": "sakana"
+                },
+                {
+                  "name": "sglang"
+                },
+                {
+                  "name": "siliconflow"
+                },
+                {
+                  "name": "siliconflow-cn"
+                },
+                {
+                  "name": "stepfun"
+                },
+                {
+                  "name": "together"
+                },
+                {
+                  "name": "vllm"
+                },
+                {
+                  "name": "volcengine"
+                },
+                {
+                  "name": "wanjie-ark"
+                },
+                {
+                  "name": "xai"
+                },
+                {
+                  "name": "xiaomi-mimo"
+                },
+                {
+                  "name": "zai"
+                }
+              ]
+            }
+          ],
+          "next": 0
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <MODEL>",
+            "设置默认模型（例如 pro、flash、deepseek-v4-pro）。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "tip": [
+        "U: models [ARGS]...",
+        "通过 TUI 二进制文件列出实时提供商 API 模型。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "rc",
+      "tip": [
+        "U: rc [ARGS]...",
+        "启动交互式会话并将其交给 Codewhale Web 应用。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "remote-setup",
+      "tip": [
+        "U: remote-setup [OPTIONS]",
+        "生成远程 Codewhale 代理部署包（云 + 聊天桥接）。"
+      ],
+      "option": [
+        {
+          "name": "--apply",
+          "tip": [
+            "运行云 CLI 自动配置（尚未实现）。"
+          ]
+        },
+        {
+          "name": "--bridge",
+          "tip": [
+            "U: --bridge <BRIDGE>",
+            "聊天桥接标识符。跳过提示。"
+          ],
+          "next": [
+            {
+              "name": "feishu"
+            },
+            {
+              "name": "telegram"
+            }
+          ]
+        },
+        {
+          "name": "--cloud",
+          "tip": [
+            "U: --cloud <CLOUD>",
+            "云目标标识符。跳过提示。"
+          ],
+          "next": [
+            {
+              "name": "azure"
+            },
+            {
+              "name": "digitalocean"
+            },
+            {
+              "name": "lighthouse"
+            }
+          ]
+        },
+        {
+          "name": "--generate-only",
+          "tip": [
+            "仅生成部署包，不进行配置（默认）。"
+          ]
+        },
+        {
+          "name": "--non-interactive",
+          "tip": [
+            "如果缺少任何必需值则失败，而不是提示输入。"
+          ]
+        },
+        {
+          "name": "--out",
+          "tip": [
+            "U: --out <DIR>",
+            "部署包输出目录（默认 ./codewhale-deploy/<cloud>-<bridge>）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--provider",
+          "tip": [
+            "U: --provider <PROVIDER>",
+            "提供商标识符；根据提供商注册表进行验证。跳过提示。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--yes",
+          "tip": [
+            "跳过最终确认步骤（CI / 非交互式）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "resume",
+      "tip": [
+        "U: resume [ARGS]...",
+        "恢复已保存的 TUI 会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "review",
+      "tip": [
+        "U: review [ARGS]...",
+        "对 git diff 运行 Codewhale 驱动的代码审查。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run [ARGS]...",
+        "通过 TUI 二进制文件运行交互式/非交互式流程。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "sandbox",
+      "tip": [
+        "U: sandbox <COMMAND>",
+        "评估沙箱/审批策略决策。"
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "U: check [OPTIONS] <COMMAND>",
+            "检查命令的沙箱策略。"
+          ],
+          "option": [
+            {
+              "name": "--ask",
+              "tip": [
+                "U: --ask <ASK>",
+                "审批请求模式。"
+              ],
+              "next": [
+                {
+                  "name": "never"
+                },
+                {
+                  "name": "on-failure"
+                },
+                {
+                  "name": "on-request"
+                },
+                {
+                  "name": "unless-trusted"
+                }
+              ]
+            }
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "U: serve [ARGS]...",
+        "运行本地 TUI 服务器。"
+      ],
+      "option": [
+        {
+          "name": "--acp",
+          "tip": [
+            "通过 stdio 为编辑器客户端启动 ACP 服务器。"
+          ]
+        },
+        {
+          "name": "--auth-token",
+          "tip": [
+            "U: --auth-token <TOKEN>",
+            "要求 /v1/* 运行时 API 路由使用此承载令牌。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cors-origin",
+          "tip": [
+            "U: --cors-origin <URL>",
+            "允许的额外 CORS 来源（可重复）。"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--host",
+          "tip": [
+            "U: --host <HOST>",
+            "绑定主机（默认 127.0.0.1；--mobile 默认为 0.0.0.0）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--http",
+          "tip": [
+            "启动运行时 HTTP/SSE API 服务器。"
+          ]
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "未配置令牌时禁用运行时 API 认证。"
+          ]
+        },
+        {
+          "name": "--mcp",
+          "tip": [
+            "通过 stdio 启动 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "--mobile",
+          "tip": [
+            "启动运行时 HTTP/SSE API 服务器和移动端控制页面。"
+          ]
+        },
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "绑定端口（默认：7878）。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--qr",
+          "tip": [
+            "显示移动端 URL 的二维码（需要 --mobile）。"
+          ]
+        },
+        {
+          "name": "--web",
+          "tip": [
+            "启动嵌入式仅环回浏览器客户端。"
+          ]
+        },
+        {
+          "name": "--workers",
+          "tip": [
+            "U: --workers <WORKERS>",
+            "后台任务工作线程数（1-8）。"
+          ],
+          "next": 0
+        }
+      ],
+      "next": 0
+    },
+    {
+      "name": "sessions",
+      "tip": [
+        "U: sessions [ARGS]...",
+        "列出已保存的 TUI 会话。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "U: setup [ARGS]...",
+        "引导设置 MCP 配置和/或技能目录。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "speech",
+      "alias": [
+        "tts"
+      ],
+      "tip": [
+        "U: speech|tts [ARGS]...",
+        "使用小米 MiMo TTS 模型通过 TUI 二进制文件生成语音音频。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "thread",
+      "tip": [
+        "U: thread <COMMAND>",
+        "管理线程/会话元数据和恢复/分叉流程。"
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "tip": [
+            "U: archive <THREAD_ID>",
+            "归档线程。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "clear-name",
+          "tip": [
+            "U: clear-name <THREAD_ID>",
+            "删除线程的自定义名称，恢复 thread list 中的默认 (unnamed) 渲染。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "fork",
+          "tip": [
+            "U: fork <THREAD_ID>",
+            "分叉线程。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "list",
+          "tip": [
+            "U: list [OPTIONS]",
+            "列出线程。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "显示所有线程，包括已归档的。"
+              ]
+            },
+            {
+              "name": "--limit",
+              "tip": [
+                "U: --limit <LIMIT>",
+                "要显示的最大线程数。"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "read",
+          "tip": [
+            "U: read <THREAD_ID>",
+            "读取线程内容。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "resume",
+          "tip": [
+            "U: resume <THREAD_ID>",
+            "恢复线程。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "set-name",
+          "tip": [
+            "U: set-name <THREAD_ID> <NAME>",
+            "为线程设置自定义名称。"
+          ],
+          "next": 0
+        },
+        {
+          "name": "unarchive",
+          "tip": [
+            "U: unarchive <THREAD_ID>",
+            "取消归档线程。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "U: update [OPTIONS]",
+        "检查并应用 codewhale 二进制文件的更新。"
+      ],
+      "option": [
+        {
+          "name": "--beta",
+          "tip": [
+            "更新到最新的 beta 版本而不是最新的稳定版本。"
+          ]
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "仅检查最新版本；不下载或替换二进制文件。"
+          ]
+        },
+        {
+          "name": "--proxy",
+          "tip": [
+            "U: --proxy <URL>",
+            "用于更新 HTTP 请求的代理 URL。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "tip": [
+        "U: web [OPTIONS]",
+        "通过规范的 Runtime API 打开一流的本地浏览器客户端。"
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "tip": [
+            "U: --port <PORT>",
+            "本地 Runtime API 和嵌入式客户端的环回端口（默认：7878）。"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "workflow",
+      "tip": [
+        "U: workflow <COMMAND>",
+        "通过 Lane 运行时后端运行已签入的工作流。"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "U: run [OPTIONS] --fleet <FLEET> <WORKFLOW>",
+            "通过 Runtime 支持的 Lane 运行已签入的工作流。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "tip": [
+                "U: --branch <BRANCH>",
+                "工作树的分支名称（需要 --worktree-repo）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--fleet",
+              "tip": [
+                "U: --fleet <FLEET>",
+                "命名的舰队名册（例如 stopship）。角色解析的工作流运行必需。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--goal",
+              "tip": [
+                "U: --goal <GOAL>",
+                "记录在 Lane 上并传递给工作流参数的自由格式目标文本。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--issue",
+              "tip": [
+                "U: --issue <ISSUE>",
+                "记录在 Lane 上并传递给工作流参数的 issue id 绑定。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--runtime",
+              "tip": [
+                "U: --runtime <RUNTIME>",
+                "运行时后端。"
+              ],
+              "next": [
+                {
+                  "name": "ci"
+                },
+                {
+                  "name": "inline"
+                },
+                {
+                  "name": "tmux"
+                },
+                {
+                  "name": "vm"
+                }
+              ]
+            },
+            {
+              "name": "--source-path",
+              "tip": [
+                "U: --source-path <PATH>",
+                "显式工作流源路径，覆盖基于名称的解析。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--token-budget",
+              "tip": [
+                "U: --token-budget <TOKEN_BUDGET>",
+                "可选的共享工作流 token 预算。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--verify",
+              "tip": [
+                "在工作流成功完成后运行验证器门控。"
+              ]
+            },
+            {
+              "name": "--worktree-path",
+              "tip": [
+                "U: --worktree-path <DIR>",
+                "工作树路径（默认为 <repo>/.codewhale/lanes/<lane-id>）。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-repo",
+              "tip": [
+                "U: --worktree-repo <DIR>",
+                "在此仓库根目录下创建隔离的工作树。"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--worktree-ttl-secs",
+              "tip": [
+                "U: --worktree-ttl-secs <WORKTREE_TTL_SECS>",
+                "停止后工作树清理 TTL 秒数（0 = 立即清理）。"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--api-key",
+      "tip": [
+        "U: --api-key <API_KEY>",
+        "提供商的 API 密钥。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--approval-policy",
+      "tip": [
+        "U: --approval-policy <APPROVAL_POLICY>",
+        "审批策略。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--base-url",
+      "tip": [
+        "U: --base-url <BASE_URL>",
+        "提供商 API 的基础 URL。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "U: --config <CONFIG>",
+        "配置文件路径。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "tip": [
+        "U: -c, --continue",
+        "继续此工作区最近的交互式会话。"
+      ]
+    },
+    {
+      "name": "--log-level",
+      "tip": [
+        "U: --log-level <LOG_LEVEL>",
+        "日志级别。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--model",
+      "tip": [
+        "U: --model <MODEL>",
+        "要使用的模型。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--mouse-capture",
+      "tip": [
+        "在 TUI 中启用鼠标捕获。"
+      ]
+    },
+    {
+      "name": "--no-mouse-capture",
+      "tip": [
+        "在 TUI 中禁用鼠标捕获。"
+      ]
+    },
+    {
+      "name": "--no-project-config",
+      "tip": [
+        "跳过加载项目级配置，包括来自用户配置的工作区特定覆盖。必须出现在子命令之前。"
+      ]
+    },
+    {
+      "name": "--output-mode",
+      "tip": [
+        "U: --output-mode <OUTPUT_MODE>",
+        "输出模式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--profile",
+      "tip": [
+        "U: --profile <PROFILE>",
+        "要使用的配置配置文件。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "tip": [
+        "U: -p, --prompt <PROMPT>",
+        "传递给模型的提示。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--provider",
+      "tip": [
+        "U: --provider <PROVIDER>",
+        "提供商选择器；exec/fleet 也接受已配置的自定义提供商标识符。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--sandbox-mode",
+      "tip": [
+        "U: --sandbox-mode <SANDBOX_MODE>",
+        "沙箱模式。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--skip-onboarding",
+      "tip": [
+        "跳过入门流程。"
+      ]
+    },
+    {
+      "name": "--telemetry",
+      "tip": [
+        "U: --telemetry <TELEMETRY>",
+        "启用或禁用遥测。"
+      ],
+      "next": [
+        {
+          "name": "false"
+        },
+        {
+          "name": "true"
+        }
+      ]
+    },
+    {
+      "name": "--verbosity",
+      "tip": [
+        "U: --verbosity <LEVEL>",
+        "控制转录和输出详细程度。"
+      ],
+      "next": [
+        {
+          "name": "concise"
+        },
+        {
+          "name": "normal"
+        }
+      ]
+    },
+    {
+      "name": "--workspace",
+      "alias": [
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --workspace <DIR>",
+        "TUI 文件工具的工作区目录。"
+      ],
+      "next": 0
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本。"
+      ]
+    }
+  ]
+}

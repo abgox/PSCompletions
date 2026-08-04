@@ -1,0 +1,2196 @@
+{
+  "meta": {
+    "url": "https://atuin.sh",
+    "description": [
+      "魔法 shell 历史记录",
+      "Atuin 使用 SQLite 数据库取代你现有的命令行历史记录，并为你的命令记录额外的上下文信息"
+    ]
+  },
+  "next": [
+    {
+      "name": "account",
+      "tip": [
+        "管理你的同步账户"
+      ],
+      "next": [
+        {
+          "name": "change-password",
+          "tip": [
+            "修改密码"
+          ],
+          "option": [
+            {
+              "name": "--current-password",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --current-password <CURRENT_PASSWORD>",
+                "当前密码"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--new-password",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --new-password <NEW_PASSWORD>",
+                "新密码"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--totp-code",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --totp-code <TOTP_CODE>",
+                "账户的两步验证代码（如果有）"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "删除你的账户和所有同步数据"
+          ],
+          "option": [
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --password <PASSWORD>",
+                "密码"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--totp-code",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --totp-code <TOTP_CODE>",
+                "账户的两步验证代码（如果有）"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "将你的 CLI 同步账户链接到 Hub 账户"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "登录到配置的服务器"
+          ],
+          "option": [
+            {
+              "name": "--key",
+              "alias": [
+                "-k"
+              ],
+              "tip": [
+                "U: -k, --key <KEY>",
+                "账户的加密密钥"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --password <PASSWORD>",
+                "密码"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--totp-code",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --totp-code <TOTP_CODE>",
+                "账户的两步验证代码（如果有）"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--username",
+              "alias": [
+                "-u"
+              ],
+              "tip": [
+                "U: -u, --username <USERNAME>",
+                "用户名"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "登出"
+          ]
+        },
+        {
+          "name": "register",
+          "tip": [
+            "注册新账户"
+          ],
+          "option": [
+            {
+              "name": "--email",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --email <EMAIL>",
+                "邮箱"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "tip": [
+                "U: -p, --password <PASSWORD>",
+                "密码"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--username",
+              "alias": [
+                "-u"
+              ],
+              "tip": [
+                "U: -u, --username <USERNAME>",
+                "用户名"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ai",
+      "tip": [
+        "运行 AI 助手"
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "U: init [SHELL]",
+            "初始化 shell 集成",
+            "默认为 'auto'"
+          ]
+        },
+        {
+          "name": "inline",
+          "tip": [
+            "U: inline [COMMAND]",
+            "带小型 TUI 覆盖的内联补全模式"
+          ],
+          "option": [
+            {
+              "name": "--api-endpoint",
+              "tip": [
+                "U: --api-endpoint <API_ENDPOINT>",
+                "自定义 API 端点",
+                "默认从 'ai.endpoint' 设置读取"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--api-token",
+              "tip": [
+                "U: --api-token <API_TOKEN>",
+                "自定义 API 令牌",
+                "默认从 'ai.api_token' 设置读取"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --verbose",
+                "启用详细日志"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "管理配置"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "U: get <KEY>",
+            "从 config.toml 文件或应用默认值和覆盖后获取配置值"
+          ],
+          "option": [
+            {
+              "name": "--resolved",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --resolved",
+                "打印应用默认值和覆盖后的值"
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --verbose",
+                "同时打印配置文件值和解析后的值"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "tip": [
+            "U: print [KEY]",
+            "以 TOML 格式打印 config.toml 文件中的所有配置值",
+            "如果提供了键，则仅打印该键及其所有子项的值"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set <KEY> <VALUE>",
+            "在 config.toml 文件中设置配置值"
+          ],
+          "option": [
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --type <TYPE>",
+                "以显式类型存储值",
+                "默认为 auto"
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "自动确定值的类型"
+                  ]
+                },
+                {
+                  "name": "boolean",
+                  "tip": [
+                    "将值存储为布尔值"
+                  ]
+                },
+                {
+                  "name": "float",
+                  "tip": [
+                    "将值存储为浮点数"
+                  ]
+                },
+                {
+                  "name": "integer",
+                  "tip": [
+                    "将值存储为整数"
+                  ]
+                },
+                {
+                  "name": "string",
+                  "tip": [
+                    "将值存储为字符串"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contributors",
+      "tip": [
+        "列出贡献者"
+      ]
+    },
+    {
+      "name": "daemon",
+      "tip": [
+        "*实验性* 管理后台 daemon"
+      ],
+      "option": [
+        {
+          "name": "--show-logs",
+          "tip": [
+            "同时将 daemon 日志写入控制台（便于调试）"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "restart",
+          "tip": [
+            "重启 daemon（先停止，然后在后台启动）"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "启动 daemon 服务器"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "强制启动: 终止现有 daemon 进程并重置 socket"
+              ]
+            },
+            {
+              "name": "--show-logs",
+              "tip": [
+                "同时将 daemon 日志写入控制台（便于调试）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示 daemon 的当前状态"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "优雅地停止 daemon"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "default-config",
+      "tip": [
+        "打印默认的 atuin 配置 (config.toml)"
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "运行 doctor 以检查常见问题"
+      ]
+    },
+    {
+      "name": "dotfiles",
+      "tip": [
+        "使用 Atuin 管理你的 dotfiles"
+      ],
+      "next": [
+        {
+          "name": "alias",
+          "tip": [
+            "使用 Atuin 管理 shell 别名"
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "tip": [
+                "删除所有别名"
+              ]
+            },
+            {
+              "name": "delete",
+              "tip": [
+                "U: delete <NAME>",
+                "删除一个别名"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出所有别名"
+              ],
+              "option": [
+                {
+                  "name": "--name",
+                  "alias": [
+                    "-n"
+                  ],
+                  "tip": [
+                    "U: -n, --name <NAME>",
+                    "按名称过滤别名（子字符串匹配）"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--reverse",
+                  "alias": [
+                    "-r"
+                  ],
+                  "tip": [
+                    "U: -r, --reverse",
+                    "按降序排序"
+                  ]
+                },
+                {
+                  "name": "--sort-by",
+                  "tip": [
+                    "U: --sort-by <SORT_BY>",
+                    "按字段排序结果",
+                    "默认为 name"
+                  ],
+                  "next": [
+                    {
+                      "name": "name",
+                      "tip": [
+                        "按别名名称排序"
+                      ]
+                    },
+                    {
+                      "name": "value",
+                      "tip": [
+                        "按别名值排序"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--value",
+                  "alias": [
+                    "-v"
+                  ],
+                  "tip": [
+                    "U: -v, --value <VALUE>",
+                    "按值过滤别名（子字符串匹配）"
+                  ],
+                  "next": 0
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "tip": [
+                "U: set <NAME> <VALUE>",
+                "设置一个别名"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "var",
+          "tip": [
+            "使用 Atuin 管理 shell 和环境变量"
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "tip": [
+                "U: delete <NAME>",
+                "删除一个变量"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出所有变量"
+              ],
+              "option": [
+                {
+                  "name": "--exports-only",
+                  "tip": [
+                    "仅显示已导出的变量"
+                  ]
+                },
+                {
+                  "name": "--name",
+                  "alias": [
+                    "-n"
+                  ],
+                  "tip": [
+                    "U: -n, --name <NAME>",
+                    "按名称过滤变量（子字符串匹配）"
+                  ],
+                  "next": 0
+                },
+                {
+                  "name": "--reverse",
+                  "alias": [
+                    "-r"
+                  ],
+                  "tip": [
+                    "U: -r, --reverse",
+                    "按降序排序"
+                  ]
+                },
+                {
+                  "name": "--shell-only",
+                  "tip": [
+                    "仅显示非导出（shell）变量"
+                  ]
+                },
+                {
+                  "name": "--sort-by",
+                  "tip": [
+                    "U: --sort-by <SORT_BY>",
+                    "按字段排序结果",
+                    "默认为 name"
+                  ],
+                  "next": [
+                    {
+                      "name": "name",
+                      "tip": [
+                        "按变量名称排序"
+                      ]
+                    },
+                    {
+                      "name": "value",
+                      "tip": [
+                        "按变量值排序"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--value",
+                  "alias": [
+                    "-v"
+                  ],
+                  "tip": [
+                    "U: -v, --value <VALUE>",
+                    "按值过滤变量（子字符串匹配）"
+                  ],
+                  "next": 0
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "tip": [
+                "U: set <NAME> <VALUE>",
+                "设置一个变量"
+              ],
+              "option": [
+                {
+                  "name": "--no-export",
+                  "alias": [
+                    "-n"
+                  ],
+                  "tip": [
+                    "U: -n, --no-export",
+                    "不将变量导出到环境"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gen-completions",
+      "tip": [
+        "U: gen-completions --shell <SHELL>",
+        "生成 shell 补全"
+      ],
+      "option": [
+        {
+          "name": "--out-dir",
+          "alias": [
+            "-o"
+          ],
+          "tip": [
+            "U: -o, --out-dir <OUT_DIR>",
+            "设置输出目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--shell",
+          "alias": [
+            "-s"
+          ],
+          "tip": [
+            "U: -s, --shell <SHELL>",
+            "设置生成补全的 shell"
+          ],
+          "next": [
+            {
+              "name": "bash",
+              "tip": [
+                "Bash 补全"
+              ]
+            },
+            {
+              "name": "elvish",
+              "tip": [
+                "Elvish 补全"
+              ]
+            },
+            {
+              "name": "fish",
+              "tip": [
+                "Fish 补全"
+              ]
+            },
+            {
+              "name": "nushell",
+              "tip": [
+                "Nushell 补全"
+              ]
+            },
+            {
+              "name": "powershell",
+              "tip": [
+                "PowerShell 补全"
+              ]
+            },
+            {
+              "name": "zsh",
+              "tip": [
+                "Zsh 补全"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "U: help [COMMAND]",
+        "打印此消息或给定子命令的帮助信息"
+      ]
+    },
+    {
+      "name": "history",
+      "tip": [
+        "操作 shell 历史记录"
+      ],
+      "next": [
+        {
+          "name": "dedup",
+          "tip": [
+            "U: dedup --before <BEFORE> --dupkeep <DUPKEEP>",
+            "删除重复的历史条目（具有相同命令、cwd 和主机名）"
+          ],
+          "option": [
+            {
+              "name": "--before",
+              "alias": [
+                "-b"
+              ],
+              "tip": [
+                "U: -b, --before <BEFORE>",
+                "仅删除在此日期之前添加的结果"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --dry-run",
+                "列出匹配的历史行，但不执行实际删除"
+              ]
+            },
+            {
+              "name": "--dupkeep",
+              "tip": [
+                "U: --dupkeep <DUPKEEP>",
+                "保留多少个最近的重复项"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "end",
+          "tip": [
+            "U: end --exit <EXIT> <ID>",
+            "完成历史记录中的新命令（添加时间和退出代码）"
+          ],
+          "option": [
+            {
+              "name": "--duration",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --duration <DURATION>",
+                "命令的持续时间"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--exit",
+              "alias": [
+                "-e"
+              ],
+              "tip": [
+                "U: -e, --exit <EXIT>",
+                "命令的退出代码"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "init-store",
+          "tip": [
+            "初始化历史存储"
+          ]
+        },
+        {
+          "name": "last",
+          "tip": [
+            "获取最后运行的命令"
+          ],
+          "option": [
+            {
+              "name": "--cmd-only",
+              "tip": [
+                "仅显示命令文本"
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --format <FORMAT>",
+                "输出的格式字符串",
+                "可用变量: {command}, {directory}, {duration}, {user}, {host}, {author}, {intent}, {time}, {session}, {uuid}, {relativetime}"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--human",
+              "tip": [
+                "使用人类可读的时间格式"
+              ]
+            },
+            {
+              "name": "--timezone",
+              "alias": [
+                "--tz"
+              ],
+              "tip": [
+                "U: --tz, --timezone <TIMEZONE>",
+                "以其他时区显示命令时间",
+                "接受 'local'/'l' 或 UTC 偏移量，如 '+9'、'-2:30'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出历史记录中的所有条目"
+          ],
+          "option": [
+            {
+              "name": "--cmd-only",
+              "tip": [
+                "仅显示命令文本"
+              ]
+            },
+            {
+              "name": "--cwd",
+              "alias": [
+                "-c"
+              ],
+              "tip": [
+                "U: -c, --cwd",
+                "按当前工作目录过滤"
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --format <FORMAT>",
+                "输出的格式字符串",
+                "可用变量: {command}, {directory}, {duration}, {user}, {host}, {author}, {intent}, {exit}, {time}, {session}, {uuid}"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--human",
+              "tip": [
+                "使用人类可读的时间格式"
+              ]
+            },
+            {
+              "name": "--print0",
+              "tip": [
+                "以 null 结尾输出，以更好地支持多行"
+              ]
+            },
+            {
+              "name": "--reverse",
+              "alias": [
+                "-r"
+              ],
+              "tip": [
+                "U: -r, --reverse [<REVERSE>]",
+                "反转结果顺序",
+                "默认为 true"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "不反转结果顺序"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "反转结果顺序"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--session",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --session",
+                "按会话过滤"
+              ]
+            },
+            {
+              "name": "--timezone",
+              "alias": [
+                "--tz"
+              ],
+              "tip": [
+                "U: --tz, --timezone <TIMEZONE>",
+                "以其他时区显示命令时间",
+                "接受 'local'/'l' 或 UTC 偏移量，如 '+9'、'-2:30'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "删除匹配配置的排除过滤器的历史条目"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --dry-run",
+                "列出匹配的历史行，但不执行实际删除"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "U: start [COMMAND]...",
+            "在历史记录中开始一个新命令"
+          ],
+          "option": [
+            {
+              "name": "--author",
+              "tip": [
+                "U: --author <AUTHOR>",
+                "此命令的作者，例如 `ellie`、`claude` 或 `copilot`"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--intent",
+              "tip": [
+                "U: --intent <INTENT>",
+                "运行此命令的可选意图/理由"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "tail",
+          "tip": [
+            "从 daemon 实时流式传输历史事件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hook",
+      "tip": [
+        "管理 AI-agent shell 钩子"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "U: install <AGENT>",
+            "为 AI agent 安装钩子，以在 atuin 历史记录中捕获命令"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "从文件导入 shell 历史记录"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "为当前 shell 导入历史记录"
+          ]
+        },
+        {
+          "name": "bash",
+          "tip": [
+            "从 bash 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "从 fish 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "nu",
+          "tip": [
+            "从 nu 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "nu-hist-db",
+          "tip": [
+            "从 nu 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "从 powershell 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "replxx",
+          "tip": [
+            "从 replxx 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "resh",
+          "tip": [
+            "从 resh 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "xonsh",
+          "tip": [
+            "从 xonsh json 文件导入历史记录"
+          ]
+        },
+        {
+          "name": "xonsh-sqlite",
+          "tip": [
+            "从 xonsh sqlite 数据库导入历史记录"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "从 zsh 历史文件导入历史记录"
+          ]
+        },
+        {
+          "name": "zsh-hist-db",
+          "tip": [
+            "从 zsh 历史文件导入历史记录"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "关于 dotfiles 位置和 ENV 变量的信息"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "U: init <SHELL>",
+        "打印 Atuin 的 shell 初始化脚本"
+      ],
+      "option": [
+        {
+          "name": "--disable-ai",
+          "tip": [
+            "禁用 ? 到 Atuin AI 的绑定"
+          ]
+        },
+        {
+          "name": "--disable-ctrl-r",
+          "tip": [
+            "禁用 CTRL-R 到 atuin 的绑定"
+          ]
+        },
+        {
+          "name": "--disable-up-arrow",
+          "tip": [
+            "禁用上箭头键到 atuin 的绑定"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash 设置"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish 设置"
+          ]
+        },
+        {
+          "name": "nu",
+          "tip": [
+            "Nu 设置"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell 设置"
+          ]
+        },
+        {
+          "name": "xonsh",
+          "tip": [
+            "Xonsh 设置"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh 设置"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "key",
+      "tip": [
+        "打印加密密钥以传输到另一台机器"
+      ],
+      "option": [
+        {
+          "name": "--base64",
+          "tip": [
+            "切换为 base64 输出密钥"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kv",
+      "tip": [
+        "获取或设置小型键值对"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <KEYS>...",
+            "删除一个或多个键值对"
+          ],
+          "option": [
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "键值对的命名空间",
+                "默认为 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <KEY>",
+            "检索已保存的值"
+          ],
+          "option": [
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "键值对的命名空间",
+                "默认为 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出命名空间中的所有键，或所有命名空间中的键"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-a"
+              ],
+              "tip": [
+                "U: -a, --all-namespaces",
+                "列出所有命名空间中的所有键"
+              ]
+            },
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "要列出键的命名空间",
+                "默认为 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "rebuild",
+          "tip": [
+            "重建 KV 存储"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "U: set --key <KEY> [VALUE]",
+            "设置一个键值对",
+            "如果未提供 VALUE，则从 stdin 读取"
+          ],
+          "option": [
+            {
+              "name": "--key",
+              "alias": [
+                "-k"
+              ],
+              "tip": [
+                "U: -k, --key <KEY>",
+                "要设置的键"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "tip": [
+                "U: -n, --namespace <NAMESPACE>",
+                "键值对的命名空间",
+                "默认为 'default'"
+              ],
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "登录到配置的服务器"
+      ],
+      "option": [
+        {
+          "name": "--key",
+          "alias": [
+            "-k"
+          ],
+          "tip": [
+            "U: -k, --key <KEY>",
+            "账户的加密密钥"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <PASSWORD>",
+            "密码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--totp-code",
+          "alias": [
+            "-t"
+          ],
+          "tip": [
+            "U: -t, --totp-code <TOTP_CODE>",
+            "账户的两步验证代码（如果有）"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <USERNAME>",
+            "用户名"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "登出"
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "启动 MCP 服务器，向 AI 工具公开历史搜索 (stdio)"
+      ]
+    },
+    {
+      "name": "pty-proxy",
+      "tip": [
+        "atuin 的 PTY 代理"
+      ],
+      "option": [
+        {
+          "name": "--debug-osc133",
+          "tip": [
+            "高亮显示 OSC 133 提示符、输入、输出和退出代码区域"
+          ]
+        },
+        {
+          "name": "--shell",
+          "tip": [
+            "U: --shell <PATH>",
+            "atuin pty-proxy 应启动的 shell 二进制文件路径",
+            "默认为系统登录 shell",
+            "仅在未提供子命令时有效"
+          ],
+          "next": 0
+        }
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "U: init [SHELL]",
+            "打印 shell 代码以在 shell 启动时初始化 atuin pty-proxy",
+            "如果省略，则尝试自动检测"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "register",
+      "tip": [
+        "在配置的服务器上注册"
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --email <EMAIL>",
+            "邮箱"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "tip": [
+            "U: -p, --password <PASSWORD>",
+            "密码"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--username",
+          "alias": [
+            "-u"
+          ],
+          "tip": [
+            "U: -u, --username <USERNAME>",
+            "用户名"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "scripts",
+      "tip": [
+        "使用 Atuin 管理你的脚本"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "tip": [
+            "U: delete <NAME>",
+            "删除一个脚本"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "tip": [
+                "U: -f, --force",
+                "强制删除，无需确认"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "U: edit <NAME>",
+            "编辑一个脚本"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --description <DESCRIPTION>",
+                "脚本的描述"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-edit",
+              "tip": [
+                "跳过打开编辑器"
+              ]
+            },
+            {
+              "name": "--no-tags",
+              "tip": [
+                "移除脚本的所有标签"
+              ]
+            },
+            {
+              "name": "--rename",
+              "tip": [
+                "U: --rename <RENAME>",
+                "重命名脚本"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--script",
+              "tip": [
+                "U: --script <SCRIPT>",
+                "脚本内容"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--shebang",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --shebang <SHEBANG>",
+                "脚本的 shebang"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tags",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tags <TAGS>",
+                "用这些新标签替换所有现有标签"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "U: get <NAME>",
+            "获取一个脚本"
+          ],
+          "option": [
+            {
+              "name": "--script",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --script",
+                "仅显示带 shebang 的可执行脚本"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有脚本"
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "U: new <NAME>",
+            "创建一个新脚本"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "alias": [
+                "-d"
+              ],
+              "tip": [
+                "U: -d, --description <DESCRIPTION>",
+                "脚本的描述"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--last",
+              "tip": [
+                "U: --last [<LAST>]",
+                "使用最后一条命令作为脚本内容",
+                "可选指定数字以使用最后 N 条命令"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--no-edit",
+              "tip": [
+                "使用 --last 时跳过打开编辑器"
+              ]
+            },
+            {
+              "name": "--script",
+              "tip": [
+                "U: --script <SCRIPT>",
+                "脚本内容"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--shebang",
+              "alias": [
+                "-s"
+              ],
+              "tip": [
+                "U: -s, --shebang <SHEBANG>",
+                "脚本的 shebang"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tags",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tags <TAGS>",
+                "脚本的标签"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "U: run <NAME>",
+            "运行一个脚本"
+          ],
+          "option": [
+            {
+              "name": "--var",
+              "alias": [
+                "-v"
+              ],
+              "tip": [
+                "U: -v, --var <VAR>",
+                "以 KEY=VALUE 格式指定模板变量",
+                "可以多次指定"
+              ],
+              "repeat": 99,
+              "next": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "tip": [
+        "U: search [QUERY]...",
+        "交互式历史搜索"
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "tip": [
+            "U: --after <AFTER>",
+            "仅包含在此日期之后的结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--author",
+          "tip": [
+            "U: --author <AUTHOR>",
+            "按作者过滤",
+            "支持 $all-user（非 agent）、$all-agent 或字面名称",
+            "可以多次指定"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--before",
+          "alias": [
+            "-b"
+          ],
+          "tip": [
+            "U: -b, --before <BEFORE>",
+            "仅包含在此日期之前添加的结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--cmd-only",
+          "tip": [
+            "仅显示命令文本"
+          ]
+        },
+        {
+          "name": "--cwd",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --cwd <CWD>",
+            "按目录过滤搜索结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--delete",
+          "tip": [
+            "删除匹配此查询的任何内容",
+            "不会打印匹配项"
+          ]
+        },
+        {
+          "name": "--delete-it-all",
+          "tip": [
+            "删除所有内容！"
+          ]
+        },
+        {
+          "name": "--exclude-cwd",
+          "tip": [
+            "U: --exclude-cwd <EXCLUDE_CWD>",
+            "从结果中排除目录"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exclude-exit",
+          "tip": [
+            "U: --exclude-exit <EXCLUDE_EXIT>",
+            "排除具有此退出代码的结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--exit",
+          "alias": [
+            "-e"
+          ],
+          "tip": [
+            "U: -e, --exit <EXIT>",
+            "按退出代码过滤搜索结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter-mode",
+          "tip": [
+            "U: --filter-mode <FILTER_MODE>",
+            "允许覆盖配置中的过滤模式"
+          ],
+          "next": [
+            {
+              "name": "directory",
+              "tip": [
+                "目录范围"
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "全局范围"
+              ]
+            },
+            {
+              "name": "host",
+              "tip": [
+                "主机范围"
+              ]
+            },
+            {
+              "name": "session",
+              "tip": [
+                "会话范围"
+              ]
+            },
+            {
+              "name": "session-preload",
+              "tip": [
+                "会话预加载范围"
+              ]
+            },
+            {
+              "name": "workspace",
+              "tip": [
+                "工作区范围"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --format <FORMAT>",
+            "输出的格式字符串",
+            "可用变量: {command}, {directory}, {duration}, {user}, {host}, {time}, {exit}, {relativetime}"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--human",
+          "tip": [
+            "使用人类可读的时间格式"
+          ]
+        },
+        {
+          "name": "--include-duplicates",
+          "tip": [
+            "在输出中包含重复命令（仅非交互式）"
+          ]
+        },
+        {
+          "name": "--inline-height",
+          "tip": [
+            "U: --inline-height <INLINE_HEIGHT>",
+            "设置 Atuin 界面占用的最大行数"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "tip": [
+            "U: -i, --interactive",
+            "打开交互式搜索 UI"
+          ]
+        },
+        {
+          "name": "--keymap-mode",
+          "tip": [
+            "U: --keymap-mode <KEYMAP_MODE>",
+            "通知 shell 端的键映射",
+            "默认为 auto"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动检测键映射"
+              ]
+            },
+            {
+              "name": "emacs",
+              "tip": [
+                "Emacs 键映射"
+              ]
+            },
+            {
+              "name": "vim-insert",
+              "tip": [
+                "Vim 插入模式键映射"
+              ]
+            },
+            {
+              "name": "vim-normal",
+              "tip": [
+                "Vim 普通模式键映射"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--limit",
+          "tip": [
+            "U: --limit <LIMIT>",
+            "最多返回多少条结果"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--offset",
+          "tip": [
+            "U: --offset <OFFSET>",
+            "从结果开头偏移"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--print0",
+          "tip": [
+            "以 null 结尾输出，以更好地处理多行"
+          ]
+        },
+        {
+          "name": "--reverse",
+          "alias": [
+            "-r"
+          ],
+          "tip": [
+            "U: -r, --reverse",
+            "反转结果顺序，最旧的优先"
+          ]
+        },
+        {
+          "name": "--search-mode",
+          "tip": [
+            "U: --search-mode <SEARCH_MODE>",
+            "允许覆盖配置中的搜索模式",
+            "对于非交互式搜索，'daemon-fuzzy' 和 'skim' 的行为类似于 'fuzzy'"
+          ],
+          "next": [
+            {
+              "name": "daemon-fuzzy",
+              "tip": [
+                "Daemon 模糊搜索"
+              ]
+            },
+            {
+              "name": "full-text",
+              "tip": [
+                "全文搜索"
+              ]
+            },
+            {
+              "name": "fuzzy",
+              "tip": [
+                "模糊搜索"
+              ]
+            },
+            {
+              "name": "prefix",
+              "tip": [
+                "前缀搜索"
+              ]
+            },
+            {
+              "name": "skim",
+              "tip": [
+                "Skim 搜索"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--shell",
+          "tip": [
+            "U: --shell <SHELL>",
+            "按运行命令时使用的 shell 过滤",
+            "如果多次传递，将显示来自任何 shell 的命令",
+            "使用 \"\" 可包含 shell 未知的命令"
+          ],
+          "repeat": 99,
+          "next": 0
+        },
+        {
+          "name": "--timezone",
+          "alias": [
+            "--tz"
+          ],
+          "tip": [
+            "U: --tz, --timezone [<TIMEZONE>]",
+            "以其他时区显示命令时间",
+            "接受 'local'/'l' 或 UTC 偏移量，如 '+9'、'-2:30'"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "tip": [
+        "设置 Atuin 功能"
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "U: stats [PERIOD]...",
+        "计算历史记录的统计数据"
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "alias": [
+            "-c"
+          ],
+          "tip": [
+            "U: -c, --count <COUNT>",
+            "列出多少个最常用命令",
+            "默认为 10"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--filter-mode",
+          "tip": [
+            "U: --filter-mode <FILTER_MODE>",
+            "按范围过滤命令"
+          ],
+          "next": [
+            {
+              "name": "directory",
+              "tip": [
+                "目录范围"
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "全局范围"
+              ]
+            },
+            {
+              "name": "host",
+              "tip": [
+                "主机范围"
+              ]
+            },
+            {
+              "name": "session",
+              "tip": [
+                "会话范围"
+              ]
+            },
+            {
+              "name": "session-preload",
+              "tip": [
+                "会话预加载范围"
+              ]
+            },
+            {
+              "name": "workspace",
+              "tip": [
+                "工作区范围"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ngram-size",
+          "alias": [
+            "-n"
+          ],
+          "tip": [
+            "U: -n, --ngram-size <NGRAM_SIZE>",
+            "考虑的连续命令数量",
+            "默认为 1"
+          ],
+          "next": 0
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "显示同步状态"
+      ]
+    },
+    {
+      "name": "store",
+      "tip": [
+        "管理 atuin 数据存储"
+      ],
+      "next": [
+        {
+          "name": "pull",
+          "tip": [
+            "从远程同步服务器拉取记录（单向同步）"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "强制拉取记录",
+                "先清空本地存储，然后从远程下载所有记录"
+              ]
+            },
+            {
+              "name": "--page",
+              "tip": [
+                "U: --page <PAGE>",
+                "页大小: 一次下载多少条记录",
+                "默认为 100"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tag <TAG>",
+                "要拉取的标签（例如 'history'）",
+                "默认为所有标签"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "purge",
+          "tip": [
+            "删除存储中无法用当前密钥解密的所有记录"
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "将所有记录推送到远程同步服务器（单向同步）"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "强制推送记录",
+                "将覆盖主机和标签为所有主机和所有标签",
+                "先清空远程存储，然后上传所有本地存储"
+              ]
+            },
+            {
+              "name": "--host",
+              "tip": [
+                "U: --host <HOST>",
+                "要推送的主机，格式为 UUID 主机 ID",
+                "默认为当前主机"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--page",
+              "tip": [
+                "U: --page <PAGE>",
+                "页大小: 一次上传多少条记录",
+                "默认为 100"
+              ],
+              "next": 0
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "tip": [
+                "U: -t, --tag <TAG>",
+                "要推送的标签（例如 'history'）",
+                "默认为所有标签"
+              ],
+              "next": 0
+            }
+          ]
+        },
+        {
+          "name": "rebuild",
+          "tip": [
+            "U: rebuild <TAG>",
+            "重建存储（例如 atuin store rebuild history）"
+          ]
+        },
+        {
+          "name": "rekey",
+          "tip": [
+            "U: rekey [KEY]",
+            "使用新密钥重新加密存储（可能导致数据丢失！）",
+            "省略 KEY 则随机生成密钥"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "打印记录存储的当前状态"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "验证存储中的所有记录都可以用当前密钥解密"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "与配置的服务器同步"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "tip": [
+            "U: -f, --force",
+            "强制重新下载所有内容"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uuid",
+      "tip": [
+        "生成一个 UUID"
+      ]
+    },
+    {
+      "name": "wrapped",
+      "tip": [
+        "U: wrapped [YEAR]",
+        "显示年度总结"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "打印版本"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "打印帮助"
+      ]
+    }
+  ]
+}

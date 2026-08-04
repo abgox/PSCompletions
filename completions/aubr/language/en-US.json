@@ -1,0 +1,421 @@
+{
+  "meta": {
+    "url": "https://aube.jdx.dev",
+    "description": [
+      "Run a script defined in package.json (aube run standalone)"
+    ]
+  },
+  "option": [
+    {
+      "name": "--color",
+      "tip": [
+        "Force colored output even when stderr is not a TTY"
+      ]
+    },
+    {
+      "name": "--diag",
+      "tip": [
+        "U: --diag [<MODE>]",
+        "Enable cold-install diagnostics"
+      ],
+      "next": [
+        {
+          "name": "full",
+          "tip": [
+            "Full diagnostic mode"
+          ]
+        },
+        {
+          "name": "live",
+          "tip": [
+            "Live diagnostic mode"
+          ]
+        },
+        {
+          "name": "summary",
+          "tip": [
+            "Summary diagnostic mode"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace diagnostic mode"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--diag-file",
+      "tip": [
+        "U: --diag-file <PATH>",
+        "Path for diag JSONL trace"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--diag-threshold-ms",
+      "tip": [
+        "U: --diag-threshold-ms <MS>",
+        "Live mode threshold ms"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--disable-global-virtual-store",
+      "alias": [
+        "--disable-gvs"
+      ],
+      "tip": [
+        "U: --disable-gvs, --disable-global-virtual-store",
+        "Force off shared global virtual store"
+      ]
+    },
+    {
+      "name": "--enable-global-virtual-store",
+      "alias": [
+        "--enable-gvs"
+      ],
+      "tip": [
+        "U: --enable-gvs, --enable-global-virtual-store",
+        "Force on shared global virtual store"
+      ]
+    },
+    {
+      "name": "--fail-if-no-match",
+      "tip": [
+        "Error when workspace selector matches nothing"
+      ]
+    },
+    {
+      "name": "--fetch-retries",
+      "tip": [
+        "U: --fetch-retries <N>",
+        "Number of retry attempts"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-factor",
+      "tip": [
+        "U: --fetch-retry-factor <N>",
+        "Exponential backoff factor"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-maxtimeout",
+      "tip": [
+        "U: --fetch-retry-maxtimeout <MS>",
+        "Upper bound ms"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-retry-mintimeout",
+      "tip": [
+        "U: --fetch-retry-mintimeout <MS>",
+        "Lower bound ms"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--fetch-timeout",
+      "tip": [
+        "U: --fetch-timeout <MS>",
+        "Per-request HTTP timeout"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "tip": [
+        "U: -F, --filter <WORKSPACE>",
+        "Scope to workspace packages"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--filter-prod",
+      "tip": [
+        "U: --filter-prod <PATTERN>",
+        "Production-only filter"
+      ],
+      "repeat": 99,
+      "next": 0
+    },
+    {
+      "name": "--frozen-lockfile",
+      "tip": [
+        "Error if lockfile drifts"
+      ]
+    },
+    {
+      "name": "--if-present",
+      "tip": [
+        "Don't error if the script is missing from package.json"
+      ]
+    },
+    {
+      "name": "--inspect",
+      "tip": [
+        "U: --inspect[=<[[HOST:]PORT]>]",
+        "Forward --inspect to Node-backed script"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--inspect-brk",
+      "tip": [
+        "U: --inspect-brk[=<[[HOST:]PORT]>]",
+        "Forward --inspect-brk"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--loglevel",
+      "tip": [
+        "U: --loglevel <LEVEL>",
+        "Set log level"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug level logging"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level logging"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info level logging"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent mode - no logging"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace level logging"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning level logging"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-bail",
+      "tip": [
+        "Continue recursive execution after script fails"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Disable colored output"
+      ]
+    },
+    {
+      "name": "--no-frozen-lockfile",
+      "tip": [
+        "Always re-resolve even if lockfile is up to date"
+      ]
+    },
+    {
+      "name": "--no-install",
+      "tip": [
+        "Skip auto-install check"
+      ]
+    },
+    {
+      "name": "--no-sort",
+      "tip": [
+        "Disable topological sorting"
+      ]
+    },
+    {
+      "name": "--parallel",
+      "tip": [
+        "Run script in every matched workspace concurrently"
+      ]
+    },
+    {
+      "name": "--prefer-frozen-lockfile",
+      "tip": [
+        "Use lockfile when fresh, re-resolve when stale"
+      ]
+    },
+    {
+      "name": "--prefix",
+      "alias": [
+        "--dir",
+        "--cd",
+        "-C"
+      ],
+      "tip": [
+        "U: -C, --cd, --dir, --prefix <DIR>",
+        "Change to directory before running"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --recursive",
+        "Run across every workspace package"
+      ]
+    },
+    {
+      "name": "--registry",
+      "tip": [
+        "U: --registry <URL>",
+        "Override default registry URL"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--report-summary",
+      "tip": [
+        "Write recursive run summary file"
+      ]
+    },
+    {
+      "name": "--reporter",
+      "tip": [
+        "U: --reporter <NAME>",
+        "Output format"
+      ],
+      "next": [
+        {
+          "name": "append-only",
+          "tip": [
+            "Append-only output format"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "Default output format"
+          ]
+        },
+        {
+          "name": "ndjson",
+          "tip": [
+            "Newline-delimited JSON format"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent output - no reporter output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--reporter-hide-prefix",
+      "tip": [
+        "Hide <package>: label on parallel output lines"
+      ]
+    },
+    {
+      "name": "--resume-from",
+      "tip": [
+        "U: --resume-from <PACKAGE>",
+        "Resume recursive execution starting at package"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "Reverse recursive execution order"
+      ]
+    },
+    {
+      "name": "--silent",
+      "tip": [
+        "Suppress all non-error output"
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "Sort recursive packages topologically (default override for earlier --no-sort)"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "tip": [
+        "U: -v, --verbose",
+        "Enable verbose/debug logging (shortcut for --loglevel debug)"
+      ]
+    },
+    {
+      "name": "--workspace-concurrency",
+      "tip": [
+        "U: --workspace-concurrency <N>",
+        "Cap concurrent recursive packages"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--workspace-root",
+      "tip": [
+        "Run from workspace root"
+      ]
+    },
+    {
+      "name": "-s",
+      "tip": [
+        "Suppress wrapper output while still showing script stdout/stderr"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "tip": [
+        "U: -h, --help",
+        "Print help"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "tip": [
+        "U: -V, --version",
+        "Print version and check for updates"
+      ]
+    }
+  ]
+}
