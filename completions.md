@@ -11,6 +11,10 @@
 |[7z](https://7-zip.org/)|The command line interface of 7-Zip.|
 |[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
 |[aria2c](https://aria2.github.io)|Lightweight multi-protocol and multi-source download utility.|
+|[atuin](https://atuin.sh)|Magical shell history.<br>Atuin replaces your existing shell history with a SQLite database, and records additional context for your commands.|
+|[aube](https://aube.jdx.dev)|A fast Node.js package manager|
+|[aubr](https://aube.jdx.dev)|Run a script defined in package.json (aube run standalone)|
+|[aubx](https://aube.jdx.dev)|Fetch a package into a throwaway environment and run its binary (aube dlx standalone)|
 |[b2sum](https://uutils.org)|Compute and check BLAKE2 message digests.|
 |[b3sum](https://uutils.org)|Compute and check BLAKE3 message digests.|
 |[base32](https://uutils.org)|Encode/decode data and print to standard output.|
@@ -25,10 +29,12 @@
 |[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - a free HTTP protocol file sharing server.|
 |[choco](https://chocolatey.org/)|Chocolatey software manager.|
+|[chsrc](https://chsrc.run)|Change Source everywhere for every software.|
 |[cksum](https://uutils.org)|Print CRC and size for each file.|
 |[claude](https://docs.anthropic.com/en/docs/claude-code)|Claude Code - Anthropic's AI-powered coding assistant in the terminal.|
 |[cmake](https://cmake.org)|Cross-platform build system generator.|
 |[code](https://code.visualstudio.com)|Command line interface of Visual Studio Code.|
+|[codewhale](https://codewhale.net)|Open-source, community-driven terminal coding agent for DeepSeek V4 and other models.|
 |[codex](https://github.com/openai/codex)|Codex CLI - AI-powered coding assistant by OpenAI.|
 |[comm](https://uutils.org)|Compare two sorted files line by line.|
 |[conda](https://github.com/conda/conda)|Binary package and environment manager.|
@@ -141,6 +147,7 @@
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
 |[python](https://www.python.org)|Python interpreter command-line.|
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
+|[reasonix](https://reasonix.io)|A DeepSeek-native AI coding agent for your terminal.|
 |[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
 |[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
@@ -176,6 +183,7 @@
 |[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI tool<br>Deploy, manage, and develop on Cloudflare's edge platform|
 |[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal helper utility.|
 |[wsl](https://github.com/microsoft/WSL)|Windows Subsystem for Linux.|
+|[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL container CLI — build, run and interact with Linux containers built into WSL.|
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal command line.|
 |[xh](https://github.com/ducaale/xh)|A friendly and fast tool for sending HTTP requests<br>HTTPie alternative written in Rust|
 |[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|

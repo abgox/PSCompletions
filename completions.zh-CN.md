@@ -11,6 +11,10 @@
 |[7z](https://7-zip.org/)|7-Zip 的命令行界面。|
 |[adb](https://developer.android.com/tools/adb)|Android 调试桥命令行工具。|
 |[aria2c](https://aria2.github.io)|轻量级多协议多源下载工具。|
+|[atuin](https://atuin.sh)|魔法 shell 历史记录<br>Atuin 使用 SQLite 数据库取代你现有的命令行历史记录，并为你的命令记录额外的上下文信息|
+|[aube](https://aube.jdx.dev)|一个快速的 Node.js 包管理器|
+|[aubr](https://aube.jdx.dev)|运行 package.json 中定义的脚本（aube run 独立版本）|
+|[aubx](https://aube.jdx.dev)|将包下载到临时环境并运行其二进制文件 (aube dlx 独立版)|
 |[b2sum](https://uutils.org)|计算和校验 BLAKE2 消息摘要。|
 |[b3sum](https://uutils.org)|计算和校验 BLAKE3 消息摘要。|
 |[base32](https://uutils.org)|编码/解码数据并输出到标准输出。|
@@ -25,10 +29,12 @@
 |[chezmoi](https://chezmoi.io)|在多台不同的机器上安全管理你的 dotfiles|
 |[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - 免费的 HTTP 协议文件共享服务器。|
 |[choco](https://chocolatey.org/)|Chocolatey 软件管理器。|
+|[chsrc](https://chsrc.run)|全平台通用换源工具与框架。|
 |[cksum](https://uutils.org)|输出每个文件的 CRC 和大小。|
 |[claude](https://docs.anthropic.com/en/docs/claude-code)|Claude Code - Anthropic 的终端 AI 编程助手。|
 |[cmake](https://cmake.org)|跨平台构建系统生成器。|
 |[code](https://code.visualstudio.com)|Visual Studio Code 的命令行界面。|
+|[codewhale](https://codewhale.net)|面向 DeepSeek V4 及其他模型、由社区驱动的开源终端代码智能代理|
 |[codex](https://github.com/openai/codex)|Codex CLI - OpenAI 的 AI 编程助手。|
 |[comm](https://uutils.org)|逐行比较两个已排序的文件。|
 |[conda](https://github.com/conda/conda)|二进制包和环境管理器。|
@@ -141,6 +147,7 @@
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
 |[python](https://www.python.org)|Python 解释器命令行。|
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
+|[reasonix](https://reasonix.io)|面向终端的 DeepSeek 原生 AI 编码智能体。|
 |[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - 递归搜索当前目录中匹配正则表达式的行。|
 |[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
@@ -176,6 +183,7 @@
 |[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI 工具<br>在 Cloudflare 的边缘平台上部署、管理和开发|
 |[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal 辅助工具。|
 |[wsl](https://github.com/microsoft/WSL)|适用于 Linux 的 Windows 子系统。|
+|[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL 容器 CLI —— 构建、运行 WSL 内置的 Linux 容器并与之交互。|
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal 命令行。|
 |[xh](https://github.com/ducaale/xh)|一个友好且快速的 HTTP 请求发送工具。<br>用 Rust 编写的 HTTPie 替代品。|
 |[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
