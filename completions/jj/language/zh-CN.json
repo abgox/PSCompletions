@@ -158,7 +158,7 @@
                 "-r"
               ],
               "tip": [
-                "U: -r, --revision, --to <REVSET>",
+                "U: -r, --to, --revision <REVSET>",
                 "书签的目标修订版本 [默认: @]"
               ],
               "next": []
@@ -211,6 +211,7 @@
                 "-a"
               ],
               "tip": [
+                "U: -a, --all-remotes",
                 "显示所有跟踪和非跟踪远程书签，包括那些其目标与本地书签同步的书签"
               ]
             },
@@ -220,6 +221,7 @@
                 "-c"
               ],
               "tip": [
+                "U: -c, --conflicted",
                 "仅显示冲突书签"
               ]
             },
@@ -267,6 +269,7 @@
                 "-t"
               ],
               "tip": [
+                "U: -t, --tracked",
                 "仅显示远程跟踪书签。默认情况下省略本地 Git 跟踪书签"
               ]
             }
@@ -310,6 +313,7 @@
                 "-B"
               ],
               "tip": [
+                "U: -B, --allow-backwards",
                 "允许将书签向后或向侧面移动"
               ]
             },
@@ -320,7 +324,7 @@
                 "-r"
               ],
               "tip": [
-                "U: -r, --revision, --to <REVSET>",
+                "U: -r, --to, --revision <REVSET>",
                 "书签的目标修订版本 [默认: @]"
               ],
               "next": []
@@ -831,7 +835,7 @@
             "-o"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "要复制到的修订版本（可重复执行以创建合并提交）"
           ],
           "repeat": 99,
@@ -844,7 +848,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "要插入后的修订版本（可重复执行以创建合并提交）"
           ],
           "repeat": 99,
@@ -857,7 +861,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "要插入前的修订版本（可重复执行以创建合并提交）"
           ],
           "repeat": 99,
@@ -925,7 +929,14 @@
             "限制显示的修订版本数量",
             "在对修订内容进行拓扑排序后、反转处理前应用。"
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "100"
+            }
+          ]
         },
         {
           "name": "--name-only",
@@ -1829,7 +1840,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "在给定提交之后插入新变更"
           ],
           "next": []
@@ -1841,7 +1852,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "在给定提交之前插入新变更"
           ],
           "next": []
@@ -2031,7 +2042,7 @@
             "-d"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "变基目标（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2044,7 +2055,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "在给定提交之后插入新变更（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2057,7 +2068,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "在给定提交之前插入新变更（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2202,7 +2213,7 @@
             "-t"
           ],
           "tip": [
-            "U: -t, --into, --to <REVSET>",
+            "U: -t, --to, --into <REVSET>",
             "要恢复到的修订（目标）"
           ],
           "next": []
@@ -2236,7 +2247,7 @@
             "-d"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "要将反转变更应用到其上的修订"
           ],
           "repeat": 99,
@@ -2249,7 +2260,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "要将反转变更插入其后的修订（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2262,7 +2273,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "要将反转变更插入其之前的修订（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2311,7 +2322,17 @@
             "应并行运行多少个进程",
             "覆盖 run.jobs 配置设置。如果两者都未设置，则默认为 1"
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
         },
         {
           "name": "--restore-descendants",
@@ -2552,7 +2573,7 @@
             "-d"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "要将选定变更变基到的目标修订（可重复以创建合并提交）",
             "将选定的变更提取为基于给定修订的新提交"
           ],
@@ -2573,7 +2594,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "要插入其后的修订（可重复以创建合并提交）",
             "将选定的变更提取为插入给定修订之后的新提交"
           ],
@@ -2587,7 +2608,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "要插入其之前的修订（可重复以创建合并提交）",
             "将选定的变更提取为插入给定修订之前的新提交"
           ],
@@ -2683,7 +2704,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "（实验性）要在其后插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
           "repeat": 99,
@@ -2696,7 +2717,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "（实验性）要在其之前插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
           "repeat": 99,
@@ -2719,7 +2740,7 @@
             "-t"
           ],
           "tip": [
-            "U: -t, --into, --to <REVSET>",
+            "U: -t, --to, --into <REVSET>",
             "合并到的修订 (默认: @)"
           ],
           "next": []
@@ -2991,7 +3012,7 @@
         "--at-op"
       ],
       "tip": [
-        "U: --at-operation, --at-op <AT_OPERATION>",
+        "U: --at-op, --at-operation <AT_OPERATION>",
         "要加载的操作"
       ],
       "next": 0

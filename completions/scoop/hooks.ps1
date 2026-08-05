@@ -51,7 +51,7 @@ function handleCompletions($completions) {
                 'rm' {
                     $items = Get-ChildItem $buckets_dir 2>$null
                     foreach ($_ in $items) {
-                        add $_.Name $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.bucket.rm)
+                        add $_.Name
                     }
                 }
             }
@@ -417,7 +417,7 @@ if (`$c.description) {
                     $path = $_.FullName
                     $cache = $part[0..1] -join '#'
                     if ($cache -in $unknown_text) { continue }
-                    add $cache $PSCompletions.replace_content($PSCompletions.completions.scoop.info.tip.cache.rm) 'stay'
+                    add $cache $path 'stay'
                 }
             }
         }
