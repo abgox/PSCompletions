@@ -1,6 +1,6 @@
 # PSCompletions
 
-A completion manager for a better and simpler tab-completion experience in PowerShell.
+A tab-completion manager for PowerShell. This repo maintains **completion definitions** for many CLI tools: each tool has a JSON manifest describing its subcommands, options, aliases, and tooltips. A PowerShell module reads these manifests at runtime so that typing a command like `git <Tab>` shows rich completions with explanations.
 
 ## Directives
 
@@ -9,6 +9,7 @@ Every file you produce **MUST** strictly conform to the rules defined in this do
 - **Follow every rule exactly.** Do not skip, relax, or reinterpret any specification.
 - **Do not invent conventions.** If a rule does not cover the case you are facing, stop and ask the operator for guidance. Never assume or fabricate a rule to unblock yourself.
 - **When in doubt, ask.** An incorrect assumption is far more costly than a clarifying question.
+- **This document covers the common rules.** For advanced or rarely-used features (hooks, per-completion `config`, `info` templates, predict symbols), consult the official docs (https://pscompletions.abgox.com) or ask — don't guess.
 
 ## Project Structure
 
@@ -25,8 +26,10 @@ PSCompletions/
 ├── schema/                   # JSON Schema definitions
 ├── scripts/
 │   ├── create-completion.ps1 # Scaffold new completion from template
-│   ├── compare-json.ps1      # Diff + sort
+│   ├── compare-json.ps1      # Diff + sort (supports -Json structured output for automation)
 │   ├── sort-json.ps1         # Normalize field order (called internally by compare-json.ps1)
+│   ├── validate-completion.ps1 # Comprehensive validation: schema + config.json + hooks.ps1 + compare-json rules
+│   ├── check-completion.ps1  # CI/PR check: scans changed completions, runs validation, posts a structured report
 │   ├── link-completion.ps1   # Link completion to local env for live testing (optional)
 │   ├── template/             # Template files for new completions
 │   └── language/             # Multi-language text for scripts themselves
@@ -38,13 +41,50 @@ PSCompletions/
 
 **Scope reminder**: Only _edit_ files under `completions/<command>/`. Running scripts under `scripts/` is expected and required — the scope restriction applies to "where you can write", not "which scripts you can run".
 
+## How It Works
+
+Every command has its own **completion context** — what appears in that command's completion menu. A context is made of **subcommands** (`next`) and **options** (`option`); `global_option` items are available at every level.
+
+The module loads a tool's manifest and builds this tree. Typing `git <Tab>` builds the menu from `git`'s root context. Selecting a subcommand moves you **into that subcommand's context**; selecting an option keeps you in the current context (unless the option itself defines `next`/`option` values, which moves into that option's context).
+
+**Context inheritance**: a command that does not define its own context automatically uses the **previous command's** context. A subcommand that already appears in the menu (a "known" item) inherits the previous context but hides sibling subcommands at the same level.
+
+Each menu item may carry a **predict symbol** showing how selecting it changes the context:
+
+| Symbol | Config item | Meaning                                                             |
+| ------ | ----------- | ------------------------------------------------------------------- |
+| `~`    | `continue`  | Switches to a new context                                           |
+| `?`    | `stay`      | Stays in the current context                                        |
+| `!`    | `input`     | Stays in the current context; may require manually entering a value |
+
+An item's `next` field tells the engine what follows it:
+
+| `next`  | Meaning                                    | Symbol |
+| ------- | ------------------------------------------ | ------ |
+| `0`     | an arbitrary value the user types manually | `!`    |
+| `[]`    | values provided dynamically by `hooks.ps1` | `~`    |
+| `[...]` | a fixed list of values to complete from    | `~`    |
+
+The manifest is **data, not code** — nothing executes except the `{{ ... }}` template expressions in `tip` (evaluated only when a tooltip is displayed).
+
+> See also: [Completion Context](https://pscompletions.abgox.com/en-us/docs/completion-context) — the core concept behind how the completion menu is built.
+
+**Example — the `git` experience:**
+
+```
+git <Tab>             → add, branch, checkout, commit, ...   (next)
+git add <Tab>         → --all, --patch, --dry-run, ...       (add's option)
+git stash <Tab>       → apply, pop, show, ...                (stash's next)
+git stash apply <Tab> → stash names supplied by hooks        (next: [])
+```
+
 ## Workflow (follow this order every time)
 
 1. **Generate scaffold**: `.\scripts\create-completion.ps1 <command>`
 2. **Collect CLI info** (see "Collecting Command Info" below)
 3. **Write `en-US.json`**, following the [JSON Schema](./schema/completion-manifest.en-US.json) — after writing, review it against the schema field definitions
 4. **Run**: `.\scripts\compare-json.ps1 <command>` — sort + cross-language structure/translation completeness check
-5. **Fix all reported issues**, re-run step 4 until clean
+5. **Fix all reported issues** (see "Validation & Design Rules" for what each issue means and how to fix it), re-run step 4 until clean
 6. **Translate to `zh-CN.json`**
 7. **Run again**: `.\scripts\compare-json.ps1 <command>`
 
@@ -58,6 +98,15 @@ Step-by-step process:
 2. For **each** subcommand with further subcommands, run `<command> <subcommand> --help`
 3. Continue recursively until you have all subcommands and their options
 4. For each subcommand, record: full name, aliases, description, every option (including aliases, whether it takes a value), and whether any option/parameter has a fixed set of allowed values (see `next` field rules below — this affects how you encode it).
+
+**Spotting preset values in help output**: help text often lists an option's allowed/example values — recognize them and map them to `next: [...]`:
+
+- "Possible values: a, b, c" / "Valid values: ..." / "Values: ..."
+- parenthesized groups: `(a | b | c)` or `(a, b, c)`
+- bracketed groups: `[a|b|c]` or `[a, b, c]`
+- a list right after the option's placeholder in the usage line
+
+Even when the help shows no such list, if an option's value has a recognizable shape (status codes, numbers, IDs, time formats), add a few **representative example values** via `next: [...]` so users can pick one instead of typing blindly (e.g. `--status-code` → `[200, 404, 500]`, `--since <TIME>` → `["2024-01-01", "1h"]`). Keep `next: 0` only for genuinely free-form values.
 
 **Example for a tool like `git`:**
 
@@ -74,6 +123,7 @@ git push --help               # Get options for 'push'
 - If the tool uses `help` subcommand instead of `--help`, use `<command> help <subcommand>`
 - If `--help` output is sparse or missing option descriptions, check official docs
 - If updating an existing completion for a new version, check changelogs/release notes
+- **If the tool is not installed locally**, fetch its docs instead: official website, GitHub README, or `--help` output shown in the project's docs/release notes. Don't skip a subcommand's options just because you can't run it — dig until you have them.
 
 ## Generated Scaffold Files
 
@@ -88,6 +138,8 @@ completions/<command>/
 ```
 
 With `-AddHooks` parameter, `hooks.ps1` is also generated.
+
+Before writing, skim a few existing completions to match the house style — e.g. `completions/git/` (deep nesting, hooks), `completions/psc/` (template expressions), or any simple tool like `completions/fd/`.
 
 ## Completion Data Structure
 
@@ -187,6 +239,17 @@ With `-AddHooks` parameter, `hooks.ps1` is also generated.
 
 **Empty arrays must be removed entirely** — don't keep `"option": []`.
 
+The `config` and `info` fields are advanced. For real usage, see [Json file structure](https://pscompletions.abgox.com/en-us/docs/completion/json) and the `completions/git/` completion.
+
+### Template Expressions (`{{ }}`)
+
+`tip` and `description` lines may contain `{{ ... }}` templates, evaluated by the module only when a tooltip is displayed:
+
+- Reference `info` data: `{{ $info.xxx }}`
+- Reference runtime values: `{{ $PSCompletions.config.xxx }}` (see `completions/psc/` for advanced examples)
+
+`compare-json.ps1` counts two languages' tips as "translated" when both are identical `{{*}}` templates, so a template is usually written once (English) and copied to `zh-CN.json` unchanged — the displayed tooltip evaluates the same template for both languages.
+
 ### `next` — Subcommand List
 
 ```jsonc
@@ -204,6 +267,9 @@ With `-AddHooks` parameter, `hooks.ps1` is also generated.
 
 - `name`: Longest/full form. Must be wrapped in quotes if it contains spaces.
 - `alias`: All remaining shorter forms. Don't put short forms in `name` or long forms in `alias`.
+
+> **Two different orderings — don't confuse them.** In the JSON structure, `name` is the longest (canonical) form and `alias` lists the remaining forms **longest → shortest** (the data model: `name` is the item's identity). In the `U:` line, the same forms are shown **shortest → longest** (`-f, --force`, `rm|remove`) — a display convention that matches CLI `--help`. Keep them as they are; the `U:` order is not a mistake.
+
 - `option`: **Options specific to this subcommand**, only shown after typing `<command> install`.
 - `next`: Arguments/sub-subcommands for this subcommand.
 
@@ -219,7 +285,7 @@ With `-AddHooks` parameter, `hooks.ps1` is also generated.
 
 **Boolean options** (no value needed): Don't include `next` field.
 
-**Options that take a value**: Add `"next": 0` to indicate user needs to input a value.
+**Options that take a value**: use `next: [...]` when you know the value's shape (allowed values or representative examples), otherwise `next: 0`. See the `next` field rules below.
 
 **Repeatable options**: Add `"repeat": N` where N is the max number of times the option can appear. Use a specific number when known (e.g., `2` for `-v -v`); use `99` only when the limit is unknown or effectively unlimited:
 
@@ -238,8 +304,13 @@ With `-AddHooks` parameter, `hooks.ps1` is also generated.
 
 ### `next` Field
 
-- `next: 0`: Takes a value, but no fixed options (e.g., path, arbitrary string)
-- `next: [...]`: Fixed list of allowed values. **Use this whenever help text specifies allowed values**
+- `next: 0`: Takes a value with no known candidates — the user must type it manually (e.g., a path, an arbitrary string). The module shows an `input` symbol.
+- `next: []`: Takes a value whose candidates are **provided dynamically by `hooks.ps1`** rather than statically. Only use when `hooks: true`. The module shows a `continue` symbol and appends hook results to the (empty) static list.
+- `next: [...]`: A list of values to complete from. Use it in two cases:
+  - **Fixed allowed values** — the help text enumerates them (an enum). List all of them.
+  - **Deterministic examples** — the value isn't an enumerated set but has a known shape (status codes, numbers, IDs, time formats). Provide a few representative examples so the user can pick one instead of typing blindly; the module offers them as completions but the user can still type any value. E.g. `--status-code` → `[200, 404, 500]`, `--limit <N>` → `[1, 2]`, `--since <TIME>` → `["2024-01-01", "1h"]`.
+
+Prefer `next: [...]` over `next: 0` whenever you know the value's shape well enough to give representative examples; keep `next: 0` only for genuinely free-form values.
 
 ```json
 {
@@ -265,6 +336,8 @@ If `hooks: true` is enabled, `hooks.ps1` dynamically generated completions are *
 
 Don't put the same option in both `option` and `global_option`. Subcommand's own `option` inherits `global_option` — no need to repeat.
 
+**Duplicate detection**: an option counts as a duplicate only if it is **fully structurally identical** to a `global_option` entry — same `name`, `alias`, `tip`, `next`, `option`, and all nested substructure. If the description or `next` differs in any way, they are **different** options: when you reach a subcommand context, the module uses the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by removing the subcommand/root copy and keeping the one in `global_option` — the module shows `global_option` at every level, so the copy is redundant.
+
 ### Duplicate Prevention
 
 No duplicate `name` within the same array. `compare-json.ps1` matches by `name` and silently overwrites duplicates without error.
@@ -273,9 +346,11 @@ No duplicate `name` within the same array. `compare-json.ps1` matches by `name` 
 
 - Each array element is one line, no inline line breaks allowed.
 - Spaces required between Chinese/English/number characters.
-- **Usage line (`U:`)** — provides invocation syntax. Only add when it shows something the option name alone doesn't tell the user.
-  - **Must add `U:` when**: the option has an alias, or takes an argument/value.
-  - **Must NOT add `U:` when**: the option has no alias AND no argument — just a boolean flag like `--dry-run`, `--enable-color`, `--force`. Writing `U: --dry-run` adds zero information over the option name itself.
+- **Usage line (`U:`)** — provides invocation syntax. **`U:` is not mandatory; add it when it conveys something the name alone doesn't.**
+  - **Must add `U:` when**: the item has an alias — the short form must be shown (`U: -f, --force`, `U: rm|remove`).
+  - **Should add `U:` when** (recommended, not mandatory): the item takes a value and you know its shape — e.g. `U: --output <FILE>`, `U: add <PACKAGE>`. Skip it when the value's nature is unknown or unknowable (e.g. `next: []` hook-provided free input) — a vague `U:` adds nothing.
+  - **May add `U:` when** (allowed, not required): the item has no alias and no value, but the `U:` still documents something useful (e.g. important sub-options).
+  - **Must NOT add `U:` when**: the item has no alias and no value, and the line would just repeat the name — e.g. a boolean flag `--dry-run` with `U: --dry-run`, or a subcommand `build` with `U: build`. This is a meaningless `U:`.
   - Subcommands use `|`: `U: add|install <APP>`
   - Options use `,`: `U: -f, --format <FORMAT>`
   - **Always order from short to long** — shorter form comes first: `U: rm|remove`, `U: -g, --global`. Never reverse the order.
@@ -287,27 +362,59 @@ No duplicate `name` within the same array. `compare-json.ps1` matches by `name` 
 **`U:` examples — correct vs wrong:**
 
 ```jsonc
-// Has alias → U: is required
+// Has alias → U: is required (shows the short form)
 { "name": "--force", "alias": ["-f"], "tip": ["U: -f, --force", "Force action"] }
 
-// Has argument → U: is required (shows the user what to write after the flag)
+// Has argument and you know the value → U: is recommended (shows what to write)
 { "name": "--output", "tip": ["U: --output <FILE>", "Output path"], "next": 0 }
+
+// Has argument but the value is unknown → U: may be omitted (optional)
+{ "name": "--script", "tip": ["Run the given script"], "next": 0 }  // OK — no U:
 
 // No alias, no argument → U: must NOT be added
 { "name": "--dry-run", "tip": ["Dry run without changes"] }  // CORRECT
 { "name": "--dry-run", "tip": ["U: --dry-run", "Dry run"] }  // WRONG — meaningless
 ```
 
+## Validation & Design Rules
+
+`compare-json.ps1` enforces the rules below. Fix every reported item until it runs clean.
+
+### U: Line Checks
+
+| Reported issue      | Trigger                                                            | Fix                                                                   |
+| ------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------- | ---------------------------------- | --- |
+| Missing U: line     | item has an **alias** but no `U:` line                             | add `U: <short>, <long>` (option) or `U: <short>                      | <long>` (subcommand)               |
+| Meaningless U: line | no alias, no `next`, and the `U:` line just repeats the name       | remove the `U:` line                                                  |
+| U: line too simple  | the `U:` line equals the name, but the item has an alias or `next` | make the `U:` show the alias and/or a value placeholder, or remove it |
+| U: order wrong      | a long form comes before its short form                            | order short → long: `U: -s, --long` / `U: short                       | long`                              |
+| U: separator wrong  | an option uses `                                                   | `, or a subcommand uses `,`                                           | options use `,`; subcommands use ` | `   |
+
+**Option vs subcommand**: an item is treated as an option (expects `,`) when its name starts with `-`, even if it lives inside a `next` array.
+
+### Options in `next`
+
+Options normally go in `option` / `global_option`. Some flag-only tools (no subcommands — e.g. `gpg`, `eslint`) put every flag in `next`; this works, but the module then treats a flag as a command that switches context, so chaining flags after it can stop completing. Prefer `option` for flags.
+
+### Leaf Value Items
+
+Leaf values inside a `next` array follow the same rules as commands: with an alias they also need a `U:` line (e.g. `U: all|world|everybody`).
+
 ## Pre-completion Checklist
 
 - [ ] Every subcommand in `--help` is in `next` (including sub-subcommands)
 - [ ] Every option of every subcommand is captured, not just top-level `--help` options
 - [ ] Any option with fixed allowed values uses `next: [...]`, not `next: 0`
+- [ ] Options whose value has a known shape (status codes, numbers, times, IDs) provide example values via `next: [...]`, not `next: 0`
+- [ ] `next: []` is only used when `config.json` has `hooks: true`
 - [ ] No duplicate `name` in any array (check `next`, `option`, `global_option`)
 - [ ] No option appears in both a subcommand's `option` and `global_option`
 - [ ] `repeat` only on `option`/`global_option` entries, only when CLI actually allows repetition
 - [ ] Every `tip` has at least one description line (not just a `U:` usage line)
-- [ ] No meaningless `U:` lines — options without alias AND without argument must NOT have `U:`
+- [ ] Every item with an alias has a `U:` line showing the alias
+- [ ] Option aliases use `,` (`U: -f, --force`); subcommand aliases use `|` (`U: rm|remove`)
+- [ ] `U:` lines order short forms first (`U: -s, --long`, not `U: --long, -s`)
+- [ ] No meaningless `U:` lines — when an item has no alias and no value, don't add a `U:` that just repeats the name
 - [ ] `zh-CN.json` and `en-US.json` have identical structure — only `tip` content is translated
 - [ ] `name`, `alias`, and other non-`tip` fields unchanged during translation
 - [ ] No file extensions (`.cmd`, `.exe`, `.bat`) in `config.json` `alias` field
@@ -317,14 +424,22 @@ All items satisfied = task complete. Re-run `compare-json.ps1 <command>` after c
 
 ## Dynamic Completions (`hooks.ps1`)
 
-Only needed when completion content depends on runtime state (local files, env vars, command output) rather than fixed lists. **Hooks append to the static `next` array, not replace it**.
+Use hooks when a static list can't know the real values at authoring time — they depend on **runtime local state** (git branches, npm scripts, installed packages, files, env vars). Dynamic items are **merged** with the static JSON items, not a replacement.
 
-- `$PSCompletions.tokens` — parsed token array, each has `text` and `type`
-- Token types: `command`, `option`, `unknown`, `value`
-- `$PSCompletions.pending` — current token being typed, has `text` and `type`
-- `$PSCompletions.return_completion($name, $tip, $symbol)` — generate one completion item
+> **Before writing a `hooks.ps1`, read the full reference: [Hooks](https://pscompletions.abgox.com/en-us/docs/completion/hooks).** Start from `scripts/template/hooks.ps1`; a working example is `completions/git/hooks.ps1`.
 
-Start from `scripts/template/hooks.ps1`. Reference implementation: `completions/git/hooks.ps1`. If `config.json` has `hooks: true` but no dynamic behavior is needed, remove `hooks: true` and delete `hooks.ps1`.
+Essential contract to get started:
+
+- Every `hooks.ps1` defines `function handleCompletions($completions) { ... return $list + $completions }`. `$completions` is the parsed static data; the function must return the merged array.
+- Inside it, PSCompletions exposes:
+  - `$PSCompletions.tokens` — parsed tokens of the current command line (each has `.text` and `.type`: `command` | `option` | `value` | `unknown`)
+  - `$PSCompletions.pending` — the token currently being typed (`.text`, `.type`)
+  - `$PSCompletions.cmd` — the current command name
+  - `$PSCompletions.return_completion($name, $tip, $symbol)` — build one completion item
+- The template's standard `add` helper filters by the pending input and skips already-typed items — use it to add items.
+- Common pattern: return early when the user is typing an option (`$PSCompletions.pending.text -like '-*'`), then `switch` on the subcommand (`$cmds[0].text`) to add context-specific values.
+
+If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.ps1`.
 
 ## Updating Existing Completions (New Tool Version)
 
