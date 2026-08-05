@@ -158,7 +158,7 @@
                 "-r"
               ],
               "tip": [
-                "U: -r, --revision, --to <REVSET>",
+                "U: -r, --to, --revision <REVSET>",
                 "The bookmark's target revision [default: @]"
               ],
               "next": []
@@ -211,6 +211,7 @@
                 "-a"
               ],
               "tip": [
+                "U: -a, --all-remotes",
                 "Show all tracking and non-tracking remote bookmarks including the ones whose targets are synchronized with the local bookmarks"
               ]
             },
@@ -220,6 +221,7 @@
                 "-c"
               ],
               "tip": [
+                "U: -c, --conflicted",
                 "Show conflicted bookmarks only"
               ]
             },
@@ -267,6 +269,7 @@
                 "-t"
               ],
               "tip": [
+                "U: -t, --tracked",
                 "Show remote tracked bookmarks only. Omits local Git-tracking bookmarks by default"
               ]
             }
@@ -310,6 +313,7 @@
                 "-B"
               ],
               "tip": [
+                "U: -B, --allow-backwards",
                 "Allow moving the bookmark backwards or sideways"
               ]
             },
@@ -320,7 +324,7 @@
                 "-r"
               ],
               "tip": [
-                "U: -r, --revision, --to <REVSET>",
+                "U: -r, --to, --revision <REVSET>",
                 "The bookmark's target revision [default: @]"
               ],
               "next": []
@@ -833,7 +837,7 @@
             "-o"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "The revision(s) to duplicate onto (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -846,7 +850,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "The revision(s) to insert after (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -859,7 +863,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "The revision(s) to insert before (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -927,7 +931,14 @@
             "Limit number of revisions to show",
             "Applied after revisions are reordered topologically, but before being reversed."
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "100"
+            }
+          ]
         },
         {
           "name": "--name-only",
@@ -1830,7 +1841,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "Insert the new change after the given commit(s)"
           ],
           "next": []
@@ -1842,7 +1853,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "Insert the new change before the given commit(s)"
           ],
           "next": []
@@ -2032,7 +2043,7 @@
             "-d"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "The revision(s) to rebase onto (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -2045,7 +2056,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "The revision(s) to insert after (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -2058,7 +2069,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "The revision(s) to insert before (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -2203,7 +2214,7 @@
             "-t"
           ],
           "tip": [
-            "U: -t, --into, --to <REVSET>",
+            "U: -t, --to, --into <REVSET>",
             "Revision to restore into (destination)"
           ],
           "next": []
@@ -2237,7 +2248,7 @@
             "-d"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "The revision(s) to apply the reverse changes on top of"
           ],
           "repeat": 99,
@@ -2250,7 +2261,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "The revision(s) to insert the reverse changes after (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -2263,7 +2274,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "The revision(s) to insert the reverse changes before (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -2312,7 +2323,17 @@
             "How many processes should run in parallel",
             "Overrides the run.jobs config setting. Defaults to 1 if neither is set"
           ],
-          "next": 0
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
         },
         {
           "name": "--restore-descendants",
@@ -2553,7 +2574,7 @@
             "-d"
           ],
           "tip": [
-            "U: -o, --onto, -d, --destination <REVSETS>",
+            "U: -o, -d, --onto, --destination <REVSETS>",
             "The revision(s) to rebase the selected changes onto (can be repeated to create a merge commit)",
             "Extracts the selected changes into a new commit based on the given revision(s)"
           ],
@@ -2574,7 +2595,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "The revision(s) to insert after (can be repeated to create a merge commit)",
             "Extracts the selected changes into a new commit inserted after the given revision(s)"
           ],
@@ -2588,7 +2609,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "The revision(s) to insert before (can be repeated to create a merge commit)",
             "Extracts the selected changes into a new commit inserted before the given revision(s)"
           ],
@@ -2685,7 +2706,7 @@
             "-A"
           ],
           "tip": [
-            "U: -A, --insert-after, --after <REVSETS>",
+            "U: -A, --after, --insert-after <REVSETS>",
             "(Experimental) The revision(s) to insert the new commit after (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -2698,7 +2719,7 @@
             "-B"
           ],
           "tip": [
-            "U: -B, --insert-before, --before <REVSETS>",
+            "U: -B, --before, --insert-before <REVSETS>",
             "(Experimental) The revision(s) to insert the new commit before (can be repeated to create a merge commit)"
           ],
           "repeat": 99,
@@ -2721,7 +2742,7 @@
             "-t"
           ],
           "tip": [
-            "U: -t, --into, --to <REVSET>",
+            "U: -t, --to, --into <REVSET>",
             "Revision to squash into (default: @)"
           ],
           "next": []
@@ -2993,7 +3014,7 @@
         "--at-op"
       ],
       "tip": [
-        "U: --at-operation, --at-op <AT_OPERATION>",
+        "U: --at-op, --at-operation <AT_OPERATION>",
         "Operation to load the repo at"
       ],
       "next": 0

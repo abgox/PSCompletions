@@ -5,7 +5,31 @@
       "GNU Privacy Guard - 一款依据 RFC4880 规范实现的完整且免费的 OpenPGP 标准工具"
     ]
   },
-  "next": [
+  "option": [
+    {
+      "name": "--armor",
+      "alias": [
+        "-a"
+      ],
+      "tip": [
+        "U: -a, --armor",
+        "创建 ASCII 装甲输出。"
+      ]
+    },
+    {
+      "name": "--auto-key-import",
+      "tip": [
+        "从签名中导入缺失的密钥。"
+      ]
+    },
+    {
+      "name": "--auto-key-locate",
+      "tip": [
+        "U: --auto-key-locate <MECHANISMS>",
+        "使用 MECHANISMS 通过邮箱地址定位密钥。"
+      ],
+      "next": 0
+    },
     {
       "name": "--card-status",
       "tip": [
@@ -53,6 +77,14 @@
       ]
     },
     {
+      "name": "--default-key",
+      "tip": [
+        "U: --default-key <NAME>",
+        "使用 NAME 作为默认私钥。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--delete-keys",
       "tip": [
         "从公钥环中删除密钥。"
@@ -72,6 +104,22 @@
       "tip": [
         "U: -b, --detach-sign",
         "创建分离签名。"
+      ]
+    },
+    {
+      "name": "--disable-dirmngr",
+      "tip": [
+        "禁用所有对 dirmngr 的访问。"
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "alias": [
+        "-n"
+      ],
+      "tip": [
+        "U: -n, --dry-run",
+        "不做任何更改。"
       ]
     },
     {
@@ -101,6 +149,14 @@
         "U: -e, --encrypt",
         "加密数据。"
       ]
+    },
+    {
+      "name": "--encrypt-to",
+      "tip": [
+        "U: --encrypt-to <NAME>",
+        "同时加密到用户 ID NAME。"
+      ],
+      "next": 0
     },
     {
       "name": "--export",
@@ -151,9 +207,33 @@
       ]
     },
     {
+      "name": "--group",
+      "tip": [
+        "U: --group <SPEC>",
+        "设置邮箱别名。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--import",
       "tip": [
         "导入/合并密钥。"
+      ]
+    },
+    {
+      "name": "--include-key-block",
+      "tip": [
+        "在签名中包含公钥。"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "tip": [
+        "U: -i, --interactive",
+        "覆盖前进行提示。"
       ]
     },
     {
@@ -189,16 +269,60 @@
       ]
     },
     {
+      "name": "--local-user",
+      "alias": [
+        "-u"
+      ],
+      "tip": [
+        "U: -u, --local-user <USER-ID>",
+        "使用 USER-ID 签名或解密。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--locate-keys",
       "tip": [
         "通过邮箱地址定位密钥。"
       ]
     },
     {
+      "name": "--log-file",
+      "tip": [
+        "U: --log-file <FILE>",
+        "将服务器模式日志写入 FILE。"
+      ],
+      "next": 0
+    },
+    {
       "name": "--lsign-key",
       "tip": [
         "本地签名密钥。"
       ]
+    },
+    {
+      "name": "--openpgp",
+      "tip": [
+        "使用严格的 OpenPGP 行为。"
+      ]
+    },
+    {
+      "name": "--options",
+      "tip": [
+        "U: --options <FILE>",
+        "从 FILE 读取选项。"
+      ],
+      "next": 0
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "tip": [
+        "U: -o, --output <FILE>",
+        "将输出写入 FILE。"
+      ],
+      "next": 0
     },
     {
       "name": "--print-md",
@@ -255,10 +379,31 @@
       ]
     },
     {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "tip": [
+        "U: -q, --quiet",
+        "稍微安静一些。"
+      ]
+    },
+    {
       "name": "--receive-keys",
       "tip": [
         "从密钥服务器导入密钥。"
       ]
+    },
+    {
+      "name": "--recipient",
+      "alias": [
+        "-r"
+      ],
+      "tip": [
+        "U: -r, --recipient <USER-ID>",
+        "为 USER-ID 加密。"
+      ],
+      "next": 0
     },
     {
       "name": "--refresh-keys",
@@ -349,159 +494,6 @@
       ]
     },
     {
-      "name": "--verify",
-      "tip": [
-        "验证签名。"
-      ]
-    }
-  ],
-  "option": [
-    {
-      "name": "--armor",
-      "alias": [
-        "-a"
-      ],
-      "tip": [
-        "U: -a, --armor",
-        "创建 ASCII 装甲输出。"
-      ]
-    },
-    {
-      "name": "--auto-key-import",
-      "tip": [
-        "从签名中导入缺失的密钥。"
-      ]
-    },
-    {
-      "name": "--auto-key-locate",
-      "tip": [
-        "U: --auto-key-locate <MECHANISMS>",
-        "使用 MECHANISMS 通过邮箱地址定位密钥。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--default-key",
-      "tip": [
-        "U: --default-key <NAME>",
-        "使用 NAME 作为默认私钥。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--disable-dirmngr",
-      "tip": [
-        "禁用所有对 dirmngr 的访问。"
-      ]
-    },
-    {
-      "name": "--dry-run",
-      "alias": [
-        "-n"
-      ],
-      "tip": [
-        "U: -n, --dry-run",
-        "不做任何更改。"
-      ]
-    },
-    {
-      "name": "--encrypt-to",
-      "tip": [
-        "U: --encrypt-to <NAME>",
-        "同时加密到用户 ID NAME。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--group",
-      "tip": [
-        "U: --group <SPEC>",
-        "设置邮箱别名。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--include-key-block",
-      "tip": [
-        "在签名中包含公钥。"
-      ]
-    },
-    {
-      "name": "--interactive",
-      "alias": [
-        "-i"
-      ],
-      "tip": [
-        "U: -i, --interactive",
-        "覆盖前进行提示。"
-      ]
-    },
-    {
-      "name": "--local-user",
-      "alias": [
-        "-u"
-      ],
-      "tip": [
-        "U: -u, --local-user <USER-ID>",
-        "使用 USER-ID 签名或解密。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--log-file",
-      "tip": [
-        "U: --log-file <FILE>",
-        "将服务器模式日志写入 FILE。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--openpgp",
-      "tip": [
-        "使用严格的 OpenPGP 行为。"
-      ]
-    },
-    {
-      "name": "--options",
-      "tip": [
-        "U: --options <FILE>",
-        "从 FILE 读取选项。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--output",
-      "alias": [
-        "-o"
-      ],
-      "tip": [
-        "U: -o, --output <FILE>",
-        "将输出写入 FILE。"
-      ],
-      "next": 0
-    },
-    {
-      "name": "--quiet",
-      "alias": [
-        "-q"
-      ],
-      "tip": [
-        "U: -q, --quiet",
-        "稍微安静一些。"
-      ]
-    },
-    {
-      "name": "--recipient",
-      "alias": [
-        "-r"
-      ],
-      "tip": [
-        "U: -r, --recipient <USER-ID>",
-        "为 USER-ID 加密。"
-      ],
-      "next": 0
-    },
-    {
       "name": "--verbose",
       "alias": [
         "-v"
@@ -509,6 +501,12 @@
       "tip": [
         "U: -v, --verbose",
         "详细输出。"
+      ]
+    },
+    {
+      "name": "--verify",
+      "tip": [
+        "验证签名。"
       ]
     }
   ],
