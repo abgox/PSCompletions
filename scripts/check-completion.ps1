@@ -1,4 +1,4 @@
-#Requires -PSEdition Core
+#Requires -Version 7.0
 
 if (-not $env:GITHUB_ACTIONS) {
     throw 'It is a script for workflow'
@@ -40,6 +40,7 @@ $headers = @{
     Accept        = 'application/vnd.github.v3+json'
 }
 
+# 获取 PR 变更文件
 $page = 1
 $files = @()
 $api = "https://api.github.com/repos/$repo/pulls/$pr/files?per_page=100"
@@ -52,81 +53,87 @@ while ($true) {
     $page++
 }
 
-$results = @()
-$labels = [ordered]@{
-    'security-review-needed' = $false
-}
-$hasCompletion = $false
-$hasScriptBlock = $false
-$modifiedCompletions = @()
+# 扫描补全相关文件（language/*.json、config.json、hooks.ps1）
+$changedCompletions = @()
+$hasTemplate = $false
 
 foreach ($file in $files) {
-    $match = $file.filename -match '^completions/([^/]+)/language/(.*)\.json$'
-    if (-not $match) {
+    $fn = $file.filename
+    if ($fn -notmatch '^completions/([^/]+)/(config\.json|hooks\.ps1|language/.+\.json)$') {
         continue
     }
-    $hasCompletion = $true
-
-    $completion = $matches[1]
-
-    if ($completion -notin $modifiedCompletions) {
-        $modifiedCompletions += $completion
+    $completion = $Matches[1]
+    if ($completion -notin $changedCompletions) {
+        $changedCompletions += $completion
     }
 
-    $line = @()
-
-    # Status
-    $line += $file.status
-
-    # Completion
-    $line += $completion
-
-    # Language
-    $line += $matches[2]
-
-    # Script
-    $c = Invoke-RestMethod -Uri $file.raw_url -Headers $headers
-    if ($c -like '*{{*') {
-        $hasScriptBlock = $true
-        $line += 'Yes'
+    if ($file.status -in @('added', 'modified', 'renamed')) {
+        $localPath = [System.IO.Path]::Combine($PSScriptRoot, '..', $fn)
+        if (Test-Path -LiteralPath $localPath) {
+            $content = Get-Content -LiteralPath $localPath -Raw
+            if ($content -like '*{{*') {
+                $hasTemplate = $true
+            }
+        }
     }
-    else {
-        $line += 'No'
-    }
-
-    $results += '|' + ($line -join '|') + '|'
 }
 
-$guide = @'
+$results = @()
+$hasIssues = $false
 
-<details>
-
-<summary>Guide</summary>
-
-<br />
-
-- **Status**: The status of the file in the PR.
-- **Completion**: The completion name.
-- **Language**: The language of the completion.
-- **Template**: Whether the completion contains template expressions, like `{{ xxx }}`.
-
-</details>
-
-'@
-
-if ($hasCompletion) {
+if ($changedCompletions.Count -eq 0) {
     $results = @(
         $marker,
-        $guide,
         '',
-        '| Status | Completion | Language | Template |',
-        '| :-: | :-: | :-: | :-: |'
-    ) + $results
+        '没有补全文件修改。 | No completion files modified.'
+    )
+}
+else {
+    $enFile = [System.IO.Path]::Combine($PSScriptRoot, 'result-validation-en.md')
+    $zhFile = [System.IO.Path]::Combine($PSScriptRoot, 'result-validation-zh.md')
 
-    & $PSScriptRoot\compare-json.ps1 $modifiedCompletions
+    $validationResults = & $PSScriptRoot\validate-completion.ps1 @($changedCompletions) -Lang en-US -OutFile $enFile
+    $null = & $PSScriptRoot\validate-completion.ps1 @($changedCompletions) -Lang zh-CN -OutFile $zhFile
 
-    git -c core.safecrlf=false add -u
-    $jsonChanges = git status --porcelain | Where-Object { $_ -match '\.json$' }
+    $hasIssues = @($validationResults | Where-Object { $_.hasIssues }).Count -gt 0
+
+    $jsonChanges = git diff --name-only -- 'completions/' | Where-Object { $_ -match '\.json$' }
+
+    $results = @(
+        $marker,
+        '',
+        '## 补全检查结果 | Completion Validation',
+        ''
+    )
+
+    if (Test-Path -LiteralPath $zhFile) {
+        $results += @(
+            '',
+            '<details>',
+            '<summary>中文版</summary>',
+            ''
+        )
+        $results += (Get-Content -LiteralPath $zhFile -Raw -ErrorAction SilentlyContinue)
+        $results += @(
+            '',
+            '</details>'
+        )
+    }
+    if (Test-Path -LiteralPath $enFile) {
+        $results += @(
+            '',
+            '<details>',
+            '<summary>English</summary>',
+            ''
+        )
+        $results += (Get-Content -LiteralPath $enFile -Raw -ErrorAction SilentlyContinue)
+        $results += @(
+            '',
+            '</details>'
+        )
+    }
+
+    # 警告：需要排序
     if ($jsonChanges) {
         $results += @(
             '',
@@ -135,33 +142,32 @@ if ($hasCompletion) {
             '> Please run it to sort and compare JSON, then commit the changes.',
             '>',
             '> ```powershell',
-            "> .\scripts\compare-json.ps1 $($modifiedCompletions -join ',')",
-            '> ```'
+            '> .\scripts\compare-json.ps1',
+            '> ```',
+            ''
         )
     }
 
-    if ($hasScriptBlock) {
+    # 警告：模板表达式需人工复核
+    if ($hasTemplate) {
         $results += @(
             '',
             '> [!WARNING]',
             '>',
             '> - Some completions contain template expressions (`{{ xxx }}`) that are evaluated at runtime.',
             '> - Please review them carefully before merging.'
+            ''
         )
     }
 }
-else {
-    $results = @(
-        $marker,
-        '',
-        'No JSON for completion in PR.'
-    )
+
+$results | Out-File -FilePath ([System.IO.Path]::Combine($PSScriptRoot, '..', 'result.md')) -Encoding utf8
+
+$labels = [ordered]@{
+    'check-failed'           = $hasIssues
+    'security-review-needed' = $hasTemplate
 }
 
-$results | Out-File result.md
-
-
-# Labels
 $add_labels = @()
 $rm_labels = @()
 

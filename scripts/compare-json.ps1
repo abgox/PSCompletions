@@ -5,7 +5,8 @@ param(
     [array]$CompletionList,
     [ArgumentCompletions('en-US', 'zh-CN')]
     [string]$BaseLang,
-    [switch]$All
+    [switch]$All,
+    [switch]$Json
 )
 
 Set-StrictMode -Off
@@ -70,6 +71,13 @@ function Compare-Lang {
         valueDiff        = @()
         untranslated     = @()
         duplicateItems   = @()
+        tipOnlyUsage     = @()
+        meaninglessUsage = @()
+        missingUsage     = @()
+        duplicateOptions = @()
+        usageOrder       = @()
+        usageTooSimple   = @()
+        usageSeparator   = @()
     }
 
     function Normalize-Value {
@@ -81,13 +89,15 @@ function Compare-Lang {
                 return , @($Value)
             }
             if ($Key -eq 'alias' -and $Value.Count -eq 0) {
-                return @()
+                return , @()
             }
         }
         if ($Value -is [string] -and $Key -eq 'alias') {
             return , @($Value)
         }
-
+        if ($Value -is [array] -and $Value.Count -eq 0) {
+            return , $Value
+        }
         return $Value
     }
 
@@ -208,7 +218,7 @@ function Compare-Lang {
                     $stats.typeMismatch += @{ path = "$Path$suffix"; name = $Path }
                     return
                 }
-                Compare-NamedArray -BaseArr $baseArr -TargetArr $targetArr -Path $Path
+                Compare-NamedArray -BaseArr $baseArr -TargetArr $targetArr -Path $Path -SkipValueCheck $SkipValueCheck
             }
             else {
                 if ($SkipValueCheck) { return }
@@ -253,8 +263,10 @@ function Compare-Lang {
         foreach ($key in $allKeys) {
             if ($Path -eq 'meta' -and $key -eq 'url') { continue }
 
-            $baseVal = if ($BaseObj -and $BaseObj.ContainsKey($key)) { $BaseObj[$key] } else { $null }
-            $targetVal = if ($TargetObj -and $TargetObj.ContainsKey($key)) { $TargetObj[$key] } else { $null }
+            $baseVal = $null
+            if ($BaseObj -and $BaseObj.ContainsKey($key)) { $baseVal = $BaseObj[$key] }
+            $targetVal = $null
+            if ($TargetObj -and $TargetObj.ContainsKey($key)) { $targetVal = $TargetObj[$key] }
 
             $currentPath = if ($Path) { "$Path > $key" } else { $key }
             $childSkip = $SkipValueCheck -or ($CompletionName -eq 'psc' -and $key -ne 'name')
@@ -264,7 +276,7 @@ function Compare-Lang {
     }
 
     function Compare-NamedArray {
-        param([array]$BaseArr, [array]$TargetArr, [string]$Path)
+        param([array]$BaseArr, [array]$TargetArr, [string]$Path, [bool]$SkipValueCheck = $false)
 
         $targetByName = [System.Collections.Generic.Dictionary[string, object]]::new([System.StringComparer]::Ordinal)
         foreach ($item in $TargetArr) { if ($item.name) { $targetByName[$item.name] = $item } }
@@ -299,6 +311,221 @@ function Compare-Lang {
             }
         }
     }
+
+    function Validate-Tip {
+        param([array]$Tip, [string]$Path)
+
+        if ($null -eq $Tip -or $Tip.Count -eq 0) { return }
+
+        $hasUsage = $false
+        $hasDescription = $false
+
+        foreach ($line in $Tip) {
+            if ($line -match '^U:') {
+                $hasUsage = $true
+            }
+            elseif ($line -match '^E:') {
+                # Example line is OK
+            }
+            else {
+                $hasDescription = $true
+            }
+        }
+
+        if ($hasUsage -and -not $hasDescription) {
+            $stats.tipOnlyUsage += @{ path = $Path; name = $Path }
+        }
+    }
+
+    function Validate-UsageFormat {
+        param([string]$Line, [string]$Path, [bool]$IsOption)
+
+        $u = $Line.Substring(2).Trim()
+        # 提取前导形式块：连续的由逗号/竖线分隔的形式，遇到空格、'<'、'='、'[' 等占位/列举处停止
+        $m = [regex]::Match($u, '^[^\s,|<=\[|]+(?:\s*[,|]\s*[^\s,|<=\[|]+)*')
+        if (-not $m.Success) { return }
+        $block = $m.Value
+        if ($block -notmatch '[,|]') { return }
+
+        $forms = @($block -split '[,|]' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' })
+        $hasPipe = $block.Contains('|')
+        $hasComma = $block.Contains(',')
+        if ($IsOption -and $hasPipe -and -not $hasComma) {
+            $stats.usageSeparator += @{ path = $Path; name = $Path }
+        }
+        elseif (-not $IsOption -and $hasComma -and -not $hasPipe) {
+            $stats.usageSeparator += @{ path = $Path; name = $Path }
+        }
+        for ($i = 0; $i -lt $forms.Count - 1; $i++) {
+            if ($forms[$i].Length -gt $forms[$i + 1].Length) {
+                $stats.usageOrder += @{ path = $Path; name = $Path }
+                break
+            }
+        }
+    }
+
+    function Validate-ItemUsage {
+        param([hashtable]$Item, [string]$Path, [bool]$IsOption = $false)
+
+        $hasAlias = $null -ne $Item.alias -and @($Item.alias).Count -gt 0
+        $hasNext = $null -ne $Item.next
+
+        # usage 不是强制项：只有有别名时必须存在（用于展示别名）；有 next 或两者皆无时均可按需添加
+        $needsUsage = $hasAlias
+
+        $hasUsage = $false
+        $useless = $false
+        # 是否为选项：位于 option/global_option 数组，或名称以 '-' 开头（兼容把选项放在 next 数组里的写法）
+        $isOptionLike = $IsOption -or ($Item.name -match '^-')
+        if ($null -ne $Item.tip) {
+            foreach ($line in @($Item.tip)) {
+                if ($line -is [string] -and $line -match '^U:') {
+                    Validate-UsageFormat -Line $line -Path $Path -IsOption $isOptionLike
+                    if (-not $hasUsage) {
+                        $hasUsage = $true
+                        if ($line -match '^U:\s*(.*)$' -and $Matches[1].Trim() -eq $Item.name) {
+                            $useless = $true
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($needsUsage -and -not $hasUsage) {
+            $stats.missingUsage += @{ path = $Path; name = $Item.name }
+        }
+        elseif ($hasUsage -and $useless) {
+            if (-not $hasAlias -and -not $hasNext) {
+                $stats.meaninglessUsage += @{ path = $Path; name = $Item.name }
+            }
+            else {
+                $stats.usageTooSimple += @{ path = $Path; name = $Item.name }
+            }
+        }
+    }
+
+    function Test-SubtreeEqual {
+        param($A, $B)
+
+        if ($null -eq $A -and $null -eq $B) { return $true }
+        if ($null -eq $A -or $null -eq $B) { return $false }
+        if ($A -is [System.Collections.IDictionary] -and $B -is [System.Collections.IDictionary]) {
+            if ($A.Count -ne $B.Count) { return $false }
+            foreach ($k in $A.Keys) {
+                if (-not $B.ContainsKey($k)) { return $false }
+                if (-not (Test-SubtreeEqual $A[$k] $B[$k])) { return $false }
+            }
+            return $true
+        }
+        if ($A -is [array] -and $B -is [array]) {
+            if ($A.Count -ne $B.Count) { return $false }
+            for ($i = 0; $i -lt $A.Count; $i++) {
+                if (-not (Test-SubtreeEqual $A[$i] $B[$i])) { return $false }
+            }
+            return $true
+        }
+        return $A -eq $B
+    }
+
+    function Validate-Options {
+        param([hashtable]$Content)
+
+        # 根级 global_option：name、tip、next、option 等所有子结构都完全一致时，才视为与各层级 option 重复
+        $globalOptions = @()
+        if ($Content.global_option) {
+            foreach ($opt in @($Content.global_option)) {
+                if ($opt.name) {
+                    $globalOptions += [pscustomobject]@{ name = $opt.name; opt = $opt }
+                }
+            }
+        }
+        if ($globalOptions.Count -eq 0) { return }
+
+        function Test-GlobalDuplicate {
+            param([hashtable]$Opt, [string]$Path)
+
+            if ($null -eq $Opt.name) { return }
+            foreach ($g in $globalOptions) {
+                if ($g.name -eq $Opt.name -and (Test-SubtreeEqual $Opt $g.opt)) {
+                    $stats.duplicateOptions += @{ path = "$Path > $($Opt.name)"; name = $Opt.name }
+                    return
+                }
+            }
+        }
+
+        function Check-OptionDuplicates {
+            param([hashtable]$Node, [string]$Path)
+
+            if ($Node.option) {
+                foreach ($opt in @($Node.option)) {
+                    Test-GlobalDuplicate -Opt $opt -Path $Path
+                }
+            }
+
+            if ($Node.next) {
+                foreach ($sub in @($Node.next)) {
+                    if ($sub.name) {
+                        Check-OptionDuplicates -Node $sub -Path "$Path > $($sub.name)"
+                    }
+                }
+            }
+        }
+
+        if ($Content.option) {
+            foreach ($opt in @($Content.option)) {
+                Test-GlobalDuplicate -Opt $opt -Path 'option'
+            }
+        }
+
+        if ($Content.next) {
+            foreach ($sub in @($Content.next)) {
+                if ($sub.name) {
+                    Check-OptionDuplicates -Node $sub -Path $sub.name
+                }
+            }
+        }
+    }
+
+    function Validate-AllTips {
+        param([hashtable]$Content, [string]$BasePath, [bool]$IsOption = $false)
+
+        if ($Content.tip) {
+            Validate-Tip -Tip $Content.tip -Path $BasePath
+        }
+        if ($Content.name) {
+            Validate-ItemUsage -Item $Content -Path $BasePath -IsOption $IsOption
+        }
+
+        if ($Content.next) {
+            foreach ($sub in @($Content.next)) {
+                if ($sub -is [hashtable] -and $sub.name) {
+                    $subPath = if ($BasePath) { "$BasePath > $($sub.name)" } else { $sub.name }
+                    Validate-AllTips -Content $sub -BasePath $subPath
+                }
+            }
+        }
+
+        if ($Content.option) {
+            foreach ($opt in @($Content.option)) {
+                if ($opt -is [hashtable] -and $opt.name) {
+                    $optPath = if ($BasePath) { "$BasePath > option > $($opt.name)" } else { "option > $($opt.name)" }
+                    Validate-AllTips -Content $opt -BasePath $optPath -IsOption $true
+                }
+            }
+        }
+
+        if ($Content.global_option) {
+            foreach ($opt in @($Content.global_option)) {
+                if ($opt -is [hashtable] -and $opt.name) {
+                    $optPath = "global_option > $($opt.name)"
+                    Validate-AllTips -Content $opt -BasePath $optPath -IsOption $true
+                }
+            }
+        }
+    }
+
+    Validate-Options -Content $baseContent
+    Validate-AllTips -Content $baseContent -BasePath ''
 
     Compare-Fields -BaseObj $baseContent -TargetObj $targetContent -Path ''
 
@@ -349,7 +576,7 @@ foreach ($CompletionName in $CompletionList) {
 
         if ($total -eq 0) { continue }
 
-        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0 -or $stats.duplicateItems.Count -gt 0
+        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0 -or $stats.duplicateItems.Count -gt 0 -or $stats.tipOnlyUsage.Count -gt 0 -or $stats.meaninglessUsage.Count -gt 0 -or $stats.missingUsage.Count -gt 0 -or $stats.duplicateOptions.Count -gt 0 -or $stats.usageOrder.Count -gt 0 -or $stats.usageTooSimple.Count -gt 0 -or $stats.usageSeparator.Count -gt 0
 
         $allResults += @{
             completion = $CompletionName
@@ -363,6 +590,36 @@ foreach ($CompletionName in $CompletionList) {
             hasIssues  = $hasIssues
         }
     }
+}
+
+if ($Json) {
+    $jsonResults = @($allResults | ForEach-Object {
+            $s = $_.stats
+            @{
+                completion = $_.completion
+                lang       = $_.lang
+                hasIssues  = $_.hasIssues
+                rate       = $_.rate
+                issues     = @{
+                    missingInTarget  = @($s.missingInTarget | ForEach-Object { $_.path })
+                    extraInTarget    = @($s.extraInTarget | ForEach-Object { $_.path })
+                    typeMismatch     = @($s.typeMismatch | ForEach-Object { $_.path })
+                    semanticMismatch = @($s.semanticMismatch | ForEach-Object { $_.path })
+                    valueDiff        = @($s.valueDiff | ForEach-Object { $_.path })
+                    duplicateItems   = @($s.duplicateItems | ForEach-Object { $_.path })
+                    untranslated     = @($s.untranslated | ForEach-Object { $_.path })
+                    tipOnlyUsage     = @($s.tipOnlyUsage | ForEach-Object { $_.path })
+                    meaninglessUsage = @($s.meaninglessUsage | ForEach-Object { $_.path })
+                    missingUsage     = @($s.missingUsage | ForEach-Object { $_.path })
+                    duplicateOptions = @($s.duplicateOptions | ForEach-Object { $_.path })
+                    usageOrder       = @($s.usageOrder | ForEach-Object { $_.path })
+                    usageTooSimple   = @($s.usageTooSimple | ForEach-Object { $_.path })
+                    usageSeparator   = @($s.usageSeparator | ForEach-Object { $_.path })
+                }
+            }
+        })
+    @{ results = $jsonResults } | ConvertTo-Json -Depth 10
+    return
 }
 
 $issueResults = @()
@@ -419,6 +676,34 @@ if ($issueFiles -gt 0) {
         if ($r.stats.untranslated.Count -gt 0) {
             outText $text.untranslated
             foreach ($item in $r.stats.untranslated) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.tipOnlyUsage.Count -gt 0) {
+            outText $text.tipOnlyUsage
+            foreach ($item in $r.stats.tipOnlyUsage) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.meaninglessUsage.Count -gt 0) {
+            outText $text.meaninglessUsage
+            foreach ($item in $r.stats.meaninglessUsage) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.missingUsage.Count -gt 0) {
+            outText $text.missingUsage
+            foreach ($item in $r.stats.missingUsage) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.duplicateOptions.Count -gt 0) {
+            outText $text.duplicateOptions
+            foreach ($item in $r.stats.duplicateOptions) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.usageOrder.Count -gt 0) {
+            outText $text.usageOrder
+            foreach ($item in $r.stats.usageOrder) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.usageTooSimple.Count -gt 0) {
+            outText $text.usageTooSimple
+            foreach ($item in $r.stats.usageTooSimple) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.usageSeparator.Count -gt 0) {
+            outText $text.usageSeparator
+            foreach ($item in $r.stats.usageSeparator) { outText "<@Cyan>  $($item.path)" }
         }
     }
 }
