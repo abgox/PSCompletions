@@ -17,7 +17,9 @@ function handleCompletions($completions) {
         $list.Add($PSCompletions.return_completion($completion, $tip, $symbol))
     }
     function add_recipes {
-        just --summary 2>$null | ForEach-Object { add $_.Split(' ') }
+        (just --summary 2>$null) -split '\s+' | ForEach-Object {
+            add $_
+        }
     }
 
     if (-not $cmds.Count) {
