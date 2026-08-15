@@ -2,7 +2,10 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
-## Unreleased
+## 7.0.1
+
+- Fixed the command parameter verification error.
+- Fixed the color of command output.
 
 ## 7.0.0
 
