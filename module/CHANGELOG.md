@@ -2,6 +2,10 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.0.3
+
+- Fixed `psc.run` executing in the terminal's startup directory instead of the current working directory.
+
 ## 7.0.2
 
 - Fixed duplicate output when updating completions.
