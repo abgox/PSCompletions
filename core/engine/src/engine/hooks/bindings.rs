@@ -237,8 +237,16 @@ pub(crate) fn build_psc_table(
             api_ls_batch(lua, &cwd_ls_batch, dirs)
         })?,
     )?;
-    psc.set("run", lua.create_function(api_run)?)?;
-    psc.set("run_batch", lua.create_function(api_run_batch)?)?;
+    let cwd_run = cwd.clone();
+    psc.set(
+        "run",
+        lua.create_function(move |lua, args| api_run(lua, args, cwd_run.to_string()))?,
+    )?;
+    let cwd_run_batch = cwd.clone();
+    psc.set(
+        "run_batch",
+        lua.create_function(move |lua, args| api_run_batch(lua, args, cwd_run_batch.to_string()))?,
+    )?;
     psc.set(
         "env",
         lua.create_function(move |lua, name: Value| {

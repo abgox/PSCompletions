@@ -961,6 +961,63 @@ fn run_with_shell_option_and_quoted_arg() {
 }
 
 #[test]
+fn run_uses_hook_cwd_when_not_specified() {
+    // `psc.run` without a `cwd` option must run in the hook's working directory (the user's
+    // current location), NOT the engine process's inherited cwd — the two can differ after a
+    // `cd` in the host (process-level CurrentDirectory lags `$PWD` on some hosts).
+    let dir = std::env::temp_dir().join("psc-run-cwd-test");
+    let _ = std::fs::remove_dir_all(&dir);
+    std::fs::create_dir_all(&dir).unwrap();
+    let mut c = ctx();
+    c.cwd = dir.to_string_lossy().to_string();
+    let script = if cfg!(windows) {
+        r#"
+    local v = psc.run({ "cmd", "/c", "cd" })
+    local joined = table.concat(v or {}, "|")
+    if joined:find("psc%-run%-cwd%-test") then return { { name = "ok" } } end
+    return { { name = "got: " .. joined } }
+"#
+    } else {
+        r#"
+    local v = psc.run({ "pwd" })
+    local joined = table.concat(v or {}, "|")
+    if joined:find("psc%-run%-cwd%-test") then return { { name = "ok" } } end
+    return { { name = "got: " .. joined } }
+"#
+    };
+    let out = run_hook(&c, script, &empty_static()).unwrap();
+    assert_eq!(out[0].text, "ok");
+    // An explicit `cwd` option still overrides the hook cwd.
+    let other = std::env::temp_dir().join("psc-run-cwd-other");
+    let _ = std::fs::remove_dir_all(&other);
+    std::fs::create_dir_all(&other).unwrap();
+    let other_s = serde_json::to_string(&other.to_string_lossy()).unwrap();
+    let script2 = if cfg!(windows) {
+        format!(
+            r#"
+    local v = psc.run({{ "cmd", "/c", "cd" }}, {{ cwd = {other_s} }})
+    local joined = table.concat(v or {{}}, "|")
+    if joined:find("psc%-run%-cwd%-other") then return {{ {{ name = "ok" }} }} end
+    return {{ {{ name = "got: " .. joined }} }}
+"#
+        )
+    } else {
+        format!(
+            r#"
+    local v = psc.run({{ "pwd" }}, {{ cwd = {other_s} }})
+    local joined = table.concat(v or {{}}, "|")
+    if joined:find("psc%-run%-cwd%-other") then return {{ {{ name = "ok" }} }} end
+    return {{ {{ name = "got: " .. joined }} }}
+"#
+        )
+    };
+    let out2 = run_hook(&c, &script2, &empty_static()).unwrap();
+    assert_eq!(out2[0].text, "ok");
+    let _ = std::fs::remove_dir_all(&dir);
+    let _ = std::fs::remove_dir_all(&other);
+}
+
+#[test]
 fn ls_and_glob_api() {
     let dir = std::env::temp_dir().join("psc-lua-ls-test");
     let _ = std::fs::create_dir_all(dir.join("sub"));

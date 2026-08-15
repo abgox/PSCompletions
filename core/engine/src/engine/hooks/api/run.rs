@@ -12,7 +12,14 @@ use super::{json_to_lua, table_to_strings};
 /// Returns stdout lines; when `format` is `"json"`/`"toml"`/`"yaml"`, parses the output and
 /// returns a table. `nil` on failure (spawn error / timeout / unparseable output) — strict
 /// failure semantics, hooks guard with `or {}`.
-pub(crate) fn api_run(lua: &Lua, args: Variadic<Value>) -> mlua::Result<Value> {
+/// `default_cwd` is the hook's working directory (the user's location): used when `cwd` is not
+/// given, so commands run in the user's current directory rather than the engine process's
+/// inherited one (which can lag after `cd` on some hosts).
+pub(crate) fn api_run(
+    lua: &Lua,
+    args: Variadic<Value>,
+    default_cwd: String,
+) -> mlua::Result<Value> {
     let mut args = args.into_iter();
     let mut argv: Vec<String> = match args.next() {
         Some(Value::Table(t)) => table_to_strings(&t)?,
@@ -41,7 +48,9 @@ pub(crate) fn api_run(lua: &Lua, args: Variadic<Value>) -> mlua::Result<Value> {
     if shell {
         argv = wrap_shell(&argv);
     }
-    let Some(lines) = run_cmd_raw(&argv, timeout_ms, cwd_opt.as_deref()) else {
+    let cwd = cwd_opt.as_deref().unwrap_or(&default_cwd);
+    let cwd_arg = if cwd.is_empty() { None } else { Some(cwd) };
+    let Some(lines) = run_cmd_raw(&argv, timeout_ms, cwd_arg) else {
         return Ok(Value::Nil);
     };
     match format.as_deref() {
@@ -72,7 +81,11 @@ pub(crate) fn api_run(lua: &Lua, args: Variadic<Value>) -> mlua::Result<Value> {
 /// Runs commands in parallel; returns their outputs in input order. With `format`,
 /// each output is parsed with that format (parallel commands are of the same type).
 /// A failed/unparseable command yields `nil` at its index (strict failure semantics).
-pub(crate) fn api_run_batch(lua: &Lua, args: Variadic<Value>) -> mlua::Result<Table> {
+pub(crate) fn api_run_batch(
+    lua: &Lua,
+    args: Variadic<Value>,
+    default_cwd: String,
+) -> mlua::Result<Table> {
     let mut args = args.into_iter();
     let cmds: Vec<Vec<String>> = match args.next() {
         Some(Value::Table(t)) => {
@@ -105,9 +118,15 @@ pub(crate) fn api_run_batch(lua: &Lua, args: Variadic<Value>) -> mlua::Result<Ta
         Some(o) => o.get::<Option<bool>>("shell")?.unwrap_or(false),
         None => false,
     };
+    let cwd = cwd_opt.clone().unwrap_or_else(|| default_cwd.clone());
+    let cwd_arg = if cwd.is_empty() {
+        None
+    } else {
+        Some(cwd.as_str())
+    };
     let outputs: Vec<Option<Vec<String>>> = parallel_map(&cmds, |cmd| {
         let argv = if shell { wrap_shell(cmd) } else { cmd.clone() };
-        run_cmd_raw(&argv, timeout_ms, cwd_opt.as_deref())
+        run_cmd_raw(&argv, timeout_ms, cwd_arg)
     });
     let t = lua.create_table()?;
     for (i, lines) in outputs.iter().enumerate() {

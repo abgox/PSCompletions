@@ -194,7 +194,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion {
         treat_last_as_complete = [bool]($PSCompletions.buffer_before_cursor[-1] -eq ' ')
         manifest               = $manifest
         hooks                  = [bool]$hasLuaHooks
-        cwd                    = (Get-Location).Path
+        cwd                    = $PWD.Path
         config                 = $PSCompletions.config.completion[$cmd]
         global_config          = $PSCompletions.config
         data                   = $pscData
@@ -226,6 +226,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod run_sort {
         $psi.FileName = $binary
         $psi.Arguments = "--sort `"$inputPath`" --result `"$outputPath`""
         $psi.UseShellExecute = $false
+        $psi.WorkingDirectory = $PWD.Path
         $psi.CreateNoWindow = $true
         $psi.RedirectStandardError = $true
         $process = [System.Diagnostics.Process]::Start($psi)
@@ -720,6 +721,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
         $psi.FileName = $binary
         $psi.Arguments = "`"$inputPath`" --result `"$outputPath`""
         $psi.UseShellExecute = $false
+        $psi.WorkingDirectory = $PWD.Path
         # No CreateNoWindow so the child inherits the console to read keypresses
         $psi.RedirectStandardError = $true
         $psi.StandardErrorEncoding = [System.Text.Encoding]::UTF8
