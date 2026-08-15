@@ -27,7 +27,7 @@
     }
     # Forward management commands to the psc CLI (platform-agnostic core); with -Json request structured output
     function _forward_psc {
-        param([switch]$Json)
+        param([switch]$Json, [switch]$Quiet)
         $pscBinary = $PSCompletions.psc_binary()
         if (!$pscBinary) {
             $PSCompletions.write_with_color('[PSCompletions] psc binary missing.')
@@ -59,7 +59,9 @@
             return
         }
         if (-not $Json) {
-            $PSCompletions.write_with_color((_replace "<@Green>$($raw -join "`n")"))
+            if (-not $Quiet) {
+                $PSCompletions.write_with_color((_replace "<@Green>$($raw -join "`n")"))
+            }
             return
         }
         try {
@@ -177,7 +179,8 @@
             elseif ($arg.Count -gt 1) { $targets = @($arg[1..($arg.Count - 1)] | Where-Object { $_ -notin '--all', '--old' }) }
             # Plain `psc update` (no targets) = live check; the CLI refreshes update.txt/change.txt
             $isNoArg = $arg.Count -eq 1
-            _forward_psc | Out-Null
+            # -Quiet: feedback is rendered below via _render_completion_done
+            _forward_psc -Quiet | Out-Null
             if ($isNoArg) {
                 # no-arg live check: CLI refreshed update.txt/change.txt; render update_info if there's content, else a one-line reply
                 $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
