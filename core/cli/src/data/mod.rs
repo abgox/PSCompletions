@@ -161,23 +161,23 @@ pub fn default_config(language: &str) -> Value {
     json!({
         "url": "",
         "language": language,
-        "enable_auto_alias_setup": true,
+        "enable_auto_alias_setup": 1,
         "switch": "~",
         "stay": "?",
         "trigger_key": "Tab",
         "show_mode": "auto",
-        "enable_native_completion": true,
-        "enable_apply_when_single": false,
-        "enable_list_loop": true,
-        "enable_apply_when_no_match": false,
-        "enable_tip": true,
-        "enable_tip_usage": true,
-        "enable_tip_example": true,
+        "enable_native_completion": 1,
+        "enable_apply_when_single": 0,
+        "enable_list_loop": 1,
+        "enable_apply_when_no_match": 0,
+        "enable_tip": 1,
+        "enable_tip_usage": 1,
+        "enable_tip_example": 1,
         "filter_mode": "wildcard",
-        "enable_sort_by_history": true,
-        "enable_cache": true,
-        "enable_path_trailing_separator": true,
-        "enable_append_space": true
+        "enable_sort_by_history": 1,
+        "enable_cache": 1,
+        "enable_path_trailing_separator": 1,
+        "enable_append_space": 1
     })
 }
 

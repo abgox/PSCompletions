@@ -284,7 +284,8 @@ root-level flag into deep contexts.
 ## 5. Menu config (current)
 
 Live menu behavior is driven by the `menu` config group (`psc config menu <key>`). The values
-default as follows (see `design/psc-cli.md` for the full inventory):
+default as follows (see `design/psc-cli.md` for the full inventory). Boolean keys are **stored as
+`1`/`0` numbers**; the `bool` / `true` / `false` below express their logical meaning:
 
 | Key | Type / range | Default | Notes |
 | --- | --- | --- | --- |
@@ -320,8 +321,7 @@ rebuild — a big win for slow hooks (e.g. scoop scanning ~2700 manifests ≈ 60
   extra tiny disk read, a slow one skips the rebuild. Disable per-user via
   `psc config menu enable_cache 0`.
 
-Boolean keys are stored as real JSON booleans; `psc config` accepts both `0`/`1` and `true`/`false`
-on input and normalizes to `true`/`false`.
+Boolean keys are stored as JSON numbers (`1`/`0`); `psc config` accepts only `0`/`1` on input.
 
 **Fixed / not configurable**: the menu is fully Rust-driven with no theme, color, or width
 configuration — text uses the terminal default foreground; emphasis is red (`>` prompts, counter

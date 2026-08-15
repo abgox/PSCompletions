@@ -59,9 +59,9 @@ menu reuses the same build path.
 - `context_switch` / `context_stay` — the display characters the engine uses to resolve
   `switch` / `stay` symbols in build mode.
 - `raw_config` — layered config for the three tip toggles (`enable_tip` / `enable_tip_usage` /
-  `enable_tip_example`): the engine resolves them per-completion → global → default (values may
-  be `0`/`1` numbers or booleans), then folds them into `flags`. The host no longer sends those
-  three toggles directly in `flags`.
+  `enable_tip_example`): the engine resolves them per-completion → global → default (stored as
+  `1`/`0` numbers), then folds them into `flags`. The host no longer sends those three toggles
+  directly in `flags`.
 
 ### `TerminalInfo`
 ```json

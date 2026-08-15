@@ -146,9 +146,8 @@ psc completion <name> <key> --reset  # reset one key
   etc.). **`psc`'s own hooks cannot be disabled** (`psc completion psc enable_hooks 0` is rejected) —
   they power the module's management completions.
 - **Validation**: `<name>` must be installed; `enable_`/`disable_` keys accept only the numbers
-  `0`/`1` and are stored as JSON numbers (the `config` command's boolean keys, by contrast,
-  accept `0`/`1`/`true`/`false` and are stored as real booleans).
-- **Output**: no-arg → `name: language=zh-CN enable_tip=false` (JSON: `[{completion, config}]`);
+  `0`/`1` and are stored as JSON numbers (same as `config` boolean keys).
+- **Output**: no-arg → `name: language=zh-CN enable_tip=0` (JSON: `[{completion, config}]`);
   get → `key: value` (JSON `{completion, key, value}`); set → `Completion config updated.`.
 - **PS wrapper**: `completion <name> <key>` (3 args) prints the value only; reset/set forwards raw.
 
@@ -167,9 +166,7 @@ psc config <group> <key> --reset      # reset one key
   new group, never a reshaped existing one).
 - **Validation** (in Rust): `language` non-empty; `url` empty or `http(s)://…`;
   `show_mode` ∈ `auto|inline-follow|altscreen-follow|altscreen-top|altscreen-bottom`; `filter_mode` ∈ `subsequence|wildcard`;
-  `enable_*` values `0`/`1`/`true`/`false`. Boolean keys
-  are stored as real JSON booleans (`true`/`false`); numeric values as JSON numbers (so a string
-  `"0"` is not truthy in PowerShell).
+  `enable_*` values `0`/`1`. Boolean keys are stored as JSON numbers (`1`/`0`).
 - **Output**: list → per group a `[group]` header, then `  key: value` per line
   (JSON: `[{group, key, value}, …]`); get → `key: value` (JSON `{key, value}`); set →
   `Module config updated.`

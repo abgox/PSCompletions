@@ -469,7 +469,11 @@ fn build_candidate_items(
     let cache_enabled = input
         .global_config
         .get("enable_cache")
-        .and_then(|v| v.as_bool())
+        .and_then(|v| match v {
+            serde_json::Value::Number(n) => n.as_i64().map(|n| n != 0),
+            serde_json::Value::Bool(b) => Some(*b),
+            _ => None,
+        })
         .unwrap_or(true);
     let cache_sig = if cache_enabled {
         let hook_path = hooks_path(&input.manifest);

@@ -131,11 +131,10 @@ pub const CONFIG_KEYS: &[CfgDef] = &[
 /// Validate and parse a config value for a key; returns the JSON value to store.
 pub fn validate_value(def: &CfgDef, value: &str) -> Option<Value> {
     match def.ty {
-        CfgType::Bool => match value.to_ascii_lowercase().as_str() {
-            // Both the classic numeric spelling and the JSON boolean are accepted; stored as a
-            // real boolean so every consumer reads `true`/`false` uniformly.
-            "0" | "false" => Some(Value::Bool(false)),
-            "1" | "true" => Some(Value::Bool(true)),
+        CfgType::Bool => match value {
+            // Only `0`/`1` are accepted; stored as JSON numbers.
+            "0" => Some(Value::Number(0.into())),
+            "1" => Some(Value::Number(1.into())),
             _ => None,
         },
         CfgType::Str => Some(Value::String(value.to_string())),
@@ -178,24 +177,24 @@ pub fn as_int(v: &Value) -> Option<i64> {
         .or_else(|| v.as_str().and_then(|s| s.trim().parse::<i64>().ok()))
 }
 
-/// Convert a legacy `0`/`1` boolean (number or numeric string) in place to a real JSON
-/// boolean. Returns whether the value changed.
+/// Convert a legacy `true`/`false` boolean (or numeric string) in place to a `1`/`0` number.
+/// Returns whether the value changed.
 fn normalize_bool_value(v: &mut Value) -> bool {
     let converted = match v {
+        Value::Bool(b) => Some(if *b { 1 } else { 0 }),
         Value::Number(n) => match n.as_i64() {
-            Some(0) => Some(false),
-            Some(1) => Some(true),
+            Some(0) | Some(1) => None, // already a 0/1 number
             _ => None,
         },
         Value::String(s) => match s.as_str() {
-            "0" => Some(false),
-            "1" => Some(true),
+            "0" | "false" => Some(0),
+            "1" | "true" => Some(1),
             _ => None,
         },
         _ => None,
     };
-    if let Some(b) = converted {
-        *v = Value::Bool(b);
+    if let Some(n) = converted {
+        *v = Value::Number(n.into());
         true
     } else {
         false
@@ -341,7 +340,7 @@ pub fn sanitize_config(config: &mut Map<String, Value>, defaults: &Value) -> boo
             continue;
         };
         let ok = match def.ty {
-            CfgType::Bool => v.is_boolean(),
+            CfgType::Bool => as_int(v).map(|n| n == 0 || n == 1).unwrap_or(false),
             CfgType::Str => v.is_string(),
             CfgType::NonEmptyStr => v.as_str().map(|s| !s.is_empty()).unwrap_or(false),
             CfgType::Url => v
@@ -366,7 +365,9 @@ pub fn sanitize_config(config: &mut Map<String, Value>, defaults: &Value) -> boo
         let mut emptied: Vec<String> = Vec::new();
         for (name, v) in comp.iter_mut() {
             if let Some(o) = v.as_object_mut() {
-                let redundant = matches!(o.get("enable_hooks"), Some(Value::Bool(true)));
+                let redundant = as_int(&o.get("enable_hooks").cloned().unwrap_or(Value::Null))
+                    .map(|n| n == 1)
+                    .unwrap_or(false);
                 if redundant {
                     o.remove("enable_hooks");
                     changed = true;
@@ -408,7 +409,7 @@ mod tests {
         assert!(c.get("WriteSpaceTab").is_none());
         assert!(c.get("continue").is_none());
         assert!(c.get("input").is_none());
-        assert_eq!(c.get("completion").unwrap()["git"]["enable_tip"], false);
+        assert_eq!(c.get("completion").unwrap()["git"]["enable_tip"], 0);
         assert!(c.get("comp_config").is_none());
     }
 
@@ -426,9 +427,9 @@ mod tests {
         c.insert("between_item_and_symbol".into(), Value::String(" ".into()));
         assert!(migrate_config(&mut c));
         assert_eq!(c.get("show_mode").unwrap(), "inline");
-        assert_eq!(c.get("enable_apply_when_single").unwrap(), true);
-        assert_eq!(c.get("enable_sort_by_history").unwrap(), false);
-        assert_eq!(c.get("enable_append_space").unwrap(), true);
+        assert_eq!(c.get("enable_apply_when_single").unwrap(), 1);
+        assert_eq!(c.get("enable_sort_by_history").unwrap(), 0);
+        assert_eq!(c.get("enable_append_space").unwrap(), 1);
         assert!(c
             .get("height_from_menu_bottom_to_cursor_when_above")
             .is_none());
@@ -462,7 +463,7 @@ mod tests {
         let mut c = serde_json::Map::new();
         c.insert("completion_suffix".into(), Value::String(String::new()));
         assert!(migrate_config(&mut c));
-        assert_eq!(c.get("enable_append_space").unwrap(), false);
+        assert_eq!(c.get("enable_append_space").unwrap(), 0);
     }
 
     #[test]
@@ -479,7 +480,7 @@ mod tests {
         for k in CONFIG_KEYS.iter().map(|d| d.key) {
             assert!(c.contains_key(k), "missing default key {k}");
         }
-        assert_eq!(c.get("enable_tip").unwrap(), false);
+        assert_eq!(c.get("enable_tip").unwrap(), 0);
     }
 
     #[test]
@@ -498,10 +499,10 @@ mod tests {
         .clone();
         assert!(sanitize_config(&mut c, &defaults));
         assert_eq!(c.get("show_mode").unwrap(), "auto");
-        assert_eq!(c.get("enable_tip").unwrap(), true);
+        assert_eq!(c.get("enable_tip").unwrap(), 1);
         assert_eq!(c.get("trigger_key").unwrap(), "Tab");
         assert_eq!(c.get("language").unwrap(), "zh-CN");
-        assert_eq!(c.get("enable_append_space").unwrap(), true);
+        assert_eq!(c.get("enable_append_space").unwrap(), 1);
         assert_eq!(c.get("url").unwrap(), "");
     }
 
@@ -521,10 +522,10 @@ mod tests {
         assert!(sanitize_config(&mut c, &defaults));
         // enable_hooks:1 is redundant (absent = enabled) -> removed; the empty entry is dropped too
         assert!(c.get("completion").unwrap().get("scoop").is_none());
-        // enable_hooks:0 is an explicit disable -> kept (migrated to a real boolean)
-        assert_eq!(c.get("completion").unwrap()["git"]["enable_hooks"], false);
-        // Other keys are unaffected (0/1 migrated to booleans too)
-        assert_eq!(c.get("completion").unwrap()["plain"]["enable_tip"], false);
+        // enable_hooks:0 is an explicit disable -> kept
+        assert_eq!(c.get("completion").unwrap()["git"]["enable_hooks"], 0);
+        // Other keys are unaffected
+        assert_eq!(c.get("completion").unwrap()["plain"]["enable_tip"], 0);
         // Second run: already clean, no change reported
         assert!(!sanitize_config(&mut c, &defaults));
     }
@@ -546,11 +547,10 @@ mod tests {
         );
         assert_eq!(validate_value(show, "bogus"), None);
         let tip = CONFIG_KEYS.iter().find(|d| d.key == "enable_tip").unwrap();
-        // Both spellings are accepted; stored as a real boolean.
-        assert_eq!(validate_value(tip, "1"), Some(Value::Bool(true)));
-        assert_eq!(validate_value(tip, "true"), Some(Value::Bool(true)));
-        assert_eq!(validate_value(tip, "0"), Some(Value::Bool(false)));
-        assert_eq!(validate_value(tip, "false"), Some(Value::Bool(false)));
+        assert_eq!(validate_value(tip, "1"), Some(Value::Number(1.into())));
+        assert_eq!(validate_value(tip, "0"), Some(Value::Number(0.into())));
+        assert_eq!(validate_value(tip, "true"), None);
+        assert_eq!(validate_value(tip, "false"), None);
         assert_eq!(validate_value(tip, "2"), None);
         let url = CONFIG_KEYS.iter().find(|d| d.key == "url").unwrap();
         assert_eq!(
