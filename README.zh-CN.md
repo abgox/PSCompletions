@@ -26,46 +26,18 @@
     </a>
 </p>
 
----
-
-![PSCompletions](https://me.abgox.com/github-socialify-PSCompletions.zh-CN.svg)
-
-<p align="center">
-  <strong>喜欢这个项目？请给它 Star ⭐️ 或 <a href="https://me.abgox.com/donate">赞赏 💰</a></strong>
-</p>
-
 ## 介绍
 
-> [!TIP]
->
-> - [PowerShell 7+ (Core)](https://microsoft.com/powershell): 跨平台的 PowerShell，运行 `pwsh`/`pwsh.exe` 启动
-> - [Windows PowerShell 5+ (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): Windows 系统内置的 PowerShell，运行 `powershell`/`powershell.exe` 启动
-> - 它们都可以使用 `PSCompletions`，但是更推荐 [PowerShell 7+ (Core)](https://microsoft.com/powershell)
-
-一个补全管理器，为 `PowerShell` 带来更出色、更简便的 Tab 补全体验。
+一个补全管理器，为 [PowerShell](https://microsoft.com/powershell) 带来更出色、更简便的 Tab 补全体验，基于 [Rust + Lua](https://pscompletions.abgox.com/docs/how-it-works) 构建。
 
 - [内置的补全库](./completions.zh-CN.md)
-- [更强大的模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu)
+- [强大的模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu)
 - [支持多种语言: en-US、zh-CN 等](https://pscompletions.abgox.com/docs/language)
 - [根据命令历史记录动态排序补全项](https://pscompletions.abgox.com/docs/sort-completion-items)
-- 与其他工具协作: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions)、[Carapace](https://pscompletions.abgox.com/docs/tools/carapace)、[PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf) 等
 
 ## 演示
 
-> [!TIP]
->
-> - 如果这里无法显示，[可前往官网查看](https://pscompletions.abgox.com)
-> - [点击查看 Bilibili 中的介绍及教学视频](https://www.bilibili.com/video/BV15Gp7zmE2e)
-
-![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
-
-## 新的变化
-
-请查看 [更新日志](./module/CHANGELOG.zh-CN.md)
-
-## 贡献
-
-请查看 [贡献指南](./.github/contributing.md)
+![demo](https://pscompletions.abgox.com/demo.gif)
 
 ## 安装
 
@@ -96,33 +68,43 @@
    Import-Module PSCompletions
    ```
 
-> [!TIP]
->
-> - 如果使用了 `. $PROFILE`，请运行 `psc` 以重载模块的按键绑定和数据
-> - 参考: https://pscompletions.abgox.com/docs/source-profile
-
 ## 使用
 
-- 使用 [内置的补全库](./completions.zh-CN.md): `psc add git`
-- 使用官方补全或其他的补全库
-  - 如果存在官方补全，可以使用类似的命令
+- [内置补全库](./completions.zh-CN.md): 使用 `psc add git` 添加补全
+- [原生补全集成](https://pscompletions.abgox.com/docs/native-completion): 使用 PowerShell 的原生补全
+  - 如果命令存在官方补全，可以使用类似的命令:
 
     ```powershell
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - 使用其他的补全库: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions), [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
+  - 使用 PowerShell 参数补全器:
 
-  - 更多详情，参考: https://pscompletions.abgox.com/docs/menu-enhance
+    ```powershell
+    Register-ArgumentCompleter -Native -CommandName <Name> -ScriptBlock { ... }
+    ```
 
-- [使用 PSFzf 作为补全菜单](https://pscompletions.abgox.com/docs/tools/psfzf)
+  - 使用其他的补全库，例如 [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
+
+## 新的变化
+
+请查看 [更新日志](./module/CHANGELOG.zh-CN.md)
+
+## 贡献
+
+请查看 [贡献指南](./.github/contributing.md)
+
+## 支持
+
+如果你喜欢这个项目，欢迎给它 Star ⭐️ 或 [赞赏 💰](https://me.abgox.com/donate)
 
 ## 致谢
 
-- [PSReadLine](https://github.com/PowerShell/PSReadLine): PowerShell 的一个内置模块，增强命令行编辑体验
-  - PSCompletions 使用了 `Set-PSReadLineKeyHandler` 和 `Get-PSReadLineOption`
-- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): 适用于 PowerShell 的 GUI 风格的制表符补全菜单
-  - PSCompletions 的 [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 受到了它的启发
+- **使用**: [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell 内置模块，增强命令行补全体验
+- **启发**: [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 受到了以下项目的启发:
+  - [fzf](https://github.com/junegunn/fzf): 通用命令行模糊查找器
+  - [PSFzf](https://github.com/kelleyma49/PSFzf): 将 fzf 集成到 PowerShell 的模糊查找
+  - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): PowerShell 的图形化补全菜单（早期 V6 版本的启发）
 
 ## License
 

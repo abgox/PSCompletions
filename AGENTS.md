@@ -9,7 +9,17 @@ Every file you produce **MUST** strictly conform to the rules defined in this do
 - **Follow every rule exactly.** Do not skip, relax, or reinterpret any specification.
 - **Do not invent conventions.** If a rule does not cover the case you are facing, stop and ask the operator for guidance. Never assume or fabricate a rule to unblock yourself.
 - **When in doubt, ask.** An incorrect assumption is far more costly than a clarifying question.
-- **This document covers the common rules.** For advanced or rarely-used features (hooks, per-completion `config`, `info` templates, predict symbols), consult the official docs (https://pscompletions.abgox.com) or ask — don't guess.
+- **This document covers the common rules.** For advanced or rarely-used features (hooks, per-completion `config`, `info`, predict symbols), consult the official docs (https://pscompletions.abgox.com) or ask — don't guess.
+
+## Dynamic Hooks (Lua)
+
+**When writing or migrating a `hooks.lua`, read `design/hooks.md` first** — it is the authoritative reference for the `psc.*` API, the prelude helper functions, and the PowerShell→Lua semantics rules (case-sensitivity, pending-token exclusion, array/`-match` gotchas).
+
+**Language policy**: all documentation (this file, `design/hooks.md`) and all `hooks.lua` comments are written in **English**. Write new comments in English; do not introduce comments in other languages.
+
+**Comment style**: keep comments **short** — explain *why* when the code isn't self-evident, not *what* (the code already says that). Avoid long multi-line essays; prefer a single crisp line. Applies to `hooks.lua` and all source comments.
+
+The editor-facing annotation file — `types/psc.lua` — uses **bilingual descriptions: Chinese first, English after** (Chinese reads shorter, so it leads and stays visible in the editor's hover hint; English follows). Its comments surface as type hints for completion authors, so they are the exception to the English-only rule. `---@param` / `---@return` / `---@type` annotations keep English identifiers (code symbols).
 
 ## Project Structure
 
@@ -18,7 +28,7 @@ PSCompletions/
 ├── completions/              # All completion definitions
 │   └── <command>/
 │       ├── config.json       # Completion config (language, hooks, alias)
-│       ├── hooks.ps1         # Dynamic completions (only when hooks: true)
+│       ├── hooks.lua         # Dynamic completions (only when hooks: true)
 │       └── language/
 │           ├── en-US.json    # English completion data (single source of truth)
 │           └── zh-CN.json    # Chinese completion data (translated)
@@ -28,44 +38,71 @@ PSCompletions/
 │   ├── create-completion.ps1 # Scaffold new completion from template
 │   ├── compare-json.ps1      # Diff + sort (supports -Json structured output for automation)
 │   ├── sort-json.ps1         # Normalize field order (called internally by compare-json.ps1)
-│   ├── validate-completion.ps1 # Comprehensive validation: schema + config.json + hooks.ps1 + compare-json rules
+│   ├── validate-completion.ps1 # Comprehensive validation: schema + config.json + hooks.lua + compare-json rules
 │   ├── check-completion.ps1  # CI/PR check: scans changed completions, runs validation, posts a structured report
 │   ├── link-completion.ps1   # Link completion to local env for live testing (optional)
 │   ├── template/             # Template files for new completions
 │   └── language/             # Multi-language text for scripts themselves
-└── module/PSCompletions/     # PowerShell module (don't edit this when writing completions)
+├── design/                   # System design docs — the authoritative "how the system works" reference
+│   ├── README.md             # Index of the design docs
+│   ├── architecture.md       # Project architecture: repo layout, binaries, data flow
+│   ├── completion.md         # Completion context/resolve, predict symbols, manifest format
+│   ├── hooks.md              # Lua hooks: architecture + full psc.* API reference
+│   ├── menu.md               # TUI menu design (rendering, layout, config, contract)
+│   ├── psc-cli.md            # psc management CLI: architecture + command surface reference
+│   └── filter-matching.md    # Menu filter matching semantics
+├── types/                    # Editor type definitions (EmmyLua stub for the psc.* API)
+│   └── psc.lua               # Types for the Lua LSP: autocomplete/diagnostics in hooks.lua
+└── module/PSCompletions/     # PowerShell host (don't edit this when writing completions)
     ├── PSCompletions.psd1    # Module manifest
-    ├── PSCompletions.psm1    # Module entry point
-    └── PSCompletions.ps1     # Initialization script
+    ├── PSCompletions.psm1    # Module entry point (thin: forwards management CLI to psc binary)
+    ├── PSCompletions.ps1     # Initialization script
+    └── bin/                  # Rust binaries: psc-menu.exe (engine/menu), psc.exe (management CLI)
 ```
 
 **Scope reminder**: Only _edit_ files under `completions/<command>/`. Running scripts under `scripts/` is expected and required — the scope restriction applies to "where you can write", not "which scripts you can run".
 
 ## How It Works
 
-Every command has its own **completion context** — what appears in that command's completion menu. A context is made of **subcommands** (`next`) and **options** (`option`); `global_option` items are available at every level.
+Every command has its own **completion context** — what appears in its menu. A context is made of **subcommands** (`next`) and **options** (`option`); `global_option` items are available at every level. The engine builds a tree from the manifest; selecting a subcommand moves **into its context**, selecting an option stays (unless the option has `next`/`option`). See **`design/completion.md`** for the full system: context inheritance, option resolution (bubbling), the resolve walk, repeat filtering, and the manifest format.
 
-The module loads a tool's manifest and builds this tree. Typing `git <Tab>` builds the menu from `git`'s root context. Selecting a subcommand moves you **into that subcommand's context**; selecting an option keeps you in the current context (unless the option itself defines `next`/`option` values, which moves into that option's context).
+The parts you need when writing a manifest:
 
-**Context inheritance**: a command that does not define its own context automatically uses the **previous command's** context. A subcommand that already appears in the menu (a "known" item) inherits the previous context but hides sibling subcommands at the same level.
+Each menu item may carry a **predict symbol** showing how applying it changes the context:
 
-Each menu item may carry a **predict symbol** showing how selecting it changes the context:
+| Symbol | Config item | Meaning |
+| --- | --- | --- |
+| `~` | `switch` | Apply → **switch a new context** (subcommand layer / candidate-value layer); the menu content changes |
+| `?` | `stay` | Apply → **stay in the current context** (options, global options, multi-select values, or value input that stays in place) |
+| — | — | No symbol: **nothing more to pick** (except the always-available `global_option`); a value that must be typed is conveyed by the `usage` placeholder |
 
-| Symbol | Config item | Meaning                                                             |
-| ------ | ----------- | ------------------------------------------------------------------- |
-| `~`    | `continue`  | Switches to a new context                                           |
-| `?`    | `stay`      | Stays in the current context                                        |
-| `!`    | `input`     | Stays in the current context; may require manually entering a value |
+An item's `next` field tells the engine what follows it. **It means different things for commands vs options**:
 
-An item's `next` field tells the engine what follows it:
+| `next` | Command | Option |
+| --- | --- | --- |
+| `[...]` (non-empty) | subcommand layer → `~` | static candidate values; selecting one records it as the option's `value`, an out-of-list word is `unknown` → `~` |
+| `[]` (empty) | **not allowed** | no static candidates; hooks may supply dynamic items and set the symbol via `psc.set_symbol` — otherwise the value is typed manually and is `unknown` → no automatic symbol |
 
-| `next`  | Meaning                                    | Symbol |
-| ------- | ------------------------------------------ | ------ |
-| `0`     | an arbitrary value the user types manually | `!`    |
-| `[]`    | values provided dynamically by `hooks.ps1` | `~`    |
-| `[...]` | a fixed list of values to complete from    | `~`    |
+A **command's** `next` is only its subcommand layer — it never "takes a value". A command's
+argument value (e.g. `git add <path>`) is expressed by the `usage` placeholder, never by `next`.
 
-The manifest is **data, not code** — nothing executes except the `{{ ... }}` template expressions in `tip` (evaluated only when a tooltip is displayed).
+An **option's** `next` means "this option consumes a value": a non-empty array offers static
+candidates; an empty array says "no static candidates" (hooks may provide them dynamically).
+
+The symbol rules above apply to **commands**. Options differ in one way: an option **without a
+candidate array** (`next: []` or no `next`) shows `stay` (`?`) — even when it takes a value —
+because selecting it keeps the current context while the value is typed. An option **with a
+non-empty candidate array** shows `switch` (`~`): selecting it switches into the candidate-value
+layer.
+
+**An empty array `[]` is not allowed for a command's `next`** (commands only ever have a
+subcommand layer or nothing). For an **option**, `next: []` is allowed and means "no static
+candidates" — dynamic children are added by `hooks.lua`, and the item's predict symbol is set
+explicitly: on a hook-added item via `psc.add(cs, { symbol = ... })`, or on a static item (in
+the current context) via `psc.set_symbol(name, symbol)`. Multi-select dynamic values should be
+marked `stay` only while more remain (the hook checks the remaining count).
+
+The manifest is **data, not code** — `tip`/`usage`/`example` are plain text; dynamic tip content is produced by `hooks.lua`.
 
 > See also: [Completion Context](https://pscompletions.abgox.com/en-us/docs/completion-context) — the core concept behind how the completion menu is built.
 
@@ -106,7 +143,7 @@ Step-by-step process:
 - bracketed groups: `[a|b|c]` or `[a, b, c]`
 - a list right after the option's placeholder in the usage line
 
-Even when the help shows no such list, if an option's value has a recognizable shape (status codes, numbers, IDs, time formats), add a few **representative example values** via `next: [...]` so users can pick one instead of typing blindly (e.g. `--status-code` → `[200, 404, 500]`, `--since <TIME>` → `["2024-01-01", "1h"]`). Keep `next: 0` only for genuinely free-form values.
+Even when the help shows no such list, if an option's value has a recognizable shape (status codes, numbers, IDs, time formats), add a few **representative example values** via `next: [...]` so users can pick one instead of typing blindly (e.g. `--status-code` → `[200, 404, 500]`, `--since <TIME>` → `["2024-01-01", "1h"]`). Keep `next: []` only for genuinely free-form values.
 
 **Example for a tool like `git`:**
 
@@ -137,9 +174,9 @@ completions/<command>/
     └── zh-CN.json        # Template content, needs full rewrite
 ```
 
-With `-AddHooks` parameter, `hooks.ps1` is also generated.
+The script creates **static completions only**. For dynamic completions, hand-write `hooks.lua` (see [Dynamic Hooks](#dynamic-hooks-lua) / `design/hooks.md`) and set `"hooks": true` in `config.json`; there is no hooks template — every hook is bespoke.
 
-Before writing, skim a few existing completions to match the house style — e.g. `completions/git/` (deep nesting, hooks), `completions/psc/` (template expressions), or any simple tool like `completions/fd/`.
+Before writing, skim a few existing completions to match the house style — e.g. `completions/git/` (deep nesting, hooks), `completions/psc/` (dynamic tips via hooks), or any simple tool like `completions/fd/`.
 
 ## Completion Data Structure
 
@@ -161,12 +198,14 @@ Before writing, skim a few existing completions to match the house style — e.g
     {
       "name": "build",
       "alias": ["b"],
-      "tip": ["U: b|build [OPTIONS]", "Build the project"],
+      "usage": ["b|build [OPTIONS]"],
+      "tip": ["Build the project"],
       "option": [
         {
           "name": "--output",
           "alias": ["-o"],
-          "tip": ["U: -o, --output <DIR>", "Output directory"],
+          "usage": ["-o, --output <DIR>"],
+          "tip": ["Output directory"],
           "next": 0
         }
       ]
@@ -176,7 +215,8 @@ Before writing, skim a few existing completions to match the house style — e.g
     {
       "name": "--version",
       "alias": ["-v"],
-      "tip": ["U: -v, --version", "Show version."]
+      "usage": ["-v, --version"],
+      "tip": ["Show version."]
     },
     {
       "name": "--dry-run",
@@ -187,7 +227,8 @@ Before writing, skim a few existing completions to match the house style — e.g
     {
       "name": "--help",
       "alias": ["-h"],
-      "tip": ["U: -h, --help", "Show help."]
+      "usage": ["-h, --help"],
+      "tip": ["Show help."]
     },
     {
       "name": "--verbose",
@@ -207,6 +248,7 @@ Before writing, skim a few existing completions to match the house style — e.g
 - Top-level `option` is root-level options (available before any subcommand, e.g., `--version`)
 - `global_option` is available at all levels (e.g., `--help`)
 - `repeat: 2` means the option can appear up to twice; use `repeat: 99` only when the exact limit is unknown
+- `usage` / `example` are optional text arrays (see [Format Rules](#tip--usage--example-format-rules)); `tip` is the description only
 - Empty arrays must be removed entirely — don't keep `"option": []`
 
 ### `config.json` Structure
@@ -224,31 +266,31 @@ Before writing, skim a few existing completions to match the house style — e.g
   - **If not set**, the directory name is used as the trigger name
   - **If set**, the directory name is **ignored** — only the names in this array are used
   - **Omit `.cmd`, `.exe`, `.bat` suffixes** — just use the command name (e.g., `git` not `git.exe`)
-- `hooks` (optional): Set to `true` to enable dynamic completions, requires `hooks.ps1` to exist
+- `hooks` (optional): `true` — dynamic hooks enabled by default (install writes no
+  `enable_hooks` entry, since absence already means enabled); `false` — `hooks.lua` exists but is
+  disabled by default (install writes `enable_hooks=0`; users enable it with
+  `psc completion <name> enable_hooks 1`). Omit when there is no `hooks.lua`.
 
 ### Top-Level Fields
 
-| Field           | Required | Description                                          |
-| --------------- | -------- | ---------------------------------------------------- |
-| `meta`          | Yes      | Completion metadata (url, description)               |
-| `next`          | No       | Subcommand list                                      |
-| `option`        | No       | Root-level options (available before any subcommand) |
-| `global_option` | No       | Global options (available at all levels)             |
-| `config`        | No       | Completion's own configurable settings (advanced)    |
-| `info`          | No       | Extra info, accessible in tip via `{{ $info.xxx }}`  |
+| Field | Required | Description |
+| --- | --- | --- |
+| `meta` | Yes | Completion metadata (url, description) |
+| `next` | No | Subcommand list |
+| `option` | No | Root-level options (available before any subcommand) |
+| `global_option` | No | Global options (available at all levels) |
+| `config` | No | Completion's own configurable settings (advanced) |
+| `info` | No | Extra info, exposed to hooks via `psc.manifest.info` |
 
 **Empty arrays must be removed entirely** — don't keep `"option": []`.
 
 The `config` and `info` fields are advanced. For real usage, see [Json file structure](https://pscompletions.abgox.com/en-us/docs/completion/json) and the `completions/git/` completion.
 
-### Template Expressions (`{{ }}`)
+### `tip` is plain text
 
-`tip` and `description` lines may contain `{{ ... }}` templates, evaluated by the module only when a tooltip is displayed:
-
-- Reference `info` data: `{{ $info.xxx }}`
-- Reference runtime values: `{{ $PSCompletions.config.xxx }}` (see `completions/psc/` for advanced examples)
-
-`compare-json.ps1` counts two languages' tips as "translated" when both are identical `{{*}}` templates, so a template is usually written once (English) and copied to `zh-CN.json` unchanged — the displayed tooltip evaluates the same template for both languages.
+`tip`/`usage`/`example`/`description` are **plain text**. Dynamic tip content (live values,
+file reads) is produced by the completion's `hooks.lua`, which renders the final text when the
+menu is built (see `design/hooks.md`; `completions/scoop/` shows a live-value example).
 
 ### `next` — Subcommand List
 
@@ -256,10 +298,8 @@ The `config` and `info` fields are advanced. For real usage, see [Json file stru
 {
   "name": "install",           // Required: the longest/full name
   "alias": ["i"],              // Optional: remaining shorter names
-  "tip": [                     // Optional: tooltip info array
-    "U: install [FLAGS] [TOOL@VERSION]...",  // Usage line (U: = Usage)
-    "Install a tool version"                 // Description line
-  ],
+  "usage": ["install [FLAGS] [TOOL@VERSION]..."],  // Optional: usage line
+  "tip": ["Install a tool version"],               // Optional: description line
   "option": [...], // Optional: options for this subcommand
   "next": [...]    // Optional: next-level completions (sub-subcommands or argument values)
 }
@@ -267,8 +307,11 @@ The `config` and `info` fields are advanced. For real usage, see [Json file stru
 
 - `name`: Longest/full form. Must be wrapped in quotes if it contains spaces.
 - `alias`: All remaining shorter forms. Don't put short forms in `name` or long forms in `alias`.
+  When forms are equal in length, `name` is the canonical/official primary form; synonyms of
+  equal length go in `alias` (e.g. `git am` → name `--continue`, alias `--resolved`; `svn` →
+  name `delete`, alias `remove`).
 
-> **Two different orderings — don't confuse them.** In the JSON structure, `name` is the longest (canonical) form and `alias` lists the remaining forms **longest → shortest** (the data model: `name` is the item's identity). In the `U:` line, the same forms are shown **shortest → longest** (`-f, --force`, `rm|remove`) — a display convention that matches CLI `--help`. Keep them as they are; the `U:` order is not a mistake.
+> **Two different orderings — don't confuse them.** In the JSON structure, `name` is the longest (canonical) form and `alias` lists the remaining forms **longest → shortest** (the data model: `name` is the item's identity). In the `usage` line, the same forms are shown **shortest → longest** (`-f, --force`, `rm|remove`) — a display convention that matches CLI `--help`. Keep them as they are; the usage order is not a mistake.
 
 - `option`: **Options specific to this subcommand**, only shown after typing `<command> install`.
 - `next`: Arguments/sub-subcommands for this subcommand.
@@ -279,13 +322,14 @@ The `config` and `info` fields are advanced. For real usage, see [Json file stru
 {
   "name": "--force",
   "alias": ["-f"],
-  "tip": ["U: -f, --force", "Force reinstall even if already installed"]
+  "usage": ["-f, --force"],
+  "tip": ["Force reinstall even if already installed"]
 }
 ```
 
 **Boolean options** (no value needed): Don't include `next` field.
 
-**Options that take a value**: use `next: [...]` when you know the value's shape (allowed values or representative examples), otherwise `next: 0`. See the `next` field rules below.
+**Options that take a value**: use `next: [...]` when you know the value's shape (allowed values or representative examples), otherwise `next: []`. See the `next` field rules below. **A value-taking option must declare `next` regardless of whether it has a `usage` placeholder** — the `compare-json` check keys on `usage <...>`, so an option with only a tip (e.g. `dotnet --roll-forward`) would otherwise be treated as a boolean switch and go unflagged.
 
 **Repeatable options**: Add `"repeat": N` where N is the max number of times the option can appear. Use a specific number when known (e.g., `2` for `-v -v`); use `99` only when the limit is unknown or effectively unlimited:
 
@@ -293,8 +337,8 @@ The `config` and `info` fields are advanced. For real usage, see [Json file stru
 {
   "name": "--exclude",
   "alias": ["-e"],
+  "usage": ["-e, --exclude <path>"],
   "tip": [
-    "U: -e, --exclude <path>",
     "Exclude a path (can be used multiple times)"
   ],
   "repeat": 99,
@@ -304,18 +348,24 @@ The `config` and `info` fields are advanced. For real usage, see [Json file stru
 
 ### `next` Field
 
-- `next: 0`: Takes a value with no known candidates — the user must type it manually (e.g., a path, an arbitrary string). The module shows an `input` symbol.
-- `next: []`: Takes a value whose candidates are **provided dynamically by `hooks.ps1`** rather than statically. Only use when `hooks: true`. The module shows a `continue` symbol and appends hook results to the (empty) static list.
+The rules here are for **options** (a command's `next` is only its subcommand layer — a non-empty
+array; see the table above). An **option's** `next` says "this option consumes a value":
+
+- `next: []`: The option consumes a value with **no static candidates** — the user types it
+  manually (e.g., a path, an arbitrary string). No automatic symbol is shown (no candidates);
+  the need for a value is conveyed by the `usage` placeholder. Hooks may supply dynamic
+  candidates via `psc.add` and set the symbol via `psc.set_symbol(name, "switch")`.
 - `next: [...]`: A list of values to complete from. Use it in two cases:
-  - **Fixed allowed values** — the help text enumerates them (an enum). List all of them.
+  - **Fixed allowed values** — the help text enumerates them (an enum). List all of them. If a tip line already lists them (e.g. "Valid values: a, b, c" or `[a|b|c]`), mirror them into `next: [...]` so the menu can complete them instead of leaving them tip-only.
   - **Deterministic examples** — the value isn't an enumerated set but has a known shape (status codes, numbers, IDs, time formats). Provide a few representative examples so the user can pick one instead of typing blindly; the module offers them as completions but the user can still type any value. E.g. `--status-code` → `[200, 404, 500]`, `--limit <N>` → `[1, 2]`, `--since <TIME>` → `["2024-01-01", "1h"]`.
 
-Prefer `next: [...]` over `next: 0` whenever you know the value's shape well enough to give representative examples; keep `next: 0` only for genuinely free-form values.
+Prefer `next: [...]` over `next: []` whenever you know the value's shape well enough to give representative examples; keep `next: []` only for genuinely free-form values.
 
 ```json
 {
   "name": "--format",
-  "tip": ["U: --format <FORMAT>", "Output format"],
+  "usage": ["--format <FORMAT>"],
+  "tip": ["Output format"],
   "next": [
     { "name": "json", "tip": ["JSON format"] },
     { "name": "yaml", "tip": ["YAML format"] },
@@ -324,71 +374,74 @@ Prefer `next: [...]` over `next: 0` whenever you know the value's shape well eno
 }
 ```
 
-If `hooks: true` is enabled, `hooks.ps1` dynamically generated completions are **appended** to the static array, not replaced.
+If `hooks: true` is enabled, `hooks.lua` dynamically generated completions are **appended** to the static array, not replaced.
 
 ### `option` vs `global_option`
 
-| Availability                                 | Where to put                     |
-| -------------------------------------------- | -------------------------------- |
-| Only at root level (e.g., `--version`)       | `option`                         |
-| At root AND all subcommands (e.g., `--help`) | `global_option`                  |
-| Only for specific subcommands                | That subcommand's `option` array |
+| Availability | Where to put |
+| --- | --- |
+| Only at root level (e.g., `--version`) | `option` |
+| At root AND all subcommands (e.g., `--help`) | `global_option` |
+| Only for specific subcommands | That subcommand's `option` array |
 
 Don't put the same option in both `option` and `global_option`. Subcommand's own `option` inherits `global_option` — no need to repeat.
 
-**Duplicate detection**: an option counts as a duplicate only if it is **fully structurally identical** to a `global_option` entry — same `name`, `alias`, `tip`, `next`, `option`, and all nested substructure. If the description or `next` differs in any way, they are **different** options: when you reach a subcommand context, the module uses the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by removing the subcommand/root copy and keeping the one in `global_option` — the module shows `global_option` at every level, so the copy is redundant.
+**Duplicate detection**: an option counts as a duplicate only if it is **fully structurally identical** to a `global_option` entry — same `name`, `alias`, `tip`, `usage`, `example`, `next`, `option`, and all nested substructure. If the description or `next` differs in any way, they are **different** options: when you reach a subcommand context, the module uses the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by removing the subcommand/root copy and keeping the one in `global_option` — the module shows `global_option` at every level, so the copy is redundant.
 
 ### Duplicate Prevention
 
 No duplicate `name` within the same array. `compare-json.ps1` matches by `name` and silently overwrites duplicates without error.
 
-## `tip` Format Rules
+## `tip` / `usage` / `example` Format Rules
+
+Every item may carry three text arrays. `tip` is the description (shown under `[Description]`); `usage` and `example` are optional and shown under `[Usage]` / `[Example]`.
 
 - Each array element is one line, no inline line breaks allowed.
 - Spaces required between Chinese/English/number characters.
-- **Usage line (`U:`)** — provides invocation syntax. **`U:` is not mandatory; add it when it conveys something the name alone doesn't.**
-  - **Must add `U:` when**: the item has an alias — the short form must be shown (`U: -f, --force`, `U: rm|remove`).
-  - **Should add `U:` when** (recommended, not mandatory): the item takes a value and you know its shape — e.g. `U: --output <FILE>`, `U: add <PACKAGE>`. Skip it when the value's nature is unknown or unknowable (e.g. `next: []` hook-provided free input) — a vague `U:` adds nothing.
-  - **May add `U:` when** (allowed, not required): the item has no alias and no value, but the `U:` still documents something useful (e.g. important sub-options).
-  - **Must NOT add `U:` when**: the item has no alias and no value, and the line would just repeat the name — e.g. a boolean flag `--dry-run` with `U: --dry-run`, or a subcommand `build` with `U: build`. This is a meaningless `U:`.
-  - Subcommands use `|`: `U: add|install <APP>`
-  - Options use `,`: `U: -f, --format <FORMAT>`
-  - **Always order from short to long** — shorter form comes first: `U: rm|remove`, `U: -g, --global`. Never reverse the order.
-  - **Usage line starts from the current command level, never include root command name.** Each level's tip only describes its own invocation syntax. For `git worktree add <PATH>`, the path is `root → worktree → add`, so `add`'s tip should be `U: add <PATH>`, not `U: worktree add <path>`.
-- **Description line** — if `tip` exists, there should always be a description line, not just usage.
-- **Example line (`E:`)** — optional, add when examples clarify usage. Format: `E: <example> --- <description>`. Multiple examples indent to align with `E: `. Skip when usage line is sufficient.
-- Order when multiple lines: Usage → Description → Example.
+- `tip` — the description line. If `tip` exists, it should be a real description; do not put `U:`/`E:` prefixed lines in it — those belong in `usage` / `example`.
+- `usage` — invocation syntax. **Not mandatory; add it when it conveys something the name alone doesn't.**
+  - **Must add `usage` when**: the item has an alias — the short form must be shown (`-f, --force`, `rm|remove`).
+  - **Should add `usage` when** (recommended, not mandatory): the item takes a value and you know its shape — e.g. `--output <FILE>`, `add <PACKAGE>`. Skip it when the value's nature is unknown or unknowable (e.g. `next: []` hook-provided free input) — a vague usage adds nothing.
+  - **May add `usage` when** (allowed, not required): the item has no alias and no value, but it still documents something useful (e.g. important sub-options).
+  - **Must NOT add `usage` when**: the item has no alias and no value, and the line would just repeat the name — e.g. a boolean flag `--dry-run` with `--dry-run`, or a subcommand `build` with `build`. This is meaningless.
+  - In the rare case a usage line needs a brief explanation, use the object form `{ "cmd": ..., "desc": ... }` (both required).
+  - Subcommands use `|`: `add|install <APP>`
+  - Options use `,`: `-f, --format <FORMAT>`
+  - **Always order from short to long** — shorter form comes first: `rm|remove`, `-g, --global`. Never reverse the order.
+  - **Usage starts from the current command level, never include root command name.** Each level only describes its own invocation syntax. For `git worktree add <PATH>`, the path is `root → worktree → add`, so `add`'s usage should be `add <PATH>`, not `worktree add <path>`.
+- `example` — optional, add when examples clarify usage. Each item is a plain string, or an object `{ "cmd": ..., "desc": ... }` when an explanation is wanted — **both** `cmd` and `desc` are required in object form (use a plain string when there is no explanation). Multiple examples are separate array elements. Skip when usage is sufficient.
+- Order of fields in the JSON: `name`, `alias`, `usage`, `tip`, `example`, then `repeat` / `option` / `next`.
 
-**`U:` examples — correct vs wrong:**
+**`usage` examples — correct vs wrong:**
 
 ```jsonc
-// Has alias → U: is required (shows the short form)
-{ "name": "--force", "alias": ["-f"], "tip": ["U: -f, --force", "Force action"] }
+// Has alias → usage is required (shows the short form)
+{ "name": "--force", "alias": ["-f"], "usage": ["-f, --force"], "tip": ["Force action"] }
 
-// Has argument and you know the value → U: is recommended (shows what to write)
-{ "name": "--output", "tip": ["U: --output <FILE>", "Output path"], "next": 0 }
+// Has argument and you know the value → usage is recommended (shows what to write)
+{ "name": "--output", "usage": ["--output <FILE>"], "tip": ["Output path"], "next": 0 }
 
-// Has argument but the value is unknown → U: may be omitted (optional)
-{ "name": "--script", "tip": ["Run the given script"], "next": 0 }  // OK — no U:
+// Has argument but the value is unknown → usage may be omitted (optional)
+{ "name": "--script", "tip": ["Run the given script"], "next": 0 }  // OK — no usage
 
-// No alias, no argument → U: must NOT be added
+// No alias, no argument → usage must NOT be added
 { "name": "--dry-run", "tip": ["Dry run without changes"] }  // CORRECT
-{ "name": "--dry-run", "tip": ["U: --dry-run", "Dry run"] }  // WRONG — meaningless
+{ "name": "--dry-run", "usage": ["--dry-run"], "tip": ["Dry run"] }  // WRONG — meaningless
 ```
 
 ## Validation & Design Rules
 
 `compare-json.ps1` enforces the rules below. Fix every reported item until it runs clean.
 
-### U: Line Checks
+### Usage Checks
 
-| Reported issue      | Trigger                                                            | Fix                                                                   |
-| ------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------------- | ---------------------------------- | --- |
-| Missing U: line     | item has an **alias** but no `U:` line                             | add `U: <short>, <long>` (option) or `U: <short>                      | <long>` (subcommand)               |
-| Meaningless U: line | no alias, no `next`, and the `U:` line just repeats the name       | remove the `U:` line                                                  |
-| U: line too simple  | the `U:` line equals the name, but the item has an alias or `next` | make the `U:` show the alias and/or a value placeholder, or remove it |
-| U: order wrong      | a long form comes before its short form                            | order short → long: `U: -s, --long` / `U: short                       | long`                              |
-| U: separator wrong  | an option uses `                                                   | `, or a subcommand uses `,`                                           | options use `,`; subcommands use ` | `   |
+| Reported issue | Trigger | Fix |
+| --- | --- | --- |
+| Missing usage | item has an **alias** but no `usage` field | add `usage` showing `short, long` (option) or `short | long` (subcommand) |
+| Meaningless usage | no alias, no `next`, and the `usage` just repeats the name | remove the `usage` field |
+| usage too simple | the `usage` equals the name, but the item has an alias or `next` | make the `usage` show the alias and/or a value placeholder, or remove it |
+| usage order wrong | a long form comes before its short form | order short → long: `-s, --long` / `short | long` |
+| usage separator wrong | an option uses `\|`, or a subcommand uses `,` | options use `,`; subcommands use `\|` |
 
 **Option vs subcommand**: an item is treated as an option (expects `,`) when its name starts with `-`, even if it lives inside a `next` array.
 
@@ -398,48 +451,69 @@ Options normally go in `option` / `global_option`. Some flag-only tools (no subc
 
 ### Leaf Value Items
 
-Leaf values inside a `next` array follow the same rules as commands: with an alias they also need a `U:` line (e.g. `U: all|world|everybody`).
+Leaf values inside a `next` array follow the same rules as commands: with an alias they also need a `usage` field (e.g. `all|world|everybody`).
 
 ## Pre-completion Checklist
 
 - [ ] Every subcommand in `--help` is in `next` (including sub-subcommands)
 - [ ] Every option of every subcommand is captured, not just top-level `--help` options
-- [ ] Any option with fixed allowed values uses `next: [...]`, not `next: 0`
-- [ ] Options whose value has a known shape (status codes, numbers, times, IDs) provide example values via `next: [...]`, not `next: 0`
+- [ ] Any option with fixed allowed values uses `next: [...]`, not `next: []`
+- [ ] Options whose value has a known shape (status codes, numbers, times, IDs) provide example values via `next: [...]`, not `next: []`
 - [ ] `next: []` is only used when `config.json` has `hooks: true`
 - [ ] No duplicate `name` in any array (check `next`, `option`, `global_option`)
 - [ ] No option appears in both a subcommand's `option` and `global_option`
 - [ ] `repeat` only on `option`/`global_option` entries, only when CLI actually allows repetition
-- [ ] Every `tip` has at least one description line (not just a `U:` usage line)
-- [ ] Every item with an alias has a `U:` line showing the alias
-- [ ] Option aliases use `,` (`U: -f, --force`); subcommand aliases use `|` (`U: rm|remove`)
-- [ ] `U:` lines order short forms first (`U: -s, --long`, not `U: --long, -s`)
-- [ ] No meaningless `U:` lines — when an item has no alias and no value, don't add a `U:` that just repeats the name
-- [ ] `zh-CN.json` and `en-US.json` have identical structure — only `tip` content is translated
+- [ ] Every `tip` has at least one description line (not just a usage line — usage goes in `usage`)
+- [ ] Every item with an alias has a `usage` field showing the alias
+- [ ] Option aliases use `,` (`-f, --force`); subcommand aliases use `|` (`rm|remove`)
+- [ ] `usage` forms order short first (`-s, --long`, not `--long, -s`)
+- [ ] No meaningless `usage` — when an item has no alias and no value, don't add a `usage` that just repeats the name
+- [ ] `zh-CN.json` and `en-US.json` have identical structure — only `tip`/`usage`/`example` content is translated
 - [ ] `name`, `alias`, and other non-`tip` fields unchanged during translation
 - [ ] No file extensions (`.cmd`, `.exe`, `.bat`) in `config.json` `alias` field
 - [ ] `.\scripts\compare-json.ps1 <command>` runs clean
 
-All items satisfied = task complete. Re-run `compare-json.ps1 <command>` after changes stabilize to confirm no _content_ differences. Run without `<command>` to check all completions (slower), or with `<command>` to check just one.
+All items satisfied = task complete. Re-run `compare-json.ps1 <command>` after changes stabilize to confirm no _content_ differences. Run with `<command>` to check just one, or with `-All` to check every completion (slower). Without arguments it checks only recently changed / uncommitted completions.
 
-## Dynamic Completions (`hooks.ps1`)
+## Tooling & Environment
+
+- **Always use PowerShell 7 (`pwsh`) for any file writes or script execution.** Windows PowerShell 5.1
+  (`powershell.exe`) writes a UTF-8 **BOM** with `Set-Content -Encoding utf8` and misreads UTF-8
+  without BOM as the system ANSI code page (e.g. GBK), silently corrupting Unicode characters
+  (`→`, `—`, Chinese text). Use `pwsh` (UTF-8 no BOM by default), or better, the editor/write
+  tools for file edits. If you must write files from a shell, run `pwsh -NoProfile` scripts.
+- **Rust sources are UTF-8 without BOM**; PowerShell module files are UTF-8 with BOM
+  (`utf8bom`, see `.vscode/settings.json`).
+
+## Adding a New `menu` Config Key
+
+A new config key touches several places — follow the full chain:
+
+1. `core/cli/src/data/config.rs` — add a `CfgDef` row in `CONFIG_KEYS` (group, key, type).
+2. `core/cli/src/data/mod.rs` — add the default to `default_config`.
+3. `completions/psc/language/en-US.json` + `zh-CN.json` — add the key's `next` values / tip
+   under the `menu` group (en-US first, then translate; keep structure identical).
+4. `design/menu.md` and `design/psc-cli.md` — add the key to the config inventory tables.
+5. If the engine consumes it at build time, read it from the build context's `global_config`
+   (not a new per-field input), and update `design/protocol.md` if the build input changes.
+6. Run `.\scripts\compare-json.ps1 psc` (structure + translation) and
+   `cargo test` (config registry).
+
+## Dynamic Completions (`hooks.lua`)
 
 Use hooks when a static list can't know the real values at authoring time — they depend on **runtime local state** (git branches, npm scripts, installed packages, files, env vars). Dynamic items are **merged** with the static JSON items, not a replacement.
 
-> **Before writing a `hooks.ps1`, read the full reference: [Hooks](https://pscompletions.abgox.com/en-us/docs/completion/hooks).** Start from `scripts/template/hooks.ps1`; a working example is `completions/git/hooks.ps1`.
+> **Before writing a `hooks.lua`, read `design/hooks.md`** — it is the authoritative reference for the `psc.*` API, the prelude helpers, and the semantics rules. Every hook is bespoke; there is no template.
 
 Essential contract to get started:
 
-- Every `hooks.ps1` defines `function handleCompletions($completions) { ... return $list + $completions }`. `$completions` is the parsed static data; the function must return the merged array.
-- Inside it, PSCompletions exposes:
-  - `$PSCompletions.tokens` — parsed tokens of the current command line (each has `.text` and `.type`: `command` | `option` | `value` | `unknown`)
-  - `$PSCompletions.pending` — the token currently being typed (`.text`, `.type`)
-  - `$PSCompletions.cmd` — the current command name
-  - `$PSCompletions.return_completion($name, $tip, $symbol)` — build one completion item
-- The template's standard `add` helper filters by the pending input and skips already-typed items — use it to add items.
-- Common pattern: return early when the user is typing an option (`$PSCompletions.pending.text -like '-*'`), then `switch` on the subcommand (`$cmds[0].text`) to add context-specific values.
+- Every `hooks.lua`'s **top-level body** is the completion logic: `completions` is a global preset
+  with the parsed static data, and the body's top-level `return` is the merged array (returning
+  `nil` keeps static items only). There is no wrapper function.
+- Inside it, the `psc` table exposes: context values (`psc.tokens`, `psc.current`, `psc.cmds`, `psc.opts`, `psc.config`, `psc.manifest`, `psc.language`, `psc.cwd`, `psc.platform`) and capabilities (`psc.run`, `psc.read`, `psc.ls`, `psc.glob`, `psc.json`, `psc.add`, `psc.items`, `psc.merge`, ...). Pure helpers (e.g. `psc.typed_unknown`, `psc.has_unknown`, `psc.contains`) are injected via the prelude. **Items use the `name` key everywhere** (`text` is an engine-internal field).
+- Common pattern: return early when the user is typing an option (`psc.current.option_like`), then branch on `psc.cmds[1]` to add context-specific values.
 
-If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.ps1`.
+If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.lua`.
 
 ## Updating Existing Completions (New Tool Version)
 
@@ -453,7 +527,7 @@ If `config.json` has `hooks: true` but no dynamic behavior is actually needed, r
 ## Translation (`zh-CN.json` and Other Languages)
 
 1. Structure must be identical to `en-US.json` — same nesting, same array order, same entries
-2. Only translate `tip` content — `name`, `alias`, `repeat`, `next` values stay as-is
+2. Only translate `tip` / `usage` / `example` content — `name`, `alias`, `repeat`, `next` values stay as-is
 3. Spaces between Chinese/English/number characters
 4. Don't translate proper nouns — command names, option names, tool names stay as-is
 5. When a `tip` value is a proper noun that cannot be translated, append a trailing space so `compare-json.ps1` does not flag it as untranslated. For example, `"Chromium"` → `"Chromium "`

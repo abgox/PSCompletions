@@ -26,46 +26,18 @@
     </a>
 </p>
 
----
-
-![PSCompletions](https://me.abgox.com/github-socialify-PSCompletions.svg)
-
-<p align="center">
-  <strong>Star ⭐️ or <a href="https://me.abgox.com/donate">Donate 💰</a> if you like it!</strong>
-</p>
-
 ## Introduce
 
-> [!TIP]
->
-> - [PowerShell 7+ (Core)](https://microsoft.com/powershell): A cross-platform PowerShell. Start it by running `pwsh`/`pwsh.exe`.
-> - [Windows PowerShell 5+ (Desktop)](https://learn.microsoft.com/powershell/scripting/what-is-windows-powershell): A PowerShell which is built-in on Windows system. Start it by running `powershell`/`powershell.exe`.
-> - They can both use `PSCompletions`, but [PowerShell 7+ (Core)](https://microsoft.com/powershell) is more recommended.
-
-A completion manager for a better and simpler tab-completion experience in `PowerShell`.
+A completion manager for a better and simpler tab-completion experience in [PowerShell](https://microsoft.com/powershell), built with [Rust and Lua](https://pscompletions.abgox.com/docs/how-it-works).
 
 - [Built-in completion library.](./completions.md)
-- [More powerful module completion menu.](https://pscompletions.abgox.com/docs/module-completion-menu)
+- [Powerful module completion menu.](https://pscompletions.abgox.com/docs/module-completion-menu)
 - [Support multiple languages: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
 - [Sort completion items dynamically based on command history.](https://pscompletions.abgox.com/docs/sort-completion-items)
-- Work with other tools: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions), [Carapace](https://pscompletions.abgox.com/docs/tools/carapace), [PSFzf](https://pscompletions.abgox.com/docs/tools/psfzf), etc.
 
 ## Demo
 
-> [!TIP]
->
-> - If it cannot be displayed here, [you can check it on the official website](https://pscompletions.abgox.com).
-> - [Click to view the videos on Bilibili.](https://www.bilibili.com/video/BV15Gp7zmE2e)
-
 ![demo](https://pscompletions.abgox.com/demo.gif)
-
-## What's new
-
-See the [changelog](./module/CHANGELOG.md) for details.
-
-## Contribution
-
-See the [contribution guide](./.github/contributing.md) for details.
 
 ## How to install
 
@@ -84,7 +56,6 @@ See the [contribution guide](./.github/contributing.md) for details.
 
    - [Scoop](https://scoop.sh)
      - Add the [abyss](https://abyss.abgox.com) bucket via [GitHub](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss).
-
      - Install it.
 
        ```shell
@@ -97,34 +68,43 @@ See the [contribution guide](./.github/contributing.md) for details.
    Import-Module PSCompletions
    ```
 
-> [!TIP]
->
-> - If you use `. $PROFILE`, please run `psc` to reload the module's key bindings and data.
-> - Refer to: https://pscompletions.abgox.com/docs/source-profile
-
 ## How to use
 
-- Use the [built-in completion library](./completions.md): `psc add git`
-
-- Use official completion or other completion libraries.
-  - If there is an official completion for `xxx`, a similar command may be run:
+- [Built-in completion library](./completions.md): add a completion with `psc add git`.
+- [Native completion integration](https://pscompletions.abgox.com/docs/native-completion): use PowerShell's native completions.
+  - If a command has an official completion, a similar command may be run:
 
     ```powershell
     xxx completion powershell | Out-String | Invoke-Expression
     ```
 
-  - Work with other completion libraries: [argc-completions](https://pscompletions.abgox.com/docs/tools/argc-completions), [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
+  - Register completions with the PowerShell argument completer:
 
-  - For more details, please refer to: https://pscompletions.abgox.com/docs/menu-enhance
+    ```powershell
+    Register-ArgumentCompleter -Native -CommandName <Name> -ScriptBlock { ... }
+    ```
 
-- [Use PSFzf as the completion menu.](https://pscompletions.abgox.com/docs/tools/psfzf)
+  - Use other completion libraries, e.g. [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
+
+## What's new
+
+See the [changelog](./module/CHANGELOG.md) for details.
+
+## Contribution
+
+See the [contribution guide](./.github/contributing.md) for details.
+
+## Support
+
+If you like this project, feel free to give it a Star ⭐️ or [Donate 💰](https://me.abgox.com/donate).
 
 ## Acknowledgements
 
-- [PSReadLine](https://github.com/PowerShell/PSReadLine): A built-in module in PowerShell, which is used to enhance command line editing experience.
-  - PSCompletions uses `Set-PSReadLineKeyHandler` and `Get-PSReadLineOption`.
-- [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): GUI-style tab-completion menu for PowerShell.
-  - [The module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu) of PSCompletions is inspired by it.
+- **Used**: [PSReadLine](https://github.com/PowerShell/PSReadLine) — A built-in PowerShell module that enhances the command-line completion experience.
+- **Inspired by**: [The module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu) is inspired by:
+  - [fzf](https://github.com/junegunn/fzf): A general-purpose command-line fuzzy finder.
+  - [PSFzf](https://github.com/kelleyma49/PSFzf): Fuzzy-finder integration for PowerShell.
+  - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): GUI-style tab-completion menu for PowerShell (an early V6 inspiration).
 
 ## License
 
