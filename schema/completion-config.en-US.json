@@ -25,7 +25,6 @@
   },
   "properties": {
     "language": {
-      "$ref": "#/definitions/array",
       "markdownDescription": "Available languages\n- It should correspond to the json file in the `language` directory\n- If the valid value does not include the language you want to specify, please submit an issue",
       "examples": [
         [
@@ -34,6 +33,9 @@
         ]
       ],
       "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
         {
           "items": [
             {
@@ -661,25 +663,34 @@
       ]
     },
     "hooks": {
-      "markdownDescription": "Define the default value of hooks.\n\n- If it is `false`, enable it manually: `psc completion xxx enable_hooks 1`\n- If it do not need hooks, please remove it.",
+      "markdownDescription": "Define the default value of hooks.\n\n- If it is `false`, enable it manually: `psc completion xxx enable_hooks 1`\n- If it does not need hooks, please remove it.",
       "type": "boolean"
     },
     "alias": {
-      "$ref": "#/definitions/array",
-      "items": {
-        "allOf": [
-          {
-            "$ref": "#/definitions/string"
-          },
-          {
-            "not": {
-              "pattern": "\\.(cmd|exe|bat)$"
-            },
-            "errorMessage": "Please omit .cmd, .exe, .bat suffixes, use the command name directly"
+      "markdownDescription": "Trigger alias for completions\n\n- If not set, the directory name is used\n- If set, the directory name is ignored and only the names in this array are used",
+      "examples": [
+        []
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/string"
+              },
+              {
+                "not": {
+                  "pattern": "\\.(cmd|exe|bat)$"
+                },
+                "errorMessage": "Please omit .cmd, .exe, .bat suffixes, use the command name directly"
+              }
+            ]
           }
-        ]
-      },
-      "markdownDescription": "Trigger alias for completions\n\n- If not set, the directory name is used\n- If set, the directory name is ignored and only the names in this array are used"
+        }
+      ]
     }
   },
   "additionalProperties": false

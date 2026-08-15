@@ -7,7 +7,7 @@
     For each completion, validates:
       - JSON Schema of every language/*.json (completion-manifest schema)
       - config.json (schema + language<->files consistency + hooks flag + alias extensions)
-      - hooks.ps1 (syntax check, if present)
+      - hooks.lua (existence/non-empty check, if present)
       - compare-json.ps1 -Json (all design/usage/structure/translation rules)
     Emits a structured result object. With -OutFile, writes a Markdown report in the given -Lang.
 .EXAMPLE
@@ -35,7 +35,6 @@ if ($All) {
     $CompletionList = @(Get-ChildItem -LiteralPath $completionsDir -Directory | ForEach-Object { $_.Name })
 }
 
-# 多语言文案
 $L = @{
     'en-US' = @{
         title                = 'Completion Validation'
@@ -45,7 +44,6 @@ $L = @{
         colConfig            = 'Config'
         colHooks             = 'Hooks'
         colCompare           = 'Compare'
-        colTemplate          = 'Template'
         secSchema            = 'Schema'
         secConfig            = 'Config'
         secHooks             = 'Hooks'
@@ -57,20 +55,18 @@ $L = @{
         cat_semanticMismatch = 'Semantic mismatch'
         cat_valueDiff        = 'Value difference'
         cat_duplicateItems   = 'Duplicate items'
-        cat_untranslated     = 'Untranslated tip'
-        cat_tipOnlyUsage     = 'U: without description'
-        cat_meaninglessUsage = 'Meaningless U: line'
-        cat_missingUsage     = 'Missing U: line'
-        cat_duplicateOptions = 'Duplicate global_option'
-        cat_usageOrder       = 'U: order'
-        cat_usageTooSimple   = 'U: too simple'
-        cat_usageSeparator   = 'U: separator'
+        cat_untranslated     = 'Untranslated content'
+        cat_meaninglessUsage = 'Meaningless usage line'
+        cat_missingUsage     = 'Missing usage line'
+        cat_usageOrder       = 'Usage order'
+        cat_usageTooSimple   = 'Usage too simple'
+        cat_usageSeparator   = 'Usage separator'
         cat_rate             = 'Translation rate'
         cfg_missingLanguage  = 'config.json is missing the "language" array'
         cfg_langNoFile       = 'config.language has "{0}" but language/{0}.json does not exist'
         cfg_fileNoLang       = 'language/{0}.json exists but is not declared in config.language'
-        cfg_hooksTrueNoFile  = 'config.hooks=true but hooks.ps1 does not exist'
-        cfg_hooksFileNoFlag  = 'hooks.ps1 exists but config.hooks is not true'
+        cfg_hooksFlagNoFile  = 'config.hooks=true/false but hooks.lua does not exist'
+        cfg_hooksFileNoFlag  = 'hooks.lua exists but config.hooks is not declared (set true or false)'
         cfg_aliasExtension   = 'config.alias "{0}" should not have a .cmd/.exe/.bat suffix'
         noIssues             = 'No issues found'
     }
@@ -82,7 +78,6 @@ $L = @{
         colConfig            = '配置'
         colHooks             = 'Hooks'
         colCompare           = '比对'
-        colTemplate          = '模板'
         secSchema            = 'Schema'
         secConfig            = '配置'
         secHooks             = 'Hooks'
@@ -94,20 +89,19 @@ $L = @{
         cat_semanticMismatch = '语义不匹配'
         cat_valueDiff        = '值不同'
         cat_duplicateItems   = '重复项'
-        cat_untranslated     = '未翻译 tip'
-        cat_tipOnlyUsage     = 'U: 无描述'
-        cat_meaninglessUsage = '无意义 U: 行'
-        cat_missingUsage     = '缺少 U: 行'
+        cat_untranslated     = '未翻译内容'
+        cat_meaninglessUsage = '无意义 usage 行'
+        cat_missingUsage     = '缺少 usage 行'
         cat_duplicateOptions = 'global_option 重复'
-        cat_usageOrder       = 'U: 顺序'
-        cat_usageTooSimple   = 'U: 过于简单'
-        cat_usageSeparator   = 'U: 分隔符'
+        cat_usageOrder       = 'usage 顺序'
+        cat_usageTooSimple   = 'usage 过于简单'
+        cat_usageSeparator   = 'usage 分隔符'
         cat_rate             = '翻译完成度'
         cfg_missingLanguage  = 'config.json 缺少 language 数组'
         cfg_langNoFile       = 'config.language 含 "{0}" 但 language/{0}.json 不存在'
         cfg_fileNoLang       = 'language/{0}.json 存在但 config.language 未声明'
-        cfg_hooksTrueNoFile  = 'config.hooks=true 但 hooks.ps1 不存在'
-        cfg_hooksFileNoFlag  = 'hooks.ps1 存在但 config.hooks 未设为 true'
+        cfg_hooksFlagNoFile  = 'config.hooks 为 true/false 但 hooks.lua 不存在'
+        cfg_hooksFileNoFlag  = 'hooks.lua 存在但 config.hooks 未声明（请设为 true 或 false）'
         cfg_aliasExtension   = 'config.alias "{0}" 不应含 .cmd/.exe/.bat 后缀'
         noIssues             = '未发现问题'
     }
@@ -126,15 +120,14 @@ function Get-Report {
     [void]$sb.AppendLine(($m.checked -f $Results.Count, $ok, $bad))
     [void]$sb.AppendLine('')
 
-    [void]$sb.AppendLine("| $($m.colCompletion) | $($m.colSchema) | $($m.colConfig) | $($m.colHooks) | $($m.colCompare) | $($m.colTemplate) |")
-    [void]$sb.AppendLine('| --- | --- | --- | --- | --- | --- |')
+    [void]$sb.AppendLine("| $($m.colCompletion) | $($m.colSchema) | $($m.colConfig) | $($m.colHooks) | $($m.colCompare) |")
+    [void]$sb.AppendLine('| --- | --- | --- | --- | --- |')
     foreach ($r in $Results) {
         $s = if ($r.issues.schema.Count) { "❌ $($r.issues.schema.Count)" } else { '✅' }
         $c = if ($r.issues.config.Count) { "❌ $($r.issues.config.Count)" } else { '✅' }
         $h = if ($r.issues.hooks.Count) { "❌ $($r.issues.hooks.Count)" } else { '✅' }
         $p = if ($r.issues.compare.Count) { "❌ $($r.issues.compare.Count)" } else { '✅' }
-        $t = if ($r.hasTemplate) { '⚠️' } else { '' }
-        [void]$sb.AppendLine("| **$($r.name)** | $s | $c | $h | $p | $t |")
+        [void]$sb.AppendLine("| **$($r.name)** | $s | $c | $h | $p |")
     }
     [void]$sb.AppendLine('')
 
@@ -232,9 +225,10 @@ function Get-ConfigIssues {
         }
     }
 
-    $hooksFile = Join-Path (Split-Path -Parent $LangDir) 'hooks.ps1'
-    if ($Config.ContainsKey('hooks') -and $Config['hooks'] -eq $true) {
-        if (-not (Test-Path -LiteralPath $hooksFile)) { $issues.Add(@{ code = 'cfg_hooksTrueNoFile'; args = @() }) }
+    $hooksFile = Join-Path (Split-Path -Parent $LangDir) 'hooks.lua'
+    if ($Config.ContainsKey('hooks')) {
+        # hooks: true or false both declare a hooks.lua (false = present but disabled by default).
+        if (-not (Test-Path -LiteralPath $hooksFile)) { $issues.Add(@{ code = 'cfg_hooksFlagNoFile'; args = @() }) }
     }
     else {
         if (Test-Path -LiteralPath $hooksFile) { $issues.Add(@{ code = 'cfg_hooksFileNoFlag'; args = @() }) }
@@ -251,11 +245,14 @@ function Get-ConfigIssues {
 
 function Get-HookSyntaxIssues {
     param([string]$HooksFile)
-    $tokens = $null
-    $errors = $null
-    [System.Management.Automation.Language.Parser]::ParseFile($HooksFile, [ref]$tokens, [ref]$errors) | Out-Null
-    if ($errors -and $errors.Count -gt 0) {
-        return @($errors | Select-Object -First 5 | ForEach-Object { @{ text = $_.Message } })
+    # Lua hooks can't be checked with the PowerShell parser; only verify the file exists and is non-empty
+    try {
+        if ((Get-Item -LiteralPath $HooksFile).Length -eq 0) {
+            return @(@{ text = 'hooks.lua is empty' })
+        }
+    }
+    catch {
+        return @(@{ text = 'hooks.lua missing' })
     }
     return @()
 }
@@ -266,7 +263,7 @@ foreach ($name in $CompletionList) {
     $completionDir = Join-Path $completionsDir $name
     $langDir = Join-Path $completionDir 'language'
     $configFile = Join-Path $completionDir 'config.json'
-    $hooksFile = Join-Path $completionDir 'hooks.ps1'
+    $hooksFile = Join-Path $completionDir 'hooks.lua'
 
     $entry = @{
         name        = $name
@@ -278,27 +275,15 @@ foreach ($name in $CompletionList) {
             compare = [System.Collections.Generic.List[object]]::new()
         }
         hasIssues   = $false
-        hasTemplate = $false
         fileCount   = 0
     }
 
     $fileList = @()
     if (Test-Path -LiteralPath $configFile) { $fileList += 'config.json' }
-    if (Test-Path -LiteralPath $hooksFile) { $fileList += 'hooks.ps1' }
+    if (Test-Path -LiteralPath $hooksFile) { $fileList += 'hooks.lua' }
     if (Test-Path -LiteralPath $langDir) { $fileList += @(Get-ChildItem -LiteralPath $langDir -Filter '*.json' | ForEach-Object { "language/$($_.Name)" }) }
     $entry.files = $fileList
     $entry.fileCount = $fileList.Count
-
-    # 检测模板表达式（{{ }} 运行时求值，需人工复核）
-    if (Test-Path -LiteralPath $langDir) {
-        foreach ($f in Get-ChildItem -LiteralPath $langDir -Filter '*.json') {
-            $content = Get-Content -LiteralPath $f.FullName -Raw
-            if ($content -like '*{{*') {
-                $entry.hasTemplate = $true
-                break
-            }
-        }
-    }
 
     if (Test-Path -LiteralPath $langDir) {
         foreach ($f in Get-ChildItem -LiteralPath $langDir -Filter '*.json') {
@@ -332,7 +317,7 @@ foreach ($name in $CompletionList) {
     $results.Add([pscustomobject]$entry)
 }
 
-# compare-json 一次处理所有补全
+# compare-json processes all completions at once
 if ($results.Count -gt 0) {
     $allNames = @($results | ForEach-Object { $_.name })
     $compareOut = & (Join-Path $PSScriptRoot 'compare-json.ps1') @($allNames) -Json 2>$null | Out-String

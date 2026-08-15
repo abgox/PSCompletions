@@ -15,11 +15,53 @@
       "uniqueItems": true
     },
     "array-items-string": {
-      "$ref": "#/definitions/array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "array-items-text": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "if": {
+              "type": "string"
+            },
+            "then": {
+              "$ref": "#/definitions/string"
+            },
+            "else": {
+              "required": [
+                "cmd",
+                "desc"
+              ],
+              "properties": {
+                "cmd": {
+                  "$ref": "#/definitions/string"
+                },
+                "desc": {
+                  "$ref": "#/definitions/string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
     },
     "name": {
       "title": "命令名称",
@@ -66,7 +108,7 @@
       ]
     },
     "tip": {
-      "markdownDescription": "补全的提示信息 `ToolTip`\n- 它一般由三部分组成: 用法(Usage) + 描述(Description) + 举例(Example)\n- 这里有一个示例:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\",\n    \"xxx (这里是描述信息)\",\n    \"E: -r '@-'   --- xxx (示例说明)\"\n    \"   -r 'x-'   --- xxx (示例说明)\"\n  ]\n  ```",
+      "markdownDescription": "补全项的描述信息（显示为 `[Description]` 部分）。\n- `usage` 和 `example` 字段分别存放用法和示例。\n- 这里有一个示例:\n```json\n  \"tip\": [\n    \"Add file changes to the index.\"\n  ]\n  ```",
       "examples": [
         []
       ],
@@ -105,6 +147,84 @@
         99
       ]
     },
+    "usage": {
+      "markdownDescription": "补全项的用法行（显示为 `[Usage]` 部分）。\n- 可选; 不填则不显示用法部分。\n- 每项可以是纯字符串，或对象 `{ \"cmd\": ..., \"desc\": ... }`——对象形式下 **`cmd` 和 `desc` 都必须提供**（没有解释时直接用纯字符串）。\n- 示例:\n```json\n  \"usage\": [\"-r, --revisions <REVSETS>\", { \"cmd\": \"add|install <APP>\", \"desc\": \"安装一个包\" }]\n```",
+      "examples": [
+        []
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-text"
+        },
+        {
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "not": {
+                  "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                },
+                "errorMessage": "中文和英文之间必须有空格"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "cmd": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  },
+                  "desc": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "example": {
+      "markdownDescription": "补全项的示例行（显示为 `[Example]` 部分）。\n- 可选; 不填则不显示示例部分。\n- 每项可以是纯字符串，或对象 `{ \"cmd\": ..., \"desc\": ... }`——对象形式下 **`cmd` 和 `desc` 都必须提供**（没有解释时直接用纯字符串）。\n- 示例:\n```json\n  \"example\": [\"-r '@-'\", { \"cmd\": \"d demo.zip *.bak -r\", \"desc\": \"删除所有 bak 文件\" }]\n```",
+      "examples": [
+        []
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-text"
+        },
+        {
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "not": {
+                  "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                },
+                "errorMessage": "中文和英文之间必须有空格"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "cmd": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  },
+                  "desc": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
     "item": {
       "type": "object",
       "required": [
@@ -120,11 +240,17 @@
         "tip": {
           "$ref": "#/definitions/tip"
         },
+        "usage": {
+          "$ref": "#/definitions/usage"
+        },
+        "example": {
+          "$ref": "#/definitions/example"
+        },
         "repeat": {
           "$ref": "#/definitions/repeat"
         },
         "next": {
-          "$ref": "#/definitions/next"
+          "$ref": "#/definitions/next-for-option"
         },
         "option": {
           "$ref": "#/definitions/option"
@@ -147,6 +273,12 @@
         "tip": {
           "$ref": "#/definitions/tip"
         },
+        "usage": {
+          "$ref": "#/definitions/usage"
+        },
+        "example": {
+          "$ref": "#/definitions/example"
+        },
         "next": {
           "$ref": "#/definitions/next"
         },
@@ -157,36 +289,56 @@
       "additionalProperties": false
     },
     "next": {
-      "markdownDescription": "下一个子命令补全\n- 它可以是一个数组或数字 `0`\n- 如果是数组\n  - 数组中的项会自动添加到补全中\n  - 如果有 `hooks`，会动态添加\n- 如果是数字 `0`\n  - 它表示此时应该输入一个内容\n  - 但是 [PSCompletions](https://pscompletions.abgox.com) 无力提供补全，需要用户自行输入\n  - `0` 就是告诉 [PSCompletions](https://pscompletions.abgox.com) 应该显示 `input` 类型的符号，以实现符号预测",
-      "type": [
-        "array",
-        "number"
-      ],
-      "examples": [
-        [],
-        0
-      ],
+      "markdownDescription": "下一个子命令补全（**仅命令**）\n- 必须是**非空数组**——命令要么有下一层（其子命令），要么没有\n- 命令的参数值由 `usage` 占位符表达，不用 `next`\n- 数组中的项会自动添加到补全中",
+      "type": "array",
+      "minItems": 1,
       "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/next-item"
-      },
+      }
+    },
+    "next-for-option": {
+      "markdownDescription": "选项的下一级补全（候选值）\n- 必须是**数组**\n- **非空**数组列出静态候选值（选中后记为选项的 `value`；候选外的词为 `unknown`），符号为 `switch`\n- **空**数组 `[]` 表示\"无静态候选\"——hooks 可提供动态项并用 `psc.set_symbol` 设置符号；否则值手动输入且为 `unknown`",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/next-item"
+      }
+    },
+    "require_next": {
       "if": {
-        "type": "number",
-        "not": {
-          "const": 0
-        }
+        "properties": {
+          "usage": {
+            "contains": {
+              "type": "string",
+              "pattern": "^[^#]*<[^<>]*>"
+            }
+          }
+        },
+        "required": [
+          "usage"
+        ]
       },
       "then": {
-        "not": true,
-        "errorMessage": "next 必须是一个数组或数字 0"
+        "required": [
+          "next"
+        ]
       }
     },
     "option": {
       "type": "array",
       "uniqueItems": true,
+      "minItems": 1,
       "markdownDescription": "下一个选项类补全\n - 通常以 `-` 或 `--` 开头\n - 例如 `--list`",
       "items": {
-        "$ref": "#/definitions/item"
+        "allOf": [
+          {
+            "$ref": "#/definitions/item"
+          },
+          {
+            "$ref": "#/definitions/require_next"
+          }
+        ]
       }
     }
   },
@@ -240,66 +392,104 @@
     },
     "next": {
       "description": "根命令的子命令补全",
-      "$ref": "#/definitions/array",
-      "items": {
-        "$ref": "#/definitions/next-item"
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/next-item"
+          }
+        }
+      ]
     },
     "option": {
       "markdownDescription": "根命令的选项类补全",
-      "$ref": "#/definitions/array",
-      "items": {
-        "$ref": "#/definitions/item"
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/item"
+              },
+              {
+                "$ref": "#/definitions/require_next"
+              }
+            ]
+          }
+        }
+      ]
     },
     "global_option": {
       "markdownDescription": "全局的选项类补全\n- 任何情况下触发补全，都会显示它们\n- 除非你已经使用过它或它的别名了",
-      "$ref": "#/definitions/array",
-      "items": {
-        "$ref": "#/definitions/item"
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/item"
+              },
+              {
+                "$ref": "#/definitions/require_next"
+              }
+            ]
+          }
+        }
+      ]
     },
     "config": {
       "description": "补全的特殊配置项",
-      "$ref": "#/definitions/array",
-      "items": {
-        "type": "object",
-        "required": [
-          "name",
-          "value",
-          "tip"
-        ],
-        "properties": {
-          "name": {
-            "description": "配置项的名称",
-            "$ref": "#/definitions/string"
-          },
-          "value": {
-            "description": "配置项的默认值",
-            "type": [
-              "string",
-              "number"
-            ]
-          },
-          "values": {
-            "markdownDescription": "配置项的可选值\n- 这里填写的值会在触发命令补全时显示\n - 假设命令补全是 `xxx`，配置项名称是 `enable_xxx`\n - 则当你输入 `psc completion xxx enable_xxx` 后触发补全，会获取 `values` 数组中的值，并显示在补全列表中",
-            "$ref": "#/definitions/array",
-            "items": {
-              "type": [
-                "string",
-                "number"
-              ]
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "value",
+              "tip"
+            ],
+            "properties": {
+              "name": {
+                "description": "配置项的名称",
+                "$ref": "#/definitions/string"
+              },
+              "value": {
+                "description": "配置项的默认值",
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "values": {
+                "markdownDescription": "配置项的可选值\n- 这里填写的值会在触发命令补全时显示\n - 假设命令补全是 `xxx`，配置项名称是 `enable_xxx`\n - 则当你输入 `psc completion xxx enable_xxx` 后触发补全，会获取 `values` 数组中的值，并显示在补全列表中",
+                "$ref": "#/definitions/array",
+                "items": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "tip": {
+                "description": "配置项的提示信息",
+                "$ref": "#/definitions/array-items-string"
+              }
             }
-          },
-          "tip": {
-            "description": "配置项的提示信息",
-            "$ref": "#/definitions/array-items-string"
           }
         }
-      }
+      ]
     },
     "info": {
-      "markdownDescription": "一些额外的信息\n- 它们可以在此 json 文件的 `tip` 字段中使用 `{{ $info.xxx }}` 进行访问\n- 如果需要换行，请使用 `\\n`",
+      "markdownDescription": "一些额外的信息，hooks 可通过 `psc.manifest.info` 访问",
       "type": "object",
       "minProperties": 1
     }

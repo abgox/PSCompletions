@@ -1,8 +1,7 @@
 #Requires -Version 7.0
 
 param(
-    [string]$CompletionName,
-    [switch]$AddHooks
+    [string]$CompletionName
 )
 
 Set-StrictMode -Off
@@ -43,16 +42,6 @@ $config = [ordered]@{
 }
 Copy-Item "$($PSScriptRoot)/template/language/en-US.json" "$completion_dir/language/en-US.json" -Force
 Copy-Item "$($PSScriptRoot)/template/language/zh-CN.json" "$completion_dir/language/zh-CN.json" -Force
-
-if ($AddHooks) {
-    $config.hooks = $true
-    Copy-Item "$($PSScriptRoot)/template/hooks.ps1" "$completion_dir/hooks.ps1" -Force
-}
 $config | ConvertTo-Json | Out-File "$completion_dir/config.json" -Force
 
-if ($AddHooks) {
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text.successWithHooks))
-}
-else {
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text.success))
-}
+$PSCompletions.write_with_color($PSCompletions.replace_content($text.success))

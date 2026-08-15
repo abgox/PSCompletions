@@ -53,15 +53,6 @@ foreach ($CompletionName in $CompletionList) {
 
     $config = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$CompletionName\config.json"))
 
-    if ($config.hooks -ne $null) {
-        if ($null -eq $PSCompletions.data.config.completion[$CompletionName]) {
-            $PSCompletions.data.config.completion[$CompletionName] = @{}
-        }
-        if ($null -eq $PSCompletions.data.config.completion[$CompletionName].enable_hooks) {
-            $PSCompletions.data.config.completion[$CompletionName].enable_hooks = [int]$config.hooks
-        }
-    }
-
     if ($config.alias -eq $null) {
         $PSCompletions.data.alias[$CompletionName] = @($CompletionName)
         $PSCompletions.data.aliasMap[$CompletionName] = $CompletionName
@@ -78,6 +69,12 @@ foreach ($CompletionName in $CompletionList) {
     $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$CompletionName\language\$language.json"))
 
     foreach ($c in $json.config) {
+        if ($null -eq $PSCompletions.data.config.completion) {
+            $PSCompletions.data.config.completion = @{}
+        }
+        if ($null -eq $PSCompletions.data.config.completion[$CompletionName]) {
+            $PSCompletions.data.config.completion[$CompletionName] = @{}
+        }
         if ($null -eq $PSCompletions.data.config.completion[$CompletionName].$($c.name)) {
             $PSCompletions.data.config.completion[$CompletionName].$($c.name) = $c.value
         }

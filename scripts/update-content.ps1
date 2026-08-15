@@ -64,7 +64,7 @@ function New-MarkdownList {
         $completionData = @{}
 
         $jsonConfig = Get-Content -Path "$($_.FullName)/config.json" -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable
-        $langList = Get-ChildItem -Path "$($_.FullName)/language" -File | ForEach-Object -Process { $_.BaseName }
+        $langList = @(Get-ChildItem -Path "$($_.FullName)/language" -File | ForEach-Object -Process { $_.BaseName })
 
         foreach ($lang in $langList) {
             $completionData.$lang = Get-Content -Path "$($_.FullName)/language/$lang.json" -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable

@@ -40,7 +40,6 @@ $headers = @{
     Accept        = 'application/vnd.github.v3+json'
 }
 
-# 获取 PR 变更文件
 $page = 1
 $files = @()
 $api = "https://api.github.com/repos/$repo/pulls/$pr/files?per_page=100"
@@ -53,28 +52,16 @@ while ($true) {
     $page++
 }
 
-# 扫描补全相关文件（language/*.json、config.json、hooks.ps1）
 $changedCompletions = @()
-$hasTemplate = $false
 
 foreach ($file in $files) {
     $fn = $file.filename
-    if ($fn -notmatch '^completions/([^/]+)/(config\.json|hooks\.ps1|language/.+\.json)$') {
+    if ($fn -notmatch '^completions/([^/]+)/(config\.json|hooks\.lua|language/.+\.json)$') {
         continue
     }
     $completion = $Matches[1]
     if ($completion -notin $changedCompletions) {
         $changedCompletions += $completion
-    }
-
-    if ($file.status -in @('added', 'modified', 'renamed')) {
-        $localPath = [System.IO.Path]::Combine($PSScriptRoot, '..', $fn)
-        if (Test-Path -LiteralPath $localPath) {
-            $content = Get-Content -LiteralPath $localPath -Raw
-            if ($content -like '*{{*') {
-                $hasTemplate = $true
-            }
-        }
     }
 }
 
@@ -133,7 +120,6 @@ else {
         )
     }
 
-    # 警告：需要排序
     if ($jsonChanges) {
         $results += @(
             '',
@@ -147,25 +133,12 @@ else {
             ''
         )
     }
-
-    # 警告：模板表达式需人工复核
-    if ($hasTemplate) {
-        $results += @(
-            '',
-            '> [!WARNING]',
-            '>',
-            '> - Some completions contain template expressions (`{{ xxx }}`) that are evaluated at runtime.',
-            '> - Please review them carefully before merging.'
-            ''
-        )
-    }
 }
 
 $results | Out-File -FilePath ([System.IO.Path]::Combine($PSScriptRoot, '..', 'result.md')) -Encoding utf8
 
 $labels = [ordered]@{
-    'check-failed'           = $hasIssues
-    'security-review-needed' = $hasTemplate
+    'check-failed' = $hasIssues
 }
 
 $add_labels = @()

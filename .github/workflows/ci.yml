@@ -25,20 +25,131 @@ jobs:
         shell: pwsh
         run: .\scripts\update-content.ps1
 
+  build-binaries:
+    name: Build binaries (${{ matrix.platform }}-${{ matrix.arch }})
+    runs-on: ${{ matrix.os }}
+    if: "startsWith(github.event.head_commit.message, 'release')"
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+            arch: x64
+            target: x86_64-pc-windows-msvc
+            cross: "false"
+          - os: windows-11-arm
+            platform: windows
+            arch: arm64
+            target: aarch64-pc-windows-msvc
+            cross: "false"
+          - os: ubuntu-latest
+            platform: linux
+            arch: x64
+            target: x86_64-unknown-linux-gnu
+            cross: "false"
+          - os: ubuntu-24.04-arm
+            platform: linux
+            arch: arm64
+            target: aarch64-unknown-linux-gnu
+            cross: "false"
+          - os: macos-15
+            platform: darwin
+            arch: arm64
+            target: aarch64-apple-darwin
+            cross: "false"
+          - os: macos-15
+            platform: darwin
+            arch: x64
+            target: x86_64-apple-darwin
+            cross: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: core
+          key: ${{ matrix.target }}
+
+      - name: Build
+        shell: pwsh
+        run: |
+          if ('${{ matrix.cross }}' -eq 'true') {
+            cargo build --release --manifest-path core/Cargo.toml --target '${{ matrix.target }}'
+          } else {
+            cargo build --release --manifest-path core/Cargo.toml
+          }
+
+      - name: Verify binaries
+        shell: pwsh
+        run: |
+          $ext = if ('${{ matrix.platform }}' -eq 'windows') { '.exe' } else { '' }
+          $dir = if ('${{ matrix.cross }}' -eq 'true') { "core/target/${{ matrix.target }}/release" } else { 'core/target/release' }
+          & "$dir/psc-menu$ext" --self-test
+          if ($LASTEXITCODE -ne 0) { throw "psc-menu self-test failed (exit $LASTEXITCODE)" }
+          & "$dir/psc$ext" --data "$env:RUNNER_TEMP/psc-smoke" | Out-Null
+          if ($LASTEXITCODE -ne 0) { throw "psc smoke test failed (exit $LASTEXITCODE)" }
+
+      - name: Copy binaries into module
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $ext = if ('${{ matrix.platform }}' -eq 'windows') { '.exe' } else { '' }
+          $dir = if ('${{ matrix.cross }}' -eq 'true') { "core/target/${{ matrix.target }}/release" } else { 'core/target/release' }
+          $dest = "module/PSCompletions/bin/${{ matrix.platform }}-${{ matrix.arch }}"
+          New-Item -ItemType Directory -Path $dest -Force | Out-Null
+          foreach ($name in 'psc', 'psc-menu') {
+            $src = "$dir/$name$ext"
+            if (-not (Test-Path -LiteralPath $src)) { throw "Missing build artifact: $src" }
+            Copy-Item -LiteralPath $src -Destination (Join-Path $dest "$name$ext") -Force
+          }
+
+      - name: Upload binaries
+        uses: actions/upload-artifact@v7
+        with:
+          name: binaries-${{ matrix.platform }}-${{ matrix.arch }}
+          path: module/PSCompletions/bin/${{ matrix.platform }}-${{ matrix.arch }}
+          if-no-files-found: error
+
   publish-module:
     runs-on: windows-latest
-    needs: update-content
-    if: "startsWith(github.event.head_commit.message, 'release(module):')"
-    env:
-      PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
+    needs: [update-content, build-binaries]
+    if: "startsWith(github.event.head_commit.message, 'release')"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
           ref: ${{ github.event.repository.default_branch }}
 
-      - name: Validate and Publish
-        run: .\scripts\publish-to-gallery.ps1
+      - name: Download binaries
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+          pattern: binaries-*
+
+      - name: Prepare and Publish
+        shell: pwsh
+        run: |
+          $moduleDir = 'module/PSCompletions'
+          Get-ChildItem artifacts -Directory | ForEach-Object {
+            $pair = $_.Name -replace '^binaries-',''
+            $dest = Join-Path $moduleDir "bin/$pair"
+            New-Item -ItemType Directory -Path $dest -Force | Out-Null
+            Copy-Item -Path (Join-Path $_.FullName '*') -Destination $dest -Force
+          }
+          New-Item -Path "$moduleDir/completions" -ItemType Directory -Force
+          Copy-Item -Path 'completions/psc' -Destination "$moduleDir/completions" -Force -Recurse
+          Test-ModuleManifest -Path "$moduleDir/PSCompletions.psd1"
+          Publish-Module -Path $moduleDir -NuGetApiKey ${{ secrets.PSGALLERY_API_KEY }} -ErrorAction Stop
 
   deploy:
     environment:
@@ -66,7 +177,7 @@ jobs:
           destination: ./_site
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
 
       - name: Deploy to GitHub Pages
         id: deployment

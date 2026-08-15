@@ -15,11 +15,53 @@
       "uniqueItems": true
     },
     "array-items-string": {
-      "$ref": "#/definitions/array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
+    },
+    "array-items-text": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "if": {
+              "type": "string"
+            },
+            "then": {
+              "$ref": "#/definitions/string"
+            },
+            "else": {
+              "required": [
+                "cmd",
+                "desc"
+              ],
+              "properties": {
+                "cmd": {
+                  "$ref": "#/definitions/string"
+                },
+                "desc": {
+                  "$ref": "#/definitions/string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
     },
     "name": {
       "title": "Command name",
@@ -66,7 +108,7 @@
       ]
     },
     "tip": {
-      "markdownDescription": "Completion item tip `ToolTip`\n- General structure of the completion tip: `Usage` + `Description` + `Example`\n- Here is an example:\n```json\n  \"tip\": [\n    \"U: -r, --revisions <REVSETS>\",\n    \"xxx (Here is the description)\",\n    \"E: -r '@-'   --- xxx (Example description)\"\n    \"   -r 'x-'   --- xxx (Example description)\"\n  ]\n  ```",
+      "markdownDescription": "Completion item description (shown as the `[Description]` section).\n- The `usage` and `example` fields hold the usage/example lines separately.\n- Here is an example:\n```json\n  \"tip\": [\n    \"Add file changes to the index.\"\n  ]\n  ```",
       "examples": [
         []
       ],
@@ -105,6 +147,84 @@
         99
       ]
     },
+    "usage": {
+      "markdownDescription": "Completion item usage lines (shown as the `[Usage]` section).\n- Optional; if absent, no usage section is shown.\n- Each item is a plain string, or an object `{ \"cmd\": ..., \"desc\": ... }` — in object form **both** `cmd` and `desc` are required (use a plain string when there is no explanation).\n- Example:\n```json\n  \"usage\": [\"-r, --revisions <REVSETS>\", { \"cmd\": \"add|install <APP>\", \"desc\": \"install a package\" }]\n```",
+      "examples": [
+        []
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-text"
+        },
+        {
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "not": {
+                  "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                },
+                "errorMessage": "Chinese and English must be separated by a space"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "cmd": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  },
+                  "desc": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "example": {
+      "markdownDescription": "Completion item example lines (shown as the `[Example]` section).\n- Optional; if absent, no example section is shown.\n- Each item is a plain string, or an object `{ \"cmd\": ..., \"desc\": ... }` — in object form **both** `cmd` and `desc` are required (use a plain string when there is no explanation).\n- Example:\n```json\n  \"example\": [\"-r '@-'\", { \"cmd\": \"d demo.zip *.bak -r\", \"desc\": \"delete all .bak files\" }]\n```",
+      "examples": [
+        []
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/array-items-text"
+        },
+        {
+          "items": {
+            "oneOf": [
+              {
+                "type": "string",
+                "not": {
+                  "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                },
+                "errorMessage": "Chinese and English must be separated by a space"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "cmd": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  },
+                  "desc": {
+                    "not": {
+                      "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
     "item": {
       "type": "object",
       "required": [
@@ -120,11 +240,17 @@
         "tip": {
           "$ref": "#/definitions/tip"
         },
+        "usage": {
+          "$ref": "#/definitions/usage"
+        },
+        "example": {
+          "$ref": "#/definitions/example"
+        },
         "repeat": {
           "$ref": "#/definitions/repeat"
         },
         "next": {
-          "$ref": "#/definitions/next"
+          "$ref": "#/definitions/next-for-option"
         },
         "option": {
           "$ref": "#/definitions/option"
@@ -147,6 +273,12 @@
         "tip": {
           "$ref": "#/definitions/tip"
         },
+        "usage": {
+          "$ref": "#/definitions/usage"
+        },
+        "example": {
+          "$ref": "#/definitions/example"
+        },
         "next": {
           "$ref": "#/definitions/next"
         },
@@ -157,36 +289,56 @@
       "additionalProperties": false
     },
     "next": {
-      "markdownDescription": "Next subcommand completion\n- It can be an array or the number `0`\n- If it is an array\n  - Items in the array are automatically added to the completions.\n  - If there are `hooks`, they will be added dynamically.\n- If it is the number `0`\n  - It indicates that a content should be input at this time.\n  - However, [PSCompletions](https://pscompletions.abgox.com) is unable to provide completions, and users need to input manually.\n  - `0` tells [PSCompletions](https://pscompletions.abgox.com) that it should display symbols of the `input` type to achieve symbol prediction.",
-      "type": [
-        "array",
-        "number"
-      ],
-      "examples": [
-        [],
-        0
-      ],
+      "markdownDescription": "Next subcommand completion (**commands only**)\n- Must be a **non-empty array** — a subcommand either has a next level (its subcommands) or none at all.\n- A command's parameter value (if any) is expressed by the `usage` placeholder, never by `next`.\n- Items in the array are automatically added to the completions.",
+      "type": "array",
+      "minItems": 1,
       "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/next-item"
-      },
+      }
+    },
+    "next-for-option": {
+      "markdownDescription": "Next completion for an **option** (candidate values)\n- Must be an **array**.\n- A **non-empty** array lists static candidate values (selecting one records it as the option's `value`; an out-of-list word is `unknown`). The symbol is `switch`.\n- An **empty** array `[]` means \"no static candidates\" — hooks may supply dynamic items and set the symbol via `psc.set_symbol`; otherwise the value is typed manually and is `unknown`.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/next-item"
+      }
+    },
+    "require_next": {
       "if": {
-        "type": "number",
-        "not": {
-          "const": 0
-        }
+        "properties": {
+          "usage": {
+            "contains": {
+              "type": "string",
+              "pattern": "^[^#]*<[^<>]*>"
+            }
+          }
+        },
+        "required": [
+          "usage"
+        ]
       },
       "then": {
-        "not": true,
-        "errorMessage": "It must be an array or the number 0"
+        "required": [
+          "next"
+        ]
       }
     },
     "option": {
       "type": "array",
       "uniqueItems": true,
+      "minItems": 1,
       "markdownDescription": "Next optional completion\n - Usually starts with `-` or `--`\n - For example, `--list`",
       "items": {
-        "$ref": "#/definitions/item"
+        "allOf": [
+          {
+            "$ref": "#/definitions/item"
+          },
+          {
+            "$ref": "#/definitions/require_next"
+          }
+        ]
       }
     }
   },
@@ -240,66 +392,104 @@
     },
     "next": {
       "description": "Subcommand completion for the root command",
-      "$ref": "#/definitions/array",
-      "items": {
-        "$ref": "#/definitions/next-item"
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/next-item"
+          }
+        }
+      ]
     },
     "option": {
       "markdownDescription": "Optional completion for the root command",
-      "$ref": "#/definitions/array",
-      "items": {
-        "$ref": "#/definitions/item"
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/item"
+              },
+              {
+                "$ref": "#/definitions/require_next"
+              }
+            ]
+          }
+        }
+      ]
     },
     "global_option": {
       "markdownDescription": "Global optional completion\n- Any time you trigger completion, they will be displayed\n- Unless you have used it or its alias",
-      "$ref": "#/definitions/array",
-      "items": {
-        "$ref": "#/definitions/item"
-      }
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/item"
+              },
+              {
+                "$ref": "#/definitions/require_next"
+              }
+            ]
+          }
+        }
+      ]
     },
     "config": {
       "description": "Special configuration items for the completion command",
-      "$ref": "#/definitions/array",
-      "items": {
-        "type": "object",
-        "required": [
-          "name",
-          "value",
-          "tip"
-        ],
-        "properties": {
-          "name": {
-            "description": "Name of the special configuration item",
-            "$ref": "#/definitions/string"
-          },
-          "value": {
-            "description": "Default value of the special configuration item",
-            "type": [
-              "string",
-              "number"
-            ]
-          },
-          "values": {
-            "markdownDescription": "Optional values of the special configuration item\n- Here, you can fill in the values that will be displayed when the command completion is triggered\n - Suppose the command completion is `xxx` and the configuration item name is `enable_xxx`\n - Then, when you input `psc completion xxx enable_xxx` and trigger completion, the values in the `values` array will be displayed in the completion list",
-            "$ref": "#/definitions/array",
-            "items": {
-              "type": [
-                "string",
-                "number"
-              ]
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "value",
+              "tip"
+            ],
+            "properties": {
+              "name": {
+                "description": "Name of the special configuration item",
+                "$ref": "#/definitions/string"
+              },
+              "value": {
+                "description": "Default value of the special configuration item",
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "values": {
+                "markdownDescription": "Optional values of the special configuration item\n- Here, you can fill in the values that will be displayed when the command completion is triggered\n - Suppose the command completion is `xxx` and the configuration item name is `enable_xxx`\n - Then, when you input `psc completion xxx enable_xxx` and trigger completion, the values in the `values` array will be displayed in the completion list",
+                "$ref": "#/definitions/array",
+                "items": {
+                  "type": [
+                    "string",
+                    "number"
+                  ]
+                }
+              },
+              "tip": {
+                "description": "Tip information for the special configuration item",
+                "$ref": "#/definitions/array-items-string"
+              }
             }
-          },
-          "tip": {
-            "description": "Tip information for the special configuration item",
-            "$ref": "#/definitions/array-items-string"
           }
         }
-      }
+      ]
     },
     "info": {
-      "markdownDescription": "Additional information\n- They can be accessed in the `tip` field of this json file using `{{ $info.xxx }}`\n- If you need to add line breaks, please use `\\n`",
+      "markdownDescription": "Additional information, exposed to hooks via `psc.manifest.info`",
       "type": "object",
       "minProperties": 1
     }

@@ -54,24 +54,18 @@ function Sort-JsonStructure {
 
     $json = Get-Content $InputFile -Raw | ConvertFrom-Json
 
-    # 顶层属性顺序
     $topLevelOrder = @('meta', 'next', 'option', 'global_option', 'config', 'info')
-    # meta 属性顺序
     $metaOrder = @('url', 'description')
-    # config 属性顺序
     $configOrder = @('name', 'value', 'values', 'tip')
-    # next/option/global_option 属性顺序
-    $itemPropertyOrder = @('name', 'alias', 'tip', 'repeat', 'option', 'next')
+    $itemPropertyOrder = @('name', 'alias', 'usage', 'tip', 'example', 'repeat', 'option', 'next')
 
-    # 递归排序函数
     function Sort-ObjectRecursively {
         param (
             $inputObject,
-            # 定义属性的顺序
             [string[]]$propertyOrder = @()
         )
 
-        # 处理数组: 如果数组元素有 name，则排序
+        # Sort array elements by name when present
         if ($inputObject -is [array]) {
             $array = $inputObject
 
@@ -86,17 +80,15 @@ function Sort-JsonStructure {
 
             return , $sortedArray
         }
-        # 处理对象
         elseif ($inputObject -is [System.Management.Automation.PSCustomObject]) {
             $sortedObject = [ordered]@{}
-            # 先处理有顺序要求的属性
             foreach ($prop in $propertyOrder) {
                 if ($inputObject.PSObject.Properties.Name -contains $prop) {
                     $sortedObject[$prop] = Sort-ObjectRecursively -inputObject $inputObject.$prop -propertyOrder $propertyOrder
                 }
             }
 
-            # 然后按字母序处理剩余属性
+            # Remaining properties are appended in alphabetical order
             $remainingProps = $inputObject.PSObject.Properties.Name |
             Where-Object { $propertyOrder -notcontains $_ } |
             Sort-Object { [System.Tuple]::Create($_.ToUpperInvariant(), $_) }
@@ -107,16 +99,13 @@ function Sort-JsonStructure {
 
             return $sortedObject
         }
-        # 处理其他类型（字符串、数字等）直接返回
         else {
             return $inputObject
         }
     }
 
-    # Create a new ordered hashtable for the sorted JSON
     $sortedJson = [ordered]@{}
 
-    # Sort top-level properties
     foreach ($prop in $topLevelOrder) {
         if ($json.PSObject.Properties.Name -contains $prop) {
             if ($prop -in @('next', 'option', 'global_option')) {
@@ -142,10 +131,8 @@ function Sort-JsonStructure {
         }
     }
 
-    # Convert back to JSON with pretty formatting
     $sortedJsonString = $sortedJson | ConvertTo-Json -Depth 100
 
-    # Output to file or return the object
     if ($OutputFile) {
         $sortedJsonString | Out-File -FilePath $OutputFile -Encoding utf8
     }

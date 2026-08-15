@@ -57,14 +57,31 @@ jobs:
               core.setOutput("comment_id", res.data.id)
             }
 
-      - name: Checkout
+      - name: Checkout base
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+          fetch-depth: 50
+
+      - name: Checkout PR head
         uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+          path: pr
+          fetch-depth: 50
+          allow-unsafe-pr-checkout: true
+
+      - name: Use trusted scripts
+        shell: pwsh
+        run: |
+          Remove-Item -Path pr/scripts -Recurse -Force
+          Copy-Item -Path base/scripts -Destination pr -Recurse -Force
 
       - name: Check Completion
         shell: pwsh
-        run: .\scripts\check-completion.ps1
+        working-directory: pr
+        run: ./scripts/check-completion.ps1
 
       - name: Comment PR
         uses: actions/github-script@v9
@@ -72,7 +89,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = await import('node:fs');
-            const body = fs.readFileSync('result.md', 'utf8');
+            const body = fs.readFileSync('pr/result.md', 'utf8');
             await github.rest.issues.updateComment({
               owner: context.repo.owner,
               repo: context.repo.repo,

@@ -71,19 +71,20 @@ function Compare-Lang {
         valueDiff        = @()
         untranslated     = @()
         duplicateItems   = @()
-        tipOnlyUsage     = @()
         meaninglessUsage = @()
         missingUsage     = @()
         duplicateOptions = @()
         usageOrder       = @()
         usageTooSimple   = @()
         usageSeparator   = @()
+        optionMissingNext = @()
+        usageRootPrefix  = @()
     }
 
     function Normalize-Value {
         param($Value, [string]$Key = '')
 
-        if ($null -eq $Value) { return $null }
+        if ($null -eq $Value) { return }
         if ($Value -is [System.Collections.IDictionary]) {
             if ($Value.ContainsKey('name') -and $Key -in 'next', 'option', 'global_option', 'alias') {
                 return , @($Value)
@@ -132,20 +133,22 @@ function Compare-Lang {
     }
 
     function Compare-TranslatableText {
-        param($BaseVal, $TargetVal, [string]$Path)
+        param($BaseVal, $TargetVal, [string]$Path, [bool]$IdenticalOk = $false)
 
-        $baseArr = if ($null -eq $BaseVal) { @() } else { @($BaseVal) }
-        $targetArr = if ($null -eq $TargetVal) { @() } else { @($TargetVal) }
-
-        foreach ($item in $baseArr) {
-            if ($item -isnot [string]) { return }
-        }
-        foreach ($item in $targetArr) {
-            if ($item -isnot [string]) { return }
-        }
+        # Note: `$x = if (c) { @($v) }` flattens a single-element array to a scalar
+        $baseArr = @()
+        if ($null -ne $BaseVal) { $baseArr = @($BaseVal) }
+        $targetArr = @()
+        if ($null -ne $TargetVal) { $targetArr = @($TargetVal) }
 
         if ($baseArr.Count -eq 0 -and $targetArr.Count -eq 0) { return }
-        if ($baseArr.Count -eq 0) { return }
+        if ($baseArr.Count -eq 0) {
+            # base (e.g. en-US) has nothing but target has content — also a one-sided difference
+            if ($targetArr.Count -gt 0) {
+                $stats.extraInTarget += @{ path = $Path; name = $Path }
+            }
+            return
+        }
 
         $stats.totalTips++
 
@@ -154,11 +157,87 @@ function Compare-Lang {
             return
         }
 
+        # usage/example may mix {cmd, desc} objects and plain strings: check each item's structure
+        $hasObject = $false
+        foreach ($item in $baseArr) {
+            if ($item -is [System.Collections.IDictionary]) { $hasObject = $true; break }
+        }
+        if (-not $hasObject) {
+            foreach ($item in $targetArr) {
+                if ($item -is [System.Collections.IDictionary]) { $hasObject = $true; break }
+            }
+        }
+        if ($hasObject) {
+            $allDescTranslated = $true
+            if ($baseArr.Count -ne $targetArr.Count) {
+                $stats.semanticMismatch += @{
+                    path   = $Path
+                    name   = $Path
+                    reason = [string]::Format($text.reasonCount, $BaseLang, $baseArr.Count, $targetLang, $targetArr.Count)
+                }
+            }
+            $max = [Math]::Min($baseArr.Count, $targetArr.Count)
+            for ($i = 0; $i -lt $max; $i++) {
+                $b = $baseArr[$i]
+                $t = $targetArr[$i]
+                $bObj = $b -is [System.Collections.IDictionary]
+                $tObj = $t -is [System.Collections.IDictionary]
+                if ($bObj -ne $tObj) {
+                    $stats.semanticMismatch += @{
+                        path   = "$Path > item $i"
+                        name   = $Path
+                        reason = [string]::Format($text.reasonType, $i)
+                    }
+                    continue
+                }
+                if ($bObj) {
+                    foreach ($f in 'cmd', 'desc') {
+                        if (($null -ne $b[$f]) -ne ($null -ne $t[$f])) {
+                            $stats.semanticMismatch += @{
+                                path   = "$Path > item $i"
+                                name   = $Path
+                                reason = [string]::Format($text.reasonMissingField, $i, $f)
+                            }
+                        }
+                    }
+                    $bCmd = $b['cmd']
+                    $tCmd = $t['cmd']
+                    if ($null -notin $bCmd, $tCmd -and ([string]$bCmd).Trim() -ne ([string]$tCmd).Trim()) {
+                        $stats.semanticMismatch += @{
+                            path   = "$Path > item $i"
+                            name   = $Path
+                            reason = [string]::Format($text.reasonCmdValue, $i, $bCmd, $tCmd)
+                        }
+                    }
+                    $bDesc = $b['desc']
+                    $tDesc = $t['desc']
+                    if ($null -ne $bDesc -and $null -ne $tDesc) {
+                        $bs = ([string]$bDesc).Trim()
+                        $ts = ([string]$tDesc).Trim()
+                        $isTemplate = $bs -like '{{*}}' -and $ts -like '{{*}}' -and $bs -eq $ts
+                        if (-not $isTemplate -and $bs -eq $ts) {
+                            $allDescTranslated = $false
+                            $stats.untranslated += @{ path = "$Path > item $i > desc"; name = $Path }
+                        }
+                    }
+                }
+            }
+            if ($allDescTranslated) { $stats.translatedTips++ }
+            return
+        }
+
+        foreach ($item in $baseArr) {
+            if ($item -isnot [string]) { return }
+        }
+        foreach ($item in $targetArr) {
+            if ($item -isnot [string]) { return }
+        }
+
         $baseStr = $baseArr -join ''
         $targetStr = $targetArr -join ''
 
         $isTemplate = $targetStr -like '{{*}}' -and $baseStr -like '{{*}}' -and $targetStr -eq $baseStr
-        if ($isTemplate -or $targetStr -ne $baseStr) {
+        if ($isTemplate -or $targetStr -ne $baseStr -or $IdenticalOk) {
             $stats.translatedTips++
         }
         else {
@@ -169,8 +248,8 @@ function Compare-Lang {
     function Compare-Value {
         param($BaseVal, $TargetVal, [string]$Path, [string]$Key, [bool]$SkipValueCheck)
 
-        if ($Key -in 'tip', 'description') {
-            Compare-TranslatableText -BaseVal $BaseVal -TargetVal $TargetVal -Path $Path
+        if ($Key -in 'tip', 'description', 'usage', 'example') {
+            Compare-TranslatableText -BaseVal $BaseVal -TargetVal $TargetVal -Path $Path -IdenticalOk ($Key -in 'usage', 'example')
             return
         }
         $BaseVal = Normalize-Value -Value $BaseVal -Key $Key
@@ -199,8 +278,11 @@ function Compare-Lang {
         if ($Key -eq 'next' -and $baseType -ne 'Array' -and $targetType -ne 'Array') {
             if ($BaseVal -eq 0 -or $TargetVal -eq 0) {
                 if ($BaseVal -ne $TargetVal) {
-                    $suffix = " (<@Red>$BaseVal<@Cyan> > <@Red>$TargetVal<@Cyan>)"
-                    $stats.semanticMismatch += @{ path = "$Path$suffix"; name = $Path }
+                    $stats.semanticMismatch += @{
+                        path   = $Path
+                        name   = $Path
+                        reason = [string]::Format($text.reasonNextValue, $BaseLang, $BaseVal, $targetLang, $TargetVal)
+                    }
                 }
                 return
             }
@@ -256,8 +338,11 @@ function Compare-Lang {
     function Compare-Fields {
         param([hashtable]$BaseObj, [hashtable]$TargetObj, [string]$Path, [bool]$SkipValueCheck = $false)
 
-        $baseKeys = if ($BaseObj) { @($BaseObj.Keys) } else { @() }
-        $targetKeys = if ($TargetObj) { @($TargetObj.Keys) } else { @() }
+        # Note: `$x = if (c) { @($v) }` flattens a single-element array to a scalar
+        $baseKeys = @()
+        if ($BaseObj) { $baseKeys = @($BaseObj.Keys) }
+        $targetKeys = @()
+        if ($TargetObj) { $targetKeys = @($TargetObj.Keys) }
         $allKeys = @($baseKeys) + @($targetKeys) | Select-Object -Unique
 
         foreach ($key in $allKeys) {
@@ -312,36 +397,11 @@ function Compare-Lang {
         }
     }
 
-    function Validate-Tip {
-        param([array]$Tip, [string]$Path)
-
-        if ($null -eq $Tip -or $Tip.Count -eq 0) { return }
-
-        $hasUsage = $false
-        $hasDescription = $false
-
-        foreach ($line in $Tip) {
-            if ($line -match '^U:') {
-                $hasUsage = $true
-            }
-            elseif ($line -match '^E:') {
-                # Example line is OK
-            }
-            else {
-                $hasDescription = $true
-            }
-        }
-
-        if ($hasUsage -and -not $hasDescription) {
-            $stats.tipOnlyUsage += @{ path = $Path; name = $Path }
-        }
-    }
-
     function Validate-UsageFormat {
         param([string]$Line, [string]$Path, [bool]$IsOption)
 
         $u = $Line.Substring(2).Trim()
-        # 提取前导形式块：连续的由逗号/竖线分隔的形式，遇到空格、'<'、'='、'[' 等占位/列举处停止
+        # Leading form block: forms split by comma/pipe, stop at placeholders like '<', '=', '['
         $m = [regex]::Match($u, '^[^\s,|<=\[|]+(?:\s*[,|]\s*[^\s,|<=\[|]+)*')
         if (-not $m.Success) { return }
         $block = $m.Value
@@ -370,21 +430,27 @@ function Compare-Lang {
         $hasAlias = $null -ne $Item.alias -and @($Item.alias).Count -gt 0
         $hasNext = $null -ne $Item.next
 
-        # usage 不是强制项：只有有别名时必须存在（用于展示别名）；有 next 或两者皆无时均可按需添加
         $needsUsage = $hasAlias
 
         $hasUsage = $false
         $useless = $false
-        # 是否为选项：位于 option/global_option 数组，或名称以 '-' 开头（兼容把选项放在 next 数组里的写法）
         $isOptionLike = $IsOption -or ($Item.name -match '^-')
-        if ($null -ne $Item.tip) {
-            foreach ($line in @($Item.tip)) {
-                if ($line -is [string] -and $line -match '^U:') {
-                    Validate-UsageFormat -Line $line -Path $Path -IsOption $isOptionLike
+        if ($null -ne $Item.usage -and @($Item.usage).Count -gt 0) {
+            foreach ($u in @($Item.usage)) {
+                if ($u -is [string]) {
+                    Validate-UsageFormat -Line "U: $u" -Path $Path -IsOption $isOptionLike
                     if (-not $hasUsage) {
                         $hasUsage = $true
-                        if ($line -match '^U:\s*(.*)$' -and $Matches[1].Trim() -eq $Item.name) {
-                            $useless = $true
+                        if ($u.Trim() -eq $Item.name) { $useless = $true }
+                    }
+                }
+                elseif ($u -is [System.Collections.IDictionary]) {
+                    $cmd = if ($null -ne $u['cmd']) { [string]$u['cmd'] } else { '' }
+                    if ($cmd) {
+                        Validate-UsageFormat -Line "U: $cmd" -Path $Path -IsOption $isOptionLike
+                        if (-not $hasUsage) {
+                            $hasUsage = $true
+                            if ($cmd.Trim() -eq $Item.name) { $useless = $true }
                         }
                     }
                 }
@@ -400,6 +466,31 @@ function Compare-Lang {
             }
             else {
                 $stats.usageTooSimple += @{ path = $Path; name = $Item.name }
+            }
+        }
+
+        # No next -> the engine treats a value-taking option as a boolean switch (wrong completions).
+        # Only options are checked: a subcommand's <...> is its argument, not requiring next.
+        # '#' inside a usage line starts a comment: only the part before it counts.
+        if ($isOptionLike -and $hasUsage -and -not $hasNext) {
+            foreach ($u in @($Item.usage)) {
+                $s = if ($u -is [string]) { $u } elseif ($u -is [System.Collections.IDictionary] -and $null -ne $u['cmd']) { [string]$u['cmd'] } else { '' }
+                $s = ($s -split '#', 2)[0]
+                if ($s -match '<[^<>]*>') {
+                    $stats.optionMissingNext += @{ path = $Path; name = $Item.name }
+                    break
+                }
+            }
+        }
+
+        # Only deeper items are flagged: root-level usage may legitimately start with the root name.
+        if ($Path -match ' > ' -and $hasUsage) {
+            foreach ($u in @($Item.usage)) {
+                $s = if ($u -is [string]) { $u } elseif ($u -is [System.Collections.IDictionary] -and $null -ne $u['cmd']) { [string]$u['cmd'] } else { '' }
+                if ($s.StartsWith("$CompletionName ")) {
+                    $stats.usageRootPrefix += @{ path = $Path; name = $Item.name }
+                    break
+                }
             }
         }
     }
@@ -430,7 +521,6 @@ function Compare-Lang {
     function Validate-Options {
         param([hashtable]$Content)
 
-        # 根级 global_option：name、tip、next、option 等所有子结构都完全一致时，才视为与各层级 option 重复
         $globalOptions = @()
         if ($Content.global_option) {
             foreach ($opt in @($Content.global_option)) {
@@ -489,9 +579,6 @@ function Compare-Lang {
     function Validate-AllTips {
         param([hashtable]$Content, [string]$BasePath, [bool]$IsOption = $false)
 
-        if ($Content.tip) {
-            Validate-Tip -Tip $Content.tip -Path $BasePath
-        }
         if ($Content.name) {
             Validate-ItemUsage -Item $Content -Path $BasePath -IsOption $IsOption
         }
@@ -576,7 +663,7 @@ foreach ($CompletionName in $CompletionList) {
 
         if ($total -eq 0) { continue }
 
-        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0 -or $stats.duplicateItems.Count -gt 0 -or $stats.tipOnlyUsage.Count -gt 0 -or $stats.meaninglessUsage.Count -gt 0 -or $stats.missingUsage.Count -gt 0 -or $stats.duplicateOptions.Count -gt 0 -or $stats.usageOrder.Count -gt 0 -or $stats.usageTooSimple.Count -gt 0 -or $stats.usageSeparator.Count -gt 0
+        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0 -or $stats.duplicateItems.Count -gt 0 -or $stats.meaninglessUsage.Count -gt 0 -or $stats.missingUsage.Count -gt 0 -or $stats.duplicateOptions.Count -gt 0 -or $stats.usageOrder.Count -gt 0 -or $stats.usageTooSimple.Count -gt 0 -or $stats.usageSeparator.Count -gt 0 -or $stats.optionMissingNext.Count -gt 0 -or $stats.usageRootPrefix.Count -gt 0
 
         $allResults += @{
             completion = $CompletionName
@@ -604,17 +691,18 @@ if ($Json) {
                     missingInTarget  = @($s.missingInTarget | ForEach-Object { $_.path })
                     extraInTarget    = @($s.extraInTarget | ForEach-Object { $_.path })
                     typeMismatch     = @($s.typeMismatch | ForEach-Object { $_.path })
-                    semanticMismatch = @($s.semanticMismatch | ForEach-Object { $_.path })
+                    semanticMismatch = @($s.semanticMismatch | ForEach-Object { "$($_.path)  —  $($_.reason)" })
                     valueDiff        = @($s.valueDiff | ForEach-Object { $_.path })
                     duplicateItems   = @($s.duplicateItems | ForEach-Object { $_.path })
                     untranslated     = @($s.untranslated | ForEach-Object { $_.path })
-                    tipOnlyUsage     = @($s.tipOnlyUsage | ForEach-Object { $_.path })
                     meaninglessUsage = @($s.meaninglessUsage | ForEach-Object { $_.path })
                     missingUsage     = @($s.missingUsage | ForEach-Object { $_.path })
                     duplicateOptions = @($s.duplicateOptions | ForEach-Object { $_.path })
                     usageOrder       = @($s.usageOrder | ForEach-Object { $_.path })
                     usageTooSimple   = @($s.usageTooSimple | ForEach-Object { $_.path })
                     usageSeparator   = @($s.usageSeparator | ForEach-Object { $_.path })
+                    optionMissingNext = @($s.optionMissingNext | ForEach-Object { $_.path })
+                    usageRootPrefix  = @($s.usageRootPrefix | ForEach-Object { $_.path })
                 }
             }
         })
@@ -663,7 +751,14 @@ if ($issueFiles -gt 0) {
         }
         if ($r.stats.semanticMismatch.Count -gt 0) {
             outText $text.semanticMismatch
-            foreach ($item in $r.stats.semanticMismatch) { outText "<@Cyan>  $($item.path)" }
+            foreach ($item in $r.stats.semanticMismatch) {
+                if ($item.reason) {
+                    outText "<@Cyan>  $($item.path)<@Yellow>  —  $($item.reason)"
+                }
+                else {
+                    outText "<@Cyan>  $($item.path)"
+                }
+            }
         }
         if ($r.stats.valueDiff.Count -gt 0) {
             outText $text.valueDiff
@@ -676,10 +771,6 @@ if ($issueFiles -gt 0) {
         if ($r.stats.untranslated.Count -gt 0) {
             outText $text.untranslated
             foreach ($item in $r.stats.untranslated) { outText "<@Cyan>  $($item.path)" }
-        }
-        if ($r.stats.tipOnlyUsage.Count -gt 0) {
-            outText $text.tipOnlyUsage
-            foreach ($item in $r.stats.tipOnlyUsage) { outText "<@Cyan>  $($item.path)" }
         }
         if ($r.stats.meaninglessUsage.Count -gt 0) {
             outText $text.meaninglessUsage
@@ -704,6 +795,14 @@ if ($issueFiles -gt 0) {
         if ($r.stats.usageSeparator.Count -gt 0) {
             outText $text.usageSeparator
             foreach ($item in $r.stats.usageSeparator) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.optionMissingNext.Count -gt 0) {
+            outText $text.optionMissingNext
+            foreach ($item in $r.stats.optionMissingNext) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.usageRootPrefix.Count -gt 0) {
+            outText $text.usageRootPrefix
+            foreach ($item in $r.stats.usageRootPrefix) { outText "<@Cyan>  $($item.path)" }
         }
     }
 }

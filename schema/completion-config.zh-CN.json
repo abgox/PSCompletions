@@ -25,7 +25,6 @@
   },
   "properties": {
     "language": {
-      "$ref": "#/definitions/array",
       "markdownDescription": "可用的语言\n- 它应该与 `language` 目录下的 json 文件相对应\n- 如果有效值不包括你想要指定的语言，请提交一个 issue",
       "examples": [
         [
@@ -34,6 +33,9 @@
         ]
       ],
       "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
         {
           "items": [
             {
@@ -665,21 +667,30 @@
       "type": "boolean"
     },
     "alias": {
-      "$ref": "#/definitions/array",
-      "items": {
-        "allOf": [
-          {
-            "$ref": "#/definitions/string"
-          },
-          {
-            "not": {
-              "pattern": "\\.(cmd|exe|bat)$"
-            },
-            "errorMessage": "请省略 .cmd、.exe、.bat 后缀，直接使用命令名称"
+      "markdownDescription": "补全的触发别名\n\n- 如果不设置，则使用目录名\n- 如果设置了，则目录名会被忽略，仅使用此字段中的名称",
+      "examples": [
+        []
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/array"
+        },
+        {
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/string"
+              },
+              {
+                "not": {
+                  "pattern": "\\.(cmd|exe|bat)$"
+                },
+                "errorMessage": "请省略 .cmd、.exe、.bat 后缀，直接使用命令名称"
+              }
+            ]
           }
-        ]
-      },
-      "markdownDescription": "补全的触发别名\n\n- 如果不设置，则使用目录名\n- 如果设置了，则目录名会被忽略，仅使用此字段中的名称"
+        }
+      ]
     }
   },
   "additionalProperties": false
