@@ -2,6 +2,11 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.0.2
+
+- Fixed duplicate output when updating completions.
+- Unified the values of boolean configuration to 1/0.
+
 ## 7.0.1
 
 - Fixed the command parameter verification error.
