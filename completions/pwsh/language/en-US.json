@@ -11,8 +11,10 @@
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --version"
+      ],
       "tip": [
-        "U: -v, --version",
         "Show the version."
       ]
     },
@@ -21,8 +23,10 @@
       "alias": [
         "-c"
       ],
+      "usage": [
+        "-c, -Command <-|string|scriptBlock> [args]"
+      ],
       "tip": [
-        "U: -c, -Command <-|string|scriptBlock> [args]",
         "The value of Command can be -, a script block, or a string.",
         "If the value of Command is -, the command text is read from standard input.",
         "Detail: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-command---c"
@@ -38,44 +42,52 @@
       "alias": [
         "-cwa"
       ],
+      "usage": [
+        "-cwa, -CommandWithArgs <string>"
+      ],
       "tip": [
-        "U: -cwa, -CommandWithArgs <string>",
         "Executes a PowerShell command with arguments.",
         "Unlike -Command, this parameter populates the $args built-in variable that can be used by the command.",
         "The first string is the command. Additional strings delimited by whitespace are the arguments."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "-ConfigurationFile",
+      "usage": [
+        "-ConfigurationFile <filePath>"
+      ],
       "tip": [
-        "U: -ConfigurationFile <filePath>",
         "Specifies a session configuration (.pssc) file path.",
         "The configuration contained in the configuration file will be applied to the PowerShell session."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "-ConfigurationName",
       "alias": [
         "-config"
       ],
+      "usage": [
+        "-config, -ConfigurationName <string>"
+      ],
       "tip": [
-        "U: -config, -ConfigurationName <string>",
         "Specifies a configuration endpoint in which PowerShell is run.",
         "This can be any endpoint registered on the local machine including the default PowerShell remoting endpoints or a custom endpoint having specific user role capabilities."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "-CustomPipeName",
+      "usage": [
+        "-CustomPipeName <string>"
+      ],
       "tip": [
-        "U: -CustomPipeName <string>",
         "Specifies the name to use for an additional IPC server (named pipe) used for debugging and other cross-process communication.",
         "This offers a predictable mechanism for connecting to other PowerShell instances.",
         "Typically used with the CustomPipeName parameter on Enter-PSHostProcess."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "-EncodedCommand",
@@ -83,13 +95,15 @@
         "-ec",
         "-e"
       ],
+      "usage": [
+        "-e, -ec, -EncodedCommand <Base64EncodedCommand>"
+      ],
       "tip": [
-        "U: -e, -ec, -EncodedCommand <Base64EncodedCommand>",
         "Accepts a Base64-encoded string version of a command.",
         "Use this parameter to submit commands to PowerShell that require complex, nested quoting.",
         "The Base64 representation must be a UTF-16LE encoded string."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "-ExecutionPolicy",
@@ -97,21 +111,25 @@
         "-ep",
         "-ex"
       ],
+      "usage": [
+        "-ep, -ex, -ExecutionPolicy <ExecutionPolicy>"
+      ],
       "tip": [
-        "U: -ep, -ex, -ExecutionPolicy <ExecutionPolicy>",
         "Sets the default execution policy for the current session and saves it in the $env:PSExecutionPolicyPreference environment variable.",
         "This parameter does not change the persistently configured execution policies.",
         "This parameter only applies to Windows computers. On non-Windows platforms, the parameter and the value provided are ignored."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "-File",
       "alias": [
         "-f"
       ],
+      "usage": [
+        "-f, -File <filePath> [args]"
+      ],
       "tip": [
-        "U: -f, -File <filePath> [args]",
         "The value of File can be - or a filepath and optional parameters.",
         "If the value of File is -, then commands are read from standard input.",
         "Detail: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
@@ -128,8 +146,10 @@
         "-inp",
         "-if"
       ],
+      "usage": [
+        "-if, -inp, -InputFormat <string>"
+      ],
       "tip": [
-        "U: -if, -inp, -InputFormat <string>",
         "Describes the format of data sent to PowerShell.",
         "Valid values are \"Text\" (text strings) or \"XML\" (serialized CLIXML format)."
       ],
@@ -147,8 +167,10 @@
       "alias": [
         "-i"
       ],
+      "usage": [
+        "-i, -Interactive"
+      ],
       "tip": [
-        "U: -i, -Interactive",
         "Present an interactive prompt to the user.",
         "Inverse for NonInteractive parameter."
       ]
@@ -158,8 +180,10 @@
       "alias": [
         "-l"
       ],
+      "usage": [
+        "-l, -Login"
+      ],
       "tip": [
-        "U: -l, -Login",
         "On Linux and macOS, starts PowerShell as a login shell, using /bin/sh to execute login profiles such as /etc/profile and ~/.profile.",
         "On Windows, this switch does nothing."
       ]
@@ -176,10 +200,14 @@
       "alias": [
         "-noe"
       ],
+      "usage": [
+        "-noe, -NoExit"
+      ],
       "tip": [
-        "U: -noe, -NoExit",
-        "Doesn't exit after running startup commands.",
-        "E: pwsh -NoExit -Command Get-Date"
+        "Doesn't exit after running startup commands."
+      ],
+      "example": [
+        "pwsh -NoExit -Command Get-Date"
       ]
     },
     {
@@ -187,8 +215,10 @@
       "alias": [
         "-nol"
       ],
+      "usage": [
+        "-nol, -NoLogo"
+      ],
       "tip": [
-        "U: -nol, -NoLogo",
         "Hides the banner at startup of interactive sessions."
       ]
     },
@@ -197,8 +227,10 @@
       "alias": [
         "-noni"
       ],
+      "usage": [
+        "-noni, -NonInteractive"
+      ],
       "tip": [
-        "U: -noni, -NonInteractive",
         "This switch is used to create sessions that shouldn't require user input.",
         "This is useful for scripts that run in scheduled tasks or CI/CD pipelines.",
         "Any attempts to use interactive features, like Read-Host or confirmation prompts, result in statement terminating errors rather than hanging."
@@ -209,8 +241,10 @@
       "alias": [
         "-nop"
       ],
+      "usage": [
+        "-nop, -NoProfile"
+      ],
       "tip": [
-        "U: -nop, -NoProfile",
         "Doesn't load the PowerShell profiles."
       ]
     },
@@ -226,8 +260,10 @@
         "-of",
         "-o"
       ],
+      "usage": [
+        "-o, -of, -OutputFormat <string>"
+      ],
       "tip": [
-        "U: -o, -of, -OutputFormat <string>",
         "Determines how output from PowerShell is formatted.",
         "Valid values are \"Text\" (text strings) or \"XML\" (serialized CLIXML format)."
       ],
@@ -245,21 +281,25 @@
       "alias": [
         "-settings"
       ],
+      "usage": [
+        "-settings, -SettingsFile <filePath>"
+      ],
       "tip": [
-        "U: -settings, -SettingsFile <filePath>",
         "Overrides the system-wide powershell.config.json settings file for the session.",
         "By default, system-wide settings are read from the powershell.config.json in the $PSHOME directory.",
         "Note that these settings aren't used by the endpoint specified by the -ConfigurationName argument."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "-SSHServerMode",
       "alias": [
         "-sshs"
       ],
+      "usage": [
+        "-sshs, -SSHServerMode"
+      ],
       "tip": [
-        "U: -sshs, -SSHServerMode",
         "Used in sshd_config for running PowerShell as an SSH subsystem.",
         "It isn't intended or supported for any other use."
       ]
@@ -277,8 +317,10 @@
       "alias": [
         "-w"
       ],
+      "usage": [
+        "-w, -WindowStyle <style>"
+      ],
       "tip": [
-        "U: -w, -WindowStyle <style>",
         "Sets the window style for the session.",
         "Valid values are Normal, Minimized, Maximized and Hidden.",
         "This parameter only applies to Windows. Using this parameter on non-Windows platforms results in an error."
@@ -316,11 +358,15 @@
         "-wd",
         "-wo"
       ],
+      "usage": [
+        "-wd, -wo, -WorkingDirectory <directoryPath>"
+      ],
       "tip": [
-        "U: -wd, -wo, -WorkingDirectory <directoryPath>",
         "Sets the initial working directory by executing at startup.",
-        "Any valid PowerShell file path is supported.",
-        "E: pwsh -WorkingDirectory ~"
+        "Any valid PowerShell file path is supported."
+      ],
+      "example": [
+        "pwsh -WorkingDirectory ~"
       ],
       "next": [
         {
@@ -340,8 +386,10 @@
         "-h",
         "/?"
       ],
+      "usage": [
+        "-?, -h, /?, --help"
+      ],
       "tip": [
-        "U: -?, -h, /?, --help",
         "Show the help."
       ]
     }

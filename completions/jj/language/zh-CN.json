@@ -8,8 +8,10 @@
   "next": [
     {
       "name": "abandon",
+      "usage": [
+        "abandon [OPTIONS] [REVSETS]..."
+      ],
       "tip": [
-        "U: abandon [OPTIONS] [REVSETS]...",
         "丢弃一个修订"
       ],
       "option": [
@@ -29,15 +31,16 @@
           "name": "-r",
           "tip": [
             "要放弃的修订版本 [默认: @]"
-          ],
-          "next": []
+          ]
         }
       ]
     },
     {
       "name": "absorb",
+      "usage": [
+        "absorb [OPTIONS] [FILESETS]..."
+      ],
       "tip": [
-        "U: absorb [OPTIONS] [FILESETS]...",
         "将一个修订的变更移动到可变修订的栈中"
       ],
       "option": [
@@ -46,8 +49,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --from <REVSET>"
+          ],
           "tip": [
-            "U: -f, --from <REVSET>",
             "要从中吸收变更的源修订版本 [默认: @]"
           ],
           "next": []
@@ -58,8 +63,10 @@
             "--to",
             "-t"
           ],
+          "usage": [
+            "-t, --to, --into <REVSETS>"
+          ],
           "tip": [
-            "U: -t, --to, --into <REVSETS>",
             "要吸收变更的目标修订版本 [默认: mutable()]"
           ],
           "next": []
@@ -68,8 +75,10 @@
     },
     {
       "name": "arrange",
+      "usage": [
+        "arrange [OPTIONS]"
+      ],
       "tip": [
-        "U: arrange [OPTIONS]",
         "交互式排列提交图"
       ],
       "option": [
@@ -78,8 +87,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revisions <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
             "要编辑的修订版本",
             "如果未指定修订版本，则默认值为 `revsets.arrange` 设置，如果它未设置则使用 `reachable(@, mutable())`"
           ],
@@ -95,8 +106,10 @@
       "next": [
         {
           "name": "run",
+          "usage": [
+            "run [OPTIONS] --range <REVSETS> [COMMAND] [ARGS]..."
+          ],
           "tip": [
-            "U: run [OPTIONS] --range <REVSETS> [COMMAND] [ARGS]...",
             "运行一个给定的命令来找到第一个错误的修订"
           ],
           "option": [
@@ -111,8 +124,10 @@
               "alias": [
                 "-r"
               ],
+              "usage": [
+                "-r, --range <REVSETS>"
+              ],
               "tip": [
-                "U: -r, --range <REVSETS>",
                 "要二分查找的修订版本范围"
               ],
               "next": []
@@ -126,8 +141,10 @@
       "alias": [
         "b"
       ],
+      "usage": [
+        "bookmark [OPTIONS] <COMMAND>"
+      ],
       "tip": [
-        "U: bookmark [OPTIONS] <COMMAND>",
         "管理书签"
       ],
       "next": [
@@ -136,8 +153,10 @@
           "alias": [
             "a"
           ],
+          "usage": [
+            "a|advance"
+          ],
           "tip": [
-            "U: a|advance",
             "将最接近的书签推进到目标修订版本"
           ]
         },
@@ -146,8 +165,10 @@
           "alias": [
             "c"
           ],
+          "usage": [
+            "c|create"
+          ],
           "tip": [
-            "U: c|create",
             "创建一个新的书签"
           ],
           "option": [
@@ -157,8 +178,10 @@
                 "--to",
                 "-r"
               ],
+              "usage": [
+                "-r, --to, --revision <REVSET>"
+              ],
               "tip": [
-                "U: -r, --to, --revision <REVSET>",
                 "书签的目标修订版本 [默认: @]"
               ],
               "next": []
@@ -170,19 +193,22 @@
           "alias": [
             "d"
           ],
-          "tip": [
-            "U: d|delete",
-            "删除一个已存在的书签并将删除传播到远程仓库的下一次推送"
+          "usage": [
+            "d|delete"
           ],
-          "next": []
+          "tip": [
+            "删除一个已存在的书签并将删除传播到远程仓库的下一次推送"
+          ]
         },
         {
           "name": "forget",
           "alias": [
             "f"
           ],
+          "usage": [
+            "f|forget"
+          ],
           "tip": [
-            "U: f|forget",
             "忘记一个书签而不将其标记为删除以进行推送"
           ],
           "option": [
@@ -192,16 +218,17 @@
                 "忘记本地书签时，也忘记所有对应的远程书签"
               ]
             }
-          ],
-          "next": []
+          ]
         },
         {
           "name": "list",
           "alias": [
             "l"
           ],
+          "usage": [
+            "l|list"
+          ],
           "tip": [
-            "U: l|list",
             "列出所有书签及其目标"
           ],
           "option": [
@@ -210,8 +237,10 @@
               "alias": [
                 "-a"
               ],
+              "usage": [
+                "-a, --all-remotes"
+              ],
               "tip": [
-                "U: -a, --all-remotes",
                 "显示所有跟踪和非跟踪远程书签，包括那些其目标与本地书签同步的书签"
               ]
             },
@@ -220,36 +249,88 @@
               "alias": [
                 "-c"
               ],
+              "usage": [
+                "-c, --conflicted"
+              ],
               "tip": [
-                "U: -c, --conflicted",
                 "仅显示冲突书签"
               ]
             },
             {
               "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
               "tip": [
-                "U: --remote <REMOTE>",
                 "显示所有属于此远程仓库的跟踪和非跟踪远程书签"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--revisions",
               "alias": [
                 "-r"
               ],
+              "usage": [
+                "-r, --revisions <REVSETS>"
+              ],
               "tip": [
-                "U: -r, --revisions <REVSETS>",
                 "仅显示本地目标在给定修订版本中的书签"
               ],
               "next": []
             },
             {
               "name": "--sort",
+              "usage": [
+                "--sort <SORT_KEY>"
+              ],
               "tip": [
-                "U: --sort <SORT_KEY>",
                 "根据给定键（或多个键）对书签进行排序",
                 "[可能的值: name, name-, author-name, author-name-, author-email, author-email-, author-date, author-date-, committer-name, committer-name-, committer-email, committer-email-, committer-date, committer-date-]"
+              ],
+              "next": [
+                {
+                  "name": "author-date"
+                },
+                {
+                  "name": "author-date-"
+                },
+                {
+                  "name": "author-email"
+                },
+                {
+                  "name": "author-email-"
+                },
+                {
+                  "name": "author-name"
+                },
+                {
+                  "name": "author-name-"
+                },
+                {
+                  "name": "committer-date"
+                },
+                {
+                  "name": "committer-date-"
+                },
+                {
+                  "name": "committer-email"
+                },
+                {
+                  "name": "committer-email-"
+                },
+                {
+                  "name": "committer-name"
+                },
+                {
+                  "name": "committer-name-"
+                },
+                {
+                  "name": "name"
+                },
+                {
+                  "name": "name-"
+                }
               ]
             },
             {
@@ -257,19 +338,23 @@
               "alias": [
                 "-T"
               ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
               "tip": [
-                "U: -T, --template <TEMPLATE>",
                 "使用给定模板渲染每个书签"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--tracked",
               "alias": [
                 "-t"
               ],
+              "usage": [
+                "-t, --tracked"
+              ],
               "tip": [
-                "U: -t, --tracked",
                 "仅显示远程跟踪书签。默认情况下省略本地 Git 跟踪书签"
               ]
             }
@@ -280,30 +365,34 @@
           "alias": [
             "m"
           ],
-          "tip": [
-            "U: m|move",
-            "将已存在的书签移动到目标修订"
+          "usage": [
+            "m|move"
           ],
-          "next": []
+          "tip": [
+            "将已存在的书签移动到目标修订"
+          ]
         },
         {
           "name": "rename",
           "alias": [
             "r"
           ],
-          "tip": [
-            "U: r|rename",
-            "将书签 `old` 重命名为 `new`"
+          "usage": [
+            "r|rename"
           ],
-          "next": []
+          "tip": [
+            "将书签 `old` 重命名为 `new`"
+          ]
         },
         {
           "name": "set",
           "alias": [
             "s"
           ],
+          "usage": [
+            "s|set"
+          ],
           "tip": [
-            "U: s|set",
             "创建或更新书签以指向特定提交"
           ],
           "option": [
@@ -312,8 +401,10 @@
               "alias": [
                 "-B"
               ],
+              "usage": [
+                "-B, --allow-backwards"
+              ],
               "tip": [
-                "U: -B, --allow-backwards",
                 "允许将书签向后或向侧面移动"
               ]
             },
@@ -323,8 +414,10 @@
                 "--to",
                 "-r"
               ],
+              "usage": [
+                "-r, --to, --revision <REVSET>"
+              ],
               "tip": [
-                "U: -r, --to, --revision <REVSET>",
                 "书签的目标修订版本 [默认: @]"
               ],
               "next": []
@@ -336,11 +429,12 @@
           "alias": [
             "t"
           ],
-          "tip": [
-            "U: t|track",
-            "开始跟踪给定远程书签"
+          "usage": [
+            "t|track"
           ],
-          "next": []
+          "tip": [
+            "开始跟踪给定远程书签"
+          ]
         },
         {
           "name": "untrack",
@@ -355,8 +449,10 @@
       "alias": [
         "ci"
       ],
+      "usage": [
+        "ci|commit [OPTIONS] [FILESETS]..."
+      ],
       "tip": [
-        "U: ci|commit [OPTIONS] [FILESETS]...",
         "更新变更描述并创建一个新的变更"
       ],
       "option": [
@@ -372,8 +468,10 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --interactive"
+          ],
           "tip": [
-            "U: -i, --interactive",
             "交互式选择要包含在第一个提交中的变更"
           ]
         },
@@ -382,8 +480,10 @@
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --message <MESSAGE>"
+          ],
           "tip": [
-            "U: -m, --message <MESSAGE>",
             "要使用的变更描述（不打开编辑器）"
           ],
           "next": [
@@ -397,18 +497,22 @@
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <NAME>"
+          ],
           "tip": [
-            "U: --tool <NAME>",
             "指定要使用的 diff 编辑器（隐含 --interactive）"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "config",
+      "usage": [
+        "config [OPTIONS] <COMMAND>"
+      ],
       "tip": [
-        "U: config [OPTIONS] <COMMAND>",
         "管理配置选项"
       ],
       "next": [
@@ -417,8 +521,10 @@
           "alias": [
             "e"
           ],
+          "usage": [
+            "e|edit"
+          ],
           "tip": [
-            "U: e|edit",
             "开始在 jj 配置文件上编辑"
           ],
           "next": [
@@ -447,8 +553,10 @@
           "alias": [
             "g"
           ],
+          "usage": [
+            "g|get"
+          ],
           "tip": [
-            "U: g|get",
             "获取给定配置选项的值"
           ],
           "next": [
@@ -483,8 +591,10 @@
           "alias": [
             "l"
           ],
+          "usage": [
+            "l|list"
+          ],
           "tip": [
-            "U: l|list",
             "列出配置文件中设置的变量及其值"
           ],
           "next": [
@@ -513,8 +623,10 @@
           "alias": [
             "p"
           ],
+          "usage": [
+            "p|path"
+          ],
           "tip": [
-            "U: p|path",
             "打印配置文件的路径"
           ],
           "next": [
@@ -543,8 +655,10 @@
           "alias": [
             "s"
           ],
+          "usage": [
+            "s|set"
+          ],
           "tip": [
-            "U: s|set",
             "更新配置文件以将给定选项设置为给定值"
           ],
           "next": [
@@ -573,8 +687,10 @@
           "alias": [
             "u"
           ],
+          "usage": [
+            "u|unset"
+          ],
           "tip": [
-            "U: u|unset",
             "从配置文件中删除给定选项"
           ],
           "next": [
@@ -605,8 +721,10 @@
       "alias": [
         "desc"
       ],
+      "usage": [
+        "describe [OPTIONS] [REVSETS]..."
+      ],
       "tip": [
-        "U: describe [OPTIONS] [REVSETS]...",
         "更新变更描述或其他元数据"
       ],
       "option": [
@@ -621,8 +739,10 @@
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --message <MESSAGE>"
+          ],
           "tip": [
-            "U: -m, --message <MESSAGE>",
             "要使用的变更描述（不打开编辑器）"
           ],
           "next": [
@@ -644,8 +764,10 @@
     },
     {
       "name": "diff",
+      "usage": [
+        "diff [OPTIONS] [FILESETS]..."
+      ],
       "tip": [
-        "U: diff [OPTIONS] [FILESETS]...",
         "比较两个修订之间文件内容的差异"
       ],
       "option": [
@@ -657,18 +779,23 @@
         },
         {
           "name": "--context",
+          "usage": [
+            "--context <CONTEXT>"
+          ],
           "tip": [
-            "U: --context <CONTEXT>",
             "显示的上下文行数"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "--from",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --from <REVSET>"
+          ],
           "tip": [
-            "U: -f, --from <REVSET>",
             "显示从该修订开始的更改"
           ],
           "next": []
@@ -684,8 +811,10 @@
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --ignore-all-space"
+          ],
           "tip": [
-            "U: -w, --ignore-all-space",
             "忽略比较行时的空格"
           ]
         },
@@ -694,8 +823,10 @@
           "alias": [
             "-b"
           ],
+          "usage": [
+            "-b, --ignore-space-change"
+          ],
           "tip": [
-            "U: -b, --ignore-space-change",
             "忽略比较行时的空格变化"
           ]
         },
@@ -710,8 +841,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "显示这些修订中的变更",
             "如果有多个修订，则显示所有修订的总差异"
           ],
@@ -728,8 +861,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --summary"
+          ],
           "tip": [
-            "U: -s, --summary",
             "对于每个路径，仅显示是否修改、添加或删除"
           ]
         },
@@ -738,30 +873,36 @@
           "alias": [
             "-T"
           ],
+          "usage": [
+            "-T, --template <TEMPLATE>"
+          ],
           "tip": [
-            "U: -T, --template <TEMPLATE>",
             "使用给定模板渲染每个文件差异条目"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--to",
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --to <REVSET>"
+          ],
           "tip": [
-            "U: -t, --to <REVSET>",
             "显示到该修订的更改"
           ],
           "next": []
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <TOOL>"
+          ],
           "tip": [
-            "U: --tool <TOOL>",
             "使用外部命令生成差异"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--types",
@@ -773,11 +914,13 @@
     },
     {
       "name": "diffedit",
+      "usage": [
+        "diffedit [OPTIONS] [FILESETS]..."
+      ],
       "tip": [
-        "U: diffedit [OPTIONS] [FILESETS]...",
         "使用差异编辑器编辑修订中的内容变更"
       ],
-      "next": [
+      "option": [
         {
           "name": "--restore-descendants",
           "tip": [
@@ -791,8 +934,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSET>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSET>",
             "要编辑的修订",
             "如果未指定 --to 或 --from 参数，则默认值为 @"
           ],
@@ -803,8 +948,10 @@
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --to <REVSET>"
+          ],
           "tip": [
-            "U: -t, --to <REVSET>",
             "编辑该修订中的更改",
             "如果指定了 --from 参数，则默认值为 @"
           ],
@@ -812,18 +959,22 @@
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <NAME>"
+          ],
           "tip": [
-            "U: --tool <NAME>",
             "指定要使用的差异编辑器"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "duplicate",
+      "usage": [
+        "duplicate [OPTIONS] [REVSETS]..."
+      ],
       "tip": [
-        "U: duplicate [OPTIONS] [REVSETS]...",
         "创建与现有变更内容相同的新变更"
       ],
       "option": [
@@ -834,8 +985,10 @@
             "-d",
             "-o"
           ],
+          "usage": [
+            "-o, -d, --onto, --destination <REVSETS>"
+          ],
           "tip": [
-            "U: -o, -d, --onto, --destination <REVSETS>",
             "要复制到的修订版本（可重复执行以创建合并提交）"
           ],
           "repeat": 99,
@@ -847,8 +1000,10 @@
             "--after",
             "-A"
           ],
+          "usage": [
+            "-A, --after, --insert-after <REVSETS>"
+          ],
           "tip": [
-            "U: -A, --after, --insert-after <REVSETS>",
             "要插入后的修订版本（可重复执行以创建合并提交）"
           ],
           "repeat": 99,
@@ -860,8 +1015,10 @@
             "--before",
             "-B"
           ],
+          "usage": [
+            "-B, --before, --insert-before <REVSETS>"
+          ],
           "tip": [
-            "U: -B, --before, --insert-before <REVSETS>",
             "要插入前的修订版本（可重复执行以创建合并提交）"
           ],
           "repeat": 99,
@@ -871,19 +1028,22 @@
     },
     {
       "name": "edit",
-      "tip": [
-        "U: edit [OPTIONS] <REVSET>",
-        "将指定的修订设置为工作副本修订"
+      "usage": [
+        "edit [OPTIONS] <REVSET>"
       ],
-      "next": []
+      "tip": [
+        "将指定的修订设置为工作副本修订"
+      ]
     },
     {
       "name": "evolution-log",
       "alias": [
         "evolog"
       ],
+      "usage": [
+        "evolog [OPTIONS]"
+      ],
       "tip": [
-        "U: evolog [OPTIONS]",
         "显示变更如何随时间演变"
       ],
       "option": [
@@ -895,11 +1055,13 @@
         },
         {
           "name": "--context",
+          "usage": [
+            "--context <CONTEXT>"
+          ],
           "tip": [
-            "U: --context <CONTEXT>",
             "显示的上下文行数"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--git",
@@ -924,8 +1086,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --limit <LIMIT>"
+          ],
           "tip": [
-            "U: -n, --limit <LIMIT>",
             "限制显示的修订版本数量",
             "在对修订内容进行拓扑排序后、反转处理前应用。"
           ],
@@ -950,8 +1114,10 @@
           "alias": [
             "-G"
           ],
+          "usage": [
+            "-G, --no-graph"
+          ],
           "tip": [
-            "U: -G, --no-graph",
             "不显示修订图，显示修订版本的扁平列表。"
           ]
         },
@@ -960,8 +1126,10 @@
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --patch"
+          ],
           "tip": [
-            "U: -p, --patch",
             "显示该变更的差异补丁",
             "如果该变更的父修订版本不同，则会临时重新基到新版本的父修订版本，以确保差异补丁不包含无关的变更。"
           ]
@@ -977,8 +1145,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "跟踪这些修订的变更",
             "[default: @]"
           ],
@@ -995,8 +1165,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --summary"
+          ],
           "tip": [
-            "U: -s, --summary",
             "显示变更的摘要，仅显示每个路径是否被修改、添加或删除。"
           ]
         },
@@ -1005,8 +1177,10 @@
           "alias": [
             "-T"
           ],
+          "usage": [
+            "-T, --template <TEMPLATE>"
+          ],
           "tip": [
-            "U: -T, --template <TEMPLATE>",
             "使用指定模板渲染每个修订版本",
             "[`CommitEvolutionEntry` 类型] 的所有无参方法均可在模板表达式中作为关键字使用。",
             "查看 [`jj help -k templates`] 以获取更多信息。",
@@ -1014,16 +1188,18 @@
             "[`CommitEvolutionEntry` 类型]: https://docs.jj-vcs.dev/latest/templates/#commitevolutionentry-type",
             "[`jj help -k templates`]: https://docs.jj-vcs.dev/latest/templates/"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <TOOL>"
+          ],
           "tip": [
-            "U: --tool <TOOL>",
             "使用外部命令生成差异",
             "也可以将内置格式指定为 `:<name>`，例如： `--tool=:git` 等价于 `--git`。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--types",
@@ -1087,8 +1263,10 @@
     },
     {
       "name": "fix",
+      "usage": [
+        "fix [OPTIONS] [FILESETS]..."
+      ],
       "tip": [
-        "U: fix [OPTIONS] [FILESETS]...",
         "更新文件中的格式化修复或其他变更"
       ],
       "option": [
@@ -1104,11 +1282,14 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --source <REVSETS>"
+          ],
           "tip": [
-            "U: -s, --source <REVSETS>",
             "修复指定修订版本及其后代文件。",
             "如果未指定修订版本，则默认使用 `revsets.fix` 设置，或未设置时使用 `reachable(@, mutable())`"
-          ]
+          ],
+          "next": []
         }
       ]
     },
@@ -1134,8 +1315,10 @@
       "next": [
         {
           "name": "clone",
+          "usage": [
+            "clone [OPTIONS] <SOURCE> [DESTINATION]"
+          ],
           "tip": [
-            "U: clone [OPTIONS] <SOURCE> [DESTINATION]",
             "创建一个新的仓库，该仓库由 Git 仓库的克隆支持"
           ],
           "option": [
@@ -1148,8 +1331,10 @@
             },
             {
               "name": "--depth",
+              "usage": [
+                "--depth <DEPTH>"
+              ],
               "tip": [
-                "U: --depth <DEPTH>",
                 "创建给定深度的浅表克隆"
               ],
               "next": [
@@ -1160,8 +1345,10 @@
             },
             {
               "name": "--fetch-tags",
+              "usage": [
+                "--fetch-tags <FETCH_TAGS>"
+              ],
               "tip": [
-                "U: --fetch-tags <FETCH_TAGS>",
                 "配置何时获取标签",
                 "除非另有指定，否则初始克隆将获取所有标签，而所有后续获取仅获取包含的标签。"
               ],
@@ -1194,8 +1381,10 @@
             },
             {
               "name": "--remote",
+              "usage": [
+                "--remote <REMOTE_NAME>"
+              ],
               "tip": [
-                "U: --remote <REMOTE_NAME>",
                 "新创建的远程的名称。[默认值：origin]"
               ],
               "next": [
@@ -1261,20 +1450,24 @@
               "alias": [
                 "-b"
               ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
               "tip": [
-                "U: -b, --branch <BRANCH>",
                 "只获取部分分支"
               ],
               "next": []
             },
             {
               "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
               "tip": [
-                "U: --remote <REMOTE>",
                 "从其中获取变更的远程仓库（仅支持命名的远程仓库，可重复）"
               ],
               "repeat": 99,
-              "next": 0
+              "next": []
             },
             {
               "name": "--tracked",
@@ -1292,8 +1485,10 @@
         },
         {
           "name": "init",
+          "usage": [
+            "init [OPTIONS] [DESTINATION]"
+          ],
           "tip": [
-            "U: init [OPTIONS] [DESTINATION]",
             "创建一个新的 Git 支持的仓库"
           ],
           "option": [
@@ -1306,11 +1501,13 @@
             },
             {
               "name": "--git-repo",
+              "usage": [
+                "--git-repo <GIT_REPO>"
+              ],
               "tip": [
-                "U: --git-repo <GIT_REPO>",
                 "指定一个指向现有 `git` 仓库的路径，该仓库将作为新创建的 `jj` 仓库的后端 `git` 仓库"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--no-colocate",
@@ -1349,8 +1546,10 @@
               "alias": [
                 "-b"
               ],
+              "usage": [
+                "-b, --bookmark <BOOKMARK>"
+              ],
               "tip": [
-                "U: -b, --bookmark <BOOKMARK>",
                 "仅推送此书签，或匹配模式的书签（可以重复）"
               ],
               "repeat": 99,
@@ -1361,8 +1560,10 @@
               "alias": [
                 "-c"
               ],
+              "usage": [
+                "-c, --change <REVSETS>"
+              ],
               "tip": [
-                "U: -c, --change <REVSETS>",
                 "通过创建书签推送此提交（可以重复）"
               ],
               "repeat": 99,
@@ -1382,26 +1583,33 @@
             },
             {
               "name": "--named",
+              "usage": [
+                "--named <NAME=REVISION>"
+              ],
               "tip": [
-                "U: --named <NAME=REVISION>",
                 "指定一个新的书签名称和一个要推送的修订版本，例如 '--named myfeature=@'"
-              ]
+              ],
+              "next": []
             },
             {
               "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
               "tip": [
-                "U: --remote <REMOTE>",
                 "要推送的远程仓库（仅支持命名的远程仓库）"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--revisions",
               "alias": [
                 "-r"
               ],
+              "usage": [
+                "-r, --revisions <REVSETS>"
+              ],
               "tip": [
-                "U: -r, --revisions <REVSETS>",
                 "推送指向这些提交的书签（可以重复）"
               ],
               "repeat": 99,
@@ -1423,15 +1631,19 @@
           "next": [
             {
               "name": "add",
+              "usage": [
+                "add [OPTIONS] <REMOTE> <URL>"
+              ],
               "tip": [
-                "U: add [OPTIONS] <REMOTE> <URL>",
                 "添加一个 Git 远程仓库"
               ],
               "option": [
                 {
                   "name": "--fetch-tags",
+                  "usage": [
+                    "--fetch-tags <FETCH_TAGS>"
+                  ],
                   "tip": [
-                    "U: --fetch-tags <FETCH_TAGS>",
                     "配置何时获取标签 [默认: included]"
                   ],
                   "next": [
@@ -1456,27 +1668,30 @@
             },
             {
               "name": "remove",
-              "tip": [
-                "U: remove [OPTIONS] <REMOTE>",
-                "移除指定的 Git 远程仓库并忘记其书签"
+              "usage": [
+                "remove [OPTIONS] <REMOTE>"
               ],
-              "next": []
+              "tip": [
+                "移除指定的 Git 远程仓库并忘记其书签"
+              ]
             },
             {
               "name": "rename",
-              "tip": [
-                "U: rename [OPTIONS] <OLD> <NEW>",
-                "重命名 Git 远程仓库"
+              "usage": [
+                "rename [OPTIONS] <OLD> <NEW>"
               ],
-              "next": []
+              "tip": [
+                "重命名 Git 远程仓库"
+              ]
             },
             {
               "name": "set-url",
-              "tip": [
-                "U: set-url [OPTIONS] <REMOTE> <URL>",
-                "设置 Git 远程仓库的 URL"
+              "usage": [
+                "set-url [OPTIONS] <REMOTE> <URL>"
               ],
-              "next": []
+              "tip": [
+                "设置 Git 远程仓库的 URL"
+              ]
             }
           ]
         },
@@ -1508,19 +1723,23 @@
         },
         {
           "name": "--context",
+          "usage": [
+            "--context <CONTEXT>"
+          ],
           "tip": [
-            "U: --context <CONTEXT>",
             "要显示的上下文行数"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--from",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --from <REVSET>"
+          ],
           "tip": [
-            "U: -f, --from <REVSET>",
             "要比较的第一个修订 [默认: @]"
           ],
           "next": []
@@ -1536,8 +1755,10 @@
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --ignore-all-space"
+          ],
           "tip": [
-            "U: -w, --ignore-all-space",
             "比较行时忽略空白"
           ]
         },
@@ -1546,8 +1767,10 @@
           "alias": [
             "-b"
           ],
+          "usage": [
+            "-b, --ignore-space-change"
+          ],
           "tip": [
-            "U: -b, --ignore-space-change",
             "比较行时忽略空白数量的变化"
           ]
         },
@@ -1568,8 +1791,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --summary"
+          ],
           "tip": [
-            "U: -s, --summary",
             "对于每个路径，仅显示其是已修改、已添加还是已删除"
           ]
         },
@@ -1578,19 +1803,23 @@
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --to <REVSET>"
+          ],
           "tip": [
-            "U: -t, --to <REVSET>",
             "要比较的第二个修订 [默认: @]"
           ],
           "next": []
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <TOOL>"
+          ],
           "tip": [
-            "U: --tool <TOOL>",
             "通过外部命令生成差异"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--types",
@@ -1614,11 +1843,13 @@
         },
         {
           "name": "--context",
+          "usage": [
+            "--context <CONTEXT>"
+          ],
           "tip": [
-            "U: --context <CONTEXT>",
             "要显示的上下文行数"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--count",
@@ -1637,8 +1868,10 @@
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --ignore-all-space"
+          ],
           "tip": [
-            "U: -w, --ignore-all-space",
             "比较行时忽略空白"
           ]
         },
@@ -1647,8 +1880,10 @@
           "alias": [
             "-b"
           ],
+          "usage": [
+            "-b, --ignore-space-change"
+          ],
           "tip": [
-            "U: -b, --ignore-space-change",
             "比较行时忽略空白数量的变化"
           ]
         },
@@ -1657,8 +1892,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --limit <LIMIT>"
+          ],
           "tip": [
-            "U: -n, --limit <LIMIT>",
             "要显示的修订版本数量"
           ],
           "next": [
@@ -1678,8 +1915,10 @@
           "alias": [
             "-G"
           ],
+          "usage": [
+            "-G, --no-graph"
+          ],
           "tip": [
-            "U: -G, --no-graph",
             "不显示图形，显示平面修订列表"
           ]
         },
@@ -1688,8 +1927,10 @@
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --patch"
+          ],
           "tip": [
-            "U: -p, --patch",
             "显示补丁"
           ]
         },
@@ -1704,8 +1945,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "要显示的修订版本",
             "如果未指定路径与修订版本，则默认使用 `revsets.log` 配置项"
           ],
@@ -1722,8 +1965,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --summary"
+          ],
           "tip": [
-            "U: -s, --summary",
             "对于每个路径，仅显示其是已修改、已添加还是已删除"
           ]
         },
@@ -1732,20 +1977,24 @@
           "alias": [
             "-T"
           ],
+          "usage": [
+            "-T, --template <TEMPLATE>"
+          ],
           "tip": [
-            "U: -T, --template <TEMPLATE>",
             "使用给定模板渲染每个修订",
             "执行 jj log -T 命令以列出内置模板"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <TOOL>"
+          ],
           "tip": [
-            "U: --tool <TOOL>",
             "通过外部命令生成差异"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--types",
@@ -1763,16 +2012,20 @@
       "option": [
         {
           "name": "--author",
+          "usage": [
+            "--author <AUTHOR>"
+          ],
           "tip": [
-            "U: --author <AUTHOR>",
             "将作者设置为所提供的字符串"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--author-timestamp",
+          "usage": [
+            "--author-timestamp <AUTHOR_TIMESTAMP>"
+          ],
           "tip": [
-            "U: --author-timestamp <AUTHOR_TIMESTAMP>",
             "将提交者日期设置为所提供的日期，该日期可以是人类可读的，例如 Sun, 23 Jan 2000 01:23:45 CST)",
             "也可以是时间戳，例如 2000-01-23T01:23:45+08:00"
           ],
@@ -1793,8 +2046,10 @@
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --message <MESSAGE>"
+          ],
           "tip": [
-            "U: -m, --message <MESSAGE>",
             "更新变更描述",
             "这会更新变更描述，而不打开编辑器"
           ],
@@ -1839,8 +2094,10 @@
             "--after",
             "-A"
           ],
+          "usage": [
+            "-A, --after, --insert-after <REVSETS>"
+          ],
           "tip": [
-            "U: -A, --after, --insert-after <REVSETS>",
             "在给定提交之后插入新变更"
           ],
           "next": []
@@ -1851,8 +2108,10 @@
             "--before",
             "-B"
           ],
+          "usage": [
+            "-B, --before, --insert-before <REVSETS>"
+          ],
           "tip": [
-            "U: -B, --before, --insert-before <REVSETS>",
             "在给定提交之前插入新变更"
           ],
           "next": []
@@ -1862,8 +2121,10 @@
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --message <MESSAGE>"
+          ],
           "tip": [
-            "U: -m, --message <MESSAGE>",
             "要使用的变更描述"
           ],
           "next": [
@@ -1881,8 +2142,7 @@
             "不编辑新创建的变更"
           ]
         }
-      ],
-      "next": []
+      ]
     },
     {
       "name": "next",
@@ -1901,8 +2161,10 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --edit"
+          ],
           "tip": [
-            "U: -e, --edit",
             "不像 `jj new` 那样在目标提交之上创建一个新的工作副本提交，而是直接编辑目标提交（类似 `jj edit`）",
             "优先于 `ui.movement.edit` 中的配置；也就是说，它会否定 `ui.movement.edit = false`"
           ]
@@ -1912,8 +2174,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --no-edit"
+          ],
           "tip": [
-            "U: -n, --no-edit",
             "与 `--edit` 相反",
             "优先于 `ui.movement.edit` 中的配置；也就是说，它会否定 `ui.movement.edit = true`"
           ]
@@ -1925,8 +2189,10 @@
       "alias": [
         "op"
       ],
+      "usage": [
+        "op|operation"
+      ],
       "tip": [
-        "U: op|operation",
         "操作日志命令"
       ],
       "next": [
@@ -1997,8 +2263,10 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --edit"
+          ],
           "tip": [
-            "U: -e, --edit",
             "直接编辑父修订，而不是移动工作副本提交",
             "优先于 ui.movement.edit 配置"
           ]
@@ -2008,8 +2276,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --no-edit"
+          ],
           "tip": [
-            "U: -n, --no-edit",
             "--edit 的反向",
             "优先于 ui.movement.edit 配置"
           ]
@@ -2027,8 +2297,10 @@
           "alias": [
             "-b"
           ],
+          "usage": [
+            "-b, --branch <REVSETS>"
+          ],
           "tip": [
-            "U: -b, --branch <REVSETS>",
             "相对于目标的祖先重新调整整个分支的基准（可重复）"
           ],
           "repeat": 99,
@@ -2041,8 +2313,10 @@
             "-o",
             "-d"
           ],
+          "usage": [
+            "-o, -d, --onto, --destination <REVSETS>"
+          ],
           "tip": [
-            "U: -o, -d, --onto, --destination <REVSETS>",
             "变基目标（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2054,8 +2328,10 @@
             "--after",
             "-A"
           ],
+          "usage": [
+            "-A, --after, --insert-after <REVSETS>"
+          ],
           "tip": [
-            "U: -A, --after, --insert-after <REVSETS>",
             "在给定提交之后插入新变更（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2067,8 +2343,10 @@
             "--before",
             "-B"
           ],
+          "usage": [
+            "-B, --before, --insert-before <REVSETS>"
+          ],
           "tip": [
-            "U: -B, --before, --insert-before <REVSETS>",
             "在给定提交之前插入新变更（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2085,8 +2363,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revisions <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revisions <REVSETS>",
             "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
           ],
           "next": []
@@ -2111,8 +2391,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --source <REVSETS>"
+          ],
           "tip": [
-            "U: -s, --source <REVSETS>",
             "变基指定的修订版本及其后代树（可重复）"
           ],
           "repeat": 99,
@@ -2137,8 +2419,10 @@
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --list"
+          ],
           "tip": [
-            "U: -l, --list",
             "不解决冲突，而是列出所有冲突"
           ]
         },
@@ -2147,16 +2431,20 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "要处理的修订版本 [默认：@]"
           ],
           "next": []
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <NAME>"
+          ],
           "tip": [
-            "U: --tool <NAME>",
             "指定要使用的三方合并工具"
           ],
           "next": [
@@ -2178,8 +2466,10 @@
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --changes-in <REVSET>"
+          ],
           "tip": [
-            "U: -c, --changes-in <REVSET>",
             "撤销修订中与其父修订合并相比的变更",
             "这会撤销在 jj diff -r REVSET 中可以看到的变更"
           ],
@@ -2190,8 +2480,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --from <REVSET>"
+          ],
           "tip": [
-            "U: -f, --from <REVSET>",
             "要从中恢复的修订（源）"
           ],
           "next": []
@@ -2201,8 +2493,10 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --interactive"
+          ],
           "tip": [
-            "U: -i, --interactive",
             "交互式选择要恢复的部分"
           ]
         },
@@ -2212,8 +2506,10 @@
             "--to",
             "-t"
           ],
+          "usage": [
+            "-t, --to, --into <REVSET>"
+          ],
           "tip": [
-            "U: -t, --to, --into <REVSET>",
             "要恢复到的修订（目标）"
           ],
           "next": []
@@ -2226,10 +2522,13 @@
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <NAME>"
+          ],
           "tip": [
-            "U: --tool <NAME>",
             "指定要使用的差异编辑器（隐含 --interactive）"
-          ]
+          ],
+          "next": []
         }
       ]
     },
@@ -2246,8 +2545,10 @@
             "-o",
             "-d"
           ],
+          "usage": [
+            "-o, -d, --onto, --destination <REVSETS>"
+          ],
           "tip": [
-            "U: -o, -d, --onto, --destination <REVSETS>",
             "要将反转变更应用到其上的修订"
           ],
           "repeat": 99,
@@ -2259,8 +2560,10 @@
             "--after",
             "-A"
           ],
+          "usage": [
+            "-A, --after, --insert-after <REVSETS>"
+          ],
           "tip": [
-            "U: -A, --after, --insert-after <REVSETS>",
             "要将反转变更插入其后的修订（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2272,8 +2575,10 @@
             "--before",
             "-B"
           ],
+          "usage": [
+            "-B, --before, --insert-before <REVSETS>"
+          ],
           "tip": [
-            "U: -B, --before, --insert-before <REVSETS>",
             "要将反转变更插入其之前的修订（可重复以创建合并提交）"
           ],
           "repeat": 99,
@@ -2284,8 +2589,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "要应用反转的修订"
           ],
           "next": []
@@ -2317,8 +2624,10 @@
           "alias": [
             "-j"
           ],
+          "usage": [
+            "-j, --jobs <JOBS>"
+          ],
           "tip": [
-            "U: -j, --jobs <JOBS>",
             "应并行运行多少个进程",
             "覆盖 run.jobs 配置设置。如果两者都未设置，则默认为 1"
           ],
@@ -2345,8 +2654,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "要更改的修订"
           ],
           "next": []
@@ -2373,11 +2684,13 @@
         },
         {
           "name": "--context",
+          "usage": [
+            "--context <CONTEXT>"
+          ],
           "tip": [
-            "U: --context <CONTEXT>",
             "要显示的上下文行数"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--git",
@@ -2390,8 +2703,10 @@
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --ignore-all-space"
+          ],
           "tip": [
-            "U: -w, --ignore-all-space",
             "比较行时忽略空格"
           ]
         },
@@ -2400,8 +2715,10 @@
           "alias": [
             "-b"
           ],
+          "usage": [
+            "-b, --ignore-space-change"
+          ],
           "tip": [
-            "U: -b, --ignore-space-change",
             "比较行时忽略空白数量的变化"
           ]
         },
@@ -2434,8 +2751,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --summary"
+          ],
           "tip": [
-            "U: -s, --summary",
             "对于每条路径，只需显示它是被修改、添加还是删除了。"
           ]
         },
@@ -2444,19 +2763,23 @@
           "alias": [
             "-T"
           ],
+          "usage": [
+            "-T, --template <TEMPLATE>"
+          ],
           "tip": [
-            "U: -T, --template <TEMPLATE>",
             "使用给定的模板呈现修订版本"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <TOOL>"
+          ],
           "tip": [
-            "U: --tool <TOOL>",
             "通过外部命令生成差异"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--types",
@@ -2474,19 +2797,23 @@
       "option": [
         {
           "name": "--key",
+          "usage": [
+            "--key <KEY>"
+          ],
           "tip": [
-            "U: --key <KEY>",
             "用于签名的密钥"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--revision",
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "要签名的修订版本",
             "如果未指定修订版本，则默认使用 `revsets.sign` 设置"
           ],
@@ -2505,8 +2832,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSETS>",
             "简化指定的修订版本（可重复）"
           ],
           "repeat": 99,
@@ -2517,8 +2846,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --source <REVSETS>"
+          ],
           "tip": [
-            "U: -s, --source <REVSETS>",
             "简化指定的修订版本及其后代树（可重复）"
           ],
           "repeat": 99,
@@ -2560,8 +2891,10 @@
     },
     {
       "name": "split",
+      "usage": [
+        "split [OPTIONS] [FILESETS]..."
+      ],
       "tip": [
-        "U: split [OPTIONS] [FILESETS]...",
         "将一个修订分为两个"
       ],
       "option": [
@@ -2572,8 +2905,10 @@
             "-o",
             "-d"
           ],
+          "usage": [
+            "-o, -d, --onto, --destination <REVSETS>"
+          ],
           "tip": [
-            "U: -o, -d, --onto, --destination <REVSETS>",
             "要将选定变更变基到的目标修订（可重复以创建合并提交）",
             "将选定的变更提取为基于给定修订的新提交"
           ],
@@ -2593,8 +2928,10 @@
             "--after",
             "-A"
           ],
+          "usage": [
+            "-A, --after, --insert-after <REVSETS>"
+          ],
           "tip": [
-            "U: -A, --after, --insert-after <REVSETS>",
             "要插入其后的修订（可重复以创建合并提交）",
             "将选定的变更提取为插入给定修订之后的新提交"
           ],
@@ -2607,8 +2944,10 @@
             "--before",
             "-B"
           ],
+          "usage": [
+            "-B, --before, --insert-before <REVSETS>"
+          ],
           "tip": [
-            "U: -B, --before, --insert-before <REVSETS>",
             "要插入其之前的修订（可重复以创建合并提交）",
             "将选定的变更提取为插入给定修订之前的新提交"
           ],
@@ -2620,8 +2959,10 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --interactive"
+          ],
           "tip": [
-            "U: -i, --interactive",
             "交互式选择要拆分的部分"
           ]
         },
@@ -2630,8 +2971,10 @@
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --message <MESSAGE>"
+          ],
           "tip": [
-            "U: -m, --message <MESSAGE>",
             "用于选定变更的变更描述（不打开编辑器）",
             "设置包含选定变更的修订的描述"
           ],
@@ -2649,8 +2992,10 @@
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --parallel"
+          ],
           "tip": [
-            "U: -p, --parallel",
             "将修订分成两个并行修订，而不是父和子"
           ]
         },
@@ -2659,17 +3004,23 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSET>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSET>",
             "要拆分的修订版本 [默认：@]"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <NAME>"
+          ],
           "tip": [
-            "U: --tool <NAME>",
             "指定要使用的差异编辑器（隐含 --interactive）"
-          ]
+          ],
+          "next": []
         }
       ]
     },
@@ -2691,8 +3042,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --from <REVSETS>"
+          ],
           "tip": [
-            "U: -f, --from <REVSETS>",
             "从其变基的修订 (默认: @)"
           ],
           "next": []
@@ -2703,8 +3056,10 @@
             "--after",
             "-A"
           ],
+          "usage": [
+            "-A, --after, --insert-after <REVSETS>"
+          ],
           "tip": [
-            "U: -A, --after, --insert-after <REVSETS>",
             "（实验性）要在其后插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
           "repeat": 99,
@@ -2716,8 +3071,10 @@
             "--before",
             "-B"
           ],
+          "usage": [
+            "-B, --before, --insert-before <REVSETS>"
+          ],
           "tip": [
-            "U: -B, --before, --insert-before <REVSETS>",
             "（实验性）要在其之前插入新提交的修订版本（可重复操作以创建合并提交）"
           ],
           "repeat": 99,
@@ -2728,8 +3085,10 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --interactive"
+          ],
           "tip": [
-            "U: -i, --interactive",
             "交互式选择要压缩的部分"
           ]
         },
@@ -2739,8 +3098,10 @@
             "--to",
             "-t"
           ],
+          "usage": [
+            "-t, --to, --into <REVSET>"
+          ],
           "tip": [
-            "U: -t, --to, --into <REVSET>",
             "合并到的修订 (默认: @)"
           ],
           "next": []
@@ -2750,8 +3111,10 @@
           "alias": [
             "-k"
           ],
+          "usage": [
+            "-k, --keep-emptied"
+          ],
           "tip": [
-            "U: -k, --keep-emptied",
             "源修订版本不会被放弃"
           ]
         },
@@ -2760,8 +3123,10 @@
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --message <MESSAGE>"
+          ],
           "tip": [
-            "U: -m, --message <MESSAGE>",
             "用于压缩修订版本的描述（不打开编辑器）"
           ],
           "next": [
@@ -2778,8 +3143,10 @@
           "alias": [
             "-o"
           ],
+          "usage": [
+            "-o, --onto <REVSETS>"
+          ],
           "tip": [
-            "U: -o, --onto <REVSETS>",
             "（实验性）用作新提交的父提交的修订版本（可重复使用以创建合并提交）"
           ],
           "repeat": 99,
@@ -2790,8 +3157,10 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --revision <REVSET>"
+          ],
           "tip": [
-            "U: -r, --revision <REVSET>",
             "要压缩到其父修订的修订 [默认: @]",
             "与实验性 -o/-A/-B 选项不兼容"
           ],
@@ -2799,19 +3168,23 @@
         },
         {
           "name": "--tool",
+          "usage": [
+            "--tool <NAME>"
+          ],
           "tip": [
-            "U: --tool <NAME>",
             "指定要使用的差异编辑器 (意味着--interactive)"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--use-destination-message",
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --use-destination-message"
+          ],
           "tip": [
-            "U: -u, --use-destination-message",
             "使用目标修订版本的描述，并舍弃源修订版本的描述。"
           ]
         }
@@ -2822,8 +3195,10 @@
       "alias": [
         "st"
       ],
+      "usage": [
+        "st|status"
+      ],
       "tip": [
-        "U: st|status",
         "显示仓库的高一级状态"
       ]
     },
@@ -2838,19 +3213,22 @@
           "alias": [
             "d"
           ],
-          "tip": [
-            "U: d|delete",
-            "删除现有标签"
+          "usage": [
+            "d|delete"
           ],
-          "next": []
+          "tip": [
+            "删除现有标签"
+          ]
         },
         {
           "name": "list",
           "alias": [
             "l"
           ],
+          "usage": [
+            "l|list"
+          ],
           "tip": [
-            "U: l|list",
             "列出标签"
           ],
           "option": [
@@ -2859,11 +3237,13 @@
               "alias": [
                 "-T"
               ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
               "tip": [
-                "U: -T, --template <TEMPLATE>",
                 "使用给定的模板渲染每个标签"
               ],
-              "next": 0
+              "next": []
             }
           ]
         },
@@ -2872,11 +3252,12 @@
           "alias": [
             "s"
           ],
-          "tip": [
-            "U: s|set",
-            "创建或更新标签"
+          "usage": [
+            "s|set"
           ],
-          "next": []
+          "tip": [
+            "创建或更新标签"
+          ]
         }
       ]
     },
@@ -2999,8 +3380,10 @@
       "alias": [
         "-V"
       ],
+      "usage": [
+        "-V, --version"
+      ],
       "tip": [
-        "U: -V, --version",
         "显示版本信息。"
       ]
     }
@@ -3011,16 +3394,20 @@
       "alias": [
         "--at-op"
       ],
+      "usage": [
+        "--at-op, --at-operation <AT_OPERATION>"
+      ],
       "tip": [
-        "U: --at-op, --at-operation <AT_OPERATION>",
         "要加载的操作"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--color",
+      "usage": [
+        "--color <WHEN>"
+      ],
       "tip": [
-        "U: --color <WHEN>",
         "当输出颜色时"
       ],
       "next": [
@@ -3040,21 +3427,25 @@
     },
     {
       "name": "--config",
+      "usage": [
+        "--config <NAME=VALUE>"
+      ],
       "tip": [
-        "U: --config <NAME=VALUE>",
         "额外的配置选项（可以重复）"
       ],
       "repeat": 99,
-      "next": 0
+      "next": []
     },
     {
       "name": "--config-file",
+      "usage": [
+        "--config-file <PATH>"
+      ],
       "tip": [
-        "U: --config-file <PATH>",
         "额外的配置文件（可以重复）"
       ],
       "repeat": 99,
-      "next": 0
+      "next": []
     },
     {
       "name": "--debug",
@@ -3067,8 +3458,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "显示帮助信息。"
       ]
     },
@@ -3107,11 +3500,13 @@
       "alias": [
         "-R"
       ],
+      "usage": [
+        "-R, --repository <REPOSITORY>"
+      ],
       "tip": [
-        "U: -R, --repository <REPOSITORY>",
         "要操作的仓库路径"
       ],
-      "next": 0
+      "next": []
     }
   ]
 }

@@ -9,24 +9,28 @@
   "next": [
     {
       "name": "dump",
-      "tip": [
-        "U: dump <servicename>",
-        "显示服务的所有配置和当前状态"
+      "usage": [
+        "dump <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "显示服务的所有配置和当前状态"
+      ]
     },
     {
       "name": "edit",
-      "tip": [
-        "U: edit <servicename>",
-        "打开 GUI 编辑已有的服务配置"
+      "usage": [
+        "edit <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "打开 GUI 编辑已有的服务配置"
+      ]
     },
     {
       "name": "get",
+      "usage": [
+        "get <servicename> <parameter> [<subparameter>]"
+      ],
       "tip": [
-        "U: get <servicename> <parameter> [<subparameter>]",
         "查询服务参数值",
         "部分参数需要子参数(如 AppExit 需要指定退出代码)"
       ],
@@ -35,44 +39,48 @@
           "name": "AppAffinity",
           "tip": [
             "CPU 亲和性"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppDirectory",
           "tip": [
             "应用程序的工作目录"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppEnvironment",
+          "usage": [
+            "AppEnvironment [<变量名>]"
+          ],
           "tip": [
-            "U: AppEnvironment [<变量名>]",
             "设置/获取环境变量",
             "不带子参数时列出所有环境变量",
             "带子参数时获取指定环境变量的值"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppEnvironmentExtra",
+          "usage": [
+            "AppEnvironmentExtra [<变量名>]"
+          ],
           "tip": [
-            "U: AppEnvironmentExtra [<变量名>]",
             "额外的环境变量，不会替换默认环境",
             "不带子参数时列出所有额外环境变量",
             "带子参数时获取指定环境变量的值"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppExit",
+          "usage": [
+            "AppExit <exit_code|Default>"
+          ],
           "tip": [
-            "U: AppExit <exit_code|Default>",
             "退出时的操作",
-            "需指定退出代码或 Default (默认操作)",
-            "E: AppExit Default",
-            "   AppExit 1"
+            "需指定退出代码或 Default (默认操作)"
+          ],
+          "example": [
+            "AppExit Default",
+            "AppExit 1"
           ],
           "next": [
             {
@@ -87,8 +95,7 @@
           "name": "Application",
           "tip": [
             "应用程序的路径"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppNoConsole",
@@ -115,14 +122,15 @@
           "name": "AppParameters",
           "tip": [
             "传递给应用程序的命令行参数"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppPriority",
           "tip": [
-            "进程优先级",
-            "E: AppPriority NORMAL_PRIORITY_CLASS"
+            "进程优先级"
+          ],
+          "example": [
+            "AppPriority NORMAL_PRIORITY_CLASS"
           ],
           "next": [
             {
@@ -167,16 +175,14 @@
           "name": "AppRestartDelay",
           "tip": [
             "重启前的延迟时间(毫秒)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppRotateBytes",
           "tip": [
             "文件轮转大小限制(字节)",
             "超过此大小的文件才会被轮转"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppRotateFiles",
@@ -225,15 +231,13 @@
           "tip": [
             "文件轮转时间限制(秒)",
             "超过此时间的文件才会被轮转"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStderr",
           "tip": [
             "标准错误重定向文件路径"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStderrCreationDisposition",
@@ -278,15 +282,13 @@
           "name": "AppStdin",
           "tip": [
             "标准输入重定向文件路径"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStdout",
           "tip": [
             "标准输出重定向文件路径"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStdoutCreationDisposition",
@@ -331,95 +333,85 @@
           "name": "AppStopMethodConsole",
           "tip": [
             "发送 Control-C 后的等待时间(毫秒)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStopMethodSkip",
           "tip": [
             "跳过指定的停止方法",
             "值: 位掩码组合 (1=Control-C, 2=WM_CLOSE, 4=WM_QUIT, 8=TerminateProcess)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStopMethodThreads",
           "tip": [
             "发送 WM_QUIT 后的等待时间(毫秒)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStopMethodWindow",
           "tip": [
             "发送 WM_CLOSE 后的等待时间(毫秒)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppThrottle",
           "tip": [
             "重启限流时间(毫秒)",
             "服务在此时间内退出将被视为启动失败"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "DependOnGroup",
           "tip": [
             "服务依赖的加载顺序组"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "DependOnService",
           "tip": [
             "服务依赖的其他服务",
             "可指定多个服务名称"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "Description",
           "tip": [
             "服务描述"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "DisplayName",
           "tip": [
             "服务显示名称"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "ImagePath",
           "tip": [
             "服务可执行文件路径"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "Name",
           "tip": [
             "服务键名(只读)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "ObjectName",
           "tip": [
             "服务运行的用户账户",
             "默认为 LOCALSYSTEM"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "Start",
           "tip": [
-            "服务启动类型",
-            "E: Start SERVICE_AUTO_START"
+            "服务启动类型"
+          ],
+          "example": [
+            "Start SERVICE_AUTO_START"
           ],
           "next": [
             {
@@ -451,8 +443,10 @@
         {
           "name": "Type",
           "tip": [
-            "服务类型",
-            "E: Type SERVICE_WIN32_OWN_PROCESS"
+            "服务类型"
+          ],
+          "example": [
+            "Type SERVICE_WIN32_OWN_PROCESS"
           ],
           "next": [
             {
@@ -473,32 +467,52 @@
     },
     {
       "name": "install",
-      "tip": [
-        "U: install [<servicename>] [<app> [<args> ...]]",
-        "安装一个 Windows 服务",
-        "不带参数时打开 GUI 安装界面",
-        "E: install MyService                    --- 打开 GUI 安装界面",
-        "   install MyService C:\\app\\myapp.exe --- 从命令行直接安装服务"
+      "usage": [
+        "install [<servicename>] [<app> [<args> ...]]"
       ],
-      "next": 0
+      "tip": [
+        "安装一个 Windows 服务",
+        "不带参数时打开 GUI 安装界面"
+      ],
+      "example": [
+        {
+          "cmd": "install MyService",
+          "desc": "打开 GUI 安装界面"
+        },
+        {
+          "cmd": "install MyService C:\\app\\myapp.exe",
+          "desc": "从命令行直接安装服务"
+        }
+      ]
     },
     {
       "name": "processes",
-      "tip": [
-        "U: processes <servicename>",
-        "显示服务相关的进程信息"
+      "usage": [
+        "processes <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "显示服务相关的进程信息"
+      ]
     },
     {
       "name": "remove",
+      "usage": [
+        "remove [<servicename>] [confirm]"
+      ],
       "tip": [
-        "U: remove [<servicename>] [confirm]",
         "移除一个 Windows 服务",
         "不带参数时打开 GUI 移除界面",
-        "带 confirm 参数时直接移除无需确认",
-        "E: remove MyService           --- 打开 GUI 移除界面",
-        "   remove MyService confirm   --- 直接移除服务"
+        "带 confirm 参数时直接移除无需确认"
+      ],
+      "example": [
+        {
+          "cmd": "remove MyService",
+          "desc": "打开 GUI 移除界面"
+        },
+        {
+          "cmd": "remove MyService confirm",
+          "desc": "直接移除服务"
+        }
       ],
       "next": [
         {
@@ -511,8 +525,10 @@
     },
     {
       "name": "reset",
+      "usage": [
+        "reset <servicename> <parameter> [<subparameter>]"
+      ],
       "tip": [
-        "U: reset <servicename> <parameter> [<subparameter>]",
         "将服务参数重置为默认值",
         "相当于删除对应的注册表项"
       ],
@@ -537,21 +553,26 @@
         },
         {
           "name": "AppEnvironmentExtra",
+          "usage": [
+            "AppEnvironmentExtra [<变量名>]"
+          ],
           "tip": [
-            "U: AppEnvironmentExtra [<变量名>]",
             "重置额外环境变量",
             "不带子参数时重置所有",
             "带子参数时重置指定环境变量"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppExit",
+          "usage": [
+            "AppExit <exit_code|Default>"
+          ],
           "tip": [
-            "U: AppExit <exit_code|Default>",
-            "重置退出操作",
-            "E: AppExit Default",
-            "   AppExit 1"
+            "重置退出操作"
+          ],
+          "example": [
+            "AppExit Default",
+            "AppExit 1"
           ],
           "next": [
             {
@@ -728,25 +749,29 @@
     },
     {
       "name": "restart",
-      "tip": [
-        "U: restart <servicename>",
-        "重启一个服务"
+      "usage": [
+        "restart <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "重启一个服务"
+      ]
     },
     {
       "name": "rotate",
+      "usage": [
+        "rotate <servicename>"
+      ],
       "tip": [
-        "U: rotate <servicename>",
         "触发按需文件轮转",
         "需要服务启用了 I/O 重定向和在线轮转"
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "set",
+      "usage": [
+        "set <servicename> <parameter> [<subparameter>] <value>"
+      ],
       "tip": [
-        "U: set <servicename> <parameter> [<subparameter>] <value>",
         "设置服务参数值",
         "部分参数需要子参数(如 AppExit 需要指定退出代码后再设置操作)",
         "多个参数会自动用空格连接"
@@ -754,54 +779,70 @@
       "next": [
         {
           "name": "AppAffinity",
-          "tip": [
-            "U: AppAffinity <mask>",
-            "设置 CPU 亲和性",
-            "E: AppAffinity All"
+          "usage": [
+            "AppAffinity <mask>"
           ],
-          "next": 0
+          "tip": [
+            "设置 CPU 亲和性"
+          ],
+          "example": [
+            "AppAffinity All"
+          ]
         },
         {
           "name": "AppDirectory",
-          "tip": [
-            "U: AppDirectory <path>",
-            "设置应用程序的工作目录"
+          "usage": [
+            "AppDirectory <path>"
           ],
-          "next": 0
+          "tip": [
+            "设置应用程序的工作目录"
+          ]
         },
         {
           "name": "AppEnvironment",
-          "tip": [
-            "U: AppEnvironment <KEY=VALUE> [<KEY=VALUE> ...]",
-            "设置环境变量(替换默认环境)",
-            "E: AppEnvironment MY_VAR=value"
+          "usage": [
+            "AppEnvironment <KEY=VALUE> [<KEY=VALUE> ...]"
           ],
-          "next": 0
+          "tip": [
+            "设置环境变量(替换默认环境)"
+          ],
+          "example": [
+            "AppEnvironment MY_VAR=value"
+          ]
         },
         {
           "name": "AppEnvironmentExtra",
-          "tip": [
-            "U: AppEnvironmentExtra <KEY=VALUE> [<KEY=VALUE> ...]",
-            "设置额外环境变量，不替换默认环境",
-            "E: AppEnvironmentExtra JAVA_HOME=C:\\java"
+          "usage": [
+            "AppEnvironmentExtra <KEY=VALUE> [<KEY=VALUE> ...]"
           ],
-          "next": 0
+          "tip": [
+            "设置额外环境变量，不替换默认环境"
+          ],
+          "example": [
+            "AppEnvironmentExtra JAVA_HOME=C:\\java"
+          ]
         },
         {
           "name": "AppExit",
+          "usage": [
+            "AppExit <exit_code|Default> <action>"
+          ],
           "tip": [
-            "U: AppExit <exit_code|Default> <action>",
             "设置指定退出代码时的操作",
-            "action: Restart, Ignore, Exit, Run, Halt",
-            "E: AppExit Default Restart",
-            "   AppExit 1 Ignore"
+            "action: Restart, Ignore, Exit, Run, Halt"
+          ],
+          "example": [
+            "AppExit Default Restart",
+            "AppExit 1 Ignore"
           ],
           "next": [
             {
               "name": "Default",
               "tip": [
-                "默认的退出操作",
-                "E: Default Restart"
+                "默认的退出操作"
+              ],
+              "example": [
+                "Default Restart"
               ],
               "next": [
                 {
@@ -840,16 +881,19 @@
         },
         {
           "name": "Application",
-          "tip": [
-            "U: Application <path>",
-            "设置应用程序的路径"
+          "usage": [
+            "Application <path>"
           ],
-          "next": 0
+          "tip": [
+            "设置应用程序的路径"
+          ]
         },
         {
           "name": "AppNoConsole",
+          "usage": [
+            "AppNoConsole <0|1>"
+          ],
           "tip": [
-            "U: AppNoConsole <0|1>",
             "不使用控制台窗口运行",
             "0 = 显示控制台, 1 = 隐藏控制台"
           ],
@@ -870,18 +914,23 @@
         },
         {
           "name": "AppParameters",
-          "tip": [
-            "U: AppParameters <args>",
-            "设置传递给应用程序的命令行参数"
+          "usage": [
+            "AppParameters <args>"
           ],
-          "next": 0
+          "tip": [
+            "设置传递给应用程序的命令行参数"
+          ]
         },
         {
           "name": "AppPriority",
+          "usage": [
+            "AppPriority <class>"
+          ],
           "tip": [
-            "U: AppPriority <class>",
-            "设置进程优先级",
-            "E: AppPriority NORMAL_PRIORITY_CLASS"
+            "设置进程优先级"
+          ],
+          "example": [
+            "AppPriority NORMAL_PRIORITY_CLASS"
           ],
           "next": [
             {
@@ -924,25 +973,29 @@
         },
         {
           "name": "AppRestartDelay",
-          "tip": [
-            "U: AppRestartDelay <milliseconds>",
-            "设置重启前的延迟时间(毫秒)"
+          "usage": [
+            "AppRestartDelay <milliseconds>"
           ],
-          "next": 0
+          "tip": [
+            "设置重启前的延迟时间(毫秒)"
+          ]
         },
         {
           "name": "AppRotateBytes",
+          "usage": [
+            "AppRotateBytes <bytes>"
+          ],
           "tip": [
-            "U: AppRotateBytes <bytes>",
             "设置文件轮转大小限制(字节)",
             "默认: 1048576 (1MB)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppRotateFiles",
+          "usage": [
+            "AppRotateFiles <0|1>"
+          ],
           "tip": [
-            "U: AppRotateFiles <0|1>",
             "启用/禁用文件轮转",
             "0 = 禁用, 1 = 启用"
           ],
@@ -963,8 +1016,10 @@
         },
         {
           "name": "AppRotateOnline",
+          "usage": [
+            "AppRotateOnline <0|1>"
+          ],
           "tip": [
-            "U: AppRotateOnline <0|1>",
             "启用/禁用运行时文件轮转",
             "0 = 禁用, 1 = 启用"
           ],
@@ -985,26 +1040,32 @@
         },
         {
           "name": "AppRotateSeconds",
+          "usage": [
+            "AppRotateSeconds <seconds>"
+          ],
           "tip": [
-            "U: AppRotateSeconds <seconds>",
             "设置文件轮转时间限制(秒)",
             "默认: 86400 (24小时)"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStderr",
-          "tip": [
-            "U: AppStderr <path>",
-            "设置标准错误重定向文件路径",
-            "E: AppStderr C:\\logs\\service.log"
+          "usage": [
+            "AppStderr <path>"
           ],
-          "next": 0
+          "tip": [
+            "设置标准错误重定向文件路径"
+          ],
+          "example": [
+            "AppStderr C:\\logs\\service.log"
+          ]
         },
         {
           "name": "AppStderrCreationDisposition",
+          "usage": [
+            "AppStderrCreationDisposition <1-5>"
+          ],
           "tip": [
-            "U: AppStderrCreationDisposition <1-5>",
             "设置标准错误文件创建方式",
             "1=CREATE_NEW, 2=CREATE_ALWAYS, 3=OPEN_EXISTING, 4=OPEN_ALWAYS, 5=TRUNCATE_EXISTING",
             "默认: 4 (OPEN_ALWAYS)"
@@ -1044,25 +1105,31 @@
         },
         {
           "name": "AppStdin",
-          "tip": [
-            "U: AppStdin <path>",
-            "设置标准输入重定向文件路径"
+          "usage": [
+            "AppStdin <path>"
           ],
-          "next": 0
+          "tip": [
+            "设置标准输入重定向文件路径"
+          ]
         },
         {
           "name": "AppStdout",
-          "tip": [
-            "U: AppStdout <path>",
-            "设置标准输出重定向文件路径",
-            "E: AppStdout C:\\logs\\service.log"
+          "usage": [
+            "AppStdout <path>"
           ],
-          "next": 0
+          "tip": [
+            "设置标准输出重定向文件路径"
+          ],
+          "example": [
+            "AppStdout C:\\logs\\service.log"
+          ]
         },
         {
           "name": "AppStdoutCreationDisposition",
+          "usage": [
+            "AppStdoutCreationDisposition <1-5>"
+          ],
           "tip": [
-            "U: AppStdoutCreationDisposition <1-5>",
             "设置标准输出文件创建方式",
             "1=CREATE_NEW, 2=CREATE_ALWAYS, 3=OPEN_EXISTING, 4=OPEN_ALWAYS, 5=TRUNCATE_EXISTING",
             "默认: 4 (OPEN_ALWAYS)"
@@ -1102,106 +1169,125 @@
         },
         {
           "name": "AppStopMethodConsole",
+          "usage": [
+            "AppStopMethodConsole <milliseconds>"
+          ],
           "tip": [
-            "U: AppStopMethodConsole <milliseconds>",
             "设置发送 Control-C 后的等待时间(毫秒)",
             "默认: 1500"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStopMethodSkip",
+          "usage": [
+            "AppStopMethodSkip <flags>"
+          ],
           "tip": [
-            "U: AppStopMethodSkip <flags>",
             "跳过指定的停止方法",
             "位掩码: 1=Control-C, 2=WM_CLOSE, 4=WM_QUIT, 8=TerminateProcess"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStopMethodThreads",
+          "usage": [
+            "AppStopMethodThreads <milliseconds>"
+          ],
           "tip": [
-            "U: AppStopMethodThreads <milliseconds>",
             "设置发送 WM_QUIT 后的等待时间(毫秒)",
             "默认: 1500"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppStopMethodWindow",
+          "usage": [
+            "AppStopMethodWindow <milliseconds>"
+          ],
           "tip": [
-            "U: AppStopMethodWindow <milliseconds>",
             "设置发送 WM_CLOSE 后的等待时间(毫秒)",
             "默认: 1500"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "AppThrottle",
+          "usage": [
+            "AppThrottle <milliseconds>"
+          ],
           "tip": [
-            "U: AppThrottle <milliseconds>",
             "设置重启限流时间(毫秒)",
             "默认: 1500"
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "DependOnGroup",
-          "tip": [
-            "U: DependOnGroup <group> [<group> ...]",
-            "设置服务依赖的加载顺序组"
+          "usage": [
+            "DependOnGroup <group> [<group> ...]"
           ],
-          "next": 0
+          "tip": [
+            "设置服务依赖的加载顺序组"
+          ]
         },
         {
           "name": "DependOnService",
-          "tip": [
-            "U: DependOnService <service> [<service> ...]",
-            "设置服务依赖的其他服务",
-            "E: DependOnService RpcSS LanmanWorkstation"
+          "usage": [
+            "DependOnService <service> [<service> ...]"
           ],
-          "next": 0
+          "tip": [
+            "设置服务依赖的其他服务"
+          ],
+          "example": [
+            "DependOnService RpcSS LanmanWorkstation"
+          ]
         },
         {
           "name": "Description",
-          "tip": [
-            "U: Description <text>",
-            "设置服务描述"
+          "usage": [
+            "Description <text>"
           ],
-          "next": 0
+          "tip": [
+            "设置服务描述"
+          ]
         },
         {
           "name": "DisplayName",
-          "tip": [
-            "U: DisplayName <name>",
-            "设置服务显示名称"
+          "usage": [
+            "DisplayName <name>"
           ],
-          "next": 0
+          "tip": [
+            "设置服务显示名称"
+          ]
         },
         {
           "name": "ImagePath",
-          "tip": [
-            "U: ImagePath <path>",
-            "设置服务可执行文件路径"
+          "usage": [
+            "ImagePath <path>"
           ],
-          "next": 0
+          "tip": [
+            "设置服务可执行文件路径"
+          ]
         },
         {
           "name": "ObjectName",
-          "tip": [
-            "U: ObjectName <username> <password>",
-            "设置服务运行的用户账户和密码",
-            "E: ObjectName LocalSystem",
-            "   ObjectName .\\MyUser MyPassword"
+          "usage": [
+            "ObjectName <username> <password>"
           ],
-          "next": 0
+          "tip": [
+            "设置服务运行的用户账户和密码"
+          ],
+          "example": [
+            "ObjectName LocalSystem",
+            "ObjectName .\\MyUser MyPassword"
+          ]
         },
         {
           "name": "Start",
+          "usage": [
+            "Start <type>"
+          ],
           "tip": [
-            "U: Start <type>",
-            "设置服务启动类型",
-            "E: Start SERVICE_AUTO_START"
+            "设置服务启动类型"
+          ],
+          "example": [
+            "Start SERVICE_AUTO_START"
           ],
           "next": [
             {
@@ -1232,10 +1318,14 @@
         },
         {
           "name": "Type",
+          "usage": [
+            "Type <type>"
+          ],
           "tip": [
-            "U: Type <type>",
-            "设置服务类型",
-            "E: Type SERVICE_WIN32_OWN_PROCESS"
+            "设置服务类型"
+          ],
+          "example": [
+            "Type SERVICE_WIN32_OWN_PROCESS"
           ],
           "next": [
             {
@@ -1256,40 +1346,39 @@
     },
     {
       "name": "start",
-      "tip": [
-        "U: start <servicename>",
-        "启动一个服务"
+      "usage": [
+        "start <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "启动一个服务"
+      ]
     },
     {
       "name": "status",
-      "tip": [
-        "U: status <servicename>",
-        "查询服务运行状态"
+      "usage": [
+        "status <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "查询服务运行状态"
+      ]
     },
     {
       "name": "statuscode",
-      "tip": [
-        "U: statuscode <servicename>",
-        "查询服务状态码"
+      "usage": [
+        "statuscode <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "查询服务状态码"
+      ]
     },
     {
       "name": "stop",
-      "tip": [
-        "U: stop <servicename>",
-        "停止一个服务"
+      "usage": [
+        "stop <servicename>"
       ],
-      "next": 0
+      "tip": [
+        "停止一个服务"
+      ]
     }
-  ],
-  "info": {
-    "tip": {
-      "service": "服务名称: {{ $service }}\n状态: {{ $status }}"
-    }
-  }
+  ]
 }

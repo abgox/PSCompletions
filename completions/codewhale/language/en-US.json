@@ -7,43 +7,88 @@
   },
   "next": [
     {
-      "name": "app-server",
+      "name": "account",
+      "usage": [
+        "account [OPTIONS] <COMMAND>"
+      ],
       "tip": [
-        "U: app-server [OPTIONS]",
+        "Sign in to your Codewhale account and manage account-scoped provider keys"
+      ],
+      "next": [
+        {
+          "name": "keys",
+          "tip": [
+            "Manage provider API keys stored in the signed-in Codewhale account"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Sign this CLI profile in through the browser device flow"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Remove this profile's local account session and revoke it when possible"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show the signed-in account for this CLI profile"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "app-server",
+      "usage": [
+        "app-server [OPTIONS]"
+      ],
+      "tip": [
         "Run the canonical runtime API / control plane (HTTP/SSE, mobile, stdio)."
       ],
       "option": [
         {
           "name": "--auth-token",
+          "usage": [
+            "--auth-token <AUTH_TOKEN>"
+          ],
           "tip": [
-            "U: --auth-token <AUTH_TOKEN>",
             "Bearer token for runtime API routes."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
           "tip": [
-            "U: --config <CONFIG>",
             "Config file path."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--cors-origin",
+          "usage": [
+            "--cors-origin <CORS_ORIGIN>"
+          ],
           "tip": [
-            "U: --cors-origin <CORS_ORIGIN>",
             "Additional CORS origin to allow."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
           "tip": [
-            "U: --host <HOST>",
             "Bind host. Defaults to 127.0.0.1; with --mobile and no host, binds 0.0.0.0."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--http",
@@ -65,8 +110,10 @@
         },
         {
           "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
           "tip": [
-            "U: --port <PORT>",
             "Bind port. Defaults to 7878 for --http/--mobile, 8787 for legacy."
           ],
           "next": [
@@ -95,8 +142,10 @@
         },
         {
           "name": "--workers",
+          "usage": [
+            "--workers <WORKERS>"
+          ],
           "tip": [
-            "U: --workers <WORKERS>",
             "Background task worker count (1-8)."
           ],
           "next": [
@@ -115,30 +164,37 @@
     },
     {
       "name": "apply",
-      "tip": [
-        "U: apply [ARGS]...",
-        "Apply a patch file or stdin to the working tree."
+      "usage": [
+        "apply [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Apply a patch file or stdin to the working tree."
+      ]
     },
     {
       "name": "auth",
+      "usage": [
+        "auth <COMMAND>"
+      ],
       "tip": [
-        "U: auth <COMMAND>",
         "Manage authentication credentials and provider mode."
       ],
       "next": [
         {
           "name": "clear",
+          "usage": [
+            "clear --provider <PROVIDER>"
+          ],
           "tip": [
-            "U: clear --provider <PROVIDER>",
             "Delete a provider's key from config and secret-store storage."
           ],
           "option": [
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Provider name."
               ],
               "next": [
@@ -247,15 +303,19 @@
         },
         {
           "name": "external-consent",
+          "usage": [
+            "external-consent [OPTIONS] --provider <PROVIDER> --mode <MODE>"
+          ],
           "tip": [
-            "U: external-consent [OPTIONS] --provider <PROVIDER> --mode <MODE>",
             "Explicitly allow read-only access to one credential file owned by another CLI."
           ],
           "option": [
             {
               "name": "--mode",
+              "usage": [
+                "--mode <MODE>"
+              ],
               "tip": [
-                "U: --mode <MODE>",
                 "Consent mode."
               ],
               "next": [
@@ -269,16 +329,20 @@
             },
             {
               "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
               "tip": [
-                "U: --path <PATH>",
                 "Exact credential file path."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Provider name."
               ],
               "next": [
@@ -393,15 +457,19 @@
         },
         {
           "name": "external-revoke",
+          "usage": [
+            "external-revoke --provider <PROVIDER>"
+          ],
           "tip": [
-            "U: external-revoke --provider <PROVIDER>",
             "Revoke access to another CLI's credential file for one provider."
           ],
           "option": [
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Provider name."
               ],
               "next": [
@@ -510,15 +578,19 @@
         },
         {
           "name": "get",
+          "usage": [
+            "get --provider <PROVIDER>"
+          ],
           "tip": [
-            "U: get --provider <PROVIDER>",
             "Report the effective credential route for a provider. Never prints a credential."
           ],
           "option": [
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Provider name."
               ],
               "next": [
@@ -633,15 +705,19 @@
         },
         {
           "name": "print-api-key",
+          "usage": [
+            "print-api-key --provider <PROVIDER>"
+          ],
           "tip": [
-            "U: print-api-key --provider <PROVIDER>",
             "Pipe the runtime-effective API key to a local client; refuses terminals."
           ],
           "option": [
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Provider name."
               ],
               "next": [
@@ -750,18 +826,22 @@
         },
         {
           "name": "set",
+          "usage": [
+            "set [OPTIONS] --provider <PROVIDER>"
+          ],
           "tip": [
-            "U: set [OPTIONS] --provider <PROVIDER>",
             "Save an API key to the shared user config file."
           ],
           "option": [
             {
               "name": "--api-key",
+              "usage": [
+                "--api-key <API_KEY>"
+              ],
               "tip": [
-                "U: --api-key <API_KEY>",
                 "Inline value (discouraged — appears in shell history)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--api-key-stdin",
@@ -771,8 +851,10 @@
             },
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Provider name."
               ],
               "next": [
@@ -881,15 +963,19 @@
         },
         {
           "name": "status",
+          "usage": [
+            "status [OPTIONS]"
+          ],
           "tip": [
-            "U: status [OPTIONS]",
             "Show current provider and runtime-effective credential route state."
           ],
           "option": [
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Show status for a specific provider only."
               ],
               "next": [
@@ -1006,8 +1092,10 @@
     },
     {
       "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
       "tip": [
-        "U: completion <SHELL>",
         "Generate shell completions."
       ],
       "next": [
@@ -1030,26 +1118,30 @@
     },
     {
       "name": "completions",
-      "tip": [
-        "U: completions [ARGS]...",
-        "Generate shell completions for the TUI binary."
+      "usage": [
+        "completions [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Generate shell completions for the TUI binary."
+      ]
     },
     {
       "name": "config",
+      "usage": [
+        "config <COMMAND>"
+      ],
       "tip": [
-        "U: config <COMMAND>",
         "Read/write/list config values."
       ],
       "next": [
         {
           "name": "get",
-          "tip": [
-            "U: get <KEY>",
-            "Get a config value by key."
+          "usage": [
+            "get <KEY>"
           ],
-          "next": 0
+          "tip": [
+            "Get a config value by key."
+          ]
         },
         {
           "name": "list",
@@ -1065,46 +1157,63 @@
         },
         {
           "name": "set",
-          "tip": [
-            "U: set <KEY> <VALUE>",
-            "Set a config value."
+          "usage": [
+            "set <KEY> <VALUE>"
           ],
-          "next": 0
+          "tip": [
+            "Set a config value."
+          ]
         },
         {
           "name": "unset",
-          "tip": [
-            "U: unset <KEY>",
-            "Remove a config value."
+          "usage": [
+            "unset <KEY>"
           ],
-          "next": 0
+          "tip": [
+            "Remove a config value."
+          ]
         }
       ]
     },
     {
       "name": "doctor",
-      "tip": [
-        "U: doctor [ARGS]...",
-        "Run Codewhale diagnostics."
+      "usage": [
+        "doctor [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Run Codewhale diagnostics."
+      ]
     },
     {
       "name": "eval",
-      "tip": [
-        "U: eval [ARGS]...",
-        "Run the offline TUI evaluation harness."
+      "usage": [
+        "eval [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Run the offline TUI evaluation harness."
+      ]
     },
     {
       "name": "exec",
+      "usage": [
+        "exec [ARGS]..."
+      ],
       "tip": [
-        "U: exec [ARGS]...",
-        "Run a non-interactive prompt through the TUI runtime.",
-        "E: codewhale exec \"explain this function\" --- Explain a function",
-        "E: codewhale exec --auto \"list crates/ with ls\" --- Auto-approve tool use",
-        "E: codewhale exec --auto --output-format stream-json \"fix the failing test\" --- Stream JSON output"
+        "Run a non-interactive prompt through the TUI runtime."
+      ],
+      "example": [
+        {
+          "cmd": "codewhale exec \"explain this function\"",
+          "desc": "Explain a function"
+        },
+        {
+          "cmd": "codewhale exec --auto \"list crates/ with ls\"",
+          "desc": "Auto-approve tool use"
+        },
+        {
+          "cmd": "codewhale exec --auto --output-format stream-json \"fix the failing test\"",
+          "desc": "Stream JSON output"
+        }
       ],
       "option": [
         {
@@ -1127,8 +1236,10 @@
         },
         {
           "name": "--output-format",
+          "usage": [
+            "--output-format <FORMAT>"
+          ],
           "tip": [
-            "U: --output-format <FORMAT>",
             "Output format."
           ],
           "next": [
@@ -1142,66 +1253,77 @@
         },
         {
           "name": "--resume",
+          "usage": [
+            "--resume <SESSION_ID>"
+          ],
           "tip": [
-            "U: --resume <SESSION_ID>",
             "Resume a previous session by ID or prefix."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--session-id",
+          "usage": [
+            "--session-id <SESSION_ID>"
+          ],
           "tip": [
-            "U: --session-id <SESSION_ID>",
             "Resume a previous session by ID or prefix."
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "features",
-      "tip": [
-        "U: features [ARGS]...",
-        "Inspect TUI feature flags."
+      "usage": [
+        "features [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Inspect TUI feature flags."
+      ]
     },
     {
       "name": "fleet",
-      "tip": [
-        "U: fleet [ARGS]...",
-        "Manage durable Agent Fleet runs via the TUI runtime."
+      "usage": [
+        "fleet [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Manage durable Agent Fleet runs via the TUI runtime."
+      ]
     },
     {
       "name": "fork",
-      "tip": [
-        "U: fork [ARGS]...",
-        "Fork a saved TUI session."
+      "usage": [
+        "fork [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Fork a saved TUI session."
+      ]
     },
     {
       "name": "init",
-      "tip": [
-        "U: init [ARGS]...",
-        "Create a default AGENTS.md in the current directory."
+      "usage": [
+        "init [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Create a default AGENTS.md in the current directory."
+      ]
     },
     {
       "name": "lane",
+      "usage": [
+        "lane <COMMAND>"
+      ],
       "tip": [
-        "U: lane <COMMAND>",
         "Manage running workflow instances (Lanes) and Runtime backends."
       ],
       "next": [
         {
           "name": "attach",
+          "usage": [
+            "attach [OPTIONS] <LANE_ID>"
+          ],
           "tip": [
-            "U: attach [OPTIONS] <LANE_ID>",
             "Attach to a tmux-backed lane (prints attach command; execs when possible)."
           ],
           "option": [
@@ -1211,13 +1333,14 @@
                 "Only print the attach command; do not exec."
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "interrupt",
+          "usage": [
+            "interrupt [OPTIONS] <LANE_ID>"
+          ],
           "tip": [
-            "U: interrupt [OPTIONS] <LANE_ID>",
             "Interrupt a running lane. Accepts an exact lane id, optionally fenced as <lane-id>@<seq>."
           ],
           "option": [
@@ -1227,13 +1350,14 @@
                 "Emit JSON."
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "list",
+          "usage": [
+            "list [OPTIONS]"
+          ],
           "tip": [
-            "U: list [OPTIONS]",
             "List known lanes (newest first)."
           ],
           "option": [
@@ -1247,8 +1371,10 @@
         },
         {
           "name": "logs",
+          "usage": [
+            "logs [OPTIONS] <LANE_ID>"
+          ],
           "tip": [
-            "U: logs [OPTIONS] <LANE_ID>",
             "Tail the lane stream-json / NDJSON journal."
           ],
           "option": [
@@ -1257,26 +1383,31 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --follow"
+              ],
               "tip": [
-                "U: -f, --follow",
                 "Follow the log file (like tail -f)."
               ]
             },
             {
               "name": "--tail",
+              "usage": [
+                "--tail <TAIL>"
+              ],
               "tip": [
-                "U: --tail <TAIL>",
                 "Number of trailing lines when not following (default 50)."
               ],
-              "next": 0
+              "next": []
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "restart",
+          "usage": [
+            "restart [OPTIONS] <LANE_ID>"
+          ],
           "tip": [
-            "U: restart [OPTIONS] <LANE_ID>",
             "Restart a lane in place (declared, no backend — reports why)."
           ],
           "option": [
@@ -1286,13 +1417,14 @@
                 "Emit JSON."
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "resume",
+          "usage": [
+            "resume [OPTIONS] <LANE_ID>"
+          ],
           "tip": [
-            "U: resume [OPTIONS] <LANE_ID>",
             "Resume a stopped lane (declared, no backend — reports why)."
           ],
           "option": [
@@ -1302,52 +1434,63 @@
                 "Emit JSON."
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "start",
+          "usage": [
+            "start [OPTIONS] [COMMAND]..."
+          ],
           "tip": [
-            "U: start [OPTIONS] [COMMAND]...",
             "Start a lane under a Runtime backend (tmux|inline|vm|ci)."
           ],
           "option": [
             {
               "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
               "tip": [
-                "U: --branch <BRANCH>",
                 "Branch name for the worktree (requires --worktree-repo)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--fleet",
+              "usage": [
+                "--fleet <FLEET>"
+              ],
               "tip": [
-                "U: --fleet <FLEET>",
                 "Fleet roster name (e.g. stopship)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--goal",
+              "usage": [
+                "--goal <GOAL>"
+              ],
               "tip": [
-                "U: --goal <GOAL>",
                 "Free-form goal text."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--issue",
+              "usage": [
+                "--issue <ISSUE>"
+              ],
               "tip": [
-                "U: --issue <ISSUE>",
                 "Issue id binding."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--runtime",
+              "usage": [
+                "--runtime <RUNTIME>"
+              ],
               "tip": [
-                "U: --runtime <RUNTIME>",
                 "Runtime backend."
               ],
               "next": [
@@ -1367,32 +1510,40 @@
             },
             {
               "name": "--workflow",
+              "usage": [
+                "--workflow <WORKFLOW>"
+              ],
               "tip": [
-                "U: --workflow <WORKFLOW>",
                 "Workflow name (e.g. stopship)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--worktree-path",
+              "usage": [
+                "--worktree-path <DIR>"
+              ],
               "tip": [
-                "U: --worktree-path <DIR>",
                 "Worktree path (defaults to <repo>/.codewhale/lanes/<lane-id>)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--worktree-repo",
+              "usage": [
+                "--worktree-repo <DIR>"
+              ],
               "tip": [
-                "U: --worktree-repo <DIR>",
                 "Create an isolated worktree under this repo root."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--worktree-ttl-secs",
+              "usage": [
+                "--worktree-ttl-secs <WORKTREE_TTL_SECS>"
+              ],
               "tip": [
-                "U: --worktree-ttl-secs <WORKTREE_TTL_SECS>",
                 "Worktree cleanup TTL seconds after stop (0 = immediate on stop)."
               ],
               "next": [
@@ -1407,13 +1558,14 @@
                 }
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "status",
+          "usage": [
+            "status [OPTIONS] <LANE_ID>"
+          ],
           "tip": [
-            "U: status [OPTIONS] <LANE_ID>",
             "Show one lane's status and attach metadata."
           ],
           "option": [
@@ -1423,33 +1575,37 @@
                 "Emit JSON."
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "stop",
-          "tip": [
-            "U: stop <LANE_ID>",
-            "Stop a running lane and run worktree TTL cleanup. Compatibility spelling for lane interrupt."
+          "usage": [
+            "stop <LANE_ID>"
           ],
-          "next": 0
+          "tip": [
+            "Stop a running lane and run worktree TTL cleanup. Compatibility spelling for lane interrupt."
+          ]
         }
       ]
     },
     {
       "name": "login",
+      "usage": [
+        "login [OPTIONS]"
+      ],
       "tip": [
-        "U: login [OPTIONS]",
         "Configure provider credentials."
       ],
       "option": [
         {
           "name": "--api-key",
+          "usage": [
+            "--api-key <API_KEY>"
+          ],
           "tip": [
-            "U: --api-key <API_KEY>",
             "API key for the provider."
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
@@ -1461,11 +1617,12 @@
     },
     {
       "name": "mcp",
-      "tip": [
-        "U: mcp [ARGS]...",
-        "Manage TUI MCP servers."
+      "usage": [
+        "mcp [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Manage TUI MCP servers."
+      ]
     },
     {
       "name": "mcp-server",
@@ -1475,8 +1632,10 @@
     },
     {
       "name": "metrics",
+      "usage": [
+        "metrics [OPTIONS]"
+      ],
       "tip": [
-        "U: metrics [OPTIONS]",
         "Print a usage rollup from the audit log and session store."
       ],
       "option": [
@@ -1488,8 +1647,10 @@
         },
         {
           "name": "--since",
+          "usage": [
+            "--since <DURATION>"
+          ],
           "tip": [
-            "U: --since <DURATION>",
             "Restrict to events newer than this duration (e.g. 7d, 24h, 30m, now-2h)."
           ],
           "next": [
@@ -1505,22 +1666,28 @@
     },
     {
       "name": "model",
+      "usage": [
+        "model <COMMAND>"
+      ],
       "tip": [
-        "U: model <COMMAND>",
         "Resolve or list available models across providers."
       ],
       "next": [
         {
           "name": "list",
+          "usage": [
+            "list [OPTIONS]"
+          ],
           "tip": [
-            "U: list [OPTIONS]",
             "List available models."
           ],
           "option": [
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Filter by provider."
               ],
               "next": [
@@ -1629,15 +1796,19 @@
         },
         {
           "name": "resolve",
+          "usage": [
+            "resolve [OPTIONS] [MODEL]"
+          ],
           "tip": [
-            "U: resolve [OPTIONS] [MODEL]",
             "Resolve a model name to its full identifier."
           ],
           "option": [
             {
               "name": "--provider",
+              "usage": [
+                "--provider <PROVIDER>"
+              ],
               "tip": [
-                "U: --provider <PROVIDER>",
                 "Filter by provider."
               ],
               "next": [
@@ -1742,39 +1913,43 @@
                 }
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "set",
-          "tip": [
-            "U: set <MODEL>",
-            "Set the default model (e.g. pro, flash, deepseek-v4-pro)."
+          "usage": [
+            "set <MODEL>"
           ],
-          "next": 0
+          "tip": [
+            "Set the default model (e.g. pro, flash, deepseek-v4-pro)."
+          ]
         }
       ]
     },
     {
       "name": "models",
-      "tip": [
-        "U: models [ARGS]...",
-        "List live provider API models via the TUI binary."
+      "usage": [
+        "models [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "List live provider API models via the TUI binary."
+      ]
     },
     {
       "name": "rc",
-      "tip": [
-        "U: rc [ARGS]...",
-        "Launch an interactive session and hand it to the Codewhale web app."
+      "usage": [
+        "rc [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Launch an interactive session and hand it to the Codewhale web app."
+      ]
     },
     {
       "name": "remote-setup",
+      "usage": [
+        "remote-setup [OPTIONS]"
+      ],
       "tip": [
-        "U: remote-setup [OPTIONS]",
         "Generate a remote Codewhale agent deploy bundle (cloud + chat bridge)."
       ],
       "option": [
@@ -1786,8 +1961,10 @@
         },
         {
           "name": "--bridge",
+          "usage": [
+            "--bridge <BRIDGE>"
+          ],
           "tip": [
-            "U: --bridge <BRIDGE>",
             "Chat bridge slug. Skips the prompt."
           ],
           "next": [
@@ -1801,8 +1978,10 @@
         },
         {
           "name": "--cloud",
+          "usage": [
+            "--cloud <CLOUD>"
+          ],
           "tip": [
-            "U: --cloud <CLOUD>",
             "Cloud target slug. Skips the prompt."
           ],
           "next": [
@@ -1831,19 +2010,23 @@
         },
         {
           "name": "--out",
+          "usage": [
+            "--out <DIR>"
+          ],
           "tip": [
-            "U: --out <DIR>",
             "Bundle output directory (default ./codewhale-deploy/<cloud>-<bridge>)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--provider",
+          "usage": [
+            "--provider <PROVIDER>"
+          ],
           "tip": [
-            "U: --provider <PROVIDER>",
             "Provider slug; validated against the provider registry. Skips the prompt."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--yes",
@@ -1855,46 +2038,55 @@
     },
     {
       "name": "resume",
-      "tip": [
-        "U: resume [ARGS]...",
-        "Resume a saved TUI session."
+      "usage": [
+        "resume [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Resume a saved TUI session."
+      ]
     },
     {
       "name": "review",
-      "tip": [
-        "U: review [ARGS]...",
-        "Run a Codewhale-powered code review over a git diff."
+      "usage": [
+        "review [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Run a Codewhale-powered code review over a git diff."
+      ]
     },
     {
       "name": "run",
-      "tip": [
-        "U: run [ARGS]...",
-        "Run interactive/non-interactive flows via the TUI binary."
+      "usage": [
+        "run [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Run interactive/non-interactive flows via the TUI binary."
+      ]
     },
     {
       "name": "sandbox",
+      "usage": [
+        "sandbox <COMMAND>"
+      ],
       "tip": [
-        "U: sandbox <COMMAND>",
         "Evaluate sandbox/approval policy decisions."
       ],
       "next": [
         {
           "name": "check",
+          "usage": [
+            "check [OPTIONS] <COMMAND>"
+          ],
           "tip": [
-            "U: check [OPTIONS] <COMMAND>",
             "Check sandbox policy for a command."
           ],
           "option": [
             {
               "name": "--ask",
+              "usage": [
+                "--ask <ASK>"
+              ],
               "tip": [
-                "U: --ask <ASK>",
                 "Approval ask mode."
               ],
               "next": [
@@ -1912,15 +2104,16 @@
                 }
               ]
             }
-          ],
-          "next": 0
+          ]
         }
       ]
     },
     {
       "name": "serve",
+      "usage": [
+        "serve [ARGS]..."
+      ],
       "tip": [
-        "U: serve [ARGS]...",
         "Run a local TUI server."
       ],
       "option": [
@@ -1932,28 +2125,34 @@
         },
         {
           "name": "--auth-token",
+          "usage": [
+            "--auth-token <TOKEN>"
+          ],
           "tip": [
-            "U: --auth-token <TOKEN>",
             "Require this bearer token for /v1/* runtime API routes."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--cors-origin",
+          "usage": [
+            "--cors-origin <URL>"
+          ],
           "tip": [
-            "U: --cors-origin <URL>",
             "Additional CORS origin to allow (repeatable)."
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
           "tip": [
-            "U: --host <HOST>",
             "Bind host (default 127.0.0.1; --mobile defaults to 0.0.0.0)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--http",
@@ -1981,8 +2180,10 @@
         },
         {
           "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
           "tip": [
-            "U: --port <PORT>",
             "Bind port (default: 7878)."
           ],
           "next": [
@@ -2011,8 +2212,10 @@
         },
         {
           "name": "--workers",
+          "usage": [
+            "--workers <WORKERS>"
+          ],
           "tip": [
-            "U: --workers <WORKERS>",
             "Background task worker count (1-8)."
           ],
           "next": [
@@ -2027,71 +2230,80 @@
             }
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "sessions",
-      "tip": [
-        "U: sessions [ARGS]...",
-        "List saved TUI sessions."
+      "usage": [
+        "sessions [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "List saved TUI sessions."
+      ]
     },
     {
       "name": "setup",
-      "tip": [
-        "U: setup [ARGS]...",
-        "Bootstrap MCP config and/or skills directories."
+      "usage": [
+        "setup [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Bootstrap MCP config and/or skills directories."
+      ]
     },
     {
       "name": "speech",
       "alias": [
         "tts"
       ],
-      "tip": [
-        "U: tts|speech [ARGS]...",
-        "Generate speech audio with Xiaomi MiMo TTS models via the TUI binary."
+      "usage": [
+        "tts|speech [ARGS]..."
       ],
-      "next": 0
+      "tip": [
+        "Generate speech audio with Xiaomi MiMo TTS models via the TUI binary."
+      ]
     },
     {
       "name": "thread",
+      "usage": [
+        "thread <COMMAND>"
+      ],
       "tip": [
-        "U: thread <COMMAND>",
         "Manage thread/session metadata and resume/fork flows."
       ],
       "next": [
         {
           "name": "archive",
-          "tip": [
-            "U: archive <THREAD_ID>",
-            "Archive a thread."
+          "usage": [
+            "archive <THREAD_ID>"
           ],
-          "next": 0
+          "tip": [
+            "Archive a thread."
+          ]
         },
         {
           "name": "clear-name",
-          "tip": [
-            "U: clear-name <THREAD_ID>",
-            "Remove the custom name from a thread, restoring the default (unnamed) rendering in thread list."
+          "usage": [
+            "clear-name <THREAD_ID>"
           ],
-          "next": 0
+          "tip": [
+            "Remove the custom name from a thread, restoring the default (unnamed) rendering in thread list."
+          ]
         },
         {
           "name": "fork",
-          "tip": [
-            "U: fork <THREAD_ID>",
-            "Fork a thread."
+          "usage": [
+            "fork <THREAD_ID>"
           ],
-          "next": 0
+          "tip": [
+            "Fork a thread."
+          ]
         },
         {
           "name": "list",
+          "usage": [
+            "list [OPTIONS]"
+          ],
           "tip": [
-            "U: list [OPTIONS]",
             "List threads."
           ],
           "option": [
@@ -2103,8 +2315,10 @@
             },
             {
               "name": "--limit",
+              "usage": [
+                "--limit <LIMIT>"
+              ],
               "tip": [
-                "U: --limit <LIMIT>",
                 "Maximum number of threads to show."
               ],
               "next": [
@@ -2120,42 +2334,48 @@
         },
         {
           "name": "read",
-          "tip": [
-            "U: read <THREAD_ID>",
-            "Read a thread's content."
+          "usage": [
+            "read <THREAD_ID>"
           ],
-          "next": 0
+          "tip": [
+            "Read a thread's content."
+          ]
         },
         {
           "name": "resume",
-          "tip": [
-            "U: resume <THREAD_ID>",
-            "Resume a thread."
+          "usage": [
+            "resume <THREAD_ID>"
           ],
-          "next": 0
+          "tip": [
+            "Resume a thread."
+          ]
         },
         {
           "name": "set-name",
-          "tip": [
-            "U: set-name <THREAD_ID> <NAME>",
-            "Set a custom name for a thread."
+          "usage": [
+            "set-name <THREAD_ID> <NAME>"
           ],
-          "next": 0
+          "tip": [
+            "Set a custom name for a thread."
+          ]
         },
         {
           "name": "unarchive",
-          "tip": [
-            "U: unarchive <THREAD_ID>",
-            "Unarchive a thread."
+          "usage": [
+            "unarchive <THREAD_ID>"
           ],
-          "next": 0
+          "tip": [
+            "Unarchive a thread."
+          ]
         }
       ]
     },
     {
       "name": "update",
+      "usage": [
+        "update [OPTIONS]"
+      ],
       "tip": [
-        "U: update [OPTIONS]",
         "Check for and apply updates to the codewhale binary."
       ],
       "option": [
@@ -2173,25 +2393,31 @@
         },
         {
           "name": "--proxy",
+          "usage": [
+            "--proxy <URL>"
+          ],
           "tip": [
-            "U: --proxy <URL>",
             "Proxy URL to use for update HTTP requests."
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "web",
+      "usage": [
+        "web [OPTIONS]"
+      ],
       "tip": [
-        "U: web [OPTIONS]",
         "Open the first-class local browser client over the canonical Runtime API."
       ],
       "option": [
         {
           "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
           "tip": [
-            "U: --port <PORT>",
             "Loopback port for the local Runtime API and embedded client (default: 7878)."
           ],
           "next": [
@@ -2210,54 +2436,68 @@
     },
     {
       "name": "workflow",
+      "usage": [
+        "workflow <COMMAND>"
+      ],
       "tip": [
-        "U: workflow <COMMAND>",
         "Run checked-in Workflows through a Lane Runtime backend."
       ],
       "next": [
         {
           "name": "run",
+          "usage": [
+            "run [OPTIONS] --fleet <FLEET> <WORKFLOW>"
+          ],
           "tip": [
-            "U: run [OPTIONS] --fleet <FLEET> <WORKFLOW>",
             "Run a checked-in Workflow through a Runtime-backed Lane."
           ],
           "option": [
             {
               "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
               "tip": [
-                "U: --branch <BRANCH>",
                 "Branch name for the worktree (requires --worktree-repo)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--fleet",
+              "usage": [
+                "--fleet <FLEET>"
+              ],
               "tip": [
-                "U: --fleet <FLEET>",
                 "Named Fleet roster (e.g. stopship). Required for role-resolved Workflow runs."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--goal",
+              "usage": [
+                "--goal <GOAL>"
+              ],
               "tip": [
-                "U: --goal <GOAL>",
                 "Free-form goal text recorded on the Lane and passed into workflow args."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--issue",
+              "usage": [
+                "--issue <ISSUE>"
+              ],
               "tip": [
-                "U: --issue <ISSUE>",
                 "Issue id binding recorded on the Lane and passed into workflow args."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--runtime",
+              "usage": [
+                "--runtime <RUNTIME>"
+              ],
               "tip": [
-                "U: --runtime <RUNTIME>",
                 "Runtime backend."
               ],
               "next": [
@@ -2277,19 +2517,23 @@
             },
             {
               "name": "--source-path",
+              "usage": [
+                "--source-path <PATH>"
+              ],
               "tip": [
-                "U: --source-path <PATH>",
                 "Explicit Workflow source path, overriding name-based resolution."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--token-budget",
+              "usage": [
+                "--token-budget <TOKEN_BUDGET>"
+              ],
               "tip": [
-                "U: --token-budget <TOKEN_BUDGET>",
                 "Optional shared Workflow token budget."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--verify",
@@ -2299,24 +2543,30 @@
             },
             {
               "name": "--worktree-path",
+              "usage": [
+                "--worktree-path <DIR>"
+              ],
               "tip": [
-                "U: --worktree-path <DIR>",
                 "Worktree path (defaults to <repo>/.codewhale/lanes/<lane-id>)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--worktree-repo",
+              "usage": [
+                "--worktree-repo <DIR>"
+              ],
               "tip": [
-                "U: --worktree-repo <DIR>",
                 "Create an isolated worktree under this repo root."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--worktree-ttl-secs",
+              "usage": [
+                "--worktree-ttl-secs <WORKTREE_TTL_SECS>"
+              ],
               "tip": [
-                "U: --worktree-ttl-secs <WORKTREE_TTL_SECS>",
                 "Worktree cleanup TTL seconds after stop (0 = immediate on stop)."
               ],
               "next": [
@@ -2339,61 +2589,75 @@
   "option": [
     {
       "name": "--api-key",
+      "usage": [
+        "--api-key <API_KEY>"
+      ],
       "tip": [
-        "U: --api-key <API_KEY>",
         "API key for the provider."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--approval-policy",
+      "usage": [
+        "--approval-policy <APPROVAL_POLICY>"
+      ],
       "tip": [
-        "U: --approval-policy <APPROVAL_POLICY>",
         "Approval policy."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--base-url",
+      "usage": [
+        "--base-url <BASE_URL>"
+      ],
       "tip": [
-        "U: --base-url <BASE_URL>",
         "Base URL for the provider API."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--config",
+      "usage": [
+        "--config <CONFIG>"
+      ],
       "tip": [
-        "U: --config <CONFIG>",
         "Path to config file."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--continue",
       "alias": [
         "-c"
       ],
+      "usage": [
+        "-c, --continue"
+      ],
       "tip": [
-        "U: -c, --continue",
         "Continue the most recent interactive session for this workspace."
       ]
     },
     {
       "name": "--log-level",
+      "usage": [
+        "--log-level <LOG_LEVEL>"
+      ],
       "tip": [
-        "U: --log-level <LOG_LEVEL>",
         "Log level."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--model",
+      "usage": [
+        "--model <MODEL>"
+      ],
       "tip": [
-        "U: --model <MODEL>",
         "Model to use."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--mouse-capture",
@@ -2415,46 +2679,56 @@
     },
     {
       "name": "--output-mode",
+      "usage": [
+        "--output-mode <OUTPUT_MODE>"
+      ],
       "tip": [
-        "U: --output-mode <OUTPUT_MODE>",
         "Output mode."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--profile",
+      "usage": [
+        "--profile <PROFILE>"
+      ],
       "tip": [
-        "U: --profile <PROFILE>",
         "Config profile to use."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--prompt",
       "alias": [
         "-p"
       ],
+      "usage": [
+        "-p, --prompt <PROMPT>"
+      ],
       "tip": [
-        "U: -p, --prompt <PROMPT>",
         "Prompt to pass to the model."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--provider",
+      "usage": [
+        "--provider <PROVIDER>"
+      ],
       "tip": [
-        "U: --provider <PROVIDER>",
         "Provider selector; exec/fleet also accept configured custom provider identifiers."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--sandbox-mode",
+      "usage": [
+        "--sandbox-mode <SANDBOX_MODE>"
+      ],
       "tip": [
-        "U: --sandbox-mode <SANDBOX_MODE>",
         "Sandbox mode."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--skip-onboarding",
@@ -2464,8 +2738,10 @@
     },
     {
       "name": "--telemetry",
+      "usage": [
+        "--telemetry <TELEMETRY>"
+      ],
       "tip": [
-        "U: --telemetry <TELEMETRY>",
         "Enable or disable telemetry."
       ],
       "next": [
@@ -2479,8 +2755,10 @@
     },
     {
       "name": "--verbosity",
+      "usage": [
+        "--verbosity <LEVEL>"
+      ],
       "tip": [
-        "U: --verbosity <LEVEL>",
         "Controls transcript and output verbosity."
       ],
       "next": [
@@ -2497,11 +2775,13 @@
       "alias": [
         "-C"
       ],
+      "usage": [
+        "-C, --workspace <DIR>"
+      ],
       "tip": [
-        "U: -C, --workspace <DIR>",
         "Workspace directory for TUI file tools."
       ],
-      "next": 0
+      "next": []
     }
   ],
   "global_option": [
@@ -2510,8 +2790,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "Print help."
       ]
     },
@@ -2520,8 +2802,10 @@
       "alias": [
         "-V"
       ],
+      "usage": [
+        "-V, --version"
+      ],
       "tip": [
-        "U: -V, --version",
         "Print version."
       ]
     }

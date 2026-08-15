@@ -8,19 +8,23 @@
   "next": [
     {
       "name": "cache",
+      "usage": [
+        "cache dir",
+        "cache info",
+        "cache list [<pattern>] [--format=[human, abspath]]",
+        "cache remove <pattern>",
+        "cache purge"
+      ],
       "tip": [
-        "U: cache dir",
-        "U: cache info",
-        "U: cache list [<pattern>] [--format=[human, abspath]]",
-        "U: cache remove <pattern>",
-        "U: cache purge",
         "检查和管理 pip 的 wheel 缓存。"
       ],
       "option": [
         {
           "name": "--format",
+          "usage": [
+            "--format <list_format>"
+          ],
           "tip": [
-            "U: --format <list_format>",
             "从以下选项中选择输出格式: human（默认）或 abspath。"
           ],
           "next": [
@@ -51,8 +55,10 @@
         },
         {
           "name": "list",
+          "usage": [
+            "list [<pattern>] [--format=[human, abspath]]"
+          ],
           "tip": [
-            "U: list [<pattern>] [--format=[human, abspath]]",
             "列出缓存中存储的包文件名。",
             "<pattern> 可以是 glob 表达式或包名。"
           ]
@@ -65,8 +71,10 @@
         },
         {
           "name": "remove",
+          "usage": [
+            "remove <pattern>"
+          ],
           "tip": [
-            "U: remove <pattern>",
             "从缓存中删除一个或多个包。"
           ]
         }
@@ -74,8 +82,10 @@
     },
     {
       "name": "check",
+      "usage": [
+        "check [options]"
+      ],
       "tip": [
-        "U: check [options]",
         "验证已安装的包是否具有兼容的依赖。"
       ]
     },
@@ -90,8 +100,10 @@
           "alias": [
             "-b"
           ],
+          "usage": [
+            "-b, --bash"
+          ],
           "tip": [
-            "U: -b, --bash",
             "输出 bash 补全代码。"
           ]
         },
@@ -100,8 +112,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --fish"
+          ],
           "tip": [
-            "U: -f, --fish",
             "输出 fish 补全代码。"
           ]
         },
@@ -110,8 +124,10 @@
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --powershell"
+          ],
           "tip": [
-            "U: -p, --powershell",
             "输出 powershell 补全代码。"
           ]
         },
@@ -120,8 +136,10 @@
           "alias": [
             "-z"
           ],
+          "usage": [
+            "-z, --zsh"
+          ],
           "tip": [
-            "U: -z, --zsh",
             "输出 zsh 补全代码。"
           ]
         }
@@ -129,24 +147,28 @@
     },
     {
       "name": "config",
+      "usage": [
+        "config [<file-option>] list",
+        "config [<file-option>] [--editor <editor-path>] edit",
+        "config [<file-option>] get command.option",
+        "config [<file-option>] set command.option value",
+        "config [<file-option>] unset command.option",
+        "config [<file-option>] debug"
+      ],
       "tip": [
-        "U: config [<file-option>] list",
-        "U: config [<file-option>] [--editor <editor-path>] edit",
-        "U: config [<file-option>] get command.option",
-        "U: config [<file-option>] set command.option value",
-        "U: config [<file-option>] unset command.option",
-        "U: config [<file-option>] debug",
         "管理本地和全局配置。"
       ],
       "option": [
         {
           "name": "--editor",
+          "usage": [
+            "--editor <editor>"
+          ],
           "tip": [
-            "U: --editor <editor>",
             "用于编辑文件的编辑器。",
             "如果未提供，则使用 VISUAL 或 EDITOR 环境变量。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--global",
@@ -182,8 +204,10 @@
         },
         {
           "name": "get",
+          "usage": [
+            "get command.option"
+          ],
           "tip": [
-            "U: get command.option",
             "获取与 command.option 关联的值。"
           ]
         },
@@ -195,15 +219,19 @@
         },
         {
           "name": "set",
+          "usage": [
+            "set command.option value"
+          ],
           "tip": [
-            "U: set command.option value",
             "设置 command.option=value。"
           ]
         },
         {
           "name": "unset",
+          "usage": [
+            "unset command.option"
+          ],
           "tip": [
-            "U: unset command.option",
             "取消设置与 command.option 关联的值。"
           ]
         }
@@ -211,94 +239,112 @@
     },
     {
       "name": "debug",
+      "usage": [
+        "debug <options>"
+      ],
       "tip": [
-        "U: debug <options>",
         "显示调试信息。"
       ],
       "option": [
         {
           "name": "--abi",
+          "usage": [
+            "--abi <abi>"
+          ],
           "tip": [
-            "U: --abi <abi>",
             "仅使用与 Python abi <abi> 兼容的 wheel，例如 'pypy_41'。",
             "如果未指定，则使用当前解释器的 abi 标签。",
             "多次使用此选项以指定目标解释器支持的多个 abi。",
             "通常在使用此选项时需要指定 --implementation、--platform 和 --python-version。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--implementation",
+          "usage": [
+            "--implementation <implementation>"
+          ],
           "tip": [
-            "U: --implementation <implementation>",
             "仅使用与 Python 实现 <implementation> 兼容的 wheel，例如 'pp'、'jy'、'cp' 或 'ip'。",
             "如果未指定，则使用当前解释器实现。",
             "使用 'py' 可强制使用与实现无关的 wheel。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--platform",
+          "usage": [
+            "--platform <platform>"
+          ],
           "tip": [
-            "U: --platform <platform>",
             "仅使用与 <platform> 兼容的 wheel。",
             "默认为运行系统的平台。",
             "多次使用此选项以指定目标解释器支持的多个平台。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--python-version",
+          "usage": [
+            "--python-version <python_version>"
+          ],
           "tip": [
-            "U: --python-version <python_version>",
             "用于 wheel 和 'Requires-Python' 兼容性检查的 Python 解释器版本。",
             "默认为从运行中的解释器派生的版本。"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "download",
+      "usage": [
+        "download [options] <requirement specifier> [package-index-options] ...",
+        "download [options] -r <requirements file> [package-index-options] ...",
+        "download [options] <vcs project url> ...",
+        "download [options] <local project path> ...",
+        "download [options] <archive url/path> ..."
+      ],
       "tip": [
-        "U: download [options] <requirement specifier> [package-index-options] ...",
-        "U: download [options] -r <requirements file> [package-index-options] ...",
-        "U: download [options] <vcs project url> ...",
-        "U: download [options] <local project path> ...",
-        "U: download [options] <archive url/path> ...",
         "从 PyPI、VCS 项目 URL、本地项目目录或本地/远程源代码归档下载包。"
       ],
       "option": [
         {
           "name": "--abi",
+          "usage": [
+            "--abi <abi>"
+          ],
           "tip": [
-            "U: --abi <abi>",
             "仅使用与 Python abi <abi> 兼容的 wheel，例如 'pypy_41'。",
             "如果未指定，则使用当前解释器的 abi 标签。",
             "多次使用此选项以指定目标解释器支持的多个 abi。",
             "通常在使用此选项时需要指定 --implementation、--platform 和 --python-version。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--all-releases",
+          "usage": [
+            "--all-releases <release_control>"
+          ],
           "tip": [
-            "U: --all-releases <release_control>",
             "允许包的所有发布类型（包括预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 允许所有包的预发布版本，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--build-constraint",
+          "usage": [
+            "--build-constraint <file>"
+          ],
           "tip": [
-            "U: --build-constraint <file>",
             "使用给定的约束文件来约束构建依赖。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--check-build-dependencies",
@@ -311,55 +357,65 @@
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --constraint <file>"
+          ],
           "tip": [
-            "U: -c, --constraint <file>",
             "使用给定的约束文件来约束版本。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--dest",
           "alias": [
             "-d"
           ],
+          "usage": [
+            "-d, --dest <dir>"
+          ],
           "tip": [
-            "U: -d, --dest <dir>",
             "将包下载到 <dir> 中。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--extra-index-url",
+          "usage": [
+            "--extra-index-url <url>"
+          ],
           "tip": [
-            "U: --extra-index-url <url>",
             "除 --index-url 外使用的额外包索引 URL。",
             "应遵循与 --index-url 相同的规则。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--find-links",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --find-links <url>"
+          ],
           "tip": [
-            "U: -f, --find-links <url>",
             "如果是指向 html 文件的 URL 或路径，则解析归档文件的链接，例如 sdist (.tar.gz) 或 wheel (.whl) 文件。",
             "如果是指向目录的本地路径或 file:// URL，则在目录列表中查找归档文件。",
             "不支持指向 VCS 项目 URL 的链接。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--group",
+          "usage": [
+            "--group <[path:]group>"
+          ],
           "tip": [
-            "U: --group <[path:]group>",
             "从 'pyproject.toml' 文件安装命名的依赖组。",
             "如果提供了路径，则文件名必须是 'pyproject.toml'。",
             "默认使用当前目录中的 'pyproject.toml'。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--ignore-requires-python",
@@ -369,36 +425,42 @@
         },
         {
           "name": "--implementation",
+          "usage": [
+            "--implementation <implementation>"
+          ],
           "tip": [
-            "U: --implementation <implementation>",
             "仅使用与 Python 实现 <implementation> 兼容的 wheel，例如 'pp'、'jy'、'cp' 或 'ip'。",
             "如果未指定，则使用当前解释器实现。",
             "使用 'py' 可强制使用与实现无关的 wheel。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--index-url",
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --index-url <url>"
+          ],
           "tip": [
-            "U: -i, --index-url <url>",
             "Python 包索引的基础 URL（默认 https://pypi.org/simple）。",
             "这应指向符合 PEP 503（简单仓库 API）的仓库或以相同格式布局的本地目录。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-binary",
+          "usage": [
+            "--no-binary <format_control>"
+          ],
           "tip": [
-            "U: --no-binary <format_control>",
             "不使用二进制包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有二进制包，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "注意，某些包可能难以编译，使用此选项时可能安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-build-isolation",
@@ -427,35 +489,41 @@
         },
         {
           "name": "--only-binary",
+          "usage": [
+            "--only-binary <format_control>"
+          ],
           "tip": [
-            "U: --only-binary <format_control>",
             "不使用源代码包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有源代码包，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "没有二进制分发的包在使用此选项时将安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--only-final",
+          "usage": [
+            "--only-final <release_control>"
+          ],
           "tip": [
-            "U: --only-final <release_control>",
             "仅允许最终发布版本（无预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有包的预发布版本，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--platform",
+          "usage": [
+            "--platform <platform>"
+          ],
           "tip": [
-            "U: --platform <platform>",
             "仅使用与 <platform> 兼容的 wheel。",
             "默认为运行系统的平台。",
             "多次使用此选项以指定目标解释器支持的多个平台。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--pre",
@@ -472,8 +540,10 @@
         },
         {
           "name": "--progress-bar",
+          "usage": [
+            "--progress-bar <progress_bar>"
+          ],
           "tip": [
-            "U: --progress-bar <progress_bar>",
             "指定是否使用进度条。",
             "在 'auto' 模式下，--quiet 将抑制所有进度条。"
           ],
@@ -497,12 +567,14 @@
         },
         {
           "name": "--python-version",
+          "usage": [
+            "--python-version <python_version>"
+          ],
           "tip": [
-            "U: --python-version <python_version>",
             "用于 wheel 和 'Requires-Python' 兼容性检查的 Python 解释器版本。",
             "默认为从运行中的解释器派生的版本。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--require-hashes",
@@ -516,48 +588,58 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --requirement <file>"
+          ],
           "tip": [
-            "U: -r, --requirement <file>",
             "从给定的需求文件安装。",
             "文件或 URL 可以是 pip 的 requirements.txt 格式或 pylock.toml 格式。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--requirements-from-script",
+          "usage": [
+            "--requirements-from-script <file>"
+          ],
           "tip": [
-            "U: --requirements-from-script <file>",
             "安装由 PEP 723 内联元数据定义的给定脚本文件的依赖。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--src",
+          "usage": [
+            "--src <dir>"
+          ],
           "tip": [
-            "U: --src <dir>",
             "用于检出可编辑项目的目录。",
             "virtualenv 中的默认值为 '<venv path>/src'。",
             "全局安装的默认值为 '<current dir>/src'。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--uploaded-prior-to",
+          "usage": [
+            "--uploaded-prior-to <datetime_or_duration>"
+          ],
           "tip": [
-            "U: --uploaded-prior-to <datetime_or_duration>",
             "仅考虑在给定值之前上传的包。",
             "接受 ISO 8601 日期时间（例如 '2023-01-01T00:00:00Z'，未指定时使用本地时区）或以天为单位的持续时间（例如 'P3D' 表示至少 3 天前上传的包）。",
             "仅在从提供上传时间元数据的索引安装时有效。"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "freeze",
+      "usage": [
+        "freeze [options]"
+      ],
       "tip": [
-        "U: freeze [options]",
         "以 requirements 格式输出已安装的包。",
         "包按不区分大小写的排序顺序列出。"
       ],
@@ -570,11 +652,13 @@
         },
         {
           "name": "--exclude",
+          "usage": [
+            "--exclude <package>"
+          ],
           "tip": [
-            "U: --exclude <package>",
             "从输出中排除指定的包。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--exclude-editable",
@@ -587,30 +671,36 @@
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --local"
+          ],
           "tip": [
-            "U: -l, --local",
             "如果在具有全局访问权限的 virtualenv 中，不输出全局安装的包。"
           ]
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <path>"
+          ],
           "tip": [
-            "U: --path <path>",
             "限制为指定的安装路径来列出包（可多次使用）。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--requirement",
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --requirement <file>"
+          ],
           "tip": [
-            "U: -r, --requirement <file>",
             "生成输出时使用给定需求文件中的顺序及其注释。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--user",
@@ -622,8 +712,10 @@
     },
     {
       "name": "hash",
+      "usage": [
+        "hash [options] <file> ..."
+      ],
       "tip": [
-        "U: hash [options] <file> ...",
         "计算本地包归档文件的哈希值。",
         "这些可以与需求文件中的 --hash 一起使用，以实现可重复安装。"
       ],
@@ -633,8 +725,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --algorithm <algorithm>"
+          ],
           "tip": [
-            "U: -a, --algorithm <algorithm>",
             "要使用的哈希算法。"
           ],
           "next": [
@@ -653,61 +747,73 @@
     },
     {
       "name": "help",
+      "usage": [
+        "help <command>"
+      ],
       "tip": [
-        "U: help <command>",
         "显示命令的帮助。"
       ]
     },
     {
       "name": "index",
+      "usage": [
+        "index versions <package>"
+      ],
       "tip": [
-        "U: index versions <package>",
         "检查从包索引中可用的信息。"
       ],
       "option": [
         {
           "name": "--abi",
+          "usage": [
+            "--abi <abi>"
+          ],
           "tip": [
-            "U: --abi <abi>",
             "仅使用与 Python abi <abi> 兼容的 wheel，例如 'pypy_41'。",
             "如果未指定，则使用当前解释器的 abi 标签。",
             "多次使用此选项以指定目标解释器支持的多个 abi。",
             "通常在使用此选项时需要指定 --implementation、--platform 和 --python-version。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--all-releases",
+          "usage": [
+            "--all-releases <release_control>"
+          ],
           "tip": [
-            "U: --all-releases <release_control>",
             "允许包的所有发布类型（包括预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 允许所有包的预发布版本，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--extra-index-url",
+          "usage": [
+            "--extra-index-url <url>"
+          ],
           "tip": [
-            "U: --extra-index-url <url>",
             "除 --index-url 外使用的额外包索引 URL。",
             "应遵循与 --index-url 相同的规则。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--find-links",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --find-links <url>"
+          ],
           "tip": [
-            "U: -f, --find-links <url>",
             "如果是指向 html 文件的 URL 或路径，则解析归档文件的链接，例如 sdist (.tar.gz) 或 wheel (.whl) 文件。",
             "如果是指向目录的本地路径或 file:// URL，则在目录列表中查找归档文件。",
             "不支持指向 VCS 项目 URL 的链接。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--ignore-requires-python",
@@ -717,25 +823,29 @@
         },
         {
           "name": "--implementation",
+          "usage": [
+            "--implementation <implementation>"
+          ],
           "tip": [
-            "U: --implementation <implementation>",
             "仅使用与 Python 实现 <implementation> 兼容的 wheel，例如 'pp'、'jy'、'cp' 或 'ip'。",
             "如果未指定，则使用当前解释器实现。",
             "使用 'py' 可强制使用与实现无关的 wheel。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--index-url",
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --index-url <url>"
+          ],
           "tip": [
-            "U: -i, --index-url <url>",
             "Python 包索引的基础 URL（默认 https://pypi.org/simple）。",
             "这应指向符合 PEP 503（简单仓库 API）的仓库或以相同格式布局的本地目录。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--json",
@@ -745,14 +855,16 @@
         },
         {
           "name": "--no-binary",
+          "usage": [
+            "--no-binary <format_control>"
+          ],
           "tip": [
-            "U: --no-binary <format_control>",
             "不使用二进制包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有二进制包，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "注意，某些包可能难以编译，使用此选项时可能安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-index",
@@ -762,35 +874,41 @@
         },
         {
           "name": "--only-binary",
+          "usage": [
+            "--only-binary <format_control>"
+          ],
           "tip": [
-            "U: --only-binary <format_control>",
             "不使用源代码包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有源代码包，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "没有二进制分发的包在使用此选项时将安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--only-final",
+          "usage": [
+            "--only-final <release_control>"
+          ],
           "tip": [
-            "U: --only-final <release_control>",
             "仅允许最终发布版本（无预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有包的预发布版本，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--platform",
+          "usage": [
+            "--platform <platform>"
+          ],
           "tip": [
-            "U: --platform <platform>",
             "仅使用与 <platform> 兼容的 wheel。",
             "默认为运行系统的平台。",
             "多次使用此选项以指定目标解释器支持的多个平台。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--pre",
@@ -807,29 +925,35 @@
         },
         {
           "name": "--python-version",
+          "usage": [
+            "--python-version <python_version>"
+          ],
           "tip": [
-            "U: --python-version <python_version>",
             "用于 wheel 和 'Requires-Python' 兼容性检查的 Python 解释器版本。",
             "默认为从运行中的解释器派生的版本。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--uploaded-prior-to",
+          "usage": [
+            "--uploaded-prior-to <datetime_or_duration>"
+          ],
           "tip": [
-            "U: --uploaded-prior-to <datetime_or_duration>",
             "仅考虑在给定值之前上传的包。",
             "接受 ISO 8601 日期时间（例如 '2023-01-01T00:00:00Z'，未指定时使用本地时区）或以天为单位的持续时间（例如 'P3D' 表示至少 3 天前上传的包）。",
             "仅在从提供上传时间元数据的索引安装时有效。"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "inspect",
+      "usage": [
+        "inspect [options]"
+      ],
       "tip": [
-        "U: inspect [options]",
         "检查 Python 环境的内容并以 JSON 格式生成报告。"
       ],
       "option": [
@@ -841,11 +965,13 @@
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <path>"
+          ],
           "tip": [
-            "U: --path <path>",
             "限制为指定的安装路径来列出包（可多次使用）。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--user",
@@ -857,36 +983,42 @@
     },
     {
       "name": "install",
+      "usage": [
+        "install [options] <requirement specifier> [package-index-options] ...",
+        "install [options] -r <requirements file> [package-index-options] ...",
+        "install [options] [-e] <vcs project url> ...",
+        "install [options] [-e] <local project path> ...",
+        "install [options] <archive url/path> ..."
+      ],
       "tip": [
-        "U: install [options] <requirement specifier> [package-index-options] ...",
-        "U: install [options] -r <requirements file> [package-index-options] ...",
-        "U: install [options] [-e] <vcs project url> ...",
-        "U: install [options] [-e] <local project path> ...",
-        "U: install [options] <archive url/path> ...",
         "从 PyPI、VCS 项目 URL、本地项目目录或本地/远程源代码归档安装包。"
       ],
       "option": [
         {
           "name": "--abi",
+          "usage": [
+            "--abi <abi>"
+          ],
           "tip": [
-            "U: --abi <abi>",
             "仅使用与 Python abi <abi> 兼容的 wheel，例如 'pypy_41'。",
             "如果未指定，则使用当前解释器的 abi 标签。",
             "多次使用此选项以指定目标解释器支持的多个 abi。",
             "通常在使用此选项时需要指定 --implementation、--platform 和 --python-version。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--all-releases",
+          "usage": [
+            "--all-releases <release_control>"
+          ],
           "tip": [
-            "U: --all-releases <release_control>",
             "允许包的所有发布类型（包括预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 允许所有包的预发布版本，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--break-system-packages",
@@ -896,12 +1028,14 @@
         },
         {
           "name": "--build-constraint",
+          "usage": [
+            "--build-constraint <file>"
+          ],
           "tip": [
-            "U: --build-constraint <file>",
             "使用给定的约束文件来约束构建依赖。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--check-build-dependencies",
@@ -920,25 +1054,29 @@
           "alias": [
             "-C"
           ],
+          "usage": [
+            "-C, --config-settings <settings>"
+          ],
           "tip": [
-            "U: -C, --config-settings <settings>",
             "传递给构建后端的配置设置。",
             "设置采用 KEY=VALUE 的形式。",
             "使用多个 --config-settings 选项可向后端传递多个键。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--constraint",
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --constraint <file>"
+          ],
           "tip": [
-            "U: -c, --constraint <file>",
             "使用给定的约束文件来约束版本。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--dry-run",
@@ -952,33 +1090,39 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --editable <path/url>"
+          ],
           "tip": [
-            "U: -e, --editable <path/url>",
             "以可编辑模式（即 setuptools 的 'develop 模式'）从本地项目路径或 VCS URL 安装项目。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--extra-index-url",
+          "usage": [
+            "--extra-index-url <url>"
+          ],
           "tip": [
-            "U: --extra-index-url <url>",
             "除 --index-url 外使用的额外包索引 URL。",
             "应遵循与 --index-url 相同的规则。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--find-links",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --find-links <url>"
+          ],
           "tip": [
-            "U: -f, --find-links <url>",
             "如果是指向 html 文件的 URL 或路径，则解析归档文件的链接，例如 sdist (.tar.gz) 或 wheel (.whl) 文件。",
             "如果是指向目录的本地路径或 file:// URL，则在目录列表中查找归档文件。",
             "不支持指向 VCS 项目 URL 的链接。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--force-reinstall",
@@ -988,21 +1132,25 @@
         },
         {
           "name": "--group",
+          "usage": [
+            "--group <[path:]group>"
+          ],
           "tip": [
-            "U: --group <[path:]group>",
             "从 'pyproject.toml' 文件安装命名的依赖组。",
             "如果提供了路径，则文件名必须是 'pyproject.toml'。",
             "默认使用当前目录中的 'pyproject.toml'。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--ignore-installed",
           "alias": [
             "-I"
           ],
+          "usage": [
+            "-I, --ignore-installed"
+          ],
           "tip": [
-            "U: -I, --ignore-installed",
             "忽略已安装的包，覆盖它们。",
             "如果现有包的版本不同或由不同的包管理器安装，这可能会损坏你的系统！"
           ]
@@ -1015,36 +1163,42 @@
         },
         {
           "name": "--implementation",
+          "usage": [
+            "--implementation <implementation>"
+          ],
           "tip": [
-            "U: --implementation <implementation>",
             "仅使用与 Python 实现 <implementation> 兼容的 wheel，例如 'pp'、'jy'、'cp' 或 'ip'。",
             "如果未指定，则使用当前解释器实现。",
             "使用 'py' 可强制使用与实现无关的 wheel。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--index-url",
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --index-url <url>"
+          ],
           "tip": [
-            "U: -i, --index-url <url>",
             "Python 包索引的基础 URL（默认 https://pypi.org/simple）。",
             "这应指向符合 PEP 503（简单仓库 API）的仓库或以相同格式布局的本地目录。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-binary",
+          "usage": [
+            "--no-binary <format_control>"
+          ],
           "tip": [
-            "U: --no-binary <format_control>",
             "不使用二进制包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有二进制包，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "注意，某些包可能难以编译，使用此选项时可能安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-build-isolation",
@@ -1091,35 +1245,41 @@
         },
         {
           "name": "--only-binary",
+          "usage": [
+            "--only-binary <format_control>"
+          ],
           "tip": [
-            "U: --only-binary <format_control>",
             "不使用源代码包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有源代码包，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "没有二进制分发的包在使用此选项时将安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--only-final",
+          "usage": [
+            "--only-final <release_control>"
+          ],
           "tip": [
-            "U: --only-final <release_control>",
             "仅允许最终发布版本（无预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有包的预发布版本，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--platform",
+          "usage": [
+            "--platform <platform>"
+          ],
           "tip": [
-            "U: --platform <platform>",
             "仅使用与 <platform> 兼容的 wheel。",
             "默认为运行系统的平台。",
             "多次使用此选项以指定目标解释器支持的多个平台。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--pre",
@@ -1136,18 +1296,22 @@
         },
         {
           "name": "--prefix",
+          "usage": [
+            "--prefix <dir>"
+          ],
           "tip": [
-            "U: --prefix <dir>",
             "放置 lib、bin 和其他顶层文件夹的安装前缀。",
             "请注意，生成的安装可能包含引用 pip 的 Python 解释器而非 --prefix 的解释器的脚本和其他资源。",
             "如果打算将包安装到另一个（可能没有 pip 的）环境，请参阅 --python 选项。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--progress-bar",
+          "usage": [
+            "--progress-bar <progress_bar>"
+          ],
           "tip": [
-            "U: --progress-bar <progress_bar>",
             "指定是否使用进度条。",
             "在 'auto' 模式下，--quiet 将抑制所有进度条。"
           ],
@@ -1171,23 +1335,27 @@
         },
         {
           "name": "--python-version",
+          "usage": [
+            "--python-version <python_version>"
+          ],
           "tip": [
-            "U: --python-version <python_version>",
             "用于 wheel 和 'Requires-Python' 兼容性检查的 Python 解释器版本。",
             "默认为从运行中的解释器派生的版本。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--report",
+          "usage": [
+            "--report <file>"
+          ],
           "tip": [
-            "U: --report <file>",
             "生成一个 JSON 文件，描述 pip 安装提供的需求时所做的操作。",
             "可以与 --dry-run 和 --ignore-installed 结合使用来 '解析' 需求。",
             "当使用 - 作为文件名时，将输出到标准输出。",
             "输出到标准输出时，请与 --quiet 选项结合使用，以避免混合 pip 日志输出和 JSON 输出。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--require-hashes",
@@ -1201,34 +1369,42 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --requirement <file>"
+          ],
           "tip": [
-            "U: -r, --requirement <file>",
             "从给定的需求文件安装。",
             "文件或 URL 可以是 pip 的 requirements.txt 格式或 pylock.toml 格式。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--requirements-from-script",
+          "usage": [
+            "--requirements-from-script <file>"
+          ],
           "tip": [
-            "U: --requirements-from-script <file>",
             "安装由 PEP 723 内联元数据定义的给定脚本文件的依赖。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--root",
+          "usage": [
+            "--root <dir>"
+          ],
           "tip": [
-            "U: --root <dir>",
             "将所有内容安装到此备用根目录的相对路径下。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--root-user-action",
+          "usage": [
+            "--root-user-action <root_user_action>"
+          ],
           "tip": [
-            "U: --root-user-action <root_user_action>",
             "以 root 用户身份运行 pip 时的操作。"
           ],
           "next": [
@@ -1245,57 +1421,67 @@
         },
         {
           "name": "--src",
+          "usage": [
+            "--src <dir>"
+          ],
           "tip": [
-            "U: --src <dir>",
             "用于检出可编辑项目的目录。",
             "virtualenv 中的默认值为 '<venv path>/src'。",
             "全局安装的默认值为 '<current dir>/src'。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--target",
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --target <dir>"
+          ],
           "tip": [
-            "U: -t, --target <dir>",
             "将包安装到 <dir> 中。",
             "默认情况下不会替换 <dir> 中现有的文件/文件夹。",
             "使用 --upgrade 可以用新版本替换 <dir> 中现有的包。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--upgrade",
           "alias": [
             "-U"
           ],
+          "usage": [
+            "-U, --upgrade"
+          ],
           "tip": [
-            "U: -U, --upgrade",
             "将所有指定的包升级到最新的可用版本。",
             "依赖的处理取决于所使用的升级策略。"
           ]
         },
         {
           "name": "--upgrade-strategy",
+          "usage": [
+            "--upgrade-strategy <upgrade_strategy>"
+          ],
           "tip": [
-            "U: --upgrade-strategy <upgrade_strategy>",
             "确定应如何处理依赖升级 [默认: only-if-needed]。",
             "'eager'          - 无论当前安装的版本是否满足升级包的需求，都会升级依赖。",
             "'only-if-needed' - 仅在不满足升级包的需求时才升级。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--uploaded-prior-to",
+          "usage": [
+            "--uploaded-prior-to <datetime_or_duration>"
+          ],
           "tip": [
-            "U: --uploaded-prior-to <datetime_or_duration>",
             "仅考虑在给定值之前上传的包。",
             "接受 ISO 8601 日期时间（例如 '2023-01-01T00:00:00Z'，未指定时使用本地时区）或以天为单位的持续时间（例如 'P3D' 表示至少 3 天前上传的包）。",
             "仅在从提供上传时间元数据的索引安装时有效。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--user",
@@ -1309,40 +1495,48 @@
     },
     {
       "name": "list",
+      "usage": [
+        "list [options]"
+      ],
       "tip": [
-        "U: list [options]",
         "列出已安装的包，包括可编辑包。",
         "包按不区分大小写的排序顺序列出。"
       ],
       "option": [
         {
           "name": "--all-releases",
+          "usage": [
+            "--all-releases <release_control>"
+          ],
           "tip": [
-            "U: --all-releases <release_control>",
             "允许包的所有发布类型（包括预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 允许所有包的预发布版本，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--editable",
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --editable"
+          ],
           "tip": [
-            "U: -e, --editable",
             "列出可编辑项目。"
           ]
         },
         {
           "name": "--exclude",
+          "usage": [
+            "--exclude <package>"
+          ],
           "tip": [
-            "U: --exclude <package>",
             "从输出中排除指定的包。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--exclude-editable",
@@ -1352,30 +1546,36 @@
         },
         {
           "name": "--extra-index-url",
+          "usage": [
+            "--extra-index-url <url>"
+          ],
           "tip": [
-            "U: --extra-index-url <url>",
             "除 --index-url 外使用的额外包索引 URL。",
             "应遵循与 --index-url 相同的规则。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--find-links",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --find-links <url>"
+          ],
           "tip": [
-            "U: -f, --find-links <url>",
             "如果是指向 html 文件的 URL 或路径，则解析归档文件的链接，例如 sdist (.tar.gz) 或 wheel (.whl) 文件。",
             "如果是指向目录的本地路径或 file:// URL，则在目录列表中查找归档文件。",
             "不支持指向 VCS 项目 URL 的链接。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--format",
+          "usage": [
+            "--format <list_format>"
+          ],
           "tip": [
-            "U: --format <list_format>",
             "从以下选项中选择输出格式: columns（默认）、freeze 或 json。",
             "'freeze' 格式不能与 --outdated 选项一起使用。"
           ],
@@ -1405,33 +1605,39 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --index-url <url>"
+          ],
           "tip": [
-            "U: -i, --index-url <url>",
             "Python 包索引的基础 URL（默认 https://pypi.org/simple）。",
             "这应指向符合 PEP 503（简单仓库 API）的仓库或以相同格式布局的本地目录。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--local",
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --local"
+          ],
           "tip": [
-            "U: -l, --local",
             "如果在具有全局访问权限的 virtualenv 中，不列出全局安装的包。"
           ]
         },
         {
           "name": "--no-binary",
+          "usage": [
+            "--no-binary <format_control>"
+          ],
           "tip": [
-            "U: --no-binary <format_control>",
             "不使用二进制包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有二进制包，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "注意，某些包可能难以编译，使用此选项时可能安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-index",
@@ -1447,43 +1653,51 @@
         },
         {
           "name": "--only-binary",
+          "usage": [
+            "--only-binary <format_control>"
+          ],
           "tip": [
-            "U: --only-binary <format_control>",
             "不使用源代码包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有源代码包，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "没有二进制分发的包在使用此选项时将安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--only-final",
+          "usage": [
+            "--only-final <release_control>"
+          ],
           "tip": [
-            "U: --only-final <release_control>",
             "仅允许最终发布版本（无预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有包的预发布版本，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--outdated",
           "alias": [
             "-o"
           ],
+          "usage": [
+            "-o, --outdated"
+          ],
           "tip": [
-            "U: -o, --outdated",
             "列出过时的包。"
           ]
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <path>"
+          ],
           "tip": [
-            "U: --path <path>",
             "限制为指定的安装路径来列出包（可多次使用）。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--pre",
@@ -1500,21 +1714,25 @@
         },
         {
           "name": "--uploaded-prior-to",
+          "usage": [
+            "--uploaded-prior-to <datetime_or_duration>"
+          ],
           "tip": [
-            "U: --uploaded-prior-to <datetime_or_duration>",
             "仅考虑在给定值之前上传的包。",
             "接受 ISO 8601 日期时间（例如 '2023-01-01T00:00:00Z'，未指定时使用本地时区）或以天为单位的持续时间（例如 'P3D' 表示至少 3 天前上传的包）。",
             "仅在从提供上传时间元数据的索引安装时有效。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--uptodate",
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --uptodate"
+          ],
           "tip": [
-            "U: -u, --uptodate",
             "列出最新的包。"
           ]
         },
@@ -1528,8 +1746,10 @@
     },
     {
       "name": "search",
+      "usage": [
+        "search [options] <query>"
+      ],
       "tip": [
-        "U: search [options] <query>",
         "搜索名称或摘要中包含 <query> 的 PyPI 包。"
       ],
       "option": [
@@ -1538,18 +1758,22 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --index <url>"
+          ],
           "tip": [
-            "U: -i, --index <url>",
             "Python 包索引的基础 URL（默认 https://pypi.org/pypi）。"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "show",
+      "usage": [
+        "show [options] <package> ..."
+      ],
       "tip": [
-        "U: show [options] <package> ...",
         "显示一个或多个已安装包的信息。",
         "输出采用符合 RFC 的邮件头格式。"
       ],
@@ -1559,8 +1783,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --files"
+          ],
           "tip": [
-            "U: -f, --files",
             "显示每个包的完整已安装文件列表。"
           ]
         }
@@ -1568,9 +1794,11 @@
     },
     {
       "name": "uninstall",
+      "usage": [
+        "uninstall [options] <package> ...",
+        "uninstall [options] -r <requirements file> ..."
+      ],
       "tip": [
-        "U: uninstall [options] <package> ...",
-        "U: uninstall [options] -r <requirements file> ...",
         "卸载包。"
       ],
       "option": [
@@ -1585,17 +1813,21 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --requirement <file>"
+          ],
           "tip": [
-            "U: -r, --requirement <file>",
             "卸载给定需求文件中列出的所有包。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--root-user-action",
+          "usage": [
+            "--root-user-action <root_user_action>"
+          ],
           "tip": [
-            "U: --root-user-action <root_user_action>",
             "以 root 用户身份运行 pip 时的操作。"
           ],
           "next": [
@@ -1615,8 +1847,10 @@
           "alias": [
             "-y"
           ],
+          "usage": [
+            "-y, --yes"
+          ],
           "tip": [
-            "U: -y, --yes",
             "不询问卸载删除的确认。"
           ]
         }
@@ -1624,34 +1858,40 @@
     },
     {
       "name": "wheel",
+      "usage": [
+        "wheel [options] <requirement specifier> ...",
+        "wheel [options] -r <requirements file> ...",
+        "wheel [options] [-e] <vcs project url> ...",
+        "wheel [options] [-e] <local project path> ...",
+        "wheel [options] <archive url/path> ..."
+      ],
       "tip": [
-        "U: wheel [options] <requirement specifier> ...",
-        "U: wheel [options] -r <requirements file> ...",
-        "U: wheel [options] [-e] <vcs project url> ...",
-        "U: wheel [options] [-e] <local project path> ...",
-        "U: wheel [options] <archive url/path> ...",
         "为你的需求和依赖构建 Wheel 归档文件。"
       ],
       "option": [
         {
           "name": "--all-releases",
+          "usage": [
+            "--all-releases <release_control>"
+          ],
           "tip": [
-            "U: --all-releases <release_control>",
             "允许包的所有发布类型（包括预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 允许所有包的预发布版本，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--build-constraint",
+          "usage": [
+            "--build-constraint <file>"
+          ],
           "tip": [
-            "U: --build-constraint <file>",
             "使用给定的约束文件来约束构建依赖。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--check-build-dependencies",
@@ -1664,68 +1904,80 @@
           "alias": [
             "-C"
           ],
+          "usage": [
+            "-C, --config-settings <settings>"
+          ],
           "tip": [
-            "U: -C, --config-settings <settings>",
             "传递给构建后端的配置设置。",
             "设置采用 KEY=VALUE 的形式。",
             "使用多个 --config-settings 选项可向后端传递多个键。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--constraint",
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --constraint <file>"
+          ],
           "tip": [
-            "U: -c, --constraint <file>",
             "使用给定的约束文件来约束版本。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--editable",
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --editable <path/url>"
+          ],
           "tip": [
-            "U: -e, --editable <path/url>",
             "以可编辑模式（即 setuptools 的 'develop 模式'）从本地项目路径或 VCS URL 安装项目。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--extra-index-url",
+          "usage": [
+            "--extra-index-url <url>"
+          ],
           "tip": [
-            "U: --extra-index-url <url>",
             "除 --index-url 外使用的额外包索引 URL。",
             "应遵循与 --index-url 相同的规则。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--find-links",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --find-links <url>"
+          ],
           "tip": [
-            "U: -f, --find-links <url>",
             "如果是指向 html 文件的 URL 或路径，则解析归档文件的链接，例如 sdist (.tar.gz) 或 wheel (.whl) 文件。",
             "如果是指向目录的本地路径或 file:// URL，则在目录列表中查找归档文件。",
             "不支持指向 VCS 项目 URL 的链接。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--group",
+          "usage": [
+            "--group <[path:]group>"
+          ],
           "tip": [
-            "U: --group <[path:]group>",
             "从 'pyproject.toml' 文件安装命名的依赖组。",
             "如果提供了路径，则文件名必须是 'pyproject.toml'。",
             "默认使用当前目录中的 'pyproject.toml'。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--ignore-requires-python",
@@ -1738,23 +1990,27 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --index-url <url>"
+          ],
           "tip": [
-            "U: -i, --index-url <url>",
             "Python 包索引的基础 URL（默认 https://pypi.org/simple）。",
             "这应指向符合 PEP 503（简单仓库 API）的仓库或以相同格式布局的本地目录。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-binary",
+          "usage": [
+            "--no-binary <format_control>"
+          ],
           "tip": [
-            "U: --no-binary <format_control>",
             "不使用二进制包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有二进制包，':none:' 清空集合（注意冒号），或以逗号分隔的一个或多个包名（无冒号）。",
             "注意，某些包可能难以编译，使用此选项时可能安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-build-isolation",
@@ -1789,25 +2045,29 @@
         },
         {
           "name": "--only-binary",
+          "usage": [
+            "--only-binary <format_control>"
+          ],
           "tip": [
-            "U: --only-binary <format_control>",
             "不使用源代码包。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有源代码包，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "没有二进制分发的包在使用此选项时将安装失败。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--only-final",
+          "usage": [
+            "--only-final <release_control>"
+          ],
           "tip": [
-            "U: --only-final <release_control>",
             "仅允许最终发布版本（无预发布版本）。",
             "可以多次提供，每次都会添加到现有值中。",
             "接受 ':all:' 禁用所有包的预发布版本，':none:' 清空集合，或以逗号分隔的一个或多个包名。",
             "不能与 --pre 一起使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--pre",
@@ -1824,8 +2084,10 @@
         },
         {
           "name": "--progress-bar",
+          "usage": [
+            "--progress-bar <progress_bar>"
+          ],
           "tip": [
-            "U: --progress-bar <progress_bar>",
             "指定是否使用进度条。",
             "在 'auto' 模式下，--quiet 将抑制所有进度条。"
           ],
@@ -1859,52 +2121,62 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --requirement <file>"
+          ],
           "tip": [
-            "U: -r, --requirement <file>",
             "从给定的需求文件安装。",
             "文件或 URL 可以是 pip 的 requirements.txt 格式或 pylock.toml 格式。",
             "此选项可以多次使用。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--requirements-from-script",
+          "usage": [
+            "--requirements-from-script <file>"
+          ],
           "tip": [
-            "U: --requirements-from-script <file>",
             "安装由 PEP 723 内联元数据定义的给定脚本文件的依赖。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--src",
+          "usage": [
+            "--src <dir>"
+          ],
           "tip": [
-            "U: --src <dir>",
             "用于检出可编辑项目的目录。",
             "virtualenv 中的默认值为 '<venv path>/src'。",
             "全局安装的默认值为 '<current dir>/src'。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--uploaded-prior-to",
+          "usage": [
+            "--uploaded-prior-to <datetime_or_duration>"
+          ],
           "tip": [
-            "U: --uploaded-prior-to <datetime_or_duration>",
             "仅考虑在给定值之前上传的包。",
             "接受 ISO 8601 日期时间（例如 '2023-01-01T00:00:00Z'，未指定时使用本地时区）或以天为单位的持续时间（例如 'P3D' 表示至少 3 天前上传的包）。",
             "仅在从提供上传时间元数据的索引安装时有效。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--wheel-dir",
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --wheel-dir <dir>"
+          ],
           "tip": [
-            "U: -w, --wheel-dir <dir>",
             "将 wheel 构建到 <dir> 中，默认为当前工作目录。"
           ],
-          "next": 0
+          "next": []
         }
       ]
     }
@@ -1915,8 +2187,10 @@
       "alias": [
         "-V"
       ],
+      "usage": [
+        "-V, --version"
+      ],
       "tip": [
-        "U: -V, --version",
         "显示版本并退出。"
       ]
     }
@@ -1924,29 +2198,35 @@
   "global_option": [
     {
       "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <dir>"
+      ],
       "tip": [
-        "U: --cache-dir <dir>",
         "将缓存数据存储在 <dir> 中。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--cert",
+      "usage": [
+        "--cert <path>"
+      ],
       "tip": [
-        "U: --cert <path>",
         "PEM 编码的 CA 证书包的路径。",
         "如果提供，将覆盖默认值。",
         "更多信息请参阅 pip 文档中的 'SSL Certificate Verification'。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--client-cert",
+      "usage": [
+        "--client-cert <path>"
+      ],
       "tip": [
-        "U: --client-cert <path>",
         "SSL 客户端证书的路径，即包含 PEM 格式的私钥和证书的单个文件。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--debug",
@@ -1963,20 +2243,24 @@
     },
     {
       "name": "--exists-action",
+      "usage": [
+        "--exists-action <action>"
+      ],
       "tip": [
-        "U: --exists-action <action>",
         "路径已存在时的默认操作:",
         "(s)witch、(i)gnore、(w)ipe、(b)ackup、(a)bort。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--help",
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "显示帮助。"
       ]
     },
@@ -1988,8 +2272,10 @@
     },
     {
       "name": "--keyring-provider",
+      "usage": [
+        "--keyring-provider <keyring_provider>"
+      ],
       "tip": [
-        "U: --keyring-provider <keyring_provider>",
         "如果允许用户输入，则通过 keyring 库启用凭据查找。",
         "指定要使用的机制。"
       ],
@@ -2013,11 +2299,13 @@
     },
     {
       "name": "--log",
+      "usage": [
+        "--log <path>"
+      ],
       "tip": [
-        "U: --log <path>",
         "详细追加日志的路径。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--no-cache-dir",
@@ -2039,27 +2327,33 @@
     },
     {
       "name": "--proxy",
+      "usage": [
+        "--proxy <proxy>"
+      ],
       "tip": [
-        "U: --proxy <proxy>",
         "以 scheme://[user:passwd@]proxy.server:port 的形式指定代理。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--python",
+      "usage": [
+        "--python <python>"
+      ],
       "tip": [
-        "U: --python <python>",
         "使用指定的 Python 解释器运行 pip。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--quiet",
       "alias": [
         "-q"
       ],
+      "usage": [
+        "-q, --quiet"
+      ],
       "tip": [
-        "U: -q, --quiet",
         "输出更少内容。选项是累加的，最多可使用 3 次。",
         "（对应 WARNING、ERROR 和 CRITICAL 日志级别）。"
       ],
@@ -2073,24 +2367,30 @@
     },
     {
       "name": "--resume-retries",
+      "usage": [
+        "--resume-retries <resume_retries>"
+      ],
       "tip": [
-        "U: --resume-retries <resume_retries>",
         "恢复或重新启动未完成下载的最大尝试次数（默认: 5）。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--retries",
+      "usage": [
+        "--retries <retries>"
+      ],
       "tip": [
-        "U: --retries <retries>",
         "建立新 HTTP 连接的最大尝试次数（默认: 5）。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--timeout",
+      "usage": [
+        "--timeout <sec>"
+      ],
       "tip": [
-        "U: --timeout <sec>",
         "设置套接字超时时间（默认 15 秒）。"
       ],
       "next": [
@@ -2107,35 +2407,43 @@
     },
     {
       "name": "--trusted-host",
+      "usage": [
+        "--trusted-host <hostname>"
+      ],
       "tip": [
-        "U: --trusted-host <hostname>",
         "将此主机或 host:port 对标记为受信任的，即使它没有有效的或任何 HTTPS。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--use-deprecated",
+      "usage": [
+        "--use-deprecated <feature>"
+      ],
       "tip": [
-        "U: --use-deprecated <feature>",
         "启用已弃用的功能，该功能将在未来被移除。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--use-feature",
+      "usage": [
+        "--use-feature <feature>"
+      ],
       "tip": [
-        "U: --use-feature <feature>",
         "启用新功能，可能与旧版本不兼容。"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--verbose",
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --verbose"
+      ],
       "tip": [
-        "U: -v, --verbose",
         "输出更多内容。选项是累加的，最多可使用 3 次。"
       ],
       "repeat": 3

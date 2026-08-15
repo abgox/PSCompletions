@@ -9,8 +9,10 @@
   "next": [
     {
       "name": "backup",
+      "usage": [
+        "backup [FLAGS] [FILE/DIR]..."
+      ],
       "tip": [
-        "U: backup [FLAGS] [FILE/DIR]...",
         "创建文件和/或目录的新备份"
       ],
       "option": [
@@ -19,8 +21,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --dry-run"
+          ],
           "tip": [
-            "U: -n, --dry-run",
             "不上传或写入任何数据"
           ]
         },
@@ -29,12 +33,14 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --exclude <PATTERN>"
+          ],
           "tip": [
-            "U: -e, --exclude <PATTERN>",
             "排除匹配模式"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--exclude-caches",
@@ -44,37 +50,45 @@
         },
         {
           "name": "--exclude-file",
+          "usage": [
+            "--exclude-file <FILE>"
+          ],
           "tip": [
-            "U: --exclude-file <FILE>",
             "从文件读取排除模式"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--exclude-larger-than",
+          "usage": [
+            "--exclude-larger-than <SIZE>"
+          ],
           "tip": [
-            "U: --exclude-larger-than <SIZE>",
             "要备份的文件最大尺寸"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--files-from",
+          "usage": [
+            "--files-from <FILE>"
+          ],
           "tip": [
-            "U: --files-from <FILE>",
             "从文件读取要备份的文件列表"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--force",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --force"
+          ],
           "tip": [
-            "U: -f, --force",
             "强制重新读取源文件"
           ]
         },
@@ -83,40 +97,48 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --group-by <GROUP>"
+          ],
           "tip": [
-            "U: -g, --group-by <GROUP>",
             "按主机、路径和/或标签分组快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
           "alias": [
             "-H"
           ],
+          "usage": [
+            "-H, --host <HOSTNAME>"
+          ],
           "tip": [
-            "U: -H, --host <HOSTNAME>",
             "设置快照的主机名"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--one-file-system",
           "alias": [
             "-x"
           ],
+          "usage": [
+            "-x, --one-file-system"
+          ],
           "tip": [
-            "U: -x, --one-file-system",
             "排除其他文件系统"
           ]
         },
         {
           "name": "--parent",
+          "usage": [
+            "--parent <SNAPSHOT>"
+          ],
           "tip": [
-            "U: --parent <SNAPSHOT>",
             "使用此父快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--stdin",
@@ -126,29 +148,74 @@
         },
         {
           "name": "--stdin-filename",
+          "usage": [
+            "--stdin-filename <FILENAME>"
+          ],
           "tip": [
-            "U: --stdin-filename <FILENAME>",
             "从 stdin 读取时使用的文件名"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAGS>"
+          ],
           "tip": [
-            "U: --tag <TAGS>",
             "为新快照添加标签"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--time",
+          "usage": [
+            "--time <TIME>"
+          ],
           "tip": [
-            "U: --time <TIME>",
             "备份时间"
           ],
-          "next": 0
+          "next": []
         }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "操作本地缓存目录"
+      ],
+      "option": [
+        {
+          "name": "--cleanup",
+          "tip": [
+            "移除旧的缓存目录"
+          ]
+        },
+        {
+          "name": "--max-age",
+          "usage": [
+            "--max-age <DAYS>"
+          ],
+          "tip": [
+            "缓存目录被视为旧目录的最大天数（默认 30）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-size",
+          "tip": [
+            "不输出缓存目录的大小"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat",
+      "usage": [
+        "cat [masterkey|config|pack ID|blob ID|snapshot ID|index ID|key ID|lock ID|tree snapshot:subfolder]"
+      ],
+      "tip": [
+        "将内部对象输出到 stdout"
       ]
     },
     {
@@ -166,30 +233,75 @@
       ]
     },
     {
-      "name": "diff",
+      "name": "copy",
+      "usage": [
+        "copy [snapshotID ...]"
+      ],
       "tip": [
-        "U: diff <SNAPSHOT1> <SNAPSHOT2>",
+        "将快照从一个仓库复制到另一个仓库"
+      ],
+      "option": [
+        {
+          "name": "--from-password-file",
+          "usage": [
+            "--from-password-file <FILE>"
+          ],
+          "tip": [
+            "从文件读取源仓库密码"
+          ],
+          "next": []
+        },
+        {
+          "name": "--from-repo",
+          "usage": [
+            "--from-repo <REPO>"
+          ],
+          "tip": [
+            "要从中复制快照的源仓库"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "usage": [
+        "diff <SNAPSHOT1> <SNAPSHOT2>"
+      ],
+      "tip": [
         "显示两个快照之间的差异"
       ]
     },
     {
       "name": "dump",
+      "usage": [
+        "dump <SNAPSHOT> <PATH>"
+      ],
       "tip": [
-        "U: dump <SNAPSHOT> <PATH>",
         "将备份的文件或文件夹输出到 stdout"
       ]
     },
     {
-      "name": "find",
+      "name": "features",
       "tip": [
-        "U: find <PATTERN>",
+        "打印功能标志列表"
+      ]
+    },
+    {
+      "name": "find",
+      "usage": [
+        "find <PATTERN>"
+      ],
+      "tip": [
         "查找文件、目录或 restic ID"
       ]
     },
     {
       "name": "forget",
+      "usage": [
+        "forget [FLAGS] [SNAPSHOT ID]..."
+      ],
       "tip": [
-        "U: forget [FLAGS] [SNAPSHOT ID]...",
         "从仓库中移除快照"
       ],
       "option": [
@@ -198,8 +310,10 @@
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --compact"
+          ],
           "tip": [
-            "U: -c, --compact",
             "使用紧凑输出格式"
           ]
         },
@@ -208,8 +322,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --dry-run"
+          ],
           "tip": [
-            "U: -n, --dry-run",
             "不删除任何内容"
           ]
         },
@@ -218,111 +334,133 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --group-by <GROUP>"
+          ],
           "tip": [
-            "U: -g, --group-by <GROUP>",
             "按主机、路径和/或标签分组快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
           "tip": [
-            "U: --host <HOST>",
             "仅考虑此主机的快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-daily",
           "alias": [
             "-d"
           ],
+          "usage": [
+            "-d, --keep-daily <N>"
+          ],
           "tip": [
-            "U: -d, --keep-daily <N>",
             "保留最近 n 个每日快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-hourly",
           "alias": [
             "-H"
           ],
+          "usage": [
+            "-H, --keep-hourly <N>"
+          ],
           "tip": [
-            "U: -H, --keep-hourly <N>",
             "保留最近 n 个每小时快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-last",
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --keep-last <N>"
+          ],
           "tip": [
-            "U: -l, --keep-last <N>",
             "保留最近 n 个快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-monthly",
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --keep-monthly <N>"
+          ],
           "tip": [
-            "U: -m, --keep-monthly <N>",
             "保留最近 n 个每月快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-tag",
+          "usage": [
+            "--keep-tag <TAG>"
+          ],
           "tip": [
-            "U: --keep-tag <TAG>",
             "保留具有此标签的快照"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-weekly",
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --keep-weekly <N>"
+          ],
           "tip": [
-            "U: -w, --keep-weekly <N>",
             "保留最近 n 个每周快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-within",
+          "usage": [
+            "--keep-within <DURATION>"
+          ],
           "tip": [
-            "U: --keep-within <DURATION>",
             "保留比指定时间范围更新的快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-yearly",
           "alias": [
             "-y"
           ],
+          "usage": [
+            "-y, --keep-yearly <N>"
+          ],
           "tip": [
-            "U: -y, --keep-yearly <N>",
             "保留最近 n 个每年快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
           "tip": [
-            "U: --path <PATH>",
             "仅考虑包含此路径的快照"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--prune",
@@ -332,12 +470,65 @@
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
           "tip": [
-            "U: --tag <TAG>",
             "仅考虑包含此标签的快照"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "usage": [
+        "generate [bash|zsh|fish|powershell]"
+      ],
+      "tip": [
+        "生成手册页和自动补全文件"
+      ],
+      "option": [
+        {
+          "name": "--bash-completion",
+          "usage": [
+            "--bash-completion <FILE>"
+          ],
+          "tip": [
+            "写入 bash 补全文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fish-completion",
+          "usage": [
+            "--fish-completion <FILE>"
+          ],
+          "tip": [
+            "写入 fish 补全文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--powershell-completion",
+          "usage": [
+            "--powershell-completion <FILE>"
+          ],
+          "tip": [
+            "写入 powershell 补全文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--zsh-completion",
+          "usage": [
+            "--zsh-completion <FILE>"
+          ],
+          "tip": [
+            "写入 zsh 补全文件"
+          ],
+          "next": []
         }
       ]
     },
@@ -361,8 +552,10 @@
     },
     {
       "name": "ls",
+      "usage": [
+        "ls <SNAPSHOT>"
+      ],
       "tip": [
-        "U: ls <SNAPSHOT>",
         "列出快照中的文件"
       ],
       "option": [
@@ -371,8 +564,10 @@
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --long"
+          ],
           "tip": [
-            "U: -l, --long",
             "使用长列表格式"
           ]
         }
@@ -382,6 +577,12 @@
       "name": "migrate",
       "tip": [
         "应用迁移"
+      ]
+    },
+    {
+      "name": "options",
+      "tip": [
+        "打印扩展选项列表"
       ]
     },
     {
@@ -404,8 +605,10 @@
     },
     {
       "name": "restore",
+      "usage": [
+        "restore [FLAGS] <SNAPSHOTID>"
+      ],
       "tip": [
-        "U: restore [FLAGS] <SNAPSHOTID>",
         "从快照中提取数据"
       ],
       "option": [
@@ -420,64 +623,76 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --exclude <PATTERN>"
+          ],
           "tip": [
-            "U: -e, --exclude <PATTERN>",
             "排除匹配模式"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
           "alias": [
             "-H"
           ],
+          "usage": [
+            "-H, --host <HOST>"
+          ],
           "tip": [
-            "U: -H, --host <HOST>",
             "仅考虑此主机的快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--include",
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --include <PATTERN>"
+          ],
           "tip": [
-            "U: -i, --include <PATTERN>",
             "包含匹配模式"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
           "tip": [
-            "U: --path <PATH>",
             "仅考虑包含此路径的快照"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
           "tip": [
-            "U: --tag <TAG>",
             "仅考虑包含此标签的快照"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--target",
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --target <DIR>"
+          ],
           "tip": [
-            "U: -t, --target <DIR>",
             "数据提取到的目录"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
@@ -489,8 +704,10 @@
     },
     {
       "name": "snapshots",
+      "usage": [
+        "snapshots [FLAGS] [SNAPSHOTID]..."
+      ],
       "tip": [
-        "U: snapshots [FLAGS] [SNAPSHOTID]...",
         "列出所有快照"
       ],
       "option": [
@@ -499,44 +716,54 @@
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --compact"
+          ],
           "tip": [
-            "U: -c, --compact",
             "使用紧凑输出格式"
           ]
         },
         {
           "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
           "tip": [
-            "U: --host <HOST>",
             "仅考虑此主机的快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--latest",
+          "usage": [
+            "--latest <N>"
+          ],
           "tip": [
-            "U: --latest <N>",
             "仅显示最近 n 个快照"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
           "tip": [
-            "U: --path <PATH>",
             "仅考虑包含此路径的快照"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
           "tip": [
-            "U: --tag <TAG>",
             "仅考虑包含此标签的快照"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         }
       ]
     },
@@ -568,16 +795,20 @@
   "option": [
     {
       "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIR>"
+      ],
       "tip": [
-        "U: --cache-dir <DIR>",
         "设置缓存目录"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--compression",
+      "usage": [
+        "--compression <MODE>"
+      ],
       "tip": [
-        "U: --compression <MODE>",
         "压缩模式"
       ],
       "next": [
@@ -618,8 +849,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "restic 帮助"
       ]
     },
@@ -637,19 +870,23 @@
     },
     {
       "name": "--limit-download",
+      "usage": [
+        "--limit-download <RATE>"
+      ],
       "tip": [
-        "U: --limit-download <RATE>",
         "将下载速率限制为最大 KiB/s"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--limit-upload",
+      "usage": [
+        "--limit-upload <RATE>"
+      ],
       "tip": [
-        "U: --limit-upload <RATE>",
         "将上传速率限制为最大 KiB/s"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--no-cache",
@@ -662,19 +899,23 @@
       "alias": [
         "-p"
       ],
+      "usage": [
+        "-p, --password-file <FILE>"
+      ],
       "tip": [
-        "U: -p, --password-file <FILE>",
         "从文件读取仓库密码"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--quiet",
       "alias": [
         "-q"
       ],
+      "usage": [
+        "-q, --quiet"
+      ],
       "tip": [
-        "U: -q, --quiet",
         "不输出综合进度报告"
       ]
     },
@@ -683,19 +924,23 @@
       "alias": [
         "-r"
       ],
+      "usage": [
+        "-r, --repo <REPOSITORY>"
+      ],
       "tip": [
-        "U: -r, --repo <REPOSITORY>",
         "备份或恢复的仓库"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--verbose",
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --verbose"
+      ],
       "tip": [
-        "U: -v, --verbose",
         "启用详细输出"
       ]
     }

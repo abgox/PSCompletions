@@ -7,23 +7,49 @@
   },
   "next": [
     {
-      "name": "emit",
+      "name": "cache",
       "tip": [
-        "U: emit <NAME> [ARGS]...",
+        "Manage the cache"
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "Clear the cache directory"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "emit",
+      "usage": [
+        "emit <NAME> [ARGS]..."
+      ],
+      "tip": [
         "Emit an action to be executed by the current instance"
       ]
     },
     {
       "name": "emit-to",
+      "usage": [
+        "emit-to <RECEIVER> <NAME> [ARGS]..."
+      ],
       "tip": [
-        "U: emit-to <RECEIVER> <NAME> [ARGS]...",
         "Emit an action to be executed by the specified instance"
       ]
     },
     {
-      "name": "exec",
+      "name": "env",
       "tip": [
-        "U: exec <NAME> [ARGS]...",
+        "Print environment and configuration information"
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <NAME> [ARGS]..."
+      ],
+      "tip": [
         "Execute an action on the current instance and print its result"
       ]
     },
@@ -49,8 +75,7 @@
           "name": "delete",
           "tip": [
             "Delete packages"
-          ],
-          "next": []
+          ]
         },
         {
           "name": "help",
@@ -74,79 +99,98 @@
           "name": "upgrade",
           "tip": [
             "Upgrade all packages"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pub",
+      "usage": [
+        "pub [OPTIONS] <KIND>"
+      ],
+      "tip": [
+        "Publish a message to the current instance"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "usage": [
+            "--json <JSON>"
+          ],
+          "tip": [
+            "Send the message with a JSON body"
+          ],
+          "next": []
+        },
+        {
+          "name": "--list",
+          "usage": [
+            "--list [<LIST>...]"
+          ],
+          "tip": [
+            "Send the message as a list of strings"
+          ],
+          "next": []
+        },
+        {
+          "name": "--str",
+          "usage": [
+            "--str <STR>"
+          ],
+          "tip": [
+            "Send the message with a string body"
           ],
           "next": []
         }
       ]
     },
     {
-      "name": "pub",
-      "tip": [
-        "U: pub [OPTIONS] <KIND>",
-        "Publish a message to the current instance"
-      ],
-      "option": [
-        {
-          "name": "--json",
-          "tip": [
-            "U: --json <JSON>",
-            "Send the message with a JSON body"
-          ]
-        },
-        {
-          "name": "--list",
-          "tip": [
-            "U: --list [<LIST>...]",
-            "Send the message as a list of strings"
-          ],
-          "next": 0
-        },
-        {
-          "name": "--str",
-          "tip": [
-            "U: --str <STR>",
-            "Send the message with a string body"
-          ],
-          "next": 0
-        }
-      ]
-    },
-    {
       "name": "pub-to",
+      "usage": [
+        "pub-to [OPTIONS] <RECEIVER> <KIND>"
+      ],
       "tip": [
-        "U: pub-to [OPTIONS] <RECEIVER> <KIND>",
         "Publish a message to the specified instance"
       ],
       "option": [
         {
           "name": "--json",
+          "usage": [
+            "--json <JSON>"
+          ],
           "tip": [
-            "U: --json <JSON>",
             "Send the message with a JSON body"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "--list",
+          "usage": [
+            "--list [<LIST>...]"
+          ],
           "tip": [
-            "U: --list [<LIST>...]",
             "Send the message as a list of strings"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--str",
+          "usage": [
+            "--str <STR>"
+          ],
           "tip": [
-            "U: --str <STR>",
             "Send the message with a string body"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "sub",
+      "usage": [
+        "sub <KINDS>"
+      ],
       "tip": [
-        "U: sub <KINDS>",
         "Subscribe to messages from all remote instances"
       ]
     }
@@ -157,8 +201,10 @@
       "alias": [
         "-V"
       ],
+      "usage": [
+        "-V, --version"
+      ],
       "tip": [
-        "U: -V, --version",
         "Show the version."
       ]
     }
@@ -169,8 +215,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "Show the help."
       ]
     }

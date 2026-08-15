@@ -8,23 +8,29 @@
   "next": [
     {
       "name": "acp",
+      "usage": [
+        "acp [OPTIONS]"
+      ],
       "tip": [
-        "U: acp [OPTIONS]",
         "Serve Agent Client Protocol over stdio."
       ],
       "option": [
         {
           "name": "--model",
+          "usage": [
+            "--model <NAME>"
+          ],
           "tip": [
-            "U: --model <NAME>",
             "Provider name (default: config default_model)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--planner",
+          "usage": [
+            "--planner <POLICY>"
+          ],
           "tip": [
-            "U: --planner <POLICY>",
             "Planner policy."
           ],
           "next": [
@@ -44,8 +50,10 @@
         },
         {
           "name": "--profile",
+          "usage": [
+            "--profile <PROFILE>"
+          ],
           "tip": [
-            "U: --profile <PROFILE>",
             "Runtime profile."
           ],
           "next": [
@@ -71,8 +79,10 @@
         },
         {
           "name": "--sandbox-bash",
+          "usage": [
+            "--sandbox-bash <POLICY>"
+          ],
           "tip": [
-            "U: --sandbox-bash <POLICY>",
             "Bash sandbox policy."
           ],
           "next": [
@@ -92,8 +102,10 @@
         },
         {
           "name": "--sandbox-network",
+          "usage": [
+            "--sandbox-network <POLICY>"
+          ],
           "tip": [
-            "U: --sandbox-network <POLICY>",
             "Sandbox network policy."
           ],
           "next": [
@@ -127,15 +139,19 @@
     },
     {
       "name": "config",
+      "usage": [
+        "config <SUBCOMMAND>"
+      ],
       "tip": [
-        "U: config <SUBCOMMAND>",
         "Configure reasonix settings."
       ],
       "next": [
         {
           "name": "compact-ratio",
+          "usage": [
+            "compact-ratio [--local] [65..85]"
+          ],
           "tip": [
-            "U: compact-ratio [--local] [65..85]",
             "Configure automatic compaction threshold."
           ],
           "option": [
@@ -149,15 +165,19 @@
         },
         {
           "name": "currency",
+          "usage": [
+            "currency [auto|CNY|USD]"
+          ],
           "tip": [
-            "U: currency [auto|CNY|USD]",
             "Configure pricing currency (user-level only)."
           ]
         },
         {
           "name": "reasoning-language",
+          "usage": [
+            "reasoning-language [--local] [auto|zh|en]"
+          ],
           "tip": [
-            "U: reasoning-language [--local] [auto|zh|en]",
             "Configure visible reasoning language."
           ],
           "option": [
@@ -171,8 +191,10 @@
         },
         {
           "name": "telemetry",
+          "usage": [
+            "telemetry [auto|on|off]"
+          ],
           "tip": [
-            "U: telemetry [auto|on|off]",
             "Configure content-free CLI usage metrics."
           ]
         }
@@ -180,8 +202,10 @@
     },
     {
       "name": "doctor",
+      "usage": [
+        "doctor [OPTIONS]"
+      ],
       "tip": [
-        "U: doctor [OPTIONS]",
         "Print redacted local diagnostics."
       ],
       "option": [
@@ -207,58 +231,72 @@
     },
     {
       "name": "mcp",
+      "usage": [
+        "mcp <SUBCOMMAND>"
+      ],
       "tip": [
-        "U: mcp <SUBCOMMAND>",
         "Manage MCP servers in reasonix.toml."
       ],
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add [name] [OPTIONS] -- <command> [args...]"
+          ],
           "tip": [
-            "U: add [name] [OPTIONS] -- <command> [args...]",
             "Add an MCP server."
           ],
           "option": [
             {
               "name": "--env",
+              "usage": [
+                "--env K=V"
+              ],
               "tip": [
-                "U: --env K=V",
                 "Set an environment variable (repeatable, stdio)."
               ],
               "repeat": 99,
-              "next": 0
+              "next": []
             },
             {
               "name": "--header",
+              "usage": [
+                "--header K=V"
+              ],
               "tip": [
-                "U: --header K=V",
                 "Set an HTTP header (repeatable, remote)."
               ],
               "repeat": 99,
-              "next": 0
+              "next": []
             },
             {
               "name": "--http",
+              "usage": [
+                "--http <url>"
+              ],
               "tip": [
-                "U: --http <url>",
                 "Remote HTTP transport."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--sse",
+              "usage": [
+                "--sse <url>"
+              ],
               "tip": [
-                "U: --sse <url>",
                 "Remote SSE transport."
               ],
-              "next": 0
+              "next": []
             }
           ]
         },
         {
           "name": "browse",
+          "usage": [
+            "browse [query] [--limit N] [--json]"
+          ],
           "tip": [
-            "U: browse [query] [--limit N] [--json]",
             "Browse available MCP servers."
           ],
           "option": [
@@ -270,8 +308,10 @@
             },
             {
               "name": "--limit",
+              "usage": [
+                "--limit <N>"
+              ],
               "tip": [
-                "U: --limit <N>",
                 "Limit the number of results."
               ],
               "next": [
@@ -287,22 +327,28 @@
         },
         {
           "name": "disable",
+          "usage": [
+            "disable <name>"
+          ],
           "tip": [
-            "U: disable <name>",
             "Disable an MCP server."
           ]
         },
         {
           "name": "enable",
+          "usage": [
+            "enable <name>"
+          ],
           "tip": [
-            "U: enable <name>",
             "Enable an MCP server."
           ]
         },
         {
           "name": "get",
+          "usage": [
+            "get <name>"
+          ],
           "tip": [
-            "U: get <name>",
             "Show details of a configured MCP server."
           ]
         },
@@ -314,18 +360,22 @@
         },
         {
           "name": "install",
+          "usage": [
+            "install <registry-name> [--as <name>]"
+          ],
           "tip": [
-            "U: install <registry-name> [--as <name>]",
             "Install an MCP server from a registry."
           ],
           "option": [
             {
               "name": "--as",
+              "usage": [
+                "--as <name>"
+              ],
               "tip": [
-                "U: --as <name>",
                 "Custom name for the installed server."
               ],
-              "next": 0
+              "next": []
             }
           ]
         },
@@ -337,22 +387,28 @@
         },
         {
           "name": "remove",
+          "usage": [
+            "remove <name>"
+          ],
           "tip": [
-            "U: remove <name>",
             "Remove an MCP server."
           ]
         },
         {
           "name": "retry",
+          "usage": [
+            "retry <name>"
+          ],
           "tip": [
-            "U: retry <name>",
             "Retry connecting to an MCP server."
           ]
         },
         {
           "name": "update",
+          "usage": [
+            "update <name>"
+          ],
           "tip": [
-            "U: update <name>",
             "Update an MCP server."
           ]
         }
@@ -360,15 +416,19 @@
     },
     {
       "name": "report",
+      "usage": [
+        "report [SUBCOMMAND] [ID]"
+      ],
       "tip": [
-        "U: report [SUBCOMMAND] [ID]",
         "Review and explicitly send local CLI crash reports."
       ],
       "next": [
         {
           "name": "delete",
+          "usage": [
+            "delete [ID]"
+          ],
           "tip": [
-            "U: delete [ID]",
             "Delete a local report without sending."
           ]
         },
@@ -380,15 +440,19 @@
         },
         {
           "name": "send",
+          "usage": [
+            "send [ID]"
+          ],
           "tip": [
-            "U: send [ID]",
             "Send a reviewed report and delete it after success."
           ]
         },
         {
           "name": "show",
+          "usage": [
+            "show [ID]"
+          ],
           "tip": [
-            "U: show [ID]",
             "Preview a report (newest when ID is omitted)."
           ]
         }
@@ -396,68 +460,84 @@
     },
     {
       "name": "review",
+      "usage": [
+        "review [OPTIONS]"
+      ],
       "tip": [
-        "U: review [OPTIONS]",
         "AI-powered code review on local diffs."
       ],
       "option": [
         {
           "name": "--base",
+          "usage": [
+            "--base <BRANCH>"
+          ],
           "tip": [
-            "U: --base <BRANCH>",
             "Base branch/commit to diff against (defaults to HEAD)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--commit",
+          "usage": [
+            "--commit <SHA>"
+          ],
           "tip": [
-            "U: --commit <SHA>",
             "Review a specific commit."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--instructions",
+          "usage": [
+            "--instructions <TEXT>"
+          ],
           "tip": [
-            "U: --instructions <TEXT>",
             "Extra review instructions appended to the prompt."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--model",
+          "usage": [
+            "--model <NAME>"
+          ],
           "tip": [
-            "U: --model <NAME>",
             "Provider name override (default: config default_model)."
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "run",
+      "usage": [
+        "run [OPTIONS] <task>"
+      ],
       "tip": [
-        "U: run [OPTIONS] <task>",
         "Run a coding task in one-off mode."
       ],
       "option": [
         {
           "name": "--add-dir",
+          "usage": [
+            "--add-dir <PATH>"
+          ],
           "tip": [
-            "U: --add-dir <PATH>",
             "Allow tool access to an additional directory (repeatable)."
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--continue",
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --continue"
+          ],
           "tip": [
-            "U: -c, --continue",
             "Resume the most recent saved session."
           ]
         },
@@ -469,19 +549,23 @@
         },
         {
           "name": "--dir",
+          "usage": [
+            "--dir <PATH>"
+          ],
           "tip": [
-            "U: --dir <PATH>",
             "Change to this directory first (project root)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--effort",
+          "usage": [
+            "--effort <LEVEL>"
+          ],
           "tip": [
-            "U: --effort <LEVEL>",
             "Session reasoning effort override."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--events-jsonl",
@@ -491,32 +575,40 @@
         },
         {
           "name": "--max-steps",
+          "usage": [
+            "--max-steps <N>"
+          ],
           "tip": [
-            "U: --max-steps <N>",
             "One-off max tool-call rounds (0 = automatic)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--metrics",
+          "usage": [
+            "--metrics <PATH>"
+          ],
           "tip": [
-            "U: --metrics <PATH>",
             "Write a JSON token/cache/cost summary of the run to this path."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--model",
+          "usage": [
+            "--model <NAME>"
+          ],
           "tip": [
-            "U: --model <NAME>",
             "Provider name (default: config default_model)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--output-format",
+          "usage": [
+            "--output-format <FORMAT>"
+          ],
           "tip": [
-            "U: --output-format <FORMAT>",
             "Output format."
           ],
           "next": [
@@ -542,8 +634,10 @@
         },
         {
           "name": "--permission-mode",
+          "usage": [
+            "--permission-mode <MODE>"
+          ],
           "tip": [
-            "U: --permission-mode <MODE>",
             "Permission mode."
           ],
           "next": [
@@ -593,8 +687,10 @@
         },
         {
           "name": "--profile",
+          "usage": [
+            "--profile <PROFILE>"
+          ],
           "tip": [
-            "U: --profile <PROFILE>",
             "Runtime profile."
           ],
           "next": [
@@ -620,11 +716,13 @@
         },
         {
           "name": "--resume",
+          "usage": [
+            "--resume <PATH>"
+          ],
           "tip": [
-            "U: --resume <PATH>",
             "Resume a specific session file (non-interactive; takes precedence over --continue)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--show-thinking",
@@ -636,23 +734,29 @@
     },
     {
       "name": "serve",
+      "usage": [
+        "serve [OPTIONS]"
+      ],
       "tip": [
-        "U: serve [OPTIONS]",
         "Serve over HTTP+SSE (with optional auth)."
       ],
       "option": [
         {
           "name": "--addr",
+          "usage": [
+            "--addr <HOST:PORT>"
+          ],
           "tip": [
-            "U: --addr <HOST:PORT>",
             "Listen address (default \"127.0.0.1:8787\")."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--auth",
+          "usage": [
+            "--auth <MODE>"
+          ],
           "tip": [
-            "U: --auth <MODE>",
             "Auth mode."
           ],
           "next": [
@@ -690,48 +794,60 @@
         },
         {
           "name": "--max-steps",
+          "usage": [
+            "--max-steps <N>"
+          ],
           "tip": [
-            "U: --max-steps <N>",
             "One-off max tool-call rounds (0 = automatic)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--model",
+          "usage": [
+            "--model <NAME>"
+          ],
           "tip": [
-            "U: --model <NAME>",
             "Provider name (default: config default_model)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--password",
+          "usage": [
+            "--password <STR>"
+          ],
           "tip": [
-            "U: --password <STR>",
             "Password for auth=password."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--pid-file",
+          "usage": [
+            "--pid-file <PATH>"
+          ],
           "tip": [
-            "U: --pid-file <PATH>",
             "Write the server process id to this file."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--port-file",
+          "usage": [
+            "--port-file <PATH>"
+          ],
           "tip": [
-            "U: --port-file <PATH>",
             "Write the actual bound listen address to this file after binding."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--profile",
+          "usage": [
+            "--profile <PROFILE>"
+          ],
           "tip": [
-            "U: --profile <PROFILE>",
             "Runtime profile."
           ],
           "next": [
@@ -757,111 +873,139 @@
         },
         {
           "name": "--resume",
+          "usage": [
+            "--resume <PATH>"
+          ],
           "tip": [
-            "U: --resume <PATH>",
             "Resume a saved session file."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--token",
+          "usage": [
+            "--token <STR>"
+          ],
           "tip": [
-            "U: --token <STR>",
             "Pre-shared token for auth=token (auto-generated if empty)."
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--token-file",
+          "usage": [
+            "--token-file <PATH>"
+          ],
           "tip": [
-            "U: --token-file <PATH>",
             "Read the auth=token pre-shared token from this file."
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
     {
       "name": "setup",
+      "usage": [
+        "setup [path]"
+      ],
       "tip": [
-        "U: setup [path]",
         "Interactive config wizard; writes reasonix.toml (+ .env)."
       ]
     },
     {
       "name": "subagent",
+      "usage": [
+        "subagent <SUBCOMMAND>"
+      ],
       "tip": [
-        "U: subagent <SUBCOMMAND>",
         "Manage and run isolated subagent profiles."
       ],
       "next": [
         {
           "name": "create",
+          "usage": [
+            "create <name> --description TEXT (--prompt TEXT | --prompt-file PATH) [OPTIONS]"
+          ],
           "tip": [
-            "U: create <name> --description TEXT (--prompt TEXT | --prompt-file PATH) [OPTIONS]",
             "Create a new subagent profile."
           ],
           "option": [
             {
               "name": "--color",
+              "usage": [
+                "--color <NAME>"
+              ],
               "tip": [
-                "U: --color <NAME>",
                 "Color name for the subagent."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--description",
+              "usage": [
+                "--description <TEXT>"
+              ],
               "tip": [
-                "U: --description <TEXT>",
                 "Description of the subagent."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--dir",
+              "usage": [
+                "--dir <PATH>"
+              ],
               "tip": [
-                "U: --dir <PATH>",
                 "Working directory."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--effort",
+              "usage": [
+                "--effort <LEVEL>"
+              ],
               "tip": [
-                "U: --effort <LEVEL>",
                 "Reasoning effort level."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--model",
+              "usage": [
+                "--model <REF>"
+              ],
               "tip": [
-                "U: --model <REF>",
                 "Model reference."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--prompt",
+              "usage": [
+                "--prompt <TEXT>"
+              ],
               "tip": [
-                "U: --prompt <TEXT>",
                 "System prompt text."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--prompt-file",
+              "usage": [
+                "--prompt-file <PATH>"
+              ],
               "tip": [
-                "U: --prompt-file <PATH>",
                 "Read system prompt from file (- for stdin)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--scope",
+              "usage": [
+                "--scope <SCOPE>"
+              ],
               "tip": [
-                "U: --scope <SCOPE>",
                 "Scope of the subagent."
               ],
               "next": [
@@ -881,28 +1025,34 @@
             },
             {
               "name": "--tools",
+              "usage": [
+                "--tools <a,b>"
+              ],
               "tip": [
-                "U: --tools <a,b>",
                 "Comma-separated list of allowed tools."
               ],
-              "next": 0
+              "next": []
             }
           ]
         },
         {
           "name": "delete",
+          "usage": [
+            "delete <name> --yes [--dir PATH]"
+          ],
           "tip": [
-            "U: delete <name> --yes [--dir PATH]",
             "Delete a subagent profile."
           ],
           "option": [
             {
               "name": "--dir",
+              "usage": [
+                "--dir <PATH>"
+              ],
               "tip": [
-                "U: --dir <PATH>",
                 "Working directory."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--yes",
@@ -914,157 +1064,195 @@
         },
         {
           "name": "edit",
+          "usage": [
+            "edit <name> [OPTIONS]"
+          ],
           "tip": [
-            "U: edit <name> [OPTIONS]",
             "Edit an existing subagent profile."
           ],
           "option": [
             {
               "name": "--color",
+              "usage": [
+                "--color <NAME>"
+              ],
               "tip": [
-                "U: --color <NAME>",
                 "Color name for the subagent."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--description",
+              "usage": [
+                "--description <TEXT>"
+              ],
               "tip": [
-                "U: --description <TEXT>",
                 "Description of the subagent."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--dir",
+              "usage": [
+                "--dir <PATH>"
+              ],
               "tip": [
-                "U: --dir <PATH>",
                 "Working directory."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--effort",
+              "usage": [
+                "--effort <LEVEL>"
+              ],
               "tip": [
-                "U: --effort <LEVEL>",
                 "Reasoning effort level."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--model",
+              "usage": [
+                "--model <REF>"
+              ],
               "tip": [
-                "U: --model <REF>",
                 "Model reference."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--prompt",
+              "usage": [
+                "--prompt <TEXT>"
+              ],
               "tip": [
-                "U: --prompt <TEXT>",
                 "System prompt text."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--prompt-file",
+              "usage": [
+                "--prompt-file <PATH>"
+              ],
               "tip": [
-                "U: --prompt-file <PATH>",
                 "Read system prompt from file (- for stdin)."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--tools",
+              "usage": [
+                "--tools <a,b>"
+              ],
               "tip": [
-                "U: --tools <a,b>",
                 "Comma-separated list of allowed tools."
               ],
-              "next": 0
+              "next": []
             }
           ]
         },
         {
           "name": "list",
+          "usage": [
+            "list [--dir PATH]"
+          ],
           "tip": [
-            "U: list [--dir PATH]",
             "List subagent profiles."
           ],
           "option": [
             {
               "name": "--dir",
+              "usage": [
+                "--dir <PATH>"
+              ],
               "tip": [
-                "U: --dir <PATH>",
                 "Directory to list from."
               ],
-              "next": 0
+              "next": []
             }
           ]
         },
         {
           "name": "run",
+          "usage": [
+            "run <name> [--model REF] [--max-steps N] [--dir PATH] <task>"
+          ],
           "tip": [
-            "U: run <name> [--model REF] [--max-steps N] [--dir PATH] <task>",
             "Run a subagent with a task."
           ],
           "option": [
             {
               "name": "--dir",
+              "usage": [
+                "--dir <PATH>"
+              ],
               "tip": [
-                "U: --dir <PATH>",
                 "Working directory."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--max-steps",
+              "usage": [
+                "--max-steps <N>"
+              ],
               "tip": [
-                "U: --max-steps <N>",
                 "Max tool-call rounds."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--model",
+              "usage": [
+                "--model <REF>"
+              ],
               "tip": [
-                "U: --model <REF>",
                 "Model reference."
               ],
-              "next": 0
+              "next": []
             }
           ]
         },
         {
           "name": "try",
+          "usage": [
+            "try <name> [--model REF] [--max-steps N] [--dir PATH] <task>"
+          ],
           "tip": [
-            "U: try <name> [--model REF] [--max-steps N] [--dir PATH] <task>",
             "Try running a subagent with a task (non-persistent)."
           ],
           "option": [
             {
               "name": "--dir",
+              "usage": [
+                "--dir <PATH>"
+              ],
               "tip": [
-                "U: --dir <PATH>",
                 "Working directory."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--max-steps",
+              "usage": [
+                "--max-steps <N>"
+              ],
               "tip": [
-                "U: --max-steps <N>",
                 "Max tool-call rounds."
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--model",
+              "usage": [
+                "--model <REF>"
+              ],
               "tip": [
-                "U: --model <REF>",
                 "Model reference."
               ],
-              "next": 0
+              "next": []
             }
           ]
         }
@@ -1075,8 +1263,10 @@
       "alias": [
         "update"
       ],
+      "usage": [
+        "upgrade [--check] [--force]"
+      ],
       "tip": [
-        "U: upgrade [--check] [--force]",
         "Update to the latest official release."
       ],
       "option": [
@@ -1104,51 +1294,63 @@
   "option": [
     {
       "name": "--add-dir",
+      "usage": [
+        "--add-dir <PATH>"
+      ],
       "tip": [
-        "U: --add-dir <PATH>",
         "Allow tool access to an additional directory (repeatable)."
       ],
       "repeat": 99,
-      "next": 0
+      "next": []
     },
     {
       "name": "--allowed-tools",
+      "usage": [
+        "--allowed-tools <RULES>"
+      ],
       "tip": [
-        "U: --allowed-tools <RULES>",
         "Comma or space-separated permission rules to allow."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--continue",
       "alias": [
         "-c"
       ],
+      "usage": [
+        "-c, --continue"
+      ],
       "tip": [
-        "U: -c, --continue",
         "Resume the most recent saved session."
       ]
     },
     {
       "name": "--effort",
+      "usage": [
+        "--effort <LEVEL>"
+      ],
       "tip": [
-        "U: --effort <LEVEL>",
         "Session reasoning effort override."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--model",
+      "usage": [
+        "--model <NAME>"
+      ],
       "tip": [
-        "U: --model <NAME>",
         "Provider name (default: config default_model)."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--output-format",
+      "usage": [
+        "--output-format <FORMAT>"
+      ],
       "tip": [
-        "U: --output-format <FORMAT>",
         "Output format."
       ],
       "next": [
@@ -1174,8 +1376,10 @@
     },
     {
       "name": "--permission-mode",
+      "usage": [
+        "--permission-mode <MODE>"
+      ],
       "tip": [
-        "U: --permission-mode <MODE>",
         "Permission mode."
       ],
       "next": [
@@ -1228,8 +1432,10 @@
       "alias": [
         "-p"
       ],
+      "usage": [
+        "-p, --print"
+      ],
       "tip": [
-        "U: -p, --print",
         "Print only the final response."
       ]
     },
@@ -1238,11 +1444,13 @@
       "alias": [
         "-r"
       ],
+      "usage": [
+        "-r, --resume [QUERY]"
+      ],
       "tip": [
-        "U: -r, --resume [QUERY]",
         "Resume a specific session."
       ],
-      "next": 0
+      "next": []
     }
   ],
   "global_option": [

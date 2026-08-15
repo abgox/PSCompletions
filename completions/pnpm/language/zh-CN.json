@@ -8,85 +8,119 @@
   "next": [
     {
       "name": "add",
+      "usage": [
+        "add <package>[@<version>]"
+      ],
       "tip": [
-        "U: add [options] <package>[@<version>]",
-        "添加一个包及其依赖的任何包",
-        "默认情况下, 任何新包都被安装为生产依赖",
-        "E: add -D sass"
+        "添加一个包及其依赖的任何包。",
+        "默认情况下, 任何新包都被安装为生产依赖。"
+      ],
+      "example": [
+        "add -d sass"
       ],
       "option": [
+        {
+          "name": "--allow-build",
+          "tip": [
+            "允许运行 postinstall 脚本的包名列表。"
+          ],
+          "next": []
+        },
         {
           "name": "--global",
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
-            "全局添加一个包"
+            "作为全局包安装。"
           ]
         },
         {
           "name": "--ignore-scripts",
           "tip": [
-            "不运行生命周期脚本"
+            "不运行生命周期脚本。"
           ]
         },
         {
           "name": "--offline",
           "tip": [
-            "如果任何必需的依赖在本地存储中不可用, 则触发错误"
+            "如果任何必需的依赖在本地存储中不可用, 则触发错误。"
           ]
         },
         {
           "name": "--prefer-offline",
           "tip": [
-            "跳过缓存数据的过期检查, 但向服务器请求缺失的数据"
+            "跳过缓存数据的过期检查, 但向服务器请求缺失的数据。"
           ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "安装时使用的注册表。"
+          ],
+          "next": []
         },
         {
           "name": "--save-dev",
           "alias": [
-            "-D"
+            "-d"
+          ],
+          "usage": [
+            "-d, --save-dev"
           ],
           "tip": [
-            "U: -D, --save-dev",
-            "将指定的包作为开发依赖安装"
+            "将包保存到 devDependencies。"
           ]
         },
         {
           "name": "--save-exact",
           "alias": [
-            "-E"
+            "-e"
+          ],
+          "usage": [
+            "-e, --save-exact"
           ],
           "tip": [
-            "U: -E, --save-exact",
-            "保存的依赖将使用精确版本而不是 pnpm 的默认 semver 范围运算符"
+            "安装精确版本。"
           ]
         },
         {
           "name": "--save-optional",
           "alias": [
-            "-O"
+            "-o"
+          ],
+          "usage": [
+            "-o, --save-optional"
           ],
           "tip": [
-            "U: -O, --save-optional",
-            "将指定的包作为可选依赖安装"
+            "将包保存到 optionalDependencies。"
           ]
         },
         {
           "name": "--save-peer",
           "tip": [
-            "将一个或多个包添加到 peerDependencies 并作为开发依赖安装"
+            "将包保存到 peerDependencies 和 devDependencies。"
           ]
         },
         {
           "name": "--save-prod",
           "alias": [
-            "-P"
+            "-p"
+          ],
+          "usage": [
+            "-p, --save-prod"
           ],
           "tip": [
-            "U: -P, --save-prod",
-            "(默认)将指定的包作为常规依赖安装"
+            "(默认)将包保存到 dependencies。"
+          ]
+        },
+        {
+          "name": "--save-workspace-protocol",
+          "tip": [
+            "使用 workspace: 协议保存 workspace 中的包。"
           ]
         },
         {
@@ -94,60 +128,114 @@
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --workspace"
+          ],
           "tip": [
-            "U: -w, --workspace",
-            "只有在 workspace 中找到新依赖时才添加它"
+            "只有在 workspace 中找到新依赖时才添加它。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "approve-builds",
+      "usage": [
+        "approve-builds [<pkg> ...]"
+      ],
+      "tip": [
+        "批准依赖项在安装期间运行脚本。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "无需交互提示即可批准所有待处理的依赖项。"
           ]
         }
       ]
     },
     {
       "name": "audit",
+      "usage": [
+        "audit [options]"
+      ],
       "tip": [
-        "U: audit [options]",
-        "检查已安装包中已知的安全问题"
+        "检查已安装包中已知的安全问题。"
       ],
       "option": [
         {
           "name": "--audit-level",
           "tip": [
-            "仅打印严重程度大于或等于指定级别的公告 (info|low|moderate|high|critical)"
+            "仅打印严重级别大于或等于指定级别的通告。"
+          ],
+          "next": [
+            {
+              "name": "critical",
+              "tip": [
+                "严重级别。"
+              ]
+            },
+            {
+              "name": "high",
+              "tip": [
+                "高严重性。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "信息级别。"
+              ]
+            },
+            {
+              "name": "low",
+              "tip": [
+                "低严重性。"
+              ]
+            },
+            {
+              "name": "moderate",
+              "tip": [
+                "中等严重性。"
+              ]
+            }
           ]
         },
         {
           "name": "--fix",
           "tip": [
-            "使用指定的方法修复审计的漏洞 (override 或 update)"
+            "使用指定的方法修复已审计的漏洞。"
+          ],
+          "next": [
+            {
+              "name": "override",
+              "tip": [
+                "通过覆盖修复。"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "通过更新修复。"
+              ]
+            }
           ]
         },
         {
           "name": "--json",
           "tip": [
-            "以 JSON 格式输出审计报告"
+            "以 JSON 格式输出审计报告。"
           ]
         }
       ]
     },
     {
-      "name": "cat-file",
-      "tip": [
-        "根据存储在索引文件中的哈希值, 打印文件的内容"
-      ]
-    },
-    {
-      "name": "cat-index",
-      "tip": [
-        "打印存储中的特定包的索引文件"
-      ]
-    },
-    {
-      "name": "config",
-      "alias": [
-        "c"
+      "name": "bin",
+      "usage": [
+        "bin [-g]"
       ],
       "tip": [
-        "U: c|config",
-        "查看正在使用的配置。"
+        "打印 pnpm 将安装可执行文件的目录。"
       ],
       "option": [
         {
@@ -155,31 +243,153 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
-            "在全局配置文件中设置配置项"
+            "打印全局可执行文件目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": [
+        "cache <delete|list|list-registries|view>"
+      ],
+      "tip": [
+        "检查和管理元数据缓存。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <package>..."
+          ],
+          "tip": [
+            "删除指定包的元数据缓存。",
+            "支持模式匹配。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出可用的包元数据缓存。",
+            "支持按 glob 过滤。"
+          ]
+        },
+        {
+          "name": "list-registries",
+          "tip": [
+            "列出所有本地有元数据缓存的注册表。"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <package>"
+          ],
+          "tip": [
+            "查看指定包缓存中的信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat-file",
+      "usage": [
+        "cat-file <hash>"
+      ],
+      "tip": [
+        "根据索引文件中存储的哈希值打印文件内容。"
+      ]
+    },
+    {
+      "name": "cat-index",
+      "usage": [
+        "cat-index <index>"
+      ],
+      "tip": [
+        "打印存储中特定包的索引文件。"
+      ]
+    },
+    {
+      "name": "clean",
+      "alias": [
+        "purge"
+      ],
+      "usage": [
+        "purge|clean [--lockfile]"
+      ],
+      "tip": [
+        "安全地从所有 workspace 项目中移除 node_modules 目录。"
+      ],
+      "option": [
+        {
+          "name": "--lockfile",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lockfile"
+          ],
+          "tip": [
+            "同时移除 pnpm-lock.yaml 文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "alias": [
+        "c"
+      ],
+      "usage": [
+        "c|config <set|get|delete|list>"
+      ],
+      "tip": [
+        "管理 pnpm 配置文件。"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "在全局配置文件中设置配置。"
           ]
         },
         {
           "name": "--json",
           "tip": [
-            "以 JSON 格式显示所有配置项"
+            "以 JSON 格式显示所有类型的值。"
           ]
         },
         {
           "name": "--location",
+          "usage": [
+            "--location <project|global>"
+          ],
           "tip": [
-            "U: --location <project|global>",
-            "如果设置为 \"project\"，如果 pnpm-workspace.yaml 配置文件存在，则使用该文件。",
-            "如果仅存在 .npmrc 文件，则使用该文件。",
-            "如果既不存在 .npmrc 文件也不存在 pnpm-workspace.yaml 文件，则创建一个 pnpm-workspace.yaml 文件。"
+            "要使用的配置文件。",
+            "设置为 project 时, 如果存在将使用 pnpm-workspace.yaml。"
           ],
           "next": [
             {
-              "name": "global"
+              "name": "global",
+              "tip": [
+                "全局配置文件。"
+              ]
             },
             {
-              "name": "project"
+              "name": "project",
+              "tip": [
+                "项目配置文件。"
+              ]
             }
           ]
         }
@@ -187,99 +397,328 @@
       "next": [
         {
           "name": "delete",
+          "usage": [
+            "delete <key>"
+          ],
           "tip": [
-            "从配置文件中删除指定的配置项"
+            "从配置文件中移除配置键。"
           ]
         },
         {
           "name": "get",
+          "usage": [
+            "get <key>"
+          ],
           "tip": [
-            "打印指定配置项的值"
+            "打印提供的键的配置值。"
           ]
         },
         {
           "name": "list",
           "tip": [
-            "显示所有配置项"
+            "显示所有配置设置。"
           ]
         },
         {
           "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
           "tip": [
-            "设置指定配置项的值"
+            "将配置键设置为提供的值。"
           ]
         }
       ]
     },
     {
       "name": "create",
-      "tip": [
-        "从 create-* 或 @foo/create-* 启动套件创建一个项目。",
-        "E: create vite@latest   --- 创建一个 vite 项目"
+      "usage": [
+        "create <name>"
       ],
-      "next": [
+      "tip": [
+        "从 create-* 入门套件创建项目。"
+      ],
+      "example": [
         {
-          "name": "vite@latest",
+          "cmd": "create vite@latest",
+          "desc": "创建一个 vite 项目"
+        }
+      ],
+      "option": [
+        {
+          "name": "--allow-build",
           "tip": [
-            "创建一个 vite 项目"
+            "允许运行 postinstall 脚本的包名列表。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dedupe",
+      "tip": [
+        "执行安装, 如果锁文件中存在更新版本则移除旧依赖。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "在不安装的情况下检查运行 dedupe 是否会带来更改。",
+            "如果可能更改则以非零状态退出。"
           ]
         },
         {
-          "name": "vue@latest",
+          "name": "--ignore-scripts",
           "tip": [
-            "创建一个 vue 项目"
+            "不运行生命周期脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "usage": [
+        "deploy <target directory>"
+      ],
+      "tip": [
+        "从 workspace 部署一个包。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅安装 devDependencies。"
+          ]
+        },
+        {
+          "name": "--legacy",
+          "tip": [
+            "强制使用旧的部署实现。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "不安装 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "不安装 devDependencies 中的包。"
           ]
         }
       ]
     },
     {
       "name": "dlx",
+      "usage": [
+        "dlx <command> [args...]"
+      ],
       "tip": [
-        "U: dlx <command> [args...]",
-        "从注册表获取一个包而不将其安装为依赖, 热加载并运行其默认命令"
+        "在临时环境中运行包。"
+      ],
+      "option": [
+        {
+          "name": "--package",
+          "tip": [
+            "运行命令前要安装的包。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--shell-mode",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --shell-mode"
+          ],
+          "tip": [
+            "在 shell 中运行脚本。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "不向控制台输出任何日志。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "usage": [
+        "env <use|list>"
+      ],
+      "tip": [
+        "管理 Node.js 版本。"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局管理 Node.js 版本。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list [<version>]"
+          ],
+          "tip": [
+            "列出可安装的远程 Node.js 版本。"
+          ]
+        },
+        {
+          "name": "use",
+          "usage": [
+            "use --global <version>"
+          ],
+          "tip": [
+            "安装指定版本的 Node.js 并将其设为当前版本。"
+          ]
+        }
       ]
     },
     {
       "name": "exec",
+      "usage": [
+        "exec <command> [args...]"
+      ],
       "tip": [
-        "在项目的范围内执行一个 shell 命令"
+        "在项目范围内执行 shell 命令。"
+      ]
+    },
+    {
+      "name": "fetch",
+      "usage": [
+        "fetch [--dev|--prod]"
+      ],
+      "tip": [
+        "从锁文件获取包到虚拟存储中。",
+        "忽略包清单。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅获取开发包。"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "不获取开发包。"
+          ]
+        }
       ]
     },
     {
       "name": "find-hash",
+      "usage": [
+        "find-hash <hash>"
+      ],
       "tip": [
-        "实验性! 列出包含指定哈希值的文件的包"
+        "列出包含具有指定哈希的文件的包。"
+      ]
+    },
+    {
+      "name": "ignored-builds",
+      "tip": [
+        "打印具有被阻止的构建脚本的包列表。"
       ]
     },
     {
       "name": "import",
+      "usage": [
+        "import <package-lock.json>"
+      ],
       "tip": [
-        "从一个 npm package-lock.json (或 npm-shrinkwrap.json) 文件生成一个 pnpm-lock.yaml 文件"
+        "从 npm package-lock.json (或 npm-shrinkwrap.json) 文件生成 pnpm-lock.yaml。"
       ]
     },
     {
       "name": "init",
       "tip": [
-        "创建一个 package.json 文件"
+        "创建 package.json 文件。"
       ],
       "option": [
         {
           "name": "--bare",
           "tip": [
-            "创建一个包含最少必需字段的 package.json 文件"
+            "创建仅包含最少必需字段的 package.json 文件。"
           ]
         },
         {
           "name": "--init-package-manager",
           "tip": [
-            "在 package.json 中通过 devEngines.packageManager 声明 pnpm 版本范围"
+            "在 package.json 中通过 devEngines.packageManager 声明 pnpm 版本范围。"
           ]
         },
         {
           "name": "--init-type",
+          "usage": [
+            "--init-type <commonjs|module>"
+          ],
           "tip": [
-            "U: --init-type <commonjs|module>",
-            "设置包的模块系统 (默认: commonjs)"
+            "设置包的模块系统 (默认: commonjs)。"
+          ],
+          "next": [
+            {
+              "name": "commonjs",
+              "tip": [
+                "CommonJS 模块系统。"
+              ]
+            },
+            {
+              "name": "module",
+              "tip": [
+                "ES 模块系统。"
+              ]
+            }
           ]
         }
       ]
@@ -289,9 +728,11 @@
       "alias": [
         "i"
       ],
+      "usage": [
+        "i|install [options]"
+      ],
       "tip": [
-        "U: i|install",
-        "为项目安装所有依赖"
+        "安装当前工作目录中项目的所有依赖。"
       ],
       "option": [
         {
@@ -299,45 +740,65 @@
           "alias": [
             "-D"
           ],
+          "usage": [
+            "-D, --dev"
+          ],
           "tip": [
-            "U: -D, --dev",
-            "仅安装 devDependencies"
+            "仅安装 devDependencies。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "报告安装将更改的内容, 而不向磁盘写入任何内容。"
+          ]
+        },
+        {
+          "name": "--fix-lockfile",
+          "tip": [
+            "自动修复损坏的锁文件条目。"
           ]
         },
         {
           "name": "--force",
           "tip": [
-            "强制重新安装依赖: 重新获取存储中修改的包, 重新创建 lockfile 和/或模块目录"
+            "强制重新安装依赖: 重新获取存储中修改的包, 重新创建锁文件和/或 modules 目录。"
           ]
         },
         {
           "name": "--frozen-lockfile",
           "tip": [
-            "不生成 lockfile, 如果需要更新则失败"
+            "不生成锁文件, 如果需要更新则失败。"
+          ]
+        },
+        {
+          "name": "--frozen-store",
+          "tip": [
+            "以只读 (不可变) 方式打开包存储并跳过所有存储写入。"
           ]
         },
         {
           "name": "--ignore-scripts",
           "tip": [
-            "不运行生命周期脚本"
+            "不运行生命周期脚本。"
           ]
         },
         {
           "name": "--lockfile-only",
           "tip": [
-            "不下载依赖, 仅更新 pnpm-lock.yaml"
+            "不下载依赖。仅更新 pnpm-lock.yaml。"
           ]
         },
         {
           "name": "--offline",
           "tip": [
-            "如果任何必需的依赖在本地存储中不可用, 则触发错误"
+            "如果任何必需的依赖在本地存储中不可用, 则触发错误。"
           ]
         },
         {
           "name": "--prefer-offline",
           "tip": [
-            "跳过缓存数据的过期检查, 但向服务器请求缺失的数据"
+            "跳过缓存数据的过期检查, 但向服务器请求缺失的数据。"
           ]
         },
         {
@@ -345,15 +806,17 @@
           "alias": [
             "-P"
           ],
+          "usage": [
+            "-P, --prod"
+          ],
           "tip": [
-            "U: -P, --prod",
-            "devDependencies 中的包不会被安装"
+            "不安装 devDependencies 中的包。"
           ]
         },
         {
           "name": "--shamefully-hoist",
           "tip": [
-            "所有子依赖将被提升到根 node_modules"
+            "所有子依赖将被提升到根 node_modules。"
           ]
         }
       ]
@@ -363,27 +826,29 @@
       "alias": [
         "it"
       ],
+      "usage": [
+        "it|install-test"
+      ],
       "tip": [
-        "U: it|install-test",
-        "执行 pnpm install 命令后立即执行 pnpm test 命令"
+        "运行 pnpm install, 然后立即运行 pnpm test。"
       ]
     },
     {
       "name": "licenses",
       "tip": [
-        "检查已消费包的许可证"
+        "检查已使用包中的许可证。"
       ],
       "option": [
         {
           "name": "--json",
           "tip": [
-            "以 JSON 格式显示信息"
+            "以 JSON 格式显示信息。"
           ]
         },
         {
           "name": "--long",
           "tip": [
-            "显示更多详细信息 (如仓库链接)"
+            "显示更多详细信息 (如仓库链接)。"
           ]
         }
       ]
@@ -393,25 +858,63 @@
       "alias": [
         "ln"
       ],
+      "usage": [
+        "ln|link <package>"
+      ],
       "tip": [
-        "U: ln|link",
-        "将本地项目连接到另一个项目"
+        "将本地项目连接到另一个项目。"
       ]
     },
     {
       "name": "list",
       "alias": [
-        "ls"
+        "ls",
+        "la",
+        "ll"
+      ],
+      "usage": [
+        "la|ll|ls|list [<pkg> ...]"
       ],
       "tip": [
-        "U: ls|list",
-        "以树形结构打印所有已安装软件包的版本及其依赖包"
+        "以树形结构打印已安装包的所有版本及其依赖。"
       ],
       "option": [
         {
           "name": "--depth",
           "tip": [
-            "依赖树的最大显示深度"
+            "依赖树的最大显示深度。"
+          ],
+          "next": [
+            {
+              "name": "-1",
+              "tip": [
+                "仅显示项目。"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "仅显示直接依赖。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅显示 devDependencies 中包的依赖图。"
+          ]
+        },
+        {
+          "name": "--exclude-peers",
+          "tip": [
+            "排除 peer 依赖。"
           ]
         },
         {
@@ -419,118 +922,274 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
-            "全局列出"
+            "列出全局安装前缀中的包。"
           ]
         },
         {
           "name": "--json",
           "tip": [
-            "以 JSON 格式显示信息"
+            "以 JSON 格式显示信息。"
           ]
         },
         {
           "name": "--long",
           "tip": [
-            "显示扩展信息"
+            "显示扩展信息。"
           ]
         }
       ]
     },
     {
       "name": "outdated",
+      "usage": [
+        "outdated [<pkg> ...]"
+      ],
       "tip": [
-        "检查过时的包"
+        "检查过时的包依赖。",
+        "支持模式匹配。"
       ],
       "option": [
         {
           "name": "--compatible",
           "tip": [
-            "仅打印满足 package.json 中规格的版本"
+            "仅打印满足 package.json 中规格的版本。"
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅检查 devDependencies。"
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "以给定的格式打印过时的依赖。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式。"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列表格式。"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "表格格式 (默认)。"
+              ]
+            }
           ]
         },
         {
           "name": "--long",
           "tip": [
-            "显示过时包的详细信息"
+            "显示过时包的详细信息。"
           ]
         }
       ]
     },
     {
       "name": "pack",
+      "usage": [
+        "pack [<package>]"
+      ],
       "tip": [
-        "从包创建一个 tarball"
+        "从包创建 tarball。"
       ],
       "option": [
         {
           "name": "--dry-run",
           "tip": [
-            "执行 pnpm pack 的所有操作, 但不实际将 tarball 写入磁盘"
+            "除了实际写入 tarball 外, 执行 pnpm pack 的所有操作。"
           ]
         },
         {
           "name": "--json",
           "tip": [
-            "以 JSON 格式打印打包的 tarball 和内容"
+            "以 JSON 格式打印打包的 tarball 和内容。"
           ]
         }
       ]
     },
     {
+      "name": "patch",
+      "usage": [
+        "patch <pkg name>@<version>"
+      ],
+      "tip": [
+        "准备一个包以进行修补。"
+      ],
+      "option": [
+        {
+          "name": "--edit-dir",
+          "tip": [
+            "要修改的包将提取到此目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-existing",
+          "tip": [
+            "修补时忽略已有的补丁文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch-commit",
+      "usage": [
+        "patch-commit <patchDir>"
+      ],
+      "tip": [
+        "从目录生成补丁。"
+      ],
+      "option": [
+        {
+          "name": "--patches-dir",
+          "tip": [
+            "生成的补丁文件将保存到此目录。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "patch-remove",
+      "usage": [
+        "patch-remove [pkg...]"
+      ],
+      "tip": [
+        "移除现有的补丁文件。"
+      ]
+    },
+    {
       "name": "prune",
       "tip": [
-        "移除多余的包"
+        "移除多余的包。"
       ],
       "option": [
         {
           "name": "--ignore-scripts",
           "tip": [
-            "不运行生命周期脚本"
+            "不运行生命周期脚本。"
           ]
         },
         {
           "name": "--prod",
           "tip": [
-            "移除 devDependencies 中指定的包"
+            "移除 devDependencies 中指定的包。"
           ]
         }
       ]
     },
     {
       "name": "publish",
+      "usage": [
+        "publish [<tarball>|<dir>]"
+      ],
       "tip": [
-        "将包发布到注册表"
+        "将包发布到 npm 注册表。"
       ],
       "option": [
         {
           "name": "--access",
           "tip": [
-            "告诉注册表此包应该发布为公共还是受限"
+            "告诉注册表此包应作为公开还是受限发布。"
+          ],
+          "next": [
+            {
+              "name": "public",
+              "tip": [
+                "公开可查看。"
+              ]
+            },
+            {
+              "name": "restricted",
+              "tip": [
+                "受限访问。"
+              ]
+            }
           ]
         },
         {
           "name": "--dry-run",
           "tip": [
-            "执行发布的所有操作, 但不实际发布到注册表"
+            "除了实际发布到注册表外, 执行发布的所有操作。"
           ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使当前版本已在注册表中, 也发布包。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "忽略发布相关的生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式显示信息。"
+          ]
+        },
+        {
+          "name": "--no-git-checks",
+          "tip": [
+            "不检查当前分支是否为发布分支、是否干净且最新。"
+          ]
+        },
+        {
+          "name": "--otp",
+          "tip": [
+            "用于双因素身份验证的一次性密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--publish-branch",
+          "tip": [
+            "设置要发布的 branch 名称。"
+          ],
+          "next": []
         },
         {
           "name": "--recursive",
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --recursive"
+          ],
           "tip": [
-            "U: -r, --recursive",
-            "发布 workspace 中的所有包"
+            "发布 workspace 中的所有包。"
           ]
         },
         {
           "name": "--tag",
           "tip": [
-            "使用给定的标签注册已发布的包 (默认: latest)"
-          ]
+            "使用给定的标签注册已发布的包 (默认: latest)。"
+          ],
+          "next": []
         }
       ]
     },
@@ -539,15 +1198,17 @@
       "alias": [
         "rb"
       ],
+      "usage": [
+        "rb|rebuild [<package>]"
+      ],
       "tip": [
-        "U: rb|rebuild",
-        "重建一个包"
+        "重建一个包。"
       ],
       "option": [
         {
           "name": "--pending",
           "tip": [
-            "重建安装期间未构建的包"
+            "重建安装期间未构建的包。"
           ]
         }
       ]
@@ -555,7 +1216,7 @@
     {
       "name": "root",
       "tip": [
-        "打印有效的模块目录"
+        "打印有效的 modules 目录。"
       ],
       "option": [
         {
@@ -563,9 +1224,11 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
-            "打印全局包目录"
+            "打印全局包目录。"
           ]
         }
       ]
@@ -575,21 +1238,29 @@
       "alias": [
         "run"
       ],
+      "usage": [
+        "run|run-script <command> [<args>...]"
+      ],
       "tip": [
-        "U: run|run-script",
-        "运行定义在包的 scripts 对象中的命令"
+        "运行定义的包脚本。"
       ],
       "option": [
         {
           "name": "--if-present",
           "tip": [
-            "当脚本未定义时避免以非零退出码退出"
+            "当脚本未定义时避免以非零退出码退出。"
+          ]
+        },
+        {
+          "name": "--no-bail",
+          "tip": [
+            "即使一个脚本失败也继续运行剩余的脚本。"
           ]
         },
         {
           "name": "--parallel",
           "tip": [
-            "在所有匹配的包中立即运行给定的脚本"
+            "在所有匹配的包中立即运行给定的脚本。"
           ]
         },
         {
@@ -597,56 +1268,198 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --recursive"
+          ],
           "tip": [
-            "U: -r, --recursive",
-            "在子目录中找到的每个包中运行定义的包脚本"
+            "在子目录中找到的每个包中运行定义的包脚本。"
+          ]
+        },
+        {
+          "name": "--report-summary",
+          "tip": [
+            "将每个包的执行结果保存到 pnpm-exec-summary.json。"
           ]
         },
         {
           "name": "--sequential",
           "tip": [
-            "逐个运行指定的脚本"
+            "逐个运行指定的脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "runtime",
+      "usage": [
+        "runtime set <node|deno|bun> <version>"
+      ],
+      "tip": [
+        "管理运行时。"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局安装运行时。"
+          ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "将运行时保存到 devEngines.runtime。这是默认行为。"
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --save-prod"
+          ],
+          "tip": [
+            "将运行时保存到 engines.runtime。"
           ]
         }
       ],
-      "next": []
+      "next": [
+        {
+          "name": "set",
+          "usage": [
+            "set <node|deno|bun> <version>"
+          ],
+          "tip": [
+            "安装指定版本的运行时 (node, deno, bun)。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "self-update",
+      "usage": [
+        "self-update [<version>]"
+      ],
+      "tip": [
+        "将 pnpm 更新到最新版本 (或指定的版本)。"
+      ]
+    },
+    {
+      "name": "stage",
+      "usage": [
+        "stage <publish|list|view|approve|reject|download>"
+      ],
+      "tip": [
+        "暂存待发布的包，将存在性证明（2FA）推迟到稍后"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "usage": [
+            "approve <stage-id>"
+          ],
+          "tip": [
+            "批准已暂存的包"
+          ]
+        },
+        {
+          "name": "download",
+          "usage": [
+            "download <stage-id>"
+          ],
+          "tip": [
+            "下载已暂存的包"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已暂存的包"
+          ]
+        },
+        {
+          "name": "publish",
+          "usage": [
+            "publish [<tarball>|<dir>] [--tag <tag>] [--access <access>]"
+          ],
+          "tip": [
+            "从暂存状态发布包"
+          ]
+        },
+        {
+          "name": "reject",
+          "usage": [
+            "reject <stage-id>"
+          ],
+          "tip": [
+            "拒绝已暂存的包"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <stage-id>"
+          ],
+          "tip": [
+            "查看已暂存的包"
+          ]
+        }
+      ]
     },
     {
       "name": "start",
       "tip": [
-        "运行包的 scripts 对象中 \"start\" 属性指定的任意命令"
+        "运行包的 scripts 对象中 start 属性指定的任意命令。"
       ]
     },
     {
       "name": "store",
+      "usage": [
+        "store <add|path|prune|status>"
+      ],
       "tip": [
-        "读取并执行当前文件系统上的 pnpm 存储上的操作"
+        "读取并操作当前文件系统上的 pnpm 存储。"
       ],
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add <pkg>..."
+          ],
           "tip": [
-            "直接将新包添加到 pnpm 存储中",
-            "不修改任何项目或存储外的文件"
+            "直接将新包添加到 pnpm 存储。",
+            "不修改存储之外的任何项目或文件。"
           ]
         },
         {
           "name": "path",
           "tip": [
-            "打印活动存储目录的路径"
+            "返回活动存储目录的路径。"
           ]
         },
         {
           "name": "prune",
           "tip": [
-            "从存储中移除未引用的(多余的, 孤儿)包"
+            "从存储中移除未引用的 (多余的, 孤立的) 包。"
           ],
           "option": [
             {
               "name": "--force",
               "tip": [
-                "如果存储中有异域目录, 此命令会移除它们",
-                "异域目录是指由包管理器之外创建的目录/文件"
+                "如果存储中存在外来目录, 此命令将移除它们。",
+                "外来目录是包管理器未创建的目录/文件。"
               ]
             }
           ]
@@ -654,7 +1467,7 @@
         {
           "name": "status",
           "tip": [
-            "检查存储中修改过的包"
+            "检查存储中修改过的包。"
           ]
         }
       ]
@@ -664,9 +1477,11 @@
       "alias": [
         "t"
       ],
+      "usage": [
+        "t|test"
+      ],
       "tip": [
-        "U: t|test",
-        "如果提供了, 则运行包的 \"test\" 脚本"
+        "运行包的 test 脚本 (如果提供了)。"
       ]
     },
     {
@@ -675,9 +1490,11 @@
         "remove",
         "rm"
       ],
+      "usage": [
+        "rm|remove|uninstall [<pkg> ...]"
+      ],
       "tip": [
-        "U: rm|remove|uninstall",
-        "从 node_modules 和项目的 package.json 中删除包"
+        "从 node_modules 和项目的 package.json 中移除包。"
       ],
       "option": [
         {
@@ -685,47 +1502,58 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
-            "全局删除"
+            "全局移除。"
           ]
         },
         {
           "name": "--save-dev",
           "alias": [
-            "-D"
+            "-d"
+          ],
+          "usage": [
+            "-d, --save-dev"
           ],
           "tip": [
-            "U: -D, --save-dev",
-            "仅从 devDependencies 中删除依赖"
+            "仅从 devDependencies 中移除依赖。"
           ]
         },
         {
           "name": "--save-optional",
           "alias": [
-            "-O"
+            "-o"
+          ],
+          "usage": [
+            "-o, --save-optional"
           ],
           "tip": [
-            "U: -O, --save-optional",
-            "仅从 optionalDependencies 中删除依赖"
+            "仅从 optionalDependencies 中移除依赖。"
           ]
         },
         {
           "name": "--save-prod",
           "alias": [
-            "-P"
+            "-p"
+          ],
+          "usage": [
+            "-p, --save-prod"
           ],
           "tip": [
-            "U: -P, --save-prod",
-            "仅从 dependencies 中删除依赖"
+            "仅从 dependencies 中移除依赖。"
           ]
         }
       ]
     },
     {
       "name": "unlink",
+      "usage": [
+        "unlink [<pkg> ...]"
+      ],
       "tip": [
-        "取消链接一个包。类似于 yarn unlink, 但在移除外部链接后, pnpm 会重新安装依赖"
+        "取消链接一个包。类似 yarn unlink, 但 pnpm 在移除外部链接后重新安装依赖。"
       ]
     },
     {
@@ -734,10 +1562,12 @@
         "update",
         "up"
       ],
+      "usage": [
+        "up|update|upgrade [<pkg> ...]"
+      ],
       "tip": [
-        "U: up|update|upgrade",
-        "根据指定范围更新包到其最新版本",
-        "不带参数时, 更新所有依赖"
+        "根据指定的范围将包更新到最新版本。",
+        "在没有参数时, 更新所有依赖。"
       ],
       "option": [
         {
@@ -745,9 +1575,11 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
-            "全局更新"
+            "全局更新。"
           ]
         },
         {
@@ -755,19 +1587,25 @@
           "alias": [
             "-r"
           ],
+          "usage": [
+            "-r, --recursive"
+          ],
           "tip": [
-            "U: -r, --recursive",
-            "在子目录中找到的每个包中更新"
+            "在子目录中找到的每个包中更新。"
           ]
         }
       ]
     },
     {
       "name": "why",
+      "usage": [
+        "why <pkg> ..."
+      ],
       "tip": [
-        "U: why <pkg> ...",
-        "显示所有依赖于指定包的包",
-        "E: why lodash"
+        "显示所有依赖于指定包的包。"
+      ],
+      "example": [
+        "why lodash"
       ]
     }
   ],
@@ -777,9 +1615,11 @@
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --version"
+      ],
       "tip": [
-        "U: -v, --version",
-        "打印 pnpm 的版本号"
+        "打印当前 pnpm 版本。"
       ]
     }
   ],
@@ -789,9 +1629,11 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
-        "显示帮助信息"
+        "打印此帮助信息。"
       ]
     }
   ]

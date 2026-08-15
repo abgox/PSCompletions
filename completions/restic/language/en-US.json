@@ -9,8 +9,10 @@
   "next": [
     {
       "name": "backup",
+      "usage": [
+        "backup [FLAGS] [FILE/DIR]..."
+      ],
       "tip": [
-        "U: backup [FLAGS] [FILE/DIR]...",
         "Create a new backup of files and/or directories"
       ],
       "option": [
@@ -19,8 +21,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --dry-run"
+          ],
           "tip": [
-            "U: -n, --dry-run",
             "Do not upload or write any data"
           ]
         },
@@ -29,12 +33,14 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --exclude <PATTERN>"
+          ],
           "tip": [
-            "U: -e, --exclude <PATTERN>",
             "Exclude a pattern"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--exclude-caches",
@@ -44,37 +50,45 @@
         },
         {
           "name": "--exclude-file",
+          "usage": [
+            "--exclude-file <FILE>"
+          ],
           "tip": [
-            "U: --exclude-file <FILE>",
             "Read exclude patterns from a file"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--exclude-larger-than",
+          "usage": [
+            "--exclude-larger-than <SIZE>"
+          ],
           "tip": [
-            "U: --exclude-larger-than <SIZE>",
             "Max size of files to back up"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--files-from",
+          "usage": [
+            "--files-from <FILE>"
+          ],
           "tip": [
-            "U: --files-from <FILE>",
             "Read files to backup from file"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--force",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --force"
+          ],
           "tip": [
-            "U: -f, --force",
             "Force re-reading source files"
           ]
         },
@@ -83,40 +97,48 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --group-by <GROUP>"
+          ],
           "tip": [
-            "U: -g, --group-by <GROUP>",
             "Group snapshots by host, paths and/or tags"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
           "alias": [
             "-H"
           ],
+          "usage": [
+            "-H, --host <HOSTNAME>"
+          ],
           "tip": [
-            "U: -H, --host <HOSTNAME>",
             "Set the hostname for the snapshot"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--one-file-system",
           "alias": [
             "-x"
           ],
+          "usage": [
+            "-x, --one-file-system"
+          ],
           "tip": [
-            "U: -x, --one-file-system",
             "Exclude other file systems"
           ]
         },
         {
           "name": "--parent",
+          "usage": [
+            "--parent <SNAPSHOT>"
+          ],
           "tip": [
-            "U: --parent <SNAPSHOT>",
             "Use this parent snapshot"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--stdin",
@@ -126,29 +148,74 @@
         },
         {
           "name": "--stdin-filename",
+          "usage": [
+            "--stdin-filename <FILENAME>"
+          ],
           "tip": [
-            "U: --stdin-filename <FILENAME>",
             "Filename to use when reading from stdin"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAGS>"
+          ],
           "tip": [
-            "U: --tag <TAGS>",
             "Add tags for the new snapshot"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--time",
+          "usage": [
+            "--time <TIME>"
+          ],
           "tip": [
-            "U: --time <TIME>",
             "Time of the backup"
           ],
-          "next": 0
+          "next": []
         }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "Operate on local cache directories"
+      ],
+      "option": [
+        {
+          "name": "--cleanup",
+          "tip": [
+            "Remove old cache directories"
+          ]
+        },
+        {
+          "name": "--max-age",
+          "usage": [
+            "--max-age <DAYS>"
+          ],
+          "tip": [
+            "Max age in days for cache directories to be considered old (default 30)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-size",
+          "tip": [
+            "Do not output the size of the cache directories"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat",
+      "usage": [
+        "cat [masterkey|config|pack ID|blob ID|snapshot ID|index ID|key ID|lock ID|tree snapshot:subfolder]"
+      ],
+      "tip": [
+        "Print internal objects to stdout"
       ]
     },
     {
@@ -166,30 +233,75 @@
       ]
     },
     {
-      "name": "diff",
+      "name": "copy",
+      "usage": [
+        "copy [snapshotID ...]"
+      ],
       "tip": [
-        "U: diff <SNAPSHOT1> <SNAPSHOT2>",
+        "Copy snapshots from one repository to another"
+      ],
+      "option": [
+        {
+          "name": "--from-password-file",
+          "usage": [
+            "--from-password-file <FILE>"
+          ],
+          "tip": [
+            "Read the source repository password from a file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--from-repo",
+          "usage": [
+            "--from-repo <REPO>"
+          ],
+          "tip": [
+            "Source repository to copy snapshots from"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "usage": [
+        "diff <SNAPSHOT1> <SNAPSHOT2>"
+      ],
+      "tip": [
         "Show differences between two snapshots"
       ]
     },
     {
       "name": "dump",
+      "usage": [
+        "dump <SNAPSHOT> <PATH>"
+      ],
       "tip": [
-        "U: dump <SNAPSHOT> <PATH>",
         "Print backed-up files or folders to stdout"
       ]
     },
     {
-      "name": "find",
+      "name": "features",
       "tip": [
-        "U: find <PATTERN>",
+        "Print list of feature flags"
+      ]
+    },
+    {
+      "name": "find",
+      "usage": [
+        "find <PATTERN>"
+      ],
+      "tip": [
         "Find a file, a directory or restic IDs"
       ]
     },
     {
       "name": "forget",
+      "usage": [
+        "forget [FLAGS] [SNAPSHOT ID]..."
+      ],
       "tip": [
-        "U: forget [FLAGS] [SNAPSHOT ID]...",
         "Remove snapshots from the repository"
       ],
       "option": [
@@ -198,8 +310,10 @@
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --compact"
+          ],
           "tip": [
-            "U: -c, --compact",
             "Use compact output format"
           ]
         },
@@ -208,8 +322,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --dry-run"
+          ],
           "tip": [
-            "U: -n, --dry-run",
             "Do not delete anything"
           ]
         },
@@ -218,111 +334,133 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --group-by <GROUP>"
+          ],
           "tip": [
-            "U: -g, --group-by <GROUP>",
             "Group snapshots by host, paths and/or tags"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
           "tip": [
-            "U: --host <HOST>",
             "Only consider snapshots for this host"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-daily",
           "alias": [
             "-d"
           ],
+          "usage": [
+            "-d, --keep-daily <N>"
+          ],
           "tip": [
-            "U: -d, --keep-daily <N>",
             "Keep the last n daily snapshots"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-hourly",
           "alias": [
             "-H"
           ],
+          "usage": [
+            "-H, --keep-hourly <N>"
+          ],
           "tip": [
-            "U: -H, --keep-hourly <N>",
             "Keep the last n hourly snapshots"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-last",
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --keep-last <N>"
+          ],
           "tip": [
-            "U: -l, --keep-last <N>",
             "Keep the last n snapshots"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-monthly",
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --keep-monthly <N>"
+          ],
           "tip": [
-            "U: -m, --keep-monthly <N>",
             "Keep the last n monthly snapshots"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-tag",
+          "usage": [
+            "--keep-tag <TAG>"
+          ],
           "tip": [
-            "U: --keep-tag <TAG>",
             "Keep snapshots with this tag"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-weekly",
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --keep-weekly <N>"
+          ],
           "tip": [
-            "U: -w, --keep-weekly <N>",
             "Keep the last n weekly snapshots"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-within",
+          "usage": [
+            "--keep-within <DURATION>"
+          ],
           "tip": [
-            "U: --keep-within <DURATION>",
             "Keep snapshots newer than duration"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--keep-yearly",
           "alias": [
             "-y"
           ],
+          "usage": [
+            "-y, --keep-yearly <N>"
+          ],
           "tip": [
-            "U: -y, --keep-yearly <N>",
             "Keep the last n yearly snapshots"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
           "tip": [
-            "U: --path <PATH>",
             "Only consider snapshots including path"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--prune",
@@ -332,12 +470,65 @@
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
           "tip": [
-            "U: --tag <TAG>",
             "Only consider snapshots including tag"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "usage": [
+        "generate [bash|zsh|fish|powershell]"
+      ],
+      "tip": [
+        "Generate manual pages and auto-completion files"
+      ],
+      "option": [
+        {
+          "name": "--bash-completion",
+          "usage": [
+            "--bash-completion <FILE>"
+          ],
+          "tip": [
+            "Write bash completion file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fish-completion",
+          "usage": [
+            "--fish-completion <FILE>"
+          ],
+          "tip": [
+            "Write fish completion file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--powershell-completion",
+          "usage": [
+            "--powershell-completion <FILE>"
+          ],
+          "tip": [
+            "Write powershell completion file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--zsh-completion",
+          "usage": [
+            "--zsh-completion <FILE>"
+          ],
+          "tip": [
+            "Write zsh completion file"
+          ],
+          "next": []
         }
       ]
     },
@@ -361,8 +552,10 @@
     },
     {
       "name": "ls",
+      "usage": [
+        "ls <SNAPSHOT>"
+      ],
       "tip": [
-        "U: ls <SNAPSHOT>",
         "List files in a snapshot"
       ],
       "option": [
@@ -371,8 +564,10 @@
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --long"
+          ],
           "tip": [
-            "U: -l, --long",
             "Use long listing format"
           ]
         }
@@ -382,6 +577,12 @@
       "name": "migrate",
       "tip": [
         "Apply migrations"
+      ]
+    },
+    {
+      "name": "options",
+      "tip": [
+        "Print list of extended options"
       ]
     },
     {
@@ -404,8 +605,10 @@
     },
     {
       "name": "restore",
+      "usage": [
+        "restore [FLAGS] <SNAPSHOTID>"
+      ],
       "tip": [
-        "U: restore [FLAGS] <SNAPSHOTID>",
         "Extract the data from a snapshot"
       ],
       "option": [
@@ -420,64 +623,76 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --exclude <PATTERN>"
+          ],
           "tip": [
-            "U: -e, --exclude <PATTERN>",
             "Exclude a pattern"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--host",
           "alias": [
             "-H"
           ],
+          "usage": [
+            "-H, --host <HOST>"
+          ],
           "tip": [
-            "U: -H, --host <HOST>",
             "Only consider snapshots for this host"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--include",
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --include <PATTERN>"
+          ],
           "tip": [
-            "U: -i, --include <PATTERN>",
             "Include a pattern"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
           "tip": [
-            "U: --path <PATH>",
             "Only consider snapshots including path"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
           "tip": [
-            "U: --tag <TAG>",
             "Only consider snapshots including tag"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--target",
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --target <DIR>"
+          ],
           "tip": [
-            "U: -t, --target <DIR>",
             "Directory to extract data to"
           ],
-          "next": 0
+          "next": []
         }
       ]
     },
@@ -489,8 +704,10 @@
     },
     {
       "name": "snapshots",
+      "usage": [
+        "snapshots [FLAGS] [SNAPSHOTID]..."
+      ],
       "tip": [
-        "U: snapshots [FLAGS] [SNAPSHOTID]...",
         "List all snapshots"
       ],
       "option": [
@@ -499,44 +716,54 @@
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --compact"
+          ],
           "tip": [
-            "U: -c, --compact",
             "Use compact output format"
           ]
         },
         {
           "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
           "tip": [
-            "U: --host <HOST>",
             "Only consider snapshots for this host"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--latest",
+          "usage": [
+            "--latest <N>"
+          ],
           "tip": [
-            "U: --latest <N>",
             "Only show the last n snapshots"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
           "tip": [
-            "U: --path <PATH>",
             "Only consider snapshots including path"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
           "tip": [
-            "U: --tag <TAG>",
             "Only consider snapshots including tag"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         }
       ]
     },
@@ -568,16 +795,20 @@
   "option": [
     {
       "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIR>"
+      ],
       "tip": [
-        "U: --cache-dir <DIR>",
         "Set the cache directory"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--compression",
+      "usage": [
+        "--compression <MODE>"
+      ],
       "tip": [
-        "U: --compression <MODE>",
         "Compression mode"
       ],
       "next": [
@@ -618,8 +849,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "Help for restic"
       ]
     },
@@ -637,19 +870,23 @@
     },
     {
       "name": "--limit-download",
+      "usage": [
+        "--limit-download <RATE>"
+      ],
       "tip": [
-        "U: --limit-download <RATE>",
         "Limit downloads to max rate in KiB/s"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--limit-upload",
+      "usage": [
+        "--limit-upload <RATE>"
+      ],
       "tip": [
-        "U: --limit-upload <RATE>",
         "Limit uploads to max rate in KiB/s"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--no-cache",
@@ -662,19 +899,23 @@
       "alias": [
         "-p"
       ],
+      "usage": [
+        "-p, --password-file <FILE>"
+      ],
       "tip": [
-        "U: -p, --password-file <FILE>",
         "File to read the repository password from"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--quiet",
       "alias": [
         "-q"
       ],
+      "usage": [
+        "-q, --quiet"
+      ],
       "tip": [
-        "U: -q, --quiet",
         "Do not output comprehensive progress report"
       ]
     },
@@ -683,19 +924,23 @@
       "alias": [
         "-r"
       ],
+      "usage": [
+        "-r, --repo <REPOSITORY>"
+      ],
       "tip": [
-        "U: -r, --repo <REPOSITORY>",
         "Repository to backup to or restore from"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--verbose",
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --verbose"
+      ],
       "tip": [
-        "U: -v, --verbose",
         "Be verbose"
       ]
     }

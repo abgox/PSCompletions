@@ -8,47 +8,475 @@
   "next": [
     {
       "name": "access",
+      "usage": [
+        "access <list|get|set|grant|revoke>"
+      ],
       "tip": [
         "设置已发布包的访问级别。"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "next": [
+            {
+              "name": "status",
+              "usage": [
+                "status [<package>]"
+              ],
+              "tip": [
+                "获取包的状态。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grant",
+          "usage": [
+            "grant <read-only|read-write> <scope:team> [<package>]"
+          ],
+          "tip": [
+            "授予团队读取或写入权限。"
+          ],
+          "next": [
+            {
+              "name": "read-only",
+              "tip": [
+                "读取权限。"
+              ]
+            },
+            {
+              "name": "read-write",
+              "tip": [
+                "读写权限。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "next": [
+            {
+              "name": "collaborators",
+              "usage": [
+                "collaborators [<package> [<user>]]"
+              ],
+              "tip": [
+                "列出包的协作者。"
+              ]
+            },
+            {
+              "name": "packages",
+              "usage": [
+                "packages [<user>|<scope>|<scope:team>] [<package>]"
+              ],
+              "tip": [
+                "列出用户或作用域可访问的包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke <scope:team> [<package>]"
+          ],
+          "tip": [
+            "撤销团队的访问权限。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <status|mfa>"
+          ],
+          "tip": [
+            "设置包的访问或 MFA 级别。"
+          ],
+          "next": [
+            {
+              "name": "mfa",
+              "next": [
+                {
+                  "name": "automation",
+                  "tip": [
+                    "通过自动化令牌进行 MFA。"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "无需 MFA。"
+                  ]
+                },
+                {
+                  "name": "publish",
+                  "tip": [
+                    "发布时需要 MFA。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "status",
+              "next": [
+                {
+                  "name": "private",
+                  "tip": [
+                    "受限访问。"
+                  ]
+                },
+                {
+                  "name": "public",
+                  "tip": [
+                    "公开可查看。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "add-user",
+      "alias": [
+        "adduser"
+      ],
+      "usage": [
+        "adduser|add-user"
+      ],
+      "tip": [
+        "添加注册表用户账户。"
+      ],
+      "option": [
+        {
+          "name": "--auth-type",
+          "tip": [
+            "登录时使用的身份验证策略。"
+          ],
+          "next": [
+            {
+              "name": "legacy",
+              "tip": [
+                "传统用户名/密码验证。"
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "基于 Web 的验证。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "npm 注册表的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "为作用域注册表关联一个作用域。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "approve-scripts",
+      "usage": [
+        "approve-scripts <pkg> [<pkg> ...]"
+      ],
+      "tip": [
+        "批准特定依赖项的安装脚本。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "批准所有包的脚本。"
+          ]
+        },
+        {
+          "name": "--allow-scripts-pending",
+          "tip": [
+            "列出尚未批准的安装脚本的包。"
+          ]
+        },
+        {
+          "name": "--allow-scripts-pin",
+          "tip": [
+            "批准时写入固定的 (pkg@version) 条目。"
+          ]
+        }
       ]
     },
     {
       "name": "audit",
+      "usage": [
+        "audit [fix|signatures]"
+      ],
       "tip": [
-        "U: audit [fix|signatures]",
         "运行安全审计。"
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "tip": [
+            "要报告的最低漏洞级别。"
+          ],
+          "next": [
+            {
+              "name": "critical",
+              "tip": [
+                "严重级别。"
+              ]
+            },
+            {
+              "name": "high",
+              "tip": [
+                "高严重性。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "信息级别。"
+              ]
+            },
+            {
+              "name": "low",
+              "tip": [
+                "低严重性。"
+              ]
+            },
+            {
+              "name": "moderate",
+              "tip": [
+                "中等严重性。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "无级别。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "强制修复审计问题。"
+          ]
+        },
+        {
+          "name": "--include",
+          "tip": [
+            "要包含在审计树中的依赖项类型。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "开发依赖。"
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "可选依赖。"
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "同级依赖。"
+              ]
+            },
+            {
+              "name": "prod",
+              "tip": [
+                "生产依赖。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "从审计树中省略的依赖项类型。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "开发依赖。"
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "可选依赖。"
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "同级依赖。"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "fix",
+          "tip": [
+            "审计并自动修复漏洞。"
+          ]
+        },
+        {
+          "name": "signatures",
+          "tip": [
+            "审计包签名。"
+          ]
+        }
       ]
     },
     {
-      "name": "bugs",
+      "name": "author",
+      "alias": [
+        "owner"
+      ],
+      "usage": [
+        "owner|author <add|rm|ls>"
+      ],
       "tip": [
-        "U: bugs [<package>]",
-        "在 Web 浏览器中查看包的 bugs。",
-        "E: bugs"
-      ]
-    },
-    {
-      "name": "cache",
-      "tip": [
-        "操作包缓存。"
+        "管理包的所有者。"
       ],
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add <user> <package-spec>"
+          ],
+          "tip": [
+            "添加包所有者。"
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls <package-spec>"
+          ],
+          "tip": [
+            "列出包所有者。"
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <user> <package-spec>"
+          ],
+          "tip": [
+            "移除包所有者。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": [
+        "cache <add|clean|ls|verify|npx>"
+      ],
+      "tip": [
+        "操作包和 npx 缓存。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package-spec>"
+          ],
           "tip": [
             "将包添加到本地缓存。"
           ]
         },
         {
           "name": "clean",
+          "usage": [
+            "clean [<key>]"
+          ],
           "tip": [
             "清理包缓存。"
           ]
         },
         {
           "name": "ls",
+          "usage": [
+            "ls [<name>@<version>]"
+          ],
           "tip": [
             "列出缓存中的包。"
+          ]
+        },
+        {
+          "name": "npx",
+          "next": [
+            {
+              "name": "info",
+              "usage": [
+                "info <key>..."
+              ],
+              "tip": [
+                "显示 npx 缓存条目的信息。"
+              ]
+            },
+            {
+              "name": "ls",
+              "tip": [
+                "列出 npx 缓存条目。"
+              ]
+            },
+            {
+              "name": "rm",
+              "usage": [
+                "rm [<key>...]"
+              ],
+              "tip": [
+                "移除 npx 缓存条目。"
+              ]
+            }
           ]
         },
         {
@@ -62,11 +490,117 @@
     {
       "name": "clean-install",
       "alias": [
-        "ci"
+        "install-clean",
+        "isntall-clean",
+        "ci",
+        "ic"
+      ],
+      "usage": [
+        "ci|ic|install-clean|isntall-clean|clean-install"
       ],
       "tip": [
-        "U: ci",
         "干净地安装项目。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--install-strategy",
+          "tip": [
+            "安装包的策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted",
+              "tip": [
+                "提升所有依赖。"
+              ]
+            },
+            {
+              "name": "linked",
+              "tip": [
+                "链接安装策略。"
+              ]
+            },
+            {
+              "name": "nested",
+              "tip": [
+                "嵌套安装策略。"
+              ]
+            },
+            {
+              "name": "shallow",
+              "tip": [
+                "浅安装策略。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "要省略的依赖项类型。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "开发依赖。"
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "可选依赖。"
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "同级依赖。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean-install-test",
+      "alias": [
+        "install-ci-test",
+        "cit",
+        "sit"
+      ],
+      "usage": [
+        "cit|sit|install-ci-test|clean-install-test"
+      ],
+      "tip": [
+        "以干净状态安装项目并运行测试。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        }
       ]
     },
     {
@@ -80,13 +614,89 @@
       "alias": [
         "c"
       ],
+      "usage": [
+        "c|config <set|get|delete|list|edit|fix>"
+      ],
       "tip": [
-        "U: c|config",
         "管理 npm 配置。"
+      ],
+      "option": [
+        {
+          "name": "--editor",
+          "tip": [
+            "用于 config edit 的命令。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "以全局模式操作。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--location",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --location <global|user|project>"
+          ],
+          "tip": [
+            "要使用的配置文件。"
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "全局配置文件。"
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "项目配置文件。"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "用户配置文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "显示扩展信息。"
+          ]
+        }
       ],
       "next": [
         {
           "name": "delete",
+          "usage": [
+            "delete <key> ..."
+          ],
           "tip": [
             "从 npm 配置中删除一个值。"
           ]
@@ -105,6 +715,9 @@
         },
         {
           "name": "get",
+          "usage": [
+            "get [<key> ...]"
+          ],
           "tip": [
             "从 npm 配置中获取值。"
           ]
@@ -117,6 +730,9 @@
         },
         {
           "name": "set",
+          "usage": [
+            "set <key>=<value> [<key>=<value> ...]"
+          ],
           "tip": [
             "在 npm 配置中设置一个值。"
           ]
@@ -124,100 +740,14 @@
       ]
     },
     {
-      "name": "dedupe",
+      "name": "create",
       "alias": [
-        "ddp"
+        "innit",
+        "init"
       ],
-      "tip": [
-        "U: ddp|dedupe",
-        "减少包树中的重复。"
-      ]
-    },
-    {
-      "name": "deprecate",
-      "tip": [
-        "U: deprecate <pkg> <msg>",
-        "弃用包的某个版本。"
-      ]
-    },
-    {
-      "name": "diff",
-      "tip": [
-        "U: diff [<pkg> ...]",
-        "检查包之间的更改。"
-      ]
-    },
-    {
-      "name": "dist-tag",
-      "tip": [
-        "U: dist-tag <command>",
-        "dist-tag 管理。"
-      ]
-    },
-    {
-      "name": "docs",
-      "tip": [
-        "U: docs [<package>]",
-        "在 Web 浏览器中查看包的文档。",
-        "E: docs"
-      ]
-    },
-    {
-      "name": "doctor",
-      "tip": [
-        "检查 npm 环境的健康状况。"
-      ]
-    },
-    {
-      "name": "exec",
-      "tip": [
-        "U: exec -- <args>...",
-        "从 npm 包运行命令。",
-        "E: exec -- prettier --check ."
-      ]
-    },
-    {
-      "name": "explain",
-      "tip": [
-        "U: explain [<package>]",
-        "描述特定的包。",
-        "E: explain"
-      ]
-    },
-    {
-      "name": "explore",
-      "tip": [
-        "U: explore <pkg> [< -- <command>]",
-        "浏览已安装的包。",
-        "E: explore"
-      ]
-    },
-    {
-      "name": "fund",
-      "tip": [
-        "U: fund [<package>]",
-        "检索资金信息。",
-        "E: fund"
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "U: help [<command>]",
-        "获取有关 npm 的帮助。",
-        "E: help install"
-      ]
-    },
-    {
-      "name": "help-search",
-      "tip": [
-        "U: help-search [<query>]",
-        "搜索 npm 帮助文档。",
-        "E: help-search git"
-      ]
-    },
-    {
-      "name": "init",
+      "usage": [
+        "init|innit|create [<package-spec>]"
+      ],
       "tip": [
         "创建新的 package.json 文件。"
       ],
@@ -227,38 +757,555 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --force"
+          ],
           "tip": [
-            "U: -f, --force",
             "如果 package.json 已存在, 直接覆盖它。"
           ]
+        },
+        {
+          "name": "--init-author-name",
+          "tip": [
+            "默认作者名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--init-license",
+          "tip": [
+            "默认许可证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--init-private",
+          "tip": [
+            "设置包的 private 标志。"
+          ]
+        },
+        {
+          "name": "--init-version",
+          "tip": [
+            "默认包版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "新包要使用的作用域。"
+          ],
+          "next": []
         },
         {
           "name": "--yes",
           "alias": [
             "-y"
           ],
+          "usage": [
+            "-y, --yes"
+          ],
           "tip": [
-            "U: -y, --yes",
             "对所有选项使用默认值。"
           ]
         }
       ]
     },
     {
-      "name": "install",
+      "name": "dedupe",
       "alias": [
-        "i"
+        "ddp"
+      ],
+      "usage": [
+        "ddp|dedupe"
       ],
       "tip": [
-        "U: i|install <package>",
-        "安装一个包。",
-        "E: install axios"
+        "减少包树中的重复。"
       ],
       "option": [
         {
           "name": "--dry-run",
           "tip": [
-            "表示你不想让 npm 做任何更改。"
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deny-scripts",
+      "usage": [
+        "deny-scripts <pkg> [<pkg> ...]"
+      ],
+      "tip": [
+        "拒绝特定依赖项的安装脚本。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "拒绝所有包的脚本。"
+          ]
+        },
+        {
+          "name": "--allow-scripts-pending",
+          "tip": [
+            "列出尚未批准的安装脚本的包。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deprecate",
+      "usage": [
+        "deprecate <package-spec> <message>"
+      ],
+      "tip": [
+        "弃用包的某个版本。"
+      ],
+      "option": [
+        {
+          "name": "--otp",
+          "tip": [
+            "来自 2FA 验证器的一次性密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "npm 注册表的基础 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "usage": [
+        "diff [<pkg> ...]"
+      ],
+      "tip": [
+        "检查包之间的更改。"
+      ],
+      "option": [
+        {
+          "name": "--diff",
+          "tip": [
+            "要比较的包规范。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--diff-ignore-all-space",
+          "tip": [
+            "比较时忽略空白。"
+          ]
+        },
+        {
+          "name": "--diff-name-only",
+          "tip": [
+            "仅打印文件名。"
+          ]
+        },
+        {
+          "name": "--diff-unified",
+          "tip": [
+            "要打印的上下文行数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "以全局模式操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dist-tags",
+      "alias": [
+        "dist-tag"
+      ],
+      "usage": [
+        "dist-tag <add|rm|ls>"
+      ],
+      "tip": [
+        "修改包分发标签。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package-spec> [<tag>]"
+          ],
+          "tip": [
+            "添加分发标签。"
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls [<package-spec>]"
+          ],
+          "tip": [
+            "列出分发标签。"
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <package-spec> <tag>"
+          ],
+          "tip": [
+            "移除分发标签。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "alias": [
+        "home"
+      ],
+      "usage": [
+        "home|docs [<pkgname> ...]"
+      ],
+      "tip": [
+        "在 Web 浏览器中打开包的文档。"
+      ],
+      "example": [
+        "npm docs lodash"
+      ],
+      "option": [
+        {
+          "name": "--browser",
+          "tip": [
+            "打开文档页面的浏览器。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "usage": [
+        "doctor [connection|registry|versions|environment|permissions|cache]"
+      ],
+      "tip": [
+        "检查 npm 环境的健康状况。"
+      ],
+      "next": [
+        {
+          "name": "cache",
+          "tip": [
+            "检查缓存。"
+          ]
+        },
+        {
+          "name": "connection",
+          "tip": [
+            "检查网络连接。"
+          ]
+        },
+        {
+          "name": "environment",
+          "tip": [
+            "检查环境。"
+          ]
+        },
+        {
+          "name": "permissions",
+          "tip": [
+            "检查文件权限。"
+          ]
+        },
+        {
+          "name": "registry",
+          "tip": [
+            "检查注册表访问。"
+          ]
+        },
+        {
+          "name": "versions",
+          "tip": [
+            "检查已安装的版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "usage": [
+        "edit <pkg>[/<subpkg>...]"
+      ],
+      "tip": [
+        "编辑已安装的包。"
+      ],
+      "option": [
+        {
+          "name": "--editor",
+          "tip": [
+            "要使用的编辑器命令。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "x"
+      ],
+      "usage": [
+        "x|exec -- <pkg> [args...]"
+      ],
+      "tip": [
+        "从本地或远程 npm 包运行命令。"
+      ],
+      "example": [
+        "exec -- prettier --check ."
+      ],
+      "option": [
+        {
+          "name": "--call",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --call <cmd>"
+          ],
+          "tip": [
+            "在 shell 中运行命令。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "要安装并运行的包。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace <workspace-name>"
+          ],
+          "tip": [
+            "在工作区的上下文中运行。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "explain",
+      "alias": [
+        "why"
+      ],
+      "usage": [
+        "why|explain <package-spec>"
+      ],
+      "tip": [
+        "解释已安装的包。"
+      ],
+      "example": [
+        "npm explain lodash"
+      ]
+    },
+    {
+      "name": "explore",
+      "usage": [
+        "explore <pkg> [-- <command>]"
+      ],
+      "tip": [
+        "浏览已安装的包。"
+      ],
+      "example": [
+        "npm explore lodash"
+      ],
+      "option": [
+        {
+          "name": "--shell",
+          "tip": [
+            "在包目录中运行的 shell。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "find-dupes",
+      "tip": [
+        "查找包树中的重复。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fund",
+      "usage": [
+        "fund [<package-spec>]"
+      ],
+      "tip": [
+        "检索资金信息。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--which",
+          "tip": [
+            "要打开的第几个 (1 索引) 资金来源 URL。"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "第一个资金来源。"
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "第二个资金来源。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "usage": [
+        "get [<key> ...]"
+      ],
+      "tip": [
+        "从 npm 配置中获取值。"
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "显示扩展信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "alias": [
+        "hlep"
+      ],
+      "usage": [
+        "hlep|help <term> ..."
+      ],
+      "tip": [
+        "获取有关 npm 的帮助。"
+      ],
+      "example": [
+        "help install"
+      ],
+      "option": [
+        {
+          "name": "--viewer",
+          "tip": [
+            "用于查看帮助内容的程序。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "help-search",
+      "usage": [
+        "help-search <text>"
+      ],
+      "tip": [
+        "搜索 npm 帮助文档。"
+      ],
+      "example": [
+        "help-search git"
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "isntall",
+        "instal",
+        "isntal",
+        "insta",
+        "isnta",
+        "inst",
+        "isnt",
+        "add",
+        "ins",
+        "in",
+        "i"
+      ],
+      "usage": [
+        "i|in|inst|install [<package-spec> ...]"
+      ],
+      "tip": [
+        "安装一个包。"
+      ],
+      "example": [
+        "install axios"
+      ],
+      "option": [
+        {
+          "name": "--before",
+          "tip": [
+            "仅安装指定日期之前发布的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
           ]
         },
         {
@@ -266,8 +1313,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "全局安装包。"
           ]
         },
@@ -278,12 +1327,130 @@
           ]
         },
         {
+          "name": "--include",
+          "tip": [
+            "要包含的依赖项类型。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "开发依赖。"
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "可选依赖。"
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "同级依赖。"
+              ]
+            },
+            {
+              "name": "prod",
+              "tip": [
+                "生产依赖。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--install-strategy",
+          "tip": [
+            "安装包的策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted",
+              "tip": [
+                "提升所有依赖。"
+              ]
+            },
+            {
+              "name": "linked",
+              "tip": [
+                "链接安装策略。"
+              ]
+            },
+            {
+              "name": "nested",
+              "tip": [
+                "嵌套安装策略。"
+              ]
+            },
+            {
+              "name": "shallow",
+              "tip": [
+                "浅安装策略。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "不提交审计报告。"
+          ]
+        },
+        {
+          "name": "--no-bin-links",
+          "tip": [
+            "不为包二进制创建符号链接。"
+          ]
+        },
+        {
+          "name": "--no-fund",
+          "tip": [
+            "不显示资金信息消息。"
+          ]
+        },
+        {
+          "name": "--no-package-lock",
+          "tip": [
+            "不读取或写入 package-lock.json。"
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "要省略的依赖项类型。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "开发依赖。"
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "可选依赖。"
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "同级依赖。"
+              ]
+            }
+          ]
+        },
+        {
           "name": "--save",
           "alias": [
             "-S"
           ],
+          "usage": [
+            "-S, --save"
+          ],
           "tip": [
-            "U: -S, --save",
             "写入 package.json 的 dependencies。"
           ]
         },
@@ -292,8 +1459,10 @@
           "alias": [
             "-D"
           ],
+          "usage": [
+            "-D, --save-dev"
+          ],
           "tip": [
-            "U: -D, --save-dev",
             "写入 package.json 的 devDependencies。"
           ]
         },
@@ -302,9 +1471,11 @@
           "alias": [
             "-E"
           ],
+          "usage": [
+            "-E, --save-exact"
+          ],
           "tip": [
-            "U: -E, --save-exact",
-            "保存到 package.json 的依赖将配置为精确版本。"
+            "保存时使用精确版本。"
           ]
         },
         {
@@ -312,27 +1483,25 @@
           "alias": [
             "-O"
           ],
+          "usage": [
+            "-O, --save-optional"
+          ],
           "tip": [
-            "U: -O, --save-optional",
             "写入 package.json 的 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "写入 package.json 的 peerDependencies。"
           ]
         },
         {
           "name": "--workspaces",
           "tip": [
-            "在所有配置的工作区的上下文中运行命令。"
+            "在所有配置的工作区的上下文中运行。"
           ]
         }
-      ]
-    },
-    {
-      "name": "install-ci-test",
-      "alias": [
-        "cit"
-      ],
-      "tip": [
-        "U: cit|install-ci-test",
-        "安装项目的依赖并运行测试。"
       ]
     },
     {
@@ -340,9 +1509,67 @@
       "alias": [
         "it"
       ],
+      "usage": [
+        "it|install-test [<package-spec> ...]"
+      ],
       "tip": [
-        "U: it|install-test",
-        "安装项目的依赖并运行测试。"
+        "安装包并运行测试。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局安装包。"
+          ]
+        },
+        {
+          "name": "--save",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --save"
+          ],
+          "tip": [
+            "写入 package.json 的 dependencies。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "issues",
+      "alias": [
+        "bugs"
+      ],
+      "usage": [
+        "bugs|issues [<pkgname> ...]"
+      ],
+      "tip": [
+        "在 Web 浏览器中报告包的 bug。"
+      ],
+      "example": [
+        "npm bugs lodash"
+      ],
+      "option": [
+        {
+          "name": "--browser",
+          "tip": [
+            "打开 bug 报告页面的浏览器。"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -350,10 +1577,58 @@
       "alias": [
         "ln"
       ],
+      "usage": [
+        "ln|link [<package-spec>]"
+      ],
       "tip": [
-        "U: ln|link <pkg>",
-        "创建包文件夹的符号链接。",
-        "E: link"
+        "创建包文件夹的符号链接。"
+      ],
+      "example": [
+        "npm link lodash"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局链接。"
+          ]
+        },
+        {
+          "name": "--save",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --save"
+          ],
+          "tip": [
+            "保存为依赖。"
+          ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "保存为开发依赖。"
+          ]
+        }
       ]
     },
     {
@@ -361,8 +1636,10 @@
       "alias": [
         "ls"
       ],
+      "usage": [
+        "ls|list [<package-spec>]"
+      ],
       "tip": [
-        "U: ls|list",
         "列出已安装的软件包。"
       ],
       "option": [
@@ -371,8 +1648,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --all"
+          ],
           "tip": [
-            "U: -a, --all",
             "显示所有包。"
           ]
         },
@@ -380,16 +1659,94 @@
           "name": "--depth",
           "tip": [
             "递归包时的深度。"
-          ]
+          ],
+          "next": []
         },
         {
           "name": "--global",
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
-            "列出全局已安装的软件包。"
+            "列出全局安装的包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "显示扩展信息。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --parseable"
+          ],
+          "tip": [
+            "输出可解析的结果。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ll",
+      "alias": [
+        "la"
+      ],
+      "usage": [
+        "la|ll [[<@scope>/]<pkg> ...]"
+      ],
+      "tip": [
+        "列出已安装的包及其详细信息。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有包。"
+          ]
+        },
+        {
+          "name": "--depth",
+          "tip": [
+            "递归包时的深度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "列出全局安装的包。"
           ]
         },
         {
@@ -404,220 +1761,304 @@
       "name": "login",
       "tip": [
         "登录 npm 注册表。"
+      ],
+      "option": [
+        {
+          "name": "--auth-type",
+          "tip": [
+            "要使用的身份验证策略。"
+          ],
+          "next": [
+            {
+              "name": "legacy",
+              "tip": [
+                "传统用户名/密码验证。"
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "基于 Web 的验证。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "npm 注册表的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "为操作关联一个作用域。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "logout",
       "tip": [
         "从 npm 注册表注销。"
+      ],
+      "option": [
+        {
+          "name": "--registry",
+          "tip": [
+            "npm 注册表的基础 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "为操作关联一个作用域。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "org",
+      "alias": [
+        "ogr"
+      ],
+      "usage": [
+        "ogr|org <set|rm|ls>"
+      ],
       "tip": [
         "管理组织。"
+      ],
+      "next": [
+        {
+          "name": "ls",
+          "usage": [
+            "ls orgname [<username>]"
+          ],
+          "tip": [
+            "列出组织中的用户。"
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm orgname username"
+          ],
+          "tip": [
+            "从组织中移除用户。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set orgname username [developer|admin|owner]"
+          ],
+          "tip": [
+            "设置用户在一个组织中的角色。"
+          ],
+          "next": [
+            {
+              "name": "admin",
+              "tip": [
+                "管理员角色。"
+              ]
+            },
+            {
+              "name": "developer",
+              "tip": [
+                "开发者角色。"
+              ]
+            },
+            {
+              "name": "owner",
+              "tip": [
+                "所有者角色。"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "outdated",
       "tip": [
         "检查过时的软件包。"
-      ]
-    },
-    {
-      "name": "owner",
-      "tip": [
-        "管理包的所有者。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有包。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "检查全局安装的包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "显示扩展信息。"
+          ]
+        }
       ]
     },
     {
       "name": "pack",
+      "usage": [
+        "pack <package-spec>"
+      ],
       "tip": [
         "从包创建一个 tarball。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--pack-destination",
+          "tip": [
+            "保存 tarball 的目录。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "ping",
       "tip": [
         "Ping npm 注册表。"
+      ],
+      "option": [
+        {
+          "name": "--registry",
+          "tip": [
+            "npm 注册表的基础 URL。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "pkg",
+      "usage": [
+        "pkg <set|get|delete|fix>"
+      ],
       "tip": [
         "管理 package.json。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "移除各种防止意外副作用的保护。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace <workspace-name>"
+          ],
+          "tip": [
+            "在工作区的上下文中运行。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <key> ..."
+          ],
+          "tip": [
+            "从 package.json 删除值。"
+          ]
+        },
+        {
+          "name": "fix",
+          "tip": [
+            "自动纠正 package.json 中的常见错误。"
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get [<key> ...]"
+          ],
+          "tip": [
+            "从 package.json 获取值。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key>=<value> ..."
+          ],
+          "tip": [
+            "在 package.json 中设置值。"
+          ]
+        }
       ]
     },
     {
       "name": "prefix",
       "tip": [
         "显示有效的 npm 前缀。"
-      ]
-    },
-    {
-      "name": "profile",
-      "tip": [
-        "更新你的 npm 配置文件。"
-      ]
-    },
-    {
-      "name": "prune",
-      "tip": [
-        "移除多余的包。"
-      ]
-    },
-    {
-      "name": "publish",
-      "tip": [
-        "U: publish [<package-spec>]",
-        "发布一个包。",
-        "E: publish"
-      ],
-      "option": [
-        {
-          "name": "--access",
-          "tip": [
-            "告诉注册表此包应该发布为公共还是受限。"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "表示你不想让 npm 做任何更改。"
-          ]
-        },
-        {
-          "name": "--tag",
-          "tip": [
-            "使用给定的标签注册已发布的包。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "query",
-      "tip": [
-        "查询包。"
-      ]
-    },
-    {
-      "name": "rebuild",
-      "alias": [
-        "rb"
-      ],
-      "tip": [
-        "U: rb|rebuild <pkg>",
-        "重建一个包。",
-        "E: rebuild"
-      ]
-    },
-    {
-      "name": "repo",
-      "tip": [
-        "U: repo [<package>]",
-        "在浏览器中打开包的仓库页面。",
-        "E: repo"
-      ]
-    },
-    {
-      "name": "restart",
-      "tip": [
-        "重启一个包。"
-      ]
-    },
-    {
-      "name": "root",
-      "tip": [
-        "显示有效的 npm 根目录。"
-      ]
-    },
-    {
-      "name": "run",
-      "tip": [
-        "U: run <script>",
-        "运行 package.json 中定义的 scripts。",
-        "E: run build"
-      ],
-      "next": []
-    },
-    {
-      "name": "search",
-      "alias": [
-        "se",
-        "s"
-      ],
-      "tip": [
-        "U: search <query>",
-        "在 npm 上搜索包。",
-        "E: search vue"
-      ]
-    },
-    {
-      "name": "set",
-      "tip": [
-        "设置配置键的值。"
-      ]
-    },
-    {
-      "name": "shrinkwrap",
-      "tip": [
-        "打包指定的包。"
-      ]
-    },
-    {
-      "name": "star",
-      "tip": [
-        "U: star [<package>]",
-        "收藏一个包。",
-        "E: star"
-      ]
-    },
-    {
-      "name": "start",
-      "tip": [
-        "启动一个包。"
-      ]
-    },
-    {
-      "name": "stop",
-      "tip": [
-        "停止一个包。"
-      ]
-    },
-    {
-      "name": "team",
-      "tip": [
-        "管理组织中的团队。"
-      ]
-    },
-    {
-      "name": "test",
-      "tip": [
-        "运行项目测试。"
-      ]
-    },
-    {
-      "name": "token",
-      "tip": [
-        "管理身份验证令牌。"
-      ]
-    },
-    {
-      "name": "trust",
-      "tip": [
-        "管理信任策略。"
-      ]
-    },
-    {
-      "name": "uninstall",
-      "alias": [
-        "un",
-        "rm"
-      ],
-      "tip": [
-        "U: rm|un|uninstall <package>",
-        "卸载一个包。",
-        "E: uninstall express"
       ],
       "option": [
         {
@@ -625,8 +2066,854 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
+            "显示全局前缀。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "usage": [
+        "profile <enable-2fa|disable-2fa|get|set>"
+      ],
+      "tip": [
+        "更改注册表个人资料的设置。"
+      ],
+      "next": [
+        {
+          "name": "disable-2fa",
+          "tip": [
+            "禁用双因素身份验证。"
+          ]
+        },
+        {
+          "name": "enable-2fa",
+          "usage": [
+            "enable-2fa [auth-only|auth-and-writes]"
+          ],
+          "tip": [
+            "启用双因素身份验证。"
+          ],
+          "next": [
+            {
+              "name": "auth-and-writes",
+              "tip": [
+                "登录和写入时使用 MFA。"
+              ]
+            },
+            {
+              "name": "auth-only",
+              "tip": [
+                "仅登录时使用 MFA。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get [<key>]"
+          ],
+          "tip": [
+            "获取个人资料值。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "设置个人资料值。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prune",
+      "tip": [
+        "移除多余的包。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "要省略的依赖项类型。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "开发依赖。"
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "可选依赖。"
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "同级依赖。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "usage": [
+        "publish [<package-spec>]"
+      ],
+      "tip": [
+        "发布一个包。"
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "tip": [
+            "包是公共的还是受限的。"
+          ],
+          "next": [
+            {
+              "name": "private",
+              "tip": [
+                "私有包。"
+              ]
+            },
+            {
+              "name": "public",
+              "tip": [
+                "公开可查看。"
+              ]
+            },
+            {
+              "name": "restricted",
+              "tip": [
+                "受限访问。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--otp",
+          "tip": [
+            "来自 2FA 验证器的一次性密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--provenance",
+          "tip": [
+            "生成出处证明。"
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "使用给定的标签注册已发布的包。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query <selector>"
+      ],
+      "tip": [
+        "查询包。"
+      ],
+      "option": [
+        {
+          "name": "--expect-results",
+          "tip": [
+            "告诉 npm 是否期望结果。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "查询全局安装的包。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rebuild",
+      "alias": [
+        "rb"
+      ],
+      "usage": [
+        "rb|rebuild [<package-spec> ...]"
+      ],
+      "tip": [
+        "重建一个包。"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局重建。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "repo",
+      "usage": [
+        "repo [<pkgname> ...]"
+      ],
+      "tip": [
+        "在浏览器中打开包的仓库页面。"
+      ],
+      "example": [
+        "npm repo lodash"
+      ],
+      "option": [
+        {
+          "name": "--browser",
+          "tip": [
+            "打开仓库页面的浏览器。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "restart",
+      "tip": [
+        "重启一个包。"
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "root",
+      "tip": [
+        "显示有效的 npm 根目录。"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "显示全局根目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run-script",
+      "alias": [
+        "run",
+        "rum",
+        "urn"
+      ],
+      "usage": [
+        "rum|run|run-script <command> [-- <args>]"
+      ],
+      "tip": [
+        "运行任意包脚本。"
+      ],
+      "example": [
+        "run build"
+      ],
+      "option": [
+        {
+          "name": "--foreground-scripts",
+          "tip": [
+            "在前台运行构建脚本。"
+          ]
+        },
+        {
+          "name": "--if-present",
+          "tip": [
+            "脚本缺失时不退出并报错。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--script-shell",
+          "tip": [
+            "用于运行脚本的 shell。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "sbom",
+      "tip": [
+        "生成软件物料清单 (SBOM)。"
+      ],
+      "option": [
+        {
+          "name": "--package-lock-only",
+          "tip": [
+            "仅从 package-lock.json 生成。"
+          ]
+        },
+        {
+          "name": "--sbom-format",
+          "tip": [
+            "要使用的 SBOM 格式。"
+          ],
+          "next": [
+            {
+              "name": "cyclonedx",
+              "tip": [
+                "CycloneDX 格式。"
+              ]
+            },
+            {
+              "name": "spdx",
+              "tip": [
+                "SPDX 格式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sbom-type",
+          "tip": [
+            "SBOM 描述的包类型。"
+          ],
+          "next": [
+            {
+              "name": "application",
+              "tip": [
+                "应用程序包。"
+              ]
+            },
+            {
+              "name": "framework",
+              "tip": [
+                "框架包。"
+              ]
+            },
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "alias": [
+        "find",
+        "se",
+        "s"
+      ],
+      "usage": [
+        "s|se|find|search <search term> ..."
+      ],
+      "tip": [
+        "在 npm 上搜索包。"
+      ],
+      "example": [
+        "search vue"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --parseable"
+          ],
+          "tip": [
+            "输出可解析的结果。"
+          ]
+        },
+        {
+          "name": "--searchexclude",
+          "tip": [
+            "从搜索结果中排除的项。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--searchlimit",
+          "tip": [
+            "限制搜索结果数量的项数。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "set",
+      "usage": [
+        "set <key>=<value> ..."
+      ],
+      "tip": [
+        "设置配置键的值。"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "在全局配置中设置。"
+          ]
+        },
+        {
+          "name": "--location",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --location <global|user|project>"
+          ],
+          "tip": [
+            "要使用的配置文件。"
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "全局配置文件。"
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "项目配置文件。"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "用户配置文件。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shrinkwrap",
+      "tip": [
+        "为发布锁定依赖版本。"
+      ]
+    },
+    {
+      "name": "stage",
+      "usage": [
+        "stage <publish|list|view|approve|reject|download>"
+      ],
+      "tip": [
+        "暂存包以供发布, 延迟 2FA 验证。"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "usage": [
+            "approve <stage-id>"
+          ],
+          "tip": [
+            "批准暂存的包并将其发布。"
+          ]
+        },
+        {
+          "name": "download",
+          "usage": [
+            "download <stage-id>"
+          ],
+          "tip": [
+            "下载暂存包的 tarball。"
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [<package-spec>]"
+          ],
+          "tip": [
+            "列出所有已暂存的包版本。"
+          ]
+        },
+        {
+          "name": "publish",
+          "usage": [
+            "publish <package-spec>"
+          ],
+          "tip": [
+            "暂存一个包以供发布。"
+          ]
+        },
+        {
+          "name": "reject",
+          "usage": [
+            "reject <stage-id>"
+          ],
+          "tip": [
+            "拒绝暂存的包。"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <stage-id>"
+          ],
+          "tip": [
+            "查看已暂存包的详情。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "star",
+      "usage": [
+        "star [<package-spec>...]"
+      ],
+      "tip": [
+        "收藏你喜欢的包。"
+      ],
+      "example": [
+        "npm star lodash"
+      ]
+    },
+    {
+      "name": "stars",
+      "usage": [
+        "stars [<user>]"
+      ],
+      "tip": [
+        "查看被标记为收藏的包。"
+      ]
+    },
+    {
+      "name": "start",
+      "tip": [
+        "启动一个包。"
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "tip": [
+        "停止一个包。"
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "team",
+      "usage": [
+        "team <create|destroy|add|rm|ls>"
+      ],
+      "tip": [
+        "管理组织团队和团队成员资格。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <scope:team> <user>"
+          ],
+          "tip": [
+            "将用户添加到团队。"
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create <scope:team>"
+          ],
+          "tip": [
+            "创建团队。"
+          ]
+        },
+        {
+          "name": "destroy",
+          "usage": [
+            "destroy <scope:team>"
+          ],
+          "tip": [
+            "销毁团队。"
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls <scope>|<scope:team>"
+          ],
+          "tip": [
+            "列出团队或团队成员。"
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <scope:team> <user>"
+          ],
+          "tip": [
+            "将用户从团队移除。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "alias": [
+        "tst",
+        "t"
+      ],
+      "usage": [
+        "t|tst|test [-- <args>]"
+      ],
+      "tip": [
+        "测试一个包。"
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "usage": [
+        "token <list|revoke|create>"
+      ],
+      "tip": [
+        "管理你的身份验证令牌。"
+      ],
+      "option": [
+        {
+          "name": "--cidr",
+          "tip": [
+            "将令牌限制在 CIDR 地址内。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--read-only",
+          "tip": [
+            "将令牌标记为不能发布。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建新的身份验证令牌。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出身份验证令牌。"
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke <id|token>"
+          ],
+          "tip": [
+            "撤销身份验证令牌。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "trust",
+      "usage": [
+        "trust <github|gitlab|circleci|list|revoke>"
+      ],
+      "tip": [
+        "在包和 OIDC 提供程序之间创建信任关系。"
+      ],
+      "next": [
+        {
+          "name": "circleci",
+          "tip": [
+            "信任 CircleCI。"
+          ]
+        },
+        {
+          "name": "github",
+          "tip": [
+            "信任 GitHub Actions。"
+          ]
+        },
+        {
+          "name": "gitlab",
+          "tip": [
+            "信任 GitLab CI/CD。"
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [package]"
+          ],
+          "tip": [
+            "列出信任关系。"
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [package] --id=<trust-id>"
+          ],
+          "tip": [
+            "撤销信任关系。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "undeprecate",
+      "usage": [
+        "undeprecate <package-spec>"
+      ],
+      "tip": [
+        "取消弃用包的某个版本。"
+      ],
+      "option": [
+        {
+          "name": "--otp",
+          "tip": [
+            "来自 2FA 验证器的一次性密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "npm 注册表的基础 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "unlink",
+        "remove",
+        "un",
+        "rm",
+        "r"
+      ],
+      "usage": [
+        "r|rm|un|remove|unlink|uninstall [<pkg> ...]"
+      ],
+      "tip": [
+        "卸载一个包。"
+      ],
+      "example": [
+        "uninstall express"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
             "全局卸载包。"
           ]
         },
@@ -635,8 +2922,10 @@
           "alias": [
             "-S"
           ],
+          "usage": [
+            "-S, --save"
+          ],
           "tip": [
-            "U: -S, --save",
             "从 package.json 的 dependencies 中删除。"
           ]
         },
@@ -645,8 +2934,10 @@
           "alias": [
             "-D"
           ],
+          "usage": [
+            "-D, --save-dev"
+          ],
           "tip": [
-            "U: -D, --save-dev",
             "从 package.json 的 devDependencies 中删除。"
           ]
         }
@@ -654,36 +2945,88 @@
     },
     {
       "name": "unpublish",
+      "usage": [
+        "unpublish [<package-spec>]"
+      ],
       "tip": [
-        "U: unpublish [<package-spec>]",
-        "从注册表中删除一个包。",
-        "E: unpublish"
+        "从注册表中删除一个包。"
+      ],
+      "example": [
+        "npm unpublish lodash"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "强制取消发布。"
+          ]
+        }
       ]
     },
     {
       "name": "unstar",
+      "usage": [
+        "unstar [<package-spec>...]"
+      ],
       "tip": [
-        "U: unstar [<package>]",
-        "取消收藏一个包。",
-        "E: unstar"
+        "取消收藏一个包。"
+      ],
+      "example": [
+        "npm unstar lodash"
       ]
     },
     {
-      "name": "update",
+      "name": "upgrade",
+      "alias": [
+        "update",
+        "udpate",
+        "up",
+        "u"
+      ],
+      "usage": [
+        "u|up|update|udpate|upgrade [<pkg> ...]"
+      ],
       "tip": [
-        "U: update <package>",
-        "更新一个包。",
-        "E: update express"
+        "更新包。"
+      ],
+      "example": [
+        "update express"
       ],
       "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不做出任何更改仅报告。"
+          ]
+        },
         {
           "name": "--global",
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "全局更新包。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
           ]
         },
         {
@@ -691,8 +3034,10 @@
           "alias": [
             "-S"
           ],
+          "usage": [
+            "-S, --save"
+          ],
           "tip": [
-            "U: -S, --save",
             "更新 package.json 的 dependencies。"
           ]
         },
@@ -701,8 +3046,10 @@
           "alias": [
             "-D"
           ],
+          "usage": [
+            "-D, --save-dev"
+          ],
           "tip": [
-            "U: -D, --save-dev",
             "更新 package.json 的 devDependencies。"
           ]
         }
@@ -710,28 +3057,140 @@
     },
     {
       "name": "version",
+      "alias": [
+        "verison"
+      ],
+      "usage": [
+        "verison|version [<newversion> | major|minor|patch]"
+      ],
       "tip": [
-        "U: version [<newversion> | major | minor | patch]",
-        "提升包版本。",
-        "E: version patch"
+        "提升包版本。"
+      ],
+      "example": [
+        "version patch"
+      ],
+      "option": [
+        {
+          "name": "--allow-same-version",
+          "tip": [
+            "设置相同版本时不报错。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        },
+        {
+          "name": "--no-git-tag-version",
+          "tip": [
+            "不为提交打标签。"
+          ]
+        },
+        {
+          "name": "--preid",
+          "tip": [
+            "用作前缀的预发布标识符。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sign-git-tag",
+          "tip": [
+            "签名 git 标签。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "from-git",
+          "tip": [
+            "使用 git describe 的版本。"
+          ]
+        },
+        {
+          "name": "major",
+          "tip": [
+            "提升主版本号。"
+          ]
+        },
+        {
+          "name": "minor",
+          "tip": [
+            "提升次版本号。"
+          ]
+        },
+        {
+          "name": "patch",
+          "tip": [
+            "提升补丁版本号。"
+          ]
+        },
+        {
+          "name": "premajor",
+          "tip": [
+            "提升预发布主版本号。"
+          ]
+        },
+        {
+          "name": "preminor",
+          "tip": [
+            "提升预发布次版本号。"
+          ]
+        },
+        {
+          "name": "prepatch",
+          "tip": [
+            "提升预发布补丁版本号。"
+          ]
+        },
+        {
+          "name": "prerelease",
+          "tip": [
+            "提升预发布版本号。"
+          ]
+        }
       ]
     },
     {
       "name": "view",
       "alias": [
         "info",
-        "show"
+        "show",
+        "v"
+      ],
+      "usage": [
+        "v|info|show|view [<package-spec>] [<field>]"
       ],
       "tip": [
-        "U: info|show|view [<package>]",
-        "查看注册表信息。",
-        "E: view lodash"
+        "查看注册表信息。"
+      ],
+      "example": [
+        "view lodash"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数据。"
+          ]
+        }
       ]
     },
     {
       "name": "whoami",
       "tip": [
         "显示 npm 用户名。"
+      ],
+      "option": [
+        {
+          "name": "--registry",
+          "tip": [
+            "npm 注册表的基础 URL。"
+          ],
+          "next": []
+        }
       ]
     }
   ],
@@ -741,8 +3200,10 @@
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --version"
+      ],
       "tip": [
-        "U: -v, --version",
         "输出版本号。"
       ]
     },
@@ -759,8 +3220,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "显示帮助信息。"
       ]
     }

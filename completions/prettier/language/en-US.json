@@ -5,44 +5,13 @@
       "Opinionated code formatter."
     ]
   },
-  "next": [
-    {
-      "name": "--check",
-      "alias": [
-        "-c"
-      ],
-      "tip": [
-        "U: -c, --check",
-        "Check if the given files are formatted.",
-        "Print a human-friendly summary message and paths to unformatted files."
-      ]
-    },
-    {
-      "name": "--list-different",
-      "alias": [
-        "-l"
-      ],
-      "tip": [
-        "U: -l, --list-different",
-        "Print the names of files that are different from Prettier's formatting."
-      ]
-    },
-    {
-      "name": "--write",
-      "alias": [
-        "-w"
-      ],
-      "tip": [
-        "U: -w, --write",
-        "Edit files in-place."
-      ]
-    }
-  ],
   "option": [
     {
       "name": "--arrow-parens",
+      "usage": [
+        "--arrow-parens <always|avoid>"
+      ],
       "tip": [
-        "U: --arrow-parens <always|avoid>",
         "Include parentheses around a sole arrow function parameter.",
         "Default: always"
       ],
@@ -78,16 +47,20 @@
     },
     {
       "name": "--cache-location",
+      "usage": [
+        "--cache-location <path>"
+      ],
       "tip": [
-        "U: --cache-location <path>",
         "Path to the cache file."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--cache-strategy",
+      "usage": [
+        "--cache-strategy <metadata|content>"
+      ],
       "tip": [
-        "U: --cache-strategy <metadata|content>",
         "Strategy for the cache to use for detecting changed files."
       ],
       "next": [
@@ -106,6 +79,19 @@
       ]
     },
     {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --check"
+      ],
+      "tip": [
+        "Check if the given files are formatted.",
+        "Print a human-friendly summary message and paths to unformatted files."
+      ]
+    },
+    {
       "name": "--check-ignore-pragma",
       "tip": [
         "Check whether the file's first docblock comment contains '@noprettier' or '@noformat'.",
@@ -114,16 +100,20 @@
     },
     {
       "name": "--config",
+      "usage": [
+        "--config <path>"
+      ],
       "tip": [
-        "U: --config <path>",
         "Path to a Prettier configuration file."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--config-precedence",
+      "usage": [
+        "--config-precedence <cli-override|file-override|prefer-file>"
+      ],
       "tip": [
-        "U: --config-precedence <cli-override|file-override|prefer-file>",
         "Define in which order config files and CLI options should be evaluated.",
         "Default: cli-override"
       ],
@@ -150,17 +140,21 @@
     },
     {
       "name": "--cursor-offset",
+      "usage": [
+        "--cursor-offset <int>"
+      ],
       "tip": [
-        "U: --cursor-offset <int>",
         "Print (to stderr) where a cursor at the given position would move to after formatting.",
         "Default: -1"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--embedded-language-formatting",
+      "usage": [
+        "--embedded-language-formatting <auto|off>"
+      ],
       "tip": [
-        "U: --embedded-language-formatting <auto|off>",
         "Control how Prettier formats quoted code embedded in the file.",
         "Default: auto"
       ],
@@ -181,8 +175,10 @@
     },
     {
       "name": "--end-of-line",
+      "usage": [
+        "--end-of-line <lf|crlf|cr|auto>"
+      ],
       "tip": [
-        "U: --end-of-line <lf|crlf|cr|auto>",
         "Which end of line characters to apply.",
         "Default: lf"
       ],
@@ -215,8 +211,10 @@
     },
     {
       "name": "--experimental-operator-position",
+      "usage": [
+        "--experimental-operator-position <start|end>"
+      ],
       "tip": [
-        "U: --experimental-operator-position <start|end>",
         "Where to print operators when binary expressions wrap lines.",
         "Default: end"
       ],
@@ -237,24 +235,30 @@
     },
     {
       "name": "--file-info",
+      "usage": [
+        "--file-info <path>"
+      ],
       "tip": [
-        "U: --file-info <path>",
         "Extract info (as JSON) for a given file path."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--find-config-path",
+      "usage": [
+        "--find-config-path <path>"
+      ],
       "tip": [
-        "U: --find-config-path <path>",
         "Find and print the path to a configuration file for the given input file."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--html-whitespace-sensitivity",
+      "usage": [
+        "--html-whitespace-sensitivity <css|strict|ignore>"
+      ],
       "tip": [
-        "U: --html-whitespace-sensitivity <css|strict|ignore>",
         "How to handle whitespaces in HTML.",
         "Default: css"
       ],
@@ -281,22 +285,26 @@
     },
     {
       "name": "--ignore-path",
+      "usage": [
+        "--ignore-path <path>"
+      ],
       "tip": [
-        "U: --ignore-path <path>",
         "Path to a file with patterns describing files to ignore.",
         "Multiple values are accepted.",
         "Default: [.gitignore, .prettierignore]"
       ],
       "repeat": 99,
-      "next": 0
+      "next": []
     },
     {
       "name": "--ignore-unknown",
       "alias": [
         "-u"
       ],
+      "usage": [
+        "-u, --ignore-unknown"
+      ],
       "tip": [
-        "U: -u, --ignore-unknown",
         "Ignore unknown files."
       ]
     },
@@ -315,9 +323,23 @@
       ]
     },
     {
-      "name": "--log-level",
+      "name": "--list-different",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list-different"
+      ],
       "tip": [
-        "U: --log-level <silent|error|warn|log|debug>",
+        "Print the names of files that are different from Prettier's formatting."
+      ]
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <silent|error|warn|log|debug>"
+      ],
+      "tip": [
         "What level of logs to report.",
         "Default: log"
       ],
@@ -398,8 +420,10 @@
     },
     {
       "name": "--object-wrap",
+      "usage": [
+        "--object-wrap <preserve|collapse>"
+      ],
       "tip": [
-        "U: --object-wrap <preserve|collapse>",
         "How to wrap object literals.",
         "Default: preserve"
       ],
@@ -420,8 +444,10 @@
     },
     {
       "name": "--parser",
+      "usage": [
+        "--parser <parser>"
+      ],
       "tip": [
-        "U: --parser <parser>",
         "Which parser to use.",
         "Possible values: flow, babel, babel-flow, babel-ts, typescript, acorn, espree, meriyah, css, less, scss, json, json5, jsonc, json-stringify, graphql, markdown, mdx, vue, yaml, glimmer, html, angular, lwc, mjml"
       ],
@@ -580,28 +606,34 @@
     },
     {
       "name": "--plugin",
+      "usage": [
+        "--plugin <path>"
+      ],
       "tip": [
-        "U: --plugin <path>",
         "Add a plugin.",
         "Multiple plugins can be passed as separate --plugin's.",
         "Default: []"
       ],
       "repeat": 99,
-      "next": 0
+      "next": []
     },
     {
       "name": "--print-width",
+      "usage": [
+        "--print-width <int>"
+      ],
       "tip": [
-        "U: --print-width <int>",
         "The line length where Prettier will try wrap.",
         "Default: 80"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--prose-wrap",
+      "usage": [
+        "--prose-wrap <always|never|preserve>"
+      ],
       "tip": [
-        "U: --prose-wrap <always|never|preserve>",
         "How to wrap prose.",
         "Default: preserve"
       ],
@@ -628,8 +660,10 @@
     },
     {
       "name": "--quote-props",
+      "usage": [
+        "--quote-props <as-needed|consistent|preserve>"
+      ],
       "tip": [
-        "U: --quote-props <as-needed|consistent|preserve>",
         "Change when properties in objects are quoted.",
         "Default: as-needed"
       ],
@@ -656,21 +690,25 @@
     },
     {
       "name": "--range-end",
+      "usage": [
+        "--range-end <int>"
+      ],
       "tip": [
-        "U: --range-end <int>",
         "Format code ending at a given character offset (exclusive).",
         "Default: Infinity"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--range-start",
+      "usage": [
+        "--range-start <int>"
+      ],
       "tip": [
-        "U: --range-start <int>",
         "Format code starting at a given character offset.",
         "Default: 0"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--require-pragma",
@@ -695,11 +733,13 @@
     },
     {
       "name": "--stdin-filepath",
+      "usage": [
+        "--stdin-filepath <path>"
+      ],
       "tip": [
-        "U: --stdin-filepath <path>",
         "Path to the file to pretend that stdin comes from."
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--support-info",
@@ -709,17 +749,21 @@
     },
     {
       "name": "--tab-width",
+      "usage": [
+        "--tab-width <int>"
+      ],
       "tip": [
-        "U: --tab-width <int>",
         "Number of spaces per indentation level.",
         "Default: 2"
       ],
-      "next": 0
+      "next": []
     },
     {
       "name": "--trailing-comma",
+      "usage": [
+        "--trailing-comma <all|es5|none>"
+      ],
       "tip": [
-        "U: --trailing-comma <all|es5|none>",
         "Print trailing commas wherever possible when multi-line.",
         "Default: all"
       ],
@@ -756,8 +800,10 @@
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --version"
+      ],
       "tip": [
-        "U: -v, --version",
         "Print Prettier version."
       ]
     },
@@ -773,6 +819,18 @@
       "tip": [
         "Process files inside 'node_modules' directory."
       ]
+    },
+    {
+      "name": "--write",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --write"
+      ],
+      "tip": [
+        "Edit files in-place."
+      ]
     }
   ],
   "global_option": [
@@ -781,11 +839,13 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help [flag]"
+      ],
       "tip": [
-        "U: -h, --help [flag]",
         "Show CLI usage."
       ],
-      "next": 0
+      "next": []
     }
   ]
 }

@@ -8,18 +8,26 @@
   "next": [
     {
       "name": "alias",
+      "usage": [
+        "alias <list|add|rm> [<args>]"
+      ],
       "tip": [
-        "U: alias <list|add|rm> [<args>]",
         "Manage Scoop aliases"
       ],
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add <alias> <command> <description>"
+          ],
           "tip": [
-            "U: add <alias> <command> <description>",
-            "Add command aliases",
-            "E: add upgrade 'scoop update *' 'Updates all apps'",
-            "   Type 'scoop upgrade' to run 'scoop update *'"
+            "Add command aliases"
+          ],
+          "example": [
+            {
+              "cmd": "add upgrade 'scoop update *' 'Updates all apps'",
+              "desc": "Type 'scoop upgrade' to run 'scoop update *'"
+            }
           ]
         },
         {
@@ -30,12 +38,15 @@
         },
         {
           "name": "rm",
-          "tip": [
-            "U: rm <alias>",
-            "Remove command aliases",
-            "E: rm upgrade"
+          "usage": [
+            "rm <alias>"
           ],
-          "next": []
+          "tip": [
+            "Remove command aliases"
+          ],
+          "example": [
+            "rm upgrade"
+          ]
         }
       ]
     },
@@ -47,10 +58,14 @@
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add <bucket> [<repo>]"
+          ],
           "tip": [
-            "U: add <bucket> [<repo>]",
-            "Add Scoop bucket",
-            "E: add abyss https://github.com/abgox/abyss"
+            "Add Scoop bucket"
+          ],
+          "example": [
+            "add abyss https://github.com/abgox/abyss"
           ],
           "next": [
             {
@@ -214,8 +229,10 @@
           "name": "known",
           "tip": [
             "List all official known buckets",
-            "You can add them without the repo remote address",
-            "E: scoop bucket add extras"
+            "You can add them without the repo remote address"
+          ],
+          "example": [
+            "scoop bucket add extras"
           ]
         },
         {
@@ -226,31 +243,55 @@
         },
         {
           "name": "rm",
-          "tip": [
-            "U: rm <bucket>",
-            "Remove Scoop bucket",
-            "E: rm extras"
+          "usage": [
+            "rm <bucket>"
           ],
-          "next": []
+          "tip": [
+            "Remove Scoop bucket"
+          ],
+          "example": [
+            "rm extras"
+          ]
         }
       ]
     },
     {
       "name": "cache",
+      "usage": [
+        "cache show|rm [<app>] [<app>...]"
+      ],
       "tip": [
-        "U: cache show|rm [<app>] [<app>...]",
-        "Manage download cache",
-        "E: cache                --- Show all download caches",
-        "   cache show 7zip      --- Show 7zip download cache",
-        "   cache rm 7zip sudo   --- Remove 7zip sudo download cache"
+        "Manage download cache"
+      ],
+      "example": [
+        {
+          "cmd": "cache",
+          "desc": "Show all download caches"
+        },
+        {
+          "cmd": "cache show 7zip",
+          "desc": "Show 7zip download cache"
+        },
+        {
+          "cmd": "cache rm 7zip sudo",
+          "desc": "Remove 7zip sudo download cache"
+        }
       ],
       "next": [
         {
           "name": "rm",
           "tip": [
-            "Remove download cache for specified applications",
-            "E: rm *     --- Remove all download caches",
-            "   rm 7zip  --- Remove 7zip download cache"
+            "Remove download cache for specified applications"
+          ],
+          "example": [
+            {
+              "cmd": "rm *",
+              "desc": "Remove all download caches"
+            },
+            {
+              "cmd": "rm 7zip",
+              "desc": "Remove 7zip download cache"
+            }
           ],
           "next": [
             {
@@ -264,21 +305,26 @@
         {
           "name": "show",
           "tip": [
-            "Show download cache",
-            "E: show 7zip"
+            "Show download cache"
+          ],
+          "example": [
+            "show 7zip"
           ]
         }
       ]
     },
     {
       "name": "cat",
-      "tip": [
-        "U: cat <app>",
-        "Display the content of a specified application's manifest",
-        "You can change its style: scoop config cat_style <style>",
-        "E: cat 7zip"
+      "usage": [
+        "cat <app>"
       ],
-      "next": []
+      "tip": [
+        "Display the content of a specified application's manifest",
+        "You can change its style: scoop config cat_style <style>"
+      ],
+      "example": [
+        "cat 7zip"
+      ]
     },
     {
       "name": "checkup",
@@ -288,10 +334,14 @@
     },
     {
       "name": "cleanup",
+      "usage": [
+        "cleanup [options] <app|*>"
+      ],
       "tip": [
-        "U: cleanup [options] <app|*>",
-        "Clean up applications (Remove old versions)",
-        "E: cleanup 7zip"
+        "Clean up applications (Remove old versions)"
+      ],
+      "example": [
+        "cleanup 7zip"
       ],
       "option": [
         {
@@ -299,8 +349,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --all"
+          ],
           "tip": [
-            "U: -a, --all",
             "Clean up all applications (alternative to *)"
           ]
         },
@@ -309,8 +361,10 @@
           "alias": [
             "-k"
           ],
+          "usage": [
+            "-k, --cache"
+          ],
           "tip": [
-            "U: -k, --cache",
             "Remove outdated download cache"
           ]
         },
@@ -319,8 +373,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Clean up installed applications globally"
           ]
         }
@@ -336,23 +392,34 @@
     },
     {
       "name": "config",
+      "usage": [
+        "config [rm] name [value]"
+      ],
       "tip": [
-        "U: config [rm] name [value]",
-        "Manage Scoop configuration",
-        "E: config                  --- Get all configurations",
-        "   config <name>           --- Get configuration",
-        "   config <name> <value>   --- Set configuration",
-        "   config rm <name>        --- Remove configuration"
+        "Manage Scoop configuration"
+      ],
+      "example": [
+        {
+          "cmd": "config",
+          "desc": "Get all configurations"
+        },
+        {
+          "cmd": "config <name>",
+          "desc": "Get configuration"
+        },
+        {
+          "cmd": "config <name> <value>",
+          "desc": "Set configuration"
+        },
+        {
+          "cmd": "config rm <name>",
+          "desc": "Remove configuration"
+        }
       ],
       "next": [
         {
           "name": "abgox-abyss-app-shortcuts-action",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'abgox-abyss-app-shortcuts-action';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: 1",
             "The action of shortcut creation.",
             "It is a config in abyss bucket (https://github.com/abgox/abyss).",
@@ -386,11 +453,6 @@
         {
           "name": "abgox-abyss-app-uninstall-action",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'abgox-abyss-app-uninstall-action';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: 123",
             "The action of app uninstall.",
             "Note: Currently, whether or not to contain 2, it will remove the files/directories created via Link.",
@@ -432,11 +494,6 @@
         {
           "name": "abgox-scoop-i18n-language",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'abgox-scoop-i18n-language';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Specify the language of scoop-i18n.",
             "See https://github.com/abgox/scoop-i18n for details."
           ],
@@ -473,11 +530,6 @@
         {
           "name": "abgox-scoop-install-url-replace-from",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'abgox-scoop-install-url-replace-from';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "The URL prefix to be replaced.",
             "See https://github.com/abgox/scoop-tools for details."
           ],
@@ -493,11 +545,6 @@
         {
           "name": "abgox-scoop-install-url-replace-to",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'abgox-scoop-install-url-replace-to';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "The URL prefix to be replaced with.",
             "See https://github.com/abgox/scoop-tools for details."
           ],
@@ -513,11 +560,6 @@
         {
           "name": "aria2-enabled",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'aria2-enabled';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "Aria2 will be used for downloading of artifacts."
           ],
@@ -536,11 +578,6 @@
         {
           "name": "aria2-max-connection-per-server",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'aria2-max-connection-per-server';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: 5",
             "The maximum number of connections to one server for each download."
           ],
@@ -556,11 +593,6 @@
         {
           "name": "aria2-min-split-size",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'aria2-min-split-size';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: 5M",
             "Downloaded files will be splitted by this configured size and downloaded using multiple connections."
           ],
@@ -576,22 +608,12 @@
         {
           "name": "aria2-options",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'aria2-options';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Array of additional aria2 options."
           ]
         },
         {
           "name": "aria2-retry-wait",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'aria2-retry-wait';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: 2",
             "Number of seconds to wait between retries."
           ],
@@ -607,11 +629,6 @@
         {
           "name": "aria2-split",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'aria2-split';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: 5",
             "Number of connections used for downlaod."
           ],
@@ -627,11 +644,6 @@
         {
           "name": "aria2-warning-enabled",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'aria2-warning-enabled';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: true",
             "Enable Aria2c warning which is shown while downloading."
           ],
@@ -650,11 +662,6 @@
         {
           "name": "autostash_on_conflict",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'autostash_on_conflict';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "When a conflict is detected during updating, Scoop will auto-stash the uncommitted changes.",
             "Default is false, which will abort the update"
@@ -674,11 +681,6 @@
         {
           "name": "cache_path",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'cache_path';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Download cache path.",
             "Defaults to cache folder under Scoop root directory."
           ]
@@ -686,11 +688,6 @@
         {
           "name": "cat_style",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'cat_style';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "When set to a non-empty string, Scoop will use 'bat' to display the manifest for the `scoop cat` command and while doing manifest review.",
             "The accepted values are the same as ones passed to the --style flag of 'bat'.",
             "You need to install 'bat' using the following ways, otherwise errors will be thrown.",
@@ -733,8 +730,10 @@
               "alias": [
                 "header"
               ],
+              "usage": [
+                "header|header-filename"
+              ],
               "tip": [
-                "U: header|header-filename",
                 "show filenames before the content."
               ]
             },
@@ -773,11 +772,6 @@
         {
           "name": "debug",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'debug';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "Additional and detailed output will be shown."
           ],
@@ -796,11 +790,6 @@
         {
           "name": "default_architecture",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'default_architecture';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Allow to configure preferred architecture for application installation.",
             "If not specified, architecture is determined by system."
           ],
@@ -819,11 +808,6 @@
         {
           "name": "force_update",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'force_update';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "Force apps updating to bucket's version."
           ],
@@ -842,11 +826,6 @@
         {
           "name": "gh_token",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'gh_token';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "GitHub API token used to make authenticated requests.",
             "This is essential for checkver and similar functions to run without incurring rate limits and download from private repositories."
           ]
@@ -854,22 +833,12 @@
         {
           "name": "global_path",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'global_path';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Path to Scoop root directory for global apps."
           ]
         },
         {
           "name": "hold_update_until",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'hold_update_until';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Disable/Hold Scoop self-updates, until the specified date.",
             "`scoop hold scoop` will set the value to one day later.",
             "Should be in the format 'YYYY-MM-DD'",
@@ -879,11 +848,6 @@
         {
           "name": "ignore_running_processes",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'ignore_running_processes';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "When set to false (default), Scoop would stop its procedure immediately if it detects any target app process is running.",
             "Procedure here refers to reset/uninstall/update.",
@@ -904,11 +868,6 @@
         {
           "name": "no_junction",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'no_junction';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "The 'current' version alias will not be used. ",
             "Shims and shortcuts will point to specific version instead."
@@ -928,11 +887,6 @@
         {
           "name": "private_hosts",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'private_hosts';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Array of private hosts that need additional authentication.",
             "For example, if you want to access a private GitHub repository, you need to add the host to this list with 'match' and 'headers' strings."
           ]
@@ -940,13 +894,10 @@
         {
           "name": "proxy",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'proxy';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
-            "By default, Scoop will use the proxy settings from Internet Options, but with anonymous authentication.",
-            "E: 127.0.0.1:10808"
+            "By default, Scoop will use the proxy settings from Internet Options, but with anonymous authentication."
+          ],
+          "example": [
+            "127.0.0.1:10808"
           ],
           "next": [
             {
@@ -964,28 +915,17 @@
           "name": "rm",
           "tip": [
             "Remove configuration."
-          ],
-          "next": []
+          ]
         },
         {
           "name": "root_path",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'root_path';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Path to Scoop root directory."
           ]
         },
         {
           "name": "scoop_branch",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'scoop_branch';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Allow to use different branch than master.",
             "Could be used for testing specific functionalities before released into all users.",
             "If you want to receive updates earlier to test new functionalities use develop"
@@ -1002,11 +942,6 @@
         {
           "name": "scoop_repo",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'scoop_repo';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: http://github.com/ScoopInstaller/Scoop",
             "Git repository containing scoop source code.",
             "This configuration is useful for custom forks."
@@ -1023,22 +958,12 @@
         {
           "name": "shim",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'shim';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Choose scoop shim build."
           ]
         },
         {
           "name": "show_manifest",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'show_manifest';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "Displays the manifest of every app that's about to be installed, then asks user if they wish to proceed."
           ],
@@ -1057,11 +982,6 @@
         {
           "name": "show_update_log",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'show_update_log';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: true",
             "Show changed commits on `scoop update`"
           ],
@@ -1080,11 +1000,6 @@
         {
           "name": "update_nightly",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'update_nightly';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "Nightly version is formatted as 'nightly-yyyyMMdd' and will be updated after one day if this is set to true.",
             "Otherwise, nightly version will not be updated unless `--force` is used."
@@ -1104,11 +1019,6 @@
         {
           "name": "use_external_7zip",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'use_external_7zip';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "External 7zip (from PATH) will be used for archives extraction."
           ],
@@ -1127,11 +1037,6 @@
         {
           "name": "use_isolated_path",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'use_isolated_path';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "When set to true, Scoop will use `SCOOP_PATH` environment variable to store apps' `PATH`.",
             "When set to arbitrary non-empty string, Scoop will use that string as the environment variable name instead.",
@@ -1152,11 +1057,6 @@
         {
           "name": "use_lessmsi",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'use_lessmsi';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "Prefer lessmsi utility over native msiexec."
           ],
@@ -1175,11 +1075,6 @@
         {
           "name": "use_sqlite_cache",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'use_sqlite_cache';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "Default Value: false",
             "Use SQLite database for caching. ",
             "This is useful for speeding up `scoop search` and `scoop shim` commands."
@@ -1199,11 +1094,6 @@
         {
           "name": "virustotal_api_key",
           "tip": [
-            "{{",
-            "$c = Get-Content -Raw $PSCompletions._scoop_config_path -Encoding utf8 -ErrorAction SilentlyContinue | ConvertFrom-Json;",
-            "$v = $c.'virustotal_api_key';",
-            "if($v -ne $null) { 'Current value: ' + $v };",
-            "}}",
             "API key used for uploading/scanning files using virustotal."
           ]
         }
@@ -1211,29 +1101,50 @@
     },
     {
       "name": "create",
+      "usage": [
+        "create <url>"
+      ],
       "tip": [
-        "U: create <url>",
         "Create a custom app manifest"
       ]
     },
     {
       "name": "depends",
-      "tip": [
-        "U: depends <app>",
-        "List dependencies for an app, ordered by installation sequence",
-        "E: depends python"
+      "usage": [
+        "depends <app>"
       ],
-      "next": []
+      "tip": [
+        "List dependencies for an app, ordered by installation sequence"
+      ],
+      "example": [
+        "depends python"
+      ]
     },
     {
       "name": "download",
+      "usage": [
+        "download [options] <app>"
+      ],
       "tip": [
-        "U: download [options] <app>",
-        "Download apps in the cache folder and verify hashes",
-        "E: download abyss/Git.Git            --- Download an app without installing it",
-        "   download abyss/Git.Git@2.52.0     --- Download a different version of an app",
-        "   download https://xxx/app.json     --- Download an app from a manifest via URL",
-        "   download path/to/app.json         --- Download an app from a local manifest on the computer"
+        "Download apps in the cache folder and verify hashes"
+      ],
+      "example": [
+        {
+          "cmd": "download abyss/Git.Git",
+          "desc": "Download an app without installing it"
+        },
+        {
+          "cmd": "download abyss/Git.Git@2.52.0",
+          "desc": "Download a different version of an app"
+        },
+        {
+          "cmd": "download https://xxx/app.json",
+          "desc": "Download an app from a manifest via URL"
+        },
+        {
+          "cmd": "download path/to/app.json",
+          "desc": "Download an app from a local manifest on the computer"
+        }
       ],
       "option": [
         {
@@ -1241,8 +1152,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --arch <32bit|64bit|arm64>"
+          ],
           "tip": [
-            "U: -a, --arch <32bit|64bit|arm64>",
             "Use specified architecture if supported"
           ],
           "next": [
@@ -1271,8 +1184,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --force"
+          ],
           "tip": [
-            "U: -f, --force",
             "Force the download and overwrite the download cache"
           ]
         },
@@ -1287,8 +1202,10 @@
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --no-update-scoop"
+          ],
           "tip": [
-            "U: -u, --no-update-scoop",
             "Only download without updating Scoop if there's an update available"
           ]
         }
@@ -1296,10 +1213,17 @@
     },
     {
       "name": "export",
+      "usage": [
+        "export [-c] > scoop-data.json"
+      ],
       "tip": [
-        "U: export [-c] > scoop-data.json",
-        "Export installed apps, buckets (and optional config) in JSON format",
-        "E: export -c > ~/Desktop/scoop-data.json   --- Export to scoop-data.json under the Desktop directory"
+        "Export installed apps, buckets (and optional config) in JSON format"
+      ],
+      "example": [
+        {
+          "cmd": "export -c > ~/Desktop/scoop-data.json",
+          "desc": "Export to scoop-data.json under the Desktop directory"
+        }
       ],
       "option": [
         {
@@ -1307,8 +1231,10 @@
           "alias": [
             "-c"
           ],
+          "usage": [
+            "-c, --config"
+          ],
           "tip": [
-            "U: -c, --config",
             "Include Scoop's configuration in the export"
           ]
         }
@@ -1322,10 +1248,14 @@
     },
     {
       "name": "hold",
+      "usage": [
+        "hold [-g] <app>"
+      ],
       "tip": [
-        "U: hold [-g] <app>",
-        "Disable updates for a specified app",
-        "E: hold 7zip"
+        "Disable updates for a specified app"
+      ],
+      "example": [
+        "hold 7zip"
       ],
       "option": [
         {
@@ -1333,8 +1263,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Disable updates for a specified app globally"
           ]
         }
@@ -1342,27 +1274,38 @@
     },
     {
       "name": "home",
-      "tip": [
-        "U: home <app>",
-        "Open the homepage of an app",
-        "E: home abyss/abgox.scoop-i18n"
+      "usage": [
+        "home <app>"
       ],
-      "next": []
+      "tip": [
+        "Open the homepage of an app"
+      ],
+      "example": [
+        "home abyss/abgox.scoop-i18n"
+      ]
     },
     {
       "name": "import",
+      "usage": [
+        "import <path|url>"
+      ],
       "tip": [
-        "U: import <path|url>",
-        "Import installed apps, buckets (and config) from a specified file in JSON format",
-        "E: import ~/Desktop/scoop-data.json"
+        "Import installed apps, buckets (and config) from a specified file in JSON format"
+      ],
+      "example": [
+        "import ~/Desktop/scoop-data.json"
       ]
     },
     {
       "name": "info",
+      "usage": [
+        "info [--verbose] <app>"
+      ],
       "tip": [
-        "U: info [--verbose] <app>",
-        "Display information about a specific application",
-        "E: info abyss/abgox.scoop-i18n"
+        "Display information about a specific application"
+      ],
+      "example": [
+        "info abyss/abgox.scoop-i18n"
       ],
       "option": [
         {
@@ -1375,13 +1318,29 @@
     },
     {
       "name": "install",
+      "usage": [
+        "install [options] <app>"
+      ],
       "tip": [
-        "U: install [options] <app>",
-        "Install application",
-        "E: install abgox.scoop-i18n                           --- Search abgox.scoop-i18n in each bucket and install",
-        "   install abyss/abgox.scoop-i18n                     --- Search abgox.scoop-i18n only in abyss and install",
-        "   install --no-update-scoop abyss/abgox.scoop-i18n   --- Install application without updating Scoop",
-        "   install --skip-hash-check abyss/abgox.scoop-i18n   --- Install application without hash verification"
+        "Install application"
+      ],
+      "example": [
+        {
+          "cmd": "install abgox.scoop-i18n",
+          "desc": "Search abgox.scoop-i18n in each bucket and install"
+        },
+        {
+          "cmd": "install abyss/abgox.scoop-i18n",
+          "desc": "Search abgox.scoop-i18n only in abyss and install"
+        },
+        {
+          "cmd": "install --no-update-scoop abyss/abgox.scoop-i18n",
+          "desc": "Install application without updating Scoop"
+        },
+        {
+          "cmd": "install --skip-hash-check abyss/abgox.scoop-i18n",
+          "desc": "Install application without hash verification"
+        }
       ],
       "option": [
         {
@@ -1389,8 +1348,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --arch <32bit|64bit|arm64>"
+          ],
           "tip": [
-            "U: -a, --arch <32bit|64bit|arm64>",
             "Use specified architecture if supported"
           ],
           "next": [
@@ -1419,8 +1380,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Install application Globally"
           ]
         },
@@ -1429,8 +1392,10 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --independent"
+          ],
           "tip": [
-            "U: -i, --independent",
             "Don't auto install dependencies"
           ]
         },
@@ -1439,8 +1404,10 @@
           "alias": [
             "-k"
           ],
+          "usage": [
+            "-k, --no-cache"
+          ],
           "tip": [
-            "U: -k, --no-cache",
             "Don't use download cache"
           ]
         },
@@ -1449,8 +1416,10 @@
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --no-update-scoop"
+          ],
           "tip": [
-            "U: -u, --no-update-scoop",
             "Install application without updating Scoop"
           ]
         },
@@ -1459,8 +1428,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --skip-hash-check"
+          ],
           "tip": [
-            "U: -s, --skip-hash-check",
             "Skip hash verification"
           ]
         }
@@ -1468,28 +1439,49 @@
     },
     {
       "name": "list",
+      "usage": [
+        "list [query]"
+      ],
       "tip": [
-        "U: list [query]",
-        "List installed applications",
-        "E: list      --- List all installed applications",
-        "   list i    --- List applications with names containing 'i'",
-        "   list ^i   --- List applications starting with 'i'",
-        "   list i$   --- List applications ending with 'i'"
+        "List installed applications"
+      ],
+      "example": [
+        {
+          "cmd": "list",
+          "desc": "List all installed applications"
+        },
+        {
+          "cmd": "list i",
+          "desc": "List applications with names containing 'i'"
+        },
+        {
+          "cmd": "list ^i",
+          "desc": "List applications starting with 'i'"
+        },
+        {
+          "cmd": "list i$",
+          "desc": "List applications ending with 'i'"
+        }
       ]
     },
     {
       "name": "prefix",
-      "tip": [
-        "U: prefix <app>",
-        "Return the path for a specified application",
-        "E: prefix abgox.scoop-i18n"
+      "usage": [
+        "prefix <app>"
       ],
-      "next": []
+      "tip": [
+        "Return the path for a specified application"
+      ],
+      "example": [
+        "prefix abgox.scoop-i18n"
+      ]
     },
     {
       "name": "reset",
+      "usage": [
+        "reset <app|*>"
+      ],
       "tip": [
-        "U: reset <app|*>",
         "Reset applications to resolve conflicts"
       ],
       "next": [
@@ -1503,52 +1495,74 @@
     },
     {
       "name": "search",
+      "usage": [
+        "search <query>"
+      ],
       "tip": [
-        "U: search <query>",
-        "Search installable applications",
-        "E: search sudo        --- Search sudo in each bucket (order follows scoop bucket list)",
-        "   search main/sudo   --- Search sudo only in main"
+        "Search installable applications"
+      ],
+      "example": [
+        {
+          "cmd": "search sudo",
+          "desc": "Search sudo in each bucket (order follows scoop bucket list)"
+        },
+        {
+          "cmd": "search main/sudo",
+          "desc": "Search sudo only in main"
+        }
       ]
     },
     {
       "name": "shim",
+      "usage": [
+        "shim <list|add|rm|info|alter> [<shim>...] [-g] [other_args]"
+      ],
       "tip": [
-        "U: shim <list|add|rm|info|alter> [<shim>...] [-g] [other_args]",
         "Manage Scoop shims"
       ],
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add <shim> <command_path> [<args>...]"
+          ],
           "tip": [
-            "U: add <shim> <command_path> [<args>...]",
             "Add custom shims"
           ]
         },
         {
           "name": "alter",
+          "usage": [
+            "alter <shim>"
+          ],
           "tip": [
-            "U: alter <shim>",
             "Replace the target source of a shim"
           ]
         },
         {
           "name": "info",
+          "usage": [
+            "info <shim>"
+          ],
           "tip": [
-            "U: info <shim>",
             "Display information about a shim"
           ]
         },
         {
           "name": "list",
+          "usage": [
+            "list [<shim>|<pattern>...]"
+          ],
           "tip": [
-            "U: list [<shim>|<pattern>...]",
             "List all shims or matching shims"
           ]
         },
         {
           "name": "rm",
+          "usage": [
+            "rm <shim> [<shim>...]"
+          ],
           "tip": [
-            "U: rm <shim> [<shim>...]",
             "Remove shims",
             "(This may remove shims added by application manifests, be cautious)"
           ]
@@ -1557,10 +1571,14 @@
     },
     {
       "name": "status",
+      "usage": [
+        "status [-l|--local]"
+      ],
       "tip": [
-        "U: status [-l|--local]",
-        "Display status and check for new app versions",
-        "E: status"
+        "Display status and check for new app versions"
+      ],
+      "example": [
+        "status"
       ],
       "option": [
         {
@@ -1568,8 +1586,10 @@
           "alias": [
             "-l"
           ],
+          "usage": [
+            "-l, --local"
+          ],
           "tip": [
-            "U: -l, --local",
             "Check the status of locally installed apps only and disable remote fetching/checking of Scoop and buckets"
           ]
         }
@@ -1577,10 +1597,14 @@
     },
     {
       "name": "unhold",
+      "usage": [
+        "unhold [-g] <app>"
+      ],
       "tip": [
-        "U: unhold [-g] <app>",
-        "Enable updates for a specified app",
-        "E: unhold 7zip"
+        "Enable updates for a specified app"
+      ],
+      "example": [
+        "unhold 7zip"
       ],
       "option": [
         {
@@ -1588,8 +1612,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Enable updates for a specified app globally"
           ]
         }
@@ -1597,10 +1623,14 @@
     },
     {
       "name": "uninstall",
+      "usage": [
+        "uninstall [options] <app>"
+      ],
       "tip": [
-        "U: uninstall [options] <app>",
-        "Uninstall application",
-        "E: uninstall abgox.scoop-i18n"
+        "Uninstall application"
+      ],
+      "example": [
+        "uninstall abgox.scoop-i18n"
       ],
       "option": [
         {
@@ -1608,8 +1638,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Uninstall application Globally"
           ]
         },
@@ -1618,8 +1650,10 @@
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --purge"
+          ],
           "tip": [
-            "U: -p, --purge",
             "Remove persistent data under the persist directory"
           ]
         }
@@ -1627,11 +1661,21 @@
     },
     {
       "name": "update",
+      "usage": [
+        "update [options] [<app>]"
+      ],
       "tip": [
-        "U: update [options] [<app>]",
-        "Update application, Scoop or bucket",
-        "E: update                    --- Update Scoop and bucket",
-        "   update abgox.scoop-i18n   --- Update abgox.scoop-i18n"
+        "Update application, Scoop or bucket"
+      ],
+      "example": [
+        {
+          "cmd": "update",
+          "desc": "Update Scoop and bucket"
+        },
+        {
+          "cmd": "update abgox.scoop-i18n",
+          "desc": "Update abgox.scoop-i18n"
+        }
       ],
       "option": [
         {
@@ -1639,8 +1683,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --all"
+          ],
           "tip": [
-            "U: -a, --all",
             "Update all applications (alternative to *)"
           ]
         },
@@ -1649,8 +1695,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --force"
+          ],
           "tip": [
-            "U: -f, --force",
             "Force update even if no new versions"
           ]
         },
@@ -1659,8 +1707,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Update installed applications globally"
           ]
         },
@@ -1669,8 +1719,10 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --independent"
+          ],
           "tip": [
-            "U: -i, --independent",
             "Don't auto install dependencies"
           ]
         },
@@ -1679,8 +1731,10 @@
           "alias": [
             "-k"
           ],
+          "usage": [
+            "-k, --no-cache"
+          ],
           "tip": [
-            "U: -k, --no-cache",
             "Don't use download cache"
           ]
         },
@@ -1689,8 +1743,10 @@
           "alias": [
             "-q"
           ],
+          "usage": [
+            "-q, --quiet"
+          ],
           "tip": [
-            "U: -q, --quiet",
             "Hide irrelevant messages"
           ]
         },
@@ -1699,8 +1755,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --skip-hash-check"
+          ],
           "tip": [
-            "U: -s, --skip-hash-check",
             "Skip hash verification"
           ]
         }
@@ -1716,8 +1774,10 @@
     },
     {
       "name": "virustotal",
+      "usage": [
+        "virustotal [options] [*|<app1>...]"
+      ],
       "tip": [
-        "U: virustotal [options] [*|<app1>...]",
         "Look up the hash or URL of an app on virustotal.com"
       ],
       "option": [
@@ -1726,8 +1786,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --all"
+          ],
           "tip": [
-            "U: -a, --all",
             "Check all installed apps"
           ]
         },
@@ -1736,8 +1798,10 @@
           "alias": [
             "-n"
           ],
+          "usage": [
+            "-n, --no-depends"
+          ],
           "tip": [
-            "U: -n, --no-depends",
             "By default, it also checks all dependencies. This option bypasses it"
           ]
         },
@@ -1746,8 +1810,10 @@
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --no-update-scoop"
+          ],
           "tip": [
-            "U: -u, --no-update-scoop",
             "Only check without updating Scoop if there's an update available"
           ]
         },
@@ -1756,8 +1822,10 @@
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --passthru"
+          ],
           "tip": [
-            "U: -p, --passthru",
             "Return the reports as objects"
           ]
         },
@@ -1766,8 +1834,10 @@
           "alias": [
             "-s"
           ],
+          "usage": [
+            "-s, --scan"
+          ],
           "tip": [
-            "U: -s, --scan",
             "Submit download URLs for analysis (and future retrieval) for packages without VirusTotal information",
             "This requires configuring virustotal_api_key"
           ]
@@ -1784,10 +1854,14 @@
     },
     {
       "name": "which",
+      "usage": [
+        "which <command>"
+      ],
       "tip": [
-        "U: which <command>",
-        "Locate a shim/executable (similar to the 'which' command on Linux)",
-        "E: which scoop"
+        "Locate a shim/executable (similar to the 'which' command on Linux)"
+      ],
+      "example": [
+        "which scoop"
       ]
     }
   ],
@@ -1797,8 +1871,10 @@
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --version"
+      ],
       "tip": [
-        "U: -v, --version",
         "Show Scoop version and the latest commit information of the buckets"
       ]
     }
@@ -1809,8 +1885,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "Show command help"
       ]
     }
@@ -1828,12 +1906,5 @@
         "Multiple buckets are separated by |, for example \"main|extras\""
       ]
     }
-  ],
-  "info": {
-    "tip": {
-      "warning": {
-        "config": "Scoop does not have a root_path configuration. Please set it first: scoop config root_path <scoop_path>"
-      }
-    }
-  }
+  ]
 }

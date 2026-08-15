@@ -8,40 +8,53 @@
   "next": [
     {
       "name": "build",
+      "usage": [
+        "build [OPTIONS] PATH|URL"
+      ],
       "tip": [
-        "U: build [OPTIONS] PATH|URL",
         "从 Containerfile 或 Dockerfile 构建镜像。"
       ],
       "option": [
         {
           "name": "--build-arg",
+          "usage": [
+            "--build-arg KEY=VALUE"
+          ],
           "tip": [
-            "U: --build-arg KEY=VALUE",
-            "设置构建时变量。可重复使用。",
-            "E: --build-arg HTTP_PROXY=http://proxy --- 构建时设置代理"
+            "设置构建时变量。可重复使用。"
+          ],
+          "example": [
+            {
+              "cmd": "--build-arg HTTP_PROXY=http://proxy",
+              "desc": "构建时设置代理"
+            }
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--file",
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --file FILE"
+          ],
           "tip": [
-            "U: -f, --file FILE",
             "Containerfile 或 Dockerfile 的路径。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--label",
+          "usage": [
+            "--label KEY=VALUE"
+          ],
           "tip": [
-            "U: --label KEY=VALUE",
             "为镜像设置元数据。可重复使用。"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-cache",
@@ -60,19 +73,23 @@
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --tag NAME[:TAG]"
+          ],
           "tip": [
-            "U: -t, --tag NAME[:TAG]",
             "镜像的名称和可选的标签。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--target",
+          "usage": [
+            "--target STAGE"
+          ],
           "tip": [
-            "U: --target STAGE",
             "设置要构建的目标构建阶段。"
           ],
-          "next": 0
+          "next": []
         }
       ],
       "next": [
@@ -92,49 +109,61 @@
       "next": [
         {
           "name": "attach",
-          "tip": [
-            "U: attach CONTAINER",
-            "将本地的 stdin、stdout 和 stderr 附加到正在运行的容器。"
+          "usage": [
+            "attach CONTAINER"
           ],
-          "next": 0
+          "tip": [
+            "将本地的 stdin、stdout 和 stderr 附加到正在运行的容器。"
+          ]
         },
         {
           "name": "commit",
-          "tip": [
-            "U: commit CONTAINER [REPOSITORY[:TAG]]",
-            "根据容器的更改创建新镜像。"
+          "usage": [
+            "commit CONTAINER [REPOSITORY[:TAG]]"
           ],
-          "next": 0
+          "tip": [
+            "根据容器的更改创建新镜像。"
+          ]
         },
         {
           "name": "cp",
-          "tip": [
-            "U: cp SRC_PATH DEST_PATH",
-            "在容器和本地文件系统之间复制文件或文件夹。",
-            "E: cp mycontainer:/app/log.txt . --- 从容器复制文件到主机"
+          "usage": [
+            "cp SRC_PATH DEST_PATH"
           ],
-          "next": 0
+          "tip": [
+            "在容器和本地文件系统之间复制文件或文件夹。"
+          ],
+          "example": [
+            {
+              "cmd": "cp mycontainer:/app/log.txt .",
+              "desc": "从容器复制文件到主机"
+            }
+          ]
         },
         {
           "name": "create",
-          "tip": [
-            "U: create [OPTIONS] IMAGE [COMMAND] [ARG...]",
-            "创建新容器但不启动它。"
+          "usage": [
+            "create [OPTIONS] IMAGE [COMMAND] [ARG...]"
           ],
-          "next": 0
+          "tip": [
+            "创建新容器但不启动它。"
+          ]
         },
         {
           "name": "diff",
-          "tip": [
-            "U: diff CONTAINER",
-            "检查容器文件系统上文件或目录的更改。"
+          "usage": [
+            "diff CONTAINER"
           ],
-          "next": 0
+          "tip": [
+            "检查容器文件系统上文件或目录的更改。"
+          ]
         },
         {
           "name": "exec",
+          "usage": [
+            "exec [OPTIONS] CONTAINER COMMAND [ARG...]"
+          ],
           "tip": [
-            "U: exec [OPTIONS] CONTAINER COMMAND [ARG...]",
             "在正在运行的容器中执行命令。"
           ],
           "option": [
@@ -143,8 +172,10 @@
               "alias": [
                 "-d"
               ],
+              "usage": [
+                "-d, --detach"
+              ],
               "tip": [
-                "U: -d, --detach",
                 "分离模式：在后台运行命令。"
               ]
             },
@@ -153,20 +184,24 @@
               "alias": [
                 "-e"
               ],
+              "usage": [
+                "-e, --env KEY=VALUE"
+              ],
               "tip": [
-                "U: -e, --env KEY=VALUE",
                 "设置环境变量。可重复使用。"
               ],
               "repeat": 99,
-              "next": 0
+              "next": []
             },
             {
               "name": "--interactive",
               "alias": [
                 "-i"
               ],
+              "usage": [
+                "-i, --interactive"
+              ],
               "tip": [
-                "U: -i, --interactive",
                 "即使未附加也保持 STDIN 打开。"
               ]
             },
@@ -175,8 +210,10 @@
               "alias": [
                 "-t"
               ],
+              "usage": [
+                "-t, --tty"
+              ],
               "tip": [
-                "U: -t, --tty",
                 "分配伪 TTY。"
               ]
             },
@@ -185,49 +222,55 @@
               "alias": [
                 "-u"
               ],
+              "usage": [
+                "-u, --user USER"
+              ],
               "tip": [
-                "U: -u, --user USER",
                 "运行命令所用的用户名或 UID。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--workdir",
               "alias": [
                 "-w"
               ],
+              "usage": [
+                "-w, --workdir DIR"
+              ],
               "tip": [
-                "U: -w, --workdir DIR",
                 "容器内的工作目录。"
               ],
-              "next": 0
+              "next": []
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "export",
-          "tip": [
-            "U: export CONTAINER",
-            "将容器的文件系统导出为 tar 归档文件。"
+          "usage": [
+            "export CONTAINER"
           ],
-          "next": 0
+          "tip": [
+            "将容器的文件系统导出为 tar 归档文件。"
+          ]
         },
         {
           "name": "inspect",
-          "tip": [
-            "U: inspect CONTAINER [CONTAINER...]",
-            "显示一个或多个容器的详细信息。"
+          "usage": [
+            "inspect CONTAINER [CONTAINER...]"
           ],
-          "next": 0
+          "tip": [
+            "显示一个或多个容器的详细信息。"
+          ]
         },
         {
           "name": "kill",
-          "tip": [
-            "U: kill CONTAINER [CONTAINER...]",
-            "终止一个或多个正在运行的容器。"
+          "usage": [
+            "kill CONTAINER [CONTAINER...]"
           ],
-          "next": 0
+          "tip": [
+            "终止一个或多个正在运行的容器。"
+          ]
         },
         {
           "name": "list",
@@ -235,8 +278,10 @@
             "ls",
             "ps"
           ],
+          "usage": [
+            "ls|ps|list [OPTIONS]"
+          ],
           "tip": [
-            "U: ls|ps|list [OPTIONS]",
             "列出容器。"
           ],
           "option": [
@@ -245,8 +290,10 @@
               "alias": [
                 "-a"
               ],
+              "usage": [
+                "-a, --all"
+              ],
               "tip": [
-                "U: -a, --all",
                 "显示所有容器（默认只显示正在运行的）。"
               ]
             },
@@ -255,39 +302,47 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --filter KEY=VALUE"
+              ],
               "tip": [
-                "U: -f, --filter KEY=VALUE",
                 "根据条件过滤输出。可重复使用。"
               ],
               "repeat": 99,
-              "next": 0
+              "next": []
             },
             {
               "name": "--format",
+              "usage": [
+                "--format TEMPLATE"
+              ],
               "tip": [
-                "U: --format TEMPLATE",
                 "使用 Go 模板美化输出容器信息。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--last",
               "alias": [
                 "-n"
               ],
+              "usage": [
+                "-n, --last N"
+              ],
               "tip": [
-                "U: -n, --last N",
                 "显示最近创建的 n 个容器（包括所有状态）。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--latest",
               "alias": [
                 "-l"
               ],
+              "usage": [
+                "-l, --latest"
+              ],
               "tip": [
-                "U: -l, --latest",
                 "显示最近创建的容器（包括所有状态）。"
               ]
             },
@@ -296,8 +351,10 @@
               "alias": [
                 "-q"
               ],
+              "usage": [
+                "-q, --quiet"
+              ],
               "tip": [
-                "U: -q, --quiet",
                 "只显示容器 ID。"
               ]
             },
@@ -306,8 +363,10 @@
               "alias": [
                 "-s"
               ],
+              "usage": [
+                "-s, --size"
+              ],
               "tip": [
-                "U: -s, --size",
                 "显示总文件大小。"
               ]
             }
@@ -315,8 +374,10 @@
         },
         {
           "name": "logs",
+          "usage": [
+            "logs CONTAINER"
+          ],
           "tip": [
-            "U: logs CONTAINER",
             "获取容器的日志。"
           ],
           "option": [
@@ -325,47 +386,54 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --follow"
+              ],
               "tip": [
-                "U: -f, --follow",
                 "跟踪日志输出。"
               ]
             },
             {
               "name": "--tail",
+              "usage": [
+                "--tail LINES"
+              ],
               "tip": [
-                "U: --tail LINES",
                 "从日志末尾显示的行数。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--timestamps",
               "alias": [
                 "-t"
               ],
+              "usage": [
+                "-t, --timestamps"
+              ],
               "tip": [
-                "U: -t, --timestamps",
                 "显示时间戳。"
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "pause",
-          "tip": [
-            "U: pause CONTAINER [CONTAINER...]",
-            "暂停一个或多个容器内的所有进程。"
+          "usage": [
+            "pause CONTAINER [CONTAINER...]"
           ],
-          "next": 0
+          "tip": [
+            "暂停一个或多个容器内的所有进程。"
+          ]
         },
         {
           "name": "port",
-          "tip": [
-            "U: port CONTAINER [PRIVATE_PORT[/PROTO]]",
-            "列出容器的端口映射或特定端口的映射。"
+          "usage": [
+            "port CONTAINER [PRIVATE_PORT[/PROTO]]"
           ],
-          "next": 0
+          "tip": [
+            "列出容器的端口映射或特定端口的映射。"
+          ]
         },
         {
           "name": "prune",
@@ -378,8 +446,10 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --force"
+              ],
               "tip": [
-                "U: -f, --force",
                 "不提示确认。"
               ]
             }
@@ -387,16 +457,19 @@
         },
         {
           "name": "rename",
-          "tip": [
-            "U: rename CONTAINER NEW_NAME",
-            "重命名容器。"
+          "usage": [
+            "rename CONTAINER NEW_NAME"
           ],
-          "next": 0
+          "tip": [
+            "重命名容器。"
+          ]
         },
         {
           "name": "restart",
+          "usage": [
+            "restart CONTAINER [CONTAINER...]"
+          ],
           "tip": [
-            "U: restart CONTAINER [CONTAINER...]",
             "重启一个或多个容器。"
           ],
           "option": [
@@ -405,19 +478,22 @@
               "alias": [
                 "-t"
               ],
+              "usage": [
+                "-t, --time SECONDS"
+              ],
               "tip": [
-                "U: -t, --time SECONDS",
                 "在终止容器前等待停止的秒数。"
               ],
-              "next": 0
+              "next": []
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "rm",
+          "usage": [
+            "rm [OPTIONS] CONTAINER [CONTAINER...]"
+          ],
           "tip": [
-            "U: rm [OPTIONS] CONTAINER [CONTAINER...]",
             "移除一个或多个容器。"
           ],
           "option": [
@@ -426,8 +502,10 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --force"
+              ],
               "tip": [
-                "U: -f, --force",
                 "强制移除正在运行的容器（使用 SIGKILL）。"
               ]
             },
@@ -436,26 +514,30 @@
               "alias": [
                 "-v"
               ],
+              "usage": [
+                "-v, --volumes"
+              ],
               "tip": [
-                "U: -v, --volumes",
                 "移除与容器关联的匿名卷。"
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "run",
-          "tip": [
-            "U: run [OPTIONS] IMAGE [COMMAND] [ARG...]",
-            "从镜像创建并运行新容器。"
+          "usage": [
+            "run [OPTIONS] IMAGE [COMMAND] [ARG...]"
           ],
-          "next": 0
+          "tip": [
+            "从镜像创建并运行新容器。"
+          ]
         },
         {
           "name": "start",
+          "usage": [
+            "start CONTAINER [CONTAINER...]"
+          ],
           "tip": [
-            "U: start CONTAINER [CONTAINER...]",
             "启动一个或多个已停止的容器。"
           ],
           "option": [
@@ -464,8 +546,10 @@
               "alias": [
                 "-a"
               ],
+              "usage": [
+                "-a, --attach"
+              ],
               "tip": [
-                "U: -a, --attach",
                 "附加 STDOUT 或 STDERR 并转发信号。"
               ]
             },
@@ -474,18 +558,21 @@
               "alias": [
                 "-i"
               ],
+              "usage": [
+                "-i, --interactive"
+              ],
               "tip": [
-                "U: -i, --interactive",
                 "附加容器的 STDIN。"
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "stats",
+          "usage": [
+            "stats [OPTIONS] [CONTAINER...]"
+          ],
           "tip": [
-            "U: stats [OPTIONS] [CONTAINER...]",
             "显示容器资源使用统计的实时流。"
           ],
           "option": [
@@ -494,18 +581,22 @@
               "alias": [
                 "-a"
               ],
+              "usage": [
+                "-a, --all"
+              ],
               "tip": [
-                "U: -a, --all",
                 "显示所有容器（默认只显示正在运行的）。"
               ]
             },
             {
               "name": "--format",
+              "usage": [
+                "--format TEMPLATE"
+              ],
               "tip": [
-                "U: --format TEMPLATE",
                 "使用 Go 模板美化输出统计信息。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--no-stream",
@@ -519,13 +610,14 @@
                 "不截断输出。"
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "stop",
+          "usage": [
+            "stop CONTAINER [CONTAINER...]"
+          ],
           "tip": [
-            "U: stop CONTAINER [CONTAINER...]",
             "停止一个或多个正在运行的容器。"
           ],
           "option": [
@@ -534,53 +626,60 @@
               "alias": [
                 "-t"
               ],
+              "usage": [
+                "-t, --time SECONDS"
+              ],
               "tip": [
-                "U: -t, --time SECONDS",
                 "在终止前等待停止的秒数。"
               ],
-              "next": 0
+              "next": []
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "top",
-          "tip": [
-            "U: top CONTAINER",
-            "显示容器中正在运行的进程。"
+          "usage": [
+            "top CONTAINER"
           ],
-          "next": 0
+          "tip": [
+            "显示容器中正在运行的进程。"
+          ]
         },
         {
           "name": "unpause",
-          "tip": [
-            "U: unpause CONTAINER [CONTAINER...]",
-            "恢复一个或多个容器内暂停的所有进程。"
+          "usage": [
+            "unpause CONTAINER [CONTAINER...]"
           ],
-          "next": 0
+          "tip": [
+            "恢复一个或多个容器内暂停的所有进程。"
+          ]
         },
         {
           "name": "update",
-          "tip": [
-            "U: update [OPTIONS] CONTAINER [CONTAINER...]",
-            "更新一个或多个容器的配置。"
+          "usage": [
+            "update [OPTIONS] CONTAINER [CONTAINER...]"
           ],
-          "next": 0
+          "tip": [
+            "更新一个或多个容器的配置。"
+          ]
         },
         {
           "name": "wait",
-          "tip": [
-            "U: wait CONTAINER [CONTAINER...]",
-            "阻塞直到一个或多个容器停止，然后打印它们的退出代码。"
+          "usage": [
+            "wait CONTAINER [CONTAINER...]"
           ],
-          "next": 0
+          "tip": [
+            "阻塞直到一个或多个容器停止，然后打印它们的退出代码。"
+          ]
         }
       ]
     },
     {
       "name": "exec",
+      "usage": [
+        "exec [OPTIONS] CONTAINER COMMAND [ARG...]"
+      ],
       "tip": [
-        "U: exec [OPTIONS] CONTAINER COMMAND [ARG...]",
         "在正在运行的容器中执行命令。"
       ],
       "option": [
@@ -589,8 +688,10 @@
           "alias": [
             "-d"
           ],
+          "usage": [
+            "-d, --detach"
+          ],
           "tip": [
-            "U: -d, --detach",
             "分离模式：在后台运行命令。"
           ]
         },
@@ -599,20 +700,24 @@
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --env KEY=VALUE"
+          ],
           "tip": [
-            "U: -e, --env KEY=VALUE",
             "设置环境变量。可重复使用。"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--interactive",
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --interactive"
+          ],
           "tip": [
-            "U: -i, --interactive",
             "即使未附加也保持 STDIN 打开。"
           ]
         },
@@ -621,8 +726,10 @@
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --tty"
+          ],
           "tip": [
-            "U: -t, --tty",
             "分配伪 TTY。"
           ]
         },
@@ -631,25 +738,28 @@
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --user USER"
+          ],
           "tip": [
-            "U: -u, --user USER",
             "运行命令所用的用户名或 UID。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--workdir",
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --workdir DIR"
+          ],
           "tip": [
-            "U: -w, --workdir DIR",
             "容器内的工作目录。"
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "image",
@@ -659,43 +769,49 @@
       "next": [
         {
           "name": "build",
-          "tip": [
-            "U: build [OPTIONS] PATH|URL",
-            "从 Containerfile 或 Dockerfile 构建镜像。"
+          "usage": [
+            "build [OPTIONS] PATH|URL"
           ],
-          "next": 0
+          "tip": [
+            "从 Containerfile 或 Dockerfile 构建镜像。"
+          ]
         },
         {
           "name": "history",
-          "tip": [
-            "U: history IMAGE",
-            "显示镜像的历史记录。"
+          "usage": [
+            "history IMAGE"
           ],
-          "next": 0
+          "tip": [
+            "显示镜像的历史记录。"
+          ]
         },
         {
           "name": "import",
-          "tip": [
-            "U: import FILE|URL [REPOSITORY[:TAG]]",
-            "从 tar 包导入内容以创建文件系统镜像。"
+          "usage": [
+            "import FILE|URL [REPOSITORY[:TAG]]"
           ],
-          "next": 0
+          "tip": [
+            "从 tar 包导入内容以创建文件系统镜像。"
+          ]
         },
         {
           "name": "inspect",
-          "tip": [
-            "U: inspect IMAGE [IMAGE...]",
-            "显示一个或多个镜像的详细信息。"
+          "usage": [
+            "inspect IMAGE [IMAGE...]"
           ],
-          "next": 0
+          "tip": [
+            "显示一个或多个镜像的详细信息。"
+          ]
         },
         {
           "name": "list",
           "alias": [
             "ls"
           ],
+          "usage": [
+            "ls|list [OPTIONS]"
+          ],
           "tip": [
-            "U: ls|list [OPTIONS]",
             "列出镜像。"
           ],
           "option": [
@@ -704,8 +820,10 @@
               "alias": [
                 "-a"
               ],
+              "usage": [
+                "-a, --all"
+              ],
               "tip": [
-                "U: -a, --all",
                 "显示所有镜像（默认隐藏中间镜像）。"
               ]
             },
@@ -720,20 +838,24 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --filter KEY=VALUE"
+              ],
               "tip": [
-                "U: -f, --filter KEY=VALUE",
                 "根据条件过滤输出。可重复使用。"
               ],
               "repeat": 99,
-              "next": 0
+              "next": []
             },
             {
               "name": "--format",
+              "usage": [
+                "--format TEMPLATE"
+              ],
               "tip": [
-                "U: --format TEMPLATE",
                 "使用 Go 模板美化输出镜像信息。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--no-trunc",
@@ -746,8 +868,10 @@
               "alias": [
                 "-q"
               ],
+              "usage": [
+                "-q, --quiet"
+              ],
               "tip": [
-                "U: -q, --quiet",
                 "只显示镜像 ID。"
               ]
             }
@@ -755,8 +879,10 @@
         },
         {
           "name": "load",
+          "usage": [
+            "load [OPTIONS]"
+          ],
           "tip": [
-            "U: load [OPTIONS]",
             "从 tar 归档文件或 STDIN 加载镜像。"
           ],
           "option": [
@@ -765,19 +891,23 @@
               "alias": [
                 "-i"
               ],
+              "usage": [
+                "-i, --input FILE"
+              ],
               "tip": [
-                "U: -i, --input FILE",
                 "从 tar 归档文件读取，而不是 STDIN。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--quiet",
               "alias": [
                 "-q"
               ],
+              "usage": [
+                "-q, --quiet"
+              ],
               "tip": [
-                "U: -q, --quiet",
                 "抑制加载输出。"
               ]
             }
@@ -794,8 +924,10 @@
               "alias": [
                 "-a"
               ],
+              "usage": [
+                "-a, --all"
+              ],
               "tip": [
-                "U: -a, --all",
                 "移除所有未使用的镜像，而不仅仅是悬空镜像。"
               ]
             },
@@ -804,8 +936,10 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --force"
+              ],
               "tip": [
-                "U: -f, --force",
                 "不提示确认。"
               ]
             }
@@ -813,36 +947,43 @@
         },
         {
           "name": "pull",
+          "usage": [
+            "pull NAME[:TAG|@DIGEST]"
+          ],
           "tip": [
-            "U: pull NAME[:TAG|@DIGEST]",
             "从注册表下载镜像。"
           ],
           "option": [
             {
               "name": "--platform",
+              "usage": [
+                "--platform PLATFORM"
+              ],
               "tip": [
-                "U: --platform PLATFORM",
                 "如果服务器支持多平台，则设置平台。"
               ],
-              "next": 0
+              "next": []
             },
             {
               "name": "--quiet",
               "alias": [
                 "-q"
               ],
+              "usage": [
+                "-q, --quiet"
+              ],
               "tip": [
-                "U: -q, --quiet",
                 "抑制详细输出。"
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "push",
+          "usage": [
+            "push NAME[:TAG]"
+          ],
           "tip": [
-            "U: push NAME[:TAG]",
             "将镜像上传到注册表。"
           ],
           "option": [
@@ -851,18 +992,21 @@
               "alias": [
                 "-q"
               ],
+              "usage": [
+                "-q, --quiet"
+              ],
               "tip": [
-                "U: -q, --quiet",
                 "抑制详细输出。"
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "rm",
+          "usage": [
+            "rm IMAGE [IMAGE...]"
+          ],
           "tip": [
-            "U: rm IMAGE [IMAGE...]",
             "移除一个或多个镜像。"
           ],
           "option": [
@@ -871,18 +1015,21 @@
               "alias": [
                 "-f"
               ],
+              "usage": [
+                "-f, --force"
+              ],
               "tip": [
-                "U: -f, --force",
                 "强制移除镜像。"
               ]
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "save",
+          "usage": [
+            "save IMAGE [IMAGE...]"
+          ],
           "tip": [
-            "U: save IMAGE [IMAGE...]",
             "将一个或多个镜像保存到 tar 归档文件（默认流式传输到 STDOUT）。"
           ],
           "option": [
@@ -891,22 +1038,24 @@
               "alias": [
                 "-o"
               ],
+              "usage": [
+                "-o, --output FILE"
+              ],
               "tip": [
-                "U: -o, --output FILE",
                 "写入文件，而不是 STDOUT。"
               ],
-              "next": 0
+              "next": []
             }
-          ],
-          "next": 0
+          ]
         },
         {
           "name": "tag",
-          "tip": [
-            "U: tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]",
-            "创建引用 SOURCE_IMAGE 的标签 TARGET_IMAGE。"
+          "usage": [
+            "tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]"
           ],
-          "next": 0
+          "tip": [
+            "创建引用 SOURCE_IMAGE 的标签 TARGET_IMAGE。"
+          ]
         }
       ]
     },
@@ -924,24 +1073,28 @@
     },
     {
       "name": "inspect",
-      "tip": [
-        "U: inspect NAME|ID [NAME|ID...]",
-        "返回 WSL 容器对象的底层信息。"
+      "usage": [
+        "inspect NAME|ID [NAME|ID...]"
       ],
-      "next": 0
+      "tip": [
+        "返回 WSL 容器对象的底层信息。"
+      ]
     },
     {
       "name": "kill",
-      "tip": [
-        "U: kill CONTAINER [CONTAINER...]",
-        "终止一个或多个正在运行的容器。"
+      "usage": [
+        "kill CONTAINER [CONTAINER...]"
       ],
-      "next": 0
+      "tip": [
+        "终止一个或多个正在运行的容器。"
+      ]
     },
     {
       "name": "load",
+      "usage": [
+        "load [OPTIONS]"
+      ],
       "tip": [
-        "U: load [OPTIONS]",
         "从 tar 归档文件或 STDIN 加载镜像。"
       ],
       "option": [
@@ -950,19 +1103,23 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --input FILE"
+          ],
           "tip": [
-            "U: -i, --input FILE",
             "从 tar 归档文件读取，而不是 STDIN。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--quiet",
           "alias": [
             "-q"
           ],
+          "usage": [
+            "-q, --quiet"
+          ],
           "tip": [
-            "U: -q, --quiet",
             "抑制加载输出。"
           ]
         }
@@ -970,8 +1127,10 @@
     },
     {
       "name": "login",
+      "usage": [
+        "login [OPTIONS] [SERVER]"
+      ],
       "tip": [
-        "U: login [OPTIONS] [SERVER]",
         "登录注册表。"
       ],
       "option": [
@@ -980,38 +1139,44 @@
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --password PASSWORD"
+          ],
           "tip": [
-            "U: -p, --password PASSWORD",
             "密码。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--username",
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --username USERNAME"
+          ],
           "tip": [
-            "U: -u, --username USERNAME",
             "用户名。"
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "logout",
-      "tip": [
-        "U: logout [SERVER]",
-        "从注册表注销。"
+      "usage": [
+        "logout [SERVER]"
       ],
-      "next": 0
+      "tip": [
+        "从注册表注销。"
+      ]
     },
     {
       "name": "logs",
+      "usage": [
+        "logs CONTAINER"
+      ],
       "tip": [
-        "U: logs CONTAINER",
         "获取容器的日志。"
       ],
       "option": [
@@ -1020,47 +1185,54 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --follow"
+          ],
           "tip": [
-            "U: -f, --follow",
             "跟踪日志输出。"
           ]
         },
         {
           "name": "--tail",
+          "usage": [
+            "--tail LINES"
+          ],
           "tip": [
-            "U: --tail LINES",
             "从日志末尾显示的行数。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--timestamps",
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --timestamps"
+          ],
           "tip": [
-            "U: -t, --timestamps",
             "显示时间戳。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "pause",
-      "tip": [
-        "U: pause CONTAINER [CONTAINER...]",
-        "暂停一个或多个容器内的所有进程。"
+      "usage": [
+        "pause CONTAINER [CONTAINER...]"
       ],
-      "next": 0
+      "tip": [
+        "暂停一个或多个容器内的所有进程。"
+      ]
     },
     {
       "name": "port",
-      "tip": [
-        "U: port CONTAINER [PRIVATE_PORT[/PROTO]]",
-        "列出容器的端口映射或特定端口的映射。"
+      "usage": [
+        "port CONTAINER [PRIVATE_PORT[/PROTO]]"
       ],
-      "next": 0
+      "tip": [
+        "列出容器的端口映射或特定端口的映射。"
+      ]
     },
     {
       "name": "ps",
@@ -1070,36 +1242,43 @@
     },
     {
       "name": "pull",
+      "usage": [
+        "pull NAME[:TAG|@DIGEST]"
+      ],
       "tip": [
-        "U: pull NAME[:TAG|@DIGEST]",
         "从注册表下载镜像。"
       ],
       "option": [
         {
           "name": "--platform",
+          "usage": [
+            "--platform PLATFORM"
+          ],
           "tip": [
-            "U: --platform PLATFORM",
             "如果服务器支持多平台，则设置平台。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--quiet",
           "alias": [
             "-q"
           ],
+          "usage": [
+            "-q, --quiet"
+          ],
           "tip": [
-            "U: -q, --quiet",
             "抑制详细输出。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "push",
+      "usage": [
+        "push NAME[:TAG]"
+      ],
       "tip": [
-        "U: push NAME[:TAG]",
         "将镜像上传到注册表。"
       ],
       "option": [
@@ -1108,26 +1287,30 @@
           "alias": [
             "-q"
           ],
+          "usage": [
+            "-q, --quiet"
+          ],
           "tip": [
-            "U: -q, --quiet",
             "抑制详细输出。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "rename",
-      "tip": [
-        "U: rename CONTAINER NEW_NAME",
-        "重命名容器。"
+      "usage": [
+        "rename CONTAINER NEW_NAME"
       ],
-      "next": 0
+      "tip": [
+        "重命名容器。"
+      ]
     },
     {
       "name": "restart",
+      "usage": [
+        "restart CONTAINER [CONTAINER...]"
+      ],
       "tip": [
-        "U: restart CONTAINER [CONTAINER...]",
         "重启一个或多个容器。"
       ],
       "option": [
@@ -1136,19 +1319,22 @@
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --time SECONDS"
+          ],
           "tip": [
-            "U: -t, --time SECONDS",
             "在终止容器前等待停止的秒数。"
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "rm",
+      "usage": [
+        "rm [OPTIONS] CONTAINER [CONTAINER...]"
+      ],
       "tip": [
-        "U: rm [OPTIONS] CONTAINER [CONTAINER...]",
         "移除一个或多个容器。"
       ],
       "option": [
@@ -1157,8 +1343,10 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --force"
+          ],
           "tip": [
-            "U: -f, --force",
             "强制移除正在运行的容器（使用 SIGKILL）。"
           ]
         },
@@ -1167,18 +1355,21 @@
           "alias": [
             "-v"
           ],
+          "usage": [
+            "-v, --volumes"
+          ],
           "tip": [
-            "U: -v, --volumes",
             "移除与容器关联的匿名卷。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "rmi",
+      "usage": [
+        "rmi [OPTIONS] IMAGE [IMAGE...]"
+      ],
       "tip": [
-        "U: rmi [OPTIONS] IMAGE [IMAGE...]",
         "移除一个或多个镜像。"
       ],
       "option": [
@@ -1187,67 +1378,93 @@
           "alias": [
             "-f"
           ],
+          "usage": [
+            "-f, --force"
+          ],
           "tip": [
-            "U: -f, --force",
             "强制移除镜像。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "run",
+      "usage": [
+        "run [OPTIONS] IMAGE [COMMAND] [ARG...]"
+      ],
       "tip": [
-        "U: run [OPTIONS] IMAGE [COMMAND] [ARG...]",
-        "从镜像创建并运行新容器。",
-        "E: run --rm -it ubuntu:latest bash --- 运行交互式 Ubuntu 容器",
-        "E: run -d -p 8080:80 --name web nginx --- 在后台端口 8080 上运行 Nginx"
+        "从镜像创建并运行新容器。"
+      ],
+      "example": [
+        {
+          "cmd": "run --rm -it ubuntu:latest bash",
+          "desc": "运行交互式 Ubuntu 容器"
+        },
+        {
+          "cmd": "run -d -p 8080:80 --name web nginx",
+          "desc": "在后台端口 8080 上运行 Nginx"
+        }
       ],
       "option": [
         {
           "name": "--cpus",
+          "usage": [
+            "--cpus NUMBER"
+          ],
           "tip": [
-            "U: --cpus NUMBER",
             "CPU 数量。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--detach",
           "alias": [
             "-d"
           ],
+          "usage": [
+            "-d, --detach"
+          ],
           "tip": [
-            "U: -d, --detach",
             "在后台运行容器并打印容器 ID。"
           ]
         },
         {
           "name": "--entrypoint",
+          "usage": [
+            "--entrypoint CMD"
+          ],
           "tip": [
-            "U: --entrypoint CMD",
             "覆盖镜像的默认 ENTRYPOINT。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--env",
           "alias": [
             "-e"
           ],
+          "usage": [
+            "-e, --env KEY=VALUE"
+          ],
           "tip": [
-            "U: -e, --env KEY=VALUE",
             "设置环境变量。可重复使用。"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--gpus",
+          "usage": [
+            "--gpus all|DEVICE"
+          ],
           "tip": [
-            "U: --gpus all|DEVICE",
-            "要添加到容器的 GPU 设备（使用 'all' 传递所有 GPU）。",
-            "E: --gpus all --- 将所有 GPU 传递给容器"
+            "要添加到容器的 GPU 设备（使用 'all' 传递所有 GPU）。"
+          ],
+          "example": [
+            {
+              "cmd": "--gpus all",
+              "desc": "将所有 GPU 传递给容器"
+            }
           ],
           "next": [
             {
@@ -1263,93 +1480,118 @@
           "alias": [
             "-h"
           ],
+          "usage": [
+            "-h, --hostname HOSTNAME"
+          ],
           "tip": [
-            "U: -h, --hostname HOSTNAME",
             "容器主机名。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--interactive",
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --interactive"
+          ],
           "tip": [
-            "U: -i, --interactive",
             "即使未附加也保持 STDIN 打开。"
           ]
         },
         {
           "name": "--label",
+          "usage": [
+            "--label KEY=VALUE"
+          ],
           "tip": [
-            "U: --label KEY=VALUE",
             "在容器上设置元数据。可重复使用。"
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--memory",
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --memory LIMIT"
+          ],
           "tip": [
-            "U: -m, --memory LIMIT",
             "内存限制（例如 512m、2g）。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--name",
+          "usage": [
+            "--name NAME"
+          ],
           "tip": [
-            "U: --name NAME",
             "为容器分配名称。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--network",
+          "usage": [
+            "--network NAME"
+          ],
           "tip": [
-            "U: --network NAME",
             "将容器连接到网络。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--platform",
+          "usage": [
+            "--platform PLATFORM"
+          ],
           "tip": [
-            "U: --platform PLATFORM",
             "如果服务器支持多平台，则设置平台。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--publish",
           "alias": [
             "-p"
           ],
+          "usage": [
+            "-p, --publish HOST_PORT:CONTAINER_PORT"
+          ],
           "tip": [
-            "U: -p, --publish HOST_PORT:CONTAINER_PORT",
-            "将容器的端口发布到主机。可重复使用。",
-            "E: -p 8080:80 --- 将主机 8080 映射到容器端口 80"
+            "将容器的端口发布到主机。可重复使用。"
+          ],
+          "example": [
+            {
+              "cmd": "-p 8080:80",
+              "desc": "将主机 8080 映射到容器端口 80"
+            }
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--publish-all",
           "alias": [
             "-P"
           ],
+          "usage": [
+            "-P, --publish-all"
+          ],
           "tip": [
-            "U: -P, --publish-all",
             "将所有暴露的端口发布到随机端口。"
           ]
         },
         {
           "name": "--pull",
+          "usage": [
+            "--pull always|missing|never"
+          ],
           "tip": [
-            "U: --pull always|missing|never",
             "运行前拉取镜像。"
           ],
           "next": [
@@ -1381,8 +1623,10 @@
         },
         {
           "name": "--restart",
+          "usage": [
+            "--restart POLICY"
+          ],
           "tip": [
-            "U: --restart POLICY",
             "容器退出时应用的重启策略。"
           ],
           "next": [
@@ -1423,8 +1667,10 @@
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --tty"
+          ],
           "tip": [
-            "U: -t, --tty",
             "分配伪 TTY。"
           ]
         },
@@ -1433,43 +1679,55 @@
           "alias": [
             "-u"
           ],
+          "usage": [
+            "-u, --user USER"
+          ],
           "tip": [
-            "U: -u, --user USER",
             "运行容器所用的用户名或 UID。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--volume",
           "alias": [
             "-v"
           ],
+          "usage": [
+            "-v, --volume HOST_PATH:CONTAINER_PATH"
+          ],
           "tip": [
-            "U: -v, --volume HOST_PATH:CONTAINER_PATH",
-            "绑定挂载卷。可重复使用。",
-            "E: -v C:\\data:/data --- 将主机文件夹挂载到容器中"
+            "绑定挂载卷。可重复使用。"
+          ],
+          "example": [
+            {
+              "cmd": "-v C:\\data:/data",
+              "desc": "将主机文件夹挂载到容器中"
+            }
           ],
           "repeat": 99,
-          "next": 0
+          "next": []
         },
         {
           "name": "--workdir",
           "alias": [
             "-w"
           ],
+          "usage": [
+            "-w, --workdir DIR"
+          ],
           "tip": [
-            "U: -w, --workdir DIR",
             "容器内的工作目录。"
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "save",
+      "usage": [
+        "save IMAGE [IMAGE...]"
+      ],
       "tip": [
-        "U: save IMAGE [IMAGE...]",
         "将一个或多个镜像保存到 tar 归档文件。"
       ],
       "option": [
@@ -1478,34 +1736,41 @@
           "alias": [
             "-o"
           ],
+          "usage": [
+            "-o, --output FILE"
+          ],
           "tip": [
-            "U: -o, --output FILE",
             "写入文件，而不是 STDOUT。"
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "search",
+      "usage": [
+        "search TERM"
+      ],
       "tip": [
-        "U: search TERM",
         "在 Docker Hub 上搜索镜像。"
       ],
       "option": [
         {
           "name": "--format",
+          "usage": [
+            "--format TEMPLATE"
+          ],
           "tip": [
-            "U: --format TEMPLATE",
             "使用 Go 模板美化搜索结果输出。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--limit",
+          "usage": [
+            "--limit MAX"
+          ],
           "tip": [
-            "U: --limit MAX",
             "最大搜索结果数。"
           ],
           "next": [
@@ -1523,13 +1788,14 @@
             "不截断输出。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "start",
+      "usage": [
+        "start CONTAINER [CONTAINER...]"
+      ],
       "tip": [
-        "U: start CONTAINER [CONTAINER...]",
         "启动一个或多个已停止的容器。"
       ],
       "option": [
@@ -1538,18 +1804,21 @@
           "alias": [
             "-i"
           ],
+          "usage": [
+            "-i, --interactive"
+          ],
           "tip": [
-            "U: -i, --interactive",
             "附加容器的 STDIN。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "stats",
+      "usage": [
+        "stats [OPTIONS] [CONTAINER...]"
+      ],
       "tip": [
-        "U: stats [OPTIONS] [CONTAINER...]",
         "显示容器资源使用统计的实时流。"
       ],
       "option": [
@@ -1558,18 +1827,22 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --all"
+          ],
           "tip": [
-            "U: -a, --all",
             "显示所有容器（默认只显示正在运行的）。"
           ]
         },
         {
           "name": "--format",
+          "usage": [
+            "--format TEMPLATE"
+          ],
           "tip": [
-            "U: --format TEMPLATE",
             "使用 Go 模板美化输出统计信息。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--no-stream",
@@ -1583,13 +1856,14 @@
             "不截断输出。"
           ]
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "stop",
+      "usage": [
+        "stop CONTAINER [CONTAINER...]"
+      ],
       "tip": [
-        "U: stop CONTAINER [CONTAINER...]",
         "停止一个或多个正在运行的容器。"
       ],
       "option": [
@@ -1598,75 +1872,86 @@
           "alias": [
             "-t"
           ],
+          "usage": [
+            "-t, --time SECONDS"
+          ],
           "tip": [
-            "U: -t, --time SECONDS",
             "在终止前等待停止的秒数。"
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "tag",
-      "tip": [
-        "U: tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]",
-        "创建引用 SOURCE_IMAGE 的标签 TARGET_IMAGE。"
+      "usage": [
+        "tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]"
       ],
-      "next": 0
+      "tip": [
+        "创建引用 SOURCE_IMAGE 的标签 TARGET_IMAGE。"
+      ]
     },
     {
       "name": "top",
-      "tip": [
-        "U: top CONTAINER",
-        "显示容器中正在运行的进程。"
+      "usage": [
+        "top CONTAINER"
       ],
-      "next": 0
+      "tip": [
+        "显示容器中正在运行的进程。"
+      ]
     },
     {
       "name": "unpause",
-      "tip": [
-        "U: unpause CONTAINER [CONTAINER...]",
-        "恢复一个或多个容器内暂停的所有进程。"
+      "usage": [
+        "unpause CONTAINER [CONTAINER...]"
       ],
-      "next": 0
+      "tip": [
+        "恢复一个或多个容器内暂停的所有进程。"
+      ]
     },
     {
       "name": "update",
+      "usage": [
+        "update [OPTIONS] CONTAINER [CONTAINER...]"
+      ],
       "tip": [
-        "U: update [OPTIONS] CONTAINER [CONTAINER...]",
         "更新一个或多个容器的配置。"
       ],
       "option": [
         {
           "name": "--cpus",
+          "usage": [
+            "--cpus NUMBER"
+          ],
           "tip": [
-            "U: --cpus NUMBER",
             "CPU 数量。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--memory",
           "alias": [
             "-m"
           ],
+          "usage": [
+            "-m, --memory LIMIT"
+          ],
           "tip": [
-            "U: -m, --memory LIMIT",
             "内存限制。"
           ],
-          "next": 0
+          "next": []
         },
         {
           "name": "--restart",
+          "usage": [
+            "--restart POLICY"
+          ],
           "tip": [
-            "U: --restart POLICY",
             "容器退出时应用的重启策略。"
           ],
-          "next": 0
+          "next": []
         }
-      ],
-      "next": 0
+      ]
     },
     {
       "name": "version",
@@ -1676,11 +1961,12 @@
     },
     {
       "name": "wait",
-      "tip": [
-        "U: wait CONTAINER [CONTAINER...]",
-        "阻塞直到一个或多个容器停止，然后打印它们的退出代码。"
+      "usage": [
+        "wait CONTAINER [CONTAINER...]"
       ],
-      "next": 0
+      "tip": [
+        "阻塞直到一个或多个容器停止，然后打印它们的退出代码。"
+      ]
     }
   ],
   "global_option": [
@@ -1689,8 +1975,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "显示 wslc 或子命令的帮助。"
       ]
     },
@@ -1699,8 +1987,10 @@
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --version"
+      ],
       "tip": [
-        "U: -v, --version",
         "显示 wslc 版本。"
       ]
     }

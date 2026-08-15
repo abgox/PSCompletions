@@ -8,47 +8,475 @@
   "next": [
     {
       "name": "access",
+      "usage": [
+        "access <list|get|set|grant|revoke>"
+      ],
       "tip": [
         "Set access level on published packages."
+      ],
+      "next": [
+        {
+          "name": "get",
+          "next": [
+            {
+              "name": "status",
+              "usage": [
+                "status [<package>]"
+              ],
+              "tip": [
+                "Get the status of a package."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grant",
+          "usage": [
+            "grant <read-only|read-write> <scope:team> [<package>]"
+          ],
+          "tip": [
+            "Grant read or write access to a team."
+          ],
+          "next": [
+            {
+              "name": "read-only",
+              "tip": [
+                "Read access."
+              ]
+            },
+            {
+              "name": "read-write",
+              "tip": [
+                "Read and write access."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "next": [
+            {
+              "name": "collaborators",
+              "usage": [
+                "collaborators [<package> [<user>]]"
+              ],
+              "tip": [
+                "List collaborators on a package."
+              ]
+            },
+            {
+              "name": "packages",
+              "usage": [
+                "packages [<user>|<scope>|<scope:team>] [<package>]"
+              ],
+              "tip": [
+                "List packages a user/scope can access."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke <scope:team> [<package>]"
+          ],
+          "tip": [
+            "Revoke access from a team."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <status|mfa>"
+          ],
+          "tip": [
+            "Set access or MFA level on a package."
+          ],
+          "next": [
+            {
+              "name": "mfa",
+              "next": [
+                {
+                  "name": "automation",
+                  "tip": [
+                    "MFA via automation token."
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "No MFA required."
+                  ]
+                },
+                {
+                  "name": "publish",
+                  "tip": [
+                    "MFA required on publish."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "status",
+              "next": [
+                {
+                  "name": "private",
+                  "tip": [
+                    "Restricted access."
+                  ]
+                },
+                {
+                  "name": "public",
+                  "tip": [
+                    "Publicly viewable."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "add-user",
+      "alias": [
+        "adduser"
+      ],
+      "usage": [
+        "adduser|add-user"
+      ],
+      "tip": [
+        "Add a registry user account."
+      ],
+      "option": [
+        {
+          "name": "--auth-type",
+          "tip": [
+            "What authentication strategy to use with login."
+          ],
+          "next": [
+            {
+              "name": "legacy",
+              "tip": [
+                "Legacy username/password auth."
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "Web-based auth."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "The base URL of the npm registry."
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "Associate an operation with a scope for a scoped registry."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "approve-scripts",
+      "usage": [
+        "approve-scripts <pkg> [<pkg> ...]"
+      ],
+      "tip": [
+        "Approve install scripts for specific dependencies."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Approve scripts for all packages."
+          ]
+        },
+        {
+          "name": "--allow-scripts-pending",
+          "tip": [
+            "List packages with unapproved install scripts."
+          ]
+        },
+        {
+          "name": "--allow-scripts-pin",
+          "tip": [
+            "Write pinned (pkg@version) entries when approving."
+          ]
+        }
       ]
     },
     {
       "name": "audit",
+      "usage": [
+        "audit [fix|signatures]"
+      ],
       "tip": [
-        "U: audit [fix|signatures]",
         "Run a security audit."
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "tip": [
+            "Minimum vulnerability level to report."
+          ],
+          "next": [
+            {
+              "name": "critical",
+              "tip": [
+                "Critical severity."
+              ]
+            },
+            {
+              "name": "high",
+              "tip": [
+                "High severity."
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Informational level."
+              ]
+            },
+            {
+              "name": "low",
+              "tip": [
+                "Low severity."
+              ]
+            },
+            {
+              "name": "moderate",
+              "tip": [
+                "Moderate severity."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "No level."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Force audit fix."
+          ]
+        },
+        {
+          "name": "--include",
+          "tip": [
+            "Dependency types to include in the audit tree."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "Development dependencies."
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "Optional dependencies."
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "Peer dependencies."
+              ]
+            },
+            {
+              "name": "prod",
+              "tip": [
+                "Production dependencies."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "Dependency types to omit from the audit tree."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "Development dependencies."
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "Optional dependencies."
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "Peer dependencies."
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "fix",
+          "tip": [
+            "Audit and automatically fix vulnerabilities."
+          ]
+        },
+        {
+          "name": "signatures",
+          "tip": [
+            "Audit package signatures."
+          ]
+        }
       ]
     },
     {
-      "name": "bugs",
+      "name": "author",
+      "alias": [
+        "owner"
+      ],
+      "usage": [
+        "owner|author <add|rm|ls>"
+      ],
       "tip": [
-        "U: bugs [<package>]",
-        "Bugs for a package in a web browser.",
-        "E: bugs"
-      ]
-    },
-    {
-      "name": "cache",
-      "tip": [
-        "Manipulates packages cache."
+        "Manage package owners."
       ],
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add <user> <package-spec>"
+          ],
+          "tip": [
+            "Add a package owner."
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls <package-spec>"
+          ],
+          "tip": [
+            "List package owners."
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <user> <package-spec>"
+          ],
+          "tip": [
+            "Remove a package owner."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": [
+        "cache <add|clean|ls|verify|npx>"
+      ],
+      "tip": [
+        "Manipulate packages and npx cache."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package-spec>"
+          ],
           "tip": [
             "Add a package to the local cache."
           ]
         },
         {
           "name": "clean",
+          "usage": [
+            "clean [<key>]"
+          ],
           "tip": [
             "Clean packages cache."
           ]
         },
         {
           "name": "ls",
+          "usage": [
+            "ls [<name>@<version>]"
+          ],
           "tip": [
             "List packages in the cache."
+          ]
+        },
+        {
+          "name": "npx",
+          "next": [
+            {
+              "name": "info",
+              "usage": [
+                "info <key>..."
+              ],
+              "tip": [
+                "Show info about npx cache entries."
+              ]
+            },
+            {
+              "name": "ls",
+              "tip": [
+                "List npx cache entries."
+              ]
+            },
+            {
+              "name": "rm",
+              "usage": [
+                "rm [<key>...]"
+              ],
+              "tip": [
+                "Remove npx cache entries."
+              ]
+            }
           ]
         },
         {
@@ -62,11 +490,117 @@
     {
       "name": "clean-install",
       "alias": [
-        "ci"
+        "install-clean",
+        "isntall-clean",
+        "ci",
+        "ic"
+      ],
+      "usage": [
+        "ci|ic|install-clean|isntall-clean|clean-install"
       ],
       "tip": [
-        "U: ci",
         "Clean install a project."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        },
+        {
+          "name": "--install-strategy",
+          "tip": [
+            "Strategy for installing packages."
+          ],
+          "next": [
+            {
+              "name": "hoisted",
+              "tip": [
+                "Hoist all dependencies."
+              ]
+            },
+            {
+              "name": "linked",
+              "tip": [
+                "Linked install strategy."
+              ]
+            },
+            {
+              "name": "nested",
+              "tip": [
+                "Nested install strategy."
+              ]
+            },
+            {
+              "name": "shallow",
+              "tip": [
+                "Shallow install strategy."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "Dependency types to omit."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "Development dependencies."
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "Optional dependencies."
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "Peer dependencies."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clean-install-test",
+      "alias": [
+        "install-ci-test",
+        "cit",
+        "sit"
+      ],
+      "usage": [
+        "cit|sit|install-ci-test|clean-install-test"
+      ],
+      "tip": [
+        "Install a project with a clean slate and run tests."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        }
       ]
     },
     {
@@ -80,13 +614,89 @@
       "alias": [
         "c"
       ],
+      "usage": [
+        "c|config <set|get|delete|list|edit|fix>"
+      ],
       "tip": [
-        "U: c|config",
         "Manage the npm configuration."
+      ],
+      "option": [
+        {
+          "name": "--editor",
+          "tip": [
+            "The command to run for config edit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Operate in global mode."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--location",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --location <global|user|project>"
+          ],
+          "tip": [
+            "Which config file to use."
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "Global config file."
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "Project config file."
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "User config file."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "Show extended information."
+          ]
+        }
       ],
       "next": [
         {
           "name": "delete",
+          "usage": [
+            "delete <key> ..."
+          ],
           "tip": [
             "Delete a value from the npm config."
           ]
@@ -105,6 +715,9 @@
         },
         {
           "name": "get",
+          "usage": [
+            "get [<key> ...]"
+          ],
           "tip": [
             "Get a value from the npm config."
           ]
@@ -117,8 +730,84 @@
         },
         {
           "name": "set",
+          "usage": [
+            "set <key>=<value> [<key>=<value> ...]"
+          ],
           "tip": [
             "Set a value in the npm config."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "alias": [
+        "innit",
+        "init"
+      ],
+      "usage": [
+        "init|innit|create [<package-spec>]"
+      ],
+      "tip": [
+        "Create a package.json file."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Overwrite package.json if it already exists."
+          ]
+        },
+        {
+          "name": "--init-author-name",
+          "tip": [
+            "Default author name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--init-license",
+          "tip": [
+            "Default license."
+          ],
+          "next": []
+        },
+        {
+          "name": "--init-private",
+          "tip": [
+            "Set the package private flag."
+          ]
+        },
+        {
+          "name": "--init-version",
+          "tip": [
+            "Default package version."
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "The scope to use for the new package."
+          ],
+          "next": []
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Use default values for all options."
           ]
         }
       ]
@@ -128,137 +817,495 @@
       "alias": [
         "ddp"
       ],
+      "usage": [
+        "ddp|dedupe"
+      ],
       "tip": [
-        "U: ddp|dedupe",
         "Reduce duplication in the package tree."
-      ]
-    },
-    {
-      "name": "deprecate",
-      "tip": [
-        "U: deprecate <pkg> <msg>",
-        "Deprecate a version of a package."
-      ]
-    },
-    {
-      "name": "diff",
-      "tip": [
-        "U: diff [<pkg> ...]",
-        "Check for changes between packages."
-      ]
-    },
-    {
-      "name": "dist-tag",
-      "tip": [
-        "U: dist-tag <command>",
-        "Dist-tag management."
-      ]
-    },
-    {
-      "name": "docs",
-      "tip": [
-        "U: docs [<package>]",
-        "Docs for a package in a web browser.",
-        "E: docs"
-      ]
-    },
-    {
-      "name": "doctor",
-      "tip": [
-        "Check the health of the npm environment."
-      ]
-    },
-    {
-      "name": "exec",
-      "tip": [
-        "U: exec -- <args>...",
-        "Run a command from an npm package.",
-        "E: exec -- prettier --check ."
-      ]
-    },
-    {
-      "name": "explain",
-      "tip": [
-        "U: explain [<package>]",
-        "Describe a specific package.",
-        "E: explain"
-      ]
-    },
-    {
-      "name": "explore",
-      "tip": [
-        "U: explore <pkg> [< -- <command>]",
-        "Browse an installed package.",
-        "E: explore"
-      ]
-    },
-    {
-      "name": "fund",
-      "tip": [
-        "U: fund [<package>]",
-        "Retrieve funding information.",
-        "E: fund"
-      ]
-    },
-    {
-      "name": "help",
-      "tip": [
-        "U: help [<command>]",
-        "Get help on npm.",
-        "E: help install"
-      ]
-    },
-    {
-      "name": "help-search",
-      "tip": [
-        "U: help-search [<query>]",
-        "Search npm help documentation.",
-        "E: help-search git"
-      ]
-    },
-    {
-      "name": "init",
-      "tip": [
-        "Create a new package.json file."
-      ],
-      "option": [
-        {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "tip": [
-            "U: -f, --force",
-            "Overwrite package.json if it already exists."
-          ]
-        },
-        {
-          "name": "--yes",
-          "alias": [
-            "-y"
-          ],
-          "tip": [
-            "U: -y, --yes",
-            "Use default values for all options."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "install",
-      "alias": [
-        "i"
-      ],
-      "tip": [
-        "U: i|install <package>",
-        "Install a package.",
-        "E: install axios"
       ],
       "option": [
         {
           "name": "--dry-run",
           "tip": [
-            "Indicates that you don't want npm to make any changes."
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deny-scripts",
+      "usage": [
+        "deny-scripts <pkg> [<pkg> ...]"
+      ],
+      "tip": [
+        "Deny install scripts for specific dependencies."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Deny scripts for all packages."
+          ]
+        },
+        {
+          "name": "--allow-scripts-pending",
+          "tip": [
+            "List packages with unapproved install scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deprecate",
+      "usage": [
+        "deprecate <package-spec> <message>"
+      ],
+      "tip": [
+        "Deprecate a version of a package."
+      ],
+      "option": [
+        {
+          "name": "--otp",
+          "tip": [
+            "One-time password from a 2FA authenticator."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "The base URL of the npm registry."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "usage": [
+        "diff [<pkg> ...]"
+      ],
+      "tip": [
+        "Check for changes between packages."
+      ],
+      "option": [
+        {
+          "name": "--diff",
+          "tip": [
+            "Package spec to compare."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--diff-ignore-all-space",
+          "tip": [
+            "Ignore whitespace when comparing."
+          ]
+        },
+        {
+          "name": "--diff-name-only",
+          "tip": [
+            "Print only filenames."
+          ]
+        },
+        {
+          "name": "--diff-unified",
+          "tip": [
+            "Lines of context to print."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Operate in global mode."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dist-tags",
+      "alias": [
+        "dist-tag"
+      ],
+      "usage": [
+        "dist-tag <add|rm|ls>"
+      ],
+      "tip": [
+        "Modify package distribution tags."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package-spec> [<tag>]"
+          ],
+          "tip": [
+            "Add a distribution tag."
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls [<package-spec>]"
+          ],
+          "tip": [
+            "List distribution tags."
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <package-spec> <tag>"
+          ],
+          "tip": [
+            "Remove a distribution tag."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "alias": [
+        "home"
+      ],
+      "usage": [
+        "home|docs [<pkgname> ...]"
+      ],
+      "tip": [
+        "Open documentation for a package in a web browser."
+      ],
+      "example": [
+        "npm docs lodash"
+      ],
+      "option": [
+        {
+          "name": "--browser",
+          "tip": [
+            "The browser to open the docs page."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "usage": [
+        "doctor [connection|registry|versions|environment|permissions|cache]"
+      ],
+      "tip": [
+        "Check the health of the npm environment."
+      ],
+      "next": [
+        {
+          "name": "cache",
+          "tip": [
+            "Check the cache."
+          ]
+        },
+        {
+          "name": "connection",
+          "tip": [
+            "Check network connection."
+          ]
+        },
+        {
+          "name": "environment",
+          "tip": [
+            "Check environment."
+          ]
+        },
+        {
+          "name": "permissions",
+          "tip": [
+            "Check file permissions."
+          ]
+        },
+        {
+          "name": "registry",
+          "tip": [
+            "Check registry access."
+          ]
+        },
+        {
+          "name": "versions",
+          "tip": [
+            "Check installed versions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "usage": [
+        "edit <pkg>[/<subpkg>...]"
+      ],
+      "tip": [
+        "Edit an installed package."
+      ],
+      "option": [
+        {
+          "name": "--editor",
+          "tip": [
+            "The editor command to use."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "x"
+      ],
+      "usage": [
+        "x|exec -- <pkg> [args...]"
+      ],
+      "tip": [
+        "Run a command from a local or remote npm package."
+      ],
+      "example": [
+        "exec -- prettier --check ."
+      ],
+      "option": [
+        {
+          "name": "--call",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --call <cmd>"
+          ],
+          "tip": [
+            "Run the command in a shell."
+          ],
+          "next": []
+        },
+        {
+          "name": "--package",
+          "tip": [
+            "Package to install and run."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace <workspace-name>"
+          ],
+          "tip": [
+            "Run in the context of a workspace."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "explain",
+      "alias": [
+        "why"
+      ],
+      "usage": [
+        "why|explain <package-spec>"
+      ],
+      "tip": [
+        "Explain installed packages."
+      ],
+      "example": [
+        "npm explain lodash"
+      ]
+    },
+    {
+      "name": "explore",
+      "usage": [
+        "explore <pkg> [-- <command>]"
+      ],
+      "tip": [
+        "Browse an installed package."
+      ],
+      "example": [
+        "npm explore lodash"
+      ],
+      "option": [
+        {
+          "name": "--shell",
+          "tip": [
+            "The shell to run in the package folder."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "find-dupes",
+      "tip": [
+        "Find duplication in the package tree."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fund",
+      "usage": [
+        "fund [<package-spec>]"
+      ],
+      "tip": [
+        "Retrieve funding information."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--which",
+          "tip": [
+            "Which 1-indexed funding source URL to open."
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "First funding source."
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "Second funding source."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "usage": [
+        "get [<key> ...]"
+      ],
+      "tip": [
+        "Get a value from the npm configuration."
+      ],
+      "option": [
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "Show extended information."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "alias": [
+        "hlep"
+      ],
+      "usage": [
+        "hlep|help <term> ..."
+      ],
+      "tip": [
+        "Get help on npm."
+      ],
+      "example": [
+        "help install"
+      ],
+      "option": [
+        {
+          "name": "--viewer",
+          "tip": [
+            "The program to use to view help content."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "help-search",
+      "usage": [
+        "help-search <text>"
+      ],
+      "tip": [
+        "Search npm help documentation."
+      ],
+      "example": [
+        "help-search git"
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "isntall",
+        "instal",
+        "isntal",
+        "insta",
+        "isnta",
+        "inst",
+        "isnt",
+        "add",
+        "ins",
+        "in",
+        "i"
+      ],
+      "usage": [
+        "i|in|inst|install [<package-spec> ...]"
+      ],
+      "tip": [
+        "Install a package."
+      ],
+      "example": [
+        "install axios"
+      ],
+      "option": [
+        {
+          "name": "--before",
+          "tip": [
+            "Only install versions published before the date."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
           ]
         },
         {
@@ -266,8 +1313,10 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Install package globally."
           ]
         },
@@ -278,12 +1327,130 @@
           ]
         },
         {
+          "name": "--include",
+          "tip": [
+            "Dependency types to include."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "Development dependencies."
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "Optional dependencies."
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "Peer dependencies."
+              ]
+            },
+            {
+              "name": "prod",
+              "tip": [
+                "Production dependencies."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--install-strategy",
+          "tip": [
+            "Strategy for installing packages."
+          ],
+          "next": [
+            {
+              "name": "hoisted",
+              "tip": [
+                "Hoist all dependencies."
+              ]
+            },
+            {
+              "name": "linked",
+              "tip": [
+                "Linked install strategy."
+              ]
+            },
+            {
+              "name": "nested",
+              "tip": [
+                "Nested install strategy."
+              ]
+            },
+            {
+              "name": "shallow",
+              "tip": [
+                "Shallow install strategy."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "Do not submit an audit report."
+          ]
+        },
+        {
+          "name": "--no-bin-links",
+          "tip": [
+            "Do not create symlinks for package binaries."
+          ]
+        },
+        {
+          "name": "--no-fund",
+          "tip": [
+            "Do not display the funding message."
+          ]
+        },
+        {
+          "name": "--no-package-lock",
+          "tip": [
+            "Do not read or write package-lock.json."
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "Dependency types to omit."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "Development dependencies."
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "Optional dependencies."
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "Peer dependencies."
+              ]
+            }
+          ]
+        },
+        {
           "name": "--save",
           "alias": [
             "-S"
           ],
+          "usage": [
+            "-S, --save"
+          ],
           "tip": [
-            "U: -S, --save",
             "Write to the dependencies of package.json."
           ]
         },
@@ -292,8 +1459,10 @@
           "alias": [
             "-D"
           ],
+          "usage": [
+            "-D, --save-dev"
+          ],
           "tip": [
-            "U: -D, --save-dev",
             "Write to the devDependencies of package.json."
           ]
         },
@@ -302,9 +1471,11 @@
           "alias": [
             "-E"
           ],
+          "usage": [
+            "-E, --save-exact"
+          ],
           "tip": [
-            "U: -E, --save-exact",
-            "Dependencies saved to package.json will be configured with an exact version."
+            "Save with an exact version."
           ]
         },
         {
@@ -312,27 +1483,25 @@
           "alias": [
             "-O"
           ],
+          "usage": [
+            "-O, --save-optional"
+          ],
           "tip": [
-            "U: -O, --save-optional",
             "Write to the optionalDependencies of package.json."
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "Write to the peerDependencies of package.json."
           ]
         },
         {
           "name": "--workspaces",
           "tip": [
-            "Run the command in the context of all configured workspaces."
+            "Run in the context of all configured workspaces."
           ]
         }
-      ]
-    },
-    {
-      "name": "install-ci-test",
-      "alias": [
-        "cit"
-      ],
-      "tip": [
-        "U: cit|install-ci-test",
-        "Install a project's dependencies and run its tests."
       ]
     },
     {
@@ -340,9 +1509,67 @@
       "alias": [
         "it"
       ],
+      "usage": [
+        "it|install-test [<package-spec> ...]"
+      ],
       "tip": [
-        "U: it|install-test",
-        "Install a project's dependencies and run its tests."
+        "Install package(s) and run tests."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Install package globally."
+          ]
+        },
+        {
+          "name": "--save",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --save"
+          ],
+          "tip": [
+            "Write to the dependencies of package.json."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "issues",
+      "alias": [
+        "bugs"
+      ],
+      "usage": [
+        "bugs|issues [<pkgname> ...]"
+      ],
+      "tip": [
+        "Report bugs for a package in a web browser."
+      ],
+      "example": [
+        "npm bugs lodash"
+      ],
+      "option": [
+        {
+          "name": "--browser",
+          "tip": [
+            "The browser to open the bug report page."
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -350,10 +1577,58 @@
       "alias": [
         "ln"
       ],
+      "usage": [
+        "ln|link [<package-spec>]"
+      ],
       "tip": [
-        "U: ln|link <pkg>",
-        "Symlink a package folder.",
-        "E: link"
+        "Symlink a package folder."
+      ],
+      "example": [
+        "npm link lodash"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Link globally."
+          ]
+        },
+        {
+          "name": "--save",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --save"
+          ],
+          "tip": [
+            "Save as a dependency."
+          ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "Save as a devDependency."
+          ]
+        }
       ]
     },
     {
@@ -361,8 +1636,10 @@
       "alias": [
         "ls"
       ],
+      "usage": [
+        "ls|list [<package-spec>]"
+      ],
       "tip": [
-        "U: ls|list",
         "List installed packages."
       ],
       "option": [
@@ -371,8 +1648,10 @@
           "alias": [
             "-a"
           ],
+          "usage": [
+            "-a, --all"
+          ],
           "tip": [
-            "U: -a, --all",
             "Show all packages."
           ]
         },
@@ -380,15 +1659,93 @@
           "name": "--depth",
           "tip": [
             "The depth to go when recursing packages."
-          ]
+          ],
+          "next": []
         },
         {
           "name": "--global",
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
+            "List globally installed packages."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "Show extended information."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --parseable"
+          ],
+          "tip": [
+            "Output parseable results."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ll",
+      "alias": [
+        "la"
+      ],
+      "usage": [
+        "la|ll [[<@scope>/]<pkg> ...]"
+      ],
+      "tip": [
+        "List installed packages with details."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show all packages."
+          ]
+        },
+        {
+          "name": "--depth",
+          "tip": [
+            "The depth to go when recursing packages."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
             "List globally installed packages."
           ]
         },
@@ -404,220 +1761,304 @@
       "name": "login",
       "tip": [
         "Log in to the npm registry."
+      ],
+      "option": [
+        {
+          "name": "--auth-type",
+          "tip": [
+            "What authentication strategy to use."
+          ],
+          "next": [
+            {
+              "name": "legacy",
+              "tip": [
+                "Legacy username/password auth."
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "Web-based auth."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "The base URL of the npm registry."
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "Associate an operation with a scope."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "logout",
       "tip": [
         "Log out from the npm registry."
+      ],
+      "option": [
+        {
+          "name": "--registry",
+          "tip": [
+            "The base URL of the npm registry."
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "tip": [
+            "Associate an operation with a scope."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "org",
+      "alias": [
+        "ogr"
+      ],
+      "usage": [
+        "ogr|org <set|rm|ls>"
+      ],
       "tip": [
         "Manage organizations."
+      ],
+      "next": [
+        {
+          "name": "ls",
+          "usage": [
+            "ls orgname [<username>]"
+          ],
+          "tip": [
+            "List users in an org."
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm orgname username"
+          ],
+          "tip": [
+            "Remove a user from an org."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set orgname username [developer|admin|owner]"
+          ],
+          "tip": [
+            "Set a user's role in an org."
+          ],
+          "next": [
+            {
+              "name": "admin",
+              "tip": [
+                "Admin role."
+              ]
+            },
+            {
+              "name": "developer",
+              "tip": [
+                "Developer role."
+              ]
+            },
+            {
+              "name": "owner",
+              "tip": [
+                "Owner role."
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "outdated",
       "tip": [
         "Check for outdated packages."
-      ]
-    },
-    {
-      "name": "owner",
-      "tip": [
-        "Manage package owners."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show all packages."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Check globally installed packages."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--long",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --long"
+          ],
+          "tip": [
+            "Show extended information."
+          ]
+        }
       ]
     },
     {
       "name": "pack",
+      "usage": [
+        "pack <package-spec>"
+      ],
       "tip": [
         "Create a tarball from a package."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--pack-destination",
+          "tip": [
+            "Directory in which to save tarballs."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "ping",
       "tip": [
         "Ping the npm registry."
+      ],
+      "option": [
+        {
+          "name": "--registry",
+          "tip": [
+            "The base URL of the npm registry."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "pkg",
+      "usage": [
+        "pkg <set|get|delete|fix>"
+      ],
       "tip": [
         "Manage package.json."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Remove various protections against side effects."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace <workspace-name>"
+          ],
+          "tip": [
+            "Run in the context of a workspace."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <key> ..."
+          ],
+          "tip": [
+            "Delete a value from package.json."
+          ]
+        },
+        {
+          "name": "fix",
+          "tip": [
+            "Auto-correct common errors in package.json."
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get [<key> ...]"
+          ],
+          "tip": [
+            "Get a value from package.json."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key>=<value> ..."
+          ],
+          "tip": [
+            "Set a value in package.json."
+          ]
+        }
       ]
     },
     {
       "name": "prefix",
       "tip": [
         "Display the effective npm prefix."
-      ]
-    },
-    {
-      "name": "profile",
-      "tip": [
-        "Update your npm profile."
-      ]
-    },
-    {
-      "name": "prune",
-      "tip": [
-        "Remove extraneous packages."
-      ]
-    },
-    {
-      "name": "publish",
-      "tip": [
-        "U: publish [<package-spec>]",
-        "Publish a package.",
-        "E: publish"
-      ],
-      "option": [
-        {
-          "name": "--access",
-          "tip": [
-            "Tell the registry whether this package should be published as public or restricted."
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "tip": [
-            "Indicates that you don't want npm to make any changes."
-          ]
-        },
-        {
-          "name": "--tag",
-          "tip": [
-            "Registers the published package with the given tag."
-          ]
-        }
-      ]
-    },
-    {
-      "name": "query",
-      "tip": [
-        "Query packages."
-      ]
-    },
-    {
-      "name": "rebuild",
-      "alias": [
-        "rb"
-      ],
-      "tip": [
-        "U: rb|rebuild <pkg>",
-        "Rebuild a package.",
-        "E: rebuild"
-      ]
-    },
-    {
-      "name": "repo",
-      "tip": [
-        "U: repo [<package>]",
-        "Open package repository page in the browser.",
-        "E: repo"
-      ]
-    },
-    {
-      "name": "restart",
-      "tip": [
-        "Restart a package."
-      ]
-    },
-    {
-      "name": "root",
-      "tip": [
-        "Display the effective npm root."
-      ]
-    },
-    {
-      "name": "run",
-      "tip": [
-        "U: run <script>",
-        "Run a script defined in package.json.",
-        "E: run build"
-      ],
-      "next": []
-    },
-    {
-      "name": "search",
-      "alias": [
-        "se",
-        "s"
-      ],
-      "tip": [
-        "U: search <query>",
-        "Search for packages on npm.",
-        "E: search vue"
-      ]
-    },
-    {
-      "name": "set",
-      "tip": [
-        "Set a config key to the value provided."
-      ]
-    },
-    {
-      "name": "shrinkwrap",
-      "tip": [
-        "Pack the specified package."
-      ]
-    },
-    {
-      "name": "star",
-      "tip": [
-        "U: star [<package>]",
-        "Stars a package.",
-        "E: star"
-      ]
-    },
-    {
-      "name": "start",
-      "tip": [
-        "Start a package."
-      ]
-    },
-    {
-      "name": "stop",
-      "tip": [
-        "Stop a package."
-      ]
-    },
-    {
-      "name": "team",
-      "tip": [
-        "Manage teams in organizations."
-      ]
-    },
-    {
-      "name": "test",
-      "tip": [
-        "Run this project's tests."
-      ]
-    },
-    {
-      "name": "token",
-      "tip": [
-        "Manage authentication tokens."
-      ]
-    },
-    {
-      "name": "trust",
-      "tip": [
-        "Manage trust policies."
-      ]
-    },
-    {
-      "name": "uninstall",
-      "alias": [
-        "un",
-        "rm"
-      ],
-      "tip": [
-        "U: rm|un|uninstall <package>",
-        "Uninstall a package.",
-        "E: uninstall express"
       ],
       "option": [
         {
@@ -625,8 +2066,854 @@
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
+            "Show the global prefix."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "usage": [
+        "profile <enable-2fa|disable-2fa|get|set>"
+      ],
+      "tip": [
+        "Change settings on your registry profile."
+      ],
+      "next": [
+        {
+          "name": "disable-2fa",
+          "tip": [
+            "Disable two-factor authentication."
+          ]
+        },
+        {
+          "name": "enable-2fa",
+          "usage": [
+            "enable-2fa [auth-only|auth-and-writes]"
+          ],
+          "tip": [
+            "Enable two-factor authentication."
+          ],
+          "next": [
+            {
+              "name": "auth-and-writes",
+              "tip": [
+                "MFA for login and writes."
+              ]
+            },
+            {
+              "name": "auth-only",
+              "tip": [
+                "MFA for login only."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get [<key>]"
+          ],
+          "tip": [
+            "Get a profile value."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "Set a profile value."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prune",
+      "tip": [
+        "Remove extraneous packages."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--omit",
+          "tip": [
+            "Dependency types to omit."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dev",
+              "tip": [
+                "Development dependencies."
+              ]
+            },
+            {
+              "name": "optional",
+              "tip": [
+                "Optional dependencies."
+              ]
+            },
+            {
+              "name": "peer",
+              "tip": [
+                "Peer dependencies."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "usage": [
+        "publish [<package-spec>]"
+      ],
+      "tip": [
+        "Publish a package."
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "tip": [
+            "Whether the package is public or restricted."
+          ],
+          "next": [
+            {
+              "name": "private",
+              "tip": [
+                "Private package."
+              ]
+            },
+            {
+              "name": "public",
+              "tip": [
+                "Publicly viewable."
+              ]
+            },
+            {
+              "name": "restricted",
+              "tip": [
+                "Restricted access."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--otp",
+          "tip": [
+            "One-time password from a 2FA authenticator."
+          ],
+          "next": []
+        },
+        {
+          "name": "--provenance",
+          "tip": [
+            "Generate provenance attestations."
+          ]
+        },
+        {
+          "name": "--tag",
+          "tip": [
+            "Registers the published package with the given tag."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query <selector>"
+      ],
+      "tip": [
+        "Retrieve a filtered list of packages."
+      ],
+      "option": [
+        {
+          "name": "--expect-results",
+          "tip": [
+            "Tell npm whether to expect results."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Query globally installed packages."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rebuild",
+      "alias": [
+        "rb"
+      ],
+      "usage": [
+        "rb|rebuild [<package-spec> ...]"
+      ],
+      "tip": [
+        "Rebuild a package."
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Rebuild globally."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "repo",
+      "usage": [
+        "repo [<pkgname> ...]"
+      ],
+      "tip": [
+        "Open package repository page in the browser."
+      ],
+      "example": [
+        "npm repo lodash"
+      ],
+      "option": [
+        {
+          "name": "--browser",
+          "tip": [
+            "The browser to open the repository page."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "restart",
+      "tip": [
+        "Restart a package."
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "root",
+      "tip": [
+        "Display the effective npm root."
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Show the global root."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run-script",
+      "alias": [
+        "run",
+        "rum",
+        "urn"
+      ],
+      "usage": [
+        "rum|run|run-script <command> [-- <args>]"
+      ],
+      "tip": [
+        "Run arbitrary package scripts."
+      ],
+      "example": [
+        "run build"
+      ],
+      "option": [
+        {
+          "name": "--foreground-scripts",
+          "tip": [
+            "Run build scripts in the foreground."
+          ]
+        },
+        {
+          "name": "--if-present",
+          "tip": [
+            "Do not exit with an error when the script is missing."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        },
+        {
+          "name": "--script-shell",
+          "tip": [
+            "The shell to use for scripts."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "sbom",
+      "tip": [
+        "Generate a Software Bill of Materials (SBOM)."
+      ],
+      "option": [
+        {
+          "name": "--package-lock-only",
+          "tip": [
+            "Generate from package-lock.json only."
+          ]
+        },
+        {
+          "name": "--sbom-format",
+          "tip": [
+            "SBOM format to use."
+          ],
+          "next": [
+            {
+              "name": "cyclonedx",
+              "tip": [
+                "CycloneDX format."
+              ]
+            },
+            {
+              "name": "spdx",
+              "tip": [
+                "SPDX format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sbom-type",
+          "tip": [
+            "The type of package described by the SBOM."
+          ],
+          "next": [
+            {
+              "name": "application",
+              "tip": [
+                "Application package."
+              ]
+            },
+            {
+              "name": "framework",
+              "tip": [
+                "Framework package."
+              ]
+            },
+            {
+              "name": "library",
+              "tip": [
+                "Library package."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "alias": [
+        "find",
+        "se",
+        "s"
+      ],
+      "usage": [
+        "s|se|find|search <search term> ..."
+      ],
+      "tip": [
+        "Search for packages on npm."
+      ],
+      "example": [
+        "search vue"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --parseable"
+          ],
+          "tip": [
+            "Output parseable results."
+          ]
+        },
+        {
+          "name": "--searchexclude",
+          "tip": [
+            "Terms to exclude from search results."
+          ],
+          "next": []
+        },
+        {
+          "name": "--searchlimit",
+          "tip": [
+            "Number of items to limit search results to."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "set",
+      "usage": [
+        "set <key>=<value> ..."
+      ],
+      "tip": [
+        "Set a config key to the value provided."
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Set in the global config."
+          ]
+        },
+        {
+          "name": "--location",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --location <global|user|project>"
+          ],
+          "tip": [
+            "Which config file to use."
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "Global config file."
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "Project config file."
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "User config file."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shrinkwrap",
+      "tip": [
+        "Lock down dependency versions for publication."
+      ]
+    },
+    {
+      "name": "stage",
+      "usage": [
+        "stage <publish|list|view|approve|reject|download>"
+      ],
+      "tip": [
+        "Stage packages for publishing, deferring 2FA."
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "usage": [
+            "approve <stage-id>"
+          ],
+          "tip": [
+            "Approve a staged package and publish it."
+          ]
+        },
+        {
+          "name": "download",
+          "usage": [
+            "download <stage-id>"
+          ],
+          "tip": [
+            "Download the tarball of a staged package."
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [<package-spec>]"
+          ],
+          "tip": [
+            "List all staged package versions."
+          ]
+        },
+        {
+          "name": "publish",
+          "usage": [
+            "publish <package-spec>"
+          ],
+          "tip": [
+            "Stage a package for publishing."
+          ]
+        },
+        {
+          "name": "reject",
+          "usage": [
+            "reject <stage-id>"
+          ],
+          "tip": [
+            "Reject a staged package."
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <stage-id>"
+          ],
+          "tip": [
+            "View details of a staged package."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "star",
+      "usage": [
+        "star [<package-spec>...]"
+      ],
+      "tip": [
+        "Mark your favorite packages."
+      ],
+      "example": [
+        "npm star lodash"
+      ]
+    },
+    {
+      "name": "stars",
+      "usage": [
+        "stars [<user>]"
+      ],
+      "tip": [
+        "View packages marked as favorites."
+      ]
+    },
+    {
+      "name": "start",
+      "tip": [
+        "Start a package."
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "tip": [
+        "Stop a package."
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "team",
+      "usage": [
+        "team <create|destroy|add|rm|ls>"
+      ],
+      "tip": [
+        "Manage organization teams and team memberships."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <scope:team> <user>"
+          ],
+          "tip": [
+            "Add a user to a team."
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create <scope:team>"
+          ],
+          "tip": [
+            "Create a team."
+          ]
+        },
+        {
+          "name": "destroy",
+          "usage": [
+            "destroy <scope:team>"
+          ],
+          "tip": [
+            "Destroy a team."
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls <scope>|<scope:team>"
+          ],
+          "tip": [
+            "List teams or team members."
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <scope:team> <user>"
+          ],
+          "tip": [
+            "Remove a user from a team."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "alias": [
+        "tst",
+        "t"
+      ],
+      "usage": [
+        "t|tst|test [-- <args>]"
+      ],
+      "tip": [
+        "Test a package."
+      ],
+      "option": [
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "usage": [
+        "token <list|revoke|create>"
+      ],
+      "tip": [
+        "Manage your authentication tokens."
+      ],
+      "option": [
+        {
+          "name": "--cidr",
+          "tip": [
+            "Restrict the token to CIDR addresses."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--read-only",
+          "tip": [
+            "Mark the token as unable to publish."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a new authentication token."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List authentication tokens."
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke <id|token>"
+          ],
+          "tip": [
+            "Revoke an authentication token."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "trust",
+      "usage": [
+        "trust <github|gitlab|circleci|list|revoke>"
+      ],
+      "tip": [
+        "Create a trusted relationship between a package and an OIDC provider."
+      ],
+      "next": [
+        {
+          "name": "circleci",
+          "tip": [
+            "Trust CircleCI."
+          ]
+        },
+        {
+          "name": "github",
+          "tip": [
+            "Trust GitHub Actions."
+          ]
+        },
+        {
+          "name": "gitlab",
+          "tip": [
+            "Trust GitLab CI/CD."
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [package]"
+          ],
+          "tip": [
+            "List trusted relationships."
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [package] --id=<trust-id>"
+          ],
+          "tip": [
+            "Revoke a trusted relationship."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "undeprecate",
+      "usage": [
+        "undeprecate <package-spec>"
+      ],
+      "tip": [
+        "Undeprecate a version of a package."
+      ],
+      "option": [
+        {
+          "name": "--otp",
+          "tip": [
+            "One-time password from a 2FA authenticator."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "tip": [
+            "The base URL of the npm registry."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "unlink",
+        "remove",
+        "un",
+        "rm",
+        "r"
+      ],
+      "usage": [
+        "r|rm|un|remove|unlink|uninstall [<pkg> ...]"
+      ],
+      "tip": [
+        "Remove a package."
+      ],
+      "example": [
+        "uninstall express"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
             "Uninstall package globally."
           ]
         },
@@ -635,8 +2922,10 @@
           "alias": [
             "-S"
           ],
+          "usage": [
+            "-S, --save"
+          ],
           "tip": [
-            "U: -S, --save",
             "Remove from the dependencies of package.json."
           ]
         },
@@ -645,8 +2934,10 @@
           "alias": [
             "-D"
           ],
+          "usage": [
+            "-D, --save-dev"
+          ],
           "tip": [
-            "U: -D, --save-dev",
             "Remove from the devDependencies of package.json."
           ]
         }
@@ -654,36 +2945,88 @@
     },
     {
       "name": "unpublish",
+      "usage": [
+        "unpublish [<package-spec>]"
+      ],
       "tip": [
-        "U: unpublish [<package-spec>]",
-        "Remove a package from the registry.",
-        "E: unpublish"
+        "Remove a package from the registry."
+      ],
+      "example": [
+        "npm unpublish lodash"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Force the unpublish."
+          ]
+        }
       ]
     },
     {
       "name": "unstar",
+      "usage": [
+        "unstar [<package-spec>...]"
+      ],
       "tip": [
-        "U: unstar [<package>]",
-        "Un-stars a package.",
-        "E: unstar"
+        "Remove an item from your favorite packages."
+      ],
+      "example": [
+        "npm unstar lodash"
       ]
     },
     {
-      "name": "update",
+      "name": "upgrade",
+      "alias": [
+        "update",
+        "udpate",
+        "up",
+        "u"
+      ],
+      "usage": [
+        "u|up|update|udpate|upgrade [<pkg> ...]"
+      ],
       "tip": [
-        "U: update <package>",
-        "Update a package.",
-        "E: update express"
+        "Update packages."
+      ],
+      "example": [
+        "update express"
       ],
       "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Report without making any changes."
+          ]
+        },
         {
           "name": "--global",
           "alias": [
             "-g"
           ],
+          "usage": [
+            "-g, --global"
+          ],
           "tip": [
-            "U: -g, --global",
             "Update package globally."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
           ]
         },
         {
@@ -691,8 +3034,10 @@
           "alias": [
             "-S"
           ],
+          "usage": [
+            "-S, --save"
+          ],
           "tip": [
-            "U: -S, --save",
             "Update the dependencies of package.json."
           ]
         },
@@ -701,8 +3046,10 @@
           "alias": [
             "-D"
           ],
+          "usage": [
+            "-D, --save-dev"
+          ],
           "tip": [
-            "U: -D, --save-dev",
             "Update the devDependencies of package.json."
           ]
         }
@@ -710,28 +3057,140 @@
     },
     {
       "name": "version",
+      "alias": [
+        "verison"
+      ],
+      "usage": [
+        "verison|version [<newversion> | major|minor|patch]"
+      ],
       "tip": [
-        "U: version [<newversion> | major | minor | patch]",
-        "Bump a package version.",
-        "E: version patch"
+        "Bump a package version."
+      ],
+      "example": [
+        "version patch"
+      ],
+      "option": [
+        {
+          "name": "--allow-same-version",
+          "tip": [
+            "Prevent error when setting the same version."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        },
+        {
+          "name": "--no-git-tag-version",
+          "tip": [
+            "Do not tag the commit."
+          ]
+        },
+        {
+          "name": "--preid",
+          "tip": [
+            "Prerelease identifier to use as prefix."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sign-git-tag",
+          "tip": [
+            "Sign the git tag."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "from-git",
+          "tip": [
+            "Use the git describe version."
+          ]
+        },
+        {
+          "name": "major",
+          "tip": [
+            "Bump the major version."
+          ]
+        },
+        {
+          "name": "minor",
+          "tip": [
+            "Bump the minor version."
+          ]
+        },
+        {
+          "name": "patch",
+          "tip": [
+            "Bump the patch version."
+          ]
+        },
+        {
+          "name": "premajor",
+          "tip": [
+            "Bump premajor version."
+          ]
+        },
+        {
+          "name": "preminor",
+          "tip": [
+            "Bump preminor version."
+          ]
+        },
+        {
+          "name": "prepatch",
+          "tip": [
+            "Bump prepatch version."
+          ]
+        },
+        {
+          "name": "prerelease",
+          "tip": [
+            "Bump prerelease version."
+          ]
+        }
       ]
     },
     {
       "name": "view",
       "alias": [
         "info",
-        "show"
+        "show",
+        "v"
+      ],
+      "usage": [
+        "v|info|show|view [<package-spec>] [<field>]"
       ],
       "tip": [
-        "U: info|show|view [<package>]",
-        "View registry information.",
-        "E: view lodash"
+        "View registry information."
+      ],
+      "example": [
+        "view lodash"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON data."
+          ]
+        }
       ]
     },
     {
       "name": "whoami",
       "tip": [
         "Display npm username."
+      ],
+      "option": [
+        {
+          "name": "--registry",
+          "tip": [
+            "The base URL of the npm registry."
+          ],
+          "next": []
+        }
       ]
     }
   ],
@@ -741,8 +3200,10 @@
       "alias": [
         "-v"
       ],
+      "usage": [
+        "-v, --version"
+      ],
       "tip": [
-        "U: -v, --version",
         "Output the version number."
       ]
     },
@@ -759,8 +3220,10 @@
       "alias": [
         "-h"
       ],
+      "usage": [
+        "-h, --help"
+      ],
       "tip": [
-        "U: -h, --help",
         "Show the help."
       ]
     }
