@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '6.11.2'
+    ModuleVersion        = '7.0.0'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -22,8 +22,8 @@
     CompatiblePSEditions = 'Core', 'Desktop'
 
     Description          = @'
-A completion manager for a better and simpler tab-completion experience in PowerShell.
-It provides a more powerful module completion menu with sorting and filtering.
+A tab-completion manager for PowerShell, powered by Rust engine and interactive menu.
+It provides fast rendering, wildcard/subsequence filtering, history-aware ordering, dynamic (Lua) completions.
 - Website: https://pscompletions.abgox.com
 - GitHub:  https://github.com/abgox/PSCompletions
 - Gitee:   https://gitee.com/abgox/PSCompletions
@@ -37,7 +37,7 @@ It provides a more powerful module completion menu with sorting and filtering.
 
         PSData = @{
 
-            Tags         = 'psc', 'Tab', 'Expansion', 'Completion', 'Menu', 'Manager', 'TUI' , 'GUI' , 'Json', 'Dynamic', 'Multilingual', 'TabExpansion2', 'Completions', 'Prompt', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS'
+            Tags         = 'psc', 'Tab', 'Expansion', 'Completion', 'Menu', 'Manager', 'TUI' , 'GUI' , 'Json', 'Dynamic', 'Multilingual', 'TabExpansion2', 'Completions', 'Prompt', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS', 'Rust', 'Lua'
 
             LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
