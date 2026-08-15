@@ -58,7 +58,10 @@
             }
             return
         }
-        if (-not $Json) { return $raw }
+        if (-not $Json) {
+            $PSCompletions.write_with_color((_replace "<@Green>$($raw -join "`n")"))
+            return
+        }
         try {
             return ($text | ConvertFrom-Json)
         }
@@ -98,13 +101,13 @@
         'add' {
             $targets = @()
             if ($arg -contains '--all') {
-                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.add.all_confirm))
+                $PSCompletions.write_with_color((_replace $PSCompletions.info.add.all_confirm))
                 while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
                     # Ignore keys with any modifier (Alt/Ctrl/Shift bits of ControlKeyStates):
                     # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
                     if (-not ($PressKey.ControlKeyState -band 0x1F)) {
                         if ($PressKey.VirtualKeyCode -eq 13) { $targets = @($PSCompletions.list) }
-                        else { $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.confirm_cancel)) }
+                        else { $PSCompletions.write_with_color((_replace $PSCompletions.info.confirm_cancel)) }
                         break
                     }
                 }
@@ -131,13 +134,13 @@
         'rm' {
             $targets = @()
             if ($arg -contains '--all') {
-                $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.rm.all_confirm))
+                $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.all_confirm))
                 while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
                     # Ignore keys with any modifier (Alt/Ctrl/Shift bits of ControlKeyStates):
                     # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
                     if (-not ($PressKey.ControlKeyState -band 0x1F)) {
                         if ($PressKey.VirtualKeyCode -eq 13) { $targets = @($PSCompletions.data.list) }
-                        else { $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.confirm_cancel)) }
+                        else { $PSCompletions.write_with_color((_replace $PSCompletions.info.confirm_cancel)) }
                         break
                     }
                 }
@@ -180,7 +183,7 @@
                 $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
                 $PSCompletions.change = $PSCompletions.get_content($PSCompletions.path.change)
                 if ($PSCompletions.update -or $PSCompletions.change) {
-                    $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
+                    $PSCompletions.write_with_color((_replace $PSCompletions.info.update_info))
                     if ($PSCompletions.change) { Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue }
                 }
                 else {
@@ -215,11 +218,11 @@
         'alias' {
             # `alias add` pre-check: an alias colliding with a real command is rejected before forwarding
             $alias_conflict = $false
-            if ($arg[1] -eq 'add' -and $arg.Count -ge 3) {
-                foreach ($a in $arg[2..($arg.Count - 1)]) {
-                    if ($a -ne $arg[1] -and (Get-Command $a -ErrorAction Ignore)) {
+            if ($arg[1] -eq 'add' -and $arg.Count -ge 4) {
+                foreach ($a in $arg[3..($arg.Count - 1)]) {
+                    if (Get-Command $a -ErrorAction Ignore) {
                         $alias = $a
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.alias.add.err.cmd_exist))
+                        $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.add.err.cmd_exist))
                         $alias_conflict = $true
                     }
                 }
@@ -282,7 +285,7 @@
         '--reset' {
             $need_init = $false
             # After interactive confirmation, clear the module's data directory and re-initialize
-            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.reset.init_confirm))
+            $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_confirm))
             while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
                 # Ignore keys with any modifier (Alt/Ctrl/Shift bits of ControlKeyStates):
                 # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
@@ -294,7 +297,7 @@
                         $PSCompletions.init_data()
                     }
                     else {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.confirm_cancel))
+                        $PSCompletions.write_with_color((_replace $PSCompletions.info.confirm_cancel))
                     }
                     break
                 }
